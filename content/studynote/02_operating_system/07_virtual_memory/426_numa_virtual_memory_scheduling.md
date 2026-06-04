@@ -1,30 +1,27 @@
-+++
-title = "426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)"
-date = 2026-05-09
+---
+title: "426. NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링은 다중 CPU [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 서버에서, 프로세스의 <strong>가상 주소를 물리 프레임에 매핑(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)할 때 '어느 CPU 턱밑에 있는 로컬 램(Local Node RAM)을 떼어줄 것인가'를 결정하는 고도화된 공간 인식 할당 기법</strong>이다.
-> 2. **가치**: 아무 생각 없이 남의 램(Remote Node)을 떼어주면 QPI(다리)를 건너가야 해서 2~3배의 접근 페널티가 발생하므로, <strong>First-Touch(최초 터치) <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 통해 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 현재 돌고 있는 CPU와 일치하는 가장 빠른 램을 매핑해 주어 메모리 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 극대화</strong>한다.
-> 3. **융합**: 하지만 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 노드로 이사(Migration) 가거나 빅데이터 통짜 캔을 돌릴 때 이 기본 룰이 서버를 죽이는 독이 되므로, 실무에서는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자동 밸런싱(Auto [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))을 끄고 <strong><code>numactl</code> 명령어를 통해 개발자가 직접 CPU 코어와 램 노드의 결합을 강제로 찢고 묶는(Pinning / Interleave) 수동 하드웨어 제어</strong>를 융합한다.
+> 1. **본질**: [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링은 다중 CPU [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 서버에서, 프로세스의 <strong>가상 주소를 물리 프레임에 매핑(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)할 때 '어느 CPU 턱밑에 있는 로컬 램(Local Node RAM)을 떼어줄 것인가'를 결정하는 고도화된 공간 인식 할당 기법</strong>이다.
+> 2. **가치**: 아무 생각 없이 남의 램(Remote Node)을 떼어주면 QPI(다리)를 건너가야 해서 2~3배의 접근 페널티가 발생하므로, <strong>First-Touch(최초 터치) <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 통해 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>가 현재 돌고 있는 CPU와 일치하는 가장 빠른 램을 매핑해 주어 메모리 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 극대화</strong>한다.
+> 3. **융합**: 하지만 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 다른 노드로 이사(Migration) 가거나 빅데이터 통짜 캔을 돌릴 때 이 기본 룰이 서버를 죽이는 독이 되므로, 실무에서는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 자동 밸런싱(Auto [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/))을 끄고 <strong><code>numactl</code> 명령어를 통해 개발자가 직접 CPU 코어와 램 노드의 결합을 강제로 찢고 묶는(Pinning / Interleave) 수동 하드웨어 제어</strong>를 융합한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 일반적인 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 램(RAM)의 빈 프레임이면 아무거나 던져줘도 속도가 같았다([UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)). 하지만 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 아키텍처에서는 물리 램이 Node 0, Node 1로 찢어져 CPU [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)에 각각 붙어있다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터져 디스크에서 데이터를 퍼올 때(Swap-in)나 0으로 채워줄 때(ZFOD), <strong>어떤 노드의 빈 프레임을 희생양 혹은 공여자로 삼을지 결정</strong>하는 리눅스 메모리 관리자의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
+- **개념**: 일반적인 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 시스템에서는 램(RAM)의 빈 프레임이면 아무거나 던져줘도 속도가 같았다([UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/)). 하지만 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 아키텍처에서는 물리 램이 Node 0, Node 1로 찢어져 CPU [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)에 각각 붙어있다. [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 터져 디스크에서 데이터를 퍼올 때(Swap-in)나 0으로 채워줄 때(ZFOD), <strong>어떤 노드의 빈 프레임을 희생양 혹은 공여자로 삼을지 결정</strong>하는 리눅스 메모리 관리자의 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다.
 - **필요성**: 카카오톡이 0번 CPU(Node 0)에서 돌고 있는데, OS가 아무 빈방이나 준답시고 1번 CPU 밑에 달린 램(Node 1)의 프레임을 배정해 줬다고 치자. 카톡은 메모리를 읽을 때마다 0번 CPU에서 1번 CPU로 이어지는 좁은 브릿지(QPI/UPI)를 매 클럭마다 건너가야 한다. 속도가 300% 느려진다. 100만 원짜리 최신 램을 꽂아놓고 구형 10만 원짜리 램 속도로 쓰는 멍청한 짓을 막으려면, OS가 가상 주소를 물리 주소로 엮을 때 <strong>"반드시 지금 코드가 실행되는 동네(Local)의 램을 1순위로 줘라!"</strong>는 공간 지각력이 절대적으로 필요했다.
 
 - **등장 배경 및 리눅스의 고뇌**:
-  1. **UMA의 붕괴**: 코어가 64개를 넘자 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터져나가, 제조사들이 메인보드를 NUMA로 쪼갰다.
-  2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Handler의 진화</strong>: 기존엔 그냥 `FreeList`의 맨 앞 놈을 줬지만, 이젠 `Node_0_FreeList`와 `Node_1_FreeList` 중 어디서 뺄지 고민해야 했다.
+  1. **UMA의 붕괴**: 코어가 64개를 넘자 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터져나가, 제조사들이 메인보드를 NUMA로 쪼갰다.
+  2. <strong><a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a> Handler의 진화</strong>: 기존엔 그냥 `FreeList`의 맨 앞 놈을 줬지만, 이젠 `Node_0_FreeList`와 `Node_1_FreeList` 중 어디서 뺄지 고민해야 했다.
   3. **First-Touch의 한계와 실무의 개입**: OS가 눈치껏 로컬을 줬지만 빅데이터 환경에서 역효과가 터지자, 결국 `numactl` 같은 유저 스페이스 툴로 통제권을 넘겨주게 되었다.
 
 ```text
@@ -47,7 +44,7 @@ tags = ["studynote-operating-system"]
 |    앱은 자기 발밑에 있는 램을 배정받아 QPI 다리 없이 초고속 연산!    |
 +----------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 `malloc()` 시점엔 메모리가 어디(어느 노드)에 배정될지 아무도 모른다. 진짜 주소는 <strong>"가장 처음 데이터를 쓰는(Touch) 그 찰나의 순간, 그 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 작업을 수행하는 CPU가 소속된 노드"</strong>로 결정(Binding)된다. 이것이 리눅스의 절대 원칙인 First-Touch Policy다.
+**[다이어그램 해설]** [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 체제에서 `malloc()` 시점엔 메모리가 어디(어느 노드)에 배정될지 아무도 모른다. 진짜 주소는 <strong>"가장 처음 데이터를 쓰는(Touch) 그 찰나의 순간, 그 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 작업을 수행하는 CPU가 소속된 노드"</strong>로 결정(Binding)된다. 이것이 리눅스의 절대 원칙인 First-Touch Policy다.
 
 - **📢 섹션 요약 비유**: 온라인 쇼핑몰(malloc)에서 물건을 주문할 때 배송지 창고가 결정되는 게 아닙니다. 내가 결제 버튼(First-touch)을 누르는 순간 내 스마트폰의 GPS(현재 CPU 노드)를 추적해서, 가장 가까운 지역 물류센터(로컬 램)에서 물건이 출발하도록 매핑해 주는 극강의 위치 기반 로켓 배송입니다.
 
@@ -55,51 +52,51 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Auto [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) Balancing의 끔찍한 몸부림
+### Auto [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) Balancing의 끔찍한 몸부림
 
-First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 다른 노드로 이사(Migration)시킬 때 참사가 터진다.</strong>
+First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a>를 다른 노드로 이사(Migration)시킬 때 참사가 터진다.</strong>
 - CPU 0(Node 0)에서 돌며 Node 0 램을 할당받았다.
-- CPU 0이 너무 바빠서, OS가 이 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 널널한 CPU [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(Node 1)으로 강제로 이주시켰다.
-- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 Node 1에서 연산하는데, 자기가 찜해둔 데이터는 저 멀리 Node 0에 버려져 있다. 모든 메모리 접근이 끔찍하게 느린 Remote Access로 100% 역전된다.
-- **Auto NUMA의 출동**: 이를 본 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.8 이후)은 놔둘 수 없어서 백그라운드 데몬을 돌린다. "어? 너 Node 1로 이사 갔네? 그럼 내가 네가 쓰던 Node 0의 램 데이터를 몽땅 Node 1의 빈 램으로 낑낑대며 복사([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Migration)해 줄게!"
-- **결과**: 이 백그라운드 램 이사 작업(Memcpy) 때문에 캐시가 다 깨지고 서버 CPU가 요동치는 <strong>Jitter(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>)</strong>가 터진다.
+- CPU 0이 너무 바빠서, OS가 이 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 널널한 CPU [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)(Node 1)으로 강제로 이주시켰다.
+- [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)는 Node 1에서 연산하는데, 자기가 찜해둔 데이터는 저 멀리 Node 0에 버려져 있다. 모든 메모리 접근이 끔찍하게 느린 Remote Access로 100% 역전된다.
+- **Auto NUMA의 출동**: 이를 본 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)([버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3.8 이후)은 놔둘 수 없어서 백그라운드 데몬을 돌린다. "어? 너 Node 1로 이사 갔네? 그럼 내가 네가 쓰던 Node 0의 램 데이터를 몽땅 Node 1의 빈 램으로 낑낑대며 복사([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Migration)해 줄게!"
+- **결과**: 이 백그라운드 램 이사 작업(Memcpy) 때문에 캐시가 다 깨지고 서버 CPU가 요동치는 <strong>Jitter(<a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>)</strong>가 터진다.
 
 ---
 
 ### `numactl`을 통한 강제 하드웨어 통제 아키텍처
 
-현업 서버 엔지니어들은 이 Auto NUMA의 헛발질과 First-touch의 한계를 혐오한다. 그래서 OS의 자동 로직을 무시하고, 프로그램을 띄울 때부터 아예 족쇄([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))를 걸어버린다.
+현업 서버 엔지니어들은 이 Auto NUMA의 헛발질과 First-touch의 한계를 혐오한다. 그래서 OS의 자동 로직을 무시하고, 프로그램을 띄울 때부터 아예 족쇄([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))를 걸어버린다.
 
 1. <strong><code>numactl --cpunodebind=0 --membind=0</code> (완벽한 알박기)</strong>
    - "이 프로그램은 하늘이 두 쪽 나도 Node 0 CPU에서만 돌고, 메모리도 무조건 Node 0에서만 받아라."
    - **장점**: 100% 로컬 접근 보장. 레이턴시(속도) 최상.
-   - **단점**: Node 0 램을 다 쓰면, Node 1에 100GB가 남아있어도 이 앱은 램 부족([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 총 맞아 죽는다.
-2. <strong><code>numactl --interleave=all</code> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 마법)</strong>
+   - **단점**: Node 0 램을 다 쓰면, Node 1에 100GB가 남아있어도 이 앱은 램 부족([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 총 맞아 죽는다.
+2. <strong><code>numactl --interleave=all</code> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 마법)</strong>
    - "First-touch 다 무시하고, 네가 램을 달라고 폴트를 터뜨릴 때마다 [노드 0 -> 노드 1 -> 노드 2] 순서대로 카드를 섞듯이 번갈아 가며 프레임을 매핑해 줘라!"
-   - **장점**: 대형 DB가 풀 스캔을 때릴 때 특정 노드 램 컨트롤러만 터져나가는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 완벽히 찢어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
-   - **단점**: 항상 50% 확률로 리모트 램을 밟게 되어 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속도는 미세하게 느려진다.
+   - **장점**: 대형 DB가 풀 스캔을 때릴 때 특정 노드 램 컨트롤러만 터져나가는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목을 완벽히 찢어 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시킨다.
+   - **단점**: 항상 50% 확률로 리모트 램을 밟게 되어 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속도는 미세하게 느려진다.
 
-- **📢 섹션 요약 비유**: OS의 자동 배정(Auto [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))은 내가 이사 갈 때마다 이삿짐센터가 내 짐을 억지로 다 싸서 쫓아다니는 피곤한 방식입니다. `numactl` 수동 통제는 아예 "나는 평생 서울(Node 0)에서 안 벗어날 거니까 짐도 여기 다 박아놔!(membind)"라고 선언하거나, "어차피 출장 많이 다니니까 내 짐을 전국 지사에 1/N로 똑같이 다 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 놔!(interleave)"라고 전략적으로 짐을 세팅하는 실무의 짬바이브입니다.
+- **📢 섹션 요약 비유**: OS의 자동 배정(Auto [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/))은 내가 이사 갈 때마다 이삿짐센터가 내 짐을 억지로 다 싸서 쫓아다니는 피곤한 방식입니다. `numactl` 수동 통제는 아예 "나는 평생 서울(Node 0)에서 안 벗어날 거니까 짐도 여기 다 박아놔!(membind)"라고 선언하거나, "어차피 출장 많이 다니니까 내 짐을 전국 지사에 1/N로 똑같이 다 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시켜 놔!(interleave)"라고 전략적으로 짐을 세팅하는 실무의 짬바이브입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [NUMA Allocation](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)들의 트레이드오프
+### 비교 1: [NUMA Allocation](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)들의 트레이드오프
 
-어느 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이든 완벽한 건 없다. 서버의 목적(DB냐 웹이냐)에 따라 목숨 걸고 골라야 한다.
+어느 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이든 완벽한 건 없다. 서버의 목적(DB냐 웹이냐)에 따라 목숨 걸고 골라야 한다.
 
-| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 방식 | 장점 | 치명적 단점 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) |
+| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)) | [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑 방식 | 장점 | 치명적 단점 ([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) |
 |:---|:---|:---|:---|
-| **Default (First-touch)**| 처음 건드린 CPU의 로컬 램 할당 | 세팅 불필요. 단일 앱 쾌적 | CPU [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이사 갈 때 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 박살 남 |
-| **Bind (membind)** | 지정한 노드의 램만 강제 할당 | 100% 로컬 접근 (Low [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | <strong>해당 노드 램 꽉 차면 전체 램 남아도 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 즉사</strong> |
-| <strong>Interleave (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)</strong> | 모든 노드 램에 1장씩 핑퐁 할당 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>) 100% 방어</strong> | 로컬 이점 포기 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 미세 증가) |
+| **Default (First-touch)**| 처음 건드린 CPU의 로컬 램 할당 | 세팅 불필요. 단일 앱 쾌적 | CPU [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 이사 갈 때 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 박살 남 |
+| **Bind (membind)** | 지정한 노드의 램만 강제 할당 | 100% 로컬 접근 (Low [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | <strong>해당 노드 램 꽉 차면 전체 램 남아도 <a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 즉사</strong> |
+| <strong>Interleave (<a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>)</strong> | 모든 노드 램에 1장씩 핑퐁 할당 | <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>) 100% 방어</strong> | 로컬 이점 포기 ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 미세 증가) |
 
-### 가상 머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/VMware)에서의 vNUMA 융합
-[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 클라우드 환경에서는 지옥이 두 배가 된다.
-호스트 OS가 램 100GB짜리 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄웠는데, 호스트가 생각 없이 Node 0 램 50G, Node 1 램 50G를 섞어서 VM에 던져줬다.
-[VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 게스트 OS는 자기가 100GB 통짜 램([UMA](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))을 쓰는 줄 착각하고 막 쓴다. 그런데 사실 밑바닥은 찢어진 NUMA라, 게스트 OS가 0.1초마다 QPI 다리를 건너며 렉이 작살난다.
-이를 막기 위해 현대 클라우드는 <strong>vNUMA (가상 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a>)</strong>를 켜서, 게스트 OS에게 "너 지금 반반 찢어진 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 램 쓰고 있으니까 네 안에서 스케줄링할 때 눈치껏 해라!"라고 토폴로지 지도를 투명하게 전달해 주는 아키텍처로 진화했다.
+### 가상 머신([KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)/VMware)에서의 vNUMA 융합
+[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 클라우드 환경에서는 지옥이 두 배가 된다.
+호스트 OS가 램 100GB짜리 가상 머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 띄웠는데, 호스트가 생각 없이 Node 0 램 50G, Node 1 램 50G를 섞어서 VM에 던져줬다.
+[VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 안의 게스트 OS는 자기가 100GB 통짜 램([UMA](/studynote/01_computer_architecture/10_parallel_processing_architecture/379_uma/))을 쓰는 줄 착각하고 막 쓴다. 그런데 사실 밑바닥은 찢어진 NUMA라, 게스트 OS가 0.1초마다 QPI 다리를 건너며 렉이 작살난다.
+이를 막기 위해 현대 클라우드는 <strong>vNUMA (가상 <a href="/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a>)</strong>를 켜서, 게스트 OS에게 "너 지금 반반 찢어진 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 램 쓰고 있으니까 네 안에서 스케줄링할 때 눈치껏 해라!"라고 토폴로지 지도를 투명하게 전달해 주는 아키텍처로 진화했다.
 
 ```text
 +----------+------------+------------+-------------------------------+
@@ -109,16 +106,16 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
 | 스케줄 목표| 대역폭 분산   | 로컬 캐시 히트  | 호스트-게스트 동기화|
 +----------+------------+------------+-------------------------------+
 ```
-**[매트릭스 해설]** 수많은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝 매뉴얼이 `numactl --interleave`를 종교처럼 외치는 이유는, DB 엔진 초기화 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 혼자 로컬 노드 램을 독식(First-touch)해버려 나중에 수천 개의 커넥션 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들이닥칠 때 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터지는 참사를 원천 차단하기 위함이다.
+**[매트릭스 해설]** 수많은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 튜닝 매뉴얼이 `numactl --interleave`를 종교처럼 외치는 이유는, DB 엔진 초기화 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 혼자 로컬 노드 램을 독식(First-touch)해버려 나중에 수천 개의 커넥션 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 들이닥칠 때 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)가 터지는 참사를 원천 차단하기 위함이다.
 
-- **📢 섹션 요약 비유**: 큰 피자 한 판을 시킬 때, 내가 혼자 다 먹을 거면 내 방 책상(Bind)에 두는 게 제일 편합니다. 하지만 파티를 열어 100명이 먹을 거라면, 피자 조각을 거실, 부엌, 방에 골고루 쪼개 둬야(Interleave) 애들이 한 곳에 몰려 밟혀 죽는([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목) 참사를 막을 수 있습니다.
+- **📢 섹션 요약 비유**: 큰 피자 한 판을 시킬 때, 내가 혼자 다 먹을 거면 내 방 책상(Bind)에 두는 게 제일 편합니다. 하지만 파티를 열어 100명이 먹을 거라면, 피자 조각을 거실, 부엌, 방에 골고루 쪼개 둬야(Interleave) 애들이 한 곳에 몰려 밟혀 죽는([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목) 참사를 막을 수 있습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: Zone Reclaim Mode의 낡은 함정 조심
-1. **서버의 이유 없는 뻗음**: 리눅스 서버에 램이 50%나 비어있는데 MySQL [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 갑자기 렉을 뿜어대며 멈췄다.
+1. **서버의 이유 없는 뻗음**: 리눅스 서버에 램이 50%나 비어있는데 MySQL [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 갑자기 렉을 뿜어대며 멈췄다.
 2. **원인 (Zone Reclaim Mode = 1)**:
    - 옛날 리눅스는 `vm.zone_reclaim_mode`가 기본으로 켜져 있었다.
    - MySQL이 Node 0에서 돌다가 Node 0 램이 꽉 찼다.
@@ -126,12 +123,12 @@ First-Touch는 완벽해 보이지만, <strong>OS 스케줄러가 <a href="/know
    - 결국 멀쩡한 DB 캐시가 날아가면서 10만 배 느린 디스크 읽기 렉이 터진다.
 3. <strong>실무의 철퇴 (<code>vm.zone_reclaim_mode = 0</code>)</strong>:
    - 현대 엔지니어들은 이 옵션을 무조건 `0`으로 꺼버린다.
-   - "야! 내 동네 램 꽉 차면 남의 동네(Node 1) 램 빌려 쓰면 되잖아! QPI 다리 건너가서 조금 느려지는 게(Remote Access), 디스크 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 터지는 것보다 1만 배 낫다!"
-   - [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 가장 서늘한 실전 튜닝 값이다.
+   - "야! 내 동네 램 꽉 차면 남의 동네(Node 1) 램 빌려 쓰면 되잖아! QPI 다리 건너가서 조금 느려지는 게(Remote Access), 디스크 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) 터지는 것보다 1만 배 낫다!"
+   - [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 가장 서늘한 실전 튜닝 값이다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): THP와 NUMA의 최악의 화학작용
-투명한 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)(THP, 2MB 묶음)는 NUMA와 만나면 최악의 콤비가 된다.
-THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연속된 512개가 Node 0에 300개, Node 1에 212개 찢어져 있다고 치자. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 억지로 2MB를 만들기 위해 Node 1의 데이터를 Node 0으로 긁어모으는 <strong>엄청난 램 복사(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> &amp; Migration) 렉</strong>을 터뜨린다. DB [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 반토막 나는 이유다. THP 끄기와 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인터리브는 항상 한 몸처럼 세트로 외워야 하는 백엔드의 생존 법칙이다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): THP와 NUMA의 최악의 화학작용
+투명한 [거대 페이지](/studynote/02_operating_system/06_memory_management/371_huge_pages/)(THP, 2MB 묶음)는 NUMA와 만나면 최악의 콤비가 된다.
+THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연속된 512개가 Node 0에 300개, Node 1에 212개 찢어져 있다고 치자. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 억지로 2MB를 만들기 위해 Node 1의 데이터를 Node 0으로 긁어모으는 <strong>엄청난 램 복사(<a href="/studynote/02_operating_system/06_memory_management/347_compaction/">Compaction</a> &amp; Migration) 렉</strong>을 터뜨린다. DB [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 반토막 나는 이유다. THP 끄기와 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 인터리브는 항상 한 몸처럼 세트로 외워야 하는 백엔드의 생존 법칙이다.
 
 - **📢 섹션 요약 비유**: 이웃집(Node 1)에 쌀이 가마니째 쌓여 있는데도, 이웃에게 쌀 빌리러 가기 귀찮다며 자기 집 아이들 밥그릇(캐시)을 뺏어서 바닥을 박박 긁어모아 밥을 짓는(Zone Reclaim) 융통성 없는 가장(OS)의 횡포입니다. 당장 옆집 문을 두드려 쌀을 빌려오는 게(옵션 0) 가정을 살리는 길입니다.
 
@@ -143,15 +140,15 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
 
 | 구분 | 내용 |
 |:---|:---|
-| <strong>메모리 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 포화 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | Interleave 매핑을 통해 코어가 128개를 넘어가는 초대형 서버에서 메모리 컨트롤러의 과부하 병목을 완벽히 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| <strong>극저지연(Low-<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 튜닝</strong> | Pinning과 Bind 맵핑 결합을 통해, HFT(고빈도 매매) 등 나노초가 돈인 시스템에서 Remote Access를 0%로 영구 차단 |
-| **클라우드 스케줄링 비용 통제** | vNUMA 아키텍처를 도입하여 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 층의 이중 램 맵핑 오버헤드를 막아 가상 머신의 스래싱을 미연에 방지 |
+| <strong>메모리 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 포화 <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | Interleave 매핑을 통해 코어가 128개를 넘어가는 초대형 서버에서 메모리 컨트롤러의 과부하 병목을 완벽히 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong>극저지연(Low-<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>) 튜닝</strong> | Pinning과 Bind 맵핑 결합을 통해, HFT(고빈도 매매) 등 나노초가 돈인 시스템에서 Remote Access를 0%로 영구 차단 |
+| **클라우드 스케줄링 비용 통제** | vNUMA 아키텍처를 도입하여 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 층의 이중 램 맵핑 오버헤드를 막아 가상 머신의 스래싱을 미연에 방지 |
 
 ### 결론 및 미래 전망
 
-[NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 (numactl)은 "하드웨어의 물리적 파편화([소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 찢어짐)를 소프트웨어(가상 주소)가 어떻게 가장 교활하고 똑똑하게 감싸 안을 것인가"를 보여주는 서버 아키텍처의 꽃이다. [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 그저 램의 빈칸을 찾아주는 것을 넘어, <strong>"그 빈칸이 나와 몇 미터 떨어져 있는가"</strong>라는 3차원적 지리 공학까지 스케줄링의 영역으로 끌어안아야 했다. First-touch의 낭만은 빅데이터의 폭주 앞에 무너졌고, 결국 인간(엔지니어)이 `numactl`이라는 채찍을 들고 직접 하드웨어의 혈을 뚫어주는 형태로 타협했다. 앞으로 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 3.0 시대가 열려 서버 섀시를 넘어 랙(Rack) 전체가 거대한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 풀로 묶이게 되면, 이 "거리에 따른 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑" 기술은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체의 스루풋을 결정짓는 가장 무서운 코어 엔진으로 초진화할 것이다.
+[NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 (numactl)은 "하드웨어의 물리적 파편화([소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 찢어짐)를 소프트웨어(가상 주소)가 어떻게 가장 교활하고 똑똑하게 감싸 안을 것인가"를 보여주는 서버 아키텍처의 꽃이다. [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 시스템은 그저 램의 빈칸을 찾아주는 것을 넘어, <strong>"그 빈칸이 나와 몇 미터 떨어져 있는가"</strong>라는 3차원적 지리 공학까지 스케줄링의 영역으로 끌어안아야 했다. First-touch의 낭만은 빅데이터의 폭주 앞에 무너졌고, 결국 인간(엔지니어)이 `numactl`이라는 채찍을 들고 직접 하드웨어의 혈을 뚫어주는 형태로 타협했다. 앞으로 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 3.0 시대가 열려 서버 섀시를 넘어 랙(Rack) 전체가 거대한 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 풀로 묶이게 되면, 이 "거리에 따른 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 매핑" 기술은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전체의 스루풋을 결정짓는 가장 무서운 코어 엔진으로 초진화할 것이다.
 
-- **📢 섹션 요약 비유**: 집이 넓어져서 냉장고가 거실, 안방, 2층 세 군데([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/))로 찢어졌습니다. 내가 무심코 요리를 하려고 냉장고를 열 때(가상 주소 매핑), 내 손이 닿는 가장 가까운 2층 냉장고(First-touch)를 알아서 열어주거나, 아예 내가 "이번 요리 재료는 모든 냉장고에 1/3씩 흩어놔!(Interleave)"라고 수동으로 지시해서 주방의 병목을 막아내는 궁극의 동선 설계 기술입니다.
+- **📢 섹션 요약 비유**: 집이 넓어져서 냉장고가 거실, 안방, 2층 세 군데([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/))로 찢어졌습니다. 내가 무심코 요리를 하려고 냉장고를 열 때(가상 주소 매핑), 내 손이 닿는 가장 가까운 2층 냉장고(First-touch)를 알아서 열어주거나, 아예 내가 "이번 요리 재료는 모든 냉장고에 1/3씩 흩어놔!(Interleave)"라고 수동으로 지시해서 주방의 병목을 막아내는 궁극의 동선 설계 기술입니다.
 
 ---
 
@@ -159,10 +156,10 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 캐시 친화적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) 구조체 (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| ZRAM / [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 캐시 친화적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [VMA](/studynote/02_operating_system/07_virtual_memory/428_vma_struct/) ([Virtual Memory Area](/studynote/02_operating_system/07_virtual_memory/428_vma_struct/)) 구조체 (리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,13 +173,13 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
     +---> [VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘을 이해하면 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)을 잘 알면 나중에 캐시 친화적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치도 훨씬 쉽게 배울 수 있어요.
+1. [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘을 이해하면 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl)을 잘 알면 나중에 캐시 친화적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -190,7 +187,7 @@ THP가 램 조각 512개를 모아서 2MB 거대 블록을 만들려는데, 연�
 
 **진행 상황**: 426 / 800
 
-<- **이전**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)
-**다음**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/) ->
+<- **이전**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)
+**다음**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/) ->
 
 ---

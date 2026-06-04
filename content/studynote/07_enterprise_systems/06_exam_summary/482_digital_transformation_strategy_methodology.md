@@ -1,13 +1,10 @@
-+++
-title = "482. 디지털 전환 전략 수립 방법론 (Digital Transformation Strategy Methodology)"
-date = 2026-05-09
+---
+title: "482. 디지털 전환 전략 수립 방법론 (Digital Transformation Strategy Methodology)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 482 / 800
 
-<- **이전**: [481. 481. 엔터프라이즈 아키텍처 기술사 기출 종합 (Enterprise Architecture Exam Summary)](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/481_enterprise_architecture_exam_summary/)
-**다음**: [483. IT 투자 가치 평가 ROI TCO](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/483_it_investment_value_evaluation_roi_tco/) ->
+<- **이전**: [481. 481. 엔터프라이즈 아키텍처 기술사 기출 종합 (Enterprise Architecture Exam Summary)](/studynote/07_enterprise_systems/06_exam_summary/481_enterprise_architecture_exam_summary/)
+**다음**: [483. IT 투자 가치 평가 ROI TCO](/studynote/07_enterprise_systems/06_exam_summary/483_it_investment_value_evaluation_roi_tco/) ->
 
 ---

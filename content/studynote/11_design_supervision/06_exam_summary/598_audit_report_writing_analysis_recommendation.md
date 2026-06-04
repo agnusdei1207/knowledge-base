@@ -1,13 +1,10 @@
-+++
-title = "598. 감리 보고서 작성 결과 분석 개선 권고 (Audit Report Writing Analysis Recommendation)"
-date = 2026-05-09
+---
+title: "598. 감리 보고서 작성 결과 분석 개선 권고 (Audit Report Writing Analysis Recommendation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 598 / 600
 
-<- **이전**: [597. UX 감리 사용성 접근성 인터페이스 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/597_ux_audit_usability_accessibility_interface/)
-**다음**: [599. 감리 제도 법규 최신 동향 기술사 요약](/knowledge-base/studynote/11_design_supervision/06_exam_summary/599_audit_regulation_latest_trends_pe_summary/) ->
+<- **이전**: [597. UX 감리 사용성 접근성 인터페이스 평가](/studynote/11_design_supervision/06_exam_summary/597_ux_audit_usability_accessibility_interface/)
+**다음**: [599. 감리 제도 법규 최신 동향 기술사 요약](/studynote/11_design_supervision/06_exam_summary/599_audit_regulation_latest_trends_pe_summary/) ->
 
 ---

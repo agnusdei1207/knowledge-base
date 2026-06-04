@@ -1,9 +1,9 @@
-+++
-title = "04. 프로세스 동기화 및 임계구역"
+---
+title: "04. 프로세스 동기화 및 임계구역"
+tags:
+  - "operating_system"
+---
 
-[extra]
-tags = ["operating_system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

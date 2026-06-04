@@ -1,13 +1,10 @@
-+++
-title = "484. DNS 기반 글로벌 로드 밸런싱 GSLB (DNS Based Global Load Balancing GSLB)"
-date = 2026-05-09
+---
+title: "484. DNS 기반 글로벌 로드 밸런싱 GSLB (DNS Based Global Load Balancing GSLB)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 484 / 800
 
-<- **이전**: [483. IPv6 전환 클라우드 듀얼 스택](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/483_ipv6_transition_cloud_dual_stack/)
-**다음**: [485. 클라우드 객체 스토리지 수명주기 정책](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/485_cloud_object_storage_lifecycle_policy/) ->
+<- **이전**: [483. IPv6 전환 클라우드 듀얼 스택](/studynote/13_cloud_architecture/06_exam_summary/483_ipv6_transition_cloud_dual_stack/)
+**다음**: [485. 클라우드 객체 스토리지 수명주기 정책](/studynote/13_cloud_architecture/06_exam_summary/485_cloud_object_storage_lifecycle_policy/) ->
 
 ---

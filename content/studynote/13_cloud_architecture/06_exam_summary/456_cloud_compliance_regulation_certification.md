@@ -1,175 +1,139 @@
-+++
-title = "456. 클라우드 컴플라이언스 규제 인증 (Cloud Compliance Regulation Certification)"
-date = 2026-05-09
+---
+title: "456. 클라우드 컴플라이언스 규제 인증 (Cloud Compliance Regulation Certification)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 컴플라이언스 규제 인증은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 컴플라이언스 규제 인증은 **공유 책임 모델(Shared Responsibility Model, SRM)** 하에서 CSP(Cloud Service Provider)가 제공하는 제어 항목(Control)과 고객(Customer)이 책임져야 하는 제어 항목을 명확히 분담하여, ISO 27001, SOC 2 Type II, PCI DSS 4.0, K-ISMS-P, CSAP(클라우드 보안인증) 등 **국제/국내 표준 프레임워크의 통제 항목(Control Objective)을 충족하는 증거(Evidence)를 지속적으로 생성·수집·검증하는 거버넌스 체계**이다.
+> 2. **가치**: 인증 1건 취득 시 평균 **금융권 SaaS 수주 가능성 35~50% 상승**, 글로벌 시장 진출 시 **각국별 개별 감사로 인한 중복 비용 약 30% 절감**, 사고 발생 시 **컴플라이언스 위반 과징금(예: GDPR 최대 매출 4% 또는 2,000만 유로)으로부터의 면책 가능**으로 정량적 리스크 헤지 효과가 있다.
+> 3. **판단 포인트**: ① 인증 범위(Scope) 선정 시 업무 영향 분석(BIA) 기반 Critical Service 식별, ② 빌드타임/런타임/Runtime 단계별 **자동화된 증거 수집 파이프라인(Automated Evidence Collection)** 설계, ③ 인증 유지를 위한 **Continuous Compliance(상시 컴플라이언스)** 전략과 Pen-test/Scan 주기, ④ 멀티 클라우드 환경에서의 **상호 인증 매핑(Cross-Framework Mapping)**의 효율성이 핵심 의사결정 변수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 컴플라이언스 규제 인증은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 컴플라이언스 규제 인증은 **"클라우드 서비스의 본질적 특성(탄력성, 다중 테넌시, 데이터 주권 변경 가능성)이 전통적 온프레미스 컴플라이언스 프레임워크의 통제 항목과 어떻게 매핑되고, 자동화 가능한가"**라는 기술적 난제를 다룬다. 2000년대 초반 온프레미스 환경에서 통제되던 **경계 기반 보안(Perimeter Security)** 모델은, IaaS/PaaS/SaaS로 진화하면서 **자산의 물리적 소유권, 네트워크 경계, 로그의 생성 위치**가 모두 모호해지는 **책임 회색 지대(Grey Zone of Responsibility)**를 만들었다. 이를 해결하기 위해 등장한 공유 책임 모델(SRM)은 AWS, Azure, GCP 모두 동일하게 **"클라우드 자체의 보안(Security OF the Cloud)"은 CSP 책임, "클라우드 내 데이터 및 설정의 보안(Security IN the Cloud)"은 고객 책임**이라는 원칙을 천명한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Compliance Regulation Certification 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+또한 2018년 GDPR(General Data Protection Regulation) 시행, 2020년 한국 개인정보보호법 개정(가명정보 도입, 망 분리 의무화), 2023년 EU DORA(Digital Operational Resilience Act) 등 **데이터 주권·레지리언시·사이버 회복탄력성**에 대한 규제가 전 세계적으로 강화되면서, 클라우드 도입 기업은 단순한 기술 도입을 넘어 **규제 준수(Compliance by Design)**를 아키텍처 단계에서 내재화해야 하는 압박을 받고 있다. 한국에서는 행정안전부 주관 **CSAP(Cloud Security Assurance Program)**, KISA 주관 **K-ISMS-P(한국 정보보호 및 개인정보보호 관리체계 인증)**, 그리고 금융결제원의 **클라우드 컴퓨팅 이용 가이드라인**이 3대 축을 형성한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 컴플라이언스 규제 인증 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++-------------------------------------------------------------------------+
+|        클라우드 컴플라이언스 규제 인증 - 다층 프레임워크 구조            |
++-------------------------------------------------------------------------+
+|                                                                         |
+|  [거버넌스 층]  ISO 27001 / SOC 2 / K-ISMS-P / ISO 27701              |
+|       |          (정보보호 관리체계 ISMS)                                |
+|       |                                                                 |
+|       v                                                                 |
+|  [산업/도메인 층]  PCI DSS 4.0 / HIPAA / GDPR / PIPEDA / DORA          |
+|       |          (금융, 의료, 개인정보, 운영탄력성)                       |
+|       v                                                                 |
+|  [클라우드 특화 층]  CSA STAR / C5 / K-ISMS-P Cloud / CSAP             |
+|       |          (클라우드 특화 통제 항목)                               |
+|       v                                                                 |
+|  [기술 통제 층]  +------------------------------------------+           |
+|                 | CSP 책임 영역     |    고객 책임 영역   |           |
+|                 |  • 물리/환경 통제  |  • IAM/접근권한     |           |
+|                 |  • 하이퍼바이저    |  • 데이터 암호화    |           |
+|                 |  • 네트워킹 백본   |  • OS/미들웨어 패치 |           |
+|                 |  • 서비스 인프라   |  • 네트워크 설정    |           |
+|                 +------------------------------------------+           |
+|                                                                         |
+|  [증거 자동화 층]  AWS Audit Manager / Azure Policy / GCP Assured Workloads|
+|                  +Drata / Vanta / Secureframe / Drata                   |
+|                  +Terraform Sentinel / OPA                              |
++-------------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**Old vs New Paradigm**:
+- **OLD**: 연 1회 수동 감사(Manual Audit) -> 감사인 2~3명이 현장 방문 -> 스프레드시트 기반 통제 항목 매핑 -> 점검 종료 후 1~2개월 뒤 증적(Evidence) 제출 -> 다음 감사까지 컴플라이언스 상태 **'Dark Period(사각지대)'** 존재.
+- **NEW**: **Continuous Compliance(상시 컴플라이언스)** -> IaC(Infrastructure as Code) 기반 정책 코드화(PaC, Policy as Code) -> API를 통한 실시간 증적 수집(예: AWS Config의 Rule 기반 compliance state = COMPLIANT/NON_COMPLIANT) -> SIEM(Security Information and Event Management) 연동으로 위반 즉시 탐지 -> **컴플라이언스 상태의 가시성(Visibility) 상시 확보**.
 
-- **📢 섹션 요약 비유**: 클라우드 컴플라이언스 규제 인증은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 클라우드 컴플라이언스 규제 인증은 마치 **국제 운전면허증**과 같다. 자동차 자체(클라우드 인프라)는 제조사(CSP)가 안전 기준을 통과시켜야 하고(예: ISO 27001, SOC 2), 운전자의 자격증(개별 기업의 업무 통제)은 운전자 본인이 취득·갱신(예: K-ISMS-P, PCI DSS)해야 한다. 두 가지가 모두 갖춰져야 도로(글로벌 시장 및 규제 환경)를 달릴 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 컴플라이언스 규제 인증의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 컴플라이언스 아키텍처는 크게 **① 정책 거버넌스(Policy Governance), ② 통제 항목 매핑(Control Mapping), ③ 기술 통제 구현(Technical Control), ④ 증거 수집 자동화(Evidence Automation), ⑤ 모니터링 및 보고(Monitoring & Reporting)**의 5개 계층으로 구성된다. 핵심 메커니즘은 **CSA(Cloud Security Alliance) CCM(Cloud Controls Matrix) v4.0**과 같은 표준 매트릭스를 통해 ISO 27001 Annex A 통제 항목(93개), NIST SP 800-53 Rev. 5(1,000여 개 통제), K-ISMS-P(66개 인증 기준, 137개 세부분류) 등을 **1:N 교차 매핑**하는 것이다. 이를 통해 단일 통제 구현으로 다중 인증의 요구사항을 충족할 수 있다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Compliance Regulation Certification 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------- 클라우드 컴플라이언스 자동화 파이프라인 아키텍처 -----------+
+|                                                                          |
+|  +----------+    +--------------+    +--------------+                    |
+|  | IaC 코드  |---->| Policy Engine |---->| Infrastructure|                    |
+|  | (Terraform|    | (OPA/Sentinel)|    | Provisioning |                    |
+|  |  /CFN)    |    |              |    | (AWS/Azure)  |                    |
+|  +----------+    +--------------+    +------+-------+                    |
+|       |                                     |                            |
+|       | 빌드타임 검증                       | 런타임 데이터              |
+|       v                                     v                            |
+|  +--------------+                  +------------------+                 |
+|  | CI/CD Gate   |                  | CSP Native       |                 |
+|  | (PR 차단)    |                  | Compliance APIs  |                 |
+|  +--------------+                  | • AWS Config     |                 |
+|                                    | • Azure Policy   |                 |
+|                                    | • GCP SCC        |                 |
+|                                    | • AWS Security   |                 |
+|                                    |   Hub            |                 |
+|                                    +--------+---------+                 |
+|                                             |                            |
+|                                             v                            |
+|                                    +------------------+                 |
+|                                    | Evidence Lake    |                 |
+|                                    | (S3/Blob/ADLS)   |                 |
+|                                    | + Time-series DB |                 |
+|                                    +--------+---------+                 |
+|                                             |                            |
+|                +----------------------------+-------------+             |
+|                v                            v             v             |
+|       +--------------+            +--------------+  +----------+       |
+|       | GRC Platform |            |   SIEM/SOAR  |  |  Audit   |       |
+|       | (ServiceNow  |            |   (Splunk/   |  |  Report  |       |
+|       |  Archer/     |            |   Sentinel)  |  |  (PDF)   |       |
+|       |  Hyperproof) |            |              |  |          |       |
+|       +--------------+            +--------------+  +----------+       |
++--------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **CSP 감사 가능 서비스(Auditable Services)** | 컴플라이언스 증적 1차 생성 | AWS: **CloudTrail(API 감사), Config(리소스 구성 변경 추적 + Compliance State 평가), Security Hub(CIS Benchmark 자동 평가)**, Azure: **Activity Log, Azure Policy Compliance State, Defender for Cloud(Regulatory Compliance Dashboard)**, GCP: **Cloud Audit Logs, Assured Workloads, Security Command Center(Standard/Tier Premium/Enterprise)** |
+| **Policy as Code(PaC) 엔진** | IaC 배포 전후 정책 위반 차단 | **Open Policy Agent(OPA) + Rego 언어, HashiCorp Sentinel(예: aws/acm_certificate_have_valid_expiration 정책), AWS Config Rules(Custom Lambda Rule), Azure Policy Definitions** — 위반 시 PR/Pipeline 단계에서 자동 차단 또는 Enforce/Deny 결정 |
+| **CSPM(Cloud Security Posture Management)** | 런타임 설정 드리프트 탐지 | **Wiz, Prisma Cloud, Aqua, Lacework, Microsoft Defender for Cloud, AWS Security Hub** — 100+ CIS Benchmark Rule, SOC 2 CC6.1~CC8.1 매핑, 머신러닝 기반 이상 행위 탐지 |
+| **GRC(Governance, Risk, Compliance) 플랫폼** | 다중 프레임워크 통합 관리 및 워크플로우 | **ServiceNow GRC, RSA Archer, Hyperproof, LogicGate, Drata, Vanta, Secureframe, Tugboat Logic(OneTrust)** — Cross-framework control mapping(예: 1개 통제로 ISO 27001 A.9.2.1, SOC 2 CC6.1, K-ISMS-P 2.2.1 동시 충족) |
+| **자동화 증거 수집기(Automated Evidence Collector)** | 감사 시점에 인간 개입 없이 증적 패키징 | **Drata(170+ 통합 커넥터), Vanta(별도 에이전트 24개 + CSP API 직접 연동), AWS Audit Manager(Framework 매핑 자동화), Azure Purview(데이터 거버넌스 증적)** — 시간 기반 스냅샷, 변경 이력, 정책 평가 결과를 부인방지(Non-repudiation) 가능하게 저장 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 통제 항목의 기술적 구현 예시**:
+- **암호화 통제(ISO 27001 A.10.1.1, K-ISMS-P 2.6.1)**: AWS KMS(Key Management Service) – **FIPS 140-3 Level 3 인증 HSM(예: AWS CloudHSM)**, **BYOK(Bring Your Own Key)**, **자동 키 회전(90일 주기)**, KMS Key Policy + IAM + Resource Policy 다중 검증
+- **접근 통제(A.9.2.5)**: **Zero Trust Architecture** – MFA(웹: FIDO2/WebAuthn, 콘솔: AWS IAM Identity Center + YubiKey), **JIT(Just-in-Time) 권한 상승**(예: Teleport, AWS IAM Identity Center 임시 자격 증명 TTL 1시간), **권한 거버넌스**(IAM Access Analyzer의 unused access 분석)
+- **로깅 및 모니터링(A.12.4.1)**: CloudTrail -> S3 -> **Lake Formation + Athena로 SQL 기반 로그 분석** -> 90일 핫, 7년 아카이브(금융 규정 S3 Glacier), **로그 무결성**(CloudTrail Log File Integrity Validation + S3 Object Lock Compliance Mode)
+- **사고 대응(A.16.1.5)**: **NIST SP 800-61r2** 기반 IRP – SOAR(Phantom/Tines) 통한 자동 격리(Isolate EC2 instance via VPC NACL), AWS GuardDuty Finding -> Lambda -> 자동 Snapshot -> Forensic 분석
+- **공급망 보안(A.15.1.3, ISO 27001:2022 A.5.19~5.23)**: **SSDF(Secure Software Development Framework, NIST SP 800-218)**, **SLSA(Supply-chain Levels for Software Artifacts) Level 3 이상**, **SBOM(SBOM, Software Bill of Materials)** – CycloneDX/SPDX 형식, **Sigstore로 컨테이너 이미지 서명 검증**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: 정책 코드화(PaC)와 자동 증거 수집은 마치 **자율주행 자동차의 블랙박스 + 자동 검사 시스템**과 같다. 운전자가 모르는 사이에도 차는 매초마다 주변을 감시하고(SIEM), 도로 법규 위반 시 자동으로 핸들을 보정하며(Policy Gate), 검사 시점에는 모든 주행 기록이 시간순으로 영상이 남아 증명된다(Evidence Lake).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 컴플라이언스 규제 인증을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### A. 주요 클라우드 컴플라이언스 프레임워크 비교
 
-| 구분 | 전통적 접근 | 클라우드 컴플라이언스 규제 인증 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 컴플라이언스 규제 인증은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 컴플라이언스 규제 인증은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 컴플라이언스 규제 인증을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 컴플라이언스 규제 인증을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 컴플라이언스 규제 인증 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 컴플라이언스 규제 인증은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 컴플라이언스 규제 인증의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 컴플라이언스 규제 인증의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 컴플라이언스 규제 인증 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 컴플라이언스 규제 인증은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **ISO 27001:2022** | **SOC 2 Type II** | **PCI DSS 4.0** | **K-ISMS-P (2024)** | **CSAP (2024)** |
+|---|---|---|---|---|---|
+| **발행 기관 / 표준** | ISO/IEC JTC 1/SC 27 | AICPA(미국회계사협회) - SSAE 18 | PCI SSC(카드산업보안표준위원회) | KISA(한국인터넷진흥원) | 행정안전부 |
+| **인증 대상** | 조직(ISMS 수립·운영) | 서비스(Trust Services Criteria) | 카드 데이터 처리 환경 | 조직(정보보호+개인정보) | 클라우드 서비스(공공기관 도입) |
+| **통제 수** | 93개 통제(Annex A) | 5개 TSC 카테고리(CC, A, C, P, PI) | 12개 요구사항 + 64개 테스트 절차 | 인증기준 66개 + 세부분류 137개 | 5개 영역 71개 통제 |
+| **평가 주기** | 3년 갱신 + 매년 Surveillance Audit | 연 1회 감사로그 검증(3~12개월) | 연 1회 + ASV Scan 분기별 | 3년 인증 갱신 + 매년 사후 심사 | 3년
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 456 / 800
 
-<- **이전**: [455. 클라우드 거버넌스 정책 프레임워크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/455_cloud_governance_policy_framework/)
-**다음**: [457. 클라우드 보안 아키텍처 심층 방어](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/457_cloud_security_architecture_defense_in_depth/) ->
+<- **이전**: [455. 클라우드 거버넌스 정책 프레임워크](/studynote/13_cloud_architecture/06_exam_summary/455_cloud_governance_policy_framework/)
+**다음**: [457. 클라우드 보안 아키텍처 심층 방어](/studynote/13_cloud_architecture/06_exam_summary/457_cloud_security_architecture_defense_in_depth/) ->
 
 ---

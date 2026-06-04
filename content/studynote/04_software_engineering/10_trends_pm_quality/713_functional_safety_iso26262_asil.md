@@ -1,18 +1,15 @@
-+++
-title = "713. 기능 안전 ISO 26262 ASIL 등급"
-date = 2026-05-08
+---
+title: "713. 기능 안전 ISO 26262 ASIL 등급"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 기능 안전 ISO 26262 ASIL 등급은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 기능 안전 ISO 26262 ASIL 등급은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -54,7 +51,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등급을 매기는 <strong>ASIL(자동차 안전 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 수준)</strong>이다.
+ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등급을 매기는 <strong>ASIL(자동차 안전 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 수준)</strong>이다.
 
 - **📢 섹션 요약 비유**: 기능 안전 ISO 26262 ASIL 등급은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -74,15 +71,15 @@ ISO 26262의 가장 핵심적인 개념은 위험의 크기를 평가하여 등�
 
 기능 안전(Functional Safety)은 산업 분야마다 이름은 다르지만 철학은 똑같은 국제 표준들을 가지고 있다.
 
-| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) (산업 분야) | 기능 안전 국제 표준 | 특이 사항 |
+| [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) (산업 분야) | 기능 안전 국제 표준 | 특이 사항 |
 |:---|:---|:---|
 | **일반 전기/전자** | **IEC 61508** | 모든 기능 안전 표준의 '아버지(Mother Standard)'. |
 | **자동차 (Automotive)**| **ISO 26262** | 자동차 전장화에 맞춰 파생됨. ASIL 등급 사용. V-모델 개발 주기 강제. |
-| **철도 (Railway)** | EN 50128 | SIL(Safety [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) Level) 등급 사용. 기차 충돌 방지 시스템 등. |
+| **철도 (Railway)** | EN 50128 | SIL(Safety [Integrity](/studynote/09_security/01_intro_principles/003_integrity/) Level) 등급 사용. 기차 충돌 방지 시스템 등. |
 | **의료 기기 (Medical)**| IEC 62304 | 수술용 로봇, 인공 심박동기 등 생명 유지 장치용. |
 | **항공 (Aerospace)** | DO-178C | 비행기 추락 방지를 위한 가장 빡빡하고 엄격한 표준. |
 
-자동차 소프트웨어를 만들던 회사가 철도용 소프트웨어를 수주하려면 코드는 비슷해도 완전히 새로운 문서화와 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(EN 50128)을 처음부터 다시 받아야 한다.
+자동차 소프트웨어를 만들던 회사가 철도용 소프트웨어를 수주하려면 코드는 비슷해도 완전히 새로운 문서화와 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(EN 50128)을 처음부터 다시 받아야 한다.
 
 - **📢 섹션 요약 비유**: 요리(소프트웨어 개발)는 같지만, 일반 식당 위생법(ISO 9001), 병원 환자식 위생법(IEC 62304), 우주비행사 식량 위생법(DO-178C)의 기준이 완전히 다른 것과 같다.
 
@@ -108,7 +105,7 @@ ASIL D 등급을 받은 컴포넌트를 개발하는 것은 일반 소프트웨�
 
 ## Ⅴ. 기대효과 및 결론
 
-ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거나(하드웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 코드에 나누기 0 오류(소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))가 발생해도, 자동차가 급발진하지 않고 비상등을 켠 채 안전하게 갓길에 멈춰 서는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">페일 세이프</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a>)</strong>를 보장한다.
+ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거나(하드웨어 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)) 코드에 나누기 0 오류(소프트웨어 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))가 발생해도, 자동차가 급발진하지 않고 비상등을 켠 채 안전하게 갓길에 멈춰 서는 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">페일 세이프</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/">Fail-Safe</a>)</strong>를 보장한다.
 
 결론적으로 자율주행(레벨 4 이상)과 SDV(Software Defined Vehicle) 시대로 진입하면서, 소프트웨어가 곧 자동차의 뇌와 심장이 되었다. 기능 안전(ISO 26262)은 단순한 납품 스펙을 넘어, 승객의 생명을 담보로 코드를 짜는 소프트웨어 엔지니어들이 지켜야 할 가장 무겁고 숭고한 윤리적 책임이다.
 
@@ -126,10 +123,10 @@ ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능 안전 ISO 26262 ASIL 등급의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 기능 안전 ISO 26262 ASIL 등급은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 기능 안전 ISO 26262 ASIL 등급의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 기능 안전 ISO 26262 ASIL 등급은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 기능 안전 ISO 26262 ASIL 등급 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 기능 안전 ISO 26262 ASIL 등급에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 기능 안전 ISO 26262 ASIL 등급에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,13 +146,13 @@ ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거�
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 기능 안전 ISO 26262 ASIL 등급은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -163,7 +160,7 @@ ISO 26262를 철저히 준수한 아키텍처는 센서에 이물질이 묻거�
 
 **진행 상황**: 886 / 973
 
-<- **이전**: [712. 다크 패턴 기만적 UX 방지](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/712_dark_pattern_deceptive_ux/)
-**다음**: [714. FMEA / FTA 결함 분석망](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/714_fmea_fta_fault_analysis/) ->
+<- **이전**: [712. 다크 패턴 기만적 UX 방지](/studynote/04_software_engineering/10_trends_pm_quality/712_dark_pattern_deceptive_ux/)
+**다음**: [714. FMEA / FTA 결함 분석망](/studynote/04_software_engineering/10_trends_pm_quality/714_fmea_fta_fault_analysis/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "779. IP 지식 재산권 특허 전략 라이선스 (IP Intellectual Property Patent Strategy)"
-date = 2026-05-09
+---
+title: "779. IP 지식 재산권 특허 전략 라이선스 (IP Intellectual Property Patent Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 📘 기술사 시험 대비 학습 노트
 ## 779. IP 지식재산권 특허 전략 라이선스 (IP Intellectual Property Patent Strategy)
@@ -196,7 +193,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 779 / 800
 
-<- **이전**: [778. 기술 사업화 스타트업 생태계 VC](/knowledge-base/studynote/06_ict_convergence/uncategorized/778_technology_commercialization_startup_ecosyste/)
-**다음**: [780. 규제 샌드박스 혁신 규제 완화 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/) ->
+<- **이전**: [778. 기술 사업화 스타트업 생태계 VC](/studynote/06_ict_convergence/uncategorized/778_technology_commercialization_startup_ecosyste/)
+**다음**: [780. 규제 샌드박스 혁신 규제 완화 전략](/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/) ->
 
 ---

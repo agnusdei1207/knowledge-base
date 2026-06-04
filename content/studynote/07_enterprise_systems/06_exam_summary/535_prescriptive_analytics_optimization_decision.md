@@ -1,13 +1,10 @@
-+++
-title = "535. 처방 분석 최적화 의사결정 지원 (Prescriptive Analytics Optimization Decision)"
-date = 2026-05-09
+---
+title: "535. 처방 분석 최적화 의사결정 지원 (Prescriptive Analytics Optimization Decision)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 535 / 800
 
-<- **이전**: [534. 예측 분석 머신러닝 비즈니스 인사이트](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/534_predictive_analytics_ml_business_insight/)
-**다음**: [536. 실시간 분석 스트리밍 이벤트 처리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/536_real_time_analytics_streaming_event_processin/) ->
+<- **이전**: [534. 예측 분석 머신러닝 비즈니스 인사이트](/studynote/07_enterprise_systems/06_exam_summary/534_predictive_analytics_ml_business_insight/)
+**다음**: [536. 실시간 분석 스트리밍 이벤트 처리](/studynote/07_enterprise_systems/06_exam_summary/536_real_time_analytics_streaming_event_processin/) ->
 
 ---

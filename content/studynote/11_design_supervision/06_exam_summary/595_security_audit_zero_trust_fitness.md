@@ -1,13 +1,10 @@
-+++
-title = "595. 보안 감리 제로 트러스트 적합성 평가 (Security Audit Zero Trust Fitness)"
-date = 2026-05-09
+---
+title: "595. 보안 감리 제로 트러스트 적합성 평가 (Security Audit Zero Trust Fitness)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 # 595. 보안 감리 제로 트러스트 적합성 평가 (Security Audit Zero Trust Fitness)
 
@@ -163,7 +160,7 @@ John Kindervag(Forrester Research, 2010)이 처음 제창한 **Zero Trust(제로
 
 **진행 상황**: 595 / 600
 
-<- **이전**: [594. 데이터 품질 감리 정합성 완전성 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/594_data_quality_audit_consistency_completeness/)
-**다음**: [596. 성능 감리 부하 테스트 병목 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/596_performance_audit_load_test_bottleneck/) ->
+<- **이전**: [594. 데이터 품질 감리 정합성 완전성 진단](/studynote/11_design_supervision/06_exam_summary/594_data_quality_audit_consistency_completeness/)
+**다음**: [596. 성능 감리 부하 테스트 병목 진단](/studynote/11_design_supervision/06_exam_summary/596_performance_audit_load_test_bottleneck/) ->
 
 ---

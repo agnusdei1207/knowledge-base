@@ -1,13 +1,10 @@
-+++
-title = "741. 소프트웨어 정의 모든것 SDx 추상화 (Software Defined Everything SDx Abstraction)"
-date = 2026-05-09
+---
+title: "741. 소프트웨어 정의 모든것 SDx 추상화 (Software Defined Everything SDx Abstraction)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ SDx는 단일 기술이 아니라 **유사 철학**을 공유하는 기술 군(�
 
 **진행 상황**: 741 / 800
 
-<- **이전**: [740. 버그 바운티 책임 있는 공개 정책](/knowledge-base/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/)
-**다음**: [742. 인텐트 기반 네트워킹 IBN 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/) ->
+<- **이전**: [740. 버그 바운티 책임 있는 공개 정책](/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/)
+**다음**: [742. 인텐트 기반 네트워킹 IBN 자동화](/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/) ->
 
 ---

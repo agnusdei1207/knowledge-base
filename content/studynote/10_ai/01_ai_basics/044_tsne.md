@@ -1,18 +1,15 @@
-+++
-title = "044. t-SNE — 고차원 데이터 시각화"
-date = 2026-04-05
+---
+title: "044. t-SNE — 고차원 데이터 시각화"
+date: "2026-04-05"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 > **핵심 인사이트**
-> 1. t-SNE(t-distributed Stochastic Neighbor [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 국소적 구조(Local Structure)를 2~3차원으로 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 비선형 [차원 축소](/knowledge-base/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법으로 — 유사한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.
+> 1. t-SNE(t-distributed Stochastic Neighbor [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 국소적 구조(Local Structure)를 2~3차원으로 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하는 비선형 [차원 축소](/studynote/14_data_engineering/02_math_mining/081_dimensionality_reduction_pca_principal_component_analysis/) 기법으로 — 유사한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인트를 가깝게, 상이한 포인트를 멀리 배치하여 클러스터 구조를 직관적으로 드러낸다.
 > 2. t-SNE의 핵심은 고차원 공간의 가우시안 분포 유사도와 저차원 공간의 t-분포(자유도 1, 코시 분포) 유사도 사이의 KL Divergence를 최소화하는 것으로 — t-분포의 두꺼운 꼬리(Heavy Tail)가 "군집 붕괴 문제(Crowding Problem)"를 해결하는 핵심이다.
-> 3. t-SNE는 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n^)이라 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
+> 3. t-SNE는 [탐색적 데이터 분석](/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))과 모델 디버깅에는 강력하지만 — 퍼플렉시티(Perplexity) 하이퍼파라미터에 민감하고 전역 구조 보존이 약하며 계산량이 O(n^)이라 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 직접 적용이 어려워, UMAP이 실용적 대안으로 부상하고 있다.
 
 ---
 
@@ -54,7 +51,7 @@ t-SNE 개선:
 
 ---
 
-## Ⅱ. t-SNE [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅱ. t-SNE [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 t-SNE 알고리즘 상세:
@@ -98,11 +95,11 @@ t-SNE 알고리즘 상세:
   -> 10만 개 이상 데이터에는 별도 최적화 필요
 ```
 
-> 📢 **섹션 요약 비유**: t-SNE [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
+> 📢 **섹션 요약 비유**: t-SNE [KL Divergence](/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) 최소화는 지그소 퍼즐 맞추기 — 원본 사진(고차원 P)과 만들어진 퍼즐(저차원 Q)이 최대한 일치하도록 조각 위치를 조금씩 조정.
 
 ---
 
-## Ⅲ. t-SNE vs [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs UMAP
+## Ⅲ. t-SNE vs [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs UMAP
 
 ```
 차원 축소 기법 비교:
@@ -148,7 +145,7 @@ UMAP (Uniform Manifold Approximation and Projection):
 대규모 데이터| 가능  | 어려움 | 가능
 ```
 
-> 📢 **섹션 요약 비유**: [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs t-SNE vs UMAP은 지도 만들기 방법 — PCA는 직선 도로만, t-SNE는 구불구불한 마을 골목까지, UMAP은 골목도 잡으면서 더 빨리 그려요.
+> 📢 **섹션 요약 비유**: [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) vs t-SNE vs UMAP은 지도 만들기 방법 — PCA는 직선 도로만, t-SNE는 구불구불한 마을 골목까지, UMAP은 골목도 잡으면서 더 빨리 그려요.
 
 ---
 
@@ -190,7 +187,7 @@ t-SNE 오용 패턴:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 텍스트 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+## Ⅴ. 실무 시나리오 — 텍스트 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```
 BERT 텍스트 임베딩 t-SNE 시각화:
@@ -245,7 +242,7 @@ t-SNE 적용:
   200,000건: UMAP 권장 (5분 내 처리)
 ```
 
-> 📢 **섹션 요약 비유**: [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) t-SNE [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 언어의 지도 — 각 뉴스가 2D 지도에 찍히는데, 같은 카테고리끼리 동네를 이루면 "좋은 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)!", 섞이면 "모델 개선 필요!".
+> 📢 **섹션 요약 비유**: [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) t-SNE [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)는 언어의 지도 — 각 뉴스가 2D 지도에 찍히는데, 같은 카테고리끼리 동네를 이루면 "좋은 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)!", 섞이면 "모델 개선 필요!".
 
 ---
 
@@ -302,7 +299,7 @@ TensorBoard Embedding Projector
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. t-SNE는 3D 지도를 2D로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) — 수백 개의 특징(차원)을 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 평면에 찍어서 "비슷한 것끼리 뭉치게" 표현해요!
+1. t-SNE는 3D 지도를 2D로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) — 수백 개의 특징(차원)을 가진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 평면에 찍어서 "비슷한 것끼리 뭉치게" 표현해요!
 2. t-분포의 두꺼운 꼬리가 핵심 — 멀리 있는 그룹들을 더 확실히 떼어놓는 것이 t-SNE의 비법이에요. 인근 동네는 붙이고, 먼 도시는 확실히 분리!
 3. 클러스터 간 거리는 무시해요 — t-SNE는 "동네 내부 구조"를 잘 보여주지만, "도시 간 실제 거리"는 믿으면 안 돼요!
 
@@ -312,7 +309,7 @@ TensorBoard Embedding Projector
 
 **진행 상황**: 44 / 420
 
-<- **이전**: [043. SVD — 특이값 분해 (Singular Value Decomposition)](/knowledge-base/studynote/10_ai/01_ai_basics/043_svd/)
-**다음**: [045. K-평균 군집화 — K-Means Clustering](/knowledge-base/studynote/10_ai/01_ai_basics/045_kmeans/) ->
+<- **이전**: [043. SVD — 특이값 분해 (Singular Value Decomposition)](/studynote/10_ai/01_ai_basics/043_svd/)
+**다음**: [045. K-평균 군집화 — K-Means Clustering](/studynote/10_ai/01_ai_basics/045_kmeans/) ->
 
 ---

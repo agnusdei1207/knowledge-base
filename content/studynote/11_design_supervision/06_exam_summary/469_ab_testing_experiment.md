@@ -1,13 +1,10 @@
-+++
-title = "469. A/B 테스팅 실험 주도 개발 (A/B Testing Experiment Driven Development)"
-date = 2026-05-09
+---
+title: "469. A/B 테스팅 실험 주도 개발 (A/B Testing Experiment Driven Development)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -165,7 +162,7 @@ else            -> Treatment (변경안)
 
 **진행 상황**: 469 / 600
 
-<- **이전**: [468. 피처 플래그 토글 점진적 릴리스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/469_feature_flag_toggle/)
-**다음**: [470. 카오스 엔지니어링 복원력 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/470_chaos_engineering_resilience/) ->
+<- **이전**: [468. 피처 플래그 토글 점진적 릴리스](/studynote/11_design_supervision/06_exam_summary/469_feature_flag_toggle/)
+**다음**: [470. 카오스 엔지니어링 복원력 검증](/studynote/11_design_supervision/06_exam_summary/470_chaos_engineering_resilience/) ->
 
 ---

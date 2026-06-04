@@ -1,13 +1,10 @@
-+++
-title = "508. 서비스 데스크 자동화 AI 챗봇 (Service Desk Automation AI Chatbot)"
-date = 2026-05-09
+---
+title: "508. 서비스 데스크 자동화 AI 챗봇 (Service Desk Automation AI Chatbot)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ Policy -> Process -> System -> Data -> KPI
 
 **진행 상황**: 508 / 800
 
-<- **이전**: [507. ITSM 인시던트 문제 변경 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/507_itsm_incident_problem_change_management/)
-**다음**: [509. SLA SLO SLI 서비스 수준 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/509_sla_slo_sli_service_level_management/) ->
+<- **이전**: [507. ITSM 인시던트 문제 변경 관리](/studynote/07_enterprise_systems/06_exam_summary/507_itsm_incident_problem_change_management/)
+**다음**: [509. SLA SLO SLI 서비스 수준 관리](/studynote/07_enterprise_systems/06_exam_summary/509_sla_slo_sli_service_level_management/) ->
 
 ---

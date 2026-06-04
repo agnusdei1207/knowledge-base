@@ -1,6 +1,5 @@
-+++
-title = "04. Testing Quality"
-
-[extra]
-tags = ["software_engineering"]
-+++
+---
+title: "04. Testing Quality"
+tags:
+  - "software_engineering"
+---

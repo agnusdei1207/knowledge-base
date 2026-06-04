@@ -1,13 +1,10 @@
-+++
-title = "744. AIOps IT 운영 지능화 이상 탐지 (AIOps IT Operations Intelligence Anomaly)"
-date = 2026-05-09
+---
+title: "744. AIOps IT 운영 지능화 이상 탐지 (AIOps IT Operations Intelligence Anomaly)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ AIOps 이상 탐지 시스템은 **데이터 수집 -> 정규화/전처리 -> �
 
 **진행 상황**: 744 / 800
 
-<- **이전**: [743. 네트워크 자동화 NetDevOps Ansible](/knowledge-base/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/)
-**다음**: [745. 데이터옵스 파이프라인 자동화 품질](/knowledge-base/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/) ->
+<- **이전**: [743. 네트워크 자동화 NetDevOps Ansible](/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/)
+**다음**: [745. 데이터옵스 파이프라인 자동화 품질](/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/) ->
 
 ---

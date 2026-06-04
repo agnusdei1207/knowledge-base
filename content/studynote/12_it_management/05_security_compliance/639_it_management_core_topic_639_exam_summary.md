@@ -1,13 +1,10 @@
-+++
-title = "639. IT 경영 관리 핵심 토픽 639번 시험 요약 (IT Management Core Topic 639 Exam Summary)"
-date = 2026-05-09
+---
+title: "639. IT 경영 관리 핵심 토픽 639번 시험 요약 (IT Management Core Topic 639 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 639. IT 경영 관리 핵심 토픽 639번 시험 요약
 
@@ -182,7 +179,7 @@ IT 경영 관리에서 혼동하기 쉬운 핵심 프레임워크/개념을 명�
 
 **진행 상황**: 639 / 800
 
-<- **이전**: [638. IT 경영 관리 핵심 토픽 638번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/638_it_management_core_topic_638_exam_summary/)
-**다음**: [640. IT 경영 관리 핵심 토픽 640번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/640_it_management_core_topic_640_exam_summary/) ->
+<- **이전**: [638. IT 경영 관리 핵심 토픽 638번 시험 요약](/studynote/12_it_management/05_security_compliance/638_it_management_core_topic_638_exam_summary/)
+**다음**: [640. IT 경영 관리 핵심 토픽 640번 시험 요약](/studynote/12_it_management/05_security_compliance/640_it_management_core_topic_640_exam_summary/) ->
 
 ---

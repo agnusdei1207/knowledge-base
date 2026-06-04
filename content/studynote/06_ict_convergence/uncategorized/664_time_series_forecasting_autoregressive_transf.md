@@ -1,13 +1,10 @@
-+++
-title = "664. 시계열 예측 자기회귀 트랜스포머 (Time Series Forecasting Autoregressive Transformer)"
-date = 2026-05-09
+---
+title: "664. 시계열 예측 자기회귀 트랜스포머 (Time Series Forecasting Autoregressive Transformer)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ Vaswani et al.의 **Transformer(2017)**가 NLP에서 입증한 self-attention의
 
 **진행 상황**: 664 / 800
 
-<- **이전**: [663. 그래프 신경망 GNN 관계 추론](/knowledge-base/studynote/06_ict_convergence/uncategorized/663_graph_neural_network_gnn_relation_reasoning/)
-**다음**: [665. 이상 탐지 비지도 학습 오토인코더](/knowledge-base/studynote/06_ict_convergence/uncategorized/665_anomaly_detection_unsupervised_autoencoder/) ->
+<- **이전**: [663. 그래프 신경망 GNN 관계 추론](/studynote/06_ict_convergence/uncategorized/663_graph_neural_network_gnn_relation_reasoning/)
+**다음**: [665. 이상 탐지 비지도 학습 오토인코더](/studynote/06_ict_convergence/uncategorized/665_anomaly_detection_unsupervised_autoencoder/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "662. 벡터 데이터베이스 Pinecone Weaviate (Vector Database Pinecone Weaviate)"
-date = 2026-05-09
+---
+title: "662. 벡터 데이터베이스 Pinecone Weaviate (Vector Database Pinecone Weaviate)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 662 / 800
 
-<- **이전**: [661. LLMOps 대규모 언어 모델 운영](/knowledge-base/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/)
-**다음**: [663. 그래프 신경망 GNN 관계 추론](/knowledge-base/studynote/06_ict_convergence/uncategorized/663_graph_neural_network_gnn_relation_reasoning/) ->
+<- **이전**: [661. LLMOps 대규모 언어 모델 운영](/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/)
+**다음**: [663. 그래프 신경망 GNN 관계 추론](/studynote/06_ict_convergence/uncategorized/663_graph_neural_network_gnn_relation_reasoning/) ->
 
 ---

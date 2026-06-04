@@ -1,25 +1,22 @@
-+++
-title = "230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)"
-date = 2026-04-21
+---
+title: "230. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)은 빅데이터 스트리밍 전환 관점에서 구성 요소와 경계를 설계해 복잡성을 줄이는 구조화 방식를 다루는 주제다.
-> 2. **가치**: 확장성, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 재사용성을 동시에 판단하기 쉽다.
+> 2. **가치**: 확장성, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 재사용성을 동시에 판단하기 쉽다.
 > 3. **판단 포인트**: 계층 경계와 인터페이스가 명확하고 변경 영향이 제한되는지 본다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)은 빅데이터 환경에서 스트리밍 전환을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
+스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)은 빅데이터 환경에서 스트리밍 전환을 실제 문서, 시스템, 운영 흐름에 연결하는 문제를 다룬다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 환경이 빠르게 바뀌어도 기준이 없으면 선택 기준이 흔들리고, 결국 비용과 품질이 같이 흔들린다. 그래서 이 주제는 최신 흐름을 따라가는 이야기이면서 동시에, 무엇을 기준으로 선택할지 정리하는 구조다.
 
 ```text
 +--------------+   +--------------+   +--------------+
@@ -33,12 +30,12 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
+핵심은 기술 자체가 아니라 연결 방식이다. 개방형 포맷, 처리 구조, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/), 그리고 운영 통제가 어떻게 맞물리는지 봐야 실제 트렌드의 의미가 드러난다.
 
 | 요소 | 역할 | 포인트 |
 |:---|:---|:---|
 | 요구사항 | 기준/입력 | 범위가 모호하면 뒤 단계도 흔들린다 |
-| 구성 요소 | 처리/[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
+| 구성 요소 | 처리/[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 절차와 자동화가 연결되어야 한다 |
 | 운영 결과 | 결과/증거 | 기록이 남아야 재현과 추적이 된다 |
 
 ```text
@@ -59,10 +56,10 @@ tags = ["studynote-bigdata"]
 
 | 항목 | 단계 1 | 단계 2 |
 |:---|:---|:---|
-| 중앙집중 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 확장성 |
-| 모놀리식 | [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 | 변경 영향 |
+| 중앙집중 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 확장성 |
+| 모놀리식 | [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화 | 변경 영향 |
 
-실시간 처리와도 연결해 보면, 기술 선택은 결국 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
+실시간 처리와도 연결해 보면, 기술 선택은 결국 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모, 응답 속도, 운영 복잡도의 균형 문제다. 그래서 시험에서도 "무엇과 비교했는가"를 함께 써야 답안의 깊이가 생긴다.
 
 - **📢 섹션 요약 비유**: 부품이 맞물리는 레고 구조는 같은 모양처럼 보여도 용도에 따라 완전히 다르다. 비교해야 차이가 보인다.
 
@@ -72,18 +69,18 @@ tags = ["studynote-bigdata"]
 
 실무에서는 "도입 여부"보다 "어떤 조건에서 채택할 것인가"로 판단해야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 경계가 실제 책임 분리와 일치하는가?
 2. 인터페이스가 과도하게 복잡하지 않은가?
 3. 확장 시 병목이 어디서 생기는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 아무 경계 없이 기능만 쌓는 설계
 - 확장성 없이 레이어만 늘리는 설계
 
-스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 비용, 보안, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 중 무엇이 우선인지가 다르면 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 달라진다.
+스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)을 잘 쓰려면 기술 자체보다 운영 조건을 봐야 한다. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 비용, 보안, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 중 무엇이 우선인지가 다르면 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 달라진다.
 
 - **📢 섹션 요약 비유**: 설계 도면은 고장 나기 전에 멈추는 장치다.
 
@@ -93,7 +90,7 @@ tags = ["studynote-bigdata"]
 
 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)의 기대효과는 명확하다. 기준이 통일되고, 증거가 남고, 조치가 닫히면 의사결정 속도와 품질 모두 좋아진다. 다만 이 효과는 문서, 도구, 운영이 같은 방향을 볼 때만 유지된다.
 
-- **📢 섹션 요약 비유**: [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설명서처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
+- **📢 섹션 요약 비유**: [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 설명서처럼, 마지막엔 핵심만 남겨야 다음에 다시 꺼내 쓸 수 있다.
 
 ---
 
@@ -121,11 +118,11 @@ tags = ["studynote-bigdata"]
 [실시간 분석 (Real-Time Analytics)]
 ```
 
-이 흐름도는 [람다 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/095_lambda_architecture/)의 이중 처리에서 [카파 아키텍처](/knowledge-base/studynote/16_bigdata/04_streaming/096_kappa_architecture/)와 통합 스트리밍, 실시간 분석으로 발전하는 흐름을 보여준다.
+이 흐름도는 [람다 아키텍처](/studynote/16_bigdata/04_streaming/095_lambda_architecture/)의 이중 처리에서 [카파 아키텍처](/studynote/16_bigdata/04_streaming/096_kappa_architecture/)와 통합 스트리밍, 실시간 분석으로 발전하는 흐름을 보여준다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 스트리밍 우선 아키텍처 (배치에서 스트리밍 전환, Kappa 아키텍처 강화)은 일을 하기 전에 "어떤 규칙으로 할지" 먼저 정하는 거예요.
-2. 중간에 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
+2. 중간에 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)표가 있어야 틀린 곳을 빨리 고칠 수 있어요.
 3. 그래서 끝까지 잘했다고 말하려면 증거와 순서가 같이 있어야 해요.
 
 ---
@@ -134,7 +131,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 235 / 262
 
-<- **이전**: [229. Text-to-SQL on BigData (LLM으로 자연어 쿼리 자동 생성)](/knowledge-base/studynote/16_bigdata/12_trends/234_text_to_sql_on_bigdata/)
-**다음**: [231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/) ->
+<- **이전**: [229. Text-to-SQL on BigData (LLM으로 자연어 쿼리 자동 생성)](/studynote/16_bigdata/12_trends/234_text_to_sql_on_bigdata/)
+**다음**: [231. 데이터 계약 (Data Contract) 스키마 안정성 보장 생산자-소비자 합의](/studynote/16_bigdata/12_trends/236_data_contract/) ->
 
 ---

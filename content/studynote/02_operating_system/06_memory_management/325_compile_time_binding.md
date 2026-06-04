@@ -1,34 +1,31 @@
-+++
-title = "325. 컴파일 시간 바인딩 (Compile Time) - 절대 코드 (Absolute Code) 생성"
-date = 2026-05-09
+---
+title: "325. 컴파일 시간 바인딩 (Compile Time) - 절대 코드 (Absolute Code) 생성"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소스 코드를 기계어로 번역하는 컴파일(Compile) 그 순간에, <strong>프로그램이 메모리의 몇 번지에 올라갈지 진짜 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)를 아예 못 박아버리는 원시적인 하드코딩 기법</strong>이다.
-> 2. **가치**: [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) 같은 주소 변환 하드웨어가 전혀 필요 없어서 초저사양 임베디드 기기나 MS-DOS 시절에 메모리에 적재하자마자 빛의 속도로 실행되는 미친 성능을 자랑했지만, <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a>)을 절대 불가능하게 만드는 최악의 적폐</strong>로 전락했다.
-> 3. **융합**: 이렇게 컴파일 타임에 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)가 확정되어 만들어진 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 <strong>절대 코드 (Absolute <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>라 부르며, 만약 그 주소에 다른 프로그램이 먼저 앉아 있다면 에러를 뿜으며 실행 자체가 거부되는 끔찍한 경직성을 지닌 자물쇠다.
+> 1. **본질**: 소스 코드를 기계어로 번역하는 컴파일(Compile) 그 순간에, <strong>프로그램이 메모리의 몇 번지에 올라갈지 진짜 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(<a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)를 아예 못 박아버리는 원시적인 하드코딩 기법</strong>이다.
+> 2. **가치**: [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) 같은 주소 변환 하드웨어가 전혀 필요 없어서 초저사양 임베디드 기기나 MS-DOS 시절에 메모리에 적재하자마자 빛의 속도로 실행되는 미친 성능을 자랑했지만, <strong><a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a>)을 절대 불가능하게 만드는 최악의 적폐</strong>로 전락했다.
+> 3. **융합**: 이렇게 컴파일 타임에 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)가 확정되어 만들어진 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 <strong>절대 코드 (Absolute <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>라 부르며, 만약 그 주소에 다른 프로그램이 먼저 앉아 있다면 에러를 뿜으며 실행 자체가 거부되는 끔찍한 경직성을 지닌 자물쇠다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터가 발명된 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 메인 메모리(RAM) 용량은 기껏해야 몇십 킬로바이트(KB) 남짓이었다.
-그 시대엔 애초에 "카카오톡 켜놓고 유튜브 보기([멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))" 같은 사치스러운 개념이 없었다. 한 번에 무조건 프로그램 딱 하나만 돌렸다.
+컴퓨터가 발명된 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/), 메인 메모리(RAM) 용량은 기껏해야 몇십 킬로바이트(KB) 남짓이었다.
+그 시대엔 애초에 "카카오톡 켜놓고 유튜브 보기([멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/))" 같은 사치스러운 개념이 없었다. 한 번에 무조건 프로그램 딱 하나만 돌렸다.
 
 그래서 똑똑한(하지만 미래를 내다보지 못한) 초창기 프로그래머들은 생각했다.
-"어차피 메모리 텅텅 비었는데, 귀찮게 실행할 때 주소 계산하지 말고 **C언어 빌드(컴파일)할 때 그냥 우리 프로그램은 영원히 메모리 1000번지에 올려라!** 라고 기계어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 콱 박아버리면 변환 연산도 안 들고 초고속이잖아?"
+"어차피 메모리 텅텅 비었는데, 귀찮게 실행할 때 주소 계산하지 말고 **C언어 빌드(컴파일)할 때 그냥 우리 프로그램은 영원히 메모리 1000번지에 올려라!** 라고 기계어 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 콱 박아버리면 변환 연산도 안 들고 초고속이잖아?"
 
 이것이 <strong>컴파일 시간 바인딩 (Compile Time Binding)</strong>이다.
-말 그대로 컴파일러가 최종 결과물(`.exe`나 `.com`)을 뱉어낼 때, 그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부의 모든 주소를 <strong>"진짜 하드웨어 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(1000번지)"</strong>로 하드코딩해버리는 상남자식 최적화다.
+말 그대로 컴파일러가 최종 결과물(`.exe`나 `.com`)을 뱉어낼 때, 그 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 내부의 모든 주소를 <strong>"진짜 하드웨어 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(1000번지)"</strong>로 하드코딩해버리는 상남자식 최적화다.
 
-**💡 비유**: 당신이 1박 2일 캠핑을 간다. 텐트를 어디 칠지 숲(메모리)에 도착해서 빈자리를 보고 치는 게 "적재 시간/[실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)"이라면, "컴파일 시간 바인딩"은 집에서 웹사이트로 "A구역 3번 데크(절대 주소)"를 아예 예약 결제하고 못 박아둔 채 출발하는 것이다. 만약 숲에 갔는데 딴 놈이 그 자리에 텐트 치고 있으면? "아 망했다 그냥 집에 가자" 하고 짐 싸서 돌아온다(에러 폭발). 빈 자리가 100개나 넘치는데 말이다!
+**💡 비유**: 당신이 1박 2일 캠핑을 간다. 텐트를 어디 칠지 숲(메모리)에 도착해서 빈자리를 보고 치는 게 "적재 시간/[실행 시간 바인딩](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)"이라면, "컴파일 시간 바인딩"은 집에서 웹사이트로 "A구역 3번 데크(절대 주소)"를 아예 예약 결제하고 못 박아둔 채 출발하는 것이다. 만약 숲에 갔는데 딴 놈이 그 자리에 텐트 치고 있으면? "아 망했다 그냥 집에 가자" 하고 짐 싸서 돌아온다(에러 폭발). 빈 자리가 100개나 넘치는데 말이다!
 
 ```text
 +------------------------------------------------------------------+
@@ -59,24 +56,24 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 절대 코드 (Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 탄생과 몰락
+### 절대 코드 (Absolute [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))의 탄생과 몰락
 
 컴파일 시간 바인딩이 낳은 자식의 이름이 바로 `절대 코드(Absolute Code)`다. 이 코드는 메모리 상의 자신의 '절대적인 위치'를 태생부터 알고 있다.
 
-1. **재컴파일의 저주**: 만약 1000번지를 운영체제가 쓰기로 시스템이 업데이트되었다면? 당신의 환상적인 프로그램은 평생 실행 불가다. 고치려면 소스 코드를 열어서 컴파일러 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 주소를 2000번지로 바꾼 뒤 <strong>아예 처음부터 다시 빌드(Re-compile)</strong>해서 배포해야 한다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 압살</strong>: 오늘날 100명이 만든 카톡, 크롬, 롤(LoL)을 동시에 켜는데 만약 셋 다 지들 컴파일러에 "나는 500번지 쓸래!" 했다면? 셋 중 맨 처음 쳐 켠 1개만 실행되고 나머지는 영원히 파업한다.
+1. **재컴파일의 저주**: 만약 1000번지를 운영체제가 쓰기로 시스템이 업데이트되었다면? 당신의 환상적인 프로그램은 평생 실행 불가다. 고치려면 소스 코드를 열어서 컴파일러 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 주소를 2000번지로 바꾼 뒤 <strong>아예 처음부터 다시 빌드(Re-compile)</strong>해서 배포해야 한다.
+2. <strong><a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 압살</strong>: 오늘날 100명이 만든 카톡, 크롬, 롤(LoL)을 동시에 켜는데 만약 셋 다 지들 컴파일러에 "나는 500번지 쓸래!" 했다면? 셋 중 맨 처음 쳐 켠 1개만 실행되고 나머지는 영원히 파업한다.
 
-**📢 섹션 요약 비유**: 옛날 MS-DOS 게임 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.COM`)들이 바로 이 녀석입니다. 컴퓨터는 무조건 하나만 켜놓으니까 "나 혼자다 으하하 나는 무조건 100번지!" 하면서 빠르게 달렸죠. 하지만 여러 앱을 켜야 하는 윈도우 시대가 열리며 이 고집쟁이 절대 코드는 멸종당했습니다.
+**📢 섹션 요약 비유**: 옛날 MS-DOS 게임 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`.COM`)들이 바로 이 녀석입니다. 컴퓨터는 무조건 하나만 켜놓으니까 "나 혼자다 으하하 나는 무조건 100번지!" 하면서 빠르게 달렸죠. 하지만 여러 앱을 켜야 하는 윈도우 시대가 열리며 이 고집쟁이 절대 코드는 멸종당했습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 **실무 시나리오**:
-1. <strong>아두이노(Arduino)와 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> (초소형 임베디드)</strong>: 놀랍게도 이 원시 기술은 안 죽고 쌩쌩하게 살아있다! 전자동 밥솥이나 세탁기 안에 들어가는 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU) 칩 안에는 "밥 짓기 프로그램" 딱 1개만 평생 돌리면 된다. 램도 2KB밖에 안 된다. 여기서 주소 변환([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 같은 낭비 칩을 달면 밥솥 원가가 10만 원 뛴다. 그래서 이런 놈들을 위한 C언어 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 짤 때는 <strong>컴파일러(IAR 등) 단에서 <code>.icf</code> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>에 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>를 쾅쾅 하드코딩(절대 코드 방식)</strong>해서 구워버린다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/029_bootloader/">Bootloader</a>)</strong>: 컴퓨터 전원 켰을 때 BIOS에서 제일 먼저 실행되는 첫 512바이트 프로그램. 메모리가 텅텅 빈 황야 상태라 남의 눈치 볼 필요가 없고, 변환 장치([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))를 켤 정신조차 없기 때문에 무조건 `0x7C00` 절대 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)에 고정으로 올라가는 컴파일 바인딩 형식을 철저히 따른다.
+1. <strong>아두이노(Arduino)와 <a href="/studynote/02_operating_system/01_overview_architecture/032_firmware/">펌웨어</a> (초소형 임베디드)</strong>: 놀랍게도 이 원시 기술은 안 죽고 쌩쌩하게 살아있다! 전자동 밥솥이나 세탁기 안에 들어가는 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/)(MCU) 칩 안에는 "밥 짓기 프로그램" 딱 1개만 평생 돌리면 된다. 램도 2KB밖에 안 된다. 여기서 주소 변환([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)) 같은 낭비 칩을 달면 밥솥 원가가 10만 원 뛴다. 그래서 이런 놈들을 위한 C언어 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 짤 때는 <strong>컴파일러(IAR 등) 단에서 <code>.icf</code> <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>에 <a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>를 쾅쾅 하드코딩(절대 코드 방식)</strong>해서 구워버린다.
+2. <strong><a href="/studynote/02_operating_system/01_overview_architecture/029_bootloader/">부트로더</a> (<a href="/studynote/02_operating_system/01_overview_architecture/029_bootloader/">Bootloader</a>)</strong>: 컴퓨터 전원 켰을 때 BIOS에서 제일 먼저 실행되는 첫 512바이트 프로그램. 메모리가 텅텅 빈 황야 상태라 남의 눈치 볼 필요가 없고, 변환 장치([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))를 켤 정신조차 없기 때문에 무조건 `0x7C00` 절대 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/)에 고정으로 올라가는 컴파일 바인딩 형식을 철저히 따른다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **현대 OS 어플리케이션에 억지 절대 주소 삽입**: C/C++로 데스크톱 윈도우 앱을 짜면서 "아 나 포인터 주소 물리적으로 고정해서 버퍼 속도 1나노초 줄여볼까?" 라며 링크 스크립트를 조작해 절대 코드로 `.exe`를 만들면? 당신의 프로그램이 고객의 윈도우11 PC에서 10번 중 9번 충돌이 나서 더블클릭하자마자 허공으로 증발해 버려 무수한 욕(별점 1점)을 먹게 될 것이다.
 
 **📢 섹션 요약 비유**: 세탁기에 카카오톡 같은 걸 깔 필요가 있나요? 없죠. 세탁기는 "위잉 세탁 돌려라"하는 딱 하나의 기능만 평생 한 자리에 서서(절대 공간) 하면 되기 때문에, 이 구닥다리 방식이 가벼운 초소형 장비 최적화에서는 여전히 끝판왕입니다.
@@ -85,14 +82,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-| 기준 | 컴파일 시간 바인딩 (절대 코드) | [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) (현대 OS) |
+| 기준 | 컴파일 시간 바인딩 (절대 코드) | [실행 시간 바인딩](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) (현대 OS) |
 |:---|:---|:---|
-| 자원 낭비도 | <strong>하드웨어 칩(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>) 0원, 주소 변환 소요 시간 0초</strong> | 비싼 칩 덕지덕지, 변환 오버헤드 있음 |
-| [멀티태스킹](/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 유연성 | **지옥 (동시에 2개 앱 켜는 거 100% 불가능)** | 황제급 (수백 개 앱 켜고 이사도 자유자재) |
-| 사용처 | 전자레인지, 밥솥 장난감, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 디스크 | 스마트폰, 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 구글 서버 팜 |
+| 자원 낭비도 | <strong>하드웨어 칩(<a href="/studynote/02_operating_system/06_memory_management/328_mmu/">MMU</a>) 0원, 주소 변환 소요 시간 0초</strong> | 비싼 칩 덕지덕지, 변환 오버헤드 있음 |
+| [멀티태스킹](/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/) 유연성 | **지옥 (동시에 2개 앱 켜는 거 100% 불가능)** | 황제급 (수백 개 앱 켜고 이사도 자유자재) |
+| 사용처 | 전자레인지, 밥솥 장난감, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 디스크 | 스마트폰, 윈도우 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 구글 서버 팜 |
 
 `컴파일 시간 바인딩 (Compile Time Binding)`은 컴퓨터 과학이 요람기에 있을 때 태어나, 가장 아름다운 속도 최적화(단일 프로그램 깡패)를 달성한 첫 번째 영웅이다.
-비록 그 고집스러운 [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) 고정(Absolute [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 성질 탓에 여러 프로그램의 메모리를 이리저리 끼워 맞추는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)'와 '[스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)' 혁명에 올라타지 못하고 멸종 위기에 몰렸지만, 주소 연산을 1비트도 하지 않는 퓨어(Pure)한 실행 속도의 파괴력 덕분에 오늘날에도 우리 집 냉장고와 세탁기 칩(임베디드 세상) 안에서 묵묵히 밥 짓는 절대자로 전설을 이어가고 있다.
+비록 그 고집스러운 [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) 고정(Absolute [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 성질 탓에 여러 프로그램의 메모리를 이리저리 끼워 맞추는 '[가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)'와 '[스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)' 혁명에 올라타지 못하고 멸종 위기에 몰렸지만, 주소 연산을 1비트도 하지 않는 퓨어(Pure)한 실행 속도의 파괴력 덕분에 오늘날에도 우리 집 냉장고와 세탁기 칩(임베디드 세상) 안에서 묵묵히 밥 짓는 절대자로 전설을 이어가고 있다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -100,7 +97,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-컴파일 시간 바인딩 (Compile Time)은 메모리 할당과 주소 변환을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [적재 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+컴파일 시간 바인딩 (Compile Time)은 메모리 할당과 주소 변환을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [적재 시간 바인딩](/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time](/studynote/02_operating_system/06_memory_management/326_load_time_binding/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -110,10 +107,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [주소 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/) ([Address Binding](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/)) 3단계 시점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [적재 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [실행 시간 바인딩](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) ([Execution Time](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/) ([Physical Address](/studynote/02_operating_system/06_memory_management/323_physical_address/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [주소 바인딩](/studynote/02_operating_system/06_memory_management/324_address_binding_stages/) ([Address Binding](/studynote/02_operating_system/06_memory_management/324_address_binding_stages/)) 3단계 시점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [적재 시간 바인딩](/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ([Load Time](/studynote/02_operating_system/06_memory_management/326_load_time_binding/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [실행 시간 바인딩](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/) ([Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +128,7 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. "컴파일 시간 바인딩"은 소풍 갈 때 "나는 절대로! 한강 공원 벤치 가운데 딱 그 자리에만 돗자리 필 거야!"라고 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타기 전(컴파일 중)에 아예 약속하고 출발하는 똥고집쟁이(절대 코드)예요.
+1. "컴파일 시간 바인딩"은 소풍 갈 때 "나는 절대로! 한강 공원 벤치 가운데 딱 그 자리에만 돗자리 필 거야!"라고 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타기 전(컴파일 중)에 아예 약속하고 출발하는 똥고집쟁이(절대 코드)예요.
 2. 만약 공원(메모리)에 일찍 가서 그 자리가 텅 비어있으면, 자리 찾느라(주소 변환) 두리번거릴 틈도 없이 초고속으로 빛의 속도로 돗자리를 펴고 김밥을 먹을 수 있죠! (최고의 속도 장점!)
 3. 근데 재수 없게 다른 가족이 내 벤치를 이미 쓰고 있으면? "아 싫어! 딴 데 넓은 데 많아도 난 무조건 저기야!" 하면서 소풍 다 망치고 펑펑 울면서 집에 돌아오는(메모리 충돌 폭사) 겁나 무서운 규칙이랍니다!
 
@@ -141,7 +138,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 325 / 800
 
-<- **이전**: [324. 주소 바인딩 (Address Binding) 3단계 시점](/knowledge-base/studynote/02_operating_system/06_memory_management/324_address_binding_stages/)
-**다음**: [326. 적재 시간 바인딩 (Load Time) - 재배치 가능 코드 (Relocatable Code)](/knowledge-base/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ->
+<- **이전**: [324. 주소 바인딩 (Address Binding) 3단계 시점](/studynote/02_operating_system/06_memory_management/324_address_binding_stages/)
+**다음**: [326. 적재 시간 바인딩 (Load Time) - 재배치 가능 코드 (Relocatable Code)](/studynote/02_operating_system/06_memory_management/326_load_time_binding/) ->
 
 ---

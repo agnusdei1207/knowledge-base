@@ -1,13 +1,10 @@
-+++
-title = "396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)"
-date = 2026-05-09
+---
+title: "396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 396 / 400
 
-<- **이전**: [395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)](/knowledge-base/studynote/15_devops_sre/05_devsecops/395_gitops_security/)
-**다음**: [397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)](/knowledge-base/studynote/15_devops_sre/05_devsecops/397_security_observability_siem/) ->
+<- **이전**: [395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)](/studynote/15_devops_sre/05_devsecops/395_gitops_security/)
+**다음**: [397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)](/studynote/15_devops_sre/05_devsecops/397_security_observability_siem/) ->
 
 ---

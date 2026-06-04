@@ -1,13 +1,10 @@
-+++
-title = "523. 로우코드 노코드 시민 개발 플랫폼 (Low Code No Code Citizen Developer Platform)"
-date = 2026-05-09
+---
+title: "523. 로우코드 노코드 시민 개발 플랫폼 (Low Code No Code Citizen Developer Platform)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 523 / 800
 
-<- **이전**: [522. 하이퍼오토메이션 AI 융합 프로세스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/522_hyperautomation_ai_convergence_process/)
-**다음**: [524. API 경제 오픈 API 생태계 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/524_api_economy_open_api_ecosystem_strategy/) ->
+<- **이전**: [522. 하이퍼오토메이션 AI 융합 프로세스](/studynote/07_enterprise_systems/06_exam_summary/522_hyperautomation_ai_convergence_process/)
+**다음**: [524. API 경제 오픈 API 생태계 전략](/studynote/07_enterprise_systems/06_exam_summary/524_api_economy_open_api_ecosystem_strategy/) ->
 
 ---

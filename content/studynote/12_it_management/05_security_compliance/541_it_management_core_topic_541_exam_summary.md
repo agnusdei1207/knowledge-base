@@ -1,13 +1,10 @@
-+++
-title = "541. IT 경영 관리 핵심 토픽 541번 시험 요약 (IT Management Core Topic 541 Exam Summary)"
-date = 2026-05-09
+---
+title: "541. IT 경영 관리 핵심 토픽 541번 시험 요약 (IT Management Core Topic 541 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -188,7 +185,7 @@ ITIL 4는 **34개 실무(Practice)**와 **Service Value Chain(7개 활동)**, **
 
 **진행 상황**: 541 / 800
 
-<- **이전**: [540. IT 경영 관리 핵심 토픽 540번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/540_it_management_core_topic_540_exam_summary/)
-**다음**: [542. IT 경영 관리 핵심 토픽 542번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/542_it_management_core_topic_542_exam_summary/) ->
+<- **이전**: [540. IT 경영 관리 핵심 토픽 540번 시험 요약](/studynote/12_it_management/05_security_compliance/540_it_management_core_topic_540_exam_summary/)
+**다음**: [542. IT 경영 관리 핵심 토픽 542번 시험 요약](/studynote/12_it_management/05_security_compliance/542_it_management_core_topic_542_exam_summary/) ->
 
 ---

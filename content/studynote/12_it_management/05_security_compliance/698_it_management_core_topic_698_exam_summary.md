@@ -1,13 +1,10 @@
-+++
-title = "698. IT 경영 관리 핵심 토픽 698번 시험 요약 (IT Management Core Topic 698 Exam Summary)"
-date = 2026-05-09
+---
+title: "698. IT 경영 관리 핵심 토픽 698번 시험 요약 (IT Management Core Topic 698 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 🏛️ IT 경영 관리 핵심 토픽 698번 시험 요약 (IT 거버넌스 & COBIT 2019 기반 IT경영체계)
 
@@ -142,7 +139,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 698 / 800
 
-<- **이전**: [697. IT 경영 관리 핵심 토픽 697번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/697_it_management_core_topic_697_exam_summary/)
-**다음**: [699. IT 경영 관리 핵심 토픽 699번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/699_it_management_core_topic_699_exam_summary/) ->
+<- **이전**: [697. IT 경영 관리 핵심 토픽 697번 시험 요약](/studynote/12_it_management/05_security_compliance/697_it_management_core_topic_697_exam_summary/)
+**다음**: [699. IT 경영 관리 핵심 토픽 699번 시험 요약](/studynote/12_it_management/05_security_compliance/699_it_management_core_topic_699_exam_summary/) ->
 
 ---

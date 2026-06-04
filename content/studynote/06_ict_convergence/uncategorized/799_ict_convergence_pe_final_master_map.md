@@ -1,13 +1,10 @@
-+++
-title = "799. ICT 융합 기술사 최종 종합 마스터 맵 (ICT Convergence PE Final Master Map)"
-date = 2026-05-09
+---
+title: "799. ICT 융합 기술사 최종 종합 마스터 맵 (ICT Convergence PE Final Master Map)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -144,7 +141,7 @@ ICT 융합은 단일 기술이 아니므로, **유사·대안·선행 기술과�
 
 **진행 상황**: 799 / 800
 
-<- **이전**: [798. ICT 융합 기술 미래 비전 2030 전망](/knowledge-base/studynote/06_ict_convergence/uncategorized/798_ict_convergence_future_vision_2030_outlook/)
-**다음**: [800. 800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/knowledge-base/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
+<- **이전**: [798. ICT 융합 기술 미래 비전 2030 전망](/studynote/06_ict_convergence/uncategorized/798_ict_convergence_future_vision_2030_outlook/)
+**다음**: [800. 800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
 
 ---

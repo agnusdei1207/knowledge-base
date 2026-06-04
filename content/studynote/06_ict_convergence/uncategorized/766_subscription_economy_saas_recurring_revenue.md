@@ -1,13 +1,10 @@
-+++
-title = "766. 구독 경제 SaaS 리커링 수익 모델 (Subscription Economy SaaS Recurring Revenue)"
-date = 2026-05-09
+---
+title: "766. 구독 경제 SaaS 리커링 수익 모델 (Subscription Economy SaaS Recurring Revenue)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 📘 기술사备考 노트: 766. 구독 경제 SaaS 리커링 수익 모델
 
@@ -167,7 +164,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 766 / 800
 
-<- **이전**: [765. 슈퍼앱 플랫폼 전략 미니 프로그램](/knowledge-base/studynote/06_ict_convergence/uncategorized/765_super_app_platform_strategy_mini_program/)
-**다음**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/) ->
+<- **이전**: [765. 슈퍼앱 플랫폼 전략 미니 프로그램](/studynote/06_ict_convergence/uncategorized/765_super_app_platform_strategy_mini_program/)
+**다음**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "114. 아키텍처 스타일 (Architecture Style)"
-date = 2026-05-10
+---
+title: "114. 아키텍처 스타일 (Architecture Style)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 아키텍처 스타일 ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Style)은 반복적으로 등장하는 소프트웨어 구조 문제에 대한 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 설계 어휘(vocabulary)로, 특정 방식으로 시스템을 구성하면 어떤 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(quality [attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이 얻어지고 어떤 트레이드오프가 생기는지를 예측 가능하게 한다.
+> 1. **본질**: 아키텍처 스타일 ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Style)은 반복적으로 등장하는 소프트웨어 구조 문제에 대한 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 설계 어휘(vocabulary)로, 특정 방식으로 시스템을 구성하면 어떤 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)(quality [attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))이 얻어지고 어떤 트레이드오프가 생기는지를 예측 가능하게 한다.
 > 2. **가치**: 아키텍처 스타일은 팀이 "왜 이렇게 설계했는가"를 공통 언어로 소통하게 하며, 설계 결정의 결과를 경험 없이도 예측할 수 있는 지식 자산이다.
-> 3. **판단 포인트**: 아키텍처 스타일의 선택은 시스템의 주요 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 확장성, [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 보안)과 조직 구조(Conway의 법칙)에 따라 결정되며, 하나의 스타일이 모든 상황에 최적인 경우는 없다.
+> 3. **판단 포인트**: 아키텍처 스타일의 선택은 시스템의 주요 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 확장성, [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 보안)과 조직 구조(Conway의 법칙)에 따라 결정되며, 하나의 스타일이 모든 상황에 최적인 경우는 없다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아키텍처 스타일은 데이비드 갈란(David Garlan)과 메리 쇼(Mary Shaw)의 1993년 연구에서 "반복적 설계 문제를 해결하는 조직 원칙의 집합"으로 정의되었다. [디자인 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)(Design Pattern)이 클래스 수준의 해법이라면, 아키텍처 스타일은 시스템 전체 수준의 구조 패턴이다.
+아키텍처 스타일은 데이비드 갈란(David Garlan)과 메리 쇼(Mary Shaw)의 1993년 연구에서 "반복적 설계 문제를 해결하는 조직 원칙의 집합"으로 정의되었다. [디자인 패턴](/studynote/04_software_engineering/04_testing_quality/251_design_patterns_gof_overview/)(Design Pattern)이 클래스 수준의 해법이라면, 아키텍처 스타일은 시스템 전체 수준의 구조 패턴이다.
 
-아키텍처 스타일 없이 설계를 시작하면 각 팀원이 서로 다른 구조적 가정을 갖고 코드를 작성하게 된다. 어떤 개발자는 계층형으로, 어떤 개발자는 이벤트 중심으로 코드를 구성하면 시스템은 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 혼합 구조가 되어 어떤 스타일의 장점도 제대로 얻지 못한다.
+아키텍처 스타일 없이 설계를 시작하면 각 팀원이 서로 다른 구조적 가정을 갖고 코드를 작성하게 된다. 어떤 개발자는 계층형으로, 어떤 개발자는 이벤트 중심으로 코드를 구성하면 시스템은 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없는 혼합 구조가 되어 어떤 스타일의 장점도 제대로 얻지 못한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +41,7 @@ tags = ["studynote-design-supervision"]
 +-------------------------------------------------------------+
 ```
 
-아키텍처 스타일이 중요한 또 다른 이유는 [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method, 아키텍처 트레이드오프 분석 방법)과 같은 아키텍처 평가 방법론이 스타일을 기반으로 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 트레이드오프를 분석하기 때문이다.
+아키텍처 스타일이 중요한 또 다른 이유는 [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) ([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Tradeoff Analysis Method, 아키텍처 트레이드오프 분석 방법)과 같은 아키텍처 평가 방법론이 스타일을 기반으로 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 트레이드오프를 분석하기 때문이다.
 
 - **📢 섹션 요약 비유**: 건축 양식(아키텍처 스타일)을 선택하는 것과 같다. 한옥을 선택하면 나무 구조의 아름다움과 환기 장점이 있고, 철근 콘크리트를 선택하면 내구성과 확장성이 생긴다. 목적에 맞는 양식을 선택해야 한다.
 
@@ -52,14 +49,14 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-아키텍처 스타일은 ① [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(구성 요소), ② 커넥터(연결 방식), ③ 제약 조건(구조적 규칙)의 세 요소로 정의된다. 이 세 요소가 조합되어 특정 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 강화하거나 약화시키는 구조적 결과를 만든다.
+아키텍처 스타일은 ① [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)(구성 요소), ② 커넥터(연결 방식), ③ 제약 조건(구조적 규칙)의 세 요소로 정의된다. 이 세 요소가 조합되어 특정 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 강화하거나 약화시키는 구조적 결과를 만든다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 계층형 | 프레젠테이션·비즈니스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 / [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 단순성 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(계층 간 오버헤드) |
-| [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) | 독립 배포 가능한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 / 확장성, 독립 배포 | 운영 복잡성 |
-| 이벤트 주도 | 이벤트 생산자·브로커·소비자 / [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 최종 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
-| 헥사고날 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·[어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) / 테스트 용이성, 유연성 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 복잡도 |
+| 계층형 | 프레젠테이션·비즈니스·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층 / [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 단순성 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(계층 간 오버헤드) |
+| [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) | 독립 배포 가능한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 / 확장성, 독립 배포 | 운영 복잡성 |
+| 이벤트 주도 | 이벤트 생산자·브로커·소비자 / [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소, [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/) | 최종 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) |
+| 헥사고날 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)·[포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)·[어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) / 테스트 용이성, 유연성 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 복잡도 |
 
 ```text
 +-------------------------------------------------------------+
@@ -80,36 +77,36 @@ tags = ["studynote-design-supervision"]
 +-------------------------------------------------------------+
 ```
 
-스타일 선택에서 Conway의 법칙(Conway's Law)은 중요한 제약이다. "시스템 구조는 그것을 만드는 조직의 커뮤니케이션 구조를 반영한다." MSA를 선택했다면 팀 구조도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 독립되어야 한다.
+스타일 선택에서 Conway의 법칙(Conway's Law)은 중요한 제약이다. "시스템 구조는 그것을 만드는 조직의 커뮤니케이션 구조를 반영한다." MSA를 선택했다면 팀 구조도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위로 독립되어야 한다.
 
 - **📢 섹션 요약 비유**: 요리 스타일(프랑스 요리, 한식, 퓨전)을 선택하면 사용하는 재료, 조리 도구, 시간, 공간 구성이 모두 달라진다. 스타일을 정하지 않고 요리를 시작하면 모든 재료가 섞이는 혼란이 생긴다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-아키텍처 스타일 선택의 핵심 비교 축은 "빌드 [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)"와 "운영 복잡도" 간의 트레이드오프다. 단순한 스타일은 구축이 쉽지만 규모가 커질수록 한계에 부딪히고, 복잡한 스타일은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 비용이 크지만 장기적 운영 유연성이 높다.
+아키텍처 스타일 선택의 핵심 비교 축은 "빌드 [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)"와 "운영 복잡도" 간의 트레이드오프다. 단순한 스타일은 구축이 쉽지만 규모가 커질수록 한계에 부딪히고, 복잡한 스타일은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자 비용이 크지만 장기적 운영 유연성이 높다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 복잡도</strong> | 낮음 | 높음 |
+| <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구축 복잡도</strong> | 낮음 | 높음 |
 | **확장성** | 수직 확장 한계 | 수평 확장 용이 |
-| **독립 배포** | 불가 (전체 재배포) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 |
-| **운영 복잡도** | 낮음 | 높음 ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리) |
-| **적합 규모** | 소·중규모, 스타트업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 대규모, 다팀 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 |
+| **독립 배포** | 불가 (전체 재배포) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 독립 |
+| **운영 복잡도** | 낮음 | 높음 ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 관리) |
+| **적합 규모** | 소·중규모, 스타트업 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 대규모, 다팀 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 개발 |
 
-아키텍처 스타일 선택은 시스템의 현재 규모뿐 아니라 예상 성장 경로와 팀 구성에 따라 달라진다. 스타트업 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단순한 계층형으로 시작하고, 성장하면 [스트랭글러 피그 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)([Strangler Fig Pattern](/knowledge-base/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))으로 MSA로 점진적 전환하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다.
+아키텍처 스타일 선택은 시스템의 현재 규모뿐 아니라 예상 성장 경로와 팀 구성에 따라 달라진다. 스타트업 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 단순한 계층형으로 시작하고, 성장하면 [스트랭글러 피그 패턴](/studynote/11_design_supervision/06_exam_summary/376_strangler_fig_summary/)([Strangler Fig Pattern](/studynote/12_it_management/05_security_compliance/950_strangler_fig_pattern/))으로 MSA로 점진적 전환하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 현실적이다.
 
-- **📢 섹션 요약 비유**: 혼자 사는 원룸은 주방·침실·거실이 한 공간이면 충분하다(계층형). 하지만 대가족이 함께 살면 방을 분리하고 독립 공간을 만들어야 한다([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)). 처음부터 대저택을 지을 필요는 없다.
+- **📢 섹션 요약 비유**: 혼자 사는 원룸은 주방·침실·거실이 한 공간이면 충분하다(계층형). 하지만 대가족이 함께 살면 방을 분리하고 독립 공간을 만들어야 한다([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)). 처음부터 대저택을 지을 필요는 없다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-아키텍처 스타일 선택은 시스템 감리의 핵심 평가 항목이다. 감리인은 선택된 아키텍처 스타일이 요구사항의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 일치하는지, 스타일에 맞지 않는 반패턴([anti-pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))이 존재하는지를 점검한다.
+아키텍처 스타일 선택은 시스템 감리의 핵심 평가 항목이다. 감리인은 선택된 아키텍처 스타일이 요구사항의 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)과 일치하는지, 스타일에 맞지 않는 반패턴([anti-pattern](/studynote/11_design_supervision/03_gof_creational_structural/161_anti_pattern/))이 존재하는지를 점검한다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 선택된 아키텍처 스타일이 시스템의 주요 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·확장성·보안·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))을 만족하는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 선택된 아키텍처 스타일이 시스템의 주요 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·확장성·보안·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/))을 만족하는가?
 2. 현재 팀 구조(Conway의 법칙)가 선택된 아키텍처 스타일과 정합성을 이루는가?
-3. 선택된 스타일의 알려진 트레이드오프가 아키텍처 결정 기록([ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/), [Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))에 문서화되어 있는가?
+3. 선택된 스타일의 알려진 트레이드오프가 아키텍처 결정 기록([ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/), [Architecture Decision Record](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/))에 문서화되어 있는가?
 4. 스타일에 맞지 않는 반패턴(예: MSA에서 공유 DB 사용)이 존재하는가?
 5. 시스템 규모 성장에 따라 스타일을 전환할 계획이 있는가?
 
@@ -119,32 +116,32 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-아키텍처 스타일을 명시적으로 선택하고 문서화하면 팀 전체가 동일한 구조적 기대를 공유하게 되어 설계 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 유지된다. 신규 팀원 온보딩 시 "우리는 헥사고날 아키텍처를 사용합니다"라는 한 문장이 수백 줄의 코드 설명을 대신한다. ADR을 통해 스타일 선택의 이유와 당시 맥락이 보존되어, 미래에 스타일 변경이 필요할 때 근거가 된다.
+아키텍처 스타일을 명시적으로 선택하고 문서화하면 팀 전체가 동일한 구조적 기대를 공유하게 되어 설계 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 유지된다. 신규 팀원 온보딩 시 "우리는 헥사고날 아키텍처를 사용합니다"라는 한 문장이 수백 줄의 코드 설명을 대신한다. ADR을 통해 스타일 선택의 이유와 당시 맥락이 보존되어, 미래에 스타일 변경이 필요할 때 근거가 된다.
 
 한계는 순수한 단일 스타일이 실제 시스템에서는 드물다는 점이다. 대부분의 시스템은 여러 스타일이 혼합된 복합 구조를 가진다. 이 혼합이 의도적이고 문서화된 트레이드오프에 기반하면 괜찮지만, 우연히 섞이면 어떤 스타일의 장점도 제대로 얻지 못하는 최악의 상황이 된다.
 
-미래 방향으로는 ① [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 요구사항 분석을 통한 최적 아키텍처 스타일 추천, ② 아키텍처 피트니스 함수([Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/knowledge-base/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)를 통한 스타일 준수 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 새로운 하이브리드 스타일의 등장이 예상된다.
+미래 방향으로는 ① [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 요구사항 분석을 통한 최적 아키텍처 스타일 추천, ② 아키텍처 피트니스 함수([Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) [Fitness](/studynote/06_ict_convergence/05_data_science/395_genetic_algorithm_ga_operators/) Function)를 통한 스타일 준수 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), ③ [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에서 새로운 하이브리드 스타일의 등장이 예상된다.
 
 아키텍처 스타일은 "구조적 선택의 언어"다. 스타일을 알고 선택하는 것과 모르고 만들어지는 것 사이의 차이가 10년 후 시스템의 생존을 결정한다.
 
-- **📢 섹션 요약 비유**: 체스 선수는 게임 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(오프닝 스타일)을 선택하고 그에 따라 말을 배치한다. [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 임기응변으로만 두면 복잡한 상황에서 길을 잃는다.
+- **📢 섹션 요약 비유**: 체스 선수는 게임 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)(오프닝 스타일)을 선택하고 그에 따라 말을 배치한다. [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 임기응변으로만 두면 복잡한 상황에서 길을 잃는다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 요구사항] -> [아키텍처 스타일 선택] -> ADR 문서화] -> ATAM 평가] -> [Conway의 법칙 조직 정합]
+[품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 요구사항] -> [아키텍처 스타일 선택] -> ADR 문서화] -> ATAM 평가] -> [Conway의 법칙 조직 정합]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) | 아키텍처 스타일 선택의 1차 기준 |
-| [ADR](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([Architecture Decision Record](/knowledge-base/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 스타일 선택 이유와 트레이드오프 기록 |
+| 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Quality [Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)) | 아키텍처 스타일 선택의 1차 기준 |
+| [ADR](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/) ([Architecture Decision Record](/studynote/04_software_engineering/04_testing_quality/231_adr_architecture_decision_record_documentation/)) | 스타일 선택 이유와 트레이드오프 기록 |
 | Conway의 법칙 | 조직 구조와 아키텍처 스타일의 정합성 |
-| [ATAM](/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) | 아키텍처 스타일의 트레이드오프를 체계적으로 평가하는 방법론 |
+| [ATAM](/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/) | 아키텍처 스타일의 트레이드오프를 체계적으로 평가하는 방법론 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[임기응변 설계] -> [아키텍처 스타일 개념 정립(갈란·쇼)] -> [계층형·파이프-필터·블랙보드] -> SOA] -> MSA·[EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)] -> [클라우드 네이티브 하이브리드 스타일]
+[임기응변 설계] -> [아키텍처 스타일 개념 정립(갈란·쇼)] -> [계층형·파이프-필터·블랙보드] -> SOA] -> MSA·[EDA](/studynote/12_it_management/02_itsm_itil/064_eda/)] -> [클라우드 네이티브 하이브리드 스타일]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -158,7 +155,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 170 / 530
 
-<- **이전**: [113. 결합도 (Coupling)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/113_coupling/)
-**다음**: [115. 계층형 아키텍처 (Layered Architecture)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/) ->
+<- **이전**: [113. 결합도 (Coupling)](/studynote/11_design_supervision/02_architecture_principles/113_coupling/)
+**다음**: [115. 계층형 아키텍처 (Layered Architecture)](/studynote/11_design_supervision/02_architecture_principles/115_layered_architecture/) ->
 
 ---

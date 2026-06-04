@@ -1,17 +1,14 @@
-+++
-title = "810. iSCSI (Internet Small Computer System Interface)"
-date = 2026-05-08
+---
+title: "810. iSCSI (Internet Small Computer System Interface)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: iSCSI는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: iSCSI를 이해하면 확장성과 운영 자동화 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 컴퓨터 내부에서 하드디스크와 메인보드가 통신할 때 쓰는 전통적인 로컬 기계어(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 패킷을, 전 세계를 덮고 있는 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷(인터넷 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 껍데기 안에 캡슐화(Encapsulation)하여, 멀리 떨어진 외장 스토리지(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)를 인터넷망(IP)을 타고 원격으로 접근하여 블록(Block) 단위로 읽고 쓸 수 있게 만든 국제 네트워크 스토리지 표준 규격</strong>입니다. ([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 제정)
-- IP-[SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Storage Area Network](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))을 구축하는 가장 대표적이고 저렴한 핵심 기술입니다.
+- **개념**: 컴퓨터 내부에서 하드디스크와 메인보드가 통신할 때 쓰는 전통적인 로컬 기계어(SCSI [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 패킷을, 전 세계를 덮고 있는 <strong><a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a>/IP 패킷(인터넷 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 껍데기 안에 캡슐화(Encapsulation)하여, 멀리 떨어진 외장 스토리지(<a href="/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/">SAN</a>)를 인터넷망(IP)을 타고 원격으로 접근하여 블록(Block) 단위로 읽고 쓸 수 있게 만든 국제 네트워크 스토리지 표준 규격</strong>입니다. ([IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 제정)
+- IP-[SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/) (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [Storage Area Network](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))을 구축하는 가장 대표적이고 저렴한 핵심 기술입니다.
 
 ```text
 [FCoE]
@@ -31,7 +28,7 @@ tags = ["studynote-network"]
     +---> [인피니밴드]
 ```
 
-- **📢 섹션 요약 비유**: iSCSI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: iSCSI는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -39,8 +36,8 @@ tags = ["studynote-network"]
 
 809번의 FCoE와 810번의 iSCSI는 비슷해 보이지만 스케일이 다릅니다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/">FCoE</a> (L2 계층의 족쇄)</strong>: 깐깐한 [FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패킷을 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) '[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)' 껍데기에만 담았습니다. 그래서 라우터를 넘어 다른 네트워크망(해외)으로 나갈 수가 없고, 오직 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전산실(동일 서브넷) 안에서만 놀아야 하는 태생적 한계가 있습니다.
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> (L3 IP 라우팅의 자유) 🌟</strong>: 가장 중요한 차이입니다. iSCSI는 인터넷의 공용어인 <strong>IP 주소와 <a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(기본 3260번)</strong> 껍데기로 완전히 포장해버렸습니다. 덕분에 인터넷(라우터)을 타고 중국이든 아프리카든 마음대로 태평양 해저 케이블을 건너가 원격 스토리지를 내 C드라이브처럼 쓸 수 있습니다.
+- <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/">FCoE</a> (L2 계층의 족쇄)</strong>: 깐깐한 [FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) 패킷을 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) '[MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소(L2)' 껍데기에만 담았습니다. 그래서 라우터를 넘어 다른 네트워크망(해외)으로 나갈 수가 없고, 오직 같은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 전산실(동일 서브넷) 안에서만 놀아야 하는 태생적 한계가 있습니다.
+- <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> (L3 IP 라우팅의 자유) 🌟</strong>: 가장 중요한 차이입니다. iSCSI는 인터넷의 공용어인 <strong>IP 주소와 <a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(기본 3260번)</strong> 껍데기로 완전히 포장해버렸습니다. 덕분에 인터넷(라우터)을 타고 중국이든 아프리카든 마음대로 태평양 해저 케이블을 건너가 원격 스토리지를 내 C드라이브처럼 쓸 수 있습니다.
 
 ```text
 [FCoE]
@@ -58,19 +55,19 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 0원에 수렴하는 네트워크 구축 비용
-- 비싼 광케이블 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))도 필요 없고, 809번에서 배운 비싼 무결손 전용 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(DCB [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))도 필요 없습니다.
-- 그냥 이마트에서 파는 <strong>싸구려 일반 아이피타임(IPTIME) 기가비트 공유기와 싸구려 랜선(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)만 있으면 그 위에 바로 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> 스토리지망을 거대하게 뚝딱 구축</strong>할 수 있습니다. 중소기업이나 가난한 벤처기업 전산실의 영원한 빛과 소금입니다.
+- 비싼 광케이블 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/))도 필요 없고, 809번에서 배운 비싼 무결손 전용 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(DCB [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))도 필요 없습니다.
+- 그냥 이마트에서 파는 <strong>싸구려 일반 아이피타임(IPTIME) 기가비트 공유기와 싸구려 랜선(<a href="/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/">UTP</a>)만 있으면 그 위에 바로 <a href="/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a> 스토리지망을 거대하게 뚝딱 구축</strong>할 수 있습니다. 중소기업이나 가난한 벤처기업 전산실의 영원한 빛과 소금입니다.
 
 ### 2. AWS / 클라우드 인프라의 표준 디스크
-- 아마존 AWS에서 가상 서버(EC2)를 빌리고, 거기에 100GB짜리 하드디스크(EBS 볼륨)를 클릭 한 번으로 갖다 붙입니다. 이 뒤에서 돌아가는 뼈대 기술 중 하나가 바로 IP 통신망으로 스토리지를 엮어주는 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 구조입니다.
+- 아마존 AWS에서 가상 서버(EC2)를 빌리고, 거기에 100GB짜리 하드디스크(EBS 볼륨)를 클릭 한 번으로 갖다 붙입니다. 이 뒤에서 돌아가는 뼈대 기술 중 하나가 바로 IP 통신망으로 스토리지를 엮어주는 [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 구조입니다.
 
-iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FCoE가 기반 조건을 만든다면, iSCSI는 그 위에서 핵심 메커니즘을 구현하고, [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. FCoE가 기반 조건을 만든다면, iSCSI는 그 위에서 핵심 메커니즘을 구현하고, [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | FCoE의 기반 정리 | iSCSI의 핵심 동작 | [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)의 확장 적용 |
+| 초점 | FCoE의 기반 정리 | iSCSI의 핵심 동작 | [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: iSCSI는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -79,22 +76,22 @@ iSCSI를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - 가장 큰 단점은 <strong>'CPU 과부하(오버헤드)'</strong>입니다.
-- 무거운 하드디스크 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(SCSI)를 복잡한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기에 구겨 넣고 포장하는 작업(캡슐화)을 순수하게 '컴퓨터의 중앙 뇌(CPU 소프트웨어)'가 다 해야 합니다.
-- 네트워크 속도가 10기가, 100기가로 폭증하면 서버 CPU는 내 프로그램은 안 돌리고 이 [iSCSI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 택배 포장만 하다가 과로사(병목 현상 폭발)해버립니다. (이를 해결하기 위해 랜카드 자체 칩셋에 하드웨어적으로 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장 기능을 심어 CPU의 짐을 덜어주는 비싼 [TOE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 랜카드가 등장했습니다.)
+- 무거운 하드디스크 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(SCSI)를 복잡한 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 껍데기에 구겨 넣고 포장하는 작업(캡슐화)을 순수하게 '컴퓨터의 중앙 뇌(CPU 소프트웨어)'가 다 해야 합니다.
+- 네트워크 속도가 10기가, 100기가로 폭증하면 서버 CPU는 내 프로그램은 안 돌리고 이 [iSCSI](/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/) 택배 포장만 하다가 과로사(병목 현상 폭발)해버립니다. (이를 해결하기 위해 랜카드 자체 칩셋에 하드웨어적으로 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포장 기능을 심어 CPU의 짐을 덜어주는 비싼 [TOE](/studynote/01_computer_architecture/15_advanced_topics/588_toe/) 랜카드가 등장했습니다.)
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 로컬 하드디스크([SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/[NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 내 책상 서랍 속에 있는 튼튼하고 빠른 '개인 금고'라면, <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 우체국 '해외 직구 택배망'을 이용해 미국에 있는 대형 은행의 금고를 내 서랍처럼 쓰는 마법입니다. 옛날([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [SAN](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))엔 미국 금고를 쓰려면 태평양에 나만의 100억짜리 전용 아스팔트 고속도로를 깔아야 했습니다(극악의 비용). <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 그럴 필요 없이, 흔해 빠진 공용 '우체국 IP 택배 박스'에 금고 열쇠와 서류(SCSI [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 담아 보내면, 전 세계 우체부(라우터)들이 공용 배송망을 타고 알아서 미국 금고까지 배달을 릴레이로 전달해 줍니다. 길거리에 깔린 공짜 택배망을 그대로 활용하니 비용이 0원에 수렴하는 대신, 택배 박스를 포장하고 주소를 100번씩 적느라 내 머리(서버 CPU)가 아파 죽을 지경(오버헤드)이 되는 가성비 스토리지 통신 규격입니다.
+- **📢 섹션 요약 비유**: 로컬 하드디스크([SATA](/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/[NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/))가 내 책상 서랍 속에 있는 튼튼하고 빠른 '개인 금고'라면, <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 우체국 '해외 직구 택배망'을 이용해 미국에 있는 대형 은행의 금고를 내 서랍처럼 쓰는 마법입니다. 옛날([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/) [SAN](/studynote/02_operating_system/08_storage_and_io_systems/493_san_storage_area_network/))엔 미국 금고를 쓰려면 태평양에 나만의 100억짜리 전용 아스팔트 고속도로를 깔아야 했습니다(극악의 비용). <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/698_iscsi/">iSCSI</a></strong>는 그럴 필요 없이, 흔해 빠진 공용 '우체국 IP 택배 박스'에 금고 열쇠와 서류(SCSI [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/))를 담아 보내면, 전 세계 우체부(라우터)들이 공용 배송망을 타고 알아서 미국 금고까지 배달을 릴레이로 전달해 줍니다. 길거리에 깔린 공짜 택배망을 그대로 활용하니 비용이 0원에 수렴하는 대신, 택배 박스를 포장하고 주소를 100번씩 적느라 내 머리(서버 CPU)가 아파 죽을 지경(오버헤드)이 되는 가성비 스토리지 통신 규격입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/), [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+iSCSI는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/), [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: iSCSI는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -104,10 +101,10 @@ iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [FCoE](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([Overlay Network](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)) | 가상 환경의 논리적 연결을 만든다. |
-| 패브릭 (Fabric) | 대규모 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 균일한 연결 구조다. |
-| [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [FCoE](/studynote/01_computer_architecture/15_advanced_topics/697_fcoe/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [오버레이 네트워크](/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([Overlay Network](/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)) | 가상 환경의 논리적 연결을 만든다. |
+| 패브릭 (Fabric) | 대규모 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)의 균일한 연결 구조다. |
+| [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,7 +118,7 @@ iSCSI는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_c
     +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
-iSCSI는 FCoE에서 출발해 현재 메커니즘을 정교화하고, 이후 [인피니밴드](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+iSCSI는 FCoE에서 출발해 현재 메커니즘을 정교화하고, 이후 [인피니밴드](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/)와 [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +132,7 @@ iSCSI는 FCoE에서 출발해 현재 메커니즘을 정교화하고, 이후 [�
 
 **진행 상황**: 931 / 1120
 
-<- **이전**: [809. FCoE (Fibre Channel over Ethernet)](/knowledge-base/studynote/03_network/16_data_center_cloud/809_fcoe_fibre_channel_over_ethernet_san_lan/)
-**다음**: [811. 인피니밴드 (InfiniBand)](/knowledge-base/studynote/03_network/16_data_center_cloud/811_infiniband_hpc_supercomputer_cluster_lossless/) ->
+<- **이전**: [809. FCoE (Fibre Channel over Ethernet)](/studynote/03_network/16_data_center_cloud/809_fcoe_fibre_channel_over_ethernet_san_lan/)
+**다음**: [811. 인피니밴드 (InfiniBand)](/studynote/03_network/16_data_center_cloud/811_infiniband_hpc_supercomputer_cluster_lossless/) ->
 
 ---

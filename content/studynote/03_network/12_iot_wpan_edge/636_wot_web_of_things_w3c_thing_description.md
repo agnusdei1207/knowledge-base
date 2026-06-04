@@ -1,17 +1,14 @@
-+++
-title = "636. W3C WoT (Web of Things)"
-date = 2026-05-08
+---
+title: "636. W3C WoT (Web of Things)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: W3C WoT는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: W3C WoT를 이해하면 전력 효율과 현장 반응성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 월드 와이드 웹(WWW) 표준을 제정하는 <strong>W3C(World Wide Web Consortium)가 주도하는 기술로, 세상의 수많은 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기들을 기존 인터넷 웹사이트(URL/URI)와 완전히 동일한 방식으로 취급하여 통제하고 융합하려는 개념이자 표준 아키텍처</strong>입니다.
-- **배경**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기마다 제조사 전용 앱(App)을 깔고, 전용 클라우드에 가입해야 하는 지독한 '[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(파편화) 현상'을 타파하기 위해, 인류 역사상 가장 성공한 통합 플랫폼인 <strong>'웹 브라우저' 기술을 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a> 위로 덮어씌운 것</strong>입니다.
+- **개념**: 월드 와이드 웹(WWW) 표준을 제정하는 <strong>W3C(World Wide Web Consortium)가 주도하는 기술로, 세상의 수많은 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기들을 기존 인터넷 웹사이트(URL/URI)와 완전히 동일한 방식으로 취급하여 통제하고 융합하려는 개념이자 표준 아키텍처</strong>입니다.
+- **배경**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기마다 제조사 전용 앱(App)을 깔고, 전용 클라우드에 가입해야 하는 지독한 '[사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)(파편화) 현상'을 타파하기 위해, 인류 역사상 가장 성공한 통합 플랫폼인 <strong>'웹 브라우저' 기술을 <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">사물인터넷</a> 위로 덮어씌운 것</strong>입니다.
 
 ```text
 [IETF 산하 IoT CoRE 워킹그룹 동향]
@@ -31,21 +28,21 @@ tags = ["studynote-network"]
     +---> [IIoT 트래픽 관리 한계/QoS 이슈]
 ```
 
-- **📢 섹션 요약 비유**: W3C WoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: W3C WoT는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong>: 통신선, 주파수, 센서 배터리 등 <strong>하드웨어와 네트워크를 "어떻게 연결(Connect)할 것인가?"</strong>에 초점을 맞춘 1계층~3계층 관점입니다.
-- **WoT (Web of Things)**: 통신망이 어떻게 뚫려 있든 상관하지 않습니다. 연결된 사물들의 데이터를 <strong>웹 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>, <a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>, <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>)라는 전 세계 공용 소프트웨어 언어로 "어떻게 융합하고 제어할 것인가?"</strong>에 초점을 맞춘 최상위 7계층(응용) 관점입니다. (IoT를 포괄하는 상위 개념)
+- <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong>: 통신선, 주파수, 센서 배터리 등 <strong>하드웨어와 네트워크를 "어떻게 연결(Connect)할 것인가?"</strong>에 초점을 맞춘 1계층~3계층 관점입니다.
+- **WoT (Web of Things)**: 통신망이 어떻게 뚫려 있든 상관하지 않습니다. 연결된 사물들의 데이터를 <strong>웹 <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>(<a href="/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a>, <a href="/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a>, <a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/<a href="/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/">CoAP</a>)라는 전 세계 공용 소프트웨어 언어로 "어떻게 융합하고 제어할 것인가?"</strong>에 초점을 맞춘 최상위 7계층(응용) 관점입니다. (IoT를 포괄하는 상위 개념)
 
 ### 1. 사물 설명서 (Thing Description, TD)
-- **개념**: 세상 모든 기기의 기능, 스펙, 접속 URL을 <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 형태의 텍스트 문서 1장으로 깔끔하게 통일시킨 자기소개서</strong>입니다.
-- **예시**: LG 세탁기를 사면 그 안에 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서가 들어있습니다. 그 문서를 열어보면 `"이름": "LG 통돌이", "동작": {"탈수": "http://192.168.0.5/spin"}, "현재 상태": "http://.../status"`라고 적혀있습니다.
-- 어떤 회사의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이든 이 '사물 설명서(TD)'만 쓱 읽어보면, 별도의 연동 코딩 없이 즉각적으로 세탁기를 파악하고 제어할 수 있게 됩니다.
+- **개념**: 세상 모든 기기의 기능, 스펙, 접속 URL을 <strong><a href="/studynote/11_design_supervision/06_exam_summary/343_json/">JSON</a> 형태의 텍스트 문서 1장으로 깔끔하게 통일시킨 자기소개서</strong>입니다.
+- **예시**: LG 세탁기를 사면 그 안에 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 문서가 들어있습니다. 그 문서를 열어보면 `"이름": "LG 통돌이", "동작": {"탈수": "http://192.168.0.5/spin"}, "현재 상태": "http://.../status"`라고 적혀있습니다.
+- 어떤 회사의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이든 이 '사물 설명서(TD)'만 쓱 읽어보면, 별도의 연동 코딩 없이 즉각적으로 세탁기를 파악하고 제어할 수 있게 됩니다.
 
-### 2. 스크립팅 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Scripting [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
+### 2. 스크립팅 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (Scripting [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))
 - 구글 크롬에서 자바스크립트(JavaScript)로 웹사이트를 만들 듯이, 개발자들이 자바스크립트 코드 몇 줄만 짜면 전 세계 모든 사물웹(WoT) 기기를 제어할 수 있도록 도와주는 표준 웹 프로그래밍 도구 모음입니다.
 
 ```text
@@ -63,13 +60,13 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-W3C WoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향이 기반 조건을 만든다면, W3C WoT는 그 위에서 핵심 메커니즘을 구현하고, [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+W3C WoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향이 기반 조건을 만든다면, W3C WoT는 그 위에서 핵심 메커니즘을 구현하고, [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향의 기반 정리 | W3C WoT의 핵심 동작 | [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈의 확장 적용 |
+| 초점 | [IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향의 기반 정리 | W3C WoT의 핵심 동작 | [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전력 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: W3C WoT는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -77,21 +74,21 @@ W3C WoT를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- WoT가 보편화되면, 당신의 블로그나 인스타그램 글 사이에 `[우리집 온도계 위젯]`을 HTML 태그 한 줄로 툭 붙여넣을 수 있습니다. 현실 세계의 물리적 센서가 사이버스페이스의 웹 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Web [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))처럼 완벽히 동등하게 융합되는 궁극의 [디지털 트윈](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 생태계가 열립니다.
+- WoT가 보편화되면, 당신의 블로그나 인스타그램 글 사이에 `[우리집 온도계 위젯]`을 HTML 태그 한 줄로 툭 붙여넣을 수 있습니다. 현실 세계의 물리적 센서가 사이버스페이스의 웹 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(Web [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))처럼 완벽히 동등하게 융합되는 궁극의 [디지털 트윈](/studynote/06_ict_convergence/02_iot_mobility/126_digital_twin_concept/) 생태계가 열립니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: IoT가 전 세계의 모든 도시(가전제품)를 비행기, 기차, 자동차(통신망) 등 각기 다른 수단으로 연결해 놓은 '교통망'이라면, WoT(사물웹)는 이 도시들에 사는 사람들이 쓰는 '영어(Web [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))'라는 만국 공통어입니다. 내가 비행기를 타고 왔든(Wi-Fi) 기차를 타고 왔든([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)), 영어([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), URL)만 할 줄 알면 전 세계 어느 도시의 센서와도 즉시 대화하고 장사를 할 수 있게 만들어 줍니다.
+- **📢 섹션 요약 비유**: IoT가 전 세계의 모든 도시(가전제품)를 비행기, 기차, 자동차(통신망) 등 각기 다른 수단으로 연결해 놓은 '교통망'이라면, WoT(사물웹)는 이 도시들에 사는 사람들이 쓰는 '영어(Web [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))'라는 만국 공통어입니다. 내가 비행기를 타고 왔든(Wi-Fi) 기차를 타고 왔든([Bluetooth](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)), 영어([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/), URL)만 할 줄 알면 전 세계 어느 도시의 센서와도 즉시 대화하고 장사를 할 수 있게 만들어 줍니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈, 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+W3C WoT는 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈, 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: W3C WoT는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -101,10 +98,10 @@ W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/10
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 저전력 통신 (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
-| [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
-| [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 저전력 통신 (Low [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
+| [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
+| [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +115,7 @@ W3C WoT는 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/10
     +---> [확장 B: 자율형 엣지 협업]
 ```
 
-W3C WoT는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향에서 출발해 현재 메커니즘을 정교화하고, 이후 [IIoT](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+W3C WoT는 [IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) 산하 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) CoRE 워킹그룹 동향에서 출발해 현재 메커니즘을 정교화하고, 이후 [IIoT](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) 트래픽 관리 한계/[QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) 이슈와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +129,7 @@ W3C WoT는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf
 
 **진행 상황**: 757 / 1120
 
-<- **이전**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)
-**다음**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/knowledge-base/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) ->
+<- **이전**: [635. IETF (Internet 엔진ering Task Force) 산하 IoT CoRE 워킹그룹 동향](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/)
+**다음**: [637. IIoT (공업계 사물인터넷/산업용 IoT) 트래픽 관리 한계/QoS 이슈](/studynote/03_network/12_iot_wpan_edge/637_iiot_industrial_iot_qos_latency/) ->
 
 ---

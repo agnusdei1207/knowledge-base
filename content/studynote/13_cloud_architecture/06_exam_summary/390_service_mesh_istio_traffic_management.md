@@ -1,13 +1,10 @@
-+++
-title = "390. 서비스 메시 Istio 트래픽 관리 (Service Mesh Istio Traffic Management)"
-date = 2026-05-09
+---
+title: "390. 서비스 메시 Istio 트래픽 관리 (Service Mesh Istio Traffic Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 390 / 800
 
-<- **이전**: [389. A/B 테스팅 트래픽 분할 실험](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/389_ab_testing_traffic_splitting_experiment/)
-**다음**: [391. 서비스 메시 Envoy 프록시 사이드카](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/391_service_mesh_envoy_proxy_sidecar/) ->
+<- **이전**: [389. A/B 테스팅 트래픽 분할 실험](/studynote/13_cloud_architecture/06_exam_summary/389_ab_testing_traffic_splitting_experiment/)
+**다음**: [391. 서비스 메시 Envoy 프록시 사이드카](/studynote/13_cloud_architecture/06_exam_summary/391_service_mesh_envoy_proxy_sidecar/) ->
 
 ---

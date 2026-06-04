@@ -1,13 +1,10 @@
-+++
-title = "568. 토큰 표준 ERC-20 ERC-721 ERC-1155 (Token Standard ERC-20 ERC-721 ERC-1155)"
-date = 2026-05-09
+---
+title: "568. 토큰 표준 ERC-20 ERC-721 ERC-1155 (Token Standard ERC-20 ERC-721 ERC-1155)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Balance -> Approve -> Transfer -> Metadata -> Event
 
 **진행 상황**: 568 / 800
 
-<- **이전**: [567. 블록체인 거버넌스 온체인 오프체인](/knowledge-base/studynote/06_ict_convergence/uncategorized/567_blockchain_governance_on_chain_off_chain/)
-**다음**: [569. 블록체인 프라이버시 믹싱 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/569_blockchain_privacy_mixing_protocol/) ->
+<- **이전**: [567. 블록체인 거버넌스 온체인 오프체인](/studynote/06_ict_convergence/uncategorized/567_blockchain_governance_on_chain_off_chain/)
+**다음**: [569. 블록체인 프라이버시 믹싱 프로토콜](/studynote/06_ict_convergence/uncategorized/569_blockchain_privacy_mixing_protocol/) ->
 
 ---

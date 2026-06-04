@@ -1,6 +1,5 @@
-+++
-title = "4. AI Ops Ethics"
-
-[extra]
-tags = ["studynote-ai"]
-+++
+---
+title: "4. AI Ops Ethics"
+tags:
+  - "studynote-ai"
+---

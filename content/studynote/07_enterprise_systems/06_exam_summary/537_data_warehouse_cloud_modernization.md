@@ -1,13 +1,10 @@
-+++
-title = "537. 데이터 웨어하우스 클라우드 현대화 (Data Warehouse Cloud Modernization)"
-date = 2026-05-09
+---
+title: "537. 데이터 웨어하우스 클라우드 현대화 (Data Warehouse Cloud Modernization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 537 / 800
 
-<- **이전**: [536. 실시간 분석 스트리밍 이벤트 처리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/536_real_time_analytics_streaming_event_processin/)
-**다음**: [538. 데이터 레이크 원시 데이터 분석 통합](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/538_data_lake_raw_data_analytics_integration/) ->
+<- **이전**: [536. 실시간 분석 스트리밍 이벤트 처리](/studynote/07_enterprise_systems/06_exam_summary/536_real_time_analytics_streaming_event_processin/)
+**다음**: [538. 데이터 레이크 원시 데이터 분석 통합](/studynote/07_enterprise_systems/06_exam_summary/538_data_lake_raw_data_analytics_integration/) ->
 
 ---

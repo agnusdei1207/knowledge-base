@@ -1,17 +1,14 @@
-+++
-title = "364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP"
-date = 2026-05-08
+---
+title: "364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: L1/L2 라우터, L1/L2 Area 체계…를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,13 +16,13 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 대규모 네트워크 환경에서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)([LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))의 크기를 최소화하고 수렴 속도를 높이기 위해 설계된 [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) 프로토콜의 2계층(Hierarchical) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 아키텍처.
-- **필요성**: SKT 백본망에 라우터 5,000대가 있다 치자. 5,000대가 동네 골목길 1번 끊어질 때마다 [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 공식을 팽팽 돌리면 국가 통신망이 마비된다. "서울 강남구(Area 1)는 자기들끼리만 지도 그리고, 강남구를 벗어날 땐 강남구 관문 라우터(L1/L2)한테 다 던지자! 그리고 전국구 코어 라우터들(L2)은 시시콜콜한 골목길 정보는 알 필요 없이 '강남구 가는 길' 딱 1줄만 외우자!"라는 계층화가 도입되었다.
+- **개념**: 대규모 네트워크 환경에서 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)([LSDB](/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/))의 크기를 최소화하고 수렴 속도를 높이기 위해 설계된 [IS-IS](/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) 프로토콜의 2계층(Hierarchical) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 아키텍처.
+- **필요성**: SKT 백본망에 라우터 5,000대가 있다 치자. 5,000대가 동네 골목길 1번 끊어질 때마다 [SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 공식을 팽팽 돌리면 국가 통신망이 마비된다. "서울 강남구(Area 1)는 자기들끼리만 지도 그리고, 강남구를 벗어날 땐 강남구 관문 라우터(L1/L2)한테 다 던지자! 그리고 전국구 코어 라우터들(L2)은 시시콜콜한 골목길 정보는 알 필요 없이 '강남구 가는 길' 딱 1줄만 외우자!"라는 계층화가 도입되었다.
 
 - **💡 비유**:
   - **Level 1 (L1) 라우터**: 경기도 성남시 안에서만 마을버스를 모는 **"시내버스 기사님"**. 성남시 지리는 빠삭하지만 서울 가는 길은 아예 모름. 그냥 성남버스터미널(L1/L2)에 손님을 내려주고 치움.
   - **Level 2 (L2) 라우터**: 성남버스터미널에서 서울, 부산을 잇는 **"고속버스 기사님"**. 전국 터미널 위치(고속도로망)는 다 외우지만, 성남시 뒷골목이 어떻게 생겼는지는 전혀 알 바 아님.
-  - **L1/L2 라우터**: 시내버스와 고속버스가 만나는 <strong>"종합 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 터미널"</strong>. 이 녀석만이 동네 사람을 전국구로 쏴주고, 전국에서 온 사람을 동네로 꽂아준다.
+  - **L1/L2 라우터**: 시내버스와 고속버스가 만나는 <strong>"종합 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/">버스</a> 터미널"</strong>. 이 녀석만이 동네 사람을 전국구로 쏴주고, 전국에서 온 사람을 동네로 꽂아준다.
 
 ```text
 [IS-IS]
@@ -44,14 +41,14 @@ tags = ["studynote-network"]
 
 ### 1. 라우터의 3가지 계급장 (Level)
 관리자는 라우터에 접속해서 `is-type` 명령어로 이 라우터가 평생 살아갈 신분을 박아준다.
-1. **Level 1 (L1) 라우터**: OSPF의 Internal Router([IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))와 같다. 오직 자기와 "같은 Area" 번호를 가진 놈하고만 찐친(L1 [Adjacency](/knowledge-base/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺고 L1 전용 엽서([LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))만 주고받는다.
+1. **Level 1 (L1) 라우터**: OSPF의 Internal Router([IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/))와 같다. 오직 자기와 "같은 Area" 번호를 가진 놈하고만 찐친(L1 [Adjacency](/studynote/03_network/07_network_layer_routing/358_ospf_adjacency_hello_lsa_lsdb/))을 맺고 L1 전용 엽서([LSP](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/))만 주고받는다.
 2. **Level 2 (L2) 라우터**: OSPF의 Backbone Router와 같다. 전국의 L2 라우터들과 거대한 뼈대(Backbone) 망을 구축한다. **"L2 라우터들이 서로 연속해서 연결된 길의 집합체" 자체가 곧 백본이다.** (OSPF처럼 Area 0 이라는 이름의 가상의 광장이 강제되지 않는다).
 3. **Level 1-2 (L1/L2) 라우터**: OSPF의 ABR과 같다. 동네 라우터들과는 L1 찐친을 맺고, 전국구 라우터들과는 L2 찐친을 맺는 양다리(통역사)다.
 
-### 2. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 구조와의 치명적 차이점 (경계선 긋기)
+### 2. [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) Area 구조와의 치명적 차이점 (경계선 긋기)
 가장 시험에 잘 나오는 아키텍처 비교다.
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한 라우터의 1번 팔은 Area 0에, 2번 팔은 Area 1에 둔다. 즉, **"Area의 경계선이 라우터의 배꼽(내부)을 관통한다."** 라우터 하나가 두 동네에 소속된다.
-- <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a></strong>: 한 라우터는 무조건 **하나의 Area(예: Area 49.0001)에 통째로 소속된다.** Area가 다른 두 라우터(L1/L2)가 서로 L2 랜선으로 손을 꽉 맞잡았을 때, <strong>"그 두 라우터 사이에 허공에 떠 있는 랜선(Link)"</strong>이 바로 두 동네를 가르는 국경선이 된다.
+- <strong><a href="/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한 라우터의 1번 팔은 Area 0에, 2번 팔은 Area 1에 둔다. 즉, **"Area의 경계선이 라우터의 배꼽(내부)을 관통한다."** 라우터 하나가 두 동네에 소속된다.
+- <strong><a href="/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/">IS-IS</a></strong>: 한 라우터는 무조건 **하나의 Area(예: Area 49.0001)에 통째로 소속된다.** Area가 다른 두 라우터(L1/L2)가 서로 L2 랜선으로 손을 꽉 맞잡았을 때, <strong>"그 두 라우터 사이에 허공에 떠 있는 랜선(Link)"</strong>이 바로 두 동네를 가르는 국경선이 된다.
 
 ```text
  +-------------------------------------------------------------+
@@ -74,12 +71,12 @@ tags = ["studynote-network"]
  +-------------------------------------------------------------+
 ```
 
-### 3. 디폴트 라우트(Default Route)의 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+### 3. 디폴트 라우트(Default Route)의 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - L1 라우터는 다른 Area(부산, 광주)로 가는 지도를 아예 외우지 않는다.
-- L1/L2 통역사 라우터는 L1 꼬맹이들을 위해 <strong>ATT(Attached) <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>라는 특수 딱지를 L1 엽서에 딱 붙여서 동네에 뿌린다. "야 꼬맹이들아, 나 바깥 세상(L2)이랑 연결(Attached)된 능력자니까 모르는 길 있으면 다 나한테 쏴!"
+- L1/L2 통역사 라우터는 L1 꼬맹이들을 위해 <strong>ATT(Attached) <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>라는 특수 딱지를 L1 엽서에 딱 붙여서 동네에 뿌린다. "야 꼬맹이들아, 나 바깥 세상(L2)이랑 연결(Attached)된 능력자니까 모르는 길 있으면 다 나한테 쏴!"
 - 이 엽서를 받은 꼬맹이(L1)들은 0.1초 만에 `0.0.0.0/0 (디폴트 라우트)`를 통역사 쪽으로 쫙 그어버린다. 동네 라우터의 메모리(RIB)가 미친 듯이 가벼워지는 기적이다.
 
-- **📢 섹션 요약 비유**: ** IS-IS의 Area 분할법은 OSPF가 양다리를 걸치는 **"박쥐 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)(ABR)"**를 두는 것이라면, IS-IS는 완벽히 다른 두 나라(Area)의 **"국경 검문소(L1/L2)끼리 맞대고 대사관을 연결"**하여 각자의 국적(Area 소속감)을 100% 잃지 않게 하는 깔끔한 행정 분리 체계입니다.
+- **📢 섹션 요약 비유**: ** IS-IS의 Area 분할법은 OSPF가 양다리를 걸치는 **"박쥐 [스파이](/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)(ABR)"**를 두는 것이라면, IS-IS는 완벽히 다른 두 나라(Area)의 **"국경 검문소(L1/L2)끼리 맞대고 대사관을 연결"**하여 각자의 국적(Area 소속감)을 100% 잃지 않게 하는 깔끔한 행정 분리 체계입니다.
 
 ---
 
@@ -91,7 +88,7 @@ L1/L2 라우터, L1/L2 Area 체계…를 볼 때는 앞뒤 개념과의 경계�
 |:---|:---|:---|:---|
 | 초점 | IS-IS의 기반 정리 | L1/L2 라우터, L1/L2 Area 체계…의 핵심 동작 | BGP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: L1/L2 라우터, L1/L2 Area 체계…는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -99,18 +96,18 @@ L1/L2 라우터, L1/L2 Area 체계…를 볼 때는 앞뒤 개념과의 경계�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 L1/L2 라우터, L1/L2 Area 체계…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) 수준의 기본 대책으로 충분한지, 아니면 L1/L2 라우터, L1/L2 Area 체계…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BGP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 L1/L2 라우터, L1/L2 Area 체계…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [IS-IS](/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) 수준의 기본 대책으로 충분한지, 아니면 L1/L2 라우터, L1/L2 Area 체계…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 BGP와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. L1/L2 라우터, L1/L2 Area 체계…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. L1/L2 라우터, L1/L2 Area 체계…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 BGP와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - L1/L2 라우터, L1/L2 Area 체계…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- IS-IS와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- IS-IS와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: L1/L2 라우터, L1/L2 Area 체계…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -118,7 +115,7 @@ L1/L2 라우터, L1/L2 Area 체계…를 볼 때는 앞뒤 개념과의 경계�
 
 ## Ⅴ. 기대효과 및 결론
 
-L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/), 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: L1/L2 라우터, L1/L2 Area 체계…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -128,10 +125,10 @@ L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [IS-IS](/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +142,7 @@ L1/L2 라우터, L1/L2 Area 체계…는 [라우팅](/knowledge-base/studynote/0
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니즘을 정교화하고, 이후 BGP와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +156,7 @@ L1/L2 라우터, L1/L2 Area 체계…는 IS-IS에서 출발해 현재 메커니�
 
 **진행 상황**: 485 / 1120
 
-<- **이전**: [363. IS-IS (Intermediate System to Intermediate System)](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)
-**다음**: [365. BGP (Border Gateway Protocol)](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ->
+<- **이전**: [363. IS-IS (Intermediate System to Intermediate System)](/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)
+**다음**: [365. BGP (Border Gateway Protocol)](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) ->
 
 ---

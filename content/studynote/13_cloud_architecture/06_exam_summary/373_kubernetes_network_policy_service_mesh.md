@@ -1,13 +1,10 @@
-+++
-title = "373. 쿠버네티스 네트워크 정책 서비스 메시 (Kubernetes Network Policy Service Mesh)"
-date = 2026-05-09
+---
+title: "373. 쿠버네티스 네트워크 정책 서비스 메시 (Kubernetes Network Policy Service Mesh)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 373 / 800
 
-<- **이전**: [372. 컨테이너 보안 이미지 스캐닝 런타임 보호](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/372_container_security_image_scanning_runtime/)
-**다음**: [374. 쿠버네티스 RBAC 인증 인가 보안](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/374_kubernetes_rbac_authentication_authorization/) ->
+<- **이전**: [372. 컨테이너 보안 이미지 스캐닝 런타임 보호](/studynote/13_cloud_architecture/06_exam_summary/372_container_security_image_scanning_runtime/)
+**다음**: [374. 쿠버네티스 RBAC 인증 인가 보안](/studynote/13_cloud_architecture/06_exam_summary/374_kubernetes_rbac_authentication_authorization/) ->
 
 ---

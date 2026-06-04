@@ -1,25 +1,22 @@
-+++
-title = "462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)"
-date = 2026-05-08
+---
+title: "462. HTTP 메서드 (GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, TRACE)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 웹 상의 리소스(Resource, URI)에 대해 클라이언트가 어떤 행위(Action)를 수행하고자 하는지를 규정하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합이다.
-> 2. **가치**: 리소스의 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(URI)과 행위(Method)를 분리함으로써 아키텍처의 직관성을 높이고, 안전성(Safety)과 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 규약을 통해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 네트워크 재전송 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직 설계를 가능케 한다.
-> 3. **판단 포인트**: 현대 아키텍처에서 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [RESTful API](/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 설계의 핵심 동사(Verb)로 작용하며, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), [Proxy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 및 로드 밸런서의 L7 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정책과 밀접하게 융합되어 시스템의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 일관성을 지탱한다.
+> 1. **본질**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 웹 상의 리소스(Resource, URI)에 대해 클라이언트가 어떤 행위(Action)를 수행하고자 하는지를 규정하는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합이다.
+> 2. **가치**: 리소스의 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(URI)과 행위(Method)를 분리함으로써 아키텍처의 직관성을 높이고, 안전성(Safety)과 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)) 규약을 통해 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 네트워크 재전송 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직 설계를 가능케 한다.
+> 3. **판단 포인트**: 현대 아키텍처에서 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [RESTful API](/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/) 설계의 핵심 동사(Verb)로 작용하며, [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) 메커니즘([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), [Proxy](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)) 및 로드 밸런서의 L7 트래픽 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정책과 밀접하게 융합되어 시스템의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 일관성을 지탱한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> ⚠️ 이 문서는 클라이언트가 서버에게 요청의 목적과 종류를 알리는 수단인 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 개념, 특징(안전성, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 캐시 가능성), 그리고 각 메서드(GET, POST, PUT, PATCH, DELETE 등)의 명확한 실무적 활용 기준을 심층 분석합니다.
+> ⚠️ 이 문서는 클라이언트가 서버에게 요청의 목적과 종류를 알리는 수단인 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 개념, 특징(안전성, [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 캐시 가능성), 그리고 각 메서드(GET, POST, PUT, PATCH, DELETE 등)의 명확한 실무적 활용 기준을 심층 분석합니다.
 
 ```text
 [HTTP 상태 비저장, 연결형/비연결형 특징]
@@ -30,31 +27,31 @@ tags = ["studynote-network"]
     +---> [HTTP 1.0]
 ```
 
-- **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 메시지는 크게 시작 줄(Start Line), 헤더(Header), 본문(Body)으로 구성됩니다. 이 중 시작 줄의 맨 앞단에 위치하는 것이 바로 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 메서드</strong>입니다.
+[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 메시지는 크게 시작 줄(Start Line), 헤더(Header), 본문(Body)으로 구성됩니다. 이 중 시작 줄의 맨 앞단에 위치하는 것이 바로 <strong><a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 메서드</strong>입니다.
 *   **요청 형태**: `[메서드] [요청-URI] [HTTP 버전]` (예: `GET /users/123 HTTP/1.1`)
-*   URI(Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 "어떤 자원"을 가리키는 명사(Noun)라면, 메서드는 "그 자원으로 무엇을 할 것인지"를 나타내는 **동사(Verb)** 역할을 수행합니다.
+*   URI(Uniform Resource [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))가 "어떤 자원"을 가리키는 명사(Noun)라면, 메서드는 "그 자원으로 무엇을 할 것인지"를 나타내는 **동사(Verb)** 역할을 수행합니다.
 
 ### 2. 해결하고자 하는 문제 (Pain Point)
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹은 단순히 문서를 읽어오는 역할(`GET`)에 국한되었으나, 웹 폼(Form)을 통한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드, 시스템 제어 등 복잡한 상호작용이 요구되었습니다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 웹은 단순히 문서를 읽어오는 역할(`GET`)에 국한되었으나, 웹 폼(Form)을 통한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 제출, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 업로드, 시스템 제어 등 복잡한 상호작용이 요구되었습니다.
 모든 요청을 단일한 방식(예: URI에 행위까지 포함하는 `GET /deleteUser?id=1`)으로 처리할 경우,
-- 캐시 서버([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))가 이 요청을 단순 조회로 오인하여 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해버리는 심각한 캐시 오염.
-- 크롤러 봇이 링크를 따라다니다가 무심코 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제해 버리는 파괴적 오류.
+- 캐시 서버([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/))가 이 요청을 단순 조회로 오인하여 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)해버리는 심각한 캐시 오염.
+- 크롤러 봇이 링크를 따라다니다가 무심코 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 삭제해 버리는 파괴적 오류.
 - 네트워크 단절 시 클라이언트가 이 요청을 안전하게 재시도해도 될지 판단할 수 없는 아키텍처적 마비 상태를 초래합니다.
 
 
-### 1. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 3대 핵심 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Properties)
-메서드를 실무에서 올바르게 설계하고 네트워크 인프라([프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 로드밸런서)가 패킷을 안전하게 제어하기 위해서는 다음 세 가지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 대한 이해가 필수적입니다.
+### 1. [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 3대 핵심 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Properties)
+메서드를 실무에서 올바르게 설계하고 네트워크 인프라([프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/), 로드밸런서)가 패킷을 안전하게 제어하기 위해서는 다음 세 가지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)에 대한 이해가 필수적입니다.
 
-1. <strong>안전성 (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a>)</strong>: 호출해도 서버의 리소스 상태를 변경(수정/삭제)하지 않는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
-2. <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (Idempotent)</strong>: 동일한 요청을 한 번 보내는 것과 여러 번 연속해서 보내는 것이 서버의 상태에 미치는 영향(결과)이 동일한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다. (f(f(x)) = f(x))
+1. <strong>안전성 (<a href="/studynote/04_software_engineering/02_requirements_analysis/093_safe_scaled_agile_framework_art_pi/">Safe</a>)</strong>: 호출해도 서버의 리소스 상태를 변경(수정/삭제)하지 않는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
+2. <strong><a href="/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> (Idempotent)</strong>: 동일한 요청을 한 번 보내는 것과 여러 번 연속해서 보내는 것이 서버의 상태에 미치는 영향(결과)이 동일한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다. (f(f(x)) = f(x))
    - *통신 장애 시 클라이언트가 자동 재전송(Retry) 로직을 안전하게 수행할 수 있는 판단 근거가 됩니다.*
-3. **캐시 가능 (Cacheable)**: 응답 결과를 브라우저나 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 캐시([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 서버에 저장해 두고 재사용할 수 있는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
+3. **캐시 가능 (Cacheable)**: 응답 결과를 브라우저나 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) 캐시([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)) 서버에 저장해 두고 재사용할 수 있는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)입니다.
 
 ```text
 +-------------------------------------------------------------+
@@ -74,36 +71,36 @@ tags = ["studynote-network"]
 +--------+---------+---------+--------------+-----------------+
 ```
 
-- **📢 섹션 요약 비유**: [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 도서관 사서에게 건네는 "작업 지시서"와 같습니다. "책(URI)"만 건네면 사서는 읽고 싶은 건지(`GET`), 기증하는 건지(`POST`), 낡은 페이지를 수선해 달라는 건지(`PATCH`) 알 수 없습니다. 명확한 메서드(동사)가 있어야만 도서관(서버)이 안전하고 정확하게 일을 처리할 수 있습니다.
+- **📢 섹션 요약 비유**: [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 도서관 사서에게 건네는 "작업 지시서"와 같습니다. "책(URI)"만 건네면 사서는 읽고 싶은 건지(`GET`), 기증하는 건지(`POST`), 낡은 페이지를 수선해 달라는 건지(`PATCH`) 알 수 없습니다. 명확한 메서드(동사)가 있어야만 도서관(서버)이 안전하고 정확하게 일을 처리할 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-*   **GET**: 리소스의 조회를 요청합니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때는 URI의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 스트링(Query String)을 사용하며, 페이로드(Body) 전송은 스펙상 금지되진 않으나 표준 인프라에서 무시될 수 있습니다.
-*   **POST**: 요청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>처리(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)</strong>를 지시합니다. 주로 새로운 리소스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Create)하거나, 다른 메서드로 표현하기 애매한 복잡한 프로세스(예: 결제 승인, 메일 발송)를 실행할 때 사용합니다. [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하지 않으므로 결제 중단 시 단순 재전송(F5 새로고침)을 막아야 합니다(PRG 패턴).
-*   **PUT**: 대상 리소스를 요청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 <strong>완전히 대체(Replace)</strong>합니다. 리소스가 없으면 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)합니다. 클라이언트가 리소스의 정확한 URI를 알고 있어야 합니다. 전체 덮어쓰기이므로 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 보장됩니다.
-*   **PATCH**: 대상 리소스의 <strong>부분 변경(Partial Update)</strong>을 수행합니다. 예를 들어 회원의 50개 정보 중 '비밀번호' 하나만 바꿀 때 사용합니다. [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하도록 설계할 수도 있지만, 스펙상 강제되지는 않습니다.
-*   **DELETE**: 대상 리소스를 삭제합니다. 리소스가 삭제된 후 재요청 시 404를 반환하더라도, 최종적으로 해당 리소스가 '없는 상태'임은 동일하므로 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 가집니다.
-*   **OPTIONS**: 목표 리소스에 대해 서버가 지원하는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 종류를 통신 옵션(Allow 헤더)으로 조회합니다. 주로 CORS(Cross-Origin Resource Sharing)의 <strong>사전 요청(Preflight)</strong>에 사용됩니다.
-*   **HEAD**: GET과 동일하게 동작하지만, 서버는 응답에 본문(Body)을 제외하고 **헤더(Header) 부분만** 반환합니다. 리소스의 유효성, 업데이트 시기(Last-Modified), 용량(Content-Length) 등을 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 없이 빠르게 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 씁니다.
+*   **GET**: 리소스의 조회를 요청합니다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달할 때는 URI의 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 스트링(Query String)을 사용하며, 페이로드(Body) 전송은 스펙상 금지되진 않으나 표준 인프라에서 무시될 수 있습니다.
+*   **POST**: 요청 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>처리(<a href="/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)</strong>를 지시합니다. 주로 새로운 리소스를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Create)하거나, 다른 메서드로 표현하기 애매한 복잡한 프로세스(예: 결제 승인, 메일 발송)를 실행할 때 사용합니다. [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하지 않으므로 결제 중단 시 단순 재전송(F5 새로고침)을 막아야 합니다(PRG 패턴).
+*   **PUT**: 대상 리소스를 요청 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 <strong>완전히 대체(Replace)</strong>합니다. 리소스가 없으면 새로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)합니다. 클라이언트가 리소스의 정확한 URI를 알고 있어야 합니다. 전체 덮어쓰기이므로 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 보장됩니다.
+*   **PATCH**: 대상 리소스의 <strong>부분 변경(Partial Update)</strong>을 수행합니다. 예를 들어 회원의 50개 정보 중 '비밀번호' 하나만 바꿀 때 사용합니다. [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 보장하도록 설계할 수도 있지만, 스펙상 강제되지는 않습니다.
+*   **DELETE**: 대상 리소스를 삭제합니다. 리소스가 삭제된 후 재요청 시 404를 반환하더라도, 최종적으로 해당 리소스가 '없는 상태'임은 동일하므로 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)을 가집니다.
+*   **OPTIONS**: 목표 리소스에 대해 서버가 지원하는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 종류를 통신 옵션(Allow 헤더)으로 조회합니다. 주로 CORS(Cross-Origin Resource Sharing)의 <strong>사전 요청(Preflight)</strong>에 사용됩니다.
+*   **HEAD**: GET과 동일하게 동작하지만, 서버는 응답에 본문(Body)을 제외하고 **헤더(Header) 부분만** 반환합니다. 리소스의 유효성, 업데이트 시기(Last-Modified), 용량(Content-Length) 등을 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비 없이 빠르게 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 때 씁니다.
 
 ### 1. PUT vs PATCH (전체 교체 vs 부분 수정)
-실무 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 시 가장 혼동되는 개념입니다.
-- **PUT (전체 교체)**: 회원 정보 5개 중 이름만 바꾼다고 `{"이름":"홍길동"}`만 PUT으로 전송하면, 나머지 4개 필드(나이, 주소 등)는 `NULL`이나 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값으로 덮어써져 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실됩니다. 반드시 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 보내야 합니다.
-- **PATCH (부분 수정)**: [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) Merge Patch 규격 등을 활용하여 딱 수정을 원하는 필드만 전송합니다. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약하고 의도치 않은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 방지합니다.
+실무 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계 시 가장 혼동되는 개념입니다.
+- **PUT (전체 교체)**: 회원 정보 5개 중 이름만 바꾼다고 `{"이름":"홍길동"}`만 PUT으로 전송하면, 나머지 4개 필드(나이, 주소 등)는 `NULL`이나 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값으로 덮어써져 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 유실됩니다. 반드시 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 함께 보내야 합니다.
+- **PATCH (부분 수정)**: [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) Merge Patch 규격 등을 활용하여 딱 수정을 원하는 필드만 전송합니다. [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 절약하고 의도치 않은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실을 방지합니다.
 
-### 2. POST vs PUT (리소스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 주체)
-- <strong>POST (<code>POST /users</code>)</strong>: 클라이언트가 뭉텅이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버에 던지면, <strong>서버가 알아서 새 리소스의 URI(예: <code>/users/123</code>)를 결정하고 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>합니다. ([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 없음)
-- <strong>PUT (<code>PUT /users/123</code>)</strong>: <strong>클라이언트가 직접 리소스의 URI를 지정</strong>하여 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 덮어씁니다. ([멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장)
+### 2. POST vs PUT (리소스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 주체)
+- <strong>POST (<code>POST /users</code>)</strong>: 클라이언트가 뭉텅이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버에 던지면, <strong>서버가 알아서 새 리소스의 URI(예: <code>/users/123</code>)를 결정하고 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>합니다. ([멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 없음)
+- <strong>PUT (<code>PUT /users/123</code>)</strong>: <strong>클라이언트가 직접 리소스의 URI를 지정</strong>하여 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하거나 덮어씁니다. ([멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) 보장)
 
-[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징이 기반 조건을 만든다면, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 그 위에서 핵심 메커니즘을 구현하고, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 호환성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징이 기반 조건을 만든다면, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 그 위에서 핵심 메커니즘을 구현하고, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 호환성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징의 기반 정리 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 핵심 동작 | [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징의 기반 정리 | [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 핵심 동작 | [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: PUT은 "이 캔버스를 아예 새 도화지로 통째로 갈아 끼워줘"라는 명령이고, PATCH는 "이 도화지 우측 상단에 강아지 스티커 하나만 살짝 덧붙여줘"라는 명령입니다.
 
@@ -113,49 +110,49 @@ tags = ["studynote-network"]
 
 | 고려 사항 | 세부 내용 | 주요 아키텍처 의사결정 |
 |:---|:---|:---|
-| **네트워크 재시도 로직** | 모바일 통신 장애 시 클라이언트의 자동 재전송 설계 | [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 보장되는 `GET`, `PUT`, `DELETE`는 안전하게 3회 자동 재시도 로직 구현. `POST` 요청(결제, 중복 가입)은 별도의 [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)-Key 헤더를 강제하여 서버 단 중복 처리 방지 |
-| **보안(CORS) 아키텍처** | 타 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(SPA -> [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버) 호출 시 보안 에러 발생 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 및 서버 단에서 `OPTIONS` 메서드에 대한 Preflight 응답(200 OK, Access-Control-Allow-Origin)을 올바르게 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Max-Age)하도록 튜닝 |
-| <strong>캐시 효율화(<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a>)</strong> | 대용량 트래픽에 의한 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 WAS 부하 방지 | 단순 조회 기능은 철저히 `GET`을 준수하여 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 및 리버스 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Varnish/Nginx) 엣지 단에서 90% 이상 캐시 힛([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))이 발생하도록 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 분리 |
+| **네트워크 재시도 로직** | 모바일 통신 장애 시 클라이언트의 자동 재전송 설계 | [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)이 보장되는 `GET`, `PUT`, `DELETE`는 안전하게 3회 자동 재시도 로직 구현. `POST` 요청(결제, 중복 가입)은 별도의 [Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)-Key 헤더를 강제하여 서버 단 중복 처리 방지 |
+| **보안(CORS) 아키텍처** | 타 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(SPA -> [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버) 호출 시 보안 에러 발생 | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 및 서버 단에서 `OPTIONS` 메서드에 대한 Preflight 응답(200 OK, Access-Control-Allow-Origin)을 올바르게 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)(Max-Age)하도록 튜닝 |
+| <strong>캐시 효율화(<a href="/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/">CDN</a>)</strong> | 대용량 트래픽에 의한 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 및 WAS 부하 방지 | 단순 조회 기능은 철저히 `GET`을 준수하여 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 및 리버스 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/)(Varnish/Nginx) 엣지 단에서 90% 이상 캐시 힛([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/))이 발생하도록 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 분리 |
 
 *(추가 실무 적용 가이드 - PRG 패턴)*
-웹 애플리케이션에서 폼(Form) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `POST`로 전송한 후 새로고침(F5)을 누르면 양식이 중복 제출되는 경고창이 뜹니다. 이를 방지하기 위해 실무에서는 **Post-Redirect-Get (PRG)** 패턴을 사용합니다. `POST` 처리 성공 직후, 서버가 클라이언트에게 다른 결과 화면으로 이동하라는 302 Redirect 응답을 내려주어, 사용자의 상태를 안전한 `GET` 메서드로 강제 전환시킵니다.
+웹 애플리케이션에서 폼(Form) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 `POST`로 전송한 후 새로고침(F5)을 누르면 양식이 중복 제출되는 경고창이 뜹니다. 이를 방지하기 위해 실무에서는 **Post-Redirect-Get (PRG)** 패턴을 사용합니다. `POST` 처리 성공 직후, 서버가 클라이언트에게 다른 결과 화면으로 이동하라는 302 Redirect 응답을 내려주어, 사용자의 상태를 안전한 `GET` 메서드로 강제 전환시킵니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 올바른 메서드 선택은 단순히 문법을 지키는 겉치레가 아니라, 네트워크 중간에 있는 수많은 문지기([CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))들이 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 대할지 결정하는 가장 강력한 보안 및 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 수단입니다.
+- **📢 섹션 요약 비유**: 실무 적용은 "집을 지을 때 터를 다지고 자재를 고르는 과정"과 같이, 환경과 예산에 맞춘 최적의 선택이 필요합니다. 올바른 메서드 선택은 단순히 문법을 지키는 겉치레가 아니라, 네트워크 중간에 있는 수많은 문지기([CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/), [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/))들이 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 대할지 결정하는 가장 강력한 보안 및 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 수단입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 1. **REST의 한계와 GraphQL의 역설적 비표준화**
-   RESTful 아키텍처는 리소스(URI)와 메서드(Method)의 결합을 강제합니다. 하지만 화면에 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다변화되는 현대 프론트엔드 환경(오버패칭/언더패칭 문제)에서, Facebook은 <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>을 등장시켰습니다. GraphQL은 조회든 수정이든 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 철학을 무시하고 <strong>무조건 단일 엔드포인트에 <code>POST</code> 메서드만을 사용</strong>하여 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 던지는 파괴적 접근을 통해, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 유연성을 교환하는 트렌드를 보여줍니다.
+   RESTful 아키텍처는 리소스(URI)와 메서드(Method)의 결합을 강제합니다. 하지만 화면에 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 다변화되는 현대 프론트엔드 환경(오버패칭/언더패칭 문제)에서, Facebook은 <strong><a href="/studynote/06_ict_convergence/03_cloud_infrastructure/246_graphql_query_language_overfetching_solution/">GraphQL</a></strong>을 등장시켰습니다. GraphQL은 조회든 수정이든 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드의 철학을 무시하고 <strong>무조건 단일 엔드포인트에 <code>POST</code> 메서드만을 사용</strong>하여 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 던지는 파괴적 접근을 통해, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 유연성을 교환하는 트렌드를 보여줍니다.
 
-2. <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>) 시대의 스트림 다중화와 헤더 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>
-   [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 정보는 헤더(Header) 영역에 평문으로 담겨 전송되었습니다. [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2(HPACK)와 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3(QPACK)에서는 매번 반복되는 메서드 문자열(GET, POST)을 동적 테이블에 인덱싱하여 단 1바이트의 숫자로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(Header [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) 전송함으로써 모바일 네트워크에서의 극단적인 최적화를 이뤄내고 있습니다.
+2. <strong><a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a>/3 (<a href="/studynote/03_network/08_transport_layer/454_quic_quick_udp_internet_connections/">QUIC</a>) 시대의 스트림 다중화와 헤더 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>
+   [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 정보는 헤더(Header) 영역에 평문으로 담겨 전송되었습니다. [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/2(HPACK)와 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)/3(QPACK)에서는 매번 반복되는 메서드 문자열(GET, POST)을 동적 테이블에 인덱싱하여 단 1바이트의 숫자로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(Header [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/)) 전송함으로써 모바일 네트워크에서의 극단적인 최적화를 이뤄내고 있습니다.
 
 
-## 🧠 지식 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+## 🧠 지식 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-*   <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 메시지 구조</strong>
-    *   Start Line (Method, Request Target, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Version)
-    *   Header (Host, Content-Type, [Authorization](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))
-    *   Body (Payload - [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/), XML, Form [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
-*   <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> 성숙도 모델 (Richardson)</strong>
+*   <strong><a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> 메시지 구조</strong>
+    *   Start Line (Method, Request Target, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) Version)
+    *   Header (Host, Content-Type, [Authorization](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))
+    *   Body (Payload - [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/), XML, Form [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))
+*   <strong><a href="/studynote/03_network/19_frequent_topics_terms/974_restful_api_stateless_http_methods_uri/">RESTful API</a> 성숙도 모델 (Richardson)</strong>
     *   Level 0 (POX, 단일 URI/Method)
     *   Level 1 (리소스별 URI)
-    *   <strong>Level 2 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Method 적용 - <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> 보장)</strong>
-    *   Level 3 (HATEOAS, 동적 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))
+    *   <strong>Level 2 (<a href="/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/">HTTP</a> Method 적용 - <a href="/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/">멱등성</a> 보장)</strong>
+    *   Level 3 (HATEOAS, 동적 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/))
 *   **보안 및 인프라 융합**
     *   CORS (Cross-Origin Resource Sharing) -> OPTIONS 메서드 연관
-    *   [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) -> GET, HEAD 메서드 연관
-    *   [Idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)-Key ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 레벨의 POST 중복 제어) 향후에는 지능형 애플리케이션 전달 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+    *   [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) -> GET, HEAD 메서드 연관
+    *   [Idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/)-Key ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이 레벨의 POST 중복 제어) 향후에는 지능형 애플리케이션 전달 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 미래의 통신망은 "메서드라는 이름의 동사 카드"를 매번 입 밖으로 말하는 대신, 눈빛(1바이트 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 헤더)만 봐도 서로가 무엇을 원하는지 알아채는 초고효율의 텔레파시 통신으로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 미래의 통신망은 "메서드라는 이름의 동사 카드"를 매번 입 밖으로 말하는 대신, 눈빛(1바이트 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 헤더)만 봐도 서로가 무엇을 원하는지 알아채는 초고효율의 텔레파시 통신으로 진화하고 있습니다.
 
 ---
 
@@ -163,10 +160,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -180,7 +177,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
-[HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드는 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 상태 비저장, 연결형/비연결형 특징에서 출발해 현재 메커니즘을 정교화하고, 이후 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 1.0와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -194,7 +191,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 583 / 1120
 
-<- **이전**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)
-**다음**: [463. HTTP 1.0 (비지속 연결, 단점)](/knowledge-base/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/) ->
+<- **이전**: [461. HTTP (HyperText Transfer Protocol) 상태 비저장 (Stateless), 연결형/비연결형 특징](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)
+**다음**: [463. HTTP 1.0 (비지속 연결, 단점)](/studynote/03_network/09_application_layer_web_email/463_http_status_codes_1xx_5xx/) ->
 
 ---

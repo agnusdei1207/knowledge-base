@@ -1,19 +1,22 @@
-+++
-title = "D 래치 (D Latch)"
-description = "D 래치의 구조, 동작 원리, SR 래치와의 차이, 레벨 트리거 vs 엣지 트리거 비교를 다룬다."
-date = 2025-01-01
+---
+title: "D 래치 (D Latch)"
+date: "2025-01-01"
+description: "D 래치의 구조, 동작 원리, SR 래치와의 차이, 레벨 트리거 vs 엣지 트리거 비교를 다룬다."
+tags:
+  - "D latch"
+  - "SR latch"
+  - "edge trigger"
+  - "flip flop"
+  - "level trigger"
+  - "sequential logic"
+  - "studynote-ca"
+---
 
-[taxonomies]
-tags = ["D latch", "SR latch", "edge trigger", "flip flop", "level trigger", "sequential logic", "studynote-ca"]
-
-[extra]
-tags = ["D latch", "SR latch", "edge trigger", "flip flop", "level trigger", "sequential logic", "studynote-ca"]
-+++
 
 > **핵심 인사이트 3줄**
-> 1. D 래치(D [Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 SR 래치의 금지 상태(S=R=1)를 제거하기 위해 입력을 단일 D [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 단순화한 순차 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 소자다.
-> 2. Enable(EN) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 HIGH일 때만 D 값을 Q에 반영하는 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level-Triggered) 방식으로 동작한다.
-> 3. D 래치를 두 개 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결하면 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([D Flip-Flop](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/))이 되어 클록 엣지에서만 상태가 변하는 엣지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 방식을 구현할 수 있다.
+> 1. D 래치(D [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 SR 래치의 금지 상태(S=R=1)를 제거하기 위해 입력을 단일 D [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 단순화한 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 소자다.
+> 2. Enable(EN) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 HIGH일 때만 D 값을 Q에 반영하는 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Level-Triggered) 방식으로 동작한다.
+> 3. D 래치를 두 개 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결하면 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)([D Flip-Flop](/studynote/01_computer_architecture/01_basic_electronics_logic/053_d_flip_flop/))이 되어 클록 엣지에서만 상태가 변하는 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 방식을 구현할 수 있다.
 
 ---
 
@@ -21,15 +24,15 @@ tags = ["D latch", "SR latch", "edge trigger", "flip flop", "level trigger", "se
 
 ### 1.1 정의와 목적
 
-D 래치([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 SR 래치의 금지 상태를 없애기 위해 입력을 `D` 하나로 줄인 기억 소자다. Enable [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(EN, 또는 Gate)가 활성화된 동안 D값이 출력 Q에 투명하게 전달된다.
+D 래치([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 SR 래치의 금지 상태를 없애기 위해 입력을 `D` 하나로 줄인 기억 소자다. Enable [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(EN, 또는 Gate)가 활성화된 동안 D값이 출력 Q에 투명하게 전달된다.
 
 | 소자     | 입력       | 금지 상태 | 특징               |
 |----------|------------|-----------|---------------------|
 | SR 래치  | S, R       | S=R=1     | 비결정 상태 존재    |
 | D 래치   | D, EN      | 없음       | 투명 래치           |
-| D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) | D, CLK   | 없음       | 엣지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)         |
+| D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) | D, CLK   | 없음       | 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)         |
 
-### 1.2 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+### 1.2 [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
 
 | EN | D | Q(다음) | 동작          |
 |----|---|---------|---------------|
@@ -53,7 +56,7 @@ D --+--[NOT]--+
     D ------- NAND- R'----------+
 ```
 
-D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D->S, D'->R [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 자동 생성한다.
+D 래치는 SR 래치 앞에 NAND 2개와 인버터를 추가해 D->S, D'->R [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 자동 생성한다.
 
 ### 2.2 투명성(Transparency)
 
@@ -65,38 +68,38 @@ D:  0->1->0  (변화 중)
 Q:  EN=1 동안 D 추적 -> EN=0이면 마지막 D값 유지
 ```
 
-📢 **섹션 요약 비유**: EN은 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화 버튼 — 버튼 눌린 동안만 실시간 화면, 버튼 떼면 마지막 장면 고정.
+📢 **섹션 요약 비유**: EN은 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 녹화 버튼 — 버튼 눌린 동안만 실시간 화면, 버튼 떼면 마지막 장면 고정.
 
 ---
 
-## Ⅲ. 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) vs 엣지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
+## Ⅲ. 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) vs 엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)
 
 ### 3.1 비교표
 
-| 특성          | D 래치 (레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/))  | D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (엣지 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) |
+| 특성          | D 래치 (레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/))  | D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) (엣지 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)) |
 |--------------|----------------------|--------------------------|
 | 활성 조건     | EN 레벨 HIGH 전체 구간 | CLK 상승/하강 엣지 순간  |
 | 투명성        | 있음                  | 없음                     |
 | 글리치 민감성 | 높음                  | 낮음                     |
-| 용도          | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 일부    | 대부분의 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 설계   |
+| 용도          | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 일부    | 대부분의 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 설계   |
 
-### 3.2 마스터-슬레이브 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
+### 3.2 마스터-슬레이브 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)
 
 ```
 D -> [D 래치 M (EN=CLK)] -> [D 래치 S (EN=CLK')] -> Q
 ```
 
-EN이 서로 반전된 두 D 래치를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 -> CLK 상승 엣지에서만 Q 갱신.
+EN이 서로 반전된 두 D 래치를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결 -> CLK 상승 엣지에서만 Q 갱신.
 
-📢 **섹션 요약 비유**: 래치는 문이 열린 동안 누구나 통과, [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 문이 열리는 찰나에만 통과 가능.
+📢 **섹션 요약 비유**: 래치는 문이 열린 동안 누구나 통과, [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 문이 열리는 찰나에만 통과 가능.
 
 ---
 
-## Ⅳ. 응용 — [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 메모리
+## Ⅳ. 응용 — [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 메모리
 
-### 4.1 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
+### 4.1 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)
 
-N비트 데이터를 동시에 저장하기 위해 N개의 D 래치를 공통 EN [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 묶는다.
+N비트 데이터를 동시에 저장하기 위해 N개의 D 래치를 공통 EN [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 묶는다.
 
 ```
 EN ---------------------
@@ -106,7 +109,7 @@ D1 -> [D래치] -> Q1
 Dn -> [D래치] -> Qn
 ```
 
-### 4.2 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀과의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 4.2 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 셀과의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 SRAM의 6T 셀은 SR 래치 기반이나, 어드레스 디코더가 EN 역할을 해 D 래치와 유사하게 동작한다.
 
@@ -114,7 +117,7 @@ SRAM의 6T 셀은 SR 래치 기반이나, 어드레스 디코더가 EN 역할을
 
 ---
 
-## Ⅴ. 설계 주의사항 — 래치 추론([Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/) Inference)
+## Ⅴ. 설계 주의사항 — 래치 추론([Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/) Inference)
 
 ### 5.1 HDL에서의 비의도적 래치
 
@@ -178,7 +181,7 @@ D 플립플롭 (엣지 트리거, 1960s)
 동기 설계(Synchronous Design) -> CDC(Clock Domain Crossing) 처리
 ```
 
-**핵심 키워드**: SR 래치, 투명 래치, 레벨 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 마스터-슬레이브, 래치 추론, 셋업/홀드 타임
+**핵심 키워드**: SR 래치, 투명 래치, 레벨 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/), 마스터-슬레이브, 래치 추론, 셋업/홀드 타임
 
 ---
 
@@ -186,7 +189,7 @@ D 플립플롭 (엣지 트리거, 1960s)
 
 1. D 래치는 "열려 있을 때만 메모를 받는 칠판"이야 — 선생님(EN)이 허락할 때만 숫자(D)가 적혀.
 2. 허락이 끝나면(EN=0) 칠판은 굳어버려서 아무리 숫자가 바뀌어도 그대로야.
-3. [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 선생님이 "딱!"(클록 엣지) 하는 순간에만 적는 칠판 — 훨씬 정확해서 컴퓨터 CPU가 주로 써.
+3. [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)은 선생님이 "딱!"(클록 엣지) 하는 순간에만 적는 칠판 — 훨씬 정확해서 컴퓨터 CPU가 주로 써.
 
 ---
 
@@ -194,7 +197,7 @@ D 플립플롭 (엣지 트리거, 1960s)
 
 **진행 상황**: 50 / 803
 
-<- **이전**: [049. SR 래치 — SR Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/)
-**다음**: [51. 플립플롭 (Flip-Flop)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) ->
+<- **이전**: [049. SR 래치 — SR Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/049_sr_latch/)
+**다음**: [51. 플립플롭 (Flip-Flop)](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) ->
 
 ---

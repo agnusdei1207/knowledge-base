@@ -1,13 +1,10 @@
-+++
-title = "492. 클라우드 검색 서비스 Elasticsearch OpenSearch (Cloud Search Service Elasticsearch OpenSearch)"
-date = 2026-05-09
+---
+title: "492. 클라우드 검색 서비스 Elasticsearch OpenSearch (Cloud Search Service Elasticsearch OpenSearch)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 492 / 800
 
-<- **이전**: [491. 클라우드 시계열 DB Timestream IoT](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/491_cloud_timeseries_db_timestream_iot/)
-**다음**: [493. 클라우드 워크플로 Step Functions 오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/493_cloud_workflow_step_functions_orchestration/) ->
+<- **이전**: [491. 클라우드 시계열 DB Timestream IoT](/studynote/13_cloud_architecture/06_exam_summary/491_cloud_timeseries_db_timestream_iot/)
+**다음**: [493. 클라우드 워크플로 Step Functions 오케스트레이션](/studynote/13_cloud_architecture/06_exam_summary/493_cloud_workflow_step_functions_orchestration/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "676. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Reuse)"
-date = 2026-05-09
+---
+title: "676. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Reuse)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 676 / 800
 
-<- **이전**: [675. 데이터 오케스트레이션 Airflow Dagster](/knowledge-base/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/)
-**다음**: [677. 데이터 관측 가능성 이상 탐지 품질](/knowledge-base/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/) ->
+<- **이전**: [675. 데이터 오케스트레이션 Airflow Dagster](/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/)
+**다음**: [677. 데이터 관측 가능성 이상 탐지 품질](/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/) ->
 
 ---

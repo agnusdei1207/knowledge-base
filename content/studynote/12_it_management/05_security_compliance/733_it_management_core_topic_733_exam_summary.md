@@ -1,13 +1,10 @@
-+++
-title = "733. IT 경영 관리 핵심 토픽 733번 시험 요약 (IT Management Core Topic 733 Exam Summary)"
-date = 2026-05-09
+---
+title: "733. IT 경영 관리 핵심 토픽 733번 시험 요약 (IT Management Core Topic 733 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ IT 경영 관리 영역에서 혼동되기 쉬운 4대 프레임워크를 비교
 
 **진행 상황**: 733 / 800
 
-<- **이전**: [732. IT 경영 관리 핵심 토픽 732번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/732_it_management_core_topic_732_exam_summary/)
-**다음**: [734. IT 경영 관리 핵심 토픽 734번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/734_it_management_core_topic_734_exam_summary/) ->
+<- **이전**: [732. IT 경영 관리 핵심 토픽 732번 시험 요약](/studynote/12_it_management/05_security_compliance/732_it_management_core_topic_732_exam_summary/)
+**다음**: [734. IT 경영 관리 핵심 토픽 734번 시험 요약](/studynote/12_it_management/05_security_compliance/734_it_management_core_topic_734_exam_summary/) ->
 
 ---

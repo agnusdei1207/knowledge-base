@@ -1,13 +1,10 @@
-+++
-title = "642. GPT 대규모 언어 모델 사전 학습 (GPT Large Language Model Pre-training)"
-date = 2026-05-09
+---
+title: "642. GPT 대규모 언어 모델 사전 학습 (GPT Large Language Model Pre-training)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -106,7 +103,7 @@ GPT 사전학습은 언어 모델의 범용 능력을 만드는 기반 단계다
 
 **진행 상황**: 642 / 800
 
-<- **이전**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/knowledge-base/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/)
-**다음**: [643. BERT 양방향 인코더 사전 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/) ->
+<- **이전**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/)
+**다음**: [643. BERT 양방향 인코더 사전 학습](/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/) ->
 
 ---

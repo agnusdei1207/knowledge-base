@@ -1,13 +1,10 @@
-+++
-title = "485. 비즈니스 프로세스 리엔지니어링 BPR (Business Process Reengineering BPR)"
-date = 2026-05-09
+---
+title: "485. 비즈니스 프로세스 리엔지니어링 BPR (Business Process Reengineering BPR)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ BPR을 제대로 적용하면 IT 투자가 업무 성과와 연결되고, 중복
 
 **진행 상황**: 485 / 800
 
-<- **이전**: [484. IT 포트폴리오 관리 자산 최적화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/484_it_portfolio_management_asset_optimization/)
-**다음**: [486. 비즈니스 프로세스 관리 BPM 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/486_business_process_management_bpm_automation/) ->
+<- **이전**: [484. IT 포트폴리오 관리 자산 최적화](/studynote/07_enterprise_systems/06_exam_summary/484_it_portfolio_management_asset_optimization/)
+**다음**: [486. 비즈니스 프로세스 관리 BPM 자동화](/studynote/07_enterprise_systems/06_exam_summary/486_business_process_management_bpm_automation/) ->
 
 ---

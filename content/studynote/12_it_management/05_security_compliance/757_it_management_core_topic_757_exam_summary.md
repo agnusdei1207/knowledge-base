@@ -1,13 +1,10 @@
-+++
-title = "757. IT 경영 관리 핵심 토픽 757번 시험 요약 (IT Management Core Topic 757 Exam Summary)"
-date = 2026-05-09
+---
+title: "757. IT 경영 관리 핵심 토픽 757번 시험 요약 (IT Management Core Topic 757 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ Availability(%) = (MTBF / (MTBF + MTTR)) × 100
 
 **진행 상황**: 757 / 800
 
-<- **이전**: [756. IT 경영 관리 핵심 토픽 756번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/756_it_management_core_topic_756_exam_summary/)
-**다음**: [758. IT 경영 관리 핵심 토픽 758번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/758_it_management_core_topic_758_exam_summary/) ->
+<- **이전**: [756. IT 경영 관리 핵심 토픽 756번 시험 요약](/studynote/12_it_management/05_security_compliance/756_it_management_core_topic_756_exam_summary/)
+**다음**: [758. IT 경영 관리 핵심 토픽 758번 시험 요약](/studynote/12_it_management/05_security_compliance/758_it_management_core_topic_758_exam_summary/) ->
 
 ---

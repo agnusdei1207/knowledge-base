@@ -1,13 +1,10 @@
-+++
-title = "414. 플랫폼 엔지니어링 IDP 개발자 포탈 (Platform Engineering IDP Developer Portal)"
-date = 2026-05-09
+---
+title: "414. 플랫폼 엔지니어링 IDP 개발자 포탈 (Platform Engineering IDP Developer Portal)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 414 / 800
 
-<- **이전**: [413. SRE 토일 자동화 운영 효율](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/413_sre_toil_automation_operational_efficiency/)
-**다음**: [415. 골든 패스 표준화된 배포 경로](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/415_golden_path_standardized_deployment_path/) ->
+<- **이전**: [413. SRE 토일 자동화 운영 효율](/studynote/13_cloud_architecture/06_exam_summary/413_sre_toil_automation_operational_efficiency/)
+**다음**: [415. 골든 패스 표준화된 배포 경로](/studynote/13_cloud_architecture/06_exam_summary/415_golden_path_standardized_deployment_path/) ->
 
 ---

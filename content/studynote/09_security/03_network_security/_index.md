@@ -1,9 +1,9 @@
-+++
-title = "03. 네트워크 보안 및 장비"
+---
+title: "03. 네트워크 보안 및 장비"
+tags:
+  - "security"
+---
 
-[extra]
-tags = ["security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

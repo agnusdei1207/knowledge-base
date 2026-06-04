@@ -1,13 +1,10 @@
-+++
-title = "508. ISO 27001 정보보안 관리체계 (ISO 27001 ISMS Standard)"
-date = 2026-05-09
+---
+title: "508. ISO 27001 정보보안 관리체계 (ISO 27001 ISMS Standard)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -182,7 +179,7 @@ ISO 27001은 특정 방법론을 강제하지 않지만, 실무에서는 다음�
 
 **진행 상황**: 508 / 600
 
-<- **이전**: [507. ISO 20000 IT 서비스 표준](/knowledge-base/studynote/11_design_supervision/06_exam_summary/508_iso_20000_it_service_standard/)
-**다음**: [509. ISO 25010 소프트웨어 품질 모델](/knowledge-base/studynote/11_design_supervision/06_exam_summary/509_iso_25010_software_quality_model/) ->
+<- **이전**: [507. ISO 20000 IT 서비스 표준](/studynote/11_design_supervision/06_exam_summary/508_iso_20000_it_service_standard/)
+**다음**: [509. ISO 25010 소프트웨어 품질 모델](/studynote/11_design_supervision/06_exam_summary/509_iso_25010_software_quality_model/) ->
 
 ---

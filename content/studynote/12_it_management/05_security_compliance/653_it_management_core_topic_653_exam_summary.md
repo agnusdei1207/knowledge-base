@@ -1,13 +1,10 @@
-+++
-title = "653. IT 경영 관리 핵심 토픽 653번 시험 요약 (IT Management Core Topic 653 Exam Summary)"
-date = 2026-05-09
+---
+title: "653. IT 경영 관리 핵심 토픽 653번 시험 요약 (IT Management Core Topic 653 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -130,7 +127,7 @@ ITIL 4는 **SVS(Service Value System)**을 통해 **"Opportunity/Demand -> Value
 
 **진행 상황**: 653 / 800
 
-<- **이전**: [652. IT 경영 관리 핵심 토픽 652번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/652_it_management_core_topic_652_exam_summary/)
-**다음**: [654. IT 경영 관리 핵심 토픽 654번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/654_it_management_core_topic_654_exam_summary/) ->
+<- **이전**: [652. IT 경영 관리 핵심 토픽 652번 시험 요약](/studynote/12_it_management/05_security_compliance/652_it_management_core_topic_652_exam_summary/)
+**다음**: [654. IT 경영 관리 핵심 토픽 654번 시험 요약](/studynote/12_it_management/05_security_compliance/654_it_management_core_topic_654_exam_summary/) ->
 
 ---

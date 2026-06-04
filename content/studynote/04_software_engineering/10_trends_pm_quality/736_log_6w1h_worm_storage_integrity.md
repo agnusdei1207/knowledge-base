@@ -1,35 +1,32 @@
-+++
-title = "736. 로그 6하 원칙 WORM 스토리지 무결성"
-date = 2026-05-08
+---
+title: "736. 로그 6하 원칙 WORM 스토리지 무결성"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 시스템이 복잡해질수록 버그나 해킹 사고는 피할 수 없다. 사고가 났을 때 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(운영) 팀과 보안팀이 가장 먼저 외치는 말은 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가져와!"다.
+소프트웨어 시스템이 복잡해질수록 버그나 해킹 사고는 피할 수 없다. 사고가 났을 때 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)(운영) 팀과 보안팀이 가장 먼저 외치는 말은 "[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 가져와!"다.
 
-그런데 막상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 열어보면 `[Error] Database Connection Failed`라는 딱 한 줄만 적혀 있는 경우가 태반이다. 이 에러가 오늘 새벽 2시에 터진 건지, 어떤 유저가 결제를 누를 때 터진 건지 알 수가 없다.
+그런데 막상 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일을 열어보면 `[Error] Database Connection Failed`라는 딱 한 줄만 적혀 있는 경우가 태반이다. 이 에러가 오늘 새벽 2시에 터진 건지, 어떤 유저가 결제를 누를 때 터진 건지 알 수가 없다.
 
-이런 쓰레기 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 막기 위해 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))의 세계 표준으로 자리 잡은 규칙이 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 6하 원칙'</strong>이다. 또한, 똑똑한 내부자(관리자)나 해커가 자신의 범죄 기록을 지우기 위해 `rm -rf /var/log`를 치는 것을 물리적으로 막아버리는 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지(<a href="/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a>)</strong> 기술이 현대 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처의 필수 요소로 자리 잡았다.
+이런 쓰레기 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 막기 위해 [보안 감사](/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))의 세계 표준으로 자리 잡은 규칙이 <strong>'<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 6하 원칙'</strong>이다. 또한, 똑똑한 내부자(관리자)나 해커가 자신의 범죄 기록을 지우기 위해 `rm -rf /var/log`를 치는 것을 물리적으로 막아버리는 <strong><a href="/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지(<a href="/studynote/05_database/07_exam_summary/442_consistency_integrity/">무결성 보장</a>)</strong> 기술이 현대 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처의 필수 요소로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 비행기의 블랙박스([로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 같다. 비행기가 추락했을 때 블랙박스를 열어봤더니 "비행기가 떨어졌음"이라고만 적혀있으면(6하 원칙 누락) 아무 소용이 없다. 그리고 블랙박스는 불에 타거나 충격(해킹)을 받아도 절대 기록이 지워지지 않는 특수 금속([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지)으로 만들어야 한다.
+- **📢 섹션 요약 비유**: 비행기의 블랙박스([로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))와 같다. 비행기가 추락했을 때 블랙박스를 열어봤더니 "비행기가 떨어졌음"이라고만 적혀있으면(6하 원칙 누락) 아무 소용이 없다. 그리고 블랙박스는 불에 타거나 충격(해킹)을 받아도 절대 기록이 지워지지 않는 특수 금속([WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지)으로 만들어야 한다.
 
 ---
 
-다음은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 무의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 무의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +41,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 무가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 무가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -54,13 +51,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처 설계는 크게 '무엇을 기록할 것인가(포맷)'와 '어떻게 지킬 것인가(보관)'로 나뉜다.
+[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 아키텍처 설계는 크게 '무엇을 기록할 것인가(포맷)'와 '어떻게 지킬 것인가(보관)'로 나뉜다.
 
-- **📢 섹션 요약 비유**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -72,18 +69,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 종류에 따라 적용해야 하는 원칙과 보안 수준이 다르다.
+[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)의 종류에 따라 적용해야 하는 원칙과 보안 수준이 다르다.
 
-| 구분 | 애플리케이션 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (App Log) | [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Log) |
+| 구분 | 애플리케이션 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) (App Log) | [보안 감사](/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) ([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Log) |
 |:---|:---|:---|
-| **목적** | 디버깅 및 에러 추적 (개발자용) | <strong>법적 증거 및 해킹 추적 (보안/<a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>용)</strong> |
-| **포함 내용**| 변수 값, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace) | **6하 원칙에 따른 사용자의 행위(Action)** |
-| **저장 위치**| 일반 ELK [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (며칠 뒤 지워져도 무방) | <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지 (최소 1년 이상 보관 의무)</strong> |
+| **목적** | 디버깅 및 에러 추적 (개발자용) | <strong>법적 증거 및 해킹 추적 (보안/<a href="/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>용)</strong> |
+| **포함 내용**| 변수 값, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 트레이스 ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Trace) | **6하 원칙에 따른 사용자의 행위(Action)** |
+| **저장 위치**| 일반 ELK [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) (며칠 뒤 지워져도 무방) | <strong><a href="/studynote/02_operating_system/10_security/590_worm/">WORM</a> 스토리지 (최소 1년 이상 보관 의무)</strong> |
 | **민감 정보**| 실수로 비밀번호가 남을 수 있어 위험함 | **절대 마스킹(Masking) 필수** |
 
-개발자가 디버깅하려고 남긴 `logger.debug("pw=" + password)` 같은 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와, 누가 결제를 취소했는지 남기는 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 같은 취급하면 안 된다.
+개발자가 디버깅하려고 남긴 `logger.debug("pw=" + password)` 같은 앱 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)와, 누가 결제를 취소했는지 남기는 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 같은 취급하면 안 된다.
 
-- **📢 섹션 요약 비유**: 앱 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 요리사가 주방에서 "오늘 소금 10g 넣음"이라고 대충 적는 개인 메모장이고, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 세무서에 제출하기 위해 영수증과 도장을 꼼꼼히 찍어둔 '공식 회계 장부'다.
+- **📢 섹션 요약 비유**: 앱 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 요리사가 주방에서 "오늘 소금 10g 넣음"이라고 대충 적는 개인 메모장이고, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 세무서에 제출하기 위해 영수증과 도장을 꼼꼼히 찍어둔 '공식 회계 장부'다.
 
 ---
 
@@ -95,9 +92,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 완벽하게 설계하는 것은 생각보다 엄청난 비용과 인프라 지식을 요구한다.
+[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 완벽하게 설계하는 것은 생각보다 엄청난 비용과 인프라 지식을 요구한다.
 
-- **📢 섹션 요약 비유**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -107,11 +104,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-6하 원칙과 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지가 결합된 로깅 아키텍처를 구축하면, 내부 직원의 횡령이나 외부 해커의 침입 시 법적 효력을 갖춘 완벽한 증거(Digital Forensics)를 제공할 수 있다. 또한 [ISMS](/knowledge-base/studynote/09_security/17_framework_compliance/836_iso_27001_isms/), PCI-DSS 같은 엄격한 보안 컴플라이언스 심사를 가볍게 통과할 수 있다.
+6하 원칙과 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지가 결합된 로깅 아키텍처를 구축하면, 내부 직원의 횡령이나 외부 해커의 침입 시 법적 효력을 갖춘 완벽한 증거(Digital Forensics)를 제공할 수 있다. 또한 [ISMS](/studynote/09_security/17_framework_compliance/836_iso_27001_isms/), PCI-DSS 같은 엄격한 보안 컴플라이언스 심사를 가볍게 통과할 수 있다.
 
-결론적으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 시스템의 배설물이 아니라 시스템의 '역사책'이다. 기술사는 개발팀에게 "[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남겨라"라고 지시하는 것에 그치지 않고, 그 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 법정에 섰을 때 완벽한 알리바이를 증명할 수 있도록 6하 원칙의 포맷과 불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))의 스토리지를 아키텍처 레벨에서 강제해야 한다.
+결론적으로 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 시스템의 배설물이 아니라 시스템의 '역사책'이다. 기술사는 개발팀에게 "[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 남겨라"라고 지시하는 것에 그치지 않고, 그 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 법정에 섰을 때 완벽한 알리바이를 증명할 수 있도록 6하 원칙의 포맷과 불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))의 스토리지를 아키텍처 레벨에서 강제해야 한다.
 
-- **📢 섹션 요약 비유**: 일기장에 "오늘 누군가한테 맞았다"라고만 적어두면 경찰이 범인을 잡을 수 없다. "오후 3시, 골목길에서, 빨간 모자를 쓴 아저씨가, 내 지갑을 훔쳐 갔다"라고 지워지지 않는 잉크([WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/))로 6하 원칙에 맞춰 적어둬야 완벽한 증거가 된다.
+- **📢 섹션 요약 비유**: 일기장에 "오늘 누군가한테 맞았다"라고만 적어두면 경찰이 범인을 잡을 수 없다. "오후 3시, 골목길에서, 빨간 모자를 쓴 아저씨가, 내 지갑을 훔쳐 갔다"라고 지워지지 않는 잉크([WORM](/studynote/02_operating_system/10_security/590_worm/))로 6하 원칙에 맞춰 적어둬야 완벽한 증거가 된다.
 
 ---
 
@@ -125,10 +122,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,13 +145,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/knowledge-base/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 6하 원칙 [WORM](/studynote/02_operating_system/10_security/590_worm/) 스토리지 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -162,7 +159,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 909 / 973
 
-<- **이전**: [735. 디자인 바이 컨트랙트 불변 조건](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/735_design_by_contract_invariant/)
-**다음**: [737. SBOM 규격 SPDX CycloneDX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/737_sbom_standards_spdx_cyclonedx/) ->
+<- **이전**: [735. 디자인 바이 컨트랙트 불변 조건](/studynote/04_software_engineering/10_trends_pm_quality/735_design_by_contract_invariant/)
+**다음**: [737. SBOM 규격 SPDX CycloneDX](/studynote/04_software_engineering/10_trends_pm_quality/737_sbom_standards_spdx_cyclonedx/) ->
 
 ---

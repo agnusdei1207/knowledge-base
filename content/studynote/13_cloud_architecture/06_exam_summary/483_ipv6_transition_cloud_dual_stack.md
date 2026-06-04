@@ -1,175 +1,163 @@
-+++
-title = "483. IPv6 전환 클라우드 듀얼 스택 (IPv6 Transition Cloud Dual Stack)"
-date = 2026-05-09
-
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
-
+---
+title: "483. IPv6 전환 클라우드 듀얼 스택 (IPv6 Transition Cloud Dual Stack)"
+date: 2026-05-09
+tags:
+  - "studynote-cloud-architecture"
+---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IPv6 전환 클라우드 듀얼 스택은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: IPv6 전환 클라우드 듀얼 스택은 클라우드 인프라(VPC/VNet/VPC) 내에서 IPv4와 IPv6를 동시 운용하는 아키텍처로, AWS Egress-only Internet Gateway, Azure NAT Gateway, GCP Cloud NAT의 IPv6 지원, Kubernetes Dual-stack CNI(Cilium, Calico), Istio mTLS Dual-listener 등 클라우드 네이티브 계층 전반에서 양 프로토콜을 Native하게 처리하는 통합 라우팅 및 주소 정책 체계이다.
+> 2. **가치**: IPv4 주소 고갈(ARIN/RIPE NCC의 /8 할당 종료), 5G/IoT 디바이스 폭증으로 인한 엔드포인트 확장성 한계, RFC 8305 Happy Eyeballs 기반의 Dual-stack Latency Advantage(연결 수립 시간 평균 30~45% 단축), 클라우드 egress 비용 절감(IPv6 egress는 AWS 기준 50% 저렴), 그리고 Zero-trust 보안 모델의 양방향 검증 구현을 가능케 한다.
+> 3. **판단 포인트**: 듀얼 스택의 운영 복잡도(주소 추적, ACL 2배 관리, DNS A/AAAA 분리 운영)와 이기종 클라우드 간의 라우팅 정책 표준화 부재, IPv4/IPv6 헤더 변환 시 MTU/Fragmentation 이슈(PMTUD 경로 차이), 그리고 IPv6 Extension Header 기반의 침입탐지 회피(SIEM 룰셋 2배 작업)라는 세 가지 핵심 트레이드오프를 어떻게 설계 단계에서 절충할지가 기술사의 핵심 판단 영역이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-IPv6 전환 클라우드 듀얼 스택은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+IPv6 전환은 단순한 주소 체계 확장이 아닌, 클라우드 시대의 **네트워크 경계(Perimeter) 재정의** 문제이다. 2023년 RIPE NCC의 마지막 /8 블록 할당, 2024년 APNIC의 신규 IPv4 할당 사실상 중단, 그리고 IETF가 IPv4를 "legacy address"로 분류하는 흐름은 클라우드 아키텍트의 필수 역량을 "단일 프로토콜 최적화"에서 **"이중 프로토콜 공존 운영(Coexistence Operation)"** 으로 전환시켰다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, IPv6 Transition Cloud Dual Stack 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 클라우드 환경은 엔터프라이즈 데이터센터와 달리 **탄력적 스케일링, 멀티 리전, 멀티 VPC 피어링, 그리고 매니지드 서비스 종속성**이라는 4가지 특이점이 있어, 온프레미스에서 사용하던 6rd나 DS-Lite 같은 CPE 기반 터널링 기법을 그대로 적용할 수 없다. 클라우드에서는 **가상 라우터(VRF), Transit Gateway, SD-WAN Edge, 그리고 CNI Plugin 수준에서의 이중 처리**가 요구된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    IPv6 전환 클라우드 듀얼 스택 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+┌──────────────────────────────────────────────────────────────────────┐
+│           IPv6 전환 클라우드 듀얼 스택의 패러다임 비교               │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│ [Legacy Paradigm - IPv4 Single Stack]                                │
+│                                                                      │
+│   Internet ──IPv4──> NAT Gateway ──> Private VPC (10.0.0.0/16)      │
+│                                          │                            │
+│                                          └─> EC2/VM (IPv4 only)      │
+│                                                                      │
+│   문제점: 주소 고갈, 1:1 NAT 비용, EIP 부족, 로그 4-tuple 제한       │
+│                                                                      │
+│ ──────────────────────────────────────────────────────────────────── │
+│                                                                      │
+│ [Modern Paradigm - Cloud Dual Stack + IPv6 Native]                   │
+│                                                                      │
+│   Internet ──┬──IPv4──> NAT GW ──┐                                  │
+│              │                    ├──> Transit GW ──> VPC Dual      │
+│              │                    │      │                            │
+│              └──IPv6──> EIGW ─────┘      ├─> Subnet1: 10.0.1.0/24    │
+│                                          │    + 2600:1f01::/64        │
+│                                          ├─> Subnet2: 10.0.2.0/24    │
+│                                          │    + 2600:1f02::/64        │
+│                                          └─> EKS/AKS Pod (Dual CIDR) │
+│                                                                      │
+│   효과: EIP-free, Path MTU 1500 보존, End-to-End 암호화(WAM/EH)      │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 IPv4 단일 스택 운영은 **NAT444, CGN(Carrier-Grade NAT), Stateful Firewall의 3중 의존**으로 인해 클라우드 워크로드의 east-west 트래픽 가시성을 저해하고, 컨테이너 오케스트레이션(Kubernetes Service Mesh)의 mTLS 인증서 발급을 IPv4 소스 NAT 한정으로 강제하는 한계를 노출했다. 듀얼 스택은 이를 **L3/L4 헤더 양방향 검증 + SLAAC Stateless Addressing + Privacy Extension(RFC 4941)** 으로 해결한다.
 
-- **📢 섹션 요약 비유**: IPv6 전환 클라우드 듀얼 스택은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: IPv4 단일 스택은 "한 국어만 쓰는 호텔"이고, 듀얼 스택은 "체크인부터 룸서비스까지 한국어·영어·일본어 메뉴를 동시 제공하는 글로벌 호텔"입니다. 손님(트래픽)은 자국어로 즉시 통하고, 호텔은 손님의 신분을 양방향으로 검증할 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-IPv6 전환 클라우드 듀얼 스택의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 듀얼 스택의 아키텍처는 **7개 계층(Underlay/Overlay/Subnet/Service/Pod/Service-Mesh/Egress)** 에서 각각 다른 메커니즘으로 동작한다. 핵심은 **Dual CIDR Allocation, Multi-protocol Routing, Happy Eyeballs Connection, 그리고 Dual DNS Resolution**의 4대 원리다.
 
 ```text
-+--------------------------------------------------------------+
-|              IPv6 Transition Cloud Dual Stack 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+┌──────────────────────────────────────────────────────────────────────┐
+│         Cloud Dual Stack 7-Layer Reference Architecture              │
+├──────────────────────────────────────────────────────────────────────┤
+│                                                                      │
+│  [Layer 1: Internet Edge]                                            │
+│    ┌────────────┐    ┌────────────┐    ┌────────────┐                │
+│    │  IPv4 IGW  │    │  IPv6 IGW  │    │   CDN/Edge │                │
+│    │ (Anycast)  │    │  (Egress-  │    │  CloudFront│                │
+│    └─────┬──────┘    │   only IGW)│    │ /Azure CDN │                │
+│          │           └─────┬──────┘    └─────┬──────┘                │
+│          │                 │                  │                       │
+│  [Layer 2: Transit / Routing Plane]                                  │
+│    ┌─────┴─────────────────┴──────────────────┴─────┐                │
+│    │  Transit GW  /  Virtual WAN Hub  /  NCC Spoke    │                │
+│    │  ─ BGP IPv4 Unicast + Labeled IPv6 Unicast ─    │                │
+│    │  ─ Route Reflector: 2개 AS-Path 정책 동시 유지 ─│                │
+│    └─────────────────────┬───────────────────────────┘                │
+│                          │                                            │
+│  [Layer 3: VPC/VNet Dual CIDR]                                       │
+│    ┌─────────────────────┴───────────────────────────┐                │
+│    │  VPC: 10.0.0.0/16  +  2600:1f00:4860::/56       │                │
+│    │  ├─ Subnet A: 10.0.1.0/24 + 2600:1f01:4860::/64 │                │
+│    │  ├─ Subnet B: 10.0.2.0/24 + 2600:1f02:4860::/64 │                │
+│    │  └─ Route Table: IPv4 0.0.0.0/0 → NAT GW         │                │
+│    │                 IPv6 ::/0      → EIGW            │                │
+│    └─────────────────────┬───────────────────────────┘                │
+│                          │                                            │
+│  [Layer 4: Compute - VM/Bare-metal]                                  │
+│    ┌─────────────────────┴───────────────────────────┐                │
+│    │  ENI/VNIC: Primary IPv4 + Multiple IPv6 /128    │                │
+│    │  ─ Privacy Extension(RFC 4941) Stable SLAAC      │                │
+│    │  ─ DHCPv6-PD: 멀티 서브넷 /60, /56 위임          │                │
+│    └─────────────────────┬───────────────────────────┘                │
+│                          │                                            │
+│  [Layer 5: Container Orchestration]                                   │
+│    ┌─────────────────────┴───────────────────────────┐                │
+│    │  K8s:  --feature-gates=IPv6DualStack=true        │                │
+│    │       --ip-family=IPv4,IPv6                       │                │
+│    │  CNI: Cilium DualStack (--ipv4-range, --ipv6-range)│             │
+│    │       Calico IPAM: IPv6 pool /48                 │                │
+│    │  Pod CIDR:  fd00::/64 per namespace              │                │
+│    └─────────────────────┬───────────────────────────┘                │
+│                          │                                            │
+│  [Layer 6: Service Mesh / API Gateway]                               │
+│    ┌─────────────────────┴───────────────────────────┐                │
+│    │  Istio:  Dual Listener (0.0.0.0:443, [::]:443)  │                │
+│    │  Envoy:  Happy Eyeballs v3 (RFC 8305)            │                │
+│    │  mTLS:  SPIFFE ID = spiffe://trust/domain/ipv4   │                │
+│    │         spiffe://trust/domain/ipv6                │                │
+│    └─────────────────────┬───────────────────────────┘                │
+│                          │                                            │
+│  [Layer 7: Egress / Observability]                                   │
+│    ┌─────────────────────┴───────────────────────────┐                │
+│    │  NAT64 (RFC 6146) + DNS64 (RFC 6147)             │                │
+│    │  Cloud NAT IPv6 egress (GCP), NAT GW IPv6 (Azure)│                │
+│    │  VPC Flow Logs v6 + v4, ALB Access Log dual      │                │
+│    └──────────────────────────────────────────────────┘                │
+└──────────────────────────────────────────────────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **VPC Dual CIDR Block** | 클라우드 가상 네트워크의 이중 주소 공간 | AWS는 Primary + 4개의 Secondary IPv4 CIDR(총 5개, RFC 1918 범위), IPv6는 /56 할당 후 /64 서브넷 분할(총 256 서브넷). Azure VNet은 IPv4/IPv6를 주소 공간에 동시 등록, GCP VPC는 IPv6는 별도 Internal/External 구분(Internal은 /48, External은 /48). |
+| **Internet Gateway / Egress-only IGW** | 양방향/단방향 외부 연결 종단점 | AWS EIGW는 IPv6 **stateful outbound only** (인바운드 불가, NAT 역방향 안 함), IGW는 v4+v6 stateful. Azure Basic SKU LB는 IPv6 frontend 미지원, Standard SKU부터 지원. |
+| **NAT Gateway (IPv6-aware)** | IPv4 아웃바운드 SNAT + IPv6 옵션 처리 | AWS NAT GW는 v4만 처리, IPv6는 EIGW 경유. Azure NAT GW는 v4/v6 동시 처리(2023 GA), GCP Cloud NAT는 v6 egress를 NAT66 형태로 처리하며 /64 prefix 단위 SNAT. |
+| **Kubernetes CNI (Dual-stack)** | Pod의 양 프로토콜 IP 할당 및 라우팅 | Cilium은 eBPF datapath에서 v4/v6를 분리된 map(bpf_lxc, bpf_lxc6)에 저장, Calico v3.21+는 BGP Peering으로 v6 NLRI advertise, Flannel은 host-gw/vxlan 모두 dual 지원. |
+| **Service Mesh Dual Listener** | L7 프록시의 양 프로토콜 동시 처리 | Istio는 iptables로 IPv4/IPv6 트래픽을 모두 15006 inbound, 15001 outbound로 redirect, Envoy Happy Eyeballs는 `getaddrinfo` 후 `connect()` 시 양쪽 family를 race condition으로 연결(첫 성공 시 나머지 close). |
+| **DNS Resolver (Dual A/AAAA)** | FQDN의 이중 레코드 반환 정책 | Route 53 Resolver는 A+AAAA 동시 반환(기본), Azure DNS Private Resolver는 response policy로 A-only 강제 가능, BIND 9.18+는 `dns64` 옵션으로 RFC 6147 synthetic AAAA 자동 생성. |
+| **Observability Stack (Dual Flow)** | 네트워크 가시성 및 SIEM 연동 | VPC Flow Logs는 v4/v6 분리 로그(`srcaddr`, `dstaddr` v6 컬럼), CloudTrail는 `vpcEndpointId`에 v6 포함, Splunk/ELK는 `ipfamily` 필드 인덱싱 필수. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘: Happy Eyeballs v2 (RFC 8305)**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+듀얼 스택 환경에서 클라이언트(브라우저, curl, Envoy 등)는 다음의 **3-Phase Race**를 수행한다:
+
+1. **Resolution Phase**: `getaddrinfo("api.example.com")` → IPv4 주소 리스트와 IPv6 주소 리스트를 별도 배열로 수신
+2. **Sort Phase**: RFC 6724 알고리즘으로 양 리스트를 **Policy Table**(12개 rule: Loopback > Global > Site-local > ... ) 기반 정렬. 같은 Prefix Length면 IPv6가 우선(Site/Organization Local이 아닌 Global Unicast일 때).
+3. **Race Phase**: 첫 번째 IPv6 주소로 `connect()` 시도(300ms timeout), 그 사이 50ms 간격으로 IPv4 주소도 `connect()` 시도. **먼저 connect()가 성공한 family의 socket을 사용**하고 나머지는 RST로 폐기.
+
+이 메커니즘이 주는 핵심 통찰은 **"IPv6가 다운되더라도 IPv4 fallback이 300ms 이내에 보장된다"**는 점이다. 즉, 듀얼 스택의 **이중성(Dual-homing)**은 단일 장애점이 아니라 **결합 가용성(Joint Availability)**을 수학적으로 보장한다(P_total = 1 - (1 - p4)(1 - p6) = p4 + p6 - p4·p6).
+
+- **📢 섹션 요약 비유**: 듀얼 스택 라우팅은 "두 개의 출구가 있는 아파트"입니다. 정문(IPv6)이 막히면 30cm 옆에 있는 옆문(IPv4)으로 자동 이동하며, 1초 이상 기다리지 않습니다. 두 출구 모두 막혀야만 갇히게 됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IPv6 전환 클라우드 듀얼 스택을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | IPv6 전환 클라우드 듀얼 스택 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. IPv6 전환 클라우드 듀얼 스택은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 IPv6 전환 클라우드 듀얼 스택은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 IPv6 전환 클라우드 듀얼 스택을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-IPv6 전환 클라우드 듀얼 스택을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, IPv6 전환 클라우드 듀얼 스택 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: IPv6 전환 클라우드 듀얼 스택은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | IPv6 전환 클라우드 듀얼 스택의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | IPv6 전환 클라우드 듀얼 스택의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-IPv6 전환 클라우드 듀얼 스택 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. IPv6 전환 클라우드 듀얼 스택은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | IPv4 Single Stack (Legacy) | IPv6 Single Stack (Greenfield) | **IPv4/IPv6 Dual Stack (Hybrid)** |
+| :--- | :--- | :--- | :--- |
+| **주소 공간** | 32-bit, /8 할당 고갈, CGN 강제 | 128-bit, 사실상 무한, SLAAC | 양쪽 모두 활성, 2배 라우팅 테이블 |
+| **End-to-End 연결성** | NAT로 차단, P2P 불가, STUN/TURN 의존 | Native, 모든 단말 직접 도달 | IPv6는 Direct, IPv4는 NAT(legacy) |
+| **보안 모델** | Stateful Firewall + NAT(암묵적 차단) | IPsec 의무화(원칙), RA Guard, SEND | IPsec/QUIC는 v6 우선, v4는 v4 정책 유지 |
+| **클라우드 비용** | EIP/NAT GW 과금, ALB IPv4 charge | Egress IPv6 50% 저렴(AWS 기준), EIP 무료 | 양쪽 요금 동시 발생, 단 IPv6 트래픽 ↑ 시 TCO ↓ |
+| **운영 복잡도** | 1 set (단일 ACL, 단일 Flow Log) | 1 set but SIEM 룰셋 v6 확장 | 2 set (ACL×2, Flow Log×2, DNS×2), DNS Resolver 정책 2배 |
+| **Fragmentation / MTU** | PMTUD 표준, MSS Clamp 일반화 | Path MTU 1280 minimum, EH Fragment 사용 | 이기종 패킷 병행 시 MTU Mismatch(IPv4 1500, IPv6 1500 + EH),
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 483 / 800
 
-<- **이전**: [482. 클라우드 인터커넥트 전용 연결 피어링](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/482_cloud_interconnect_dedicated_connection_peeri/)
-**다음**: [484. DNS 기반 글로벌 로드 밸런싱 GSLB](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/484_dns_based_global_load_balancing_gslb/) ->
+<- **이전**: [482. 클라우드 인터커넥트 전용 연결 피어링](/studynote/13_cloud_architecture/06_exam_summary/482_cloud_interconnect_dedicated_connection_peeri/)
+**다음**: [484. DNS 기반 글로벌 로드 밸런싱 GSLB](/studynote/13_cloud_architecture/06_exam_summary/484_dns_based_global_load_balancing_gslb/) ->
 
 ---

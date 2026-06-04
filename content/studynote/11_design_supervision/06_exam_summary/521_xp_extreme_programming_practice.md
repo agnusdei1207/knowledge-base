@@ -1,13 +1,10 @@
-+++
-title = "521. XP 익스트림 프로그래밍 실천법 (XP Extreme Programming Practice)"
-date = 2026-05-09
+---
+title: "521. XP 익스트림 프로그래밍 실천법 (XP Extreme Programming Practice)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ XP는 **가치(Value) -> 원리(Principle) -> 실천법(Practice) -> 결과(Outc
 
 **진행 상황**: 521 / 600
 
-<- **이전**: [520. 칸반 WIP 제한 흐름 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/521_kanban_wip_limit_flow_optimization/)
-**다음**: [522. SAFe 대규모 애자일 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/522_safe_scaled_agile_framework/) ->
+<- **이전**: [520. 칸반 WIP 제한 흐름 최적화](/studynote/11_design_supervision/06_exam_summary/521_kanban_wip_limit_flow_optimization/)
+**다음**: [522. SAFe 대규모 애자일 프레임워크](/studynote/11_design_supervision/06_exam_summary/522_safe_scaled_agile_framework/) ->
 
 ---

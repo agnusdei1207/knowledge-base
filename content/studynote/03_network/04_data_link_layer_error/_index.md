@@ -1,6 +1,5 @@
-+++
-title = "04. Data Link Layer Error"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "04. Data Link Layer Error"
+tags:
+  - "network"
+---

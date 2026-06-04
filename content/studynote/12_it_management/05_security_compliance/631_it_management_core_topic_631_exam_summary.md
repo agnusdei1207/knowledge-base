@@ -1,13 +1,10 @@
-+++
-title = "631. IT 경영 관리 핵심 토픽 631번 시험 요약 (IT Management Core Topic 631 Exam Summary)"
-date = 2026-05-09
+---
+title: "631. IT 경영 관리 핵심 토픽 631번 시험 요약 (IT Management Core Topic 631 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 기술사 시험 핵심 정리 — 631. IT 경영 관리 핵심 토픽
 
@@ -166,7 +163,7 @@ IT 경영 관리의 핵심은 **COBIT 2019 기반 5도메인 40거버넌스·관
 
 **진행 상황**: 631 / 800
 
-<- **이전**: [630. IT 경영 관리 핵심 토픽 630번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/630_it_management_core_topic_630_exam_summary/)
-**다음**: [632. IT 경영 관리 핵심 토픽 632번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/632_it_management_core_topic_632_exam_summary/) ->
+<- **이전**: [630. IT 경영 관리 핵심 토픽 630번 시험 요약](/studynote/12_it_management/05_security_compliance/630_it_management_core_topic_630_exam_summary/)
+**다음**: [632. IT 경영 관리 핵심 토픽 632번 시험 요약](/studynote/12_it_management/05_security_compliance/632_it_management_core_topic_632_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "697. IT 경영 관리 핵심 토픽 697번 시험 요약 (IT Management Core Topic 697 Exam Summary)"
-date = 2026-05-09
+---
+title: "697. IT 경영 관리 핵심 토픽 697번 시험 요약 (IT Management Core Topic 697 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -134,7 +131,7 @@ IT 경영 관리의 핵심 개념들은 서로 밀접하게 연결되면서도 �
 
 **진행 상황**: 697 / 800
 
-<- **이전**: [696. IT 경영 관리 핵심 토픽 696번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/696_it_management_core_topic_696_exam_summary/)
-**다음**: [698. IT 경영 관리 핵심 토픽 698번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/698_it_management_core_topic_698_exam_summary/) ->
+<- **이전**: [696. IT 경영 관리 핵심 토픽 696번 시험 요약](/studynote/12_it_management/05_security_compliance/696_it_management_core_topic_696_exam_summary/)
+**다음**: [698. IT 경영 관리 핵심 토픽 698번 시험 요약](/studynote/12_it_management/05_security_compliance/698_it_management_core_topic_698_exam_summary/) ->
 
 ---

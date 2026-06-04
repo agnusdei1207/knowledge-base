@@ -1,13 +1,10 @@
-+++
-title = "550. 데이터 드리븐 의사결정 문화 구축 (Data Driven Decision Making Culture)"
-date = 2026-05-09
+---
+title: "550. 데이터 드리븐 의사결정 문화 구축 (Data Driven Decision Making Culture)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 550 / 800
 
-<- **이전**: [549. API 퍼스트 설계 개발자 경험](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/549_api_first_design_developer_experience/)
-**다음**: [551. AI 퍼스트 전략 지능형 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/551_ai_first_strategy_intelligent_automation/) ->
+<- **이전**: [549. API 퍼스트 설계 개발자 경험](/studynote/07_enterprise_systems/06_exam_summary/549_api_first_design_developer_experience/)
+**다음**: [551. AI 퍼스트 전략 지능형 자동화](/studynote/07_enterprise_systems/06_exam_summary/551_ai_first_strategy_intelligent_automation/) ->
 
 ---

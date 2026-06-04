@@ -1,13 +1,10 @@
-+++
-title = "393. mTLS 상호 인증 서비스 간 암호화 (mTLS Mutual Authentication Service Encryption)"
-date = 2026-05-09
+---
+title: "393. mTLS 상호 인증 서비스 간 암호화 (mTLS Mutual Authentication Service Encryption)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 393 / 800
 
-<- **이전**: [392. 서비스 메시 Linkerd 경량 프록시](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/392_service_mesh_linkerd_lightweight_proxy/)
-**다음**: [394. SPIFFE SPIRE 서비스 신원 인증](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/394_spiffe_spire_service_identity_authentication/) ->
+<- **이전**: [392. 서비스 메시 Linkerd 경량 프록시](/studynote/13_cloud_architecture/06_exam_summary/392_service_mesh_linkerd_lightweight_proxy/)
+**다음**: [394. SPIFFE SPIRE 서비스 신원 인증](/studynote/13_cloud_architecture/06_exam_summary/394_spiffe_spire_service_identity_authentication/) ->
 
 ---

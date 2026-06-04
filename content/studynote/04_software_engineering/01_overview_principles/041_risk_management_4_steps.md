@@ -1,22 +1,19 @@
-+++
-title = "041. 위험 관리 4단계 (Risk Management)"
-date = 2026-03-19
+---
+title: "041. 위험 관리 4단계 (Risk Management)"
+date: "2026-03-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 > **핵심 인사이트**
-> 1. 소프트웨어 프로젝트 위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))->분석(Analysis)->대응(Response)->모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
-> 2. 위험은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.
-> 3. [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)의 4가지(회피·전가·완화·수용)는 각각 비용과 잔존 위험의 트레이드오프가 다르며, PMBOK과 ISO 21502는 이를 프로젝트 성공의 핵심 역량으로 정의하고 공공 IT 사업 감리의 필수 점검 항목으로 규정한다.
+> 1. 소프트웨어 프로젝트 위험 관리([Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)([Identification](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/))->분석(Analysis)->대응(Response)->모니터링(Monitoring) 4단계로 구성되며, "예측할 수 없는 것은 관리할 수 없다"는 원칙에 따라 가시성(Visibility)을 최대화하는 체계다.
+> 2. 위험은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/))×영향도(Impact)의 곱으로 우선순위가 결정되며, 위험 노출도([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Exposure) = P × I 매트릭스를 통해 한정된 대응 자원을 고위험 항목에 집중 투자하는 의사결정을 지원한다.
+> 3. [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)의 4가지(회피·전가·완화·수용)는 각각 비용과 잔존 위험의 트레이드오프가 다르며, PMBOK과 ISO 21502는 이를 프로젝트 성공의 핵심 역량으로 정의하고 공공 IT 사업 감리의 필수 점검 항목으로 규정한다.
 
 ---
 
-## Ⅰ. [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) ([Risk Identification](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/))
+## Ⅰ. [위험 식별](/studynote/09_security/01_intro_principles/027_risk_identification/) ([Risk Identification](/studynote/09_security/01_intro_principles/027_risk_identification/))
 
 ```
 위험 식별 기법:
@@ -43,7 +40,7 @@ tags = ["studynote-software-engineering"]
   외부 위험: 법규 변경, 공급업체
 ```
 
-> 📢 **섹션 요약 비유**: [위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)은 여행 전 위험 지도 만들기 — 출발 전에 가능한 모든 위험을 나열해야 대비할 수 있다.
+> 📢 **섹션 요약 비유**: [위험 식별](/studynote/09_security/01_intro_principles/027_risk_identification/)은 여행 전 위험 지도 만들기 — 출발 전에 가능한 모든 위험을 나열해야 대비할 수 있다.
 
 ---
 
@@ -77,7 +74,7 @@ tags = ["studynote-software-engineering"]
 
 ---
 
-## Ⅲ. [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)
+## Ⅲ. [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)
 
 ```
 위험 대응 4전략:
@@ -109,7 +106,7 @@ tags = ["studynote-software-engineering"]
   예: RE 합산 × 0.5 = 비상 예비비
 ```
 
-> 📢 **섹션 요약 비유**: 위험 대응은 우산 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 회피(비 오는 날 여행 안 가기), 전가(우산 빌려주기), 완화(방수 코트 입기), 수용(젖어도 감기 안 걸림).
+> 📢 **섹션 요약 비유**: 위험 대응은 우산 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 회피(비 오는 날 여행 안 가기), 전가(우산 빌려주기), 완화(방수 코트 입기), 수용(젖어도 감기 안 걸림).
 
 ---
 
@@ -235,7 +232,7 @@ PERT/CPM 불확실성 개념
 
 **진행 상황**: 41 / 973
 
-<- **이전**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/)
-**다음**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) ->
+<- **이전**: [040. EVM (Earned Value Management) — 획득 가치 관리](/studynote/04_software_engineering/01_overview_principles/040_evm/)
+**다음**: [042. 위험 대응 전략 — 회피·전가·완화·수용 (Risk Response)](/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/) ->
 
 ---

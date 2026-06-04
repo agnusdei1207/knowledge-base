@@ -1,27 +1,24 @@
-+++
-title = "61. 비동기식 카운터 (리플 카운터)"
-date = 2026-03-19
+---
+title: "61. 비동기식 카운터 (리플 카운터)"
+date: "2026-03-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Asynchronous [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 앞 단계 Flip-Flop의 출력이 다음 단계의 클럭이 되는 ripple 구조의 순차 논리회로다.
+> 1. **본질**: 비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)(Asynchronous [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))는 앞 단계 Flip-Flop의 출력이 다음 단계의 클럭이 되는 ripple 구조의 순차 논리회로다.
 > 2. **가치**: 게이트 수와 배선이 적어 저비용, 저전력, 저주파 분주에 유리하다.
-> 3. **한계**: 전파 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적돼 고속 동작에 불리하므로 고성능 제어에는 [동기식 카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)가 더 적합하다.
+> 3. **한계**: 전파 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 누적돼 고속 동작에 불리하므로 고성능 제어에는 [동기식 카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)가 더 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 숫자를 셀 때 모든 Flip-Flop이 동시에 움직이지 않는다. 앞 단계가 바뀌어야 다음 단계가 움직이기 때문에, 상태가 도미노처럼 순차적으로 전파된다.
+비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 숫자를 셀 때 모든 Flip-Flop이 동시에 움직이지 않는다. 앞 단계가 바뀌어야 다음 단계가 움직이기 때문에, 상태가 도미노처럼 순차적으로 전파된다.
 
-이 구조는 회로를 단순하게 만들고 분주 회로를 싸게 구현하게 해 주지만, 속도는 느려진다. 그래서 "단순함과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 함께 이해해야 한다.
+이 구조는 회로를 단순하게 만들고 분주 회로를 싸게 구현하게 해 주지만, 속도는 느려진다. 그래서 "단순함과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"을 함께 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 줄 서서 한 명씩 번호를 외치는 방식이라 준비는 쉬운데, 끝까지 전달되는 데 시간이 걸린다.
 
@@ -40,12 +37,12 @@ CLK
 
 | 항목 | 의미 |
 | :-- | :-- |
-| [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) | 첫 번째 Flip-Flop만 직접 구동 |
+| [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) | 첫 번째 Flip-Flop만 직접 구동 |
 | Q 출력 | 다음 Flip-Flop의 클럭 입력으로 전달 |
 | Ripple | 출력 변화가 뒤 단계로 순차 전파되는 현상 |
-| [Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) | 단계가 늘수록 누적되는 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| [Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/) | 단계가 늘수록 누적되는 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 각 Flip-Flop이 같은 순간에 바뀌지 않는다. 따라서 출력 비트가 잠깐 잘못 보이는 과도 상태가 생길 수 있고, 그 점이 [동기식 카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)와 가장 큰 차이다.
+비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 각 Flip-Flop이 같은 순간에 바뀌지 않는다. 따라서 출력 비트가 잠깐 잘못 보이는 과도 상태가 생길 수 있고, 그 점이 [동기식 카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)와 가장 큰 차이다.
 
 - **📢 섹션 요약 비유**: 도미노를 쓰러뜨리면 첫 장면은 빠르지만, 마지막 장면까지는 줄줄이 시간이 걸린다.
 
@@ -53,15 +50,15 @@ CLK
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | [동기식 카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/) |
+| 항목 | 비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) | [동기식 카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/) |
 | :-- | :-- | :-- |
 | 클럭 방식 | 앞 단계 출력이 다음 단계 클럭 | 모든 Flip-Flop이 공통 클럭 공유 |
 | 속도 | 느림 | 빠름 |
 | 회로 복잡도 | 단순 | 상대적으로 복잡 |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적 | 큼 | 작음 |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적 | 큼 | 작음 |
 | 대표 용도 | 저주파 분주, 단순 계수 | 고속 제어, 정밀 타이밍 |
 
-비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/)(주파수 분주)처럼 "많이 세되, 천천히 세어도 되는" 상황에 잘 맞는다. 반대로 클럭이 빠른 CPU 제어 경로에서는 출력 안정성이 더 중요한 동기식 방식이 유리하다.
+비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/)(주파수 분주)처럼 "많이 세되, 천천히 세어도 되는" 상황에 잘 맞는다. 반대로 클럭이 빠른 CPU 제어 경로에서는 출력 안정성이 더 중요한 동기식 방식이 유리하다.
 
 - **📢 섹션 요약 비유**: 한 줄로 이어서 말하는 방식은 쉽지만, 동시에 외쳐야 하는 시험장에서는 부적합한 것과 같다.
 
@@ -69,20 +66,20 @@ CLK
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 저주파 분주나 단순 카운팅인지 확인한다.
-2. 전파 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인한 글리치(glitch)를 허용할 수 있는지 본다.
+2. 전파 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 인한 글리치(glitch)를 허용할 수 있는지 본다.
 3. 출력이 조합 논리의 입력으로 곧바로 들어가는지 점검한다.
 4. 고속 클럭 영역이면 동기식 대안을 우선 검토한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 고속 CPU 제어 경로에 비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 그대로 쓰는 설계
-- 전파 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 무시하고 타이밍 분석을 생략하는 설계
+- 고속 CPU 제어 경로에 비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 그대로 쓰는 설계
+- 전파 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 무시하고 타이밍 분석을 생략하는 설계
 - 과도 상태가 문제인데 출력 정제 없이 바로 후속 회로에 연결하는 설계
 
-기술사 관점에서는 회로가 "돌아가는가"보다 "언제까지 안정적으로 돌아가는가"를 먼저 봐야 한다. 비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 단순하지만, 속도와 안정성 요구가 올라가면 한계가 분명하다.
+기술사 관점에서는 회로가 "돌아가는가"보다 "언제까지 안정적으로 돌아가는가"를 먼저 봐야 한다. 비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 단순하지만, 속도와 안정성 요구가 올라가면 한계가 분명하다.
 
 - **📢 섹션 요약 비유**: 줄은 빨리 만들 수 있어도, 줄 끝까지 동시에 움직여야 하는 경기에서는 다른 방법이 필요하다.
 
@@ -90,7 +87,7 @@ CLK
 
 ## Ⅴ. 기대효과 및 결론
 
-비동기식 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 가장 적은 자원으로 숫자를 세는 실용적인 회로다. 하지만 그 단순함은 곧 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적이라는 대가를 동반한다.
+비동기식 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)는 가장 적은 자원으로 숫자를 세는 실용적인 회로다. 하지만 그 단순함은 곧 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 누적이라는 대가를 동반한다.
 
 결국 이 회로의 가치는 "저속, 저비용, 단순성"을 요구하는 자리에서 가장 빛난다.
 
@@ -140,7 +137,7 @@ Low-speed Counter
 
 **진행 상황**: 61 / 803
 
-<- **이전**: [60. 동기식 카운터 (Synchronous Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)
-**다음**: [62. 업/다운 카운터 (Up/Down Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/) ->
+<- **이전**: [60. 동기식 카운터 (Synchronous Counter)](/studynote/01_computer_architecture/01_basic_electronics_logic/060_synchronous_counter/)
+**다음**: [62. 업/다운 카운터 (Up/Down Counter)](/studynote/01_computer_architecture/01_basic_electronics_logic/062_up_down_counter/) ->
 
 ---

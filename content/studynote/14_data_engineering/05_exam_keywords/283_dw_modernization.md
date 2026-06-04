@@ -1,13 +1,10 @@
-+++
-title = "283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)"
-date = 2026-05-09
+---
+title: "283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -165,7 +162,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 283 / 300
 
-<- **이전**: [282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/282_open_data_portal/)
-**다음**: [284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/284_htap_realtime_analytics/) ->
+<- **이전**: [282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)](/studynote/14_data_engineering/05_exam_keywords/282_open_data_portal/)
+**다음**: [284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)](/studynote/14_data_engineering/05_exam_keywords/284_htap_realtime_analytics/) ->
 
 ---

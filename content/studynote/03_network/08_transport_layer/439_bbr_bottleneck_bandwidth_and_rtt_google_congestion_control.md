@@ -1,30 +1,27 @@
-+++
-title = "439. BBR (Bottleneck Bandwidth and Round-trip propagation time)"
-date = 2026-05-08
+---
+title: "439. BBR (Bottleneck Bandwidth and Round-trip propagation time)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: BBR는 전송 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: BBR를 이해하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
+> 2. **가치**: BBR를 이해하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 구글이 2016년에 발표한 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 알고리즘으로, 패킷 유실(Packet Loss)이 아닌 네트워크의 실제 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(BDP, [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product)을 실시간으로 모델링하여 최적의 전송 속도를 결정하는 기법.
-- **필요성**: 현대 사람들은 핸드폰 와이파이나 5G로 유튜브를 본다. 무선망은 장애물이 많아 패킷 손실률이 기본 1~2%다. 기존의 CUBIC(레노 포함)은 패킷이 죽으면 무조건 "라우터가 꽉 찼네!" 하고 속도를 절반으로 깎아버리는 낡은 사상을 가졌다. (길이 텅텅 비어있는데 단순 무선 노이즈로 죽은 건데도!). <strong>"야! 1980년대 낡은 사상(Drop 기반) 다 갖다 버려! 진짜 길이 막히면 패킷이 버려지기 전에 '핑 타임(<a href="/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)이 늘어나는 징후'가 먼저 나타난다! 핑 속도를 재고 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 재서, 톨게이트 큐(버퍼)가 부풀어 오르기 직전까지만 딱 예쁘게 쏴!!"</strong> 이 천재적 발상이 세상을 바꿨다.
+- **개념**: 구글이 2016년에 발표한 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 혼잡 제어 알고리즘으로, 패킷 유실(Packet Loss)이 아닌 네트워크의 실제 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(BDP, [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product)을 실시간으로 모델링하여 최적의 전송 속도를 결정하는 기법.
+- **필요성**: 현대 사람들은 핸드폰 와이파이나 5G로 유튜브를 본다. 무선망은 장애물이 많아 패킷 손실률이 기본 1~2%다. 기존의 CUBIC(레노 포함)은 패킷이 죽으면 무조건 "라우터가 꽉 찼네!" 하고 속도를 절반으로 깎아버리는 낡은 사상을 가졌다. (길이 텅텅 비어있는데 단순 무선 노이즈로 죽은 건데도!). <strong>"야! 1980년대 낡은 사상(Drop 기반) 다 갖다 버려! 진짜 길이 막히면 패킷이 버려지기 전에 '핑 타임(<a href="/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/">RTT</a>)이 늘어나는 징후'가 먼저 나타난다! 핑 속도를 재고 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>을 재서, 톨게이트 큐(버퍼)가 부풀어 오르기 직전까지만 딱 예쁘게 쏴!!"</strong> 이 천재적 발상이 세상을 바꿨다.
 
 - **💡 비유**: BBR은 막히는 고속도로를 달리는 <strong>"테슬라 오토파일럿"</strong>과 같습니다.
   - **기존 (CUBIC)**: 앞차와 꽝 부딪혀서 범퍼가 부서져야만(Packet Drop) "아, 차가 막히는구나!" 하고 브레이크를 밟습니다. (앞 유리에 새똥이 맞아서 시야가 가려져도 범퍼가 부서진 줄 알고 급브레이크를 밟는 바보입니다).
-  - **BBR**: 앞차와의 거리가 좁아지는 속도([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가)와 내 차가 달리는 속도([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 카메라와 센서로 실시간 계산해서, 부딪히기 한참 전부터 <strong>"스무스하게 앞차와 똑같은 속도로 정속 주행"</strong>을 맞춰 사고(Drop) 자체를 내지 않습니다.
+  - **BBR**: 앞차와의 거리가 좁아지는 속도([RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 증가)와 내 차가 달리는 속도([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 카메라와 센서로 실시간 계산해서, 부딪히기 한참 전부터 <strong>"스무스하게 앞차와 똑같은 속도로 정속 주행"</strong>을 맞춰 사고(Drop) 자체를 내지 않습니다.
 
 ```text
 [TCP BIC / CUBIC]
@@ -35,19 +32,19 @@ tags = ["studynote-network"]
     +---> [RTO 측정 방식]
 ```
 
-- **📢 섹션 요약 비유**: <strong> CUBIC은 물통에 물이 꽉 차서 </strong>바닥으로 물이 철철 넘쳐흘러야(Drop)<strong> 비로소 수도꼭지를 잠그는 미련한 짓이라면, BBR은 물통 안에 </strong>초음파 센서([RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정)**를 달아 수위가 차오르는 속도를 계산하여, 넘치기 1cm 직전에 수도꼭지 밸브를 유동적으로 싹 조절해 물을 한 방울도 안 버리는 최첨단 밸브 시스템입니다.
+- **📢 섹션 요약 비유**: <strong> CUBIC은 물통에 물이 꽉 차서 </strong>바닥으로 물이 철철 넘쳐흘러야(Drop)<strong> 비로소 수도꼭지를 잠그는 미련한 짓이라면, BBR은 물통 안에 </strong>초음파 센서([RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) 측정)**를 달아 수위가 차오르는 속도를 계산하여, 넘치기 1cm 직전에 수도꼭지 밸브를 유동적으로 싹 조절해 물을 한 방울도 안 버리는 최첨단 밸브 시스템입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)의 크기: BDP ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product) 측정
+### 1. [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)의 크기: BDP ([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)-Delay Product) 측정
 BBR 라우터의 뇌구조는 오직 이 공식 하나로 돌아간다.
 <strong><code>최적의 전송량(물) = 가장 좁은 파이프 굵기(BtlBw) × 파이프 길이(RTprop)</code></strong>
 
-- <strong>BtlBw (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 내가 10번 패킷을 쏘면서 영수증이 도착하는 속도를 재보니, 최대로 뽑아본 속도가 `100Mbps`였다. "아, 중간에 가장 좁은 병목 구간이 100Mbps짜리구나!"
+- <strong>BtlBw (<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a> <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 내가 10번 패킷을 쏘면서 영수증이 도착하는 속도를 재보니, 최대로 뽑아본 속도가 `100Mbps`였다. "아, 중간에 가장 좁은 병목 구간이 100Mbps짜리구나!"
 - **RTprop (Round-Trip Propagation Time)**: 영수증이 도착하는 데 걸린 시간 중, 차가 1대도 안 막히고 빛의 속도로 쓩 갔다 온 순수 물리적 왕복 시간. "최소 핑 타임이 `10ms`구나!"
-- **BBR의 결정**: "오케이. 병목 100Mbps × 핑 10ms = [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에 딱 `1MB`의 물을 채워 넣으면 넘치지도, 모자라지도 않는 100% 갓벽한 속도다! 무조건 1MB씩만 들이부어라!"
+- **BBR의 결정**: "오케이. 병목 100Mbps × 핑 10ms = [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 안에 딱 `1MB`의 물을 채워 넣으면 넘치지도, 모자라지도 않는 100% 갓벽한 속도다! 무조건 1MB씩만 들이부어라!"
 
 ### 2. 큐잉(버퍼블로트)의 타파
 CUBIC은 라우터 버퍼가 꽉 찰 때까지 밀어 넣는다. 라우터 버퍼에 데이터가 산더미처럼 쌓여 있으니, 뒤늦게 들어간 내 롤(LOL) 게임 패킷이 버퍼를 통과하느라 핑이 1000ms로 치솟는 끔찍한 현상(**Bufferbloat, 버퍼블로트**)이 발생한다.
@@ -81,13 +78,13 @@ CUBIC은 라우터 버퍼가 꽉 찰 때까지 밀어 넣는다. 라우터 버�
 
 ## Ⅲ. 비교 및 연결
 
-BBR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC가 기반 조건을 만든다면, BBR는 그 위에서 핵심 메커니즘을 구현하고, [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+BBR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC가 기반 조건을 만든다면, BBR는 그 위에서 핵심 메커니즘을 구현하고, [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC의 기반 정리 | BBR의 핵심 동작 | [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC의 기반 정리 | BBR의 핵심 동작 | [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: BBR는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -95,21 +92,21 @@ BBR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-구글은 BBR을 만들고 유튜브 서버와 구글 클라우드(GCP) 망 전체에 이걸 덮어씌웠다. 덕분에 인류는 끊김 없는 유튜브를 보고 있다. 현재 최신 리눅스 커널과 윈도우 11에는 BBR이 내장되어 있어, 서버 관리자가 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄(`sysctl -w net.ipv4.tcp_congestion_control=bbr`)만 치면 곧바로 내 서버가 우주 최강의 스피드 부스터를 달게 된다.
+구글은 BBR을 만들고 유튜브 서버와 구글 클라우드(GCP) 망 전체에 이걸 덮어씌웠다. 덕분에 인류는 끊김 없는 유튜브를 보고 있다. 현재 최신 리눅스 커널과 윈도우 11에는 BBR이 내장되어 있어, 서버 관리자가 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 줄(`sysctl -w net.ipv4.tcp_congestion_control=bbr`)만 치면 곧바로 내 서버가 우주 최강의 스피드 부스터를 달게 된다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** BBR은 혈관(네트워크) 속의 **"스마트 피 채취 센서"**입니다. 옛날 의사(CUBIC)는 피가 터져 나와야(Drop) 고혈압인 줄 알았지만, BBR 센서는 혈압([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))과 맥박([지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 초정밀 측정하여, 혈관이 터지기 직전 최적의 펌프질 속도로 혈액을 순환시키는 무결점 인공심장입니다.
+- **📢 섹션 요약 비유**: ** BBR은 혈관(네트워크) 속의 **"스마트 피 채취 센서"**입니다. 옛날 의사(CUBIC)는 피가 터져 나와야(Drop) 고혈압인 줄 알았지만, BBR 센서는 혈압([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))과 맥박([지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 초정밀 측정하여, 혈관이 터지기 직전 최적의 펌프질 속도로 혈액을 순환시키는 무결점 인공심장입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식, 적응형 저지연 전송, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 적응형 저지연 전송 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: BBR는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -119,10 +116,10 @@ BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 세그먼트 ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
-| [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
-| [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 세그먼트 ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 전송 계층이 다루는 기본 단위다. |
+| [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) ([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/)) | 수신자 처리 속도를 넘지 않게 조절한다. |
+| [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +133,7 @@ BBR는 전송 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 
     +---> [확장 B: 적응형 저지연 전송]
 ```
 
-BBR는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTO](/knowledge-base/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+BBR는 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) BIC / CUBIC에서 출발해 현재 메커니즘을 정교화하고, 이후 [RTO](/studynote/12_it_management/05_security_compliance/176_rto_recovery_time_objective/) 측정 방식와 적응형 저지연 전송 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ BBR는 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_tra
 
 **진행 상황**: 560 / 1120
 
-<- **이전**: [438. TCP BIC / CUBIC](/knowledge-base/studynote/03_network/08_transport_layer/438_tcp_bic_cubic_modern_linux_congestion_control/)
-**다음**: [440. RTO (Retransmission TimeOut) 측정 방식](/knowledge-base/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/) ->
+<- **이전**: [438. TCP BIC / CUBIC](/studynote/03_network/08_transport_layer/438_tcp_bic_cubic_modern_linux_congestion_control/)
+**다음**: [440. RTO (Retransmission TimeOut) 측정 방식](/studynote/03_network/08_transport_layer/440_rto_retransmission_timeout_measurement/) ->
 
 ---

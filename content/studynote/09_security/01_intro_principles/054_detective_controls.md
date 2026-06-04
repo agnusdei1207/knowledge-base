@@ -1,19 +1,16 @@
-+++
-title = "54. 탐지 통제 (Detective Controls)"
-date = 2026-05-01
+---
+title: "54. 탐지 통제 (Detective Controls)"
+date: "2026-05-01"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 탐지 통제 (Detective Controls)는 발생한 이상이나 공격을 빠르게 발견하는 보안 통제다.
-> 2. **가치**: [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) ([Intrusion Detection System](/knowledge-base/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/)), [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/knowledge-base/studynote/12_it_management/02_itsm_itil/074_event_management/)), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 대표적이다.
-> 3. **판단 포인트**: [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)와 결합해야 의미가 있다. 탐지만 있고 대응이 없으면 소용이 작다.
+> 2. **가치**: [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) ([Intrusion Detection System](/studynote/09_security/uncategorized/1090_ids_ips_intrusion_detection_prevention_false_positive/)), [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Information and [Event Management](/studynote/12_it_management/02_itsm_itil/074_event_management/)), [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 대표적이다.
+> 3. **판단 포인트**: [예방 통제](/studynote/09_security/01_intro_principles/053_preventive_controls/)와 결합해야 의미가 있다. 탐지만 있고 대응이 없으면 소용이 작다.
 
 ---
 
@@ -29,7 +26,7 @@ tags = ["studynote-security"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-탐지 통제는 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 패턴 탐지, [상관 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), 경보로 이어진다. 정상과 다른 행동을 알아차리는 것이 핵심이다.
+탐지 통제는 [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 패턴 탐지, [상관 분석](/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/), 경보로 이어진다. 정상과 다른 행동을 알아차리는 것이 핵심이다.
 
 ```text
 Event/Log -> Detection Rule -> Alert -> Investigation
@@ -37,10 +34,10 @@ Event/Log -> Detection Rule -> Alert -> Investigation
 
 | 수단 | 역할 | 예시 |
 | :--- | :--- | :--- |
-| Log | 기록 | 접근 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
-| [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) | 침입 탐지 | 패킷 이상 |
-| [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) | 통합 분석 | 경보 상관분석 |
-| [Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) | 추적 | 변경 이력 |
+| Log | 기록 | 접근 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) |
+| [IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) | 침입 탐지 | 패킷 이상 |
+| [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) | 통합 분석 | 경보 상관분석 |
+| [Audit Trail](/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) | 추적 | 변경 이력 |
 
 핵심은 "발생 여부"를 눈치채는 것이다. 탐지 통제가 있어야 사고의 규모와 원인을 파악할 수 있다.
 
@@ -50,13 +47,13 @@ Event/Log -> Detection Rule -> Alert -> Investigation
 
 ## Ⅲ. 비교 및 연결
 
-탐지 통제는 [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/), [교정 통제](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/), [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제와 함께 본다. 예방이 못 막은 것을 발견하고, 교정이 뒤를 받친다.
+탐지 통제는 [예방 통제](/studynote/09_security/01_intro_principles/053_preventive_controls/), [교정 통제](/studynote/09_security/01_intro_principles/055_corrective_controls/), [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 통제와 함께 본다. 예방이 못 막은 것을 발견하고, 교정이 뒤를 받친다.
 
 | 통제 유형 | 역할 |
 | :--- | :--- |
 | Preventive | 막기 |
 | Detective | 찾기 |
-| [Corrective](/knowledge-base/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) | 고치기 |
+| [Corrective](/studynote/04_software_engineering/06_software_architecture/380_maintenance_types/) | 고치기 |
 
 탐지 통제는 평균 탐지 시간(MTTD)과 경보 품질이 중요하다. 너무 많은 오탐은 운영 피로를 만든다.
 
@@ -66,18 +63,18 @@ Event/Log -> Detection Rule -> Alert -> Investigation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 중요한 이벤트를 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남기고, 중앙 수집과 분석을 한다. 탐지 규칙은 공격기법과 운영 이상 모두를 잡아야 한다.
+실무에서는 중요한 이벤트를 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남기고, 중앙 수집과 분석을 한다. 탐지 규칙은 공격기법과 운영 이상 모두를 잡아야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 중요한 이벤트가 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남는가?
+1. 중요한 이벤트가 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)로 남는가?
 2. 경보가 운영자가 처리 가능한 수준인가?
-3. [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 변경/접속을 다루는가?
+3. [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적이 변경/접속을 다루는가?
 4. MTTD와 대응 절차가 정의되는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 많지만 보지 않는 경우
+- [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)는 많지만 보지 않는 경우
 - 오탐이 너무 많아 경보가 무시되는 경우
 - 탐지 후 대응 절차가 없는 경우
 
@@ -101,10 +98,10 @@ Event/Log -> Detection Rule -> Alert -> Investigation
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 증적 |
-| [IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) | 침입 탐지 |
-| [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) | 통합 분석 |
-| [Audit Trail](/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) | 추적 |
+| [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 증적 |
+| [IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) | 침입 탐지 |
+| [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) | 통합 분석 |
+| [Audit Trail](/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/) | 추적 |
 | MTTD | 탐지 속도 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -136,7 +133,7 @@ Event/Log -> Detection Rule -> Alert -> Investigation
 
 **진행 상황**: 54 / 1108
 
-<- **이전**: [53. 예방 통제 (Preventive Controls)](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)
-**다음**: [55. 교정 통제 (Corrective Controls)](/knowledge-base/studynote/09_security/01_intro_principles/055_corrective_controls/) ->
+<- **이전**: [53. 예방 통제 (Preventive Controls)](/studynote/09_security/01_intro_principles/053_preventive_controls/)
+**다음**: [55. 교정 통제 (Corrective Controls)](/studynote/09_security/01_intro_principles/055_corrective_controls/) ->
 
 ---

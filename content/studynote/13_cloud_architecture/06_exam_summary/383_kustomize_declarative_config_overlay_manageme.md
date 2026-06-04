@@ -1,13 +1,10 @@
-+++
-title = "383. Kustomize 선언적 설정 관리 오버레이 (Kustomize Declarative Config Overlay Management)"
-date = 2026-05-09
+---
+title: "383. Kustomize 선언적 설정 관리 오버레이 (Kustomize Declarative Config Overlay Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 383 / 800
 
-<- **이전**: [382. 헬름 차트 패키지 관리 배포 자동화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/382_helm_chart_package_management_deployment/)
-**다음**: [384. ArgoCD GitOps 선언적 지속 배포](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/384_argocd_gitops_declarative_continuous_delivery/) ->
+<- **이전**: [382. 헬름 차트 패키지 관리 배포 자동화](/studynote/13_cloud_architecture/06_exam_summary/382_helm_chart_package_management_deployment/)
+**다음**: [384. ArgoCD GitOps 선언적 지속 배포](/studynote/13_cloud_architecture/06_exam_summary/384_argocd_gitops_declarative_continuous_delivery/) ->
 
 ---

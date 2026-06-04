@@ -1,13 +1,10 @@
-+++
-title = "276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)"
-date = 2026-05-09
+---
+title: "276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ $$\beta_{IV} = \frac{\text{Cov}(Z, Y)}{\text{Cov}(Z, X)} = \frac{\text{Cov}(Z, \
 
 **진행 상황**: 276 / 300
 
-<- **이전**: [275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/275_ab_testing/)
-**다음**: [277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/277_data_ethics_bias/) ->
+<- **이전**: [275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)](/studynote/14_data_engineering/05_exam_keywords/275_ab_testing/)
+**다음**: [277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)](/studynote/14_data_engineering/05_exam_keywords/277_data_ethics_bias/) ->
 
 ---

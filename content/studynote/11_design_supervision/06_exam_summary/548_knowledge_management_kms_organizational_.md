@@ -1,13 +1,10 @@
-+++
-title = "548. 지식 관리 KMS 조직 학습 시스템 (Knowledge Management KMS Organizational Learning)"
-date = 2026-05-09
+---
+title: "548. 지식 관리 KMS 조직 학습 시스템 (Knowledge Management KMS Organizational Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 548 / 600
 
-<- **이전**: [547. IT 자산 관리 라이프사이클 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/548_it_asset_management_lifecycle_optimizati/)
-**다음**: [549. 서비스 카탈로그 셀프서비스 포털](/knowledge-base/studynote/11_design_supervision/06_exam_summary/549_service_catalog_self_service_portal/) ->
+<- **이전**: [547. IT 자산 관리 라이프사이클 최적화](/studynote/11_design_supervision/06_exam_summary/548_it_asset_management_lifecycle_optimizati/)
+**다음**: [549. 서비스 카탈로그 셀프서비스 포털](/studynote/11_design_supervision/06_exam_summary/549_service_catalog_self_service_portal/) ->
 
 ---

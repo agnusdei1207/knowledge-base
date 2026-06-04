@@ -1,31 +1,28 @@
-+++
-title = "13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)"
-date = 2026-04-21
+---
+title: "13. Kafka 파티셔닝 전략 (Kafka Partitioning Strategy)"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) ([아파치 카프카](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 단위이자 순서 보장의 경계로, [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 따라 "어느 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 어떤 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 들어가는지"가 결정되며 이는 소비자 그룹의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 순서 보장에 직접 영향을 미친다.
-- **가치**: 키 기반([Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Based) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 같은 키의 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 들어가 순서를 보장하고, 라운드로빈(Round-Robin)은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 부하를 고르게 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하며, 커스텀 파티셔너(Custom Partitioner)는 지역별·우선순위별 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 가능하게 한다.
-- **판단 포인트**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 소비자 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 상한선이므로, 최대 예상 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 초과 처리하는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 넉넉히 설계해야 한다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 늘릴 수 있지만 줄일 수 없으며, 수를 늘리면 기존 키 기반 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 배정이 바뀌어 순서 보장이 깨질 수 있다.
+- **본질**: [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) ([아파치 카프카](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/))의 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)([Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 단위이자 순서 보장의 경계로, [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 따라 "어느 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 어떤 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 들어가는지"가 결정되며 이는 소비자 그룹의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 순서 보장에 직접 영향을 미친다.
+- **가치**: 키 기반([Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)-Based) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 같은 키의 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 같은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 들어가 순서를 보장하고, 라운드로빈(Round-Robin)은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 간 부하를 고르게 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하며, 커스텀 파티셔너(Custom Partitioner)는 지역별·우선순위별 복잡한 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 가능하게 한다.
+- **판단 포인트**: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 소비자 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 상한선이므로, 최대 예상 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 초과 처리하는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수를 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 넉넉히 설계해야 한다. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수는 늘릴 수 있지만 줄일 수 없으며, 수를 늘리면 기존 키 기반 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 배정이 바뀌어 순서 보장이 깨질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 역할
+### 1. [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 역할
 
-[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽(Topic)을 나누는 물리적 단위다.
+[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽(Topic)을 나누는 물리적 단위다.
 
-- <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong>: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 동시에 처리할 수 있는 최대 Consumer 수
-- **순서 보장**: 하나의 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 순서 보장 (오프셋 순)
-- **내구성**: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 여러 브로커에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))되어 장애 내성 확보
+- <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong>: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 동시에 처리할 수 있는 최대 Consumer 수
+- **순서 보장**: 하나의 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내에서는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 순서 보장 (오프셋 순)
+- **내구성**: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 여러 브로커에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))되어 장애 내성 확보
 
 ```
 토픽 "orders" (파티션 수 = 3):
@@ -38,13 +35,13 @@ tags = ["studynote-bigdata"]
 ```
 
 **📢 섹션 요약 비유**
-> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "슈퍼마켓 계산대"와 같다. 계산대([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 수만큼 손님(소비자)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능하다. 계산대가 3개인데 손님이 10명이면, 7명은 줄을 서야 한다.
+> [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "슈퍼마켓 계산대"와 같다. 계산대([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 수만큼 손님(소비자)이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 가능하다. 계산대가 3개인데 손님이 10명이면, 7명은 줄을 서야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 세 가지 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 1. 세 가지 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 [1. 키 기반 파티셔닝 (Key-Based)]
@@ -68,16 +65,16 @@ if (msg.priority == "HIGH") -> 파티션 2
 비즈니스 로직 기반 라우팅
 ```
 
-### 2. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 배정 메커니즘
+### 2. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 배정 메커니즘
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Java [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 키 유무 | 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 순서 보장 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Java [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 키 유무 | 균등 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 순서 보장 |
 |:---|:---|:---|:---|:---|
 | 키 기반 | 기본 (키 지정 시) | 필요 | 키 편중 가능 | 동일 키 내 보장 |
 | 라운드로빈 | 기본 (키 null 시) | 불필요 | 균등 | 보장 안 됨 |
-| 스티키 파티셔너 | 기본 ([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+) | 불필요 | 균등 | 배치 내 보장 |
+| 스티키 파티셔너 | 기본 ([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+) | 불필요 | 균등 | 배치 내 보장 |
 | 커스텀 | `Partitioner` 인터페이스 구현 | 선택 | 설계에 따라 | 설계에 따라 |
 
-### 3. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계
+### 3. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계
 
 ```
 파티션 수 설계 공식 (경험칙):
@@ -94,15 +91,15 @@ if (msg.priority == "HIGH") -> 파티션 2
 ```
 
 **📢 섹션 요약 비유**
-> [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계는 "고속도로 차선 수 설계"와 같다. 차선이 적으면 정체, 차선이 너무 많으면 유지 비용 증가. 예상 최대 차량 수([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))를 기준으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 충분히 설계해야 한다.
+> [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계는 "고속도로 차선 수 설계"와 같다. 차선이 적으면 정체, 차선이 너무 많으면 유지 비용 증가. 예상 최대 차량 수([처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))를 기준으로 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 충분히 설계해야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. [컨슈머 그룹](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 리밸런싱([Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) Rebalancing)
+### 1. [컨슈머 그룹](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) 리밸런싱([Consumer Group](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) Rebalancing)
 
-[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재배정이 발생하면 모든 Consumer가 일시 정지(STW: Stop-The-World)한다.
+[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재배정이 발생하면 모든 Consumer가 일시 정지(STW: Stop-The-World)한다.
 
 ```
 리밸런싱 발생 트리거:
@@ -116,9 +113,9 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
   - "Cooperative" 알고리즘으로 처리 중단 최소화
 ```
 
-### 2. 스티키 파티셔너 (Sticky Partitioner, [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+)
+### 2. 스티키 파티셔너 (Sticky Partitioner, [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 2.4+)
 
-키 없는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 배치(Batch) 단위로 같은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 몰아서 처리 -> I/O 효율 향상.
+키 없는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지를 배치(Batch) 단위로 같은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 몰아서 처리 -> I/O 효율 향상.
 
 ```
 기존 라운드로빈: msg1->P0, msg2->P1, msg3->P2, msg4->P0 (배치 효율 낮음)
@@ -133,19 +130,19 @@ Incremental Cooperative Rebalancing (Kafka 2.4+):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 1. [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 가이드
+### 1. [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 선택 가이드
 
-| 요구사항 | 권장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 요구사항 | 권장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 |:---|:---|
 | 주문별 처리 순서 보장 | 키 기반 (order_id) |
 | 사용자별 이벤트 순서 보장 | 키 기반 (user_id) |
-| 단순 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 | 라운드로빈 (키 null) |
-| 지역/우선순위별 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 커스텀 파티셔너 |
-| 키 스큐(Hot [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 해결 | 복합 키 또는 솔팅 |
+| 단순 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 | 라운드로빈 (키 null) |
+| 지역/우선순위별 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 커스텀 파티셔너 |
+| 키 스큐(Hot [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 해결 | 복합 키 또는 솔팅 |
 
-### 2. 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Hot [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 문제 해결
+### 2. 핫 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(Hot [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)) 문제 해결
 
-특정 키에 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 집중되면 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 병목이 된다.
+특정 키에 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 집중되면 해당 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 병목이 된다.
 
 ```python
 # 솔팅으로 핫 파티션 방지
@@ -154,16 +151,16 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 # -> 나중에 집계 시 user_001_* 패턴으로 합산
 ```
 
-### 3. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 3. [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [ ] 최대 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기반 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 (부족하면 나중에 늘려야 함)
-- [ ] [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 변경 시 키 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 재검토
-- [ ] `group.instance.id` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 Incremental Cooperative Rebalancing 활성화
-- [ ] 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링: [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 오프셋 격차 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- [ ] [Retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/): 보관 기간 × [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) = 스토리지 계획
+- [ ] 최대 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 기반 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 (부족하면 나중에 늘려야 함)
+- [ ] [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 변경 시 키 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 재검토
+- [ ] `group.instance.id` [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)으로 Incremental Cooperative Rebalancing 활성화
+- [ ] 핫 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링: [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 오프셋 격차 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- [ ] [Retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/): 보관 기간 × [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) = 스토리지 계획
 
 **📢 섹션 요약 비유**
-> [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 설계는 "물류 센터 창고 구획 설계"와 같다. 상품 종류별(키 기반)로 구역을 나눠 순서를 관리하거나, 용량 균등(라운드로빈)으로 배치하거나, 중요 상품 우선(커스텀)으로 전용 구역을 만들 수 있다.
+> [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 설계는 "물류 센터 창고 구획 설계"와 같다. 상품 종류별(키 기반)로 구역을 나눠 순서를 관리하거나, 용량 균등(라운드로빈)으로 배치하거나, 중요 상품 우선(커스텀)으로 전용 구역을 만들 수 있다.
 
 ---
 
@@ -173,28 +170,28 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 | 효과 | 설명 |
 |:---|:---|
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 확장 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수만큼 소비자 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 |
-| 순서 보장 | 키 기반으로 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내 이벤트 순서 보장 |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 선형 확장 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가 = [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 비례 증가 |
+| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 확장 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수만큼 소비자 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 |
+| 순서 보장 | 키 기반으로 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 내 이벤트 순서 보장 |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 선형 확장 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 추가 = [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 비례 증가 |
 
 ### 2. 결론
 
-[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>, 순서 보장, 부하 균등의 세 축을 균형 있게 설계</strong>하는 핵심 의사결정이다. 기술사 답안에서는 세 가지 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 차이, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계 기준, 리밸런싱의 영향, 그리고 핫 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 방지 방법을 함께 서술하면 완성도 높은 답안이 된다.
+[Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>, 순서 보장, 부하 균등의 세 축을 균형 있게 설계</strong>하는 핵심 의사결정이다. 기술사 답안에서는 세 가지 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 차이, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 설계 기준, 리밸런싱의 영향, 그리고 핫 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 방지 방법을 함께 서술하면 완성도 높은 답안이 된다.
 
 **📢 섹션 요약 비유**
-> [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "우체국 편지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"이다. 지역별 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(키 기반)는 순서를 지키고, 무작위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(라운드로빈)는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화하며, VIP 우선 처리(커스텀)는 비즈니스 규칙을 반영한다.
+> [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "우체국 편지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템"이다. 지역별 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(키 기반)는 순서를 지키고, 무작위 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(라운드로빈)는 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 극대화하며, VIP 우선 처리(커스텀)는 비즈니스 규칙을 반영한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [Consumer Group](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 소비 단위 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Consumer 수 |
-| 리밸런싱 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재배정 | Consumer 변동 시 발생하는 재할당 |
-| [Consumer Lag](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) | [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 지표 | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 [처리 지연](/knowledge-base/studynote/03_network/01_data_communication/019_처리_지연/) 측정 |
-| [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams | 스트리밍 응용 | [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 상태 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 영향 |
-| MirrorMaker 2 | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 도구 | 클러스터 간 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 토폴로지 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
+| [Consumer Group](/studynote/07_enterprise_systems/03_eai_esb_msa/191_consumer_group_kafka_partition_load_balancing/) | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)의 소비 단위 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수 = 최대 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) Consumer 수 |
+| 리밸런싱 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 재배정 | Consumer 변동 시 발생하는 재할당 |
+| [Consumer Lag](/studynote/16_bigdata/04_streaming/089_consumer_lag/) | [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 지표 | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)별 [처리 지연](/studynote/03_network/01_data_communication/019_처리_지연/) 측정 |
+| [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) Streams | 스트리밍 응용 | [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 상태 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 영향 |
+| MirrorMaker 2 | [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 도구 | 클러스터 간 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 토폴로지 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -214,11 +211,11 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 [파티션 재조정 (Rebalancing) — 컨슈머 그룹 변경 시 파티션 재분배]
 ```
 
-이 흐름은 [카프카](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 위해 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 분할되고, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 순서가 보장되며, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 재조정을 통해 고가용성 스트리밍 아키텍처가 완성되는 과정을 보여준다.
+이 흐름은 [카프카](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 토픽이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 위해 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 분할되고, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키로 순서가 보장되며, [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)와 재조정을 통해 고가용성 스트리밍 아키텍처가 완성되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-[Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 마트 계산대예요. 고객들을 어느 계산대로 보내느냐가 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요. "이름 순서로 줄 세우기(키 기반)"는 같은 이름 고객이 항상 같은 줄에 서서 순서가 지켜지고, "그냥 빈 줄로 보내기(라운드로빈)"는 모든 계산대가 바쁘게 돌아가요. 계산대 수([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수)를 처음부터 충분히 만들어야 나중에 손님이 늘어도 줄이 막히지 않아요!
+[Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 마트 계산대예요. 고객들을 어느 계산대로 보내느냐가 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이에요. "이름 순서로 줄 세우기(키 기반)"는 같은 이름 고객이 항상 같은 줄에 서서 순서가 지켜지고, "그냥 빈 줄로 보내기(라운드로빈)"는 모든 계산대가 바쁘게 돌아가요. 계산대 수([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 수)를 처음부터 충분히 만들어야 나중에 손님이 늘어도 줄이 막히지 않아요!
 
 ---
 
@@ -226,7 +223,7 @@ composite_key = f"user_001_{salt}"   # 10개 파티션에 분산
 
 **진행 상황**: 88 / 262
 
-<- **이전**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/knowledge-base/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/)
-**다음**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/knowledge-base/studynote/16_bigdata/04_streaming/089_consumer_lag/) ->
+<- **이전**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/)
+**다음**: [14. Consumer Lag — Kafka 소비 지연 모니터링](/studynote/16_bigdata/04_streaming/089_consumer_lag/) ->
 
 ---

@@ -1,9 +1,9 @@
-+++
-title = "01. 데이터 인프라 및 수집 아키텍처"
+---
+title: "01. 데이터 인프라 및 수집 아키텍처"
+tags:
+  - "data_engineering"
+---
 
-[extra]
-tags = ["data_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -199,4 +199,3 @@ tags = ["data_engineering"]
     v
 데이터 메시 · Serverless 인프라 · DataOps (미래)
 ```
-

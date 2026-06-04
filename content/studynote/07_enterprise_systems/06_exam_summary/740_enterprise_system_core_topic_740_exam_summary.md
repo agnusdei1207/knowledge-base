@@ -1,13 +1,10 @@
-+++
-title = "740. 엔터프라이즈 시스템 핵심 토픽 740번 시험 요약 (Enterprise System Core Topic 740 Exam Summary)"
-date = 2026-05-09
+---
+title: "740. 엔터프라이즈 시스템 핵심 토픽 740번 시험 요약 (Enterprise System Core Topic 740 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 740 / 800
 
-<- **이전**: [739. 엔터프라이즈 시스템 핵심 토픽 739번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/739_enterprise_system_core_topic_739_exam_summary/)
-**다음**: [741. 엔터프라이즈 시스템 핵심 토픽 741번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/741_enterprise_system_core_topic_741_exam_summary/) ->
+<- **이전**: [739. 엔터프라이즈 시스템 핵심 토픽 739번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/739_enterprise_system_core_topic_739_exam_summary/)
+**다음**: [741. 엔터프라이즈 시스템 핵심 토픽 741번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/741_enterprise_system_core_topic_741_exam_summary/) ->
 
 ---

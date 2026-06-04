@@ -1,13 +1,10 @@
-+++
-title = "574. 엣지 컴퓨팅 MEC 분산 지능 (Edge Computing MEC Distributed Intelligence)"
-date = 2026-05-09
+---
+title: "574. 엣지 컴퓨팅 MEC 분산 지능 (Edge Computing MEC Distributed Intelligence)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ ETSI MEC 참조 아키텍처(ISG MEC 003 v3.x, 2022)는 **MEC Orchestrator(MEO) 
 
 **진행 상황**: 574 / 600
 
-<- **이전**: [573. 양자 내성 암호 포스트 양자 전환](/knowledge-base/studynote/11_design_supervision/06_exam_summary/574_post_quantum_cryptography_pqc_migration/)
-**다음**: [575. 디지털 트윈 시뮬레이션 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/575_digital_twin_simulation_optimization/) ->
+<- **이전**: [573. 양자 내성 암호 포스트 양자 전환](/studynote/11_design_supervision/06_exam_summary/574_post_quantum_cryptography_pqc_migration/)
+**다음**: [575. 디지털 트윈 시뮬레이션 최적화](/studynote/11_design_supervision/06_exam_summary/575_digital_twin_simulation_optimization/) ->
 
 ---

@@ -1,31 +1,28 @@
-+++
-title = "586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)"
-date = 2026-05-09
+---
+title: "586. 트로이 목마 (Trojan Horse) / 래퍼 (Wrapper)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 트로이 목마는 <strong>"정상 프로그램으로 위장"</strong>하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
-> 2. **가치**: 트로이 목마는 <strong>자체 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 능력이 없는 반면</strong>, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
-> 3. **한계**: 트로이 목마는 정상 프로그램이므로 <strong>백신의 <a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>가 어려우며</strong>, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
+> 1. **본질**: 트로이 목마는 <strong>"정상 프로그램으로 위장"</strong>하여 사용자로 하여금 자발적으로 실행하게 만들고, 실행 후에는 백그라운드에서 악의적인 작업([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취, 시스템 장악 등)을 수행하는 악성 소프트웨어이다.
+> 2. **가치**: 트로이 목마는 <strong>자체 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a> 능력이 없는 반면</strong>, 래퍼(Wrapper) 도구를 통해 악성 코드를 정상 코드에 포장하여 배포되므로, 의심 없는 사용자가 오피스 프로그램, 게임, 유틸리티 등에 포함된 트로이 목마를 실행하게 된다.
+> 3. **한계**: 트로이 목마는 정상 프로그램이므로 <strong>백신의 <a href="/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>가 어려우며</strong>, 특히 래퍼로 포장된 다형성(Polymorphic) 트로이 목마는 매번 형태가 달라 기존 탐지 방법을 우회한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/), 웜, 트로이 목마의 차이
+### 1.1 [바이러스](/studynote/02_operating_system/10_security/589_virus/), 웜, 트로이 목마의 차이
 
-| 특성 | [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/) | 웜 | 트로이 목마 |
+| 특성 | [바이러스](/studynote/02_operating_system/10_security/589_virus/) | 웜 | 트로이 목마 |
 |:---|:---|:---|:---|
-| <strong>자기 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong> | 예 | 예 | 아니오 |
-| **침투 방식** | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 감염 | 네트워크 전파 | 정상 프로그램 위장 |
-| **실행 방식** | 숙주 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
+| <strong>자기 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a></strong> | 예 | 예 | 아니오 |
+| **침투 방식** | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 감염 | 네트워크 전파 | 정상 프로그램 위장 |
+| **실행 방식** | 숙주 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 실행 시 | 자율적 실행 | 사용자가 직접 실행 |
 | **확산 속도** | 중간 | 매우 빠름 | 느림 (사용자 의존) |
 
 ### 1.2 트로이 목마의명명유래
@@ -53,8 +50,8 @@ tags = ["studynote-operating-system"]
 | 유형 | 설명 | 예시 |
 |:---|:---|:---|
 | **Remote Access Trojan (RAT)** | 원격에서 시스템 제어 | njRAT, DarkComet |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Stealing Trojan</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 | 비밀번호 훔치기, [키로거](/knowledge-base/studynote/09_security/15_malware_attack_vectors/740_keylogger/) |
-| **Destructive Trojan** | 시스템 파괴 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제,경반(하드) 포맷 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Stealing Trojan</strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취 | 비밀번호 훔치기, [키로거](/studynote/09_security/15_malware_attack_vectors/740_keylogger/) |
+| **Destructive Trojan** | 시스템 파괴 | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 삭제,경반(하드) 포맷 |
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -72,13 +69,13 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 ```
 
 **사용되는 기법**:
-- 코드 주입 ([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/))
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 합체 ([File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Binding)
-- 런처 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Launcher Creation)
+- 코드 주입 ([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/))
+- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 합체 ([File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Binding)
+- 런처 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Launcher Creation)
 
 ### 3.2 폴리모orphic (다형성) 기법
 
-매 실행 시 악성 코드를 변형하여 <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>를 우회</strong>:
+매 실행 시 악성 코드를 변형하여 <strong><a href="/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a>를 우회</strong>:
 
 ```text
 [ 기존 ] malware.exe (고정 시그니처) -> 탐지 가능
@@ -95,15 +92,15 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 
 | 구분 | 방법 | 설명 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/324_behavior_based_detection/">행위 기반 탐지</a></strong> | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), HIDS | 악성 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 탐지 |
-| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a></strong> | 안티바이러스 | 알려진 트로이 목마 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong><a href="/studynote/09_security/04_endpoint_security/324_behavior_based_detection/">행위 기반 탐지</a></strong> | [EDR](/studynote/09_security/04_endpoint_security/325_edr/), HIDS | 악성 [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) 탐지 |
+| <strong><a href="/studynote/09_security/05_web_app_security/235_signature_based_detection_misuse_known_attacks/">시그니처 기반 탐지</a></strong> | 안티바이러스 | 알려진 트로이 목마 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
 | **Application Control** | 화이트리스트 | 허용된 프로그램만 실행 |
 | ** sandbox** | 샌드박스 | 격리 환경에서 실행 분석 |
 
 ### 4.2 사용자 교육
 
-- <strong>불분명한 출처의 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 열지 않기</strong>
-- <strong>첨부 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 실행 전 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>
+- <strong>불분명한 출처의 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 열지 않기</strong>
+- <strong>첨부 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 실행 전 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>
 - **소프트웨어는 공식 채널에서 다운로드**
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
@@ -112,7 +109,7 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 
 ## Ⅴ. 기대효과 및 결론
 
-- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여초기([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 탐지 가능
+- **위협 인식**: 트로이 목마의 특성과 동작 원리를 이해하여초기([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 탐지 가능
 - **다층 방어**: 기술적 대응과 사용자 인식을 결합한 방어 체계 구축
 - **지속적경척**: 새로운 변종이 지속적으로 등장하므로 지속적인 보안 업데이트 필요
 
@@ -124,10 +121,10 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [AppArmor](/studynote/02_operating_system/10_security/584_apparmor/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 시스템 보안 위협 유형 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [트랩 도어](/knowledge-base/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Door / [Backdoor](/knowledge-base/studynote/09_security/15_malware_attack_vectors/727_backdoor/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [로직 밤](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/) ([Logic Bomb](/knowledge-base/studynote/02_operating_system/10_security/588_logic_bomb/)) / 타이머 밤 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [트랩 도어](/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) Door / [Backdoor](/studynote/09_security/15_malware_attack_vectors/727_backdoor/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [로직 밤](/studynote/02_operating_system/10_security/588_logic_bomb/) ([Logic Bomb](/studynote/02_operating_system/10_security/588_logic_bomb/)) / 타이머 밤 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,7 +154,7 @@ malware.exe + game.exe -> wrapper.exe (정상 게임으로 위장)
 
 **진행 상황**: 586 / 800
 
-<- **이전**: [585. 시스템 보안 위협 유형 (System Security Threat Types)](/knowledge-base/studynote/02_operating_system/10_security/585_system_security_threat_types/)
-**다음**: [587. 트랩 도어 (Trap Door / Backdoor)](/knowledge-base/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ->
+<- **이전**: [585. 시스템 보안 위협 유형 (System Security Threat Types)](/studynote/02_operating_system/10_security/585_system_security_threat_types/)
+**다음**: [587. 트랩 도어 (Trap Door / Backdoor)](/studynote/02_operating_system/10_security/587_backdoor_trapdoor/) ->
 
 ---

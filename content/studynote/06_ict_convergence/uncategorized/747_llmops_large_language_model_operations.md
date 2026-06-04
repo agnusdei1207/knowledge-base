@@ -1,13 +1,10 @@
-+++
-title = "747. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)"
-date = 2026-05-09
+---
+title: "747. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ LLMOps 아키텍처는 **Foundation Model Layer -> Adaptation Layer -> Retrieval
 
 **진행 상황**: 747 / 800
 
-<- **이전**: [746. MLOps 머신러닝 생명주기 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/)
-**다음**: [748. 모델 서빙 추론 최적화 A/B 테스트](/knowledge-base/studynote/06_ict_convergence/uncategorized/748_model_serving_inference_optimization_ab_test/) ->
+<- **이전**: [746. MLOps 머신러닝 생명주기 관리](/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/)
+**다음**: [748. 모델 서빙 추론 최적화 A/B 테스트](/studynote/06_ict_convergence/uncategorized/748_model_serving_inference_optimization_ab_test/) ->
 
 ---

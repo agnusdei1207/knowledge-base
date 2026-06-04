@@ -1,13 +1,10 @@
-+++
-title = "668. IT 경영 관리 핵심 토픽 668번 시험 요약 (IT Management Core Topic 668 Exam Summary)"
-date = 2026-05-09
+---
+title: "668. IT 경영 관리 핵심 토픽 668번 시험 요약 (IT Management Core Topic 668 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 668. IT 거버넌스 및 정보화 전략 핵심 토픽 — 시험 요약
 
@@ -207,7 +204,7 @@ TCO = Capex + Opex
 
 **진행 상황**: 668 / 800
 
-<- **이전**: [667. IT 경영 관리 핵심 토픽 667번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/667_it_management_core_topic_667_exam_summary/)
-**다음**: [669. IT 경영 관리 핵심 토픽 669번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/669_it_management_core_topic_669_exam_summary/) ->
+<- **이전**: [667. IT 경영 관리 핵심 토픽 667번 시험 요약](/studynote/12_it_management/05_security_compliance/667_it_management_core_topic_667_exam_summary/)
+**다음**: [669. IT 경영 관리 핵심 토픽 669번 시험 요약](/studynote/12_it_management/05_security_compliance/669_it_management_core_topic_669_exam_summary/) ->
 
 ---

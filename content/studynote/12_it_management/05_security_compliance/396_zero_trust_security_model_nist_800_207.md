@@ -1,13 +1,10 @@
-+++
-title = "396. 제로 트러스트 보안 모델 NIST 800-207 (Zero Trust Security Model NIST 800-207)"
-date = 2026-05-09
+---
+title: "396. 제로 트러스트 보안 모델 NIST 800-207 (Zero Trust Security Model NIST 800-207)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -136,7 +133,7 @@ NIST 800-207의 ZTA 논리 아키텍처는 **3개의 핵심 제어 평면(Contro
 
 **진행 상황**: 396 / 800
 
-<- **이전**: [395. 클라우드 보안 인증 CSAP FedRAMP](/knowledge-base/studynote/12_it_management/05_security_compliance/395_cloud_security_certification_csap_fedramp/)
-**다음**: [397. 공급망 보안 SBOM 소프트웨어 구성 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/397_supply_chain_security_sbom_sca/) ->
+<- **이전**: [395. 클라우드 보안 인증 CSAP FedRAMP](/studynote/12_it_management/05_security_compliance/395_cloud_security_certification_csap_fedramp/)
+**다음**: [397. 공급망 보안 SBOM 소프트웨어 구성 분석](/studynote/12_it_management/05_security_compliance/397_supply_chain_security_sbom_sca/) ->
 
 ---

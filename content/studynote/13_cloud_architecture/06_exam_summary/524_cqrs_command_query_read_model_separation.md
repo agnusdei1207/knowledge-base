@@ -1,13 +1,10 @@
-+++
-title = "524. CQRS 명령 조회 분리 읽기 모델 (CQRS Command Query Read Model Separation)"
-date = 2026-05-09
+---
+title: "524. CQRS 명령 조회 분리 읽기 모델 (CQRS Command Query Read Model Separation)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 524 / 800
 
-<- **이전**: [523. 이벤트 소싱 이벤트 스토어 리플레이](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/523_event_sourcing_event_store_replay/)
-**다음**: [525. 백프레셔 흐름 제어 리액티브 스트림](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/525_backpressure_flow_control_reactive_streams/) ->
+<- **이전**: [523. 이벤트 소싱 이벤트 스토어 리플레이](/studynote/13_cloud_architecture/06_exam_summary/523_event_sourcing_event_store_replay/)
+**다음**: [525. 백프레셔 흐름 제어 리액티브 스트림](/studynote/13_cloud_architecture/06_exam_summary/525_backpressure_flow_control_reactive_streams/) ->
 
 ---

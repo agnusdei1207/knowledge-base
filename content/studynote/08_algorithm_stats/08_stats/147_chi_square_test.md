@@ -1,19 +1,16 @@
-+++
-title = "18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정"
-date = 2026-04-21
+---
+title: "18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
 > 카이제곱 검정(Chi-Square Test, χ^)은 범주형 변수(Categorical Variable)를 분석하는 핵심 도구로, "관측 빈도(Observed)와 기대 빈도(Expected)의 괴리"를 정량화해 귀무 가설을 검정한다.
-> 독립성 검정([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) Test)은 분할표(Contingency Table)에서 두 변수가 독립인지를 확인하며, 자유도 df = (행-1)×(열-1)로 계산한다 — 이 수식이 "여유도(자유롭게 변할 수 있는 셀 수)"를 정확히 포착한다.
-> [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서 χ^ 통계량은 특징 중요도 순위(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용되며, GWAS(Genome-Wide Association Study, 전장 유전체 연관 분석) 같은 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초다.
+> 독립성 검정([Independence](/studynote/08_algorithm_stats/08_stats/133_independence/) Test)은 분할표(Contingency Table)에서 두 변수가 독립인지를 확인하며, 자유도 df = (행-1)×(열-1)로 계산한다 — 이 수식이 "여유도(자유롭게 변할 수 있는 셀 수)"를 정확히 포착한다.
+> [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서 χ^ 통계량은 특징 중요도 순위(Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용되며, GWAS(Genome-Wide Association Study, 전장 유전체 연관 분석) 같은 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석의 기초다.
 
 ---
 
@@ -33,8 +30,8 @@ E: 기대 빈도 (Expected Frequency)
 - 항상 ≥ 0 (제곱이므로)
 
 **χ^ 분포의 특성**:
-- 자유도 k의 χ^ 분포 = k개의 독립 표준 [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 변수의 제곱합
-- 평균 = df, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) = 2·df
+- 자유도 k의 χ^ 분포 = k개의 독립 표준 [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 변수의 제곱합
+- 평균 = df, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) = 2·df
 - 오른쪽 꼬리 검정(Right-Tailed Test): 충분히 큰 χ^가 기각 영역
 
 📢 **섹션 요약 비유**: χ^ 통계량은 "기대 vs 현실의 차이 점수"다. 주사위를 600번 굴려서 기대대로 각 면이 100번씩 나왔다면 점수=0이지만, 한 면이 200번 나왔다면 점수가 치솟아 "이건 공정하지 않다"는 결론에 이른다.
@@ -45,7 +42,7 @@ E: 기대 빈도 (Expected Frequency)
 
 **목적**: 관측된 빈도 분포가 이론적 분포와 일치하는지 검정
 
-**귀무 가설 H₀**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 이론 분포를 따른다.
+**귀무 가설 H₀**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 특정 이론 분포를 따른다.
 
 **자유도**: df = k - 1 - (추정된 파라미터 수)
 (기본 경우: df = k - 1, k = 범주 수)
@@ -62,14 +59,14 @@ E: 기대 빈도 (Expected Frequency)
 | 6 | 106 | 100 | 0.36 |
 | **합계** | **600** | **600** | **χ^=4.14** |
 
-df = 6-1 = 5, 임계값 χ^(5, 0.05) = [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07
-4.14 < [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07 -> H₀ 채택 (주사위는 공정하다)
+df = 6-1 = 5, 임계값 χ^(5, 0.05) = [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07
+4.14 < [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).07 -> H₀ 채택 (주사위는 공정하다)
 
 📢 **섹션 요약 비유**: 적합도 검정은 "예상 vs 실제 출석 점검"과 같다. 한 반에서 예상 성적 분포(기대)와 실제 성적 분포(관측)를 비교해 "수업이 제대로 이루어졌는가"를 판단한다.
 
 ---
 
-## Ⅲ. 독립성 검정 ([Independence](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/) Test)
+## Ⅲ. 독립성 검정 ([Independence](/studynote/08_algorithm_stats/08_stats/133_independence/) Test)
 
 **목적**: 두 범주형 변수가 서로 독립인지(연관이 없는지) 검정
 
@@ -131,12 +128,12 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 |:---|:---|:---|
 | 독립 관측 | 각 관측이 독립 | 결과 왜곡 |
 | 기대 빈도 ≥ 5 | 모든 셀의 E ≥ 5 | p-값 부정확 |
-| 충분한 표본 | 전체 n ≥ 20 권장 | [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 저하 |
-| 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 연속형에 직접 적용 불가 | — |
+| 충분한 표본 | 전체 n ≥ 20 권장 | [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 저하 |
+| 범주형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 연속형에 직접 적용 불가 | — |
 
-<strong>소셀(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 문제 해결책</strong>:
+<strong>소셀(<a href="/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/">Small Cell</a>) 문제 해결책</strong>:
 - 범주 병합 (Category Merging)
-- 피셔의 정확 검정 (Fisher's Exact Test): 소표본 2×2 표에 정확한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
+- 피셔의 정확 검정 (Fisher's Exact Test): 소표본 2×2 표에 정확한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
 - 예이츠 보정
 
 ```
@@ -155,9 +152,9 @@ df = (2-1)(2-1) = 1, 임계값 = 3.84 (α=0.05)
 
 ---
 
-## Ⅴ. [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특징 선택과 GWAS 응용
+## Ⅴ. [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 특징 선택과 GWAS 응용
 
-<strong>특징 선택 (Feature <a href="/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>) — ML</strong>:
+<strong>특징 선택 (Feature <a href="/studynote/10_ai/01_ai_basics/022_mcts_four_stages/">Selection</a>) — ML</strong>:
 
 범주형 타겟(y)과 각 입력 특징(x_i)의 χ^ 통계량을 계산해 높은 순으로 특징 선택:
 
@@ -169,11 +166,11 @@ X_new = selector.fit_transform(X, y)
 
 **GWAS (Genome-Wide Association Study, 전장 유전체 연관 분석)**:
 - 수백만 개의 SNP(Single Nucleotide Polymorphism) vs 질병 여부
-- 각 SNP에 대해 2×3 분할표(genotype: [AA](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[Aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[aa](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) × case/control) χ^ 검정
-- 다중 검정 보정 필수: Bonferroni 적용 시 p < 5×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁸ (≈ 0.05/백만)
+- 각 SNP에 대해 2×3 분할표(genotype: [AA](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[Aa](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)/[aa](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/) × case/control) χ^ 검정
+- 다중 검정 보정 필수: Bonferroni 적용 시 p < 5×[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁸ (≈ 0.05/백만)
 
 **마케팅 A/B 테스트**:
-- 두 광고 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) × 클릭/비클릭 -> 2×2 χ^ 독립성 검정
+- 두 광고 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) × 클릭/비클릭 -> 2×2 χ^ 독립성 검정
 - 전환율(Conversion Rate) 차이가 우연인지 검정
 
 📢 **섹션 요약 비유**: χ^ 특징 선택은 "학생 성적과 관련 없는 정보 솎아내기"와 같다. "성별 × 성적 등급" χ^ 통계량이 높다면 성별이 성적과 연관 있다는 뜻 — 모델에 포함할 가치가 있다.
@@ -182,11 +179,11 @@ X_new = selector.fit_transform(X, y)
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
 | χ^ 통계량 | χ^ 분포 | 귀무 가설 하의 분포 |
 | 적합도 검정 | 단일 범주형 변수 | 이론 분포와 비교 |
-| 독립성 검정 | 분할표 | 두 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 독립성 검정 | 분할표 | 두 변수 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 예이츠 보정 | 2×2 소표본 | 과소추정 보정 |
 | Fisher 정확 검정 | 소표본 2×2 | χ^ 대안 |
 | ML 특징 선택 | χ^ 통계량 | 중요도 순위화 |
@@ -211,12 +208,12 @@ X_new = selector.fit_transform(X, y)
     v
 [p-값 해석 (p-value) -> 유의수준 α와 비교 -> 귀무가설 기각 여부 판정]
 ```
-카이제곱 검정은 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 관찰 빈도와 기대 빈도 간 차이를 수치화하여, 독립성 및 분포 적합성을 검증하는 비모수 통계 기법이다.
+카이제곱 검정은 범주형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 관찰 빈도와 기대 빈도 간 차이를 수치화하여, 독립성 및 분포 적합성을 검증하는 비모수 통계 기법이다.
 ### 👶 어린이를 위한 3줄 비유 설명
 
 주사위를 600번 굴렸는데 기대한 숫자와 얼마나 다른지 점수 내는 게 카이제곱이야 — 점수가 높을수록 "이 주사위는 조작된 것 같아!"라고 결론 내려.
 "남자/여자"와 "핑크/파랑 좋아하기"가 관련 있는지 확인할 때도 카이제곱을 쓰는데, 그게 독립성 검정이야!
-[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서는 카이제곱으로 "이 특징이 정답(타겟)과 얼마나 관련 있는가"를 측정해서, 관련 없는 특징은 버리고 중요한 것만 남겨.
+[머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)에서는 카이제곱으로 "이 특징이 정답(타겟)과 얼마나 관련 있는가"를 측정해서, 관련 없는 특징은 버리고 중요한 것만 남겨.
 
 ---
 
@@ -224,7 +221,7 @@ X_new = selector.fit_transform(X, y)
 
 **진행 상황**: 147 / 175
 
-<- **이전**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)
-**다음**: [19. t-검정 / F-검정 / ANOVA — 평균 비교 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/148_t_f_anova/) ->
+<- **이전**: [17. 신뢰 구간 (Confidence Interval) — 모수 추정의 불확실성](/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)
+**다음**: [19. t-검정 / F-검정 / ANOVA — 평균 비교 검정](/studynote/08_algorithm_stats/08_stats/148_t_f_anova/) ->
 
 ---

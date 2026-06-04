@@ -1,13 +1,10 @@
-+++
-title = "517. IT 경영 관리 핵심 토픽 517번 시험 요약 (IT Management Core Topic 517 Exam Summary)"
-date = 2026-05-09
+---
+title: "517. IT 경영 관리 핵심 토픽 517번 시험 요약 (IT Management Core Topic 517 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ IT 경영 관리의 핵심 프레임워크들은 서로 **중복·보완 관계*
 
 **진행 상황**: 517 / 800
 
-<- **이전**: [516. IT 경영 관리 핵심 토픽 516번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/516_it_management_core_topic_516_exam_summary/)
-**다음**: [518. IT 경영 관리 핵심 토픽 518번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/518_it_management_core_topic_518_exam_summary/) ->
+<- **이전**: [516. IT 경영 관리 핵심 토픽 516번 시험 요약](/studynote/12_it_management/05_security_compliance/516_it_management_core_topic_516_exam_summary/)
+**다음**: [518. IT 경영 관리 핵심 토픽 518번 시험 요약](/studynote/12_it_management/05_security_compliance/518_it_management_core_topic_518_exam_summary/) ->
 
 ---

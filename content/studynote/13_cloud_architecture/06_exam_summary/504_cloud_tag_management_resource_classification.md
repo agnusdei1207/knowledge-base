@@ -1,13 +1,10 @@
-+++
-title = "504. 클라우드 태그 관리 리소스 분류 전략 (Cloud Tag Management Resource Classification)"
-date = 2026-05-09
+---
+title: "504. 클라우드 태그 관리 리소스 분류 전략 (Cloud Tag Management Resource Classification)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 504 / 800
 
-<- **이전**: [503. 클라우드 정책 관리 OPA 거버넌스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/503_cloud_policy_management_opa_governance/)
-**다음**: [505. 클라우드 계정 관리 조직 랜딩 존](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/505_cloud_account_management_organization_landing/) ->
+<- **이전**: [503. 클라우드 정책 관리 OPA 거버넌스](/studynote/13_cloud_architecture/06_exam_summary/503_cloud_policy_management_opa_governance/)
+**다음**: [505. 클라우드 계정 관리 조직 랜딩 존](/studynote/13_cloud_architecture/06_exam_summary/505_cloud_account_management_organization_landing/) ->
 
 ---

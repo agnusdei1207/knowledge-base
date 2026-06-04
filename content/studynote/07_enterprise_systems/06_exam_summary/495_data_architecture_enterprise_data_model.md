@@ -1,13 +1,10 @@
-+++
-title = "495. 데이터 아키텍처 전사 데이터 모델 (Data Architecture Enterprise Data Model)"
-date = 2026-05-09
+---
+title: "495. 데이터 아키텍처 전사 데이터 모델 (Data Architecture Enterprise Data Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 495 / 800
 
-<- **이전**: [494. ITA 정보기술 아키텍처 참조 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/494_ita_it_architecture_reference_model/)
-**다음**: [496. 기술 아키텍처 인프라 참조 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/496_technology_architecture_infrastructure_refere/) ->
+<- **이전**: [494. ITA 정보기술 아키텍처 참조 모델](/studynote/07_enterprise_systems/06_exam_summary/494_ita_it_architecture_reference_model/)
+**다음**: [496. 기술 아키텍처 인프라 참조 모델](/studynote/07_enterprise_systems/06_exam_summary/496_technology_architecture_infrastructure_refere/) ->
 
 ---

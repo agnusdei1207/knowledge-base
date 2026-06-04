@@ -1,29 +1,26 @@
-+++
-title = "415. Compare-and-Swap (CAS) 연산"
-date = 2026-03-20
+---
+title: "415. Compare-and-Swap (CAS) 연산"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) (Compare-and-Swap) 연산은 공유 메모리의 값이 내가 기대한 값과 같을 때만 새 값으로 바꾸는 원자적(Atomic) 읽기-수정-[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 명령이다.
-> 2. **가치**: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 재우지 않고도 충돌을 검출할 수 있어, 짧은 임계 갱신에서는 높은 처리량과 낮은 지연시간을 동시에 노릴 수 있다.
-> 3. **판단 포인트**: CAS는 만능이 아니라 충돌이 잦아지면 재시도 비용과 캐시 라인 경쟁이 커지므로, ABA 문제·메모리 순서·경합 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)까지 함께 설계해야 한다.
+> 1. **본질**: [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) (Compare-and-Swap) 연산은 공유 메모리의 값이 내가 기대한 값과 같을 때만 새 값으로 바꾸는 원자적(Atomic) 읽기-수정-[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Read-Modify-Write) 명령이다.
+> 2. **가치**: 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))으로 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 재우지 않고도 충돌을 검출할 수 있어, 짧은 임계 갱신에서는 높은 처리량과 낮은 지연시간을 동시에 노릴 수 있다.
+> 3. **판단 포인트**: CAS는 만능이 아니라 충돌이 잦아지면 재시도 비용과 캐시 라인 경쟁이 커지므로, ABA 문제·메모리 순서·경합 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)까지 함께 설계해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) (Compare-and-Swap) 연산은 멀티코어 환경에서 공유 변수를 안전하게 갱신하기 위해 CPU (Central Processing Unit)가 제공하는 대표적인 원자 명령이다. 핵심은 단순하다. 어떤 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값을 읽어 계산을 마친 뒤, **"내가 처음 봤던 값이 아직 그대로인가"** 를 확인하고 그때만 결과를 반영한다.
+[CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) (Compare-and-Swap) 연산은 멀티코어 환경에서 공유 변수를 안전하게 갱신하기 위해 CPU (Central Processing Unit)가 제공하는 대표적인 원자 명령이다. 핵심은 단순하다. 어떤 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값을 읽어 계산을 마친 뒤, **"내가 처음 봤던 값이 아직 그대로인가"** 를 확인하고 그때만 결과를 반영한다.
 
-이 명령이 필요한 이유는 일반적인 `load -> add -> store`가 세 단계로 쪼개지기 때문이다. 예를 들어 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 10일 때 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 1씩 증가시키면, 둘 다 10을 읽고 각각 11을 써서 최종 결과가 12가 아니라 11이 되는 [갱신 손실](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)([Lost Update](/knowledge-base/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))이 발생할 수 있다. 락으로 막을 수도 있지만, 락은 경쟁 시 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 세우고 OS ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 스케줄링 개입까지 유발해 비용이 커진다.
+이 명령이 필요한 이유는 일반적인 `load -> add -> store`가 세 단계로 쪼개지기 때문이다. 예를 들어 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)가 10일 때 두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 1씩 증가시키면, 둘 다 10을 읽고 각각 11을 써서 최종 결과가 12가 아니라 11이 되는 [갱신 손실](/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/)([Lost Update](/studynote/05_database/04_transactions_concurrency/203_lost_update_concurrency_problem/))이 발생할 수 있다. 락으로 막을 수도 있지만, 락은 경쟁 시 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 대기열에 세우고 OS ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/))의 스케줄링 개입까지 유발해 비용이 커진다.
 
-CAS는 이 문제를 <strong>낙관적 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Optimistic <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong> 로 바꾼다. 먼저 계산은 각 코어가 독립적으로 수행하고, 마지막 반영 순간에만 충돌 여부를 판정한다. 충돌이 없으면 한 번에 성공하고, 충돌이 있으면 실패를 반환해 다시 시도하면 된다. 즉, "항상 막아두는 방식"이 아니라 "마지막 순간만 검표하는 방식"이다.
+CAS는 이 문제를 <strong>낙관적 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a>(Optimistic <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">Synchronization</a>)</strong> 로 바꾼다. 먼저 계산은 각 코어가 독립적으로 수행하고, 마지막 반영 순간에만 충돌 여부를 판정한다. 충돌이 없으면 한 번에 성공하고, 충돌이 있으면 실패를 반환해 다시 시도하면 된다. 즉, "항상 막아두는 방식"이 아니라 "마지막 순간만 검표하는 방식"이다.
 
 ```text
 +--------------------------------------------------------------+
@@ -37,7 +34,7 @@ CAS는 이 문제를 <strong>낙관적 <a href="/knowledge-base/studynote/02_ope
 +--------------------------------------------------------------+
 ```
 
-결국 CAS는 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 "무조건 순서대로 줄 세우는 문제"에서 "충돌을 빠르게 감지하고 재시도하는 문제"로 바꿔 준다. 그래서 멀티코어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 락프리([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘의 출발점으로 자주 등장한다.
+결국 CAS는 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신을 "무조건 순서대로 줄 세우는 문제"에서 "충돌을 빠르게 감지하고 재시도하는 문제"로 바꿔 준다. 그래서 멀티코어 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 락프리([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 알고리즘의 출발점으로 자주 등장한다.
 
 - **📢 섹션 요약 비유**: CAS는 창구 앞 문을 잠가 한 사람씩 들이는 방식이 아니라, 모두가 서류를 미리 작성해 오고 마지막 도장 찍는 순간에만 "지금 번호표가 아직 네 차례냐"를 확인하는 방식과 같다.
 
@@ -50,8 +47,8 @@ CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계�
 | 구성 요소 | 역할 | 설계상 의미 |
 | :-- | :-- | :-- |
 | 메모리 위치 | 실제 공유 값이 저장된 주소 | 경쟁이 집중되는 지점 |
-| 기대값 ([Expected Value](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)) | 내가 이전에 읽어 두었던 값 | 충돌 검출 기준 |
-| 새 값 ([New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Value) | 계산 결과로 쓰고 싶은 값 | 성공 시 반영되는 결과 |
+| 기대값 ([Expected Value](/studynote/08_algorithm_stats/08_stats/135_expected_value/)) | 내가 이전에 읽어 두었던 값 | 충돌 검출 기준 |
+| 새 값 ([New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Value) | 계산 결과로 쓰고 싶은 값 | 성공 시 반영되는 결과 |
 | 성공/실패 반환 | 갱신 여부 알림 | 재시도 여부 판단 |
 
 아래 그림은 CAS가 메모리 갱신을 어떻게 단일 판정으로 묶는지 보여준다.
@@ -70,11 +67,11 @@ CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계�
 +--------------------------------------------------------------+
 ```
 
-실제 칩에서는 이 순간 해당 캐시 라인에 대한 독점권을 확보해야 한다. 현대 멀티코어는 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그기보다 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜을 이용해 특정 캐시 라인만 배타적으로 다룬다. 그래서 CAS의 비용은 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개 비용이 아니라, **캐시 라인을 누구 소유로 만들 것인가** 까지 포함한 비용이다.
+실제 칩에서는 이 순간 해당 캐시 라인에 대한 독점권을 확보해야 한다. 현대 멀티코어는 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 전체를 잠그기보다 MESI (Modified, Exclusive, Shared, Invalid) 같은 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜을 이용해 특정 캐시 라인만 배타적으로 다룬다. 그래서 CAS의 비용은 단순 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개 비용이 아니라, **캐시 라인을 누구 소유로 만들 것인가** 까지 포함한 비용이다.
 
-또 하나의 장점은 실패한 CAS가 보통 값을 바꾸지 않는다는 점이다. `Test-and-Set`처럼 실패할 때마다 무조건 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 발생시키는 방식보다, 불필요한 무효화(Invalidate) 트래픽을 줄일 수 있다. 그래서 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)(Spin [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))보다 더 일반적인 락프리 자료구조에 적합하다.
+또 하나의 장점은 실패한 CAS가 보통 값을 바꾸지 않는다는 점이다. `Test-and-Set`처럼 실패할 때마다 무조건 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 발생시키는 방식보다, 불필요한 무효화(Invalidate) 트래픽을 줄일 수 있다. 그래서 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)(Spin [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))보다 더 일반적인 락프리 자료구조에 적합하다.
 
-다만 CAS는 원자성만 줄 뿐, 항상 올바른 <strong>메모리 순서(Memory <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)</strong> 까지 자동으로 해결해 주는 것은 아니다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 먼저 쓰고, 그 뒤에 상태 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 공개해야 한다면 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))나 acquire/release 의미론까지 같이 고려해야 한다.
+다만 CAS는 원자성만 줄 뿐, 항상 올바른 <strong>메모리 순서(Memory <a href="/studynote/02_operating_system/04_synchronization/277_semaphore_ordering/">Ordering</a>)</strong> 까지 자동으로 해결해 주는 것은 아니다. 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 먼저 쓰고, 그 뒤에 상태 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)를 공개해야 한다면 [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))나 acquire/release 의미론까지 같이 고려해야 한다.
 
 - **📢 섹션 요약 비유**: CAS는 서류를 창구에 던져 넣는 일이 아니라, 창구 직원이 내 번호표와 현재 전광판 번호를 동시에 확인한 뒤 맞으면 즉시 처리하고 아니면 그대로 돌려보내는 즉석 판정기와 같다.
 
@@ -82,21 +79,21 @@ CAS의 내부 동작은 `비교(Compare) -> 조건부 교체(Swap)` 두 단계�
 
 ## Ⅲ. 비교 및 연결
 
-CAS를 제대로 이해하려면 다른 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식과의 경계를 봐야 한다. 핵심 차이는 **"남을 멈추게 하느냐"** 와 **"실패를 감수하고 다시 하느냐"** 에 있다.
+CAS를 제대로 이해하려면 다른 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 방식과의 경계를 봐야 한다. 핵심 차이는 **"남을 멈추게 하느냐"** 와 **"실패를 감수하고 다시 하느냐"** 에 있다.
 
-| 항목 | 락 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | Test-and-Set | [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) |
+| 항목 | 락 기반 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | Test-and-Set | [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) |
 | :-- | :-- | :-- | :-- |
 | 기본 철학 | 먼저 잠그고 작업 | 잠금 획득 여부를 원자적으로 판정 | 조건부 갱신으로 충돌 감지 |
-| 충돌 시 행동 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대기/수면 가능 | 계속 회전하며 재시도 | 실패 반환 후 다시 계산 |
-| [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 특성 | 락 변수 변경 중심 | 실패해도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생 | 조건이 맞을 때만 실제 갱신 |
-| 적합한 대상 | 긴 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) | 매우 짧은 락 획득 | 짧은 공유 상태 갱신, 락프리 구조 |
-| 주의점 | [문맥 교환 비용](/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) | 캐시 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) | ABA 문제, 재시도 폭증 |
+| 충돌 시 행동 | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 대기/수면 가능 | 계속 회전하며 재시도 | 실패 반환 후 다시 계산 |
+| [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 특성 | 락 변수 변경 중심 | 실패해도 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생 | 조건이 맞을 때만 실제 갱신 |
+| 적합한 대상 | 긴 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) | 매우 짧은 락 획득 | 짧은 공유 상태 갱신, 락프리 구조 |
+| 주의점 | [문맥 교환 비용](/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/) | 캐시 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) | ABA 문제, 재시도 폭증 |
 
-CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮고 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)이 짧을 때는 CAS의 낙관적 접근이 유리하다. 반대로 하나의 전역 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 수십 개 코어가 동시에 몰리면 모두가 같은 캐시 라인을 두드리며 실패-재시도를 반복하므로, 오히려 CPU 시간을 더 태울 수 있다.
+CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮고 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)이 짧을 때는 CAS의 낙관적 접근이 유리하다. 반대로 하나의 전역 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 수십 개 코어가 동시에 몰리면 모두가 같은 캐시 라인을 두드리며 실패-재시도를 반복하므로, 오히려 CPU 시간을 더 태울 수 있다.
 
-여기서 등장하는 대표적 함정이 <strong>ABA 문제</strong>다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값 `A`를 읽은 뒤 잠시 멈춘 사이 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `A -> B -> A`로 바꾸면, CAS는 다시 `A`를 보고 "변화가 없었다"고 오판할 수 있다. 정수 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 문제가 없을 수도 있지만, 포인터 기반 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)·큐에서는 노드가 한 번 제거됐다가 재사용되는 순간 심각한 구조 손상이 생길 수 있다.
+여기서 등장하는 대표적 함정이 <strong>ABA 문제</strong>다. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 값 `A`를 읽은 뒤 잠시 멈춘 사이 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 `A -> B -> A`로 바꾸면, CAS는 다시 `A`를 보고 "변화가 없었다"고 오판할 수 있다. 정수 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서는 문제가 없을 수도 있지만, 포인터 기반 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)·큐에서는 노드가 한 번 제거됐다가 재사용되는 순간 심각한 구조 손상이 생길 수 있다.
 
-그래서 CAS는 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/), [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그(tag), [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트, 해저드 포인터(Hazard Pointer) 같은 보조 기법과 자주 연결된다. 즉 CAS는 단독 해법이 아니라, **락프리 설계의 중심축** 이다. 주변 안전장치가 함께 붙어야 실제 시스템에서 신뢰성을 얻는다.
+그래서 CAS는 [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/), [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그(tag), [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 카운트, 해저드 포인터(Hazard Pointer) 같은 보조 기법과 자주 연결된다. 즉 CAS는 단독 해법이 아니라, **락프리 설계의 중심축** 이다. 주변 안전장치가 함께 붙어야 실제 시스템에서 신뢰성을 얻는다.
 
 - **📢 섹션 요약 비유**: 락은 교차로에 신호등을 세워 모두를 멈추게 하는 방식이고, CAS는 회전교차로에서 빈 틈이 보이면 들어가되 부딪히면 한 바퀴 더 도는 방식과 같다. 다만 같은 차가 잠깐 나갔다 다시 들어와도 같은 차로 착각하는 문제가 바로 ABA다.
 
@@ -104,25 +101,25 @@ CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 CAS는 `AtomicInteger`, `std::atomic`, 락프리 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 작업 큐, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)처럼 **갱신 단위가 작고 실패 시 다시 계산해도 부담이 크지 않은 곳** 에서 가장 효과적이다. 예를 들어 조회 수 증가, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 작업 포인터 이동 같은 연산은 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 한 번으로 충분히 해결되는 경우가 많다.
+실무에서 CAS는 `AtomicInteger`, `std::atomic`, 락프리 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 작업 큐, [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)처럼 **갱신 단위가 작고 실패 시 다시 계산해도 부담이 크지 않은 곳** 에서 가장 효과적이다. 예를 들어 조회 수 증가, [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/), 작업 포인터 이동 같은 연산은 [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 한 번으로 충분히 해결되는 경우가 많다.
 
-반면 비즈니스 로직이 길거나, 한 번 실패하면 다시 계산하는 비용이 큰 연산에는 CAS가 오히려 부적합하다. 예를 들어 긴 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 수정, 복잡한 메모리 할당/해제, 외부 입출력(I/O)과 결합된 갱신은 재시도 비용이 커서 락 기반 설계가 더 단순하고 안전할 수 있다. 기술사 답안에서는 "CAS가 빠르다"가 아니라 <strong>"짧은 갱신에는 채택, 긴 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>에는 회피"</strong> 로 정리해야 한다.
+반면 비즈니스 로직이 길거나, 한 번 실패하면 다시 계산하는 비용이 큰 연산에는 CAS가 오히려 부적합하다. 예를 들어 긴 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 수정, 복잡한 메모리 할당/해제, 외부 입출력(I/O)과 결합된 갱신은 재시도 비용이 커서 락 기반 설계가 더 단순하고 안전할 수 있다. 기술사 답안에서는 "CAS가 빠르다"가 아니라 <strong>"짧은 갱신에는 채택, 긴 <a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>에는 회피"</strong> 로 정리해야 한다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 공유 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신이 짧고 순수 메모리 연산으로 끝나는가?
+1. 공유 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 갱신이 짧고 순수 메모리 연산으로 끝나는가?
 2. 실패 시 다시 계산해도 비용이 작은가?
 3. 경쟁 지점이 한 캐시 라인에 과도하게 몰리지 않는가?
-4. 포인터 구조라면 ABA 방지책([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그, 해저드 포인터 등)이 있는가?
-5. 공개 순서가 중요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 acquire/release 또는 fence 설계가 포함되어 있는가?
+4. 포인터 구조라면 ABA 방지책([버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 태그, 해저드 포인터 등)이 있는가?
+5. 공개 순서가 중요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)라면 acquire/release 또는 fence 설계가 포함되어 있는가?
 
-### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 전역 핫스폿 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나에 모든 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 몰아 CAS로만 버티는 설계
+- 전역 핫스폿 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 하나에 모든 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 몰아 CAS로만 버티는 설계
 - 메모리 해제 문제를 무시한 채 락프리 연결 자료구조를 구현하는 설계
 - 원자성만 믿고 가시성·순서 보장을 생략하는 설계
 
-실무에서는 고경합 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 `LongAdder`류의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 쓰거나, 큐를 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))해서 경쟁 지점을 줄이는 방식이 자주 선택된다. 즉 CAS의 진짜 활용 포인트는 "무조건 락 제거"가 아니라 **경쟁을 줄인 뒤 마지막 갱신만 원자화하는 것** 이다.
+실무에서는 고경합 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에 `LongAdder`류의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 쓰거나, 큐를 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))해서 경쟁 지점을 줄이는 방식이 자주 선택된다. 즉 CAS의 진짜 활용 포인트는 "무조건 락 제거"가 아니라 **경쟁을 줄인 뒤 마지막 갱신만 원자화하는 것** 이다.
 
 - **📢 섹션 요약 비유**: CAS는 계산이 짧은 계산대에는 잘 맞지만, 손님 한 명당 상담이 오래 걸리는 창구에는 맞지 않는다. 그런 곳에서 모두를 줄 세우지 않겠다고 우기면, 대기 대신 재시도만 끝없이 늘어나 더 혼잡해진다.
 
@@ -130,11 +127,11 @@ CAS는 락보다 빠를 수 있지만, 항상 그렇지는 않다. 경합이 낮
 
 ## Ⅴ. 기대효과 및 결론
 
-CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용을 줄이고, 짧은 공유 상태 갱신에서 높은 처리량을 얻을 수 있다. 또한 락을 줄이면 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 가능성을 낮추고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 사용자 공간에서 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어를 끝낼 수 있어 저지연 시스템에 유리하다.
+CAS를 적절히 쓰면 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) 비용을 줄이고, 짧은 공유 상태 갱신에서 높은 처리량을 얻을 수 있다. 또한 락을 줄이면 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 가능성을 낮추고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 개입 없이 사용자 공간에서 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어를 끝낼 수 있어 저지연 시스템에 유리하다.
 
-하지만 전제조건도 분명하다. CAS는 충돌이 낮아야 빛나며, 메모리 재활용·ABA·배리어 설계가 복잡해질수록 구현 난도가 급격히 올라간다. 그래서 현대 시스템은 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 하나로 모든 문제를 푸는 대신, 필요 시 락·[샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·배치·[하드웨어 트랜잭셔널 메모리](/knowledge-base/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)([HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/), Hardware Transactional Memory) 같은 기법과 조합한다.
+하지만 전제조건도 분명하다. CAS는 충돌이 낮아야 빛나며, 메모리 재활용·ABA·배리어 설계가 복잡해질수록 구현 난도가 급격히 올라간다. 그래서 현대 시스템은 [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 하나로 모든 문제를 푸는 대신, 필요 시 락·[샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·배치·[하드웨어 트랜잭셔널 메모리](/studynote/02_operating_system/04_synchronization/269_htm_intel_tsx/)([HTM](/studynote/01_computer_architecture/15_advanced_topics/513_htm/), Hardware Transactional Memory) 같은 기법과 조합한다.
 
-정리하면 CAS는 "락이 없는 마법"이 아니라, **짧은 갱신을 조건부로 원자화하는 정밀 도구** 다. 멀티코어 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 기억해야 할 핵심은 속도 자체보다, 충돌 확률과 자료구조 특성에 맞게 낙관적 재시도가 성립하는지를 판단하는 것이다.
+정리하면 CAS는 "락이 없는 마법"이 아니라, **짧은 갱신을 조건부로 원자화하는 정밀 도구** 다. 멀티코어 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에서 기억해야 할 핵심은 속도 자체보다, 충돌 확률과 자료구조 특성에 맞게 낙관적 재시도가 성립하는지를 판단하는 것이다.
 
 - **📢 섹션 요약 비유**: CAS는 모든 공사를 망치 하나로 해결하는 만능 도구가 아니라, 나사를 빠르게 조일 때는 최고지만 콘크리트를 부수는 일에는 맞지 않는 정밀 전동드라이버와 같다.
 
@@ -144,11 +141,11 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [하드웨어 동기화](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) ([Hardware Synchronization](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/)) | CAS는 CPU가 제공하는 대표적인 원자 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. |
-| Test-and-Set | 락 획득에는 단순하지만, 실패 시에도 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 유발해 트래픽이 커진다. |
-| [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) | CAS의 원자성만으로 부족한 공개 순서와 가시성을 보강한다. |
+| [하드웨어 동기화](/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/) ([Hardware Synchronization](/studynote/01_computer_architecture/11_multicore_synchronization/413_hardware_synchronization/)) | CAS는 CPU가 제공하는 대표적인 원자 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)다. |
+| Test-and-Set | 락 획득에는 단순하지만, 실패 시에도 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 유발해 트래픽이 커진다. |
+| [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) | CAS의 원자성만으로 부족한 공개 순서와 가시성을 보강한다. |
 | ABA 문제 | 값이 되돌아왔을 때 CAS가 변화를 놓칠 수 있는 대표적 함정이다. |
-| 락프리 ([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 자료구조 | CAS를 기반으로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 큐, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 등을 비차단으로 구성한다. |
+| 락프리 ([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) 자료구조 | CAS를 기반으로 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 큐, [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 등을 비차단으로 구성한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,7 +170,7 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
         고성능 동시성 라이브러리 · HTM
 ```
 
-이 흐름은 "원자 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 등장 -> 조건부 갱신 고도화 -> 안전장치 결합 -> 고성능 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 확장"의 발전 방향을 보여준다.
+이 흐름은 "원자 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 등장 -> 조건부 갱신 고도화 -> 안전장치 결합 -> 고성능 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 확장"의 발전 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -187,7 +184,7 @@ CAS를 적절히 쓰면 [컨텍스트](/knowledge-base/studynote/02_operating_sy
 
 **진행 상황**: 416 / 803
 
-<- **이전**: [414. Test-and-Set 연산](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/)
-**다음**: [416. 메모리 배리어 (Memory Barrier / Fence)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ->
+<- **이전**: [414. Test-and-Set 연산](/studynote/01_computer_architecture/11_multicore_synchronization/414_test_and_set/)
+**다음**: [416. 메모리 배리어 (Memory Barrier / Fence)](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ->
 
 ---

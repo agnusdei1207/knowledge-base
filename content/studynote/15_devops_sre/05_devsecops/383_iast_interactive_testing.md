@@ -1,13 +1,10 @@
-+++
-title = "383. IAST 인터랙티브 보안 테스트 런타임 분석 (Interactive Application Security Testing IAST)"
-date = 2026-05-09
+---
+title: "383. IAST 인터랙티브 보안 테스트 런타임 분석 (Interactive Application Security Testing IAST)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 383 / 400
 
-<- **이전**: [382. SCA 오픈소스 취약점 라이선스 분석 (Software Composition Analysis SCA Snyk)](/knowledge-base/studynote/15_devops_sre/05_devsecops/382_sca_open_source_analysis/)
-**다음**: [384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/384_rasp_self_protection/) ->
+<- **이전**: [382. SCA 오픈소스 취약점 라이선스 분석 (Software Composition Analysis SCA Snyk)](/studynote/15_devops_sre/05_devsecops/382_sca_open_source_analysis/)
+**다음**: [384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)](/studynote/15_devops_sre/05_devsecops/384_rasp_self_protection/) ->
 
 ---

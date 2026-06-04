@@ -1,18 +1,15 @@
-+++
-title = "전가산기 (Full Adder) 와 리플 캐리 가산기"
-date = 2026-03-04
+---
+title: "전가산기 (Full Adder) 와 리플 캐리 가산기"
+date: "2026-03-04"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트 3줄**
-> 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)([Half Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) 2개와 OR 게이트 1개로 구성된다.
-> 2. 전가산기 n개를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결한 [리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)([Ripple Carry Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))는 가장 단순한 n비트 덧셈기이나, 올림수가 차례로 전파되는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Carry [Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))이 O(n)이어서 고속 회로에는 부적합하다.
-> 3. [올림수 예측 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)(CLA·Carry Look-Ahead Adder)는 모든 올림수를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산해 O(log n) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 개선하며, 현대 ALU의 기반 회로다.
+> 1. 전가산기(Full Adder)는 두 입력 비트와 이전 자리의 올림수(Carry-in)를 합산해 합(Sum)과 올림수(Carry-out)를 출력하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)([Half Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)) 2개와 OR 게이트 1개로 구성된다.
+> 2. 전가산기 n개를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결한 [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)([Ripple Carry Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))는 가장 단순한 n비트 덧셈기이나, 올림수가 차례로 전파되는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Carry [Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/))이 O(n)이어서 고속 회로에는 부적합하다.
+> 3. [올림수 예측 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)(CLA·Carry Look-Ahead Adder)는 모든 올림수를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산해 O(log n) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 개선하며, 현대 ALU의 기반 회로다.
 
 ---
 
@@ -20,7 +17,7 @@ tags = ["studynote-computer-architecture"]
 
 전가산기(Full Adder)는 **3입력(A, B, Cin), 2출력(Sum, Cout)** 회로다.
 
-### [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
+### [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/)
 
 | A | B | Cin | Sum | Cout |
 |---|---|-----|-----|------|
@@ -54,7 +51,7 @@ Cout = (A AND B) OR (Cin AND (A XOR B))
 
 ---
 
-## Ⅱ. [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 2개로 전가산기 구성
+## Ⅱ. [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 2개로 전가산기 구성
 
 ```
 HA1: S1 = A XOR B,  C1 = A AND B
@@ -62,11 +59,11 @@ HA2: Sum = S1 XOR Cin,  C2 = S1 AND Cin
 Cout = C1 OR C2
 ```
 
-📢 **섹션 요약 비유**: 전가산기는 [반가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 두 팀이 이어달리기다 — 첫 팀(HA1)이 A+B를 계산하고, 두 번째 팀(HA2)이 그 결과에 Cin을 더한다.
+📢 **섹션 요약 비유**: 전가산기는 [반가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/) 두 팀이 이어달리기다 — 첫 팀(HA1)이 A+B를 계산하고, 두 번째 팀(HA2)이 그 결과에 Cin을 더한다.
 
 ---
 
-## Ⅲ. [리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ([Ripple Carry Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))
+## Ⅲ. [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ([Ripple Carry Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/))
 
 ```
 4비트 리플 캐리 가산기:
@@ -80,13 +77,13 @@ Cout   <-C3    <-C2    <-C1   Cin=0
 Sum3   Sum2   Sum1   Sum0
 ```
 
-<strong>올림수 <a href="/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a></strong>: FA0->C1->FA1->[C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/)->...->FA3->Cout (n단계)
+<strong>올림수 <a href="/studynote/03_network/01_data_communication/016_전파_지연/">전파 지연</a></strong>: FA0->C1->FA1->[C2](/studynote/09_security/15_malware_attack_vectors/746_c2/)->...->FA3->Cout (n단계)
 
 📢 **섹션 요약 비유**: 리플 캐리는 릴레이 경주다 — 앞 선수(FA0)가 배턴(Carry)을 넘기기 전까지 다음 선수(FA1)가 출발 못하므로 전체 시간이 n배 걸린다.
 
 ---
 
-## Ⅳ. [올림수 예측 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) (CLA, Carry Look-Ahead Adder)
+## Ⅳ. [올림수 예측 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) (CLA, Carry Look-Ahead Adder)
 
 ```
 Gi = Ai AND Bi          (Generate: 반드시 올림수 생성)
@@ -97,7 +94,7 @@ C2 = G1 OR (P1 AND G0) OR (P1 AND P0 AND C0)
 C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 ```
 
-모든 올림수를 <strong>동시에 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 계산</strong> -> [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) O(log n)
+모든 올림수를 <strong>동시에 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 계산</strong> -> [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) O(log n)
 
 📢 **섹션 요약 비유**: CLA는 모든 릴레이 선수가 동시에 출발 신호를 받는 것이다 — "만약 앞 선수가 배턴을 줄 것 같다면"을 미리 계산해 일제히 달린다.
 
@@ -105,10 +102,10 @@ C3 = G2 OR (P2 AND G1) OR (P2 AND P1 AND G0) OR ...
 
 ## Ⅴ. 가산기 방식 비교
 
-| 방식               | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)       | 회로 복잡도 | 적용                  |
+| 방식               | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)       | 회로 복잡도 | 적용                  |
 |-----------------|----------|------------|----------------------|
-| [리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)   | O(n)     | 낮음        | 교육용, 저속 회로     |
-| CLA 가산기        | O(log n) | 중간        | 범용 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)              |
+| [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)   | O(n)     | 낮음        | 교육용, 저속 회로     |
+| CLA 가산기        | O(log n) | 중간        | 범용 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)              |
 | 캐리 저장 가산기 (CSA) | O(1) | 높음     | 곱셈기, 파이프라인     |
 | 접두사 가산기 (Brent-Kung) | O(log n) | 높음 | VLSI 설계        |
 
@@ -160,7 +157,7 @@ ALU -> CPU 산술 연산
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 전가산기는 세 개의 구슬을 더하는 기계다 — 두 구슬(A, B)에 앞에서 넘어온 구슬(Cin)까지 더해서, 남은 구슬(Sum)과 다음으로 넘길 구슬(Cout)을 알려준다.
-2. [리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)는 릴레이 경주다 — 앞 주자가 배턴을 주기 전까지 다음 주자가 달릴 수 없어서, 8명이면 8배, 64명이면 64배 느려진다.
+2. [리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/)는 릴레이 경주다 — 앞 주자가 배턴을 주기 전까지 다음 주자가 달릴 수 없어서, 8명이면 8배, 64명이면 64배 느려진다.
 3. CLA 가산기는 모든 주자가 동시에 준비하는 경주다 — "혹시 배턴이 올 경우"를 미리 계산해 놓고 한꺼번에 달려서 훨씬 빠르다.
 
 ---
@@ -169,7 +166,7 @@ ALU -> CPU 산술 연산
 
 **진행 상황**: 34 / 803
 
-<- **이전**: [반가산기 (Half Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)
-**다음**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ->
+<- **이전**: [반가산기 (Half Adder)](/studynote/01_computer_architecture/01_basic_electronics_logic/033_half_adder/)
+**다음**: [035. 리플 캐리 가산기 (Ripple Carry Adder)](/studynote/01_computer_architecture/01_basic_electronics_logic/035_ripple_carry_adder/) ->
 
 ---

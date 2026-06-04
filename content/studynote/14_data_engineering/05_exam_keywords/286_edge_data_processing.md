@@ -1,13 +1,10 @@
-+++
-title = "286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)"
-date = 2026-05-09
+---
+title: "286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -105,7 +102,7 @@ IoT 센서·자율주행·스마트팩토리·AR/글래스·원격의료 등 5G/
 
 **진행 상황**: 286 / 300
 
-<- **이전**: [285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/285_multimodal_data/)
-**다음**: [287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/287_data_orchestration_airflow/) ->
+<- **이전**: [285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)](/studynote/14_data_engineering/05_exam_keywords/285_multimodal_data/)
+**다음**: [287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)](/studynote/14_data_engineering/05_exam_keywords/287_data_orchestration_airflow/) ->
 
 ---

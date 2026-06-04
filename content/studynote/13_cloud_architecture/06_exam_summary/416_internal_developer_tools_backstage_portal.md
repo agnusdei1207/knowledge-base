@@ -1,13 +1,10 @@
-+++
-title = "416. 내부 개발자 도구 백스테이지 포탈 (Internal Developer Tools Backstage Portal)"
-date = 2026-05-09
+---
+title: "416. 내부 개발자 도구 백스테이지 포탈 (Internal Developer Tools Backstage Portal)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 416 / 800
 
-<- **이전**: [415. 골든 패스 표준화된 배포 경로](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/415_golden_path_standardized_deployment_path/)
-**다음**: [417. FinOps 클라우드 비용 최적화 태깅](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/417_finops_cloud_cost_optimization_tagging/) ->
+<- **이전**: [415. 골든 패스 표준화된 배포 경로](/studynote/13_cloud_architecture/06_exam_summary/415_golden_path_standardized_deployment_path/)
+**다음**: [417. FinOps 클라우드 비용 최적화 태깅](/studynote/13_cloud_architecture/06_exam_summary/417_finops_cloud_cost_optimization_tagging/) ->
 
 ---

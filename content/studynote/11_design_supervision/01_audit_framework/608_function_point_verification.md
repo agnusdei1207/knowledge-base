@@ -1,18 +1,15 @@
-+++
-title = "608. 기능 점수 검증 — FP 산정의 정확성 확보"
-date = 2026-04-29
+---
+title: "608. 기능 점수 검증 — FP 산정의 정확성 확보"
+date: "2026-04-29"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 소프트웨어 개발 규모 산정 결과의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 감리 관점에서 검토하는 활동이다. [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 오류는 예산·일정·품질 계획 전체에 연쇄 영향을 주므로 감리의 핵심 검토 항목이다.
-> 2. **가치**: IFPUG(International [Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/) Users Group) [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 방법론은 외부 입력(EI)·출력(EO)·조회(EQ)·내부 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(ILF)·외부 인터페이스 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EIF) 5가지 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 측정한다. 각 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)의 복잡도(단순/보통/복잡)에 따라 FP를 산정한다.
-> 3. **판단 포인트**: 한국 공공 IT 사업에서 SW 사업 대가 기준(SW진흥법)은 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반 개발비 산정을 규정한다. 감리사는 산정서가 기능 목록과 일치하는지, 복잡도 분류가 적절한지를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 1. **본질**: [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/), [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 소프트웨어 개발 규모 산정 결과의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/)을 감리 관점에서 검토하는 활동이다. [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 오류는 예산·일정·품질 계획 전체에 연쇄 영향을 주므로 감리의 핵심 검토 항목이다.
+> 2. **가치**: IFPUG(International [Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/) Users Group) [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 방법론은 외부 입력(EI)·출력(EO)·조회(EQ)·내부 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(ILF)·외부 인터페이스 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(EIF) 5가지 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)를 측정한다. 각 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)의 복잡도(단순/보통/복잡)에 따라 FP를 산정한다.
+> 3. **판단 포인트**: 한국 공공 IT 사업에서 SW 사업 대가 기준(SW진흥법)은 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반 개발비 산정을 규정한다. 감리사는 산정서가 기능 목록과 일치하는지, 복잡도 분류가 적절한지를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ---
 
@@ -32,7 +29,7 @@ FP 산정 컴포넌트:
   합산 FP = Σ(각 컴포넌트 수 × FP 가중치)
 ```
 
-- **📢 섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정은 건물 평형 측정이다. 방 수(EI/EO/EQ)와 창고(ILF)·주차장(EIF) 면적을 각각 측정하고 복잡도(고급/일반/기본)를 반영해 전체 면적([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 합계)을 산출한다.
+- **📢 섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정은 건물 평형 측정이다. 방 수(EI/EO/EQ)와 창고(ILF)·주차장(EIF) 면적을 각각 측정하고 복잡도(고급/일반/기본)를 반영해 전체 면적([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 합계)을 산출한다.
 
 ---
 
@@ -40,15 +37,15 @@ FP 산정 컴포넌트:
 
 ### 복잡도 결정 기준
 
-| [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 단순 기준 | 복잡 기준 |
+| [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 단순 기준 | 복잡 기준 |
 |:---|:---|:---|
-| **EI** | DET ≤ 4, [FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ≤ 1 | DET > 15, [FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) > 2 |
-| **EO** | DET ≤ 5, [FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ≤ 1 | DET > 19, [FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) > 3 |
+| **EI** | DET ≤ 4, [FTR](/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ≤ 1 | DET > 15, [FTR](/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) > 2 |
+| **EO** | DET ≤ 5, [FTR](/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) ≤ 1 | DET > 19, [FTR](/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/) > 3 |
 | **ILF** | DET ≤ 19, RET ≤ 1 | DET > 50, RET > 5 |
 
-*DET: [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Element Type ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 항목), [FTR](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/): [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Type Referenced, RET: Record Element Type
+*DET: [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Element Type ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 항목), [FTR](/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/): [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) Type Referenced, RET: Record Element Type
 
-### 감리 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차
+### 감리 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 절차
 
 ```text
 1. 요구사항 명세서 -> 기능 목록 추출
@@ -62,25 +59,25 @@ FP 산정 컴포넌트:
    - SW진흥원 기능점수당 단가 적용
 ```
 
-- **📢 섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 건축 면적 재측량이다. 건축주(개발사)가 제출한 설계 도면([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서)을 감리사가 독립적으로 재측량(재산정)하여 면적(규모) 오류를 확인한다.
+- **📢 섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 감리 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 건축 면적 재측량이다. 건축주(개발사)가 제출한 설계 도면([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서)을 감리사가 독립적으로 재측량(재산정)하여 면적(규모) 오류를 확인한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | IFPUG [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) | NESMA [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) | Use Case Point |
+| 비교 | IFPUG [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) | NESMA [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) | Use Case Point |
 |:---|:---|:---|:---|
 | 기관 | 국제 표준 | 유럽 표준 | 대안 방법론 |
 | 측정 대상 | 기능 규모 | 기능 규모 | Use Case 규모 |
 | 국내 적용 | SW 사업 대가 기준 | 일부 적용 | 병행 적용 |
 
-- **📢 섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 방법론들은 면적 단위 체계다. 평방미터(IFPUG), 평방피트(NESMA), 야드(UCP)처럼 단위는 달라도 같은 건물 크기를 측정하는 방법이다.
+- **📢 섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 방법론들은 면적 단위 체계다. 평방미터(IFPUG), 평방피트(NESMA), 야드(UCP)처럼 단위는 달라도 같은 건물 크기를 측정하는 방법이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 공공 사업 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실무
+### 공공 사업 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 실무
 
 ```text
 검증 포인트:
@@ -95,7 +92,7 @@ FP 산정 컴포넌트:
   - 공공 SW 사업 FP 자동 산정 도구
 ```
 
-- **📢 섹션 요약 비유**: [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 공공 사업 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 세금 신고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 납세자(개발사)가 제출한 세금 신고서([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서)를 세무조사(감리)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 과소·과다 신고(누락·과다 산정)를 잡아낸다.
+- **📢 섹션 요약 비유**: [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 공공 사업 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 세금 신고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 납세자(개발사)가 제출한 세금 신고서([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서)를 세무조사(감리)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고, 과소·과다 신고(누락·과다 산정)를 잡아낸다.
 
 ---
 
@@ -103,13 +100,13 @@ FP 산정 컴포넌트:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **예산 적정성** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반 개발비 객관화 |
-| **일정 타당성** | 규모-공수 환산의 [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) |
+| **예산 적정성** | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반 개발비 객관화 |
+| **일정 타당성** | 규모-공수 환산의 [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/) |
 | **분쟁 예방** | 납품 범위 명확화 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 도구가 연구되고 있다. NLP가 요구사항 명세서 텍스트를 분석하여 EI·EO·EQ·ILF·EIF를 자동 식별하고, FP를 자동 산정하는 기술이 국내 SW 산업 연구소에서 개발 중이다. 감리사는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 산정 결과의 비즈니스 맥락 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 역할이 진화하고 있다.
+[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정 도구가 연구되고 있다. NLP가 요구사항 명세서 텍스트를 분석하여 EI·EO·EQ·ILF·EIF를 자동 식별하고, FP를 자동 산정하는 기술이 국내 SW 산업 연구소에서 개발 중이다. 감리사는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 산정 결과의 비즈니스 맥락 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 역할이 진화하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 자동 산정은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세무사다. 영수증(요구사항) 사진을 찍으면 AI가 자동으로 세금 계산([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정)을 하고, 세무사(감리사)는 특이 항목만 최종 검토한다.
+- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 자동 산정은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 세무사다. 영수증(요구사항) 사진을 찍으면 AI가 자동으로 세금 계산([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정)을 하고, 세무사(감리사)는 특이 항목만 최종 검토한다.
 
 ---
 
@@ -117,11 +114,11 @@ FP 산정 컴포넌트:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **IFPUG** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 국제 표준 방법론 |
-| **SW 사업 대가 기준** | 한국 공공 사업 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 적용 법규 |
-| <strong>복잡도 DET/<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/">FTR</a></strong> | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 세부 측정 기준 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> 자동 산정</strong> | NLP 기반 자동화 연구 |
-| **Use Case Point** | [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 대안 규모 산정 방법 |
+| **IFPUG** | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 국제 표준 방법론 |
+| **SW 사업 대가 기준** | 한국 공공 사업 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 적용 법규 |
+| <strong>복잡도 DET/<a href="/studynote/04_software_engineering/10_trends_pm_quality/647_ftr_formal_technical_review_inspection_walkthrough/">FTR</a></strong> | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 세부 측정 기준 |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a> 자동 산정</strong> | NLP 기반 자동화 연구 |
+| **Use Case Point** | [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 대안 규모 산정 방법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,7 +141,7 @@ FP 산정 컴포넌트:
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. FP는 소프트웨어 크기를 재는 단위예요 — 건물 면적처럼 소프트웨어 기능의 크기를 수치로 표현해요!
-2. 감리사는 개발사가 제출한 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서가 정확한지 독립적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해요!
+2. 감리사는 개발사가 제출한 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 산정서가 정확한지 독립적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해요!
 3. AI가 요구사항 문서를 읽고 자동으로 FP를 계산해주는 시대가 다가오고 있어요!
 
 ---
@@ -153,7 +150,7 @@ FP 산정 컴포넌트:
 
 **진행 상황**: 39 / 530
 
-<- **이전**: [31. 정보화 사업 유형별 감리 (Audit by Project Type)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/031_audit_by_project_type/)
-**다음**: [32. 감리 자동화 도구 (Audit Automation Tools)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/) ->
+<- **이전**: [31. 정보화 사업 유형별 감리 (Audit by Project Type)](/studynote/11_design_supervision/01_audit_framework/031_audit_by_project_type/)
+**다음**: [32. 감리 자동화 도구 (Audit Automation Tools)](/studynote/11_design_supervision/01_audit_framework/032_audit_automation_tools/) ->
 
 ---

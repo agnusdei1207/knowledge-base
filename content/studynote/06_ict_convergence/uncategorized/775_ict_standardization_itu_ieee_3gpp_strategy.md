@@ -1,13 +1,10 @@
-+++
-title = "775. ICT 표준화 ITU IEEE 3GPP 전략 (ICT Standardization ITU IEEE 3GPP Strategy)"
-date = 2026-05-09
+---
+title: "775. ICT 표준화 ITU IEEE 3GPP 전략 (ICT Standardization ITU IEEE 3GPP Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ ICT 표준화 3대 기구의 **계층적·기능적 분업 구조**는 다음과
 
 **진행 상황**: 775 / 800
 
-<- **이전**: [774. 사이버 주권 디지털 자주권 기술 독립](/knowledge-base/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/)
-**다음**: [776. 기술 예측 하이프 사이클 기술 로드맵](/knowledge-base/studynote/06_ict_convergence/uncategorized/776_technology_forecasting_hype_cycle_roadmap/) ->
+<- **이전**: [774. 사이버 주권 디지털 자주권 기술 독립](/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/)
+**다음**: [776. 기술 예측 하이프 사이클 기술 로드맵](/studynote/06_ict_convergence/uncategorized/776_technology_forecasting_hype_cycle_roadmap/) ->
 
 ---

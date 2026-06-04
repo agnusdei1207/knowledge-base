@@ -1,36 +1,33 @@
-+++
-title = "211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획"
-date = 2026-04-21
+---
+title: "211. 공공 빅데이터 (Public Sector Big Data) — 교통예측/범죄예방/도시계획"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 **교통·안전·도시·행정** [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 최적화하여 시민 삶의 질을 직접 향상시킨다.
-- 예측 치안(Predictive Policing)은 효율성은 높지만 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향과 시민권 침해 우려가 공존하는 대표적 윤리 이슈다.
-- 한국의 지역통합플랫폼과 공공데이터포털은 민간 빅데이터 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 결합하여 국가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계를 구성한다.
+- [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 **교통·안전·도시·행정** [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 최적화하여 시민 삶의 질을 직접 향상시킨다.
+- 예측 치안(Predictive Policing)은 효율성은 높지만 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향과 시민권 침해 우려가 공존하는 대표적 윤리 이슈다.
+- 한국의 지역통합플랫폼과 공공데이터포털은 민간 빅데이터 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 결합하여 국가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생태계를 구성한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 납세자의 돈으로 수집·운영되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하여 공익을 극대화하는 것이 목표다. 교통 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)기·[CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)·행정 민원·인구이동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 공공 인프라에서 발생하며, 이를 통합할 때 비로소 스마트 도시의 근간이 된다.
+[공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 납세자의 돈으로 수집·운영되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하여 공익을 극대화하는 것이 목표다. 교통 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)기·[CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/)·행정 민원·인구이동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 모두 공공 인프라에서 발생하며, 이를 통합할 때 비로소 스마트 도시의 근간이 된다.
 
-### [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) 영역별 가치
+### [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) 영역별 가치
 
 | 영역 | 문제 | 빅데이터 적용 | 기대효과 |
 |:---|:---|:---|:---|
-| 교통 | 출퇴근 혼잡·사고 | 실시간 교통 예측 + [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화 | 통행 시간 15~25% 단축 |
+| 교통 | 출퇴근 혼잡·사고 | 실시간 교통 예측 + [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 최적화 | 통행 시간 15~25% 단축 |
 | 범죄 예방 | 자원 배분 비효율 | 핫스팟 분석·패트롤 최적화 | 범죄율 5~15% 감소 |
-| 도시 계획 | 인구 이동 예측 실패 | 이동통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 인구 분포 | 개발 투자 오류 감소 |
-| 복지 행정 | 사각지대 발굴 어려움 | 다부처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 위기 가구 탐지 | 복지 누락 최소화 |
+| 도시 계획 | 인구 이동 예측 실패 | 이동통신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 인구 분포 | 개발 투자 오류 감소 |
+| 복지 행정 | 사각지대 발굴 어려움 | 다부처 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 위기 가구 탐지 | 복지 누락 최소화 |
 
-> 📢 **섹션 요약 비유**: [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 "시청이 운영하는 도시 전체의 건강검진 시스템"이다. 도로·건물·사람의 상태를 실시간으로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상이 발생하면 자원을 즉시 투입한다.
+> 📢 **섹션 요약 비유**: [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 "시청이 운영하는 도시 전체의 건강검진 시스템"이다. 도로·건물·사람의 상태를 실시간으로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하고, 이상이 발생하면 자원을 즉시 투입한다.
 
 ---
 
@@ -74,9 +71,9 @@ tags = ["studynote-bigdata"]
 
 | 기법 | 원리 | 장점 | 주의사항 |
 |:---|:---|:---|:---|
-| KDE ([Kernel Density Estimation](/knowledge-base/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)) | 과거 범죄 위치 기반 밀도 지도 | [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 직관적 | 과거 편향 반영 위험 |
-| 시공간 분석 (STAC) | 시간·공간 클러스터 탐지 | 연속 사건 패턴 포착 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 의존 |
-| [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 예측 | 사회경제 지표 + 기상 + 이벤트 | 복합 요인 반영 | 설명가능성 확보 필요 |
+| KDE ([Kernel Density Estimation](/studynote/14_data_engineering/02_math_mining/116_kernel_density_estimation/)) | 과거 범죄 위치 기반 밀도 지도 | [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 직관적 | 과거 편향 반영 위험 |
+| 시공간 분석 (STAC) | 시간·공간 클러스터 탐지 | 연속 사건 패턴 포착 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 의존 |
+| [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 예측 | 사회경제 지표 + 기상 + 이벤트 | 복합 요인 반영 | 설명가능성 확보 필요 |
 
 ### 도시 계획용 인구 이동 분석
 
@@ -99,19 +96,19 @@ tags = ["studynote-bigdata"]
   도시 기본 계획 · 개발 타당성 분석
 ```
 
-> 📢 **섹션 요약 비유**: 스마트 교통 시스템은 "도시의 혈관이 막히기 전에 미리 우회로를 여는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 심장박동기"다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 실시간으로 생각하며, 교통 흐름을 스스로 조절한다.
+> 📢 **섹션 요약 비유**: 스마트 교통 시스템은 "도시의 혈관이 막히기 전에 미리 우회로를 여는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 심장박동기"다. [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등이 실시간으로 생각하며, 교통 흐름을 스스로 조절한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) 플랫폼 비교 (한국 기준)
+### [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/) 플랫폼 비교 (한국 기준)
 
-| 플랫폼 | 운영 기관 | 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 특징 |
+| 플랫폼 | 운영 기관 | 주요 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 특징 |
 |:---|:---|:---|:---|
-| 공공데이터포털 | 행정안전부 | 전 부처 개방 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공, 오픈 라이선스 |
-| 국가교통데이터베이스 (KTDB) | 국토교통부 | 교통량·속도·사고 | 실시간+이력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| 지역통합플랫폼 | 행안부/지자체 | 주민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통합 | 복지·안전 연계 |
+| 공공데이터포털 | 행정안전부 | 전 부처 개방 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 제공, 오픈 라이선스 |
+| 국가교통데이터베이스 (KTDB) | 국토교통부 | 교통량·속도·사고 | 실시간+이력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 지역통합플랫폼 | 행안부/지자체 | 주민 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 통합 | 복지·안전 연계 |
 | 빅데이터플랫폼 (14개 분야) | 과기정통부 | 의료·금융·유통 등 | 민간-공공 연계 |
 
 ### 예측 치안의 윤리적 딜레마
@@ -125,7 +122,7 @@ tags = ["studynote-bigdata"]
 자원 절감                      시민권 침해 우려
 ```
 
-**기술사 판단**: 예측 치안 시스템에는 반드시 인간 검토(Human-in-the-loop) 와 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 체계를 병행해야 한다.
+**기술사 판단**: 예측 치안 시스템에는 반드시 인간 검토(Human-in-the-loop) 와 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) 체계를 병행해야 한다.
 
 > 📢 **섹션 요약 비유**: 예측 치안은 "범죄가 일어날 것 같은 곳을 미리 예측하는 것"인데, 이것이 특정 동네를 처음부터 의심하는 편견이 되지 않도록 주의해야 한다. 도구는 중립이지만, 사용 방식이 공정해야 한다.
 
@@ -137,25 +134,25 @@ tags = ["studynote-bigdata"]
 
 **배경**: 위기 가구는 스스로 신고하지 않아 복지 혜택을 받지 못하는 경우가 많음.
 
-<strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연계 구조</strong>:
+<strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 연계 구조</strong>:
 
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 | 활용 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 출처 | 활용 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
 |:---|:---|
-| 전기·[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 공급사 | 장기 미납 (고립 위험 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) |
+| 전기·[가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 공급사 | 장기 미납 (고립 위험 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)) |
 | 건강보험공단 | 병원 미방문 + 보험료 체납 |
 | 지방세 | 재산세 체납 |
 | 교육부 | 학교 결석 이력 (아동 위기) |
 | 통신사 | 단말기 미사용 (고립 위험) |
 
-**결과**: 다부처 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계로 기존 위기 가구 발굴률 2~3배 향상.
+**결과**: 다부처 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계로 기존 위기 가구 발굴률 2~3배 향상.
 
 ### 기술사 핵심 판단 포인트
 
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong>: 부처 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
-- **편향 관리**: 복지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 지역·집단을 낙인찍지 않도록 정기 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
-- **시민 참여**: 공공 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결정에 이의제기 절차 마련 필수.
+- <strong><a href="/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/">데이터 거버넌스</a></strong>: 부처 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계 시 법적 근거 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/) 제17조 제3자 제공 요건).
+- **편향 관리**: 복지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 특정 지역·집단을 낙인찍지 않도록 정기 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/).
+- **시민 참여**: 공공 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 결정에 이의제기 절차 마련 필수.
 
-> 📢 **섹션 요약 비유**: 복지 사각지대 발굴은 "다양한 기관의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 종합해 아무도 모르게 힘든 이웃을 먼저 찾아가는 것"이다. 빅데이터가 복지사의 눈이 되어 숨겨진 위기를 드러낸다.
+> 📢 **섹션 요약 비유**: 복지 사각지대 발굴은 "다양한 기관의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 종합해 아무도 모르게 힘든 이웃을 먼저 찾아가는 것"이다. 빅데이터가 복지사의 눈이 되어 숨겨진 위기를 드러낸다.
 
 ---
 
@@ -163,14 +160,14 @@ tags = ["studynote-bigdata"]
 
 | 효과 | 수치 예시 |
 |:---|:---|
-| 교통 혼잡 감소 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화로 통행 시간 15~25% 단축 |
+| 교통 혼잡 감소 | [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 최적화로 통행 시간 15~25% 단축 |
 | 범죄 예방 | 핫스팟 패트롤로 대상 범죄 5~15% 감소 |
 | 복지 발굴 | 다부처 연계로 사각지대 가구 2~3배 추가 발굴 |
-| 도시 계획 오류 | 인구 이동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개발 투자 정확도 향상 |
+| 도시 계획 오류 | 인구 이동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 개발 투자 정확도 향상 |
 
-**결론**: [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 행정 효율을 높이는 동시에 시민 안전망의 촘촘함을 결정한다. 기술사는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계의 법적 근거, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공정성, 시민 참여 메커니즘을 3대 필수 설계 요소로 반드시 포함해야 한다.
+**결론**: [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 행정 효율을 높이는 동시에 시민 안전망의 촘촘함을 결정한다. 기술사는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연계의 법적 근거, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 공정성, 시민 참여 메커니즘을 3대 필수 설계 요소로 반드시 포함해야 한다.
 
-> 📢 **섹션 요약 비유**: [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)를 잘 활용하면 "같은 예산으로 더 많은 시민을 더 행복하게 만들 수 있다." [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 눈이 되고, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 판단을 보조하며, 사람이 최종 결정을 내리는 구조가 가장 이상적이다.
+> 📢 **섹션 요약 비유**: [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)를 잘 활용하면 "같은 예산으로 더 많은 시민을 더 행복하게 만들 수 있다." [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 눈이 되고, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 판단을 보조하며, 사람이 최종 결정을 내리는 구조가 가장 이상적이다.
 
 ---
 
@@ -178,11 +175,11 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연관 개념 | 비고 |
 |:---|:---|:---|
-| 스마트 교통 | KTDB, [LSTM](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/), 강화학습, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 최적화 | 공공 교통 인프라 |
-| 예측 치안 | KDE, 핫스팟, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향, HITL | 윤리 이슈 핵심 |
+| 스마트 교통 | KTDB, [LSTM](/studynote/10_ai/04_ai_ops_ethics/292_lstm/), 강화학습, [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 최적화 | 공공 교통 인프라 |
+| 예측 치안 | KDE, 핫스팟, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 편향, HITL | 윤리 이슈 핵심 |
 | 도시 계획 | 이동통신 프로브, 인구 분포, GIS | 공간 빅데이터 |
-| 복지 사각지대 | 다부처 연계, [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/), 위기가구 | 사회 안전망 |
-| 공공데이터포털 | 오픈 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 공공 라이선스 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방 생태계 |
+| 복지 사각지대 | 다부처 연계, [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/), 위기가구 | 사회 안전망 |
+| 공공데이터포털 | 오픈 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 공공 라이선스 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 개방 생태계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -209,9 +206,9 @@ tags = ["studynote-bigdata"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- [공공 빅데이터](/knowledge-base/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 "시청이 온 도시에 설치한 엄청 많은 귀와 눈"이다.
-- 교통 AI는 "길이 막히기 전에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 먼저 길을 열어주는 친절한 안내원"이다.
-- 복지 발굴 시스템은 "혼자 힘들어도 말 못하는 이웃을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 먼저 찾아가는 다정한 사회"다.
+- [공공 빅데이터](/studynote/16_bigdata/13_intro_trends/245_public_bigdata/)는 "시청이 온 도시에 설치한 엄청 많은 귀와 눈"이다.
+- 교통 AI는 "길이 막히기 전에 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등이 먼저 길을 열어주는 친절한 안내원"이다.
+- 복지 발굴 시스템은 "혼자 힘들어도 말 못하는 이웃을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 먼저 찾아가는 다정한 사회"다.
 
 ---
 
@@ -219,7 +216,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 216 / 262
 
-<- **이전**: [210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측](/knowledge-base/studynote/16_bigdata/11_industry/215_healthcare_bigdata/)
-**다음**: [212. 제조 빅데이터 (Manufacturing Big Data) — 예지정비/불량감지/에너지최적화](/knowledge-base/studynote/16_bigdata/11_industry/217_manufacturing_bigdata/) ->
+<- **이전**: [210. 의료 빅데이터 (Healthcare Big Data) — EMR/유전체 분석/임상 예측](/studynote/16_bigdata/11_industry/215_healthcare_bigdata/)
+**다음**: [212. 제조 빅데이터 (Manufacturing Big Data) — 예지정비/불량감지/에너지최적화](/studynote/16_bigdata/11_industry/217_manufacturing_bigdata/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "379. PKI 공개키 인프라 인증서 관리 (PKI Public Key Infrastructure Certificate)"
-date = 2026-05-09
+---
+title: "379. PKI 공개키 인프라 인증서 관리 (PKI Public Key Infrastructure Certificate)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -158,7 +155,7 @@ PKI는 **RA(Registration Authority) -> CA(Certification Authority) -> VA(Validat
 
 **진행 상황**: 379 / 800
 
-<- **이전**: [378. 암호화 기술 대칭 비대칭 하이브리드](/knowledge-base/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/)
-**다음**: [380. 전자서명 디지털 서명 비부인 무결성](/knowledge-base/studynote/12_it_management/05_security_compliance/380_digital_signature_non_repudiation_integrity/) ->
+<- **이전**: [378. 암호화 기술 대칭 비대칭 하이브리드](/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/)
+**다음**: [380. 전자서명 디지털 서명 비부인 무결성](/studynote/12_it_management/05_security_compliance/380_digital_signature_non_repudiation_integrity/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "1117. 네트워크 보안 (Zero Trust 정책)"
-date = 2026-05-08
+---
+title: "1117. 네트워크 보안 (Zero Trust 정책)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 보안은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 네트워크 보안은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 네트워크 보안을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **흔한 착각**: "시스코나 팰로알토에서 [ZTNA](/knowledge-base/studynote/12_it_management/05_security_compliance/980_ztna/) 솔루션 장비 10억 주고 샀으니까 우리 회사 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성임 ㅋ"
-- **진실**: [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 장비 1대가 아니라 네트워크 설계의 <strong>'철학이자 방법론'</strong>입니다. 기존 네트워크를 완전히 해체하고 재조립하는 과정이 필요합니다.
+- **흔한 착각**: "시스코나 팰로알토에서 [ZTNA](/studynote/12_it_management/05_security_compliance/980_ztna/) 솔루션 장비 10억 주고 샀으니까 우리 회사 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 완성임 ㅋ"
+- **진실**: [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)는 장비 1대가 아니라 네트워크 설계의 <strong>'철학이자 방법론'</strong>입니다. 기존 네트워크를 완전히 해체하고 재조립하는 과정이 필요합니다.
 
 ```text
 [자율 구동 네트워크 레벨링]
@@ -31,28 +28,28 @@ tags = ["studynote-network"]
     +---> [정보통신 기술사 최근 기출 토픽 기반]
 ```
 
-- **📢 섹션 요약 비유**: 네트워크 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 네트워크 보안은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-미국 [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)(사이버보안 및 인프라 보안국)에서 제시한, 기업이 망을 갈아엎을 때 건드려야 할 5가지 핵심 기둥(Pillar)입니다. 이 5개가 동시에 돌아가야 ZT가 완성됩니다.
+미국 [CISA](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/)(사이버보안 및 인프라 보안국)에서 제시한, 기업이 망을 갈아엎을 때 건드려야 할 5가지 핵심 기둥(Pillar)입니다. 이 5개가 동시에 돌아가야 ZT가 완성됩니다.
 
-### 1. 신원 (Identity, [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)) - "너 누군데?"
-- 모든 것의 시작입니다. 기존 사번/비번 시스템을 버리고, <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">SSO</a>(통합 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)와 <a href="/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a>(다중 요소 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>, 지문/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a>)</strong>를 박아 넣어야 합니다. 홍길동의 스마트폰 상태, 위치([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))까지 묶어서 1초마다 신분 검사를 돌립니다.
+### 1. 신원 (Identity, [IAM](/studynote/09_security/11_iam_access_control/526_iam/)) - "너 누군데?"
+- 모든 것의 시작입니다. 기존 사번/비번 시스템을 버리고, <strong><a href="/studynote/09_security/11_iam_access_control/531_sso/">SSO</a>(통합 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>)와 <a href="/studynote/09_security/11_iam_access_control/552_mfa/">MFA</a>(다중 요소 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>, 지문/<a href="/studynote/01_computer_architecture/15_advanced_topics/748_otp/">OTP</a>)</strong>를 박아 넣어야 합니다. 홍길동의 스마트폰 상태, 위치([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))까지 묶어서 1초마다 신분 검사를 돌립니다.
 
 ### 2. 기기 (Device) - "그 노트북 깨끗해?"
-- 홍길동 본인이어도, 그 노트북이 카페 와이파이에 물려있거나 백신 업데이트가 안 된 구형이면 접속을 콱 막아버려야 합니다. ([MDM](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)/EDM 연동)
+- 홍길동 본인이어도, 그 노트북이 카페 와이파이에 물려있거나 백신 업데이트가 안 된 구형이면 접속을 콱 막아버려야 합니다. ([MDM](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/)/EDM 연동)
 
-### 3. 네트워크 (Network/[Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) - "마이크로 감옥"
-- 이게 1044번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/">Micro-segmentation</a>)</strong>과 <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> (소프트웨어 정의 경계)</strong> 기술의 핵심입니다. 거대한 사내망 고속도로를 1평짜리 방폭문 수만 개로 잘게 쪼개서, 홍길동이 들어와도 옆방 회계 서버 IP는 아예 보이지도 않게(블랙홀 처리) 만듭니다.
+### 3. 네트워크 (Network/[Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) - "마이크로 감옥"
+- 이게 1044번에서 배운 <strong><a href="/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/">마이크로 세그멘테이션</a>(<a href="/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/">Micro-segmentation</a>)</strong>과 <strong><a href="/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> (소프트웨어 정의 경계)</strong> 기술의 핵심입니다. 거대한 사내망 고속도로를 1평짜리 방폭문 수만 개로 잘게 쪼개서, 홍길동이 들어와도 옆방 회계 서버 IP는 아예 보이지도 않게(블랙홀 처리) 만듭니다.
 
 ### 4. 어플리케이션 및 워크로드 - "코드 뱃속 검사"
-- 서버 자체가 뚫리는 걸 막기 위해 1078번 <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/332_cwpp/">CWPP</a></strong> 기술로 클라우드 뱃속을 감시합니다.
+- 서버 자체가 뚫리는 걸 막기 위해 1078번 <strong><a href="/studynote/15_devops_sre/05_devsecops/332_cwpp/">CWPP</a></strong> 기술로 클라우드 뱃속을 감시합니다.
 
-### 5. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) - "최종 목적지 철갑"
-- 서버가 뚫려도 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 못 훔쳐 가게, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체에 꼬리표([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 태그)를 붙이고 원격으로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 깨부수는 궁극의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([DRM](/knowledge-base/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) 등)를 씌웁니다.
+### 5. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) - "최종 목적지 철갑"
+- 서버가 뚫려도 엑셀 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 못 훔쳐 가게, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 자체에 꼬리표([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 태그)를 붙이고 원격으로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 깨부수는 궁극의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화([DRM](/studynote/12_it_management/03_ea_isp/903_drm_data_reference_model_standard/) 등)를 씌웁니다.
 
 ```text
 [자율 구동 네트워크 레벨링]
@@ -72,11 +69,11 @@ tags = ["studynote-network"]
 하루아침에 바꾸면 회사가 망하므로 점진적으로 진행합니다.
 
 1. **식별과 가시성 확보 (모니터링 모드)**
-   - 자물쇠를 당장 채우지 않습니다. 현재 회사 직원들이 어느 부서에서 무슨 서버로 오가는지, 그 더러운 트래픽 경로 10만 개를 1066번 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시나 텔레메트리 돋보기로 6개월 동안 쫙 모니터링만 하며 지도를 완벽하게 그립니다.
-2. <strong>동적 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 및 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>럿 적용 (마이크로 방어벽 투입)</strong>
-   - 그려진 지도를 바탕으로, 중요도가 낮은 부서(예: 마케팅팀 웹 서버)부터 시작하여 "마케팅팀은 여기까지만 뚫어줌!" 하고 1평짜리 가상 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 씌워([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/)/[마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)) 테스트해 봅니다.
+   - 자물쇠를 당장 채우지 않습니다. 현재 회사 직원들이 어느 부서에서 무슨 서버로 오가는지, 그 더러운 트래픽 경로 10만 개를 1066번 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 메시나 텔레메트리 돋보기로 6개월 동안 쫙 모니터링만 하며 지도를 완벽하게 그립니다.
+2. <strong>동적 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 및 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>럿 적용 (마이크로 방어벽 투입)</strong>
+   - 그려진 지도를 바탕으로, 중요도가 낮은 부서(예: 마케팅팀 웹 서버)부터 시작하여 "마케팅팀은 여기까지만 뚫어줌!" 하고 1평짜리 가상 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 씌워([SDP](/studynote/09_security/01_intro_principles/048_sdp/)/[마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/)) 테스트해 봅니다.
 3. **전면 자동화 (Closed-Loop)**
-   - [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진(PDP)이 1초마다 이상 행동을 감시하다가, 해커 징후가 보이면 엔지니어 결재 없이 그 1평짜리 감옥 문을 즉시 폐쇄해버리는 완전한 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 자가 방어 체계를 완성합니다.
+   - [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 엔진(PDP)이 1초마다 이상 행동을 감시하다가, 해커 징후가 보이면 엔지니어 결재 없이 그 1평짜리 감옥 문을 즉시 폐쇄해버리는 완전한 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 자가 방어 체계를 완성합니다.
 
 네트워크 보안을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 자율 구동 네트워크 레벨링이 기반 조건을 만든다면, 네트워크 보안은 그 위에서 핵심 메커니즘을 구현하고, 정보통신 기술사 최근 기출 토픽 기반은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -84,7 +81,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | 초점 | 자율 구동 네트워크 레벨링의 기반 정리 | 네트워크 보안의 핵심 동작 | 정보통신 기술사 최근 기출 토픽 기반의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 네트워크 보안은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -92,24 +89,24 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)를 기계적으로 실현하는 대표적 아키텍처 모델입니다.
-- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 컨트롤러 (뇌)</strong>: 직원이 노트북을 켜면, 서버로 바로 안 가고 이 뇌한테 먼저 신분증을 내밉니다.
-- **다크 클라우드 (Dark Cloud)**: 사내 서버들은 밖에서 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔을 때려도 아무 응답([ICMP](/knowledge-base/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 등)을 안 하는 투명 인간(블랙홀) 상태로 숨어있습니다.
-- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 게이트웨이 (문지기)</strong>: 뇌가 신분을 허락하면, 투명 인간 상태였던 사내 서버 앞의 게이트웨이가 <strong>그 직원 단 1명만을 위해 0.1초 동안 딱 한 개의 암호화 터널(<a href="/knowledge-base/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>) 통로</strong>를 허공에 찰칵 열어줍니다. 통신 끝나면 길을 다시 지워버려 완벽한 은폐를 달성합니다.
+[제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)를 기계적으로 실현하는 대표적 아키텍처 모델입니다.
+- <strong><a href="/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 컨트롤러 (뇌)</strong>: 직원이 노트북을 켜면, 서버로 바로 안 가고 이 뇌한테 먼저 신분증을 내밉니다.
+- **다크 클라우드 (Dark Cloud)**: 사내 서버들은 밖에서 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔을 때려도 아무 응답([ICMP](/studynote/03_network/06_network_layer_ip/318_icmp_internet_control_message_protocol_diagnostics/) 등)을 안 하는 투명 인간(블랙홀) 상태로 숨어있습니다.
+- <strong><a href="/studynote/09_security/01_intro_principles/048_sdp/">SDP</a> 게이트웨이 (문지기)</strong>: 뇌가 신분을 허락하면, 투명 인간 상태였던 사내 서버 앞의 게이트웨이가 <strong>그 직원 단 1명만을 위해 0.1초 동안 딱 한 개의 암호화 터널(<a href="/studynote/03_network/16_data_center_cloud/831_mtls_mutual_tls_microservices_zero_trust/">mTLS</a>) 통로</strong>를 허공에 찰칵 열어줍니다. 통신 끝나면 길을 다시 지워버려 완벽한 은폐를 달성합니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 사장님이 구형 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(경계 보안)</strong> 체제의 회사를 갑자기 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(무경계 보안)</strong>로 바꾸라는 건, <strong>'대문을 활짝 열어둔 100층짜리 거대 백화점'</strong>을 하룻밤 사이에 <strong>'<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a> 영화에 나오는 은행 지하 비밀 금고'</strong>로 리모델링하라는 미친 소리입니다. 당장 모든 층을 자물쇠로 잠그면 직원들 업무가 마비되어 폭동이 일어납니다. 제대로 된 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> 도입(마이그레이션)</strong>은 치밀한 5년 계획입니다. 1단계: 당장 문을 잠그지 않고 백화점 곳곳에 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)(가시성)를 1만 대 달아서 직원들이 화장실과 창고를 하루에 몇 번 오가는지 동선을 철저히 분석합니다. 2단계: 분석이 끝나면 중요도가 높은 금고 주변부터 1평 단위로 유리 벽([마이크로 세그멘테이션](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/))을 치고, 직원 목걸이 위치(신원/기기 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))에 따라 유리 벽 문이 딱 그 사람 앞에서만 일시적으로 열렸다가([SDP](/knowledge-base/studynote/09_security/01_intro_principles/048_sdp/) 게이트웨이) 지나가면 닫히게 통제합니다. 3단계: 이 유리 벽 제어 시스템을 AI에 물려(전면 자동화), 누군가 평소에 안 가던 보일러실로 꺾어 들어가는 징후만 보여도 그 자리에서 모든 유리 벽을 철벽으로 얼려버려 침입자를 1평 방 안에 완벽하게 감금해 아사시키는, 궁극의 네트워크 재조립 과정입니다.
+- **📢 섹션 요약 비유**: 사장님이 구형 <strong><a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(경계 보안)</strong> 체제의 회사를 갑자기 <strong><a href="/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a>(무경계 보안)</strong>로 바꾸라는 건, <strong>'대문을 활짝 열어둔 100층짜리 거대 백화점'</strong>을 하룻밤 사이에 <strong>'<a href="/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a> 영화에 나오는 은행 지하 비밀 금고'</strong>로 리모델링하라는 미친 소리입니다. 당장 모든 층을 자물쇠로 잠그면 직원들 업무가 마비되어 폭동이 일어납니다. 제대로 된 <strong><a href="/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/">제로 트러스트</a> 도입(마이그레이션)</strong>은 치밀한 5년 계획입니다. 1단계: 당장 문을 잠그지 않고 백화점 곳곳에 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/)(가시성)를 1만 대 달아서 직원들이 화장실과 창고를 하루에 몇 번 오가는지 동선을 철저히 분석합니다. 2단계: 분석이 끝나면 중요도가 높은 금고 주변부터 1평 단위로 유리 벽([마이크로 세그멘테이션](/studynote/03_network/20_performance_evaluation_advanced/1044_micro_segmentation_east_west_traffic_security/))을 치고, 직원 목걸이 위치(신원/기기 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))에 따라 유리 벽 문이 딱 그 사람 앞에서만 일시적으로 열렸다가([SDP](/studynote/09_security/01_intro_principles/048_sdp/) 게이트웨이) 지나가면 닫히게 통제합니다. 3단계: 이 유리 벽 제어 시스템을 AI에 물려(전면 자동화), 누군가 평소에 안 가던 보일러실로 꺾어 들어가는 징후만 보여도 그 자리에서 모든 유리 벽을 철벽으로 얼려버려 침입자를 1평 방 안에 완벽하게 감금해 아사시키는, 궁극의 네트워크 재조립 과정입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-네트워크 보안은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 정보통신 기술사 최근 기출 토픽 기반, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+네트워크 보안은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 정보통신 기술사 최근 기출 토픽 기반, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 네트워크 보안은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -120,8 +117,8 @@ tags = ["studynote-network"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 자율 구동 네트워크 레벨링 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
 | 정보통신 기술사 최근 기출 토픽 기반 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -136,7 +133,7 @@ tags = ["studynote-network"]
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-네트워크 보안는 자율 구동 네트워크 레벨링에서 출발해 현재 메커니즘을 정교화하고, 이후 정보통신 기술사 최근 기출 토픽 기반와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+네트워크 보안는 자율 구동 네트워크 레벨링에서 출발해 현재 메커니즘을 정교화하고, 이후 정보통신 기술사 최근 기출 토픽 기반와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 228 / 1120
 
-<- **이전**: [1116. 자율 구동 네트워크 레벨링](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1116_adn_autonomous_driving_network_leveling/)
-**다음**: [1118. 정보통신 기술사 최근 기출 토픽 기반](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1118_recent_it_communication_infrastructure_trends/) ->
+<- **이전**: [1116. 자율 구동 네트워크 레벨링](/studynote/03_network/20_performance_evaluation_advanced/1116_adn_autonomous_driving_network_leveling/)
+**다음**: [1118. 정보통신 기술사 최근 기출 토픽 기반](/studynote/03_network/20_performance_evaluation_advanced/1118_recent_it_communication_infrastructure_trends/) ->
 
 ---

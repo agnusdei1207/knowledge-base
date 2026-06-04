@@ -1,18 +1,15 @@
-+++
-title = "048. 소프트 포크 — Soft Fork & 하위 호환성"
-date = 2026-04-05
+---
+title: "048. 소프트 포크 — Soft Fork & 하위 호환성"
+date: "2026-04-05"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 > **핵심 인사이트**
-> 1. 소프트 포크(Soft Fork)는 하위 호환(Backward Compatible) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드 — 업그레이드하지 않은 노드(구버전)도 새 규칙으로 만들어진 블록을 유효하다고 인식하며, 네트워크 분리 없이 규칙을 강화할 수 있다.
-> 2. 소프트 포크의 핵심은 "규칙을 강화(Tighten)"하는 것 — 이전에 허용되던 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유형을 새 규칙에서 제한하거나, 기존 필드를 재해석하여 새 기능을 추가한다. 구버전 노드는 새 블록이 기존 규칙을 여전히 따르는지만 검증하므로 분기 없이 동작한다.
-> 3. 비트코인의 SegWit(Segregated Witness)이 소프트 포크의 대표 사례 — [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 별도 영역으로 분리하여 사실상 블록 크기를 늘리면서도 구버전 노드와의 호환성을 유지한 기술적 성취다.
+> 1. 소프트 포크(Soft Fork)는 하위 호환(Backward Compatible) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 업그레이드 — 업그레이드하지 않은 노드(구버전)도 새 규칙으로 만들어진 블록을 유효하다고 인식하며, 네트워크 분리 없이 규칙을 강화할 수 있다.
+> 2. 소프트 포크의 핵심은 "규칙을 강화(Tighten)"하는 것 — 이전에 허용되던 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유형을 새 규칙에서 제한하거나, 기존 필드를 재해석하여 새 기능을 추가한다. 구버전 노드는 새 블록이 기존 규칙을 여전히 따르는지만 검증하므로 분기 없이 동작한다.
+> 3. 비트코인의 SegWit(Segregated Witness)이 소프트 포크의 대표 사례 — [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 별도 영역으로 분리하여 사실상 블록 크기를 늘리면서도 구버전 노드와의 호환성을 유지한 기술적 성취다.
 
 ---
 
@@ -147,7 +144,7 @@ SegWit 해결책:
   -> 레이어 2 결제 채널 기반 구축
 ```
 
-> 📢 **섹션 요약 비유**: SegWit = 여권 수하물 분리 — 여권(거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 수하물(서명)을 분리해서 같은 비행기(블록)에 더 많은 여행자([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 탑승. 수하물 요금 할인(서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 1/4)!
+> 📢 **섹션 요약 비유**: SegWit = 여권 수하물 분리 — 여권(거래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))과 수하물(서명)을 분리해서 같은 비행기(블록)에 더 많은 여행자([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)) 탑승. 수하물 요금 할인(서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 1/4)!
 
 ---
 
@@ -194,7 +191,7 @@ Taproot 활성화 결과:
   CoinJoin 개인정보 보호 향상
 ```
 
-> 📢 **섹션 요약 비유**: Taproot = 비밀 금고 업그레이드 — 복잡한 잠금장치([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 있어도 모두 동의하면 일반 열쇠(단순 서명)처럼 사용. 복잡한 계약도 외부에선 평범해 보임(프라이버시)!
+> 📢 **섹션 요약 비유**: Taproot = 비밀 금고 업그레이드 — 복잡한 잠금장치([스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))가 있어도 모두 동의하면 일반 열쇠(단순 서명)처럼 사용. 복잡한 계약도 외부에선 평범해 보임(프라이버시)!
 
 ---
 
@@ -311,7 +308,7 @@ OP_CTV (Covenant)
 
 **진행 상황**: 48 / 552
 
-<- **이전**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/)
-**다음**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/knowledge-base/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/) ->
+<- **이전**: [047. 하드 포크 — Hard Fork & Chain Split](/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/)
+**다음**: [049. 크로스체인 브릿지 — Cross-Chain Bridge](/studynote/06_ict_convergence/01_blockchain/049_cross_chain_bridge/) ->
 
 ---

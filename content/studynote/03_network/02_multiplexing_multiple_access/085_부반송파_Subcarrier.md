@@ -1,20 +1,17 @@
-+++
-title = "85. 부반송파 (Subcarrier)"
-description = "OFDM 시스템에서 대역폭을 잘게 쪼개어 다중경로 간섭을 방어하는 부반송파의 원리와 실무 적용"
-date = 2026-03-30
+---
+title: "85. 부반송파 (Subcarrier)"
+date: "2026-03-30"
+description: "OFDM 시스템에서 대역폭을 잘게 쪼개어 다중경로 간섭을 방어하는 부반송파의 원리와 실무 적용"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 부반송파(Subcarrier)는 넓은 대역을 잘게 나눈 좁은 주파수 채널로, 하나의 심볼(Symbol)을 실어 나르는 운반선이다.
-> **가치**: OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))과 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 많은 부반송파를 직교시키는 덕분에 다중경로에 강하다.
-> **판단 포인트**: 부반송파 간격, [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 맞지 않으면 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)이 깨져 ISI (Inter-Symbol Interference)와 ICI (Inter-Carrier Interference)가 커진다.
+> **가치**: OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))과 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))는 많은 부반송파를 직교시키는 덕분에 다중경로에 강하다.
+> **판단 포인트**: 부반송파 간격, [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)), [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 맞지 않으면 [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)이 깨져 ISI (Inter-Symbol Interference)와 ICI (Inter-Carrier Interference)가 커진다.
 
 ---
 
@@ -30,7 +27,7 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 부반송파에 나눠 실은 뒤 IFFT (Inverse Fast Fourier Transform)로 시간 영역 신호를 만들고, 수신 측에서 [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 다시 복원한다. 부반송파는 서로 직교하도록 배치되어, 주파수는 겹쳐 보이지만 간섭은 최소화된다.
+OFDM은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 부반송파에 나눠 실은 뒤 IFFT (Inverse Fast Fourier Transform)로 시간 영역 신호를 만들고, 수신 측에서 [FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/) (Fast Fourier Transform)로 다시 복원한다. 부반송파는 서로 직교하도록 배치되어, 주파수는 겹쳐 보이지만 간섭은 최소화된다.
 
 ```text
 주파수 축
@@ -41,8 +38,8 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 | 요소 | 역할 |
 | --- | --- |
 | Subcarrier | 개별 심볼을 실어 나르는 좁은 주파수 칸 |
-| IFFT/[FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/) | 주파수-시간 변환 |
-| [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) | 다중경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 대한 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 |
+| IFFT/[FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/) | 주파수-시간 변환 |
+| [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) | 다중경로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 대한 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 |
 | QAM (Quadrature Amplitude Modulation) | 각 부반송파에 실리는 변조 방식 |
 
 핵심은 "대역을 넓게 쓰되, 각 칸은 좁게 유지한다"는 분할 전략이다.
@@ -53,15 +50,15 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ## Ⅲ. 비교 및 연결
 
-단일 반송파는 구현이 단순하지만 채널 왜곡에 취약하다. 반면 부반송파 기반 OFDM은 채널을 잘게 나눠 다루므로 등화가 쉬워지고, OFDMA는 그 부반송파들을 사용자별로 나눠 쓰게 해 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)까지 가능하게 한다. [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))나 [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))와 비교하면, OFDMA는 주파수와 사용자 배정을 더 세밀하게 조정할 수 있다.
+단일 반송파는 구현이 단순하지만 채널 왜곡에 취약하다. 반면 부반송파 기반 OFDM은 채널을 잘게 나눠 다루므로 등화가 쉬워지고, OFDMA는 그 부반송파들을 사용자별로 나눠 쓰게 해 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/)까지 가능하게 한다. [FDMA](/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) (Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))나 [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) (Time [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))와 비교하면, OFDMA는 주파수와 사용자 배정을 더 세밀하게 조정할 수 있다.
 
 | 비교 대상 | 차이점 |
 | --- | --- |
 | Single-Carrier | 하나의 넓은 채널 사용 |
-| [FDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) | 주파수 대역을 사용자별로 분리 |
-| [TDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) | 시간 슬롯을 사용자별로 분리 |
-| OFDM | 한 사용자 신호를 여러 부반송파로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 부반송파를 사용자별로 동적 할당 |
+| [FDMA](/studynote/03_network/02_multiplexing_multiple_access/088_주파수_분할_다중접속_FDMA/) | 주파수 대역을 사용자별로 분리 |
+| [TDMA](/studynote/03_network/02_multiplexing_multiple_access/089_시분할_다중접속_TDMA/) | 시간 슬롯을 사용자별로 분리 |
+| OFDM | 한 사용자 신호를 여러 부반송파로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 부반송파를 사용자별로 동적 할당 |
 
 즉 부반송파는 "같은 도로를 작은 차선들로 나눠 교통 체증을 줄이는 방식"이다.
 
@@ -71,17 +68,17 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 부반송파 간격이 너무 좁으면 Doppler shift에 약해지고, 너무 넓으면 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)과 대역 효율이 나빠진다. CP는 다중경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 길어야 하지만, 길어질수록 유효 전송률이 떨어진다. 또 OFDM은 PAPR (Peak-to-Average [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Ratio)가 커서 전력 증폭기 선형성 관리가 중요하다.
+실무에서는 부반송파 간격이 너무 좁으면 Doppler shift에 약해지고, 너무 넓으면 [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)과 대역 효율이 나빠진다. CP는 다중경로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 길어야 하지만, 길어질수록 유효 전송률이 떨어진다. 또 OFDM은 PAPR (Peak-to-Average [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Ratio)가 커서 전력 증폭기 선형성 관리가 중요하다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 채널 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 부반송파 간격의 균형이 맞는가?
-2. [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 길이가 최대 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 충분한가?
-3. [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오차와 주파수 오프셋 보정이 있는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 채널 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 부반송파 간격의 균형이 맞는가?
+2. [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 길이가 최대 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)보다 충분한가?
+3. [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오차와 주파수 오프셋 보정이 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - CP를 너무 짧게 잡아 ISI를 키우는 것
 - PAPR를 무시하고 증폭기를 포화시키는 것
-- 서브캐리어 [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 유지할 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 생략하는 것
+- 서브캐리어 [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/)을 유지할 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 생략하는 것
 
 - 📢 섹션 요약 비유: 속도와 안정의 타협점
 
@@ -89,9 +86,9 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 ## Ⅴ. 기대효과 및 결론
 
-부반송파 구조의 장점은 강인한 수신, 유연한 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이다. 그러나 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·PAPR·[CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 손실 같은 비용이 있어, 아무 채널에나 무조건 유리한 것은 아니다. 그래서 좋은 설계는 "주파수 분할"의 이득과 "[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 복잡도"의 비용을 함께 본다.
+부반송파 구조의 장점은 강인한 수신, 유연한 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 고속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이다. 그러나 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·PAPR·[CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 손실 같은 비용이 있어, 아무 채널에나 무조건 유리한 것은 아니다. 그래서 좋은 설계는 "주파수 분할"의 이득과 "[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 복잡도"의 비용을 함께 본다.
 
-결론적으로 부반송파는 다중경로 시대의 실용적 분할 전략이다. 기술사 답변에서는 OFDM/[OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/), [직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/), [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), PAPR를 연결해 설명하면 완성도가 높다.
+결론적으로 부반송파는 다중경로 시대의 실용적 분할 전략이다. 기술사 답변에서는 OFDM/[OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/), [직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/), [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), PAPR를 연결해 설명하면 완성도가 높다.
 
 - 📢 섹션 요약 비유: 좁은 길 여러 개
 
@@ -101,10 +98,10 @@ OFDM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_rel
 | --- | --- |
 | Subcarrier | 좁은 주파수 운반 단위 |
 | OFDM | 부반송파 기반 전송 방식 |
-| [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 부반송파 기반 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) |
-| [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)/IFFT | 주파수-시간 변환 도구 |
-| [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) | 다중경로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 |
-| PAPR (Peak-to-Average [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Ratio) | 전력 증폭기 설계 이슈 |
+| [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 부반송파 기반 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) |
+| [FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/)/IFFT | 주파수-시간 변환 도구 |
+| [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) | 다중경로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 구간 |
+| PAPR (Peak-to-Average [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Ratio) | 전력 증폭기 설계 이슈 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +131,7 @@ FFT 복원 / 등화
 
 **진행 상황**: 85 / 1120
 
-<- **이전**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/)
-**다음**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ->
+<- **이전**: [84. 직교 주파수 분할 다중화 (OFDM, Orthogonal FDM)](/studynote/03_network/02_multiplexing_multiple_access/084_직교_주파수_분할_다중화_OFDM/)
+**다음**: [86. CP (Cyclic Prefix) / GI (Guard Interval) - ISI 방지](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) ->
 
 ---

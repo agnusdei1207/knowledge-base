@@ -1,13 +1,10 @@
-+++
-title = "587. 드론 UAV 무인항공 관제 시스템 (Drone UAV Unmanned Aerial Control System)"
-date = 2026-05-09
+---
+title: "587. 드론 UAV 무인항공 관제 시스템 (Drone UAV Unmanned Aerial Control System)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Plan -> Navigate -> Sense -> Control -> Recover
 
 **진행 상황**: 587 / 800
 
-<- **이전**: [586. AMI 지능형 검침 스마트그리드](/knowledge-base/studynote/06_ict_convergence/uncategorized/586_ami_advanced_metering_smart_grid/)
-**다음**: [588. RPA 엔터프라이즈 업무 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/) ->
+<- **이전**: [586. AMI 지능형 검침 스마트그리드](/studynote/06_ict_convergence/uncategorized/586_ami_advanced_metering_smart_grid/)
+**다음**: [588. RPA 엔터프라이즈 업무 자동화](/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/) ->
 
 ---

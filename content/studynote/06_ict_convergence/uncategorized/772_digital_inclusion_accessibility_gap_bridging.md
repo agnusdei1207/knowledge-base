@@ -1,13 +1,10 @@
-+++
-title = "772. 디지털 포용 접근성 정보 격차 해소 (Digital Inclusion Accessibility Gap Bridging)"
-date = 2026-05-09
+---
+title: "772. 디지털 포용 접근성 정보 격차 해소 (Digital Inclusion Accessibility Gap Bridging)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ Contrast Ratio = (L1 + 0.05) / (L2 + 0.05)   (L1 > L2)
 
 **진행 상황**: 772 / 800
 
-<- **이전**: [771. 스마트 정부 디지털 공공 서비스 혁신](/knowledge-base/studynote/06_ict_convergence/uncategorized/771_smart_government_digital_public_innovation/)
-**다음**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/knowledge-base/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/) ->
+<- **이전**: [771. 스마트 정부 디지털 공공 서비스 혁신](/studynote/06_ict_convergence/uncategorized/771_smart_government_digital_public_innovation/)
+**다음**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/) ->
 
 ---

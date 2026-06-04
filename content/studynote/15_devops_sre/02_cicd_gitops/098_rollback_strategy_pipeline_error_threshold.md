@@ -1,39 +1,37 @@
-+++
-title = "98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구"
-date = 2026-03-04
+---
+title: "98. 롤백 (Rollback) 전략 - 파이프라인 에러율 기반 자동 복구"
+date: "2026-03-04"
+tags:
+  - "cicd-gitops"
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["cicd-gitops", "studynote-devops-sre"]
-
-[extra]
-tags = ["cicd-gitops", "studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 롤백([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))은 프로덕션 배포 직후 치명적 장애나 에러율 급증이 감지되었을 때, 트래픽을 즉시 이전의 안정적인 구버전으로 되돌려 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 확보하는 자동화 방어선이다.
-> 2. **가치**: 장애 감지부터 엔지니어의 수동 조치(코드 리버트, 재빌드)까지 걸리는 시간([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 수 분에서 수 초로 단축시켜, 대규모 트래픽 환경에서 비즈니스 피해를 최소화한다.
-> 3. **판단 포인트**: [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 또는 블루/그린 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합하여, 실시간 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 5xx, [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하는 순간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 전환하도록 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)와 배포 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 연동해야 한다.
+> 1. **본질**: 롤백([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))은 프로덕션 배포 직후 치명적 장애나 에러율 급증이 감지되었을 때, 트래픽을 즉시 이전의 안정적인 구버전으로 되돌려 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연속성을 확보하는 자동화 방어선이다.
+> 2. **가치**: 장애 감지부터 엔지니어의 수동 조치(코드 리버트, 재빌드)까지 걸리는 시간([MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))을 수 분에서 수 초로 단축시켜, 대규모 트래픽 환경에서 비즈니스 피해를 최소화한다.
+> 3. **판단 포인트**: [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)([Canary](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)) 또는 블루/그린 배포 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인과 결합하여, 실시간 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 5xx, [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하는 순간 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 전환하도록 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)와 배포 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 연동해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 패러다임이 안착하면서 하루에도 수십 번씩 새로운 코드가 프로덕션 환경에 배포된다. 배포 빈도가 기하급수적으로 늘어남에 따라, "장애를 100% 막는 것"은 불가능해졌다. 테스트 코드를 통과했더라도 실운영 트래픽을 만나면 예상치 못한 병목이나 런타임 에러가 발생하기 때문이다.
+DevOps와 [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)/[지속적 배포](/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/)([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 패러다임이 안착하면서 하루에도 수십 번씩 새로운 코드가 프로덕션 환경에 배포된다. 배포 빈도가 기하급수적으로 늘어남에 따라, "장애를 100% 막는 것"은 불가능해졌다. 테스트 코드를 통과했더라도 실운영 트래픽을 만나면 예상치 못한 병목이나 런타임 에러가 발생하기 때문이다.
 
-이제 시스템 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 핵심은 장애 예방([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 증가)에서 <strong>빠른 장애 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> 단축)</strong>로 옮겨갔다. 배포 직후 치명적인 오류가 발생했을 때, 개발자가 당황하며 원인을 찾고 코드를 수정하여 다시 빌드하는 수동 과정은 고객의 이탈을 부른다. 따라서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 스스로 에러율을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 위험 수위를 넘으면 자동으로 과거의 안전지대로 도망치는 '에러율 기반 자동 롤백' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적인 아키텍처로 자리 잡았다.
+이제 시스템 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)의 핵심은 장애 예방([MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/) 증가)에서 <strong>빠른 장애 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> 단축)</strong>로 옮겨갔다. 배포 직후 치명적인 오류가 발생했을 때, 개발자가 당황하며 원인을 찾고 코드를 수정하여 다시 빌드하는 수동 과정은 고객의 이탈을 부른다. 따라서 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 스스로 에러율을 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하다가 위험 수위를 넘으면 자동으로 과거의 안전지대로 도망치는 '에러율 기반 자동 롤백' [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적인 아키텍처로 자리 잡았다.
 
-- **📢 섹션 요약 비유**: 롤백은 최새로운 유형의 스포츠카(새 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다.
+- **📢 섹션 요약 비유**: 롤백은 최새로운 유형의 스포츠카(새 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))를 타고 트랙에 나섰을 때, 브레이크에 조금이라도 이상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(에러율)가 감지되면 즉각 차를 차고로 강제 복귀시키는 스마트 안전 시스템이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-자동 롤백 아키텍처는 <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 수집, <a href="/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(평가), <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 차단(<a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)</strong>이라는 3단계의 폐쇄 루프(Closed Loop) 메커니즘으로 동작한다.
+자동 롤백 아키텍처는 <strong><a href="/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/">메트릭</a> 수집, <a href="/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/">이상 탐지</a>(평가), <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 차단(<a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>)</strong>이라는 3단계의 폐쇄 루프(Closed Loop) 메커니즘으로 동작한다.
 
-1. <strong>지속적 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 (Observe)</strong>: 신규 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)이 배포되어 일부 트래픽을 받기 시작하면, Prometheus나 Datadog 같은 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링 도구가 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 5xx 에러율, 레이턴시, CPU 사용량 등을 1초 단위로 수집한다.
-2. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 평가 (Evaluate)</strong>: Spinnaker의 Kayenta나 Argo Rollouts의 Analysis 템플릿이 수집된 V2의 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기존 V1과 비교한다. "에러율이 1%를 초과하는가?" 등의 사전에 정의된 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 조건을 실시간으로 평가한다.
-3. <strong>자동 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 롤백 (Act)</strong>: [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하여 '실패'로 판정되면, K8s [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 Ingress의 트래픽 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 비율을 신규 V2(0%)에서 구버전 V1(100%)으로 즉각 원복하고, 비정상적인 V2 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 폐기한다.
+1. <strong>지속적 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 (Observe)</strong>: 신규 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V2)이 배포되어 일부 트래픽을 받기 시작하면, Prometheus나 Datadog 같은 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링 도구가 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 5xx 에러율, 레이턴시, CPU 사용량 등을 1초 단위로 수집한다.
+2. <strong><a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a> 평가 (Evaluate)</strong>: Spinnaker의 Kayenta나 Argo Rollouts의 Analysis 템플릿이 수집된 V2의 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)을 기존 V1과 비교한다. "에러율이 1%를 초과하는가?" 등의 사전에 정의된 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)(Threshold) 조건을 실시간으로 평가한다.
+3. <strong>자동 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 롤백 (Act)</strong>: [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 초과하여 '실패'로 판정되면, K8s [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 또는 Ingress의 트래픽 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 비율을 신규 V2(0%)에서 구버전 V1(100%)으로 즉각 원복하고, 비정상적인 V2 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)를 폐기한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -51,24 +49,24 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 +-------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 엔지니어의 `git revert` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력이나 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 없이, 시스템이 지표를 근거로 스스로 의사결정을 내리고 물리적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 수행한다는 점이다.
+이 구조의 핵심은 엔지니어의 `git revert` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 입력이나 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 재실행 없이, 시스템이 지표를 근거로 스스로 의사결정을 내리고 물리적 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 수행한다는 점이다.
 
-- **📢 섹션 요약 비유**: 로켓(신규 배포)을 발사했는데, 관제탑([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) 센서에서 온도(에러율)가 빨간색을 넘어가면, 사람의 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 기다리지 않고 즉각 자동 낙하산([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 롤백)을 펴서 캡슐(구버전)을 살려내는 원리다.
+- **📢 섹션 요약 비유**: 로켓(신규 배포)을 발사했는데, 관제탑([Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) 센서에서 온도(에러율)가 빨간색을 넘어가면, 사람의 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)을 기다리지 않고 즉각 자동 낙하산([라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 롤백)을 펴서 캡슐(구버전)을 살려내는 원리다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-배포 장애에 대처하는 방식은 롤백([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))과 롤포워드(Roll-[forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))로 양분되며, 장애의 성격에 따라 선택해야 한다.
+배포 장애에 대처하는 방식은 롤백([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))과 롤포워드(Roll-[forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))로 양분되며, 장애의 성격에 따라 선택해야 한다.
 
-| 비교 항목 | 롤백 ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) | 롤포워드 (Roll-[forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) |
+| 비교 항목 | 롤백 ([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) | 롤포워드 (Roll-[forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/)) |
 | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 방식</strong> | 트래픽을 이전의 안정적인 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V1)으로 즉각 되돌림 | 원인을 수정(Hotfix)하여 더 새로운 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V3)을 배포 |
-| <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 속도 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>)</strong> | **매우 빠름** (수 초 ~ 수 분 내 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환) | **상대적으로 느림** (코드 수정, 빌드, 테스트 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 소요) |
-| **적합한 상황** | 일반적인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/UI 버그, [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)리스([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 앱 장애 | 롤백이 불가능한 구조적 변경(DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 파괴 등) |
-| <strong>주요 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 이전 앱 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 충돌 | 다급한 코딩으로 인한 2차 폭포수 장애 (Human Error) |
+| <strong><a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 방식</strong> | 트래픽을 이전의 안정적인 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V1)으로 즉각 되돌림 | 원인을 수정(Hotfix)하여 더 새로운 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(V3)을 배포 |
+| <strong><a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 속도 (<a href="/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a>)</strong> | **매우 빠름** (수 초 ~ 수 분 내 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 전환) | **상대적으로 느림** (코드 수정, 빌드, 테스트 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 소요) |
+| **적합한 상황** | 일반적인 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)/UI 버그, [스테이트](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)리스([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 앱 장애 | 롤백이 불가능한 구조적 변경(DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 파괴 등) |
+| <strong>주요 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 이전 앱 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간의 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 충돌 | 다급한 코딩으로 인한 2차 폭포수 장애 (Human Error) |
 
-일반적인 상태 없는([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 웹 서버는 즉각적인 롤백이 가능하지만, 구조적 변경이 수반된 백엔드 로직 장애 시에는 섣부른 롤백이 더 큰 재앙을 부를 수 있으므로 롤포워드가 강제되기도 한다.
+일반적인 상태 없는([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) 웹 서버는 즉각적인 롤백이 가능하지만, 구조적 변경이 수반된 백엔드 로직 장애 시에는 섣부른 롤백이 더 큰 재앙을 부를 수 있으므로 롤포워드가 강제되기도 한다.
 
 - **📢 섹션 요약 비유**: 바지에 구멍이 났을 때, 얼른 어제 입었던 바지로 갈아입는 것이 롤백이고, 시간이 걸리더라도 그 자리에서 헝겊을 덧대 꿰매는 것이 롤포워드다.
 
@@ -76,28 +74,28 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-성공적인 자동 롤백을 구현하기 위해 기술사는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 비가역적(Irreversible) 변경 문제와 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 철학의 충돌을 제어해야 판별한다.
+성공적인 자동 롤백을 구현하기 위해 기술사는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 비가역적(Irreversible) 변경 문제와 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 철학의 충돌을 제어해야 판별한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
 1. **DB 마이그레이션 딜레마 (Expand and Contract)**:
-   - 컬럼명을 변경하거나 삭제하는 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) 배포 후 앱을 롤백하면, 구버전 앱은 없어진 컬럼을 찾다가 DB 에러를 일으킨다.
-   - **판단**: DB 변경은 반드시 '추가(Expand) -> 신구 앱 공존 배포 -> 구버전 제거 후 삭제(Contract)'의 다단계 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 패턴을 거쳐야만 안전한 롤백이 보장된다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 환경의 편류 (Drift) 방지</strong>:
-   - 장애 발생 시 `kubectl rollout undo` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 K8s 상태만 강제 롤백하면, 클러스터 상태(V1)와 Git 저장소의 명세(V2)가 달라지는 편류 현상이 발생한다.
-   - **판단**: ArgoCD 등 [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 툴체인을 쓴다면, 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아니라 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 Git 저장소에 `git revert` 커밋을 푸시하여 롤백을 수행하는 방식으로 단일 진실 공급원(SSOT)을 유지해야 한다.
+   - 컬럼명을 변경하거나 삭제하는 [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/) 배포 후 앱을 롤백하면, 구버전 앱은 없어진 컬럼을 찾다가 DB 에러를 일으킨다.
+   - **판단**: DB 변경은 반드시 '추가(Expand) -> 신구 앱 공존 배포 -> 구버전 제거 후 삭제(Contract)'의 다단계 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 패턴을 거쳐야만 안전한 롤백이 보장된다.
+2. <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a> 환경의 편류 (Drift) 방지</strong>:
+   - 장애 발생 시 `kubectl rollout undo` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 K8s 상태만 강제 롤백하면, 클러스터 상태(V1)와 Git 저장소의 명세(V2)가 달라지는 편류 현상이 발생한다.
+   - **판단**: ArgoCD 등 [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 툴체인을 쓴다면, 단순 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 아니라 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 자체가 Git 저장소에 `git revert` 커밋을 푸시하여 롤백을 수행하는 방식으로 단일 진실 공급원(SSOT)을 유지해야 한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 에러율 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 너무 낮게(예: 0.01%) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여, 일시적인 네트워크 튀어오름([Spike](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))에도 하루에 수십 번씩 롤백이 발생하는 양치기 소년 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 에러율 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 너무 낮게(예: 0.01%) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하여, 일시적인 네트워크 튀어오름([Spike](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/))에도 하루에 수십 번씩 롤백이 발생하는 양치기 소년 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 구성.
 
-- **📢 섹션 요약 비유**: 롤백은 기찻길(DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/))을 바꾸는 작업에는 쓸 수 없다. 기차(앱)를 뒤로 후진시켰는데 옛날 철로가 끊겨 있으면 기차는 결국 탈선하고 만다.
+- **📢 섹션 요약 비유**: 롤백은 기찻길(DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/))을 바꾸는 작업에는 쓸 수 없다. 기차(앱)를 뒤로 후진시켰는데 옛날 철로가 끊겨 있으면 기차는 결국 탈선하고 만다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 에러율 기반의 자동 롤백은 개발 조직에 막대한 [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감([Psychological Safety](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/))을 부여한다. "배포하다 터져도 시스템이 1분 안에 알아서 원복해 준다"는 믿음은 개발자들이 혁신적인 코드를 두려움 없이 더 자주 배포하게 만드는 원동력이 된다.
+[파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 에러율 기반의 자동 롤백은 개발 조직에 막대한 [심리적 안전](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감([Psychological Safety](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/))을 부여한다. "배포하다 터져도 시스템이 1분 안에 알아서 원복해 준다"는 믿음은 개발자들이 혁신적인 코드를 두려움 없이 더 자주 배포하게 만드는 원동력이 된다.
 
-향후 이 아키텍처는 단순한 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 여부를 넘어, [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))을 통해 과거의 장애 패턴과 미세한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 징후를 결합 분석하여 인간이 알아채기 전에 선제적으로 롤백을 단행하는 자율 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-Healing) 시스템으로 고도화될 것이다. 롤백은 실패의 인정이 아니라, 속도전을 뒷받침하는 가장 강력한 무기다.
+향후 이 아키텍처는 단순한 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 초과 여부를 넘어, [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/))을 통해 과거의 장애 패턴과 미세한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 징후를 결합 분석하여 인간이 알아채기 전에 선제적으로 롤백을 단행하는 자율 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(Self-Healing) 시스템으로 고도화될 것이다. 롤백은 실패의 인정이 아니라, 속도전을 뒷받침하는 가장 강력한 무기다.
 
 - **📢 섹션 요약 비유**: 떨어져도 절대 다치지 않는 푹신한 자동 안전망(롤백)이 깔려 있어야, 서커스 단원(개발자)들은 공중그네에서 더 화려하고 어려운 묘기(잦은 배포)에 도전할 수 있다.
 
@@ -107,10 +105,10 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong> | 소수의 트래픽으로 안전성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 롤백 대상을 최소화하는 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | 장애 발생부터 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸리는 시간으로, 롤백 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 [핵심 성과 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a> (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong> | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스를 통해 에러를 감지하고 롤백의 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 역할을 하는 관찰 체계 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 롤백 시에도 Git 저장소의 선언적 명세와 인프라의 실제 상태를 동일하게 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 철학 |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a> (<a href="/studynote/13_cloud_architecture/04_devops_observability/195_canary_release_deployment/">Canary Release</a>)</strong> | 소수의 트래픽으로 안전성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하여 롤백 대상을 최소화하는 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/">MTTR</a> (Mean Time To <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong> | 장애 발생부터 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)까지 걸리는 시간으로, 롤백 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 [핵심 성과 지표](/studynote/12_it_management/01_governance_strategy/018_kpi/) |
+| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">옵저버빌리티</a> (<a href="/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/">Observability</a>)</strong> | [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 트레이스를 통해 에러를 감지하고 롤백의 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 역할을 하는 관찰 체계 |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/">GitOps</a></strong> | 롤백 시에도 Git 저장소의 선언적 명세와 인프라의 실제 상태를 동일하게 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 철학 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,7 +125,7 @@ DevOps와 [지속적 통합](/knowledge-base/studynote/04_software_engineering/0
 AIOps 기반 예측형 자동 롤백 (자율 복구)
 ```
 
-이 흐름도는 사람이 직접 개입하던 수동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에서 시작해, 배포 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전(블루/그린)을 거쳐 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반의 자동화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 그리고 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 진화하는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링의 궤적을 보여준다.
+이 흐름도는 사람이 직접 개입하던 수동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)에서 시작해, 배포 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 발전(블루/그린)을 거쳐 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 기반의 자동화 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인, 그리고 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)로 진화하는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링의 궤적을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -141,7 +139,7 @@ AIOps 기반 예측형 자동 롤백 (자율 복구)
 
 **진행 상황**: 98 / 373
 
-<- **이전**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/)
-**다음**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/) ->
+<- **이전**: [97. 배포 승인 게이트 (Approval Gate) - 배포 통제 및 자동화](/studynote/15_devops_sre/02_cicd_gitops/097_deployment_approval_gate_automation/)
+**다음**: [99. 데이터베이스 마이그레이션 자동화 (Flyway, Liquibase) - CI/CD 기반 스키마 형상 관리](/studynote/15_devops_sre/02_cicd_gitops/099_database_migration_automation_flyway_liquibase/) ->
 
 ---

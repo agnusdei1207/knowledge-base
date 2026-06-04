@@ -1,13 +1,10 @@
-+++
-title = "514. SCM 공급망 관리 디지털 최적화 (SCM Supply Chain Management Digital Optimization)"
-date = 2026-05-09
+---
+title: "514. SCM 공급망 관리 디지털 최적화 (SCM Supply Chain Management Digital Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ SCM 디지털 최적화을 올바르게 적용하면 업무 처리 속도, 통�
 
 **진행 상황**: 514 / 800
 
-<- **이전**: [513. SAP S4HANA 클라우드 마이그레이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/513_sap_s4hana_cloud_migration/)
-**다음**: [515. CRM 고객 관계 관리 옴니채널](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/515_crm_customer_relationship_omnichannel/) ->
+<- **이전**: [513. SAP S4HANA 클라우드 마이그레이션](/studynote/07_enterprise_systems/06_exam_summary/513_sap_s4hana_cloud_migration/)
+**다음**: [515. CRM 고객 관계 관리 옴니채널](/studynote/07_enterprise_systems/06_exam_summary/515_crm_customer_relationship_omnichannel/) ->
 
 ---

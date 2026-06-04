@@ -1,13 +1,10 @@
-+++
-title = "560. 합의 알고리즘 PoS PoA BFT 비교 (Consensus Algorithm PoS PoA BFT Comparison)"
-date = 2026-05-09
+---
+title: "560. 합의 알고리즘 PoS PoA BFT 비교 (Consensus Algorithm PoS PoA BFT Comparison)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Propose -> Validate -> Vote -> Finalize -> Punish
 
 **진행 상황**: 560 / 800
 
-<- **이전**: [559. 영지식 증명 ZK-SNARKs ZK-STARKs](/knowledge-base/studynote/06_ict_convergence/uncategorized/559_zero_knowledge_proof_zk_snarks_zk_starks/)
-**다음**: [561. 블록체인 확장성 트릴레마 해결 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/561_blockchain_scalability_trilemma_resolution/) ->
+<- **이전**: [559. 영지식 증명 ZK-SNARKs ZK-STARKs](/studynote/06_ict_convergence/uncategorized/559_zero_knowledge_proof_zk_snarks_zk_starks/)
+**다음**: [561. 블록체인 확장성 트릴레마 해결 전략](/studynote/06_ict_convergence/uncategorized/561_blockchain_scalability_trilemma_resolution/) ->
 
 ---

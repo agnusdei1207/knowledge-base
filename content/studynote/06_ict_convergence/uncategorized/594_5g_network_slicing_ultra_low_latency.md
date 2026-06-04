@@ -1,13 +1,10 @@
-+++
-title = "594. 5G 네트워크 슬라이싱 초저지연 (5G Network Slicing Ultra Low Latency)"
-date = 2026-05-09
+---
+title: "594. 5G 네트워크 슬라이싱 초저지연 (5G Network Slicing Ultra Low Latency)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Request -> Allocate -> Isolate -> Monitor -> Assure
 
 **진행 상황**: 594 / 800
 
-<- **이전**: [593. 메타버스 가상세계 경제 상호작용](/knowledge-base/studynote/06_ict_convergence/uncategorized/593_metaverse_virtual_world_economy_interaction/)
-**다음**: [595. 6G 비전 테라헤르츠 지능형 네트워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/595_6g_vision_terahertz_intelligent_network/) ->
+<- **이전**: [593. 메타버스 가상세계 경제 상호작용](/studynote/06_ict_convergence/uncategorized/593_metaverse_virtual_world_economy_interaction/)
+**다음**: [595. 6G 비전 테라헤르츠 지능형 네트워크](/studynote/06_ict_convergence/uncategorized/595_6g_vision_terahertz_intelligent_network/) ->
 
 ---

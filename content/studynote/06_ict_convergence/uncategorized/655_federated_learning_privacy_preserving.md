@@ -1,13 +1,10 @@
-+++
-title = "655. 연합 학습 프라이버시 보존 분산 학습 (Federated Learning Privacy Preserving)"
-date = 2026-05-09
+---
+title: "655. 연합 학습 프라이버시 보존 분산 학습 (Federated Learning Privacy Preserving)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -128,7 +125,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 655 / 800
 
-<- **이전**: [654. AI 규제 EU AI Act 위험 등급](/knowledge-base/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/)
-**다음**: [656. 강화 학습 RLHF 인간 피드백 정렬](/knowledge-base/studynote/06_ict_convergence/uncategorized/656_reinforcement_learning_rlhf_human_feedback/) ->
+<- **이전**: [654. AI 규제 EU AI Act 위험 등급](/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/)
+**다음**: [656. 강화 학습 RLHF 인간 피드백 정렬](/studynote/06_ict_convergence/uncategorized/656_reinforcement_learning_rlhf_human_feedback/) ->
 
 ---

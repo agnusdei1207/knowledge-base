@@ -1,13 +1,10 @@
-+++
-title = "645. IT 경영 관리 핵심 토픽 645번 시험 요약 (IT Management Core Topic 645 Exam Summary)"
-date = 2026-05-09
+---
+title: "645. IT 경영 관리 핵심 토픽 645번 시험 요약 (IT Management Core Topic 645 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 645. IT 경영 관리 핵심 토픽 645번 시험 요약
 
@@ -156,7 +153,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 645 / 800
 
-<- **이전**: [644. IT 경영 관리 핵심 토픽 644번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/644_it_management_core_topic_644_exam_summary/)
-**다음**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/) ->
+<- **이전**: [644. IT 경영 관리 핵심 토픽 644번 시험 요약](/studynote/12_it_management/05_security_compliance/644_it_management_core_topic_644_exam_summary/)
+**다음**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/) ->
 
 ---

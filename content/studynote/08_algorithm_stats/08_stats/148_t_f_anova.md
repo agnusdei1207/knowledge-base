@@ -1,23 +1,20 @@
-+++
-title = "19. t-검정 / F-검정 / ANOVA — 평균 비교 검정"
-date = 2026-04-21
+---
+title: "19. t-검정 / F-검정 / ANOVA — 평균 비교 검정"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
-> [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)([t-Test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))은 두 집단의 평균 비교에서 모표준편차 σ 미지(未知) 상황을 다루는 핵심 도구이며, F-검정(F-Test)은 두 집단의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교를, [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Analysis of [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))는 3개 이상 집단의 평균 비교를 하나의 검정으로 처리한다.
-> ANOVA의 F-통계량 = 집단 간 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) / 집단 내 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이라는 직관적 비율로, 집단 간 차이가 집단 내 자연 변동보다 크면 귀무 가설을 기각한다 — [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 개념이다.
-> 이원 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Two-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))에서 교호작용(Interaction Effect)의 유무를 먼저 확인하는 것이 올바른 분석 순서다 — 교호작용이 있으면 주효과(Main Effect)만으로는 결과를 해석할 수 없다.
+> [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)([t-Test](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/))은 두 집단의 평균 비교에서 모표준편차 σ 미지(未知) 상황을 다루는 핵심 도구이며, F-검정(F-Test)은 두 집단의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교를, [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Analysis of [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/), [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))는 3개 이상 집단의 평균 비교를 하나의 검정으로 처리한다.
+> ANOVA의 F-통계량 = 집단 간 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) / 집단 내 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이라는 직관적 비율로, 집단 간 차이가 집단 내 자연 변동보다 크면 귀무 가설을 기각한다 — [신호 대 잡음비](/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 개념이다.
+> 이원 [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/)(Two-Way [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))에서 교호작용(Interaction Effect)의 유무를 먼저 확인하는 것이 올바른 분석 순서다 — 교호작용이 있으면 주효과(Main Effect)만으로는 결과를 해석할 수 없다.
 
 ---
 
-## Ⅰ. [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)의 세 가지 유형
+## Ⅰ. [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)의 세 가지 유형
 
 **학생 t-분포 (Student t-Distribution)**:
 
@@ -25,11 +22,11 @@ tags = ["studynote-algorithm"]
 T = (x̄ - μ) / (s/√n)   ~ t(n-1)
 ```
 
-<strong>단일 표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (One-Sample <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
+<strong>단일 표본 <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (One-Sample <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - H₀: μ = μ₀
 - T = (x̄ - μ₀) / (s/√n), df = n-1
 
-<strong>독립 이표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Independent Two-Sample <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
+<strong>독립 이표본 <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Independent Two-Sample <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - H₀: μ₁ = μ₂ (두 독립 집단의 평균이 같다)
 - T = (x̄₁ - x̄₂) / SE_pooled
 
@@ -42,19 +39,19 @@ df = n₁ + n₂ - 2
 df ≈ (s₁^/n₁ + s₂^/n₂)^ / [...]   (Welch-Satterthwaite)
 ```
 
-<strong>대응 표본 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Paired <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
+<strong>대응 표본 <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-검정</a> (Paired <a href="/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/">t-Test</a>)</strong>:
 - 동일 대상을 두 번 측정 (사전-사후, 왼쪽-오른쪽)
-- d_i = x_{i,before} - x_{i,after}로 변환 후 단일 표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
+- d_i = x_{i,before} - x_{i,after}로 변환 후 단일 표본 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)
 - T = d̄ / (s_d/√n), df = n-1
 - **짝 지어진 데이터의 개체 간 변동을 제거** -> 더 강력한 검정
 
-📢 **섹션 요약 비유**: [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)의 세 유형은 "비교의 단위"에 따라 구분된다. 단일 표본은 "우리 반 vs 전국 평균", 독립 이표본은 "A반 vs B반", 대응 표본은 "수업 전 vs 수업 후 같은 학생들" — 누구를 비교하느냐가 다르다.
+📢 **섹션 요약 비유**: [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)의 세 유형은 "비교의 단위"에 따라 구분된다. 단일 표본은 "우리 반 vs 전국 평균", 독립 이표본은 "A반 vs B반", 대응 표본은 "수업 전 vs 수업 후 같은 학생들" — 누구를 비교하느냐가 다르다.
 
 ---
 
 ## Ⅱ. F-검정과 등분산 가정
 
-**F-검정 (F-Test)**: 두 집단의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교
+**F-검정 (F-Test)**: 두 집단의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교
 
 ```
 F = s₁^ / s₂^   ~   F(n₁-1, n₂-1)
@@ -68,27 +65,27 @@ H₀: σ₁^ = σ₂^   (두 집단의 모분산이 같다)
 - F(df₁, df₂) ≠ F(df₂, df₁) — 분자·분모 순서 중요
 
 **등분산 검정의 필요성**:
-- 독립 이표본 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 등분산 가정(Homoscedasticity) 필요
+- 독립 이표본 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 등분산 가정(Homoscedasticity) 필요
 - Levene's Test: F-검정보다 정규성 이탈에 견고한 대안
 
 | 검정 | 목적 | 분포 | df |
 |:---|:---:|:---:|:---:|
-| [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 평균 비교 (2집단) | t-분포 | n-1 또는 n₁+n₂-2 |
-| F-검정 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 (2집단) | F-분포 | (n₁-1, n₂-1) |
-| [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F | 평균 비교 (k집단) | F-분포 | (k-1, N-k) |
+| [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 평균 비교 (2집단) | t-분포 | n-1 또는 n₁+n₂-2 |
+| F-검정 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 (2집단) | F-분포 | (n₁-1, n₂-1) |
+| [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F | 평균 비교 (k집단) | F-분포 | (k-1, N-k) |
 
-📢 **섹션 요약 비유**: F-검정은 "두 공장의 제품 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비교"와 같다. 평균 품질이 같아도([t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 통과), 한 공장은 편차가 크고 다른 공장은 일정하다면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 차이(F-검정)가 중요한 품질 지표가 된다.
+📢 **섹션 요약 비유**: F-검정은 "두 공장의 제품 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 비교"와 같다. 평균 품질이 같아도([t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 통과), 한 공장은 편차가 크고 다른 공장은 일정하다면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 차이(F-검정)가 중요한 품질 지표가 된다.
 
 ---
 
-## Ⅲ. 일원 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (One-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
+## Ⅲ. 일원 [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (One-Way [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
 
-<strong>일원 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(One-Way <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>, Analysis of <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: k개 집단(k ≥ 3)의 평균이 같은지 검정
+<strong>일원 <a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(One-Way <a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>, Analysis of <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong>: k개 집단(k ≥ 3)의 평균이 같은지 검정
 
 **H₀**: μ₁ = μ₂ = ... = μ_k (모든 집단 평균이 같다)
 **H₁**: 적어도 하나의 평균이 다르다
 
-<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> Decomposition)</strong>:
+<strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해 (<a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a> Decomposition)</strong>:
 
 ```
 SS_Total = SS_Between + SS_Within
@@ -98,7 +95,7 @@ SS_Between = Σ_k n_k (x̄_k - x̄)^   (집단 간 제곱합)
 SS_Within  = Σ_k Σᵢ (x_ki - x̄_k)^ (집단 내 제곱합)
 ```
 
-<strong>F-통계량 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
+<strong>F-통계량 (<a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>:
 
 ```
 F = MS_Between / MS_Within
@@ -106,7 +103,7 @@ F = MS_Between / MS_Within
   = 집단 간 평균 제곱 / 집단 내 평균 제곱
 ```
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> 표 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> Table)</strong>:
+<strong><a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> 표 (<a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> Table)</strong>:
 
 | 변동 원인 | SS | df | MS | F |
 |:---:|:---:|:---:|:---:|:---:|
@@ -114,7 +111,7 @@ F = MS_Between / MS_Within
 | 집단 내 (Within) | SS_W | N-k | MS_W = SS_W/(N-k) | — |
 | 전체 (Total) | SS_T | N-1 | — | — |
 
-<strong>박스 플롯으로 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
+<strong>박스 플롯으로 <a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a> <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
 ```
    성적
@@ -131,7 +128,7 @@ F = MS_Between / MS_Within
       크면 -> H₀ 기각 (집단 평균 다름)
 ```
 
-📢 **섹션 요약 비유**: ANOVA의 F-통계량은 "방송 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/))"와 같다. 집단 간 차이([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 집단 내 변동(잡음)보다 충분히 크면, "이 차이는 의미 있는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다"라고 결론 내린다.
+📢 **섹션 요약 비유**: ANOVA의 F-통계량은 "방송 [신호 대 잡음비](/studynote/03_network/01_data_communication/024_신호_대_잡음비/)([SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/))"와 같다. 집단 간 차이([신호](/studynote/02_operating_system/02_process_thread/130_signal/))가 집단 내 변동(잡음)보다 충분히 크면, "이 차이는 의미 있는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다"라고 결론 내린다.
 
 ---
 
@@ -145,26 +142,26 @@ ANOVA에서 H₀ 기각 -> "어느 집단 간에 차이가 있는가?" -> 사후
 - 집단 크기가 같을 때 최적
 
 **본페로니 보정 (Bonferroni Correction)**:
-- 보정 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/): α/m (m = 비교 쌍 수)
+- 보정 [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/): α/m (m = 비교 쌍 수)
 - 매우 보수적, 적은 비교 수에서 적합
 
 **기타 사후 검정**:
 - Scheffé: 모든 가능한 대비(Contrast), 가장 보수적
 - Dunnett: 대조군(Control) vs 각 처리군 비교에 특화
 
-📢 **섹션 요약 비유**: 사후 검정은 "집단 간 [일대일](/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 결투"와 같다. ANOVA가 "누군가 다르다!"를 발견하면, 사후 검정은 "A vs B", "A vs C", "B vs C"를 차례로 확인해 정확히 누가 다른지 밝힌다 — 단, 여러 번 비교하는 만큼 기준을 엄격히 한다.
+📢 **섹션 요약 비유**: 사후 검정은 "집단 간 [일대일](/studynote/02_operating_system/02_process_thread/099_one_to_one_model/) 결투"와 같다. ANOVA가 "누군가 다르다!"를 발견하면, 사후 검정은 "A vs B", "A vs C", "B vs C"를 차례로 확인해 정확히 누가 다른지 밝힌다 — 단, 여러 번 비교하는 만큼 기준을 엄격히 한다.
 
 ---
 
-## Ⅴ. 이원 [분산 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (Two-Way [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
+## Ⅴ. 이원 [분산 분석](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) (Two-Way [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/))
 
-<strong>이원 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(Two-Way <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>: 두 요인(Factor)의 효과 동시 분석
+<strong>이원 <a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>(Two-Way <a href="/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/">ANOVA</a>)</strong>: 두 요인(Factor)의 효과 동시 분석
 
 ```
 반응변수 = 요인 A 주효과 + 요인 B 주효과 + 교호작용 (A×B) + 오차
 ```
 
-<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해</strong>:
+<strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 분해</strong>:
 
 ```
 SS_Total = SS_A + SS_B + SS_A×B + SS_Error
@@ -178,12 +175,12 @@ SS_Total = SS_A + SS_B + SS_A×B + SS_Error
 
 | 검정 방법 | 적합 상황 | 예시 |
 |:---|:---|:---|
-| 단일 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 1집단 vs 기준값 | 공장 제품 규격 검사 |
-| 독립 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 2집단 평균 비교 | A/B 테스트 |
-| 대응 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 동일 대상 전후 | 약물 투여 전후 |
-| F-검정 | 2집단 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 | 두 기계 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 비교 |
-| 일원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 3+ 집단 평균 | 4가지 광고 전환율 |
-| 이원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 2요인 + 교호작용 | 약물×투여량 실험 |
+| 단일 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 1집단 vs 기준값 | 공장 제품 규격 검사 |
+| 독립 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 2집단 평균 비교 | A/B 테스트 |
+| 대응 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 동일 대상 전후 | 약물 투여 전후 |
+| F-검정 | 2집단 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 비교 | 두 기계 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 비교 |
+| 일원 [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 3+ 집단 평균 | 4가지 광고 전환율 |
+| 이원 [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 2요인 + 교호작용 | 약물×투여량 실험 |
 
 📢 **섹션 요약 비유**: 이원 ANOVA의 교호작용은 "비 오는 날은 우산 광고가 효과 있지만, 맑은 날은 선글라스 광고가 효과 있다"는 것처럼 — "날씨(A)"와 "광고 종류(B)" 단독 효과가 아닌, 두 요인의 조합이 결과를 결정하는 것이다.
 
@@ -191,14 +188,14 @@ SS_Total = SS_A + SS_B + SS_A×B + SS_Error
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 학생 t-분포 | 검정 통계량 분포 |
+| [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 학생 t-분포 | 검정 통계량 분포 |
 | F-검정 | F-분포 | 검정 통계량 분포 |
-| [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | F-검정 | [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F-통계량 사용 |
-| 일원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 사후 검정 (Tukey HSD) | H₀ 기각 후 쌍 비교 |
-| 이원 [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 교호작용 | 두 요인의 결합 효과 |
-| 대응 [t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 반복 측정 | 동일 대상 전후 비교 |
+| [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | F-검정 | [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) F-통계량 사용 |
+| 일원 [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 사후 검정 (Tukey HSD) | H₀ 기각 후 쌍 비교 |
+| 이원 [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) | 교호작용 | 두 요인의 결합 효과 |
+| 대응 [t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) | 반복 측정 | 동일 대상 전후 비교 |
 
 ---
 
@@ -219,11 +216,11 @@ SS_Total = SS_A + SS_B + SS_A×B + SS_Error
     v
 [사후 검정 (Post-hoc) — 어느 집단 쌍이 다른지 Tukey·Scheffe로 판별]
 ```
-[t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 출발한 [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 체계는 F-검정과 ANOVA로 다집단 비교로 확장되고, 사후 검정으로 구체적 차이를 밝혀낸다.
+[t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)에서 출발한 [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 체계는 F-검정과 ANOVA로 다집단 비교로 확장되고, 사후 검정으로 구체적 차이를 밝혀낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-[t-검정](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)은 "두 반의 평균 시험 점수가 정말 다른가?"를 수학으로 확인하는 것이야 — 선생님 두 분의 교육 방식 중 어느 쪽이 더 효과적인지 알 수 있어.
+[t-검정](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/)은 "두 반의 평균 시험 점수가 정말 다른가?"를 수학으로 확인하는 것이야 — 선생님 두 분의 교육 방식 중 어느 쪽이 더 효과적인지 알 수 있어.
 ANOVA는 "세 식당의 만족도가 정말 다른가?"처럼 3개 이상을 한 번에 비교해 — F값이 크면 "분명히 차이가 있다!", 작으면 "그냥 우연이야"라고 판단해.
 이원 ANOVA에서 교호작용은 "커피+우유가 따로 마실 때보다 함께 마실 때 더 맛있는 현상"이야 — 두 가지 요소가 서로 영향을 주는 거라 따로따로 분석하면 놓치는 부분이 있어!
 
@@ -233,7 +230,7 @@ ANOVA는 "세 식당의 만족도가 정말 다른가?"처럼 3개 이상을 한
 
 **진행 상황**: 148 / 175
 
-<- **이전**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/147_chi_square_test/)
-**다음**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) ->
+<- **이전**: [18. 카이제곱 검정 (Chi-Square Test) — 독립성/적합도 검정](/studynote/08_algorithm_stats/08_stats/147_chi_square_test/)
+**다음**: [20. 회귀 분석 (Regression Analysis) — 단순/다중/로지스틱](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/) ->
 
 ---

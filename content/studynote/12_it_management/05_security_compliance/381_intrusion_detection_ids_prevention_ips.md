@@ -1,13 +1,10 @@
-+++
-title = "381. 침입 탐지 IDS 침입 방지 IPS 비교 (Intrusion Detection IDS Prevention IPS)"
-date = 2026-05-09
+---
+title: "381. 침입 탐지 IDS 침입 방지 IPS 비교 (Intrusion Detection IDS Prevention IPS)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -105,7 +102,7 @@ IDS/IPS는 **센서(Sensor) -> 분석 엔진(Analysis Engine) -> 저장소(Stora
 
 **진행 상황**: 381 / 800
 
-<- **이전**: [380. 전자서명 디지털 서명 비부인 무결성](/knowledge-base/studynote/12_it_management/05_security_compliance/380_digital_signature_non_repudiation_integrity/)
-**다음**: [382. 방화벽 차세대 NGFW 웹 방화벽 WAF](/knowledge-base/studynote/12_it_management/05_security_compliance/382_firewall_ngfw_web_application_firewall_waf/) ->
+<- **이전**: [380. 전자서명 디지털 서명 비부인 무결성](/studynote/12_it_management/05_security_compliance/380_digital_signature_non_repudiation_integrity/)
+**다음**: [382. 방화벽 차세대 NGFW 웹 방화벽 WAF](/studynote/12_it_management/05_security_compliance/382_firewall_ngfw_web_application_firewall_waf/) ->
 
 ---

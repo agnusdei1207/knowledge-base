@@ -1,13 +1,10 @@
-+++
-title = "635. GPU 클라우드 AI 인프라 최적화 (GPU Cloud AI Infrastructure Optimization)"
-date = 2026-05-09
+---
+title: "635. GPU 클라우드 AI 인프라 최적화 (GPU Cloud AI Infrastructure Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -110,7 +107,7 @@ GPU 클라우드 최적화의 성패는 자원 구매가 아니라 워크로드 
 
 **진행 상황**: 635 / 800
 
-<- **이전**: [634. 클라우드 데이터 레이크 아키텍처 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/)
-**다음**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/) ->
+<- **이전**: [634. 클라우드 데이터 레이크 아키텍처 설계](/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/)
+**다음**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/) ->
 
 ---

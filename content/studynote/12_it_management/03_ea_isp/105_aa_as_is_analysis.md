@@ -1,26 +1,23 @@
-+++
-title = "105. 애플리케이션 아키텍처 (AA) 현황 분석"
-date = 2026-05-09
+---
+title: "105. 애플리케이션 아키텍처 (AA) 현황 분석"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 애플리케이션 아키텍처 (AA) 현황 분석의 본질은 시스템 연계도, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
-> 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
+> 1. **본질**: 애플리케이션 아키텍처 (AA) 현황 분석의 본질은 시스템 연계도, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도를 현재 구조와 목표 구조 사이의 전환 논리로 구체화하는 데 있다.
+> 2. **가치**: 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
 > 3. **판단 포인트**: 애플리케이션 아키텍처 (AA) 현황 분석은 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-애플리케이션 아키텍처 (AA) 현황 분석은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 시스템 연계도, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
+애플리케이션 아키텍처 (AA) 현황 분석은 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 시스템 연계도, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도에 놓이며, 핵심은 현행 구조, 목표 구조, 전환 과제의 추적성이 확보되어야 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서가 실제 투자와 아키텍처 변화로 이어진다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 시스템 포트폴리오, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도, 연계도 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 시스템 포트폴리오, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도, 연계도 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,9 +40,9 @@ tags = ["studynote-it-management"]
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
 | 시스템 포트폴리오 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
-| [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
+| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
 | 연계도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
-| 운영 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
+| 운영 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
 +--------------------------------------------------------------+
@@ -63,15 +60,15 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-애플리케이션 아키텍처 (AA) 현황 분석은 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 검증한다.
+애플리케이션 아키텍처 (AA) 현황 분석은 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 검증한다.
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
+| [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 정보화 방향을 정렬한다 | 현재 주제는 그 구조를 구체 설계·전환하는 세부 축 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 전사 관점의 기준 구조를 제공한다 | 현재 주제는 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 산출물 또는 방법론의 일부로 연결 |
+| [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) | 개별 사업의 상세 실행 설계를 다룬다 | 현재 주제는 사업 이전 단계의 정합성 확보에 기여 |
 
-실무에서는 애플리케이션 아키텍처 (AA) 현황 분석을 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
+실무에서는 애플리케이션 아키텍처 (AA) 현황 분석을 단독 프레임워크로 보기보다, 정책-운영-[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
 - **📢 섹션 요약 비유**: 지도와 나침반, 여행 일정표를 함께 보는 장거리 여행 준비와 같다.
 
@@ -79,18 +76,18 @@ tags = ["studynote-it-management"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 애플리케이션 아키텍처 (AA) 현황 분석을 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
+실무에서 애플리케이션 아키텍처 (AA) 현황 분석을 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 적용 범위와 제외 범위가 명확하며 시스템 포트폴리오 관점의 경계가 실제 운영에 반영되어 있는가?
-2. [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
+2. [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
 3. 연계도 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
-4. 운영 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 결과가 다음 변경·투자·교육 계획으로 환류되는가?
+4. 운영 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
-### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 발생하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 도구 도입이나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 취득만으로 체계가 완성됐다고 보는 접근
+- 도구 도입이나 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 취득만으로 체계가 완성됐다고 보는 접근
 - 책임 구조 없이 현장 실무자에게만 통제 부담을 전가하는 운영
 - 지표는 많지만 실제 의사결정에 쓰이지 않는 형식적 보고 체계
 
@@ -100,7 +97,7 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 기대효과 및 결론
 
-애플리케이션 아키텍처 (AA) 현황 분석이 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
+애플리케이션 아키텍처 (AA) 현황 분석이 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
 
 다만 모든 상황에 동일한 강도로 적용하면 비용이 커질 수 있다. 따라서 중요도와 위험 수준에 따라 적용 강도를 차등화하고, 자동화·분석 도구와 결합해 운영 부담을 줄이는 방향으로 발전시키는 것이 바람직하다.
 
@@ -112,9 +109,9 @@ tags = ["studynote-it-management"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 시스템 포트폴리오 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 연계도 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| 운영 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다 |
+| 운영 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -127,7 +124,7 @@ tags = ["studynote-it-management"]
     +---> [연계도]
 ```
 
-이 흐름은 선행 요구를 기준으로 애플리케이션 아키텍처 (AA) 현황 분석을 정착시키고, 이후 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도와 연계도 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 애플리케이션 아키텍처 (AA) 현황 분석을 정착시키고, 이후 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구성도와 연계도 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 애플리케이션 아키텍처 (AA) 현황 분석은 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
@@ -140,7 +137,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 193 / 587
 
-<- **이전**: [104. 클리크 문제 (Clique Problem) — NP-완전](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)
-**다음**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ->
+<- **이전**: [104. 클리크 문제 (Clique Problem) — NP-완전](/studynote/12_it_management/03_ea_isp/888_graph/)
+**다음**: [105. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) ->
 
 ---

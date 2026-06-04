@@ -1,13 +1,10 @@
-+++
-title = "597. 양자 통신 양자 키 분배 QKD (Quantum Communication Quantum Key Distribution)"
-date = 2026-05-09
+---
+title: "597. 양자 통신 양자 키 분배 QKD (Quantum Communication Quantum Key Distribution)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Generate -> Transmit -> Measure -> Sift -> Use Key
 
 **진행 상황**: 597 / 800
 
-<- **이전**: [596. 저궤도 위성 인터넷 LEO](/knowledge-base/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/)
-**다음**: [598. 양자컴퓨팅 큐비트 양자우월성](/knowledge-base/studynote/06_ict_convergence/uncategorized/598_quantum_computing_qubit_quantum_supremacy/) ->
+<- **이전**: [596. 저궤도 위성 인터넷 LEO](/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/)
+**다음**: [598. 양자컴퓨팅 큐비트 양자우월성](/studynote/06_ict_convergence/uncategorized/598_quantum_computing_qubit_quantum_supremacy/) ->
 
 ---

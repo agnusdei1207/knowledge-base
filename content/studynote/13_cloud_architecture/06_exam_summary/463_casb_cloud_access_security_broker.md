@@ -1,13 +1,10 @@
-+++
-title = "463. CASB 클라우드 접근 보안 브로커 (CASB Cloud Access Security Broker)"
-date = 2026-05-09
+---
+title: "463. CASB 클라우드 접근 보안 브로커 (CASB Cloud Access Security Broker)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 463 / 800
 
-<- **이전**: [462. 클라우드 포렌식 로그 분석 사고 대응](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/462_cloud_forensics_log_analysis_incident_respons/)
-**다음**: [464. SWG 보안 웹 게이트웨이 클라우드](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/464_swg_secure_web_gateway_cloud/) ->
+<- **이전**: [462. 클라우드 포렌식 로그 분석 사고 대응](/studynote/13_cloud_architecture/06_exam_summary/462_cloud_forensics_log_analysis_incident_respons/)
+**다음**: [464. SWG 보안 웹 게이트웨이 클라우드](/studynote/13_cloud_architecture/06_exam_summary/464_swg_secure_web_gateway_cloud/) ->
 
 ---

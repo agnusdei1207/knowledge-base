@@ -1,27 +1,24 @@
-+++
-title = "5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합"
+---
+title: "5. 분할 정복 (Divide and Conquer) — 재귀 분할 + 병합"
+tags:
+  - "algorithm_stats"
+---
 
-[taxonomies]
-tags = ["algorithm_stats"]
-
-[extra]
-tags = ["algorithm_stats"]
-+++
 
 # 05. 분할 정복 (Divide and Conquer)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 분할 정복(Divide and Conquer)은 문제를 동일한 성격의 더 작은 하위 문제로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 분할하고, 각 하위 문제의 해를 결합하여 전체 문제의 해를 구성하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임이다.
-> 2. **가치**: 거대한 한 문제보다는 작게 쪼개진 여러 문제를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 것이 더 효율적이며, 이 패러다임은 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/), 행렬 곱셈 등 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반이 된다.
-> 3. **융합**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅(Parallel Computing), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 등에서 분할 정복의 아이디어는 하나의 컴퓨터가 아닌 여러 컴퓨터에 작업을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 핵심 원리로 적용된다.
+> 1. **본질**: 분할 정복(Divide and Conquer)은 문제를 동일한 성격의 더 작은 하위 문제로 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 분할하고, 각 하위 문제의 해를 결합하여 전체 문제의 해를 구성하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임이다.
+> 2. **가치**: 거대한 한 문제보다는 작게 쪼개진 여러 문제를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하는 것이 더 효율적이며, 이 패러다임은 [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/), 행렬 곱셈 등 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반이 된다.
+> 3. **융합**: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅(Parallel Computing), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템([MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)) 등에서 분할 정복의 아이디어는 하나의 컴퓨터가 아닌 여러 컴퓨터에 작업을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시키는 핵심 원리로 적용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-분할 정복(Divide and Conquer)은 계산궤과학의 가장 오래되고 강력한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 중 하나이다. 기원전 200년경 알렉산드리아의 수학자 유클리드가 제시한 유클리드 호제법([GCD](/knowledge-base/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산)이 이 패러다임의 가장 오래된실례으로 알려져 있다. 현대적 의미의 분할 정복은 1945년경 John von Neumann이 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))을 설계할 때 처음으로 체계적으로 적용되었으며, 이후 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)(Fast Fourier Transform), 행렬 곱셈(Strassen [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 등 수많은 효율적 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 theoretical 기반이 되었다.
+분할 정복(Divide and Conquer)은 계산궤과학의 가장 오래되고 강력한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임 중 하나이다. 기원전 200년경 알렉산드리아의 수학자 유클리드가 제시한 유클리드 호제법([GCD](/studynote/02_operating_system/10_security/663_macos_ios_gcd_grand_central_dispatch/) 계산)이 이 패러다임의 가장 오래된실례으로 알려져 있다. 현대적 의미의 분할 정복은 1945년경 John von Neumann이 [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)([Merge Sort](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/))을 설계할 때 처음으로 체계적으로 적용되었으며, 이후 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)([Quick Sort](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)), [고속 푸리에 변환](/studynote/08_algorithm_stats/07_numerical/126_fft/)(Fast Fourier Transform), 행렬 곱셈(Strassen [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 등 수많은 효율적 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 theoretical 기반이 되었다.
 
-분할 정복이 유용한 이유는 거대한 문제를 직접 풀면 복잡도가폭작적으로 증가하지만, 동일한 성격의 더 작은 문제 여러 개로 분할하면 개별 문제의 복잡도가 줄어들기 때문이다. 그리고 저사하위 문제들의 결과를 조합하면 전체 문제의 해를 얻을 수 있다. 만약 하위 문제가 서로 독립이라면, 여러 프로세서에서 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리할 수 있어 시간적 효율성을 추가로 확보할 수 있다.
+분할 정복이 유용한 이유는 거대한 문제를 직접 풀면 복잡도가폭작적으로 증가하지만, 동일한 성격의 더 작은 문제 여러 개로 분할하면 개별 문제의 복잡도가 줄어들기 때문이다. 그리고 저사하위 문제들의 결과를 조합하면 전체 문제의 해를 얻을 수 있다. 만약 하위 문제가 서로 독립이라면, 여러 프로세서에서 동시에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리할 수 있어 시간적 효율성을 추가로 확보할 수 있다.
 
 > 이 도식은 분할 정복의 3단계 절차를 보여준다.
 
@@ -68,9 +65,9 @@ tags = ["algorithm_stats"]
 ```
 
 - **관찰**: 분할 정복의 핵심은 하위 문제들이 서로 독립적(Independent)이라는 것이다. 서로Overlap되면 비효율적이거나 중복 계산이 발생한다.
-- **원인**: 독립적인 하위 문제들은 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀어도 서로간우하지 않아 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화도 가능하다.
-- **결과**: 이 속성은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 환경에서 분할 정복이 특히 효과적인 이유이다.
-- **판단**: 하위 문제 간Overlap이 존재하면 [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/)([Memoization](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/))을 적용하거나 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)으로 전환하는 것이 더 효율적이다.
+- **원인**: 독립적인 하위 문제들은 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀어도 서로간우하지 않아 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화도 가능하다.
+- **결과**: 이 속성은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 환경에서 분할 정복이 특히 효과적인 이유이다.
+- **판단**: 하위 문제 간Overlap이 존재하면 [메모이제이션](/studynote/08_algorithm_stats/01_basics/008_memoization/)([Memoization](/studynote/08_algorithm_stats/01_basics/008_memoization/))을 적용하거나 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)으로 전환하는 것이 더 효율적이다.
 
 📢 **섹션 요약 비유**: 분할 정복은-large 피자를 나눌 때와 같습니다. 한 명이whole 피자를 먹으려 하면 굉장히비력에서す이/가, 피자를 8조각으로 나누면(분할) 각 조각을 쉽게 먹을 수 있고(정복), 다 먹은 후에는whole 피자를 다 먹은 것과동じ효과(결합)가 됩니다.
 
@@ -78,9 +75,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Recurrence <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>로 표현되고, 이를 해석하는 대표적 방법이 <strong>마스터 정리(Master Theorem)</strong>이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)란 T(N) = aT(N/b) + f(N)에서와 같이 문제 크기 N을 b로 나누어 a개의 하위 문제로 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀고, 그 결과를 결합하는 데 f(N)의 비용이 드는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식을 말한다. 예를 들어 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 T(N) = 2T(N/2) + O(N)인데, 이는 두 개의 N/2 크기 하위 문제로 분할하고 결합에 O(N)이 든다는 것을 의미한다.
+분할 정복 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 시간 복잡도는 <strong><a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>(Recurrence <a href="/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>로 표현되고, 이를 해석하는 대표적 방법이 <strong>마스터 정리(Master Theorem)</strong>이다. [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)란 T(N) = aT(N/b) + f(N)에서와 같이 문제 크기 N을 b로 나누어 a개의 하위 문제로 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)적으로 풀고, 그 결과를 결합하는 데 f(N)의 비용이 드는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식을 말한다. 예를 들어 [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 T(N) = 2T(N/2) + O(N)인데, 이는 두 개의 N/2 크기 하위 문제로 분할하고 결합에 O(N)이 든다는 것을 의미한다.
 
-마스터 정리에 따르면, f(N)과 N^{log_b a}를 비교하여 복잡도가 결정된다. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 a=2, b=2이므로 N^{log₂^} = N^1 = N이고, f(N) = N이므로 f(N) = Θ(N^{log_b a} · log⁰N) = Θ(N log⁰N) = Θ(N)이므로 T(N) = Θ(N log N)이다.
+마스터 정리에 따르면, f(N)과 N^{log_b a}를 비교하여 복잡도가 결정된다. [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)의 경우 a=2, b=2이므로 N^{log₂^} = N^1 = N이고, f(N) = N이므로 f(N) = Θ(N^{log_b a} · log⁰N) = Θ(N log⁰N) = Θ(N)이므로 T(N) = Θ(N log N)이다.
 
 ```text
 [마스터 정리 (Master Theorem) 적용]
@@ -117,20 +114,20 @@ tags = ["algorithm_stats"]
 +------------------------------------------------------+
 ```
 
-- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택([퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N^)이라는 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
-- **원인**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택의 운에 따라 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
-- **결과**: 따라서 분할 정복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 구현의 세밀함에 크게 좌우된다.
-- **판단**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
+- **관찰**: 동일한 분할 정복 패러다임이라도 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택([퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/))에 따라 평균 O(N log N)과 최악 O(N^)이라는 극단적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 발생한다.
+- **원인**: [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 선택의 운에 따라 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 트리의 깊이가 달라지기 때문이다.
+- **결과**: 따라서 분할 정복 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 구현의 세밀함에 크게 좌우된다.
+- **판단**: [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)에서 중앙값 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)(Median-of-Three)이나 3-way 파티셔닝을 사용하는 것이 이러한 이유 때문이다.
 
-📢 **섹션 요약 비유**: 분할 정복의 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 5살 아이에게 큰 수 10개를 설명할 때, "5와 5로분성하면" 것과 같습니다. "5는 3과 2로분성"하는 식으로 문제를 자연스러운 깊이까지 나누다 보면, 정합할 때 자연스럽게 답에 도달합니다.
+📢 **섹션 요약 비유**: 분할 정복의 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 5살 아이에게 큰 수 10개를 설명할 때, "5와 5로분성하면" 것과 같습니다. "5는 3과 2로분성"하는 식으로 문제를 자연스러운 깊이까지 나누다 보면, 정합할 때 자연스럽게 답에 도달합니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-분할 정복의 대표적 사례는 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), [고속 푸리에 변환](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)([FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)), Strassen 행렬 곱셈이다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a></strong>은 분할 정복의 가장 단순한 형태로, 정렬된 배열에서 목표 값을 찾을 때 중앙을 기준으로 반을 버리고 나머지 반에서만 계속 탐색한다.
+분할 정복의 대표적 사례는 [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/), [고속 푸리에 변환](/studynote/08_algorithm_stats/07_numerical/126_fft/)([FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/)), Strassen 행렬 곱셈이다. <strong><a href="/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a></strong>은 분할 정복의 가장 단순한 형태로, 정렬된 배열에서 목표 값을 찾을 때 중앙을 기준으로 반을 버리고 나머지 반에서만 계속 탐색한다.
 
-<strong>실무 구현 시 주의사항</strong>은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을과소평가하지 말아야 한다.
+<strong>실무 구현 시 주의사항</strong>은 다음과 같다. 기저 사례(Base Case)를 빠뜨리면 무한 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/)에 빠지므로 반드시 처리해야 한다. 분할이 균등하지 않으면 최악의 복잡도가 발생할 수 있다. [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 호출로 인한 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우에 주의해야 한다. 결합(Combine) 단계의 비용을과소평가하지 말아야 한다.
 
 ```text
 [분할 정복 구현 패턴]
@@ -173,9 +170,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-분할 정복의 품질 관리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 깊이 관리</strong>, <strong>기저 사례 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>, <strong>결합 로직 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이 핵심이다. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 깊어지면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우가 발생할 수 있으므로, N이 큰 경우 반드시 반복적 구현이나 명시적 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 사용을 고려해야 한다.
+분할 정복의 품질 관리는 <strong><a href="/studynote/08_algorithm_stats/01_basics/014_recursion/">재귀</a> 깊이 관리</strong>, <strong>기저 사례 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>, <strong>결합 로직 <a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a></strong>이 핵심이다. [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 깊이가 깊어지면 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 오버플로우가 발생할 수 있으므로, N이 큰 경우 반드시 반복적 구현이나 명시적 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 사용을 고려해야 한다.
 
-<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 기저 사례(Base Case)가 모든 가능한 입력 경로에서 도달 가능한지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 분할이 균형(Balanced)된 경우와 불균형(Unbalanced)된 경우를 모두 테스트해야 한다. 결합(Combine) 로직이 정확한지 수학적 불변량(Invariant)을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. 기저 사례(Base Case)가 모든 가능한 입력 경로에서 도달 가능한지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다. 분할이 균형(Balanced)된 경우와 불균형(Unbalanced)된 경우를 모두 테스트해야 한다. 결합(Combine) 로직이 정확한지 수학적 불변량(Invariant)을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 📢 **섹션 요약 비유**: 분할 정복의 품질 관리는 대형 building 시공감리와 같습니다. 기초(기저 사례)가 부실하면 building 전체가 흔들리고, 공사 팀(하위 문제) 간 조율(결합)이 없으면building이경사합니다.
 
@@ -183,15 +180,15 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-분할 정복의 최신 동향은 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 분할 정복(Parallel Divide and Conquer)</strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 가속 분할 정복</strong>이다. 멀티코어 CPU와 GPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 활용하면, 분할된 하위 문제들을 동시에 처리하여 이론적 시간 복잡도보다 훨씬 빠르게 실행할 수 있다. 또한 **Akka, Spark** 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크에서 [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 기반이 되는 것이 바로 분할 정복 아이디어이다.
+분할 정복의 최신 동향은 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 분할 정복(Parallel Divide and Conquer)</strong>와 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/">GPU</a> 가속 분할 정복</strong>이다. 멀티코어 CPU와 GPU의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 활용하면, 분할된 하위 문제들을 동시에 처리하여 이론적 시간 복잡도보다 훨씬 빠르게 실행할 수 있다. 또한 **Akka, Spark** 같은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 프레임워크에서 [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) 패러다임의 기반이 되는 것이 바로 분할 정복 아이디어이다.
 
-분할 정복은 계산궤과학의 가장 기초적인 설계 패러다임 중 하나이다. 이 패러다임을 이해하면 [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/), Strassen 등 주요 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 원리를 직관적으로 이해할 수 있게 된다. 기술사 시험에서도 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 도출, 마스터 정리 적용, 분할 정복 vs [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 구분 등이 빈번하게 출제된다.
+분할 정복은 계산궤과학의 가장 기초적인 설계 패러다임 중 하나이다. 이 패러다임을 이해하면 [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/), [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/), [FFT](/studynote/08_algorithm_stats/07_numerical/126_fft/), Strassen 등 주요 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 설계 원리를 직관적으로 이해할 수 있게 된다. 기술사 시험에서도 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 도출, 마스터 정리 적용, 분할 정복 vs [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) 구분 등이 빈번하게 출제된다.
 
 📢 **섹션 요약 비유**: 분할 정복은 우주탐사의 전략과 같습니다. 한 번에 달까지 가려하면 엄청난 연료(시간)가 필요하지만, 로켓을단계별로 분리(분할)하면 각 단계에서 연료를 절감하고, 마지막 단계만 달까지 도달하면 됩니다.
 
 ---
 
-## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
+## 핵심 인사이트 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```text
 [분할 정복 (Divide and Conquer) 핵심 개념 맵]
@@ -235,10 +232,10 @@ tags = ["algorithm_stats"]
 ### 📌 관련 개념 맵
 
 - **분할 정복 (Divide and Conquer)**
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">합병 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">Merge Sort</a>)</strong>
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">Quick Sort</a>)</strong>
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">Binary Search</a>)</strong>
-- <strong>점화식 (Recurrence <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>
+- <strong><a href="/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">합병 정렬</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/">Merge Sort</a>)</strong>
+- <strong><a href="/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">퀵 정렬</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/">Quick Sort</a>)</strong>
+- <strong><a href="/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">이진 탐색</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/">Binary Search</a>)</strong>
+- <strong>점화식 (Recurrence <a href="/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/">Relation</a>)</strong>
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -258,19 +255,19 @@ tags = ["algorithm_stats"]
 [점화식 (Recurrence Relation)]
 ```
 
-이 흐름도는 분할 정복 (Divide and Conquer)에서 출발해 점화식 (Recurrence [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 분할 정복 (Divide and Conquer)에서 출발해 점화식 (Recurrence [Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 분할 정복은 문제를 독립적인 하위 문제로 나눠 정복하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임이다.
-2. [합병 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)·[퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)·[이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 등 수많은 고전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뿌리가 이 패턴에 있다.
-3. [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)과 달리 하위 문제가 중복되지 않아 [메모이제이션](/knowledge-base/studynote/08_algorithm_stats/01_basics/008_memoization/) 없이도 동작한다.
+1. 분할 정복은 문제를 독립적인 하위 문제로 나눠 정복하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 패러다임이다.
+2. [합병 정렬](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)·[퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)·[이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 등 수많은 고전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뿌리가 이 패턴에 있다.
+3. [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/)과 달리 하위 문제가 중복되지 않아 [메모이제이션](/studynote/08_algorithm_stats/01_basics/008_memoization/) 없이도 동작한다.
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
+- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
 
 ---
 
@@ -278,7 +275,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 5 / 175
 
-<- **이전**: [4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)](/knowledge-base/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
-**다음**: [6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 -> 전체 최적](/knowledge-base/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ->
+<- **이전**: [4. O(1) / O(log n) / O(n) / O(n log n) / O(n^) / O(2ⁿ) / O(n!)](/studynote/08_algorithm_stats/01_basics/004_big_o_notation/)
+**다음**: [6. 탐욕 알고리즘 (Greedy Algorithm) — 지역 최적 -> 전체 최적](/studynote/08_algorithm_stats/01_basics/006_greedy_algorithm/) ->
 
 ---

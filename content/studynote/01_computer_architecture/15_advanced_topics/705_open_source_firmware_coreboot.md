@@ -1,49 +1,46 @@
-+++
-title = "705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)"
-date = 2026-05-08
+---
+title: "705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 전원 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 직후의 하드웨어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 과정을 공개된 코드로 재구성해, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성과 제어권을 높이는 접근이며 Coreboot는 그 최소 부트스트랩을 담당한다.
-> 2. **가치**: LinuxBoot까지 결합하면 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계에서부터 리눅스 도구와 드라이버를 활용할 수 있어, 대규모 서버의 부팅 시간·운영 자동화·문제 분석 능력이 크게 좋아진다.
-> 3. **판단 포인트**: 다만 실제 제품은 칩셋 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화용 vendor blob에 일부 의존할 수 있으므로, “완전 개방성”보다 보드 지원 범위·[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계·보안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 함께 봐야 한다.
+> 1. **본질**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 전원 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 직후의 하드웨어 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 과정을 공개된 코드로 재구성해, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성과 제어권을 높이는 접근이며 Coreboot는 그 최소 부트스트랩을 담당한다.
+> 2. **가치**: LinuxBoot까지 결합하면 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계에서부터 리눅스 도구와 드라이버를 활용할 수 있어, 대규모 서버의 부팅 시간·운영 자동화·문제 분석 능력이 크게 좋아진다.
+> 3. **판단 포인트**: 다만 실제 제품은 칩셋 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화용 vendor blob에 일부 의존할 수 있으므로, “완전 개방성”보다 보드 지원 범위·[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 체계·보안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 BIOS (Basic Input/Output System)나 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)처럼 전원이 켜진 직후 실행되는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 코드를 공개 소스 기반으로 대체하거나 재구성하는 방식이다. 전통적 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 하드웨어 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 편의 기능을 많이 담는 대신, 내부 동작이 폐쇄적이고 보드 제조사별로 편차가 크다. 서버 수천 대를 운영하는 환경에서는 이 폐쇄성이 곧 긴 부팅 시간, 어려운 장애 분석, [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 위험으로 이어진다.
+[오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 BIOS (Basic Input/Output System)나 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)처럼 전원이 켜진 직후 실행되는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 코드를 공개 소스 기반으로 대체하거나 재구성하는 방식이다. 전통적 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 하드웨어 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)과 편의 기능을 많이 담는 대신, 내부 동작이 폐쇄적이고 보드 제조사별로 편차가 크다. 서버 수천 대를 운영하는 환경에서는 이 폐쇄성이 곧 긴 부팅 시간, 어려운 장애 분석, [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 위험으로 이어진다.
 
-특히 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 "예쁜 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 화면"보다 "몇 초 안에 정확히 올라오고, 무슨 코드가 실행됐는지 설명 가능한가"를 더 중요하게 본다. 폐쇄형 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)에서 드라이버와 셸, 네트워크 도구, OEM 확장 코드가 비대해질수록 DXE (Driver Execution [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 단계가 길어지고 공격 표면도 넓어진다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 이 문제를 줄이기 위해 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드를 작게 만들고, 이후 단계는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 쉬운 payload로 넘기는 방향을 택한다.
+특히 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)는 "예쁜 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 화면"보다 "몇 초 안에 정확히 올라오고, 무슨 코드가 실행됐는지 설명 가능한가"를 더 중요하게 본다. 폐쇄형 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)에서 드라이버와 셸, 네트워크 도구, OEM 확장 코드가 비대해질수록 DXE (Driver Execution [Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/)) 단계가 길어지고 공격 표면도 넓어진다. [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 이 문제를 줄이기 위해 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드를 작게 만들고, 이후 단계는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 쉬운 payload로 넘기는 방향을 택한다.
 
-Coreboot는 이런 철학을 대표하는 프로젝트다. 목표는 "필수 하드웨어만 깨운 뒤 바로 다음 단계로 넘긴다"는 것이다. 그리고 LinuxBoot는 여기서 한 걸음 더 나아가, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 늦은 단계 환경을 작고 투명한 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 대체해 표준 리눅스 도구를 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 가져온다.
+Coreboot는 이런 철학을 대표하는 프로젝트다. 목표는 "필수 하드웨어만 깨운 뒤 바로 다음 단계로 넘긴다"는 것이다. 그리고 LinuxBoot는 여기서 한 걸음 더 나아가, [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 늦은 단계 환경을 작고 투명한 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 대체해 표준 리눅스 도구를 부팅 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 가져온다.
 
-- **📢 섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 자동차 시동장치를 투명한 설계도로 다시 만드는 일과 같다. 시동이 왜 늦는지, 어떤 배선이 위험한지, 어디서 바로 출발하게 만들지 눈으로 확인할 수 있다.
+- **📢 섹션 요약 비유**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 자동차 시동장치를 투명한 설계도로 다시 만드는 일과 같다. 시동이 왜 늦는지, 어떤 배선이 위험한지, 어디서 바로 출발하게 만들지 눈으로 확인할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Coreboot의 핵심은 단계 분리다. 전원 [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 후 CPU가 가장 먼저 들어오는 작은 시작 코드가 `bootblock`이고, 이어서 `romstage`가 캐시를 임시 RAM처럼 써서 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 준비한다. 메모리가 살아난 뒤 `ramstage`가 칩셋, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 콘솔, 저장장치 같은 필수 장치를 정리하고, 마지막에 payload를 호출한다. 이 payload는 SeaBIOS, EDK II 기반 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/), LinuxBoot 등 목적에 따라 달라질 수 있다.
+Coreboot의 핵심은 단계 분리다. 전원 [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/) 후 CPU가 가장 먼저 들어오는 작은 시작 코드가 `bootblock`이고, 이어서 `romstage`가 캐시를 임시 RAM처럼 써서 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 준비한다. 메모리가 살아난 뒤 `ramstage`가 칩셋, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 콘솔, 저장장치 같은 필수 장치를 정리하고, 마지막에 payload를 호출한다. 이 payload는 SeaBIOS, EDK II 기반 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/), LinuxBoot 등 목적에 따라 달라질 수 있다.
 
-LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 기반 로더 위에 얹힌다. 구조는 "Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) + initramfs (initial RAM [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) system) + kexec"로 이해하면 쉽다. 즉, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 하드웨어를 최소한으로 깨우면 곧바로 작은 리눅스가 올라오고, 여기서 네트워크 진단·스토리지 탐색·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 분기 같은 작업을 수행한 뒤 최종 운영체제를 kexec로 넘긴다. 전통적 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 스크립팅보다 더 강력한 도구를 쓰면서도, 이미 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 리눅스 드라이버 생태계를 활용할 수 있다는 점이 크다.
+LinuxBoot는 보통 Coreboot나 일부 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 기반 로더 위에 얹힌다. 구조는 "Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) + initramfs (initial RAM [file](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) system) + kexec"로 이해하면 쉽다. 즉, [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 하드웨어를 최소한으로 깨우면 곧바로 작은 리눅스가 올라오고, 여기서 네트워크 진단·스토리지 탐색·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 분기 같은 작업을 수행한 뒤 최종 운영체제를 kexec로 넘긴다. 전통적 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 스크립팅보다 더 강력한 도구를 쓰면서도, 이미 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 리눅스 드라이버 생태계를 활용할 수 있다는 점이 크다.
 
 | 계층 | 대표 구성 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
-| 시작 코드 | bootblock | CPU 진입점 확보, 플래시 접근 준비 | 크기가 매우 작고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능해야 함 |
-| [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메모리 단계 | romstage | 캐시-애즈-램, [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 트레이닝 준비 | [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 의존성이 큼 |
-| 본격 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | ramstage | 콘솔, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 장치 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | 디버깅 가능성과 이식성이 중요 |
+| 시작 코드 | bootblock | CPU 진입점 확보, 플래시 접근 준비 | 크기가 매우 작고 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능해야 함 |
+| [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메모리 단계 | romstage | 캐시-애즈-램, [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 트레이닝 준비 | [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 의존성이 큼 |
+| 본격 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | ramstage | 콘솔, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/), 장치 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 | 디버깅 가능성과 이식성이 중요 |
 | payload | SeaBIOS / EDK II / LinuxBoot | OS 로더 호출 또는 진단 환경 제공 | 사용 목적에 맞게 선택 |
-| 보조 바이너리 | FSP ([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [Support](/knowledge-base/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Package), AGESA (AMD Generic Encapsulated [Software Architecture](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)) 등 | 일부 플랫폼 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 지원 | 완전 개방성의 현실적 한계 |
+| 보조 바이너리 | FSP ([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [Support](/studynote/14_data_engineering/02_math_mining/084_support_association_rule_transaction/) Package), AGESA (AMD Generic Encapsulated [Software Architecture](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)) 등 | 일부 플랫폼 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 지원 | 완전 개방성의 현실적 한계 |
 
-아래 그림은 Coreboot와 LinuxBoot가 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 어떻게 잘게 나누는지 보여준다.
+아래 그림은 Coreboot와 LinuxBoot가 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 어떻게 잘게 나누는지 보여준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -61,7 +58,7 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 +--------------------------------------------------------------------+
 ```
 
-중요한 점은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "모든 코드를 처음부터 새로 쓰자"가 아니라, 가장 위험하고 불투명한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 경로를 작고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 단위로 줄이자는 데 있다는 점이다. 그래서 실제 제품에서는 칩 제조사가 제공하는 메모리 트레이닝 바이너리를 일부 포함하더라도, 전체 흐름과 payload 선택권을 운영자가 더 많이 가져가는 쪽으로 설계가 이동한다.
+중요한 점은 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "모든 코드를 처음부터 새로 쓰자"가 아니라, 가장 위험하고 불투명한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 경로를 작고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 단위로 줄이자는 데 있다는 점이다. 그래서 실제 제품에서는 칩 제조사가 제공하는 메모리 트레이닝 바이너리를 일부 포함하더라도, 전체 흐름과 payload 선택권을 운영자가 더 많이 가져가는 쪽으로 설계가 이동한다.
 
 - **📢 섹션 요약 비유**: Coreboot는 집 문을 열고 전등만 켜 주는 관리인이고, LinuxBoot는 그다음부터 체크리스트와 공구함을 들고 집 상태를 점검하는 전문가다.
 
@@ -69,19 +66,19 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 
 ## Ⅲ. 비교 및 연결
 
-[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 장점은 폐쇄형 UEFI와 나란히 놓아야 또렷해진다. 전통적 UEFI는 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 그래픽 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 화면, 각종 Option [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 지원에 강하다. 반면 Coreboot는 빠른 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 작은 코드 베이스에 강하고, LinuxBoot는 서버 운영 자동화와 진단 가능성에 강하다. 즉 "범용성"과 "통제 가능성"이 핵심 경계다.
+[오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 장점은 폐쇄형 UEFI와 나란히 놓아야 또렷해진다. 전통적 UEFI는 범용 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 그래픽 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 화면, 각종 Option [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 지원에 강하다. 반면 Coreboot는 빠른 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 작은 코드 베이스에 강하고, LinuxBoot는 서버 운영 자동화와 진단 가능성에 강하다. 즉 "범용성"과 "통제 가능성"이 핵심 경계다.
 
-| 항목 | 전통적 [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 중심 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) | Coreboot | LinuxBoot |
+| 항목 | 전통적 [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) 중심 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) | Coreboot | LinuxBoot |
 | :--- | :--- | :--- | :--- |
-| 주력 목표 | 광범위한 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 최소 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 빠른 hand-off | 리눅스 기반의 유연한 late boot |
+| 주력 목표 | 광범위한 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | 최소 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화와 빠른 hand-off | 리눅스 기반의 유연한 late boot |
 | 코드 성격 | 벤더 중심, 폐쇄적 | 공개 소스 중심 | 공개 소스 + 표준 리눅스 도구 |
 | 부팅 시간 | 상대적으로 길 수 있음 | 짧음 | 짧고 자동화 친화적 |
-| 진단 방식 | 벤더 도구 의존 | 시리얼 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중심 | 쉘, 네트워크, 스크립트 활용 |
-| 적합 환경 | 범용 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), OEM 플랫폼 | Chromebook, 임베디드, 일부 서버 | [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버, 네트워크 장비 |
+| 진단 방식 | 벤더 도구 의존 | 시리얼 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 중심 | 쉘, 네트워크, 스크립트 활용 |
+| 적합 환경 | 범용 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), OEM 플랫폼 | Chromebook, 임베디드, 일부 서버 | [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 서버, 네트워크 장비 |
 
-보안 관점에서도 연결점이 있다. Coreboot 자체가 자동으로 안전해지는 것은 아니지만, 코드가 작고 빌드 재현성이 높아 measured boot와 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 설계하기 쉽다. LinuxBoot는 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 해시 검사, 네트워크 기반 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포, 원격 진단을 리눅스 방식으로 구현할 수 있어 운영 자동화에 유리하다. 반면 윈도우 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 그래픽 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 유틸리티, 레거시 Option [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 의존성이 큰 환경이라면 전통적 UEFI가 더 현실적일 수 있다.
+보안 관점에서도 연결점이 있다. Coreboot 자체가 자동으로 안전해지는 것은 아니지만, 코드가 작고 빌드 재현성이 높아 measured boot와 [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) ([Trusted Platform Module](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/)) 기반 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 설계하기 쉽다. LinuxBoot는 부팅 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 해시 검사, 네트워크 기반 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포, 원격 진단을 리눅스 방식으로 구현할 수 있어 운영 자동화에 유리하다. 반면 윈도우 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/), 그래픽 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 유틸리티, 레거시 Option [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 의존성이 큰 환경이라면 전통적 UEFI가 더 현실적일 수 있다.
 
-결국 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 "기능을 많이 담은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)"보다 "무엇이 언제 실행되는지 설명 가능한 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)"를 지향한다. 그래서 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/) ([Secure Boot](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/)), [BMC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) 연동, 원격 재프로비저닝 같은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 주제와 특히 잘 맞는다.
+결국 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 "기능을 많이 담은 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)"보다 "무엇이 언제 실행되는지 설명 가능한 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)"를 지향한다. 그래서 [보안 부팅](/studynote/02_operating_system/10_security/608_secure_boot/) ([Secure Boot](/studynote/02_operating_system/10_security/608_secure_boot/)), [BMC](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/) ([Baseboard Management Controller](/studynote/01_computer_architecture/15_advanced_topics/710_bmc/)) 연동, 원격 재프로비저닝 같은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 운영 주제와 특히 잘 맞는다.
 
 - **📢 섹션 요약 비유**: 전통적 UEFI가 모든 기능이 들어간 대형 멀티툴이라면, Coreboot와 LinuxBoot는 필요한 도구만 남기고 현장에서 바로 조립해 쓰는 정밀 공구 세트에 가깝다.
 
@@ -89,52 +86,52 @@ LinuxBoot는 보통 Coreboot나 일부 [UEFI](/knowledge-base/studynote/01_compu
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 검토할 때는 "빠르다"만 보면 부족하다. 먼저 대상 보드가 Coreboot 포팅을 공식 지원하거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 커뮤니티 포트를 갖고 있는지 봐야 한다. 이후에는 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 플래시 절차, 듀얼 [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 구성, 원격 업데이트 방식, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 확인해야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 코드는 한 번 잘못 올리면 장비가 벽돌이 되기 쉽기 때문이다.
+실무에서 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 검토할 때는 "빠르다"만 보면 부족하다. 먼저 대상 보드가 Coreboot 포팅을 공식 지원하거나 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 커뮤니티 포트를 갖고 있는지 봐야 한다. 이후에는 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 플래시 절차, 듀얼 [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/) 구성, 원격 업데이트 방식, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 확인해야 한다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 코드는 한 번 잘못 올리면 장비가 벽돌이 되기 쉽기 때문이다.
 
 ### 채택이 유리한 경우
 
 1. 서버·네트워크 장비처럼 대량 배포와 자동화가 중요하다.
-2. 시리얼 콘솔, 원격 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 스크립트 기반 진단이 필요하다.
-3. 부팅 속도와 재현 가능한 빌드, 코드 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성이 중요하다.
+2. 시리얼 콘솔, 원격 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 스크립트 기반 진단이 필요하다.
+3. 부팅 속도와 재현 가능한 빌드, 코드 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성이 중요하다.
 4. 최종 payload를 LinuxBoot나 맞춤형 로더로 통제하고 싶다.
 
 ### 주의가 필요한 경우
 
 - 최신 소비자 메인보드처럼 벤더 전용 그래픽 유틸리티와 Windows 중심 생태계 의존성이 큰 경우
-- 메모리 트레이닝 blob, Intel ME/AMD [PSP](/knowledge-base/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 등 플랫폼 고유 제약이 큰 경우
-- [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ([Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Peripheral Interface) 플래셔 없이 현장 교체가 어려운 경우
+- 메모리 트레이닝 blob, Intel ME/AMD [PSP](/studynote/04_software_engineering/01_overview_principles/018_psp_tsp/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 등 플랫폼 고유 제약이 큰 경우
+- [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)용 [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ([Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) Peripheral Interface) 플래셔 없이 현장 교체가 어려운 경우
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- "[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 vendor blob이 전혀 없을 것"이라고 가정하는 판단
+- "[오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)니까 vendor blob이 전혀 없을 것"이라고 가정하는 판단
 - payload 선택 없이 Coreboot만 올리면 끝난다고 보는 설계
-- 서명된 업데이트 경로와 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 현장 장비를 일괄 교체하는 운영
+- 서명된 업데이트 경로와 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 현장 장비를 일괄 교체하는 운영
 
-기술사 관점의 핵심 판단은 통제권의 가치와 이식성 비용을 함께 보는 것이다. 서버 팜 전체를 몇 초 안에 재시동하고, 부팅 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 바로 진단 쉘로 들어가야 하는 환경이라면 LinuxBoot의 이득이 크다. 반대로 수많은 주변기기와 사용자 편의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 안정적으로 제공해야 하는 범용 PC라면 전통적 UEFI의 폭넓은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 더 중요할 수 있다.
+기술사 관점의 핵심 판단은 통제권의 가치와 이식성 비용을 함께 보는 것이다. 서버 팜 전체를 몇 초 안에 재시동하고, 부팅 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 바로 진단 쉘로 들어가야 하는 환경이라면 LinuxBoot의 이득이 크다. 반대로 수많은 주변기기와 사용자 편의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 안정적으로 제공해야 하는 범용 PC라면 전통적 UEFI의 폭넓은 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 더 중요할 수 있다.
 
-- **📢 섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 도입은 집 현관문 자물쇠를 직접 설계하는 일과 비슷하다. 보안성과 통제력은 높아지지만, 비상시 어떻게 다시 열지까지 함께 준비해야 안전하다.
+- **📢 섹션 요약 비유**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 도입은 집 현관문 자물쇠를 직접 설계하는 일과 비슷하다. 보안성과 통제력은 높아지지만, 비상시 어떻게 다시 열지까지 함께 준비해야 안전하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 가장 큰 효과는 예측 가능성이다. 코드가 작아질수록 부팅 경로가 짧아지고, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 명확해질수록 장애 원인 추적이 빨라진다. 여기에 LinuxBoot를 더하면 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 환경이 일반 리눅스 관리 체계와 닿으므로, 대규모 서버 운영에서 자동화와 관측성이 크게 향상된다. [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 측면에서도 무엇이 실행되는지 설명 가능한 비중이 높아진다.
+[오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)의 가장 큰 효과는 예측 가능성이다. 코드가 작아질수록 부팅 경로가 짧아지고, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 명확해질수록 장애 원인 추적이 빨라진다. 여기에 LinuxBoot를 더하면 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅 환경이 일반 리눅스 관리 체계와 닿으므로, 대규모 서버 운영에서 자동화와 관측성이 크게 향상된다. [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 측면에서도 무엇이 실행되는지 설명 가능한 비중이 높아진다.
 
-물론 한계도 분명하다. 모든 플랫폼이 충분히 개방적인 것은 아니며, 칩셋 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 보안 프로세서 영역은 여전히 vendor IP에 묶이는 경우가 많다. 또한 보드 포팅과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에는 하드웨어 지식이 필요하고, 일반 사용자용 편의 기능은 오히려 줄어들 수 있다. 그래서 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 "만능 대체재"라기보다 특정 운영 목표에 매우 강한 선택지로 이해하는 편이 맞다.
+물론 한계도 분명하다. 모든 플랫폼이 충분히 개방적인 것은 아니며, 칩셋 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화나 보안 프로세서 영역은 여전히 vendor IP에 묶이는 경우가 많다. 또한 보드 포팅과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에는 하드웨어 지식이 필요하고, 일반 사용자용 편의 기능은 오히려 줄어들 수 있다. 그래서 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 "만능 대체재"라기보다 특정 운영 목표에 매우 강한 선택지로 이해하는 편이 맞다.
 
-정리하면 Coreboot는 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 최소화해 빠르고 설명 가능한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅을 만들고, LinuxBoot는 그 위에 익숙한 리눅스 도구를 올려 운영 가능성을 확장한다. 따라서 이 개념은 "[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 화려하게 만드는 기술"이 아니라 "[펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 작고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만들어 시스템 통제권을 되찾는 기술"로 기억하면 된다.
+정리하면 Coreboot는 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 최소화해 빠르고 설명 가능한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 부팅을 만들고, LinuxBoot는 그 위에 익숙한 리눅스 도구를 올려 운영 가능성을 확장한다. 따라서 이 개념은 "[펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 화려하게 만드는 기술"이 아니라 "[펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)를 작고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하게 만들어 시스템 통제권을 되찾는 기술"로 기억하면 된다.
 
-- **📢 섹션 요약 비유**: 좋은 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 무대 뒤 장치를 최대한 단순하게 정리한 공연장과 같다. 조명이 빨리 켜지고, 문제가 나도 어느 스위치가 원인인지 곧바로 찾을 수 있다.
+- **📢 섹션 요약 비유**: 좋은 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)는 무대 뒤 장치를 최대한 단순하게 정리한 공연장과 같다. 조명이 빨리 켜지고, 문제가 나도 어느 스위치가 원인인지 곧바로 찾을 수 있다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Coreboot | 최소 하드웨어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 담당하는 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 핵심 프로젝트 |
-| LinuxBoot | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 late [firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 환경으로 써 진단과 자동화를 강화한다 |
+| Coreboot | 최소 하드웨어 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화를 담당하는 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 핵심 프로젝트 |
+| LinuxBoot | 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 late [firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 환경으로 써 진단과 자동화를 강화한다 |
 | payload | Coreboot 이후 실행되는 다음 단계 환경으로 SeaBIOS, EDK II, LinuxBoot 등이 있다 |
-| FSP | 일부 Intel 플랫폼에서 필요한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 지원 패키지로 개방성의 현실적 제약을 보여준다 |
-| [measured boot](/knowledge-base/studynote/09_security/18_iot_ot_physical/919_measured_boot/) | [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계 측정을 통해 [TPM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 기반 신뢰 사슬을 강화한다 |
+| FSP | 일부 Intel 플랫폼에서 필요한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 지원 패키지로 개방성의 현실적 제약을 보여준다 |
+| [measured boot](/studynote/09_security/18_iot_ot_physical/919_measured_boot/) | [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 단계 측정을 통해 [TPM](/studynote/01_computer_architecture/14_hardware_security_trends/476_tpm/) 기반 신뢰 사슬을 강화한다 |
 | kexec | LinuxBoot가 최종 운영체제로 빠르게 넘어갈 때 자주 쓰는 hand-off 방식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -158,7 +155,7 @@ LinuxBoot + 리눅스 도구 기반 자동화
 measured boot · 대규모 서버 fleet 제어
 ```
 
-이 흐름은 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "숨겨진 블랙박스"에서 "운영 가능한 소프트웨어 계층"으로 이동하는 방향을 보여준다.
+이 흐름은 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 "숨겨진 블랙박스"에서 "운영 가능한 소프트웨어 계층"으로 이동하는 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +169,7 @@ measured boot · 대규모 서버 fleet 제어
 
 **진행 상황**: 706 / 803
 
-<- **이전**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/)
-**다음**: [706. UEFI (Unified Extensible Firmware Interface)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) ->
+<- **이전**: [704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)](/studynote/01_computer_architecture/15_advanced_topics/704_host_memory_buffer/)
+**다음**: [706. UEFI (Unified Extensible Firmware Interface)](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "474. IoT 클라우드 플랫폼 디바이스 관리 (IoT Cloud Platform Device Management)"
-date = 2026-05-09
+---
+title: "474. IoT 클라우드 플랫폼 디바이스 관리 (IoT Cloud Platform Device Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 474 / 800
 
-<- **이전**: [473. 5G MEC 초저지연 엣지 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/473_5g_mec_ultra_low_latency_edge_service/)
-**다음**: [475. 디지털 트윈 클라우드 시뮬레이션](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/475_digital_twin_cloud_simulation/) ->
+<- **이전**: [473. 5G MEC 초저지연 엣지 서비스](/studynote/13_cloud_architecture/06_exam_summary/473_5g_mec_ultra_low_latency_edge_service/)
+**다음**: [475. 디지털 트윈 클라우드 시뮬레이션](/studynote/13_cloud_architecture/06_exam_summary/475_digital_twin_cloud_simulation/) ->
 
 ---

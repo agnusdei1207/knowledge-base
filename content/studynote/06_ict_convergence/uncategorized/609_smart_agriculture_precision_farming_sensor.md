@@ -1,13 +1,10 @@
-+++
-title = "609. 스마트 농업 정밀 농업 센서 네트워크 (Smart Agriculture Precision Farming Sensor)"
-date = 2026-05-09
+---
+title: "609. 스마트 농업 정밀 농업 센서 네트워크 (Smart Agriculture Precision Farming Sensor)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sense -> Measure -> Analyze -> Actuate -> Optimize
 
 **진행 상황**: 609 / 800
 
-<- **이전**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/knowledge-base/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/)
-**다음**: [610. 스마트 물류 자동화 라스트마일 배송](/knowledge-base/studynote/06_ict_convergence/uncategorized/610_smart_logistics_automation_last_mile_delivery/) ->
+<- **이전**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/)
+**다음**: [610. 스마트 물류 자동화 라스트마일 배송](/studynote/06_ict_convergence/uncategorized/610_smart_logistics_automation_last_mile_delivery/) ->
 
 ---

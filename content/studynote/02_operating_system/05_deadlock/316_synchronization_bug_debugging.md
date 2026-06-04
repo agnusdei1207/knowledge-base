@@ -1,19 +1,16 @@
-+++
-title = "316. 동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)"
-date = 2026-05-09
+---
+title: "316. 동기화 결함 (순환 의존성) 코드 레벨 디버깅 기법 (Synchronization Bug Debugging)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 환상형 대기([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/))가 유발한 데드락을 상용 운영체제나 DBMS의 자율 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)/Abort)에만 맡기지 않고, <strong>어플리케이션 코드를 짠 개발자가 직접 소스 단에서 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 덤프(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump)나 프로파일러를 까보고 범인을 색출해 메스를 대는 외과 수술적 트러블슈팅</strong> 기법이다.
-> 2. **가치**: OS의 사후 처리는 결국 퍼포먼스 드롭이나 앱 충돌(에러 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))을 필연적으로 동반하기 때문에, 근본적으로 <strong>락(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 순서가 꼬인 코드의 역배열을 찾아내 일방통행(One-way)으로 소스 레벨 규약을 정립시키는 것만이 영구적인 시스템의 무결성을 담보</strong>한다.
-> 3. **융합**: 자바의 `jstack`, C++의 `gdb` 등 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 추적 도구를 활용해 멈춰버린 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 해시맵 `waiting on monitor XXX` 상태를 교차 대조하여, 누가 어떤 객체의 멱살을 쥐고 누구의 객체를 기다리는지 추론하는 셜록 홈즈식 모니터링 분석망과 결속된다.
+> 1. **본질**: 환상형 대기([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/))가 유발한 데드락을 상용 운영체제나 DBMS의 자율 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)/Abort)에만 맡기지 않고, <strong>어플리케이션 코드를 짠 개발자가 직접 소스 단에서 <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">스레드</a> 덤프(<a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump)나 프로파일러를 까보고 범인을 색출해 메스를 대는 외과 수술적 트러블슈팅</strong> 기법이다.
+> 2. **가치**: OS의 사후 처리는 결국 퍼포먼스 드롭이나 앱 충돌(에러 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))을 필연적으로 동반하기 때문에, 근본적으로 <strong>락(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) 순서가 꼬인 코드의 역배열을 찾아내 일방통행(One-way)으로 소스 레벨 규약을 정립시키는 것만이 영구적인 시스템의 무결성을 담보</strong>한다.
+> 3. **융합**: 자바의 `jstack`, C++의 `gdb` 등 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 추적 도구를 활용해 멈춰버린 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 해시맵 `waiting on monitor XXX` 상태를 교차 대조하여, 누가 어떤 객체의 멱살을 쥐고 누구의 객체를 기다리는지 추론하는 셜록 홈즈식 모니터링 분석망과 결속된다.
 
 ---
 
@@ -21,10 +18,10 @@ tags = ["studynote-operating-system"]
 
 그랜파 OS나 갓 MySQL이 데드락을 탐지해서 튕겨내 준다고 해도, 개발자 입장에선 "에러가 왜 자꾸 나는 거야?"라며 멘탈이 나간다. OS가 데드락 떴다고 에러 로그를 뱉으면, 결국 그 데드락 사이클(환형 대기)을 유발한 똥코드는 누가 고친다? **개발자가 직접 소스코드로 찾아가 고쳐야 한다.**
 
-그래서 우리는 운영체제의 블랙박스를 까보고, 당장 멈춰버린 내 버그 코드의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속으로 다이빙해야 한다.
+그래서 우리는 운영체제의 블랙박스를 까보고, 당장 멈춰버린 내 버그 코드의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 속으로 다이빙해야 한다.
 P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주입(Circular Dependency)` 혹은 `역방향 락 획득(Lock Reversal)`을 찾아서 톱니바퀴의 이를 바로잡아주어야, 두 번 다시 탐지 데몬이 칼을 빼드는 불상사가 생기지 않기 때문이다.
 
-**💡 비유**: 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(OS)는 사고 날 때마다 에어백을 터트려 목숨을 살려주는 안전장치다. 하지만 매일 교차로에서 사고가 나고 매일 에어백이 터진다면? 타는 사람은 미친다([가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 결국 운전자가 내려서 그 교차로의 신호등 체계를 아예 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시켜 고쳐놔야(코드 디버깅 및 패치) 에어백이 터질 일 자체가 영원히 사라진다.
+**💡 비유**: 데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)(OS)는 사고 날 때마다 에어백을 터트려 목숨을 살려주는 안전장치다. 하지만 매일 교차로에서 사고가 나고 매일 에어백이 터진다면? 타는 사람은 미친다([가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 하락). 결국 운전자가 내려서 그 교차로의 신호등 체계를 아예 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시켜 고쳐놔야(코드 디버깅 및 패치) 에어백이 터질 일 자체가 영원히 사라진다.
 
 ```text
 +------------------------------------------------------------------+
@@ -48,61 +45,61 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 +------------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 이 기법은 의사(엔지니어)가 엑스레이([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)를 쫙 찍어놓고 "여기 이 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1)랑 저 뼈([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2)가 서로 반대 방향으로 엇갈려 껴버렸네!" 하고 100% 확실한 X자 버그의 원점을 핀셋으로 집어내는 검시 과정입니다.
+**📢 섹션 요약 비유**: 이 기법은 의사(엔지니어)가 엑스레이([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)를 쫙 찍어놓고 "여기 이 뼈([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1)랑 저 뼈([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2)가 서로 반대 방향으로 엇갈려 껴버렸네!" 하고 100% 확실한 X자 버그의 원점을 핀셋으로 집어내는 검시 과정입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 코드 레벨의 2대 주범과 타파 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 코드 레벨의 2대 주범과 타파 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 보통 개발자의 '락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 순서 엇갈림'에서 폭발한다.
+[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)은 보통 개발자의 '락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 순서 엇갈림'에서 폭발한다.
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a> Reversal (락 점유 순서 위반)</strong>:
+1. <strong><a href="/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a> Reversal (락 점유 순서 위반)</strong>:
    - [A개발자]: 함수 짜면서 `Lock(User)` -> `Lock(Point)` 순서로 짰다.
    - [B개발자]: 딴 파일에 함수 짜면서 `Lock(Point)` -> `Lock(User)` 순서로 짰다.
-   - **타파**: 사내 코딩 컨벤션에 무조건 "User 먼저 락 잡고, 그다음 Point 락 잡아라" (락 획득 순서 강제화 = [Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방) 를 박아버려 소스 레벨에서 박멸한다.
+   - **타파**: 사내 코딩 컨벤션에 무조건 "User 먼저 락 잡고, 그다음 Point 락 잡아라" (락 획득 순서 강제화 = [Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/) 예방) 를 박아버려 소스 레벨에서 박멸한다.
 2. **콜백 루프 (Callback Circular Dependency)**:
-   - 클래스 A가 락을 쥔 채로 남이 만든 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B의 함수(Callback)를 빙글 호출했는데, 하필 B도 내부에서 락을 쥐고 A로 되돌려 쏘는 구조.
-   - **타파**: 락(Synchronized 블록 등)을 잡은 '범위 안([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))'에서는 남의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 낯선 함수(Alien Method) 호출을 절대 하지 못하게 막는 <strong><code>Open Call</code> <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong> 기법으로 박살 낸다.
+   - 클래스 A가 락을 쥔 채로 남이 만든 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) B의 함수(Callback)를 빙글 호출했는데, 하필 B도 내부에서 락을 쥐고 A로 되돌려 쏘는 구조.
+   - **타파**: 락(Synchronized 블록 등)을 잡은 '범위 안([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))'에서는 남의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 낯선 함수(Alien Method) 호출을 절대 하지 못하게 막는 <strong><code>Open Call</code> <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong> 기법으로 박살 낸다.
 
-**📢 섹션 요약 비유**: 개발자들의 가장 큰 죄악은 락(문단속)을 걸어둔 안방에서 배달 알바(외부 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 부르는 겁니다. 그러다 배달부가 밖에 다른 문을 잠그고 들어오려 하면 영원히 현관에서 데드락이 갇히죠. "안방 락 풀고 거실에서 외부자 부르기!" 가 핵심 철학입니다.
+**📢 섹션 요약 비유**: 개발자들의 가장 큰 죄악은 락(문단속)을 걸어둔 안방에서 배달 알바(외부 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/))를 부르는 겁니다. 그러다 배달부가 밖에 다른 문을 잠그고 들어오려 하면 영원히 현관에서 데드락이 갇히죠. "안방 락 풀고 거실에서 외부자 부르기!" 가 핵심 철학입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 디버깅 무기 (Tool) | 활용 목적 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 적출 파워 | 체감 난이도 |
+| 디버깅 무기 (Tool) | 활용 목적 | [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 적출 파워 | 체감 난이도 |
 |:---|:---|:---|:---|
-| **jstack / kill -3** | `Java` 환경의 절대자. 데드락 뜬 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2개 텍스트 뽑아줌 | 데드락이라고 대놓고 `Found one Java-level deadlock` 찍어줌 (극강) | 하 (읽기만 하면 됨) |
-| **gdb / Visual Studio** | `C/C++` 프로세스. 일시 정지(Pause) 걸어서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 콜 조사 | 주소값 추적해서 두 놈이 같은 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)/[Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 보는지 대조해야 함 | 상 (메모리 맵 까봐야 함) |
-| **MySQL (SHOW ENGINE INNODB STATUS)** | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 데드락 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 났을 때 원인 분석 | "Latest Detected [Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)" 구역에 쿼리문 2줄과 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 번호 직역해 줌 | 중 |
+| **jstack / kill -3** | `Java` 환경의 절대자. 데드락 뜬 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2개 텍스트 뽑아줌 | 데드락이라고 대놓고 `Found one Java-level deadlock` 찍어줌 (극강) | 하 (읽기만 하면 됨) |
+| **gdb / Visual Studio** | `C/C++` 프로세스. 일시 정지(Pause) 걸어서 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 콜 조사 | 주소값 추적해서 두 놈이 같은 [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)/[Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/) 보는지 대조해야 함 | 상 (메모리 맵 까봐야 함) |
+| **MySQL (SHOW ENGINE INNODB STATUS)** | [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 데드락 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 났을 때 원인 분석 | "Latest Detected [Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)" 구역에 쿼리문 2줄과 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 번호 직역해 줌 | 중 |
 
-**📢 섹션 요약 비유**: 최신 프로그래밍 언어나 디버거 도구에는 "데드락 찾기 전용 X레이 렌즈"가 다 기본 탑재되어 있습니다. 에러 떴다고 컴퓨터 부수지 말고, X레이 창을 띄워보면 친절하게 "123번 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 456번 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 사이클이야"라고 지문까지 알려줍니다.
+**📢 섹션 요약 비유**: 최신 프로그래밍 언어나 디버거 도구에는 "데드락 찾기 전용 X레이 렌즈"가 다 기본 탑재되어 있습니다. 에러 떴다고 컴퓨터 부수지 말고, X레이 창을 띄워보면 친절하게 "123번 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 456번 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 사이클이야"라고 지문까지 알려줍니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오 파훼법**:
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 분석기 탑재 (<a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a>)</strong>: 쿠버네티스나 스프링부트 서버에서 장애가 터지면 즉각적으로 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 3초 간격으로 3번 떠서 `fastthread.io` 같은 사이트나 사내 APM에 던진다. Flame Graph로 예쁘게 그려주면서 붉은 줄로 "[Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)!" 도장을 쾅 찍어주면, 그 아래 호출 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(`com.mycompany.UserService.deductPoint:124번째 라인`)까지 정확히 까발려지므로 개발자는 그 줄로 튀어가 `Lock 순서`를 `Point -> User` 로 맞춰버리면 10분 만에 패치 완료된다.
+1. <strong><a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 분석기 탑재 (<a href="/studynote/15_devops_sre/03_sre_observability/162_apm_application_performance_management/">APM</a>)</strong>: 쿠버네티스나 스프링부트 서버에서 장애가 터지면 즉각적으로 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프를 3초 간격으로 3번 떠서 `fastthread.io` 같은 사이트나 사내 APM에 던진다. Flame Graph로 예쁘게 그려주면서 붉은 줄로 "[Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)!" 도장을 쾅 찍어주면, 그 아래 호출 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(`com.mycompany.UserService.deductPoint:124번째 라인`)까지 정확히 까발려지므로 개발자는 그 줄로 튀어가 `Lock 순서`를 `Point -> User` 로 맞춰버리면 10분 만에 패치 완료된다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
 - **트라이-캐치 눈속임 (Mute Exception)**: 데드락이 터져서 `DeadlockLoserDataAccessException` (스프링 DB에러)가 터졌는데, 원인을 찾아 고치긴 커녕 그 위에 `catch`문 걸어놓고 에러 로그만 숨긴 뒤 무한 재시도(`while(true)`) 타도록 로직을 짜버린 끔찍한 실무자!
    -> 이러면 데드락 자체는 영원히 방치되고, DB는 무한 재시도를 받아치느라 사이트 전체 CPU가 용암처럼 끓어오르는 대폭발 패닉을 맞이하게 된다. "버그는 회피하는 게 아니라 뿌리(순서)를 고치는 거다."
 
-**📢 섹션 요약 비유**: 벌레([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류)가 자꾸 기어 나오면 벌레 나오는 구명(소스코드 락 순위)을 시멘트로 막을 생각을 해야지, 구멍 위에 휴지통 엎어두고(Exception Catch 묵살) "벌레 안 보이네~" 하고 놔두면 나중에 휴지통째로 폭발합니다.
+**📢 섹션 요약 비유**: 벌레([동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오류)가 자꾸 기어 나오면 벌레 나오는 구명(소스코드 락 순위)을 시멘트로 막을 생각을 해야지, 구멍 위에 휴지통 엎어두고(Exception Catch 묵살) "벌레 안 보이네~" 하고 놔두면 나중에 휴지통째로 폭발합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | 운영체제의 파괴식 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 의존 | 코드 레벨 (Debugging)로 순환 갉아먹기 |
+| 기준 | 운영체제의 파괴식 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) ([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) 의존 | 코드 레벨 (Debugging)로 순환 갉아먹기 |
 |:---|:---|:---|
-| 시스템 퀄리티 | 툭하면 데드락 에러 터져서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 너덜너덜 | 데드락이란 걸 발생시킬 수 없는 무결점 성채 |
+| 시스템 퀄리티 | 툭하면 데드락 에러 터져서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 너덜너덜 | 데드락이란 걸 발생시킬 수 없는 무결점 성채 |
 | 아키텍처 결론 | 진통제 처방 (살아는 있음) | 종양 완벽 절제술 (완치 판정) |
 
-`동기화 결함 (순환 의존성) 코드 레벨 디버깅`은 진정한 소프트웨어 장인(Craftsman)이 시스템을 구원하는 마지막 철퇴 라인이다. OS 단의 정교한 뱅커스 알고리즘이나 RDBMS의 [언두](/knowledge-base/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기법이 아무리 훌륭해도, 본질적으로 "잘못 짜여진 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))의 역주행 순서"라는 인간의 죄악을 대속(대속)해 쓸데없는 비용을 치르는 것에 불과하다. 덤프 파일과 프로파일러로 <strong>환상형 대기(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/">Circular Wait</a>)의 코드맥을 집어내고 문법적 규약(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)으로 원천 차단하는 것</strong>이야말로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)/[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 세계에서 평화를 구축하는 유일한 정답이다.
+`동기화 결함 (순환 의존성) 코드 레벨 디버깅`은 진정한 소프트웨어 장인(Craftsman)이 시스템을 구원하는 마지막 철퇴 라인이다. OS 단의 정교한 뱅커스 알고리즘이나 RDBMS의 [언두](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기법이 아무리 훌륭해도, 본질적으로 "잘못 짜여진 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))의 역주행 순서"라는 인간의 죄악을 대속(대속)해 쓸데없는 비용을 치르는 것에 불과하다. 덤프 파일과 프로파일러로 <strong>환상형 대기(<a href="/studynote/02_operating_system/05_deadlock/286_circular_wait/">Circular Wait</a>)의 코드맥을 집어내고 문법적 규약(<a href="/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/">Lock Ordering</a>)으로 원천 차단하는 것</strong>이야말로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)/[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍 세계에서 평화를 구축하는 유일한 정답이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -112,10 +109,10 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 발생 방지 (희생자 선택에 횟수 제한) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))과 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 차이점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [락 오더링](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) ([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 다이나믹 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구 (Lockdep in Linux) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 발생 방지 (희생자 선택에 횟수 제한) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [라이브락](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))과 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 차이점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [락 오더링](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) ([Lock Ordering](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/)) 다이나믹 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구 (Lockdep in Linux) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [교착 상태 탐지](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,8 +130,8 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 얽힌 자동차 4대([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 해결하려고 1대를 부숴버리면(OS [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 일단 길은 뚫리겠지만 내일 또 사고가 나겠죠?
-2. "[동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 디버깅"은, 헬기를 띄워 사진([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)을 착! 찍고, "아! 신호등 순서를 반대로 만들어 놔서 계속 부딪혔구나!" 원인을 찾아(버그 추적) 아예 신호등을 고쳐버리는 거랍니다.
+1. 얽힌 자동차 4대([교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 해결하려고 1대를 부숴버리면(OS [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 일단 길은 뚫리겠지만 내일 또 사고가 나겠죠?
+2. "[동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 디버깅"은, 헬기를 띄워 사진([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 덤프)을 착! 찍고, "아! 신호등 순서를 반대로 만들어 놔서 계속 부딪혔구나!" 원인을 찾아(버그 추적) 아예 신호등을 고쳐버리는 거랍니다.
 3. 그러면 억울하게 차를 부수는 일 없이 영원히 평화롭고 안전한 교차로(버그 없는 완벽한 서버)가 만들어지는 거죠!
 
 ---
@@ -143,7 +140,7 @@ P1과 P2가 서로 상대방 컴포넌트를 호출하는 `상호 의존성 주�
 
 **진행 상황**: 316 / 800
 
-<- **이전**: [315. 라이브락 (Livelock)과 교착 상태의 차이점](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
-**다음**: [317. 락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) ->
+<- **이전**: [315. 라이브락 (Livelock)과 교착 상태의 차이점](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
+**다음**: [317. 락 오더링 (Lock Ordering) 다이나믹 검증 도구 (Lockdep in Linux)](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) ->
 
 ---

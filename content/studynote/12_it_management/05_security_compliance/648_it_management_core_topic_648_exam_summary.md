@@ -1,13 +1,10 @@
-+++
-title = "648. IT 경영 관리 핵심 토픽 648번 시험 요약 (IT Management Core Topic 648 Exam Summary)"
-date = 2026-05-09
+---
+title: "648. IT 경영 관리 핵심 토픽 648번 시험 요약 (IT Management Core Topic 648 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -210,7 +207,7 @@ Level 1 (Initial) -----> Level 2 (Managed) -----> Level 3 (Defined) -----> Level
 
 **진행 상황**: 648 / 800
 
-<- **이전**: [647. IT 경영 관리 핵심 토픽 647번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/647_it_management_core_topic_647_exam_summary/)
-**다음**: [649. IT 경영 관리 핵심 토픽 649번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/649_it_management_core_topic_649_exam_summary/) ->
+<- **이전**: [647. IT 경영 관리 핵심 토픽 647번 시험 요약](/studynote/12_it_management/05_security_compliance/647_it_management_core_topic_647_exam_summary/)
+**다음**: [649. IT 경영 관리 핵심 토픽 649번 시험 요약](/studynote/12_it_management/05_security_compliance/649_it_management_core_topic_649_exam_summary/) ->
 
 ---

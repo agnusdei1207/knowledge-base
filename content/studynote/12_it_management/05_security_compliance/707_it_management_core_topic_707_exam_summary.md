@@ -1,13 +1,10 @@
-+++
-title = "707. IT 경영 관리 핵심 토픽 707번 시험 요약 (IT Management Core Topic 707 Exam Summary)"
-date = 2026-05-09
+---
+title: "707. IT 경영 관리 핵심 토픽 707번 시험 요약 (IT Management Core Topic 707 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ TOGAF(현행 10판)는 **Architecture Development Method(ADM)** 8단계(Phase A:
 
 **진행 상황**: 707 / 800
 
-<- **이전**: [706. IT 경영 관리 핵심 토픽 706번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/706_it_management_core_topic_706_exam_summary/)
-**다음**: [708. IT 경영 관리 핵심 토픽 708번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/708_it_management_core_topic_708_exam_summary/) ->
+<- **이전**: [706. IT 경영 관리 핵심 토픽 706번 시험 요약](/studynote/12_it_management/05_security_compliance/706_it_management_core_topic_706_exam_summary/)
+**다음**: [708. IT 경영 관리 핵심 토픽 708번 시험 요약](/studynote/12_it_management/05_security_compliance/708_it_management_core_topic_708_exam_summary/) ->
 
 ---

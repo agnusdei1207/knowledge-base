@@ -1,13 +1,10 @@
-+++
-title = "735. 드론 군집 비행 무인 물류 배송 (Drone Swarm Flight Unmanned Logistics)"
-date = 2026-05-09
+---
+title: "735. 드론 군집 비행 무인 물류 배송 (Drone Swarm Flight Unmanned Logistics)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ $$\dot{x}_i = f(x_i) + g(x_i)u_i \quad \text{s.t.} \quad h(x_i) \geq 0$$
 
 **진행 상황**: 735 / 800
 
-<- **이전**: [734. 스마트 안전 재난 관리 조기 경보](/knowledge-base/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/)
-**다음**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/knowledge-base/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/) ->
+<- **이전**: [734. 스마트 안전 재난 관리 조기 경보](/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/)
+**다음**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/) ->
 
 ---

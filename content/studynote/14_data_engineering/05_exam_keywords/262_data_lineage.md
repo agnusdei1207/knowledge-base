@@ -1,13 +1,10 @@
-+++
-title = "262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)"
-date = 2026-05-09
+---
+title: "262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ $$
 
 **진행 상황**: 262 / 300
 
-<- **이전**: [261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/261_data_catalog/)
-**다음**: [263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/263_data_quality/) ->
+<- **이전**: [261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)](/studynote/14_data_engineering/05_exam_keywords/261_data_catalog/)
+**다음**: [263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)](/studynote/14_data_engineering/05_exam_keywords/263_data_quality/) ->
 
 ---

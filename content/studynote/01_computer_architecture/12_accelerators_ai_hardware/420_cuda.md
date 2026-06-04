@@ -1,27 +1,24 @@
-+++
-title = "420. CUDA (Compute Unified Device Architecture)"
-date = 2026-03-20
+---
+title: "420. CUDA (Compute Unified Device Architecture)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CUDA (Compute Unified Device [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 그래픽 전용 장치가 아니라 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산 장치로 직접 다루게 만든 프로그래밍 모델이자 소프트웨어 플랫폼이다.
-> 2. **가치**: 같은 행렬 연산이라도 CPU (Central Processing Unit)가 순차 지연을 줄이는 데 강하다면, CUDA는 수천 개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 펼쳐 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 폭발적으로 높인다.
+> 1. **본질**: CUDA (Compute Unified Device [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 그래픽 전용 장치가 아니라 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산 장치로 직접 다루게 만든 프로그래밍 모델이자 소프트웨어 플랫폼이다.
+> 2. **가치**: 같은 행렬 연산이라도 CPU (Central Processing Unit)가 순차 지연을 줄이는 데 강하다면, CUDA는 수천 개 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 펼쳐 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 폭발적으로 높인다.
 > 3. **판단 포인트**: CUDA의 성패는 "GPU를 쓰느냐"보다 "연산량이 메모리 이동 비용을 덮을 만큼 큰가, 그리고 워프·메모리 계층에 맞게 문제를 재구성했는가"에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CUDA는 GPU를 범용 계산에 활용하기 위한 NVIDIA의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 환경이다. 원래 GPU는 화면 렌더링에 최적화된 하드웨어였지만, 과학 계산·영상 처리·딥러닝처럼 같은 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음에 반복 적용하는 문제에서는 CPU보다 훨씬 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 낼 수 있었다. 문제는 과거에는 이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 쓰려면 그래픽 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 셰이더를 우회적으로 사용해야 했고, 계산 문제를 "그래픽 작업처럼 위장"해야 했다는 점이다.
+CUDA는 GPU를 범용 계산에 활용하기 위한 NVIDIA의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅 환경이다. 원래 GPU는 화면 렌더링에 최적화된 하드웨어였지만, 과학 계산·영상 처리·딥러닝처럼 같은 연산을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 묶음에 반복 적용하는 문제에서는 CPU보다 훨씬 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 낼 수 있었다. 문제는 과거에는 이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 쓰려면 그래픽 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 셰이더를 우회적으로 사용해야 했고, 계산 문제를 "그래픽 작업처럼 위장"해야 했다는 점이다.
 
-CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드에 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 함수를 작성하고, 런타임이 이를 GPU의 대규모 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행 모델에 맞게 배치한다. 즉, 그래픽 파이프라인을 해킹하던 시대에서 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산답게 표현하는 시대"로 넘어간 것이다. 이 변화가 없었다면 오늘날 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 학습 프레임워크, [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 대규모 시뮬레이션은 지금만큼 빠르게 산업화되기 어려웠다.
+CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드에 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 함수를 작성하고, 런타임이 이를 GPU의 대규모 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행 모델에 맞게 배치한다. 즉, 그래픽 파이프라인을 해킹하던 시대에서 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산답게 표현하는 시대"로 넘어간 것이다. 이 변화가 없었다면 오늘날 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 학습 프레임워크, [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)), 대규모 시뮬레이션은 지금만큼 빠르게 산업화되기 어려웠다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -36,7 +33,7 @@ CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드
 +-----------------------+----------------------------------------------+
 ```
 
-이 그림은 CUDA가 단순한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 아니라 <strong>문제 표현 방식 자체를 바꾼 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>임을 보여준다. 덕분에 연구자는 연산 의미를 코드로 직접 쓰고, 시스템은 그 코드를 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어에 매핑하는 역할을 분담하게 되었다.
+이 그림은 CUDA가 단순한 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 아니라 <strong>문제 표현 방식 자체를 바꾼 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>임을 보여준다. 덕분에 연구자는 연산 의미를 코드로 직접 쓰고, 시스템은 그 코드를 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어에 매핑하는 역할을 분담하게 되었다.
 
 - **📢 섹션 요약 비유**: CUDA는 화물열차를 몰려면 기관차를 직접 분해 조작해야 하던 세상에, "목적지만 입력하면 열차 편성을 알아서 해주는 관제 시스템"이 생긴 것과 같다.
 
@@ -44,17 +41,17 @@ CUDA가 해결한 핵심은 여기서부터다. 개발자는 C/C++ 기반 코드
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 매우 많은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 복제해 GPU에 뿌리는 것이다. 이때 실행 계층은 <strong>Grid -> Block -> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong>로 내려가고, 실제 하드웨어에서는 여러 Block이 [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))에 배치된다. [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서는 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음인 Warp가 스케줄링 기본 단위로 움직이며, 같은 명령 흐름을 공유하는 [SIMT](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) 방식으로 실행된다.
+CUDA의 핵심은 하나의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 매우 많은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 복제해 GPU에 뿌리는 것이다. 이때 실행 계층은 <strong>Grid -> Block -> <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a></strong>로 내려가고, 실제 하드웨어에서는 여러 Block이 [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/))에 배치된다. [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) 내부에서는 32개 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음인 Warp가 스케줄링 기본 단위로 움직이며, 같은 명령 흐름을 공유하는 [SIMT](/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) 방식으로 실행된다.
 
 | 계층/요소 | 의미 | 실제 설계 포인트 |
 | :-- | :-- | :-- |
-| [Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소 하나를 담당하는 최소 실행 단위 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산, 분기 최소화 |
-| Block | Shared Memory를 공유하는 협업 단위 | 블록 크기, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 범위 |
-| Grid | 하나의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행 전체 범위 | 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 대응 |
-| [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) | 워프를 실제로 실행하는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 클러스터 | 점유율(Occupancy), 자원 배치 |
-| Warp | 32개 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실행 묶음 | Warp Divergence 회피 |
+| [Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소 하나를 담당하는 최소 실행 단위 | [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산, 분기 최소화 |
+| Block | Shared Memory를 공유하는 협업 단위 | 블록 크기, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 범위 |
+| Grid | 하나의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행 전체 범위 | 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 대응 |
+| [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) | 워프를 실제로 실행하는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 연산 클러스터 | 점유율(Occupancy), 자원 배치 |
+| Warp | 32개 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 실행 묶음 | Warp Divergence 회피 |
 
-아래 구조를 보면 CUDA [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 왜 메모리 계층과 워프 동작에 민감한지 드러난다.
+아래 구조를 보면 CUDA [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 왜 메모리 계층과 워프 동작에 민감한지 드러난다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -79,9 +76,9 @@ CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_syst
 +----------------------------------------------------------------------+
 ```
 
-실무 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 세 가지 원리로 압축된다. 첫째, 메모리 접근은 가능하면 연속적이어야 한다. 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 흩어진 주소를 읽으면 메모리 병목이 커지고, 반대로 Coalesced Access가 되면 대역폭을 잘 활용할 수 있다. 둘째, 같은 Block 안에서 반복 사용할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Shared Memory에 올려 재사용해야 한다. 셋째, Warp 내부 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 다른 분기를 타면 직렬화가 발생하므로 조건 분기를 최소화하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 바꿔야 한다.
+실무 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 세 가지 원리로 압축된다. 첫째, 메모리 접근은 가능하면 연속적이어야 한다. 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 흩어진 주소를 읽으면 메모리 병목이 커지고, 반대로 Coalesced Access가 되면 대역폭을 잘 활용할 수 있다. 둘째, 같은 Block 안에서 반복 사용할 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 Shared Memory에 올려 재사용해야 한다. 셋째, Warp 내부 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 다른 분기를 타면 직렬화가 발생하므로 조건 분기를 최소화하거나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 바꿔야 한다.
 
-또 하나 중요한 점은 CUDA가 "코어 수가 많으니 무조건 빠르다"는 구조가 아니라는 사실이다. GPU는 개별 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나의 지연시간을 줄이기보다, 대기 중인 많은 워프를 번갈아 실행해 메모리 지연을 숨긴다. 그래서 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 과다 사용, 블록 크기 부적절, [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 남용은 점유율을 낮춰 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 떨어뜨린다.
+또 하나 중요한 점은 CUDA가 "코어 수가 많으니 무조건 빠르다"는 구조가 아니라는 사실이다. GPU는 개별 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나의 지연시간을 줄이기보다, 대기 중인 많은 워프를 번갈아 실행해 메모리 지연을 숨긴다. 그래서 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 과다 사용, 블록 크기 부적절, [Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 남용은 점유율을 낮춰 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 떨어뜨린다.
 
 - **📢 섹션 요약 비유**: CUDA는 수천 명이 일하는 대형 주방과 같다. 요리사 수가 많아도 냉장고 동선이 꼬이거나 같은 조리대에서 서로 부딪히면, 인원은 많은데 음식은 늦게 나온다.
 
@@ -89,18 +86,18 @@ CUDA의 핵심은 하나의 [커널](/knowledge-base/studynote/02_operating_syst
 
 ## Ⅲ. 비교 및 연결
 
-CUDA를 제대로 이해하려면 CPU [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 그리고 범용 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 표준과의 차이를 함께 봐야 한다. CPU는 적은 수의 강한 코어로 복잡한 분기와 낮은 지연시간에 유리하고, CUDA는 많은 수의 비교적 단순한 실행 단위로 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)에 유리하다. 따라서 웹 요청처럼 즉시 응답이 중요한 작업은 CPU가 낫고, 대규모 행렬 연산처럼 같은 연산을 반복하는 작업은 CUDA가 강하다.
+CUDA를 제대로 이해하려면 CPU [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 그리고 범용 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 표준과의 차이를 함께 봐야 한다. CPU는 적은 수의 강한 코어로 복잡한 분기와 낮은 지연시간에 유리하고, CUDA는 많은 수의 비교적 단순한 실행 단위로 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)에 유리하다. 따라서 웹 요청처럼 즉시 응답이 중요한 작업은 CPU가 낫고, 대규모 행렬 연산처럼 같은 연산을 반복하는 작업은 CUDA가 강하다.
 
-| 비교 항목 | CPU 중심 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | CUDA 중심 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| 비교 항목 | CPU 중심 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 | CUDA 중심 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
 | :-- | :-- | :-- |
-| 강점 | 낮은 지연시간, 복잡한 제어 흐름 | 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 |
-| 적합 작업 | 분기 많은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직, OS 스케줄링 | 행렬 연산, 영상 처리, 딥러닝 학습 |
+| 강점 | 낮은 지연시간, 복잡한 제어 흐름 | 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 |
+| 적합 작업 | 분기 많은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 로직, OS 스케줄링 | 행렬 연산, 영상 처리, 딥러닝 학습 |
 | 병목 | 코어 수 제한 | 메모리 이동, 워프 발산 |
-| 최적화 초점 | 캐시 적중, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 점유율, 메모리 접근 패턴 |
+| 최적화 초점 | 캐시 적중, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 점유율, 메모리 접근 패턴 |
 
-또한 CUDA는 OpenCL (Open Computing Language), ROCm (Radeon Open Compute) 같은 대안과 비교할 때 <strong>생태계 완성도</strong>에서 큰 장점을 가진다. cuBLAS (CUDA Basic Linear Algebra Subprograms), cuDNN (CUDA Deep Neural Network), NCCL (NVIDIA Collective Communications [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))처럼 고성능 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 두껍게 쌓이면서, 상위 프레임워크인 PyTorch나 TensorFlow가 CUDA를 사실상 기본 경로로 사용하게 되었다. 반대로 이 강점은 곧 특정 벤더 종속성이라는 한계로 이어진다.
+또한 CUDA는 OpenCL (Open Computing Language), ROCm (Radeon Open Compute) 같은 대안과 비교할 때 <strong>생태계 완성도</strong>에서 큰 장점을 가진다. cuBLAS (CUDA Basic Linear Algebra Subprograms), cuDNN (CUDA Deep Neural Network), NCCL (NVIDIA Collective Communications [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))처럼 고성능 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 두껍게 쌓이면서, 상위 프레임워크인 PyTorch나 TensorFlow가 CUDA를 사실상 기본 경로로 사용하게 되었다. 반대로 이 강점은 곧 특정 벤더 종속성이라는 한계로 이어진다.
 
-즉, CUDA는 단순한 언어 확장이 아니라 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어 전체를 묶는 접착층이다. [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), NVLink 같은 하드웨어 발전도 결국 CUDA [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 컴파일 체인을 통해 사용자에게 체감된다. 이 연결고리 때문에 가속기 시장의 경쟁은 칩 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 "기존 CUDA 자산을 얼마나 자연스럽게 옮길 수 있는가"의 문제로 확장되었다.
+즉, CUDA는 단순한 언어 확장이 아니라 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 하드웨어 전체를 묶는 접착층이다. [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)), [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), NVLink 같은 하드웨어 발전도 결국 CUDA [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)와 컴파일 체인을 통해 사용자에게 체감된다. 이 연결고리 때문에 가속기 시장의 경쟁은 칩 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만이 아니라 "기존 CUDA 자산을 얼마나 자연스럽게 옮길 수 있는가"의 문제로 확장되었다.
 
 - **📢 섹션 요약 비유**: CPU가 다재다능한 소수 정예 특공대라면, CUDA는 같은 동작을 정확히 반복하는 대규모 공병대다. 그리고 강력한 도구 창고까지 함께 딸려 오는 편이 CUDA 생태계다.
 
@@ -108,28 +105,28 @@ CUDA를 제대로 이해하려면 CPU [병렬](/knowledge-base/studynote/05_data
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 CUDA 도입 여부는 "GPU가 빠르다"는 인상으로 결정하면 안 된다. 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기와 연산 밀도부터 봐야 한다. CPU 메모리에서 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리로 옮기는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 비용, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행 오버헤드, 결과 회수 비용을 합쳤을 때도 이득이 남는 문제여야 한다. 작은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 짧은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리, 분기 위주의 로직은 오히려 CPU보다 느려질 수 있다.
+실무에서 CUDA 도입 여부는 "GPU가 빠르다"는 인상으로 결정하면 안 된다. 먼저 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기와 연산 밀도부터 봐야 한다. CPU 메모리에서 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리로 옮기는 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 비용, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 실행 오버헤드, 결과 회수 비용을 합쳤을 때도 이득이 남는 문제여야 한다. 작은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 짧은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리, 분기 위주의 로직은 오히려 CPU보다 느려질 수 있다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분히 커서 메모리 복사 비용을 덮을 수 있는가?
-2. 연산이 동일 패턴으로 반복되어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 쉬운가?
-3. Block 크기, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사용량, [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 사용량이 점유율을 과도하게 깎지 않는가?
+1. 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 충분히 커서 메모리 복사 비용을 덮을 수 있는가?
+2. 연산이 동일 패턴으로 반복되어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 쉬운가?
+3. Block 크기, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 사용량, [Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 사용량이 점유율을 과도하게 깎지 않는가?
 4. Warp Divergence, 비연속 메모리 접근, Host-Device 왕복 복사가 병목으로 드러나지 않는가?
-5. [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출(cuBLAS, cuDNN)로 해결 가능한데 불필요하게 커스텀 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 작성하고 있지 않은가?
+5. [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출(cuBLAS, cuDNN)로 해결 가능한데 불필요하게 커스텀 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 작성하고 있지 않은가?
 
 ### 채택/회피 기준
 
 - **채택이 유리한 경우**: 대규모 행렬 곱셈, 배치 추론, 이미지 필터링, 시뮬레이션처럼 동일 연산을 수십만~수백만 원소에 반복 적용하는 경우
-- **회피가 유리한 경우**: 입력이 작고 짧은 지연시간이 중요한 온라인 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 분기와 예외 처리가 많은 제어 중심 로직, 디버깅 단순성이 더 중요한 경우
+- **회피가 유리한 경우**: 입력이 작고 짧은 지연시간이 중요한 온라인 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 분기와 예외 처리가 많은 제어 중심 로직, 디버깅 단순성이 더 중요한 경우
 
-### 자주 보는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 보는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- GPU를 놀리지 않으면서도 CPU-[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 복사를 반복해 전체 시간을 더 늘리는 설계
-- 워프 단위 실행을 고려하지 않고 if/else 분기를 난발하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)
-- [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 없이 "블록 크기는 1024가 최대니까 무조건 최고"라고 가정하는 튜닝
+- GPU를 놀리지 않으면서도 CPU-[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 복사를 반복해 전체 시간을 더 늘리는 설계
+- 워프 단위 실행을 고려하지 않고 if/else 분기를 난발하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)
+- [프로파일링](/studynote/02_operating_system/10_security/613_profiling_gprof/) 없이 "블록 크기는 1024가 최대니까 무조건 최고"라고 가정하는 튜닝
 
-결국 기술사 관점의 판단은 명확하다. CUDA는 범용 가속 만능키가 아니라, <strong>문제를 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 구조로 재정의할 수 있을 때 폭발적인 효과를 내는 특화 도구</strong>다. 따라서 Nsight 계열 프로파일러로 병목을 확인하고, 메모리 이동·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 배치·[라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 활용 순서로 최적화해야 한다.
+결국 기술사 관점의 판단은 명확하다. CUDA는 범용 가속 만능키가 아니라, <strong>문제를 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 구조로 재정의할 수 있을 때 폭발적인 효과를 내는 특화 도구</strong>다. 따라서 Nsight 계열 프로파일러로 병목을 확인하고, 메모리 이동·[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 배치·[라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 활용 순서로 최적화해야 한다.
 
 - **📢 섹션 요약 비유**: CUDA 도입은 대형 화물기를 띄우는 일과 같다. 짐이 아주 많을 때는 압도적으로 효율적이지만, 택배 상자 몇 개 보내자고 활주로를 열면 준비 비용이 더 크다.
 
@@ -137,11 +134,11 @@ CUDA를 제대로 이해하려면 CPU [병렬](/knowledge-base/studynote/05_data
 
 ## Ⅴ. 기대효과 및 결론
 
-CUDA의 가장 큰 효과는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 개발자가 직접 활용할 수 있게 만들었다는 점이다. 이 덕분에 슈퍼컴퓨터 전용 영역처럼 보이던 대규모 수치 계산이 연구실, 기업 서버, 개인 워크스테이션으로 내려왔다. 특히 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습과 추론 분야에서는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 혁신만큼이나 CUDA 기반 소프트웨어 최적화가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 만들었다.
+CUDA의 가장 큰 효과는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 하드웨어의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 개발자가 직접 활용할 수 있게 만들었다는 점이다. 이 덕분에 슈퍼컴퓨터 전용 영역처럼 보이던 대규모 수치 계산이 연구실, 기업 서버, 개인 워크스테이션으로 내려왔다. 특히 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습과 추론 분야에서는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 혁신만큼이나 CUDA 기반 소프트웨어 최적화가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이를 만들었다.
 
-다만 전제조건도 분명하다. 첫째, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내려면 문제를 워프와 메모리 계층에 맞게 다시 설계해야 한다. 둘째, 특정 벤더 생태계 의존성이 커질 수 있다. 셋째, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 없이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 늘리면 복사 비용·메모리 병목·점유율 저하 때문에 기대 이하 결과가 나오기 쉽다.
+다만 전제조건도 분명하다. 첫째, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내려면 문제를 워프와 메모리 계층에 맞게 다시 설계해야 한다. 둘째, 특정 벤더 생태계 의존성이 커질 수 있다. 셋째, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 없이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 늘리면 복사 비용·메모리 병목·점유율 저하 때문에 기대 이하 결과가 나오기 쉽다.
 
-앞으로의 확장 방향은 세 가지 정도로 정리할 수 있다. 하나는 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 중심의 저정밀도 연산 가속, 둘은 CUDA Graphs 기반 런치 오버헤드 축소, 셋은 멀티 GPU와 NVLink를 활용한 대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 최적화다. 따라서 CUDA는 "GPU를 쓰는 방법"으로 외우기보다, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 하드웨어를 소프트웨어 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>로 길들이는 대표 사례</strong>로 기억하는 것이 가장 정확하다.
+앞으로의 확장 방향은 세 가지 정도로 정리할 수 있다. 하나는 [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 중심의 저정밀도 연산 가속, 둘은 CUDA Graphs 기반 런치 오버헤드 축소, 셋은 멀티 GPU와 NVLink를 활용한 대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 최적화다. 따라서 CUDA는 "GPU를 쓰는 방법"으로 외우기보다, <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 하드웨어를 소프트웨어 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a>로 길들이는 대표 사례</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: CUDA는 단순히 엔진 출력을 높이는 버튼이 아니라, 수많은 실린더가 같은 타이밍에 폭발하도록 점화 순서를 정교하게 맞추는 제어 장치에 가깝다.
 
@@ -151,12 +148,12 @@ CUDA의 가장 큰 효과는 [GPU](/knowledge-base/studynote/01_computer_archite
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [GPGPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/) (General-Purpose computing on [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | GPU를 그래픽 외 범용 계산에 쓰려는 문제의식이며 CUDA의 출발점 |
-| [SIMT](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) | CUDA 워프 실행 모델을 이해하는 핵심 개념 |
-| [SM](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) | Block과 Warp가 실제 배치되는 하드웨어 실행 단위 |
-| [Shared Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) | 블록 내부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용과 메모리 병목 완화의 핵심 수단 |
-| cuDNN (CUDA Deep Neural Network) | CUDA가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프레임워크 생태계로 확장되는 대표 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) | CUDA 위에서 딥러닝 행렬 연산을 더욱 가속하는 전용 연산 장치 |
+| [GPGPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/) (General-Purpose computing on [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | GPU를 그래픽 외 범용 계산에 쓰려는 문제의식이며 CUDA의 출발점 |
+| [SIMT](/studynote/01_computer_architecture/12_accelerators_ai_hardware/423_simt/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/), Multiple Threads) | CUDA 워프 실행 모델을 이해하는 핵심 개념 |
+| [SM](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ([Streaming Multiprocessor](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/)) | Block과 Warp가 실제 배치되는 하드웨어 실행 단위 |
+| [Shared Memory](/studynote/02_operating_system/02_process_thread/118_shared_memory/) | 블록 내부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용과 메모리 병목 완화의 핵심 수단 |
+| cuDNN (CUDA Deep Neural Network) | CUDA가 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프레임워크 생태계로 확장되는 대표 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) | CUDA 위에서 딥러닝 행렬 연산을 더욱 가속하는 전용 연산 장치 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,7 +173,7 @@ cuBLAS · cuDNN · NCCL 라이브러리 생태계 확장
 Tensor Core · 멀티 GPU · CUDA Graphs로 고도화
 ```
 
-이 흐름은 "우회적 활용 -> 직접 프로그래밍 -> 실행 모델 표준화 -> 생태계 축적 -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특화 가속"의 발전 경로를 보여준다.
+이 흐름은 "우회적 활용 -> 직접 프로그래밍 -> 실행 모델 표준화 -> 생태계 축적 -> [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 특화 가속"의 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -190,7 +187,7 @@ Tensor Core · 멀티 GPU · CUDA Graphs로 고도화
 
 **진행 상황**: 421 / 803
 
-<- **이전**: [419. GPGPU (General-Purpose GPU)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/)
-**다음**: [421. 스트리밍 멀티프로세서 (SM)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ->
+<- **이전**: [419. GPGPU (General-Purpose GPU)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/419_gpgpu/)
+**다음**: [421. 스트리밍 멀티프로세서 (SM)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/421_streaming_multiprocessor/) ->
 
 ---

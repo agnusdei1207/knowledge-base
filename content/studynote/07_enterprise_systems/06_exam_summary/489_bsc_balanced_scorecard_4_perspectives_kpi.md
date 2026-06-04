@@ -1,13 +1,10 @@
-+++
-title = "489. BSC 균형 성과표 4대 관점 KPI (BSC Balanced Scorecard 4 Perspectives KPI)"
-date = 2026-05-09
+---
+title: "489. BSC 균형 성과표 4대 관점 KPI (BSC Balanced Scorecard 4 Perspectives KPI)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ BSC을 제대로 적용하면 IT 투자가 업무 성과와 연결되고, 중복
 
 **진행 상황**: 489 / 800
 
-<- **이전**: [488. OKR 목표 핵심 결과 성과 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/488_okr_objectives_key_results_performance/)
-**다음**: [490. 전략 기획 SWOT PEST 5Forces 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/490_strategy_planning_swot_pest_5forces/) ->
+<- **이전**: [488. OKR 목표 핵심 결과 성과 관리](/studynote/07_enterprise_systems/06_exam_summary/488_okr_objectives_key_results_performance/)
+**다음**: [490. 전략 기획 SWOT PEST 5Forces 분석](/studynote/07_enterprise_systems/06_exam_summary/490_strategy_planning_swot_pest_5forces/) ->
 
 ---

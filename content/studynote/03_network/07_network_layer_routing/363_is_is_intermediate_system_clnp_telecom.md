@@ -1,17 +1,14 @@
-+++
-title = "363. IS-IS (Intermediate System to Intermediate System)"
-date = 2026-05-08
+---
+title: "363. IS-IS (Intermediate System to Intermediate System)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: IS-IS는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: IS-IS를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,12 +16,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 국제표준화기구(ISO)가 OSI 7계층 모델의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 개발한 [링크 상태](/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(ISO 10589). 나중에 IPv4를 지원하도록 개조된 Integrated IS-IS 규격이 현재 널리 쓰인다.
-- **필요성**: 1980년대, 인터넷([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 진영은 OSPF를 만들었다. 그런데 국제 깐깐한 표준 기구(ISO)는 "[TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 같은 근본 없는 거 말고, 우리가 만든 완벽한 OSI 모델 전용 망(CLNP)에서 쓸 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들자!"라며 IS-IS를 내놓았다. 하지만 세상은 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 승리로 끝났고 IS-IS는 멸종하는 듯했다. **그러나 반전이 일어났다.** 통신사 엔지니어들이 보니, IS-IS가 IP라는 우물에 갇혀 있지 않아서 <strong>OSPF보다 연산도 가볍고, 라우터 수천 대를 엮어도 끄떡없고, 심지어 IPv6나 특수 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 얹기가 너무너무 쉬웠다.</strong> 결국 대기업망은 OSPF가, 통신사 거대 백본망은 IS-IS가 양분하는 천하가 열렸다.
+- **개념**: 국제표준화기구(ISO)가 OSI 7계층 모델의 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)로 개발한 [링크 상태](/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)(ISO 10589). 나중에 IPv4를 지원하도록 개조된 Integrated IS-IS 규격이 현재 널리 쓰인다.
+- **필요성**: 1980년대, 인터넷([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP) 진영은 OSPF를 만들었다. 그런데 국제 깐깐한 표준 기구(ISO)는 "[TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 같은 근본 없는 거 말고, 우리가 만든 완벽한 OSI 모델 전용 망(CLNP)에서 쓸 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 만들자!"라며 IS-IS를 내놓았다. 하지만 세상은 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP의 승리로 끝났고 IS-IS는 멸종하는 듯했다. **그러나 반전이 일어났다.** 통신사 엔지니어들이 보니, IS-IS가 IP라는 우물에 갇혀 있지 않아서 <strong>OSPF보다 연산도 가볍고, 라우터 수천 대를 엮어도 끄떡없고, 심지어 IPv6나 특수 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>을 얹기가 너무너무 쉬웠다.</strong> 결국 대기업망은 OSPF가, 통신사 거대 백본망은 IS-IS가 양분하는 천하가 열렸다.
 
 - **💡 비유**:
-  - <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한국어([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))만 할 줄 알고, 나중에 영어를 배우려고([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 뇌구조([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3)를 싹 다 갈아엎어야 했던 **토종 내수용 수재**.
-  - **IS-IS**: 태어날 때부터 언어라는 제약(IP [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에 구애받지 않고 만국 공통어(L2 캡슐화)로 태어나, 한국어 패치, 영어 패치, 프랑스어 패치(TLV 확장)를 USB에 꽂기만 하면 1초 만에 다 구사하는 **외계에서 온 괴물 통역기**.
+  - <strong><a href="/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong>: 한국어([IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/))만 할 줄 알고, 나중에 영어를 배우려고([IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/)) 뇌구조([버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 3)를 싹 다 갈아엎어야 했던 **토종 내수용 수재**.
+  - **IS-IS**: 태어날 때부터 언어라는 제약(IP [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에 구애받지 않고 만국 공통어(L2 캡슐화)로 태어나, 한국어 패치, 영어 패치, 프랑스어 패치(TLV 확장)를 USB에 꽂기만 하면 1초 만에 다 구사하는 **외계에서 온 괴물 통역기**.
 
 ```text
 [OSPFv3]
@@ -42,17 +39,17 @@ tags = ["studynote-network"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 용어의 깐깐함 (ISO 스타일)
-IS-IS는 ISO에서 만들었기 때문에 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 진영([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))과는 용어가 완전히 다르다. (외우면 피가 되고 살이 된다).
-- **IS (Intermediate System)**: 라우터를 뜻함. (그래서 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 이름이 '라우터 투 라우터'라는 뜻이다).
+IS-IS는 ISO에서 만들었기 때문에 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 진영([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))과는 용어가 완전히 다르다. (외우면 피가 되고 살이 된다).
+- **IS (Intermediate System)**: 라우터를 뜻함. (그래서 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 이름이 '라우터 투 라우터'라는 뜻이다).
 - **ES (End System)**: PC나 스마트폰 (단말기).
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a> (<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a> PDU)</strong>: OSPF의 LSA(엽서)와 완벽히 똑같은 놈이다.
-- **CSNP / PSNP**: OSPF의 DBD(목차 요약본) 및 [LSR](/knowledge-base/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/)/LSAck와 같은 역할을 하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패킷들.
-- **NSAP 주소**: IP 주소 대신 사용하는 IS-IS만의 괴상하고 길쭉한 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 주소 체계.
+- <strong><a href="/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a> (<a href="/studynote/03_network/07_network_layer_routing/348_link_state_routing_dijkstra_spf/">Link State</a> PDU)</strong>: OSPF의 LSA(엽서)와 완벽히 똑같은 놈이다.
+- **CSNP / PSNP**: OSPF의 DBD(목차 요약본) 및 [LSR](/studynote/03_network/07_network_layer_routing/374_lsr_label_switch_router_ler_edge/)/LSAck와 같은 역할을 하는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 패킷들.
+- **NSAP 주소**: IP 주소 대신 사용하는 IS-IS만의 괴상하고 길쭉한 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 주소 체계.
 
 ### 2. IP 계층 독립성 (L2 캡슐화)
-OSPF는 패킷을 보낼 때 2계층([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) -> 3계층(IP 헤더) -> 4계층 -> [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣는다. 즉, IP 주소가 없으면 OSPF는 켜지지도 않는다.
-- **IS-IS의 위엄**: IS-IS는 2계층 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 <strong>직접 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)를 쑤셔 넣는다</strong>. 3계층 IP 헤더 따위는 필요 없다.
-- **장점**: 라우터가 IP 헤더를 까보지 않고 L2 스위칭하듯 훅훅 처리하니까 무지막지하게 빠르다. 해커가 외부망에서 라우터의 IP를 공격(DDoS)하려 해도, IS-IS 제어 평면은 IP와 완전 분리되어 있어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 절대 흔들리지 않는 극강의 보안성을 갖는다.
+OSPF는 패킷을 보낼 때 2계층([이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)) -> 3계층(IP 헤더) -> 4계층 -> [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 싣는다. 즉, IP 주소가 없으면 OSPF는 켜지지도 않는다.
+- **IS-IS의 위엄**: IS-IS는 2계층 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임 안에 <strong>직접 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(<a href="/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/">LSP</a>)를 쑤셔 넣는다</strong>. 3계층 IP 헤더 따위는 필요 없다.
+- **장점**: 라우터가 IP 헤더를 까보지 않고 L2 스위칭하듯 훅훅 처리하니까 무지막지하게 빠르다. 해커가 외부망에서 라우터의 IP를 공격(DDoS)하려 해도, IS-IS 제어 평면은 IP와 완전 분리되어 있어 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 절대 흔들리지 않는 극강의 보안성을 갖는다.
 
 ```text
  +-------------------------------------------------------------+
@@ -75,9 +72,9 @@ OSPF는 패킷을 보낼 때 2계층([이더넷](/knowledge-base/studynote/03_ne
 ```
 
 IS-IS 패킷의 본문은 이 TLV 블록들의 연속이다.
-- "나 이번엔 IP 주소 알려줄게(Type=132), 길이는 4바이트(Length=4), 주소는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1(Value)야!"
+- "나 이번엔 IP 주소 알려줄게(Type=132), 길이는 4바이트(Length=4), 주소는 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).1.1.1(Value)야!"
 - "이번엔 호스트 이름 알려줄게(Type=137), 길이는 5바이트, 이름은 CISCO야!"
-이 유연성 덕분에 [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), MPLS-TE [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 단 하나의 IS-IS 프로세스 안에서 몽땅 한꺼번에 교환할 수 있다. 통신사들이 열광하는 이유다.
+이 유연성 덕분에 [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/), [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), MPLS-TE [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보를 단 하나의 IS-IS 프로세스 안에서 몽땅 한꺼번에 교환할 수 있다. 통신사들이 열광하는 이유다.
 
 - **📢 섹션 요약 비유**: ** OSPF가 아파트 평면도가 꽉 고정되어 벽을 허물 수 없는 **"철근 콘크리트 아파트"**라면, IS-IS는 기둥만 세워놓고 거주자가 맘대로 벽(TLV)을 치고 빼고 합칠 수 있는 **"가변형 모듈식 주택"**입니다. 시대의 변화에 뼈대를 고칠 필요 없이 완벽하게 적응합니다.
 
@@ -91,7 +88,7 @@ IS-IS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 |:---|:---|:---|:---|
 | 초점 | OSPFv3의 기반 정리 | IS-IS의 핵심 동작 | L1/L2 라우터, L1/L2 Area 체계…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: IS-IS는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -99,18 +96,18 @@ IS-IS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 IS-IS를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [OSPFv3](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) 수준의 기본 대책으로 충분한지, 아니면 IS-IS가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 L1/L2 라우터, L1/L2 Area 체계…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 IS-IS를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [OSPFv3](/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) 수준의 기본 대책으로 충분한지, 아니면 IS-IS가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 L1/L2 라우터, L1/L2 Area 체계…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. IS-IS가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. IS-IS가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 L1/L2 라우터, L1/L2 Area 체계…와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - IS-IS의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- OSPFv3와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- OSPFv3와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: IS-IS를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -118,7 +115,7 @@ IS-IS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅴ. 기대효과 및 결론
 
-IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 L1/L2 라우터, L1/L2 Area 체계…, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+IS-IS는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 L1/L2 라우터, L1/L2 Area 체계…, 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: IS-IS는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -128,9 +125,9 @@ IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [OSPFv3](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [OSPFv3](/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
 | L1/L2 라우터, L1/L2 Area 체계… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -145,7 +142,7 @@ IS-IS는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L1/L2 라우터, L1/L2 Area 체계…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L1/L2 라우터, L1/L2 Area 체계…와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +156,7 @@ IS-IS는 OSPFv3에서 출발해 현재 메커니즘을 정교화하고, 이후 L
 
 **진행 상황**: 484 / 1120
 
-<- **이전**: [362. OSPFv3 (IPv6 지원)](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/)
-**다음**: [364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP](/knowledge-base/studynote/03_network/07_network_layer_routing/364_is_is_l1_l2_router_area_system/) ->
+<- **이전**: [362. OSPFv3 (IPv6 지원)](/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/)
+**다음**: [364. L1/L2 라우터, L1/L2 Area 체계, IS-IS over Ethernet/IP](/studynote/03_network/07_network_layer_routing/364_is_is_l1_l2_router_area_system/) ->
 
 ---

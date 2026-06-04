@@ -1,13 +1,10 @@
-+++
-title = "556. 클라우드 거버넌스 멀티 클라우드 정책 (Cloud Governance Multi Cloud Policy)"
-date = 2026-05-09
+---
+title: "556. 클라우드 거버넌스 멀티 클라우드 정책 (Cloud Governance Multi Cloud Policy)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -90,7 +87,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 556 / 600
 
-<- **이전**: [555. AI 거버넌스 윤리 규제 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/556_ai_governance_ethics_regulatory_framewor/)
-**다음**: [557. 오픈소스 거버넌스 라이선스 관리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/557_open_source_governance_license_managemen/) ->
+<- **이전**: [555. AI 거버넌스 윤리 규제 프레임워크](/studynote/11_design_supervision/06_exam_summary/556_ai_governance_ethics_regulatory_framewor/)
+**다음**: [557. 오픈소스 거버넌스 라이선스 관리](/studynote/11_design_supervision/06_exam_summary/557_open_source_governance_license_managemen/) ->
 
 ---

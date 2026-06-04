@@ -1,13 +1,10 @@
-+++
-title = "754. IT 경영 관리 핵심 토픽 754번 시험 요약 (IT Management Core Topic 754 Exam Summary)"
-date = 2026-05-09
+---
+title: "754. IT 경영 관리 핵심 토픽 754번 시험 요약 (IT Management Core Topic 754 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 정보관리기술사 핵심 토픽 754번: IT 거버넌스 기반 통합 IT 경영관리 프레임워크
 
@@ -190,7 +187,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 754 / 800
 
-<- **이전**: [753. IT 경영 관리 핵심 토픽 753번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/753_it_management_core_topic_753_exam_summary/)
-**다음**: [755. IT 경영 관리 핵심 토픽 755번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/755_it_management_core_topic_755_exam_summary/) ->
+<- **이전**: [753. IT 경영 관리 핵심 토픽 753번 시험 요약](/studynote/12_it_management/05_security_compliance/753_it_management_core_topic_753_exam_summary/)
+**다음**: [755. IT 경영 관리 핵심 토픽 755번 시험 요약](/studynote/12_it_management/05_security_compliance/755_it_management_core_topic_755_exam_summary/) ->
 
 ---

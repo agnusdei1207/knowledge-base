@@ -1,13 +1,10 @@
-+++
-title = "544. 옴니채널 통합 채널 고객 경험 (Omnichannel Integrated Channel Experience)"
-date = 2026-05-09
+---
+title: "544. 옴니채널 통합 채널 고객 경험 (Omnichannel Integrated Channel Experience)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 544 / 800
 
-<- **이전**: [543. 디지털 경험 CX UX 고객 여정 맵](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/543_digital_experience_cx_ux_customer_journey/)
-**다음**: [545. 마이데이터 개인 데이터 주권 활용](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/545_mydata_personal_data_sovereignty_utilization/) ->
+<- **이전**: [543. 디지털 경험 CX UX 고객 여정 맵](/studynote/07_enterprise_systems/06_exam_summary/543_digital_experience_cx_ux_customer_journey/)
+**다음**: [545. 마이데이터 개인 데이터 주권 활용](/studynote/07_enterprise_systems/06_exam_summary/545_mydata_personal_data_sovereignty_utilization/) ->
 
 ---

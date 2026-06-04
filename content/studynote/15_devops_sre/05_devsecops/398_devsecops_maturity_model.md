@@ -1,13 +1,10 @@
-+++
-title = "398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)"
-date = 2026-05-09
+---
+title: "398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 398 / 400
 
-<- **이전**: [397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)](/knowledge-base/studynote/15_devops_sre/05_devsecops/397_security_observability_siem/)
-**다음**: [399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)](/knowledge-base/studynote/15_devops_sre/05_devsecops/399_devsecops_master_summary/) ->
+<- **이전**: [397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)](/studynote/15_devops_sre/05_devsecops/397_security_observability_siem/)
+**다음**: [399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)](/studynote/15_devops_sre/05_devsecops/399_devsecops_master_summary/) ->
 
 ---

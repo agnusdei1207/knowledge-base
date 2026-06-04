@@ -1,18 +1,15 @@
-+++
-title = "042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술"
-date = 2026-04-05
+---
+title: "042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술"
+date: "2026-04-05"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 > **핵심 인사이트**
-> 1. 롤업(Rollup)은 수천 개의 트랜잭션을 오프체인(Layer 2)에서 처리하고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·묶어서 Layer 1 메인넷에 하나의 배치로 제출하는 L2 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 솔루션으로, 이더리움의 TPS 한계(15 TPS)를 100~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS로 대폭 향상시킨다.
-> 2. 롤업은 보안 증명 방식에 따라 Optimistic Rollup(사기 증명, 7일 인출 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))과 ZK Rollup(유효성 증명, 즉시 완결성)으로 분류되며, Optimistic은 개발 용이성, ZK는 더 강한 보안성과 빠른 완결성이 트레이드오프다.
-> 3. Vitalik Buterin이 제안한 이더리움 로드맵의 핵심은 "롤업 중심 세계(Rollup-Centric Roadmap)"로, 이더리움 L1은 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) Layer) 역할을 하고 실제 트랜잭션은 L2 롤업에서 처리하는 구조로 진화하고 있다.
+> 1. 롤업(Rollup)은 수천 개의 트랜잭션을 오프체인(Layer 2)에서 처리하고 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·묶어서 Layer 1 메인넷에 하나의 배치로 제출하는 L2 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 솔루션으로, 이더리움의 TPS 한계(15 TPS)를 100~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000 TPS로 대폭 향상시킨다.
+> 2. 롤업은 보안 증명 방식에 따라 Optimistic Rollup(사기 증명, 7일 인출 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))과 ZK Rollup(유효성 증명, 즉시 완결성)으로 분류되며, Optimistic은 개발 용이성, ZK는 더 강한 보안성과 빠른 완결성이 트레이드오프다.
+> 3. Vitalik Buterin이 제안한 이더리움 로드맵의 핵심은 "롤업 중심 세계(Rollup-Centric Roadmap)"로, 이더리움 L1은 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) Layer) 역할을 하고 실제 트랜잭션은 L2 롤업에서 처리하는 구조로 진화하고 있다.
 
 ---
 
@@ -44,7 +41,7 @@ L1 vs L2 vs 사이드체인:
   사이드체인: 독립 체인 — 빠르지만 L1 보안 미상속
 ```
 
-> 📢 **섹션 요약 비유**: 롤업은 택배 묶음 배송 — 개별 배송(L1 직접) 대신 수천 개 상자를 하나의 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(롤업 배치)로 묶어 배송.
+> 📢 **섹션 요약 비유**: 롤업은 택배 묶음 배송 — 개별 배송(L1 직접) 대신 수천 개 상자를 하나의 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(롤업 배치)로 묶어 배송.
 
 ---
 
@@ -81,7 +78,7 @@ ZK Rollup:
 
 ---
 
-## Ⅲ. [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)
+## Ⅲ. [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)
 
 ```
 데이터 가용성 (Data Availability):
@@ -108,7 +105,7 @@ EIP-4844 (Proto-Danksharding):
   롤업 = 실행 레이어
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)은 회계 장부 공개 여부 — L1 calldata = 공개 장부, Validium = 내부 장부 (빠르지만 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 불가).
+> 📢 **섹션 요약 비유**: [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)은 회계 장부 공개 여부 — L1 calldata = 공개 장부, Validium = 내부 장부 (빠르지만 외부 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 불가).
 
 ---
 
@@ -145,11 +142,11 @@ TVL 순위 (2025년 초):
   5위: StarkNet
 ```
 
-> 📢 **섹션 요약 비유**: 롤업 경쟁은 스마트폰 OS 경쟁 — Optimistic(Android, 넓은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) vs ZK(iOS, 더 강한 보안/[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)).
+> 📢 **섹션 요약 비유**: 롤업 경쟁은 스마트폰 OS 경쟁 — Optimistic(Android, 넓은 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) vs ZK(iOS, 더 강한 보안/[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)).
 
 ---
 
-## Ⅴ. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 마이그레이션
+## Ⅴ. 실무 시나리오 — [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 마이그레이션
 
 ```
 DeFi DEX L2 마이그레이션 사례:
@@ -228,7 +225,7 @@ Blob 데이터로 L2 가스비 급감
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 롤업은 편지 1만 장을 하나의 소포로 묶어 보내는 것 — 개별 배송(L1 직접)보다 훨씬 싸고 빠르게 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거래를 처리해요!
+1. 롤업은 편지 1만 장을 하나의 소포로 묶어 보내는 것 — 개별 배송(L1 직접)보다 훨씬 싸고 빠르게 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 거래를 처리해요!
 2. Optimistic 롤업은 "일단 믿고 7일 기다리기", ZK 롤업은 "수학으로 증명하고 즉시 확정" — 속도 vs 보안 트레이드오프예요.
 3. 이더리움은 미래에 "L2 세계의 보안 기반"이 되기로 결정 — 빠른 거래는 L2에서, 최종 안전 보장은 이더리움이 담당해요!
 
@@ -238,7 +235,7 @@ Blob 데이터로 L2 가스비 급감
 
 **진행 상황**: 42 / 552
 
-<- **이전**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/)
-**다음**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/) ->
+<- **이전**: [041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)](/studynote/06_ict_convergence/01_blockchain/041_layer2_scaling_solution/)
+**다음**: [043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)](/studynote/06_ict_convergence/01_blockchain/043_optimistic_rollup_fraud_proof/) ->
 
 ---

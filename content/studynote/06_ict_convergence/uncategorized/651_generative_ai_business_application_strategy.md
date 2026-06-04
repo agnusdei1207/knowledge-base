@@ -1,13 +1,10 @@
-+++
-title = "651. 생성형 AI 비즈니스 적용 전략 (Generative AI Business Application Strategy)"
-date = 2026-05-09
+---
+title: "651. 생성형 AI 비즈니스 적용 전략 (Generative AI Business Application Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -184,7 +181,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 651 / 800
 
-<- **이전**: [650. 디퓨전 모델 이미지 생성 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/)
-**다음**: [652. AI 할루시네이션 환각 방지 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/) ->
+<- **이전**: [650. 디퓨전 모델 이미지 생성 아키텍처](/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/)
+**다음**: [652. AI 할루시네이션 환각 방지 전략](/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "502. IaC Ansible 구성 관리 자동화 (IaC Ansible Configuration Management Automation)"
-date = 2026-05-09
+---
+title: "502. IaC Ansible 구성 관리 자동화 (IaC Ansible Configuration Management Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 502 / 800
 
-<- **이전**: [501. IaC Pulumi CDK 프로그래밍 언어 기반](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/501_iac_pulumi_cdk_programming_language_based/)
-**다음**: [503. 클라우드 정책 관리 OPA 거버넌스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/503_cloud_policy_management_opa_governance/) ->
+<- **이전**: [501. IaC Pulumi CDK 프로그래밍 언어 기반](/studynote/13_cloud_architecture/06_exam_summary/501_iac_pulumi_cdk_programming_language_based/)
+**다음**: [503. 클라우드 정책 관리 OPA 거버넌스](/studynote/13_cloud_architecture/06_exam_summary/503_cloud_policy_management_opa_governance/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "718. 음성 인식 ASR 화자 분리 합성 (Speech Recognition ASR Speaker Diarization)"
-date = 2026-05-09
+---
+title: "718. 음성 인식 ASR 화자 분리 합성 (Speech Recognition ASR Speaker Diarization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -194,7 +191,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 718 / 800
 
-<- **이전**: [717. 이미지 인식 CNN 객체 탐지 분할](/knowledge-base/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/)
-**다음**: [719. 로보틱스 자율 내비게이션 모션 플래닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/719_robotics_autonomous_navigation_motion_plannin/) ->
+<- **이전**: [717. 이미지 인식 CNN 객체 탐지 분할](/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/)
+**다음**: [719. 로보틱스 자율 내비게이션 모션 플래닝](/studynote/06_ict_convergence/uncategorized/719_robotics_autonomous_navigation_motion_plannin/) ->
 
 ---

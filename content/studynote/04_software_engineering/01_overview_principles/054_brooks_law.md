@@ -1,19 +1,16 @@
-+++
-title = "54. 브룩스의 법칙 (Brooks' Law)"
-date = 2026-05-01
+---
+title: "54. 브룩스의 법칙 (Brooks' Law)"
+date: "2026-05-01"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 브룩스의 법칙 (Brooks' Law)은 늦어진 프로젝트에 사람을 더 투입하면 더 늦어진다는 경험 법칙이다.
 > 2. **가치**: 온보딩, 의사소통, 작업 분할 비용이 추가되기 때문이다.
-> 3. **판단 포인트**: 인력 추가보다 범위 조정, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리, 일정 재설계가 더 효과적일 수 있다.
+> 3. **판단 포인트**: 인력 추가보다 범위 조정, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리, 일정 재설계가 더 효과적일 수 있다.
 
 ---
 
@@ -49,13 +46,13 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 ## Ⅲ. 비교 및 연결
 
-브룩스의 법칙은 "인력을 늘리면 생산성이 항상 오른다"는 단순 믿음을 깨준다. 대신 범위를 줄이거나, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 나누거나, 일정 기준을 다시 잡는 것이 효과적일 수 있다.
+브룩스의 법칙은 "인력을 늘리면 생산성이 항상 오른다"는 단순 믿음을 깨준다. 대신 범위를 줄이거나, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 나누거나, 일정 기준을 다시 잡는 것이 효과적일 수 있다.
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 기대 효과 | 위험 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 기대 효과 | 위험 |
 | :--- | :--- | :--- |
 | 인력 추가 | 단기 보강 | 조율 비용 증가 |
 | 범위 축소 | 집중 | 요구사항 조정 필요 |
-| [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리 | 병렬화 | 설계 품질 필요 |
+| [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리 | 병렬화 | 설계 품질 필요 |
 
 법칙은 소프트웨어 개발뿐 아니라 조직 운영, 이관 프로젝트, 대규모 전환에서도 반복된다.
 
@@ -65,18 +62,18 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 일정이 늦을수록 사람을 무조건 넣기보다, 병목을 먼저 찾고 업무 범위를 조정해야 한다. 문서화, 자동화, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화도 병행해야 한다.
+실무에서는 일정이 늦을수록 사람을 무조건 넣기보다, 병목을 먼저 찾고 업무 범위를 조정해야 한다. 문서화, 자동화, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)화도 병행해야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 인력 추가 전에 병목이 파악되었는가?
-2. 새 인력이 바로 기여할 수 있는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조인가?
+2. 새 인력이 바로 기여할 수 있는 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 구조인가?
 3. 요구사항 범위를 줄일 수 있는가?
 4. 의사소통 채널이 감당 가능한 수준인가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 사람 투입으로만 해결하려는 경우
+- 일정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 사람 투입으로만 해결하려는 경우
 - 신규 인력이 핵심 맥락 없이 작업하는 경우
 - 구조 개선 없이 회의만 늘어나는 경우
 
@@ -88,7 +85,7 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 ## Ⅴ. 기대효과 및 결론
 
-브룩스의 법칙은 일정 관리의 현실을 설명한다. 늦은 프로젝트일수록 추가 인력은 단기 해결책이 아니라 장기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요인이 될 수 있다.
+브룩스의 법칙은 일정 관리의 현실을 설명한다. 늦은 프로젝트일수록 추가 인력은 단기 해결책이 아니라 장기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 요인이 될 수 있다.
 
 정리하면, 사람 수보다 구조와 범위를 먼저 봐야 한다.
 
@@ -103,8 +100,8 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 | Communication Overhead | 조율 비용 |
 | Onboarding | 학습 비용 |
 | Modularization | 분할 효과 |
-| [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/) Control | 범위 조정 |
-| Schedule [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 일정 위험 |
+| [Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/) Control | 범위 조정 |
+| Schedule [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 일정 위험 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -121,7 +118,7 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 더 큰 지연
 ```
 
-이 흐름은 늦은 프로젝트에 인력을 더 넣는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 왜 역효과를 낳는지 보여준다.
+이 흐름은 늦은 프로젝트에 인력을 더 넣는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 왜 역효과를 낳는지 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -135,7 +132,7 @@ n명 팀의 의사소통 경로 ≈ n(n-1)/2
 
 **진행 상황**: 54 / 973
 
-<- **이전**: [053. 백파이어링 기법 (Backfiring Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/)
-**다음**: [55. Zachman Framework](/knowledge-base/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) ->
+<- **이전**: [053. 백파이어링 기법 (Backfiring Technique)](/studynote/04_software_engineering/01_overview_principles/053_backfiring_technique/)
+**다음**: [55. Zachman Framework](/studynote/04_software_engineering/01_overview_principles/055_zachman_framework/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "703. IT 경영 관리 핵심 토픽 703번 시험 요약 (IT Management Core Topic 703 Exam Summary)"
-date = 2026-05-09
+---
+title: "703. IT 경영 관리 핵심 토픽 703번 시험 요약 (IT Management Core Topic 703 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -194,7 +191,7 @@ Priority Score = (ROI × Strategic Alignment) / (TCO × Risk Factor)
 
 **진행 상황**: 703 / 800
 
-<- **이전**: [702. IT 경영 관리 핵심 토픽 702번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/702_it_management_core_topic_702_exam_summary/)
-**다음**: [704. IT 경영 관리 핵심 토픽 704번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/704_it_management_core_topic_704_exam_summary/) ->
+<- **이전**: [702. IT 경영 관리 핵심 토픽 702번 시험 요약](/studynote/12_it_management/05_security_compliance/702_it_management_core_topic_702_exam_summary/)
+**다음**: [704. IT 경영 관리 핵심 토픽 704번 시험 요약](/studynote/12_it_management/05_security_compliance/704_it_management_core_topic_704_exam_summary/) ->
 
 ---

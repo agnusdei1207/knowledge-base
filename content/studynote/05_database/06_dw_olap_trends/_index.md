@@ -1,9 +1,9 @@
-+++
-title = "06. 데이터 웨어하우스, OLAP 및 최신 트렌드"
+---
+title: "06. 데이터 웨어하우스, OLAP 및 최신 트렌드"
+tags:
+  - "database"
+---
 
-[extra]
-tags = ["database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

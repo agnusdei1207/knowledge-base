@@ -1,13 +1,10 @@
-+++
-title = "599. 엔터프라이즈 시스템 핵심 토픽 599번 시험 요약 (Enterprise System Core Topic 599 Exam Summary)"
-date = 2026-05-09
+---
+title: "599. 엔터프라이즈 시스템 핵심 토픽 599번 시험 요약 (Enterprise System Core Topic 599 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 599 / 800
 
-<- **이전**: [598. 엔터프라이즈 시스템 핵심 토픽 598번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/598_enterprise_system_core_topic_598_exam_summary/)
-**다음**: [600. 엔터프라이즈 시스템 핵심 토픽 600번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/600_enterprise_system_core_topic_600_exam_summary/) ->
+<- **이전**: [598. 엔터프라이즈 시스템 핵심 토픽 598번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/598_enterprise_system_core_topic_598_exam_summary/)
+**다음**: [600. 엔터프라이즈 시스템 핵심 토픽 600번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/600_enterprise_system_core_topic_600_exam_summary/) ->
 
 ---

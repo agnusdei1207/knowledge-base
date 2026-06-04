@@ -1,6 +1,5 @@
-+++
-title = "02. Iaas Paas Saas"
-
-[extra]
-tags = ["cloud_architecture"]
-+++
+---
+title: "02. Iaas Paas Saas"
+tags:
+  - "cloud_architecture"
+---

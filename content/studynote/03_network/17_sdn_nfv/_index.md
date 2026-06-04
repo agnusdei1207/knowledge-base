@@ -1,6 +1,5 @@
-+++
-title = "17. Sdn Nfv"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "17. Sdn Nfv"
+tags:
+  - "network"
+---

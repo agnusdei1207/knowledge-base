@@ -1,18 +1,15 @@
-+++
-title = "043. Re-platform — 클라우드 관리형 서비스 전환"
-date = 2026-04-05
+---
+title: "043. Re-platform — 클라우드 관리형 서비스 전환"
+date: "2026-04-05"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. Re-platform(재플랫폼)은 6R [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 Rehost(그대로 이전)와 Re-architect(전면 재설계)의 중간 단계로 — 최소한의 코드 변경으로 클라우드 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(RDS, EKS, Elastic Beanstalk 등)로 전환하여 운영 부담을 줄이면서 클라우드 이점을 부분적으로 활용한다.
-> 2. Re-platform의 핵심 원칙은 "Core Architecture는 유지, 단 플랫폼 레이어는 매니지드로"로 — 자체 운영 PostgreSQL을 AWS RDS로 교체하면 코드 변경 없이 자동 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 멀티 AZ, 패치 관리를 획득하며 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 운영 부담을 80% 이상 줄일 수 있다.
-> 3. Re-platform은 Rehost 이후 6~12개월 안정화 기간을 거친 후 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 것이 최선이며 — 무리한 동시 마이그레이션은 장애 위험을 배가시키고, 단계적 접근이 클라우드 전환의 현실적 성공 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 1. Re-platform(재플랫폼)은 6R [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 중 Rehost(그대로 이전)와 Re-architect(전면 재설계)의 중간 단계로 — 최소한의 코드 변경으로 클라우드 관리형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(RDS, EKS, Elastic Beanstalk 등)로 전환하여 운영 부담을 줄이면서 클라우드 이점을 부분적으로 활용한다.
+> 2. Re-platform의 핵심 원칙은 "Core Architecture는 유지, 단 플랫폼 레이어는 매니지드로"로 — 자체 운영 PostgreSQL을 AWS RDS로 교체하면 코드 변경 없이 자동 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 멀티 AZ, 패치 관리를 획득하며 [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 운영 부담을 80% 이상 줄일 수 있다.
+> 3. Re-platform은 Rehost 이후 6~12개월 안정화 기간을 거친 후 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 것이 최선이며 — 무리한 동시 마이그레이션은 장애 위험을 배가시키고, 단계적 접근이 클라우드 전환의 현실적 성공 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 ---
 
@@ -96,7 +93,7 @@ Re-platform 시 주의:
   마이그레이션 다운타임 계획 (AWS DMS 활용)
 ```
 
-> 📢 **섹션 요약 비유**: Re-platform 패턴은 가전제품 업그레이드 — 냉장고(DB)를 자체 수리에서 삼성 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)센터 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 계약으로 바꾸는 것. 냉장고 안의 음식([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 그대로, 관리만 전문가에게.
+> 📢 **섹션 요약 비유**: Re-platform 패턴은 가전제품 업그레이드 — 냉장고(DB)를 자체 수리에서 삼성 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)센터 [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) 계약으로 바꾸는 것. 냉장고 안의 음식([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 그대로, 관리만 전문가에게.
 
 ---
 
@@ -143,11 +140,11 @@ RDS 최적화:
   실질: 인건비 절감 시 총비용 40% 감소
 ```
 
-> 📢 **섹션 요약 비유**: DMS 마이그레이션은 물 흐르게 하면서 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 교체 — 물 공급 끊지 않고([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속), 새 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(RDS)로 조금씩 물을 유도해서 최종 전환.
+> 📢 **섹션 요약 비유**: DMS 마이그레이션은 물 흐르게 하면서 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 교체 — 물 공급 끊지 않고([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지속), 새 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)(RDS)로 조금씩 물을 유도해서 최종 전환.
 
 ---
 
-## Ⅳ. EKS/ECS [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화
+## Ⅳ. EKS/ECS [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화
 
 ```
 VM 앱 -> EKS/ECS 컨테이너화:
@@ -192,7 +189,7 @@ Fargate 활용:
   서버 패치, 용량 관리 부담 제거
 ```
 
-> 📢 **섹션 요약 비유**: ECS/EKS [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화는 배달 표준 박스 포장 — 어느 차(서버)에도 실을 수 있는 표준 박스([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에 물건(앱)을 담으면, 배달 차(서버)만 바꿔도 됨.
+> 📢 **섹션 요약 비유**: ECS/EKS [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)화는 배달 표준 박스 포장 — 어느 차(서버)에도 실을 수 있는 표준 박스([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))에 물건(앱)을 담으면, 배달 차(서버)만 바꿔도 됨.
 
 ---
 
@@ -239,7 +236,7 @@ Re-platform 목표:
   스케일링: 수동 -> 오토스케일링 (트래픽 5배 급증 자동 대응)
 ```
 
-> 📢 **섹션 요약 비유**: Re-platform은 집 수리 공정표 — 전기(DB), 수도(캐시), 방화([WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 공사를 순서대로 하나씩 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/). 동시에 다 하면 집에서 못 살아요.
+> 📢 **섹션 요약 비유**: Re-platform은 집 수리 공정표 — 전기(DB), 수도(캐시), 방화([WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)) 공사를 순서대로 하나씩 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/). 동시에 다 하면 집에서 못 살아요.
 
 ---
 
@@ -299,8 +296,8 @@ FinOps + 지속적 최적화
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. Re-platform은 집 리모델링 — 집 구조(앱 로직)는 그대로이지만, 낡은 보일러(DB)를 관리 편한 지역난방(RDS)으로 교체해요!
-2. RDS는 DB를 전문 관리 회사에 맡기는 것 — [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 보안 패치, 이중화를 AWS가 자동으로 해줘서 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 걱정이 줄어요.
-3. 단계적으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) — 한 번에 모든 것을 바꾸면 위험하니까, 하나씩 천천히 교체해야 안전해요!
+2. RDS는 DB를 전문 관리 회사에 맡기는 것 — [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), 보안 패치, 이중화를 AWS가 자동으로 해줘서 [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) 걱정이 줄어요.
+3. 단계적으로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) — 한 번에 모든 것을 바꾸면 위험하니까, 하나씩 천천히 교체해야 안전해요!
 
 ---
 
@@ -308,7 +305,7 @@ FinOps + 지속적 최적화
 
 **진행 상황**: 42 / 371
 
-<- **이전**: [042. Rehost — Lift & Shift 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/)
-**다음**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/) ->
+<- **이전**: [042. Rehost — Lift & Shift 마이그레이션](/studynote/13_cloud_architecture/01_virtualization/042_rehost_lift_and_shift_migration/)
+**다음**: [044. Re-factor & Re-architect — 클라우드 네이티브 MSA](/studynote/13_cloud_architecture/01_virtualization/044_refactor_re_architect_cloud_native_msa/) ->
 
 ---

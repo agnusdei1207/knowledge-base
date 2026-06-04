@@ -1,13 +1,10 @@
-+++
-title = "730. 스마트 빌딩 에너지 관리 BEMS 자동화 (Smart Building Energy Management BEMS)"
-date = 2026-05-09
+---
+title: "730. 스마트 빌딩 에너지 관리 BEMS 자동화 (Smart Building Energy Management BEMS)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -139,7 +136,7 @@ J = Σ  (x(k+i) − x_ref)ᵀ Q (x(k+i)
 
 **진행 상황**: 730 / 800
 
-<- **이전**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/knowledge-base/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/)
-**다음**: [731. 스마트 헬스 원격 모니터링 바이오센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/) ->
+<- **이전**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/)
+**다음**: [731. 스마트 헬스 원격 모니터링 바이오센서](/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/) ->
 
 ---

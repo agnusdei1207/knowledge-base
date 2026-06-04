@@ -1,13 +1,10 @@
-+++
-title = "604. IT 경영 관리 핵심 토픽 604번 시험 요약 (IT Management Core Topic 604 Exam Summary)"
-date = 2026-05-09
+---
+title: "604. IT 경영 관리 핵심 토픽 604번 시험 요약 (IT Management Core Topic 604 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 604. IT 거버넌스 프레임워크 및 디지털 전환 전략 (IT Governance Framework & Digital Transformation Strategy)
 
@@ -124,7 +121,7 @@ COBIT 2019는 11개 Design Factor의
 
 **진행 상황**: 604 / 800
 
-<- **이전**: [603. IT 경영 관리 핵심 토픽 603번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/603_it_management_core_topic_603_exam_summary/)
-**다음**: [605. IT 경영 관리 핵심 토픽 605번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/605_it_management_core_topic_605_exam_summary/) ->
+<- **이전**: [603. IT 경영 관리 핵심 토픽 603번 시험 요약](/studynote/12_it_management/05_security_compliance/603_it_management_core_topic_603_exam_summary/)
+**다음**: [605. IT 경영 관리 핵심 토픽 605번 시험 요약](/studynote/12_it_management/05_security_compliance/605_it_management_core_topic_605_exam_summary/) ->
 
 ---

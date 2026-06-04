@@ -1,18 +1,15 @@
-+++
-title = "576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)"
-date = 2026-05-09
+---
+title: "576. 자격 증명 리스트 (Capability List / Ticket) - 주체 중심 (주체가 가진 권한 리스트 토큰 방식)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Capability List는 접근 제어 행렬을 <strong>주체(프로세스/사용자) 기준</strong>으로 분할하여, 각 사용자가 "어떤 객체에 어떤 권한을 가지는지" 목록을 **프로세스의 메모리(PCB)에 티켓 형태로** 저장하는 방식이다.
-> 2. **가치**: 프로세스가 객체에 접근할 때 중앙 테이블이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 참조할 필요 없이, <strong>자신이지유적(보유한) 티켓</strong>만 제시하면 되어 **$O(1)$ 시간에 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**이 가능하다.
+> 2. **가치**: 프로세스가 객체에 접근할 때 중앙 테이블이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 참조할 필요 없이, <strong>자신이지유적(보유한) 티켓</strong>만 제시하면 되어 **$O(1)$ 시간에 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)**이 가능하다.
 > 3. **한계**: 권한을 회수하려면 해당 사용자로부터 모든 티켓을 회수해야 하므로 $O(N)$ 작업이 필요하며, 티켓을 다른 사용자에게 복사하면 <strong>위임(Delegation)</strong>으로 인한 권한 누출 위험이 있다.
 
 ---
@@ -21,9 +18,9 @@ tags = ["studynote-operating-system"]
 
 ### 1.1 ACL의 한계: 역방향 조회
 
-ACL은 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)별로 권한 목록"을 저장하므로:
-- <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> A에 접근 가능한 사용자" 조회</strong>: O(1) - 해당 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
-- <strong>"사용자 B가 접근 가능한 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>" 조회</strong>: O(N) - 모든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 스캔
+ACL은 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)별로 권한 목록"을 저장하므로:
+- <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> A에 접근 가능한 사용자" 조회</strong>: O(1) - 해당 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL만 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)
+- <strong>"사용자 B가 접근 가능한 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>" 조회</strong>: O(N) - 모든 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ACL을 스캔
 
 ### 1.2 Capability의 해결책
 
@@ -45,9 +42,9 @@ Capability는 <strong>"사용자별로 권한 목록"</strong>을 저장한다:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 Capability의실현: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터
+### 2.1 Capability의실현: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터
 
-리눅스에서 `open()` 시스템콜이 반환하는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터(FD)</strong>가 대표적인 Capability이다:
+리눅스에서 `open()` 시스템콜이 반환하는 <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터(FD)</strong>가 대표적인 Capability이다:
 
 ```c
 int fd = open("/data/file.txt", O_RDONLY);
@@ -55,7 +52,7 @@ int fd = open("/data/file.txt", O_RDONLY);
 read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 ```
 
-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터는 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간에 저장</strong>되어 있으므로, 사용자 프로세스가 조작할 수 없다.
+[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 디스크립터는 <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간에 저장</strong>되어 있으므로, 사용자 프로세스가 조작할 수 없다.
 
 ### 2.2 티켓 위조 방지
 
@@ -63,8 +60,8 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 | 방식 | 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간 저장</strong> | 티켓을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 저장하고, 사용자에게는 번호(FD)만 반환 |
-| **하드웨어 태그** | 메모리 칩마다 Tag 비트를 부여하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 수정 가능 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 공간 저장</strong> | 티켓을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리에 저장하고, 사용자에게는 번호(FD)만 반환 |
+| **하드웨어 태그** | 메모리 칩마다 Tag 비트를 부여하여 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)만 수정 가능 |
 
 ### 2.3 권한 회수 문제
 
@@ -80,7 +77,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 전통 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 기반 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
+### 3.1 전통 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 기반 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
 
 ```text
 [ 문제 ]
@@ -88,7 +85,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
        -> API 요청 -> 세션 조회 (매번 DB 접근, O(N))
 ```
 
-### 3.2 [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 (Capability 패턴)
+### 3.2 [JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 (Capability 패턴)
 
 ```text
 [ 해결 ]
@@ -97,7 +94,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
        -> API 요청 -> 토큰 검증만으로 인증 완료 (O(1))
 ```
 
-[JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 자체에 권한 정보가 포함되어 있어, <strong>중앙 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 저장소 없이</strong> [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하다.
+[JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/) 토큰 자체에 권한 정보가 포함되어 있어, <strong>중앙 <a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 저장소 없이</strong> [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -105,9 +102,9 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경 최적화</strong>: 중앙 테이블 없이 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하므로 스케일링에 유리
-- **권한 회수 복잡성**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 티켓의 회수가 어려움
-- **현대적 변형**: [JWT](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/), OAuth 2.0 등 클라우드 환경에서 활용
+- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경 최적화</strong>: 중앙 테이블 없이 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 가능하므로 스케일링에 유리
+- **권한 회수 복잡성**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 티켓의 회수가 어려움
+- **현대적 변형**: [JWT](/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/), OAuth 2.0 등 클라우드 환경에서 활용
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -115,7 +112,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 ## Ⅴ. 기대효과 및 결론
 
-자격 증명 리스트 (Capability List / Ticket)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 롤 기반 접근 제어 ([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), [Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+자격 증명 리스트 (Capability List / Ticket)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 롤 기반 접근 제어 ([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/), [Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/))처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -125,10 +122,10 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 롤 기반 접근 제어 ([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), [Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [임의적 접근 제어](/knowledge-base/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/) (DAC, Discretionary [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [전역 테이블](/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 롤 기반 접근 제어 ([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/), [Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [임의적 접근 제어](/studynote/02_operating_system/10_security/578_dac_discretionary_access_control/) (DAC, Discretionary [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,9 +143,9 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong>Capability</strong>는 놀이공원의 <strong>"종이 팔찌"</strong>와 같다. 입장할 때 받고, 각 놀이기구에서 팔찌만 보여주면 된다. 매번 명부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 필요가 없다.
+1. <strong>Capability</strong>는 놀이공원의 <strong>"종이 팔찌"</strong>와 같다. 입장할 때 받고, 각 놀이기구에서 팔찌만 보여주면 된다. 매번 명부를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 필요가 없다.
 
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터</strong>는 <strong>"줄 번호표"</strong>와 같다. 창구(창구)에서 번호표를 받고, 창구에서 번호표를 제시하면 번호표에 해당하는 업무를 처리받을 수 있다.
+2. <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 디스크립터</strong>는 <strong>"줄 번호표"</strong>와 같다. 창구(창구)에서 번호표를 받고, 창구에서 번호표를 제시하면 번호표에 해당하는 업무를 처리받을 수 있다.
 
 3. <strong>권한 회수 어려움</strong>은 종이 팔찌를 회수하려면 **"모든 놀이기구를 돌아다니며 그 사람의 팔찌를 찾아 잘라내야"** 하는 것과 같다. 입장시(시)에 발급된 팔찌를 한꺼번에 회수하기 어렵다.
 
@@ -158,7 +155,7 @@ read(fd, buffer, 100);  // fd(티켓)만 제시하면 읽기 가능
 
 **진행 상황**: 576 / 800
 
-<- **이전**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/knowledge-base/studynote/02_operating_system/10_security/575_acl_access_control_list/)
-**다음**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/knowledge-base/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/) ->
+<- **이전**: [575. 접근 제어 목록 (ACL, Access Control List) - 객체 중심 (해당 객체에 접근 가능한 주체 목록)](/studynote/02_operating_system/10_security/575_acl_access_control_list/)
+**다음**: [577. 롤 기반 접근 제어 (RBAC, Role-Based Access Control) - 사용자 대신 역할(Role)에 권한 할당](/studynote/02_operating_system/10_security/577_rbac_role_based_access_control/) ->
 
 ---

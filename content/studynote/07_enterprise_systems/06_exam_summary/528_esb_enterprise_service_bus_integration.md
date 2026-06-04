@@ -1,13 +1,10 @@
-+++
-title = "528. ESB 엔터프라이즈 서비스 버스 통합 (ESB Enterprise Service Bus Integration)"
-date = 2026-05-09
+---
+title: "528. ESB 엔터프라이즈 서비스 버스 통합 (ESB Enterprise Service Bus Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 528 / 800
 
-<- **이전**: [527. EAI 엔터프라이즈 통합 미들웨어](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/527_eai_enterprise_application_integration/)
-**다음**: [529. iPaaS 통합 플랫폼 서비스 클라우드](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/529_ipaas_integration_platform_as_a_service/) ->
+<- **이전**: [527. EAI 엔터프라이즈 통합 미들웨어](/studynote/07_enterprise_systems/06_exam_summary/527_eai_enterprise_application_integration/)
+**다음**: [529. iPaaS 통합 플랫폼 서비스 클라우드](/studynote/07_enterprise_systems/06_exam_summary/529_ipaas_integration_platform_as_a_service/) ->
 
 ---

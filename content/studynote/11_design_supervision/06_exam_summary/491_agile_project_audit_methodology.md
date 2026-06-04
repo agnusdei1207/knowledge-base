@@ -1,13 +1,10 @@
-+++
-title = "491. 애자일 프로젝트 감리 방법론 (Agile Project Audit Methodology)"
-date = 2026-05-09
+---
+title: "491. 애자일 프로젝트 감리 방법론 (Agile Project Audit Methodology)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -208,7 +205,7 @@ Where:
 
 **진행 상황**: 491 / 600
 
-<- **이전**: [490. AI 시스템 감리 윤리 편향 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/491_ai_system_audit_ethics_bias_validation/)
-**다음**: [492. DevOps 환경 감리 자동화 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/492_devops_environment_audit_automation/) ->
+<- **이전**: [490. AI 시스템 감리 윤리 편향 검증](/studynote/11_design_supervision/06_exam_summary/491_ai_system_audit_ethics_bias_validation/)
+**다음**: [492. DevOps 환경 감리 자동화 검증](/studynote/11_design_supervision/06_exam_summary/492_devops_environment_audit_automation/) ->
 
 ---

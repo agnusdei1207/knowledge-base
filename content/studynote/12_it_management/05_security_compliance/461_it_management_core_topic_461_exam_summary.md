@@ -1,13 +1,10 @@
-+++
-title = "461. IT 경영 관리 핵심 토픽 461번 시험 요약 (IT Management Core Topic 461 Exam Summary)"
-date = 2026-05-09
+---
+title: "461. IT 경영 관리 핵심 토픽 461번 시험 요약 (IT Management Core Topic 461 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ IT 경영 관리 토픽 461번의 핵심은 **COBIT 2019의 5개 도메인 × 40
 
 **진행 상황**: 461 / 800
 
-<- **이전**: [460. IT 경영 관리 핵심 토픽 460번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/460_it_management_core_topic_460_exam_summary/)
-**다음**: [462. IT 경영 관리 핵심 토픽 462번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/462_it_management_core_topic_462_exam_summary/) ->
+<- **이전**: [460. IT 경영 관리 핵심 토픽 460번 시험 요약](/studynote/12_it_management/05_security_compliance/460_it_management_core_topic_460_exam_summary/)
+**다음**: [462. IT 경영 관리 핵심 토픽 462번 시험 요약](/studynote/12_it_management/05_security_compliance/462_it_management_core_topic_462_exam_summary/) ->
 
 ---

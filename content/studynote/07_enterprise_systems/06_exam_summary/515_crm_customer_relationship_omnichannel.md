@@ -1,13 +1,10 @@
-+++
-title = "515. CRM 고객 관계 관리 옴니채널 (CRM Customer Relationship Omnichannel)"
-date = 2026-05-09
+---
+title: "515. CRM 고객 관계 관리 옴니채널 (CRM Customer Relationship Omnichannel)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ CRM 옴니채널을 올바르게 적용하면 업무 처리 속도, 통제 수�
 
 **진행 상황**: 515 / 800
 
-<- **이전**: [514. SCM 공급망 관리 디지털 최적화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/514_scm_supply_chain_management_digital_optimizat/)
-**다음**: [516. PLM 제품 수명주기 관리 디지털](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/516_plm_product_lifecycle_management_digital/) ->
+<- **이전**: [514. SCM 공급망 관리 디지털 최적화](/studynote/07_enterprise_systems/06_exam_summary/514_scm_supply_chain_management_digital_optimizat/)
+**다음**: [516. PLM 제품 수명주기 관리 디지털](/studynote/07_enterprise_systems/06_exam_summary/516_plm_product_lifecycle_management_digital/) ->
 
 ---

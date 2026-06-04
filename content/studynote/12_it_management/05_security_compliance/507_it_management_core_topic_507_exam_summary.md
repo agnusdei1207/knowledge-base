@@ -1,13 +1,10 @@
-+++
-title = "507. IT 경영 관리 핵심 토픽 507번 시험 요약 (IT Management Core Topic 507 Exam Summary)"
-date = 2026-05-09
+---
+title: "507. IT 경영 관리 핵심 토픽 507번 시험 요약 (IT Management Core Topic 507 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 507. IT 경영 관리 핵심 토픽 507번 시험 요약 (IT Management Core Topic 507 Exam Summary)
 
@@ -136,7 +133,7 @@ IT 경영 관리의 3대 핵심 프레임워크(COBIT, ITIL, PMBOK)와 4대 현�
 
 **진행 상황**: 507 / 800
 
-<- **이전**: [506. IT 경영 관리 핵심 토픽 506번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/506_it_management_core_topic_506_exam_summary/)
-**다음**: [508. IT 경영 관리 핵심 토픽 508번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/508_it_management_core_topic_508_exam_summary/) ->
+<- **이전**: [506. IT 경영 관리 핵심 토픽 506번 시험 요약](/studynote/12_it_management/05_security_compliance/506_it_management_core_topic_506_exam_summary/)
+**다음**: [508. IT 경영 관리 핵심 토픽 508번 시험 요약](/studynote/12_it_management/05_security_compliance/508_it_management_core_topic_508_exam_summary/) ->
 
 ---

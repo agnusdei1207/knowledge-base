@@ -1,13 +1,10 @@
-+++
-title = "265. PoE (Power over Ethernet)"
-date = 2026-05-08
+---
+title: "265. PoE (Power over Ethernet)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블에 내장된 8가닥의 얇은 구리선 중, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 쓰지 않는 예비 선이나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선 자체에 직류 전압을 미세하게 중첩시켜 말단 장치에 전원을 공급하는 IEEE 표준 기술이다.
-- **필요성**: 사무실 천장에 무선 공유기([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 50개 달아야 한다고 치자. 천장 속에는 인터넷 랜선만 지나갈 뿐, 220V 콘센트는 없다. 공유기를 켜기 위해 천장을 다 뜯고 전기 배선 공사를 추가로 해야 할까? 이 막대한 비용과 낭비를 막고자 "어차피 랜선 안에 구리선이 8가닥이나 있는데, 거기다 전기를 같이 실어 보내면 안 될까?"라는 천재적인 아이디어가 상용화되었다.
+- **개념**: [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 케이블에 내장된 8가닥의 얇은 구리선 중, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 쓰지 않는 예비 선이나, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선 자체에 직류 전압을 미세하게 중첩시켜 말단 장치에 전원을 공급하는 IEEE 표준 기술이다.
+- **필요성**: 사무실 천장에 무선 공유기([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 50개 달아야 한다고 치자. 천장 속에는 인터넷 랜선만 지나갈 뿐, 220V 콘센트는 없다. 공유기를 켜기 위해 천장을 다 뜯고 전기 배선 공사를 추가로 해야 할까? 이 막대한 비용과 낭비를 막고자 "어차피 랜선 안에 구리선이 8가닥이나 있는데, 거기다 전기를 같이 실어 보내면 안 될까?"라는 천재적인 아이디어가 상용화되었다.
 
-- **💡 비유**: 일반적인 유선 마우스는 컴퓨터 본체에 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 선 하나만 꽂으면 딸깍딸깍([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 신호도 가고, 마우스 바닥에 빨간 불(전력)도 들어옵니다. 굳이 마우스에 건전지를 넣거나 220V 콘센트를 꽂지 않습니다. <strong>PoE는 이 USB의 편리함을 거대한 빌딩 층 전체의 네트워크 장비로 확장시킨 "거대한 <a href="/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 네트워크"</strong>와 같습니다.
+- **💡 비유**: 일반적인 유선 마우스는 컴퓨터 본체에 [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 선 하나만 꽂으면 딸깍딸깍([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 신호도 가고, 마우스 바닥에 빨간 불(전력)도 들어옵니다. 굳이 마우스에 건전지를 넣거나 220V 콘센트를 꽂지 않습니다. <strong>PoE는 이 USB의 편리함을 거대한 빌딩 층 전체의 네트워크 장비로 확장시킨 "거대한 <a href="/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/">USB</a> 네트워크"</strong>와 같습니다.
 
 ```text
 [PAgP]
@@ -41,19 +38,19 @@ tags = ["studynote-network"]
 
 ### 1. 전기를 어떻게 싣는가? (PSE와 PD)
 PoE 생태계는 전기를 뿜어주는 장비와 받는 장비로 나뉜다.
-- <strong>PSE (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Sourcing Equipment)</strong>: 전기를 쏘아주는 쪽. (일반적으로 고가의 PoE 전용 L2 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.)
-- **PD (Powered Device)**: 전기를 받아먹고 켜지는 쪽. ([CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 인터넷 전화기, 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 등)
+- <strong>PSE (<a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Sourcing Equipment)</strong>: 전기를 쏘아주는 쪽. (일반적으로 고가의 PoE 전용 L2 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)다.)
+- **PD (Powered Device)**: 전기를 받아먹고 켜지는 쪽. ([CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), 인터넷 전화기, 무선 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 등)
 
-**충돌 방지 원리**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신호는 초당 1억 번 진동하는 고주파([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 형태) 신호이고, PoE 전력은 잔잔한 직류 48V(DC) 전압이다. 주파수 대역이 완전히 다르므로 섞여도 간섭이 일어나지 않는다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 아무 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에나 전기를 막 쏘지 않고, 선을 꽂았을 때 미세한 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 검사(Discovery)를 하여 저 끝에 매달린 장비가 "전기를 받아먹을 수 있는 PD"인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후에만 48V 전류를 밀어 넣는다. (노트북을 꽂았다고 노트북 랜카드가 타버리진 않는다.)
+**충돌 방지 원리**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신호는 초당 1억 번 진동하는 고주파([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 형태) 신호이고, PoE 전력은 잔잔한 직류 48V(DC) 전압이다. 주파수 대역이 완전히 다르므로 섞여도 간섭이 일어나지 않는다. [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 아무 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에나 전기를 막 쏘지 않고, 선을 꽂았을 때 미세한 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 검사(Discovery)를 하여 저 끝에 매달린 장비가 "전기를 받아먹을 수 있는 PD"인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한 후에만 48V 전류를 밀어 넣는다. (노트북을 꽂았다고 노트북 랜카드가 타버리진 않는다.)
 
 ### 2. PoE 발전 규격 (전력량의 한계 돌파)
 장비들이 점점 똑똑해지면서 밥(전기)을 더 많이 먹게 되자, IEEE는 허용 전력량을 꾸준히 상향시켰다.
 
 | 표준 이름 | 통칭 (별명) | 최대 공급 전력 | 주고받는 주 장비 예시 |
 |:---|:---|:---|:---|
-| **IEEE 802.3af** | PoE | **15.4 W** | 기본 IP 전화기(VoIP), 구형 흑백 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) |
-| **IEEE 802.3at** | PoE+ (플러스) | **30 W** | 듀얼밴드 Wi-Fi 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 상하좌우 회전(PTZ) [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) |
-| **IEEE 802.3bt** | UPoE / PoE++ | **60 W ~ 90 W** | 소형 스마트 TV, 최새로운 유형의 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 무선 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 빌딩 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명 |
+| **IEEE 802.3af** | PoE | **15.4 W** | 기본 IP 전화기(VoIP), 구형 흑백 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) |
+| **IEEE 802.3at** | PoE+ (플러스) | **30 W** | 듀얼밴드 Wi-Fi 무선 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 상하좌우 회전(PTZ) [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) |
+| **IEEE 802.3bt** | UPoE / PoE++ | **60 W ~ 90 W** | 소형 스마트 TV, 최새로운 유형의 [Wi-Fi 6](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) 무선 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/), 빌딩 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 조명 |
 
 ```text
  +-------------------------------------------------------------+
@@ -79,13 +76,13 @@ PoE 생태계는 전기를 뿜어주는 장비와 받는 장비로 나뉜다.
 
 ## Ⅲ. 비교 및 연결
 
-PoE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. PAgP가 기반 조건을 만든다면, PoE는 그 위에서 핵심 메커니즘을 구현하고, [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+PoE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. PAgP가 기반 조건을 만든다면, PoE는 그 위에서 핵심 메커니즘을 구현하고, [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | PAgP의 기반 정리 | PoE의 핵심 동작 | [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초의 확장 적용 |
+| 초점 | PAgP의 기반 정리 | PoE의 핵심 동작 | [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: PoE는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -93,10 +90,10 @@ PoE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong>전력 예산 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Budget)</strong>: 24포트 PoE [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라도 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 파워 서플라이 한계(예: 370W)가 있다. 모든 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 30W짜리 AP를 꽂으면 24 * 30 = 720W가 필요하므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 감당하지 못해 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 몇 개의 전원을 차단해 버린다.
-- **케이블 발열**: [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블로 전기가 흐르면 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 때문에 열이 난다. 수백 가닥의 PoE 선을 꽁꽁 묶어두면 화재가 발생하거나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이 생길 수 있으므로 발열 통풍에 신경 써야 한다.
+- <strong>전력 예산 (<a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Budget)</strong>: 24포트 PoE [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)라도 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 내부 파워 서플라이 한계(예: 370W)가 있다. 모든 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 30W짜리 AP를 꽂으면 24 * 30 = 720W가 필요하므로, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 감당하지 못해 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 몇 개의 전원을 차단해 버린다.
+- **케이블 발열**: [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 케이블로 전기가 흐르면 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 때문에 열이 난다. 수백 가닥의 PoE 선을 꽁꽁 묶어두면 화재가 발생하거나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실이 생길 수 있으므로 발열 통풍에 신경 써야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -108,7 +105,7 @@ PoE를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: PoE는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -118,10 +115,10 @@ PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [PAgP](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
-| [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [PAgP](/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,12 +132,12 @@ PoE는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 기초와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -149,7 +146,7 @@ PoE는 PAgP에서 출발해 현재 메커니즘을 정교화하고, 이후 [전�
 
 **진행 상황**: 386 / 1120
 
-<- **이전**: [264. PAgP (Port Aggregation Protocol)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/)
-**다음**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) ->
+<- **이전**: [264. PAgP (Port Aggregation Protocol)](/studynote/03_network/05_lan_wan_l2_devices/264_pagp_port_aggregation_protocol_cisco/)
+**다음**: [266. 전용선 (Leased Line) 기초 (E1, T1/T3 망)](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) ->
 
 ---

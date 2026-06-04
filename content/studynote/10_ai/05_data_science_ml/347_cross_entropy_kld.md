@@ -1,25 +1,22 @@
-+++
-title = "347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)"
-date = 2026-05-09
+---
+title: "347. 교차 엔트로피와 KLD (Kullback-Leibler Divergence)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))와 KLD(Kullback-Leibler Divergence, 쿨백-라이블러 발산)는 두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 얼마나 다른지를 정보량([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)으로 측정하는 분포 거리 척도이며, 딥러닝 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 수학적 근거다.
-> 2. **가치**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 "이 사진은 고양이 70%, 개 30%"라고 예측했을 때 정답 분포(고양이 100%)와 얼마나 다른지를 KLD/교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 수치화하여 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
-> 3. **판단 포인트**: H(P,Q) = H(P) + D_KL(P||Q) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식에서 P가 고정일 때 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화 = KLD 최소화이며, KLD는 비대칭(D_KL(P||Q) ≠ D_KL(Q||P))이라는 점이 핵심이다.
+> 1. **본질**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))와 KLD(Kullback-Leibler Divergence, 쿨백-라이블러 발산)는 두 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 P와 Q가 얼마나 다른지를 정보량([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수)으로 측정하는 분포 거리 척도이며, 딥러닝 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 수학적 근거다.
+> 2. **가치**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 모델이 "이 사진은 고양이 70%, 개 30%"라고 예측했을 때 정답 분포(고양이 100%)와 얼마나 다른지를 KLD/교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 수치화하여 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다.
+> 3. **판단 포인트**: H(P,Q) = H(P) + D_KL(P||Q) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)식에서 P가 고정일 때 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화 = KLD 최소화이며, KLD는 비대칭(D_KL(P||Q) ≠ D_KL(Q||P))이라는 점이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-딥러닝 모델이 10개 클래스를 예측할 때, 모델 출력 분포 Q와 실제 정답 분포 P의 차이를 어떻게 수치화할까? 단순 정확도(Accuracy)는 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 사용 불가하다. 이때 정보 이론([Information Theory](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))에서 온 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))가 등장한다. 정보 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P)는 분포 P의 평균 놀라움(정보량)이고, 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q)는 실제 분포 P를 모른 채 분포 Q를 기준으로 코딩할 때 필요한 평균 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수다. 둘의 차이가 KLD다.
+딥러닝 모델이 10개 클래스를 예측할 때, 모델 출력 분포 Q와 실제 정답 분포 P의 차이를 어떻게 수치화할까? 단순 정확도(Accuracy)는 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 사용 불가하다. 이때 정보 이론([Information Theory](/studynote/08_algorithm_stats/09_info_theory/150_information_theory/))에서 온 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)([Cross Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/))가 등장한다. 정보 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P)는 분포 P의 평균 놀라움(정보량)이고, 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q)는 실제 분포 P를 모른 채 분포 Q를 기준으로 코딩할 때 필요한 평균 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수다. 둘의 차이가 KLD다.
 
 ```text
 +----------------------------------------------+
@@ -30,7 +27,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 정답 분포 P는 "실제 날씨 패턴"이고, 모델 예측 Q는 "기상청 예보"다. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 기상청 예보를 믿고 우산을 챙길 때 평균적으로 얼마나 손해([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 보는지 측정하는 것이고, KLD는 그 손해에서 원래 날씨 패턴이 가진 불확실성을 뺀 순수 예보 오차다.
+- **📢 섹션 요약 비유**: 정답 분포 P는 "실제 날씨 패턴"이고, 모델 예측 Q는 "기상청 예보"다. 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 기상청 예보를 믿고 우산을 챙길 때 평균적으로 얼마나 손해([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))를 보는지 측정하는 것이고, KLD는 그 손해에서 원래 날씨 패턴이 가진 불확실성을 뺀 순수 예보 오차다.
 
 ---
 
@@ -60,8 +57,8 @@ KLD:           D_KL(P||Q) = Σ p(x) · log[p(x)/q(x)]
 
 | 지표 | 수식 | 특성 |
 |:---|:---|:---|
-| [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P) | -Σ p·log(p) | 분포 자체의 불확실성 |
-| 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q) | -Σ p·log(q) | Q로 P를 코딩할 때 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
+| [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P) | -Σ p·log(p) | 분포 자체의 불확실성 |
+| 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) H(P,Q) | -Σ p·log(q) | Q로 P를 코딩할 때 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) |
 | KLD D_KL(P\|\|Q) | Σ p·log(p/q) | 비대칭, 항상 ≥ 0 |
 | JSD | ½D_KL(P\|\|M)+½D_KL(Q\|\|M) | 대칭, M=(P+Q)/2 |
 
@@ -71,7 +68,7 @@ KLD:           D_KL(P||Q) = Σ p(x) · log[p(x)/q(x)]
 
 ## Ⅲ. 비교 및 연결
 
-KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌 곳에서 Q가 0이 되면 무한대로 발산한다. 반면 D_KL(Q||P)는 Q가 0인 곳을 무시한다. [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/), 변분 [오토인코더](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 D_KL(Q||P) 방향을 사용해 모드 커버리지(mode coverage)를 포기하고 샘플 품질을 높인다. [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)([Generative Adversarial Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))의 원본 목적 함수는 JS 발산(Jensen-Shannon Divergence)을 최소화하며, WGAN(Wasserstein [GAN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))은 Wasserstein 거리를 사용해 모드 붕괴를 완화한다.
+KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌 곳에서 Q가 0이 되면 무한대로 발산한다. 반면 D_KL(Q||P)는 Q가 0인 곳을 무시한다. [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/)([Variational Autoencoder](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/), 변분 [오토인코더](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/))는 D_KL(Q||P) 방향을 사용해 모드 커버리지(mode coverage)를 포기하고 샘플 품질을 높인다. [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/)([Generative Adversarial Network](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))의 원본 목적 함수는 JS 발산(Jensen-Shannon Divergence)을 최소화하며, WGAN(Wasserstein [GAN](/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/))은 Wasserstein 거리를 사용해 모드 붕괴를 완화한다.
 
 - **📢 섹션 요약 비유**: KLD 비대칭성은 "원서와 번역서"와 같다. 원서(P)를 번역서(Q)로 읽을 때 놓치는 뉘앙스(D_KL(P||Q))와, 번역서(Q)를 원서(P)와 비교할 때의 오역(D_KL(Q||P))은 서로 다른 수다.
 
@@ -79,7 +76,7 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)로 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 사용할 때, 정답이 원핫(One-Hot) 벡터이면 H(P,Q) = -log(q_correct)로 단순화된다. 이는 정답 클래스의 예측 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)에만 페널티를 주는 구조다. 레이블 스무딩(Label Smoothing)은 원핫 대신 (1-ε)·원핫 + ε/K를 사용해 과적합을 방지한다. KL 어닐링(KL Annealing)은 [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 훈련 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 KLD [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에서 서서히 올려 후방 붕괴(Posterior Collapse)를 방지하는 기법이다.
+[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)로 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 사용할 때, 정답이 원핫(One-Hot) 벡터이면 H(P,Q) = -log(q_correct)로 단순화된다. 이는 정답 클래스의 예측 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)에만 페널티를 주는 구조다. 레이블 스무딩(Label Smoothing)은 원핫 대신 (1-ε)·원핫 + ε/K를 사용해 과적합을 방지한다. KL 어닐링(KL Annealing)은 [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) 훈련 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 KLD [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 0에서 서서히 올려 후방 붕괴(Posterior Collapse)를 방지하는 기법이다.
 
 - **📢 섹션 요약 비유**: 레이블 스무딩은 "시험 답안지에서 정답에 95점, 나머지 보기에 각 1점을 주는 것"이다. 100점짜리 원핫보다 모델이 지나치게 확신하지 않도록 살짝 열어두는 안전핀이다.
 
@@ -87,9 +84,9 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 ## Ⅴ. 기대효과 및 결론
 
-교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 KLD는 딥러닝의 모든 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 정보 이론적 근거를 제공한다. [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation, [최대 우도 추정](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/))가 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치임을 이해하면, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)/[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델의 훈련 목적을 통합된 시각으로 바라볼 수 있다. 기술사 시험에서는 KLD 비대칭성, H(P,Q) = H(P) + D_KL 분해, 레이블 스무딩 효과를 구체적 수식으로 서술하면 고득점이 가능하다.
+교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 KLD는 딥러닝의 모든 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 정보 이론적 근거를 제공한다. [MLE](/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation, [최대 우도 추정](/studynote/08_algorithm_stats/08_stats/143_mle/))가 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치임을 이해하면, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)/[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 모델의 훈련 목적을 통합된 시각으로 바라볼 수 있다. 기술사 시험에서는 KLD 비대칭성, H(P,Q) = H(P) + D_KL 분해, 레이블 스무딩 효과를 구체적 수식으로 서술하면 고득점이 가능하다.
 
-- **📢 섹션 요약 비유**: 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 딥러닝의 "성적표"다. 학생(모델)이 예측한 답(Q)이 실제 정답 분포(P)와 얼마나 다른지 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(정보량) 단위로 채점하며, 그 점수를 낮추도록 공부([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))하는 것이 모델 훈련의 본질이다.
+- **📢 섹션 요약 비유**: 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 딥러닝의 "성적표"다. 학생(모델)이 예측한 답(Q)이 실제 정답 분포(P)와 얼마나 다른지 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(정보량) 단위로 채점하며, 그 점수를 낮추도록 공부([역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/))하는 것이 모델 훈련의 본질이다.
 
 ---
 
@@ -97,9 +94,9 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) (Maximum Likelihood Estimation) | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도 최대화 / 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치 |
-| [VAE](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/knowledge-base/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | ELBO, 재파라미터화 / KLD [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항 사용 |
-| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / 출력 분포 Q [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| [MLE](/studynote/08_algorithm_stats/08_stats/143_mle/) (Maximum Likelihood Estimation) | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도 최대화 / 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 최소화와 동치 |
+| [VAE](/studynote/06_ict_convergence/04_ai_llm/315_autoencoder_vae/) ([Variational Autoencoder](/studynote/10_ai/03_llm_nlp/213_variational_autoencoder/)) | ELBO, 재파라미터화 / KLD [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 항 사용 |
+| [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)) | 다중 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) / 출력 분포 Q [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
 | 레이블 스무딩 (Label Smoothing) | 과적합 방지 / P를 부드러운 분포로 대체 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -110,7 +107,7 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 엄마가 "오늘 비올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 100%"라고 했는데 컴퓨터가 "70%"라고 했어요. 교차 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 컴퓨터 예측이 틀린 정도를 숫자로 나타낸 거예요.
+1. 엄마가 "오늘 비올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 100%"라고 했는데 컴퓨터가 "70%"라고 했어요. 교차 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 컴퓨터 예측이 틀린 정도를 숫자로 나타낸 거예요.
 2. KLD는 그 틀린 정도 중에서 "원래 날씨가 복잡해서 생기는 부분"을 뺀 순수한 예측 실수예요.
 3. 이 숫자를 줄이도록 컴퓨터를 반복해서 훈련시키면 점점 정확한 AI가 탄생해요!
 
@@ -120,7 +117,7 @@ KLD의 비대칭성은 실무에서 중요하다. D_KL(P||Q)는 P가 0이 아닌
 
 **진행 상황**: 347 / 420
 
-<- **이전**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)
-**다음**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/10_ai/05_data_science_ml/348_mle/) ->
+<- **이전**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/)
+**다음**: [348. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/studynote/10_ai/05_data_science_ml/348_mle/) ->
 
 ---

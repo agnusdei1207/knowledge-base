@@ -1,18 +1,15 @@
-+++
-title = "049. 클라이언트-서버 — Client-Server Architecture"
-date = 2026-04-05
+---
+title: "049. 클라이언트-서버 — Client-Server Architecture"
+date: "2026-04-05"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 > **핵심 인사이트**
-> 1. 클라이언트-서버 모델([Client-Server](/knowledge-base/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/) Model)은 요청자([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))와 제공자(Server)의 역할을 분리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 가장 기본 패러다임 — OS 관점에서 [프로세스 간 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/)), [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리까지 OS의 핵심 기능이 이 모델을 지탱한다.
-> 2. 서버의 연결 처리 방식(단일 프로세스·멀티프로세스·멀티스레드·[이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))이 성능과 자원 효율의 핵심 트레이드오프 — Apache의 프로세스 기반 vs Nginx의 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) 차이가 C10K 문제 해결의 분기점이 되었다.
-> 3. 현대 마이크로서비스는 클라이언트-서버를 N-Tier로 확장한 것 — [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동시에 클라이언트이자 서버로 동작하며, [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)·로드밸런서·서킷 브레이커가 전통적 서버의 역할을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)화했다.
+> 1. 클라이언트-서버 모델([Client-Server](/studynote/04_software_engineering/04_testing_quality/206_client_server_architecture_model/) Model)은 요청자([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/))와 제공자(Server)의 역할을 분리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅의 가장 기본 패러다임 — OS 관점에서 [프로세스 간 통신](/studynote/02_operating_system/02_process_thread/117_ipc/)([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/)), [소켓](/studynote/02_operating_system/02_process_thread/125_socket/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 관리까지 OS의 핵심 기능이 이 모델을 지탱한다.
+> 2. 서버의 연결 처리 방식(단일 프로세스·멀티프로세스·멀티스레드·[이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/))이 성능과 자원 효율의 핵심 트레이드오프 — Apache의 프로세스 기반 vs Nginx의 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) 차이가 C10K 문제 해결의 분기점이 되었다.
+> 3. 현대 마이크로서비스는 클라이언트-서버를 N-Tier로 확장한 것 — [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 동시에 클라이언트이자 서버로 동작하며, [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)·로드밸런서·서킷 브레이커가 전통적 서버의 역할을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)화했다.
 
 ---
 
@@ -133,7 +130,7 @@ tags = ["studynote-operating-system"]
   콜백 지옥 (비동기 복잡성)
 ```
 
-> 📢 **섹션 요약 비유**: 서버 처리 방식 = 식당 서빙 방식 — 멀티프로세스(손님마다 요리사 1명), 멀티스레드(웨이터 여러 명), [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)(웨이터 1명이 알림(이벤트) 받으며 효율적으로 처리). Nginx = 1명 슈퍼 웨이터!
+> 📢 **섹션 요약 비유**: 서버 처리 방식 = 식당 서빙 방식 — 멀티프로세스(손님마다 요리사 1명), 멀티스레드(웨이터 여러 명), [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)(웨이터 1명이 알림(이벤트) 받으며 효율적으로 처리). Nginx = 1명 슈퍼 웨이터!
 
 ---
 
@@ -238,7 +235,7 @@ L4 vs L7 로드밸런서:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 대규모 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 설계
+## Ⅴ. 실무 시나리오 — 대규모 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 설계
 
 ```
 월 10억 요청 처리 API 서버 아키텍처:
@@ -286,7 +283,7 @@ API 서버 (Nginx + Node.js):
   RPS 급증 -> 20 -> 40대 자동 확장
 ```
 
-> 📢 **섹션 요약 비유**: 대규모 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 = 패스트푸드 체인 본사 관리 — [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(포장 완료품 배달), ALB(매장 안내), Nginx(주문 접수), Node.js(요리), DB 풀(식재료 창고). 자동 확장으로 피크도 안정!
+> 📢 **섹션 요약 비유**: 대규모 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버 = 패스트푸드 체인 본사 관리 — [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/)(포장 완료품 배달), ALB(매장 안내), Nginx(주문 접수), Node.js(요리), DB 풀(식재료 창고). 자동 확장으로 피크도 안정!
 
 ---
 
@@ -344,7 +341,7 @@ N-Tier 분산
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 클라이언트-서버 = 손님과 식당 — 손님(클라이언트)이 주문(요청), 식당(서버)이 항상 열려 대기. 손님이 와야 시작!
-2. epoll [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) = 1명 슈퍼 웨이터 — 1,000 손님 알림 기다리다 완성된 것만 처리. 수천 동시 연결을 혼자 효율적으로!
+2. epoll [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) = 1명 슈퍼 웨이터 — 1,000 손님 알림 기다리다 완성된 것만 처리. 수천 동시 연결을 혼자 효율적으로!
 3. 로드밸런서 = 식당 안내 데스크 — 손님 오면 가장 한가한 테이블 배정. 테이블 고장 시 자동으로 다른 곳으로!
 
 ---
@@ -353,7 +350,7 @@ N-Tier 분산
 
 **진행 상황**: 49 / 800
 
-<- **이전**: [048. SAN 통합 — Storage Area Network](/knowledge-base/studynote/02_operating_system/01_overview_architecture/048_san_integration/)
-**다음**: [P2P 시스템 (Peer-to-Peer System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/050_p2p_system/) ->
+<- **이전**: [048. SAN 통합 — Storage Area Network](/studynote/02_operating_system/01_overview_architecture/048_san_integration/)
+**다음**: [P2P 시스템 (Peer-to-Peer System)](/studynote/02_operating_system/01_overview_architecture/050_p2p_system/) ->
 
 ---

@@ -1,29 +1,26 @@
-+++
-title = "15. CMMI (Capability Maturity Model Integration) - 단계형/연속형 모델"
-description = "조직의 개발 및 서비스 프로세스 역량을 5단계로 평가하고 지속적으로 개선하기 위한 통합 성숙도 모델"
-date = 2024-05-01
+---
+title: "15. CMMI (Capability Maturity Model Integration) - 단계형/연속형 모델"
+date: "2024-05-01"
+description: "조직의 개발 및 서비스 프로세스 역량을 5단계로 평가하고 지속적으로 개선하기 위한 통합 성숙도 모델"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
 
-[extra]
-tags = ["software_engineering"]
-+++
-
-# [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration)
+# [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (Capability [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/) Integration)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 미국 국방부(DoD)의 자금 지원으로 카네기멜론 대학(SEI)이 개발한 모델로, 소프트웨어 개발뿐만 아니라 시스템 엔지니어링, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 조직 전반의 프로세스 성숙도를 평가하고 개선하는 통합(Integration) 프레임워크다.
-> 2. **가치**: 조직의 역량을 '[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-정의-정량적 관리-최적화'의 5단계(레벨 1~5)로 명확히 계층화하여, 비체계적인 주먹구구식 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 최적화된 조직으로 진화하는 로드맵을 제공한다.
-> 3. **융합**: 고도화된 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 모델(V2.0, V3.0)은 과거의 무거운 문서 중심주의를 탈피하고, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 실천법 및 린([Lean](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 방법론과 융합하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 비즈니스 목표 달성에 직결되는 '성과 중심' 모델로 진화하였다.
+> 1. **본질**: 미국 국방부(DoD)의 자금 지원으로 카네기멜론 대학(SEI)이 개발한 모델로, 소프트웨어 개발뿐만 아니라 시스템 엔지니어링, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 조직 전반의 프로세스 성숙도를 평가하고 개선하는 통합(Integration) 프레임워크다.
+> 2. **가치**: 조직의 역량을 '[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)-관리-정의-정량적 관리-최적화'의 5단계(레벨 1~5)로 명확히 계층화하여, 비체계적인 주먹구구식 조직이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반의 최적화된 조직으로 진화하는 로드맵을 제공한다.
+> 3. **융합**: 고도화된 [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 모델(V2.0, V3.0)은 과거의 무거운 문서 중심주의를 탈피하고, [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 실천법 및 린([Lean](/studynote/04_software_engineering/02_requirements_analysis/087_lean_software_development_7_principles/)) 방법론과 융합하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상과 비즈니스 목표 달성에 직결되는 '성과 중심' 모델로 진화하였다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-1980년대 미국 국방부는 방대한 소프트웨어 프로젝트를 외부 기업에 발주하면서 심각한 문제에 직면했다. 입찰에 참여한 기업들이 기술력은 좋다고 주장하지만, 막상 계약을 맺으면 기한을 못 맞추고 버그투성이의 코드를 납품하기 일쑤였다. 국방부는 "[소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)은 코더 개인의 천재성이 아니라, 조직의 '프로세스'가 얼마나 잘 갖춰져 있는지에 달려 있다"는 결론을 내렸다.
+1980년대 미국 국방부는 방대한 소프트웨어 프로젝트를 외부 기업에 발주하면서 심각한 문제에 직면했다. 입찰에 참여한 기업들이 기술력은 좋다고 주장하지만, 막상 계약을 맺으면 기한을 못 맞추고 버그투성이의 코드를 납품하기 일쑤였다. 국방부는 "[소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)은 코더 개인의 천재성이 아니라, 조직의 '프로세스'가 얼마나 잘 갖춰져 있는지에 달려 있다"는 결론을 내렸다.
 
-<strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> (Capability <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/">Maturity Model</a> Integration)</strong>는 이러한 배경에서 탄생했다. 발주처가 수주업체의 프로세스 역량(성숙도)을 신뢰할 수 있도록 등급을 매기는 기준이자, 기업 스스로가 자신의 일하는 방식을 개선하기 위해 따라야 할 가이드라인이다. 과거 개발 영역(CMM)에만 국한되던 모델을 시스템, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 획득 등 여러 영역으로 통합(Integration)하여 현재의 CMMI가 되었다.
+<strong><a href="/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> (Capability <a href="/studynote/12_it_management/01_governance_strategy/011_maturity_model/">Maturity Model</a> Integration)</strong>는 이러한 배경에서 탄생했다. 발주처가 수주업체의 프로세스 역량(성숙도)을 신뢰할 수 있도록 등급을 매기는 기준이자, 기업 스스로가 자신의 일하는 방식을 개선하기 위해 따라야 할 가이드라인이다. 과거 개발 영역(CMM)에만 국한되던 모델을 시스템, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 획득 등 여러 영역으로 통합(Integration)하여 현재의 CMMI가 되었다.
 
 💡 **비유**: 태권도장이나 무술의 <strong>승급(띠) 체계</strong>와 완벽히 같다. 흰띠(레벨1)는 폼새가 엉망이고 기분에 따라 주먹을 뻗지만, 검은띠 9단(레벨5)은 어떤 상황에서도 호흡과 동작(프로세스)이 일정하고, 더 나은 기술을 스스로 연구하여 혁신한다.
 
@@ -41,7 +38,7 @@ tags = ["software_engineering"]
   * 특징: 경험이 자산(Process Asset)으로 축적됨. 누가 와도 일정한 품질과 속도 유지.
 ```
 
-이 흐름도의 핵심은 CMMI의 목적이 <strong>'개인에 대한 의존도를 줄이고 조직의 시스템을 구축하는 것'</strong>에 있음을 시사한다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨을 올린다는 것은, 영웅 개발자 1명의 헌신에 목을 매는 스타트업식 구조에서 벗어나, 평범한 개발자들이 모여도 예측 가능한 일정과 품질의 소프트웨어를 찍어내는 거대한 '시스템 공장'으로 진화함을 의미한다.
+이 흐름도의 핵심은 CMMI의 목적이 <strong>'개인에 대한 의존도를 줄이고 조직의 시스템을 구축하는 것'</strong>에 있음을 시사한다. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨을 올린다는 것은, 영웅 개발자 1명의 헌신에 목을 매는 스타트업식 구조에서 벗어나, 평범한 개발자들이 모여도 예측 가능한 일정과 품질의 소프트웨어를 찍어내는 거대한 '시스템 공장'으로 진화함을 의미한다.
 
 📢 **섹션 요약 비유**: 훌륭한 주방장 한 명의 손맛에 의존하여 매일 맛이 바뀌는 동네 식당(레벨 1)이, 정확한 레시피와 타이머를 도입하여 전 세계 어디서나 똑같은 맛을 내는 글로벌 패스트푸드 체인점(레벨 3 이상)으로 진화하는 과정입니다.
 
@@ -58,11 +55,11 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 | 성숙도 레벨 | 명칭 | 상태 및 특징 | 프로젝트 통제 방식 | 비유 |
 |:---:|:---|:---|:---|:---|
-| **Level 1** | <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> (Initial)</strong> | 정의된 프로세스 없음. [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없고 개인의 역량에 의존 | 통제 불가, 영웅에 의존 | 혼돈의 카오스 |
-| **Level 2** | **관리 (Managed)** | 부서/프로젝트 단위의 프로세스 존재. 유사 프로젝트 반복 시 성공 가능 | 계획 수립, 형상/[요구사항 관리](/knowledge-base/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) | 팀장(PM)의 지휘 |
+| **Level 1** | <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> (Initial)</strong> | 정의된 프로세스 없음. [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 없고 개인의 역량에 의존 | 통제 불가, 영웅에 의존 | 혼돈의 카오스 |
+| **Level 2** | **관리 (Managed)** | 부서/프로젝트 단위의 프로세스 존재. 유사 프로젝트 반복 시 성공 가능 | 계획 수립, 형상/[요구사항 관리](/studynote/04_software_engineering/03_design_architecture/158_requirements_management_change_control/) | 팀장(PM)의 지휘 |
 | **Level 3** | **정의 (Defined)** | **전사적 표준 프로세스** 존재. 조직의 자산(OSP)으로 통합 및 테일러링 | 전사 차원의 공통 기준 확립 | 기업 공식 매뉴얼 정착 |
-| **Level 4** | **정량적 관리 (Quantitatively Managed)** | 성과를 **통계학적·정량적** 수치([Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))로 측정하고 통제 | [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 등의 수치 통제 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 통계 경영 |
-| **Level 5** | **최적화 (Optimizing)** | 수집된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 원인을 분석하고 지속적으로 혁신 (신기술 도입) | 예방적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리, 프로세스 지속 개선 | 자율 주행 AI의 자가 학습 |
+| **Level 4** | **정량적 관리 (Quantitatively Managed)** | 성과를 **통계학적·정량적** 수치([Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))로 측정하고 통제 | [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/), [결함 밀도](/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 등의 수치 통제 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 통계 경영 |
+| **Level 5** | **최적화 (Optimizing)** | 수집된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 바탕으로 원인을 분석하고 지속적으로 혁신 (신기술 도입) | 예방적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관리, 프로세스 지속 개선 | 자율 주행 AI의 자가 학습 |
 
 아래 다이어그램은 각 레벨로 올라갈 때 달성해야 하는 핵심 도약 포인트(Threshold)를 시각화한 것이다.
 
@@ -82,21 +79,21 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 이 계단 모델의 핵심은 <strong>하위 레벨의 프랙티스를 100% 충족하지 못하면 상위 레벨로 절대 올라갈 수 없다</strong>는 점이다. 예를 들어, 아무리 통계적 기법(L4)을 잘 쓰더라도 전사 표준(L3)이 없다면 그 통계는 무의미하므로 레벨 4를 받을 수 없다. 특히 <strong>레벨 2에서 3으로의 도약</strong>이 가장 큰 허들인데, 이는 개별 프로젝트 팀장들의 노하우를 빼내어 회사 전체의 '조직 자산'으로 통합해야 하기 때문이다. 실무에서는 보통 레벨 3 달성을 '프로세스가 체계화된 글로벌 기업'의 기준으로 삼는다.
 
-📢 **섹션 요약 비유**: 레벨 1이 '동아리 방'이라면, 레벨 2는 '부서', 레벨 3은 '하나의 통일된 회사'가 되는 것이며, 레벨 4는 그 회사를 '엑셀 수치'로 경영하는 것이고, 레벨 5는 '[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)'처럼 회사가 스스로 진화하는 상태를 뜻합니다.
+📢 **섹션 요약 비유**: 레벨 1이 '동아리 방'이라면, 레벨 2는 '부서', 레벨 3은 '하나의 통일된 회사'가 되는 것이며, 레벨 4는 그 회사를 '엑셀 수치'로 경영하는 것이고, 레벨 5는 '[인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)'처럼 회사가 스스로 진화하는 상태를 뜻합니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-현대 소프트웨어 공학에서 가장 첨예한 논쟁 중 하나는 "[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 시대에 무겁고 관료적인 CMMI가 여전히 유효한가?"이다.
+현대 소프트웨어 공학에서 가장 첨예한 논쟁 중 하나는 "[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 시대에 무겁고 관료적인 CMMI가 여전히 유효한가?"이다.
 
-| 비교 관점 | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (전통적 시각) | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0 / V3.0 의 융합 |
+| 비교 관점 | [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) (전통적 시각) | [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) ([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0 / V3.0 의 융합 |
 |:---|:---|:---|:---|
-| **가치 철학** | 예측 가능성, 통제, 문서화 | 변화 수용, 속도, 동작하는 코드 | 문서보다 '비즈니스 성과([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))'에 초점 이동 |
-| **적용 단위** | 조직 전사적 관점 ([Top-Down](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) | 소규모 교차기능 팀 관점 ([Bottom-Up](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) | 팀 수준의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프랙티스를 전사 프레임워크로 감쌈 |
-| **관리 방식** | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 기반의 계획 및 형상 [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드 기반 가시성 | [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 '회고'를 CMMI의 '프로세스 개선' 활동으로 매핑 |
+| **가치 철학** | 예측 가능성, 통제, 문서화 | 변화 수용, 속도, 동작하는 코드 | 문서보다 '비즈니스 성과([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))'에 초점 이동 |
+| **적용 단위** | 조직 전사적 관점 ([Top-Down](/studynote/04_software_engineering/12_testing_maintenance/402_top_down_integration/)) | 소규모 교차기능 팀 관점 ([Bottom-Up](/studynote/04_software_engineering/12_testing_maintenance/403_bottom_up_integration/)) | 팀 수준의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 프랙티스를 전사 프레임워크로 감쌈 |
+| **관리 방식** | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 기반의 계획 및 형상 [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/), [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드 기반 가시성 | [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/)의 '회고'를 CMMI의 '프로세스 개선' 활동으로 매핑 |
 
-과거에는 CMMI를 획득하기 위해 엄청난 두께의 절차서를 찍어내는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 만연하여 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 대척점에 있다고 여겨졌다. 그러나 최신 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0 이후 모델은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 배제하는 것이 아니라 <strong>포용(Embrace)</strong>한다. 아래는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 CMMI가 어떻게 시너지를 내는지 보여주는 다이어그램이다.
+과거에는 CMMI를 획득하기 위해 엄청난 두께의 절차서를 찍어내는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이 만연하여 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 대척점에 있다고 여겨졌다. 그러나 최신 [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) V2.0 이후 모델은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 배제하는 것이 아니라 <strong>포용(Embrace)</strong>한다. 아래는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)과 CMMI가 어떻게 시너지를 내는지 보여주는 다이어그램이다.
 
 ```text
 [애자일과 CMMI의 상호보완적 융합 구조]
@@ -115,21 +112,21 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 +--------------------------------------------------------+
 ```
 
-이 구조도의 핵심은 <strong>"Agile은 배의 노를 빠르게 젓는 엔진이고, CMMI는 배가 암초에 부딪히지 않게 조타하는 내비게이션"</strong>이라는 점이다. 수십 개의 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 각자 자기 방식대로 달리면 거대한 금융 시스템이나 국방 시스템의 통합(Integration) 시점에 대참사가 발생한다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3 구조 하에서 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀들이 '전사 표준(가드레일)'을 지키면서 릴리즈를 반복하면, 속도와 안정성(거버넌스)이라는 두 마리 토끼를 모두 잡을 수 있다.
+이 구조도의 핵심은 <strong>"Agile은 배의 노를 빠르게 젓는 엔진이고, CMMI는 배가 암초에 부딪히지 않게 조타하는 내비게이션"</strong>이라는 점이다. 수십 개의 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀이 각자 자기 방식대로 달리면 거대한 금융 시스템이나 국방 시스템의 통합(Integration) 시점에 대참사가 발생한다. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3 구조 하에서 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 팀들이 '전사 표준(가드레일)'을 지키면서 릴리즈를 반복하면, 속도와 안정성(거버넌스)이라는 두 마리 토끼를 모두 잡을 수 있다.
 
-📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 치열한 전장에서 개별 분대장들이 내리는 '빠른 전술적 판단'이라면, CMMI는 탄약이 끊기지 않게 보급하고 후방을 방어하는 장군들의 '거시적 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계'입니다. 둘은 싸우는 게 아니라 합쳐져야 이깁니다.
+📢 **섹션 요약 비유**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)이 치열한 전장에서 개별 분대장들이 내리는 '빠른 전술적 판단'이라면, CMMI는 탄약이 끊기지 않게 보급하고 후방을 방어하는 장군들의 '거시적 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 체계'입니다. 둘은 싸우는 게 아니라 합쳐져야 이깁니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실무에서 CMMI를 도입하는 결정은 조직의 사활을 건 막대한 예산과 기간(수년)이 소모되는 작업이다.
 
-#### 1. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도입 실무 시나리오
-- <strong>시나리오 A (SI/IT <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 대기업)</strong>: 공공기관 및 해외 대형 프로젝트 입찰 조건에 '[CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Level 3 이상'이 명시되어 있다. 사내에 SEPG([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) [Process Group](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/), 프로세스 개선 전담 조직)를 신설하고, 전사 QMS(품질경영시스템)를 구축하여 심사원(Lead Appraiser)을 초빙해 레벨 3 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 획득한다. (비즈니스 필수 요건)
-- **시나리오 B (시리즈 A B2C 스타트업)**: ([안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 대표가 실리콘밸리 흉내를 내려고 [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 2를 도입하려 한다. 인력 20명의 회사가 개발보다 문서 작성과 프로세스 회의에 시간을 뺏겨 타임투마켓을 놓치고 망한다. 스타트업에는 프로세스보다 제품-시장 적합성(PMF) 검증이 우선이다.
+#### 1. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도입 실무 시나리오
+- <strong>시나리오 A (SI/IT <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 대기업)</strong>: 공공기관 및 해외 대형 프로젝트 입찰 조건에 '[CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) Level 3 이상'이 명시되어 있다. 사내에 SEPG([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) [Process Group](/studynote/02_operating_system/02_process_thread/159_process_group/), 프로세스 개선 전담 조직)를 신설하고, 전사 QMS(품질경영시스템)를 구축하여 심사원(Lead Appraiser)을 초빙해 레벨 3 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)을 획득한다. (비즈니스 필수 요건)
+- **시나리오 B (시리즈 A B2C 스타트업)**: ([안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)) 대표가 실리콘밸리 흉내를 내려고 [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 2를 도입하려 한다. 인력 20명의 회사가 개발보다 문서 작성과 프로세스 회의에 시간을 뺏겨 타임투마켓을 놓치고 망한다. 스타트업에는 프로세스보다 제품-시장 적합성(PMF) 검증이 우선이다.
 
-#### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의사항 (문서주의의 함정)
+#### 2. [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 주의사항 (문서주의의 함정)
 
 ```text
 [CMMI 도입 실패의 악순환 (안티패턴)]
@@ -143,7 +140,7 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 (심사관 철수 후 원래의 주먹구구식 개발로 복귀) --► 실질적 품질 향상 제로!
 ```
 
-이 플로우의 핵심은 <strong>'보여주기식 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Paperwork for Certification)'</strong>의 위험성이다. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 모델 자체는 특정한 양식의 문서를 요구하지 않는다. 단지 "요구사항이 추적되고 있는가?"를 묻는다. 이를 Jira의 이슈 티켓 자동화([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 연동)로 증명할 수도 있는데, 굳이 [워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서로 수백 장의 산출물을 억지로 찍어내는 것이 최악의 오용 사례다. 기술사는 조직에 CMMI를 내재화할 때 [ALM](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/knowledge-base/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용해 개발자의 숨은 노력 없이(Zero-effort) 프로세스 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동 수집되도록 설계해야 한다.
+이 플로우의 핵심은 <strong>'보여주기식 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(Paperwork for Certification)'</strong>의 위험성이다. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 모델 자체는 특정한 양식의 문서를 요구하지 않는다. 단지 "요구사항이 추적되고 있는가?"를 묻는다. 이를 Jira의 이슈 티켓 자동화([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 연동)로 증명할 수도 있는데, 굳이 [워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로세서로 수백 장의 산출물을 억지로 찍어내는 것이 최악의 오용 사례다. 기술사는 조직에 CMMI를 내재화할 때 [ALM](/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)([Application Lifecycle Management](/studynote/04_software_engineering/06_software_architecture/390_application_lifecycle_management/)) 도구를 활용해 개발자의 숨은 노력 없이(Zero-effort) 프로세스 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 자동 수집되도록 설계해야 한다.
 
 📢 **섹션 요약 비유**: 건강해지기 위해 매일 운동과 식단을 하는 대신, 건강검진 날 아침에만 굶고 숨을 참아서 정상 수치를 받아내는 속임수와 같습니다. 결국 남는 건 비용 낭비뿐입니다.
 
@@ -151,25 +148,25 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-| 기대효과 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | 비즈니스 임팩트 |
+| 기대효과 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 상세 내용 | 비즈니스 임팩트 |
 |:---|:---|:---|
-| **정량적 효과** | - 프로젝트 일정 준수율 향상 (초과 비용 30% 이상 절감)<br>- 레벨 4 이상 달성 시 릴리즈 후 [결함 밀도](/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 대폭 감소 | 개발 지연으로 인한 페널티(지체상금) 방지, [품질 비용](/knowledge-base/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/)(COQ)의 예방 비용 전환에 따른 수익 극대화 |
-| **정성적 효과** | - 조직의 지식 자산(OSP) 축적으로 인한 직원 이직 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 헷지<br>- 발주처에 대한 강력한 신뢰 보증표 제공 | 글로벌 SI 사업 및 공공 대형 차세대 프로젝트 수주 경쟁력 (입찰 가점) 확보 |
+| **정량적 효과** | - 프로젝트 일정 준수율 향상 (초과 비용 30% 이상 절감)<br>- 레벨 4 이상 달성 시 릴리즈 후 [결함 밀도](/studynote/04_software_engineering/06_software_architecture/355_defect_density/) 대폭 감소 | 개발 지연으로 인한 페널티(지체상금) 방지, [품질 비용](/studynote/04_software_engineering/06_software_architecture/349_cost_of_quality/)(COQ)의 예방 비용 전환에 따른 수익 극대화 |
+| **정성적 효과** | - 조직의 지식 자산(OSP) 축적으로 인한 직원 이직 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 헷지<br>- 발주처에 대한 강력한 신뢰 보증표 제공 | 글로벌 SI 사업 및 공공 대형 차세대 프로젝트 수주 경쟁력 (입찰 가점) 확보 |
 
-**미래 전망**: CMMI는 과거 소프트웨어 개발 중심([CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)-DEV), [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심(SVC)으로 나뉘어 있던 것을 폐기하고, 단일 아키텍처 기반의 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> V2.0 및 V3.0</strong>으로 전면 개편되었다. 최신 트렌드의 핵심은 '프로세스 준수' 자체보다 '비즈니스 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 향상'을 증명하라는 것이다. ROI가 나오지 않는 쓸데없는 프로세스는 걷어내고, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 및 안전(Safety) 모듈을 강화하며, 클라우드 민첩성과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동화 파이프라인의 성과를 측정하는 실용주의적 잣대로 재탄생하고 있다.
+**미래 전망**: CMMI는 과거 소프트웨어 개발 중심([CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/)-DEV), [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심(SVC)으로 나뉘어 있던 것을 폐기하고, 단일 아키텍처 기반의 <strong><a href="/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/">CMMI</a> V2.0 및 V3.0</strong>으로 전면 개편되었다. 최신 트렌드의 핵심은 '프로세스 준수' 자체보다 '비즈니스 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 향상'을 증명하라는 것이다. ROI가 나오지 않는 쓸데없는 프로세스는 걷어내고, 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) 및 안전(Safety) 모듈을 강화하며, 클라우드 민첩성과 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동화 파이프라인의 성과를 측정하는 실용주의적 잣대로 재탄생하고 있다.
 
-**참고 표준**: ISO/IEC 15504([SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 및 그 후속인 ISO 330xx 시리즈와 함께 전 세계 품질 평가 모델의 양대 산맥을 이룬다.
+**참고 표준**: ISO/IEC 15504([SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/)) 및 그 후속인 ISO 330xx 시리즈와 함께 전 세계 품질 평가 모델의 양대 산맥을 이룬다.
 
 📢 **섹션 요약 비유**: CMMI는 낡은 문서를 찍어내는 공장이 아니라, 현대 기업이 글로벌 무대라는 거센 파도를 헤쳐 나갈 때 배가 부서지지 않도록 잡아주는 강력한 용골(Keel, 배의 뼈대)로 진화하고 있습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- 테일러링 ([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)) | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3의 핵심 요건으로, 전사 표준 프로세스를 개별 프로젝트 특성에 맞게 재단하는 활동
-- 정량적 프로젝트 관리 (QPM) | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 4 달성을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 통계적 기법([SPC](/knowledge-base/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/))을 활용하여 성과를 예측하고 제어하는 관리 기법
-- [프로세스 자산](/knowledge-base/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (PAL) | 레벨 3 이상 조직에서 과거 프로젝트의 산출물, 템플릿, 매뉴얼 등을 모아둔 지식 저장소
-- [SPICE](/knowledge-base/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (ISO/IEC 15504) | CMMI와 함께 언급되는 국제 프로세스 심사 표준으로, 2차원(프로세스, 능력) 모델 구조를 가짐
-- [스크럼](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/knowledge-base/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 프레임워크 내부에 융합되어 프로젝트 관리의 유연성과 빠른 가치 인도를 담당하는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 실천법
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- 테일러링 ([Tailoring](/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)) | [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3의 핵심 요건으로, 전사 표준 프로세스를 개별 프로젝트 특성에 맞게 재단하는 활동
+- 정량적 프로젝트 관리 (QPM) | [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 4 달성을 위해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 통계적 기법([SPC](/studynote/09_security/04_endpoint_security/203_spc_signed_public_key_challenge/))을 활용하여 성과를 예측하고 제어하는 관리 기법
+- [프로세스 자산](/studynote/04_software_engineering/01_overview_principles/017_process_assets_osp/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (PAL) | 레벨 3 이상 조직에서 과거 프로젝트의 산출물, 템플릿, 매뉴얼 등을 모아둔 지식 저장소
+- [SPICE](/studynote/12_it_management/04_sdlc_testing/139_spice_iso_iec_15504_process_assessment/) (ISO/IEC 15504) | CMMI와 함께 언급되는 국제 프로세스 심사 표준으로, 2차원(프로세스, 능력) 모델 구조를 가짐
+- [스크럼](/studynote/04_software_engineering/02_requirements_analysis/062_scrum_framework_overview/) ([Scrum](/studynote/04_software_engineering/uncategorized/969_agile_scrum_roles/)) | [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 프레임워크 내부에 융합되어 프로젝트 관리의 유연성과 빠른 가치 인도를 담당하는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 실천법
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -190,11 +187,11 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 [DevSecOps + CMMI 4~5단계 — 자동화 파이프라인과 통계적 제어(SPC)로 지속 개선]
 ```
 
-이 흐름은 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 평가 원형인 SW-CMM에서 시스템·[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 통합한 CMMI로, [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 수용한 v2.0과 국제 표준 SPICE로 확장되고, 최종적으로 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 자동화와 통계적 프로세스 제어가 결합된 현대적 품질 경영 체계로 진화하는 계보를 보여준다.
+이 흐름은 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/) 평가 원형인 SW-CMM에서 시스템·[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 통합한 CMMI로, [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)을 수용한 v2.0과 국제 표준 SPICE로 확장되고, 최종적으로 [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 자동화와 통계적 프로세스 제어가 결합된 현대적 품질 경영 체계로 진화하는 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 방 청소를 할 때 기분에 따라 대충 하거나 엄마가 화낼 때만 치우는 건 레벨 1([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 상태예요.
-2. [CMMI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3(정의)이 되면, "장난감은 빨간 통에, 책은 책장에 넣는다"는 우리 집만의 확실한 청소 규칙이 생겨서 누가 치워도 항상 깨끗해져요.
+1. 방 청소를 할 때 기분에 따라 대충 하거나 엄마가 화낼 때만 치우는 건 레벨 1([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) 상태예요.
+2. [CMMI](/studynote/12_it_management/04_sdlc_testing/133_cmmi_capability_maturity_model_integration_levels/) 레벨 3(정의)이 되면, "장난감은 빨간 통에, 책은 책장에 넣는다"는 우리 집만의 확실한 청소 규칙이 생겨서 누가 치워도 항상 깨끗해져요.
 3. 레벨 5(최적화) 최고 단계가 되면, 똑똑하게 자동 청소 로봇을 사 오거나 가구를 새로 배치해서 예전보다 훨씬 빠르고 완벽하게 방을 치우는 방법을 스스로 연구하게 된답니다!
 
 ---
@@ -203,7 +200,7 @@ CMMI는 조직의 성숙도를 평가하고 개선 방향을 제시하기 위해
 
 **진행 상황**: 15 / 973
 
-<- **이전**: [14. ISO/IEC 15504 (SPICE) - 소프트웨어 프로세스 평가 표준](/knowledge-base/studynote/04_software_engineering/01_overview_principles/014_iso_iec_15504_spice/)
-**다음**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/) ->
+<- **이전**: [14. ISO/IEC 15504 (SPICE) - 소프트웨어 프로세스 평가 표준](/studynote/04_software_engineering/01_overview_principles/014_iso_iec_15504_spice/)
+**다음**: [16. CMMI 5단계 - 초기, 관리, 정의, 정량적 관리, 최적화](/studynote/04_software_engineering/01_overview_principles/016_cmmi_5_levels/) ->
 
 ---

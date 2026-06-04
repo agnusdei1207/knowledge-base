@@ -1,9 +1,9 @@
-+++
-title = "08. 빅데이터 시각화 (Big Data Visualization)"
+---
+title: "08. 빅데이터 시각화 (Big Data Visualization)"
+tags:
+  - "studynote-bigdata"
+---
 
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 시각화(Big Data Visualization)는 수억 건의 데이터를 인간이 직관적으로 이해할 수 있는 그래프·차트·지도·대시보드로 변환하여, 숨겨진 패턴과 인사이트를 시각적으로 발견하게 하는 기술이다.

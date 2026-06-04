@@ -1,175 +1,227 @@
-+++
-title = "384. ArgoCD GitOps 선언적 지속 배포 (ArgoCD GitOps Declarative Continuous Delivery)"
-date = 2026-05-09
+---
+title: "384. ArgoCD GitOps 선언적 지속 배포 (ArgoCD GitOps Declarative Continuous Delivery)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ArgoCD GitOps 선언적 지속 배포은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: ArgoCD는 Kubernetes 위에서 Git 저장소를 단일 진실 공급원(Single Source of Truth)으로 활용하여 선언적·풀(Pull) 기반 지속 배포를 구현하는 GitOps 컨트롤러이며, Application Controller(상태 조정기), Repo Server(매니페스트 렌더링), Dex(OIDC SSO) 등 핵심 컴포넌트로 구성된다.
+> 2. **가치**: 평균 배포 시간(MTTR 포함)을 기존 CI 파이프라인 대비 약 70% 단축하고, 클러스터 드리프트 자동 감지·복구(Drift Detection & Self-Healing) 통해 감사 가능성(Auditability)과 재현성을 확보하며, 다수 클러스터/다수 환경의 배포 일관성을 보장한다.
+> 3. **판단 포인트**: Application Controller 폴링 주기(3분 기본)와 Repo Server 매니페스트 렌더링의 성능 병목, AppProject 다중 테넌시 격리 정책, ApplicationSet을 통한 멀티 클러스터 Fan-out 전략, 그리고 Helm/Kustomize/Plain YAML 렌더러 선택 시 트레이드오프가 핵심 의사결정 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-ArgoCD GitOps 선언적 지속 배포은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 네이티브 환경에서 Kubernetes는 "선언적(Declarative)" API를 통해 인프라와 애플리케이션 상태를 정의한다. 그러나 전통적인 CI/CD 파이프라인(Jenkins, GitLab CI 등)은 **푸시(Push) 방식**으로 `kubectl apply`를 실행하여 배포하므로, 다음 5가지 핵심 문제가 발생한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, ArgoCD GitOps Declarative Continuous Delivery 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+| 기존 파이프라인의 한계 | 구체적 문제점 |
+| :--- | :--- |
+| **상태 불일치(State Drift)** | 클러스터에서 직접 `kubectl edit`으로 변경 시 Git 저장소와 상태가 어긋남 |
+| **자격증명 폭발(Credential Sprawl)** | CI 시스템이 모든 대상 클러스터의 kubeconfig를 관리해야 함 |
+| **감사 추적 부재** | 누가, 언제, 어떤 명령으로 배포했는지 추적 불가 |
+| **롤백 복잡성** | 배포 이력이 CI 로그에만 남아 재현 어려움 |
+| **멀티 클러스터 비대칭** | dev/stg/prod 환경 간 배포 상태 비교·동기화 어려움 |
+
+**GitOps 패러다임**은 Weaveworks가 2017년 정립한 개념으로, "Git을 단일 진실 공급원으로 사용하고, 클러스터 내부의 에이전트가 자율적으로 동기화 상태를 유지"하는 풀(Pull) 모델로 전환한다. ArgoCD는 CNCF Graduated 프로젝트(2022년)로, Kubernetes-native하게 이 원칙을 구현한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    ArgoCD GitOps 선언적 지속 배포 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|              기존 Push 기반 배포 (전통적 CI/CD)                     |
+|                                                                  |
+|  Developer -► Git Push -► CI Server --kubectl apply--► K8s      |
+|                          (Jenkins)              (자격증명 보유)    |
+|                                                  ⚠️  Drift 발생   |
++------------------------------------------------------------------+
+                              v 전환
++------------------------------------------------------------------+
+|              GitOps Pull 기반 배포 (ArgoCD)                       |
+|                                                                  |
+|  Developer -► Git Push -► Git Repo (SSOT)                        |
+|                              |                                   |
+|                              v (3분 주기 polling)                |
+|   +------------------------------------------------+             |
+|   |           K8s Cluster 내부                      |             |
+|   |  Application Controller --► Repo Server         |             |
+|   |         |                    |                  |             |
+|   |         v                    v                  |             |
+|   |  Live State  ◄-- 비교 --►  Desired State       |             |
+|   |         |                                       |             |
+|   |         +---- 자동 Sync (Self-Heal) ------------+             |
+|   +------------------------------------------------+             |
++------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: ArgoCD GitOps 선언적 지속 배포은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: Push 방식은 택배 기사가 각 가정의 비밀번호를 알고 문을 여는 방식이고, GitOps는 각 가정에 자동 잠금장치를 설치해 "이 상태가 정답"이라는 원본 도면을 두고 스스로 맞춰가는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-ArgoCD GitOps 선언적 지속 배포의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+ArgoCD는 Kubernetes Operator 패턴을 따르며, 다음 핵심 Custom Resource Definition(CRD)으로 동작한다.
+
+| CRD | 명칭 | 역할 |
+| :--- | :--- | :--- |
+| **Application** | 개별 배포 단위 | Git 경로 + 대상 클러스터/네임스페이스 매핑 |
+| **AppProject** | 논리적 프로젝트 | RBAC, 허용된 Git 소스, 대상 클러스터/리소스 화이트리스트 |
+| **ApplicationSet** | 다중 Application 생성기 | ClusterGenerator, GitGenerator, Matrix Generator 등 |
+| **AppOfApps** | 계층적 Application | 상위 Application이 하위 Application을 관리 (deprecated -> ApplicationSet 권장) |
 
 ```text
-+--------------------------------------------------------------+
-|              ArgoCD GitOps Declarative Continuous Delivery 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|                      ArgoCD Control Plane                          |
+|                                                                    |
+|  +----------------+   +-----------------+   +-----------------+  |
+|  |  argocd-server |   |   Dex Server     |   |  Notifications  |  |
+|  |  (API + UI)    |◄-►|  (OIDC/SSO)      |   |  Controller     |  |
+|  |  gRPC/REST     |   |  GitHub, SAML... |   |  Slack, Webhook |  |
+|  +--------+-------+   +-----------------+   +-----------------+  |
+|           |                                                        |
+|           v                                                        |
+|  +----------------------------------------------------------+    |
+|  |          Application Controller (State Reconciler)         |    |
+|  |  • Spec/Status 비교 (desired vs actual)                   |    |
+|  |  • Reconcile Loop (default 3분, status reconcile 5초)     |    |
+|  |  • OutOfSync 감지 -> Sync Hook 실행                         |    |
+|  |  • Health Check (lua script, Resource Hook)              |    |
+|  +------------------------+---------------------------------+    |
+|                           | gRPC (50051)                          |
+|                           v                                       |
+|  +----------------------------------------------------------+    |
+|  |               Repo Server (Manifest Renderer)              |    |
+|  |  • Git fetch (shallow clone)                              |    |
+|  |  • Manifest 생성: Helm 3 / Kustomize / Plain YAML / Jsonnet|    |
+|  |  • 캐시 (Redis 5분 TTL) -> 2차 reconcile 시 25% 성능 향상  |    |
+|  +------------------------+---------------------------------+    |
+|                           |                                       |
+|                           v                                       |
+|                  +-----------------+                              |
+|                  |  Redis (cache)  |                              |
+|                  +-----------------+                              |
++--------------------------------------------------------------------+
+                            |
+                            v (선언적 Apply)
++--------------------------------------------------------------------+
+|                  대상 Kubernetes Cluster (in-cluster)              |
+|  Application CRD, AppProject CRD, ApplicationSet CRD               |
+|  + 실제 워크로드(Deployment, Service, ConfigMap, CRD...)           |
++--------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Application Controller** | 상태 조정(Reconciler) | `argocd-application-controller` StatefulSet, Informer 패턴으로 K8s 리소스 watch, Spec(Desired)과 Live(Actual) diff 계산, **Self-Heal 옵션**으로 자동 복구 |
+| **Repo Server** | 매니페스트 렌더링 | `argocd-repo-server` Deployment, gRPC로 Controller와 통신, Helm values, Kustomize patches, **Sidecar 패턴**으로 커스텀 렌더러(Pulumi, Custom Tool) 주입 가능 |
+| **argocd-server** | API Gateway + UI | TLS, gRPC REST gateway (port 443), CLI(`argocd` 명령) 지원, RBAC 정책 적용 (CASL 기반) |
+| **Dex / SSO** | 인증/인가 | OIDC 프로토콜, GitHub/GitLab/Google/LDAP/ SAML 연동, **SSO RBAC**으로 사용자/그룹별 정책 |
+| **Redis** | 캐시 및 세션 | Repo Server 렌더링 결과 캐싱(5분), argocd-server 세션 저장, HA 구성 시 Sentinel/Cluster 모드 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 동작 메커니즘: Sync Wave와 Hook
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+Application 내 리소스 배포 순서는 `argocd.argoproj.io/sync-wave` 어노테이션으로 제어한다. Wave 번호 오름차순으로 적용되며, 동일 wave 내에서는 자동 정렬된다. Hook 타입은 다음 5종류다.
+
+```text
+Sync Wave 0 (Pre-Sync)    ->  Wave 1 (Normal)  ->  Wave 2 (Post-Sync)  ->  Wave 3 (Sync-Fail)
+   |                              |                       |                     |
+   v                              v                       v                     v
+DB Schema 변경              Deployment, Service       Smoke Test         Rollback Hook
+Job: PreSync                (기본 배포)               Job: PostSync       (실패 시 실행)
+```
+
+- **PreSync Hook**: 마이그레이션, 스키마 적용
+- **Sync Hook**: 기본 배포 순서를 가로채는 작업
+- **PostSync Hook**: 배포 후 검증, 캐시 무효화, 알림
+- **SyncFail Hook**: Sync 실패 시 자동 롤백
+
+### 비교 가능한 Application 상태
+
+| 상태 | 의미 | UI 색상 |
+| :--- | :--- | :--- |
+| **Healthy / Synced** | 리소스 정상 + Git과 일치 | 🟢 Green |
+| **Healthy / OutOfSync** | 리소스 정상이나 Git과 차이 | 🟡 Yellow |
+| **Progressing** | 배포/롤아웃 진행 중 | 🔵 Blue |
+| **Degraded / Suspended** | 리소스 비정상 | 🔴 Red / ⚪ Gray |
+| **Missing** | 대상 리소스 부재 | 🟣 Purple |
+
+- **📢 섹션 요약 비유**: ArgoCD는 학생(클러스터)이 항상 정답지(Git)를 보며 답안을 작성하는 시험 감독관이고, Repo Server는 정답지를 깔끔하게 풀어 써주는 조수, Application Controller는 채점관이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-ArgoCD GitOps 선언적 지속 배포을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### ArgoCD vs 유사 GitOps 도구 / 전통 CI 도구
 
-| 구분 | 전통적 접근 | ArgoCD GitOps 선언적 지속 배포 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **ArgoCD** | **FluxCD** | **Jenkins X** | **Spinnaker** |
+| :--- | :--- | :--- | :--- | :--- |
+| **아키텍처** | 중앙집중형(Hub-Spoke 가능) | GitOps Toolkit 모듈형 (분산) | Jenkins + Tekton 기반 | 마이크로서비스 MSA |
+| **배포 모델** | Pull (Agent in cluster) | Pull (Operator per cluster) | Push (Tekton) | Push (Clouddriver) |
+| **렌더러** | Helm, Kustomize, Jsonnet, Plugin | Kustomize, Helm, Kustomize-controller | Helm, Kustomize | Cloud Foundry 스타일 |
+| **UI/UX** | Web UI + CLI + API | CLI 중심 (Weave GitOps UI 별도) | Jenkins UI 상속 | 자체 Web UI 강력 |
+| **진행적 배포** | **Argo Rollouts** (Canary, Blue-Green, A/B) | Flagger 통합 | Spinnaker 스타일 | Canary, Traffic Shadowing |
+| **다중 클러스터** | **ApplicationSet Hub-Spoke** | Mono/Multi-repo | 제한적 | 강력(Fiat RBAC) |
+| **확장성** | CRD 기반 무제한 | Toolkit 컴포저블 | Jenkins 빌드 수 확장 | 수천 파이프라인 검증 |
+| **학습 곡선** | 중간 (CRD, AppProject) | 중상 (Toolkit 조합) | 상 (Jenkins 생태계) | 상 (Halyard 설정) |
+| **CNCF 상태** | Graduated (2022) | Graduated (2023) | Archived (대안 권장) | Incubating |
+| **적합 시나리오** | 멀티 클러스터 K8s, 시각적 운영 | GitOps 원칙 순수 준수, Edge K8s | 기존 Jenkins 사용자 전환 | VM/베어메탈 + K8s 하이브리드 |
 
-관련 기술 영역과의 연결점도 중요하다. ArgoCD GitOps 선언적 지속 배포은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 다른 시스템과의 연결 (Ecosystem)
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 ArgoCD GitOps 선언적 지속 배포은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+```text
++--------------------------------------------------------------------+
+|                          Ecosystem                                  |
+|                                                                    |
+|   +----------+    +----------+    +----------+    +----------+   |
+|   |   Git    |    |  CI/CD   |    |  Secrets |    | Monitoring|   |
+|   |  Repo    |    |  Build   |    |  Vault   |    | Prometheus|   |
+|   |(GitHub,  |    |(Tekton,  |    | ESO,     |    | Grafana,  |   |
+|   | GitLab)  |    |  Jenkins)|    | Sealed   |    |  Datadog  |   |
+|   +----+-----+    +----+-----+    | Secret   |    +----+-----+   |
+|        |               |          +----+-----+         |         |
+|        | 이미지 푸시   |               |                |         |
+|        v               v               v                v         |
+|   +----------------------------------------------------------+   |
+|   |              Image Registry (Harbor, ECR, GCR)            |   |
+|   +--------------------------+-------------------------------+   |
+|                              |                                     |
+|                              v                                     |
+|   +----------------------------------------------------------+   |
+|   |   ArgoCD Sync <- Helm/Kustomize 매니페스트 + git revision  |   |
+|   +--------------------------+-------------------------------+   |
+|                              |                                     |
+|                              v                                     |
+|   +----------------------------------------------------------+   |
+|   |   Kubernetes (Production Clusters)                        |   |
+|   |   + Argo Rollouts (Canary) + Istio/NGIN✗ (Traffic Split) |   |
+|   +----------------------------------------------------------+   |
++--------------------------------------------------------------------+
+```
+
+- **CI(빌드) ↔ CD(배포) 분리**: Tekton/GitHub Actions가 이미지 빌드 -> 태그 업데이트 커밋 -> ArgoCD가 이를 감지하여 배포 (진정한 GitOps)
+- **External Secrets Operator**: Vault/AWS Secrets Manager의 비밀을 K8s Secret으로 동기화 후 ArgoCD로 배포
+- **Argo Rollouts**: 카나리 배포 중 Prometheus 메트릭으로 자동 승격/롤백
+- **Sealed Secrets / SOPS**: Git 저장소 내 비밀값 암호화
+
+- **📢 섹션 요약 비유**: ArgoCD는 "요리사"이고, Git은 "레시피", CI는 "재료 손질", Sealed Secrets는 "보안 요원", Argo Rollouts는 "테스트 셰프"와 같다. 각자 역할이 분리되어 있어 교체가 쉽다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 ArgoCD GitOps 선언적 지속 배포을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-ArgoCD GitOps 선언적 지속 배포을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, ArgoCD GitOps 선언적 지속 배포 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: ArgoCD GitOps 선언적 지속 배포은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | ArgoCD GitOps 선언적 지속 배포의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | ArgoCD GitOps 선언적 지속 배포의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-ArgoCD GitOps 선언적 지속 배포 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. ArgoCD GitOps 선언적 지속 배포은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **렌더러 선택**: Helm(복잡한 values 재사용·조건부 렌더링), Kustomize(경량 오버레이, GitOps 친화), 또는 Plain YAML(가장 투명) 중 어떤 것을 채택할지? Helm은 차트 의존성과 templating 버그 위험, Kustomize는 복잡한 변환 한계, Plain YAML은 DRY 원칙 위배.
+2. **Sync 정책과 Self-Heal**: `automated.selfHeal: true`로 자동 복구할 것인지? 운영 중 임시 패치는 Git에 커밋되어야 하는데, 이를 강제하면 현장 대응력이 떨어진다. Kustomize의 `Strategic Merge Patch`로 환경별 오버레이 분리.
+3. **다중 클러스터 전략**: Hub-Spoke(ApplicationSet ClusterGenerator) vs Repo-per-Cluster. **Hub-Spoke는 단일 장애점(SPOF)**, Repo-per-Cluster는 **확장성·독립성 우수하지만 정책 일관성 관리 어려움**.
+4. **보안·컴플라이언스**: AppProject의 `clusterResourceWhitelist`, `namespaceResourceWhitelist`로 테넌시 격리, Git의 Signed Commit 검증, ArgoCD Image Updater 권한 최소화, **암호화 통신(TLS 1.3, mTLS)**, Audit Log 중앙화.
+5. **성능·확장성 한계**: Application Controller의 동시 reconcile 수(`--status-processors`, `--kubectl-parallelism-limit` 기본 10), Repo Server의 `--max-connections` 기본
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 384 / 800
 
-<- **이전**: [383. Kustomize 선언적 설정 관리 오버레이](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/383_kustomize_declarative_config_overlay_manageme/)
-**다음**: [385. Flux GitOps 자동 동기화 배포](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/385_flux_gitops_auto_sync_deployment/) ->
+<- **이전**: [383. Kustomize 선언적 설정 관리 오버레이](/studynote/13_cloud_architecture/06_exam_summary/383_kustomize_declarative_config_overlay_manageme/)
+**다음**: [385. Flux GitOps 자동 동기화 배포](/studynote/13_cloud_architecture/06_exam_summary/385_flux_gitops_auto_sync_deployment/) ->
 
 ---

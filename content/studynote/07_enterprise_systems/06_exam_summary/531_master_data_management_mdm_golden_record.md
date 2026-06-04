@@ -1,13 +1,10 @@
-+++
-title = "531. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
-date = 2026-05-09
+---
+title: "531. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 531 / 800
 
-<- **이전**: [530. 데이터 통합 ETL ELT CDC 파이프라인](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/530_data_integration_etl_elt_cdc_pipeline/)
-**다음**: [532. BI 비즈니스 인텔리전스 셀프서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/532_bi_business_intelligence_self_service/) ->
+<- **이전**: [530. 데이터 통합 ETL ELT CDC 파이프라인](/studynote/07_enterprise_systems/06_exam_summary/530_data_integration_etl_elt_cdc_pipeline/)
+**다음**: [532. BI 비즈니스 인텔리전스 셀프서비스](/studynote/07_enterprise_systems/06_exam_summary/532_bi_business_intelligence_self_service/) ->
 
 ---

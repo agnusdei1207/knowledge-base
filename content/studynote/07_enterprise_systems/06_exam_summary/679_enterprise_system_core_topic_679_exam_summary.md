@@ -1,13 +1,10 @@
-+++
-title = "679. 엔터프라이즈 시스템 핵심 토픽 679번 시험 요약 (Enterprise System Core Topic 679 Exam Summary)"
-date = 2026-05-09
+---
+title: "679. 엔터프라이즈 시스템 핵심 토픽 679번 시험 요약 (Enterprise System Core Topic 679 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 679 / 800
 
-<- **이전**: [678. 엔터프라이즈 시스템 핵심 토픽 678번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/678_enterprise_system_core_topic_678_exam_summary/)
-**다음**: [680. 엔터프라이즈 시스템 핵심 토픽 680번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/680_enterprise_system_core_topic_680_exam_summary/) ->
+<- **이전**: [678. 엔터프라이즈 시스템 핵심 토픽 678번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/678_enterprise_system_core_topic_678_exam_summary/)
+**다음**: [680. 엔터프라이즈 시스템 핵심 토픽 680번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/680_enterprise_system_core_topic_680_exam_summary/) ->
 
 ---

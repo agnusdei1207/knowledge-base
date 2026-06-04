@@ -1,13 +1,10 @@
-+++
-title = "684. 그래프 분석 소셜 네트워크 중심성 (Graph Analysis Social Network Centrality)"
-date = 2026-05-09
+---
+title: "684. 그래프 분석 소셜 네트워크 중심성 (Graph Analysis Social Network Centrality)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -181,7 +178,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 684 / 800
 
-<- **이전**: [683. 지식 그래프 온톨로지 시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/)
-**다음**: [685. 공간 데이터 GIS 위치 기반 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/) ->
+<- **이전**: [683. 지식 그래프 온톨로지 시맨틱 웹](/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/)
+**다음**: [685. 공간 데이터 GIS 위치 기반 분석](/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/) ->
 
 ---

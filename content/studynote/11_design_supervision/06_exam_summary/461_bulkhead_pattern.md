@@ -1,13 +1,10 @@
-+++
-title = "461. 벌크헤드 패턴 자원 격리 (Bulkhead Pattern Resource Isolation)"
-date = 2026-05-09
+---
+title: "461. 벌크헤드 패턴 자원 격리 (Bulkhead Pattern Resource Isolation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -165,7 +162,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 461 / 600
 
-<- **이전**: [460. 백엔드 포 프론트엔드 BFF 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/461_bff_pattern/)
-**다음**: [462. 리트라이 패턴 지수 백오프](/knowledge-base/studynote/11_design_supervision/06_exam_summary/462_retry_pattern/) ->
+<- **이전**: [460. 백엔드 포 프론트엔드 BFF 패턴](/studynote/11_design_supervision/06_exam_summary/461_bff_pattern/)
+**다음**: [462. 리트라이 패턴 지수 백오프](/studynote/11_design_supervision/06_exam_summary/462_retry_pattern/) ->
 
 ---

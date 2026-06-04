@@ -1,13 +1,10 @@
-+++
-title = "419. 용량 계획 수요 예측 확장 전략 (Capacity Planning Demand Forecasting)"
-date = 2026-05-09
+---
+title: "419. 용량 계획 수요 예측 확장 전략 (Capacity Planning Demand Forecasting)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 419 / 800
 
-<- **이전**: [418. 서비스 디자인 서비스 블루프린트](/knowledge-base/studynote/12_it_management/05_security_compliance/418_service_design_service_blueprint/)
-**다음**: [420. 가용성 관리 MTBF MTTR 고가용성](/knowledge-base/studynote/12_it_management/05_security_compliance/420_availability_management_mtbf_mttr_ha/) ->
+<- **이전**: [418. 서비스 디자인 서비스 블루프린트](/studynote/12_it_management/05_security_compliance/418_service_design_service_blueprint/)
+**다음**: [420. 가용성 관리 MTBF MTTR 고가용성](/studynote/12_it_management/05_security_compliance/420_availability_management_mtbf_mttr_ha/) ->
 
 ---

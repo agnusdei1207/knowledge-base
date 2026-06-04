@@ -1,28 +1,25 @@
-+++
-title = "2. 전류 (Current)"
-date = 2026-04-15
+---
+title: "2. 전류 (Current)"
+date: "2026-04-15"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 전류 (Current)는 단위 시간 동안 이동하는 전하의 양이며, 컴퓨터에서는 실제로 에너지를 전달하고 회로 상태를 바꾸는 물리적 흐름이다.
-> 2. **가치**: [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태의 기준이라면 전류는 그 상태를 회로 끝까지 밀어 전달하는 실행 수단이므로, 전류 제어는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 발열, 전력 무결성과 직결된다.
-> 3. **판단 포인트**: 충분한 전류가 없으면 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 약해지고, 과도한 전류는 발열과 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제를 일으키므로, 현대 칩은 전류 밀도, 누설 전류, 전력망 설계를 함께 최적화한다.
+> 2. **가치**: [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 상태의 기준이라면 전류는 그 상태를 회로 끝까지 밀어 전달하는 실행 수단이므로, 전류 제어는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 발열, 전력 무결성과 직결된다.
+> 3. **판단 포인트**: 충분한 전류가 없으면 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 약해지고, 과도한 전류는 발열과 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 문제를 일으키므로, 현대 칩은 전류 밀도, 누설 전류, 전력망 설계를 함께 최적화한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전류 (Current)는 도체의 단면을 일정 시간 동안 통과하는 전하량이다. 단위는 암페어 (Ampere, A)를 쓰며, 회로 관점에서는 "얼마나 많은 전하가 실제로 움직였는가"를 의미한다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 전하를 밀어내는 원인이라면, 전류는 그 결과로 나타나는 실제 흐름이다.
+전류 (Current)는 도체의 단면을 일정 시간 동안 통과하는 전하량이다. 단위는 암페어 (Ampere, A)를 쓰며, 회로 관점에서는 "얼마나 많은 전하가 실제로 움직였는가"를 의미한다. [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 전하를 밀어내는 원인이라면, 전류는 그 결과로 나타나는 실제 흐름이다.
 
-컴퓨터구조에서 전류가 중요한 이유는 계산이 결국 물리적 스위칭의 연속이기 때문이다. 트랜지스터가 켜지고 꺼질 때는 단지 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨만 존재하는 것이 아니라, 게이트와 배선을 따라 실제 전하 이동이 일어난다. 이 이동이 충분하지 않으면 출력 노드가 목표 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에 도달하지 못하고, 너무 크면 열과 전력 손실이 커진다.
+컴퓨터구조에서 전류가 중요한 이유는 계산이 결국 물리적 스위칭의 연속이기 때문이다. 트랜지스터가 켜지고 꺼질 때는 단지 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨만 존재하는 것이 아니라, 게이트와 배선을 따라 실제 전하 이동이 일어난다. 이 이동이 충분하지 않으면 출력 노드가 목표 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에 도달하지 못하고, 너무 크면 열과 전력 손실이 커진다.
 
-이 그림은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 전류의 관계를 가장 단순한 회로 관점에서 보여준다.
+이 그림은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/), 전류의 관계를 가장 단순한 회로 관점에서 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -35,9 +32,9 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-핵심은 전류를 단순한 부가 개념으로 보면 안 된다는 점이다. 메모리 읽기, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구동, I/O 출력, [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 계산 모두 전류 흐름 위에서 성립한다. 결국 아키텍처가 빠르게 동작한다는 말은 필요한 순간에 필요한 경로로 충분한 전류를 안정적으로 전달했다는 뜻과 같다.
+핵심은 전류를 단순한 부가 개념으로 보면 안 된다는 점이다. 메모리 읽기, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 구동, I/O 출력, [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 계산 모두 전류 흐름 위에서 성립한다. 결국 아키텍처가 빠르게 동작한다는 말은 필요한 순간에 필요한 경로로 충분한 전류를 안정적으로 전달했다는 뜻과 같다.
 
-- **📢 섹션 요약 비유**: 전류는 도로 위를 실제로 달리는 차의 양과 같다. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이라면, 전류는 실제로 움직여서 물건을 실어 나르는 차량 흐름이다.
+- **📢 섹션 요약 비유**: 전류는 도로 위를 실제로 달리는 차의 양과 같다. [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등이 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이라면, 전류는 실제로 움직여서 물건을 실어 나르는 차량 흐름이다.
 
 ---
 
@@ -47,10 +44,10 @@ tags = ["studynote-computer-architecture"]
 
 | 전류 종류 | 발생 시점 | 의미 | 설계 포인트 |
 |:---|:---|:---|:---|
-| 동적 전류 (Dynamic Current) | 스위칭 중 | 실제 연산 수행과 충방전 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결 |
+| 동적 전류 (Dynamic Current) | 스위칭 중 | 실제 연산 수행과 충방전 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 직접 연결 |
 | 누설 전류 (Leakage Current) | 유휴 상태 포함 | 꺼져 있어도 새는 전류 | 대기 전력과 배터리 수명 |
 | 단락 전류 (Short-circuit Current) | 전이 순간 | PMOS/NMOS가 잠시 함께 켜짐 | 전환 구간 손실 |
-| I/O 구동 전류 | 외부 인터페이스 전송 | 핀과 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 밀어내는 힘 | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 무결성과 EMI |
+| I/O 구동 전류 | 외부 인터페이스 전송 | 핀과 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)를 밀어내는 힘 | [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 무결성과 EMI |
 
 이 그림은 칩에서 전류가 어디서 문제를 만들고, 왜 전력망 설계가 중요한지를 보여준다.
 
@@ -66,9 +63,9 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-전류 해석의 기본은 옴의 법칙 (Ohm's Law) `I = V / R` 이다. 하지만 칩 설계에서는 여기서 한 단계 더 들어가야 한다. [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 낮다고 무조건 좋은 것이 아니라, 너무 큰 전류가 좁은 배선에 몰리면 일렉트로마이그레이션 (Electromigration)과 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 함께 발생해 오히려 오동작 위험이 커진다.
+전류 해석의 기본은 옴의 법칙 (Ohm's Law) `I = V / R` 이다. 하지만 칩 설계에서는 여기서 한 단계 더 들어가야 한다. [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)이 낮다고 무조건 좋은 것이 아니라, 너무 큰 전류가 좁은 배선에 몰리면 일렉트로마이그레이션 (Electromigration)과 [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 함께 발생해 오히려 오동작 위험이 커진다.
 
-따라서 핵심 원리는 "많이 흐르게 하라"가 아니라 <strong>필요한 곳에 필요한 만큼만 안정적으로 흐르게 하라</strong>다. 그래서 전력망 메쉬, 디커플링 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 전류 제한, 파워 게이팅이 모두 전류 설계의 일부가 된다.
+따라서 핵심 원리는 "많이 흐르게 하라"가 아니라 <strong>필요한 곳에 필요한 만큼만 안정적으로 흐르게 하라</strong>다. 그래서 전력망 메쉬, 디커플링 [커패시터](/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/), 전류 제한, 파워 게이팅이 모두 전류 설계의 일부가 된다.
 
 - **📢 섹션 요약 비유**: 전류 설계는 도시 급수망과 같다. 물을 충분히 보내야 하지만, 한 배관에 너무 몰리면 압력이 흔들리고 배관이 상한다.
 
@@ -80,14 +77,14 @@ tags = ["studynote-computer-architecture"]
 
 | 항목 | 동적 전류 | 누설 전류 |
 |:---|:---|:---|
-| 주 원인 | 노드 충방전, 스위칭 | 문턱 이하 전도, [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
-| 증가 조건 | 높은 주파수, 높은 활동률 | 낮아진 문턱 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 미세 공정 |
-| 사용자 체감 | 고부하 발열, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모드 전력 증가 | 대기 중 배터리 소모 |
-| 대표 대응 | 클럭/[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절, 활동률 절감 | 파워 게이팅, 공정 개선 |
+| 주 원인 | 노드 충방전, 스위칭 | 문턱 이하 전도, [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) |
+| 증가 조건 | 높은 주파수, 높은 활동률 | 낮아진 문턱 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 미세 공정 |
+| 사용자 체감 | 고부하 발열, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모드 전력 증가 | 대기 중 배터리 소모 |
+| 대표 대응 | 클럭/[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절, 활동률 절감 | 파워 게이팅, 공정 개선 |
 
-운영체제는 이 차이를 [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)와 절전 정책으로 다룬다. [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정은 [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)), [GAA](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 같은 구조로 누설 전류를 줄이려 한다. 즉 전류 문제는 회로 이론만의 주제가 아니라, 아키텍처 정책과 공정 기술이 만나는 접점이다.
+운영체제는 이 차이를 [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling)와 절전 정책으로 다룬다. [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정은 [FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)), [GAA](/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) ([Gate-All-Around](/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/)) 같은 구조로 누설 전류를 줄이려 한다. 즉 전류 문제는 회로 이론만의 주제가 아니라, 아키텍처 정책과 공정 기술이 만나는 접점이다.
 
-또한 네트워크와 I/O 관점에서는 전류가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 구동 능력과 연결된다. 고속 인터페이스는 충분한 구동 전류가 없으면 아이 다이어그램이 무너지고, 너무 공격적으로 구동하면 전자파 간섭 (EMI)이 커진다.
+또한 네트워크와 I/O 관점에서는 전류가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 구동 능력과 연결된다. 고속 인터페이스는 충분한 구동 전류가 없으면 아이 다이어그램이 무너지고, 너무 공격적으로 구동하면 전자파 간섭 (EMI)이 커진다.
 
 - **📢 섹션 요약 비유**: 동적 전류와 누설 전류의 차이는 달릴 때 쓰는 기름과 주차 중에도 새는 연료의 차이와 같다. 둘 다 비용이지만 관리 방식이 다르다.
 
@@ -95,7 +92,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 전류를 직접 보는 순간이 많다. 서버 보드에서는 피크 전류 때문에 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 생기고, 모바일 칩에서는 누설 전류 때문에 대기 전력이 커진다. 따라서 전류 문제를 만나면 "몇 암페어가 흐르나"보다 먼저 <strong>언제, 어디서, 왜 몰리는가</strong>를 봐야 한다.
+실무에서는 전류를 직접 보는 순간이 많다. 서버 보드에서는 피크 전류 때문에 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하가 생기고, 모바일 칩에서는 누설 전류 때문에 대기 전력이 커진다. 따라서 전류 문제를 만나면 "몇 암페어가 흐르나"보다 먼저 <strong>언제, 어디서, 왜 몰리는가</strong>를 봐야 한다.
 
 이 그림은 전류 관련 실무 판단 흐름을 요약한다.
 
@@ -115,11 +112,11 @@ tags = ["studynote-computer-architecture"]
 1. **전류 밀도 한계를 확인했는가**
    좁은 금속 배선에 전류가 몰리면 전선 열화와 수명 저하가 발생한다.
 2. **피크 전류와 평균 전류를 구분했는가**
-   평균값만 보면 멀쩡해 보여도, 스위칭 순간 피크 전류 때문에 [IR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 발생할 수 있다.
+   평균값만 보면 멀쩡해 보여도, 스위칭 순간 피크 전류 때문에 [IR](/studynote/01_computer_architecture/04_instruction_set_architecture/165_ir/) Drop이 발생할 수 있다.
 3. **유휴 전류 절감 전략이 있는가**
    모바일, 임베디드, 대규모 서버팜에서는 누설 전류 관리가 총 전력 비용에 직접 반영된다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 평균 소비전력만 보고 피크 전류를 무시하는 설계
 - 전력망 여유 없이 클럭만 올리는 설계
@@ -131,9 +128,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-전류를 제대로 설계하면 시스템은 세 가지 이익을 얻는다. 첫째, 필요한 연산에 충분한 구동력을 제공해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 막을 수 있다. 둘째, 누설과 피크를 함께 관리해 발열과 대기 전력을 줄일 수 있다. 셋째, 전력망 안정성이 올라가므로 고부하 상황에서도 예측 가능한 동작을 유지할 수 있다.
+전류를 제대로 설계하면 시스템은 세 가지 이익을 얻는다. 첫째, 필요한 연산에 충분한 구동력을 제공해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 막을 수 있다. 둘째, 누설과 피크를 함께 관리해 발열과 대기 전력을 줄일 수 있다. 셋째, 전력망 안정성이 올라가므로 고부하 상황에서도 예측 가능한 동작을 유지할 수 있다.
 
-반대로 전류는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만을 위해 무작정 키울 수 있는 값이 아니다. 전류 증가는 곧 열, 배선 부담, 전력 예산 문제로 이어진다. 그래서 현대 컴퓨터구조는 더 많은 전류를 흘리는 방향보다, 더 정교하게 제어하고 덜 새게 만드는 방향으로 진화한다.
+반대로 전류는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)만을 위해 무작정 키울 수 있는 값이 아니다. 전류 증가는 곧 열, 배선 부담, 전력 예산 문제로 이어진다. 그래서 현대 컴퓨터구조는 더 많은 전류를 흘리는 방향보다, 더 정교하게 제어하고 덜 새게 만드는 방향으로 진화한다.
 
 정리하면 전류는 "전기가 흐른다"는 교과서 문장보다 훨씬 큰 개념이다. 컴퓨터에서는 실제로 일을 수행하게 만드는 실행 흐름이며, 그 흐름을 어느 수준까지 허용할지 판단하는 것이 아키텍처 설계의 핵심이다.
 
@@ -145,11 +142,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) | 전류를 만들어 내는 원인 |
-| [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ([Resistance](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) | 같은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에서도 전류 크기를 바꾸는 요소 |
-| 전력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 전류의 결합 결과로 나타나는 소비량 |
+| [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) | 전류를 만들어 내는 원인 |
+| [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ([Resistance](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)) | 같은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)에서도 전류 크기를 바꾸는 요소 |
+| 전력 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)과 전류의 결합 결과로 나타나는 소비량 |
 | 일렉트로마이그레이션 (Electromigration) | 과도한 전류 밀도가 만든 배선 열화 |
-| 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) | 누설 전류를 줄이기 위한 대표 기법 |
+| 파워 게이팅 ([Power Gating](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) | 누설 전류를 줄이기 위한 대표 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,7 +166,7 @@ tags = ["studynote-computer-architecture"]
 [파워 게이팅 (Power Gating)]
 ```
 
-이 흐름도는 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))에서 출발해 파워 게이팅 ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) ([Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))에서 출발해 파워 게이팅 ([Power Gating](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -183,7 +180,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 2 / 803
 
-<- **이전**: [1. 전압 (Voltage)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)
-**다음**: [3. 저항 (Resistance)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ->
+<- **이전**: [1. 전압 (Voltage)](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)
+**다음**: [3. 저항 (Resistance)](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) ->
 
 ---

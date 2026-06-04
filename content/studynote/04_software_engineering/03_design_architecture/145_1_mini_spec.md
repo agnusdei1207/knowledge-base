@@ -1,18 +1,15 @@
-+++
-title = "145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의"
-date = 2026-04-19
+---
+title: "145. Mini-Spec (프로세스 명세서) - DFD 프로세스 상세 정의"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Mini-Spec은 <strong>DFD의 최하위 프로세스(기본 프로세스)의 로직을 구조적 영어(Structured English)·의사결정표·의사결정트리</strong>로 상세 기술하는 프로세스 명세서이다.
 > 2. **가치**: DFD는 "무엇을" 보여주지만 <strong>"어떻게 변환하는지"</strong>는 보여주지 않으며, Mini-Spec이 각 프로세스의 **입력->변환 규칙->출력을 명확히** 정의한다.
-> 3. **판단 포인트**: 구조적 영어(IF-THEN-ELSE, DO-WHILE), 의사결정표([Decision Table](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/), 복합 조건), 의사결정트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), 시각적) 중 상황에 맞는 표현을 선택한다.
+> 3. **판단 포인트**: 구조적 영어(IF-THEN-ELSE, DO-WHILE), 의사결정표([Decision Table](/studynote/04_software_engineering/10_trends_pm_quality/631_decision_table_logical_combination/), 복합 조건), 의사결정트리([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), 시각적) 중 상황에 맞는 표현을 선택한다.
 
 ---
 
@@ -35,7 +32,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ~Ⅴ. 결론
 
-Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a> 프로세스의 로직 명세 도구</strong>이며, 구조적 영어·의사결정표·의사결정트리가 3대 표현 방법이다.
+Mini-Spec은 <strong><a href="/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a> 프로세스의 로직 명세 도구</strong>이며, 구조적 영어·의사결정표·의사결정트리가 3대 표현 방법이다.
 
 ---
 
@@ -47,7 +44,7 @@ Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 | **구조적 영어** | IF-THEN-ELSE |
 | **의사결정표** | 복합 조건 매핑 |
 | **의사결정트리** | 시각적 조건 분기 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a></strong> | Mini-Spec의 상위 |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/">DFD</a></strong> | Mini-Spec의 상위 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -69,7 +66,7 @@ Mini-Spec은 <strong><a href="/knowledge-base/studynote/04_software_engineering/
 
 **진행 상황**: 145 / 973
 
-<- **이전**: [144. DFD (Data Flow Diagram) - 데이터 흐름도 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)
-**다음**: [146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석](/knowledge-base/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/) ->
+<- **이전**: [144. DFD (Data Flow Diagram) - 데이터 흐름도 상세](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)
+**다음**: [146. OOA (객체지향 분석) - 객체·클래스·관계 중심 분석](/studynote/04_software_engineering/03_design_architecture/146_ooa_object_oriented_analysis/) ->
 
 ---

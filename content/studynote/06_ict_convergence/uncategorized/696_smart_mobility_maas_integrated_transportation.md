@@ -1,13 +1,10 @@
-+++
-title = "696. 스마트 모빌리티 MaaS 통합 교통 (Smart Mobility MaaS Integrated Transportation)"
-date = 2026-05-09
+---
+title: "696. 스마트 모빌리티 MaaS 통합 교통 (Smart Mobility MaaS Integrated Transportation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 📚 기술사 학습 노트: 696. 스마트 모빌리티 MaaS 통합 교통
 
@@ -98,7 +95,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 696 / 800
 
-<- **이전**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/knowledge-base/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/)
-**다음**: [697. ESG 디지털 전환 지속가능 경영](/knowledge-base/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/) ->
+<- **이전**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/)
+**다음**: [697. ESG 디지털 전환 지속가능 경영](/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/) ->
 
 ---

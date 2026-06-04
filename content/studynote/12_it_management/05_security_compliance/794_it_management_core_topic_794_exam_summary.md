@@ -1,13 +1,10 @@
-+++
-title = "794. IT 경영 관리 핵심 토픽 794번 시험 요약 (IT Management Core Topic 794 Exam Summary)"
-date = 2026-05-09
+---
+title: "794. IT 경영 관리 핵심 토픽 794번 시험 요약 (IT Management Core Topic 794 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 794. IT 경영 관리 핵심 토픽 794번 시험 요약 (IT Management Core Topic 794)
 
@@ -163,7 +160,7 @@ IT 경영 관리 영역에서 자주 혼동되는 핵심 프레임워크들의 �
 
 **진행 상황**: 794 / 800
 
-<- **이전**: [793. IT 경영 관리 핵심 토픽 793번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/793_it_management_core_topic_793_exam_summary/)
-**다음**: [795. IT 경영 관리 핵심 토픽 795번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/795_it_management_core_topic_795_exam_summary/) ->
+<- **이전**: [793. IT 경영 관리 핵심 토픽 793번 시험 요약](/studynote/12_it_management/05_security_compliance/793_it_management_core_topic_793_exam_summary/)
+**다음**: [795. IT 경영 관리 핵심 토픽 795번 시험 요약](/studynote/12_it_management/05_security_compliance/795_it_management_core_topic_795_exam_summary/) ->
 
 ---

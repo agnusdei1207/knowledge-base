@@ -1,25 +1,22 @@
-+++
-title = "142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)"
-date = 2026-05-10
+---
+title: "142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GoF 23가지 패턴은 객체지향 설계의 반복 문제를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 5개, 구조 7개, 행위 11개로 나눈 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.
+> 1. **본질**: GoF 23가지 패턴은 객체지향 설계의 반복 문제를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 5개, 구조 7개, 행위 11개로 나눈 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계다.
 > 2. **가치**: 문제를 무엇을 만드는가, 어떻게 묶는가, 어떻게 협력하는가로 구분해 적절한 패턴 후보를 빠르게 좁힌다.
-> 3. **판단 포인트**: 기술사 답안에서는 패턴 이름 암기보다 문제 유형을 정확히 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 능력이 더 중요하다.
+> 3. **판단 포인트**: 기술사 답안에서는 패턴 이름 암기보다 문제 유형을 정확히 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 능력이 더 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-23개 패턴을 한꺼번에 암기하면 서로 비슷해 보이기 쉽다. 그래서 GoF는 패턴을 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Creational), 구조(Structural), 행위(Behavioral)</strong> 세 범주로 나누었다. 이 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순한 목록 정리가 아니라 지금 마주한 문제가 어떤 차원의 문제인가를 빠르게 판단하게 하는 사고 프레임이다.
+23개 패턴을 한꺼번에 암기하면 서로 비슷해 보이기 쉽다. 그래서 GoF는 패턴을 <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>(Creational), 구조(Structural), 행위(Behavioral)</strong> 세 범주로 나누었다. 이 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 단순한 목록 정리가 아니라 지금 마주한 문제가 어떤 차원의 문제인가를 빠르게 판단하게 하는 사고 프레임이다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -35,15 +32,15 @@ tags = ["studynote-design-supervision"]
 +----------------------------------------------------------------------+
 ```
 
-[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없으면 유사한 패턴을 혼동하기 쉽다. 예를 들어 Strategy와 Bridge는 둘 다 합성을 쓰지만, 하나는 행위 교체이고 다른 하나는 구조 분리다. 이런 혼동을 줄이는 가장 좋은 출발점이 바로 범주 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)다.
+[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계가 없으면 유사한 패턴을 혼동하기 쉽다. 예를 들어 Strategy와 Bridge는 둘 다 합성을 쓰지만, 하나는 행위 교체이고 다른 하나는 구조 분리다. 이런 혼동을 줄이는 가장 좋은 출발점이 바로 범주 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)다.
 
-- **📢 섹션 요약 비유**: 23가지 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 큰 공구함을 망치, 조립 도구, 측정 도구 칸으로 나누는 것과 같아서, 필요한 도구를 훨씬 빨리 찾게 해 준다.
+- **📢 섹션 요약 비유**: 23가지 패턴 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 큰 공구함을 망치, 조립 도구, 측정 도구 칸으로 나누는 것과 같아서, 필요한 도구를 훨씬 빨리 찾게 해 준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 세 개의 질문으로 기억하면 가장 쉽다. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a></strong>은 객체를 어떻게 만들까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">구조 패턴</a></strong>은 객체를 어떻게 묶을까, <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">행위 패턴</a></strong>은 객체가 어떻게 협력할까에 답한다. 즉 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준은 패턴의 모양이 아니라 해결하려는 설계 초점이다.
+GoF [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 세 개의 질문으로 기억하면 가장 쉽다. <strong><a href="/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/">생성 패턴</a></strong>은 객체를 어떻게 만들까, <strong><a href="/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/">구조 패턴</a></strong>은 객체를 어떻게 묶을까, <strong><a href="/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/">행위 패턴</a></strong>은 객체가 어떻게 협력할까에 답한다. 즉 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준은 패턴의 모양이 아니라 해결하려는 설계 초점이다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -62,29 +59,29 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 | 범주 | 핵심 질문 | 대표 패턴 |
 |:---|:---|:---|
-| [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 누가 가질 것인가 | [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) |
-| [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 기존 클래스와 객체를 어떻게 조합할 것인가 | [Adapter](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), [Decorator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) |
-| [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 역할과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 어떻게 분리할 것인가 | [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) |
+| [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 누가 가질 것인가 | [Singleton](/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/), [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) |
+| [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 기존 클래스와 객체를 어떻게 조합할 것인가 | [Adapter](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), [Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/), [Decorator](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/) |
+| [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 역할과 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 어떻게 분리할 것인가 | [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), [Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/), [Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) |
 
-[행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 11개로 가장 많은 이유는 객체 간 협력과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 방식이 가장 다양한 영역이기 때문이다. 반대로 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임이라는 비교적 명확한 문제를 다루므로 5개로 정리된다.
+[행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 11개로 가장 많은 이유는 객체 간 협력과 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 방식이 가장 다양한 영역이기 때문이다. 반대로 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임이라는 비교적 명확한 문제를 다루므로 5개로 정리된다.
 
-- **📢 섹션 요약 비유**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 부품 공장, 구조는 조립 라인, 행위는 작업 지시서에 해당하므로 같은 제품이라도 어느 단계의 문제인지 먼저 봐야 한다.
+- **📢 섹션 요약 비유**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 부품 공장, 구조는 조립 라인, 행위는 작업 지시서에 해당하므로 같은 제품이라도 어느 단계의 문제인지 먼저 봐야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-세 범주는 서로 배타적이라기보다 연결된다. 예를 들어 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)으로 만든 객체가 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 묶이고, 그 묶음 위에서 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 협력 흐름을 제어한다. 따라서 실제 설계에서는 범주를 따로 외우는 것보다 <strong>문제 축을 이동하며 읽는 능력</strong>이 중요하다.
+세 범주는 서로 배타적이라기보다 연결된다. 예를 들어 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)으로 만든 객체가 [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 묶이고, 그 묶음 위에서 [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)이 협력 흐름을 제어한다. 따라서 실제 설계에서는 범주를 따로 외우는 것보다 <strong>문제 축을 이동하며 읽는 능력</strong>이 중요하다.
 
 | 상황 | 우선 검토 범주 | 이유 |
 |:---|:---|:---|
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 구현체가 런타임에 달라짐 | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임과 구체 클래스 의존이 핵심 문제 |
-| 레거시 인터페이스를 새 시스템에 맞춰야 함 | [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 객체 조합과 인터페이스 변환이 핵심 |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 조건에 따라 교체해야 함 | [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 행위 선택과 책임 분리가 중심 |
-| 관련 객체 세트를 함께 바꿔야 함 | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 패밀리 단위 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 중심 |
-| 이벤트 통지와 협력 흐름이 복잡함 | [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 객체 간 상호작용 규칙이 중심 |
+| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 구현체가 런타임에 달라짐 | [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임과 구체 클래스 의존이 핵심 문제 |
+| 레거시 인터페이스를 새 시스템에 맞춰야 함 | [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 객체 조합과 인터페이스 변환이 핵심 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 조건에 따라 교체해야 함 | [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 행위 선택과 책임 분리가 중심 |
+| 관련 객체 세트를 함께 바꿔야 함 | [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 패밀리 단위 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 중심 |
+| 이벤트 통지와 협력 흐름이 복잡함 | [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | 객체 간 상호작용 규칙이 중심 |
 
-실무에서는 하나의 기능 안에서도 범주가 섞인다. 예를 들어 UI 툴킷은 Abstract Factory로 위젯을 만들고, Decorator로 기능을 얹고, Observer로 이벤트를 전달할 수 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 패턴을 나누기 위한 것이 아니라 <strong>적용 순서를 생각하게 만드는 지도</strong>다.
+실무에서는 하나의 기능 안에서도 범주가 섞인다. 예를 들어 UI 툴킷은 Abstract Factory로 위젯을 만들고, Decorator로 기능을 얹고, Observer로 이벤트를 전달할 수 있다. [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 패턴을 나누기 위한 것이 아니라 <strong>적용 순서를 생각하게 만드는 지도</strong>다.
 
 - **📢 섹션 요약 비유**: 집을 지을 때 자재 조달, 골조 조립, 사람들 작업 분담이 따로이면서도 이어져 있는 것처럼, 세 범주도 한 시스템 안에서 연속적으로 만난다.
 
@@ -92,22 +89,22 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사 답안에서는 23개 목록을 다 적는 것보다, 문제를 어느 범주로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)했는지 논리적으로 설명하는 편이 훨씬 중요하다. 예를 들어 새 결제 수단 추가 시 기존 코드 수정이 크다면 [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)보다 먼저 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이나 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 여부를 문제 맥락에 맞게 따져야 한다.
+기술사 답안에서는 23개 목록을 다 적는 것보다, 문제를 어느 범주로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)했는지 논리적으로 설명하는 편이 훨씬 중요하다. 예를 들어 새 결제 수단 추가 시 기존 코드 수정이 크다면 [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/)보다 먼저 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이나 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 여부를 문제 맥락에 맞게 따져야 한다.
 
-또한 감리 관점에서는 범주 오판이 곧 설계 부채로 이어진다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제인데 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 억지 해결하면 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점이 더 숨겨지고, 행위 문제를 [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 풀면 조건 분기가 그대로 남는다.
+또한 감리 관점에서는 범주 오판이 곧 설계 부채로 이어진다. [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제인데 [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 억지 해결하면 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 지점이 더 숨겨지고, 행위 문제를 [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/)으로 풀면 조건 분기가 그대로 남는다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 지금의 문제는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 조합, 협력 중 어느 축에서 가장 큰가?
-2. 새 요구사항 추가 시 변경되는 지점이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부인지, 구조부인지, 행위부인지 설명할 수 있는가?
+1. 지금의 문제는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 조합, 협력 중 어느 축에서 가장 큰가?
+2. 새 요구사항 추가 시 변경되는 지점이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)부인지, 구조부인지, 행위부인지 설명할 수 있는가?
 3. 패턴 후보를 범주 수준에서 먼저 2~3개로 좁혔는가?
 4. 범주를 잘못 선택해 불필요한 추상화나 계층이 생기지 않는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 오답 포인트
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 오답 포인트
 
-- 23개를 단순 나열만 하고 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준을 설명하지 못하는 답안
+- 23개를 단순 나열만 하고 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준을 설명하지 못하는 답안
 - 합성 구조라는 이유만으로 Bridge와 Strategy를 같은 범주처럼 취급하는 설명
-- [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·구조·행위를 동시에 다룬다는 이유로 아무 문제에나 복합 패턴을 먼저 들이미는 설계
+- [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·구조·행위를 동시에 다룬다는 이유로 아무 문제에나 복합 패턴을 먼저 들이미는 설계
 
 - **📢 섹션 요약 비유**: 증상을 소화기, 근골격, 호흡기 중 어디 문제인지 먼저 구분해야 진료가 쉬운 것처럼, 패턴도 범주 진단이 먼저다.
 
@@ -115,18 +112,18 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 ## Ⅴ. 기대효과 및 결론
 
-GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계를 익히면 패턴 학습이 암기에서 판단으로 바뀐다. 설계 문제를 먼저 범주화하고, 그 다음 세부 패턴을 고르는 습관이 생기기 때문이다. 이는 설계 리뷰, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 기술사 논술에서 모두 강력한 사고 틀이 된다.
+GoF [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계를 익히면 패턴 학습이 암기에서 판단으로 바뀐다. 설계 문제를 먼저 범주화하고, 그 다음 세부 패턴을 고르는 습관이 생기기 때문이다. 이는 설계 리뷰, [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/), 기술사 논술에서 모두 강력한 사고 틀이 된다.
 
-결국 23가지 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가치는 패턴 개수를 세는 것이 아니라 <strong>설계 문제를 구조적으로 바라보는 시야를 만드는 것</strong>에 있다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 이해하면 세부 패턴 이름도 더 쉽게 연결된다.
+결국 23가지 패턴 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가치는 패턴 개수를 세는 것이 아니라 <strong>설계 문제를 구조적으로 바라보는 시야를 만드는 것</strong>에 있다. [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 이해하면 세부 패턴 이름도 더 쉽게 연결된다.
 
 | 기대효과 | 구체적 내용 |
 |:---|:---|
 | 학습 효율 향상 | 23개를 세 범주로 묶어 기억 부담 감소 |
-| 설계 판단 속도 향상 | 문제 유형별 후보 패턴을 빠르게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| 설계 판단 속도 향상 | 문제 유형별 후보 패턴을 빠르게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | 리뷰 품질 향상 | 패턴 선택 이유를 범주 언어로 설명 가능 |
 | 오용 감소 | 문제와 맞지 않는 패턴 적용을 줄임 |
 
-- **📢 섹션 요약 비유**: 큰 도서관에서도 장르 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 있어야 책을 찾기 쉬운 것처럼, GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 설계 지식을 꺼내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 서가 체계다.
+- **📢 섹션 요약 비유**: 큰 도서관에서도 장르 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 있어야 책을 찾기 쉬운 것처럼, GoF [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 설계 지식을 꺼내 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 위한 서가 체계다.
 
 ---
 
@@ -134,11 +131,11 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| GoF | 23가지 패턴 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 정립한 저자 그룹 |
-| [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임과 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제를 다룸 |
-| [구조 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 클래스·객체 조합과 인터페이스 적응을 다룸 |
-| [행위 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택과 객체 협력 흐름을 다룸 |
-| [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) | [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)된 패턴들이 실현하려는 기본 설계 원칙 |
+| GoF | 23가지 패턴 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)를 정립한 저자 그룹 |
+| [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) | 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임과 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 문제를 다룸 |
+| [구조 패턴](/studynote/04_software_engineering/04_testing_quality/258_structural_patterns_overview/) | 클래스·객체 조합과 인터페이스 적응을 다룸 |
+| [행위 패턴](/studynote/04_software_engineering/04_testing_quality/266_behavioral_patterns_overview/) | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택과 객체 협력 흐름을 다룸 |
+| [SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) | [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)된 패턴들이 실현하려는 기본 설계 원칙 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,12 +153,12 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 적합 패턴 후보 선정 · 오용 감소 · 설계 설명력 향상
 ```
 
-이 흐름은 패턴 학습이 단순 암기에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기반 판단으로 전환되는 과정을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
+이 흐름은 패턴 학습이 단순 암기에서 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기반 판단으로 전환되는 과정을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 레고를 만들 때 블록을 만드는 문제, 블록을 붙이는 문제, 친구들과 역할 나누는 문제는 서로 달라요.
-2. GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 이걸 세 칸으로 나눠서 어떤 문제가 생겼는지 먼저 보게 해 줘요.
+2. GoF [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 이걸 세 칸으로 나눠서 어떤 문제가 생겼는지 먼저 보게 해 줘요.
 3. 그래서 23가지 방법도 훨씬 쉽게 기억할 수 있어요.
 
 ---
@@ -170,7 +167,7 @@ GoF [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification
 
 **진행 상황**: 198 / 530
 
-<- **이전**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/)
-**다음**: [143. 생성 패턴의 목적 (Creational Patterns Purpose)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/143_creational_patterns_purpose/) ->
+<- **이전**: [141. 디자인 패턴 개요 (Design Pattern Overview)](/studynote/11_design_supervision/10_patterns_antipatterns/141_design_pattern_gof_overview/)
+**다음**: [143. 생성 패턴의 목적 (Creational Patterns Purpose)](/studynote/11_design_supervision/10_patterns_antipatterns/143_creational_patterns_purpose/) ->
 
 ---

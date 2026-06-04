@@ -1,6 +1,5 @@
-+++
-title = "12. Iot Wpan Edge"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "12. Iot Wpan Edge"
+tags:
+  - "network"
+---

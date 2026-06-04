@@ -1,18 +1,15 @@
-+++
-title = "269. ReLU (Rectified Linear Unit)"
-date = 2026-05-09
+---
+title: "269. ReLU (Rectified Linear Unit)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ReLU(Rectified Linear Unit)는 f(x)=max(0,x)로 정의되며, 양수 구간에서 기울기=1을 유지해 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 해결하고, 연산이 단순해 [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 6배 빠른 학습을 가능하게 한다.
-> 2. **가치**: 2012년 AlexNet이 ReLU를 표준 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)로 채택한 후 딥러닝 혁명이 시작되었으며, 현재 대부분의 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)·MLP 은닉층에서 사용되는 사실상의 표준이다.
+> 1. **본질**: ReLU(Rectified Linear Unit)는 f(x)=max(0,x)로 정의되며, 양수 구간에서 기울기=1을 유지해 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) Problem)를 해결하고, 연산이 단순해 [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 6배 빠른 학습을 가능하게 한다.
+> 2. **가치**: 2012년 AlexNet이 ReLU를 표준 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)로 채택한 후 딥러닝 혁명이 시작되었으며, 현재 대부분의 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)·MLP 은닉층에서 사용되는 사실상의 표준이다.
 > 3. **판단 포인트**: 죽은 ReLU(Dying ReLU) 문제 — 음수 입력에서 기울기=0이 되어 뉴런이 영구히 비활성화될 수 있으므로, Leaky ReLU·PReLU·ELU 등 변형을 적재적소에 사용해야 한다.
 
 ---
@@ -29,27 +26,27 @@ ReLU: f(x) = max(0, x)
                미정의 (x = 0, 실제로는 0 또는 1 중 하나 선택)
 ```
 
-### [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 ReLU의 혁신
+### [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 ReLU의 혁신
 
-| 측면 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | ReLU |
+| 측면 | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | ReLU |
 |:---|:---|:---|
 | **연산** | e^(-x) 지수 함수 (비쌈) | max(0,x) 단순 비교 (매우 빠름) |
 | **기울기** | 최대 0.25, 포화 시 ≈0 | 양수 구간 항상 1 |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a></strong> | 심각 | 양수 구간에서 없음 |
-| **희소 활성화** | 항상 비영(Non-[zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) | ~50% 뉴런 비활성화 -> 희소성 |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 속도</strong> | 느림 | 빠름 (곱셈 없이 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) |
+| <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a></strong> | 심각 | 양수 구간에서 없음 |
+| **희소 활성화** | 항상 비영(Non-[zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/)) | ~50% 뉴런 비활성화 -> 희소성 |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 속도</strong> | 느림 | 빠름 (곱셈 없이 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)킹) |
 
 ### 등장 배경
 
-2010년 전후 딥러닝 연구자들은 Sigmoid의 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)로 인해 4층 이상의 신경망을 학습시키기 어려웠다. 나이어(Nair)와 힌튼(Hinton)이 2010년 ReLU를 제안하고, 2012년 AlexNet이 ImageNet에서 압도적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이며 ReLU를 딥러닝 표준으로 확립했다.
+2010년 전후 딥러닝 연구자들은 Sigmoid의 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)로 인해 4층 이상의 신경망을 학습시키기 어려웠다. 나이어(Nair)와 힌튼(Hinton)이 2010년 ReLU를 제안하고, 2012년 AlexNet이 ImageNet에서 압도적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보이며 ReLU를 딥러닝 표준으로 확립했다.
 
-- **📢 섹션 요약 비유**: ReLU는 신경망의 "[전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 차단기" — 양수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 그대로 통과시키고(기울기=1), 음수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 차단한다(기울기=0). Sigmoid는 모든 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 약하게 만들었지만, ReLU는 통과 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 강도를 유지한다.
+- **📢 섹션 요약 비유**: ReLU는 신경망의 "[전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 차단기" — 양수 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)는 그대로 통과시키고(기울기=1), 음수 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)는 차단한다(기울기=0). Sigmoid는 모든 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 약하게 만들었지만, ReLU는 통과 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 강도를 유지한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### ReLU 계열 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교 구조
+### ReLU 계열 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교 구조
 
 ```
 +-----------------------------------------------------------------+
@@ -78,9 +75,9 @@ ReLU: f(x) = max(0, x)
 | **Leaky ReLU** | max(αx, x), α=0.01 | α(작은 양수) | 죽은 ReLU 완화 | α 고정 |
 | **PReLU** (Parametric ReLU) | max(αx, x), α 학습 | α (학습됨) | 최적 α 학습 | 파라미터 추가 |
 | **ELU** (Exponential Linear Unit) | x(x≥0), α(eˣ-1)(x<0) | 지수 감소 | 출력 중심화, 노이즈 강건 | 지수 연산 비용 |
-| **SELU** (Scaled ELU) | λ × ELU(x) | 스케일된 지수 | 자기 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 특정 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 필요 |
-| **Swish** | x × σ(x) | 부드러운 전환 | [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) | 복잡한 연산 |
-| **GELU** (Gaussian Error Linear Unit) | x × Φ(x) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 표준 | 복잡 |
+| **SELU** (Scaled ELU) | λ × ELU(x) | 스케일된 지수 | 자기 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 특정 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 필요 |
+| **Swish** | x × σ(x) | 부드러운 전환 | [성능 우수](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) | 복잡한 연산 |
+| **GELU** (Gaussian Error Linear Unit) | x × Φ(x) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 | [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 표준 | 복잡 |
 
 ### 죽은 ReLU (Dying ReLU) 문제
 
@@ -105,7 +102,7 @@ ReLU: f(x) = max(0, x)
 
 ReLU는 약 50%의 뉴런을 비활성화한다(출력=0). 이는 <strong>희소 표현(Sparse Representation)</strong>을 만들어:
 - 계산 효율 향상 (0 곱셈 스킵 가능)
-- 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 자연스러운 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
+- 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 자연스러운 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)
 - 뇌의 실제 뉴런 발화 패턴과 유사
 
 - **📢 섹션 요약 비유**: 죽은 ReLU는 불량 전구 — 한 번 꺼지면(음수 구간 고착) 다시는 켜지지 않아요. Leaky ReLU는 희미하게라도 빛나는(작은 기울기) 전구로, 완전히 죽지는 않아요.
@@ -114,19 +111,19 @@ ReLU는 약 50%의 뉴런을 비활성화한다(출력=0). 이는 <strong>희소
 
 ## Ⅲ. 비교 및 연결
 
-### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택 가이드
+### [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 선택 가이드
 
-| 상황 | 권장 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | 이유 |
+| 상황 | 권장 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | 이유 |
 |:---|:---|:---|
-| 일반 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)/MLP 은닉층 | ReLU | 빠름, [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 없음 |
+| 일반 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)/MLP 은닉층 | ReLU | 빠름, [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 없음 |
 | 죽은 ReLU 문제 우려 | Leaky ReLU 또는 ELU | 음수 기울기 유지 |
-| 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추구 | Swish 또는 GELU | 부드러운 전환, 실험적 우위 |
-| [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 계열 | GELU | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 표준 |
-| 자기 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) MLP | SELU | [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 없이 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | (0,1) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
-| 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 | [Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 |
+| 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추구 | Swish 또는 GELU | 부드러운 전환, 실험적 우위 |
+| [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 계열 | GELU | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 표준 |
+| 자기 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) MLP | SELU | [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/) 없이 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) | (0,1) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| 다중 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력 | [Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 |
 
-### ReLU와 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 조합
+### ReLU와 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)([Batch Normalization](/studynote/10_ai/03_llm_nlp/282_batch_normalization/))의 조합
 
 ```
 Linear -> BatchNorm -> ReLU  (권장 순서)
@@ -135,7 +132,7 @@ Linear -> BatchNorm -> ReLU  (권장 순서)
      쏠리는 현상 방지 -> 죽은 ReLU 예방 효과
 ```
 
-- **📢 섹션 요약 비유**: ReLU는 도로의 일방통행 게이트 — 앞으로 가는 차(양수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 속도 그대로 통과, 역주행 차(음수 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))는 차단한다. Leaky ReLU는 역주행을 완전히 막지 않고 서행으로 통과시켜 도로 전체가 마비되는 것을 방지한다.
+- **📢 섹션 요약 비유**: ReLU는 도로의 일방통행 게이트 — 앞으로 가는 차(양수 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))는 속도 그대로 통과, 역주행 차(음수 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))는 차단한다. Leaky ReLU는 역주행을 완전히 막지 않고 서행으로 통과시켜 도로 전체가 마비되는 것을 방지한다.
 
 ---
 
@@ -143,10 +140,10 @@ Linear -> BatchNorm -> ReLU  (권장 순서)
 
 ### 기술사 시험 핵심 논점
 
-1. <strong>ReLU <a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 해결 원리</strong>: f'(x)=1 (x>0) -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 감쇠 없이 통과 -> 깊은 신경망 학습 가능
-2. **죽은 ReLU 원인과 대책**: 큰 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) -> [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 -> 항상 음수 입력 -> Leaky ReLU / [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정
-3. **희소 활성화의 장점**: ~50% 뉴런 비활성화 -> 계산 효율 + 자연스러운 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과
-4. **Swish/GELU 등장 배경**: 단순 ReLU보다 부드러운 전환 -> 대규모 모델에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+1. <strong>ReLU <a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 해결 원리</strong>: f'(x)=1 (x>0) -> [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 시 기울기가 감쇠 없이 통과 -> 깊은 신경망 학습 가능
+2. **죽은 ReLU 원인과 대책**: 큰 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) -> [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 -> 항상 음수 입력 -> Leaky ReLU / [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정
+3. **희소 활성화의 장점**: ~50% 뉴런 비활성화 -> 계산 효율 + 자연스러운 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과
+4. **Swish/GELU 등장 배경**: 단순 ReLU보다 부드러운 전환 -> 대규모 모델에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 ### 파라미터 수 비교 시나리오
 
@@ -157,7 +154,7 @@ ELU:   파라미터 없음 (α는 하이퍼파라미터)
 GELU:  파라미터 없음
 ```
 
-- **📢 섹션 요약 비유**: ReLU를 쓰는 것은 고속도로 요금소를 없애는 것 — [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)(요금소에서 모든 차를 느리게 통과)와 달리, ReLU는 그냥 직진(기울기=1)이라 전체 흐름이 빨라진다.
+- **📢 섹션 요약 비유**: ReLU를 쓰는 것은 고속도로 요금소를 없애는 것 — [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)(요금소에서 모든 차를 느리게 통과)와 달리, ReLU는 그냥 직진(기울기=1)이라 전체 흐름이 빨라진다.
 
 ---
 
@@ -167,17 +164,17 @@ GELU:  파라미터 없음
 
 | 효과 | 구체적 내용 |
 |:---|:---|
-| **학습 속도** | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 약 6배 빠른 수렴 |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 방지</strong> | 20층 이상 신경망 학습 가능 |
-| **계산 비용** | 단순 max 연산 -> [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 최적화 |
-| <strong>일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 희소 활성화로 자연스러운 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| **학습 속도** | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 대비 약 6배 빠른 수렴 |
+| <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a> 방지</strong> | 20층 이상 신경망 학습 가능 |
+| **계산 비용** | 단순 max 연산 -> [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 최적화 |
+| <strong>일반화 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 희소 활성화로 자연스러운 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
 | **딥러닝 혁명** | AlexNet -> VGG -> ResNet으로 이어진 딥러닝 르네상스 |
 
 ### 결론
 
-ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 단순한 수식 max(0,x)이지만 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 해결, 연산 효율, 희소 활성화라는 세 가지 장점을 동시에 제공한다. 죽은 ReLU 문제라는 단점은 Leaky ReLU·ELU·GELU 등의 변형으로 극복되고 있으며, GELU는 최신 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 표준이 되었다. 기술사 시험에서는 ReLU의 장단점, 죽은 ReLU 문제, 계열 변형 비교가 핵심이다.
+ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 단순한 수식 max(0,x)이지만 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 해결, 연산 효율, 희소 활성화라는 세 가지 장점을 동시에 제공한다. 죽은 ReLU 문제라는 단점은 Leaky ReLU·ELU·GELU 등의 변형으로 극복되고 있으며, GELU는 최신 [대규모 언어 모델](/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/)([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/), [Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/))의 표준이 되었다. 기술사 시험에서는 ReLU의 장단점, 죽은 ReLU 문제, 계열 변형 비교가 핵심이다.
 
-- **📢 섹션 요약 비유**: ReLU는 딥러닝의 "아스피린" — 간단하고 싸지만 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이라는 고질병을 효과적으로 치료했고, 이후 더 좋은 약(Swish, GELU)이 나왔지만 기본 처방은 여전히 ReLU다.
+- **📢 섹션 요약 비유**: ReLU는 딥러닝의 "아스피린" — 간단하고 싸지만 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)이라는 고질병을 효과적으로 치료했고, 이후 더 좋은 약(Swish, GELU)이 나왔지만 기본 처방은 여전히 ReLU다.
 
 ---
 
@@ -189,8 +186,8 @@ ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 
 | Leaky ReLU | α=0.01, 음수 기울기 유지 / 죽은 ReLU 방지 변형 |
 | PReLU (Parametric ReLU) | α 학습 가능 파라미터 / Leaky ReLU의 학습형 변형 |
 | ELU (Exponential Linear Unit) | 지수 감소, 출력 중심화 / 노이즈 강건성 향상 변형 |
-| GELU (Gaussian Error Linear Unit) | [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) / 최신 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 표준 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) |
-| 희소 활성화 (Sparse Activation) | 50% 비활성화, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과 / ReLU의 부수적 장점 |
+| GELU (Gaussian Error Linear Unit) | [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) / 최신 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 표준 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) |
+| 희소 활성화 (Sparse Activation) | 50% 비활성화, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 효과 / ReLU의 부수적 장점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -200,8 +197,8 @@ ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🚦 <strong>"<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>등 없는 고속도로"</strong>
-2. Sigmoid는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등이 있는 좁은 도로 — 모든 차가 느리게 통과하고 점점 더 느려져요([기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)).
+1. 🚦 <strong>"<a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>등 없는 고속도로"</strong>
+2. Sigmoid는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등이 있는 좁은 도로 — 모든 차가 느리게 통과하고 점점 더 느려져요([기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)).
 3. ReLU는 고속도로 — 앞으로 가는 차(양수)는 그대로 빠르게 달리고, 역주행 차(음수)는 멈춰요(기울기=0).
 
 ---
@@ -210,7 +207,7 @@ ReLU는 딥러닝의 실용화를 가능하게 한 핵심 기술 중 하나다. 
 
 **진행 상황**: 269 / 420
 
-<- **이전**: [268. 시그모이드 (Sigmoid) 활성화](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
-**다음**: [270. 소프트맥스 (Softmax)](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ->
+<- **이전**: [268. 시그모이드 (Sigmoid) 활성화](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)
+**다음**: [270. 소프트맥스 (Softmax)](/studynote/10_ai/03_llm_nlp/270_softmax/) ->
 
 ---

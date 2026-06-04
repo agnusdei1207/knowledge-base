@@ -1,13 +1,10 @@
-+++
-title = "579. IT 경영 관리 핵심 토픽 579번 시험 요약 (IT Management Core Topic 579 Exam Summary)"
-date = 2026-05-09
+---
+title: "579. IT 경영 관리 핵심 토픽 579번 시험 요약 (IT Management Core Topic 579 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ IT 경영 관리 영역은 유사하지만 서로 다른 철학을 가진 다수
 
 **진행 상황**: 579 / 800
 
-<- **이전**: [578. IT 경영 관리 핵심 토픽 578번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/578_it_management_core_topic_578_exam_summary/)
-**다음**: [580. IT 경영 관리 핵심 토픽 580번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/580_it_management_core_topic_580_exam_summary/) ->
+<- **이전**: [578. IT 경영 관리 핵심 토픽 578번 시험 요약](/studynote/12_it_management/05_security_compliance/578_it_management_core_topic_578_exam_summary/)
+**다음**: [580. IT 경영 관리 핵심 토픽 580번 시험 요약](/studynote/12_it_management/05_security_compliance/580_it_management_core_topic_580_exam_summary/) ->
 
 ---

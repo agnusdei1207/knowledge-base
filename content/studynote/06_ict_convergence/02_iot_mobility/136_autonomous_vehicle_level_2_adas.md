@@ -1,13 +1,10 @@
-+++
-title = "136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계"
-date = 2026-04-19
+---
+title: "136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: ADAS(Advanced Driver Assistance System)는 <strong>카메라·레이더·초음파 센서로 운전자를 보조</strong>하는 SAE Level 1~2 시스템이며, ACC(적응형 크루즈)·LKA(차선 유지)·AEB(자동 긴급제동)가 핵심이다.
@@ -65,7 +62,7 @@ L2 ADAS는 <strong>현재 양산 차량의 표준 수준</strong>이며, L3(조�
 
 **진행 상황**: 136 / 552
 
-<- **이전**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/)
-**다음**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/) ->
+<- **이전**: [135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류](/studynote/06_ict_convergence/02_iot_mobility/135_autonomous_vehicle_sae_levels/)
+**다음**: [137. 자율주행 Level 3 조건부 자율 - 시스템 책임의 시작](/studynote/06_ict_convergence/02_iot_mobility/137_autonomous_vehicle_level_3_conditional/) ->
 
 ---

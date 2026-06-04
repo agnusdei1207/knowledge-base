@@ -1,13 +1,10 @@
-+++
-title = "641. 트랜스포머 아키텍처 어텐션 메커니즘 (Transformer Architecture Attention Mechanism)"
-date = 2026-05-09
+---
+title: "641. 트랜스포머 아키텍처 어텐션 메커니즘 (Transformer Architecture Attention Mechanism)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ $$\text{head}_i = \text{Attention}(QW_i^Q,\, KW_i^K,\, VW_i^V)$$
 
 **진행 상황**: 641 / 800
 
-<- **이전**: [640. 이벤트 드리븐 아키텍처 EventBridge](/knowledge-base/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/)
-**다음**: [642. GPT 대규모 언어 모델 사전 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/) ->
+<- **이전**: [640. 이벤트 드리븐 아키텍처 EventBridge](/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/)
+**다음**: [642. GPT 대규모 언어 모델 사전 학습](/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "768. 럼바우 객체 모델링 (객체/동적/기능 모델)"
-date = 2026-05-08
+---
+title: "768. 럼바우 객체 모델링 (객체/동적/기능 모델)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 럼바우 객체 모델링 (객체/동적/기능 모델)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 럼바우 객체 모델링 (객체/동적/기능 모델)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -21,9 +18,9 @@ tags = ["studynote-software-engineering"]
 
 1980년대까지 소프트웨어는 함수가 데이터를 씹어 먹는 형태의 '구조적 프로그래밍(C언어 등)'이 지배했다. 그러나 시스템이 거대해지자 함수와 데이터가 뒤엉켜 관리가 불가능해졌다.
 
-1990년대, "세상을 데이터와 함수가 하나로 뭉친 '객체(Object)'의 조립으로 보자!"는 객체지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임이 등장했다. 수많은 학자가 "객체를 어떻게 찾고 어떻게 설계할 것인가?"에 대한 방법론을 쏟아냈다 (부치, 야콥슨 등).
+1990년대, "세상을 데이터와 함수가 하나로 뭉친 '객체(Object)'의 조립으로 보자!"는 객체지향([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 패러다임이 등장했다. 수많은 학자가 "객체를 어떻게 찾고 어떻게 설계할 것인가?"에 대한 방법론을 쏟아냈다 (부치, 야콥슨 등).
 
-그중 <strong>제임스 럼바우(James Rumbaugh)</strong>가 제안한 <strong>OMT (Object Modeling Technique)</strong>는 가장 직관적이고 강력했다. 그는 "시스템을 제대로 만들려면 세 번의 청사진을 그려야 한다. 첫째는 뼈대(객체), 둘째는 움직임(동적), 셋째는 하는 일(기능)이다!"라고 외쳤다. 이 세 가지 모델은 훗날 부치, 야콥슨의 방법론과 통합되어 오늘날 우리가 쓰는 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>의 표준이 되었다.
+그중 <strong>제임스 럼바우(James Rumbaugh)</strong>가 제안한 <strong>OMT (Object Modeling Technique)</strong>는 가장 직관적이고 강력했다. 그는 "시스템을 제대로 만들려면 세 번의 청사진을 그려야 한다. 첫째는 뼈대(객체), 둘째는 움직임(동적), 셋째는 하는 일(기능)이다!"라고 외쳤다. 이 세 가지 모델은 훗날 부치, 야콥슨의 방법론과 통합되어 오늘날 우리가 쓰는 <strong><a href="/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a> (<a href="/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>의 표준이 되었다.
 
 - **📢 섹션 요약 비유**: 로봇을 설계할 때, 럼바우는 3장의 도면을 그렸다. 첫째는 로봇의 부품 리스트(객체 모델), 둘째는 로봇이 뛰거나 멈출 때의 관절 상태(동적 모델), 셋째는 로봇이 에너지를 먹고 레이저를 쏘는 흐름(기능 모델)이다.
 
@@ -72,15 +69,15 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-럼바우의 OMT는 다른 학자들의 방법론과 경쟁하다가 결국 하나([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))로 합쳐지는 역사적 흐름을 탔다.
+럼바우의 OMT는 다른 학자들의 방법론과 경쟁하다가 결국 하나([UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))로 합쳐지는 역사적 흐름을 탔다.
 
-| 방법론 (학자) | 핵심 철학 및 특징 | [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 기여도 |
+| 방법론 (학자) | 핵심 철학 및 특징 | [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) 기여도 |
 |:---|:---|:---|
-| **럼바우 (Rumbaugh)**| **객체/동적/기능 3가지 모델로 다각도 분석** (OMT) | 클래스, 상태, [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 다이어그램의 기초 제공 |
-| **부치 (Booch)** | 미시적이고 구체적인 설계 중심. **다양한 아이콘과 기호** 사용 | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), 배치 다이어그램 등 구체적 표기법 제공 |
-| **야콥슨 (Jacobson)**| **사용자 관점(Use Case) 중심의 OOSE 방법론** | <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a></strong> (UML의 시작점) 제공 |
+| **럼바우 (Rumbaugh)**| **객체/동적/기능 3가지 모델로 다각도 분석** (OMT) | 클래스, 상태, [DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/) 다이어그램의 기초 제공 |
+| **부치 (Booch)** | 미시적이고 구체적인 설계 중심. **다양한 아이콘과 기호** 사용 | [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/), 배치 다이어그램 등 구체적 표기법 제공 |
+| **야콥슨 (Jacobson)**| **사용자 관점(Use Case) 중심의 OOSE 방법론** | <strong><a href="/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a></strong> (UML의 시작점) 제공 |
 
-이 3명의 학자(Three Amigos)가 싸우는 것을 멈추고 합심하여 1997년에 발표한 것이 바로 <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 세계 공용어인 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a>(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>이다.
+이 3명의 학자(Three Amigos)가 싸우는 것을 멈추고 합심하여 1997년에 발표한 것이 바로 <strong><a href="/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a>의 세계 공용어인 <a href="/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">UML</a>(<a href="/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/">Unified Modeling Language</a>)</strong>이다.
 
 - **📢 섹션 요약 비유**: 럼바우는 '건축 도면의 구조'를 잘 짰고, 부치는 '도면에 쓰이는 예쁜 아이콘'을 잘 그렸으며, 야콥슨은 '건물주가 원하는 기능(유스케이스)'을 잘 뽑아냈다. 이 세 천재의 기술을 다 합쳐 만든 궁극의 건축 프로그램이 UML이다.
 
@@ -94,7 +91,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 럼바우의 3단계 모델링 문서를 처음부터 끝까지 꼼꼼하게 그리는 회사는 없다. 하지만 그 '사고방식'은 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/))와 아키텍처 설계에 완벽하게 녹아있다.
+현대 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 환경에서 럼바우의 3단계 모델링 문서를 처음부터 끝까지 꼼꼼하게 그리는 회사는 없다. 하지만 그 '사고방식'은 [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/)([DDD](/studynote/12_it_management/05_security_compliance/310_architecture/))와 아키텍처 설계에 완벽하게 녹아있다.
 
 - **📢 섹션 요약 비유**: 럼바우 객체 모델링 (객체/동적/기능 모델)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -108,7 +105,7 @@ tags = ["studynote-software-engineering"]
 
 럼바우의 객동기(객체, 동적, 기능) 모델링을 체화한 엔지니어는, 복잡한 비즈니스 요구사항을 들었을 때 머릿속에서 즉각적으로 "어떤 클래스가 필요하고(객체), DB 상태값은 어떻게 변하며(동적), API는 어떤 데이터를 뱉어야 할지(기능)"를 입체적으로 그려내는 마법 같은 설계 역량을 갖추게 된다.
 
-결론적으로 럼바우 모델링은 1990년대의 고전이지만, 소프트웨어를 '구조(명사)'와 '행위(동사)'로 나누어 바라보는 시각을 인류에게 선물한 위대한 프레임워크다. 기술사는 아무리 최신 클라우드 기술(K8s, [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이 난무해도, 결국 모든 시스템의 코어는 이 3가지 렌즈를 통해 설계되어야 한다는 객체지향의 본질을 잊지 말아야 한다.
+결론적으로 럼바우 모델링은 1990년대의 고전이지만, 소프트웨어를 '구조(명사)'와 '행위(동사)'로 나누어 바라보는 시각을 인류에게 선물한 위대한 프레임워크다. 기술사는 아무리 최신 클라우드 기술(K8s, [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/))이 난무해도, 결국 모든 시스템의 코어는 이 3가지 렌즈를 통해 설계되어야 한다는 객체지향의 본질을 잊지 말아야 한다.
 
 - **📢 섹션 요약 비유**: 사람을 이해할 때, 뼈와 근육(객체 모델)을 X레이로 찍고, 달릴 때 심장박동의 변화(동적 모델)를 심전도로 찍고, 음식을 먹고 소화시키는 소화력(기능 모델)을 피검사로 확인한다. 이 3가지를 다 봐야 진짜 건강한 사람인지 알 수 있는 것과 같다.
 
@@ -124,10 +121,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 럼바우 객체 모델링 (객체/동적/기능 모델)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 럼바우 객체 모델링 (객체/동적/기능 모델)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 럼바우 객체 모델링 (객체/동적/기능 모델)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 럼바우 객체 모델링 (객체/동적/기능 모델)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 럼바우 객체 모델링 (객체/동적/기능 모델) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 럼바우 객체 모델링 (객체/동적/기능 모델)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 럼바우 객체 모델링 (객체/동적/기능 모델)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,13 +144,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 럼바우 객체 모델링 (객체/동적/기능 모델)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -161,7 +158,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 941 / 973
 
-<- **이전**: [767. 객체지향 추상화 자료/제어/과정 분리](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/767_oo_abstraction_data_control/)
-**다음**: [769. 구조적 분석 도구 데이터 사전(DD) 표기법](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) ->
+<- **이전**: [767. 객체지향 추상화 자료/제어/과정 분리](/studynote/04_software_engineering/10_trends_pm_quality/767_oo_abstraction_data_control/)
+**다음**: [769. 구조적 분석 도구 데이터 사전(DD) 표기법](/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/) ->
 
 ---

@@ -1,22 +1,19 @@
-+++
-title = "043. 요구사항 추적성 매트릭스 (RTM)"
-date = 2026-04-05
+---
+title: "043. 요구사항 추적성 매트릭스 (RTM)"
+date: "2026-04-05"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 > **핵심 인사이트**
-> 1. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적성](/knowledge-base/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
-> 2. 양방향 추적성(Bidirectional [Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 완전성을 검증할 수 있기 때문이다.
-> 3. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구(IBM DOORS, Jama, Azure [DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))는 요구사항-설계-코드-테스트 링크를 자동 유지하고 변경 시 영향 분석을 자동화하며 — ISO 26262(자동차), DO-178C(항공), IEC 62304(의료기기) 같은 기능안전 표준에서 RTM은 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필수 증거이다.
+> 1. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/)([Requirements Traceability Matrix](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/), [요구사항 추적성](/studynote/04_software_engineering/03_design_architecture/156_requirements_traceability_vertical_horizontal/) 매트릭스)은 요구사항에서 설계, 구현, 테스트까지 각 산출물 간의 추적 관계를 매핑하는 문서로 — 단순한 표가 아니라 "변경 영향 분석"과 "요구사항 누락 탐지"를 위한 감리의 핵심 증거 도구이다.
+> 2. 양방향 추적성(Bidirectional [Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/))이 중요한 이유는 "이 요구사항이 어디서 구현됐나"(순방향)와 "이 코드가 어느 요구사항을 만족하나"(역방향) 두 질문 모두 답할 수 있어야 — 시스템 변경 시 영향 범위를 정확히 파악하고 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) 완전성을 검증할 수 있기 때문이다.
+> 3. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구(IBM DOORS, Jama, Azure [DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/))는 요구사항-설계-코드-테스트 링크를 자동 유지하고 변경 시 영향 분석을 자동화하며 — ISO 26262(자동차), DO-178C(항공), IEC 62304(의료기기) 같은 기능안전 표준에서 RTM은 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 필수 증거이다.
 
 ---
 
-## Ⅰ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 개념과 구조
+## Ⅰ. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 개념과 구조
 
 ```
 RTM (Requirements Traceability Matrix):
@@ -43,7 +40,7 @@ RTM의 목적:
   4. 범위 크립(Scope Creep) 방지: 구현이 요구사항 범위 내인가?
 ```
 
-> 📢 **섹션 요약 비유**: RTM은 레고 조립 설명서와 완성품 대조표 — 설명서의 모든 단계가 완성품에 반영됐는지, 완성품의 모든 부분이 설명서 어느 단계인지 양방향 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+> 📢 **섹션 요약 비유**: RTM은 레고 조립 설명서와 완성품 대조표 — 설명서의 모든 단계가 완성품에 반영됐는지, 완성품의 모든 부분이 설명서 어느 단계인지 양방향 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 
 ---
 
@@ -96,7 +93,7 @@ RTM의 목적:
 
 ---
 
-## Ⅲ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성 방법
+## Ⅲ. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성 방법
 
 ```
 RTM 작성 절차:
@@ -132,11 +129,11 @@ RTM 유지보수:
   버전 관리: 요구사항과 RTM의 버전 일치 유지
 ```
 
-> 📢 **섹션 요약 비유**: [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성은 가계부 작성 — 지출(요구사항)마다 영수증(설계), 배달(구현), 검수(테스트) 칸을 채우는 것. 빈 칸이 있으면 추적이 끊긴 것.
+> 📢 **섹션 요약 비유**: [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 작성은 가계부 작성 — 지출(요구사항)마다 영수증(설계), 배달(구현), 검수(테스트) 칸을 채우는 것. 빈 칸이 있으면 추적이 끊긴 것.
 
 ---
 
-## Ⅳ. [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구
+## Ⅳ. [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구
 
 ```
 RTM 자동화 도구 비교:
@@ -173,11 +170,11 @@ GitHub Projects:
   RTM 미작성 = 주요 감리 지적 사항
 ```
 
-> 📢 **섹션 요약 비유**: [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구는 GPS 내비게이션 — 수동 지도(엑셀 [RTM](/knowledge-base/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))보다 실시간 교통 반영(변경 영향 자동 업데이트)이 훨씬 안전한 경로 안내.
+> 📢 **섹션 요약 비유**: [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/) 자동화 도구는 GPS 내비게이션 — 수동 지도(엑셀 [RTM](/studynote/04_software_engineering/uncategorized/667_requirements_traceability_matrix/))보다 실시간 교통 반영(변경 영향 자동 업데이트)이 훨씬 안전한 경로 안내.
 
 ---
 
-## Ⅴ. 실무 시나리오 — 의료기기 SW [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
+## Ⅴ. 실무 시나리오 — 의료기기 SW [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)
 
 ```
 의료기기 소프트웨어 IEC 62304 + RTM:
@@ -218,7 +215,7 @@ UN-001  | 환자 혈당 측정  | SRS-005 | ARCH-03 | UNIT-glucose.c | UT-005, I
   교훈: RTM 완전성 = 인증 선행 조건
 ```
 
-> 📢 **섹션 요약 비유**: 의료기기 RTM은 항공기 점검표 — 비행 전 모든 체크 항목(요구사항)이 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(구현+테스트)됐는지 하나도 빠짐없이 서명해야 이륙 허가(FDA [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)).
+> 📢 **섹션 요약 비유**: 의료기기 RTM은 항공기 점검표 — 비행 전 모든 체크 항목(요구사항)이 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(구현+테스트)됐는지 하나도 빠짐없이 서명해야 이륙 허가(FDA [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)).
 
 ---
 
@@ -273,7 +270,7 @@ LLM으로 요구사항 -> 테스트 케이스 자동 생성
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. RTM은 레고 설명서와 완성품 대조표 — "설명서 5단계가 완성품 어디에 해당하나"를 표로 만들어서 빠진 단계 없이 다 완성됐는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요!
+1. RTM은 레고 설명서와 완성품 대조표 — "설명서 5단계가 완성품 어디에 해당하나"를 표로 만들어서 빠진 단계 없이 다 완성됐는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요!
 2. 양방향 추적은 두 방향으로 연결 — "이 요구사항 어디 구현됐나?"(순방향) + "이 코드 왜 있나?"(역방향) 둘 다 대답할 수 있어야 해요.
 3. 의료기기나 항공기 소프트웨어는 RTM이 법적 의무 — 체크 하나 빠지면 FDA가 출시를 막아요!
 
@@ -283,7 +280,7 @@ LLM으로 요구사항 -> 테스트 케이스 자동 생성
 
 **진행 상황**: 62 / 530
 
-<- **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/619_test_plan_result_verification/)
-**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/620_sampling_audit_technique/) ->
+<- **이전**: [042. 객관적 증거 수집 원칙 (Objective Evidence Collection)](/studynote/11_design_supervision/01_audit_framework/619_test_plan_result_verification/)
+**다음**: [43. 샘플링 감리 기법 (Sampling Audit Technique)](/studynote/11_design_supervision/01_audit_framework/620_sampling_audit_technique/) ->
 
 ---

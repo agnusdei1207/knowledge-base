@@ -1,13 +1,10 @@
-+++
-title = "788. 뇌 과학 AI 인지 컴퓨팅 신경 모방 (Brain Science AI Cognitive Computing Neuro)"
-date = 2026-05-09
+---
+title: "788. 뇌 과학 AI 인지 컴퓨팅 신경 모방 (Brain Science AI Cognitive Computing Neuro)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -64,7 +61,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 788 / 800
 
-<- **이전**: [787. 양자 인터넷 양자 네트워크 양자 센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/)
-**다음**: [789. 생물학적 컴퓨팅 DNA 저장 분자 기계](/knowledge-base/studynote/06_ict_convergence/uncategorized/789_biological_computing_dna_storage_molecular/) ->
+<- **이전**: [787. 양자 인터넷 양자 네트워크 양자 센서](/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/)
+**다음**: [789. 생물학적 컴퓨팅 DNA 저장 분자 기계](/studynote/06_ict_convergence/uncategorized/789_biological_computing_dna_storage_molecular/) ->
 
 ---

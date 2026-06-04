@@ -1,27 +1,24 @@
-+++
-title = "SRP (Single Responsibility Principle, 단일 책임 원칙)"
-date = 2026-03-04
+---
+title: "SRP (Single Responsibility Principle, 단일 책임 원칙)"
+date: "2026-03-04"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))는 클래스나 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 단 하나의 "변경 이유(책임)"만을 가져야 한다는 객체 지향 설계의 첫 번째 핵심 원칙이다.
-> 2. **가치**: 책임을 분리함으로써 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))를 극대화하고, 한 곳의 수정이 시스템 전체로 퍼져나가는 결함의 파급 (Ripple Effect)을 차단하여 유지보수성을 크게 향상시킨다.
-> 3. **판단 포인트**: '책임'의 범위는 비즈니스 도메인과 시스템의 문맥에 따라 달라지므로, 과도한 쪼개기로 인한 파편화 (Shotgun Surgery)와 책임 과부하인 갓 클래스 (God Class) 사이에서 적절한 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 찾아야 한다.
+> 1. **본질**: [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/))는 클래스나 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 단 하나의 "변경 이유(책임)"만을 가져야 한다는 객체 지향 설계의 첫 번째 핵심 원칙이다.
+> 2. **가치**: 책임을 분리함으로써 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/))를 극대화하고, 한 곳의 수정이 시스템 전체로 퍼져나가는 결함의 파급 (Ripple Effect)을 차단하여 유지보수성을 크게 향상시킨다.
+> 3. **판단 포인트**: '책임'의 범위는 비즈니스 도메인과 시스템의 문맥에 따라 달라지므로, 과도한 쪼개기로 인한 파편화 (Shotgun Surgery)와 책임 과부하인 갓 클래스 (God Class) 사이에서 적절한 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 수준을 찾아야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/))는 객체 지향 프로그래밍의 5대 원칙인 [SOLID](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 중 첫 글자를 담당하는 원칙으로, 소프트웨어의 구성 요소(클래스, 함수, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 오직 하나의 기능을 수행하는 데 집중해야 한다는 설계 지침이다. 여기서 '단 하나의 책임'이란 물리적인 기능 하나라기보다 "이 코드를 수정해야 하는 이유가 오직 하나뿐이어야 한다"는 개념을 뜻한다.
+[SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) ([Single Responsibility Principle](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/), [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/))는 객체 지향 프로그래밍의 5대 원칙인 [SOLID](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) 중 첫 글자를 담당하는 원칙으로, 소프트웨어의 구성 요소(클래스, 함수, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))는 오직 하나의 기능을 수행하는 데 집중해야 한다는 설계 지침이다. 여기서 '단 하나의 책임'이란 물리적인 기능 하나라기보다 "이 코드를 수정해야 하는 이유가 오직 하나뿐이어야 한다"는 개념을 뜻한다.
 
-이 개념이 필요한 이유는 시스템이 커질수록 요구사항 변경이 빈번하게 발생하기 때문이다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근, 비즈니스 로직 연산, UI 출력 등 여러 책임이 한 클래스에 섞여 있으면, UI를 수정하다가 실수로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 로직까지 망가뜨리는 사이드 이펙트(Side Effect)가 발생한다. SRP는 이런 얽힘을 끊어내고 안전한 변경을 보장하기 위한 최소한의 방어막이다.
+이 개념이 필요한 이유는 시스템이 커질수록 요구사항 변경이 빈번하게 발생하기 때문이다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 접근, 비즈니스 로직 연산, UI 출력 등 여러 책임이 한 클래스에 섞여 있으면, UI를 수정하다가 실수로 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 로직까지 망가뜨리는 사이드 이펙트(Side Effect)가 발생한다. SRP는 이런 얽힘을 끊어내고 안전한 변경을 보장하기 위한 최소한의 방어막이다.
 
 - **📢 섹션 요약 비유**: SRP는 종합 병원의 전문의 제도와 같다. 안과 의사에게 뼈를 맞춰달라고 하거나, 정형외과 의사에게 충치를 치료해달라고 하면 의료 사고가 난다. 각 클래스는 자신의 전문 분야에만 집중해야 한다.
 
@@ -29,13 +26,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SRP의 핵심 원리는 기능의 <strong>응집성(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong>과 <strong>변경의 캡슐화</strong>다. 모든 코드는 역할에 따라 철저히 분리되며, 서로 간의 소통은 명확히 정의된 인터페이스를 통해서만 이루어진다.
+SRP의 핵심 원리는 기능의 <strong>응집성(<a href="/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/">Cohesion</a>)</strong>과 <strong>변경의 캡슐화</strong>다. 모든 코드는 역할에 따라 철저히 분리되며, 서로 간의 소통은 명확히 정의된 인터페이스를 통해서만 이루어진다.
 
-| 구성 요소 | 단일 책임 준수 ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | 단일 책임 위반 (God Class) |
+| 구성 요소 | 단일 책임 준수 ([SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | 단일 책임 위반 (God Class) |
 | :--- | :--- | :--- |
-| [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) | 특정 기능에 관련된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드만 모임 | 관련 없는 수백 개의 메서드가 섞여 있음 |
-| [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | 다른 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과의 의존성이 낮고 독립적임 | 외부 라이브러리와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 과도하게 묶임 |
-| 변경 영향도 | 변경된 해당 클래스만 다시 테스트하면 됨 | 한 줄 변경 시 전체 [시스템 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) 필요 |
+| [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) | 특정 기능에 관련된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 메서드만 모임 | 관련 없는 수백 개의 메서드가 섞여 있음 |
+| [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) ([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)) | 다른 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과의 의존성이 낮고 독립적임 | 외부 라이브러리와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 과도하게 묶임 |
+| 변경 영향도 | 변경된 해당 클래스만 다시 테스트하면 됨 | 한 줄 변경 시 전체 [시스템 테스트](/studynote/04_software_engineering/12_testing_maintenance/405_system_test/) 필요 |
 
 ```text
 +--------------------------------------------------------------+
@@ -52,23 +49,23 @@ SRP의 핵심 원리는 기능의 <strong>응집성(<a href="/knowledge-base/stu
 +--------------------------------------------------------------+
 ```
 
-이 그림은 하나의 덩치 큰 클래스가 비즈니스, [영속성](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(DB), 외부 통신 책임을 모두 지고 있던 상태에서, SRP를 적용하여 각각의 고유한 책임을 가진 3개의 클래스로 분리된 구조를 보여준다. 이렇게 분리하면 메일 서버의 API가 바뀌더라도 `UserRepository`나 `UserRegistration` 코드는 단 한 줄도 수정할 필요가 없다.
+이 그림은 하나의 덩치 큰 클래스가 비즈니스, [영속성](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)(DB), 외부 통신 책임을 모두 지고 있던 상태에서, SRP를 적용하여 각각의 고유한 책임을 가진 3개의 클래스로 분리된 구조를 보여준다. 이렇게 분리하면 메일 서버의 API가 바뀌더라도 `UserRepository`나 `UserRegistration` 코드는 단 한 줄도 수정할 필요가 없다.
 
-- **📢 섹션 요약 비유**: [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 원리는 스위스 아미 나이프(맥가이버칼)를 분해하는 것과 같다. 칼, 가위, 톱이 하나에 뭉쳐 있으면 무겁고 다치기 쉽지만, 각각 독립된 도구로 분리하면 훨씬 정밀하고 안전하게 사용할 수 있다.
+- **📢 섹션 요약 비유**: [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 원리는 스위스 아미 나이프(맥가이버칼)를 분해하는 것과 같다. 칼, 가위, 톱이 하나에 뭉쳐 있으면 무겁고 다치기 쉽지만, 각각 독립된 도구로 분리하면 훨씬 정밀하고 안전하게 사용할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-SRP는 다른 객체 지향 원칙 및 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과 밀접하게 맞닿아 있으며, 특히 '관심사의 분리 ([SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), Separation of Concerns)'와 맥락을 같이 한다.
+SRP는 다른 객체 지향 원칙 및 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과 밀접하게 맞닿아 있으며, 특히 '관심사의 분리 ([SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), Separation of Concerns)'와 맥락을 같이 한다.
 
-| 항목 | [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | [개방-폐쇄 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/) ([OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)) |
+| 항목 | [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/) ([SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/)) | [개방-폐쇄 원칙](/studynote/11_design_supervision/06_exam_summary/356_process/) ([OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)) |
 | :--- | :--- | :--- |
 | 초점 | 클래스를 "어떻게 나눌 것인가" | 분리된 클래스를 "어떻게 확장할 것인가" |
 | 발생 시점 | 클래스의 구조를 설계하고 책임을 부여할 때 | 기존 코드를 수정하지 않고 새 기능을 추가할 때 |
-| 주요 목표 | 변경의 여파(Ripple Effect)를 차단 | 기존 코드의 안정성([Stability](/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/))을 유지 |
+| 주요 목표 | 변경의 여파(Ripple Effect)를 차단 | 기존 코드의 안정성([Stability](/studynote/08_algorithm_stats/02_sorting/021_stability/))을 유지 |
 
-또한, [단일 책임 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/355_process/)은 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 경계를 나누는 '[바운디드 컨텍스트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/knowledge-base/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))'의 철학적 기반이 된다. 클래스 레벨의 SRP가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 레벨, 나아가 시스템 레벨로 확장된 것이 바로 MSA이다.
+또한, [단일 책임 원칙](/studynote/11_design_supervision/06_exam_summary/355_process/)은 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/), [Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/))에서 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 경계를 나누는 '[바운디드 컨텍스트](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/) ([Bounded Context](/studynote/04_software_engineering/04_testing_quality/221_bounded_context_ddd_msa_boundary/))'의 철학적 기반이 된다. 클래스 레벨의 SRP가 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 레벨, 나아가 시스템 레벨로 확장된 것이 바로 MSA이다.
 
 - **📢 섹션 요약 비유**: SRP가 레고 블록 하나하나를 용도별(창문, 지붕, 바퀴)로 깔끔하게 만들어두는 작업이라면, OCP는 그 깔끔한 블록들을 부수지 않고 새로운 블록을 덧붙여 더 큰 성을 만드는 과정이다.
 
@@ -78,22 +75,22 @@ SRP는 다른 객체 지향 원칙 및 [소프트웨어 공학](/knowledge-base/
 
 실무에서 SRP를 맹목적으로 따르다 보면 클래스가 너무 잘게 쪼개져 숲을 보지 못하는 파편화의 함정에 빠질 수 있다. 따라서 기술사는 비즈니스의 변경 주기를 기준으로 책임을 설정해야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 클래스 이름에 `Manager`, `Processor`, `Super` 같은 모호하고 거창한 단어가 포함되어 있지 않은가? (이런 이름은 보통 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 위반의 징후다.)
-2. 클래스 내부의 메서드들이 클래스의 멤버 변수 중 일부만 사용하고 있지 않은가? ([응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮다는 증거다.)
-3. 요구사항 변경 시 수정해야 하는 파일이 5~6개 이상으로 흩어지지는 않는가? (과도한 분리로 인한 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 훼손)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 클래스 이름에 `Manager`, `Processor`, `Super` 같은 모호하고 거창한 단어가 포함되어 있지 않은가? (이런 이름은 보통 [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 위반의 징후다.)
+2. 클래스 내부의 메서드들이 클래스의 멤버 변수 중 일부만 사용하고 있지 않은가? ([응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 낮다는 증거다.)
+3. 요구사항 변경 시 수정해야 하는 파일이 5~6개 이상으로 흩어지지는 않는가? (과도한 분리로 인한 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 훼손)
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- UI 텍스트 출력 포맷과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산 로직을 하나의 클래스에 욱여넣는 설계.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- UI 텍스트 출력 포맷과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연산 로직을 하나의 클래스에 욱여넣는 설계.
 - "나중에 필요할지도 모른다"며 하나의 유틸리티 클래스에 서로 관련 없는 잡다한 함수들을 모두 몰아넣는 설계.
 
-- **📢 섹션 요약 비유**: [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 설계 시에는 옷장의 서랍을 나누는 것과 같은 판단이 필요하다. 양말과 셔츠를 분리하는 것은 좋지만, 왼쪽 양말과 오른쪽 양말을 담는 서랍까지 따로 만들면(과도한 분리) 오히려 옷을 찾기 힘들어지는 원리와 같다.
+- **📢 섹션 요약 비유**: [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 설계 시에는 옷장의 서랍을 나누는 것과 같은 판단이 필요하다. 양말과 셔츠를 분리하는 것은 좋지만, 왼쪽 양말과 오른쪽 양말을 담는 서랍까지 따로 만들면(과도한 분리) 오히려 옷을 찾기 힘들어지는 원리와 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정 기능에 문제가 생겼을 때 디버깅해야 할 범위가 하나의 클래스로 극단적으로 축소된다. 또한 의존성이 정리되므로 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 작성하기 위해 모킹(Mocking)해야 할 객체가 줄어들어 테스트 품질도 좋아진다.
+SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정 기능에 문제가 생겼을 때 디버깅해야 할 범위가 하나의 클래스로 극단적으로 축소된다. 또한 의존성이 정리되므로 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))를 작성하기 위해 모킹(Mocking)해야 할 객체가 줄어들어 테스트 품질도 좋아진다.
 
 하지만 책임을 명확하게 정의하는 것은 정답이 없는 설계의 예술 영역이다. 따라서 SRP는 "코드를 한 번에 완벽하게 쪼개는 공식"이 아니라, "변경이 발생할 때마다 변경의 이유를 관찰하고 지속해서 리팩터링하는 나침반"으로 기억해야 한다.
 
@@ -105,10 +102,10 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) | SRP를 준수하면 하나의 책임에 집중하므로 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높아짐 |
-| 갓 클래스 (God Class) | 수많은 책임을 혼자 다 지고 있는 [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 위반의 대표적인 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) |
+| [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) ([Cohesion](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)) | SRP를 준수하면 하나의 책임에 집중하므로 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/)가 높아짐 |
+| 갓 클래스 (God Class) | 수많은 책임을 혼자 다 지고 있는 [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 위반의 대표적인 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) |
 | 산탄총 수술 (Shotgun Surgery) | 책임을 너무 파편화시켜서 하나의 변경에 여러 클래스를 고쳐야 하는 부작용 |
-| [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) | [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 원칙을 시스템과 아키텍처 수준으로 확장한 [서비스 설계](/knowledge-base/studynote/12_it_management/02_itsm_itil/849_service_design/) 패러다임 |
+| [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) ([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) | [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 원칙을 시스템과 아키텍처 수준으로 확장한 [서비스 설계](/studynote/12_it_management/02_itsm_itil/849_service_design/) 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -128,7 +125,7 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 바운디드 컨텍스트 (Bounded Context) 및 MSA (Microservices Architecture)
 ```
 
-이 흐름도는 "무질서한 코드 -> 설계 원칙 도입 -> 구조적 패턴 적용 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍처"로 단일 책임의 개념이 확장되는 과정을 보여준다.
+이 흐름도는 "무질서한 코드 -> 설계 원칙 도입 -> 구조적 패턴 적용 -> [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 아키텍처"로 단일 책임의 개념이 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +139,7 @@ SRP를 철저히 지키면 코드의 가독성이 급격히 상승하고, 특정
 
 **진행 상황**: 147 / 530
 
-<- **이전**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
-**다음**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) ->
+<- **이전**: [102. 단일 책임 원칙 (Single Responsibility Principle, SRP)](/studynote/11_design_supervision/02_architecture_principles/102_srp_single_responsibility_principle/)
+**다음**: [103. 개방-폐쇄 원칙 (Open-Closed Principle, OCP)](/studynote/11_design_supervision/02_architecture_principles/103_ocp_open_closed_principle/) ->
 
 ---

@@ -1,37 +1,34 @@
-+++
-title = "198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)"
-date = 2026-04-21
+---
+title: "198. 섀도우 배포 / 트래픽 미러링 (Shadow Deployment / Traffic Mirroring)"
+date: "2026-04-21"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 운영 환경의 실제 트래픽을 100% [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))하여 격리된 신버전 서버로 전달하되, 그 응답은 버리고 운영 서버 응답만 사용자에게 반환하는 완전 격리 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법이다.
-> 2. **가치**: 스테이징 환경의 한계(실제 트래픽 패턴 부재)를 극복하여, 신버전이 운영 수준의 부하와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양성에서 올바르게 동작하는지를 안전하게 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
-> 3. **판단 포인트**: [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽이 신버전 DB에 실제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 수행하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염이 발생하므로, 신버전 환경은 별도 격리 DB 또는 읽기 전용 DB를 사용해야 한다.
+> 1. **본질**: 운영 환경의 실제 트래픽을 100% [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/))하여 격리된 신버전 서버로 전달하되, 그 응답은 버리고 운영 서버 응답만 사용자에게 반환하는 완전 격리 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기법이다.
+> 2. **가치**: 스테이징 환경의 한계(실제 트래픽 패턴 부재)를 극복하여, 신버전이 운영 수준의 부하와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다양성에서 올바르게 동작하는지를 안전하게 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+> 3. **판단 포인트**: [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽이 신버전 DB에 실제 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)를 수행하면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염이 발생하므로, 신버전 환경은 별도 격리 DB 또는 읽기 전용 DB를 사용해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), Envoy)나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 동시에 전달하는 기법이다. 운영 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
+[섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)([Shadow Deployment](/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/))는 [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/)([Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/), Envoy)나 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이의 트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)(Traffic Mirroring) 기능을 활용하여, 운영 트래픽의 복사본을 신버전 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 동시에 전달하는 기법이다. 운영 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 정상적으로 응답하고, 신버전(Shadow)은 동일한 요청을 처리하지만 그 응답은 사용자에게 반환되지 않는다.
 
-이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
+이 기법이 필요한 이유는 **스테이징 환경의 근본적 한계** 때문이다. 스테이징 환경은 운영과 동일한 코드를 실행하지만, 트래픽 패턴·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포·사용자 행동 패턴이 운영과 다르다. 예를 들어 검색 쿼리의 99%는 스테이징에서 테스트되지 않은 특이한 패턴일 수 있다.
 
-[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 특히 <strong>대규모 시스템 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>·마이그레이션</strong>에서 강력하다. [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 분리, DB 엔진 교체, 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 상황에서 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거한다.
+[섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 특히 <strong>대규모 시스템 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a>·마이그레이션</strong>에서 강력하다. [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) 분리, DB 엔진 교체, 검색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 변경 같이 "기존과 동일하게 동작하는지"를 운영 수준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 상황에서 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 제거한다.
 
-📢 **섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 번역가를 채용할 때 고객 편지를 기존 번역가와 새 번역가에게 동시에 보내서 번역 결과를 비교하는 것과 같다. 고객에게는 기존 번역가 답장만 보내고, 새 번역가의 결과는 내부 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용한다.
+📢 **섹션 요약 비유**: [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 번역가를 채용할 때 고객 편지를 기존 번역가와 새 번역가에게 동시에 보내서 번역 결과를 비교하는 것과 같다. 고객에게는 기존 번역가 답장만 보내고, 새 번역가의 결과는 내부 품질 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에만 사용한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 구조
+### 트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 구조
 
 ```
   +------------+
@@ -57,7 +54,7 @@ tags = ["studynote-cloud-architecture"]
                         - v1과 결과 차이
 ```
 
-### [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 트래픽 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+### [Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) 트래픽 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 ```yaml
 apiVersion: networking.istio.io/v1alpha3
@@ -97,34 +94,34 @@ spec:
   +---------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) `mirror` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
+📢 **섹션 요약 비유**: [Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) `mirror` [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 전화 통화를 녹음하는 것과 같다. 통화([서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))는 정상 진행되고, 복사본이 조용히 다른 시스템(Shadow)에 전달되어 분석된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) vs [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) 비교
+### [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) vs [다크 론칭](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) 비교
 
-| 항목 | [Shadow Deployment](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) | [Dark Launching](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) |
+| 항목 | [Shadow Deployment](/studynote/04_software_engineering/02_requirements_analysis/118_shadow_deployment_traffic_mirroring/) | [Dark Launching](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) |
 |:---|:---|:---|
-| [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 레벨 | 네트워크/인프라 레벨 | 코드 레벨 (조건 분기) |
+| [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 레벨 | 네트워크/인프라 레벨 | 코드 레벨 (조건 분기) |
 | 신버전 격리 | 완전히 격리된 별도 서버 | 동일 서버 내 코드 분기 |
 | DB 격리 | 별도 DB 사용 가능 | 코드에서 dry_run 필요 |
-| 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재현 | ✅ (전체 인프라 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) | ❌ (단일 기능 위주) |
-| 구현 복잡도 | 높음 (인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)) | 낮음~중간 |
+| 전체 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 재현 | ✅ (전체 인프라 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) | ❌ (단일 기능 위주) |
+| 구현 복잡도 | 높음 (인프라 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)) | 낮음~중간 |
 | 대규모 마이그레이션 | ✅ 적합 | ❌ 적합하지 않음 |
 
 ### 활용 시나리오별 적합 기법
 
 | 시나리오 | 권장 기법 |
 |:---|:---|
-| 단일 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기능 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) |
-| DB 엔진 교체 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
-| 전체 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션 | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
-| 새 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확도 비교 | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
-| 점진적 사용자 출시 | [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) |
+| 단일 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 기능 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [다크 론칭](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) |
+| DB 엔진 교체 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
+| 전체 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션 | [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
+| 새 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 정확도 비교 | [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) |
+| 점진적 사용자 출시 | [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) |
 
-📢 **섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)가 [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)보다 강력한 이유는, [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)이 주방의 새 레시피만 테스트한다면 섀도우는 새 레스토랑 전체(주방+서빙+결제 시스템)를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운영하기 때문이다.
+📢 **섹션 요약 비유**: [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)가 [다크 론칭](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)보다 강력한 이유는, [다크 론칭](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)이 주방의 새 레시피만 테스트한다면 섀도우는 새 레스토랑 전체(주방+서빙+결제 시스템)를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 운영하기 때문이다.
 
 ---
 
@@ -157,15 +154,15 @@ class ShadowComparisonService:
 ```
 
 **실제 적용 사례**:
-- GitHub: Ruby on Rails -> Go 마이그레이션 시 [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)로 응답 일치율 99.9% [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 전환
-- 금융 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 신 결제 엔진을 구 엔진과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 6개월간 섀도우 운영 후 전환
+- GitHub: Ruby on Rails -> Go 마이그레이션 시 [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)로 응답 일치율 99.9% [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 전환
+- 금융 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/): 신 결제 엔진을 구 엔진과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 6개월간 섀도우 운영 후 전환
 
 **기술사 판단 포인트**:
-- [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽은 운영 서버에 추가 네트워크 오버헤드를 발생시키므로, 100% [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 아닌 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50%부터 시작하여 Shadow 서버의 안정성을 먼저 확인한다.
-- Shadow 환경의 리소스는 운영과 동일 스펙으로 구성해야 현실적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정이 가능하다.
+- [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽은 운영 서버에 추가 네트워크 오버헤드를 발생시키므로, 100% [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)이 아닌 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~50%부터 시작하여 Shadow 서버의 안정성을 먼저 확인한다.
+- Shadow 환경의 리소스는 운영과 동일 스펙으로 구성해야 현실적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정이 가능하다.
 - 비교 결과 불일치(Mismatch) 리포트를 자동화하여 개발팀이 매일 리뷰하는 프로세스를 수립한다.
 
-📢 **섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) 비교 분석은 이란성 쌍둥이를 비교하는 것과 같다. 외모(응답)가 똑같은지, 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 같은지, 건강(에러)은 괜찮은지를 꼼꼼히 체크하여 새 버전이 기존과 완전히 동등함을 증명한다.
+📢 **섹션 요약 비유**: [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/) 비교 분석은 이란성 쌍둥이를 비교하는 것과 같다. 외모(응답)가 똑같은지, 속도([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))가 같은지, 건강(에러)은 괜찮은지를 꼼꼼히 체크하여 새 버전이 기존과 완전히 동등함을 증명한다.
 
 ---
 
@@ -173,14 +170,14 @@ class ShadowComparisonService:
 
 | 기대효과 | 설명 |
 |:---|:---|
-| [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 없는 실운영 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 사용자 영향 없이 100% 실제 트래픽으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| 정확한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 | 실제 부하 패턴에서의 p99, 에러율 측정 |
+| [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 없는 실운영 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 사용자 영향 없이 100% 실제 트래픽으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| 정확한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 | 실제 부하 패턴에서의 p99, 에러율 측정 |
 | 마이그레이션 자신감 | 수 주~수 달 운영 후 확신을 가지고 전환 |
 | 결과 비교 자동화 | 일치율 메트릭으로 품질 게이트 자동화 |
 
-[섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 대규모 아키텍처 전환의 "최후 보루"다. 모든 테스트를 통과했더라도 실제 운영 트래픽에서는 예상치 못한 동작이 나타날 수 있다. [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 이 마지막 불확실성을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해소하는 가장 강력한 방법이다.
+[섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 대규모 아키텍처 전환의 "최후 보루"다. 모든 테스트를 통과했더라도 실제 운영 트래픽에서는 예상치 못한 동작이 나타날 수 있다. [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 이 마지막 불확실성을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 해소하는 가장 강력한 방법이다.
 
-📢 **섹션 요약 비유**: [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 비행기 조종사를 정식 채용하기 전 실제 비행기에 보조 좌석을 마련해 수백 시간 실제 비행을 관찰하는 것과 같다. 시뮬레이터가 아닌 실제 하늘에서 실력을 증명해야 승객을 맡길 수 있다.
+📢 **섹션 요약 비유**: [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 비행기 조종사를 정식 채용하기 전 실제 비행기에 보조 좌석을 마련해 수백 시간 실제 비행을 관찰하는 것과 같다. 시뮬레이터가 아닌 실제 하늘에서 실력을 증명해야 승객을 맡길 수 있다.
 
 ---
 
@@ -188,16 +185,16 @@ class ShadowComparisonService:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [Istio](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) Traffic Mirroring | [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)의 핵심 구현 기술 |
-| [다크 론칭](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) | 코드 레벨의 유사 기법, 단일 기능 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 적합 |
-| [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) (Envoy) | 네트워크 레벨 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 가능하게 하는 [프록시](/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
-| 격리 DB 환경 | [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽의 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이드 이펙트 방지 핵심 |
+| [Istio](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) Traffic Mirroring | [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)의 핵심 구현 기술 |
+| [다크 론칭](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/) | 코드 레벨의 유사 기법, 단일 기능 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 적합 |
+| [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) (Envoy) | 네트워크 레벨 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 가능하게 하는 [프록시](/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/) |
+| 격리 DB 환경 | [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) 트래픽의 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 사이드 이펙트 방지 핵심 |
 | 결과 비교 분석 | 자동화된 Mismatch 감지 및 리포팅 프로세스 |
-| [카나리 배포](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 섀도우 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 후 점진적 사용자 노출 단계 |
+| [카나리 배포](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/) | 섀도우 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료 후 점진적 사용자 노출 단계 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [섀도우 배포](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 선생님이 수업을 잘 가르치는지 확인하기 위해, 기존 선생님 수업 옆에서 새 선생님도 똑같이 가르쳐보게 하는 것이야.
+1. [섀도우 배포](/studynote/04_software_engineering/09_cloud_native_ai_architecture/575_shadow_deployment_traffic_mirroring/)는 새 선생님이 수업을 잘 가르치는지 확인하기 위해, 기존 선생님 수업 옆에서 새 선생님도 똑같이 가르쳐보게 하는 것이야.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -219,7 +216,7 @@ Istio Mirror: 서비스 메시 기반 트래픽 복제
 
 **진행 상황**: 197 / 371
 
-<- **이전**: [197. 다크 론칭 (Dark Launching)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)
-**다음**: [199. 플랫폼 엔지니어링 (Platform 엔진ering)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/) ->
+<- **이전**: [197. 다크 론칭 (Dark Launching)](/studynote/13_cloud_architecture/04_devops_observability/197_dark_launching_traffic_shadow/)
+**다음**: [199. 플랫폼 엔지니어링 (Platform 엔진ering)](/studynote/13_cloud_architecture/04_devops_observability/199_platform_engineering_idp_golden_path/) ->
 
 ---

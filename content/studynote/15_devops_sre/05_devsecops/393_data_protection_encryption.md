@@ -1,13 +1,10 @@
-+++
-title = "393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)"
-date = 2026-05-09
+---
+title: "393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 393 / 400
 
-<- **이전**: [392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/392_cnapp_cloud_native/)
-**다음**: [394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/394_api_security_oauth_jwt/) ->
+<- **이전**: [392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)](/studynote/15_devops_sre/05_devsecops/392_cnapp_cloud_native/)
+**다음**: [394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)](/studynote/15_devops_sre/05_devsecops/394_api_security_oauth_jwt/) ->
 
 ---

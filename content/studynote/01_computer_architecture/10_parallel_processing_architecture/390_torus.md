@@ -1,29 +1,26 @@
-+++
-title = "390. 토러스 (Torus)"
-date = 2026-03-20
+---
+title: "390. 토러스 (Torus)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 토러스 (Torus)는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지의 가장자리를 서로 이어, 모든 노드가 동일한 연결 차수와 유사한 통신 기회를 갖도록 만든 순환형 상호 연결망이다.
-> 2. **가치**: 랩어라운드 (Wrap-around) 링크 덕분에 최악의 홉 수와 평균 통신 거리를 줄여, 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 가장자리 병목을 함께 완화한다.
-> 3. **판단 포인트**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 아름답지만 물리 배선은 어려우므로, 토러스는 "평면 배선 비용보다 균일한 근접 통신이 더 중요한가"를 기준으로 채택해야 한다.
+> 1. **본질**: 토러스 (Torus)는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지의 가장자리를 서로 이어, 모든 노드가 동일한 연결 차수와 유사한 통신 기회를 갖도록 만든 순환형 상호 연결망이다.
+> 2. **가치**: 랩어라운드 (Wrap-around) 링크 덕분에 최악의 홉 수와 평균 통신 거리를 줄여, 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템에서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간과 가장자리 병목을 함께 완화한다.
+> 3. **판단 포인트**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조는 아름답지만 물리 배선은 어려우므로, 토러스는 "평면 배선 비용보다 균일한 근접 통신이 더 중요한가"를 기준으로 채택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-토러스 (Torus)는 2차원 또는 3차원 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 양 끝을 서로 연결해, 경계가 없는 순환 공간처럼 동작하게 만든 정적 상호 연결망이다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 바둑판처럼 단순하고 만들기 쉬운 구조라면, 토러스는 그 바둑판의 끝을 이어서 "중앙만 유리하고 가장자리는 손해"라는 문제를 줄인 형태다. 즉, 토러스의 출발점은 새로운 구조를 만드는 것이 아니라, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 경계 비용을 없애는 데 있다.
+토러스 (Torus)는 2차원 또는 3차원 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 양 끝을 서로 연결해, 경계가 없는 순환 공간처럼 동작하게 만든 정적 상호 연결망이다. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 바둑판처럼 단순하고 만들기 쉬운 구조라면, 토러스는 그 바둑판의 끝을 이어서 "중앙만 유리하고 가장자리는 손해"라는 문제를 줄인 형태다. 즉, 토러스의 출발점은 새로운 구조를 만드는 것이 아니라, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 경계 비용을 없애는 데 있다.
 
-[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)에서는 중앙 노드와 가장자리 노드의 조건이 다르다. 중앙은 사방으로 통신할 수 있지만, 모서리는 연결 수가 적고 반대편으로 가려면 긴 경로를 지나야 한다. 노드 수가 커질수록 이 차이는 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 핫스팟, 부하 불균형으로 이어진다.
+[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)에서는 중앙 노드와 가장자리 노드의 조건이 다르다. 중앙은 사방으로 통신할 수 있지만, 모서리는 연결 수가 적고 반대편으로 가려면 긴 경로를 지나야 한다. 노드 수가 커질수록 이 차이는 평균 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 핫스팟, 부하 불균형으로 이어진다.
 
-아래 그림은 토러스가 해결하려는 핵심을 보여준다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 가장자리가 막혀 있지만, 토러스는 끝에서 나가면 반대편으로 이어진다.
+아래 그림은 토러스가 해결하려는 핵심을 보여준다. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 가장자리가 막혀 있지만, 토러스는 끝에서 나가면 반대편으로 이어진다.
 
 ```text
 +--------------------------------------------------------------+
@@ -52,27 +49,27 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 변화는 단순한 편의 기능이 아니다. 정사각형 `k x k` [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 최대 거리는 `2(k-1)` 홉이지만, 같은 크기의 토러스는 각 축에서 반 바퀴까지만 가면 되므로 최대 거리가 크게 줄어든다. 그래서 토러스는 특히 이웃 간 반복 통신과 전역 동기화가 많은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅에서 의미가 크다.
+이 변화는 단순한 편의 기능이 아니다. 정사각형 `k x k` [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 최대 거리는 `2(k-1)` 홉이지만, 같은 크기의 토러스는 각 축에서 반 바퀴까지만 가면 되므로 최대 거리가 크게 줄어든다. 그래서 토러스는 특히 이웃 간 반복 통신과 전역 동기화가 많은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅에서 의미가 크다.
 
-📢 섹션 요약 비유: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 끝에 가면 막다른 골목이 나오는 도시라면, 토러스는 도시 바깥 순환도로가 있어서 끝에서 막히지 않고 반대편으로 바로 돌아 들어오는 구조다.
+📢 섹션 요약 비유: [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)가 끝에 가면 막다른 골목이 나오는 도시라면, 토러스는 도시 바깥 순환도로가 있어서 끝에서 막히지 않고 반대편으로 바로 돌아 들어오는 구조다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-토러스의 핵심 구성은 크게 노드, 라우터, 랩어라운드 링크, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙으로 나뉜다. 각 노드는 인접 노드와 직접 연결되고, 2차원 토러스라면 일반적으로 상·하·좌·우 네 방향 포트를 가진다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)와 가장 다른 점은 외곽 포트가 빈 채로 남지 않고 반드시 반대편 외곽과 연결된다는 점이다.
+토러스의 핵심 구성은 크게 노드, 라우터, 랩어라운드 링크, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙으로 나뉜다. 각 노드는 인접 노드와 직접 연결되고, 2차원 토러스라면 일반적으로 상·하·좌·우 네 방향 포트를 가진다. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)와 가장 다른 점은 외곽 포트가 빈 채로 남지 않고 반드시 반대편 외곽과 연결된다는 점이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
 | 노드 (Node) | 연산 또는 저장을 수행하는 처리 단위 | 균일한 연결 수 유지 |
 | 라우터 (Router) | 다음 홉 선택 | 짧은 경로와 버퍼 관리 |
 | 랩어라운드 링크 (Wrap-around Link) | 반대편 경계 직접 연결 | 거리 단축, 배선 길이 증가 |
-| 가상 채널 (VC, Virtual Channel) | 순환 경로의 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 완화 | 버퍼 비용 증가 |
-| 차원 우선 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Dimension-Order [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) | 축 순서대로 이동 | 구현 단순, 분석 용이 |
+| 가상 채널 (VC, Virtual Channel) | 순환 경로의 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 완화 | 버퍼 비용 증가 |
+| 차원 우선 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) (Dimension-Order [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)) | 축 순서대로 이동 | 구현 단순, 분석 용이 |
 
-토러스 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 기본 원리는 "각 차원에서 더 짧은 방향을 선택한다"이다. 예를 들어 4x4 토러스에서 `(0,0)`에서 `(0,3)`으로 갈 때, [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)라면 오른쪽으로 3번 가야 하지만 토러스는 왼쪽 랩어라운드 1번이 더 짧다. 이 때문에 평균 홉 수가 감소하고, 멀리 떨어진 노드 간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차도 줄어든다.
+토러스 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 기본 원리는 "각 차원에서 더 짧은 방향을 선택한다"이다. 예를 들어 4x4 토러스에서 `(0,0)`에서 `(0,3)`으로 갈 때, [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)라면 오른쪽으로 3번 가야 하지만 토러스는 왼쪽 랩어라운드 1번이 더 짧다. 이 때문에 평균 홉 수가 감소하고, 멀리 떨어진 노드 간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차도 줄어든다.
 
-아래 그림은 토러스의 최단 경로 선택과 함께, 왜 순환 구조에서 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 관리가 중요한지를 보여준다.
+아래 그림은 토러스의 최단 경로 선택과 함께, 왜 순환 구조에서 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 관리가 중요한지를 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -93,9 +90,9 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-문제는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 아름다운 순환 연결이 물리적으로는 긴 배선을 만들기 쉽다는 점이다. 칩 내부나 보드 위에서 양 끝을 직접 잇는 선은 길이가 길어져 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 소모를 키울 수 있다. 그래서 실제 구현에서는 폴디드 토러스 (Folded Torus)처럼 노드를 접어 배치해 긴 링크를 짧게 만드는 기법이 자주 사용된다.
+문제는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 아름다운 순환 연결이 물리적으로는 긴 배선을 만들기 쉽다는 점이다. 칩 내부나 보드 위에서 양 끝을 직접 잇는 선은 길이가 길어져 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 소모를 키울 수 있다. 그래서 실제 구현에서는 폴디드 토러스 (Folded Torus)처럼 노드를 접어 배치해 긴 링크를 짧게 만드는 기법이 자주 사용된다.
 
-결국 토러스의 핵심은 세 가지다. 첫째, 경계를 제거해 거리와 부하 편차를 줄인다. 둘째, 그 대가로 랩어라운드 배선과 [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) 관리가 필요하다. 셋째, 그래서 토러스는 "[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 균일성"과 "물리적 복잡성"을 맞바꾸는 구조다.
+결국 토러스의 핵심은 세 가지다. 첫째, 경계를 제거해 거리와 부하 편차를 줄인다. 둘째, 그 대가로 랩어라운드 배선과 [순환 의존성](/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/) 관리가 필요하다. 셋째, 그래서 토러스는 "[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 균일성"과 "물리적 복잡성"을 맞바꾸는 구조다.
 
 📢 섹션 요약 비유: 토러스는 운동장 바깥에 순환 트랙을 하나 더 깔아 가장 먼 아이도 돌아가기 쉽게 만든 대신, 그 트랙을 실제로 설치하고 관리하는 선생님 입장에서는 일이 더 많아지는 구조다.
 
@@ -103,50 +100,50 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-토러스를 제대로 이해하려면 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ([Hypercube](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)), [다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/) (MIN, [Multistage Interconnection Network](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/))과의 경계를 함께 봐야 한다. 토러스는 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 균일하고 빠르지만, [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)만큼 짧은 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)형 거리를 주지는 않는다. 반대로 [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)보다 노드 차수가 일정하고, [다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)보다 구조가 규칙적이어서 근접 통신에는 유리하다.
+토러스를 제대로 이해하려면 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/), [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ([Hypercube](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)), [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/) (MIN, [Multistage Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/))과의 경계를 함께 봐야 한다. 토러스는 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 균일하고 빠르지만, [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)만큼 짧은 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)형 거리를 주지는 않는다. 반대로 [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)보다 노드 차수가 일정하고, [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)보다 구조가 규칙적이어서 근접 통신에는 유리하다.
 
-| 항목 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) | 토러스 (Torus) | [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) / [다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/) |
+| 항목 | [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) | 토러스 (Torus) | [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) / [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/) |
 | :-- | :-- | :-- | :-- |
 | 경계 존재 | 있음 | 없음 | 구조마다 다름 |
-| 노드 차수 | 외곽과 내부가 다름 | 대체로 균일 | [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 차원 따라 증가 |
-| 최대 거리 | 큼 | [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 짧음 | [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 더 짧고, MIN은 단계 수 의존 |
-| 물리 배선 | 단순 | 랩어라운드 때문에 복잡 | MIN은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 계층 설계 필요 |
-| 적합 워크로드 | 로컬 통신 중심 | 로컬 + 반복적 집단 통신 | 대규모 스위칭 또는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 탐색 중심 |
+| 노드 차수 | 외곽과 내부가 다름 | 대체로 균일 | [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 차원 따라 증가 |
+| 최대 거리 | 큼 | [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)보다 짧음 | [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 더 짧고, MIN은 단계 수 의존 |
+| 물리 배선 | 단순 | 랩어라운드 때문에 복잡 | MIN은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 계층 설계 필요 |
+| 적합 워크로드 | 로컬 통신 중심 | 로컬 + 반복적 집단 통신 | 대규모 스위칭 또는 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 탐색 중심 |
 
-[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)와 토러스의 차이는 특히 "중앙 집중 병목"보다 "가장자리 불이익"이 큰 환경에서 드러난다. 시뮬레이션 격자, 행렬 분할, 이웃 간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환처럼 통신 패턴이 규칙적일수록 토러스의 장점이 커진다. 반면 트래픽이 완전히 임의적이고, 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통한 유연한 연결이 중요한 환경이라면 [다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)이나 팻트리 계열이 더 적합할 수 있다.
+[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)와 토러스의 차이는 특히 "중앙 집중 병목"보다 "가장자리 불이익"이 큰 환경에서 드러난다. 시뮬레이션 격자, 행렬 분할, 이웃 간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환처럼 통신 패턴이 규칙적일수록 토러스의 장점이 커진다. 반면 트래픽이 완전히 임의적이고, 중앙 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 통한 유연한 연결이 중요한 환경이라면 [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)이나 팻트리 계열이 더 적합할 수 있다.
 
-컴퓨터구조 안에서는 토러스가 [NoC](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) (Network-on-Chip), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 메모리 근접성 개념과 이어진다. 운영 관점에서는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), 적응형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 장애 우회와 연결되고, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 인프라 관점에서는 텐서 동기화와 집단 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 문제로 이어진다. 즉 토러스는 단순 토폴로지가 아니라, 알고리즘의 통신 패턴과 하드웨어 배선 철학이 만나는 접점이다.
+컴퓨터구조 안에서는 토러스가 [NoC](/studynote/01_computer_architecture/09_system_bus_interconnects/367_noc/) (Network-on-Chip), [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 메모리 근접성 개념과 이어진다. 운영 관점에서는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/), 적응형 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 장애 우회와 연결되고, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 인프라 관점에서는 텐서 동기화와 집단 통신 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 문제로 이어진다. 즉 토러스는 단순 토폴로지가 아니라, 알고리즘의 통신 패턴과 하드웨어 배선 철학이 만나는 접점이다.
 
-📢 섹션 요약 비유: [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 반듯한 바둑판 도로, 토러스는 외곽 순환도로가 있는 도시, [하이퍼큐브](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 차원이 더 많은 포털 도시, [다단 연결망](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)은 거대한 환승 허브를 가진 철도망이라고 기억하면 차이가 선명해진다.
+📢 섹션 요약 비유: [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)는 반듯한 바둑판 도로, 토러스는 외곽 순환도로가 있는 도시, [하이퍼큐브](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/)는 차원이 더 많은 포털 도시, [다단 연결망](/studynote/01_computer_architecture/10_parallel_processing_architecture/392_multistage_interconnection_network/)은 거대한 환승 허브를 가진 철도망이라고 기억하면 차이가 선명해진다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 토러스는 "모든 노드가 자주, 비슷한 양으로, 반복적으로 통신하는가?"라는 질문에 강하다. 그래서 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)) 클러스터, 대규모 행렬 계산기, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기 인터커넥트에서 자주 검토된다. 대표적으로 3D 토러스는 슈퍼컴퓨터에서 격자 계산과 집단 통신을 효율적으로 처리하는 데 널리 쓰여 왔다.
+실무에서 토러스는 "모든 노드가 자주, 비슷한 양으로, 반복적으로 통신하는가?"라는 질문에 강하다. 그래서 [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)) 클러스터, 대규모 행렬 계산기, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기 인터커넥트에서 자주 검토된다. 대표적으로 3D 토러스는 슈퍼컴퓨터에서 격자 계산과 집단 통신을 효율적으로 처리하는 데 널리 쓰여 왔다.
 
 ### 채택이 유리한 경우
 
 1. 노드 간 통신 패턴이 규칙적이고 근접성이 뚜렷할 때
-2. 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간보다 최악 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 균일성이 중요할 때
-3. 중앙 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 병목 없이 스케일아웃하려 할 때
+2. 평균 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간보다 최악 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 균일성이 중요할 때
+3. 중앙 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 병목 없이 스케일아웃하려 할 때
 4. 시스템 소프트웨어가 토폴로지 인지형 매핑을 지원할 때
 
 ### 회피가 유리한 경우
 
 1. 물리 배선 길이와 패키징 비용이 매우 민감할 때
 2. 트래픽이 랜덤하고 비국소적인 올투올(All-to-All) 패턴이 지배적일 때
-3. 장애 시 복잡한 우회 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 감당할 운영 체계가 없을 때
-4. 범용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터처럼 케이블 재배치 유연성이 더 중요할 때
+3. 장애 시 복잡한 우회 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 감당할 운영 체계가 없을 때
+4. 범용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터처럼 케이블 재배치 유연성이 더 중요할 때
 
 ### 기술사형 체크포인트
 
-- 토러스 차원 수와 노드 배치가 응용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 방식과 맞는가?
+- 토러스 차원 수와 노드 배치가 응용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할 방식과 맞는가?
 - 랩어라운드 링크의 물리 길이를 줄이기 위한 폴딩 또는 패키징 전략이 있는가?
-- 차원 우선 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만으로 충분한가, 아니면 가상 채널과 적응형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 필요한가?
-- 장애 노드가 발생했을 때 우회 경로와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 폭을 정량적으로 설명할 수 있는가?
+- 차원 우선 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)만으로 충분한가, 아니면 가상 채널과 적응형 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 필요한가?
+- 장애 노드가 발생했을 때 우회 경로와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 폭을 정량적으로 설명할 수 있는가?
 
-실무에서 자주 나오는 안티패턴은 토러스 하드웨어를 도입해 놓고 소프트웨어 작업 배치를 임의로 흩어 놓는 것이다. [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 토폴로지가 좋아도, 서로 자주 통신하는 프로세스를 멀리 배치하면 홉 수 절감 효과를 잃는다. 토러스는 하드웨어만으로 완성되지 않고, 작업 스케줄링과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 함께 맞아야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
+실무에서 자주 나오는 안티패턴은 토러스 하드웨어를 도입해 놓고 소프트웨어 작업 배치를 임의로 흩어 놓는 것이다. [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 토폴로지가 좋아도, 서로 자주 통신하는 프로세스를 멀리 배치하면 홉 수 절감 효과를 잃는다. 토러스는 하드웨어만으로 완성되지 않고, 작업 스케줄링과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 함께 맞아야 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나온다.
 
 📢 섹션 요약 비유: 토러스는 길이 잘 난 순환도시를 짓는 일과 비슷하다. 도로만 잘 깔아서는 부족하고, 자주 만나야 하는 사람들을 가까운 동네에 배치해야 진짜로 교통이 빨라진다.
 
@@ -154,11 +151,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-토러스의 가장 큰 효과는 균일성이다. 모든 노드가 비슷한 연결성을 가지고, 반대편 노드도 멀게만 느껴지지 않으므로 시스템 전체의 통신 편차가 줄어든다. 이는 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 예측 가능성, 확장성, 스케줄링 안정성으로 이어진다.
+토러스의 가장 큰 효과는 균일성이다. 모든 노드가 비슷한 연결성을 가지고, 반대편 노드도 멀게만 느껴지지 않으므로 시스템 전체의 통신 편차가 줄어든다. 이는 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 예측 가능성, 확장성, 스케줄링 안정성으로 이어진다.
 
 하지만 토러스는 만능이 아니다. 랩어라운드 링크는 물리 배선, 소비전력, 패키지 설계, 장애 관리 비용을 키운다. 따라서 토러스는 "이론적으로 좋은 토폴로지"가 아니라, 통신 패턴이 충분히 규칙적이고 그 이득이 배선 비용을 상쇄할 때 빛나는 구조다.
 
-앞으로는 3차원 적층 패키징, 광 인터커넥트, 토폴로지 인지형 런타임과 결합되면서 토러스의 약점이 일부 완화될 가능성이 크다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습과 과학기술 계산처럼 집단 통신이 큰 분야에서는 여전히 유효한 선택지다. 결국 토러스는 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 조금 더 빠르게 만든 구조"가 아니라, 경계를 지워 시스템 전체를 더 공평하게 만드는 아키텍처라고 기억하는 것이 핵심이다.
+앞으로는 3차원 적층 패키징, 광 인터커넥트, 토폴로지 인지형 런타임과 결합되면서 토러스의 약점이 일부 완화될 가능성이 크다. 특히 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습과 과학기술 계산처럼 집단 통신이 큰 분야에서는 여전히 유효한 선택지다. 결국 토러스는 "[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)를 조금 더 빠르게 만든 구조"가 아니라, 경계를 지워 시스템 전체를 더 공평하게 만드는 아키텍처라고 기억하는 것이 핵심이다.
 
 📢 섹션 요약 비유: 토러스는 운동장 구석 아이들까지 모두 같은 조건으로 뛰게 해 주는 트랙이다. 다만 그런 운동장을 만들려면 더 많은 공사비와 설계 노하우가 필요하다.
 
@@ -168,9 +165,9 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지 | 토러스의 직접적인 출발점이며, 경계 문제를 비교할 기준 구조 |
+| [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) ([Mesh](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)) 토폴로지 | 토러스의 직접적인 출발점이며, 경계 문제를 비교할 기준 구조 |
 | 랩어라운드 링크 (Wrap-around Link) | 토러스의 핵심 메커니즘으로 최대 거리와 평균 거리를 줄임 |
-| 가상 채널 (VC, Virtual Channel) | [순환 의존성](/knowledge-base/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)에서 발생하는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 완화에 사용 |
+| 가상 채널 (VC, Virtual Channel) | [순환 의존성](/studynote/02_operating_system/05_deadlock/316_synchronization_bug_debugging/)에서 발생하는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 완화에 사용 |
 | 폴디드 토러스 (Folded Torus) | 긴 물리 배선을 줄이기 위한 실제 구현 기법 |
 | 집단 통신 (Collective Communication) | 브로드캐스트, 리듀스, 올리듀스에서 토러스의 가치가 잘 드러남 |
 
@@ -196,7 +193,7 @@ tags = ["studynote-computer-architecture"]
 고성능 컴퓨팅 (HPC) · AI 집단 통신 최적화
 ```
 
-이 흐름은 "[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 한계 보완 -> 순환 연결 도입 -> [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·배선 보완 -> 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 적용"의 발전 축을 보여준다.
+이 흐름은 "[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)의 한계 보완 -> 순환 연결 도입 -> [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)·배선 보완 -> 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시스템 적용"의 발전 축을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -210,7 +207,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 391 / 803
 
-<- **이전**: [389. 메시 (Mesh) 토폴로지](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)
-**다음**: [391. 하이퍼큐브 (Hypercube)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ->
+<- **이전**: [389. 메시 (Mesh) 토폴로지](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)
+**다음**: [391. 하이퍼큐브 (Hypercube)](/studynote/01_computer_architecture/10_parallel_processing_architecture/391_hypercube/) ->
 
 ---

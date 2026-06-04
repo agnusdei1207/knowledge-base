@@ -1,13 +1,10 @@
-+++
-title = "563. IT 법규 컴플라이언스 규제 대응 (IT Legal Compliance Regulatory Response)"
-date = 2026-05-09
+---
+title: "563. IT 법규 컴플라이언스 규제 대응 (IT Legal Compliance Regulatory Response)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 563 / 800
 
-<- **이전**: [562. IT 감사 내부 통제 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/562_it_audit_internal_control_framework/)
-**다음**: [564. 전자정부 GovTech 디지털 공공 서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/564_e_government_govtech_digital_public_service/) ->
+<- **이전**: [562. IT 감사 내부 통제 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/562_it_audit_internal_control_framework/)
+**다음**: [564. 전자정부 GovTech 디지털 공공 서비스](/studynote/07_enterprise_systems/06_exam_summary/564_e_government_govtech_digital_public_service/) ->
 
 ---

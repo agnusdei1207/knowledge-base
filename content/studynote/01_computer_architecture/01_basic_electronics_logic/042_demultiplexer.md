@@ -1,18 +1,15 @@
-+++
-title = "042. 디멀티플렉서 (Demultiplexer, DEMUX)"
-date = 2026-04-05
+---
+title: "042. 디멀티플렉서 (Demultiplexer, DEMUX)"
+date: "2026-04-05"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. 디멀티플렉서(DEMUX)는 하나의 입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)([Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/))에 따라 여러 출력 중 하나로 분배하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 역 연산이며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배기([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Distributor)라고도 한다.
-> 2. 1:2^n DEMUX는 n개의 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 2^n개의 출력 중 하나를 선택하며, [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))에 활성화(Enable) 입력을 추가한 것과 동일한 구조여서 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)로 DEMUX를 구현할 수 있다.
-> 3. DEMUX는 [시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM) 시스템의 수신 측, 메모리 주소 디코딩, 디지털 통신 역다중화 등에 핵심적으로 활용되며, MUX와 쌍을 이뤄 통신 채널 효율화를 구현한다.
+> 1. 디멀티플렉서(DEMUX)는 하나의 입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)([Select](/studynote/05_database/04_transactions_concurrency/520_select/))에 따라 여러 출력 중 하나로 분배하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [멀티플렉서](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)([MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/))의 역 연산이며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배기([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Distributor)라고도 한다.
+> 2. 1:2^n DEMUX는 n개의 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 2^n개의 출력 중 하나를 선택하며, [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)([Decoder](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/))에 활성화(Enable) 입력을 추가한 것과 동일한 구조여서 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)로 DEMUX를 구현할 수 있다.
+> 3. DEMUX는 [시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)(TDM) 시스템의 수신 측, 메모리 주소 디코딩, 디지털 통신 역다중화 등에 핵심적으로 활용되며, MUX와 쌍을 이뤄 통신 채널 효율화를 구현한다.
 
 ---
 
@@ -48,7 +45,7 @@ MUX vs DEMUX:
   1:8 DEMUX: 선택 3개, 출력 8개
 ```
 
-> 📢 **섹션 요약 비유**: DEMUX는 철도 분기기 — 한 선로(입력)에서 여러 방향(출력) 중 전환기(선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 가리키는 방향으로 기차([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))를 보낸다.
+> 📢 **섹션 요약 비유**: DEMUX는 철도 분기기 — 한 선로(입력)에서 여러 방향(출력) 중 전환기(선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))가 가리키는 방향으로 기차([신호](/studynote/02_operating_system/02_process_thread/130_signal/))를 보낸다.
 
 ---
 
@@ -86,11 +83,11 @@ DEMUX 확장:
   계층적 구조로 대형 DEMUX 구현 가능
 ```
 
-> 📢 **섹션 요약 비유**: DEMUX 회로는 4-AND 게이트 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) — 입력(D)과 선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조합에서 딱 하나의 AND만 활성화되어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 통과.
+> 📢 **섹션 요약 비유**: DEMUX 회로는 4-AND 게이트 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) — 입력(D)과 선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 조합에서 딱 하나의 AND만 활성화되어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 통과.
 
 ---
 
-## Ⅲ. [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 시스템 연동
+## Ⅲ. [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 시스템 연동
 
 ```
 MUX-DEMUX 통신 시스템:
@@ -119,7 +116,7 @@ MUX-DEMUX 통신 시스템:
   DWDM (파장분할다중화) 역다중화
 ```
 
-> 📢 **섹션 요약 비유**: [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 쌍은 전화 교환기 — 여러 통화를 하나의 선로로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)) 전송 후, 수신 측에서 다시 분리(DEMUX).
+> 📢 **섹션 요약 비유**: [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)-DEMUX 쌍은 전화 교환기 — 여러 통화를 하나의 선로로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)([MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)) 전송 후, 수신 측에서 다시 분리(DEMUX).
 
 ---
 
@@ -150,11 +147,11 @@ DEMUX를 이용한 논리함수 구현:
   PLA (Programmable Logic Array)의 기반 원리
 ```
 
-> 📢 **섹션 요약 비유**: DEMUX+OR로 함수 구현은 [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) 직접 읽기 — 원하는 행(최소항)의 출력을 OR로 묶으면 어떤 함수든 만들 수 있다.
+> 📢 **섹션 요약 비유**: DEMUX+OR로 함수 구현은 [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) 직접 읽기 — 원하는 행(최소항)의 출력을 OR로 묶으면 어떤 함수든 만들 수 있다.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 내 DEMUX
+## Ⅴ. 실무 시나리오 — [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 내 DEMUX
 
 ```
 FPGA 설계에서 DEMUX 활용:
@@ -191,7 +188,7 @@ Verilog 코드 개요:
   1:8 두 개 + 1개 선택 = 1:16 구현 가능
 ```
 
-> 📢 **섹션 요약 비유**: [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) DEMUX는 스마트 우편 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 — 하나의 컨베이어(UART)에서 편지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 수신자(채널) 주소(채널 ID)에 따라 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
+> 📢 **섹션 요약 비유**: [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) DEMUX는 스마트 우편 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 — 하나의 컨베이어(UART)에서 편지([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 수신자(채널) 주소(채널 ID)에 따라 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/).
 
 ---
 
@@ -247,7 +244,7 @@ AXI 버스 DEMUX/MUX 구현
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 디멀티플렉서는 하나의 수도관에서 물([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))을 여러 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(출력) 중 하나로 보내는 밸브 — 어느 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 보낼지는 선택 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(선택 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))가 결정해요!
+1. 디멀티플렉서는 하나의 수도관에서 물([신호](/studynote/02_operating_system/02_process_thread/130_signal/))을 여러 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)(출력) 중 하나로 보내는 밸브 — 어느 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)로 보낼지는 선택 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(선택 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))가 결정해요!
 2. MUX가 여러 입력을 하나로 모으는 것이라면, DEMUX는 반대로 하나를 여러 곳으로 나누는 것 — 딱 짝이에요!
 3. 메모리 여러 개를 하나의 CPU에 연결할 때도 DEMUX를 써서 "지금은 이 메모리가 활성화"를 선택해요!
 
@@ -257,7 +254,7 @@ AXI 버스 DEMUX/MUX 구현
 
 **진행 상황**: 42 / 803
 
-<- **이전**: [041. 멀티플렉서 (MUX, Multiplexer)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)
-**다음**: [043. 비교기 (Comparator)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ->
+<- **이전**: [041. 멀티플렉서 (MUX, Multiplexer)](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)
+**다음**: [043. 비교기 (Comparator)](/studynote/01_computer_architecture/01_basic_electronics_logic/043_comparator/) ->
 
 ---

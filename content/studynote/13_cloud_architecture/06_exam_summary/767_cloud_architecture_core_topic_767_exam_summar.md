@@ -1,175 +1,162 @@
-+++
-title = "767. 클라우드 아키텍처 핵심 토픽 767번 시험 요약 (Cloud Architecture Core Topic 767 Exam Summary)"
-date = 2026-05-09
-
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
-
+---
+title: "767. 클라우드 아키텍처 핵심 토픽 767번 시험 요약 (Cloud Architecture Core Topic 767 Exam Summary)"
+date: 2026-05-09
+tags:
+  - "studynote-cloud-architecture"
+---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 Well-Architected Framework(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속가능성) 기반 위에서 IaC(Infrastructure as Code), MSA(Microservices Architecture), 컨테이너 오케스트레이션(Kubernetes), 서버리스(FaaS/CaaS), 이벤트 기반 메시지 스트리밍(Kafka, EventBridge)을 결합하여 자가 치유(self-healing), 탄력적 확장(auto-scaling), 선언적 API(Declarative API) 패턴을 구현하는 분산 시스템 설계 패러다임이다.
+> 2. **가치**: AWS/Azure/GCP 기준 동일 워크로드 대비 온프레미스 대비 TCO 30~60% 절감, Auto Scaling Group을 통한 트래픽 변동 대응 시간 수 분 → 수 초, 멀티 AZ/리전 배포 시 SLA 99.99%(연간 52.6분 이내 장애), EKS/AKS/GKE 기반 컨테이너 밀도 10~20x 향상, FinOps 도입으로 클라우드 비용 20~40% 최적화가 가능하다.
+> 3. **판단 포인트**: 단일 클라우드 종속(vendor lock-in) 회피를 위한 추상화 계층(Terraform, Crossplane, Pulumi) 도입, CAP 정리 기반의 일관성(Consistency) vs 가용성(Availability) 트레이드오프, 동기/비동기 호출 비율에 따른 Saga/CQRS/Event Sourcing 패턴 선택, 12-Factor App 원칙 준수 여부, 데이터 주권·규제(GDPR, 개인정보보호법, CSAP) 충족을 위한 리전 선택이 핵심 의사결정 사안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 아키텍처는 2006년 AWS S3/EC2 출시 이후 가상화(Virtualization) → 컨테이너화(Containerization) → 오케스트레이션(Orchestration) → 서버리스(Serverless) → 분산 클라우드(Distributed Cloud)로 진화해 왔으며, 2020년경부터는 GitOps, FinOps, AIOps, Platform Engineering이 클라우드 운영의 4대 축으로 자리잡았다. 기술사 시험에서는 단순히 "클라우드를 쓴다"는 수준이 아니라, **어떤 워크로드에 어떤 서비스 모델(IaaS/PaaS/SaaS/FaaS)을, 어떤 배포 모델(Public/Private/Hybrid/Multi)로, 어떤 참조 아키텍처(CAF, WAF, SAFe Cloud)를 적용할지**에 대한 정량적 판단 근거와 마이그레이션 전략(6R: Rehost, Replatform, Refactor, Repurchase, Retire, Retain)을 요구한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 767 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 온프레미스(legacy 3-tier architecture: Web-WAS-DB) 환경은 CAPEX(설비투자) 중심으로 예측 기반 용량 계획(capacity planning)을 수행했으나, 트래픽 피크 대비 과잉 Provisioning으로 인한 유휴 자원 60~80% 발생, 장애 시 수동 대응(MTTR 평균 4~8시간), 수직 확장(Scale-up) 한계, 배포 주기 주~월 단위라는 문제가 상존했다. 반면 클라우드 아키텍처는 OPEX 기반 종량 과금(pay-per-use), HPA(Horizontal Pod Autoscaler)/Cluster Autoscaler 기반 자동 확장, IaC(Terraform, CloudFormation, ARM Template, CDK)를 통한 코드형 인프라 관리, CI/CD 파이프라인(ArgoCD, Spinnaker, Jenkins X)을 통한 일 단위 배포, Chaos Engineering(Chaos Monkey, LitmusChaos, Gremlin)을 통한 선제적 장애 대응이 가능하다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 767번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+┌──────────────────────────────────────────────────────────────────┐
+│            Legacy On-Premise vs Modern Cloud Architecture        │
+├──────────────────────────────────────────────────────────────────┤
+│                                                                  │
+│  [Legacy 3-Tier]                  [Cloud-Native 12-Factor]       │
+│                                                                  │
+│  ┌──────────────┐                ┌──────────────────────────┐    │
+│  │  Client      │                │  CDN (CloudFront/Akamai) │    │
+│  │  Browser     │                └──────────┬───────────────┘    │
+│  └──────┬───────┘                           │                    │
+│         ▼                                   ▼                    │
+│  ┌──────────────┐                ┌──────────────────────────┐    │
+│  │  Web Server  │                │  API Gateway / WAF       │    │
+│  │  (Apache)    │                │  + Load Balancer (ALB)   │    │
+│  └──────┬───────┘                └──────────┬───────────────┘    │
+│         ▼                                   ▼                    │
+│  ┌──────────────┐                ┌──────────────────────────┐    │
+│  │  WAS         │                │  Microservices (EKS/AKS) │    │
+│  │  (Tomcat)    │                │  + Service Mesh (Istio)  │    │
+│  └──────┬───────┘                └──────────┬───────────────┘    │
+│         ▼                                   ▼                    │
+│  ┌──────────────┐                ┌──────────────────────────┐    │
+│  │  RDBMS       │                │  Polyglot Persistence    │    │
+│  │  (Oracle)    │                │  (RDB+NoSQL+Cache+Search)│    │
+│  └──────────────┘                └──────────────────────────┘    │
+│                                                                  │
+│  Scale: 수직(Scale-up)              Scale: 수평(Scale-out)        │
+│  배포: 수개월                       배포: 수 분 (GitOps)         │
+│  비용: CAPEX (예측)                  비용: OPEX (사용량)          │
+│  가용성: 99.9% (이중화)               가용성: 99.99% (Multi-AZ)   │
+└──────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+**📢 섹션 요약 비유**: 클라우드 아키텍처는 마치 "수도요금처럼 쓰는 만큼만 내는 전기 시스템"과 같다. 전통적 발전소(온프레미스 데이터센터)는 최대 부하를 기준으로 대형 터빈을 미리 세워야 하지만, 스마트 그리드(클라우드)는 실시간 수요에 따라 가정용 태양광, 풍력, 화력을 동적으로 조합하여 공급한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 767번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처의 핵심은 **4계층 참조 모델**(Presentation/API Layer → Application/Compute Layer → Data/Persistence Layer → Infrastructure/Foundation Layer)과 **5대 설계 원칙**(단일 책임, 느슨한 결합, 자가 치유, 선언적 구성, 불변 인프라)에 기반한다. 기술사 시험에서는 AWS Well-Architected Framework의 6가지 필러(Pillar), Azure Cloud Adoption Framework(CAF)의 8단계, GCP Architecture Framework의 디자인 프로세스를 통합적으로 이해하고 있어야 한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 767 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+┌────────────────────────────────────────────────────────────────────┐
+│         Multi-Cloud Reference Architecture (with Service Mesh)     │
+├────────────────────────────────────────────────────────────────────┤
+│                                                                    │
+│  [Edge Layer]                                                      │
+│   CloudFront / Azure CDN / Cloud CDN ── WAF, DDoS Protection       │
+│              │                                                     │
+│              ▼                                                     │
+│  [API Gateway Layer]                                               │
+│   Kong / AWS API GW / Apigee / Ambassador                          │
+│   ├── Auth (OAuth2.0, OIDC, JWT)                                   │
+│   ├── Rate Limiting (Token Bucket)                                 │
+│   ├── Circuit Breaker (Hystrix/Resilience4j)                       │
+│   └── Request Routing / Transformation                             │
+│              │                                                     │
+│              ▼                                                     │
+│  [Service Mesh Layer - Istio/Linkerd/Consul Connect]               │
+│   ┌──────────────────────────────────────────────────┐            │
+│   │  Data Plane (Envoy Sidecar)                       │            │
+│   │  ├── mTLS 자동 적용                               │            │
+│   │  ├── L7 로드밸런싱 (Header/Path 기반)             │            │
+│   │  ├── 트래픽 분할 (Canary 90/10, Blue-Green)       │            │
+│   │  ├── 재시도/타임아웃/서킷브레이커 정책             │            │
+│   │  └── 분산 트레이싱 (Jaeger/Zipkin 연동)            │            │
+│   │  Control Plane (Istiod)                           │            │
+│   │  ├── xDS API 기반 설정分发                         │            │
+│   │  ├── Pilot (라우팅), Citadel(보안), Galley(설정)    │            │
+│   └──────────────────────────────────────────────────┘            │
+│              │                                                     │
+│              ▼                                                     │
+│  [Application Layer - Container Orchestration]                     │
+│   Kubernetes (EKS/AKS/GKE/OKE) + Operators                        │
+│   ┌──────────┬──────────┬──────────┬──────────┐                  │
+│   │ Pod      │ Pod      │ Pod      │ Pod      │  (HPA: 1→100)    │
+│   │ user-svc │ order-svc│ pay-svc  │ notif-svc│                  │
+│   └──────────┴──────────┴──────────┴──────────┘                  │
+│   StatefulSet / Deployment / DaemonSet / Job/CronJob              │
+│                                                                    │
+│              │                                                     │
+│              ▼                                                     │
+│  [Data Layer - Polyglot Persistence]                              │
+│   ┌─────────────┬─────────────┬─────────────┬──────────────┐     │
+│   │ RDB         │ NoSQL       │ Cache       │ Search       │     │
+│   │ Aurora PG   │ DynamoDB    │ ElastiCache │ OpenSearch   │     │
+│   │ (OLTP, ACID)│ (CAP:AP)    │ (Redis)     │ (Full-text)  │     │
+│   └─────────────┴─────────────┴─────────────┴──────────────┘     │
+│              │                                                     │
+│              ▼                                                     │
+│  [Event Streaming - Backbone for Async]                           │
+│   Apache Kafka / Amazon Kinesis / EventBridge HUB / Pulsar        │
+│   ├── CDC (Debezium) → DB 변경 이벤트 전파                        │
+│   ├── Event Sourcing 패턴 (불변 로그)                              │
+│   └── CQRS Read Model 분리                                        │
+│              │                                                     │
+│              ▼                                                     │
+│  [Observability Layer]                                             │
+│   Metrics: Prometheus + Grafana / CloudWatch                       │
+│   Logs:    ELK/EFK / Loki / OpenSearch                            │
+│   Traces:  Jaeger / Tempo / X-Ray / Datadog APM                   │
+│   SLI/SLO: Error Budget 99.9% (월 43분) vs 99.95% (월 21분)       │
+└────────────────────────────────────────────────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **API Gateway / Edge Proxy** | 외부 트래픽 진입점, 인증/인가, 라우팅, 변환 | Kong(nginx 기반, Lua 플러그인), AWS API Gateway(REST/WebSocket/Lambda 통합), Envoy(xDS API, WASM 필터), Apigee(API 분석·할당량·모놀리식 분해) |
+| **Service Mesh (Data+Control Plane)** | 마이크로서비스 간 통신의 비기능 요구사항(보안·관측·트래픽 제어) 분리 | Istio(Envoy sidecar injection, mTLS 1.3 SPIFFE ID, Traffic Mirroring), Linkerd(Linkerd2-proxy Rust 기반 경량, Tokio 런타임), Consul Connect(HashiCorp生态계 통합, Multi-DC 지원) |
+| **Container Orchestrator** | 컨테이너 자동 배포, 스케일링, 셀프힐링, 롤링 업데이트 | Kubernetes 1.30+ (CRI/containerd, CNI/Cilium, CSI/ebs-csi-driver), HPA(Metric Server → CPU/Memory/Custom), VPA, KEDA(이벤트 기반 0→N 스케일링), Karpenter(AWS, 노드 프로비저닝 30초 이내) |
+| **Message Broker / Event Bus** | 비동기 통신, 이벤트 기반 결합도 완화, 버스트 흡수 | Apache Kafka(Partition, ISR, Exactly-Once Semantics EOS, KRaft consensus), RabbitMQ(AMQP 0-9-1, Quorum Queue), AWS SQS(Standard/FIFO, Visibility Timeout, DLQ), AWS EventBridge(Schema Registry, Event Bus 규칙) |
+| **Polyglot Persistence** | 워크로드별 최적 데이터 저장소 조합 | RDB(Aurora MySQL/PostgreSQL, 5x MySQL, 3x PostgreSQL 성능), NoSQL(DynamoDB Single-digit millisecond, Cassandra Wide-Column, MongoDB Document), Cache(Redis Cluster 16,384 shards, Memcached), Search(OpenSearch BM25+KNN 하이브리드), Data Lake(S3 + Iceberg/Delta Lake/Hudi ACID 트랜잭션) |
+| **Observability Stack (3 Pillars)** | 시스템 상태 측정 및 SLI/SLO 기반 의사결정 | Metrics(Prometheus TSDB, 1 샘플=1.4 bytes), Logs(Loki 라벨 기반 인덱싱, 압축 5x), Traces(OpenTelemetry OTLP 표준, W3C Trace Context, 128-bit TraceID), USE/RED 메서드 |
+| **IaC & GitOps** | 인프라/앱의 선언적 정의와 자동 동기화 | Terraform(HCL 2.0, State Lock, Module Registry, Sentinel/OPA Policy), Pulumi(타입 안전, Python/TS/Go 멀티 언어), ArgoCD(Application Controller, Sync Wave, Drift Detection), Flux CD(OCI Helm 지원) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 메커니즘 - HPA(Horizontal Pod Autoscaler) 동작 알고리즘**:
+`desiredReplicas = ceil[currentReplicas × (currentMetricValue / desiredMetricValue)]`
+예: 현재 4개 Pod, CPU 80% 사용 중, 목표 50%일 때 → `ceil[4 × (80/50)] = ceil[6.4] = 7개`로 스케일 아웃. KEDA의 경우 Kafka Lag, SQS Queue Length, Cron Schedule 등 60+ Scaler를 통해 Event-Driven 0→N 스케일링 지원. 안정화를 위해 `--horizontal-pod-autoscaler-upscale-delay`(기본 3분), `--horizontal-pod-autoscaler-downscale-stabilization-window`(기본 5분) 튜닝 필수.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**📢 섹션 요약 비유**: 클라우드 아키텍처는 "국제공항의 허브 앤 스포크 시스템"과 같다. 공항(API Gateway)에서 탑승 수속·보안검색(인증/인가)을 거친 승객(요청)이 게이트(Service Mesh 라우팅)를 거쳐 비행기(K8s Pod)들 중 적절한 좌석(컨테이너)에 안내되고, 수하물(데이터)은 별도의 벨트 컨베이어(Kafka/EventBridge)로 목적지(DB·Cache·Search)에 분류되어 도착한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 767번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 767번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 767번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 767번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 767번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 767번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 767번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 767번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 767번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | IaaS (예: EC2, GCE) | PaaS (예: Beanstalk, App Engine) | CaaS (예: EKS, Cloud Run) | FaaS (예: Lambda, Cloud Functions) |
+| :--- | :--- | :--- | :--- | :--- |
+| **관리 범위** | HW + 가상화 + 네트워크 + 스토리지 | + 미들웨어 + 런타임 | + OS + 컨테이너 런타임 | + 애플리케이션 코드 외 전부 |
+| **확장 단위** | VM 인스턴스 | 인스턴스/슬롯 | Pod/Container | 요청 단위 (ms 과금) |
+| **콜드 스타트** | 없음 (이미 부팅) | 30초~수 분 | 1~10초 (이미지 풀) | 100ms~수 초 (SnapStart로 10ms) |
+| **적합 워크로드** | 레거시, 특수 HW, 장기 실행 | 웹앱 표준, 빠른 출시 | MSA, 배치, CI/CD | 이벤트 처리, 글루 코드, 스케줄러 |
+| **제어력 vs 생산성** | 제어 ↑↑ / 생산성 ↓ | 제어 ↑ / 생산성 ↑ | 제어 ↑ / 생산성 ↑↑ | 제어 ↓ / 생산성 ↑↑↑ |
+| **대표 제약** | OS 패치 직접, Auto Scaling 직접 구성 | 런
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 767 / 800
 
-<- **이전**: [766. 클라우드 아키텍처 핵심 토픽 766번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/766_cloud_architecture_core_topic_766_exam_summar/)
-**다음**: [768. 클라우드 아키텍처 핵심 토픽 768번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/768_cloud_architecture_core_topic_768_exam_summar/) ->
+<- **이전**: [766. 클라우드 아키텍처 핵심 토픽 766번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/766_cloud_architecture_core_topic_766_exam_summar/)
+**다음**: [768. 클라우드 아키텍처 핵심 토픽 768번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/768_cloud_architecture_core_topic_768_exam_summar/) ->
 
 ---

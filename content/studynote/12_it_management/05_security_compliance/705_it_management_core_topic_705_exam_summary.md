@@ -1,13 +1,10 @@
-+++
-title = "705. IT 경영 관리 핵심 토픽 705번 시험 요약 (IT Management Core Topic 705 Exam Summary)"
-date = 2026-05-09
+---
+title: "705. IT 경영 관리 핵심 토픽 705번 시험 요약 (IT Management Core Topic 705 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -109,7 +106,7 @@ ISO 38500:2015는 이사회가 IT를 **평가(Evaluate)·지시(Direct)·모니�
 
 **진행 상황**: 705 / 800
 
-<- **이전**: [704. IT 경영 관리 핵심 토픽 704번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/704_it_management_core_topic_704_exam_summary/)
-**다음**: [706. IT 경영 관리 핵심 토픽 706번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/706_it_management_core_topic_706_exam_summary/) ->
+<- **이전**: [704. IT 경영 관리 핵심 토픽 704번 시험 요약](/studynote/12_it_management/05_security_compliance/704_it_management_core_topic_704_exam_summary/)
+**다음**: [706. IT 경영 관리 핵심 토픽 706번 시험 요약](/studynote/12_it_management/05_security_compliance/706_it_management_core_topic_706_exam_summary/) ->
 
 ---

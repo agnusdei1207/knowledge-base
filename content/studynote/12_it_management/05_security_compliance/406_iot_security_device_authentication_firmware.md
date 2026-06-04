@@ -1,13 +1,10 @@
-+++
-title = "406. IoT 보안 디바이스 인증 펌웨어 (IoT Security Device Authentication Firmware)"
-date = 2026-05-09
+---
+title: "406. IoT 보안 디바이스 인증 펌웨어 (IoT Security Device Authentication Firmware)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -45,7 +42,7 @@ IoT 디바이스 인증 펌웨어는 **하드웨어 보안 모듈**과 **펌웨�
 
 **진행 상황**: 406 / 800
 
-<- **이전**: [405. 모바일 보안 MDM MAM 앱 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/)
-**다음**: [407. OT 보안 산업 제어 시스템 SCADA](/knowledge-base/studynote/12_it_management/05_security_compliance/407_ot_security_ics_scada_protection/) ->
+<- **이전**: [405. 모바일 보안 MDM MAM 앱 보호](/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/)
+**다음**: [407. OT 보안 산업 제어 시스템 SCADA](/studynote/12_it_management/05_security_compliance/407_ot_security_ics_scada_protection/) ->
 
 ---

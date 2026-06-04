@@ -1,37 +1,34 @@
-+++
-title = "514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)"
-date = 2026-05-09
+---
+title: "514. 회귀 분석: OLS, VIF, 다중공선성 (Regression OLS VIF Multicollinearity)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: OLS(Ordinary Least Squares, 최소 자승법)는 잔차(Residual) 제곱합을 최소화해 독립변수와 종속변수의 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 추정하며, 회귀 계수의 최량 선형 불편 추정량(BLUE)을 보장한다.
-> 2. **가치**: 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))은 독립변수들 간 강한 상관관계로 회귀 계수 추정이 불안정해지는 현상 — VIF([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor) > 10이면 변수 제거 또는 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 필요.
-> 3. **판단 포인트**: R^는 높지만 VIF도 높은 모델은 신뢰 불가 — 조정된 R^(Adjusted R^)와 VIF를 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 릿지(Ridge) 또는 라쏘([Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 다중공선성을 대처한다.
+> 1. **본질**: OLS(Ordinary Least Squares, 최소 자승법)는 잔차(Residual) 제곱합을 최소화해 독립변수와 종속변수의 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 추정하며, 회귀 계수의 최량 선형 불편 추정량(BLUE)을 보장한다.
+> 2. **가치**: 다중공선성([Multicollinearity](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))은 독립변수들 간 강한 상관관계로 회귀 계수 추정이 불안정해지는 현상 — VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor) > 10이면 변수 제거 또는 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 필요.
+> 3. **판단 포인트**: R^는 높지만 VIF도 높은 모델은 신뢰 불가 — 조정된 R^(Adjusted R^)와 VIF를 함께 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 릿지(Ridge) 또는 라쏘([Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/)) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 다중공선성을 대처한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-회귀 분석은 예측(Prediction)과 [인과 추론](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/)([Causal Inference](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/)) 양쪽에 활용된다. OLS는 가장 기본적이지만 가정이 위배되면 결과를 신뢰할 수 없다.
+회귀 분석은 예측(Prediction)과 [인과 추론](/studynote/16_bigdata/05_analysis/122_causal_inference/)([Causal Inference](/studynote/16_bigdata/05_analysis/122_causal_inference/)) 양쪽에 활용된다. OLS는 가장 기본적이지만 가정이 위배되면 결과를 신뢰할 수 없다.
 
 ### OLS의 가우스-마르코프 가정 (Gauss-Markov Assumptions)
 
 1. **선형성 (Linearity)**: Y = β₀ + β₁X₁ + ε
 2. **등분산성 (Homoscedasticity)**: Var(ε) = σ^ (상수)
 3. **잔차 정규성 (Normality of Residuals)**
-4. <strong>독립성 (<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>: 관측값 간 상관 없음
-5. **다중공선성 없음**: 독립변수들 간 완전한 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 없음
+4. <strong>독립성 (<a href="/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a>)</strong>: 관측값 간 상관 없음
+5. **다중공선성 없음**: 독립변수들 간 완전한 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 없음
 
 **BLUE 정리**: 위 가정이 모두 만족되면 OLS 추정량이 최량 선형 불편 추정량(BLUE, Best Linear Unbiased Estimator).
 
-- **📢 섹션 요약 비유**: OLS는 점들을 가로지르는 선을 그을 때 모든 점에서 선까지의 수직 거리 제곱합을 가장 작게 만드는 선을 선택하는 방법이야. 완벽한 선 하나를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 뽑아내는 거지.
+- **📢 섹션 요약 비유**: OLS는 점들을 가로지르는 선을 그을 때 모든 점에서 선까지의 수직 거리 제곱합을 가장 작게 만드는 선을 선택하는 방법이야. 완벽한 선 하나를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 뽑아내는 거지.
 
 ---
 
@@ -73,17 +70,17 @@ VIF < 5   VIF > 10
 
 ## Ⅲ. 비교 및 연결
 
-### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방법 비교
+### [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방법 비교
 
 | 방법 | 패널티 항 | 특성 | 다중공선성 대처 |
 |:---|:---|:---|:---|
 | Ridge (L2) | λΣβⱼ^ | 계수 축소, 0으로 만들지 않음 | 강건 |
-| [Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) (L1) | λΣ|βⱼ| | 일부 계수 = 0 (변수 선택) | 자동 제거 |
-| [Elastic Net](/knowledge-base/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) | α·L1 + (1-α)·L2 | 두 방법의 혼합 | 균형적 |
+| [Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) (L1) | λΣ|βⱼ| | 일부 계수 = 0 (변수 선택) | 자동 제거 |
+| [Elastic Net](/studynote/06_ict_convergence/05_data_science/374_elastic_net_regression/) | α·L1 + (1-α)·L2 | 두 방법의 혼합 | 균형적 |
 
 **다중공선성 vs 과적합 구분**:
-- 다중공선성: 독립변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 문제 -> 계수 불안정, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 넓어짐.
-- 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)): 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 너무 맞춤 -> 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하.
+- 다중공선성: 독립변수 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 문제 -> 계수 불안정, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 넓어짐.
+- 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)): 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 너무 맞춤 -> 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하.
 
 - **📢 섹션 요약 비유**: Ridge는 팀원 모두의 역할을 조금씩 줄이는 것이고, Lasso는 기여도가 낮은 팀원을 아예 팀에서 빼버리는 거야. 중복된 역할의 팀원(다중공선성)이 있을 때 Lasso가 더 깔끔하게 정리해줘.
 
@@ -94,29 +91,29 @@ VIF < 5   VIF > 10
 **시나리오 - 부동산 가격 예측 모델**:
 - 독립변수: 면적, 층수, 연식, 주변 편의시설 수, 지하철 거리.
 - VIF 결과: 면적 VIF=12.3 (심각), 연식 VIF=1.8 (정상).
-- 면적과 가격의 상관이 너무 높아 직접 제거 대신 Ridge [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 적용.
+- 면적과 가격의 상관이 너무 높아 직접 제거 대신 Ridge [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 적용.
 - Adjusted R^: OLS=0.82 -> Ridge(λ=0.1)=0.81 (약간 감소)
-- 그러나 Test RMSE: OLS=4,200만 원 -> Ridge=3,600만 원 (일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상).
+- 그러나 Test RMSE: OLS=4,200만 원 -> Ridge=3,600만 원 (일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상).
 
 **잔차 진단 절차**:
-1. 잔차 vs 적합값 플롯 -> 등분산성(Homoscedasticity) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
-2. Q-Q 플롯 -> 잔차 정규성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+1. 잔차 vs 적합값 플롯 -> 등분산성(Homoscedasticity) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+2. Q-Q 플롯 -> 잔차 정규성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 3. Durbin-Watson 검정 -> 잔차 독립성(자기상관 없음).
 
 **기술사 판단 포인트**:
-- VIF > [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 독립변수: 상관 높은 변수 중 하나 제거 or [주성분 분석](/knowledge-base/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)) 전처리.
-- 이분산성(Heteroscedasticity) 발견: WLS(Weighted Least Squares) 또는 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환.
+- VIF > [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 독립변수: 상관 높은 변수 중 하나 제거 or [주성분 분석](/studynote/06_ict_convergence/05_data_science/338_pca_principal_component_analysis/)([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)) 전처리.
+- 이분산성(Heteroscedasticity) 발견: WLS(Weighted Least Squares) 또는 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환.
 
-- **📢 섹션 요약 비유**: VIF 검사는 팀 프로젝트에서 두 명이 완전히 같은 일을 하고 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거야. 둘이 하는 일이 똑같으면 한 명은 빼거나 역할을 나눠야 효율이 올라가.
+- **📢 섹션 요약 비유**: VIF 검사는 팀 프로젝트에서 두 명이 완전히 같은 일을 하고 있는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 거야. 둘이 하는 일이 똑같으면 한 명은 빼거나 역할을 나눠야 효율이 올라가.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석 가능성을 동시에 확보할 수 있다.
+OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 해석 가능성을 동시에 확보할 수 있다.
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 계수 해석</strong>: VIF 관리로 안정적인 β 추정 -> [인과 추론](/knowledge-base/studynote/16_bigdata/05_analysis/122_causal_inference/) 가능.
-- **과적합 방지**: Ridge/[Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지.
+- <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 계수 해석</strong>: VIF 관리로 안정적인 β 추정 -> [인과 추론](/studynote/16_bigdata/05_analysis/122_causal_inference/) 가능.
+- **과적합 방지**: Ridge/[Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지.
 - **모델 선택 체계화**: Adjusted R^, AIC(Akaike Information Criterion), BIC(Bayesian Information Criterion) 기준으로 변수 선택.
 
 - **📢 섹션 요약 비유**: 좋은 회귀 모델은 좋은 팀 편성처럼, 서로 다른 역할을 하는 선수들로 구성되어야(다중공선성 없음) 각자의 기여를 정확히 측정하고 미래를 정확히 예측할 수 있어.
@@ -130,7 +127,7 @@ OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성�
 | OLS | 최소 자승법, BLUE · 선형 회귀 추정 |
 | VIF | 다중공선성 진단 · 변수 선택 |
 | Adjusted R^ | 모델 비교 · 변수 추가 여부 판단 |
-| Ridge/[Lasso](/knowledge-base/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 과적합 방지 · 고차원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| Ridge/[Lasso](/studynote/14_data_engineering/02_math_mining/102_lasso_ridge_regression_regularization/) | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 과적합 방지 · 고차원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | 잔차 진단 | 등분산성, 정규성 · 가정 위배 탐지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -142,7 +139,7 @@ OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성�
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 회귀 분석은 점들이 찍힌 종이에서 가장 잘 맞는 선을 긋는 거야 — OLS는 모든 점과 선의 거리 제곱합이 가장 작은 선을 찾아줘.
-2. 다중공선성은 여러 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 중에 완전히 똑같은 [힌트](/knowledge-base/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 있으면 정답을 맞히기 어려운 것처럼, 비슷한 변수들이 겹치면 모델이 헷갈려.
+2. 다중공선성은 여러 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/) 중에 완전히 똑같은 [힌트](/studynote/05_database/03_relational_model/167_sql_hint_optimizer_override/)가 있으면 정답을 맞히기 어려운 것처럼, 비슷한 변수들이 겹치면 모델이 헷갈려.
 3. VIF는 이 겹침이 얼마나 심한지 알려주는 숫자야 — 10보다 크면 "이건 너무 겹쳐!"라는 경고야!
 
 ---
@@ -151,7 +148,7 @@ OLS의 가정 검토와 VIF 진단을 체계적으로 수행하면 예측 [성�
 
 **진행 상황**: 514 / 552
 
-<- **이전**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/knowledge-base/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/)
-**다음**: [515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)](/knowledge-base/studynote/06_ict_convergence/05_data_science/515_pca_lda_svd_dimensionality_reduction/) ->
+<- **이전**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/)
+**다음**: [515. PCA, LDA, SVD 차원 축소 행렬 분해 (PCA LDA SVD Dimensionality Reduction)](/studynote/06_ict_convergence/05_data_science/515_pca_lda_svd_dimensionality_reduction/) ->
 
 ---

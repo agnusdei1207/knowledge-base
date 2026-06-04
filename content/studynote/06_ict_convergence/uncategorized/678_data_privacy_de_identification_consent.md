@@ -1,13 +1,10 @@
-+++
-title = "678. 데이터 프라이버시 비식별화 동의 관리 (Data Privacy De-identification Consent)"
-date = 2026-05-09
+---
+title: "678. 데이터 프라이버시 비식별화 동의 관리 (Data Privacy De-identification Consent)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -140,7 +137,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 678 / 800
 
-<- **이전**: [677. 데이터 관측 가능성 이상 탐지 품질](/knowledge-base/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/)
-**다음**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/knowledge-base/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/) ->
+<- **이전**: [677. 데이터 관측 가능성 이상 탐지 품질](/studynote/06_ict_convergence/uncategorized/677_data_observability_anomaly_quality_detection/)
+**다음**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/) ->
 
 ---

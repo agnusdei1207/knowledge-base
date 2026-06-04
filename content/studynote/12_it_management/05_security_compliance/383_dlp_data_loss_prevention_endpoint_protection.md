@@ -1,13 +1,10 @@
-+++
-title = "383. DLP 데이터 유출 방지 엔드포인트 보호 (DLP Data Loss Prevention Endpoint Protection)"
-date = 2026-05-09
+---
+title: "383. DLP 데이터 유출 방지 엔드포인트 보호 (DLP Data Loss Prevention Endpoint Protection)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 383 / 800
 
-<- **이전**: [382. 방화벽 차세대 NGFW 웹 방화벽 WAF](/knowledge-base/studynote/12_it_management/05_security_compliance/382_firewall_ngfw_web_application_firewall_waf/)
-**다음**: [384. SIEM 보안 정보 이벤트 관리 상관 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/384_siem_security_information_event_management/) ->
+<- **이전**: [382. 방화벽 차세대 NGFW 웹 방화벽 WAF](/studynote/12_it_management/05_security_compliance/382_firewall_ngfw_web_application_firewall_waf/)
+**다음**: [384. SIEM 보안 정보 이벤트 관리 상관 분석](/studynote/12_it_management/05_security_compliance/384_siem_security_information_event_management/) ->
 
 ---

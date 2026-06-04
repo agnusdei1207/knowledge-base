@@ -1,27 +1,24 @@
-+++
-title = "447. 양자 컴퓨터 (Quantum Computer) 기초"
-date = 2026-03-28
+---
+title: "447. 양자 컴퓨터 (Quantum Computer) 기초"
+date: "2026-03-28"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 양자 컴퓨터 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computer)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 더 빨리 뒤집는 장치가 아니라, [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))가 만드는 중첩 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))·얽힘 ([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))·간섭 (Interference)을 이용해 문제 공간을 다른 방식으로 탐색하는 계산 모델이다.
+> 1. **본질**: 양자 컴퓨터 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computer)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 값을 더 빨리 뒤집는 장치가 아니라, [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))가 만드는 중첩 ([Superposition](/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))·얽힘 ([Entanglement](/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))·간섭 (Interference)을 이용해 문제 공간을 다른 방식으로 탐색하는 계산 모델이다.
 > 2. **가치**: 소인수분해, 양자 화학 시뮬레이션, 일부 최적화처럼 구조가 맞는 문제에서는 고전 컴퓨터가 감당하기 어려운 상태공간을 더 효율적으로 다룰 가능성이 있다.
-> 3. **판단 포인트**: [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 핵심 경쟁력은 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수 자체보다 오류율, 코히어런스 시간, 양자 오류 정정 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Error Correction), 그리고 고전 컴퓨터와의 하이브리드 운용 능력에 달려 있다.
+> 3. **판단 포인트**: [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 핵심 경쟁력은 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수 자체보다 오류율, 코히어런스 시간, 양자 오류 정정 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Error Correction), 그리고 고전 컴퓨터와의 하이브리드 운용 능력에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-양자 컴퓨터 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computer)는 양자역학 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Mechanics)의 상태 표현 방식을 계산에 직접 이용하는 컴퓨터다. 고전 컴퓨터가 0 또는 1로 확정된 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 다루는 반면, 양자 컴퓨터는 측정 전까지 여러 상태의 조합으로 존재하는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))를 사용한다. 그래서 양자 컴퓨터의 강점은 "모든 일을 빠르게 한다"가 아니라, 특정 문제에서 상태공간을 압축적으로 표현하고 정답 쪽 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭을 키우는 데 있다.
+양자 컴퓨터 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Computer)는 양자역학 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Mechanics)의 상태 표현 방식을 계산에 직접 이용하는 컴퓨터다. 고전 컴퓨터가 0 또는 1로 확정된 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 다루는 반면, 양자 컴퓨터는 측정 전까지 여러 상태의 조합으로 존재하는 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))를 사용한다. 그래서 양자 컴퓨터의 강점은 "모든 일을 빠르게 한다"가 아니라, 특정 문제에서 상태공간을 압축적으로 표현하고 정답 쪽 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭을 키우는 데 있다.
 
-이 개념이 중요해진 배경은 두 가지다. 첫째, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 미세화만으로는 전력 밀도와 발열 문제 때문에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 둔화되었다. 둘째, 분자 시뮬레이션, 대규모 조합 최적화, 정수 인수분해 같은 문제는 고전 컴퓨터에서 계산량이 급격히 커져 현실적인 시간 안에 풀기 어렵다. 즉 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 기존 컴퓨터를 대체하려는 시도가 아니라, 고전 계산이 구조적으로 약한 구간을 보완하려는 특수 목적 가속기 관점에서 이해하는 것이 맞다.
+이 개념이 중요해진 배경은 두 가지다. 첫째, [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 미세화만으로는 전력 밀도와 발열 문제 때문에 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 둔화되었다. 둘째, 분자 시뮬레이션, 대규모 조합 최적화, 정수 인수분해 같은 문제는 고전 컴퓨터에서 계산량이 급격히 커져 현실적인 시간 안에 풀기 어렵다. 즉 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 기존 컴퓨터를 대체하려는 시도가 아니라, 고전 계산이 구조적으로 약한 구간을 보완하려는 특수 목적 가속기 관점에서 이해하는 것이 맞다.
 
 아래 그림은 "상태를 어떻게 표현하느냐"가 왜 계산 방식의 차이를 만드는지 보여준다.
 
@@ -41,7 +38,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-핵심은 "2ⁿ개 상태를 동시에 다 해본다"는 단순 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 비유가 아니라, 양자 상태 전체를 하나의 파동처럼 조작해 원하는 해가 관측될 가능성을 키운다는 점이다. 그래서 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어보다도 상태 준비, 위상 제어, 측정 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 본질이 된다.
+핵심은 "2ⁿ개 상태를 동시에 다 해본다"는 단순 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 비유가 아니라, 양자 상태 전체를 하나의 파동처럼 조작해 원하는 해가 관측될 가능성을 키운다는 점이다. 그래서 양자 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어보다도 상태 준비, 위상 제어, 측정 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 본질이 된다.
 
 - **📢 섹션 요약 비유**: 양자 컴퓨터는 미로를 무식하게 동시에 뛰는 수천 명의 사람이라기보다, 미로 전체에 물을 흘려 보내 출구 쪽 물결만 크게 남기도록 설계하는 장치에 가깝다.
 
@@ -49,17 +46,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 양자 시스템은 단일 장비가 아니라 양자 처리부와 고전 제어부가 결합된 구조다. 양자 프로세서 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Processing Unit, QPU)는 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 보관하고 게이트를 실행하며, 고전 제어기는 [마이크로파](/knowledge-base/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)·레이저 펄스를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 측정 신호를 해석한다. 또한 극저온 냉각기, 진공 장치, 차폐 장비 같은 환경 제어 계층이 함께 동작해야만 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)가 짧은 시간이라도 코히어런스 (Coherence)를 유지할 수 있다.
+현대 양자 시스템은 단일 장비가 아니라 양자 처리부와 고전 제어부가 결합된 구조다. 양자 프로세서 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Processing Unit, QPU)는 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 보관하고 게이트를 실행하며, 고전 제어기는 [마이크로파](/studynote/03_network/03_physical_layer_media/154_radio_wave_classification/)·레이저 펄스를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 측정 신호를 해석한다. 또한 극저온 냉각기, 진공 장치, 차폐 장비 같은 환경 제어 계층이 함께 동작해야만 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)가 짧은 시간이라도 코히어런스 (Coherence)를 유지할 수 있다.
 
 | 구성 요소 | 역할 | 대표 병목 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
-| [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)) | 양자 상태 저장 및 연산 단위 | 디코히어런스 (Decoherence) | 긴 코히어런스 시간 확보 |
-| 양자 게이트 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Gate) | 상태 회전, 얽힘 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 게이트 오류율 | 높은 충실도 (Fidelity) |
-| 측정기 (Readout) | [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 상태 관측 | 측정 잡음, 재설정 시간 | 빠른 판독과 오분류 감소 |
-| 제어 전자부 | 펄스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·보정 | 보정 복잡도, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 정밀한 파형 제어 |
-| 오류 정정 계층 | 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 오버헤드 | 표면 코드 (Surface [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 효율 |
+| [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)) | 양자 상태 저장 및 연산 단위 | 디코히어런스 (Decoherence) | 긴 코히어런스 시간 확보 |
+| 양자 게이트 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Gate) | 상태 회전, 얽힘 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 게이트 오류율 | 높은 충실도 (Fidelity) |
+| 측정기 (Readout) | [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 상태 관측 | 측정 잡음, 재설정 시간 | 빠른 판독과 오분류 감소 |
+| 제어 전자부 | 펄스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·보정 | 보정 복잡도, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 정밀한 파형 제어 |
+| 오류 정정 계층 | 물리 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 오버헤드 | 표면 코드 (Surface [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/)) 효율 |
 
-아래 그림은 실제 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 왜 "[큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 칩 하나"가 아니라 거대한 지원 시스템과 함께 움직이는지를 보여준다.
+아래 그림은 실제 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 왜 "[큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 칩 하나"가 아니라 거대한 지원 시스템과 함께 움직이는지를 보여준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -85,9 +82,9 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-양자 계산의 핵심 원리는 세 가지로 정리할 수 있다. 첫째, 중첩 ([Superposition](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))은 하나의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 0과 1의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조합으로 준비해 상태공간 표현력을 키운다. 둘째, 얽힘 ([Entanglement](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))은 여러 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 분리된 개체가 아니라 하나의 결합된 상태로 만들어, 고전적 상관관계보다 훨씬 풍부한 상태 구조를 만든다. 셋째, 간섭 (Interference)은 정답 후보의 진폭은 증폭하고 오답 후보의 진폭은 상쇄해 측정 시 유리한 결과가 나오도록 회로를 설계하게 한다.
+양자 계산의 핵심 원리는 세 가지로 정리할 수 있다. 첫째, 중첩 ([Superposition](/studynote/06_ict_convergence/03_cloud_infrastructure/219_quantum_superposition_qubit/))은 하나의 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 0과 1의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조합으로 준비해 상태공간 표현력을 키운다. 둘째, 얽힘 ([Entanglement](/studynote/06_ict_convergence/03_cloud_infrastructure/220_quantum_entanglement/))은 여러 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 분리된 개체가 아니라 하나의 결합된 상태로 만들어, 고전적 상관관계보다 훨씬 풍부한 상태 구조를 만든다. 셋째, 간섭 (Interference)은 정답 후보의 진폭은 증폭하고 오답 후보의 진폭은 상쇄해 측정 시 유리한 결과가 나오도록 회로를 설계하게 한다.
 
-예를 들어 하다마드 게이트 (Hadamard Gate)는 중첩을 만들고, 제어 NOT 게이트 (Controlled-NOT Gate, CNOT)는 얽힘을 만든다. 하지만 게이트를 많이 쌓을수록 노이즈가 누적되므로, 실제 설계에서는 회로 깊이 (Circuit Depth)를 줄이고 측정 횟수인 샷 (Shot)을 늘려 통계적으로 결과를 복원하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 중요하다. 이 때문에 오늘날 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 "이상적 수학 모델"과 "노이즈가 심한 물리 장치" 사이의 간극을 관리하는 공학 문제이기도 하다.
+예를 들어 하다마드 게이트 (Hadamard Gate)는 중첩을 만들고, 제어 NOT 게이트 (Controlled-NOT Gate, CNOT)는 얽힘을 만든다. 하지만 게이트를 많이 쌓을수록 노이즈가 누적되므로, 실제 설계에서는 회로 깊이 (Circuit Depth)를 줄이고 측정 횟수인 샷 (Shot)을 늘려 통계적으로 결과를 복원하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 중요하다. 이 때문에 오늘날 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 "이상적 수학 모델"과 "노이즈가 심한 물리 장치" 사이의 간극을 관리하는 공학 문제이기도 하다.
 
 - **📢 섹션 요약 비유**: 양자 컴퓨터는 천재 한 명만 있으면 되는 팀이 아니라, 얼음 위에서 정교한 연주를 해야 하는 오케스트라와 같다. 악기만 좋아도 안 되고, 온도·지휘·튜닝이 모두 맞아야 음악이 성립한다.
 
@@ -95,19 +92,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-양자 컴퓨터를 정확히 이해하려면 "고전 컴퓨터보다 무조건 빠른가"가 아니라 "어떤 종류의 계산을 다르게 푸는가"를 비교해야 한다. 중앙처리장치 (Central Processing Unit, CPU)와 그래픽 처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 통해 같은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산을 더 빨리 수행한다. 반면 양자 컴퓨터는 상태 표현과 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조작 자체가 달라서, 동일한 문제라도 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 철학이 완전히 다르다.
+양자 컴퓨터를 정확히 이해하려면 "고전 컴퓨터보다 무조건 빠른가"가 아니라 "어떤 종류의 계산을 다르게 푸는가"를 비교해야 한다. 중앙처리장치 (Central Processing Unit, CPU)와 그래픽 처리장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 통해 같은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산을 더 빨리 수행한다. 반면 양자 컴퓨터는 상태 표현과 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 진폭 조작 자체가 달라서, 동일한 문제라도 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 설계 철학이 완전히 다르다.
 
-| 비교 축 | CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | 양자 컴퓨터 |
+| 비교 축 | CPU/[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) | 양자 컴퓨터 |
 | :--- | :--- | :--- |
-| 기본 단위 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/), 양자 회로 |
-| 가속 방식 | 클럭 향상, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 중첩·얽힘·간섭 활용 |
-| 결과 특성 | 결정론적 결과 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 측정 결과 |
+| 기본 단위 | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/), 양자 회로 |
+| 가속 방식 | 클럭 향상, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 코어, 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 중첩·얽힘·간섭 활용 |
+| 결과 특성 | 결정론적 결과 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 측정 결과 |
 | 약점 | 조합 폭발, 양자계 시뮬레이션 어려움 | 오류율, 짧은 코히어런스, 입출력 오버헤드 |
-| 적합 업무 | 범용 연산, 대규모 실무 처리 | 특정 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 특수 문제 |
+| 적합 업무 | 범용 연산, 대규모 실무 처리 | 특정 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기반 특수 문제 |
 
-하드웨어 구현 기술도 트레이드오프가 뚜렷하다. 초전도 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) (Superconducting [Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))는 게이트 속도가 빠르고 집적에 유리하지만 극저온 인프라가 필수다. 이온 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) (Ion [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))은 충실도가 높고 코히어런스가 길지만 게이트가 상대적으로 느리다. 포토닉 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) (Photonic [Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))는 상온 네트워킹에 강점이 있지만 상호작용 구현이 어렵다. 즉 "최고의 방식 하나"가 있는 것이 아니라, 목표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 따라 다른 공학적 선택이 나온다.
+하드웨어 구현 기술도 트레이드오프가 뚜렷하다. 초전도 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) (Superconducting [Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))는 게이트 속도가 빠르고 집적에 유리하지만 극저온 인프라가 필수다. 이온 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) (Ion [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))은 충실도가 높고 코히어런스가 길지만 게이트가 상대적으로 느리다. 포토닉 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) (Photonic [Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/))는 상온 네트워킹에 강점이 있지만 상호작용 구현이 어렵다. 즉 "최고의 방식 하나"가 있는 것이 아니라, 목표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 따라 다른 공학적 선택이 나온다.
 
-또한 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 보안, 재료공학, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 강하게 연결된다. 쇼어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 공개키 암호체계의 안전성 문제를 자극해 [양자 내성 암호](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 전환을 촉진한다. 변분 양자 고유값 해법 (Variational [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Eigensolver, VQE)과 양자 근사 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Approximate Optimization [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), QAOA)은 화학·최적화 문제를 고전 컴퓨터와 협력해 푸는 대표 사례다. 따라서 양자 컴퓨터는 독립된 신기술이 아니라 여러 과목을 묶는 연결 허브로 보는 편이 더 정확하다.
+또한 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 보안, 재료공학, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)과 강하게 연결된다. 쇼어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Shor's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 공개키 암호체계의 안전성 문제를 자극해 [양자 내성 암호](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/) ([Post-Quantum Cryptography](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/), [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/)) 전환을 촉진한다. 변분 양자 고유값 해법 (Variational [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Eigensolver, VQE)과 양자 근사 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Approximate Optimization [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), QAOA)은 화학·최적화 문제를 고전 컴퓨터와 협력해 푸는 대표 사례다. 따라서 양자 컴퓨터는 독립된 신기술이 아니라 여러 과목을 묶는 연결 허브로 보는 편이 더 정확하다.
 
 - **📢 섹션 요약 비유**: CPU가 많은 사무원이 규칙적으로 서류를 처리하는 사무실이라면, 양자 컴퓨터는 평소엔 다루기 어렵지만 특정 퍼즐에서는 결정적 실마리를 주는 특수 연구실 장비에 가깝다.
 
@@ -115,29 +112,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 아직 범용 인프라가 아니라, 문제 적합성 검토가 선행되어야 하는 실험적 가속 자원이다. 따라서 "양자라서 도입"이 아니라, 상태공간 크기·정확도 요구·고전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계·보안 전환 시급성을 먼저 따져야 한다. 현재는 소음 있는 중간 규모 양자 (Noisy Intermediate-Scale [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/), NISQ) 단계이므로, 완전한 정답 보장보다 근사해·시뮬레이션·연구용 검증에 더 적합하다.
+실무에서 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)은 아직 범용 인프라가 아니라, 문제 적합성 검토가 선행되어야 하는 실험적 가속 자원이다. 따라서 "양자라서 도입"이 아니라, 상태공간 크기·정확도 요구·고전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 한계·보안 전환 시급성을 먼저 따져야 한다. 현재는 소음 있는 중간 규모 양자 (Noisy Intermediate-Scale [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/), NISQ) 단계이므로, 완전한 정답 보장보다 근사해·시뮬레이션·연구용 검증에 더 적합하다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **문제 적합성**: 소인수분해, 양자 화학, 비구조적 탐색처럼 검증된 양자 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 있는 문제인가?
+1. **문제 적합성**: 소인수분해, 양자 화학, 비구조적 탐색처럼 검증된 양자 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 있는 문제인가?
 2. **오류 허용도**: 회로 깊이가 현재 하드웨어의 오류율과 코히어런스 시간 안에 들어오는가?
-3. **입출력 비용**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비와 결과 후처리 오버헤드를 감안해도 전체 이득이 남는가?
+3. **입출력 비용**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 준비와 결과 후처리 오버헤드를 감안해도 전체 이득이 남는가?
 4. **하이브리드 설계**: 고전 전처리·후처리와 양자 회로 실행의 역할 분담이 명확한가?
-5. <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 암호 체계 전환이라면 양자 컴퓨터 도입보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환 로드맵이 더 시급한가?
+5. <strong>보안 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 암호 체계 전환이라면 양자 컴퓨터 도입보다 [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환 로드맵이 더 시급한가?
 
 ### 대표 적용 시나리오
 
 - **양자 화학 시뮬레이션**: 분자의 바닥 상태 에너지 추정을 위해 VQE를 적용하면, 전자 상호작용을 자연스럽게 표현할 수 있어 신약·촉매 연구에 의미가 있다.
-- **조합 최적화**: 물류 경로, 포트폴리오 구성, 스케줄링 문제에서 QAOA 기반 근사해를 실험할 수 있지만, 아직은 고전 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 대비 우위가 제한적이다.
-- <strong>보안 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong>: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 같은 공개키 기반 체계는 장기적으로 위협받을 수 있으므로, 지금 당장 중요한 실무 행동은 양자 장비 구매보다 [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환 우선순위 수립이다.
+- **조합 최적화**: 물류 경로, 포트폴리오 구성, 스케줄링 문제에서 QAOA 기반 근사해를 실험할 수 있지만, 아직은 고전 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) 대비 우위가 제한적이다.
+- <strong>보안 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong>: [RSA](/studynote/09_security/03_network_security/110_rsa/), [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 같은 공개키 기반 체계는 장기적으로 위협받을 수 있으므로, 지금 당장 중요한 실무 행동은 양자 장비 구매보다 [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환 우선순위 수립이다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 양자 컴퓨터가 모든 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자동으로 높일 것이라 기대하는 판단
-- 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수만 보고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교하며 오류율·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수를 무시하는 평가
-- NISQ 장비로 깊은 회로를 그대로 실행해 놓고 "양자 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 나온다"고 결론내리는 접근
+- 양자 컴퓨터가 모든 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 자동으로 높일 것이라 기대하는 판단
+- 물리 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수만 보고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교하며 오류율·[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 수를 무시하는 평가
+- NISQ 장비로 깊은 회로를 그대로 실행해 놓고 "양자 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 안 나온다"고 결론내리는 접근
 
-실무자 관점에서 가장 중요한 문장은 이것이다. <strong>현재는 FTQC (Fault-Tolerant <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/">Quantum Computing</a>)가 아니라 NISQ 단계이므로, 대규모 상용 운영보다 PoC와 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 적합성 검증이 현실적이다.</strong> 기술사 답안에서도 이 문장이 들어가면 과장 대신 판단력이 드러난다.
+실무자 관점에서 가장 중요한 문장은 이것이다. <strong>현재는 FTQC (Fault-Tolerant <a href="/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/">Quantum Computing</a>)가 아니라 NISQ 단계이므로, 대규모 상용 운영보다 PoC와 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 적합성 검증이 현실적이다.</strong> 기술사 답안에서도 이 문장이 들어가면 과장 대신 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: 양자 컴퓨터는 당장 모든 공사 현장에 투입할 불도저가 아니라, 특정 지층을 뚫을 때만 빌려오는 초고가 특수 장비와 같다. 장비가 대단하다고 항상 쓰는 것은 아니다.
 
@@ -145,9 +142,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 성숙하면 기대효과는 분명하다. 첫째, 분자·재료 시뮬레이션에서 고전적 근사 한계를 줄여 신약 개발과 신소재 탐색 속도를 높일 수 있다. 둘째, 특정 최적화와 탐색 문제에서 고전 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 품질 한계를 넘어설 가능성이 있다. 셋째, [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 분야에서는 위협 자체가 산업을 움직여 보안 표준과 키 관리 체계를 재편하게 만든다.
+[양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)이 성숙하면 기대효과는 분명하다. 첫째, 분자·재료 시뮬레이션에서 고전적 근사 한계를 줄여 신약 개발과 신소재 탐색 속도를 높일 수 있다. 둘째, 특정 최적화와 탐색 문제에서 고전 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)의 품질 한계를 넘어설 가능성이 있다. 셋째, [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 분야에서는 위협 자체가 산업을 움직여 보안 표준과 키 관리 체계를 재편하게 만든다.
 
-하지만 전제조건도 분명하다. 실용 수준의 내결함 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) (Fault-Tolerant [Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/), FTQC)에는 많은 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)와 안정적인 오류 정정이 필요하며, 이는 곧 막대한 장비 비용과 긴 기술 축적 시간을 뜻한다. 또한 많은 업무는 여전히 CPU·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·전용 가속기가 더 효율적이므로, 양자 컴퓨터는 "대체재"보다 "특수 가속기 포트폴리오의 한 축"으로 보는 편이 현실적이다.
+하지만 전제조건도 분명하다. 실용 수준의 내결함 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/) (Fault-Tolerant [Quantum Computing](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/), FTQC)에는 많은 물리 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)와 안정적인 오류 정정이 필요하며, 이는 곧 막대한 장비 비용과 긴 기술 축적 시간을 뜻한다. 또한 많은 업무는 여전히 CPU·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·전용 가속기가 더 효율적이므로, 양자 컴퓨터는 "대체재"보다 "특수 가속기 포트폴리오의 한 축"으로 보는 편이 현실적이다.
 
 결국 이 주제의 핵심 기억법은 간단하다. <strong>양자 컴퓨터는 빠른 컴퓨터가 아니라, 다른 규칙으로 계산하는 컴퓨터</strong>다. 그래서 평가 기준도 클럭, 코어 수, 범용성보다 오류 정정 가능성, 문제 적합성, 하이브리드 통합 능력으로 옮겨가야 한다.
 
@@ -159,12 +156,12 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)) | 양자 상태를 표현하는 기본 단위이며, 중첩과 측정 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 출발점이다. |
-| 양자 게이트 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Gate) | [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)의 진폭과 위상을 조작해 계산을 구성하는 회로 블록이다. |
-| 양자 오류 정정 ([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Error Correction) | 물리 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)의 불안정성을 보완해 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 만드는 핵심 기반이다. |
-| NISQ (Noisy Intermediate-Scale [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | 현재 상용·연구 장비의 현실적 제약과 적용 범위를 설명하는 시대 구분이다. |
-| FTQC (Fault-Tolerant [Quantum Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) | 실용적 장기 연산이 가능한 목표 단계로, 진정한 상용 확장의 전제다. |
-| [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/knowledge-base/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) | 양자 컴퓨터의 보안 영향을 받아 함께 논의해야 하는 대응 기술이다. |
+| [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ([Qubit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)) | 양자 상태를 표현하는 기본 단위이며, 중첩과 측정 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)의 출발점이다. |
+| 양자 게이트 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Gate) | [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)의 진폭과 위상을 조작해 계산을 구성하는 회로 블록이다. |
+| 양자 오류 정정 ([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Error Correction) | 물리 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)의 불안정성을 보완해 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/)를 만드는 핵심 기반이다. |
+| NISQ (Noisy Intermediate-Scale [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/)) | 현재 상용·연구 장비의 현실적 제약과 적용 범위를 설명하는 시대 구분이다. |
+| FTQC (Fault-Tolerant [Quantum Computing](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)) | 실용적 장기 연산이 가능한 목표 단계로, 진정한 상용 확장의 전제다. |
+| [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) ([Post-Quantum Cryptography](/studynote/14_data_engineering/04_mlops/183_post_quantum_cryptography_key_transition/)) | 양자 컴퓨터의 보안 영향을 받아 함께 논의해야 하는 대응 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -187,7 +184,7 @@ NISQ (Noisy Intermediate-Scale Quantum) 하이브리드 계산
 FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속
 ```
 
-이 흐름은 "새로운 상태 표현 -> 제어 메커니즘 -> 현실 제약 -> 오류 극복 -> 산업 영향"으로 [양자 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 발전 단계를 묶어 보여준다.
+이 흐름은 "새로운 상태 표현 -> 제어 메커니즘 -> 현실 제약 -> 오류 극복 -> 산업 영향"으로 [양자 컴퓨팅](/studynote/12_it_management/05_security_compliance/236_quantum_computing_pqc/)의 발전 단계를 묶어 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -201,7 +198,7 @@ FTQC (Fault-Tolerant Quantum Computing) · PQC 전환 가속
 
 **진행 상황**: 448 / 803
 
-<- **이전**: [446. 스파이킹 신경망 (SNN)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)
-**다음**: [448. 큐비트 (Qubit)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ->
+<- **이전**: [446. 스파이킹 신경망 (SNN)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/446_snn/)
+**다음**: [448. 큐비트 (Qubit)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) ->
 
 ---

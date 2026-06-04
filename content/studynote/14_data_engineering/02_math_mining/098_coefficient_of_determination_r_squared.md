@@ -1,29 +1,26 @@
-+++
-title = "결정 계수 (Coefficient of Determination) - R-Squared"
-date = 2026-03-04
+---
+title: "결정 계수 (Coefficient of Determination) - R-Squared"
+date: "2026-03-04"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 결정 계수(R-Squared, $R^2$)는 회귀 모델이 종속 변수의 전체 변동성 중 얼마나 많은 부분을 설명(Explain)할 수 있는지를 0에서 1 사이의 비율로 나타낸 상대적 평가지표다.
-> 2. **가치**: 단순한 오차의 크기(RMSE 등)가 아닌 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 본연의 흩어짐을 기준으로 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정규화하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일이 서로 다른 모델 간의 비교를 가능하게 한다.
-> 3. **판단 포인트**: 다중 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서는 변수가 추가될수록 $R^2$가 무조건 증가하는 함정이 있으므로, 반드시 수정된 결정 계수(Adjusted $R^2$)를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 모델의 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지해야 한다.
+> 2. **가치**: 단순한 오차의 크기(RMSE 등)가 아닌 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 본연의 흩어짐을 기준으로 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 정규화하므로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일이 서로 다른 모델 간의 비교를 가능하게 한다.
+> 3. **판단 포인트**: 다중 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서는 변수가 추가될수록 $R^2$가 무조건 증가하는 함정이 있으므로, 반드시 수정된 결정 계수(Adjusted $R^2$)를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하여 모델의 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))의 궁극적인 목표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산포(Variation)를 주어진 변수들로 얼마나 잘 예측하고 설명할 수 있는지를 밝히는 것이다. 모델을 학습시킨 후, 이 모델이 정말 유효한지 평가하기 위해 MSE나 RMSE 같은 절대 오차 지표를 주로 사용한다.
+[회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)([Regression Analysis](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/))의 궁극적인 목표는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 산포(Variation)를 주어진 변수들로 얼마나 잘 예측하고 설명할 수 있는지를 밝히는 것이다. 모델을 학습시킨 후, 이 모델이 정말 유효한지 평가하기 위해 MSE나 RMSE 같은 절대 오차 지표를 주로 사용한다.
 
-하지만 절대 오차 지표는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 스케일(단위)에 종속적이어서 "그래서 이 오차가 전반적으로 얼마나 훌륭한 결과인가?"를 판단하기 어렵다. 집값을 억 단위로 예측할 때의 오차와, 온도를 1도 단위로 예측할 때의 오차를 직접 비교할 수 없기 때문이다. 따라서 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흩어짐 대비 현재 모델이 오차를 얼마나 줄였는지를 0~1 사이의 비율(%)로 표준화한 지표인 결정 계수($R^2$)가 필요해졌다.
+하지만 절대 오차 지표는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 스케일(단위)에 종속적이어서 "그래서 이 오차가 전반적으로 얼마나 훌륭한 결과인가?"를 판단하기 어렵다. 집값을 억 단위로 예측할 때의 오차와, 온도를 1도 단위로 예측할 때의 오차를 직접 비교할 수 없기 때문이다. 따라서 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 흩어짐 대비 현재 모델이 오차를 얼마나 줄였는지를 0~1 사이의 비율(%)로 표준화한 지표인 결정 계수($R^2$)가 필요해졌다.
 
-- **📢 섹션 요약 비유**: R-Squared는 학교 시험의 절대 점수가 아니라 '반 석차 백분율'과 같다. 시험 난이도([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일)가 어떻든, 상위 몇 %에 위치하는지 명확히 알려주어 실력을 객관적으로 증명한다.
+- **📢 섹션 요약 비유**: R-Squared는 학교 시험의 절대 점수가 아니라 '반 석차 백분율'과 같다. 시험 난이도([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스케일)가 어떻든, 상위 몇 %에 위치하는지 명확히 알려주어 실력을 객관적으로 증명한다.
 
 ---
 
@@ -32,8 +29,8 @@ tags = ["studynote-data-engineering"]
 R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명하지 못한 부분으로 분해(Decomposition)하여 계산한다.
 
 - **SST (Total Sum of Squares)**: 실제값들이 평균에서 얼마나 떨어져 있는지를 나타내는 전체 변동량.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Regression Sum of Squares)</strong>: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
-- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong>: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
+- <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/">SSR</a> (Regression Sum of Squares)</strong>: 회귀 모델의 예측값이 평균에서 얼마나 떨어져 있는지를 나타내는 모델의 설명된 변동량.
+- <strong><a href="/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/">SSE</a> (Sum of Squared Errors)</strong>: 실제값과 예측값의 차이로, 모델이 설명하지 못한 잔차(Error)의 변동량.
 
 ```text
 +-------------------------------------------------------------+
@@ -53,22 +50,22 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 +-------------------------------------------------------------+
 ```
 
-결정 계수의 수식은 **$R^2 = \frac{[SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)}{SST} = 1 - \frac{[SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)}{SST}$** 이다. 모델의 예측이 완벽하면 오차([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 0이 되어 $R^2$는 1이 되고, 모델이 단순히 평균값(Ȳ)으로만 예측한다면 SSR이 0이 되어 $R^2$는 0이 된다.
+결정 계수의 수식은 **$R^2 = \frac{[SSR](/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/)}{SST} = 1 - \frac{[SSE](/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/)}{SST}$** 이다. 모델의 예측이 완벽하면 오차([SSE](/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 0이 되어 $R^2$는 1이 되고, 모델이 단순히 평균값(Ȳ)으로만 예측한다면 SSR이 0이 되어 $R^2$는 0이 된다.
 
-- **📢 섹션 요약 비유**: 전체 피자(SST) 중에서 내 모델이 먹어 치운 조각([SSR](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))의 비율이 $R^2$다. 남겨진 피자 꼬투리([SSE](/knowledge-base/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 작을수록 나의 식욕(설명력)이 대단함을 의미한다.
+- **📢 섹션 요약 비유**: 전체 피자(SST) 중에서 내 모델이 먹어 치운 조각([SSR](/studynote/04_software_engineering/05_devops_ci_cd/316_ssr_vs_csr/))의 비율이 $R^2$다. 남겨진 피자 꼬투리([SSE](/studynote/03_network/09_application_layer_web_email/481_sse_server_sent_events/))가 작을수록 나의 식욕(설명력)이 대단함을 의미한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-단순 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서는 $R^2$가 훌륭한 지표지만, 다중 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)으로 넘어가면 변수가 추가될 때마다 $R^2$가 무조건 증가하거나 최소한 유지되는 치명적인 착시 현상이 발생한다. 이를 보완하기 위해 수정된 결정 계수(Adjusted R-Squared)가 등장했다.
+단순 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서는 $R^2$가 훌륭한 지표지만, 다중 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)으로 넘어가면 변수가 추가될 때마다 $R^2$가 무조건 증가하거나 최소한 유지되는 치명적인 착시 현상이 발생한다. 이를 보완하기 위해 수정된 결정 계수(Adjusted R-Squared)가 등장했다.
 
 | 비교 항목 | R-Squared ($R^2$) | Adjusted R-Squared (수정된 $R^2$) |
 | :--- | :--- | :--- |
-| **핵심 목적** | 모델의 기본적인 설명력(비율) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 다중 회귀에서 유효한 변수 선택 기준 |
+| **핵심 목적** | 모델의 기본적인 설명력(비율) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 다중 회귀에서 유효한 변수 선택 기준 |
 | **변수 추가 시 변화** | 의미 없는 변수를 넣어도 **무조건 증가** | 의미 없는 변수를 넣으면 **패널티를 받아 감소** |
 | **적용 환경** | 독립 변수가 1개인 단순 회귀 (Simple Regression) | 독립 변수가 2개 이상인 다중 회귀 (Multiple Regression) |
-| **결과 해석** | 값이 클수록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적합도가 높음 | 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 여부를 판단하는 방어선 |
+| **결과 해석** | 값이 클수록 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적합도가 높음 | 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 여부를 판단하는 방어선 |
 
 수정된 결정 계수는 관측치(표본 크기)와 독립 변수의 개수를 수식에 반영하여, 불필요한 변수가 추가되면 오히려 값을 깎아내려 모델의 경제성을 유지하게 만든다.
 
@@ -78,19 +75,19 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [데이터 마이닝](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 또는 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보고할 때 $R^2$ 수치만 맹신하는 것은 위험하며, 다음과 같은 기준을 통해 종합적으로 판단해야 한다.
+실무에서 [데이터 마이닝](/studynote/07_enterprise_systems/05_data_bi/284_data_mining_association_classification_clustering_crisp_dm/) 또는 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보고할 때 $R^2$ 수치만 맹신하는 것은 위험하며, 다음과 같은 기준을 통해 종합적으로 판단해야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
-1. <strong>도메인별 목표치 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
-   - 물리/제조 공정 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 노이즈가 적으므로 $R^2$가 0.90 이상이어야 유의미함.
-   - 마케팅/사회과학 설문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 인간 행동의 변동성이 커서 $R^2$가 0.3~0.5만 되어도 실무 적용을 고려함.
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 의사결정
+1. <strong>도메인별 목표치 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>:
+   - 물리/제조 공정 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 노이즈가 적으므로 $R^2$가 0.90 이상이어야 유의미함.
+   - 마케팅/사회과학 설문 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/): 인간 행동의 변동성이 커서 $R^2$가 0.3~0.5만 되어도 실무 적용을 고려함.
 2. **복합 지표 모니터링**:
    - $R^2$는 높지만 RMSE가 비즈니스 허용 한계를 초과한다면 그 모델은 쓸 수 없다. 항상 상대 지표($R^2$)와 절대 오차(RMSE, MAE)를 대시보드에 함께 구성해야 한다.
-3. <strong>F-통계량 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>:
-   - $R^2$가 아무리 높아도, [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) 분석을 통한 F-검정(F-test)의 p-value가 0.05 이상이라면 통계적으로 유의미하지 않은 모델로 판정하고 폐기해야 한다.
+3. <strong>F-통계량 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>:
+   - $R^2$가 아무리 높아도, [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/) 분석을 통한 F-검정(F-test)의 p-value가 0.05 이상이라면 통계적으로 유의미하지 않은 모델로 판정하고 폐기해야 한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 다중 회귀 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 Adjusted $R^2$ 대신 일반 $R^2$를 사용하여, 쓸모없는 파생 변수 수백 개를 투입해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진 것처럼 허위 보고하는 경우.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 다중 회귀 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 Adjusted $R^2$ 대신 일반 $R^2$를 사용하여, 쓸모없는 파생 변수 수백 개를 투입해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아진 것처럼 허위 보고하는 경우.
 
 - **📢 섹션 요약 비유**: 결정 계수는 자동차의 연비(%)와 같다. 연비가 아무리 좋아도 엔진 출력(유의성 검정)이나 트렁크 크기(절대 오차 허용치)가 내 목적에 안 맞으면 그 차는 살 수 없다.
 
@@ -98,9 +95,9 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 ## Ⅴ. 기대효과 및 결론
 
-결정 계수($R^2$)는 복잡한 회귀 모델의 복잡성을 제거하고 "이 모델이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴을 얼마나 정복했는가?"를 하나의 직관적인 퍼센티지로 알려주는 가장 대중적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.
+결정 계수($R^2$)는 복잡한 회귀 모델의 복잡성을 제거하고 "이 모델이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 패턴을 얼마나 정복했는가?"를 하나의 직관적인 퍼센티지로 알려주는 가장 대중적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다.
 
-전통적인 통계학을 넘어 현대의 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/), [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 계열 등) 알고리즘에서도 회귀 문제를 풀 때 가장 1차적인 벤치마크 지표로 사용된다. 딥러닝과 비선형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 주류가 된 미래에도, 유사 결정 계수(Pseudo R-Squared) 등의 형태로 변형되어 "모델의 설명 가능성(Explainability)"을 증명하는 표준 잣대로서 그 가치는 흔들리지 않을 것이다.
+전통적인 통계학을 넘어 현대의 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/)([랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/), [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 계열 등) 알고리즘에서도 회귀 문제를 풀 때 가장 1차적인 벤치마크 지표로 사용된다. 딥러닝과 비선형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이 주류가 된 미래에도, 유사 결정 계수(Pseudo R-Squared) 등의 형태로 변형되어 "모델의 설명 가능성(Explainability)"을 증명하는 표준 잣대로서 그 가치는 흔들리지 않을 것이다.
 
 - **📢 섹션 요약 비유**: $R^2$는 복잡한 분석 보고서를 읽기 귀찮은 사장님에게 "사장님, 우리 모델이 현실의 80%를 설명해 냅니다!"라고 한 방에 설득할 수 있는 마법의 1페이지 요약본이다.
 
@@ -110,9 +107,9 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **상관계수 ([Pearson Correlation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/), $r$)** | 단순 [회귀 분석](/knowledge-base/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서 $R^2$는 상관계수 $r$을 제곱한 값과 정확히 일치함 |
-| <strong>RMSE (Root Mean <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/">Square</a> Error)</strong> | $R^2$와 상호보완적으로 쓰이는 모델의 물리적(절대적) 예측 오차 지표 |
-| <strong>다중공선성 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> | 모델 전체의 $R^2$는 높으나 개별 변수의 p-value가 높게 나올 때 의심되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
+| **상관계수 ([Pearson Correlation](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/), $r$)** | 단순 [회귀 분석](/studynote/08_algorithm_stats/08_stats/149_regression_analysis/)에서 $R^2$는 상관계수 $r$을 제곱한 값과 정확히 일치함 |
+| <strong>RMSE (Root Mean <a href="/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/">Square</a> Error)</strong> | $R^2$와 상호보완적으로 쓰이는 모델의 물리적(절대적) 예측 오차 지표 |
+| <strong>다중공선성 (<a href="/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> | 모델 전체의 $R^2$는 높으나 개별 변수의 p-value가 높게 나올 때 의심되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
 | **F-검정 (F-test)** | 산출된 $R^2$값이 통계적으로 우연이 아닌 진짜 유의미한 값인지 검증하는 테스트 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -144,7 +141,7 @@ R-Squared는 전체 분산의 덩어리를 모델이 설명한 부분과 설명�
 
 **진행 상황**: 98 / 258
 
-<- **이전**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/knowledge-base/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/)
-**다음**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/knowledge-base/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/) ->
+<- **이전**: [회귀 분석 지표 (Regression Metrics) - MSE, RMSE, MAE](/studynote/14_data_engineering/02_math_mining/097_regression_metrics_mse_rmse_mae/)
+**다음**: [A/B 테스트 검정력 및 p-value 해킹 (A/B Testing Power & p-value Hacking)](/studynote/14_data_engineering/02_math_mining/099_ab_testing_statistical_power/) ->
 
 ---

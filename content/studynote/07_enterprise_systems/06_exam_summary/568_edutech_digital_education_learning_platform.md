@@ -1,13 +1,10 @@
-+++
-title = "568. 에듀테크 디지털 교육 학습 플랫폼 (EduTech Digital Education Learning Platform)"
-date = 2026-05-09
+---
+title: "568. 에듀테크 디지털 교육 학습 플랫폼 (EduTech Digital Education Learning Platform)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 568 / 800
 
-<- **이전**: [567. 헬스테크 디지털 헬스케어 원격의료](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/567_healthtech_digital_healthcare_telemedicine/)
-**다음**: [569. 리테일테크 스마트 유통 커머스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/569_retailtech_smart_distribution_commerce/) ->
+<- **이전**: [567. 헬스테크 디지털 헬스케어 원격의료](/studynote/07_enterprise_systems/06_exam_summary/567_healthtech_digital_healthcare_telemedicine/)
+**다음**: [569. 리테일테크 스마트 유통 커머스](/studynote/07_enterprise_systems/06_exam_summary/569_retailtech_smart_distribution_commerce/) ->
 
 ---

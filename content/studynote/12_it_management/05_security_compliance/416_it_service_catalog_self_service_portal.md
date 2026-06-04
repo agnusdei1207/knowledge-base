@@ -1,13 +1,10 @@
-+++
-title = "416. IT 서비스 카탈로그 셀프서비스 포탈 (IT Service Catalog Self Service Portal)"
-date = 2026-05-09
+---
+title: "416. IT 서비스 카탈로그 셀프서비스 포탈 (IT Service Catalog Self Service Portal)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ ITIL 4(Service Value System, 2019년 개정)는 이러한 문제를 해결하기
 
 **진행 상황**: 416 / 800
 
-<- **이전**: [415. BPM 프로세스 관리 BPMN 모델링](/knowledge-base/studynote/12_it_management/05_security_compliance/415_bpm_process_management_bpmn_modeling/)
-**다음**: [417. ITIL 4 서비스 가치 시스템 SVS](/knowledge-base/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/) ->
+<- **이전**: [415. BPM 프로세스 관리 BPMN 모델링](/studynote/12_it_management/05_security_compliance/415_bpm_process_management_bpmn_modeling/)
+**다음**: [417. ITIL 4 서비스 가치 시스템 SVS](/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/) ->
 
 ---

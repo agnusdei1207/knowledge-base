@@ -1,17 +1,14 @@
-+++
-title = "1014. 캐리어 어그리게이션 (CA)"
-date = 2026-05-08
+---
+title: "1014. 캐리어 어그리게이션 (CA)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 캐리어 어그리게이션은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 캐리어 어그리게이션은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 캐리어 어그리게이션을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,7 +16,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **속도의 법칙 (샤논 941번)**: 무선 통신 속도를 2배로 올리려면 도로 폭([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 2배로 넓히는 게 가장 무식하고 확실합니다.
+- **속도의 법칙 (샤논 941번)**: 무선 통신 속도를 2배로 올리려면 도로 폭([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 2배로 넓히는 게 가장 무식하고 확실합니다.
 - **물리적 한계**: 통신사가 한 방에 '연속된 40MHz' 짜리 넓은 주파수를 통째로 낙찰받으면 좋겠지만, 국가가 팔아먹을 주파수 빈 공간이 없어 여기저기 파편화된 자투리 주파수(10MHz, 20MHz)밖에 줍지 못합니다. 도로가 떨어져 있으니 속도 뻥튀기가 안 됩니다.
 
 ```text
@@ -31,13 +28,13 @@ tags = ["studynote-network"]
     +---> [언면허 대역망]
 ```
 
-- **📢 섹션 요약 비유**: 캐리어 어그리게이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 캐리어 어그리게이션은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 4G [LTE-Advanced](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/)([LTE-A](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/))의 상용화를 이끌고 5G까지 이어지는 절대 핵심 기술입니다. 물리적으로 대역이 <strong>멀리 떨어져 있는 여러 개의 파편화된 주파수 <a href="/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a>(<a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> Carrier, <a href="/knowledge-base/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/">CC</a>) 대역 덩어리들을 논리적(소프트웨어적)으로 하나의 거대한 초광대역폭으로 묶어서(병합하여) 단말기(폰)가 동시에 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 송수신할 수 있게 만드는 주파수 묶음 기술</strong>입니다.
+- **개념**: 4G [LTE-Advanced](/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/)([LTE-A](/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/))의 상용화를 이끌고 5G까지 이어지는 절대 핵심 기술입니다. 물리적으로 대역이 <strong>멀리 떨어져 있는 여러 개의 파편화된 주파수 <a href="/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a>(<a href="/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/">Component</a> Carrier, <a href="/studynote/09_security/17_framework_compliance/883_common_criteria_iso_15408/">CC</a>) 대역 덩어리들을 논리적(소프트웨어적)으로 하나의 거대한 초광대역폭으로 묶어서(병합하여) 단말기(폰)가 동시에 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 송수신할 수 있게 만드는 주파수 묶음 기술</strong>입니다.
 
 ```text
 [CoMP]
@@ -67,37 +64,37 @@ tags = ["studynote-network"]
 ### 3. 인터-밴드 비연속 (Inter-Band Non-Contiguous) 🌟 가장 위대함 🌟
 가장 기술적으로 어렵지만, 현재 전 세계 통신사들이 미친 듯이 쓰는 궁극의 본드칠입니다.
 - **상황**: 주파수 대역 자체가 완전히 다른 우주입니다. 하나는 800MHz(저주파수), 하나는 2.1GHz(고주파수)입니다. 전파의 굵기, 회절성, 속도가 아예 다릅니다.
-- **결합 마법**: 스마트폰 뱃속에 아예 <strong>서로 다른 2개의 전용 랜카드(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/">트랜시버</a> <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>)</strong>를 박아버립니다. 폰은 800MHz 톨게이트와 2.1GHz 톨게이트 두 곳에 동시에 접속하여, 유튜브 영상 절반은 저주파로 받고 절반은 고주파로 동시에 쫙 빨아들인 뒤 폰 메모리([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)에서 완벽하게 하나의 영상으로 조립(Aggregation)해 냅니다. 속도가 2배, 3배로 수직 상승합니다 ([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) ➜ [LTE-A](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/) ➜ 3밴드 [LTE-A](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/)).
+- **결합 마법**: 스마트폰 뱃속에 아예 <strong>서로 다른 2개의 전용 랜카드(<a href="/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/">트랜시버</a> <a href="/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a>)</strong>를 박아버립니다. 폰은 800MHz 톨게이트와 2.1GHz 톨게이트 두 곳에 동시에 접속하여, 유튜브 영상 절반은 저주파로 받고 절반은 고주파로 동시에 쫙 빨아들인 뒤 폰 메모리([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층)에서 완벽하게 하나의 영상으로 조립(Aggregation)해 냅니다. 속도가 2배, 3배로 수직 상승합니다 ([LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) ➜ [LTE-A](/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/) ➜ 3밴드 [LTE-A](/studynote/03_network/15_nextgen_communication_architecture/757_ltea_carrier_aggregation/)).
 
 - CA가 진화하여 아예 세대를 뛰어넘는 결합이 나옵니다.
-- <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/">NSA</a> (Non-Standalone) 모드</strong>: [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국과 구형 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국의 전파를 스마트폰이 <strong>동시에 묶어서 둘 다 빨아먹습니다(<a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> + <a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 캐리어 어그리게이션).</strong> 5G가 안 터지는 곳에선 LTE가 멱살을 잡고 속도를 유지해 주는 과도기 최강의 속도 뻥튀기 융합 인프라입니다.
+- <strong><a href="/studynote/03_network/15_nextgen_communication_architecture/766_nsa_non_standalone_5g_lte_core/">NSA</a> (Non-Standalone) 모드</strong>: [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국과 구형 4G [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 기지국의 전파를 스마트폰이 <strong>동시에 묶어서 둘 다 빨아먹습니다(<a href="/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> + <a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 캐리어 어그리게이션).</strong> 5G가 안 터지는 곳에선 LTE가 멱살을 잡고 속도를 유지해 주는 과도기 최강의 속도 뻥튀기 융합 인프라입니다.
 
-캐리어 어그리게이션을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CoMP가 기반 조건을 만든다면, 캐리어 어그리게이션은 그 위에서 핵심 메커니즘을 구현하고, [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+캐리어 어그리게이션을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CoMP가 기반 조건을 만든다면, 캐리어 어그리게이션은 그 위에서 핵심 메커니즘을 구현하고, [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | CoMP의 기반 정리 | 캐리어 어그리게이션의 핵심 동작 | [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)의 확장 적용 |
+| 초점 | CoMP의 기반 정리 | 캐리어 어그리게이션의 핵심 동작 | [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 주파수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 택배를 나르는 '아스팔트 차선'입니다. 차선이 넓어야 한 번에 덤프트럭(대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 지나갑니다. 통신사가 강남에 2차선 도로(주파수 A)를 갖고 있고, 강북에 2차선 도로(주파수 B)를 샀습니다. 스마트폰은 차가 1대뿐이라, 강남 2차선을 타든 강북 2차선을 타든 최대 2차선 속도밖에 못 냅니다. <strong>캐리어 어그리게이션(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 주파수 묶음)</strong>은 스마트폰을 '반으로 쪼개지는 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 화물차'로 개조하는 기적입니다. 화물차가 강남과 강북으로 몸통을 반으로 쪼개서(듀얼 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)), 강남 2차선과 강북 2차선 도로를 **'동시에 병렬로'** 미친 듯이 달려 짐을 긁어모읍니다. 그리고 도착지(내 폰 화면)에서 두 몸통이 다시 '찰칵' 하고 합체되어 유튜브 영상을 완성합니다. 물리적으로 멀리 찢어진 2차선 도로 두 개를 소프트웨어 마법으로 합쳐 체감상 완벽한 '4차선 광대역 고속도로'로 탈바꿈시키는 속도 폭발 아키텍처입니다.
+- **📢 섹션 요약 비유**: 주파수([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 택배를 나르는 '아스팔트 차선'입니다. 차선이 넓어야 한 번에 덤프트럭(대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 지나갑니다. 통신사가 강남에 2차선 도로(주파수 A)를 갖고 있고, 강북에 2차선 도로(주파수 B)를 샀습니다. 스마트폰은 차가 1대뿐이라, 강남 2차선을 타든 강북 2차선을 타든 최대 2차선 속도밖에 못 냅니다. <strong>캐리어 어그리게이션(<a href="/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a> 주파수 묶음)</strong>은 스마트폰을 '반으로 쪼개지는 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 화물차'로 개조하는 기적입니다. 화물차가 강남과 강북으로 몸통을 반으로 쪼개서(듀얼 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)), 강남 2차선과 강북 2차선 도로를 **'동시에 병렬로'** 미친 듯이 달려 짐을 긁어모읍니다. 그리고 도착지(내 폰 화면)에서 두 몸통이 다시 '찰칵' 하고 합체되어 유튜브 영상을 완성합니다. 물리적으로 멀리 찢어진 2차선 도로 두 개를 소프트웨어 마법으로 합쳐 체감상 완벽한 '4차선 광대역 고속도로'로 탈바꿈시키는 속도 폭발 아키텍처입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 캐리어 어그리게이션을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) 수준의 기본 대책으로 충분한지, 아니면 캐리어 어그리게이션이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 캐리어 어그리게이션을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CoMP](/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) 수준의 기본 대책으로 충분한지, 아니면 캐리어 어그리게이션이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 측정 정확도 부족인지, 모델 적합성 악화인지 먼저 분리한다.
-2. 캐리어 어그리게이션가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와의 연계 방식을 함께 검증한다.
+2. 캐리어 어그리게이션가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 캐리어 어그리게이션의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- CoMP와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- CoMP와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 캐리어 어그리게이션을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -105,7 +102,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-캐리어 어그리게이션은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+캐리어 어그리게이션은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 캐리어 어그리게이션은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -115,10 +112,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CoMP](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [CoMP](/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +129,7 @@ tags = ["studynote-network"]
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-캐리어 어그리게이션는 CoMP에서 출발해 현재 메커니즘을 정교화하고, 이후 [언면허 대역망](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+캐리어 어그리게이션는 CoMP에서 출발해 현재 메커니즘을 정교화하고, 이후 [언면허 대역망](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/)와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +143,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 115 / 1120
 
-<- **이전**: [1013. CoMP (협력 통신)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/)
-**다음**: [1015. 언면허 대역망 (Unlicensed Band LTE-U / NR-U)](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/) ->
+<- **이전**: [1013. CoMP (협력 통신)](/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/)
+**다음**: [1015. 언면허 대역망 (Unlicensed Band LTE-U / NR-U)](/studynote/03_network/20_performance_evaluation_advanced/1015_unlicensed_band_lte_u_nr_u_wifi_coexistence/) ->
 
 ---

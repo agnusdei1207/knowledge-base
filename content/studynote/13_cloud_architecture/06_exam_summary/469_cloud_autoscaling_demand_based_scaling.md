@@ -1,13 +1,10 @@
-+++
-title = "469. 클라우드 오토스케일링 수요 기반 확장 (Cloud Autoscaling Demand Based Scaling)"
-date = 2026-05-09
+---
+title: "469. 클라우드 오토스케일링 수요 기반 확장 (Cloud Autoscaling Demand Based Scaling)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 469 / 800
 
-<- **이전**: [468. 클라우드 백업 스냅샷 복제 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/468_cloud_backup_snapshot_replication_strategy/)
-**다음**: [470. 클라우드 성능 최적화 레이턴시 처리량](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/470_cloud_performance_optimization_latency_throug/) ->
+<- **이전**: [468. 클라우드 백업 스냅샷 복제 전략](/studynote/13_cloud_architecture/06_exam_summary/468_cloud_backup_snapshot_replication_strategy/)
+**다음**: [470. 클라우드 성능 최적화 레이턴시 처리량](/studynote/13_cloud_architecture/06_exam_summary/470_cloud_performance_optimization_latency_throug/) ->
 
 ---

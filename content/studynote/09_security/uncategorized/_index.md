@@ -1,9 +1,9 @@
-+++
-title = "14. 인공지능 (AI) 보안 및 거버넌스"
+---
+title: "14. 인공지능 (AI) 보안 및 거버넌스"
+tags:
+  - "security"
+---
 
-[extra]
-tags = ["security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

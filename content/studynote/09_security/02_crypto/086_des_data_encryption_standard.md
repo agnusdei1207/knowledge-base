@@ -1,17 +1,14 @@
-+++
-title = "086. DES (Data Encryption Standard) — 56비트 키, 취약"
-date = 2026-04-05
+---
+title: "086. DES (Data Encryption Standard) — 56비트 키, 취약"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DES ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption Standard)는 64비트 블록과 56비트 유효 키를 쓰는 대칭키 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)다.
+> 1. **본질**: DES ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Encryption Standard)는 64비트 블록과 56비트 유효 키를 쓰는 대칭키 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)다.
 > 2. **가치**: Feistel 구조와 16라운드 반복은 암호 설계의 교과서가 되었다.
 > 3. **판단 포인트**: 현재는 무차별 대입에 취약하므로 신규 시스템에서는 AES로 넘어가야 한다.
 
@@ -20,7 +17,7 @@ tags = ["studynote-security"]
 ## Ⅰ. 개요 및 필요성
 DES는 한때 표준이었지만, 키 길이가 짧아져 오늘날의 공격 비용을 견디지 못한다. 그래서 DES는 “왜 오래된 암호가 무너지는가”를 보여 주는 사례가 되었다.
 
-다만 Feistel network(Feistel 네트워크), S-box (Substitution box)는 [암호학](/knowledge-base/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 학습에 여전히 중요하다.
+다만 Feistel network(Feistel 네트워크), S-box (Substitution box)는 [암호학](/studynote/03_network/13_network_security_basics/652_cryptography_concept_encryption_decryption/) 학습에 여전히 중요하다.
 - **📢 섹션 요약 비유**: 짧은 열쇠는 오래 버티지 못한다.
 
 ---
@@ -32,7 +29,7 @@ DES는 한때 표준이었지만, 키 길이가 짧아져 오늘날의 공격 �
 | 유효 키 길이 | 56비트 | 보안 강도 |
 | 라운드 수 | 16회 | 혼돈·확산 |
 | 라운드 함수 | 치환/전치 | 비선형성 제공 |
-| 키 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | 서브키 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 매 라운드 다른 키 사용 |
+| 키 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | 서브키 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 매 라운드 다른 키 사용 |
 
 +-------- L --------+       +-------------+
 |                   |------->|  F(R, K)    |
@@ -48,12 +45,12 @@ L next = R
 ---
 
 ## Ⅲ. 비교 및 연결
-| 비교 항목 | DES | [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/) ([Triple DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/)) | [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) |
+| 비교 항목 | DES | [3DES](/studynote/09_security/02_crypto/087_3des/) ([Triple DES](/studynote/09_security/02_crypto/087_3des/)) | [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) |
 |:---|:---|:---|:---|
 | 키 길이 | 56비트 | 더 김 | 128/192/256비트 |
 | 블록 크기 | 64비트 | 64비트 | 128비트 |
 | 구조 | Feistel | DES 3회 적용 | 현대 표준 |
-| [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 취약 | DES보다 강함 | 강함 |
+| [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 취약 | DES보다 강함 | 강함 |
 
 DES는 설계 원리는 배우되, 운영 환경에서는 사용하지 않는 것이 정석이다.
 - **📢 섹션 요약 비유**: 3DES와 AES는 과도기와 현재 표준이다.
@@ -62,19 +59,19 @@ DES는 설계 원리는 배우되, 운영 환경에서는 사용하지 않는 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 - [ ] 신규 시스템에서는 DES를 선택하지 않는다.
-- [ ] 레거시 호환이 필요해도 [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/) 종료와 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 전환을 검토한다.
+- [ ] 레거시 호환이 필요해도 [3DES](/studynote/09_security/02_crypto/087_3des/) 종료와 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 전환을 검토한다.
 - [ ] ECB (Electronic Codebook) 같은 취약한 모드도 함께 점검한다.
 - [ ] 키 길이뿐 아니라 키 관리와 교체 주기도 본다.
 
 - ❌ DES를 아직 동작하니 괜찮다고 보는 것
 - ❌ 짧은 키를 장기간 재사용하는 것
-- ❌ [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 모드의 차이를 무시하는 것
+- ❌ [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 모드의 차이를 무시하는 것
 - **📢 섹션 요약 비유**: 새 시스템에 DES는 금지에 가깝다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오늘의 표준은 AES이며, DES는 역사와 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 맥락에서만 다룬다.
+DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오늘의 표준은 AES이며, DES는 역사와 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 맥락에서만 다룬다.
 - **📢 섹션 요약 비유**: 역사적 의미와 실전 사용은 구분해야 한다.
 
 ---
@@ -84,8 +81,8 @@ DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오�
 | 개념 | 연결 포인트 |
 |:---|:---|
 | DES | 오래된 표준이지만 현재는 취약하다. |
-| [3DES](/knowledge-base/studynote/09_security/02_crypto/087_3des/) | DES를 반복해 연명한 과도기 방식이다. |
-| [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) | 현대 표준이다. |
+| [3DES](/studynote/09_security/02_crypto/087_3des/) | DES를 반복해 연명한 과도기 방식이다. |
+| [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) | 현대 표준이다. |
 | Feistel network | 라운드 기반 암호 구조다. |
 | ECB (Electronic Codebook) | 안전하지 않은 운용 모드의 예다. |
 
@@ -107,7 +104,7 @@ DES는 현재의 실전 암호가 아니라 암호 설계의 교과서다. 오�
 
 **진행 상황**: 86 / 1108
 
-<- **이전**: [085. AES 키 스케줄 — 라운드 키 생성](/knowledge-base/studynote/09_security/02_crypto/085_aes_key_schedule/)
-**다음**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/) ->
+<- **이전**: [085. AES 키 스케줄 — 라운드 키 생성](/studynote/09_security/02_crypto/085_aes_key_schedule/)
+**다음**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/studynote/09_security/02_crypto/087_3des/) ->
 
 ---

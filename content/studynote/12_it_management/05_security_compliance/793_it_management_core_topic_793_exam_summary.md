@@ -1,13 +1,10 @@
-+++
-title = "793. IT 경영 관리 핵심 토픽 793번 시험 요약 (IT Management Core Topic 793 Exam Summary)"
-date = 2026-05-09
+---
+title: "793. IT 경영 관리 핵심 토픽 793번 시험 요약 (IT Management Core Topic 793 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -162,7 +159,7 @@ ITIL 4는 **Opportunity/Demand -> Value -> Value** 흐름을 중심으로, 7가�
 
 **진행 상황**: 793 / 800
 
-<- **이전**: [792. IT 경영 관리 핵심 토픽 792번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/792_it_management_core_topic_792_exam_summary/)
-**다음**: [794. IT 경영 관리 핵심 토픽 794번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/794_it_management_core_topic_794_exam_summary/) ->
+<- **이전**: [792. IT 경영 관리 핵심 토픽 792번 시험 요약](/studynote/12_it_management/05_security_compliance/792_it_management_core_topic_792_exam_summary/)
+**다음**: [794. IT 경영 관리 핵심 토픽 794번 시험 요약](/studynote/12_it_management/05_security_compliance/794_it_management_core_topic_794_exam_summary/) ->
 
 ---

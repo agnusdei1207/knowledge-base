@@ -1,31 +1,28 @@
-+++
-title = "333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드"
-date = 2026-05-09
+---
+title: "333. 공유 라이브러리 (Shared Library) 스터브 (Stub) 코드"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))는 메모리에 단 하나만 적재되어 여러 프로세스가 동시에 사용할 수 있도록 설계된 코드 덩어리이며, 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))는 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 이 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 <strong>실제 메모리 주소를 런타임에 찾을 수 있도록 돕는 작은 연락처 코드(포인터)</strong>이다.
-> 2. **가치**: 스터브 코드는 무거운 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 완전히 분리해내면서도 컴파일 에러가 나지 않게 "나중에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 찾아줄 것"이라는 약속을 제공하여, 프로세스 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도와 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 크기를 혁신적으로 최적화한다.
-> 3. **융합**: 동적 링킹([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))의 핵심 메커니즘으로 동작하며, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블의 가상 주소 매핑 기술과 결합하여 프로세스 간 완벽한 코드 공유([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Sharing)를 하드웨어적으로 지원한다.
+> 1. **본질**: 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))는 메모리에 단 하나만 적재되어 여러 프로세스가 동시에 사용할 수 있도록 설계된 코드 덩어리이며, 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))는 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 이 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 <strong>실제 메모리 주소를 런타임에 찾을 수 있도록 돕는 작은 연락처 코드(포인터)</strong>이다.
+> 2. **가치**: 스터브 코드는 무거운 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 완전히 분리해내면서도 컴파일 에러가 나지 않게 "나중에 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 찾아줄 것"이라는 약속을 제공하여, 프로세스 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도와 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 크기를 혁신적으로 최적화한다.
+> 3. **융합**: 동적 링킹([Dynamic Linking](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))의 핵심 메커니즘으로 동작하며, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블의 가상 주소 매핑 기술과 결합하여 프로세스 간 완벽한 코드 공유([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Sharing)를 하드웨어적으로 지원한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 스터브([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드는 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) 환경에서 외부 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 함수를 호출할 때, 그 함수의 실제 구현체 대신 자리하고 있는 '임시 대역' 또는 '포인터 테이블'이다.
-- **필요성**: 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 컴파일할 때 링커(Linker)는 `printf` 같은 함수가 어디 있는지 모르면 에러를 낸다. 하지만 `printf` 코드를 통째로 복사해서 넣으면 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 의미가 퇴색된다. 따라서 링커에게 "실제 코드는 없지만, 나중에 실행될 때 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 주소를 채워줄 테니 일단 이 작은 명함([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))만 넣어둬라"라고 타협할 매개체가 필수적이었다.
+- **개념**: 스터브([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드는 [동적 연결](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) 환경에서 외부 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 함수를 호출할 때, 그 함수의 실제 구현체 대신 자리하고 있는 '임시 대역' 또는 '포인터 테이블'이다.
+- **필요성**: 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 컴파일할 때 링커(Linker)는 `printf` 같은 함수가 어디 있는지 모르면 에러를 낸다. 하지만 `printf` 코드를 통째로 복사해서 넣으면 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 의미가 퇴색된다. 따라서 링커에게 "실제 코드는 없지만, 나중에 실행될 때 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 주소를 채워줄 테니 일단 이 작은 명함([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))만 넣어둬라"라고 타협할 매개체가 필수적이었다.
 
 - **등장 배경 및 동작 방식의 변화**:
-  1. **정적 환경**: 모든 코드가 내부에 있으므로 스터브가 필요 없다. 함수를 호출하면 JUMP [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 뒤에 그냥 내부 절대/상대 주소가 적힌다.
-  2. <strong>공유 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>의 등장</strong>: 코드를 밖으로 빼냈더니, 링커가 주소를 결정할 수 없는 "미해결 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (Unresolved [Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))" 문제가 발생했다.
-  3. **PLT와 GOT의 도입**: 이를 해결하기 위해 실행 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 PLT (Procedure Linkage Table)라는 스터브 묶음과 GOT (Global Offset Table)라는 빈 주소록을 만들어, 실행 중(Run-time)에 주소를 채워 넣는 우아한 아키텍처가 탄생했다.
+  1. **정적 환경**: 모든 코드가 내부에 있으므로 스터브가 필요 없다. 함수를 호출하면 JUMP [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 뒤에 그냥 내부 절대/상대 주소가 적힌다.
+  2. <strong>공유 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a>의 등장</strong>: 코드를 밖으로 빼냈더니, 링커가 주소를 결정할 수 없는 "미해결 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) (Unresolved [Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))" 문제가 발생했다.
+  3. **PLT와 GOT의 도입**: 이를 해결하기 위해 실행 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 안에 PLT (Procedure Linkage Table)라는 스터브 묶음과 GOT (Global Offset Table)라는 빈 주소록을 만들어, 실행 중(Run-time)에 주소를 채워 넣는 우아한 아키텍처가 탄생했다.
 
 ```text
 +-------------------------------------------------------------------+
@@ -47,9 +44,9 @@ tags = ["studynote-operating-system"]
 |      "찾았으면 그 주소로 점프해!"                                 |
 +-------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 이 단순한 차이가 프로그램의 크기를 수십 MB에서 수십 KB로 줄이는 마법을 부린다. 동적 링킹을 사용하는 프로그램은 자신이 `printf`를 사용할 줄 안다고 믿지만, 실제로는 `printf`의 "껍데기([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))"만 가지고 있다. 이 껍데기가 런타임에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 도움을 받아 진짜 도서관(Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 책 위치를 찾아주는 똑똑한 내비게이션 역할을 한다.
+**[다이어그램 해설]** 이 단순한 차이가 프로그램의 크기를 수십 MB에서 수십 KB로 줄이는 마법을 부린다. 동적 링킹을 사용하는 프로그램은 자신이 `printf`를 사용할 줄 안다고 믿지만, 실제로는 `printf`의 "껍데기([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))"만 가지고 있다. 이 껍데기가 런타임에 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 도움을 받아 진짜 도서관(Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))의 책 위치를 찾아주는 똑똑한 내비게이션 역할을 한다.
 
-- **📢 섹션 요약 비유**: 스터브 코드는 식당의 '키오스크 메뉴판'입니다. 주방(공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))에서 요리를 직접 만들지만, 손님(프로그램)은 키오스크 버튼(스터브)만 누르면 알아서 요리가 연결되어 나오는 구조입니다.
+- **📢 섹션 요약 비유**: 스터브 코드는 식당의 '키오스크 메뉴판'입니다. 주방(공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))에서 요리를 직접 만들지만, 손님(프로그램)은 키오스크 버튼(스터브)만 누르면 알아서 요리가 연결되어 나오는 구조입니다.
 
 ---
 
@@ -59,16 +56,16 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |:---|:---|:---|:---|:---|
-| **PLT (Procedure Linkage Table)** | 스터브 코드들의 집합소 | 각 공유 함수마다 하나의 점프(JUMP) 코드를 보유 | [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 아파트 단지 상가 연락처 모음 |
+| **PLT (Procedure Linkage Table)** | 스터브 코드들의 집합소 | 각 공유 함수마다 하나의 점프(JUMP) 코드를 보유 | [Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 아파트 단지 상가 연락처 모음 |
 | **GOT (Global Offset Table)** | 실제 물리 주소가 적히는 장부 | 처음엔 동적 링커 주소가, 나중엔 실제 함수 주소가 적힘 | 주소 테이블 | 연락처 옆에 적어두는 실제 전화번호 |
-| **동적 링커 (Dynamic Linker)** | 런타임에 주소를 찾아주는 해결사 | [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 메모리에 올리고 GOT 빈칸을 채움 | `ld-linux.so` | 전화번호 안내원 (114) |
-| <strong>공유 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> (Shared Lib)</strong> | 실제 코드가 담긴 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 물리 메모리에 1개만 로드되어 여러 프로세스와 공유됨 | .dll, .so | 실제 요리를 만드는 주방 |
+| **동적 링커 (Dynamic Linker)** | 런타임에 주소를 찾아주는 해결사 | [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 메모리에 올리고 GOT 빈칸을 채움 | `ld-linux.so` | 전화번호 안내원 (114) |
+| <strong>공유 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> (Shared Lib)</strong> | 실제 코드가 담긴 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) | 물리 메모리에 1개만 로드되어 여러 프로세스와 공유됨 | .dll, .so | 실제 요리를 만드는 주방 |
 
 ---
 
-### [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding)을 위한 PLT/GOT 아키텍처
+### [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding)을 위한 PLT/GOT 아키텍처
 
-스터브 코드는 한 번 찾은 주소를 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))하여 두 번째 호출부터는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 없애는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding)</strong> 기법을 위해 아주 정교하게 설계되어 있다. 이 과정은 PLT와 GOT의 상호작용으로 이루어진다.
+스터브 코드는 한 번 찾은 주소를 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))하여 두 번째 호출부터는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 없애는 <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 바인딩(<a href="/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Binding)</strong> 기법을 위해 아주 정교하게 설계되어 있다. 이 과정은 PLT와 GOT의 상호작용으로 이루어진다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -96,18 +93,18 @@ tags = ["studynote-operating-system"]
 +----------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 메커니즘은 해커들이 가장 좋아하는 시스템 해킹 기법(GOT Overwrite)의 무대이기도 하다. 프로그램이 실행될 때 수천 개의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 주소를 미리 다 찾아놓으면 부팅이 너무 느려진다. 따라서 최초로 함수가 호출될 때만 동적 링커가 개입하여(느림) 주소를 찾고, 그 결과를 변수(GOT)에 저장해 둔다. 두 번째부터는 스터브(PLT)가 바로 GOT 값을 읽어 실제 메모리로 점프하므로 일반 함수 호출과 속도 차이가 거의 없어진다.
+**[다이어그램 해설]** 이 메커니즘은 해커들이 가장 좋아하는 시스템 해킹 기법(GOT Overwrite)의 무대이기도 하다. 프로그램이 실행될 때 수천 개의 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수 주소를 미리 다 찾아놓으면 부팅이 너무 느려진다. 따라서 최초로 함수가 호출될 때만 동적 링커가 개입하여(느림) 주소를 찾고, 그 결과를 변수(GOT)에 저장해 둔다. 두 번째부터는 스터브(PLT)가 바로 GOT 값을 읽어 실제 메모리로 점프하므로 일반 함수 호출과 속도 차이가 거의 없어진다.
 
 ---
 
-### 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 메모리 맵핑 ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))
+### 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)의 메모리 맵핑 ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))
 
-물리 메모리에 `libc.so`가 1000번지에 로드되어 있다면, 수백 개의 프로세스는 이 물리 주소를 자신의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 통해 공유한다.
+물리 메모리에 `libc.so`가 1000번지에 로드되어 있다면, 수백 개의 프로세스는 이 물리 주소를 자신의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블을 통해 공유한다.
 - 프로세스 A의 0x8000 (가상 주소) -> 물리 1000번지 맵핑
 - 프로세스 B의 0x9000 (가상 주소) -> 물리 1000번지 맵핑
-이때, 스터브 코드(GOT)는 각 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 개별적으로 존재하므로, 프로세스마다 각기 다른 가상 주소를 GOT에 적어두고 문제없이 작동할 수 있다.
+이때, 스터브 코드(GOT)는 각 프로세스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역에 개별적으로 존재하므로, 프로세스마다 각기 다른 가상 주소를 GOT에 적어두고 문제없이 작동할 수 있다.
 
-- **📢 섹션 요약 비유**: 처음 식당에 갈 때는 지도 앱을 켜고 길을 찾아가는 수고(동적 링커 개입)가 들지만, 한 번 찾아간 뒤에는 내 스마트폰 즐겨찾기(GOT)에 등록해 두어 다음부터는 눈 감고도 찾아가는 것([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩)과 같습니다.
+- **📢 섹션 요약 비유**: 처음 식당에 갈 때는 지도 앱을 켜고 길을 찾아가는 수고(동적 링커 개입)가 들지만, 한 번 찾아간 뒤에는 내 스마트폰 즐겨찾기(GOT)에 등록해 두어 다음부터는 눈 감고도 찾아가는 것([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩)과 같습니다.
 
 ---
 
@@ -115,21 +112,21 @@ tags = ["studynote-operating-system"]
 
 ### 비교 1: 스터브 유무에 따른 링킹 방식 차이
 
-| 비교 항목 | 정적 링킹 ([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 스터브 기반 동적 링킹 ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) |
+| 비교 항목 | 정적 링킹 ([Static Linking](/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 스터브 기반 동적 링킹 ([Dynamic Linking](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) |
 |:---|:---|:---|
 | **코드 위치** | 함수 코드가 바이너리 내부에 직접 존재 | 함수 코드는 외부에, 스터브만 내부에 존재 |
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 해결 시점</strong>| 컴파일/링킹 시점 ([Compile Time](/knowledge-base/studynote/02_operating_system/06_memory_management/325_compile_time_binding/)) | 프로그램 실행 및 최초 호출 시점 (Run Time) |
+| <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a> 해결 시점</strong>| 컴파일/링킹 시점 ([Compile Time](/studynote/02_operating_system/06_memory_management/325_compile_time_binding/)) | 프로그램 실행 및 최초 호출 시점 (Run Time) |
 | **디스크/메모리** | 무거움 (중복 낭비) | 가벼움 (1회 로드 후 공유) |
-| **보안 취약점** | [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격 시 내부 코드 재사용 가능성 있음 | GOT Overwrite (주소록 조작) 해킹에 취약 |
+| **보안 취약점** | [ROP](/studynote/02_operating_system/10_security/596_return_oriented_programming/) 공격 시 내부 코드 재사용 가능성 있음 | GOT Overwrite (주소록 조작) 해킹에 취약 |
 
 ### 비교 2: PLT (Procedure Linkage Table) vs GOT (Global Offset Table)
 
 스터브 코드를 구현하는 핵심 두 요소의 역할을 명확히 구분해야 한다.
 
-| 항목 | PLT (코드 영역) | GOT ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역) |
+| 항목 | PLT (코드 영역) | GOT ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 영역) |
 |:---|:---|:---|
-| **성격** | 실행 가능한 기계어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Text [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 주소를 저장하는 단순 변수/[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) |
-| **권한** | Read & Execute (읽기, 실행) | Read & Write (읽기, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) - 주소가 갱신되어야 하므로 |
+| **성격** | 실행 가능한 기계어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (Text [Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) | 주소를 저장하는 단순 변수/[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/)) |
+| **권한** | Read & Execute (읽기, 실행) | Read & Write (읽기, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)) - 주소가 갱신되어야 하므로 |
 | **역할** | JUMP 명령을 수행하는 로직 | 실제 메모리 주소를 담고 있는 그릇 |
 
 ```text
@@ -140,28 +137,28 @@ tags = ["studynote-operating-system"]
 | GOT        | 주소 데이터 | 계속 변경됨 (RW-)| 매우 높음 (조작 타겟)|
 +----------+------------+------------+-------------------------------+
 ```
-**[매트릭스 해설]** PLT는 "저기로 점프해"라는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체이므로 프로그램이 실행되는 동안 변하지 않는다. 반면 GOT는 "저기가 어디냐면..."이라는 주소값이 적힌 장부이므로, 최초 호출 시 동적 링커에 의해 값이 덮어써져야(Write) 한다. 이 '[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(Write)' 때문에 해커들이 GOT의 값을 악성 코드 주소로 변조하는 공격(GOT Overwrite)이 성행했고, 이를 막기 위해 현대 OS는 [RELRO](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)([Relocation Read-Only](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/)) 같은 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법을 강제하고 있다.
+**[매트릭스 해설]** PLT는 "저기로 점프해"라는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 자체이므로 프로그램이 실행되는 동안 변하지 않는다. 반면 GOT는 "저기가 어디냐면..."이라는 주소값이 적힌 장부이므로, 최초 호출 시 동적 링커에 의해 값이 덮어써져야(Write) 한다. 이 '[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 권한(Write)' 때문에 해커들이 GOT의 값을 악성 코드 주소로 변조하는 공격(GOT Overwrite)이 성행했고, 이를 막기 위해 현대 OS는 [RELRO](/studynote/09_security/04_endpoint_security/341_relro/)([Relocation Read-Only](/studynote/09_security/04_endpoint_security/341_relro/)) 같은 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 기법을 강제하고 있다.
 
-- **📢 섹션 요약 비유**: PLT가 "비상연락망에 적힌 번호로 전화 걸어"라는 행동 지침(코드)이라면, GOT는 진짜 전화번호가 연필로 적혀 있어서 지우고 새로 쓸 수 있는 화이트보드([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))입니다.
+- **📢 섹션 요약 비유**: PLT가 "비상연락망에 적힌 번호로 전화 걸어"라는 행동 지침(코드)이라면, GOT는 진짜 전화번호가 연필로 적혀 있어서 지우고 새로 쓸 수 있는 화이트보드([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: LD_PRELOAD를 이용한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 후킹 (Hooking)
+### 실무 시나리오: LD_PRELOAD를 이용한 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 후킹 (Hooking)
 
 1. **상황**: 상용 프로그램의 `malloc()` (메모리 할당) 함수에 메모리 누수가 있는지 추적하고 싶지만, 소스코드가 없어 수정할 수 없다.
 2. **동적 링킹 스터브의 맹점 활용**:
-   - 리눅스 환경에서 스터브는 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 찾을 때 환경 변수에 지정된 경로를 먼저 검색한다.
+   - 리눅스 환경에서 스터브는 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 찾을 때 환경 변수에 지정된 경로를 먼저 검색한다.
    - 개발자는 `malloc`을 가로채어 로그를 남기는 가짜 `malloc`을 만들어 `hook.so`로 컴파일한다.
    - `LD_PRELOAD=./hook.so ./program` 명령으로 실행한다.
 3. **결과**:
-   - 프로그램 내의 `malloc` 스터브가 주소를 찾을 때, 시스템의 진짜 `libc.so`보다 `hook.so`를 먼저 발견하여 GOT에 가짜 `malloc` 주소를 적어버린다. ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Hooking)
-   - 이 메커니즘을 통해 소스코드 수정 없이 타 프로그램의 동작을 분석하거나 제어할 수 있으며, 이는 백신([Anti-virus](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/))이나 게임 핵(Hack) 프로그램이 널리 사용하는 방식이다.
+   - 프로그램 내의 `malloc` 스터브가 주소를 찾을 때, 시스템의 진짜 `libc.so`보다 `hook.so`를 먼저 발견하여 GOT에 가짜 `malloc` 주소를 적어버린다. ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) Hooking)
+   - 이 메커니즘을 통해 소스코드 수정 없이 타 프로그램의 동작을 분석하거나 제어할 수 있으며, 이는 백신([Anti-virus](/studynote/09_security/04_endpoint_security/323_antivirus/))이나 게임 핵(Hack) 프로그램이 널리 사용하는 방식이다.
 
-### 안티패턴과 방어 (보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))
+### 안티패턴과 방어 (보안 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))
 - **GOT Overwrite**: 스터브 메커니즘의 근본적 취약점이다. 포맷 스트링 버그나 버퍼 오버플로우로 GOT 테이블 조작하여 `printf` 주소를 `system("/bin/sh")`로 바꿔치기하면 루트 권한을 탈취당한다.
-- <strong>방어(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/342_full_relro/">Full RELRO</a>)</strong>: 보안이 중요한 데몬(Daemon) 프로그램은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding)을 포기하고, 프로그램 시작 시점에 모든 주소를 다 찾아 GOT를 채운 뒤, GOT 영역을 읽기 전용(Read-Only)으로 잠가버리는 컴파일 옵션을 사용한다. ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도와 보안의 트레이드오프)
+- <strong>방어(<a href="/studynote/09_security/04_endpoint_security/342_full_relro/">Full RELRO</a>)</strong>: 보안이 중요한 데몬(Daemon) 프로그램은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding)을 포기하고, 프로그램 시작 시점에 모든 주소를 다 찾아 GOT를 채운 뒤, GOT 영역을 읽기 전용(Read-Only)으로 잠가버리는 컴파일 옵션을 사용한다. ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 로딩 속도와 보안의 트레이드오프)
 
 - **📢 섹션 요약 비유**: 식당 안내원(동적 링커)이 주는 연락처(GOT)를 아무 의심 없이 맹신하다 보니, 사기꾼이 중간에 "내 번호가 피자집 번호야"라고 가로채기(Hooking) 쉬운 구조적 약점이 있습니다.
 
@@ -173,15 +170,15 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 내용 |
 |:---|:---|
-| **프로그램 경량화** | 수십 MB의 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 단 몇 바이트의 JUMP [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))로 대체 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 메모리 절약</strong>| 스터브를 통해 수많은 프로세스가 단 1개의 물리적 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 가능 |
-| <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 부팅 최적화</strong> | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding) 메커니즘으로 안 쓰는 함수의 주소 계산 오버헤드를 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
+| **프로그램 경량화** | 수십 MB의 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 코드를 단 몇 바이트의 JUMP [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))로 대체 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> 메모리 절약</strong>| 스터브를 통해 수많은 프로세스가 단 1개의 물리적 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 가능 |
+| <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 부팅 최적화</strong> | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 바인딩([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/) Binding) 메커니즘으로 안 쓰는 함수의 주소 계산 오버헤드를 [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
 
 ### 결론 및 미래 전망
 
-공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))와 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드는 단순한 소프트웨어 최적화를 넘어, 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/) [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))와 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Loader/Linker)가 완벽한 삼위일체를 이루어 만들어낸 걸작이다. 이 메커니즘 덕분에 우리는 작은 용량의 앱 수백 개를 램 용량 걱정 없이 동시에 띄울 수 있게 되었다. 현대에는 스터브 기반의 동적 링킹이 가진 런타임 오버헤드와 보안 취약점(GOT 변조)을 방어하기 위해 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러 고도화, [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/)(주소 공간 배치 무작위화), [RELRO](/knowledge-base/studynote/09_security/04_endpoint_security/341_relro/) 같은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법이 융합되면서 더욱 단단하고 견고한 아키텍처로 진화하고 있다.
+공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/))와 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드는 단순한 소프트웨어 최적화를 넘어, 하드웨어([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/) [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))와 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(Loader/Linker)가 완벽한 삼위일체를 이루어 만들어낸 걸작이다. 이 메커니즘 덕분에 우리는 작은 용량의 앱 수백 개를 램 용량 걱정 없이 동시에 띄울 수 있게 되었다. 현대에는 스터브 기반의 동적 링킹이 가진 런타임 오버헤드와 보안 취약점(GOT 변조)을 방어하기 위해 [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) 컴파일러 고도화, [ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/)(주소 공간 배치 무작위화), [RELRO](/studynote/09_security/04_endpoint_security/341_relro/) 같은 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법이 융합되면서 더욱 단단하고 견고한 아키텍처로 진화하고 있다.
 
-- **📢 섹션 요약 비유**: 수백만 명의 사람이 각자 두꺼운 백과사전을 짊어지고 사는 대신, '도서관 검색대([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))'라는 가벼운 단말기 하나만 들고 지식을 무한히 공유하는 스마트 시티의 완성입니다.
+- **📢 섹션 요약 비유**: 수백만 명의 사람이 각자 두꺼운 백과사전을 짊어지고 사는 대신, '도서관 검색대([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/))'라는 가벼운 단말기 하나만 들고 지식을 무한히 공유하는 스마트 시티의 완성입니다.
 
 ---
 
@@ -189,10 +186,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [동적 적재](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ([Dynamic Loading](/knowledge-base/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [동적 적재](/studynote/02_operating_system/06_memory_management/331_dynamic_loading/) ([Dynamic Loading](/studynote/02_operating_system/06_memory_management/331_dynamic_loading/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [동적 연결](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [정적 연결](/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/studynote/02_operating_system/06_memory_management/334_static_linking/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) ([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -210,9 +207,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
-2. 먼저 [동적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))을 이해하면 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 공유 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드을 잘 알면 나중에 [정적 연결](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/))도 훨씬 쉽게 배울 수 있어요.
+1. 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드은 컴퓨터가 메모리를 방처럼 나눠 쓰고 주소를 찾는 방법이에요.
+2. 먼저 [동적 연결](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/) ([Dynamic Linking](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/))을 이해하면 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 공유 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (Shared [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)) 스터브 ([Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)) 코드을 잘 알면 나중에 [정적 연결](/studynote/02_operating_system/06_memory_management/334_static_linking/) ([Static Linking](/studynote/02_operating_system/06_memory_management/334_static_linking/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -220,7 +217,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 333 / 800
 
-<- **이전**: [332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)](/knowledge-base/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)
-**다음**: [334. 정적 연결 (Static Linking)](/knowledge-base/studynote/02_operating_system/06_memory_management/334_static_linking/) ->
+<- **이전**: [332. 동적 연결 (Dynamic Linking) - 실행 시점에 라이브러리 연결 (.dll, .so)](/studynote/02_operating_system/06_memory_management/332_dynamic_linking/)
+**다음**: [334. 정적 연결 (Static Linking)](/studynote/02_operating_system/06_memory_management/334_static_linking/) ->
 
 ---

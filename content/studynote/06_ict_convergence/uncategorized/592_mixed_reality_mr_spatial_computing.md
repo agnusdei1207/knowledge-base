@@ -1,13 +1,10 @@
-+++
-title = "592. 혼합현실 MR 공간 컴퓨팅 인터페이스 (Mixed Reality MR Spatial Computing)"
-date = 2026-05-09
+---
+title: "592. 혼합현실 MR 공간 컴퓨팅 인터페이스 (Mixed Reality MR Spatial Computing)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Map -> Anchor -> Render -> Interact -> Synchronize
 
 **진행 상황**: 592 / 800
 
-<- **이전**: [591. 가상현실 VR 몰입형 훈련](/knowledge-base/studynote/06_ict_convergence/uncategorized/591_virtual_reality_vr_immersive_training/)
-**다음**: [593. 메타버스 가상세계 경제 상호작용](/knowledge-base/studynote/06_ict_convergence/uncategorized/593_metaverse_virtual_world_economy_interaction/) ->
+<- **이전**: [591. 가상현실 VR 몰입형 훈련](/studynote/06_ict_convergence/uncategorized/591_virtual_reality_vr_immersive_training/)
+**다음**: [593. 메타버스 가상세계 경제 상호작용](/studynote/06_ict_convergence/uncategorized/593_metaverse_virtual_world_economy_interaction/) ->
 
 ---

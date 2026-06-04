@@ -1,35 +1,32 @@
-+++
-title = "727. DORA 메트릭스 4대 지표 (배포 빈도 등)"
-date = 2026-05-08
+---
+title: "727. DORA 메트릭스 4대 지표 (배포 빈도 등)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 오랜 난제는 <strong>"우리 회사 개발팀이 일을 잘하고 있는지 어떻게 숫자로 증명할 것인가?"</strong>였다. 제조업처럼 생산된 나사못의 개수를 세거나 불량률을 잴 수 없었기 때문이다.
+[소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 오랜 난제는 <strong>"우리 회사 개발팀이 일을 잘하고 있는지 어떻게 숫자로 증명할 것인가?"</strong>였다. 제조업처럼 생산된 나사못의 개수를 세거나 불량률을 잴 수 없었기 때문이다.
 
-초기에는 개발자가 하루에 짠 코드 라인 수(LOC)를 쟀다. 그러자 개발자들은 필요 없는 코드를 길게 늘여 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다. 버그 수정 개수를 지표로 삼자, 일부러 버그를 만들고 고치는 코미디가 벌어졌다.
+초기에는 개발자가 하루에 짠 코드 라인 수(LOC)를 쟀다. 그러자 개발자들은 필요 없는 코드를 길게 늘여 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시작했다. 버그 수정 개수를 지표로 삼자, 일부러 버그를 만들고 고치는 코미디가 벌어졌다.
 
-구글의 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구팀(니콜 포스그렌 박사 등)은 6년간의 방대한 설문과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 끝에, 진정한 소프트웨어 배달(Delivery) 능력을 증명하는 것은 개개인의 코딩 속도가 아니라 <strong>'팀 단위의 파이프라인(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD) 속도와 회복력'</strong>임을 밝혀냈다. 이것이 글로벌 표준이 된 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 메트릭스(<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a>)</strong>다.
+구글의 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 연구팀(니콜 포스그렌 박사 등)은 6년간의 방대한 설문과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 끝에, 진정한 소프트웨어 배달(Delivery) 능력을 증명하는 것은 개개인의 코딩 속도가 아니라 <strong>'팀 단위의 파이프라인(<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD) 속도와 회복력'</strong>임을 밝혀냈다. 이것이 글로벌 표준이 된 <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/">DORA</a> 메트릭스(<a href="/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a>)</strong>다.
 
 - **📢 섹션 요약 비유**: 택배 기사의 실력을 평가할 때 '운전대를 몇 번 꺾었나(LOC)'를 세는 것은 바보짓이다. 진정한 실력은 '하루에 몇 건을 배달했나(속도)'와 '물건을 안 깨뜨리고 배달했나(안정성)' 단 2가지로 평가해야 한다는 것이 DORA의 철학이다.
 
 ---
 
-다음은 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +41,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -54,13 +51,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 <strong>속도(Velocity)</strong>를 나타내는 2개 지표와 <strong>안정성(<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/021_stability/">Stability</a>)</strong>을 나타내는 2개 지표, 총 4가지로 구성된다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 <strong>속도(Velocity)</strong>를 나타내는 2개 지표와 <strong>안정성(<a href="/studynote/08_algorithm_stats/02_sorting/021_stability/">Stability</a>)</strong>을 나타내는 2개 지표, 총 4가지로 구성된다.
 
-- **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -72,17 +69,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 기존 소프트웨어 측정 방식들과 근본적으로 지향점이 다르다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 기존 소프트웨어 측정 방식들과 근본적으로 지향점이 다르다.
 
 | 지표 체계 | 핵심 철학 | 한계 및 단점 |
 |:---|:---|:---|
-| <strong>LOC (Lines of <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 코딩량 = 노동량 | 쓸데없이 복잡하고 긴 코드를 양산함. |
-| **Story Points / Velocity**| [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 완료 속도 측정 | 팀 간 비교가 절대 불가함 (A팀의 1포인트와 B팀의 1포인트는 다름). |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a></strong> | <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인과 비즈니스 가치(배포) 측정</strong> | 개발자 개인의 성과가 아니라 <strong>'팀/시스템의 성과'</strong>만 측정함. |
+| <strong>LOC (Lines of <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong> | 코딩량 = 노동량 | 쓸데없이 복잡하고 긴 코드를 양산함. |
+| **Story Points / Velocity**| [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 완료 속도 측정 | 팀 간 비교가 절대 불가함 (A팀의 1포인트와 B팀의 1포인트는 다름). |
+| <strong><a href="/studynote/13_cloud_architecture/04_devops_observability/201_dora_metrics_devops_performance/">DORA Metrics</a></strong> | <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인과 비즈니스 가치(배포) 측정</strong> | 개발자 개인의 성과가 아니라 <strong>'팀/시스템의 성과'</strong>만 측정함. |
 
-특히 경영진이 DORA를 '인사 평가(고과)' 도구로 쓰는 순간, 개발팀은 실패율을 낮추기 위해 배포를 안 하거나 장애 로그를 숨기는 등 지표를 조작(Gaming the [metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))하게 된다. DORA는 오직 <strong>조직의 병목(<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)을 찾는 진단 도구</strong>로만 쓰여야 한다.
+특히 경영진이 DORA를 '인사 평가(고과)' 도구로 쓰는 순간, 개발팀은 실패율을 낮추기 위해 배포를 안 하거나 장애 로그를 숨기는 등 지표를 조작(Gaming the [metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/))하게 된다. DORA는 오직 <strong>조직의 병목(<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)을 찾는 진단 도구</strong>로만 쓰여야 한다.
 
-- **📢 섹션 요약 비유**: 몸무게([DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표)를 쟀을 때 과체중이 나오면 운동(아키텍처 개선)을 해야지, 저울의 눈금(지표 조작)을 테이프로 가리거나 밥 굶고 물만 빼서 일시적으로 몸무게만 줄이면 결국 쓰러진다.
+- **📢 섹션 요약 비유**: 몸무게([DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표)를 쟀을 때 과체중이 나오면 운동(아키텍처 개선)을 해야지, 저울의 눈금(지표 조작)을 테이프로 가리거나 밥 굶고 물만 빼서 일시적으로 몸무게만 줄이면 결국 쓰러진다.
 
 ---
 
@@ -94,9 +91,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 리포트가 보여주는 가장 충격적인 사실은 <strong>"속도와 안정성은 제로섬(Zero-sum) 게임이 아니다"</strong>라는 점이다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 리포트가 보여주는 가장 충격적인 사실은 <strong>"속도와 안정성은 제로섬(Zero-sum) 게임이 아니다"</strong>라는 점이다.
 
-- **📢 섹션 요약 비유**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -106,9 +103,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스를 도입하면, 경영진과 개발팀이 '추측'이 아닌 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 대화할 수 있게 된다. "우리 파이프라인이 구글이나 넷플릭스 같은 엘리트 조직에 비해 얼마나 느린가?"를 직관적으로 파악하고, 컨테이너화, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 테스트 자동화 중 어디에 예산을 투자할지 명확한 근거([Business Case](/knowledge-base/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/))를 확보하게 된다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스를 도입하면, 경영진과 개발팀이 '추측'이 아닌 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'로 대화할 수 있게 된다. "우리 파이프라인이 구글이나 넷플릭스 같은 엘리트 조직에 비해 얼마나 느린가?"를 직관적으로 파악하고, 컨테이너화, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/), 테스트 자동화 중 어디에 예산을 투자할지 명확한 근거([Business Case](/studynote/04_software_engineering/03_design_architecture/172_business_case_roi_analysis/))를 확보하게 된다.
 
-결론적으로 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4대 지표는 클라우드 네이티브와 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 시대의 '혈압, 맥박, 체온, 호흡수'다. 기술 리더는 의사처럼 이 4가지 바이탈 사인(Vital Sign)을 대시보드에 띄워놓고, 조직의 건강 상태를 실시간으로 모니터링하며 지속적 개선(Continuous Improvement)의 동력으로 삼아야 한다.
+결론적으로 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 4대 지표는 클라우드 네이티브와 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 시대의 '혈압, 맥박, 체온, 호흡수'다. 기술 리더는 의사처럼 이 4가지 바이탈 사인(Vital Sign)을 대시보드에 띄워놓고, 조직의 건강 상태를 실시간으로 모니터링하며 지속적 개선(Continuous Improvement)의 동력으로 삼아야 한다.
 
 - **📢 섹션 요약 비유**: 우주선 계기판에 수만 개의 버튼이 있지만, 우주선이 정상 궤도를 날고 있는지 아는 데는 고도, 속도, 연료, 엔진 온도(4대 지표)만 보면 충분하다. DORA는 CTO의 책상 위에 놓여야 할 가장 완벽하고 단순한 비행 계기판이다.
 
@@ -124,10 +121,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,13 +144,13 @@ DORA 메트릭스 4대 지표 (배포 빈도 등) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스 4대 지표 (배포 빈도 등)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -161,7 +158,7 @@ DORA 메트릭스 4대 지표 (배포 빈도 등) 개념 정립
 
 **진행 상황**: 900 / 973
 
-<- **이전**: [726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)
-**다음**: [728. SPACE 프레임워크 생산성 다각화](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/728_space_framework_developer_productivity/) ->
+<- **이전**: [726. 플랫폼 엔지니어링 IDP 포털 개발자 경험(DX)](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)
+**다음**: [728. SPACE 프레임워크 생산성 다각화](/studynote/04_software_engineering/10_trends_pm_quality/728_space_framework_developer_productivity/) ->
 
 ---

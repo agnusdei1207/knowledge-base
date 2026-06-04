@@ -1,13 +1,10 @@
-+++
-title = "776. IT 경영 관리 핵심 토픽 776번 시험 요약 (IT Management Core Topic 776 Exam Summary)"
-date = 2026-05-09
+---
+title: "776. IT 경영 관리 핵심 토픽 776번 시험 요약 (IT Management Core Topic 776 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ IT 경영 관리의 핵심은 **4대 글로벌 프레임워크의 상호운용�
 
 **진행 상황**: 776 / 800
 
-<- **이전**: [775. IT 경영 관리 핵심 토픽 775번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/775_it_management_core_topic_775_exam_summary/)
-**다음**: [777. IT 경영 관리 핵심 토픽 777번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/777_it_management_core_topic_777_exam_summary/) ->
+<- **이전**: [775. IT 경영 관리 핵심 토픽 775번 시험 요약](/studynote/12_it_management/05_security_compliance/775_it_management_core_topic_775_exam_summary/)
+**다음**: [777. IT 경영 관리 핵심 토픽 777번 시험 요약](/studynote/12_it_management/05_security_compliance/777_it_management_core_topic_777_exam_summary/) ->
 
 ---

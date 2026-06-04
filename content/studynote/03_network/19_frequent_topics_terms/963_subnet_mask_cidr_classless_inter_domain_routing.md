@@ -1,13 +1,10 @@
-+++
-title = "963. 서브넷 마스크 (Subnet Mask) / CIDR"
-date = 2026-05-08
+---
+title: "963. 서브넷 마스크 (Subnet Mask) / CIDR"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -33,7 +30,7 @@ tags = ["studynote-network"]
     +---> [IPv6 헤더 압축 / SLAAC]
 ```
 
-- **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -43,7 +40,7 @@ tags = ["studynote-network"]
 - **서브넷 마스크의 등판**: IP 주소 밑에 `255.255.255.0` 같은 숫자를 깔아둡니다.
   - 마스크를 이진수로 풀면 `11111111.11111111.11111111.00000000` 입니다.
   - **규칙**: 마스크의 <strong><code>1</code>이 덮여있는 부분은 "건드리지 마! 동네 주소(Network)야!"</strong> 이고, <strong><code>0</code>이 덮여있는 부분은 "내 맘대로 컴퓨터 꽂아서 쓰는 집 주소(Host)야!"</strong>라는 선 긋기 룰입니다.
-  - 이를 통해 큰 덩어리의 네트워크를 작은 부서별(영업팀, 인사팀) 네트워크(Subnet)로 잘게 쪼개어 [브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(소음)을 완벽히 차단합니다.
+  - 이를 통해 큰 덩어리의 네트워크를 작은 부서별(영업팀, 인사팀) 네트워크(Subnet)로 잘게 쪼개어 [브로드캐스트 스톰](/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)(소음)을 완벽히 차단합니다.
 
 ```text
 [BGP AS-Path]
@@ -60,7 +57,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-서브넷 마스크가 A,B,C 클래스의 틀 안에서 쪼개는 짓이었다면, <strong>CIDR(사이더)</strong>는 아예 A,B,C 클래스라는 개념 자체를 폭파([Classless](/knowledge-base/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))해 버린 현대 인터넷 주소의 헌법입니다.
+서브넷 마스크가 A,B,C 클래스의 틀 안에서 쪼개는 짓이었다면, <strong>CIDR(사이더)</strong>는 아예 A,B,C 클래스라는 개념 자체를 폭파([Classless](/studynote/03_network/06_network_layer_ip/303_cidr_classless_inter_domain_routing/))해 버린 현대 인터넷 주소의 헌법입니다.
 
 ### 1. 가변 길이 슬래시(/) 표기법 (VLSM의 응용)
 - 무식한 `255.255.255.0` 대신, <strong><code>192.168.1.10/24</code></strong> 처럼 뒤에 슬래시(`/`)를 긋고 숫자를 씁니다.
@@ -71,37 +68,37 @@ tags = ["studynote-network"]
 - 옛날엔 256개짜리(C클래스)를 줘서 156개를 낭비했습니다.
 - CIDR 시대: 관리자가 펜을 들고 <strong><code>/25</code></strong>로 자릅니다. 앞에서 25칸을 막아버렸으니, 뒤에 남은 공간은 7칸($32-25=7$). 즉, $2^7 = 128$개의 IP가 담긴 초미니 맞춤형 네트워크를 잘라서 줍니다! 주소 낭비가 156개에서 28개로 극단적으로 줄어듭니다.
 
-### 3. [슈퍼네팅](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) ([Supernetting](/knowledge-base/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / Route Summarization) - 라우터 숨통 트이기
+### 3. [슈퍼네팅](/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) ([Supernetting](/studynote/03_network/06_network_layer_ip/305_supernetting_route_summarization/) / Route Summarization) - 라우터 숨통 트이기
 - CIDR은 쪼개는 것만 하는 게 아니라, 자잘한 부서 주소들을 큰 거 하나로 뭉치는(병합) 짓도 기가 막히게 합니다.
 - 강남지사 밑에 `/24`짜리 잘게 쪼개진 자잘한 네트워크 장부가 100개 있습니다. 이걸 본사 코어 라우터에 다 올리면 라우터 뇌가 터집니다.
-- CIDR은 이 자잘한 100개의 주소를 수학적으로 공통된 앞자리로 딱 묶어서, <strong><code>10.0.0.0/16</code>이라는 단 하나의 거대한 뭉칫덩어리 주소(요약본)</strong>로 덮어버린 뒤 위로 올려보냅니다. 글로벌 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 사이즈를 1/100로 줄여 인터넷 코어망 폭파를 막아낸 일등 공신입니다.
+- CIDR은 이 자잘한 100개의 주소를 수학적으로 공통된 앞자리로 딱 묶어서, <strong><code>10.0.0.0/16</code>이라는 단 하나의 거대한 뭉칫덩어리 주소(요약본)</strong>로 덮어버린 뒤 위로 올려보냅니다. 글로벌 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 사이즈를 1/100로 줄여 인터넷 코어망 폭파를 막아낸 일등 공신입니다.
 
-서브넷 마스크 / CIDR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path가 기반 조건을 만든다면, 서브넷 마스크 / CIDR는 그 위에서 핵심 메커니즘을 구현하고, [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+서브넷 마스크 / CIDR를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path가 기반 조건을 만든다면, 서브넷 마스크 / CIDR는 그 위에서 핵심 메커니즘을 구현하고, [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path의 기반 정리 | 서브넷 마스크 / CIDR의 핵심 동작 | [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC의 확장 적용 |
+| 초점 | [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path의 기반 정리 | 서브넷 마스크 / CIDR의 핵심 동작 | [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 옛날 IP 주소 배분(클래스풀)은 아파트 계약할 때 평수가 '10평(C), 100평(B), 1만 평(A)' 딱 세 가지밖에 없는 부동산이었습니다. 나는 15평만 필요한데 억지로 100평을 계약해서 빈방 85평의 월세(IP 주소 고갈)를 낭비해야 했습니다. <strong>CIDR과 서브넷 마스크(/24)</strong>는 건물주가 '이동식 가벽([파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'을 마음대로 세울 수 있는 맞춤형 조립 아파트를 지은 것입니다. 내가 건물주에게 "나 15평만 쓸게!" 하면, 건물주가 줄자로 거리를 잰 뒤, 15평 크기 딱 맞는 위치에 슬래시 가벽(`/28` 서브넷 마스크)을 콱 세워버립니다. 주소의 낭비 공간이 0으로 수렴하게 되며, 건물(네트워크) 전체를 수백 개의 자잘하고 효율적인 부서별 벌집 모양([Subnetting](/knowledge-base/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/))으로 완벽하게 통제하고 쪼개 쓸 수 있는 극강의 재단 기술입니다.
+- **📢 섹션 요약 비유**: 옛날 IP 주소 배분(클래스풀)은 아파트 계약할 때 평수가 '10평(C), 100평(B), 1만 평(A)' 딱 세 가지밖에 없는 부동산이었습니다. 나는 15평만 필요한데 억지로 100평을 계약해서 빈방 85평의 월세(IP 주소 고갈)를 낭비해야 했습니다. <strong>CIDR과 서브넷 마스크(/24)</strong>는 건물주가 '이동식 가벽([파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/))'을 마음대로 세울 수 있는 맞춤형 조립 아파트를 지은 것입니다. 내가 건물주에게 "나 15평만 쓸게!" 하면, 건물주가 줄자로 거리를 잰 뒤, 15평 크기 딱 맞는 위치에 슬래시 가벽(`/28` 서브넷 마스크)을 콱 세워버립니다. 주소의 낭비 공간이 0으로 수렴하게 되며, 건물(네트워크) 전체를 수백 개의 자잘하고 효율적인 부서별 벌집 모양([Subnetting](/studynote/03_network/06_network_layer_ip/304_subnetting_network_division_and_operation/))으로 완벽하게 통제하고 쪼개 쓸 수 있는 극강의 재단 기술입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 서브넷 마스크 / CIDR를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [BGP AS-Path](/knowledge-base/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/) 수준의 기본 대책으로 충분한지, 아니면 서브넷 마스크 / CIDR가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 서브넷 마스크 / CIDR를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [BGP AS-Path](/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/) 수준의 기본 대책으로 충분한지, 아니면 서브넷 마스크 / CIDR가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 구분 명확성 부족인지, 설명력 악화인지 먼저 분리한다.
-2. 서브넷 마스크 / CIDR가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와의 연계 방식을 함께 검증한다.
+2. 서브넷 마스크 / CIDR가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 서브넷 마스크 / CIDR의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -109,7 +106,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-서브넷 마스크 / CIDR는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+서브넷 마스크 / CIDR는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 서브넷 마스크 / CIDR는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -119,10 +116,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [BGP AS-Path](/knowledge-base/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [BGP AS-Path](/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +133,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-서브넷 마스크 / CIDR는 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+서브넷 마스크 / CIDR는 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) AS-Path에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 헤더 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) / SLAAC와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1084 / 1120
 
-<- **이전**: [962. BGP AS-Path](/knowledge-base/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/)
-**다음**: [964. IPv6 헤더 압축 / SLAAC](/knowledge-base/studynote/03_network/19_frequent_topics_terms/964_ipv6_header_compression_slaac_6lowpan_iot/) ->
+<- **이전**: [962. BGP AS-Path](/studynote/03_network/19_frequent_topics_terms/962_bgp_as_path_loop_prevention_path_vector/)
+**다음**: [964. IPv6 헤더 압축 / SLAAC](/studynote/03_network/19_frequent_topics_terms/964_ipv6_header_compression_slaac_6lowpan_iot/) ->
 
 ---

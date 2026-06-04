@@ -1,13 +1,10 @@
-+++
-title = "486. 클라우드 블록 스토리지 EBS 디스크 (Cloud Block Storage EBS Disk)"
-date = 2026-05-09
+---
+title: "486. 클라우드 블록 스토리지 EBS 디스크 (Cloud Block Storage EBS Disk)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 486 / 800
 
-<- **이전**: [485. 클라우드 객체 스토리지 수명주기 정책](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/485_cloud_object_storage_lifecycle_policy/)
-**다음**: [487. 클라우드 파일 스토리지 EFS NFS 공유](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/487_cloud_file_storage_efs_nfs_shared/) ->
+<- **이전**: [485. 클라우드 객체 스토리지 수명주기 정책](/studynote/13_cloud_architecture/06_exam_summary/485_cloud_object_storage_lifecycle_policy/)
+**다음**: [487. 클라우드 파일 스토리지 EFS NFS 공유](/studynote/13_cloud_architecture/06_exam_summary/487_cloud_file_storage_efs_nfs_shared/) ->
 
 ---

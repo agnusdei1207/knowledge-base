@@ -1,13 +1,10 @@
-+++
-title = "608. 디지털 헬스 원격의료 PHR 건강데이터 (Digital Health Telemedicine PHR Health Data)"
-date = 2026-05-09
+---
+title: "608. 디지털 헬스 원격의료 PHR 건강데이터 (Digital Health Telemedicine PHR Health Data)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Collect -> Consent -> Analyze -> Consult -> Record
 
 **진행 상황**: 608 / 800
 
-<- **이전**: [607. Matter 스마트홈 통합 표준 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/)
-**다음**: [609. 스마트농업 정밀농업 센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/) ->
+<- **이전**: [607. Matter 스마트홈 통합 표준 프로토콜](/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/)
+**다음**: [609. 스마트농업 정밀농업 센서](/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/) ->
 
 ---

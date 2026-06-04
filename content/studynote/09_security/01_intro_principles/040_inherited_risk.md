@@ -1,18 +1,15 @@
-+++
-title = "040. 상속된 위험 (Inherited Risk)"
-date = 2026-04-05
+---
+title: "040. 상속된 위험 (Inherited Risk)"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 > **핵심 인사이트**
-> 1. 상속된 위험(Inherited [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 조직이 직접 통제할 수 없는 외부 요소([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
-> 2. 고유 위험(Inherent [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) -> 통제(Control) 적용 -> 잔존 위험([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)) 체계에서, 상속된 위험은 통제 전 원시 위험 상태가 외부에서 유입되는 특수 형태이며, SolarWinds·[Log4Shell](/knowledge-base/studynote/09_security/05_web_app_security/452_log4shell/) 같은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격이 대표적 사례다.
-> 3. 상속된 위험 관리의 핵심은 공급업체 위험 관리(Third-Party [Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/), TPRM)와 [소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/)([SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/), Software [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))로, [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화는 미국 행정명령(EO 14028, [2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))과 EU CRA(사이버복원력법)의 핵심 요구사항이 됐다.
+> 1. 상속된 위험(Inherited [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))은 조직이 직접 통제할 수 없는 외부 요소([공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 클라우드 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 인수합병된 기업)로부터 이전(移轉)되어 오는 위험으로, 현대 IT 환경에서 전체 위험의 상당 부분을 차지한다.
+> 2. 고유 위험(Inherent [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) -> 통제(Control) 적용 -> 잔존 위험([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/)) 체계에서, 상속된 위험은 통제 전 원시 위험 상태가 외부에서 유입되는 특수 형태이며, SolarWinds·[Log4Shell](/studynote/09_security/05_web_app_security/452_log4shell/) 같은 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격이 대표적 사례다.
+> 3. 상속된 위험 관리의 핵심은 공급업체 위험 관리(Third-Party [Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/), TPRM)와 [소프트웨어 자재 명세서](/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/)([SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/), Software [Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/))로, [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) 의무화는 미국 행정명령(EO 14028, [2021](/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))과 EU CRA(사이버복원력법)의 핵심 요구사항이 됐다.
 
 ---
 
@@ -74,7 +71,7 @@ tags = ["studynote-security"]
    통합 전 보안 실사(Due Diligence) 필수
 ```
 
-> 📢 **섹션 요약 비유**: [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
+> 📢 **섹션 요약 비유**: [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 의존성 위험은 식재료 공급업체 문제 — 내 식당이 아무 잘못 없어도 재료에 문제가 있으면 고객이 탈이 난다.
 
 ---
 
@@ -114,7 +111,7 @@ TPRM (Third-Party Risk Management):
 
 ---
 
-## Ⅳ. [SBOM](/knowledge-base/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([소프트웨어 자재 명세서](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/))
+## Ⅳ. [SBOM](/studynote/09_security/17_framework_compliance/890_sbom_cyclonedx_spdx/) ([소프트웨어 자재 명세서](/studynote/04_software_engineering/10_trends_pm_quality/690_sbom_software_supply_chain_security/))
 
 ```
 SBOM (Software Bill of Materials):
@@ -149,7 +146,7 @@ SBOM 포함 정보:
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융기관 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)
+## Ⅴ. 실무 시나리오 — 금융기관 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)
 
 ```
 금융기관 A사 공급망 보안 강화 사례:
@@ -178,7 +175,7 @@ SBOM 포함 정보:
   공급망 보안 내부통제 기준 수립
 ```
 
-> 📢 **섹션 요약 비유**: 금융기관 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)은 금고 열쇠를 외부 업체에 맡기는 것 — 업체 신뢰성을 계속 검증하고 계약서에 책임을 명시해야 한다.
+> 📢 **섹션 요약 비유**: 금융기관 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/)은 금고 열쇠를 외부 업체에 맡기는 것 — 업체 신뢰성을 계속 검증하고 계약서에 책임을 명시해야 한다.
 
 ---
 
@@ -241,7 +238,7 @@ SBOM 법제화
 
 1. 상속된 위험은 친구가 만든 레고를 받아서 놀다가 친구 레고에 불량 부품이 있어서 나도 다치는 상황이에요.
 2. SBOM은 레고 세트의 부품 목록 — 어떤 부품이 들어있는지 알아야 나쁜 부품을 빨리 찾아 교체할 수 있어요.
-3. SolarWinds 해킹처럼 유명한 소프트웨어 업데이트 파일에 악성코드가 숨어있어서 수만 개 회사가 한꺼번에 해킹당한 것이 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격이에요!
+3. SolarWinds 해킹처럼 유명한 소프트웨어 업데이트 파일에 악성코드가 숨어있어서 수만 개 회사가 한꺼번에 해킹당한 것이 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 공격이에요!
 
 ---
 
@@ -249,7 +246,7 @@ SBOM 법제화
 
 **진행 상황**: 40 / 1108
 
-<- **이전**: [039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)](/knowledge-base/studynote/09_security/01_intro_principles/039_detected_vs_undetected_risk/)
-**다음**: [041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처](/knowledge-base/studynote/09_security/01_intro_principles/041_zachman_framework/) ->
+<- **이전**: [039. 탐지 위험 vs 미탐지 위험 (Detected vs Undetected Risk)](/studynote/09_security/01_intro_principles/039_detected_vs_undetected_risk/)
+**다음**: [041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처](/studynote/09_security/01_intro_principles/041_zachman_framework/) ->
 
 ---

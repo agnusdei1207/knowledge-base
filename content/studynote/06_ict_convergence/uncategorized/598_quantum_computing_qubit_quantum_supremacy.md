@@ -1,13 +1,10 @@
-+++
-title = "598. 양자 컴퓨팅 큐빗 양자 우위 (Quantum Computing Qubit Quantum Supremacy)"
-date = 2026-05-09
+---
+title: "598. 양자 컴퓨팅 큐빗 양자 우위 (Quantum Computing Qubit Quantum Supremacy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Encode -> Operate -> Entangle -> Measure -> Correct
 
 **진행 상황**: 598 / 800
 
-<- **이전**: [597. 양자통신 양자키분배 QKD](/knowledge-base/studynote/06_ict_convergence/uncategorized/597_quantum_communication_quantum_key_distributio/)
-**다음**: [599. 뉴로모픽 칩 신경망 하드웨어](/knowledge-base/studynote/06_ict_convergence/uncategorized/599_neuromorphic_chip_neural_network_hardware/) ->
+<- **이전**: [597. 양자통신 양자키분배 QKD](/studynote/06_ict_convergence/uncategorized/597_quantum_communication_quantum_key_distributio/)
+**다음**: [599. 뉴로모픽 칩 신경망 하드웨어](/studynote/06_ict_convergence/uncategorized/599_neuromorphic_chip_neural_network_hardware/) ->
 
 ---

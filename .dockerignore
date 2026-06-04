@@ -1,0 +1,12 @@
+.git
+.github
+.quartz/cache
+.quartz/plugins
+node_modules
+public
+prof
+private
+tsconfig.tsbuildinfo
+.DS_Store
+.obsidian
+replit.nix

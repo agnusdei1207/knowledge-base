@@ -1,13 +1,10 @@
-+++
-title = "781. C-RAN (Cloud RAN 베이스밴드 Unit 원격 중앙 풀링 클라우드 관리 프론트홀 망 구조 통제 트래픽 통합 제어 기술 구성 요소망 구축 방법 구조 효율 제어)"
-date = 2026-05-08
+---
+title: "781. C-RAN (Cloud RAN 베이스밴드 Unit 원격 중앙 풀링 클라우드 관리 프론트홀 망 구조 통제 트래픽 통합 제어 기술 구성 요소망 구축 방법 구조 효율 제어)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -20,7 +17,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 4G 초기까지 기지국은 **D-RAN(Distributed RAN)** 구조였습니다.
-- [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 철탑(RU)이 있는 바로 그 건물 옥상이나 지상 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 반드시 두뇌 역할을 하는 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장비([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/), [Baseband](/knowledge-base/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) Unit)를 1:1로 세팅해 두어야 했습니다.
+- [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 철탑(RU)이 있는 바로 그 건물 옥상이나 지상 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)에 반드시 두뇌 역할을 하는 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장비([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/), [Baseband](/studynote/03_network/19_frequent_topics_terms/940_baseband_line_coding_nrz_rz_manchester/) Unit)를 1:1로 세팅해 두어야 했습니다.
 - **문제점**:
   - 서울 강남에 기지국 1만 개를 세우면, 1만 개의 에어컨과 1만 명의 건물주에게 월세(상면 비용)를 내야 했습니다.
   - 옆 동네 기지국은 새벽에 노는데 우리 동네 기지국이 뻗어버릴 때, 두 기지국의 남는 컴퓨터 자원(CPU)을 서로 빌려주거나 합칠 방법이 없었습니다(비효율의 극치).
@@ -34,25 +31,25 @@ tags = ["studynote-network"]
     +---> [O-RAN]
 ```
 
-- **📢 섹션 요약 비유**: C-RAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: C-RAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-기존 기지국의 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(두뇌)와 RU([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))를 칼로 싹둑 잘라 분리하고, 멀리 떨어뜨려 놓는 혁명입니다.
+기존 기지국의 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)(두뇌)와 RU([안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))를 칼로 싹둑 잘라 분리하고, 멀리 떨어뜨려 놓는 혁명입니다.
 
-### 1. Centralized (중앙 집중화 및 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))
-- 옥상에 있던 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 장비 1만 개를 뜯어내어 통신사 지사 건물(전화국) 한 곳의 쾌적한 전산실([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)에 몽땅 모아 쌓아둡니다.
-- 이렇게 모아둔 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 자원(CPU 연산력)을 하나로 묶어([Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)), A동네 트래픽이 폭주하면 B동네 BBU의 남는 연산력을 빌려와 1초 만에 유연하게 대응합니다. (자원 최적화)
+### 1. Centralized (중앙 집중화 및 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))
+- 옥상에 있던 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 장비 1만 개를 뜯어내어 통신사 지사 건물(전화국) 한 곳의 쾌적한 전산실([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)에 몽땅 모아 쌓아둡니다.
+- 이렇게 모아둔 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 자원(CPU 연산력)을 하나로 묶어([Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)), A동네 트래픽이 폭주하면 B동네 BBU의 남는 연산력을 빌려와 1초 만에 유연하게 대응합니다. (자원 최적화)
 
-### 2. [프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) ([Fronthaul](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)) 광케이블망 도입
-- 이제 옥상에는 바보 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU)만 남았고, 두뇌([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))는 20km 떨어진 전화국에 있습니다.
-- 이 멀리 떨어진 옥상과 전화국 사이를 빛의 속도로 연결하는 전용 광케이블 핏줄이 필요한데, 이것이 바로 <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a>(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/">Fronthaul</a>)</strong> 구간입니다. (보통 CPRI라는 엄청 무겁고 빠른 광통신 규격을 씁니다. 상세 내용은 784번 문서 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+### 2. [프론트홀](/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) ([Fronthaul](/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/)) 광케이블망 도입
+- 이제 옥상에는 바보 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)(RU)만 남았고, 두뇌([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))는 20km 떨어진 전화국에 있습니다.
+- 이 멀리 떨어진 옥상과 전화국 사이를 빛의 속도로 연결하는 전용 광케이블 핏줄이 필요한데, 이것이 바로 <strong><a href="/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/">프론트홀</a>(<a href="/studynote/03_network/20_performance_evaluation_advanced/1011_fronthaul_network_c_ran_cpri_roef/">Fronthaul</a>)</strong> 구간입니다. (보통 CPRI라는 엄청 무겁고 빠른 광통신 규격을 씁니다. 상세 내용은 784번 문서 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
-### 3. Cloud ([가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 클라우드화)
-- [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 접어들어, 전화국에 모아둔 쇳덩어리 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 장비마저도 버려버립니다.
-- 대신 범용 x86 인텔 서버(클라우드)를 수백 대 깔아두고, 그 위에 소프트웨어(가상머신, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 형태로 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 앱을 띄워 돌립니다. 진정한 의미의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">Cloud RAN</a> (vRAN, <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> RAN)</strong>이 완성됩니다.
+### 3. Cloud ([가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 및 클라우드화)
+- [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대에 접어들어, 전화국에 모아둔 쇳덩어리 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 장비마저도 버려버립니다.
+- 대신 범용 x86 인텔 서버(클라우드)를 수백 대 깔아두고, 그 위에 소프트웨어(가상머신, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)) 형태로 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) 앱을 띄워 돌립니다. 진정한 의미의 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">Cloud RAN</a> (vRAN, <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> RAN)</strong>이 완성됩니다.
 
 ```text
 [CP-OFDM]
@@ -69,9 +66,9 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-대한민국은 땅이 좁고 광케이블이 촘촘하게 깔려있어, 전 세계에서 [C-RAN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 아키텍처를 가장 먼저, 가장 완벽하게 100% 도입한 나라입니다.
-- <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>(총소유비용) 극적 절감</strong>: 임대료 폭락, 옥상 에어컨 유지비(전기세) 70% 감소.
-- <strong>간섭 제어(<a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">CoMP</a>) 최적화</strong>: 수만 개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 전화국의 한 컴퓨터([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 동시에 총괄 지휘하므로, A [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 B [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 서로 전파를 방해하지 않게 기가 막힌 타이밍으로 간섭을 완벽히 조율해 냅니다.
+대한민국은 땅이 좁고 광케이블이 촘촘하게 깔려있어, 전 세계에서 [C-RAN](/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/) 아키텍처를 가장 먼저, 가장 완벽하게 100% 도입한 나라입니다.
+- <strong><a href="/studynote/12_it_management/01_governance_strategy/016_tco/">TCO</a>(총소유비용) 극적 절감</strong>: 임대료 폭락, 옥상 에어컨 유지비(전기세) 70% 감소.
+- <strong>간섭 제어(<a href="/studynote/03_network/20_performance_evaluation_advanced/1013_comp_coordinated_multipoint_transmission/">CoMP</a>) 최적화</strong>: 수만 개의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 전화국의 한 컴퓨터([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)가 동시에 총괄 지휘하므로, A [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)와 B [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)가 서로 전파를 방해하지 않게 기가 막힌 타이밍으로 간섭을 완벽히 조율해 냅니다.
 
 C-RAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. CP-OFDM가 기반 조건을 만든다면, C-RAN는 그 위에서 핵심 메커니즘을 구현하고, O-RAN는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 유연성과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -79,26 +76,26 @@ C-RAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 |:---|:---|:---|:---|
 | 초점 | CP-OFDM의 기반 정리 | C-RAN의 핵심 동작 | O-RAN의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 기지국(D-RAN)은 수만 개의 동네 식당(기지국)이 각자 주방([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))과 식당 홀([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) RU)을 1:1로 가지고 있는 구조입니다. 주방장 인건비도 많이 들고 위생 관리도 힘들었습니다. <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a></strong>은 혁명적인 '배달의 민족 센트럴 키친(공유 주방)' 모델입니다. 동네 식당의 주방을 싹 다 없애고 손님이 밥 먹는 홀([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))만 남깁니다. 요리사(두뇌 [BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)) 1만 명은 시외의 거대하고 시원한 '중앙 공유 주방([BBU](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)'에 모여서 밥을 공장처럼 짓습니다. 요리가 끝나면 빛보다 빠른 오토바이 배달부([프론트홀](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블)가 0.01초 만에 식당 홀에 있는 손님 테이블 위로 밥([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쏴주는 기적의 중앙 통제 물류 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 기지국(D-RAN)은 수만 개의 동네 식당(기지국)이 각자 주방([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/))과 식당 홀([안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) RU)을 1:1로 가지고 있는 구조입니다. 주방장 인건비도 많이 들고 위생 관리도 힘들었습니다. <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/156_c_ran_cloud_ran/">C-RAN</a></strong>은 혁명적인 '배달의 민족 센트럴 키친(공유 주방)' 모델입니다. 동네 식당의 주방을 싹 다 없애고 손님이 밥 먹는 홀([안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/))만 남깁니다. 요리사(두뇌 [BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/)) 1만 명은 시외의 거대하고 시원한 '중앙 공유 주방([BBU](/studynote/01_computer_architecture/15_advanced_topics/688_bbu/) Pool)'에 모여서 밥을 공장처럼 짓습니다. 요리가 끝나면 빛보다 빠른 오토바이 배달부([프론트홀](/studynote/03_network/15_nextgen_communication_architecture/784_fronthaul_ecpri_split_option/) 광케이블)가 0.01초 만에 식당 홀에 있는 손님 테이블 위로 밥([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쏴주는 기적의 중앙 통제 물류 시스템입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 C-RAN를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CP-OFDM](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/) 수준의 기본 대책으로 충분한지, 아니면 C-RAN가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 O-RAN와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 C-RAN를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CP-OFDM](/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/) 수준의 기본 대책으로 충분한지, 아니면 C-RAN가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 O-RAN와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 유연성 부족인지, 확장성 악화인지 먼저 분리한다.
-2. C-RAN가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. C-RAN가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 O-RAN와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - C-RAN의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- CP-OFDM와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- CP-OFDM와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: C-RAN를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -106,7 +103,7 @@ C-RAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅴ. 기대효과 및 결론
 
-C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: C-RAN는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -116,10 +113,10 @@ C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CP-OFDM](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
-| [네트워크 슬라이싱](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
-| [O-RAN](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [CP-OFDM](/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기반 구조 (Service-Based [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) | 기능을 느슨하게 결합해 유연성을 높인다. |
+| [네트워크 슬라이싱](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/) ([Network Slicing](/studynote/06_ict_convergence/02_iot_mobility/149_network_slicing_5g_architecture/)) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 요구사항을 논리적으로 분리한다. |
+| [O-RAN](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +130,7 @@ C-RAN는 차세대 통신 아키텍처를 이해할 때 핵심 축을 잡아 주
     +---> [확장 B: AI 기반 네트워크 최적화]
 ```
 
-C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 O-RAN와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 O-RAN와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 네트워크 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -147,7 +144,7 @@ C-RAN는 CP-OFDM에서 출발해 현재 메커니즘을 정교화하고, 이후 
 
 **진행 상황**: 902 / 1120
 
-<- **이전**: [780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/)
-**다음**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) ->
+<- **이전**: [780. CP-OFDM (5G 표준 데이터 채널 다중 변조 다운 무선통신 파형 방식 적용 분석망 통신망 채택 사양 모델 파형)](/studynote/03_network/15_nextgen_communication_architecture/780_cp_ofdm_cyclic_prefix_5g_waveform/)
+**다음**: [782. O-RAN (Open RAN 기지국 장비 인터페이스 화웨이 등 벤더 종속성 탈피 개방형 오픈 API 표준 분할 조합 기술 화이트](/studynote/03_network/15_nextgen_communication_architecture/782_o_ran_open_ran_white_box_interface/) ->
 
 ---

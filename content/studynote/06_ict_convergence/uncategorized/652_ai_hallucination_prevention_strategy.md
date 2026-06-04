@@ -1,13 +1,10 @@
-+++
-title = "652. AI 할루시네이션 환각 방지 전략 (AI Hallucination Prevention Strategy)"
-date = 2026-05-09
+---
+title: "652. AI 할루시네이션 환각 방지 전략 (AI Hallucination Prevention Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -183,7 +180,7 @@ Hallucination Prevention은 유사 개념들과 명확히 구분되어야 합니
 
 **진행 상황**: 652 / 800
 
-<- **이전**: [651. 생성형 AI 비즈니스 적용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/)
-**다음**: [653. AI 윤리 편향 공정성 설명 가능성](/knowledge-base/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/) ->
+<- **이전**: [651. 생성형 AI 비즈니스 적용 전략](/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/)
+**다음**: [653. AI 윤리 편향 공정성 설명 가능성](/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/) ->
 
 ---

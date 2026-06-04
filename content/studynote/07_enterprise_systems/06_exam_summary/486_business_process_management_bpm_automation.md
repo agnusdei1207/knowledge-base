@@ -1,13 +1,10 @@
-+++
-title = "486. 비즈니스 프로세스 관리 BPM 자동화 (Business Process Management BPM Automation)"
-date = 2026-05-09
+---
+title: "486. 비즈니스 프로세스 관리 BPM 자동화 (Business Process Management BPM Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ BPM 자동화을 제대로 적용하면 IT 투자가 업무 성과와 연결되�
 
 **진행 상황**: 486 / 800
 
-<- **이전**: [485. 비즈니스 프로세스 리엔지니어링 BPR](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/485_business_process_reengineering_bpr/)
-**다음**: [487. 가치 흐름 매핑 VSM 린 최적화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/487_value_stream_mapping_vsm_lean_optimization/) ->
+<- **이전**: [485. 비즈니스 프로세스 리엔지니어링 BPR](/studynote/07_enterprise_systems/06_exam_summary/485_business_process_reengineering_bpr/)
+**다음**: [487. 가치 흐름 매핑 VSM 린 최적화](/studynote/07_enterprise_systems/06_exam_summary/487_value_stream_mapping_vsm_lean_optimization/) ->
 
 ---

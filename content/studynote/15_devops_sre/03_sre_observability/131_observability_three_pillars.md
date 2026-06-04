@@ -1,18 +1,15 @@
-+++
-title = "131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석"
-date = 2026-04-19
+---
+title: "131. 관측 가능성 Three Pillars - Metrics·Logs·Traces 심층 분석"
+date: "2026-04-19"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Metrics](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)(수치 시계열)·[Logs](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(텍스트 이벤트)·Traces([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 요청 추적)는 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 <strong>3대 필러(Three Pillars)</strong>이며, 세 가지를 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a>(Correlation)</strong>해야 장애 근본 원인을 파악할 수 있다.
+> 1. **본질**: [Metrics](/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/)(수치 시계열)·[Logs](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(텍스트 이벤트)·Traces([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 요청 추적)는 [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 <strong>3대 필러(Three Pillars)</strong>이며, 세 가지를 <strong><a href="/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a>(Correlation)</strong>해야 장애 근본 원인을 파악할 수 있다.
 > 2. **가치**: Metrics만으로는 "CPU 80%"를 알지만 원인을 모르고, Logs만으로는 에러는 보지만 어디서 발생했는지 모르며, Traces만으로는 느린 구간은 보지만 왜 느린지 모른다. <strong>세 가지를 연결</strong>해야 완전한 진단이 가능하다.
-> 3. **판단 포인트**: TraceID·SpanID로 3 Pillars를 연결(Correlation)하고, [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) LGTM [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Loki·[Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/)·Tempo·Mimir)이 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 관측 표준이다.
+> 3. **판단 포인트**: TraceID·SpanID로 3 Pillars를 연결(Correlation)하고, [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) LGTM [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Loki·[Grafana](/studynote/16_bigdata/08_visualization/168_grafana/)·Tempo·Mimir)이 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 관측 표준이다.
 
 ---
 
@@ -33,15 +30,15 @@ Traces:  "어디서" — Order->Payment->DB 3번째 구간에서 지연
 
 | Pillar | 형태 | 도구 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a></strong> | 수치 시계열 | [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Mimir |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a></strong> | 텍스트 이벤트 | Loki, ELK |
-| **Traces** | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 요청 추적 | Tempo, Jaeger |
+| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a></strong> | 수치 시계열 | [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/), Mimir |
+| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a></strong> | 텍스트 이벤트 | Loki, ELK |
+| **Traces** | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 요청 추적 | Tempo, Jaeger |
 
 ---
 
 ## Ⅲ~Ⅴ. 결론
 
-Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a>(Correlation)</strong>이 [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 진정한 가치이며, [OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)+[Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) Stack이 이를 실현한다.
+Three Pillars의 <strong><a href="/studynote/06_ict_convergence/05_data_science/325_correlation_analysis_pearson_spearman/">상관 분석</a>(Correlation)</strong>이 [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)의 진정한 가치이며, [OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/146_opentelemetry_otel_observability_standard/)+[Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) Stack이 이를 실현한다.
 
 ---
 
@@ -49,11 +46,11 @@ Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a></strong> | 수치 지표 ([Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a></strong> | 텍스트 이벤트 (Loki) |
-| **Traces** | [분산 추적](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) (Tempo) |
+| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a></strong> | 수치 지표 ([Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/)) |
+| <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">Logs</a></strong> | 텍스트 이벤트 (Loki) |
+| **Traces** | [분산 추적](/studynote/04_software_engineering/09_cloud_native_ai_architecture/569_distributed_tracing_opentelemetry_jaeger/) (Tempo) |
 | **Correlation** | 3 Pillars 연결 (TraceID) |
-| <strong>LGTM <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a></strong> | [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 관측 표준 |
+| <strong>LGTM <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a></strong> | [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) 관측 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -75,7 +72,7 @@ Three Pillars의 <strong><a href="/knowledge-base/studynote/06_ict_convergence/0
 
 **진행 상황**: 131 / 373
 
-<- **이전**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/knowledge-base/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/)
-**다음**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/knowledge-base/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) ->
+<- **이전**: [130. 모니터링 vs 관측 가능성 심화 - MELT와 OpenTelemetry](/studynote/15_devops_sre/03_sre_observability/130_monitoring_vs_observability/)
+**다음**: [132. Metrics & 모니터링 심화 - Prometheus·Grafana 기반 메트릭 수집·시각화](/studynote/15_devops_sre/03_sre_observability/132_metrics_monitoring/) ->
 
 ---

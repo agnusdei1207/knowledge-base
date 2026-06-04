@@ -1,13 +1,10 @@
-+++
-title = "759. 디지털 신원 검증 eKYC 원격 인증 (Digital Identity Verification eKYC Remote)"
-date = 2026-05-09
+---
+title: "759. 디지털 신원 검증 eKYC 원격 인증 (Digital Identity Verification eKYC Remote)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -69,7 +66,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 759 / 800
 
-<- **이전**: [758. 영지식 증명 인증 프라이버시 검증](/knowledge-base/studynote/06_ict_convergence/uncategorized/758_zero_knowledge_proof_auth_privacy_verificatio/)
-**다음**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/) ->
+<- **이전**: [758. 영지식 증명 인증 프라이버시 검증](/studynote/06_ict_convergence/uncategorized/758_zero_knowledge_proof_auth_privacy_verificatio/)
+**다음**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/) ->
 
 ---

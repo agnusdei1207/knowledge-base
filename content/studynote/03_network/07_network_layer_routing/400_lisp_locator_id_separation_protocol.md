@@ -1,17 +1,14 @@
-+++
-title = "400. 로케이터/ID 분리 구조 (LISP"
-date = 2026-05-08
+---
+title: "400. 로케이터/ID 분리 구조 (LISP"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로케이터/ID 분리 구조 (LISP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 로케이터/ID 분리 구조 (LISP는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 로케이터/ID 분리 구조 (LISP를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,9 +16,9 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: IP 주소의 과부하된 의미(식별자와 위치 지정자)를 Endpoint [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)(EID)와 [Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Locator(RLOC)로 분리하고, [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(캡슐화)을 통해 패킷을 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 [IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 (RFC 6830).
-- **필요성**: 기존 인터넷([IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))에서는 IP `211.1.1.10`이 두 가지 의미를 가졌다. (1) 나라는 놈 자체([TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 맺는 주체). (2) KT망 강남구에 붙어있다는 위치 정보.
-  만약 내 서버를 통째로 들고 강원도 SKT 망으로 이사 가면? IP 주소가 `223.x.x.x`로 강제로 바뀌어야 한다(위치가 바뀌었으니). <strong>IP가 바뀌면 기존에 맺고 있던 10만 개의 은행 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통신이 일제히 끊어진다.</strong>
+- **개념**: IP 주소의 과부하된 의미(식별자와 위치 지정자)를 Endpoint [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/)(EID)와 [Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Locator(RLOC)로 분리하고, [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)(캡슐화)을 통해 패킷을 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)하는 [IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 규격 (RFC 6830).
+- **필요성**: 기존 인터넷([IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/)/[IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))에서는 IP `211.1.1.10`이 두 가지 의미를 가졌다. (1) 나라는 놈 자체([TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)을 맺는 주체). (2) KT망 강남구에 붙어있다는 위치 정보.
+  만약 내 서버를 통째로 들고 강원도 SKT 망으로 이사 가면? IP 주소가 `223.x.x.x`로 강제로 바뀌어야 한다(위치가 바뀌었으니). <strong>IP가 바뀌면 기존에 맺고 있던 10만 개의 은행 <a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 통신이 일제히 끊어진다.</strong>
   "아니, 핸드폰 번호(ID)는 통신사(위치)를 바꿔도 번호 이동으로 그대로 쓰잖아? **인터넷 서버 IP도 장소를 옮겨도 안 바뀌는(고정된 ID) 체계로 뜯어고쳐 보자!**"
 
 - **💡 비유**: LISP는 <strong>"주민번호(ID)와 이사 후 전입신고(Locator)"</strong>의 분리와 완벽하게 똑같습니다.
@@ -37,7 +34,7 @@ tags = ["studynote-network"]
     +---> [전송 계층의 역할: 종단 간 오류/흐름/혼잡…]
 ```
 
-- **📢 섹션 요약 비유**: ** LISP는 철저한 **"대포차([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 변장술"**입니다. 자동차의 원래 엔진에 새겨진 차대번호(EID)는 평생 안 바뀝니다. 하지만 톨게이트를 무사통과하기 위해, 그때그때 내가 속한 도로 관할 구역에 맞는 가짜 렌터카 번호판(RLOC)을 범퍼 겉에 달고 주행하는 기술입니다.
+- **📢 섹션 요약 비유**: ** LISP는 철저한 **"대포차([터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)) 변장술"**입니다. 자동차의 원래 엔진에 새겨진 차대번호(EID)는 평생 안 바뀝니다. 하지만 톨게이트를 무사통과하기 위해, 그때그때 내가 속한 도로 관할 구역에 맞는 가짜 렌터카 번호판(RLOC)을 범퍼 겉에 달고 주행하는 기술입니다.
 
 ---
 
@@ -45,23 +42,23 @@ tags = ["studynote-network"]
 
 ### 1. 두 개의 분리된 우주 (EID Space vs RLOC Space)
 - **EID Space (고객 망)**: 회사 내부망이다. 여기 있는 서버들은 `10.1.1.10` 이라는 평생 안 바뀌는 고정 IP(EID)를 달고 산다.
-- **RLOC Space (인터넷 망)**: KT, SKT 통신사의 백본망이다. 여기서는 `211.200.x.x` 처럼 위치 기반의 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)용 공인 IP(RLOC)들만 돌아다닌다.
-- **분리의 기적**: 인터넷 통신사([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)들은 더 이상 수백만 개의 쪼잔한 EID 서버 주소를 외울 필요가 없이, 굵직한 통신사 RLOC 주소들만 외우면 되므로 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블이 기적처럼 다이어트된다.
+- **RLOC Space (인터넷 망)**: KT, SKT 통신사의 백본망이다. 여기서는 `211.200.x.x` 처럼 위치 기반의 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)용 공인 IP(RLOC)들만 돌아다닌다.
+- **분리의 기적**: 인터넷 통신사([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 라우터)들은 더 이상 수백만 개의 쪼잔한 EID 서버 주소를 외울 필요가 없이, 굵직한 통신사 RLOC 주소들만 외우면 되므로 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블이 기적처럼 다이어트된다.
 
 ### 2. LISP의 편지 배달 3단계 (ITR, ETR, Map-Server)
-가장 중요한 컴포넌트들의 역할이다. (결국 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)과 똑같은 구조다).
+가장 중요한 컴포넌트들의 역할이다. (결국 [GRE](/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)과 똑같은 구조다).
 
-1. <strong>ITR (<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Tunnel Router, 입구 톨게이트)</strong>:
+1. <strong>ITR (<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/094_ingress_kubernetes_l7_routing_gateway/">Ingress</a> Tunnel Router, 입구 톨게이트)</strong>:
    - 내 회사 앞단 방화벽이다.
    - 사내 서버가 `목적지 EID = 10.2.2.2(부산 지사)`로 편지를 쏜다.
    - ITR이 잡는다. "어? 이건 EID네? 이대로 인터넷(RLOC 망)에 쏘면 버려지는데? 얘 진짜 위치(RLOC)가 어디야?"
 2. **Map-Server (동사무소 / 114 안내소)**:
-   - ITR이 LISP 동사무소(Map-Resolver)에 묻는다. "[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).2.2.2 EID 쓰는 애 지금 어느 RLOC(통신사 IP) 밑에 숨어있냐?"
+   - ITR이 LISP 동사무소(Map-Resolver)에 묻는다. "[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/).2.2.2 EID 쓰는 애 지금 어느 RLOC(통신사 IP) 밑에 숨어있냐?"
    - Map-Server가 답해준다. "아 걔 부산 쪽 RLOC `222.1.1.1` 밑에 살아!"
 3. **캡슐화 및 ETR (출구 톨게이트) 전송**:
-   - ITR은 패킷 겉면에 `[출발지 RLOC: 211.x, 목적지 RLOC: 222.x]` 라는 바깥 포장지([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4341 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사용)를 씌워서 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 냅다 쏜다.
+   - ITR은 패킷 겉면에 `[출발지 RLOC: 211.x, 목적지 RLOC: 222.x]` 라는 바깥 포장지([UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 4341 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 사용)를 씌워서 [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 냅다 쏜다.
    - 겉 포장지만 보고 부산에 도착한다.
-   - 출구 톨게이트인 <strong>ETR(<a href="/knowledge-base/studynote/16_bigdata/09_platform/189_egress/">Egress</a> Tunnel Router)</strong>이 패킷을 받아 겉포장지(RLOC)를 좍 찢어버린다.
+   - 출구 톨게이트인 <strong>ETR(<a href="/studynote/16_bigdata/09_platform/189_egress/">Egress</a> Tunnel Router)</strong>이 패킷을 받아 겉포장지(RLOC)를 좍 찢어버린다.
    - 속에 있던 뽀송뽀송한 진짜 편지 `[목적지 EID = 10.2.2.2]`를 부산 지사 서버로 쓱 넣어준다.
 
 ```text
@@ -91,13 +88,13 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-로케이터/ID 분리 구조 (LISP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast가 기반 조건을 만든다면, 로케이터/ID 분리 구조 (LISP는 그 위에서 핵심 메커니즘을 구현하고, 전송 계층의 역할: 종단 간 오류/흐름/혼잡…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+로케이터/ID 분리 구조 (LISP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast가 기반 조건을 만든다면, 로케이터/ID 분리 구조 (LISP는 그 위에서 핵심 메커니즘을 구현하고, 전송 계층의 역할: 종단 간 오류/흐름/혼잡…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast의 기반 정리 | 로케이터/ID 분리 구조 (LISP의 핵심 동작 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡…의 확장 적용 |
+| 초점 | Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast의 기반 정리 | 로케이터/ID 분리 구조 (LISP의 핵심 동작 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 로케이터/ID 분리 구조 (LISP는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -105,18 +102,18 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 로케이터/ID 분리 구조 (LISP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast 수준의 기본 대책으로 충분한지, 아니면 로케이터/ID 분리 구조 (LISP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 로케이터/ID 분리 구조 (LISP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast 수준의 기본 대책으로 충분한지, 아니면 로케이터/ID 분리 구조 (LISP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. 로케이터/ID 분리 구조 (LISP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. 로케이터/ID 분리 구조 (LISP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 로케이터/ID 분리 구조 (LISP의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 로케이터/ID 분리 구조 (LISP를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -124,7 +121,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-로케이터/ID 분리 구조 (LISP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+로케이터/ID 분리 구조 (LISP는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 전송 계층의 역할: 종단 간 오류/흐름/혼잡…, 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 로케이터/ID 분리 구조 (LISP는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -134,9 +131,9 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
 | 전송 계층의 역할: 종단 간 오류/흐름/혼잡… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -151,7 +148,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-로케이터/ID 분리 구조 (LISP는 Anycast [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast에서 출발해 현재 메커니즘을 정교화하고, 이후 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+로케이터/ID 분리 구조 (LISP는 Anycast [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) ([BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) Anycast에서 출발해 현재 메커니즘을 정교화하고, 이후 전송 계층의 역할: 종단 간 오류/흐름/혼잡…와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -165,7 +162,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 521 / 1120
 
-<- **이전**: [399. Anycast 라우팅 (BGP Anycast](/knowledge-base/studynote/03_network/07_network_layer_routing/399_anycast_routing_bgp_anycast_dns_redundancy/)
-**다음**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/knowledge-base/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) ->
+<- **이전**: [399. Anycast 라우팅 (BGP Anycast](/studynote/03_network/07_network_layer_routing/399_anycast_routing_bgp_anycast_dns_redundancy/)
+**다음**: [401. 전송 계층의 역할: 종단 간(End-to-End) 오류/흐름/혼잡 제어, 다중화/역다중화](/studynote/03_network/08_transport_layer/401_transport_layer_role_end_to_end_multiplexing/) ->
 
 ---

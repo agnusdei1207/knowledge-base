@@ -1,25 +1,22 @@
-+++
-title = "68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)"
-date = 2026-04-10
+---
+title: "68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)"
+date: "2026-04-10"
+tags:
+  - "studynote-devops"
+---
 
-[taxonomies]
-tags = ["studynote-devops"]
-
-[extra]
-tags = ["studynote-devops"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 병합 충돌은 서로 다른 브랜치가 같은 부분을 다르게 수정해 Git이 자동 병합하지 못할 때 발생한다.
 > 2. **가치**: Merge와 Rebase는 충돌 해결과 히스토리 정리에 쓰이는 대표적 선택지다.
-> 3. **판단**: 충돌 자체보다, 왜 충돌이 생겼는지와 어떤 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 팀에 맞는지 이해하는 것이 중요하다.
+> 3. **판단**: 충돌 자체보다, 왜 충돌이 생겼는지와 어떤 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 팀에 맞는지 이해하는 것이 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-여러 사람이 같은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 바꾸면 충돌이 날 수 있다. Git은 이 상황을 자동으로 해결하지 못할 때 충돌을 보여 준다.
+여러 사람이 같은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시에 바꾸면 충돌이 날 수 있다. Git은 이 상황을 자동으로 해결하지 못할 때 충돌을 보여 준다.
 
 그래서 충돌 해결은 협업 개발의 자연스러운 일부다.
 
@@ -44,7 +41,7 @@ Merge / Rebase
 | Merge | 분기 기록 유지 |
 | Rebase | 히스토리 직선화 |
 
-충돌은 같은 줄, 같은 블록, 같은 의미를 서로 다르게 바꿨을 때 자주 발생한다. 해결 후에는 테스트로 의미를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+충돌은 같은 줄, 같은 블록, 같은 의미를 서로 다르게 바꿨을 때 자주 발생한다. 해결 후에는 테스트로 의미를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 - **📢 섹션 요약 비유**: 같은 칠판에 다른 글씨를 썼으니 누가 무엇을 남길지 정해야 한다.
 
@@ -52,7 +49,7 @@ Merge / Rebase
 
 ## Ⅲ. 비교 및 연결
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 장점 | 단점 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 장점 | 단점 |
 | :-- | :-- | :-- |
 | Merge | 안전, 기록 보존 | 히스토리 복잡 |
 | Rebase | 깔끔한 히스토리 | 공유 브랜치 주의 |
@@ -62,7 +59,7 @@ Merge / Rebase
 | Text conflict | 수동 수정 |
 | Logical conflict | 코드 이해 필요 |
 
-Merge와 Rebase는 도구가 아니라 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 팀의 브랜치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 맞게 선택해야 한다.
+Merge와 Rebase는 도구가 아니라 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 팀의 브랜치 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 맞게 선택해야 한다.
 
 - **📢 섹션 요약 비유**: 한쪽으로 정리할지, 갈라진 길을 그대로 남길지 선택하는 것이다.
 
@@ -70,20 +67,20 @@ Merge와 Rebase는 도구가 아니라 [전략](/knowledge-base/studynote/04_sof
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 충돌 원인을 이해했는가?
 2. Merge와 Rebase 차이를 아는가?
 3. 공유 브랜치에 Rebase를 조심하는가?
 4. 충돌 해결 후 테스트하는가?
-5. 브랜치 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 문서화되어 있는가?
+5. 브랜치 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 문서화되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 충돌을 무조건 자동 해결하려는 설계
 - Rebase를 무분별하게 사용하는 설계
 - 충돌 해결 후 테스트를 생략하는 설계
-- 팀 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 혼자만의 방식으로 해결하는 설계
+- 팀 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 혼자만의 방식으로 해결하는 설계
 
 기술사 관점에서는 충돌을 "나쁜 일"이 아니라 "협업에서 관리해야 할 자연스러운 현상"으로 설명해야 한다.
 
@@ -93,7 +90,7 @@ Merge와 Rebase는 도구가 아니라 [전략](/knowledge-base/studynote/04_sof
 
 ## Ⅴ. 기대효과 및 결론
 
-충돌 해결 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 이해하면 협업의 안정성과 히스토리 관리가 좋아진다.
+충돌 해결 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 이해하면 협업의 안정성과 히스토리 관리가 좋아진다.
 
 결론적으로 병합 충돌은 브랜치 협업에서 수동 조정이 필요한 지점이다.
 
@@ -141,7 +138,7 @@ Branch Policy
 
 **진행 상황**: 68 / 373
 
-<- **이전**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)
-**다음**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/) ->
+<- **이전**: [67. Pull Request (PR) - 머지 리퀘스트 및 코드 리뷰 프로세스](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)
+**다음**: [69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화](/studynote/15_devops_sre/02_cicd_gitops/069_commit_message_convention_feat_fix/) ->
 
 ---

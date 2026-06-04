@@ -1,22 +1,19 @@
-+++
-title = "043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)"
-date = 2026-04-05
+---
+title: "043. 옵티미스틱 롤업 & 사기 증명 (Optimistic Rollup & Fraud Proof)"
+date: "2026-04-05"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 > **핵심 인사이트**
-> 1. 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 "일단 믿고, 문제 있으면 증명"하는 낙관적 가정으로 설계된 이더리움 Layer 2 확장 솔루션으로 — ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 달리 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유효성 증명을 즉시 생성하지 않아 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 비용이 낮지만, 출금 시 7일 이의제기 기간(Challenge Period)이 발생한다.
+> 1. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 "일단 믿고, 문제 있으면 증명"하는 낙관적 가정으로 설계된 이더리움 Layer 2 확장 솔루션으로 — ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 달리 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 유효성 증명을 즉시 생성하지 않아 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 비용이 낮지만, 출금 시 7일 이의제기 기간(Challenge Period)이 발생한다.
 > 2. 사기 증명(Fraud Proof)은 "시퀀서가 잘못된 상태 전이를 제출했다"고 누군가 증명하면 해당 배치가 롤백되는 메커니즘으로 — 이의제기자에게 보상을 주어 감시 인센티브를 만들고 시퀀서에게 슬래시(Slash) 패널티를 부과한다.
-> 3. Optimism(OP [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))과 Arbitrum이 양대 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 구현체이며 — OP Stack의 오픈소스화로 Base(Coinbase), Zora, Mantle 등 수십 개의 Layer 2 체인이 동일한 스택으로 구축되는 "Superchain" 생태계가 형성되고 있다.
+> 3. Optimism(OP [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))과 Arbitrum이 양대 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 구현체이며 — OP Stack의 오픈소스화로 Base(Coinbase), Zora, Mantle 등 수십 개의 Layer 2 체인이 동일한 스택으로 구축되는 "Superchain" 생태계가 형성되고 있다.
 
 ---
 
-## Ⅰ. 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 개념
+## Ⅰ. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 개념
 
 ```
 롤업 (Rollup) 원리:
@@ -54,7 +51,7 @@ tags = ["studynote-ict-convergence"]
                                     이의 없음 -> 최종 확정
 ```
 
-> 📢 **섹션 요약 비유**: 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 선불 여행 정산 — 회사 출장비를 먼저 쓰고(L2 실행), 나중에 영수증 제출(L1 제출). 7일 내 문제 제기 없으면 확정.
+> 📢 **섹션 요약 비유**: 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 선불 여행 정산 — 회사 출장비를 먼저 쓰고(L2 실행), 나중에 영수증 제출(L1 제출). 7일 내 문제 제기 없으면 확정.
 
 ---
 
@@ -138,7 +135,7 @@ Arbitrum:
 
 ---
 
-## Ⅳ. ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과의 비교
+## Ⅳ. ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과의 비교
 
 ```
 Optimistic vs ZK Rollup:
@@ -172,7 +169,7 @@ ZK 롤업 확산:
 
 ---
 
-## Ⅴ. 실무 시나리오 — Base 체인 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 배포
+## Ⅴ. 실무 시나리오 — Base 체인 [DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/) 배포
 
 ```
 OP Stack 기반 Base 체인 DApp 배포:
@@ -210,7 +207,7 @@ EIP-4844 (Proto-Danksharding) 영향:
   "롤업 중심의 이더리움 로드맵" 실현
 ```
 
-> 📢 **섹션 요약 비유**: Base/OP Stack은 이더리움의 고속도로 톨게이트 절감 — 원래 1만 원 톨비(이더리움 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))를 100원(L2)으로 줄여주는 빠른 우회 도로.
+> 📢 **섹션 요약 비유**: Base/OP Stack은 이더리움의 고속도로 톨게이트 절감 — 원래 1만 원 톨비(이더리움 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/))를 100원(L2)으로 줄여주는 빠른 우회 도로.
 
 ---
 
@@ -271,7 +268,7 @@ ZK 기술 성숙 -> 점진적 대체 가능성
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 "일단 믿어주는 빠른 계산기" — 수천 개 거래를 묶어서 이더리움에 제출하고, 7일 동안 아무도 문제 제기 안 하면 확정이에요!
+1. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)은 "일단 믿어주는 빠른 계산기" — 수천 개 거래를 묶어서 이더리움에 제출하고, 7일 동안 아무도 문제 제기 안 하면 확정이에요!
 2. 사기 증명은 법원 항소 — 계산이 틀렸다고 생각하면 증거를 들고 법원(스마트 계약)에 가면 돼요. 맞으면 보상, 틀리면 내 돈 몰수.
 3. Base(Coinbase)가 이 방식으로 만들어져 이더리움보다 100배 저렴하게 거래할 수 있어요!
 
@@ -281,7 +278,7 @@ ZK 기술 성숙 -> 점진적 대체 가능성
 
 **진행 상황**: 43 / 552
 
-<- **이전**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
-**다음**: [044. ZK-Rollup & 유효성 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) ->
+<- **이전**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+**다음**: [044. ZK-Rollup & 유효성 증명](/studynote/06_ict_convergence/01_blockchain/044_zk_rollup_validity_proof/) ->
 
 ---

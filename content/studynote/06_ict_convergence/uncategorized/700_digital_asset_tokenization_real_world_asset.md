@@ -1,13 +1,10 @@
-+++
-title = "700. 디지털 자산 토큰화 실물 연동 (Digital Asset Tokenization Real World Asset)"
-date = 2026-05-09
+---
+title: "700. 디지털 자산 토큰화 실물 연동 (Digital Asset Tokenization Real World Asset)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -128,7 +125,7 @@ RWA 토큰화 시스템은 크게 **① Off-chain 실물 자산 및 법적 구�
 
 **진행 상황**: 700 / 800
 
-<- **이전**: [699. 프라이버시 강화 기술 PETs 연합 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/)
-**다음**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/knowledge-base/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/) ->
+<- **이전**: [699. 프라이버시 강화 기술 PETs 연합 분석](/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/)
+**다음**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/) ->
 
 ---

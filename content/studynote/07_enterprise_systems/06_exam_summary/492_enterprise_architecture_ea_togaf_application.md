@@ -1,13 +1,10 @@
-+++
-title = "492. 기업 아키텍처 EA TOGAF 적용 (Enterprise Architecture EA TOGAF Application)"
-date = 2026-05-09
+---
+title: "492. 기업 아키텍처 EA TOGAF 적용 (Enterprise Architecture EA TOGAF Application)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ EA/TOGAF을 제대로 적용하면 IT 투자가 업무 성과와 연결되고, �
 
 **진행 상황**: 492 / 800
 
-<- **이전**: [491. IT 거버넌스 COBIT 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/491_it_governance_cobit_framework/)
-**다음**: [493. ISP 정보화 전략 수립 BPR ISP](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/493_isp_information_strategy_planning_bpr/) ->
+<- **이전**: [491. IT 거버넌스 COBIT 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/491_it_governance_cobit_framework/)
+**다음**: [493. ISP 정보화 전략 수립 BPR ISP](/studynote/07_enterprise_systems/06_exam_summary/493_isp_information_strategy_planning_bpr/) ->
 
 ---

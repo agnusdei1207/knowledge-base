@@ -1,18 +1,15 @@
-+++
-title = "138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장"
-date = 2026-04-19
+---
+title: "138. Event Sourcing (MSA) - 상태 대신 이벤트를 저장"
+date: "2026-04-19"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: Event Sourcing은 <strong>엔티티의 현재 상태를 저장하는 대신, 상태를 변경한 모든 이벤트(Event)를 순서대로 저장</strong>하고, 이벤트를 재생(Replay)하여 현재 상태를 복원하는 패턴이다.
-> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 <strong>모든 변경 이력이 이벤트로 보존</strong>되어 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
-> 3. **판단 포인트**: [CQRS](/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/)([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)와 자주 함께 사용하며, 이벤트 저장소(Event Store)가 핵심 인프라이다. 스냅샷으로 재생 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다.
+> 2. **가치**: 상태만 저장하면 "왜 이 상태가 되었는지" 추적이 불가능하지만, Event Sourcing은 <strong>모든 변경 이력이 이벤트로 보존</strong>되어 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))·디버깅·시간 여행(Time Travel) 쿼리가 가능하다.
+> 3. **판단 포인트**: [CQRS](/studynote/12_it_management/05_security_compliance/306_cqrs/)([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) Query Responsibility Segregation)와 자주 함께 사용하며, 이벤트 저장소(Event Store)가 핵심 인프라이다. 스냅샷으로 재생 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 최적화한다.
 
 ---
 
@@ -32,7 +29,7 @@ Event Sourcing: events 테이블 ->
 
 ## Ⅱ~Ⅴ. 결론
 
-Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>·추적·재생이 중요한 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(금융·의료)의 핵심 패턴</strong>이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
+Event Sourcing은 <strong><a href="/studynote/02_operating_system/10_security/606_auditing_linux_auditd/">감사</a>·추적·재생이 중요한 <a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>(금융·의료)의 핵심 패턴</strong>이며, CQRS와 함께 MSA의 고급 아키텍처를 구성한다.
 
 ---
 
@@ -40,11 +37,11 @@ Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a></strong> | 이벤트 저장·재생 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 명령·조회 분리 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/307_event_sourcing/">Event Sourcing</a></strong> | 이벤트 저장·재생 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a></strong> | 명령·조회 분리 |
 | **Event Store** | 이벤트 저장소 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 재생 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
-| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/">Audit Trail</a></strong> | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
+| <strong><a href="/studynote/02_operating_system/10_security/637_zfs_snapshot_cow_architecture/">Snapshot</a></strong> | 재생 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 |
+| <strong><a href="/studynote/11_design_supervision/01_audit_framework/065_audit_trail_worm_storage_compliance/">Audit Trail</a></strong> | [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -66,7 +63,7 @@ Event Sourcing은 <strong><a href="/knowledge-base/studynote/02_operating_system
 
 **진행 상황**: 137 / 371
 
-<- **이전**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/)
-**다음**: [139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/139_cqrs_msa/) ->
+<- **이전**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/)
+**다음**: [139. CQRS (Command Query Responsibility Segregation) - 명령·조회 분리](/studynote/13_cloud_architecture/03_msa_serverless/139_cqrs_msa/) ->
 
 ---

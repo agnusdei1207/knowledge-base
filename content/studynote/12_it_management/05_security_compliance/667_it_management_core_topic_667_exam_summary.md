@@ -1,13 +1,10 @@
-+++
-title = "667. IT 경영 관리 핵심 토픽 667번 시험 요약 (IT Management Core Topic 667 Exam Summary)"
-date = 2026-05-09
+---
+title: "667. IT 경영 관리 핵심 토픽 667번 시험 요약 (IT Management Core Topic 667 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -153,7 +150,7 @@ DX는 자주 혼동되는 유사 개념들과 명확히 구분되어야 한다. 
 
 **진행 상황**: 667 / 800
 
-<- **이전**: [666. IT 경영 관리 핵심 토픽 666번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/666_it_management_core_topic_666_exam_summary/)
-**다음**: [668. IT 경영 관리 핵심 토픽 668번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/668_it_management_core_topic_668_exam_summary/) ->
+<- **이전**: [666. IT 경영 관리 핵심 토픽 666번 시험 요약](/studynote/12_it_management/05_security_compliance/666_it_management_core_topic_666_exam_summary/)
+**다음**: [668. IT 경영 관리 핵심 토픽 668번 시험 요약](/studynote/12_it_management/05_security_compliance/668_it_management_core_topic_668_exam_summary/) ->
 
 ---

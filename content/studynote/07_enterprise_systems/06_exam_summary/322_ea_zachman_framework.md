@@ -1,17 +1,14 @@
-+++
-title = "322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)"
-date = 2026-05-09
+---
+title: "322. EA 프레임워크 잭맨 6×6 매트릭스 (EA Zachman Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 개념인 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 엔터프라이즈 환경에서 기술사형 서술에서 개념 경계와 적용 포인트를 빠르게 정리하기 위해 쓰이는 핵심 기준이며, 특히 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework의 경계를 분명히 만드는 데 의미가 있다.
+> 1. **본질**: 개념인 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 엔터프라이즈 환경에서 기술사형 서술에서 개념 경계와 적용 포인트를 빠르게 정리하기 위해 쓰이는 핵심 기준이며, 특히 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework의 경계를 분명히 만드는 데 의미가 있다.
 > 2. **가치**: 이 개념을 제대로 이해하면 비슷한 용어를 암기식으로만 외우는 상황을 줄이고, 의사결정 기준·책임 분담·운영 자동화를 같은 체계 안에서 연결할 수 있다.
 > 3. **판단 포인트**: 기술사 답안과 실무 설계에서는 정의 암기보다 적용 범위, 측정 지표, 예외 처리 조건을 어디까지 설계했는지가 더 중요하다.
 
@@ -19,9 +16,9 @@ tags = ["studynote-enterprise"]
 
 ## Ⅰ. 개요 및 필요성
 
-개념인 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 업무·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기술 흐름을 한 번에 설명하기 위한 엔터프라이즈 기준이다. 이름은 길어 보여도 현장에서는 결국 "무엇을 표준화하고 무엇을 유연하게 둘 것인가"라는 질문으로 귀결된다. 특히 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스와 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 동시에 등장하는 장면에서는 담당자별 해석 차이가 생기기 쉬워, 공통 언어와 판단 기준을 먼저 세우는 일이 중요하다.
+개념인 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 업무·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·기술 흐름을 한 번에 설명하기 위한 엔터프라이즈 기준이다. 이름은 길어 보여도 현장에서는 결국 "무엇을 표준화하고 무엇을 유연하게 둘 것인가"라는 질문으로 귀결된다. 특히 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스와 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 동시에 등장하는 장면에서는 담당자별 해석 차이가 생기기 쉬워, 공통 언어와 판단 기준을 먼저 세우는 일이 중요하다.
 
-이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 비슷한 용어를 암기식으로만 외우는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
+이 개념이 필요한 이유는 엔터프라이즈 환경이 늘 다부서·다시스템·다정책 구조이기 때문이다. 기준 없이 도입하면 비슷한 용어를 암기식으로만 외우는 상황이 생기고, 그 여파가 일정·품질·비용으로 동시에 퍼진다. 따라서 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 단순 용어가 아니라 복잡성을 운영 가능한 수준으로 정리하는 설계 기준으로 이해해야 한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -34,21 +31,21 @@ tags = ["studynote-enterprise"]
 +--------------------------------------------------------------+
 ```
 
-이 다이어그램은 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
+이 다이어그램은 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 단일 기법이 아니라 입력과 통제 지점을 이어 주는 운영 장치임을 보여준다. 핵심은 개념의 이름보다도 어떤 문제를 받아 어떤 결과로 연결하는지를 읽어내는 데 있다.
 
-- **📢 섹션 요약 비유**: [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 교차로의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)체계와 같다. 차가 많다는 사실보다 어디서 멈추고 어디서 흘려보낼지 기준을 정해야 사고가 줄어든다.
+- **📢 섹션 요약 비유**: [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 교차로의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)체계와 같다. 차가 많다는 사실보다 어디서 멈추고 어디서 흘려보낼지 기준을 정해야 사고가 줄어든다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-개념 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 설계할 때는 기준 수립, 실행 절차, 피드백 지표의 세 축을 함께 봐야 한다. 입력 축은 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스로, 범위와 입력 조건을 정리한다. 실행 축은 EA로, 실제 절차와 협업 구조를 연결한다. 피드백 축은 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework로, 결과를 측정하고 다시 교정한다. 이 세 가지가 분리되어 보이면 현장은 빨라 보여도 품질과 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 무너지기 쉽다.
+개념 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 설계할 때는 기준 수립, 실행 절차, 피드백 지표의 세 축을 함께 봐야 한다. 입력 축은 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스로, 범위와 입력 조건을 정리한다. 실행 축은 EA로, 실제 절차와 협업 구조를 연결한다. 피드백 축은 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework로, 결과를 측정하고 다시 교정한다. 이 세 가지가 분리되어 보이면 현장은 빨라 보여도 품질과 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 무너지기 쉽다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | 요구사항·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | 요구사항·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·업무 조건을 구조화 | 용어 정의와 책임 주체를 먼저 고정 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 실행 절차와 통제 포인트를 연결 | 예외 처리와 승인 기준을 명시 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·품질·위험을 측정 | [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), 비용, 리드타임 등 정량 지표 확보 |
 | 운영 피드백 | 재설계 여부를 판단 | 변경 이력과 회고 루프를 남김 |
 
 ```text
@@ -61,7 +58,7 @@ tags = ["studynote-enterprise"]
 +--------------------------------------------------------------+
 ```
 
-이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 언제나 "정의-실행-[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
+이 구조의 강점은 복잡한 현장을 단계별로 분리해 설명할 수 있다는 점이다. 기준이 흐리면 실행이 흔들리고, 실행 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 비면 개선이 감에 의존한다. 그래서 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 언제나 "정의-실행-[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"의 폐루프로 서술하는 편이 안전하다.
 
 - **📢 섹션 요약 비유**: 좋은 주방은 레시피만 있는 곳이 아니다. 재료 준비, 조리 순서, 마지막 간 보기까지 맞물려야 같은 메뉴가 같은 맛으로 나온다.
 
@@ -69,16 +66,16 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-개념 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 경계는 비슷한 개념과 비교할 때 더 선명해진다. 실무에서 혼동이 생기는 이유는 이름이 비슷해서가 아니라 적용 시점과 산출물 수준이 다르기 때문이다. 그래서 비교는 단순 장단점 나열보다 "언제 어느 깊이까지 쓰는가"를 중심으로 읽어야 한다.
+개념 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 경계는 비슷한 개념과 비교할 때 더 선명해진다. 실무에서 혼동이 생기는 이유는 이름이 비슷해서가 아니라 적용 시점과 산출물 수준이 다르기 때문이다. 그래서 비교는 단순 장단점 나열보다 "언제 어느 깊이까지 쓰는가"를 중심으로 읽어야 한다.
 
-| 관점 | 단편 암기 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | 아키텍처·거버넌스 연계 이해 |
+| 관점 | 단편 암기 | [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | 아키텍처·거버넌스 연계 이해 |
 | :--- | :--- | :--- | :--- |
 | 초점 | 국지 문제 해소 | 핵심 경계와 실행 기준 정렬 | 전사 확장과 지속 개선 |
-| 정보 구조 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되기 쉬움 | 흐름과 책임을 구조화 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·자동화와 연계 |
-| 의사결정 | 담당자 경험 의존 | [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 활용 | 지표 기반 최적화 |
+| 정보 구조 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되기 쉬움 | 흐름과 책임을 구조화 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·자동화와 연계 |
+| 의사결정 | 담당자 경험 의존 | [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)와 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 활용 | 지표 기반 최적화 |
 | 위험 | 누락과 재작업 | 통제 가능 수준으로 축소 | 확장 시 복잡도 관리 필요 |
 
-또한 이 주제는 주변 개념과 분리되어 존재하지 않는다. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 입력을 만들고, EA이 실행 구조를 만들며, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework가 품질 또는 확장 축으로 이어진다. 기술사 답안에서는 이러한 연결 문장을 함께 제시해야 단편 암기가 아니라 시스템 사고로 읽힌다.
+또한 이 주제는 주변 개념과 분리되어 존재하지 않는다. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 입력을 만들고, EA이 실행 구조를 만들며, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework가 품질 또는 확장 축으로 이어진다. 기술사 답안에서는 이러한 연결 문장을 함께 제시해야 단편 암기가 아니라 시스템 사고로 읽힌다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구라도 망치와 드라이버는 쓰는 순간이 다르다. 모양보다 어떤 재료를 어떤 힘으로 다루는지가 선택 기준이다.
 
@@ -86,16 +83,16 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 도입할지보다 어느 수준까지 제도화할지가 더 중요하다. 작은 조직은 최소 기준만으로도 효과를 볼 수 있지만, 전사 [확장 단계](/knowledge-base/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/)에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 자동화, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 흔적까지 포함해야 재작업을 줄일 수 있다. 따라서 조직 규모, 규제 강도, 변경 빈도를 함께 보고 적용 깊이를 정하는 편이 현실적이다.
+실무에서는 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 도입할지보다 어느 수준까지 제도화할지가 더 중요하다. 작은 조직은 최소 기준만으로도 효과를 볼 수 있지만, 전사 [확장 단계](/studynote/05_database/04_transactions_concurrency/217_growing_phase_2pl/)에서는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 자동화, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 흔적까지 포함해야 재작업을 줄일 수 있다. 따라서 조직 규모, 규제 강도, 변경 빈도를 함께 보고 적용 깊이를 정하는 편이 현실적이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 정의 범위와 책임 주체가 문서로 합의되었는가?
+1. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 정의 범위와 책임 주체가 문서로 합의되었는가?
 2. EA가 실제 프로세스·시스템·도구와 연결되어 있는가?
-3. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/knowledge-base/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework를 측정할 수 있는 지표와 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 남는가?
+3. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman](/studynote/12_it_management/05_security_compliance/243_zachman_framework_matrix/) Framework를 측정할 수 있는 지표와 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 남는가?
 4. 변경 요청이나 예외 상황이 발생할 때 승인 경로가 분명한가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 개념 정의만 있고 운영 절차와 측정 지표가 비어 있는 경우
 - 자동화 도구를 도입했지만 책임 경계와 예외 처리 기준이 없는 경우
@@ -107,9 +104,9 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 제대로 정착되면 의사결정 속도 향상, 책임 소재 명확화, 품질 변동성 감소라는 세 가지 효과를 동시에 얻을 수 있다. 엔터프라이즈 환경에서는 한 번 정리한 기준이 여러 프로젝트와 시스템에 재사용되므로, 문서화와 자동화의 투자 효과가 시간이 갈수록 누적된다.
+[EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스가 제대로 정착되면 의사결정 속도 향상, 책임 소재 명확화, 품질 변동성 감소라는 세 가지 효과를 동시에 얻을 수 있다. 엔터프라이즈 환경에서는 한 번 정리한 기준이 여러 프로젝트와 시스템에 재사용되므로, 문서화와 자동화의 투자 효과가 시간이 갈수록 누적된다.
 
-다만 모든 조직에 같은 수준의 통제가 필요한 것은 아니다. 규제가 강하고 다부서 협업이 많은 영역은 강한 관리가 필요하지만, 탐색 단계의 실험 조직은 최소 기준부터 시작하는 편이 낫다. 결국 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 "무조건 많이 통제하는 도구"가 아니라, 필요한 통제만 정확히 배치하는 설계 원칙으로 기억하는 것이 적절하다.
+다만 모든 조직에 같은 수준의 통제가 필요한 것은 아니다. 규제가 강하고 다부서 협업이 많은 영역은 강한 관리가 필요하지만, 탐색 단계의 실험 조직은 최소 기준부터 시작하는 편이 낫다. 결국 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 "무조건 많이 통제하는 도구"가 아니라, 필요한 통제만 정확히 배치하는 설계 원칙으로 기억하는 것이 적절하다.
 
 - **📢 섹션 요약 비유**: 좋은 옷장은 칸이 많아서 가치가 생기지 않는다. 자주 입는 옷과 계절 옷을 알맞게 나눠 두어 꺼내기 쉬울 때 비로소 쓸모가 커진다.
 
@@ -119,10 +116,10 @@ tags = ["studynote-enterprise"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 선행 개념 또는 입력 축 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 설계·운영 단계에서 함께 검토해야 하는 핵심 축 |
-| [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/) | 품질·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단을 구체화하는 확장 요소 |
-| 실무형 엔터프라이즈 설계 | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 전사 체계로 확장할 때 연결되는 주제 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스 | [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스의 선행 개념 또는 입력 축 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) | 설계·운영 단계에서 함께 검토해야 하는 핵심 축 |
+| [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) [Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/) | 품질·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 판단을 구체화하는 확장 요소 |
+| 실무형 엔터프라이즈 설계 | [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스를 전사 체계로 확장할 때 연결되는 주제 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,11 +133,11 @@ tags = ["studynote-enterprise"]
     +---> [실무형 엔터프라이즈 설계 확장]
 ```
 
-이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
+이 흐름도는 선행 문제를 구조화한 뒤 현재 개념으로 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 세우고, 이후 최적화와 전사 확장으로 이어지는 전형적인 발전 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
+1. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 프레임워크 잭맨 6×6 매트릭스는 복잡한 일을 순서대로 정리해 주는 큰 정리함이에요.
 2. 어디에 무엇을 넣을지 먼저 정해 두면, 나중에 찾거나 고칠 때 훨씬 쉬워져요.
 3. 그래서 일이 커질수록 먼저 기준을 만들고 같이 약속하는 것이 중요해요.
 
@@ -150,7 +147,7 @@ tags = ["studynote-enterprise"]
 
 **진행 상황**: 322 / 482
 
-<- **이전**: [321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/321_isp_as_is_to_be/)
-**다음**: [323. BPR PI 차이점 근본적 재설계 vs 점진적 혁신 (BPR vs PI)](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/323_bpr_pi_difference/) ->
+<- **이전**: [321. ISP AS-IS TO-BE 분석 방법론 (ISP Information Strategy Planning)](/studynote/07_enterprise_systems/06_exam_summary/321_isp_as_is_to_be/)
+**다음**: [323. BPR PI 차이점 근본적 재설계 vs 점진적 혁신 (BPR vs PI)](/studynote/07_enterprise_systems/06_exam_summary/323_bpr_pi_difference/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "774. 사이버 주권 디지털 자주권 기술 독립 (Cyber Sovereignty Digital Independence)"
-date = 2026-05-09
+---
+title: "774. 사이버 주권 디지털 자주권 기술 독립 (Cyber Sovereignty Digital Independence)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -138,7 +135,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 774 / 800
 
-<- **이전**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/knowledge-base/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/)
-**다음**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/) ->
+<- **이전**: [773. 기술 윤리 디지털 권리 책임 있는 혁신](/studynote/06_ict_convergence/uncategorized/773_tech_ethics_digital_rights_responsible_innova/)
+**다음**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/) ->
 
 ---

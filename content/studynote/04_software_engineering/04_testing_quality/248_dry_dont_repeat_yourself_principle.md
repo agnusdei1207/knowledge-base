@@ -1,18 +1,15 @@
-+++
-title = "248. DRY (Don't Repeat Yourself) 원칙"
-date = 2026-05-08
+---
+title: "248. DRY (Don't Repeat Yourself) 원칙"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DRY (Don't Repeat Yourself) 원칙은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: DRY (Don't Repeat Yourself) 원칙은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -50,7 +47,7 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **개념**: 앤디 헌트와 데이브 토마스가 저서 《실용주의 프로그래머》에서 창시한 절대 원칙.
-- <strong>"모든 지식(비즈니스 로직, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조, <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 등)은 시스템 내에서 단일하고, 애매하지 않으며, 믿을 수 있는 유일한 원천(Single Source of Truth)을 딱 1곳만 가져야 한다."</strong>
+- <strong>"모든 지식(비즈니스 로직, <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조, <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a> 등)은 시스템 내에서 단일하고, 애매하지 않으며, 믿을 수 있는 유일한 원천(Single Source of Truth)을 딱 1곳만 가져야 한다."</strong>
 - 즉, 똑같은 짓을 두 번 코딩하지 말고 철저하게 <strong>중복(Duplication)을 박살 내고 재사용(Reuse)하라</strong>는 뜻입니다.
 
 - **📢 섹션 요약 비유**: DRY (Don't Repeat Yourself) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
@@ -70,8 +67,8 @@ tags = ["studynote-software-engineering"]
 ## Ⅲ. 비교 및 연결
 
 - **코드 레벨**: 똑같이 생긴 10줄을 빼내어 <strong>하나의 <code>Method(함수)</code> 또는 헬퍼(Helper) 클래스</strong>로 분리하여 호출합니다.
-- <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 레벨</strong>: 엑셀 칸에 중복된 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 쌓이도록 <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>, <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a> 등)</strong>를 때려서 테이블을 예쁘게 쪼갭니다.
-- **아키텍처 레벨**: 223번 마이크로서비스에서 배운 <strong>공유 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Shared <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> 패턴처럼, 로그인/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 모듈을 딱 1개만 파서 전사 서비스가 공유하게 만듭니다.
+- <strong><a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 레벨</strong>: 엑셀 칸에 중복된 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 쌓이도록 <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a>(<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">Normalization</a>, <a href="/studynote/05_database/02_modeling_normalization/105_third_normal_form_3nf_transitive/">3NF</a> 등)</strong>를 때려서 테이블을 예쁘게 쪼갭니다.
+- **아키텍처 레벨**: 223번 마이크로서비스에서 배운 <strong>공유 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(Shared <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">Kernel</a>)</strong> 패턴처럼, 로그인/[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 모듈을 딱 1개만 파서 전사 서비스가 공유하게 만듭니다.
 
 - **📢 섹션 요약 비유**: DRY (Don't Repeat Yourself) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -86,7 +83,7 @@ tags = ["studynote-software-engineering"]
 - DRY를 지키지 못하고 복붙으로 범벅된 쓰레기 스파게티 코드를 조롱하는 용어입니다.
 - **WET**: **Write Everything Twice** (모든 걸 두 번씩 써라) 또는 **We Enjoy Typing** (우리는 타자 치는 걸 즐긴다 ㅆㅂ)의 약자로 불립니다. 개발자의 손가락을 부러뜨리고 야근을 시키는 주범입니다.
 
-> 📢 **섹션 요약 비유**: <strong>DRY(Don't Repeat Yourself) 원칙</strong>은 관공서 민원 서류 처리의 <strong>'절대 중복 금지 1주민번호 헌법'</strong>입니다. 옛날 바보 같은 관공서(WET 패턴)는 홍길동이 전입신고를 하러 가면 "동사무소 장부에 이름/주소 적고, 경찰서 장부에도 이름/주소 적고, 세무서 장부에도 이름/주소를 똑같이 3번(복붙) 적으세요"라고 했습니다. 나중에 홍길동이 주소를 '서울'에서 '부산'으로 이사하면? 동사무소랑 경찰서 장부는 부산으로 고쳤는데, 실수로 세무서 장부는 안 고쳤습니다. 세무서에서 날아온 우편물이 예전 서울 집으로 가버리는 대참사(버그)가 터집니다. DRY 원칙은 이 중복의 비극을 부숴버립니다. **"홍길동의 주소와 이름은 오직 '주민등록 중앙 서버(단일 원천, Single Source of Truth)' 딱 1곳의 엑셀 칸에만 적혀있어야 한다!"** 동사무소든 세무서든 독자적인 장부를 파지 말고, 홍길동 주소가 궁금하면 무조건 그 중앙 서버의 주민번호만 찔러서([함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)) 가져다 쓰게 만듭니다. 이렇게 하면 홍길동이 주소를 바꿀 때 '중앙 서버의 딱 1칸(단 1개의 코드)'만 고쳐주면, 전국의 모든 관공서가 1초 만에 최신 부산 주소를 동시에 공유(에러율 0%)하게 되는 기적의 1타 쌍피 원리입니다.
+> 📢 **섹션 요약 비유**: <strong>DRY(Don't Repeat Yourself) 원칙</strong>은 관공서 민원 서류 처리의 <strong>'절대 중복 금지 1주민번호 헌법'</strong>입니다. 옛날 바보 같은 관공서(WET 패턴)는 홍길동이 전입신고를 하러 가면 "동사무소 장부에 이름/주소 적고, 경찰서 장부에도 이름/주소 적고, 세무서 장부에도 이름/주소를 똑같이 3번(복붙) 적으세요"라고 했습니다. 나중에 홍길동이 주소를 '서울'에서 '부산'으로 이사하면? 동사무소랑 경찰서 장부는 부산으로 고쳤는데, 실수로 세무서 장부는 안 고쳤습니다. 세무서에서 날아온 우편물이 예전 서울 집으로 가버리는 대참사(버그)가 터집니다. DRY 원칙은 이 중복의 비극을 부숴버립니다. **"홍길동의 주소와 이름은 오직 '주민등록 중앙 서버(단일 원천, Single Source of Truth)' 딱 1곳의 엑셀 칸에만 적혀있어야 한다!"** 동사무소든 세무서든 독자적인 장부를 파지 말고, 홍길동 주소가 궁금하면 무조건 그 중앙 서버의 주민번호만 찔러서([함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)) 가져다 쓰게 만듭니다. 이렇게 하면 홍길동이 주소를 바꿀 때 '중앙 서버의 딱 1칸(단 1개의 코드)'만 고쳐주면, 전국의 모든 관공서가 1초 만에 최신 부산 주소를 동시에 공유(에러율 0%)하게 되는 기적의 1타 쌍피 원리입니다.
 
 - **📢 섹션 요약 비유**: DRY (Don't Repeat Yourself) 원칙은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -98,21 +95,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-DRY (Don't Repeat Yourself) 원칙을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+DRY (Don't Repeat Yourself) 원칙을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 DRY (Don't Repeat Yourself) 원칙은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: DRY (Don't Repeat Yourself) 원칙의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: DRY (Don't Repeat Yourself) 원칙의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -124,10 +121,10 @@ DRY (Don't Repeat Yourself) 원칙은 '어떻게 빠르게 짜는가'가 아니�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | DRY (Don't Repeat Yourself) 원칙의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | DRY (Don't Repeat Yourself) 원칙은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | DRY (Don't Repeat Yourself) 원칙의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | DRY (Don't Repeat Yourself) 원칙은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | DRY (Don't Repeat Yourself) 원칙 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | DRY (Don't Repeat Yourself) 원칙에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | DRY (Don't Repeat Yourself) 원칙에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,13 +144,13 @@ DRY (Don't Repeat Yourself) 원칙 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. DRY (Don't Repeat Yourself) 원칙은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -161,7 +158,7 @@ DRY (Don't Repeat Yourself) 원칙 개념 정립
 
 **진행 상황**: 248 / 973
 
-<- **이전**: [247. DIP (Dependency Inversion Principle) - 의존 역전 원칙 (추상화에 의존)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)
-**다음**: [249. KISS (Keep It Simple, Stupid) 원칙](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) ->
+<- **이전**: [247. DIP (Dependency Inversion Principle) - 의존 역전 원칙 (추상화에 의존)](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/)
+**다음**: [249. KISS (Keep It Simple, Stupid) 원칙](/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) ->
 
 ---

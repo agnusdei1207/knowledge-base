@@ -1,18 +1,15 @@
-+++
-title = "130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적"
-date = 2026-04-19
+---
+title: "130. 6DoF 트래킹 (Pitch·Yaw·Roll) - XR/공간 컴퓨팅의 움직임 추적"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 6DoF(Six Degrees of Freedom)는 <strong>3축 회전(Pitch·Yaw·Roll) + 3축 이동(X·Y·Z)</strong>의 6가지 자유도 추적이며, XR/공간 컴퓨팅에서 사용자의 머리·손·물체 위치를 정밀하게 파악한다.
 > 2. **가치**: 3DoF(회전만)는 고개만 돌릴 수 있지만, 6DoF는 **걸어다니며 가상 물체에 가까이 다가가는** 등 실제 공간 이동이 반영되어 <strong>높은 몰입감·자연스러운 상호작용</strong>을 제공한다.
-> 3. **판단 포인트**: Inside-Out 트래킹(헤드셋 카메라로 추적, Quest·Vision Pro)이 현재 주류이며, [SLAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)(동시 위치 추정·지도 작성) 알고리즘이 핵심 기술이다.
+> 3. **판단 포인트**: Inside-Out 트래킹(헤드셋 카메라로 추적, Quest·Vision Pro)이 현재 주류이며, [SLAM](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/)(동시 위치 추정·지도 작성) 알고리즘이 핵심 기술이다.
 
 ---
 
@@ -50,7 +47,7 @@ tags = ["studynote-ict-convergence"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **6DoF** | 6자유도 추적 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a></strong> | 동시 위치 추정·지도 작성 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/">SLAM</a></strong> | 동시 위치 추정·지도 작성 |
 | **Inside-Out** | 헤드셋 카메라 기반 추적 |
 | **Pitch/Yaw/Roll** | 3축 회전 |
 | **공간 앵커** | 6DoF 기반 가상 객체 고정 |
@@ -75,7 +72,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 130 / 552
 
-<- **이전**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/)
-**다음**: [131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) ->
+<- **이전**: [129. 공간 컴퓨팅 & Apple Vision Pro - 차세대 인터페이스 패러다임](/studynote/06_ict_convergence/02_iot_mobility/129_spatial_computing_apple_vision_pro/)
+**다음**: [131. SLAM (동시 위치 추정과 지도 작성) - XR/자율주행의 공간 인식 핵심](/studynote/06_ict_convergence/02_iot_mobility/131_slam_simultaneous_localization_mapping/) ->
 
 ---

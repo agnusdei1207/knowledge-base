@@ -1,13 +1,10 @@
-+++
-title = "709. IT 경영 관리 핵심 토픽 709번 시험 요약 (IT Management Core Topic 709 Exam Summary)"
-date = 2026-05-09
+---
+title: "709. IT 경영 관리 핵심 토픽 709번 시험 요약 (IT Management Core Topic 709 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -97,7 +94,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 709 / 800
 
-<- **이전**: [708. IT 경영 관리 핵심 토픽 708번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/708_it_management_core_topic_708_exam_summary/)
-**다음**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/) ->
+<- **이전**: [708. IT 경영 관리 핵심 토픽 708번 시험 요약](/studynote/12_it_management/05_security_compliance/708_it_management_core_topic_708_exam_summary/)
+**다음**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/) ->
 
 ---

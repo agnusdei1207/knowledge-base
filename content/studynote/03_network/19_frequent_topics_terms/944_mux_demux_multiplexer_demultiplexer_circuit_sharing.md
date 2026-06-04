@@ -1,26 +1,23 @@
-+++
-title = "944. 다중화기 (MUX) / 역다중화기 (DEMUX)"
-date = 2026-05-08
+---
+title: "944. 다중화기 (MUX) / 역다중화기 (DEMUX)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기를 이해하면 구분 명확성과 설명력 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 빈출 주제와 용어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기를 이해하면 구분 명확성과 설명력 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다.
-- **해결책**: 고속의 광대역(1Gbps) [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 딱 1가닥만 빌리고, 직원 10명(각 100Mbps)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 파이프에 비빔밥처럼 구겨 넣어서([다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏘면 100만 원으로 끝납니다. 이 짓을 물리적으로 수행하는 하드웨어 장비가 MUX입니다.
+- **통신비 지옥**: 서울 본사와 부산 지사를 잇는 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥을 빌리는 데 한 달에 100만 원이 듭니다. 서울 직원 10명과 부산 직원 10명을 1:1로 이어주려면 1,000만 원이 깨집니다.
+- **해결책**: 고속의 광대역(1Gbps) [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 딱 1가닥만 빌리고, 직원 10명(각 100Mbps)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 한 파이프에 비빔밥처럼 구겨 넣어서([다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 쏘면 100만 원으로 끝납니다. 이 짓을 물리적으로 수행하는 하드웨어 장비가 MUX입니다.
 
 ```text
 [펄스부호변조]
@@ -31,15 +28,15 @@ tags = ["studynote-network"]
     +---> [직교주파수분할다중접속]
 ```
 
-- **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- <strong>MUX (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/">Multiplexer</a>, <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 송신 측에 설치되어, 속도가 느린 여러 개의 입력 채널(선)에서 들어오는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 모아 <strong>속도가 아주 빠른 단 1개의 거대한 출력 채널(고속 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>)에 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·병합시켜 실어 보내는 통신 장비(깔때기)</strong>입니다.
-- <strong>DEMUX (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/">Demultiplexer</a>, 역다중화기)</strong>: 부산 지사(수신 측)에 설치되어, 고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥으로 밀려 들어온 비빔밥 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 분리(해체)하여, 목적지인 10명의 직원 컴퓨터로 원래대로 찢어 뿌려주는(분배기) 장비입니다.
-- 통신은 양방향이므로, 보통 라우터나 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비 안에 MUX와 DEMUX 모듈이 한 몸통으로 붙어있습니다.
+- <strong>MUX (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/">Multiplexer</a>, <a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 송신 측에 설치되어, 속도가 느린 여러 개의 입력 채널(선)에서 들어오는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들을 모아 <strong>속도가 아주 빠른 단 1개의 거대한 출력 채널(고속 <a href="/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a>)에 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>·병합시켜 실어 보내는 통신 장비(깔때기)</strong>입니다.
+- <strong>DEMUX (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/">Demultiplexer</a>, 역다중화기)</strong>: 부산 지사(수신 측)에 설치되어, 고속 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) 1가닥으로 밀려 들어온 비빔밥 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다시 분리(해체)하여, 목적지인 10명의 직원 컴퓨터로 원래대로 찢어 뿌려주는(분배기) 장비입니다.
+- 통신은 양방향이므로, 보통 라우터나 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비 안에 MUX와 DEMUX 모듈이 한 몸통으로 붙어있습니다.
 
 ```text
 [펄스부호변조]
@@ -50,55 +47,55 @@ tags = ["studynote-network"]
     +---> [직교주파수분할다중접속]
 ```
 
-- **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. FDM ([주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/)) - "차선 나누기"
+### 1. FDM ([주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/)) - "차선 나누기"
 - 하나의 케이블에서 흐르는 전파를 100Hz, 200Hz 등 '주파수 대역(라디오 채널)' 별로 쪼개서 각 직원에게 할당합니다. 1번 직원은 91.9MHz 차선, 2번 직원은 107.7MHz 차선을 씁니다. 옛날 아날로그 라디오나 TV 케이블 방송에서 쓰던 방식입니다.
 
-### 2. TDM ([시분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)) - "시간표 나누기" 🌟
-- 현대 디지털 통신([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), T1/E1 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 뼈대입니다.
-- 파이프는 하나지만, 1초를 0.1초씩 10조각으로 자릅니다. "0.1초는 1번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가고, 다음 0.1초는 2번 직원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가!" 라며 <strong>순서대로 시간표(슬롯)를 배정하여 돌아가며 짐을 싣는 마법</strong>입니다.
+### 2. TDM ([시분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/)) - "시간표 나누기" 🌟
+- 현대 디지털 통신([이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/), T1/E1 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 뼈대입니다.
+- 파이프는 하나지만, 1초를 0.1초씩 10조각으로 자릅니다. "0.1초는 1번 직원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가고, 다음 0.1초는 2번 직원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 나가!" 라며 <strong>순서대로 시간표(슬롯)를 배정하여 돌아가며 짐을 싣는 마법</strong>입니다.
 
-### 3. WDM (파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "무지개빛 색깔 나누기"
-- 광케이블(유리관)에서 쓰는 극강의 스킬입니다. 1번 직원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 빨간색 빛, 2번은 파란색 빛으로 레이저 색깔을 바꾼 뒤, 유리관 한 가닥에 프리즘처럼 모아서 한 방에 쏴버리는 초광대역 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)입니다.
+### 3. WDM (파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) - "무지개빛 색깔 나누기"
+- 광케이블(유리관)에서 쓰는 극강의 스킬입니다. 1번 직원의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 빨간색 빛, 2번은 파란색 빛으로 레이저 색깔을 바꾼 뒤, 유리관 한 가닥에 프리즘처럼 모아서 한 방에 쏴버리는 초광대역 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)입니다.
 
-[다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)가 기반 조건을 만든다면, [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 그 위에서 핵심 메커니즘을 구현하고, [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [펄스부호변조](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)가 기반 조건을 만든다면, [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 그 위에서 핵심 메커니즘을 구현하고, [직교주파수분할다중접속](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)의 기반 정리 | [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 핵심 동작 | [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)의 확장 적용 |
+| 초점 | [펄스부호변조](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)의 기반 정리 | [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기의 핵심 동작 | [직교주파수분할다중접속](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 비슷해 보이지만 사상이 다릅니다.
-- <strong>MUX (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 입력선이 10개(각 10M)면, 나가는 출력선 1개는 무조건 100M짜리 광폭 도로여야 합니다(대역폭의 총합 보장). [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1도 안 버려집니다. 정적인 고정 할당입니다.
-- **집중화기 (Concentrator)**: 입력선이 10개(10M)인데 나가는 선이 50M밖에 안 됩니다. "에이, 10명이 동시에 키보드 치진 않겠지!" 하고 대충 확률에 도박을 거는(통계적) 방식입니다. 10명이 동시에 다운로드를 누르면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꽉 막혀 버퍼에서 찢어집니다. (버퍼 메모리 필수 장착 장비)
+- <strong>MUX (<a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>: 입력선이 10개(각 10M)면, 나가는 출력선 1개는 무조건 100M짜리 광폭 도로여야 합니다(대역폭의 총합 보장). [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1도 안 버려집니다. 정적인 고정 할당입니다.
+- **집중화기 (Concentrator)**: 입력선이 10개(10M)인데 나가는 선이 50M밖에 안 됩니다. "에이, 10명이 동시에 키보드 치진 않겠지!" 하고 대충 확률에 도박을 거는(통계적) 방식입니다. 10명이 동시에 다운로드를 누르면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꽉 막혀 버퍼에서 찢어집니다. (버퍼 메모리 필수 장착 장비)
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 회사에서 10명의 직원이 거래처에 택배를 보내려 합니다. 직원이 각자 오토바이 10대(입력 회선 10개)를 불러서 고속도로를 타면 배달비가 폭발합니다. <strong>MUX(<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>는 회사 입구에 서 있는 '초대형 화물 트럭 물류 집하장'입니다. 10명의 직원이 가져온 작은 소포들을, MUX가 기다리고 있다가 10톤짜리 초대형 화물 트럭 1대(고속 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 짐칸에 테트리스처럼 꽉꽉 구겨서 싣습니다. 고속도로 톨게이트비(통신비)는 트럭 1대분만 나옵니다. 목적지에 도착하면 <strong>DEMUX(역다중화기)</strong>라는 물류 해체 직원이 짐칸을 열고, 박스에 적힌 라벨을 보고 다시 오토바이 10대에 짐을 찢어서 각 수신자에게 정확히 배달해 주는 궁극의 물류 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 배송 시스템입니다.
+- **📢 섹션 요약 비유**: 회사에서 10명의 직원이 거래처에 택배를 보내려 합니다. 직원이 각자 오토바이 10대(입력 회선 10개)를 불러서 고속도로를 타면 배달비가 폭발합니다. <strong>MUX(<a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a>기)</strong>는 회사 입구에 서 있는 '초대형 화물 트럭 물류 집하장'입니다. 10명의 직원이 가져온 작은 소포들을, MUX가 기다리고 있다가 10톤짜리 초대형 화물 트럭 1대(고속 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/))의 짐칸에 테트리스처럼 꽉꽉 구겨서 싣습니다. 고속도로 톨게이트비(통신비)는 트럭 1대분만 나옵니다. 목적지에 도착하면 <strong>DEMUX(역다중화기)</strong>라는 물류 해체 직원이 짐칸을 열고, 박스에 적힌 라벨을 보고 다시 오토바이 10대에 짐을 찢어서 각 수신자에게 정확히 배달해 주는 궁극의 물류 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 배송 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [직교주파수분할다중접속](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -106,10 +103,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [펄스부호변조](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [직교주파수분할다중접속](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +120,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-[다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 [펄스부호변조](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [직교주파수분할다중접속](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)기 / 역다중화기는 [펄스부호변조](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [직교주파수분할다중접속](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/)와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +134,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1065 / 1120
 
-<- **이전**: [943. 펄스부호변조 (PCM)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)
-**다음**: [945. 직교주파수분할다중접속 (OFDMA)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) ->
+<- **이전**: [943. 펄스부호변조 (PCM)](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)
+**다음**: [945. 직교주파수분할다중접속 (OFDMA)](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) ->
 
 ---

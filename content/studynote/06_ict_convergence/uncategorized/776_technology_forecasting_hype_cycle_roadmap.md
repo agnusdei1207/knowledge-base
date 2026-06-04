@@ -1,13 +1,10 @@
-+++
-title = "776. 기술 예측 하이프 사이클 기술 로드맵 (Technology Forecasting Hype Cycle Roadmap)"
-date = 2026-05-09
+---
+title: "776. 기술 예측 하이프 사이클 기술 로드맵 (Technology Forecasting Hype Cycle Roadmap)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ IT 거버넌스·EA(Enterprise Architecture)·중장기 R&D 계획 수립에서 
 
 **진행 상황**: 776 / 800
 
-<- **이전**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/)
-**다음**: [777. 개방형 혁신 오픈 이노베이션 협업](/knowledge-base/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/) ->
+<- **이전**: [775. ICT 표준화 ITU IEEE 3GPP 전략](/studynote/06_ict_convergence/uncategorized/775_ict_standardization_itu_ieee_3gpp_strategy/)
+**다음**: [777. 개방형 혁신 오픈 이노베이션 협업](/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/) ->
 
 ---

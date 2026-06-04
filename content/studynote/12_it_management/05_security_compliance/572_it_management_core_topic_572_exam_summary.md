@@ -1,13 +1,10 @@
-+++
-title = "572. IT 경영 관리 핵심 토픽 572번 시험 요약 (IT Management Core Topic 572 Exam Summary)"
-date = 2026-05-09
+---
+title: "572. IT 경영 관리 핵심 토픽 572번 시험 요약 (IT Management Core Topic 572 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -158,7 +155,7 @@ COBIT 2019의 가장 중요한 메커니즘은 **Cascade of Goals**이다. 이�
 
 **진행 상황**: 572 / 800
 
-<- **이전**: [571. IT 경영 관리 핵심 토픽 571번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/571_it_management_core_topic_571_exam_summary/)
-**다음**: [573. IT 경영 관리 핵심 토픽 573번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/573_it_management_core_topic_573_exam_summary/) ->
+<- **이전**: [571. IT 경영 관리 핵심 토픽 571번 시험 요약](/studynote/12_it_management/05_security_compliance/571_it_management_core_topic_571_exam_summary/)
+**다음**: [573. IT 경영 관리 핵심 토픽 573번 시험 요약](/studynote/12_it_management/05_security_compliance/573_it_management_core_topic_573_exam_summary/) ->
 
 ---

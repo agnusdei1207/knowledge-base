@@ -1,13 +1,10 @@
-+++
-title = "610. IT 경영 관리 핵심 토픽 610번 시험 요약 (IT Management Core Topic 610 Exam Summary)"
-date = 2026-05-09
+---
+title: "610. IT 경영 관리 핵심 토픽 610번 시험 요약 (IT Management Core Topic 610 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ $$E = a \times (KLOC)^{b} \times \prod_{i=1}^{17} EM_i$$
 
 **진행 상황**: 610 / 800
 
-<- **이전**: [609. IT 경영 관리 핵심 토픽 609번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/609_it_management_core_topic_609_exam_summary/)
-**다음**: [611. IT 경영 관리 핵심 토픽 611번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/611_it_management_core_topic_611_exam_summary/) ->
+<- **이전**: [609. IT 경영 관리 핵심 토픽 609번 시험 요약](/studynote/12_it_management/05_security_compliance/609_it_management_core_topic_609_exam_summary/)
+**다음**: [611. IT 경영 관리 핵심 토픽 611번 시험 요약](/studynote/12_it_management/05_security_compliance/611_it_management_core_topic_611_exam_summary/) ->
 
 ---

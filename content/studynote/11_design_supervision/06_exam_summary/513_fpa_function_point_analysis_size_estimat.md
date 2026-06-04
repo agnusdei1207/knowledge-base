@@ -1,13 +1,10 @@
-+++
-title = "513. FPA 기능점 분석 규모 산정 (FPA Function Point Analysis Size Estimation)"
-date = 2026-05-09
+---
+title: "513. FPA 기능점 분석 규모 산정 (FPA Function Point Analysis Size Estimation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -160,7 +157,7 @@ FPA의 핵심 메커니즘은 **① 경계(Boundary) 식별 -> ② 5개 기능 �
 
 **진행 상황**: 513 / 600
 
-<- **이전**: [512. PSP TSP 개인 팀 소프트웨어 프로세스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/513_psp_tsp_personal_team_software_process/)
-**다음**: [514. COCOMO 비용 산정 모델](/knowledge-base/studynote/11_design_supervision/06_exam_summary/514_cocomo_cost_estimation_model/) ->
+<- **이전**: [512. PSP TSP 개인 팀 소프트웨어 프로세스](/studynote/11_design_supervision/06_exam_summary/513_psp_tsp_personal_team_software_process/)
+**다음**: [514. COCOMO 비용 산정 모델](/studynote/11_design_supervision/06_exam_summary/514_cocomo_cost_estimation_model/) ->
 
 ---

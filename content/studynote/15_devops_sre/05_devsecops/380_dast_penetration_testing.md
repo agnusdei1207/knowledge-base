@@ -1,13 +1,10 @@
-+++
-title = "380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)"
-date = 2026-05-09
+---
+title: "380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 380 / 400
 
-<- **이전**: [379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)](/knowledge-base/studynote/15_devops_sre/05_devsecops/379_policy_as_code_opa/)
-**다음**: [381. SAST 정적 분석 코드 취약점 조기 발견 (Static Application Security Testing SAST SonarQube)](/knowledge-base/studynote/15_devops_sre/05_devsecops/381_sast_static_analysis/) ->
+<- **이전**: [379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)](/studynote/15_devops_sre/05_devsecops/379_policy_as_code_opa/)
+**다음**: [381. SAST 정적 분석 코드 취약점 조기 발견 (Static Application Security Testing SAST SonarQube)](/studynote/15_devops_sre/05_devsecops/381_sast_static_analysis/) ->
 
 ---

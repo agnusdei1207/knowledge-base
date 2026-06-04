@@ -1,13 +1,10 @@
-+++
-title = "540. 데이터 품질 관리 프로파일링 클렌징 (Data Quality Management Profiling Cleansing)"
-date = 2026-05-09
+---
+title: "540. 데이터 품질 관리 프로파일링 클렌징 (Data Quality Management Profiling Cleansing)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 540 / 800
 
-<- **이전**: [539. 데이터 카탈로그 메타데이터 관리 검색](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/539_data_catalog_metadata_management_discovery/)
-**다음**: [541. 데이터 리니지 혈통 추적 영향 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/541_data_lineage_provenance_impact_analysis/) ->
+<- **이전**: [539. 데이터 카탈로그 메타데이터 관리 검색](/studynote/07_enterprise_systems/06_exam_summary/539_data_catalog_metadata_management_discovery/)
+**다음**: [541. 데이터 리니지 혈통 추적 영향 분석](/studynote/07_enterprise_systems/06_exam_summary/541_data_lineage_provenance_impact_analysis/) ->
 
 ---

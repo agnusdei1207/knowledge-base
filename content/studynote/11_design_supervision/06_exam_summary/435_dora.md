@@ -1,23 +1,20 @@
-+++
-title = "435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)"
-date = 2026-05-10
+---
+title: "435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **본질**: [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 메트릭스에서 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 소프트웨어 전달 흐름의 속도와 반복성을 가장 직관적으로 보여 주는 핵심 지표다.
-2. **가치**: 개발 완료 시점이 아니라 실제 운영 반영 시점을 측정하므로, 조직의 [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·[지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) and [Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 성숙도를 경영 언어로 설명할 수 있다.
-3. **판단 포인트**: 지표 정의 구간이 팀마다 다르거나 긴급 배포·[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 같은 건수로 세면 왜곡되므로, 변경 실패율과 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Mean Time to Restore, [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))까지 함께 해석해야 한다.
+1. **본질**: [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 메트릭스에서 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 소프트웨어 전달 흐름의 속도와 반복성을 가장 직관적으로 보여 주는 핵심 지표다.
+2. **가치**: 개발 완료 시점이 아니라 실제 운영 반영 시점을 측정하므로, 조직의 [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·[지속적 전달](/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/) and [Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) 성숙도를 경영 언어로 설명할 수 있다.
+3. **판단 포인트**: 지표 정의 구간이 팀마다 다르거나 긴급 배포·[롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)을 같은 건수로 세면 왜곡되므로, 변경 실패율과 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 (Mean Time to Restore, [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/))까지 함께 해석해야 한다.
 
 ## Ⅰ. 개요 및 필요성
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 단순히 “배포를 빨리 했는가”를 묻는 도구가 아니다. 고객 요구가 코드 변경으로 이어지고, 그 변경이 운영 환경까지 도달하는 데 걸린 시간을 계량화해 전달 체계 전체의 병목을 찾는 관리 언어다. 특히 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 커밋부터 운영 반영까지의 흐름 시간을, 배포 빈도는 일정 기간 동안 실제 운영에 반영한 횟수를 본다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스는 단순히 “배포를 빨리 했는가”를 묻는 도구가 아니다. 고객 요구가 코드 변경으로 이어지고, 그 변경이 운영 환경까지 도달하는 데 걸린 시간을 계량화해 전달 체계 전체의 병목을 찾는 관리 언어다. 특히 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)은 커밋부터 운영 반영까지의 흐름 시간을, 배포 빈도는 일정 기간 동안 실제 운영에 반영한 횟수를 본다.
 
-감리와 기술사 관점에서 이 주제가 중요한 이유는 조직이 흔히 개발 생산성과 운영 품질을 따로 보고하기 때문이다. 그러나 배포가 느리면 가치 실현도 늦어지고, 반대로 자주 배포하더라도 실패율이 높으면 운영 위험이 커진다. 따라서 [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 개발, 테스트, 형상관리, 승인, 운영 배포를 하나의 가치 흐름으로 묶어 판단하게 해 준다.
+감리와 기술사 관점에서 이 주제가 중요한 이유는 조직이 흔히 개발 생산성과 운영 품질을 따로 보고하기 때문이다. 그러나 배포가 느리면 가치 실현도 늦어지고, 반대로 자주 배포하더라도 실패율이 높으면 운영 위험이 커진다. 따라서 [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 개발, 테스트, 형상관리, 승인, 운영 배포를 하나의 가치 흐름으로 묶어 판단하게 해 준다.
 
 ```text
 +----------+   +----------+   +----------+   +------------+   +----------+   +----------+
@@ -33,7 +30,7 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 택배가 빨리 도착했는지 보려면 포장 속도만 볼 것이 아니라 접수부터 배송 완료까지 전체 길을 함께 봐야 하는 것과 같다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-[리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 <strong>측정 경계의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
+[리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 깃 (Git) 커밋 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 빌드 파이프라인, 배포 이력, 운영 승인 기록 같은 여러 증거를 연결해 계산한다. 따라서 지표의 핵심은 산식 자체보다 <strong>측정 경계의 <a href="/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/">일관성</a></strong>이다. 예를 들어 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 시작점을 개발 착수로 잡을지, 주 브랜치 병합으로 잡을지, 커밋으로 잡을지 먼저 합의해야 하며, 배포 빈도 역시 운영 반영만 셀지 시험 환경 배포까지 셀지 구분해야 한다.
 
 ```text
 +--------------+   +--------------+   +------------+   +--------------+
@@ -46,38 +43,38 @@ tags = ["studynote-design-supervision"]
 
 | 측정 축 | 핵심 의미 | 감리·기술사 포인트 |
 |:---|:---|:---|
-| [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) | 코드 변경이 실제 운영에 도달하기까지의 총 흐름 시간 | 승인 대기, 테스트 병목, 수작업 배포가 긴 구간을 찾아야 한다 |
+| [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) | 코드 변경이 실제 운영에 도달하기까지의 총 흐름 시간 | 승인 대기, 테스트 병목, 수작업 배포가 긴 구간을 찾아야 한다 |
 | 배포 빈도 | 일정 기간 내 운영 환경에 성공적으로 반영한 배포 횟수 | 잦은 배포 자체보다 작은 단위·안정적 배포 체계인지 봐야 한다 |
-| 보완 지표 | 변경 실패율, 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과의 연계 해석 | 속도와 안정성을 함께 봐야 지표 게임화를 막을 수 있다 |
+| 보완 지표 | 변경 실패율, 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간과의 연계 해석 | 속도와 안정성을 함께 봐야 지표 게임화를 막을 수 있다 |
 
 실무에서는 “빠른 팀”보다 “흐름이 짧고 작은 배치를 자주 안전하게 반영하는 팀”이 성숙한 팀이다. 따라서 DORA의 핵심 원리는 대량 배포를 줄이고, 자동화와 표준화를 통해 전달 흐름의 대기 시간을 제거하는 데 있다.
 
 - **📢 섹션 요약 비유**: 놀이공원 줄이 긴지 짧은지는 입장문 하나가 아니라 표 끊기, 탑승 대기, 안전 확인까지 전체 동선을 모두 재 봐야 알 수 있다.
 
 ## Ⅲ. 비교 및 연결
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 전통적인 개발 생산성 지표와 목적이 다르다. [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)나 투입 인력은 규모와 비용 설명에는 유용하지만, 고객이 실제로 얼마나 자주 가치를 받는지는 충분히 보여 주지 못한다. 반대로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 흐름과 반영 속도를 보여 주지만, 시스템 안정성이나 사업 규모를 단독으로 설명하지는 못한다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표는 전통적인 개발 생산성 지표와 목적이 다르다. [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)나 투입 인력은 규모와 비용 설명에는 유용하지만, 고객이 실제로 얼마나 자주 가치를 받는지는 충분히 보여 주지 못한다. 반대로 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 흐름과 반영 속도를 보여 주지만, 시스템 안정성이나 사업 규모를 단독으로 설명하지는 못한다.
 
-| 비교 항목 | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) | 배포 빈도 | 전통 생산성·운영 지표 |
+| 비교 항목 | [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) | 배포 빈도 | 전통 생산성·운영 지표 |
 |:---|:---|:---|:---|
 | 주 질문 | 변경이 운영까지 얼마나 빨리 가는가 | 운영 반영을 얼마나 자주 하는가 | 얼마나 많이 만들었고 얼마나 오래 켜져 있는가 |
 | 강점 | 병목 구간 탐지가 쉽다 | 작은 배치 전달 역량을 보여 준다 | 비용, 규모, 가동률 설명에 강하다 |
 | 한계 | 시작·종료 지점 정의가 엇갈릴 수 있다 | 무의미한 잦은 배포로 왜곡될 수 있다 | 고객 가치 전달 속도는 잘 드러나지 않는다 |
-| 함께 볼 지표 | 대기 시간, 승인 절차, 자동화율 | 변경 실패율, [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 건수 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)), [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) |
+| 함께 볼 지표 | 대기 시간, 승인 절차, 자동화율 | 변경 실패율, [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 건수 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 협약 ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)), [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/) |
 
-또한 이 지표는 가치 흐름 맵 ([Value Stream Mapping](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)), 사이트 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 문화와 자연스럽게 연결된다. 시험에서는 “왜 느린가”를 절차 병목, 승인 체계, 테스트 자동화 수준과 묶어 서술하면 답안의 밀도가 높아진다.
+또한 이 지표는 가치 흐름 맵 ([Value Stream Mapping](/studynote/04_software_engineering/02_requirements_analysis/088_value_stream_mapping_vsm/)), 사이트 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 공학 ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/), [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)), [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 문화와 자연스럽게 연결된다. 시험에서는 “왜 느린가”를 절차 병목, 승인 체계, 테스트 자동화 수준과 묶어 서술하면 답안의 밀도가 높아진다.
 
 - **📢 섹션 요약 비유**: 공부 시간을 오래 앉아 있었다고 실력이 바로 오르지 않듯, 많이 일했다는 숫자와 실제 결과가 빨리 나온다는 숫자는 서로 다른 이야기다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위, 제품 라인 단위, 조직 단위 가운데 어디까지를 하나의 측정 단위로 볼지 먼저 정해야 한다. 이후 형상관리 저장소, 배포 파이프라인, 운영 배포 이력, 장애 관리 체계를 연결해 공통 기준으로 데이터를 수집해야 한다. 이때 같은 팀 안에서도 프런트엔드와 백엔드, 배치와 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 배포 패턴이 다를 수 있으므로 지표를 단순 평균으로 섞지 않는 것이 중요하다.
+실무에서는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위, 제품 라인 단위, 조직 단위 가운데 어디까지를 하나의 측정 단위로 볼지 먼저 정해야 한다. 이후 형상관리 저장소, 배포 파이프라인, 운영 배포 이력, 장애 관리 체계를 연결해 공통 기준으로 데이터를 수집해야 한다. 이때 같은 팀 안에서도 프런트엔드와 백엔드, 배치와 실시간 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 배포 패턴이 다를 수 있으므로 지표를 단순 평균으로 섞지 않는 것이 중요하다.
 
-또한 기술사 답안에서는 “배포를 늘려라”보다 “작은 변경을 자주, 자동화된 검증을 거쳐, 실패 시 빠르게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 체계로 가라”라고 정리해야 한다. 긴급 장애 대응 배포와 정규 기능 배포를 구분하지 않으면 배포 빈도가 높게 보여도 실제 성숙도는 낮을 수 있다.
+또한 기술사 답안에서는 “배포를 늘려라”보다 “작은 변경을 자주, 자동화된 검증을 거쳐, 실패 시 빠르게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능한 체계로 가라”라고 정리해야 한다. 긴급 장애 대응 배포와 정규 기능 배포를 구분하지 않으면 배포 빈도가 높게 보여도 실제 성숙도는 낮을 수 있다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 시작점과 종료점이 조직 전체에서 동일하게 정의되었는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)의 시작점과 종료점이 조직 전체에서 동일하게 정의되었는가?
 2. 배포 빈도 집계 대상이 운영 반영 기준으로 통일되었는가?
 3. 승인 대기, 수작업 테스트, 수동 배포처럼 병목이 되는 구간이 별도로 식별되는가?
-4. 변경 실패율과 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간까지 함께 보아 속도와 안정성을 균형 있게 판단하는가?
+4. 변경 실패율과 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간까지 함께 보아 속도와 안정성을 균형 있게 판단하는가?
 
 - 긴급 핫픽스와 정규 배포를 같은 방식으로 세어 지표를 부풀리는 관행은 대표적 왜곡이다.
 - 테스트 환경 배포를 운영 배포와 혼동하면 배포 빈도는 높아져도 고객 가치 전달력은 설명되지 않는다.
@@ -86,19 +83,19 @@ tags = ["studynote-design-supervision"]
 - **📢 섹션 요약 비유**: 학교에서 시험 점수만 올리려고 쉬운 문제만 푸는 식으로 공부하면 숫자는 좋아 보여도 실력은 늘지 않는 것과 같다.
 
 ## Ⅴ. 기대효과 및 결론
-[DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스를 제대로 적용하면 전달 병목이 눈에 보이고, 자동화 투자 우선순위가 분명해지며, 개발과 운영이 같은 언어로 개선 목표를 세울 수 있다. 특히 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 짧아지면 시장 대응 속도가 올라가고, 배포 빈도가 안정적으로 증가하면 작은 배치 단위의 위험 통제가 쉬워진다.
+[DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 메트릭스를 제대로 적용하면 전달 병목이 눈에 보이고, 자동화 투자 우선순위가 분명해지며, 개발과 운영이 같은 언어로 개선 목표를 세울 수 있다. 특히 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이 짧아지면 시장 대응 속도가 올라가고, 배포 빈도가 안정적으로 증가하면 작은 배치 단위의 위험 통제가 쉬워진다.
 
-결론적으로 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 속도 경쟁 지표가 아니라 <strong>가치 전달 체계의 건강 진단 지표</strong>다. 기술사 답안에서는 정의 경계, 보완 지표, 해석 상의 왜곡 가능성까지 함께 적어야 실무형 답안이 된다.
+결론적으로 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)과 배포 빈도는 속도 경쟁 지표가 아니라 <strong>가치 전달 체계의 건강 진단 지표</strong>다. 기술사 답안에서는 정의 경계, 보완 지표, 해석 상의 왜곡 가능성까지 함께 적어야 실무형 답안이 된다.
 
 - **📢 섹션 요약 비유**: 자동차 속도계만 보지 않고 연료, 브레이크, 엔진 상태까지 함께 봐야 안전하게 빨리 달릴 수 있는 것과 같다.
 
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | 개발과 운영을 하나의 전달 흐름으로 보는 문화적 기반 |
-| [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·[지속적 전달](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) | [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축과 배포 빈도 향상의 핵심 실행 체계 |
+| [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) | 개발과 운영을 하나의 전달 흐름으로 보는 문화적 기반 |
+| [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/)·[지속적 전달](/studynote/15_devops_sre/01_culture_methodology/020_continuous_delivery/) ([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) | [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/) 단축과 배포 빈도 향상의 핵심 실행 체계 |
 | 변경 실패율 | 빠른 배포가 안정성을 해치지 않는지 확인하는 보완 축 |
-| 평균 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) | 실패 이후 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도를 측정해 운영 탄력성을 판단 |
+| 평균 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 ([MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)) | 실패 이후 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 속도를 측정해 운영 탄력성을 판단 |
 | 가치 흐름 맵 | 대기 시간과 병목을 시각화하는 분석 도구 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +118,7 @@ tags = ["studynote-design-supervision"]
 이 흐름은 지표 수집이 목적이 아니라, 병목을 찾아 자동화와 운영 복원력을 높이는 개선 루프로 이어져야 함을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 장난감을 만들고 친구에게 건네주기까지 얼마나 걸리는지 재 보는 것이 [리드 타임](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이에요.
+1. 장난감을 만들고 친구에게 건네주기까지 얼마나 걸리는지 재 보는 것이 [리드 타임](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)이에요.
 2. 하루에 몇 번이나 새 장난감을 친구에게 보여 줄 수 있는지가 배포 빈도예요.
 3. 빨리 자주 보여 주되 고장 나면 바로 고칠 수 있어야 진짜 잘하는 거예요.
 
@@ -131,7 +128,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 513 / 530
 
-<- **이전**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/434_pbs_api/)
-**다음**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/436_management/) ->
+<- **이전**: [434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)](/studynote/11_design_supervision/06_exam_summary/434_pbs_api/)
+**다음**: [436. 클라우드 랜딩 존 하이브리드 거버넌스 (Cloud Landing Zone Hybrid Governance)](/studynote/11_design_supervision/06_exam_summary/436_management/) ->
 
 ---

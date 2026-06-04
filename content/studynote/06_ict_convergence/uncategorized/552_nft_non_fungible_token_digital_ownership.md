@@ -1,13 +1,10 @@
-+++
-title = "552. NFT 대체 불가능 토큰 디지털 소유권 (NFT Non-Fungible Token Digital Ownership)"
-date = 2026-05-09
+---
+title: "552. NFT 대체 불가능 토큰 디지털 소유권 (NFT Non-Fungible Token Digital Ownership)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ NFT 대체 불가능 토큰 디지털 소유권은(는) 디지털 권리, 금융
 
 **진행 상황**: 552 / 800
 
-<- **이전**: [551. ICT 융합 메가트렌드 종합 프레임워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/)
-**다음**: [553. DeFi 탈중앙화 금융 스마트 계약 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/553_defi_decentralized_finance_smart_contract/) ->
+<- **이전**: [551. ICT 융합 메가트렌드 종합 프레임워크](/studynote/06_ict_convergence/uncategorized/551_ict_convergence_mega_trend_synthesis/)
+**다음**: [553. DeFi 탈중앙화 금융 스마트 계약 프로토콜](/studynote/06_ict_convergence/uncategorized/553_defi_decentralized_finance_smart_contract/) ->
 
 ---

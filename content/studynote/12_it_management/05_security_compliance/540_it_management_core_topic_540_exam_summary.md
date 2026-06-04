@@ -1,13 +1,10 @@
-+++
-title = "540. IT 경영 관리 핵심 토픽 540번 시험 요약 (IT Management Core Topic 540 Exam Summary)"
-date = 2026-05-09
+---
+title: "540. IT 경영 관리 핵심 토픽 540번 시험 요약 (IT Management Core Topic 540 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📚 기술사 시험 대비 스터디 노트
 
@@ -173,7 +170,7 @@ COBIT 2019는 **Cascade of Goals**(목표 연쇄) 메커니즘을 통해 **Stake
 
 **진행 상황**: 540 / 800
 
-<- **이전**: [539. IT 경영 관리 핵심 토픽 539번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/539_it_management_core_topic_539_exam_summary/)
-**다음**: [541. IT 경영 관리 핵심 토픽 541번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/541_it_management_core_topic_541_exam_summary/) ->
+<- **이전**: [539. IT 경영 관리 핵심 토픽 539번 시험 요약](/studynote/12_it_management/05_security_compliance/539_it_management_core_topic_539_exam_summary/)
+**다음**: [541. IT 경영 관리 핵심 토픽 541번 시험 요약](/studynote/12_it_management/05_security_compliance/541_it_management_core_topic_541_exam_summary/) ->
 
 ---

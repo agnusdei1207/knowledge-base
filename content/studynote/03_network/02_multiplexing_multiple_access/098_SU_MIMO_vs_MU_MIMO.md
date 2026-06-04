@@ -1,28 +1,25 @@
-+++
-title = "98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)"
-description = "단일 사용자 중심의 무선 통신 한계를 극복하고 다수 사용자에게 동시 다발적인 공간 다중화를 제공하는 SU-MIMO와 MU-MIMO의 심층 구조 비교"
-date = 2026-03-04
+---
+title: "98. SU-MIMO (Single User MIMO) vs MU-MIMO (Multi-User MIMO)"
+date: "2026-03-04"
+description: "단일 사용자 중심의 무선 통신 한계를 극복하고 다수 사용자에게 동시 다발적인 공간 다중화를 제공하는 SU-MIMO와 MU-MIMO의 심층 구조 비교"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SU-MIMO는 기지국의 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 자원을 특정 순간 오직 한 명의 사용자에게 모두 할당하는 방식이며, MU-MIMO는 공간 분할을 통해 여러 사용자에게 동시에 빔을 쏘아 할당하는 방식이다.
-> 2. **가치**: MU-MIMO는 스마트폰이나 IoT처럼 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수가 적은 기기가 밀집한 환경에서 기지국의 유휴 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 낭비 없이 활용하여 네트워크 전체의 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 획기적으로 상승시킨다.
-> 3. **판단 포인트**: MU-MIMO는 고도의 간섭 제거 (Zero-Forcing) 연산과 정밀한 채널 피드백 ([CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/))이 필수적이므로, 사용자가 겹쳐 있거나 빠르게 이동하는 환경에서는 오히려 SU-MIMO로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))하는 것이 효율적이다.
+> 1. **본질**: SU-MIMO는 기지국의 다중 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 자원을 특정 순간 오직 한 명의 사용자에게 모두 할당하는 방식이며, MU-MIMO는 공간 분할을 통해 여러 사용자에게 동시에 빔을 쏘아 할당하는 방식이다.
+> 2. **가치**: MU-MIMO는 스마트폰이나 IoT처럼 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 수가 적은 기기가 밀집한 환경에서 기지국의 유휴 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 낭비 없이 활용하여 네트워크 전체의 총 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 획기적으로 상승시킨다.
+> 3. **판단 포인트**: MU-MIMO는 고도의 간섭 제거 (Zero-Forcing) 연산과 정밀한 채널 피드백 ([CSI](/studynote/12_it_management/02_itsm_itil/068_csi/))이 필수적이므로, 사용자가 겹쳐 있거나 빠르게 이동하는 환경에서는 오히려 SU-MIMO로 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))하는 것이 효율적이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기지국이나 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([Access Point](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))가 4x4 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 갖추었을 때, 초기의 SU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Single User [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 방식은 한 번에 한 명의 사용자에게 4개의 스트림을 몰아주었다. 그러나 스마트폰이나 소형 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기는 1x1 또는 2x2 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 구조인 경우가 많다. 이 경우 AP는 단말기 성능에 맞춰 스트림 수를 줄여야 하므로 남는 2~3개의 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 통신을 쉬고 낭비([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))하게 된다. 다른 기기들은 앞 사용자의 통신이 끝날 때까지 순차적으로 대기해야 한다.
+기지국이나 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) ([Access Point](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))가 4x4 다중 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 갖추었을 때, 초기의 SU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Single User [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 방식은 한 번에 한 명의 사용자에게 4개의 스트림을 몰아주었다. 그러나 스마트폰이나 소형 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기는 1x1 또는 2x2 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 구조인 경우가 많다. 이 경우 AP는 단말기 성능에 맞춰 스트림 수를 줄여야 하므로 남는 2~3개의 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 통신을 쉬고 낭비([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))하게 된다. 다른 기기들은 앞 사용자의 통신이 끝날 때까지 순차적으로 대기해야 한다.
 
-이러한 기지국 자원의 낭비와 대기열 ([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 지연을 극복하기 위해 MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))가 도입되었다. MU-MIMO는 남는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자원을 공간적으로 쪼개어 ([Spatial Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)), 여러 명의 사용자에게 동시에 독립적인 데이터를 쏘아 보낸다. 개별 단말의 속도가 한계에 달해도 기지국 전체의 수용량(Capacity)은 남김없이 쥐어짤 수 있게 된 것이다.
+이러한 기지국 자원의 낭비와 대기열 ([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 지연을 극복하기 위해 MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))가 도입되었다. MU-MIMO는 남는 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자원을 공간적으로 쪼개어 ([Spatial Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/100_공간_다중화_Spatial_Multiplexing/)), 여러 명의 사용자에게 동시에 독립적인 데이터를 쏘아 보낸다. 개별 단말의 속도가 한계에 달해도 기지국 전체의 수용량(Capacity)은 남김없이 쥐어짤 수 있게 된 것이다.
 
 - **📢 섹션 요약 비유**: SU-MIMO는 넓은 4차선 톨게이트를 만들어 놓고 한 번에 승용차 한 대씩만 지나가게 하는 낭비라면, MU-MIMO는 4차선 각각에 승용차 4대가 동시에 지나가게 허용하는 스마트 교통망과 같습니다.
 
@@ -30,7 +27,7 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-MU-MIMO의 핵심 원리는 송신 측([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에서 [빔포밍](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 고도의 프리코딩 (Precoding) 연산을 수행하여 각 단말 간의 간섭을 완전히 분리하는 데 있다.
+MU-MIMO의 핵심 원리는 송신 측([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))에서 [빔포밍](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/) ([Beamforming](/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/))과 고도의 프리코딩 (Precoding) 연산을 수행하여 각 단말 간의 간섭을 완전히 분리하는 데 있다.
 
 ```text
 +--------------------------------------------------------------+
@@ -47,7 +44,7 @@ MU-MIMO의 핵심 원리는 송신 측([AP](/knowledge-base/studynote/03_network
 +--------------------------------------------------------------+
 ```
 
-AP가 여러 사용자에게 빔을 쏠 때, A를 향해 쏜 전파가 B에게 닿으면 심각한 잡음(간섭)이 된다. 이를 막기 위해 AP는 사운딩(Sounding) 과정을 거쳐 단말로부터 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 수집한다. 그리고 수학적인 제로포싱 (Zero-Forcing, ZF) 행렬 연산을 통해 A에게 가는 신호가 B의 위치에서는 진폭이 정반대가 되어 완벽히 상쇄(Nulling)되도록 전파를 꺾어서 쏜다. 단말은 복잡한 간섭 제거 없이 자기 신호만 쏙 뽑아먹는다.
+AP가 여러 사용자에게 빔을 쏠 때, A를 향해 쏜 전파가 B에게 닿으면 심각한 잡음(간섭)이 된다. 이를 막기 위해 AP는 사운딩(Sounding) 과정을 거쳐 단말로부터 [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/) (Channel [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Information)를 수집한다. 그리고 수학적인 제로포싱 (Zero-Forcing, ZF) 행렬 연산을 통해 A에게 가는 신호가 B의 위치에서는 진폭이 정반대가 되어 완벽히 상쇄(Nulling)되도록 전파를 꺾어서 쏜다. 단말은 복잡한 간섭 제거 없이 자기 신호만 쏙 뽑아먹는다.
 
 - **📢 섹션 요약 비유**: MU-MIMO의 널링(Nulling) 기술은 스피커로 A에게는 음악을 들려주면서 동시에 B의 귀 위치에는 반대 파동(노이즈 캔슬링)을 쏘아 보내 B가 그 음악을 전혀 못 듣고 자기 음악만 듣게 만드는 초정밀 음향 마술과 같습니다.
 
@@ -55,16 +52,16 @@ AP가 여러 사용자에게 빔을 쏠 때, A를 향해 쏜 전파가 B에게 �
 
 ## Ⅲ. 비교 및 연결
 
-SU-MIMO와 MU-MIMO는 흑백의 대립이 아니라, 네트워크 환경과 트래픽 특성에 따라 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 실시간으로 교차 선택하는 무기들이다.
+SU-MIMO와 MU-MIMO는 흑백의 대립이 아니라, 네트워크 환경과 트래픽 특성에 따라 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 실시간으로 교차 선택하는 무기들이다.
 
-| 비교 항목 | SU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Single User) | MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User) |
+| 비교 항목 | SU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Single User) | MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) (Multi-User) |
 |:---|:---|:---|
-| **목표 지표** | 개별 사용자의 최대 피크 속도 (Peak Rate) 극대화 | 전체 기지국의 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Aggregate](/knowledge-base/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 극대화 |
+| **목표 지표** | 개별 사용자의 최대 피크 속도 (Peak Rate) 극대화 | 전체 기지국의 총 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Aggregate](/studynote/04_software_engineering/04_testing_quality/222_aggregate_ddd_transaction_consistency/) [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 극대화 |
 | **적합한 환경**| 단일 사용자가 대용량 파일을 다운로드할 때 | 1x1, 2x2 단말 다수가 섞여 동시에 접속하는 고밀도 환경 |
-| **간섭 및 복잡도**| 단말 내 디코딩 중심, 오버헤드 낮음 | [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 프리코딩 중심, 정밀한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 피드백 요구 (오버헤드 큼) |
+| **간섭 및 복잡도**| 단말 내 디코딩 중심, 오버헤드 낮음 | [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 프리코딩 중심, 정밀한 [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/) 피드백 요구 (오버헤드 큼) |
 | **이동성 대응**| 사용자 이동에 관대함 | 약간의 위치 변화에도 CSI가 틀어져 간섭(PER) 폭증 |
 
-차세대 통신인 [Wi-Fi 6](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) (802.[11ax](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/))에서는 MU-MIMO를 주파수 쪼개기 기술인 [OFDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))와 융합했다. 대용량 패킷을 공간으로 밀어낼 때는 MU-MIMO를, 짧은 센서 데이터나 채팅을 보낼 때는 주파수를 쪼개는 OFDMA를 활용하여 공간과 주파수의 낭비를 2차원으로 봉쇄한다.
+차세대 통신인 [Wi-Fi 6](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/) (802.[11ax](/studynote/03_network/11_wireless_mobile_communication/576_802_11ax_wifi_6_ofdma_twt/))에서는 MU-MIMO를 주파수 쪼개기 기술인 [OFDMA](/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/) (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiple Access](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/))와 융합했다. 대용량 패킷을 공간으로 밀어낼 때는 MU-MIMO를, 짧은 센서 데이터나 채팅을 보낼 때는 주파수를 쪼개는 OFDMA를 활용하여 공간과 주파수의 낭비를 2차원으로 봉쇄한다.
 
 - **📢 섹션 요약 비유**: SU-MIMO가 한 명의 VIP 승객을 위해 4차선 도로를 전세 내는 것이라면, MU-MIMO는 일반 승객 4명을 4개 차선으로 찢어 보내는 것이고, OFDMA는 트럭 짐칸에 여러 명의 작은 택배를 칸막이 쳐서 한 번에 보내는 것입니다.
 
@@ -72,25 +69,25 @@ SU-MIMO와 MU-MIMO는 흑백의 대립이 아니라, 네트워크 환경과 트�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최신 AP를 도입했다고 해서 무조건 MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 모드가 유리한 것은 아니다. 무선 엔지니어는 환경 제약을 분석하여 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 알고리즘을 튜닝해야 한다.
+최신 AP를 도입했다고 해서 무조건 MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 모드가 유리한 것은 아니다. 무선 엔지니어는 환경 제약을 분석하여 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 알고리즘을 튜닝해야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-1. **사용자 공간 밀집 (Spatial Correlation) 문제**: 회의실 좁은 테이블에 4명이 붙어 앉아 있다면 어떻게 될까? 사용자들이 물리적으로 너무 근접해 있어 AP가 쏜 빔들이 서로 겹치고 분리([직교성](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))되지 않는다. 이 상태에서 강제로 MU-MIMO를 켜면 간섭으로 인해 속도가 바닥을 친다. 이때는 SU-MIMO로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))해야 한다.
-2. **패킷 페이로드 불일치**: 묶어서 보내는 4명 중 1명은 대용량 영상, 3명은 텍스트 채팅 중이라면? 텍스트 전송이 일찍 끝나도 영상 전송이 끝날 때까지 3개의 공간 스트림은 비효율적으로 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 채우며 허공에서 대기해야 한다.
-3. <strong>고이동성 (High Mobility) 환경의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 로봇이나 AGV가 빠르게 달리는 물류 창고에서 MU-MIMO를 강제하면 치명적이다. AP가 파악한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 위치와 전파 도달 시점의 위치가 달라져 허공에 빔을 쏘게 되고 심각한 통신 단절을 겪는다.
+1. **사용자 공간 밀집 (Spatial Correlation) 문제**: 회의실 좁은 테이블에 4명이 붙어 앉아 있다면 어떻게 될까? 사용자들이 물리적으로 너무 근접해 있어 AP가 쏜 빔들이 서로 겹치고 분리([직교성](/studynote/03_network/02_multiplexing_multiple_access/083_직교성_Orthogonality/))되지 않는다. 이 상태에서 강제로 MU-MIMO를 켜면 간섭으로 인해 속도가 바닥을 친다. 이때는 SU-MIMO로 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) ([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))해야 한다.
+2. **패킷 페이로드 불일치**: 묶어서 보내는 4명 중 1명은 대용량 영상, 3명은 텍스트 채팅 중이라면? 텍스트 전송이 일찍 끝나도 영상 전송이 끝날 때까지 3개의 공간 스트림은 비효율적으로 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 채우며 허공에서 대기해야 한다.
+3. <strong>고이동성 (High Mobility) 환경의 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>: 로봇이나 AGV가 빠르게 달리는 물류 창고에서 MU-MIMO를 강제하면 치명적이다. AP가 파악한 [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/) 위치와 전파 도달 시점의 위치가 달라져 허공에 빔을 쏘게 되고 심각한 통신 단절을 겪는다.
 
-- **📢 섹션 요약 비유**: 최고의 명궁(MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기지국)이라도 과녁(사용자)들이 한곳에 겹쳐 있거나 너무 빨리 뛰어다니면 한 번에 여러 과녁을 쏘는 것을 포기하고, 차라리 한 발씩 조준해서 쏘는 것(SU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))이 훨씬 안전하고 빠릅니다.
+- **📢 섹션 요약 비유**: 최고의 명궁(MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기지국)이라도 과녁(사용자)들이 한곳에 겹쳐 있거나 너무 빨리 뛰어다니면 한 번에 여러 과녁을 쏘는 것을 포기하고, 차라리 한 발씩 조준해서 쏘는 것(SU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/))이 훨씬 안전하고 빠릅니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SU-MIMO의 한계를 뛰어넘은 MU-MIMO는 제한된 주파수를 추가 구매하지 않고도 스마트폰과 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기가 폭증하는 현대의 밀집 망 (Dense Network) 캐파를 극적으로 증설하는 마법을 부렸다. 기지국의 복잡한 프리코딩 덕분에 소형 단말기들은 배터리와 연산 능력을 아끼면서도 더 빠른 응답성을 누리게 되었다.
+SU-MIMO의 한계를 뛰어넘은 MU-MIMO는 제한된 주파수를 추가 구매하지 않고도 스마트폰과 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기가 폭증하는 현대의 밀집 망 (Dense Network) 캐파를 극적으로 증설하는 마법을 부렸다. 기지국의 복잡한 프리코딩 덕분에 소형 단말기들은 배터리와 연산 능력을 아끼면서도 더 빠른 응답성을 누리게 되었다.
 
-결론적으로 MU-MIMO는 "속도를 높이는 기술"이 아니라 "자원 낭비를 없애 파이프라인의 폭을 넓히는 공간 분할 기술"이다. 이 개념은 5G의 Massive MIMO를 거쳐, 셀 간 경계를 부수고 기지국들이 연합하는 차세대 Coordinated [MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기술로 끝없이 진화할 것이다.
+결론적으로 MU-MIMO는 "속도를 높이는 기술"이 아니라 "자원 낭비를 없애 파이프라인의 폭을 넓히는 공간 분할 기술"이다. 이 개념은 5G의 Massive MIMO를 거쳐, 셀 간 경계를 부수고 기지국들이 연합하는 차세대 Coordinated [MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 기술로 끝없이 진화할 것이다.
 
-- **📢 섹션 요약 비유**: SU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 시대가 가장 목소리가 큰 한 사람에게만 발언권을 주던 독무대였다면, MU-MIMO는 훌륭한 지휘자의 통제(프리코딩) 아래 수많은 합창단원이 간섭 없이 동시에 화음을 쌓아 올리는 무결점 앙상블의 완성입니다.
+- **📢 섹션 요약 비유**: SU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 시대가 가장 목소리가 큰 한 사람에게만 발언권을 주던 독무대였다면, MU-MIMO는 훌륭한 지휘자의 통제(프리코딩) 아래 수많은 합창단원이 간섭 없이 동시에 화음을 쌓아 올리는 무결점 앙상블의 완성입니다.
 
 ---
 
@@ -98,10 +95,10 @@ SU-MIMO의 한계를 뛰어넘은 MU-MIMO는 제한된 주파수를 추가 구�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상을 조절해 특정 방향으로만 전파를 집중시키는 기술, MU-MIMO의 필수 물리 기반 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a> (Channel <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Information)</strong> | 채널의 왜곡, 위상 정보를 담은 피드백 행렬. 이것이 부정확하면 MU-MIMO는 성립하지 않는다. |
-| **Zero-Forcing (ZF)** | MU-[MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 송신기가 타 사용자 방향으로의 간섭을 수학적 행렬 반전을 통해 0으로 만드는 기술 |
-| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> | MU-MIMO가 공간을 찢는다면, 주파수 축을 잘게 쪼개 다수 사용자를 동시 지원하는 Wi-Fi 6의 쌍두마차 |
+| <strong><a href="/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">빔포밍</a> (<a href="/studynote/03_network/02_multiplexing_multiple_access/101_beamforming/">Beamforming</a>)</strong> | [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 위상을 조절해 특정 방향으로만 전파를 집중시키는 기술, MU-MIMO의 필수 물리 기반 |
+| <strong><a href="/studynote/12_it_management/02_itsm_itil/068_csi/">CSI</a> (Channel <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Information)</strong> | 채널의 왜곡, 위상 정보를 담은 피드백 행렬. 이것이 부정확하면 MU-MIMO는 성립하지 않는다. |
+| **Zero-Forcing (ZF)** | MU-[MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/) 송신기가 타 사용자 방향으로의 간섭을 수학적 행렬 반전을 통해 0으로 만드는 기술 |
+| <strong><a href="/studynote/03_network/19_frequent_topics_terms/945_ofdma_orthogonal_frequency_division_multiple_access_resource_block/">OFDMA</a></strong> | MU-MIMO가 공간을 찢는다면, 주파수 축을 잘게 쪼개 다수 사용자를 동시 지원하는 Wi-Fi 6의 쌍두마차 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,7 +122,7 @@ Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)
 
 1. SU-MIMO는 큰 물뿌리개 구멍이 많아도 한 번에 화분 한 개에만 물을 쏟아붓는 방식이에요. 화분이 작으면 물이 넘쳐서 낭비되죠.
 2. MU-MIMO는 똑똑한 로봇 팔이 물뿌리개 방향을 이리저리 비틀어서, 작은 화분 4개에 동시에 물을 딱 맞게 조준해서 나눠주는 방식이에요.
-3. 덕분에 아까운 물([안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자원)을 흘리지 않고, 뒤에 있는 친구들도 기다릴 필요 없이 다 같이 쑥쑥 자랄 수 있답니다!
+3. 덕분에 아까운 물([안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 자원)을 흘리지 않고, 뒤에 있는 친구들도 기다릴 필요 없이 다 같이 쑥쑥 자랄 수 있답니다!
 
 ---
 
@@ -133,7 +130,7 @@ Massive MIMO (5G 안테나 대량화) 및 OFDMA 융합 (Wi-Fi 6)
 
 **진행 상황**: 98 / 1120
 
-<- **이전**: [97. MIMO (Multiple-Input Multiple-Output) 다중 안테나 기술](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)
-**다음**: [99. Massive MIMO (대규모 다중 안테나)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) ->
+<- **이전**: [97. MIMO (Multiple-Input Multiple-Output) 다중 안테나 기술](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)
+**다음**: [99. Massive MIMO (대규모 다중 안테나)](/studynote/03_network/02_multiplexing_multiple_access/099_Massive_MIMO_대규모_다중_안테나/) ->
 
 ---

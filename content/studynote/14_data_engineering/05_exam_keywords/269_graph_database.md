@@ -1,13 +1,10 @@
-+++
-title = "269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)"
-date = 2026-05-09
+---
+title: "269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -131,7 +128,7 @@ Neo4j 5.x의 아키텍처는 **Layered Storage** 위에서 **Causal Cluster**가
 
 **진행 상황**: 269 / 300
 
-<- **이전**: [268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/268_vector_database/)
-**다음**: [270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/270_time_series_database/) ->
+<- **이전**: [268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)](/studynote/14_data_engineering/05_exam_keywords/268_vector_database/)
+**다음**: [270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)](/studynote/14_data_engineering/05_exam_keywords/270_time_series_database/) ->
 
 ---

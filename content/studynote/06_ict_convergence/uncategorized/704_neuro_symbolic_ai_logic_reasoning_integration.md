@@ -1,13 +1,10 @@
-+++
-title = "704. 뉴로 심볼릭 AI 논리 추론 융합 (Neuro Symbolic AI Logic Reasoning Integration)"
-date = 2026-05-09
+---
+title: "704. 뉴로 심볼릭 AI 논리 추론 융합 (Neuro Symbolic AI Logic Reasoning Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -171,7 +168,7 @@ $$\mathcal{L}_{LTN} = \sum_{i=1}^{n} \lambda_i \cdot \text{Sat}_{\phi_i}(\mathca
 
 **진행 상황**: 704 / 800
 
-<- **이전**: [703. 양자 내성 암호 PQC 전환 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration/)
-**다음**: [705. 자율 에이전트 멀티에이전트 시스템](/knowledge-base/studynote/06_ict_convergence/uncategorized/705_autonomous_agent_multi_agent_system/) ->
+<- **이전**: [703. 양자 내성 암호 PQC 전환 전략](/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration/)
+**다음**: [705. 자율 에이전트 멀티에이전트 시스템](/studynote/06_ict_convergence/uncategorized/705_autonomous_agent_multi_agent_system/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)"
-date = 2026-05-08
+---
+title: "715. TearDrop 공격 (IP 헤더 오프셋 중복/오류 단편화 무한 재조립 오류 기만 다운)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TearDrop 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: TearDrop 공격은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: TearDrop 공격을 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,7 +16,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 패킷을 작게 조각내는 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 과정에서, 조각들의 조립 순서 번호(Offset)를 고의로 중복되거나 어긋나게 조작하여 전송함으로써, 타겟 서버가 이를 재조립(Reassembly)하는 과정에서 계산 오류를 일으켜 시스템이 멈추거나 뻗어버리게(<a href="/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a>) 만드는 공격</strong>입니다.
+- 패킷을 작게 조각내는 <strong><a href="/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a>(<a href="/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">Fragmentation</a>) 과정에서, 조각들의 조립 순서 번호(Offset)를 고의로 중복되거나 어긋나게 조작하여 전송함으로써, 타겟 서버가 이를 재조립(Reassembly)하는 과정에서 계산 오류를 일으켜 시스템이 멈추거나 뻗어버리게(<a href="/studynote/02_operating_system/10_security/599_dos_ddos_attack/">DoS</a>) 만드는 공격</strong>입니다.
 
 ```text
 [Ping of Death 대형 패킷 단편화…]
@@ -30,13 +27,13 @@ tags = ["studynote-network"]
     +---> [UDP Flood 리소스 고갈 유도 / Nu…]
 ```
 
-- **📢 섹션 요약 비유**: TearDrop 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: TearDrop 공격은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 정상적인 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 조립 과정
+### 1. 정상적인 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)와 조립 과정
 - 4,000바이트짜리 거대한 패킷을 보낼 때, 인터넷 도로(1,500바이트)를 지나려면 조각을 내야 합니다.
 - 라우터는 조각을 낼 때 겉면에 친절한 조립 설명서를 써줍니다.
   - 조각 A: "나는 0번부터 1499번까지의 조각이야."
@@ -49,7 +46,7 @@ tags = ["studynote-network"]
   - 조각 A: "나는 0번부터 1499번이야."
   - **조작된 조각 B**: "나는 **1400번부터** 2999번이야!" (1400~1499 구간이 중복됨)
   - **조작된 조각 C**: "나는 **2500번부터** 끝까지야!" (또 중복됨)
-- **폭발 (시스템 붕괴)**: 타겟 서버의 구형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 이렇게 겹친 패킷을 받으면, 메모리에 예쁘게 이어 붙여야 하는데 공간이 겹쳐서 당황하게 됩니다. 어떻게든 꿰맞춰보려고 마이너스(-) 길이로 빼기 계산을 시도하다가 메모리 영역을 엉뚱하게 건드리며 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 전체가 패닉(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)에 빠져 블루스크린과 함께 죽어버립니다.</strong>
+- **폭발 (시스템 붕괴)**: 타겟 서버의 구형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/))는 이렇게 겹친 패킷을 받으면, 메모리에 예쁘게 이어 붙여야 하는데 공간이 겹쳐서 당황하게 됩니다. 어떻게든 꿰맞춰보려고 마이너스(-) 길이로 빼기 계산을 시도하다가 메모리 영역을 엉뚱하게 건드리며 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 전체가 패닉(<a href="/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/">Kernel Panic</a>)에 빠져 블루스크린과 함께 죽어버립니다.</strong>
 
 ```text
 [Ping of Death 대형 패킷 단편화…]
@@ -68,15 +65,15 @@ tags = ["studynote-network"]
 
 티어드롭의 원리를 이용한 다양한 변종 공격들이 있습니다.
 - **Bonk, Boink 공격**: 오프셋을 아예 똑같이 '0번'으로 중복해서 보내거나 조각들을 이상한 순서로 꼬아서 보냅니다.
-- **Jolt 공격**: 아주 작은 패킷을 엄청나게 많이 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)해서 보냅니다.
+- **Jolt 공격**: 아주 작은 패킷을 엄청나게 많이 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)해서 보냅니다.
 
-TearDrop 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…가 기반 조건을 만든다면, TearDrop 공격은 그 위에서 핵심 메커니즘을 구현하고, [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+TearDrop 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. Ping of Death 대형 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…가 기반 조건을 만든다면, TearDrop 공격은 그 위에서 핵심 메커니즘을 구현하고, [UDP Flood](/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…의 기반 정리 | TearDrop 공격의 핵심 동작 | [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…의 확장 적용 |
+| 초점 | Ping of Death 대형 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…의 기반 정리 | TearDrop 공격의 핵심 동작 | [UDP Flood](/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: TearDrop 공격은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -85,9 +82,9 @@ TearDrop 공격을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 Ping of Death와 마찬가지로 오늘날에는 거의 통하지 않는 구시대의 유물입니다.
-- <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> 필터링</strong>: 최신 [IPS](/knowledge-base/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비나 윈도우 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 패킷 조각들이 들어왔을 때, 조립 설명서(Offset)가 1비트라도 겹치거나 음수가 나오면 조립을 아예 시도하지 않고 즉각 그 조각들을 <strong>쓰레기통에 폐기(Drop)</strong>해 버리도록 설계되어 있습니다.
+- <strong><a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/">IPS</a> 필터링</strong>: 최신 [IPS](/studynote/03_network/13_network_security_basics/695_ips_network_intrusion_prevention_system/) 장비나 윈도우 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 패킷 조각들이 들어왔을 때, 조립 설명서(Offset)가 1비트라도 겹치거나 음수가 나오면 조립을 아예 시도하지 않고 즉각 그 조각들을 <strong>쓰레기통에 폐기(Drop)</strong>해 버리도록 설계되어 있습니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -99,7 +96,7 @@ Ping of Death와 마찬가지로 오늘날에는 거의 통하지 않는 구시�
 
 ## Ⅴ. 기대효과 및 결론
 
-TearDrop 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…, 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+TearDrop 공격은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [UDP Flood](/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…, 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: TearDrop 공격은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -109,10 +106,10 @@ TearDrop 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| Ping of Death 대형 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
-| [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
-| [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
+| [UDP Flood](/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,7 +123,7 @@ TearDrop 공격은 [네트워크 보안](/knowledge-base/studynote/03_network/20
     +---> [확장 B: 예측형 위협 대응]
 ```
 
-TearDrop 공격는 Ping of Death 대형 패킷 [단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [UDP Flood](/knowledge-base/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+TearDrop 공격는 Ping of Death 대형 패킷 [단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 [UDP Flood](/studynote/09_security/03_network_security/256_udp_flood/) 리소스 고갈 유도 / Nu…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +137,7 @@ TearDrop 공격는 Ping of Death 대형 패킷 [단편화](/knowledge-base/study
 
 **진행 상황**: 836 / 1120
 
-<- **이전**: [714. Ping of Death 대형 패킷 단편화 버퍼 오버플로우 문제](/knowledge-base/studynote/03_network/14_network_security_threats/714_ping_of_death_fragmentation_buffer_overflow/)
-**다음**: [716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격](/knowledge-base/studynote/03_network/14_network_security_threats/716_udp_flood_null_christmas_tree_attack/) ->
+<- **이전**: [714. Ping of Death 대형 패킷 단편화 버퍼 오버플로우 문제](/studynote/03_network/14_network_security_threats/714_ping_of_death_fragmentation_buffer_overflow/)
+**다음**: [716. UDP Flood 리소스 고갈 유도 / Null/Christmas Tree 플래그 비대칭공격 타격](/studynote/03_network/14_network_security_threats/716_udp_flood_null_christmas_tree_attack/) ->
 
 ---

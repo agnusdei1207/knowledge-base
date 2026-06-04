@@ -1,13 +1,10 @@
-+++
-title = "726. 탄소 포집 CCS CCUS 넷제로 전략 (Carbon Capture CCS CCUS Net Zero Strategy)"
-date = 2026-05-09
+---
+title: "726. 탄소 포집 CCS CCUS 넷제로 전략 (Carbon Capture CCS CCUS Net Zero Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 726. 탄소 포집 CCS / CCUS / 넷제로 전략 (Carbon Capture CCS CCUS Net Zero Strategy)
 
@@ -97,7 +94,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 726 / 800
 
-<- **이전**: [725. 수소 경제 그린 수소 연료 전지](/knowledge-base/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/)
-**다음**: [727. 우주 기술 뉴스페이스 발사체 위성](/knowledge-base/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/) ->
+<- **이전**: [725. 수소 경제 그린 수소 연료 전지](/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/)
+**다음**: [727. 우주 기술 뉴스페이스 발사체 위성](/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/) ->
 
 ---

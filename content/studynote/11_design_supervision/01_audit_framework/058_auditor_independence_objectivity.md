@@ -1,13 +1,10 @@
-+++
-title = "58. 감리인의 독립성 (Independence) 및 객관성 원칙"
-date = 2026-04-05
+---
+title: "58. 감리인의 독립성 (Independence) 및 객관성 원칙"
+date: "2026-04-05"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -31,8 +28,8 @@ tags = ["studynote-design-supervision"]
 
 감리 독립성은 두 가지로 본다.
 
-- <strong>독립성의 마음(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> of Mind)</strong>: 실제로 편향 없이 판단하는가
-- <strong>독립성의 외형(<a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> in Appearance)</strong>: 밖에서 봐도 독립적으로 보이는가
+- <strong>독립성의 마음(<a href="/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> of Mind)</strong>: 실제로 편향 없이 판단하는가
+- <strong>독립성의 외형(<a href="/studynote/08_algorithm_stats/08_stats/133_independence/">Independence</a> in Appearance)</strong>: 밖에서 봐도 독립적으로 보이는가
 
 둘 중 하나라도 흔들리면 감리의 신뢰가 약해진다.
 
@@ -45,10 +42,10 @@ tags = ["studynote-design-supervision"]
 독립성을 깨는 대표 위험은 다음과 같다.
 
 - 경제적 이해관계
-- 친분이나 친족 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+- 친분이나 친족 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 - 이전 근무 경험으로 인한 자기검토
 - 조직적 압력
-- [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대상과의 거래 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+- [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대상과의 거래 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
 이런 요인은 판단을 흐리게 하므로 사전에 차단해야 한다.
 
@@ -66,7 +63,7 @@ tags = ["studynote-design-supervision"]
 - 검토 단계 분리
 - 증거 중심 판단
 
-[ISACA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) (Information Systems [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) and Control Association) 같은 기준은 이런 독립성 보장을 중요하게 본다.
+[ISACA](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) (Information Systems [Audit](/studynote/12_it_management/05_security_compliance/363_audit/) and Control Association) 같은 기준은 이런 독립성 보장을 중요하게 본다.
 
 - **📢 섹션 요약 비유**: 한 사람이 심판, 선수, 기록원을 모두 맡지 않게 하는 것이다.
 
@@ -118,7 +115,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 87 / 530
 
-<- **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/knowledge-base/studynote/11_design_supervision/01_audit_framework/629_sampling_audit_technique/)
-**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/630_ha_failover_test_audit/) ->
+<- **이전**: [57. 샘플링 감리 기법 (Sampling Audit Technique) - 표본으로 전체를 검증하기](/studynote/11_design_supervision/01_audit_framework/629_sampling_audit_technique/)
+**다음**: [58. 고가용성 및 이중화 클러스터 페일오버 시나리오 실지 테스트 참관 (HA Failover Test Audit)](/studynote/11_design_supervision/01_audit_framework/630_ha_failover_test_audit/) ->
 
 ---

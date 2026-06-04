@@ -1,13 +1,10 @@
-+++
-title = "291. 단편화 (Fragmentation) 및 재조립 (Reassembly)"
-date = 2026-05-08
+---
+title: "291. 단편화 (Fragmentation) 및 재조립 (Reassembly)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -20,9 +17,9 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - **개념**: IP 패킷의 크기가 통과해야 할 링크의 최대 전송 단위(MTU)보다 클 때, 패킷을 여러 개의 더 작은 IP 패킷으로 쪼개는 3계층의 동작 메커니즘.
-- **필요성**: 세상의 모든 네트워크가 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(MTU 1500)이라면 좋겠지만, 구형 망인 X.25(MTU 576), [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)(MTU 4464) 등 선로마다 허용하는 짐의 크기가 제각각이다. 4000바이트 크기의 패킷이 [토큰 링](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)을 잘 가다가 갑자기 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구간을 만나면, 문이 1500바이트밖에 안 돼서 꽉 끼어버린다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버릴 순 없으니, 라우터가 땀을 뻘뻘 흘리며 4000바이트짜리 짐을 1500, 1500, 1000 사이즈로 찢어서 3개의 새로운 IP 패킷 봉투에 나눠 담는 수고가 필수적이었다.
+- **필요성**: 세상의 모든 네트워크가 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(MTU 1500)이라면 좋겠지만, 구형 망인 X.25(MTU 576), [토큰 링](/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)(MTU 4464) 등 선로마다 허용하는 짐의 크기가 제각각이다. 4000바이트 크기의 패킷이 [토큰 링](/studynote/03_network/05_lan_wan_l2_devices/281_token_ring_ieee_802_5_token_bus_ieee_802_4/)을 잘 가다가 갑자기 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 구간을 만나면, 문이 1500바이트밖에 안 돼서 꽉 끼어버린다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 버릴 순 없으니, 라우터가 땀을 뻘뻘 흘리며 4000바이트짜리 짐을 1500, 1500, 1000 사이즈로 찢어서 3개의 새로운 IP 패킷 봉투에 나눠 담는 수고가 필수적이었다.
 
-- **💡 비유**: 단편화는 이사할 때 <strong>"큰 장롱을 좁은 방문으로 빼내는 작업"</strong>과 같습니다. 장롱이 문에 걸리면 일꾼(라우터)이 드라이버를 가져와 장롱을 3조각으로 분해(Fragmentation)해서 옮깁니다. 이삿짐이 새 집에 도착하면 집주인(수신 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 설명서(Offset)를 보고 다시 장롱을 원래대로 조립(Reassembly)해야 합니다.
+- **💡 비유**: 단편화는 이사할 때 <strong>"큰 장롱을 좁은 방문으로 빼내는 작업"</strong>과 같습니다. 장롱이 문에 걸리면 일꾼(라우터)이 드라이버를 가져와 장롱을 3조각으로 분해(Fragmentation)해서 옮깁니다. 이삿짐이 새 집에 도착하면 집주인(수신 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 설명서(Offset)를 보고 다시 장롱을 원래대로 조립(Reassembly)해야 합니다.
 
 ```text
 [DF 비트 / MF 비트]
@@ -42,12 +39,12 @@ tags = ["studynote-network"]
 ### 1. 단편화 규칙: 8바이트의 마법 (Fragment Offset)
 라우터가 패킷을 찢을 때 마음대로 찢는 것이 아니다. IP 헤더의 '단편화 오프셋' 필드는 13비트의 공간밖에 없어서 숫자를 1바이트 단위로 적어 넣을 수가 없다.
 - 따라서 라우터는 페이로드를 찢을 때 **무조건 8의 배수(8 Bytes Boundary)** 크기로만 찢어야 한다.
-- **예시**: 1500 MTU 선로를 통과할 때, 헤더 20바이트를 빼면 1480바이트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담을 수 있다. 우연히도 1480은 8로 나누어떨어진다 ($1480 \div 8 = 185$). 따라서 첫 번째 조각은 1480바이트 덩어리로 썰리고 오프셋은 `0`, 두 번째 조각은 그다음 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실리며 오프셋은 `185`가 된다.
+- **예시**: 1500 MTU 선로를 통과할 때, 헤더 20바이트를 빼면 1480바이트의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 담을 수 있다. 우연히도 1480은 8로 나누어떨어진다 ($1480 \div 8 = 185$). 따라서 첫 번째 조각은 1480바이트 덩어리로 썰리고 오프셋은 `0`, 두 번째 조각은 그다음 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실리며 오프셋은 `185`가 된다.
 
-### 2. 재조립 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) (Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))
+### 2. 재조립 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) (Reassembly [Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/))
 목적지 PC가 3개의 조각을 받아야 재조립이 완성되는데, 1번과 2번 조각만 오고 3번 조각이 인터넷 어딘가에서 증발(Drop)해 버렸다.
 - PC는 "언젠가 3번이 오겠지?"라며 버퍼 메모리에 1, 2번을 들고 무작정 기다린다.
-- 시간이 15초 이상 흐르면(Reassembly [Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), PC는 <strong>"기다리다 지쳤다! 이 조각들은 다 쓸모없어!"라며 1, 2번 조각마저 쓰레기통에 폐기</strong>해 버린다.
+- 시간이 15초 이상 흐르면(Reassembly [Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)), PC는 <strong>"기다리다 지쳤다! 이 조각들은 다 쓸모없어!"라며 1, 2번 조각마저 쓰레기통에 폐기</strong>해 버린다.
 - TCP는 원본 패킷이 안 온 줄 알고 원본 4000바이트 전체를 처음부터 다시 재전송한다.
 
 ```text
@@ -67,22 +64,22 @@ tags = ["studynote-network"]
 ```
 
 ### 3. 현대 네트워크의 회피 전술
-단편화는 라우터의 CPU를 갉아먹고(라우터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하), 패킷 하나만 분실돼도 망 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체를 낭비하는 재앙을 부른다.
-그래서 현대의 컴퓨터와 서버들은 아예 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신을 시작할 때, 목적지까지 가는 길목 중 가장 좁은 문(Path MTU)을 미리 알아낸 다음, 처음부터 <strong>단편화가 발생하지 않을 크기(보통 1460 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 이하)로 미리 잘게 썰어서</strong> 패킷을 쏘는 방식을 채택했다. 이를 통해 라우터가 칼질하는 수고를 원천적으로 없앴다.
+단편화는 라우터의 CPU를 갉아먹고(라우터 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하), 패킷 하나만 분실돼도 망 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체를 낭비하는 재앙을 부른다.
+그래서 현대의 컴퓨터와 서버들은 아예 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP 통신을 시작할 때, 목적지까지 가는 길목 중 가장 좁은 문(Path MTU)을 미리 알아낸 다음, 처음부터 <strong>단편화가 발생하지 않을 크기(보통 1460 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 이하)로 미리 잘게 썰어서</strong> 패킷을 쏘는 방식을 채택했다. 이를 통해 라우터가 칼질하는 수고를 원천적으로 없앴다.
 
-- **📢 섹션 요약 비유**: <strong> 단편화는 3조각으로 나뉜 보물지도와 같습니다. 2조각을 먼저 찾아도 마지막 1조각을 잃어버리면 보물(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 찾을 수 없으므로, 여태껏 힘들게 찾은 2조각마저 찢어버리고 지도를 </strong>처음부터 통째로 다시 그려야 하는 엄청난 삽질**을 유발합니다.
+- **📢 섹션 요약 비유**: <strong> 단편화는 3조각으로 나뉜 보물지도와 같습니다. 2조각을 먼저 찾아도 마지막 1조각을 잃어버리면 보물(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>)을 찾을 수 없으므로, 여태껏 힘들게 찾은 2조각마저 찢어버리고 지도를 </strong>처음부터 통째로 다시 그려야 하는 엄청난 삽질**을 유발합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-단편화 및 재조립을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 기반 조건을 만든다면, 단편화 및 재조립은 그 위에서 핵심 메커니즘을 구현하고, 패킷 캡슐화, MTU는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+단편화 및 재조립을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 기반 조건을 만든다면, 단편화 및 재조립은 그 위에서 핵심 메커니즘을 구현하고, 패킷 캡슐화, MTU는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 기반 정리 | 단편화 및 재조립의 핵심 동작 | 패킷 캡슐화, MTU의 확장 적용 |
+| 초점 | DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 기반 정리 | 단편화 및 재조립의 핵심 동작 | 패킷 캡슐화, MTU의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 단편화 및 재조립은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -90,18 +87,18 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 단편화 및 재조립을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수준의 기본 대책으로 충분한지, 아니면 단편화 및 재조립이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 패킷 캡슐화, MTU와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 단편화 및 재조립을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수준의 기본 대책으로 충분한지, 아니면 단편화 및 재조립이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 패킷 캡슐화, MTU와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. 단편화 및 재조립가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. 단편화 및 재조립가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 패킷 캡슐화, MTU와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 단편화 및 재조립의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 단편화 및 재조립을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -119,8 +116,8 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
 | 패킷 캡슐화, MTU | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
@@ -136,7 +133,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 대규모 주소 자동화]
 ```
 
-단편화 및 재조립는 DF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 캡슐화, MTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+단편화 및 재조립는 DF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) / MF [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)에서 출발해 현재 메커니즘을 정교화하고, 이후 패킷 캡슐화, MTU와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 412 / 1120
 
-<- **이전**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/knowledge-base/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/)
-**다음**: [292. 패킷 캡슐화, MTU (Maximum Transmission Unit)](/knowledge-base/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/) ->
+<- **이전**: [290. DF (Don't Fragment) 비트 / MF (More Fragment) 비트](/studynote/03_network/06_network_layer_ip/290_df_dont_fragment_mf_more_fragment_bits/)
+**다음**: [292. 패킷 캡슐화, MTU (Maximum Transmission Unit)](/studynote/03_network/06_network_layer_ip/292_packet_encapsulation_mtu_ethernet_1500_bytes/) ->
 
 ---

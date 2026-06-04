@@ -1,175 +1,189 @@
-+++
-title = "378. 쿠버네티스 오토스케일링 HPA VPA CA (Kubernetes Autoscaling HPA VPA Cluster)"
-date = 2026-05-09
+---
+title: "378. 쿠버네티스 오토스케일링 HPA VPA CA (Kubernetes Autoscaling HPA VPA Cluster)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 쿠버네티스 오토스케일링 HPA VPA CA은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 쿠버네티스 오토스케일링은 Pod 수평 확장(HPA), Pod 리소스 수직 조정(VPA), 노드 수 확장(CA)의 3축 제어로 `desiredReplicas = ceil[currentReplicas × (currentMetricValue / desiredMetricValue)]` 알고리즘과 Node Group ASG 연동을 통해 클러스터 용량과 워크로드 자원을 자동 매칭하는 선언적(Declarative) 제어 메커니즘이다.
+> 2. **가치**: EKS/AKS/GKE 환경에서 평균 30~70% 인프라 비용 절감(FinOps 효과), 트래픽 피크 시 p99 응답지연 40% 개선, MTTR(Mean Time To Recover) 단축을 통한 SRE 운영 효율 극대화, Capacity Planning 자동화로 인한 운영 엔지니어 Opex 절감.
+> 3. **판단 포인트**: HPA는 빠른 스케일아웃에 강하지만 스케일링 지연(30~60s) 존재, VPA는 Pod 재시작을 수반하여 무중단 요구 시 배포 전략(PDB, surge) 검토 필수, CA는 노드 프로비저닝 시간(2~5분) 고려한 사전 스케일링(Buffer) 및 PodDisruptionBudget·PriorityClass 기반 스케줄링 정책이 핵심 결정 요인이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-쿠버네티스 오토스케일링 HPA VPA CA은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Kubernetes Autoscaling HPA VPA Cluster 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+클라우드 네이티브 환경의 트래픽 패턴은 일간/주간/계절성 변동, 마케팅 이벤트, 배치 작업 등 예측 불가능한 부하 변동을 보인다. 전통적인 VM 기반 인프라에서는 Peak Load 기준으로 과도하게 프로비저닝(Over-Provisioning)하여 평균利用率 15~25% 수준에 머물렀고, 이는 약 60~75%의 유휴 자원 낭비로 직결되었다. 쿠버네티스 오토스케일링은 `Metrics Server`, `kube-state-metrics`, `Custom Metrics Adapter`(Prometheus Adapter, Datadog Cluster Agent 등), `Cluster Autoscaler Provider`(AWS ASG, GCP MIG, Azure VMSS)를 통합한 Control Loop 기반의 탄력적 자원 공급 체계로, **선언적 명세(Deployment.spec.replicas)** 와 **관측 가능한 지표** 의 피드백 루프를 통해 셀프힐링·셀프스케일링을 구현한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    쿠버네티스 오토스케일링 HPA VPA CA 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++---------------------------------------------------------------------+
+|              Traditional VM Infra vs Kubernetes Autoscaling          |
++---------------------------------------------------------------------+
+|                                                                      |
+|  [Legacy: Peak-based Provisioning]                                  |
+|   CPU ^        +------ Peak 고정 프로비저닝 ------+                 |
+|   100%|      +-+                                  +-+               |
+|       |    +-+  (유휴 60~75%)                       +--             |
+|   40% |---+                                                       |
+|       |                                                            |
+|   0% +-------------------------------------------------- Time      |
+|           Mon  Tue  Wed  Thu  Fri  Sat  Sun                        |
+|                                                                      |
+|  [K8s Autoscaling: Elastic Provisioning]                            |
+|   CPU ^        +--+              +---+                              |
+|   100%|      +-+  +---+       +-+   +--+                          |
+|       |    +-+        +-----╲╱         +-+                          |
+|   30% |---+  (HPA+CA 동적 매칭, 利用率 70%+)                        |
+|       |                                                            |
+|   0% +-------------------------------------------------- Time      |
+|           Mon  Tue  Wed  Thu  Fri  Sat  Sun                        |
+|                                                                      |
++---------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 Auto Scaling Group(ASG) 단독 운영은 ① 노드 단위의 coarse-grained 제어, ② 컨테이너 밀도 미고려, ③ 애플리케이션 메트릭(APM/RPS/Queue Depth) 미반영이라는 한계를 가졌다. 쿠버네티스는 이를 **Pod 레벨의 HPA -> Node 레벨의 CA** 라는 2-tier 자동화로 정교화하고, VPA로 Pod 단위 리소스 권장값을 자동 튜닝하여 Right-Sizing을 실현한다.
 
-- **📢 섹션 요약 비유**: 쿠버네티스 오토스케일링 HPA VPA CA은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 전통적 ASG는 "사람이 손으로 수도꼭지를 조작"하는 방식이고, K8s 오토스케일링은 "목욕탕 수위 감지 센서(HPA) + 온도 조절기(VPA) + 물탱크 펌프(CA)"가 협업하여 수온·수량을 자동 유지하는 스마트 욕조 시스템과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-쿠버네티스 오토스케일링 HPA VPA CA의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
-
 ```text
-+--------------------------------------------------------------+
-|              Kubernetes Autoscaling HPA VPA Cluster 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++-----------------------------------------------------------------------+
+|         Kubernetes 3-Layer Autoscaling Control Loop Architecture     |
++-----------------------------------------------------------------------+
+|                                                                       |
+|  +----------------------- LAYER 1: WORKLOAD ----------------------+  |
+|  |  +------------+    +------------+    +--------------------+    |  |
+|  |  | Deployment |    | StatefulSet|    |  Custom Controller |    |  |
+|  |  | (stateless)|    |  (DB 등)   |    |  (CronJob, KEDA)   |    |  |
+|  |  +-----+------+    +-----+------+    +----------+---------+    |  |
+|  |        |                 |                      |              |  |
+|  |  +-----v------+    +-----v------+    +----------v---------+    |  |
+|  |  |    HPA     |    |    VPA     |    |   External Scaler  |    |  |
+|  |  | (Pod 수)   |    |(Req/Limit) |    |  (KEDA, KEDA-EDA)  |    |  |
+|  |  +-----+------+    +-----+------+    +----------+---------+    |  |
+|  +--------+-----------------+-----------------------+-------------+  |
+|           |                 |                       |                 |
+|           v                 v                       v                 |
+|  +------------------- LAYER 2: METRICS -------------------------+   |
+|  |                                                                |   |
+|  |  +--------------+   +------------------+  +----------------+  |   |
+|  |  | Metrics      |   | kube-state-      |  | Custom Metrics |  |   |
+|  |  | Server       |   | metrics          |  | Adapter        |  |   |
+|  |  | (CPU/Mem)    |   | (Object 상태)    |  | (Prom/Cloud)   |  |   |
+|  |  +------+-------+   +--------+---------+  +--------+-------+  |   |
+|  |         |                    |                     |          |   |
+|  |         +--------------------+---------------------+          |   |
+|  |                              v                                |   |
+|  |                  +-----------------------+                     |   |
+|  |                  |   metrics.k8s.io API  |                     |   |
+|  |                  |   custom.metrics.k8s.io|                     |   |
+|  |                  |   external.metrics.k8s |                     |   |
+|  |                  +-----------+-----------+                     |   |
+|  +------------------------------+--------------------------------+   |
+|                                 |                                     |
+|  +---------------------- LAYER 3: INFRA ---------------------------+  |
+|  |                              v                                  |  |
+|  |   +--------------------------------------------------+          |  |
+|  |   |          Cluster Autoscaler (CA)                  |          |  |
+|  |   |  - Unschedulable Pod 감시 (15s default)         |          |  |
+|  |   |  - Bin-packing Simulation으로 최적 노드 도출    |          |  |
+|  |   |  - Node Group Min/Max/Desired 조정 명령         |          |  |
+|  |   +-----------------+--------------------------------+          |  |
+|  |                     v                                           |  |
+|  |    +-------------+  +-------------+  +-------------+           |  |
+|  |    | AWS ASG     |  | GCP MIG     |  | Azure VMSS  |           |  |
+|  |    | Karpenter*  |  | (Auto Mode) |  | (AKS VPA)   |           |  |
+|  |    +-------------+  +-------------+  +-------------+           |  |
+|  +----------------------------------------------------------------+  |
++-----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **HPA (HorizontalPodAutoscaler)** | Pod 복제본 수를 수평 확장 | `kube-controller-manager` 내 HPA Controller가 15초 주기(default `--horizontal-pod-autoscaler-sync-period`)로 metrics API 조회, `desiredReplicas = ceil[currentReplicas × (currentMetricValue / desiredMetricValue)]` 계산. stabilization window(`--horizontal-pod-autoscaler-downscale-stabilization`, default 5분)로 flapping 방지. `behavior` 필드(API v2)로 scaleUp/Down 정책 분리. |
+| **VPA (VerticalPodAutoscaler)** | Pod의 CPU/Memory request/limit 자동 조정 | 3개 컴포넌트로 구성: `Recommender`(과거 메트릭 분석, OOM/VPA Recommender 알고리즘), `Updater`(eviction 기반 Pod 재생성), `Admission Webhook`(요청 시 권장값 주입). `updateMode: Auto\|Initial\|Off`. `resourcePolicy.containerPolicies`로 특정 컨테이너 제외 가능. |
+| **CA (Cluster Autoscaler)** | 클러스터 노드 수를 동적 확장/축소 | Pending 상태 30초 이상 지속 Pod 감지 -> Bin-packing 시뮬레이션(`AddToScale`/`ScaleDown`) -> Cloud Provider API로 Node Group 크기 조정. Scale-down은 10분 유휴(`--scale-down-utilization-threshold=0.5`) + 10분 비사용 후(`--scale-down-delay-after-delete`) 실행. `expander: least-waste\|random\|most-pods\|priority` 전략 지원. |
+| **Metrics Pipeline** | 오토스케일링 결정의 데이터 소스 | `cAdvisor`(kubelet) -> `Metrics Server`(in-memory, 5분 retention) -> `metrics.k8s.io` API. 확장 시 `kube-state-metrics`(object 상태) + Prometheus Adapter(`prometheus-adapter/k8s-prometheus-adapter`)를 통해 `custom.metrics.k8s.io`(QPS, Queue Depth, Latency) 노출. KEDA(Kubernetes Event-Driven Autoscaling)는 60+ 외부 소스(RabbitMQ, Kafka, SQS, Redis Streams) 트리거 제공. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**HPA 핵심 알고리즘 상세**:
+```
+desiredReplicas = ceil[currentReplicas × (currentMetricValue / desiredMetricValue)]
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+복합 메트릭(Multi-Metric) 사용 시:
+desiredReplicas = max[ recompute_metric(m) for m in metrics ]
+                   ※ 각 메트릭이 독립적으로 replica 수 계산 후 최대값 채택
+
+비율형 메트릭(Ratio): desiredReplicas = ceil[ currentReplicas × (currentUtilization / targetUtilization) ]
+평균값형 메트릭(AverageValue): desiredReplicas = ceil[ sum(currentValues) / targetAverageValue ]
+```
+
+**HPA 안정화 윈도우 & 행동 정책 예시**:
+```yaml
+behavior:
+  scaleUp:
+    stabilizationWindowSeconds: 0       # 즉시 확장
+    policies:
+    - type: Percent
+      value: 100
+      periodSeconds: 30                # 30초마다 2배까지
+    - type: Pods
+      value: 4
+      periodSeconds: 30
+    selectPolicy: Max
+  scaleDown:
+    stabilizationWindowSeconds: 300    # 축소 전 5분 대기
+    policies:
+    - type: Percent
+      value: 10
+      periodSeconds: 60
+    selectPolicy: Min
+```
+
+**VPA의 권장값 산정 로직**:
+Recommender는 과거 데이터(`PrometheusHistogramMetric` 또는 `pods_memory_working_set_bytes`)를 백분위 분석하여 `lowerBound`, `target`, `upperBound` 산출. 기본 정책은 P95~P99 사용량을 기반으로 target 도출, OOMKill 이력이 있으면 `oomBump` 비율로 상향 보정. `containerPolicies.minAllowed`/`maxAllowed`로 안전 범위 강제.
+
+- **📢 섹션 요약 비유**: HPA는 "레스토랑 테이블 수를 늘리는 것", VPA는 "각 테이블의 크기(2인용->4인용)를 조절하는 것", CA는 "레스토랑 자체의 면적을 늘리는 것"이다. 손님(트래픽)이 늘면 테이블(HPA)->테이블 크기(VPA)->매장(CA) 순으로 대응한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-쿠버네티스 오토스케일링 HPA VPA CA을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | HPA (Horizontal Pod Autoscaler) | VPA (Vertical Pod Autoscaler) | CA (Cluster Autoscaler) |
+| :--- | :--- | :--- | :--- |
+| **스케일링 차원** | Pod 개수(수평) | Pod당 CPU/Memory(수직) | Node 개수(수평, Infra) |
+| **제어 대상** | Deployment, ReplicaSet, StatefulSet, ReplicationController | 단일 Pod의 requests/limits | Node Group(AWS ASG, GCP MIG), Karpenter NodePool |
+| **반응 시간** | 30~60초(HPA sync 15s + Scheduler) | 5~10분(권장값 산정 후 eviction->재스케줄) | 2~5분(Cloud API 응답 + Node Ready 시간, AMI/image pull 포함) |
+| **메트릭 소스** | CPU, Memory, Custom(QPS, Lag, Queue), External(SQS) | 과거 사용량 분석(P95~P99) | Pending Pod 수, Node utilization |
+| **무중단 영향** | Rolling Update로 무중단 | ⚠️ Pod 재시작(Eviction) 발생 가능 | ⚠️ Scale-down 시 PDB·Eviction 정책 필요 |
+| **상호 운용** | VPA·HPA 동시 사용 시 `resources.requests.cpu|memory` 중복 설정 시 충돌 발생 (Custom/External 메트릭만 HPA에 사용 권장) | HPA와 동일 메트릭 동시 사용 불가(off: 권장값만 조회) | Karpenter 등장으로 점차 대체 추세 (v1beta1->GA 진행) |
+| **비용 영향** | Pod 수 증가 -> 노드 포화 -> CA 트리거 | 노드당 Pod 밀도 증가 -> 노드 수 감소 -> CA scale-down | 동적 노드 수 -> 유휴 자원 비용 절감 |
+| **적합 워크로드** | Stateless API, Web, Worker | Stateful 서비스(중요도 중간), JVM Heap 튜닝 | 모든 워크로드(Infrastructure-wide) |
+| **한계점** | Cold Start 지연(파드 기동 시간), 메트릭 노이즈 민감 | Eviction으로 인한 일시적 다운타임, StatefulSet 비권장 | 노드 추가 지연, Scale-down 보수적(10분 유휴), 단일 Cloud 종속 |
 
-| 구분 | 전통적 접근 | 쿠버네티스 오토스케일링 HPA VPA CA |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**Karpenter vs Cluster Autoscaler 비교 (2024~ 현재 트랜드)**:
+Karpenter는 AWS가 2021년 출시, 2024년 GA 전환, 2025년 현재 CNCF Sandbox 프로젝트로 확대. CA 대비 ① 30초 내 Provisioning, ② Spot/On-Demand 혼합, ③ Instance Type 다양화(ND/AMD/GPU), ④ Consolidation을 통한 20~40% 추가 비용 절감, ⑤ 노드 lifecycle 단일 컨트롤러 단순화로 전환 가속. 단, 멀티 클라우드 지원은 여전히 CA가 우위.
 
-관련 기술 영역과의 연결점도 중요하다. 쿠버네티스 오토스케일링 HPA VPA CA은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 쿠버네티스 오토스케일링 HPA VPA CA은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 쿠버네티스 오토스케일링 HPA VPA CA을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-쿠버네티스 오토스케일링 HPA VPA CA을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 쿠버네티스 오토스케일링 HPA VPA CA 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 쿠버네티스 오토스케일링 HPA VPA CA은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 쿠버네티스 오토스케일링 HPA VPA CA의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 쿠버네티스 오토스케일링 HPA VPA CA의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+**연계 아키텍처 (실무 패턴)**:
+- **KEDA + HPA**: 외부 메시지 큐(RabbitMQ/Kafka/SQS) lag 기반 HPA 확장. KEDA가 External Scaler 역할.
+- **HPA + CA 수직 통합**: `kube-system`의 `cluster-autoscaler` Deployment는 PDB 0 설정(스케줄링 우선), 일반 워크로드는 PDB `minAvailable: 1` 이상 권장.
+- **Karpenter + Spot**: NodePool에서 `instanceRequirements`(vCPU, Memory, Architecture, CapacityType) 정의 -> 자동 Spot fallback, Interruption Queue(SQS EventBridge) 기반 2분 전 안전 Drain.
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-쿠버네티스 오토스케일링 HPA VPA CA 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 쿠버네티스 오토스케일링 HPA VPA CA은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
++------------------ Real-world Integration Topology ------------------+
+|                                                                      |
+|  Client --► ALB --► Ingress(NGINX) --► Service                      |
+|
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 378 / 800
 
-<- **이전**: [377. 쿠버네티스 스케줄링 노드 어피니티 테인트](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/377_kubernetes_scheduling_affinity_taint_tolerati/)
-**다음**: [379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/379_kubernetes_storage_csi_persistent_volume/) ->
+<- **이전**: [377. 쿠버네티스 스케줄링 노드 어피니티 테인트](/studynote/13_cloud_architecture/06_exam_summary/377_kubernetes_scheduling_affinity_taint_tolerati/)
+**다음**: [379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨](/studynote/13_cloud_architecture/06_exam_summary/379_kubernetes_storage_csi_persistent_volume/) ->
 
 ---

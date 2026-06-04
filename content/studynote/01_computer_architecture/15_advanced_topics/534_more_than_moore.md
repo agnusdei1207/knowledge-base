@@ -1,27 +1,24 @@
-+++
-title = "534. 무어의 법칙 이후 (More than Moore)"
-date = 2026-04-20
+---
+title: "534. 무어의 법칙 이후 (More than Moore)"
+date: "2026-04-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: More than Moore는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 선폭 축소만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올리던 시대를 넘어, 이종 집적과 패키지 수준 통합으로 시스템 가치를 키우는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 발전 전략이다.
-> 2. **가치**: 로직, 메모리, 무선, 전력 관리, 센서를 각각 가장 적합한 공정과 소재로 만든 뒤 한 시스템으로 묶어, 미세화 한계 이후에도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·기능 혁신을 이어 갈 수 있다.
-> 3. **판단 포인트**: More than Moore의 경쟁력은 "얼마나 더 작게 만드느냐"보다 "얼마나 적절한 기능을 얼마나 짧은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 통합하느냐"에 달려 있다.
+> 1. **본질**: More than Moore는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 선폭 축소만으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끌어올리던 시대를 넘어, 이종 집적과 패키지 수준 통합으로 시스템 가치를 키우는 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 발전 전략이다.
+> 2. **가치**: 로직, 메모리, 무선, 전력 관리, 센서를 각각 가장 적합한 공정과 소재로 만든 뒤 한 시스템으로 묶어, 미세화 한계 이후에도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·기능 혁신을 이어 갈 수 있다.
+> 3. **판단 포인트**: More than Moore의 경쟁력은 "얼마나 더 작게 만드느냐"보다 "얼마나 적절한 기능을 얼마나 짧은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로로 통합하느냐"에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-More than Moore는 무어의 법칙이 약속하던 단순 미세화의 효율이 약해진 이후, 시스템 수준 통합으로 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 진보를 계속 이어 가려는 접근이다. 과거에는 선폭을 줄이면 같은 면적에 더 많은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 올릴 수 있었지만, 이제는 배선 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 발열, 공정 비용이 동시에 커져 "더 작게"만으로는 충분하지 않다. 그래서 현대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업은 전공정 중심 사고에서 패키징과 이기종 결합까지 포함하는 전체 시스템 사고로 이동하고 있다.
+More than Moore는 무어의 법칙이 약속하던 단순 미세화의 효율이 약해진 이후, 시스템 수준 통합으로 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 진보를 계속 이어 가려는 접근이다. 과거에는 선폭을 줄이면 같은 면적에 더 많은 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)도 올릴 수 있었지만, 이제는 배선 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 발열, 공정 비용이 동시에 커져 "더 작게"만으로는 충분하지 않다. 그래서 현대 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업은 전공정 중심 사고에서 패키징과 이기종 결합까지 포함하는 전체 시스템 사고로 이동하고 있다.
 
-이 변화가 중요한 이유는 실제 제품 가치가 더 이상 연산 블록 하나로 결정되지 않기 때문이다. [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, 모바일 애플리케이션 프로세서, 차량용 제어기 모두 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 무선 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 센서 인터페이스, 전력 관리까지 함께 최적화되어야 경쟁력이 생긴다. More than Moore는 바로 그 "시스템 완성도"를 높이는 방법론이다.
+이 변화가 중요한 이유는 실제 제품 가치가 더 이상 연산 블록 하나로 결정되지 않기 때문이다. [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, 모바일 애플리케이션 프로세서, 차량용 제어기 모두 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 무선 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 센서 인터페이스, 전력 관리까지 함께 최적화되어야 경쟁력이 생긴다. More than Moore는 바로 그 "시스템 완성도"를 높이는 방법론이다.
 
 ```text
 +---------------------------------------------------------------------+
@@ -36,7 +33,7 @@ More than Moore는 무어의 법칙이 약속하던 단순 미세화의 효율�
 +---------------------------------------------------------------------+
 ```
 
-즉 More than Moore는 무어의 법칙이 끝났다는 선언이 아니라, 성장의 단위를 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수에서 시스템 가치로 바꾸는 선언에 가깝다. 같은 칩 면적 경쟁이 아니라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 기능 결합, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 유연성까지 포함하는 더 넓은 경쟁이 시작된 것이다.
+즉 More than Moore는 무어의 법칙이 끝났다는 선언이 아니라, 성장의 단위를 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수에서 시스템 가치로 바꾸는 선언에 가깝다. 같은 칩 면적 경쟁이 아니라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, 기능 결합, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 유연성까지 포함하는 더 넓은 경쟁이 시작된 것이다.
 
 - **📢 섹션 요약 비유**: 예전에는 같은 땅에 더 작은 방을 많이 넣는 것이 중요했다면, 이제는 집·상가·주차장·공원을 함께 설계해 동네 전체의 편의성을 높이는 도시 계획이 더 중요해진 셈이다.
 
@@ -44,12 +41,12 @@ More than Moore는 무어의 법칙이 약속하던 단순 미세화의 효율�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-More than Moore의 핵심 원리는 기능별 최적 공정과 최적 배치를 한 시스템 안에서 결합하는 것이다. 연산이 중요한 로직 다이는 3nm 같은 선단 공정을 쓰고, 무선 회로나 전력 관리 회로는 28nm 또는 그 이상의 성숙 공정을 쓸 수 있다. 여기에 고대역폭 메모리 ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), 센서, 광 인터페이스까지 짧은 거리로 붙이면, 더 이상 모든 기능을 하나의 단일 실리콘에 몰아넣지 않아도 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 높일 수 있다.
+More than Moore의 핵심 원리는 기능별 최적 공정과 최적 배치를 한 시스템 안에서 결합하는 것이다. 연산이 중요한 로직 다이는 3nm 같은 선단 공정을 쓰고, 무선 회로나 전력 관리 회로는 28nm 또는 그 이상의 성숙 공정을 쓸 수 있다. 여기에 고대역폭 메모리 ([HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)), 센서, 광 인터페이스까지 짧은 거리로 붙이면, 더 이상 모든 기능을 하나의 단일 실리콘에 몰아넣지 않아도 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 높일 수 있다.
 
 | 발전 트랙 | 핵심 질문 | 대표 기술 | 한계 또는 과제 |
 | :-- | :-- | :-- | :-- |
 | More Moore | 더 작게 만들 수 있는가? | 게이트올어라운드, 극자외선 노광 (EUV, Extreme Ultraviolet), 백사이드 전력 | 비용 급증, 발열, 배선 한계 |
-| More than Moore | 더 잘 묶을 수 있는가? | [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 2.5D/3D 패키징, [시스템 온 패키지](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([SiP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), [System in Package](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) | 패키지 열·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·테스트 복잡도 |
+| More than Moore | 더 잘 묶을 수 있는가? | [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 2.5D/3D 패키징, [시스템 온 패키지](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([SiP](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), [System in Package](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) | 패키지 열·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·테스트 복잡도 |
 | Beyond Moore | 아예 다른 물리로 바꿀 수 있는가? | 양자, 뉴로모픽, 광컴퓨팅 | 생태계와 상용화 시점 불확실 |
 
 ```text
@@ -65,9 +62,9 @@ More than Moore의 핵심 원리는 기능별 최적 공정과 최적 배치를 
 +---------------------------------------------------------------------+
 ```
 
-이 구조가 주는 핵심 이점은 세 가지다. 첫째, 기능마다 가장 알맞은 공정을 선택해 비용과 수율을 개선할 수 있다. 둘째, 메모리와 가속기를 물리적으로 더 가깝게 붙여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지를 줄일 수 있다. 셋째, 같은 기본 타일을 조합해 여러 제품군을 빠르게 파생할 수 있어 시장 대응 속도가 빨라진다.
+이 구조가 주는 핵심 이점은 세 가지다. 첫째, 기능마다 가장 알맞은 공정을 선택해 비용과 수율을 개선할 수 있다. 둘째, 메모리와 가속기를 물리적으로 더 가깝게 붙여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 에너지를 줄일 수 있다. 셋째, 같은 기본 타일을 조합해 여러 제품군을 빠르게 파생할 수 있어 시장 대응 속도가 빨라진다.
 
-여기서 첨단 패키징은 단순 조립이 아니다. 패키지 내부의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 전력 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 열 경로, 다이 간 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 프로토콜까지 함께 맞아야 진짜 More than Moore가 된다. 그래서 이 영역은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정, 패키징, 아키텍처, 소프트웨어가 동시에 만나는 분야다.
+여기서 첨단 패키징은 단순 조립이 아니다. 패키지 내부의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 전력 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 열 경로, 다이 간 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 프로토콜까지 함께 맞아야 진짜 More than Moore가 된다. 그래서 이 영역은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공정, 패키징, 아키텍처, 소프트웨어가 동시에 만나는 분야다.
 
 - **📢 섹션 요약 비유**: More than Moore는 모든 선수를 한 포지션으로 훈련시키는 대신, 공격수·수비수·골키퍼를 각자 가장 잘하는 방식으로 키운 뒤 한 팀으로 묶는 축구 전략과 같다.
 
@@ -79,7 +76,7 @@ More than Moore는 More Moore를 부정하는 개념이 아니라 보완하는 �
 
 또한 More than Moore는 Beyond Moore와도 구분해야 한다. More than Moore는 여전히 실리콘 산업의 연장선에서 상용 제품을 만드는 전략인 반면, Beyond Moore는 새로운 물리 원리를 채택해 컴퓨팅 자체를 바꾸려는 시도다. 따라서 기업 입장에서는 More than Moore가 당장의 수익화와 제품화에 더 직접적인 선택지다.
 
-[칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), [SiP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), 유니버설 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 인터커넥트 익스프레스 ([UCIe](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/), Universal [Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express), 3차원 적층 메모리, 공동 패키지 광학 같은 기술은 모두 More than Moore의 구현 수단이다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템에서는 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 메모리와 인터커넥트가 전체 효율을 좌우하므로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 짧게 만드는 패키지 혁신이 사실상 아키텍처 혁신과 같은 의미를 가진다.
+[칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), [SiP](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/), 유니버설 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 인터커넥트 익스프레스 ([UCIe](/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/), Universal [Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express), 3차원 적층 메모리, 공동 패키지 광학 같은 기술은 모두 More than Moore의 구현 수단이다. 특히 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 시스템에서는 계산 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 메모리와 인터커넥트가 전체 효율을 좌우하므로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 짧게 만드는 패키지 혁신이 사실상 아키텍처 혁신과 같은 의미를 가진다.
 
 - **📢 섹션 요약 비유**: More Moore가 얇은 펜으로 같은 도화지에 더 많이 그리는 일이라면, More than Moore는 입체 퍼즐처럼 층을 쌓고 서로 다른 조각을 연결해 더 큰 작품을 만드는 일이다.
 
@@ -87,23 +84,23 @@ More than Moore는 More Moore를 부정하는 개념이 아니라 보완하는 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 More than Moore를 채택할지는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표보다 먼저 시스템 제약을 봐야 한다. 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목인 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, 다수의 아날로그·무선 블록이 필요한 모바일·[사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기, 고신뢰 센서 통합이 필요한 차량용 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 More than Moore의 효과가 특히 크다. 반대로 기능이 단순하고 대량 생산이 가능한 칩은 여전히 단일 다이의 단순성이 더 유리할 수 있다.
+실무에서 More than Moore를 채택할지는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 목표보다 먼저 시스템 제약을 봐야 한다. 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 병목인 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기, 다수의 아날로그·무선 블록이 필요한 모바일·[사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 기기, 고신뢰 센서 통합이 필요한 차량용 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 More than Moore의 효과가 특히 크다. 반대로 기능이 단순하고 대량 생산이 가능한 칩은 여전히 단일 다이의 단순성이 더 유리할 수 있다.
 
-### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 병목</strong>: 연산보다 메모리·인터커넥트 비용이 더 큰가?
+1. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 이동 병목</strong>: 연산보다 메모리·인터커넥트 비용이 더 큰가?
 2. **공정 이질성**: 로직, 무선 주파수, 전력, 센서가 동일 공정에 묶일 필요가 없는가?
 3. **수율·비용 구조**: 단일 대형 다이보다 분할·패키징이 총비용을 낮출 수 있는가?
 4. **열·전력 설계**: 적층과 밀집 배치로 생길 핫스폿을 제어할 수 있는가?
-5. **생태계 준비도**: 패키징 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 테스트 체계, 인터커넥트 표준이 확보되어 있는가?
+5. **생태계 준비도**: 패키징 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/), 테스트 체계, 인터커넥트 표준이 확보되어 있는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 미세 공정만 고집하고 패키지 병목과 메모리 병목을 뒤늦게 발견하는 설계
-- 서로 다른 다이를 한 패키지에 넣기만 하면 자동으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아질 것이라 기대하는 접근
-- [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)과 패키징을 도입하면서도 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 메모리 배치, 테스트 전략을 바꾸지 않는 운영
+- 서로 다른 다이를 한 패키지에 넣기만 하면 자동으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아질 것이라 기대하는 접근
+- [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)과 패키징을 도입하면서도 소프트웨어 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 메모리 배치, 테스트 전략을 바꾸지 않는 운영
 
-기술사 관점에서는 "후공정이 중요하다"는 말로 끝내면 부족하다. 어떤 기능을 왜 따로 떼어내고, 어떤 패키징 구조로 묶으며, 그 결과 수율·열·[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 어떻게 바뀌는지까지 함께 설명해야 진짜 시스템 수준 판단이 된다.
+기술사 관점에서는 "후공정이 중요하다"는 말로 끝내면 부족하다. 어떤 기능을 왜 따로 떼어내고, 어떤 패키징 구조로 묶으며, 그 결과 수율·열·[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 비용이 어떻게 바뀌는지까지 함께 설명해야 진짜 시스템 수준 판단이 된다.
 
 - **📢 섹션 요약 비유**: 좋은 건축가는 비싼 땅에 무조건 더 높게 짓지 않는다. 어떤 시설은 지상에, 어떤 설비는 지하에, 어떤 통로는 다리로 연결해 전체 동선을 가장 좋게 만드는 배치를 택한다.
 
@@ -111,11 +108,11 @@ More than Moore는 More Moore를 부정하는 개념이 아니라 보완하는 �
 
 ## Ⅴ. 기대효과 및 결론
 
-More than Moore는 무어의 법칙이 약해진 이후에도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·기능·시장 대응 속도를 유지하게 해 준다. 각 기능을 최적 공정으로 분리하므로 비용을 낮추고, 메모리와 가속기를 가까이 붙여 시스템 효율을 높이며, 제품 파생도 빨라진다. 특히 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 차량용, 엣지 기기처럼 여러 기능이 얽힌 분야에서 이점이 크다.
+More than Moore는 무어의 법칙이 약해진 이후에도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·기능·시장 대응 속도를 유지하게 해 준다. 각 기능을 최적 공정으로 분리하므로 비용을 낮추고, 메모리와 가속기를 가까이 붙여 시스템 효율을 높이며, 제품 파생도 빨라진다. 특히 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), 차량용, 엣지 기기처럼 여러 기능이 얽힌 분야에서 이점이 크다.
 
-하지만 과제도 명확하다. 패키징 수율, 적층 열, 테스트 복잡도, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 편중은 새로운 병목이 될 수 있다. 앞으로는 하이브리드 본딩, 백사이드 전력 전달, 공동 패키지 광학, 표준 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 마켓플레이스가 이런 문제를 완화하면서 More than Moore를 더 넓은 범용 전략으로 만들 가능성이 크다.
+하지만 과제도 명확하다. 패키징 수율, 적층 열, 테스트 복잡도, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 편중은 새로운 병목이 될 수 있다. 앞으로는 하이브리드 본딩, 백사이드 전력 전달, 공동 패키지 광학, 표준 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 마켓플레이스가 이런 문제를 완화하면서 More than Moore를 더 넓은 범용 전략으로 만들 가능성이 크다.
 
-결론적으로 More than Moore는 "미세화의 대체품"이 아니라 <strong>시스템 가치를 만드는 주된 전장</strong>이다. 이 개념을 이해할 때는 선폭 경쟁보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로, 기능 결합, 패키지 아키텍처를 먼저 떠올리는 것이 정확하다.
+결론적으로 More than Moore는 "미세화의 대체품"이 아니라 <strong>시스템 가치를 만드는 주된 전장</strong>이다. 이 개념을 이해할 때는 선폭 경쟁보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로, 기능 결합, 패키지 아키텍처를 먼저 떠올리는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 결국 More than Moore는 블록을 더 작게 깎는 놀이보다, 서로 다른 블록을 가장 똑똑하게 조립해 더 멋진 도시를 만드는 놀이에 가깝다.
 
@@ -125,12 +122,12 @@ More than Moore는 무어의 법칙이 약해진 이후에도 [성능](/knowledg
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| More Moore | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 미세화 중심의 전통적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 경로다. |
-| 이종 집적 ([Heterogeneous](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Integration) | 서로 다른 공정과 기능의 다이를 한 시스템으로 묶는 More than Moore의 핵심 방법이다. |
-| [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) | 기능 분할과 재조합을 가능하게 하는 대표 구현 단위다. |
-| [SiP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([System in Package](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) | 여러 능동·수동 소자를 하나의 패키지 시스템으로 구성하는 형태다. |
-| [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 계산 다이 옆에 초고대역폭 메모리를 배치해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목을 줄이는 대표 사례다. |
-| [UCIe](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) (Universal [Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express) | 서로 다른 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 생태계를 연결하려는 표준 인터페이스다. |
+| More Moore | [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 미세화 중심의 전통적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 경로다. |
+| 이종 집적 ([Heterogeneous](/studynote/05_database/05_distributed_nosql_newsql/273_heterogeneous_db/) Integration) | 서로 다른 공정과 기능의 다이를 한 시스템으로 묶는 More than Moore의 핵심 방법이다. |
+| [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) | 기능 분할과 재조합을 가능하게 하는 대표 구현 단위다. |
+| [SiP](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ([System in Package](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/)) | 여러 능동·수동 소자를 하나의 패키지 시스템으로 구성하는 형태다. |
+| [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 계산 다이 옆에 초고대역폭 메모리를 배치해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목을 줄이는 대표 사례다. |
+| [UCIe](/studynote/01_computer_architecture/12_accelerators_ai_hardware/443_ucie/) (Universal [Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) Interconnect Express) | 서로 다른 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 생태계를 연결하려는 표준 인터페이스다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,7 +145,7 @@ More than Moore = package-level system integration
         +---------> Photonics · Sensor · Power integration
 ```
 
-이 흐름은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 진보의 중심이 "[트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 증가"에서 "시스템 가치 증가"로 옮겨 가는 과정을 압축해 보여 준다.
+이 흐름은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 진보의 중심이 "[트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 증가"에서 "시스템 가치 증가"로 옮겨 가는 과정을 압축해 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -162,7 +159,7 @@ More than Moore = package-level system integration
 
 **진행 상황**: 534 / 803
 
-<- **이전**: [533. 전력-성능 트레이드오프 파레토 곡선](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/533_power_performance_pareto/)
-**다음**: [535. 시스템 온 패키지 (SiP)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ->
+<- **이전**: [533. 전력-성능 트레이드오프 파레토 곡선](/studynote/01_computer_architecture/15_advanced_topics/533_power_performance_pareto/)
+**다음**: [535. 시스템 온 패키지 (SiP)](/studynote/01_computer_architecture/15_advanced_topics/535_system_in_package/) ->
 
 ---

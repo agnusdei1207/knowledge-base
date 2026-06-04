@@ -1,13 +1,10 @@
-+++
-title = "455. 사가 패턴 분산 트랜잭션 보상 (Saga Pattern Distributed Transaction Compensation)"
-date = 2026-05-09
+---
+title: "455. 사가 패턴 분산 트랜잭션 보상 (Saga Pattern Distributed Transaction Compensation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -104,7 +101,7 @@ Saga는 두 가지 토폴로지로 구현되며, 메시지 전달 보장 수준�
 
 **진행 상황**: 455 / 600
 
-<- **이전**: [454. 서킷 브레이커 패턴 장애 격리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/455_circuit_breaker_pattern/)
-**다음**: [456. 스트랭글러 패턴 레거시 전환](/knowledge-base/studynote/11_design_supervision/06_exam_summary/456_strangler_pattern/) ->
+<- **이전**: [454. 서킷 브레이커 패턴 장애 격리](/studynote/11_design_supervision/06_exam_summary/455_circuit_breaker_pattern/)
+**다음**: [456. 스트랭글러 패턴 레거시 전환](/studynote/11_design_supervision/06_exam_summary/456_strangler_pattern/) ->
 
 ---

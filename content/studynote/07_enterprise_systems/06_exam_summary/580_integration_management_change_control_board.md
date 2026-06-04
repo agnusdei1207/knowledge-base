@@ -1,13 +1,10 @@
-+++
-title = "580. 통합 관리 변경 통제 위원회 CCB (Integration Management Change Control Board)"
-date = 2026-05-09
+---
+title: "580. 통합 관리 변경 통제 위원회 CCB (Integration Management Change Control Board)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 580 / 800
 
-<- **이전**: [579. 조달 관리 계약 유형 RFP RFI](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/579_procurement_management_contract_rfp_rfi/)
-**다음**: [581. 애자일 프로젝트 관리 스크럼 칸반](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/581_agile_project_management_scrum_kanban/) ->
+<- **이전**: [579. 조달 관리 계약 유형 RFP RFI](/studynote/07_enterprise_systems/06_exam_summary/579_procurement_management_contract_rfp_rfi/)
+**다음**: [581. 애자일 프로젝트 관리 스크럼 칸반](/studynote/07_enterprise_systems/06_exam_summary/581_agile_project_management_scrum_kanban/) ->
 
 ---

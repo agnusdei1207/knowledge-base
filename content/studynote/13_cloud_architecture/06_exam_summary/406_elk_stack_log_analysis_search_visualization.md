@@ -1,13 +1,10 @@
-+++
-title = "406. ELK 스택 로그 분석 검색 시각화 (ELK Stack Log Analysis Search Visualization)"
-date = 2026-05-09
+---
+title: "406. ELK 스택 로그 분석 검색 시각화 (ELK Stack Log Analysis Search Visualization)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 406 / 800
 
-<- **이전**: [405. 로키 로그 수집 쿼리 경량 스택](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/405_loki_log_collection_query_lightweight_stack/)
-**다음**: [407. Fluentd Fluent Bit 로그 전달 파이프라인](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/407_fluentd_fluent_bit_log_pipeline/) ->
+<- **이전**: [405. 로키 로그 수집 쿼리 경량 스택](/studynote/13_cloud_architecture/06_exam_summary/405_loki_log_collection_query_lightweight_stack/)
+**다음**: [407. Fluentd Fluent Bit 로그 전달 파이프라인](/studynote/13_cloud_architecture/06_exam_summary/407_fluentd_fluent_bit_log_pipeline/) ->
 
 ---

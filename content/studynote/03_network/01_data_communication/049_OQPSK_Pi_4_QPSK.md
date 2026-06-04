@@ -1,18 +1,15 @@
-+++
-title = "049. OQPSK / π/4-QPSK — 오프셋 위상 변조"
-date = 2026-04-05
+---
+title: "049. OQPSK / π/4-QPSK — 오프셋 위상 변조"
+date: "2026-04-05"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 > **핵심 인사이트**
-> 1. OQPSK(Offset QPSK)는 Q 채널을 I 채널 대비 반 심볼(T/2)만큼 지연시켜 180+ 위상 전이를 제거 — QPSK에서 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)->00 천이 시 발생하는 180+ 급격한 위상 점프가 전력 증폭기를 비선형 영역으로 밀어넣는 문제를 해결한다.
-> 2. π/4-QPSK는 두 QPSK [성상도](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)를 45+ 교대 사용하여 최대 위상 전이를 135+로 제한 — OQPSK보다 스펙트럼 효율이 높고 비차동(Differential) 복조가 가능해 이동통신(IS-95 이전, DECT, PDC)에서 널리 사용되었다.
-> 3. 두 변조 방식 모두 "포락선 변동(Envelope Variation) 최소화"가 핵심 목표 — 위상 전이가 클수록 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 포락선이 0에 가까워져 전력 증폭기 효율이 급락하므로, 위상 전이 제한이 배터리 수명과 직결된다.
+> 1. OQPSK(Offset QPSK)는 Q 채널을 I 채널 대비 반 심볼(T/2)만큼 지연시켜 180+ 위상 전이를 제거 — QPSK에서 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)->00 천이 시 발생하는 180+ 급격한 위상 점프가 전력 증폭기를 비선형 영역으로 밀어넣는 문제를 해결한다.
+> 2. π/4-QPSK는 두 QPSK [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)를 45+ 교대 사용하여 최대 위상 전이를 135+로 제한 — OQPSK보다 스펙트럼 효율이 높고 비차동(Differential) 복조가 가능해 이동통신(IS-95 이전, DECT, PDC)에서 널리 사용되었다.
+> 3. 두 변조 방식 모두 "포락선 변동(Envelope Variation) 최소화"가 핵심 목표 — 위상 전이가 클수록 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 포락선이 0에 가까워져 전력 증폭기 효율이 급락하므로, 위상 전이 제한이 배터리 수명과 직결된다.
 
 ---
 
@@ -51,7 +48,7 @@ QPSK 심볼 배치:
   이동통신 단말기에서 치명적 문제
 ```
 
-> 📢 **섹션 요약 비유**: QPSK 180+ 전이 = 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 급격히 반전 — [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간 0이 됨. 증폭기가 0 근처에서 왜곡. OQPSK/π/4-QPSK는 "천천히 돌기"로 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 0 방지!
+> 📢 **섹션 요약 비유**: QPSK 180+ 전이 = 전등 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 급격히 반전 — [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간 0이 됨. 증폭기가 0 근처에서 왜곡. OQPSK/π/4-QPSK는 "천천히 돌기"로 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 0 방지!
 
 ---
 
@@ -146,7 +143,7 @@ OQPSK vs π/4-QPSK:
   실제 사용: 위성/군용  이동통신
 ```
 
-> 📢 **섹션 요약 비유**: π/4-QPSK = 45+ 엇갈린 두 개의 바퀴 — 홀/짝 심볼마다 다른 [성상도](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)(45+ 회전). 최대 이동 135+로 제한. 차동 변조로 기준점 없이도 복조!
+> 📢 **섹션 요약 비유**: π/4-QPSK = 45+ 엇갈린 두 개의 바퀴 — 홀/짝 심볼마다 다른 [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/)(45+ 회전). 최대 이동 135+로 제한. 차동 변조로 기준점 없이도 복조!
 
 ---
 
@@ -295,9 +292,9 @@ QAM + OFDM
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. QPSK 180+ 문제 = 전등 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 급격히 반전 — [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간 0이 되어 증폭기 왜곡. 배터리 낭비!
+1. QPSK 180+ 문제 = 전등 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 급격히 반전 — [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 순간 0이 되어 증폭기 왜곡. 배터리 낭비!
 2. OQPSK = 두 다리 교대 걷기 — I/Q 채널이 반 박자씩 어긋나 동시 전환 방지. 최대 90+ 전이로 안정!
-3. π/4-QPSK = 두 바퀴 45+ 교대 사용 — 홀/짝 심볼마다 다른 [성상도](/knowledge-base/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/). 최대 135+, 차동 복조로 기준점 없이도 OK!
+3. π/4-QPSK = 두 바퀴 45+ 교대 사용 — 홀/짝 심볼마다 다른 [성상도](/studynote/03_network/01_data_communication/053_성상도_Constellation_Diagram/). 최대 135+, 차동 복조로 기준점 없이도 OK!
 
 ---
 
@@ -305,7 +302,7 @@ QAM + OFDM
 
 **진행 상황**: 49 / 1120
 
-<- **이전**: [048. BPSK·QPSK — 위상 편이 변조](/knowledge-base/studynote/03_network/01_data_communication/048_BPSK_QPSK/)
-**다음**: [M진 PSK — 8PSK·16PSK (M-ary Phase Shift Keying)](/knowledge-base/studynote/03_network/01_data_communication/050_M진_PSK_8PSK_16PSK/) ->
+<- **이전**: [048. BPSK·QPSK — 위상 편이 변조](/studynote/03_network/01_data_communication/048_BPSK_QPSK/)
+**다음**: [M진 PSK — 8PSK·16PSK (M-ary Phase Shift Keying)](/studynote/03_network/01_data_communication/050_M진_PSK_8PSK_16PSK/) ->
 
 ---

@@ -1,175 +1,139 @@
-+++
-title = "623. 클라우드 아키텍처 핵심 토픽 623번 시험 요약 (Cloud Architecture Core Topic 623 Exam Summary)"
-date = 2026-05-09
+---
+title: "623. 클라우드 아키텍처 핵심 토픽 623번 시험 요약 (Cloud Architecture Core Topic 623 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 AWS Well-Architected Framework 6대 필러(운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화, 지속가능성)와 AZ(Availability Zone)·리전 단위의 분산 설계를 통해, SLO/SLA 기반의 비기능 요건(가용성 99.99%, 내결함성, 탄력성)을 코드로 구현(Architecture as Code)하는 엔지니어링 discipline이다.
+> 2. **가치**: 셀 기반 아키텍처(Cell-based Architecture)로 Blast Radius를 1/N로 축소하고, Auto Scaling + Spot Instance + Graviton 조합으로 동일 워크로드 대비 컴퓨팅 비용 40~70% 절감, Multi-AZ Active-Active 구성을 통해 RTO < 1분 / RPO ≈ 0 수준의 DR 체계 구축이 가능하다.
+> 3. **판단 포인트**: CAP Theorem 하에서 Strong Consistency ↔ Eventual Consistency, 동기(Synchronous Quorum) ↔ 비동기(Asynchronous Replicaton) 복제, Stateless Microservice ↔ Stateful Stateful(DB/Broker) 분리, EKS vs ECS Fargate vs Lambda의 콜드 스타트·실행 시간·비용 한계(15분) 트레이드오프를 도메인 특성에 따라 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+엔터프라이즈 IT 시스템은 2010년대 이후 3-tier 모놀리스(Presentation-Business Logic-Data Tier)에서 도메인 주도 설계(DDD) 기반 마이크로서비스, 그리고 Serverless·Event-driven 아키텍처로 급격히 진화했다. 클라우드 아키텍처는 이러한 변화를 "인프라 추상화 + API 기반 프로비저닝 + 사용량 과금(Usage-based Billing)"의 세 가지 패러다임 전환으로 실현한다. 과거에는 신규 트래픽 대응을 위해 6개월~1년 선구매(CAPEX) 후 IDC 증설과 OS·미들웨어 수작업 설치가 필요했으나, AWS EC2, GCP Compute Engine, Azure VM 같은 IaaS는 클릭 한 번으로 수십만 코어까지 확장 가능하며, Lambda·Cloud Run 같은 Serverless 플랫폼은 코드를 업로드하는 순간 인프라가 코드를 추적·격리·스케일링한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 623 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+그러나 클라우드 전환 자체가 자동으로 아키텍처 우수성을 보장하지 않는다. Gartner에 따르면 클라우드 마이그레이션 프로젝트의 60%가 "Lift & Shift" 후 재설계 없이 비용 폭증과 성능 저하를 겪고, "명목상 클라우드(Cloud-Subtle)" 현상을 빚는다. 따라서 623번 시험이 요구하는 핵심은 단순한 서비스 카탈로그 암기가 아니라, **비즈니스 도메인의 트래픽 패턴, 데이터 일관성 요건, 컴플라이언스 제약(K-PIPA, PCI-DSS, ISMS-P)**을 분석해 최적의 분산 토폴로지를 설계·검증·운영하는 엔지니어링 역량이다.
+
+특히 On-Premise 환경 대비 클라우드 고유의 "Shared Responsibility Model"에서, OS 패치·IAM 정책·암호화 키 관리 같은 *In-the-Cloud* 책임이 고객에게 이전되므로, 아키텍트는 네트워크 토폴로지뿐 아니라 **제로 트러스트(Zero Trust), IaC(Infrastructure as Code), Observability 3요소(Metrics/Logs/Traces)**까지 통합 설계해야 한다.
 
 ```text
 +--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 623번 시험 요약 개념 구조                       |
+|        [Legacy Monolith] vs [Cloud-Native Distributed]       |
 +--------------------------------------------------------------+
 |                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
+|  Legacy (On-Premise)              Cloud-Native               |
+|  +--------------+                +------------------+        |
+|  |   WebSphere  |                |  CloudFront CDN  |        |
+|  |   (1 EA App) |                +--------+---------+        |
+|  +--------------+                         |                  |
+|  |  Oracle RAC  |              +----------v----------+       |
+|  |  (Active/Passive)            |   ALB / API GW     |       |
+|  +--------------+              +----------+----------+       |
+|  | SAN Storage  |       +--------+--------+--------+--+    |
+|  +--------------+       v        v        v        v  |    |
+|                  +--------++--------++--------++--------+  |
+|  Capacity: 고정   |Lambda  ||EKS Pod ||Fargate ||Aurora  |  |
+|  Deploy: 6개월    |(이벤트) ||(Stateless)|(배치)||(RDBMS) |  |
+|  Cost: CAPEX      +--------++--------++--------++--------+  |
+|                              |             |          |      |
+|                              +-------------+----------+      |
+|                                  EventBridge / Kafka         |
+|  Failure: SPOF 다수          Failure: AZ 단위 격리, 99.99%  |
 +--------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+**기존 방식과의 결정적 차이**:
+- **탄력성(Elasticity)**: Auto Scaling Group이 CloudWatch 메트릭(CPU > 70% 5분 지속) 기반으로 인스턴스를 30~300대까지 동적 확장
+- **불변 인프라(Immutable Infra)**: AMI/Golden Image로 서버를 재생성하여 구성 드리프트(Configuration Drift) 차단
+- **셀 아키텍처**: 한 리전 내에서도 사용자 셔딩(Sharding) -> 장애 확산 방지(N 细胞 Architecture: Roblox, AWS Architecture Blog)
+- **📢 섹션 요약 비유**: 레거시 시스템이 "한 채의 큰 호텔"이라면, 클라우드 아키텍처는 **"모듈式 콘도미니엄"** — 각 동(셀)이 독립적인 발전기·정수기·소화설비를 가져, 한 동이 불나도 다른 동은 안전하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 623번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처의 5대 토대는 **① 컴퓨트 추상화, ② 분산 스토리지, ③ 글로벌 네트워킹, ④ 제어 평면(Control Plane), ⑤ 데이터 평면(Data Plane)**이다. AWS를 기준으로 분해하면:
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 623 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+            +-----------------------------------------+
+            |     Cloud Well-Architected Framework    |
+            |  (6 Pillars) - 의사결정 체크리스트        |
+            +-----------------------------------------+
+                          |   ^
+            +-------------+---+------------------+
+            |  Architecture Decision Record(ADR)   |
+            +-------------+---+------------------+
+                          v   ^
+   +----------+----------+----+---+----------+----------+
+   v          v          v        v          v          v
+[컴퓨트]    [스토리지]  [네트워크]  [DB]     [보안]    [옵저버빌리티]
+EC2/Lambda S3/EBS    VPC/Route53 RDS/Aurora  IAM/KMS   CloudWatch
+EKS/Fargate  Glacier  CloudFront DynamoDB    WAF/Shield X-Ray
+            +-------- AWS Global Infrastructure --------+
+            Region(geo) -> AZ(고가용 단위, 1~3개) -> Edge Location
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+**핵심 동작 메커니즘 (4단계)**:
+
+1. **프로비저닝 단계**: Terraform/CloudFormation 같은 IaC가 선언적 HCL/YAML로 VPC, Subnet, SG, IAM Role을 정의 -> AWS Control Tower가 멀티 계정(Landing Zone) 베이스라인 자동 배포
+2. **라우팅 단계**: Route 53의 라우팅 정책(Simple, Weighted, Latency-based, Failover, Geolocation, Multi-Value) + ALB의 L7 라우팅(Path/Host/Header 기반)으로 트래픽 분산
+3. **데이터 단계**: 쓰기는 Aurora Writer Endpoint(Strong Consistent) -> 6-way 복제 across 3 AZ, 읽기는 Reader Endpoint(Eventually Consistent, lag < 100ms) 분산
+4. **관측 단계**: CloudWatch Metrics/Logs + X-Ray Distributed Tracing + CloudTrail Audit -> OpenTelemetry로 Grafana/Tempo/Loki에 통합
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Region / AZ** | 물리적 격리 단위 | Region 간 ≥ 100km, AZ 간 < 1ms RTT, AZ당 1개 이상 데이터센터, 리전 선택 시 latency·컴플라이언스·서비스 가용성 트레이드오프 |
+| **VPC + Subnet** | 논리적 네트워크 격리 | /16 CIDR, Public/Private/Isolated Subnet, Route Table·NACL(Stateless)·Security Group(Stateful) 3중 필터, VPC Endpoint로 S3/DynamoDB Private 통신 |
+| **컴퓨트 계층** | 워크로드 실행 환경 | EC2(baremetal/M/graviton) / ECS Fargate(컨테이너) / EKS(K8s API 100% 호환) / Lambda(15분·10GB 한계) / Batch(HPC) — 트래픽 패턴(I/O bound vs CPU bound)으로 선택 |
+| **스토리지 계층** | 데이터 영속성 | S3(11 9s 내구성, Object Storage), EBS(블록, 단일 AZ), EFS(NFS, Multi-AZ), FSx for Lustre(HPC), Glacier Deep Archive($0.00099/GB/월) — Hot/Warm/Cold 티어링 |
+| **데이터 계층** | 트랜잭션/분석 | OLTP(Aurora MySQL/PostgreSQL 5x MySQL, 3x PostgreSQL 성능), OLAP(Redshift, Athena on S3), NoSQL(DynamoDB Single-digit ms, Global Tables Multi-Region Active-Active), 캐시(ElastiCache Redis/Memcached) |
+| **메시징/이벤트** | 비동기 결합 | SQS(표준/순서/FIFO), SNS(Pub/Sub Fan-out), EventBridge(75+ SaaS 이벤트 버스), Kinesis Data Streams(실시간 스트림), MSK(Kafka 완전관리) |
+| **보안·거버넌스** | 정책·감사 | IAM(Policy-based, ABAC), KMS(Customer Managed Key, Envelope Encryption), Secrets Manager(자동 회전), GuardDuty(위협 탐지), Macie(PII 자동 분류) |
+| **옵저버빌리티** | 가시성 | CloudWatch(메트릭/로그), X-Ray(분산 트레이싱), CloudTrail(API 감사), OpenTelemetry SDK 통합, SLO 기반 Error Budget 운영 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘·파라미터**:
+- **Quorum 기반 복제**: DynamoDB는 `(N, R, W)` 파라미터(예: N=3, R=2, W=2)로 일관성·가용성 조절. R+W > N이면 Strong Read, W > N/2이면 Strong Write
+- **Consistent Hashing**: DynamoDB/Cassandra가 데이터를 Partition Key 해시로 16384개 vNode에 분산, 가상 노드로 리밸런싱 최소화
+- **AIMD(Additive Increase Multiplicative Decrease)**: TCP 혼잡제어 + AWS EBS Burst Balance로 처리량 안정화
+- **Bloom Filter**: RocksDB 내부에서 존재하지 않는 키 lookup을 1회 메모리 접근으로 차단 -> I/O 절감
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: 클라우드 아키텍처는 **"교향곡 지휘자"**와 같다 — 1번 바이올린(웹), 2번 바이올린(API), 비올라(메시지), 첼로(데이터베이스) 각 파트(서비스)가 악보(IaC)대로 연주하되, 지휘자(Control Plane)가 템포(SLO)와 다이내믹(Scaling)을 실시간 조율한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 623번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+클라우드 아키텍처 패턴은 비슷한 이름의 패턴들이 각기 다른 트레이드오프를 가지므로 정확한 비교가 필수다. 기술사 시험에서는 "왜 A가 아니라 B인가?"를 5가지 이상의 기준으로 정량 비교해야 한다.
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 623번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **Monolith** | **Microservices (Cloud-Native)** | **Serverless (FaaS)** |
+| :--- | :--- | :--- | :--- |
+| **배포 단위** | 1개 WAR/EAR | 수십~수백 컨테이너 | 개별 함수(수천 개) |
+| **확장 단위** | 전체 인스턴스 복제 | 서비스별 Pod | 호출 단위 (1 req = 1~N invocations) |
+| **콜드 스타트** | N/A | 1~3초(EKS 첫 Pod) | Lambda 100ms~2s, EFS mount 시 5s+ |
+| **실행 시간 한계** | 무제한 | 무제한 | Lambda 15분, Step Functions로 우회 |
+| **상태 관리** | In-Memory Session | DB/Redis 분리 | 반드시 외부(DynamoDB/S3), Stateless only |
+| **비용 모델** | 고정 인스턴스 비용 | 컨테이너 시간당 과금 | 호출 100ms 단위 과금, 유휴 시 $0 |
+| **장애 격리** | 프로세스 단위, 메모리 leak 시 전체 영향 | Namespace/Network Policy로 격리 | 함수별 격리, Concurrent Execution 한도 |
+| **DevOps 복잡도** | 단일 CI/CD | Service Mesh(Istio), ArgoCD, Skaffold | IaC(Terraform) + SAM/CDK, ZIP 업로드 |
+| **적합 워크로드** | 소규모 CRUD, 레거시 | 중·대규모 트래픽, 도메인 분리 명확 | 이벤트 드리븐(파일/메시지/크론), 트래픽 변동 큼 |
+| **대표 사례** | SAP, 사내 행정 | Netflix 700+ 서비스, 쿠팡 카탈로그 | AWS Lambda + S3 Image Resize, Alexa Skill |
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 623번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 623번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 623번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 623번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 623번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 623번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 623번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**연계 기술 통합 패턴**:
+- **API Gateway + Lambda + DynamoDB**: 3-Tier를 완전관리형으로 구성, Auto Scaling 0->수천, 사용량 0 시 비용 $0
+- **EKS + Karpenter + Spot**: Pod 스케줄러가 Spot 인스턴스 Interrupt(2분 전 알림) 시 On-Demand로 자동 마이그레이션
+- **CloudFront + Lambda@Edge**: 사용자 위치별 응답 변환, TLS Termination, A/B 테스트를 엣지에서 처리, RTT 50~200ms 단축
+- **S3 + Athena + Glue Data Catalog**: 데이터 레이크의 Schema-on-Read, 1TB 스캔 $5, Parquet/ZSTD로 90% 비용
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 623 / 800
 
-<- **이전**: [622. 클라우드 아키텍처 핵심 토픽 622번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/622_cloud_architecture_core_topic_622_exam_summar/)
-**다음**: [624. 클라우드 아키텍처 핵심 토픽 624번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/624_cloud_architecture_core_topic_624_exam_summar/) ->
+<- **이전**: [622. 클라우드 아키텍처 핵심 토픽 622번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/622_cloud_architecture_core_topic_622_exam_summar/)
+**다음**: [624. 클라우드 아키텍처 핵심 토픽 624번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/624_cloud_architecture_core_topic_624_exam_summar/) ->
 
 ---

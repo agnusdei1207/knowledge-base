@@ -1,13 +1,10 @@
-+++
-title = "787. 양자 인터넷 양자 네트워크 양자 센서 (Quantum Internet Quantum Network Sensor)"
-date = 2026-05-09
+---
+title: "787. 양자 인터넷 양자 네트워크 양자 센서 (Quantum Internet Quantum Network Sensor)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -184,7 +181,7 @@ DEJMPS 프로토콜(1998)은 4 Bell states 기반으로 한 번에 2개 비트�
 
 **진행 상황**: 787 / 800
 
-<- **이전**: [786. 사이버 물리 시스템 CPS 융합 보안](/knowledge-base/studynote/06_ict_convergence/uncategorized/786_cyber_physical_system_cps_convergence_securit/)
-**다음**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/knowledge-base/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/) ->
+<- **이전**: [786. 사이버 물리 시스템 CPS 융합 보안](/studynote/06_ict_convergence/uncategorized/786_cyber_physical_system_cps_convergence_securit/)
+**다음**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "172. 액터-크리틱 (Actor-Critic) 모델"
-date = 2026-04-17
+---
+title: "172. 액터-크리틱 (Actor-Critic) 모델"
+date: "2026-04-17"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 액터-크리틱 (Actor-Critic)은 행동을 직접 선택하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)망(Actor)과 그 선택의 가치를 평가하는 가치망(Critic)을 함께 학습시키는 강화학습 구조다.
-> 2. **가치**: 순수 [정책 경사법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ([Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))의 높은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 크리틱의 시간차 학습 (TD, Temporal Difference) 평가로 낮춰, 연속 제어와 대규모 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화를 더 안정적으로 만든다.
-> 3. **판단 포인트**: 실무 성패는 "어떤 크리틱을 둘 것인가", "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트를 얼마나 제한할 것인가", "액터와 크리틱의 학습 속도를 어떻게 균형 잡을 것인가"에 달려 있다.
+> 1. **본질**: 액터-크리틱 (Actor-Critic)은 행동을 직접 선택하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)망(Actor)과 그 선택의 가치를 평가하는 가치망(Critic)을 함께 학습시키는 강화학습 구조다.
+> 2. **가치**: 순수 [정책 경사법](/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/))의 높은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 크리틱의 시간차 학습 (TD, Temporal Difference) 평가로 낮춰, 연속 제어와 대규모 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화를 더 안정적으로 만든다.
+> 3. **판단 포인트**: 실무 성패는 "어떤 크리틱을 둘 것인가", "[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트를 얼마나 제한할 것인가", "액터와 크리틱의 학습 속도를 어떻게 균형 잡을 것인가"에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-액터-크리틱은 강화학습의 두 흐름을 절충한 구조다. 가치 기반 방법은 상태별 행동 점수를 잘 학습하지만 연속 행동 공간에서 다루기 어려울 수 있고, 순수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 방법은 행동을 직접 출력할 수 있지만 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 커서 흔들리기 쉽다. 액터-크리틱은 이 두 약점을 동시에 줄이기 위해 등장했다.
+액터-크리틱은 강화학습의 두 흐름을 절충한 구조다. 가치 기반 방법은 상태별 행동 점수를 잘 학습하지만 연속 행동 공간에서 다루기 어려울 수 있고, 순수 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 방법은 행동을 직접 출력할 수 있지만 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 커서 흔들리기 쉽다. 액터-크리틱은 이 두 약점을 동시에 줄이기 위해 등장했다.
 
-핵심 아이디어는 단순하다. 액터는 "지금 무엇을 할까"를 결정하고, 크리틱은 "방금 그 선택이 장기적으로 얼마나 좋았나"를 빠르게 평가한다. 이 평가가 즉시 돌아오면, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 에피소드 전체가 끝날 때까지 기다리지 않고도 조금씩 방향을 수정할 수 있다. 그래서 로봇 제어, 게임 에이전트, 추천 최적화, [인간 피드백 기반 강화학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) ([RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 같은 영역에서 널리 쓰인다.
+핵심 아이디어는 단순하다. 액터는 "지금 무엇을 할까"를 결정하고, 크리틱은 "방금 그 선택이 장기적으로 얼마나 좋았나"를 빠르게 평가한다. 이 평가가 즉시 돌아오면, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 에피소드 전체가 끝날 때까지 기다리지 않고도 조금씩 방향을 수정할 수 있다. 그래서 로봇 제어, 게임 에이전트, 추천 최적화, [인간 피드백 기반 강화학습](/studynote/14_data_engineering/03_ml_dl_llm/148_rlhf_human_feedback_reinforcement/) ([RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/), [Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 같은 영역에서 널리 쓰인다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -36,7 +33,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------------------------------+
 ```
 
-즉 액터-크리틱은 "행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "행동 평가"를 분리해, 감각과 채점 기능을 동시에 갖춘 구조라고 볼 수 있다.
+즉 액터-크리틱은 "행동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "행동 평가"를 분리해, 감각과 채점 기능을 동시에 갖춘 구조라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 액터는 운전대를 잡은 사람이고, 크리틱은 바로 옆에서 길 상태와 연비를 계산해 주는 내비게이션이다. 혼자 운전하면 감으로 가기 쉽지만, 옆에서 즉시 평가해 주면 훨씬 안정적으로 목적지에 도달한다.
 
@@ -46,15 +43,15 @@ tags = ["studynote-ai"]
 
 액터-크리틱의 기본 루프는 상태를 보고 행동을 내는 액터, 보상과 다음 상태를 보고 오차를 계산하는 크리틱, 그리고 그 오차를 이용해 둘을 함께 갱신하는 구조다. 가장 기본적인 형태에서는 크리틱이 상태가치 함수 `V(s)`를 예측하고, 한 스텝 뒤 보상과 다음 상태가치를 이용해 시간차 오차 `δ_t = r_t + γV(s_{t+1}) - V(s_t)`를 계산한다. 이 값이 양수면 "생각보다 좋았다", 음수면 "생각보다 나빴다"는 뜻이다.
 
-액터는 이 평가를 이용해 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾼다. 보통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기울기 항 `∇ log π(a_t|s_t)`에 어드밴티지 추정값 `Â_t`를 곱해 업데이트한다. 여기서 `Â_t`는 크리틱이 만든 "평균보다 얼마나 더 좋았는가" [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 그래서 액터는 장기 보상을 직접 추정하려 애쓰기보다, 크리틱이 제공한 평가를 기반으로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 조정한다.
+액터는 이 평가를 이용해 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 바꾼다. 보통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기울기 항 `∇ log π(a_t|s_t)`에 어드밴티지 추정값 `Â_t`를 곱해 업데이트한다. 여기서 `Â_t`는 크리틱이 만든 "평균보다 얼마나 더 좋았는가" [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다. 그래서 액터는 장기 보상을 직접 추정하려 애쓰기보다, 크리틱이 제공한 평가를 기반으로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 조정한다.
 
 | 구성 요소 | 역할 | 대표 출력 | 주의점 |
 | :--- | :--- | :--- | :--- |
-| Actor | 상태에서 행동 또는 행동 분포 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `π(a|s)` 또는 결정론적 행동 | 너무 빨리 바뀌면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 붕괴 가능 |
+| Actor | 상태에서 행동 또는 행동 분포 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `π(a|s)` 또는 결정론적 행동 | 너무 빨리 바뀌면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 붕괴 가능 |
 | Critic | 상태/행동 가치 추정 | `V(s)`, `Q(s,a)`, `A(s,a)` | 부정확하면 액터를 잘못 이끎 |
-| [Environment](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) | 행동 결과와 보상 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `r_t`, `s_{t+1}` | 보상 설계와 샘플 비용이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좌우 |
+| [Environment](/studynote/15_devops_sre/02_cicd_gitops/066_gitlab_flow_environment_branch_strategy/) | 행동 결과와 보상 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `r_t`, `s_{t+1}` | 보상 설계와 샘플 비용이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 좌우 |
 
-아래 그림은 전형적인 학습 루프를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
+아래 그림은 전형적인 학습 루프를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 것이다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -72,27 +69,27 @@ tags = ["studynote-ai"]
 +----------------------------------------------------------------------+
 ```
 
-이 구조가 중요한 이유는 크리틱이 "[부트스트래핑](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/)"을 하기 때문이다. 즉 한참 뒤 보상을 기다리지 않고, 현재 관측 가능한 정보와 다음 상태 가치 추정을 함께 써서 빠르게 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만든다. 다만 그만큼 크리틱 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전염될 수 있으므로, 안정화 장치가 함께 필요하다.
+이 구조가 중요한 이유는 크리틱이 "[부트스트래핑](/studynote/14_data_engineering/02_math_mining/120_concept/)"을 하기 때문이다. 즉 한참 뒤 보상을 기다리지 않고, 현재 관측 가능한 정보와 다음 상태 가치 추정을 함께 써서 빠르게 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 만든다. 다만 그만큼 크리틱 편향이 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 전염될 수 있으므로, 안정화 장치가 함께 필요하다.
 
-- **📢 섹션 요약 비유**: 액터가 매번 슛을 던지는 선수라면, 크리틱은 공이 림을 떠난 직후 각도와 궤적을 보고 "이번 슛은 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다"라고 즉시 말해 주는 코치다. 경기 끝 점수만 기다리는 것보다 훨씬 빠르게 폼을 고칠 수 있다.
+- **📢 섹션 요약 비유**: 액터가 매번 슛을 던지는 선수라면, 크리틱은 공이 림을 떠난 직후 각도와 궤적을 보고 "이번 슛은 성공 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 높다"라고 즉시 말해 주는 코치다. 경기 끝 점수만 기다리는 것보다 훨씬 빠르게 폼을 고칠 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-액터-크리틱은 단일 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름이라기보다 하나의 계열이다. 무엇을 크리틱으로 쓰느냐, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 둘지 결정론적으로 둘지, 샘플을 재사용할지에 따라 다양한 변형이 나온다. 따라서 경계를 명확히 이해하는 것이 중요하다.
+액터-크리틱은 단일 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 이름이라기보다 하나의 계열이다. 무엇을 크리틱으로 쓰느냐, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 둘지 결정론적으로 둘지, 샘플을 재사용할지에 따라 다양한 변형이 나온다. 따라서 경계를 명확히 이해하는 것이 중요하다.
 
-| 구분 | [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) | REINFORCE | Actor-Critic |
+| 구분 | [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/) ([Deep Q-Network](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) | REINFORCE | Actor-Critic |
 | :--- | :--- | :--- | :--- |
-| 직접 학습 대상 | 행동가치 `Q(s,a)` | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) `π(a|s)` | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) + 가치함수 |
+| 직접 학습 대상 | 행동가치 `Q(s,a)` | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) `π(a|s)` | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) + 가치함수 |
 | 행동 공간 | 주로 이산 | 이산·연속 | 이산·연속 |
-| 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | Q-target | 에피소드 리턴 | TD 오차, 어드밴티지 |
-| 강점 | 샘플 효율 비교적 양호 | 개념 단순, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 직접 학습 | 안정성·표현력 절충 |
-| 약점 | 연속 행동 처리 어려움 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 큼 | 액터/크리틱 균형 어려움 |
+| 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | Q-target | 에피소드 리턴 | TD 오차, 어드밴티지 |
+| 강점 | 샘플 효율 비교적 양호 | 개념 단순, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 직접 학습 | 안정성·표현력 절충 |
+| 약점 | 연속 행동 처리 어려움 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 큼 | 액터/크리틱 균형 어려움 |
 
-또한 액터-크리틱 안에서도 계열이 갈린다. [A2C](/knowledge-base/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/) (Advantage Actor-Critic), [A3C](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) ([Asynchronous Advantage Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)), [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))는 주로 온-폴리시 (On-[Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 쪽에 가깝고, DDPG (Deep Deterministic [Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)), TD3 (Twin Delayed DDPG), SAC (Soft Actor-Critic)는 오프-폴리시 ([Off-Policy](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/)) 재사용과 연속 제어 효율을 강화한 변형이다. 그래서 "액터-크리틱을 쓴다"는 말은 구조를 말하는 것이지, 곧바로 구현 세부를 말하는 것은 아니다.
+또한 액터-크리틱 안에서도 계열이 갈린다. [A2C](/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/) (Advantage Actor-Critic), [A3C](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) ([Asynchronous Advantage Actor-Critic](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/)), [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))는 주로 온-폴리시 (On-[Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)) 쪽에 가깝고, DDPG (Deep Deterministic [Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)), TD3 (Twin Delayed DDPG), SAC (Soft Actor-Critic)는 오프-폴리시 ([Off-Policy](/studynote/06_ict_convergence/04_ai_llm/464_q_learning_off_policy/)) 재사용과 연속 제어 효율을 강화한 변형이다. 그래서 "액터-크리틱을 쓴다"는 말은 구조를 말하는 것이지, 곧바로 구현 세부를 말하는 것은 아니다.
 
-이 구조는 언어 모델 정렬에도 연결된다. RLHF에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 모델이 액터 역할을 하고, 보상 모델·가치 모델이 크리틱 유사 역할을 맡는다. 즉 현대 강화학습과 정렬 학습의 공통 핵심은 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 움직이되, 평가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 별도 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 공급한다"는 데 있다.
+이 구조는 언어 모델 정렬에도 연결된다. RLHF에서는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 모델이 액터 역할을 하고, 보상 모델·가치 모델이 크리틱 유사 역할을 맡는다. 즉 현대 강화학습과 정렬 학습의 공통 핵심은 "[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 직접 움직이되, 평가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 별도 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 공급한다"는 데 있다.
 
 - **📢 섹션 요약 비유**: DQN은 점수표를 보고 최고의 수를 고르는 체스 해설자에 가깝고, REINFORCE는 많이 해 보며 감으로 익히는 선수에 가깝다. 액터-크리틱은 선수와 해설자가 한 팀을 이뤄 동시에 훈련하는 방식이다.
 
@@ -100,32 +97,32 @@ tags = ["studynote-ai"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 액터-크리틱을 고르는 대표 상황은 연속 행동 제어, 큰 행동 공간, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 구조가 중요한 문제다. 예를 들어 로봇 팔 토크 제어, 자율주행 조향, 광고 입찰 최적화, [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 같은 문제에서는 액터가 직접 행동 분포를 출력하는 편이 자연스럽다. 반대로 행동 수가 적고 시뮬레이터 샘플이 매우 풍부하다면 가치 기반 방법이 더 단순할 수도 있다.
+실무에서 액터-크리틱을 고르는 대표 상황은 연속 행동 제어, 큰 행동 공간, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 구조가 중요한 문제다. 예를 들어 로봇 팔 토크 제어, 자율주행 조향, 광고 입찰 최적화, [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 같은 문제에서는 액터가 직접 행동 분포를 출력하는 편이 자연스럽다. 반대로 행동 수가 적고 시뮬레이터 샘플이 매우 풍부하다면 가치 기반 방법이 더 단순할 수도 있다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 환경 샘플이 비싼가? 비싸다면 오프-폴리시 액터-크리틱을 검토할 이유가 커진다.
 2. 행동 공간이 연속적인가? 그렇다면 액터 기반 접근이 유리하다.
 3. 크리틱이 상태가치 `V`, 행동가치 `Q`, 어드밴티지 `A` 중 무엇을 예측하는가?
-4. 액터와 크리틱이 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 공유할 때 학습 간섭이 발생하지 않는가?
-5. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 폭을 KL 발산 ([Kullback-Leibler Divergence](/knowledge-base/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)), 클리핑, [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스로 제어하고 있는가?
+4. 액터와 크리틱이 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 공유할 때 학습 간섭이 발생하지 않는가?
+5. [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 폭을 KL 발산 ([Kullback-Leibler Divergence](/studynote/10_ai/05_data_science_ml/347_cross_entropy_kld/)), 클리핑, [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 보너스로 제어하고 있는가?
 
-### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 발생하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 크리틱이 충분히 수렴하기 전에 액터를 과하게 업데이트하는 것
-- 보상 스케일과 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 무시해 크리틱 목표가 흔들리는 것
-- 공유 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 하나에 서로 다른 목적을 억지로 밀어 넣어 표현이 충돌하는 것
-- 평균 리턴만 보고 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/), 크리틱 오차, 값 추정 편향을 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하지 않는 것
+- 보상 스케일과 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)를 무시해 크리틱 목표가 흔들리는 것
+- 공유 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 하나에 서로 다른 목적을 억지로 밀어 넣어 표현이 충돌하는 것
+- 평균 리턴만 보고 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/), 크리틱 오차, 값 추정 편향을 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하지 않는 것
 
 ### 의사결정 예시
 
 | 상황 | 더 적합한 선택 |
 | :--- | :--- |
-| 시뮬레이터가 빠르고 안정성이 중요 | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/), [A2C](/knowledge-base/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/) 계열 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용이 중요하고 연속 제어 | DDPG, TD3, SAC 계열 |
-| 사람 선호를 반영한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 기반 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 계열 |
+| 시뮬레이터가 빠르고 안정성이 중요 | [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/), [A2C](/studynote/10_ai/05_data_science_ml/373_actor_critic_advantage/) 계열 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재사용이 중요하고 연속 제어 | DDPG, TD3, SAC 계열 |
+| 사람 선호를 반영한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 조정 | [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 기반 [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 계열 |
 
-기술사 관점에서는 액터-크리틱을 "[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 평가를 분리한 강화학습 제어구조"로 서술하면 좋다. 그리고 장점만 말하지 말고, 크리틱의 편향이 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 오염시킬 수 있으므로 <strong>안정화 메커니즘과 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 체계</strong>가 반드시 따라야 한다고 적어야 완성도가 높다.
+기술사 관점에서는 액터-크리틱을 "[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 평가를 분리한 강화학습 제어구조"로 서술하면 좋다. 그리고 장점만 말하지 말고, 크리틱의 편향이 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 오염시킬 수 있으므로 <strong>안정화 메커니즘과 <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링 체계</strong>가 반드시 따라야 한다고 적어야 완성도가 높다.
 
 - **📢 섹션 요약 비유**: 가수가 노래를 부르고, 프로듀서가 즉석에서 음정과 박자를 피드백하는 스튜디오 녹음과 같다. 다만 프로듀서 귀가 부정확하면 가수도 잘못된 습관을 배우므로, 평가자 품질 관리가 함께 필요하다.
 
@@ -133,9 +130,9 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-액터-크리틱의 가장 큰 효과는 강화학습을 "행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "평가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)"의 협업 구조로 바꿨다는 점이다. 덕분에 순수 [정책 경사법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)보다 학습이 안정되고, 가치 기반 방법보다 연속 제어와 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 자연스럽게 다룰 수 있게 됐다. 현대 강화학습의 주류 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상당수가 이 뼈대 위에서 변형된 이유도 여기에 있다.
+액터-크리틱의 가장 큰 효과는 강화학습을 "행동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"과 "평가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)"의 협업 구조로 바꿨다는 점이다. 덕분에 순수 [정책 경사법](/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)보다 학습이 안정되고, 가치 기반 방법보다 연속 제어와 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 자연스럽게 다룰 수 있게 됐다. 현대 강화학습의 주류 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상당수가 이 뼈대 위에서 변형된 이유도 여기에 있다.
 
-물론 만능은 아니다. 크리틱이 불안정하면 액터도 함께 흔들리고, 액터가 너무 빠르면 크리틱이 따라가지 못한다. 그래서 기억해야 할 핵심은 "액터-크리틱은 두 모델을 붙였다는 사실"이 아니라, <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 학습과 가치 추정을 서로 보정하게 만든 설계 원리</strong>라는 점이다.
+물론 만능은 아니다. 크리틱이 불안정하면 액터도 함께 흔들리고, 액터가 너무 빠르면 크리틱이 따라가지 못한다. 그래서 기억해야 할 핵심은 "액터-크리틱은 두 모델을 붙였다는 사실"이 아니라, <strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 학습과 가치 추정을 서로 보정하게 만든 설계 원리</strong>라는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 운동선수는 몸만 좋은 것이 아니라, 자신의 동작을 바로 점검해 주는 거울과 코치를 함께 갖고 있다. 액터-크리틱도 행동하는 몸과 평가하는 눈이 함께 있을 때 진짜 힘을 낸다.
 
@@ -145,13 +142,13 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [정책 경사법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ([Policy Gradient](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)) | 액터가 직접 최적화하는 기본 철학 |
-| [가치 함수](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/) ([Value Function](/knowledge-base/studynote/10_ai/02_dl_architecture_new/163_value_function/)) | 크리틱이 장기 기대 보상을 추정하는 기준 |
-| TD 오차 (Temporal Difference Error) | 크리틱이 빠른 학습 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 만드는 핵심 식 |
-| 어드밴티지 (Advantage) | 액터 업데이트에 쓰이는 "평균 대비 초과 가치" [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
-| [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 액터 업데이트 폭을 제한해 안정성을 높인 대표 계열 |
-| SAC (Soft Actor-Critic) | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 포함해 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)성과 샘플 효율을 높인 계열 |
-| [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 모델과 평가 모델을 분리하는 현대 응용 사례 |
+| [정책 경사법](/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/) ([Policy Gradient](/studynote/10_ai/04_ai_ops_ethics/318_policy_gradient_actor_critic/)) | 액터가 직접 최적화하는 기본 철학 |
+| [가치 함수](/studynote/10_ai/02_dl_architecture_new/163_value_function/) ([Value Function](/studynote/10_ai/02_dl_architecture_new/163_value_function/)) | 크리틱이 장기 기대 보상을 추정하는 기준 |
+| TD 오차 (Temporal Difference Error) | 크리틱이 빠른 학습 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 만드는 핵심 식 |
+| 어드밴티지 (Advantage) | 액터 업데이트에 쓰이는 "평균 대비 초과 가치" [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
+| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 액터 업데이트 폭을 제한해 안정성을 높인 대표 계열 |
+| SAC (Soft Actor-Critic) | [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)를 포함해 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)성과 샘플 효율을 높인 계열 |
+| [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 모델과 평가 모델을 분리하는 현대 응용 사례 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +169,7 @@ Actor-Critic
         +- RLHF policy optimization
 ```
 
-이 흐름은 순수 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저감 기법과 가치 추정을 흡수하며, 현대 강화학습의 주류 계열로 확장되는 과정을 보여 준다.
+이 흐름은 순수 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 학습이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저감 기법과 가치 추정을 흡수하며, 현대 강화학습의 주류 계열로 확장되는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -186,7 +183,7 @@ Actor-Critic
 
 **진행 상황**: 172 / 420
 
-<- **이전**: [171. 정책 경사법 (Policy Gradient)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)
-**다음**: [173. A3C (Asynchronous Advantage Actor-Critic) 및 PPO (Proximal Policy Optimization)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) ->
+<- **이전**: [171. 정책 경사법 (Policy Gradient)](/studynote/10_ai/02_dl_architecture_new/171_policy_gradient/)
+**다음**: [173. A3C (Asynchronous Advantage Actor-Critic) 및 PPO (Proximal Policy Optimization)](/studynote/10_ai/02_dl_architecture_new/173_a3c_ppo/) ->
 
 ---

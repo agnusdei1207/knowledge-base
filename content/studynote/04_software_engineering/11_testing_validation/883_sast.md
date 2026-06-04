@@ -1,25 +1,22 @@
-+++
-title = "883. SAST (Static Application Security Testing)"
-date = 2026-05-08
+---
+title: "883. SAST (Static Application Security Testing)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SAST는 코드를 실행하지 않고 분석한다. 그래서 빌드 단계나 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 단계에 넣기 좋다.
+SAST는 코드를 실행하지 않고 분석한다. 그래서 빌드 단계나 [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/) 단계에 넣기 좋다.
 
 보안 규칙을 자동화해 반복적인 실수를 줄일 수 있다.
 
@@ -27,7 +24,7 @@ SAST는 코드를 실행하지 않고 분석한다. 그래서 빌드 단계나 [
 
 ---
 
-다음은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Applica의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Applica의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -42,7 +39,7 @@ SAST는 코드를 실행하지 않고 분석한다. 그래서 빌드 단계나 [
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Applica가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Applica가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -78,7 +75,7 @@ SAST는 소스코드, 바이트코드, AST (Abstract Syntax Tree) 등을 분석�
 
 SAST는 DAST보다 빠르지만, 런타임 문제를 직접 보지는 못한다.
 
-| 구분 | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) | [DAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) |
+| 구분 | [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) | [DAST](/studynote/04_software_engineering/08_security_compliance_devsecops/492_dast_dynamic_analysis/) |
 |:---|:---|:---|
 | 시점 | 개발/빌드 전 | 실행 중 |
 | 대상 | 코드 구조 | 동작 결과 |
@@ -98,7 +95,7 @@ SAST는 DAST보다 빠르지만, 런타임 문제를 직접 보지는 못한다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 검사, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)), 보안 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 적용에 유용하다.
+실무에서는 [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 검사, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)), 보안 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 적용에 유용하다.
 
 점검 포인트는 다음과 같다.
 1. 경고가 너무 많아 무시되지는 않는가?
@@ -133,10 +130,10 @@ SAST는 개발 초기에 취약점을 줄여 전체 보안 품질을 끌어올�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,13 +153,13 @@ SAST (Static Application Security Testing) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [SAST](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [SAST](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) (Static Application [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Testing)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -170,7 +167,7 @@ SAST (Static Application Security Testing) 개념 정립
 
 **진행 상황**: 573 / 973
 
-<- **이전**: [490. CVSS (Common Vulnerability Scoring System) - 취약점 위험도 평가 점수 (0~10)](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/490_cvss_vulnerability_scoring/)
-**다음**: [491. SAST (Static Application Security Testing) - 소스코드 정적 분석 도구 (보안 룰셋 기반)](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) ->
+<- **이전**: [490. CVSS (Common Vulnerability Scoring System) - 취약점 위험도 평가 점수 (0~10)](/studynote/04_software_engineering/08_security_compliance_devsecops/490_cvss_vulnerability_scoring/)
+**다음**: [491. SAST (Static Application Security Testing) - 소스코드 정적 분석 도구 (보안 룰셋 기반)](/studynote/04_software_engineering/08_security_compliance_devsecops/491_sast_static_analysis/) ->
 
 ---

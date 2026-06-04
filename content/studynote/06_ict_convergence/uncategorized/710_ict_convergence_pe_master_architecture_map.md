@@ -1,13 +1,10 @@
-+++
-title = "710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)"
-date = 2026-05-09
+---
+title: "710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -124,7 +121,7 @@ Layer 6  Network & Device ------ 5G/6G, TSN, Wi-Fi 7, LoRa
 
 **진행 상황**: 710 / 800
 
-<- **이전**: [709. 엣지 AI 추론 최적화 온디바이스](/knowledge-base/studynote/06_ict_convergence/uncategorized/709_edge_ai_inference_optimization_on_device/)
-**다음**: [800. 800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/knowledge-base/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
+<- **이전**: [709. 엣지 AI 추론 최적화 온디바이스](/studynote/06_ict_convergence/uncategorized/709_edge_ai_inference_optimization_on_device/)
+**다음**: [800. 800. 최신 ICT 융합 메가트렌드 (AI-Native, Web3, ZTA, Quantum) 구조 프레임워크 총합 망 완성](/studynote/06_ict_convergence/uncategorized/800_ict_ai_native_web3_zta/) ->
 
 ---

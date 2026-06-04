@@ -1,13 +1,10 @@
-+++
-title = "566. 데이터 일관성 패턴 최종 일관성 (Data Consistency Pattern Eventual Consistency)"
-date = 2026-05-09
+---
+title: "566. 데이터 일관성 패턴 최종 일관성 (Data Consistency Pattern Eventual Consistency)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -134,7 +131,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 566 / 600
 
-<- **이전**: [565. 메시지 큐 비동기 통신 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/566_message_queue_async_communication_patter/)
-**다음**: [567. 멱등성 설계 중복 요청 처리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/567_idempotency_design_duplicate_request_han/) ->
+<- **이전**: [565. 메시지 큐 비동기 통신 패턴](/studynote/11_design_supervision/06_exam_summary/566_message_queue_async_communication_patter/)
+**다음**: [567. 멱등성 설계 중복 요청 처리](/studynote/11_design_supervision/06_exam_summary/567_idempotency_design_duplicate_request_han/) ->
 
 ---

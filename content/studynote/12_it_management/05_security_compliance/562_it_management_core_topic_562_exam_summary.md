@@ -1,13 +1,10 @@
-+++
-title = "562. IT 경영 관리 핵심 토픽 562번 시험 요약 (IT Management Core Topic 562 Exam Summary)"
-date = 2026-05-09
+---
+title: "562. IT 경영 관리 핵심 토픽 562번 시험 요약 (IT Management Core Topic 562 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -180,7 +177,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 562 / 800
 
-<- **이전**: [561. IT 경영 관리 핵심 토픽 561번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/561_it_management_core_topic_561_exam_summary/)
-**다음**: [563. IT 경영 관리 핵심 토픽 563번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/563_it_management_core_topic_563_exam_summary/) ->
+<- **이전**: [561. IT 경영 관리 핵심 토픽 561번 시험 요약](/studynote/12_it_management/05_security_compliance/561_it_management_core_topic_561_exam_summary/)
+**다음**: [563. IT 경영 관리 핵심 토픽 563번 시험 요약](/studynote/12_it_management/05_security_compliance/563_it_management_core_topic_563_exam_summary/) ->
 
 ---

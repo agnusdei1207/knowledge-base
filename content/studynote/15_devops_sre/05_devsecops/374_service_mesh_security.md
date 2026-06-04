@@ -1,13 +1,10 @@
-+++
-title = "374. 서비스 메시 보안 mTLS 사이드카 트래픽 제어 (Service Mesh Security Istio Envoy mTLS)"
-date = 2026-05-09
+---
+title: "374. 서비스 메시 보안 mTLS 사이드카 트래픽 제어 (Service Mesh Security Istio Envoy mTLS)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

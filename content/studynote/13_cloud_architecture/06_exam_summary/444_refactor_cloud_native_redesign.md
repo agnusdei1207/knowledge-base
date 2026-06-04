@@ -1,13 +1,10 @@
-+++
-title = "444. 리팩터 클라우드 네이티브 재설계 (Refactor Cloud Native Redesign)"
-date = 2026-05-09
+---
+title: "444. 리팩터 클라우드 네이티브 재설계 (Refactor Cloud Native Redesign)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 444 / 800
 
-<- **이전**: [443. 리플랫폼 부분 최적화 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/443_replatform_partial_optimization_migration/)
-**다음**: [445. 리퍼처스 SaaS 전환 교체 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/445_repurchase_saas_transition_replacement/) ->
+<- **이전**: [443. 리플랫폼 부분 최적화 마이그레이션](/studynote/13_cloud_architecture/06_exam_summary/443_replatform_partial_optimization_migration/)
+**다음**: [445. 리퍼처스 SaaS 전환 교체 전략](/studynote/13_cloud_architecture/06_exam_summary/445_repurchase_saas_transition_replacement/) ->
 
 ---

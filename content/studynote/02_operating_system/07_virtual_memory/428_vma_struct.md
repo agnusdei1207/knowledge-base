@@ -1,31 +1,28 @@
-+++
-title = "428. VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)"
-date = 2026-05-09
+---
+title: "428. VMA (Virtual Memory Area) 구조체 (리눅스 커널 프로세스 주소 공간 매핑)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VMA(`vm_area_struct`) 구조체는 리눅스 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서, 프로세스의 광활한 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">Virtual Address Space</a>) 중 '실제로 의미 있게 사용되는 특정 구간(코드, 힙, <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a> 등)'의 시작과 끝, 그리고 권한 정보를 기록해 두는 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 형태의 샌드박스 지도(Map)</strong>다.
-> 2. **가치**: CPU가 허공(할당되지 않은 주소)을 찔렀을 때, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handler)가 <strong>이 VMA 장부를 뒤져서 "진짜로 할당해 준 합법적 공간인지(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)" 아니면 "해킹이나 버그로 찌른 불법 공간인지(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault)"를 0.001초 만에 심판</strong>하는 가장 결정적인 판사 역할을 한다.
-> 3. **융합**: 거대한 4GB~수 TB의 가상 공간을 일일이 감시할 수 없으므로, <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a>)</strong>라는 고성능 소프트웨어 자료구조와 융합되어 주소 검색 속도를 $O(\log N)$으로 쥐어짜 내어 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 방어한다.
+> 1. **본질**: VMA(`vm_area_struct`) 구조체는 리눅스 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부에서, 프로세스의 광활한 <strong><a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">가상 주소 공간</a>(<a href="/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/">Virtual Address Space</a>) 중 '실제로 의미 있게 사용되는 특정 구간(코드, 힙, <a href="/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/">mmap</a> 등)'의 시작과 끝, 그리고 권한 정보를 기록해 두는 <a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 형태의 샌드박스 지도(Map)</strong>다.
+> 2. **가치**: CPU가 허공(할당되지 않은 주소)을 찔렀을 때, [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Handler)가 <strong>이 VMA 장부를 뒤져서 "진짜로 할당해 준 합법적 공간인지(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>)" 아니면 "해킹이나 버그로 찌른 불법 공간인지(<a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault)"를 0.001초 만에 심판</strong>하는 가장 결정적인 판사 역할을 한다.
+> 3. **융합**: 거대한 4GB~수 TB의 가상 공간을 일일이 감시할 수 없으므로, <strong><a href="/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a>)</strong>라는 고성능 소프트웨어 자료구조와 융합되어 주소 검색 속도를 $O(\log N)$으로 쥐어짜 내어 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 방어한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 32비트 컴퓨터에서 프로세스는 0부터 4GB까지의 광활한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간을 받는다. 하지만 10MB짜리 엑셀 프로그램이 그 4GB를 다 쓸 리가 없다. 엑셀은 코드 영역 5MB, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역 2MB, 힙 영역 3MB 등 듬성듬성(Sparse) '특정 구역'들만 차지하고 있다. 이 <strong>"현재 이 프로세스가 4GB 중 어디어디에 텐트(영역)를 치고 있는가?"</strong>를 기록해 둔 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 하나하나가 바로 VMA(`vm_area_struct`)다.
-- **필요성**: CPU([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 가상 주소를 찔렀는데 하필 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 `I(Invalid, 무효)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 찍혀있어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 터졌다고 치자. MMU는 이게 디스크에 숨겨둔 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), 해커가 엉뚱한 남의 땅을 찌른 건지(SegFault) 구별할 지능이 없다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 넘겨받고 누군가에게 물어봐야 한다. "야! 저놈이 지금 1000번지 찔렀는데, 내가 쟤한테 1000번지 쓰라고 허락해 준 적 있어?" 이 대답을 해줄 유일한 장부, 즉 프로세스의 <strong>'<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 합법적 소유권 대장'</strong>이 절대적으로 필요했다. 그것이 VMA다.
+- **개념**: 32비트 컴퓨터에서 프로세스는 0부터 4GB까지의 광활한 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간을 받는다. 하지만 10MB짜리 엑셀 프로그램이 그 4GB를 다 쓸 리가 없다. 엑셀은 코드 영역 5MB, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 영역 2MB, 힙 영역 3MB 등 듬성듬성(Sparse) '특정 구역'들만 차지하고 있다. 이 <strong>"현재 이 프로세스가 4GB 중 어디어디에 텐트(영역)를 치고 있는가?"</strong>를 기록해 둔 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록 하나하나가 바로 VMA(`vm_area_struct`)다.
+- **필요성**: CPU([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))가 가상 주소를 찔렀는데 하필 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 `I(Invalid, 무효)` [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 찍혀있어 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 터졌다고 치자. MMU는 이게 디스크에 숨겨둔 정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), 해커가 엉뚱한 남의 땅을 찌른 건지(SegFault) 구별할 지능이 없다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 넘겨받고 누군가에게 물어봐야 한다. "야! 저놈이 지금 1000번지 찔렀는데, 내가 쟤한테 1000번지 쓰라고 허락해 준 적 있어?" 이 대답을 해줄 유일한 장부, 즉 프로세스의 <strong>'<a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a> 합법적 소유권 대장'</strong>이 절대적으로 필요했다. 그것이 VMA다.
 
 - **등장 배경 및 성긴(Sparse) 주소 공간의 관리**:
   1. **가상 주소의 뻥튀기**: 64비트 시대가 오며 가상 주소가 테라바이트 급으로 넓어졌으나, 실사용은 찔끔찔끔 흩어져 있었다.
-  2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 장부의 불가능성</strong>: 빈 곳이 99%인 4GB 전체를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 감시하는 건 램 낭비다.
-  3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 노드의 도입</strong>: "딱 진짜로 쓰는 구역(Area)들만 시작 주소와 끝 주소를 객체(VMA)로 묶어서 포인터로 줄줄이 연결해 놓자!"는 소프트웨어적 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기법 도입.
+  2. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a> 장부의 불가능성</strong>: 빈 곳이 99%인 4GB 전체를 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 감시하는 건 램 낭비다.
+  3. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 노드의 도입</strong>: "딱 진짜로 쓰는 구역(Area)들만 시작 주소와 끝 주소를 객체(VMA)로 묶어서 포인터로 줄줄이 연결해 놓자!"는 소프트웨어적 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 기법 도입.
 
 ```text
 +----------------------------------------------------------------------+
@@ -53,9 +50,9 @@ tags = ["studynote-operating-system"]
 | -> 합법적 땅이 아니므로 Segmentation Fault 즉시 발사! ☠️             |
 +----------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** VMA는 철저한 '가상 주소(Virtual)' 기반의 장부다. 물리 램(RAM)에 방이 있든 디스크 스왑에 있든 VMA와는 전혀 상관없다. VMA의 유일한 목적은 <strong>"프로그래머가 OS에게 <code>malloc</code>이나 <code>mmap</code>으로 합법적으로 빌린 적이 있는 땅인가?"</strong>를 증명하는 논리적 권리증명서 역할뿐이다. 이 권리가 증명되어야만 비로소 OS는 디스크를 긁든 0을 채우든 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 작업을 시작한다.
+**[다이어그램 해설]** VMA는 철저한 '가상 주소(Virtual)' 기반의 장부다. 물리 램(RAM)에 방이 있든 디스크 스왑에 있든 VMA와는 전혀 상관없다. VMA의 유일한 목적은 <strong>"프로그래머가 OS에게 <code>malloc</code>이나 <code>mmap</code>으로 합법적으로 빌린 적이 있는 땅인가?"</strong>를 증명하는 논리적 권리증명서 역할뿐이다. 이 권리가 증명되어야만 비로소 OS는 디스크를 긁든 0을 채우든 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 작업을 시작한다.
 
-- **📢 섹션 요약 비유**: 건물([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 전체의 평면도가 아닙니다. 내가 건물주(OS)와 계약을 맺고 정식으로 월세를 내고 쓰는 101호(코드), 205호(힙), 308호([스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 방들만의 '계약서 묶음(VMA 리스트)'입니다. 경찰이 도둑을 잡을 때 이 계약서 묶음을 보고 내가 합법적으로 쓰는 방인지 허공의 빈방인지 판단하는 1차 관문입니다.
+- **📢 섹션 요약 비유**: 건물([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 전체의 평면도가 아닙니다. 내가 건물주(OS)와 계약을 맺고 정식으로 월세를 내고 쓰는 101호(코드), 205호(힙), 308호([스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) 방들만의 '계약서 묶음(VMA 리스트)'입니다. 경찰이 도둑을 잡을 때 이 계약서 묶음을 보고 내가 합법적으로 쓰는 방인지 허공의 빈방인지 판단하는 1차 관문입니다.
 
 ---
 
@@ -63,17 +60,17 @@ tags = ["studynote-operating-system"]
 
 ### `vm_area_struct` 의 내부 해부
 
-리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드(C언어)에서 VMA를 정의하는 구조체를 뜯어보면 핵심 철학이 보인다.
+리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스코드(C언어)에서 VMA를 정의하는 구조체를 뜯어보면 핵심 철학이 보인다.
 - `vm_start`: 구역의 시작 가상 주소
 - `vm_end`: 구역의 끝 가상 주소
 - `vm_page_prot`: 이 구역 전체에 적용되는 접근 권한 (Read, Write, Execute).
-- `vm_file`: 이 구역이 하드디스크의 어떤 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `mmap("data.txt")`)과 연결되어 있는지 가리키는 포인터. ([익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)/힙이면 NULL).
+- `vm_file`: 이 구역이 하드디스크의 어떤 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `mmap("data.txt")`)과 연결되어 있는지 가리키는 포인터. ([익명 메모리](/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)/힙이면 NULL).
 
 ---
 
-### [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리의 최종 판사 로직 (VMA 탐색)
+### [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리의 최종 판사 로직 (VMA 탐색)
 
-MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'를 밟고 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 터뜨렸을 때 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 벌이는 소름 돋는 분기 로직이다.
+MMU가 'I [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)'를 밟고 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 터뜨렸을 때 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 벌이는 소름 돋는 분기 로직이다.
 
 ```text
 +-------------------------------------------------------------------------+
@@ -104,25 +101,25 @@ MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_re
 +-------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** VMA는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 성곽의 가장 튼튼한 <strong>여권 심사대</strong>다. 하드웨어([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))는 멍청하게 "램에 없다!"고 비상벨만 울리지만, VMA 장부를 든 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심사관이 나와서 1) 네 땅이 맞냐?(Range Check), 2) 권한은 있냐?([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Check) 두 가지를 깐깐하게 심사한 뒤에야 진짜 물리 램 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루틴으로 넘겨주는 2중 안전장치의 표본이다.
+**[다이어그램 해설]** VMA는 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 성곽의 가장 튼튼한 <strong>여권 심사대</strong>다. 하드웨어([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))는 멍청하게 "램에 없다!"고 비상벨만 울리지만, VMA 장부를 든 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 심사관이 나와서 1) 네 땅이 맞냐?(Range Check), 2) 권한은 있냐?([Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Check) 두 가지를 깐깐하게 심사한 뒤에야 진짜 물리 램 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 루틴으로 넘겨주는 2중 안전장치의 표본이다.
 
-- **📢 섹션 요약 비유**: 클럽([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 문 앞에서 가드([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/))가 "너 팔찌 없네! 멈춰!" 하고 멱살을 잡습니다. 억울한 손님이 "나 룸(VMA) 예약했어!"라고 우기면, 매니저(OS)가 룸 예약 장부(VMA 리스트)를 쫙 훑어봅니다. 장부에 이름이 없으면 밖으로 내동댕이치고(SegFault), 장부에 이름이 있고 술 마실 나이(권한 통과)면 그제야 손목에 새 팔찌(램 프레임)를 채워 들여보내 주는([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 깐깐한 입장 절차입니다.
+- **📢 섹션 요약 비유**: 클럽([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 문 앞에서 가드([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/))가 "너 팔찌 없네! 멈춰!" 하고 멱살을 잡습니다. 억울한 손님이 "나 룸(VMA) 예약했어!"라고 우기면, 매니저(OS)가 룸 예약 장부(VMA 리스트)를 쫙 훑어봅니다. 장부에 이름이 없으면 밖으로 내동댕이치고(SegFault), 장부에 이름이 있고 술 마실 나이(권한 통과)면 그제야 손목에 새 팔찌(램 프레임)를 채워 들여보내 주는([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 깐깐한 입장 절차입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 맹점과 한계: $O(N)$ [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 절망과 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(R-B Tree)의 투입
+### 맹점과 한계: $O(N)$ [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)의 절망과 [레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(R-B Tree)의 투입
 
-- [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스는 이 VMA 객체들을 단순한 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>)</strong>로 줄줄이 엮어 놓았다.
-- 하지만 크롬 브라우저처럼 거대한 앱은 `mmap`으로 수천 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 라이브러리를 끌어다 쓰면서 <strong>VMA 객체가 1만 개</strong>를 훌쩍 넘어갔다.
-- 폴트가 터질 때마다 이 1만 개의 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 $O(N)$으로 처음부터 끝까지 훑어서 "네 땅 맞냐?"고 검사하는 데에만 엄청난 CPU 사이클이 버려져 서버 렉이 터졌다.
+- [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 리눅스는 이 VMA 객체들을 단순한 <strong><a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">Linked List</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a>)</strong>로 줄줄이 엮어 놓았다.
+- 하지만 크롬 브라우저처럼 거대한 앱은 `mmap`으로 수천 개의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)과 라이브러리를 끌어다 쓰면서 <strong>VMA 객체가 1만 개</strong>를 훌쩍 넘어갔다.
+- 폴트가 터질 때마다 이 1만 개의 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 $O(N)$으로 처음부터 끝까지 훑어서 "네 땅 맞냐?"고 검사하는 데에만 엄청난 CPU 사이클이 버려져 서버 렉이 터졌다.
 
-| 자료 구조 | 탐색 속도 (VMA 검사) | 삽입/삭제 속도 (malloc 시) | 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 채택 |
+| 자료 구조 | 탐색 속도 (VMA 검사) | 삽입/삭제 속도 (malloc 시) | 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 채택 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> (List)</strong> | $O(N)$ (너무 느림, [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) 주범) | $O(1)$ (빠름) | 과거의 잔재 (보조용으로만 씀) |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (Hash)</strong> | $O(1)$ (빠름) | 주소의 연속성(Range) 검색 불가 | 주소 범위(`start~end`) 검사가 생명이라 기각됨 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a> (R-B Tree)</strong>| **$O(\log N)$ (압도적 밸런스)**| $O(\log N)$ (균형 맞춤) | **🟢 현대 리눅스 VMA의 абсолют 표준 핵심 뼈대** |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> (List)</strong> | $O(N)$ (너무 느림, [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) 주범) | $O(1)$ (빠름) | 과거의 잔재 (보조용으로만 씀) |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (Hash)</strong> | $O(1)$ (빠름) | 주소의 연속성(Range) 검색 불가 | 주소 범위(`start~end`) 검사가 생명이라 기각됨 |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/">레드-블랙 트리</a> (R-B Tree)</strong>| **$O(\log N)$ (압도적 밸런스)**| $O(\log N)$ (균형 맞춤) | **🟢 현대 리눅스 VMA의 абсолют 표준 핵심 뼈대** |
 
 ```text
 +----------+------------+------------+----------------------------+
@@ -132,9 +129,9 @@ MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_re
 | 10,000개  | 10,000번 렉 ☠️| **13번 비교 🚀**| 우주적인 성능 격차|
 +----------+------------+------------+----------------------------+
 ```
-**[매트릭스 해설]** 가상 주소 검사는 `addr` 값이 특정 `start ~ end` 범위(Range) 안에 들어가는지를 묻는 구간 탐색이므로 해시맵을 쓸 수 없다. 따라서 트리가 양쪽으로 쏠리지 않게 밸런스를 기가 막히게 맞춰주는 [이진 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리인 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a></strong>가 구원투수로 등판했다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 뜯어보면 VMA 구조체 안에 `rb_node`라는 변수가 박혀있는 이유가 바로 1만 개의 텐트 지도를 13번 만에 뒤지기 위한 지독한 최적화의 흔적이다.
+**[매트릭스 해설]** 가상 주소 검사는 `addr` 값이 특정 `start ~ end` 범위(Range) 안에 들어가는지를 묻는 구간 탐색이므로 해시맵을 쓸 수 없다. 따라서 트리가 양쪽으로 쏠리지 않게 밸런스를 기가 막히게 맞춰주는 [이진 탐색](/studynote/08_algorithm_stats/03_graph_search/031_binary_search_algorithm/) 트리인 <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/">Red-Black Tree</a></strong>가 구원투수로 등판했다. 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 뜯어보면 VMA 구조체 안에 `rb_node`라는 변수가 박혀있는 이유가 바로 1만 개의 텐트 지도를 13번 만에 뒤지기 위한 지독한 최적화의 흔적이다.
 
-- **📢 섹션 요약 비유**: 아파트 1만 세대의 호수를 찾을 때, 101호부터 10000호까지 걸어가며 문패를 다 쳐다보는 짓([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))을 하다 택배 기사가 쓰러졌습니다. 그래서 관리사무소에 '업/다운' 스무고개 놀이처럼 딱 13번만 반씩 쪼개 물어보면 무조건 정답 호수가 나오는 마법의 전화기([레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/))를 설치해 배송 속도를 수천 배 끌어올린 혁신입니다.
+- **📢 섹션 요약 비유**: 아파트 1만 세대의 호수를 찾을 때, 101호부터 10000호까지 걸어가며 문패를 다 쳐다보는 짓([연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/))을 하다 택배 기사가 쓰러졌습니다. 그래서 관리사무소에 '업/다운' 스무고개 놀이처럼 딱 13번만 반씩 쪼개 물어보면 무조건 정답 호수가 나오는 마법의 전화기([레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/))를 설치해 배송 속도를 수천 배 끌어올린 혁신입니다.
 
 ---
 
@@ -144,16 +141,16 @@ MMU가 'I [비트](/knowledge-base/studynote/01_computer_architecture/02_data_re
 1. **문제 상황**: 개발자가 C언어의 반복문(for) 안에서 `malloc(4KB)`를 1000번 호출했다.
 2. **최악의 시나리오 (VMA 폭발)**:
    - 원칙대로라면 OS는 4KB짜리 VMA 텐트 객체를 1000개나 만들어서 R-B Tree에 매달아야 한다. 트리가 쓸데없이 무거워진다.
-3. <strong>리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 VMA Merge (병합 흑마술)</strong>:
+3. <strong>리눅스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 VMA Merge (병합 흑마술)</strong>:
    - 똑똑한 리눅스 메모리 매니저는 1000개의 텐트를 치지 않는다.
    - 방금 내가 `0x1000 ~ 0x2000` (4KB) 땅을 VMA로 파줬는데, 바로 다음 순간 `0x2000 ~ 0x3000` 땅을 달라고 요청이 들어오면?
-   - "어차피 둘 다 권한(R/W)도 똑같은 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역이고 주소도 완벽히 붙어있네?"
+   - "어차피 둘 다 권한(R/W)도 똑같은 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 영역이고 주소도 완벽히 붙어있네?"
    - 기존 VMA 객체의 <strong><code>vm_end</code> 값만 0x2000에서 0x3000으로 쓱 고쳐 써버리고 (병합, Merge)</strong>, 새로운 VMA 객체는 아예 생성조차 하지 않는다!
    - 즉, 1000번의 `malloc`을 때려도 VMA 객체는 단 1개만 존재하며 크기만 쭉쭉 늘어나는 마법 같은 다이어트(최적화)가 실시간으로 일어난다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 파편화된 [mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 남발의 재앙 (Max VMA 한계 돌파)
-Java나 Python 기반의 괴물 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파싱 앱이 `mmap()`으로 권한이 섞인 4KB짜리 수만 개의 쪼가리 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 매핑해 댄다. 권한이 다르거나 주소가 안 붙어 있으면 VMA 병합(Merge)이 실패하여 VMA 객체가 수십만 개로 쪼개진다.
-리눅스는 서버 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 프로세스 1개당 생성할 수 있는 VMA 개수의 상한선(`vm.max_map_count`, 기본값 65530)을 그어놨다. 이 한계선을 뚫는 순간 더 이상 텐트를 못 치고 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)도 아닌 쌩뚱맞은 "Cannot allocate memory" 에러를 뱉으며 앱이 즉사</strong>한다. [ElasticSearch](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 같은 빅데이터 엔진을 깔 때 1순위로 `max_map_count` 값을 262144로 왕창 늘려줘야([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 튜닝) 하는 이유가 바로 이 VMA 텐트 개수의 폭발 때문이다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 파편화된 [mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/) 남발의 재앙 (Max VMA 한계 돌파)
+Java나 Python 기반의 괴물 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파싱 앱이 `mmap()`으로 권한이 섞인 4KB짜리 수만 개의 쪼가리 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)들을 매핑해 댄다. 권한이 다르거나 주소가 안 붙어 있으면 VMA 병합(Merge)이 실패하여 VMA 객체가 수십만 개로 쪼개진다.
+리눅스는 서버 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 프로세스 1개당 생성할 수 있는 VMA 개수의 상한선(`vm.max_map_count`, 기본값 65530)을 그어놨다. 이 한계선을 뚫는 순간 더 이상 텐트를 못 치고 <strong><a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a>(<a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">Out Of Memory</a>)도 아닌 쌩뚱맞은 "Cannot allocate memory" 에러를 뱉으며 앱이 즉사</strong>한다. [ElasticSearch](/studynote/05_database/05_distributed_nosql_newsql/302_cdc/) 같은 빅데이터 엔진을 깔 때 1순위로 `max_map_count` 값을 262144로 왕창 늘려줘야([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 파라미터 튜닝) 하는 이유가 바로 이 VMA 텐트 개수의 폭발 때문이다.
 
 - **📢 섹션 요약 비유**: 옆집 땅을 사서 마당을 넓힐 때, 굳이 번지수 2개를 따로 유지하며 서류(VMA)를 2장 들고 있을 필요가 없습니다. 구청(OS)에 가서 번지수 합병을 신청해 '큰 땅 1개의 서류'로 합쳐버리는 게 세금(검색 오버헤드)을 아끼는 현명한 꼼수(VMA Merge)입니다.
 
@@ -165,15 +162,15 @@ Java나 Python 기반의 괴물 같은 [데이터](/knowledge-base/studynote/05_
 
 | 구분 | 내용 |
 |:---|:---|
-| **[메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) $O(\log N)$ 최적화** | [Red-Black Tree](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 도입을 통해, 가상 공간을 찌르는 수백만 번의 폴트가 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)으로 터지더라도 즉각 합법/불법 판정을 내려 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Allocation의 든든한 뼈대</strong> | 진짜 램(RAM)을 주지 않고도 VMA 장부의 `end` 크기만 슬쩍 늘려줌으로써, "메모리 줬다"고 뻥을 치는(Overcommit) [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 철학을 기술적으로 완성 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> I/O와 메모리의 완벽한 융합</strong>| VMA 안에 `vm_file` 포인터를 품게 하여, `mmap`된 가상 주소를 찌르면 1초 만에 디스크의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 섹터로 다이렉트 점프하는 고속도로 개통 |
+| **[메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) $O(\log N)$ 최적화** | [Red-Black Tree](/studynote/02_operating_system/03_cpu_scheduling/204_red_black_tree_cfs/) 도입을 통해, 가상 공간을 찌르는 수백만 번의 폴트가 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)으로 터지더라도 즉각 합법/불법 판정을 내려 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| <strong><a href="/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a> Allocation의 든든한 뼈대</strong> | 진짜 램(RAM)을 주지 않고도 VMA 장부의 `end` 크기만 슬쩍 늘려줌으로써, "메모리 줬다"고 뻥을 치는(Overcommit) [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 철학을 기술적으로 완성 |
+| <strong><a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> I/O와 메모리의 완벽한 융합</strong>| VMA 안에 `vm_file` 포인터를 품게 하여, `mmap`된 가상 주소를 찌르면 1초 만에 디스크의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 섹터로 다이렉트 점프하는 고속도로 개통 |
 
 ### 결론 및 미래 전망
 
-VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체는 인간이 상상한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))라는 환상의 우주를, 무자비한 기계어의 세계 속에 구체적이고 체계적인 블록으로 실체화한 위대한 건축 도면이다. 0과 1이 난무하는 혼돈의 빈 공간 속에서, 오직 VMA라는 논리적 텐트(Area)가 쳐진 곳만이 의미 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성역으로 인정받는다. 비록 VMA가 수만 개로 쪼개질 때 발생하는 관리 오버헤드와 락(mmap_sem) 경합 병목이 현대 128코어 서버의 발목을 잡고 있지만, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진영은 이를 해결하기 위해 최근 VMA 관리를 '메이플 트리(Maple Tree)'라는 차세대 고성능 자료구조로 갈아엎는 대공사를 단행하며 이 도면을 끝없이 진화시키고 있다. VMA는 프로세스가 꿀 수 있는 꿈(메모리)의 한계선을 정의하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 영원한 설계도로 남을 것이다.
+VMA ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체는 인간이 상상한 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))라는 환상의 우주를, 무자비한 기계어의 세계 속에 구체적이고 체계적인 블록으로 실체화한 위대한 건축 도면이다. 0과 1이 난무하는 혼돈의 빈 공간 속에서, 오직 VMA라는 논리적 텐트(Area)가 쳐진 곳만이 의미 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성역으로 인정받는다. 비록 VMA가 수만 개로 쪼개질 때 발생하는 관리 오버헤드와 락(mmap_sem) 경합 병목이 현대 128코어 서버의 발목을 잡고 있지만, 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 진영은 이를 해결하기 위해 최근 VMA 관리를 '메이플 트리(Maple Tree)'라는 차세대 고성능 자료구조로 갈아엎는 대공사를 단행하며 이 도면을 끝없이 진화시키고 있다. VMA는 프로세스가 꿀 수 있는 꿈(메모리)의 한계선을 정의하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 영원한 설계도로 남을 것이다.
 
-- **📢 섹션 요약 비유**: 지구([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 4GB)는 둥글고 넓지만 인간이 실제로 집(VMA)을 짓고 사는 곳은 육지의 1%에 불과합니다. 외계인(CPU)이 지구에 레이저를 쐈을 때, 그것이 사람 사는 집 지붕에 맞은 건지 허허벌판 사막에 맞은 건지 1초 만에 알려주는 전 세계 주소록(VMA 트리)이야말로 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리의 가장 핵심적인 등기부등본입니다.
+- **📢 섹션 요약 비유**: 지구([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 4GB)는 둥글고 넓지만 인간이 실제로 집(VMA)을 짓고 사는 곳은 육지의 1%에 불과합니다. 외계인(CPU)이 지구에 레이저를 쐈을 때, 그것이 사람 사는 집 지붕에 맞은 건지 허허벌판 사막에 맞은 건지 1초 만에 알려주는 전 세계 주소록(VMA 트리)이야말로 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리의 가장 핵심적인 등기부등본입니다.
 
 ---
 
@@ -181,10 +178,10 @@ VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_m
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 캐시 친화적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [마이너 페이지 폴트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ([Minor Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/)) vs 메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (Major [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) / 디스크 I/O 동반) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [수요 페이지 제로화](/knowledge-base/studynote/02_operating_system/07_virtual_memory/430_demand_zero_paging/) ([Demand Zero Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/430_demand_zero_paging/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 캐시 친화적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [마이너 페이지 폴트](/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ([Minor Page Fault](/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/)) vs 메이저 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (Major [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) / 디스크 I/O 동반) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [수요 페이지 제로화](/studynote/02_operating_system/07_virtual_memory/430_demand_zero_paging/) ([Demand Zero Paging](/studynote/02_operating_system/07_virtual_memory/430_demand_zero_paging/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -202,9 +199,9 @@ VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_m
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 캐시 친화적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치을 이해하면 VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)을 잘 알면 나중에 [마이너 페이지 폴트](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ([Minor Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/)) vs 메이저 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (Major [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) / 디스크 I/O 동반)도 훨씬 쉽게 배울 수 있어요.
+1. VMA ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 캐시 친화적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 관리 배치을 이해하면 VMA ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 VMA ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) Area) 구조체 (리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 프로세스 주소 공간 매핑)을 잘 알면 나중에 [마이너 페이지 폴트](/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ([Minor Page Fault](/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/)) vs 메이저 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) (Major [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) / 디스크 I/O 동반)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -212,7 +209,7 @@ VMA ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_m
 
 **진행 상황**: 428 / 800
 
-<- **이전**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/)
-**다음**: [429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O](/knowledge-base/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ->
+<- **이전**: [427. 캐시 친화적 가상 메모리 관리 배치 (Cache Friendly Virtual Memory)](/studynote/02_operating_system/07_virtual_memory/427_cache_friendly_virtual_memory/)
+**다음**: [429. 마이너 페이지 폴트 (Minor Page Fault) vs 메이저 페이지 폴트 (Major Page Fault / 디스크 I/O](/studynote/02_operating_system/07_virtual_memory/429_minor_vs_major_page_fault/) ->
 
 ---

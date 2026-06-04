@@ -1,13 +1,10 @@
-+++
-title = "415. BPM 프로세스 관리 BPMN 모델링 (BPM Process Management BPMN Modeling)"
-date = 2026-05-09
+---
+title: "415. BPM 프로세스 관리 BPMN 모델링 (BPM Process Management BPMN Modeling)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 415 / 800
 
-<- **이전**: [414. ArchiMate 아키텍처 모델링 언어](/knowledge-base/studynote/12_it_management/05_security_compliance/414_archimate_architecture_modeling_language/)
-**다음**: [416. IT 서비스 카탈로그 셀프서비스 포탈](/knowledge-base/studynote/12_it_management/05_security_compliance/416_it_service_catalog_self_service_portal/) ->
+<- **이전**: [414. ArchiMate 아키텍처 모델링 언어](/studynote/12_it_management/05_security_compliance/414_archimate_architecture_modeling_language/)
+**다음**: [416. IT 서비스 카탈로그 셀프서비스 포탈](/studynote/12_it_management/05_security_compliance/416_it_service_catalog_self_service_portal/) ->
 
 ---

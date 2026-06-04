@@ -1,9 +1,9 @@
-+++
-title = "01. 전사 전략 및 엔터프라이즈 거버넌스"
+---
+title: "01. 전사 전략 및 엔터프라이즈 거버넌스"
+tags:
+  - "enterprise_systems"
+---
 
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

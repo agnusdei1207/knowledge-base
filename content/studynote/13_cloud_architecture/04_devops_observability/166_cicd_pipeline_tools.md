@@ -1,24 +1,21 @@
-+++
-title = "166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)"
-date = 2026-03-04
+---
+title: "166. CI/CD 파이프라인 도구 (Jenkins, GitLab CI, GitHub Actions)"
+date: "2026-03-04"
+tags:
+  - "studynote-cloud"
+---
 
-[taxonomies]
-tags = ["studynote-cloud"]
-
-[extra]
-tags = ["studynote-cloud"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-- [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 생애주기(Build-Test-Deploy)를 자동화하는 핵심 소프트웨어 솔루션임.
-- [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)), 저장소 통합형(GitLab), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)(GitHub Actions) 등 다양한 유형이 존재함.
-- "[Pipeline as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/)"를 통해 배포 절차를 코드로 관리하여 형상 관리와 재사용성을 극대화함.
+- [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 생애주기(Build-Test-Deploy)를 자동화하는 핵심 소프트웨어 솔루션임.
+- [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)([Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)), 저장소 통합형(GitLab), [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)(GitHub Actions) 등 다양한 유형이 존재함.
+- "[Pipeline as Code](/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/)"를 통해 배포 절차를 코드로 관리하여 형상 관리와 재사용성을 극대화함.
 
-### Ⅰ. 개요 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
-수동으로 빌드하고 FTP로 배포하던 시대는 끝났다. 현대의 클라우드 개발 환경에서는 변경된 코드가 저장소에 들어오는 순간부터 운영 환경에 반영되기까지의 일련의 과정을 정교하게 오케스트레이션해야 한다. <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인 도구</strong>는 이러한 복잡한 워크플로우를 자동화하고 시각화하여, 개발 팀이 빠르고 안정적으로 소프트웨어를 릴리스할 수 있도록 돕는 데 필수적인 역할을 한다.
+### Ⅰ. 개요 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Background)
+수동으로 빌드하고 FTP로 배포하던 시대는 끝났다. 현대의 클라우드 개발 환경에서는 변경된 코드가 저장소에 들어오는 순간부터 운영 환경에 반영되기까지의 일련의 과정을 정교하게 오케스트레이션해야 한다. <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 파이프라인 도구</strong>는 이러한 복잡한 워크플로우를 자동화하고 시각화하여, 개발 팀이 빠르고 안정적으로 소프트웨어를 릴리스할 수 있도록 돕는 데 필수적인 역할을 한다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구는 중앙 제어(Controller/Master)와 실제 작업을 수행하는 실행기(Agent/Runner) 구조로 이루어진다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구는 중앙 제어(Controller/Master)와 실제 작업을 수행하는 실행기(Agent/Runner) 구조로 이루어진다.
 
 ```text
 [ Developer ] --(Push)--> [ Source Repo (Git) ]
@@ -37,33 +34,33 @@ tags = ["studynote-cloud"]
 +----------------------+   +----------------------+
 ```
 
-1. **Trigger**: Git Push, [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 일정 예약(Schedule) 등 특정 이벤트가 발생하면 파이프라인이 시작된다.
-2. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차를 `Jenkinsfile`, `.gitlab-ci.yml`, `action.yml` 등 코드로 작성하여 형상 관리한다.
-3. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a></strong>: 빌드 결과물(Jar, [Docker Image](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 등)을 저장소(Nexus, ECR)에 안전하게 보관하고 다음 단계로 전달한다.
+1. **Trigger**: Git Push, [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 일정 예약(Schedule) 등 특정 이벤트가 발생하면 파이프라인이 시작된다.
+2. <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차를 `Jenkinsfile`, `.gitlab-ci.yml`, `action.yml` 등 코드로 작성하여 형상 관리한다.
+3. <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/">Artifact</a> <a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a></strong>: 빌드 결과물(Jar, [Docker Image](/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/) 등)을 저장소(Nexus, ECR)에 안전하게 보관하고 다음 단계로 전달한다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-| 비교 도구 | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ([젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) | GitLab [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | GitHub Actions |
+| 비교 도구 | [Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/) ([젠킨스](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)) | GitLab [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD | GitHub Actions |
 | :--- | :--- | :--- | :--- |
-| **유형** | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) (전통적 강자) | 통합형 (코드+[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) | 클라우드 서비스형 (GitHub 통합) |
-| **강점** | 수만 개의 플러그인, 자유로운 커스터마이징 | 단일 플랫폼 내의 끊김 없는 워크플로우 | 마켓플레이스를 통한 공유 재사용, [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 실행기 |
-| **관리 부담** | 직접 서버 구축 및 유지보수 필요 | 보통 혹은 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 활용 시 낮음 | 매우 낮음 (완전 관리형 가능) |
-| **적정 규모** | 복잡한 레거시가 섞인 엔터프라이즈 | 올인원 도구를 선호하는 조직 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 스타트업 |
+| **유형** | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) (전통적 강자) | 통합형 (코드+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) | 클라우드 서비스형 (GitHub 통합) |
+| **강점** | 수만 개의 플러그인, 자유로운 커스터마이징 | 단일 플랫폼 내의 끊김 없는 워크플로우 | 마켓플레이스를 통한 공유 재사용, [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) 실행기 |
+| **관리 부담** | 직접 서버 구축 및 유지보수 필요 | 보통 혹은 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 활용 시 낮음 | 매우 낮음 (완전 관리형 가능) |
+| **적정 규모** | 복잡한 레거시가 섞인 엔터프라이즈 | 올인원 도구를 선호하는 조직 | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 프로젝트, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 스타트업 |
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
-- **적용 시점**: 프로젝트의 규모와 상관없이 형상 관리를 시작하는 시점부터 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구를 도입하여 자동화된 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 구축해야 한다.
-- **기술사적 판단**: 도구의 선택보다 중요한 것은 <strong>"벤더 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)"</strong>과 <strong>"보안(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/906_secret_management/">Secret Management</a>)"</strong>이다. 파이프라인 코드에 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 패스워드가 노출되지 않도록 전용 [Vault](/knowledge-base/studynote/09_security/11_iam_access_control/567_vault/) 서비스를 연동해야 하며, 환경이 바뀌어도 쉽게 이식할 수 있도록 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 기반의 배포 스크립트를 표준화하는 것이 권장된다.
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+- **적용 시점**: 프로젝트의 규모와 상관없이 형상 관리를 시작하는 시점부터 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구를 도입하여 자동화된 품질 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계를 구축해야 한다.
+- **기술사적 판단**: 도구의 선택보다 중요한 것은 <strong>"벤더 <a href="/studynote/15_devops_sre/01_culture_methodology/008_dependencies/">종속성</a>(<a href="/studynote/12_it_management/05_security_compliance/362_lock_in_portability/">Lock-in</a>)"</strong>과 <strong>"보안(<a href="/studynote/04_software_engineering/11_testing_validation/906_secret_management/">Secret Management</a>)"</strong>이다. 파이프라인 코드에 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 키나 패스워드가 노출되지 않도록 전용 [Vault](/studynote/09_security/11_iam_access_control/567_vault/) 서비스를 연동해야 하며, 환경이 바뀌어도 쉽게 이식할 수 있도록 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 기반의 배포 스크립트를 표준화하는 것이 권장된다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구는 개발자의 단순 반복 노동을 제거하고 고부가가치 업무에 집중하게 해준다. 이는 조직의 민첩성(Agility)을 높이는 가장 강력한 수단이다. 향후에는 테크톤(Tekton)과 같은 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 네이티브 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 솔루션이나, [GitOps](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구(ArgoCD)와 결합하여 인프라와 앱의 상태를 100% 동기화하는 방향으로 기술 표준이 강화될 것이다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구는 개발자의 단순 반복 노동을 제거하고 고부가가치 업무에 집중하게 해준다. 이는 조직의 민첩성(Agility)을 높이는 가장 강력한 수단이다. 향후에는 테크톤(Tekton)과 같은 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 네이티브 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 솔루션이나, [GitOps](/studynote/04_software_engineering/02_requirements_analysis/119_gitops_single_source_of_truth/) 도구(ArgoCD)와 결합하여 인프라와 앱의 상태를 100% 동기화하는 방향으로 기술 표준이 강화될 것이다.
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차의 코드화.
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/072_declarative_pipeline_jenkinsfile_as_code/">Pipeline as Code</a></strong>: 배포 절차의 코드화.
 - **Self-hosted Runner**: 보안상의 이유로 내부 망에 두는 실행기.
-- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/">Webhook</a></strong>: Git 저장소와 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구 간의 실시간 통신 매커니즘.
+- <strong><a href="/studynote/03_network/09_application_layer_web_email/498_webhook_rest_api_reverse_callback/">Webhook</a></strong>: Git 저장소와 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 도구 간의 실시간 통신 매커니즘.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-- 로봇 공장장님이 '장난감 만드는 기계'들을 관리하는 것과 같아요. ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD Tool)
+- 로봇 공장장님이 '장난감 만드는 기계'들을 관리하는 것과 같아요. ([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD Tool)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -87,7 +84,7 @@ GitOps: Git 단일 진실 소스 -> 자동 동기화
 
 **진행 상황**: 165 / 371
 
-<- **이전**: [165. 지속적 배포 (Continuous Deployment)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)
-**다음**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ->
+<- **이전**: [165. 지속적 배포 (Continuous Deployment)](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)
+**다음**: [167. 깃옵스 (GitOps) - 선언적 인프라 및 애플리케이션의 상태 동기화 패러다임](/studynote/13_cloud_architecture/04_devops_observability/167_gitops/) ->
 
 ---

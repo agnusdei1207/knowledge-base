@@ -1,13 +1,10 @@
-+++
-title = "411. IT 전략 수립 ISP BPR ISP 방법론 (IT Strategy Planning ISP BPR Methodology)"
-date = 2026-05-09
+---
+title: "411. IT 전략 수립 ISP BPR ISP 방법론 (IT Strategy Planning ISP BPR Methodology)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -104,7 +101,7 @@ ISP는 일반적으로 5단계로 구성되며, 각 단계는 정해진 산출�
 
 **진행 상황**: 411 / 800
 
-<- **이전**: [410. IT 거버넌스 프레임워크 COBIT 2019](/knowledge-base/studynote/12_it_management/05_security_compliance/410_it_governance_framework_cobit_2019/)
-**다음**: [412. EA 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/12_it_management/05_security_compliance/412_ea_enterprise_architecture_framework/) ->
+<- **이전**: [410. IT 거버넌스 프레임워크 COBIT 2019](/studynote/12_it_management/05_security_compliance/410_it_governance_framework_cobit_2019/)
+**다음**: [412. EA 엔터프라이즈 아키텍처 프레임워크](/studynote/12_it_management/05_security_compliance/412_ea_enterprise_architecture_framework/) ->
 
 ---

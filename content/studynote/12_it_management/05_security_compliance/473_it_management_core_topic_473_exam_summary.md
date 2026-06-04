@@ -1,13 +1,10 @@
-+++
-title = "473. IT 경영 관리 핵심 토픽 473번 시험 요약 (IT Management Core Topic 473 Exam Summary)"
-date = 2026-05-09
+---
+title: "473. IT 경영 관리 핵심 토픽 473번 시험 요약 (IT Management Core Topic 473 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 IT 경영 관리 핵심 토픽 473번 시험 요약 (IT Management Core Topic 473 Exam Summary)
 
@@ -147,7 +144,7 @@ IT 경영 관리 영역에서 자주 혼동되거나 비교되는 핵심 쌍(pai
 
 **진행 상황**: 473 / 800
 
-<- **이전**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/)
-**다음**: [474. IT 경영 관리 핵심 토픽 474번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/474_it_management_core_topic_474_exam_summary/) ->
+<- **이전**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/)
+**다음**: [474. IT 경영 관리 핵심 토픽 474번 시험 요약](/studynote/12_it_management/05_security_compliance/474_it_management_core_topic_474_exam_summary/) ->
 
 ---

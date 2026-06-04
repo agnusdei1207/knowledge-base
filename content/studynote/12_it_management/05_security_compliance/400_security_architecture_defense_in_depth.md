@@ -1,13 +1,10 @@
-+++
-title = "400. 보안 아키텍처 디자인 원칙 심층 방어 (Security Architecture Defense in Depth)"
-date = 2026-05-09
+---
+title: "400. 보안 아키텍처 디자인 원칙 심층 방어 (Security Architecture Defense in Depth)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ DiD의 수학적 근거는 **Defense in Depth = f(Layers, Independence, Coverage
 
 **진행 상황**: 400 / 800
 
-<- **이전**: [399. 사고 대응 IR 포렌식 분석 절차](/knowledge-base/studynote/12_it_management/05_security_compliance/399_incident_response_ir_forensics_analysis/)
-**다음**: [401. 보안 개발 생명주기 SDL 보안 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/401_security_development_lifecycle_sdl_coding/) ->
+<- **이전**: [399. 사고 대응 IR 포렌식 분석 절차](/studynote/12_it_management/05_security_compliance/399_incident_response_ir_forensics_analysis/)
+**다음**: [401. 보안 개발 생명주기 SDL 보안 코딩](/studynote/12_it_management/05_security_compliance/401_security_development_lifecycle_sdl_coding/) ->
 
 ---

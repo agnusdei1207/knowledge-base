@@ -1,13 +1,10 @@
-+++
-title = "677. 데이터 관측 가능성 이상 탐지 품질 (Data Observability Anomaly Quality Detection)"
-date = 2026-05-09
+---
+title: "677. 데이터 관측 가능성 이상 탐지 품질 (Data Observability Anomaly Quality Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -72,7 +69,7 @@ Monte Carlo Data(2019년 설립)가 이 시장을 개척했고, 현재는 **Gart
 
 **진행 상황**: 677 / 800
 
-<- **이전**: [676. 피처 스토어 ML 특성 관리 재사용](/knowledge-base/studynote/06_ict_convergence/uncategorized/676_feature_store_ml_feature_management_reuse/)
-**다음**: [678. 데이터 프라이버시 비식별화 동의 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/678_data_privacy_de_identification_consent/) ->
+<- **이전**: [676. 피처 스토어 ML 특성 관리 재사용](/studynote/06_ict_convergence/uncategorized/676_feature_store_ml_feature_management_reuse/)
+**다음**: [678. 데이터 프라이버시 비식별화 동의 관리](/studynote/06_ict_convergence/uncategorized/678_data_privacy_de_identification_consent/) ->
 
 ---

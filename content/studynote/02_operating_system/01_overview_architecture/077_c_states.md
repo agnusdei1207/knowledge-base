@@ -1,25 +1,22 @@
-+++
-title = "77. 프로세서 전원 상태 (C-States)"
-date = 2026-03-21
+---
+title: "77. 프로세서 전원 상태 (C-States)"
+date: "2026-03-21"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: C-states (CPU [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) States)는 CPU가 놀고 있을 때 전력을 줄이기 위한 유휴 상태다.
-> 2. **가치**: 깊은 C-state로 갈수록 전력과 발열은 줄지만, 깨어나는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 커진다.
-> 3. **판단 포인트**: 배터리 절약과 응답성은 같은 방향이 아니므로, 워크로드에 맞는 C-state [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다.
+> 1. **본질**: C-states (CPU [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) States)는 CPU가 놀고 있을 때 전력을 줄이기 위한 유휴 상태다.
+> 2. **가치**: 깊은 C-state로 갈수록 전력과 발열은 줄지만, 깨어나는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))은 커진다.
+> 3. **판단 포인트**: 배터리 절약과 응답성은 같은 방향이 아니므로, 워크로드에 맞는 C-state [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-CPU는 아무 일을 하지 않아도 전력을 소비한다. 모바일 기기에서는 배터리가 줄고, 서버에서는 발열과 전기요금이 늘어난다. [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 C-states는 이런 유휴 시간을 세밀하게 나눠 전력 낭비를 줄인다.
+CPU는 아무 일을 하지 않아도 전력을 소비한다. 모바일 기기에서는 배터리가 줄고, 서버에서는 발열과 전기요금이 늘어난다. [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface)가 정의한 C-states는 이런 유휴 시간을 세밀하게 나눠 전력 낭비를 줄인다.
 
-운영체제와 펌웨어는 현재 부하와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 패턴을 보고 CPU를 더 얕은 상태나 더 깊은 상태로 보낸다. 그래서 C-states는 단순 절전 기능이 아니라, 성능과 전력 사이의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택이다.
+운영체제와 펌웨어는 현재 부하와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 패턴을 보고 CPU를 더 얕은 상태나 더 깊은 상태로 보낸다. 그래서 C-states는 단순 절전 기능이 아니라, 성능과 전력 사이의 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 선택이다.
 
 📢 섹션 요약 비유: 사람이 졸 때도 얕게 졸지 깊게 자는지에 따라, 깨우는 데 걸리는 시간이 달라진다.
 
@@ -28,10 +25,10 @@ CPU는 아무 일을 하지 않아도 전력을 소비한다. 모바일 기기�
 ## Ⅱ. 아키텍처 및 핵심 원리
 C0는 실행 중 상태이고, C1은 아주 짧은 멈춤, C3는 캐시를 더 비우는 상태, C6/C10은 더 깊은 전원 차단에 가깝다. 깊어질수록 누설 전류를 줄일 수 있지만, 복귀할 때 더 많은 시간이 든다.
 
-| 상태 | 의미 | 전력 | 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| 상태 | 의미 | 전력 | 복귀 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 | :--- | :--- | :--- | :--- |
 | C0 | 실행 중 | 높음 | 0 |
-| C1 | 짧은 [halt](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/759_halt/) | 조금 낮음 | 매우 짧음 |
+| C1 | 짧은 [halt](/studynote/01_computer_architecture/15_advanced_topics/759_halt/) | 조금 낮음 | 매우 짧음 |
 | C3 | 더 깊은 유휴 | 낮음 | 중간 |
 | C6/C10 | 코어/패키지 전원 차단 수준 | 매우 낮음 | 큼 |
 
@@ -45,40 +42,40 @@ C0는 실행 중 상태이고, C1은 아주 짧은 멈춤, C3는 캐시를 더 �
                           +- wake latency 증가, 전력 감소
 ```
 
-깊은 상태는 전력에는 좋지만, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 자주 오는 서버나 실시간성 중요한 장치에서는 오히려 체감 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘릴 수 있다. 그래서 C-state는 "얼마나 오래 놀고 있을지"를 기준으로 선택된다.
+깊은 상태는 전력에는 좋지만, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 자주 오는 서버나 실시간성 중요한 장치에서는 오히려 체감 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 늘릴 수 있다. 그래서 C-state는 "얼마나 오래 놀고 있을지"를 기준으로 선택된다.
 
 📢 섹션 요약 비유: 얕은 낮잠은 금방 일어나지만 덜 쉬고, 깊은 잠은 푹 쉬지만 깨우기 어렵다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-C-states는 CPU가 "쉬는 방법"이고, [P-states](/knowledge-base/studynote/02_operating_system/01_overview_architecture/078_p_states/) ([Performance States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/))는 CPU가 "달리는 속도"를 바꾸는 방법이다. C-state는 전원 차단과 휴식에 가깝고, P-state는 주파수·[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절에 가깝다.
+C-states는 CPU가 "쉬는 방법"이고, [P-states](/studynote/02_operating_system/01_overview_architecture/078_p_states/) ([Performance States](/studynote/01_computer_architecture/15_advanced_topics/723_p_states/))는 CPU가 "달리는 속도"를 바꾸는 방법이다. C-state는 전원 차단과 휴식에 가깝고, P-state는 주파수·[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절에 가깝다.
 
-`sleep`이나 `hibernate` 같은 시스템 절전과도 다르다. C-state는 보통 더 짧은 유휴를 처리하는 반면, 시스템 절전은 장치 전체를 더 크게 멈춘다. 따라서 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 시스템 절전은 같은 절전처럼 보여도 계층이 다르다.
+`sleep`이나 `hibernate` 같은 시스템 절전과도 다르다. C-state는 보통 더 짧은 유휴를 처리하는 반면, 시스템 절전은 장치 전체를 더 크게 멈춘다. 따라서 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 시스템 절전은 같은 절전처럼 보여도 계층이 다르다.
 
 📢 섹션 요약 비유: 쉬는 것과 달리기 속도를 낮추는 것은 다르다. 같은 에너지 절약이라도 몸을 어디까지 멈추느냐가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-노트북은 배터리 효율을 위해 깊은 C-state를 활용하는 편이 유리하고, 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 중요한 DB 서버나 트레이딩 시스템은 얕은 C-state를 선호할 수 있다.
+노트북은 배터리 효율을 위해 깊은 C-state를 활용하는 편이 유리하고, 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 중요한 DB 서버나 트레이딩 시스템은 얕은 C-state를 선호할 수 있다.
 
 - 채택: 유휴 시간이 길고 평균 부하가 낮은 환경
-- 회피: tail latency가 중요하고 wake-up [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적인 환경
-- [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-  1. BIOS/UEFI와 OS [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 충돌하지 않는가?
-  2. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도가 많아 깊은 C-state 효용이 사라지지 않는가?
-  3. [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 게스트와 호스트 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 맞는가?
+- 회피: tail latency가 중요하고 wake-up [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 치명적인 환경
+- [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+  1. BIOS/UEFI와 OS [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 충돌하지 않는가?
+  2. [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도가 많아 깊은 C-state 효용이 사라지지 않는가?
+  3. [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 게스트와 호스트 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 맞는가?
   4. 전력 절감이 실제 운영 목표와 맞는가?
 
-C-state 튜닝은 "무조건 깊게"가 답이 아니다. 측정한 뒤 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 절감을 함께 봐야 한다.
+C-state 튜닝은 "무조건 깊게"가 답이 아니다. 측정한 뒤 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 전력 절감을 함께 봐야 한다.
 
 📢 섹션 요약 비유: 사람마다 낮잠 길이가 다르듯, 기계도 일찍 깨워야 할 때와 푹 재워도 될 때가 다르다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-적절한 C-state [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 배터리 시간을 늘리고, 발열과 소음을 줄이며, 서버의 전력 비용을 낮춘다. 하지만 응답성 요구가 큰 시스템에서는 오히려 체감 품질을 떨어뜨릴 수 있다. 결국 C-states는 "절전"이 아니라 "깨우는 비용까지 포함한 전력 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 기억해야 한다.
+적절한 C-state [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 배터리 시간을 늘리고, 발열과 소음을 줄이며, 서버의 전력 비용을 낮춘다. 하지만 응답성 요구가 큰 시스템에서는 오히려 체감 품질을 떨어뜨릴 수 있다. 결국 C-states는 "절전"이 아니라 "깨우는 비용까지 포함한 전력 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 기억해야 한다.
 
 📢 섹션 요약 비유: 깊은 잠은 몸에 좋지만, 중요한 전화가 올 때는 너무 깊이 자면 곤란하다.
 
@@ -86,11 +83,11 @@ C-state 튜닝은 "무조건 깊게"가 답이 아니다. 측정한 뒤 [지연]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) | 전원 상태 표준 |
+| [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) | 전원 상태 표준 |
 | C0~C10 | CPU 유휴 상태 단계 |
-| [P-states](/knowledge-base/studynote/02_operating_system/01_overview_architecture/078_p_states/) ([Performance States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/723_p_states/)) | 주파수/[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절 |
-| [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) | 성능-전력 조절 기법 |
-| wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | C-state 선택의 핵심 기준 |
+| [P-states](/studynote/02_operating_system/01_overview_architecture/078_p_states/) ([Performance States](/studynote/01_computer_architecture/15_advanced_topics/723_p_states/)) | 주파수/[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 조절 |
+| [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) | 성능-전력 조절 기법 |
+| wake [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | C-state 선택의 핵심 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +119,7 @@ C0 -> C1 -> C3 -> C6/C10
 
 **진행 상황**: 77 / 800
 
-<- **이전**: [76. 시스템 전원 상태 (S-States, S0~S5)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/076_s_states/)
-**다음**: [78. 프로세서 성능 상태 (P-States)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/078_p_states/) ->
+<- **이전**: [76. 시스템 전원 상태 (S-States, S0~S5)](/studynote/02_operating_system/01_overview_architecture/076_s_states/)
+**다음**: [78. 프로세서 성능 상태 (P-States)](/studynote/02_operating_system/01_overview_architecture/078_p_states/) ->
 
 ---

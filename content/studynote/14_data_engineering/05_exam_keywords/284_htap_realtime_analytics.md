@@ -1,13 +1,10 @@
-+++
-title = "284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)"
-date = 2026-05-09
+---
+title: "284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -64,7 +61,7 @@ SAP HANA는 **컬럼너 + 로우 스토어를 메모
 
 **진행 상황**: 284 / 300
 
-<- **이전**: [283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/283_dw_modernization/)
-**다음**: [285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/285_multimodal_data/) ->
+<- **이전**: [283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)](/studynote/14_data_engineering/05_exam_keywords/283_dw_modernization/)
+**다음**: [285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)](/studynote/14_data_engineering/05_exam_keywords/285_multimodal_data/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "552. 디지털 리터러시 조직 역량 강화 (Digital Literacy Organization Capability)"
-date = 2026-05-09
+---
+title: "552. 디지털 리터러시 조직 역량 강화 (Digital Literacy Organization Capability)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 552 / 800
 
-<- **이전**: [551. AI 퍼스트 전략 지능형 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/551_ai_first_strategy_intelligent_automation/)
-**다음**: [553. 애자일 전환 조직 문화 변혁 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/553_agile_transformation_culture_change_managemen/) ->
+<- **이전**: [551. AI 퍼스트 전략 지능형 자동화](/studynote/07_enterprise_systems/06_exam_summary/551_ai_first_strategy_intelligent_automation/)
+**다음**: [553. 애자일 전환 조직 문화 변혁 관리](/studynote/07_enterprise_systems/06_exam_summary/553_agile_transformation_culture_change_managemen/) ->
 
 ---

@@ -1,6 +1,5 @@
-+++
-title = "16. Data Center Cloud"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "16. Data Center Cloud"
+tags:
+  - "network"
+---

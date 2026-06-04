@@ -1,6 +1,5 @@
-+++
-title = "03. Relational Model"
-
-[extra]
-tags = ["database"]
-+++
+---
+title: "03. Relational Model"
+tags:
+  - "database"
+---

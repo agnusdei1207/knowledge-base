@@ -1,13 +1,10 @@
-+++
-title = "727. IT 경영 관리 핵심 토픽 727번 시험 요약 (IT Management Core Topic 727 Exam Summary)"
-date = 2026-05-09
+---
+title: "727. IT 경영 관리 핵심 토픽 727번 시험 요약 (IT Management Core Topic 727 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ IT 경영 관리 6대 영역은 **3계층(전략-관리-운영) × 6도메인(�
 
 **진행 상황**: 727 / 800
 
-<- **이전**: [726. IT 경영 관리 핵심 토픽 726번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/726_it_management_core_topic_726_exam_summary/)
-**다음**: [728. IT 경영 관리 핵심 토픽 728번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/728_it_management_core_topic_728_exam_summary/) ->
+<- **이전**: [726. IT 경영 관리 핵심 토픽 726번 시험 요약](/studynote/12_it_management/05_security_compliance/726_it_management_core_topic_726_exam_summary/)
+**다음**: [728. IT 경영 관리 핵심 토픽 728번 시험 요약](/studynote/12_it_management/05_security_compliance/728_it_management_core_topic_728_exam_summary/) ->
 
 ---

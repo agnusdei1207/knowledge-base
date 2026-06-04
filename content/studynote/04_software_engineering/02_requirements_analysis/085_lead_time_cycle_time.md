@@ -1,17 +1,14 @@
-+++
-title = "85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)"
+---
+title: "85. 리드 타임 (Lead Time) / 사이클 타임 (Cycle Time)"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > **본질**: 리드 타임(Lead Time)은 요청이 들어온 순간부터 고객이 결과를 받기까지의 전체 시간이고, 사이클 타임(Cycle Time)은 실제 작업을 시작해 끝내는 데 걸린 시간이다.
-> **가치**: 두 지표를 분리해야 기다림([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))과 실행(Cycle)을 구분할 수 있어, 병목이 사람·프로세스·우선순위 중 어디에 있는지 보인다.
+> **가치**: 두 지표를 분리해야 기다림([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))과 실행(Cycle)을 구분할 수 있어, 병목이 사람·프로세스·우선순위 중 어디에 있는지 보인다.
 > **판단 포인트**: 리드 타임만 줄이려다 품질을 잃지 않으려면, 평균보다 중앙값과 상위 백분위수(P95)를 같이 봐야 한다.
 
 ---
@@ -20,7 +17,7 @@ tags = ["software_engineering"]
 
 리드 타임(Lead Time)은 요청에서 인도까지의 전체 경과 시간이고, 사이클 타임(Cycle Time)은 작업 착수부터 완료까지의 시간이다. 둘은 비슷해 보이지만, 고객이 체감하는 기다림과 팀이 실제 일한 시간을 나누어 보여 준다는 점에서 다르다.
 
-이 구분이 필요한 이유는 느림의 원인이 항상 개발 속도가 아니기 때문이다. 승인 대기, 우선순위 조정, 리뷰 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)처럼 일하지 않는 시간도 리드 타임을 크게 늘린다. 따라서 이 지표를 분리하지 않으면 "팀이 느린가, 흐름이 막힌 것인가"를 구분할 수 없다.
+이 구분이 필요한 이유는 느림의 원인이 항상 개발 속도가 아니기 때문이다. 승인 대기, 우선순위 조정, 리뷰 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)처럼 일하지 않는 시간도 리드 타임을 크게 늘린다. 따라서 이 지표를 분리하지 않으면 "팀이 느린가, 흐름이 막힌 것인가"를 구분할 수 없다.
 
 - 📢 섹션 요약 비유: 주문 대기표
 
@@ -28,7 +25,7 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-리드 타임은 보통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time + Cycle Time으로 쪼갤 수 있다. 사이클 타임은 실제 작업 구간의 길이이므로, 코드 작성·테스트·병합 같은 실행 시간을 본다. 흐름 효율(Flow Efficiency)은 `Cycle Time / Lead Time`으로 표현할 수 있어, 전체 시간 중 실제 일한 비율을 보여 준다.
+리드 타임은 보통 [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time + Cycle Time으로 쪼갤 수 있다. 사이클 타임은 실제 작업 구간의 길이이므로, 코드 작성·테스트·병합 같은 실행 시간을 본다. 흐름 효율(Flow Efficiency)은 `Cycle Time / Lead Time`으로 표현할 수 있어, 전체 시간 중 실제 일한 비율을 보여 준다.
 
 ```text
 요청 ----- 대기 ----- 착수 -- 작업 -- 완료
@@ -40,7 +37,7 @@ tags = ["software_engineering"]
 | --- | --- | --- | --- |
 | Lead Time | 요청 시점 | 고객 인도 | 전체 대기 + 작업 |
 | Cycle Time | 작업 착수 | 작업 완료 | 실제 실행 시간 |
-| [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time | 요청 후 | 착수 전 | 흐름의 병목 |
+| [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time | 요청 후 | 착수 전 | 흐름의 병목 |
 | Flow Efficiency | Lead/ Cycle의 비율 | - | 낭비의 정도 |
 
 이 관계를 보면, 리드 타임을 줄이는 방법과 사이클 타임을 줄이는 방법이 다르다는 점이 드러난다.
@@ -51,7 +48,7 @@ tags = ["software_engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-비슷한 개념으로는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), Turnaround Time이 있다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 단위 시간당 완료 개수이고, 리드 타임/사이클 타임은 한 건의 흐름 길이이며, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 맥락에 따라 통신 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 뜻한다. [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))에서는 WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 줄여 흐름을 빠르게 만들고, [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 지표에서는 배포 리드 타임이 중요한 신호가 된다.
+비슷한 개념으로는 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)), Turnaround Time이 있다. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 단위 시간당 완료 개수이고, 리드 타임/사이클 타임은 한 건의 흐름 길이이며, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 맥락에 따라 통신 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 뜻한다. [Kanban](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) ([칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))에서는 WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 줄여 흐름을 빠르게 만들고, [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) ([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) Research and Assessment) 지표에서는 배포 리드 타임이 중요한 신호가 된다.
 
 리틀의 법칙(Little's Law)은 `WIP = Throughput × Lead Time`으로 요약되므로, 대기열이 길어지면 리드 타임이 늘어나는 구조를 이해하는 데 도움이 된다. 즉 리드 타임은 단순 측정치가 아니라, 흐름·재공·완료 속도의 연결고리다.
 
@@ -61,15 +58,15 @@ tags = ["software_engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 리드 타임을 고객 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))와 연결하고, 사이클 타임을 팀의 공정 개선과 연결하는 식으로 나눠 본다. 같은 평균이라도 꼬리가 긴 분포는 사용자 불만을 키우므로, 중앙값과 P95를 함께 봐야 한다. 또한 작업 유형별로 분리하지 않으면 작은 수정과 큰 기능이 섞여 왜곡된다.
+실무에서는 리드 타임을 고객 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))와 연결하고, 사이클 타임을 팀의 공정 개선과 연결하는 식으로 나눠 본다. 같은 평균이라도 꼬리가 긴 분포는 사용자 불만을 키우므로, 중앙값과 P95를 함께 봐야 한다. 또한 작업 유형별로 분리하지 않으면 작은 수정과 큰 기능이 섞여 왜곡된다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 리드 타임과 사이클 타임의 시작·종료점이 정의되어 있는가?
 2. 승인 대기와 실제 작업 시간이 분리되어 있는가?
 3. 평균만 보지 않고 분포와 상위 백분위수도 보고 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 작업을 시작하기 전의 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 사이클 타임에 넣는 것
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 작업을 시작하기 전의 모든 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 사이클 타임에 넣는 것
 - 스토리 포인트와 시간을 섞어 해석하는 것
 - 하나의 평균값만 보고 병목을 단정하는 것
 
@@ -91,10 +88,10 @@ tags = ["software_engineering"]
 | --- | --- |
 | Lead Time | 요청에서 결과까지의 전체 시간 |
 | Cycle Time | 실제 작업에 걸린 시간 |
-| [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time | 착수 전 대기 시간 |
-| WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 흐름을 막는 재공 |
-| [DORA](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 | 배포 성과를 보는 실무 기준 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 고객 약속 시간과의 연결 |
+| [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Time | 착수 전 대기 시간 |
+| WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/)) | 흐름을 막는 재공 |
+| [DORA](/studynote/03_network/10_application_layer_dns_mgmt/523_dhcp_dora_process/) 지표 | 배포 성과를 보는 실무 기준 |
+| [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) | 고객 약속 시간과의 연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,7 +121,7 @@ Lead Time / Cycle Time 분석
 
 **진행 상황**: 85 / 973
 
-<- **이전**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)
-**다음**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) ->
+<- **이전**: [84. 칸반 (Kanban) - 워크플로우 시각화, WIP(Work In Progress) 제한](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)
+**다음**: [86. 누적 흐름도 (CFD, Cumulative Flow Diagram)](/studynote/04_software_engineering/02_requirements_analysis/086_cumulative_flow_diagram_cfd/) ->
 
 ---

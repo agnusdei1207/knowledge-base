@@ -1,13 +1,10 @@
-+++
-title = "660. MLOps 모델 서빙 A/B 테스트 (MLOps Model Serving AB Test)"
-date = 2026-05-09
+---
+title: "660. MLOps 모델 서빙 A/B 테스트 (MLOps Model Serving AB Test)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -186,7 +183,7 @@ where θ = Cov(Y, X) / Var(X), X = pre-experiment metric (예: 최근 14일 사�
 
 **진행 상황**: 660 / 800
 
-<- **이전**: [659. AI 추론 최적화 TensorRT ONNX](/knowledge-base/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/)
-**다음**: [661. LLMOps 대규모 언어 모델 운영](/knowledge-base/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/) ->
+<- **이전**: [659. AI 추론 최적화 TensorRT ONNX](/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/)
+**다음**: [661. LLMOps 대규모 언어 모델 운영](/studynote/06_ict_convergence/uncategorized/661_llmops_large_language_model_operations/) ->
 
 ---

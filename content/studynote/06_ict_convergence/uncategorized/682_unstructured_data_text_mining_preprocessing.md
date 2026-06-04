@@ -1,13 +1,10 @@
-+++
-title = "682. 비정형 데이터 텍스트 마이닝 전처리 (Unstructured Data Text Mining Preprocessing)"
-date = 2026-05-09
+---
+title: "682. 비정형 데이터 텍스트 마이닝 전처리 (Unstructured Data Text Mining Preprocessing)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 682 / 800
 
-<- **이전**: [681. 데이터 시각화 대시보드 스토리텔링](/knowledge-base/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/)
-**다음**: [683. 지식 그래프 온톨로지 시맨틱 웹](/knowledge-base/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/) ->
+<- **이전**: [681. 데이터 시각화 대시보드 스토리텔링](/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/)
+**다음**: [683. 지식 그래프 온톨로지 시맨틱 웹](/studynote/06_ict_convergence/uncategorized/683_knowledge_graph_ontology_semantic_web/) ->
 
 ---

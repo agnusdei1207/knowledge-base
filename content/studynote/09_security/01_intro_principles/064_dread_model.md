@@ -1,19 +1,16 @@
-+++
-title = "064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability"
-date = 2026-04-05
+---
+title: "064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: DREAD는 위협의 위험도를 Damage, Reproducibility, Exploitability, Affected Users, Discoverability 다섯 축으로 점수화하는 위험 평가 모델이다.
 > 2. **가치**: 정성적인 위협 목록을 정량 점수로 바꾸면 우선순위가 명확해지고, 보안 개선 순서도 정리된다.
-> 3. **판단**: DREAD는 [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 같은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구와 함께 써야 하고, 점수는 절대값이 아니라 비교용 지표로 봐야 한다.
+> 3. **판단**: DREAD는 [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 같은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구와 함께 써야 하고, 점수는 절대값이 아니라 비교용 지표로 봐야 한다.
 
 ---
 
@@ -49,7 +46,7 @@ Mitigation
 | Affected Users | 영향 받는 사용자 수 |
 | Discoverability | 발견 가능성 |
 
-각 항목을 1~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 정도의 점수로 평가하고 평균 또는 가중치로 우선순위를 정한다. 핵심은 "느낌"이 아니라 "같은 기준"이다.
+각 항목을 1~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 정도의 점수로 평가하고 평균 또는 가중치로 우선순위를 정한다. 핵심은 "느낌"이 아니라 "같은 기준"이다.
 
 - **📢 섹션 요약 비유**: 위험한 문제를 색깔 대신 숫자로 표시해 놓는 메모장이다.
 
@@ -59,9 +56,9 @@ Mitigation
 
 | 프레임 | 역할 | 강점 | 주의점 |
 | :-- | :-- | :-- | :-- |
-| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 공격 유형 구분 | 정량화 약함 |
+| [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 공격 유형 구분 | 정량화 약함 |
 | DREAD | 위험 점수화 | 우선순위화 | 점수 주관성 |
-| [MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) | 공격 전술/기법 | 실제 공격자 관점 | 설계 초기에 과할 수 있음 |
+| [MITRE ATT&CK](/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) | 공격 전술/기법 | 실제 공격자 관점 | 설계 초기에 과할 수 있음 |
 
 DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 데 유용하다. 그래서 설계 검토와 보안 백로그 정리에 잘 맞는다.
 
@@ -71,7 +68,7 @@ DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 점수 기준을 팀에서 합의했는가?
 2. 점수 결과를 실제 우선순위와 연결했는가?
@@ -79,7 +76,7 @@ DREAD는 위협을 "많다/적다"가 아니라 "먼저/나중"으로 바꾸는 
 4. 정량 점수를 절대값처럼 오해하지 않았는가?
 5. 반복 평가로 점수 기준을 보정하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 점수만 매기고 아무 조치도 하지 않는 설계
 - 모든 항목을 똑같이 중요하다고 두는 설계
@@ -142,7 +139,7 @@ DREAD는 그런 위험 점수표예요.
 
 **진행 상황**: 64 / 1108
 
-<- **이전**: [063. 위협 모델링 (Threat Modeling)](/knowledge-base/studynote/09_security/01_intro_principles/063_threat_modeling/)
-**다음**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/knowledge-base/studynote/09_security/01_intro_principles/065_stride_model/) ->
+<- **이전**: [063. 위협 모델링 (Threat Modeling)](/studynote/09_security/01_intro_principles/063_threat_modeling/)
+**다음**: [065. STRIDE 모델 — Spoofing/Tampering/Repudiation/Information Disclosure/DoS/Elevation](/studynote/09_security/01_intro_principles/065_stride_model/) ->
 
 ---

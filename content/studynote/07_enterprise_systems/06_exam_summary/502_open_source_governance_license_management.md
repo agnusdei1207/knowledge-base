@@ -1,13 +1,10 @@
-+++
-title = "502. 오픈소스 거버넌스 라이선스 관리 전략 (Open Source Governance License Management)"
-date = 2026-05-09
+---
+title: "502. 오픈소스 거버넌스 라이선스 관리 전략 (Open Source Governance License Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ Policy -> Process -> System -> Data -> KPI
 
 **진행 상황**: 502 / 800
 
-<- **이전**: [501. AI 거버넌스 윤리 가이드라인 규제](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/501_ai_governance_ethics_guideline_regulation/)
-**다음**: [503. 벤더 관리 아웃소싱 SLA 성과 평가](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/503_vendor_management_outsourcing_sla_performance/) ->
+<- **이전**: [501. AI 거버넌스 윤리 가이드라인 규제](/studynote/07_enterprise_systems/06_exam_summary/501_ai_governance_ethics_guideline_regulation/)
+**다음**: [503. 벤더 관리 아웃소싱 SLA 성과 평가](/studynote/07_enterprise_systems/06_exam_summary/503_vendor_management_outsourcing_sla_performance/) ->
 
 ---

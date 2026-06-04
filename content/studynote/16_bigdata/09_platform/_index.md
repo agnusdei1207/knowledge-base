@@ -1,9 +1,9 @@
-+++
-title = "09. 빅데이터 플랫폼 아키텍처"
+---
+title: "09. 빅데이터 플랫폼 아키텍처"
+tags:
+  - "studynote-bigdata"
+---
 
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 플랫폼 아키텍처는 데이터 수집(Ingestion) -> 저장(Storage) -> 처리(Processing) -> 분석(Analysis) -> 서빙(Serving)의 전체 파이프라인을 통합하여 엔터프라이즈 수준의 확장성·안정성·거버넌스를 동시에 제공하는 시스템 설계 체계다.

@@ -1,13 +1,10 @@
-+++
-title = "398. 랜섬웨어 대응 전략 백업 복구 (Ransomware Response Strategy Backup Recovery)"
-date = 2026-05-09
+---
+title: "398. 랜섬웨어 대응 전략 백업 복구 (Ransomware Response Strategy Backup Recovery)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 398. 랜섬웨어 대응 전략 백업 복구 (Ransomware Response Strategy Backup Recovery)
 
@@ -198,7 +195,7 @@ T_backup = T_init + (D_total × R
 
 **진행 상황**: 398 / 800
 
-<- **이전**: [397. 공급망 보안 SBOM 소프트웨어 구성 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/397_supply_chain_security_sbom_sca/)
-**다음**: [399. 사고 대응 IR 포렌식 분석 절차](/knowledge-base/studynote/12_it_management/05_security_compliance/399_incident_response_ir_forensics_analysis/) ->
+<- **이전**: [397. 공급망 보안 SBOM 소프트웨어 구성 분석](/studynote/12_it_management/05_security_compliance/397_supply_chain_security_sbom_sca/)
+**다음**: [399. 사고 대응 IR 포렌식 분석 절차](/studynote/12_it_management/05_security_compliance/399_incident_response_ir_forensics_analysis/) ->
 
 ---

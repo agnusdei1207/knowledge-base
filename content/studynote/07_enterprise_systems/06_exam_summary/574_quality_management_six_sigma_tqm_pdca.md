@@ -1,13 +1,10 @@
-+++
-title = "574. 품질 관리 6시그마 TQM PDCA (Quality Management Six Sigma TQM PDCA)"
-date = 2026-05-09
+---
+title: "574. 품질 관리 6시그마 TQM PDCA (Quality Management Six Sigma TQM PDCA)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 574 / 800
 
-<- **이전**: [573. 리스크 관리 정량적 정성적 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/573_risk_management_quantitative_qualitative/)
-**다음**: [575. 비용 관리 EVM 획득가치 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/575_cost_management_evm_earned_value_analysis/) ->
+<- **이전**: [573. 리스크 관리 정량적 정성적 분석](/studynote/07_enterprise_systems/06_exam_summary/573_risk_management_quantitative_qualitative/)
+**다음**: [575. 비용 관리 EVM 획득가치 분석](/studynote/07_enterprise_systems/06_exam_summary/575_cost_management_evm_earned_value_analysis/) ->
 
 ---

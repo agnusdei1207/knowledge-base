@@ -1,33 +1,30 @@
-+++
-title = "13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검"
-description = "감리의 목적, 범위, 방법, 일정, 인력 등을 정의하는 감리 계획 수립의 체계와 실무 적용"
-date = 2026-04-05
+---
+title: "13. 추가 감리 / 시정조치 확인 (Follow-up Audit) - 감리 지적 사항(조치 권고) 이행 여부 최종 점검"
+date: "2026-04-05"
+description: "감리의 목적, 범위, 방법, 일정, 인력 등을 정의하는 감리 계획 수립의 체계와 실무 적용"
+tags:
+  - "design_supervision"
+---
 
-[taxonomies]
-tags = ["design_supervision"]
 
-[extra]
-tags = ["design_supervision"]
-+++
-
-# 13. [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)
+# 13. [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Planning)은 감리의성공적 수행을 위한근본적 설계도로서, 목적, 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)), 방법론, 일정, 인력 배정, deliverables를 명확히 정의하는 과정이다.
-> 2. **가치**: 사전에 체계적으로 수립된 계획은 감리 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 발생하는혼란과유루을방지하고, 감리 팀원 간의역할분단과 기대치를명확히 하며, 발주자와 피감리인 모두에게 투명하게감리 과정을Communication하는 도구이다.
-> 3. **융합**: 감리 계획은 단순히 일정을 잡는 것을 넘어, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근법(Risk-based Approach)을 적용하여 높은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에 더 많은 자원을배분하고, 낮은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에는 효율적인アプローチ을/를채용하는 전략적 의사결정 과정이다.
+> 1. **본질**: [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Planning)은 감리의성공적 수행을 위한근본적 설계도로서, 목적, 범위([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/)), 방법론, 일정, 인력 배정, deliverables를 명확히 정의하는 과정이다.
+> 2. **가치**: 사전에 체계적으로 수립된 계획은 감리 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중 발생하는혼란과유루을방지하고, 감리 팀원 간의역할분단과 기대치를명확히 하며, 발주자와 피감리인 모두에게 투명하게감리 과정을Communication하는 도구이다.
+> 3. **융합**: 감리 계획은 단순히 일정을 잡는 것을 넘어, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근법(Risk-based Approach)을 적용하여 높은 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에 더 많은 자원을배분하고, 낮은 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에는 효율적인アプローチ을/를채용하는 전략적 의사결정 과정이다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)은 감리 업무의 가장 중요한 출발점이다. "설계 없이 제조하면 망한다"는 말처럼, "계획 없이 감리하면실패한다". 아무리 숙련된 감리인이라도 체계적인 계획 없이 감리에 임하면, 검사 항목의유루, 인력의 비효율적 배분, 일정 초과, 그리고최종 결과물의품질 저하등문제가필ず 발생한다.
+[감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)은 감리 업무의 가장 중요한 출발점이다. "설계 없이 제조하면 망한다"는 말처럼, "계획 없이 감리하면실패한다". 아무리 숙련된 감리인이라도 체계적인 계획 없이 감리에 임하면, 검사 항목의유루, 인력의 비효율적 배분, 일정 초과, 그리고최종 결과물의품질 저하등문제가필ず 발생한다.
 
-감리 계획이 필요한 구체적인 이유는 다음과 같다. 첫째, **자원의 효율적 배분**: 감리 자원은유한하다. 인차 사전에 높은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역과 낮는 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역을 구분하여 자원을 합리적으로 배분해야 한다. 둘째, **관련자 기대치 관리**: 감리 결과를 둘러싼 분쟁을 방지하기 위해서는 사전에 감리 범위와 방법을 명확히 정의하여, 발주자와 피감리인 모두의 기대치를조정해야 한다. 셋째, **프로세스의표준화**: 계획 단계에서 표준화된 절차를확립하면, 감리 마다 결과가 다르게 나오는 "감리 산만" 문제를 예방할 수 있다.
+감리 계획이 필요한 구체적인 이유는 다음과 같다. 첫째, **자원의 효율적 배분**: 감리 자원은유한하다. 인차 사전에 높은 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역과 낮는 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역을 구분하여 자원을 합리적으로 배분해야 한다. 둘째, **관련자 기대치 관리**: 감리 결과를 둘러싼 분쟁을 방지하기 위해서는 사전에 감리 범위와 방법을 명확히 정의하여, 발주자와 피감리인 모두의 기대치를조정해야 한다. 셋째, **프로세스의표준화**: 계획 단계에서 표준화된 절차를확립하면, 감리 마다 결과가 다르게 나오는 "감리 산만" 문제를 예방할 수 있다.
 
-이러한 계획의 중요성에도 불구하고, 실제 현장에서는 특히 초임 감리인이나 소규모 감리 프로젝트에서 계획 수립이 형해화되는 경우가 적지 않다. 이러한 형해화는 결과적으로 감리의질을저하시키고, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 불만으로 이어진다.
+이러한 계획의 중요성에도 불구하고, 실제 현장에서는 특히 초임 감리인이나 소규모 감리 프로젝트에서 계획 수립이 형해화되는 경우가 적지 않다. 이러한 형해화는 결과적으로 감리의질을저하시키고, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 불만으로 이어진다.
 
-다음 다이어그램은 [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)의 주요 요소들 간의 관계를 보여준다.
+다음 다이어그램은 [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)의 주요 요소들 간의 관계를 보여준다.
 
 ```text
 +---------------------------------------------------------+
@@ -64,13 +61,13 @@ tags = ["design_supervision"]
 
 이 도식의 핵심은 감리 계획의 각요소가 서로 독립적이 아니라긴밀하게 연결되어 있다는 점이다. 감리 목적에 따라 범위가 달라지고, 범위에 따라 일정이 배정되고, 일정에 따라 인력이 투입된다. 따라서 어느 한요소라도 변경되면 다른요소에 영향을 미치므로,계화 수립 시전국적시각이 필요하다.
 
-📢 **섹션 요약 비유**: [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)은 <strong>'여행planning'</strong>과 같습니다. 먼저 여행 목적(휴식/업무)을 정하고, 갈 곳(범위)을 정하고, 일정(_schedule)을 정하며, 누가 갈지(인력)를 정하며, 어떻게 이동할지(방법론)를 정합니다. 모든 것이 연결되어 있으므로, 하나라도 바뀌면 전체 일정이 흔들리게 됩니다.
+📢 **섹션 요약 비유**: [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)은 <strong>'여행planning'</strong>과 같습니다. 먼저 여행 목적(휴식/업무)을 정하고, 갈 곳(범위)을 정하고, 일정(_schedule)을 정하며, 누가 갈지(인력)를 정하며, 어떻게 이동할지(방법론)를 정합니다. 모든 것이 연결되어 있으므로, 하나라도 바뀌면 전체 일정이 흔들리게 됩니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 시 반드시 포함해야 할 주요 요소와 그 내용을 표로 정리하면 다음과 같다.
+[감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 시 반드시 포함해야 할 주요 요소와 그 내용을 표로 정리하면 다음과 같다.
 
 **[감리 계획서 주요요소 분석표]**
 
@@ -78,11 +75,11 @@ tags = ["design_supervision"]
 |:---|:---|:---|
 | **감리 목적** | 감리의 목표, 기대 효과, 발주기관의전략적 취지 | 추상적 표현을피け, 측정 가능한지표로 정의 |
 | **감리 범위** | 감리 대상 시스템, 조직, 기간, 포함/제외 항목 | 명시적 포함/제외 항목 기재로 분쟁 예방 |
-| **감리 방법론** | 적용할 기준(기준 고시, [CISA](/knowledge-base/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 등), 조사 방법, 증거 수집 기법 | 표준화된 방법론 적용으로일관성 확보 |
+| **감리 방법론** | 적용할 기준(기준 고시, [CISA](/studynote/11_design_supervision/01_audit_framework/022_cisa_certification_audit/) 등), 조사 방법, 증거 수집 기법 | 표준화된 방법론 적용으로일관성 확보 |
 | **감리 일정** | 단계별 시작/종료 일정, 마일스톤, 보고 시점 | 현실적 일정 배분,-buffer 포함 |
 | **감리 인력** | 역할별 담당 인력, 필요 전문 분야, 교육 요건 | 전문성과 독립성 모두 확보 |
-| ** Deliverables** | 보고서 양식, 중간보고, 최종보고, 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서 | 발주자가 원하는형식와 주기로 제공 |
-| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong> | 예상 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 대응 방안, contingency plan | 미|km OWNERS에 대한 대안 마련 |
+| ** Deliverables** | 보고서 양식, 중간보고, 최종보고, 조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서 | 발주자가 원하는형식와 주기로 제공 |
+| <strong><a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 관리</strong> | 예상 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 대응 방안, contingency plan | 미|km OWNERS에 대한 대안 마련 |
 
 감리 일정을 수립할 때 참고가 되는 표준 프로젝트 일정을 분석한 도식이다.
 
@@ -119,18 +116,18 @@ tags = ["design_supervision"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 시 적용할 수 있는 다양한 방법론과 접근법을 분석해보자.
+[감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 시 적용할 수 있는 다양한 방법론과 접근법을 분석해보자.
 
 **[감리 계획 수립 방법론 비교]**
 
 | 방법론 | 특징 | 장점 | 단점 | 적정 상황 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 기반</strong> | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수준에 따라 자원을 배분 | 자원 효율성 높음, 핵심 집중 | 사전 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석 필요 | 대규모/복잡 사업 |
+| <strong><a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 기반</strong> | [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수준에 따라 자원을 배분 | 자원 효율성 높음, 핵심 집중 | 사전 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석 필요 | 대규모/복잡 사업 |
 | **목적 기반** | 감리 목적을수선정의하고 역산 | 목적 달성 용이 | 범위 딜레마 발생 가능 | 전략적 중요 사업 |
-| **자산 기반** | 중요 자산 중심으로 감리 설계 | 핵심 자산 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 전체cover 어려움 | 금융/인프라 사업 |
+| **자산 기반** | 중요 자산 중심으로 감리 설계 | 핵심 자산 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 전체cover 어려움 | 금융/인프라 사업 |
 | **표준 기반** | 기준 고시/규정대로 일률 적용 |간편,공평 | 유연성 부족 | 중소규모 표준 사업 |
 
-[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)의구체적 절차를 살펴보면 다음과 같다.
+[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)의구체적 절차를 살펴보면 다음과 같다.
 
 ```text
 [리스크 기반 감리 계획 수립 절차]
@@ -156,23 +153,23 @@ tags = ["design_supervision"]
  Step 4: 최종 감리 계획서 작성
 ```
 
-이 절차의 핵심은 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석에 기반하여 자원을 합리적으로 배분한다는 점이다. 모든 영역에 동일한 자원을투입하면 효율성이 떨어지므로, 고[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에 더 많은 관심을 기울이는 것이 올바른 전략이다.
+이 절차의 핵심은 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석에 기반하여 자원을 합리적으로 배분한다는 점이다. 모든 영역에 동일한 자원을투입하면 효율성이 떨어지므로, 고[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 영역에 더 많은 관심을 기울이는 것이 올바른 전략이다.
 
-📢 **섹션 요약 비유**: [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 자원 배분은 <strong>'병원 진료과 배치'</strong>와 같습니다. 응급실(고위험 사업)에는 항상 많은 의사와 간호사를 배치하고, 일반 클리닉(저위험 사업)에는 표준 인력을 배치하듯이, 감리에서도 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역에 더 많은 전문 인력과 시간을 배분해야 합니다.
+📢 **섹션 요약 비유**: [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 자원 배분은 <strong>'병원 진료과 배치'</strong>와 같습니다. 응급실(고위험 사업)에는 항상 많은 의사와 간호사를 배치하고, 일반 클리닉(저위험 사업)에는 표준 인력을 배치하듯이, 감리에서도 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 높은 영역에 더 많은 전문 인력과 시간을 배분해야 합니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실제 감리 현장에서 감리 계획을 수립할 때의 판단 사례를 살펴보자.
 
-<strong>1. 감리 범위 결정 판단: "이 사업의 감리 범위를 어떻게 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>해야 하는가?"</strong>
+<strong>1. 감리 범위 결정 판단: "이 사업의 감리 범위를 어떻게 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a>해야 하는가?"</strong>
 *   **상황**: 대형 SI 사업으로, 주요업무범위뿐 아니라자사업(하도급까지 포함)도 함께 감리해야 하는지 고민이다.
-*   **기술사적 판단**: 감리 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 다음 기준을 적용해야 한다. (1).[direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) impact: 직접적으로 프로젝트 결과에 영향을 미치는 영역은 포함, (2)control effectiveness: 하도급의 산출물이 최종 산출물에 반영되는지 여부, (3)resource [availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/): 하도급까지 감리할 인력과 시간이 있는부. 만약 자사업이 최종 산출물에 직접 반영되고, 감리 자원이 충분하다면 자사업까지 범위에 포함하는 것이 바람직하다. 단, 하도급에 대한 감리는 주감리 대상의분공사/자회사가관리하는 것이므로, 감사증거의 입수 가능성을사전에 확보해야 한다.
+*   **기술사적 판단**: 감리 범위 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 다음 기준을 적용해야 한다. (1).[direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) impact: 직접적으로 프로젝트 결과에 영향을 미치는 영역은 포함, (2)control effectiveness: 하도급의 산출물이 최종 산출물에 반영되는지 여부, (3)resource [availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/): 하도급까지 감리할 인력과 시간이 있는부. 만약 자사업이 최종 산출물에 직접 반영되고, 감리 자원이 충분하다면 자사업까지 범위에 포함하는 것이 바람직하다. 단, 하도급에 대한 감리는 주감리 대상의분공사/자회사가관리하는 것이므로, 감사증거의 입수 가능성을사전에 확보해야 한다.
 
 **2. 일정 조정 판단: "일정이 너무 촉박합니다. 어떻게 해야 하는가?"**
 *   **상황**: 감리 범위에 열악이 포함되어，재발현 감리 일정이 2주 부족하다.추가 인력 투입이나 일정 연장이 모두 어려운 상황이다.
-*   **기술사적 판단**: 일정이 부족한 경우, 다음우선순위에 따라 조정을 실시해야 한다. (1)1순위: 핵심 검사항목(법령 요건, Major [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관련) 우선점검, (2)2순위: 저우선순위 항목은 샘플링 검토로 전환, (3)3순위: 내부 검토/보고서 작성 시간 단축. 만약조정으로도 맞출 수 없다면, 발주자에게 사전에상황을보고하여 범위 축소나 일정 연장 중 하나를 선택해야 한다. 사전 통보 없이 일정을 넘기는 것은 감리 신인도를 크게 훼손한다.
+*   **기술사적 판단**: 일정이 부족한 경우, 다음우선순위에 따라 조정을 실시해야 한다. (1)1순위: 핵심 검사항목(법령 요건, Major [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 관련) 우선점검, (2)2순위: 저우선순위 항목은 샘플링 검토로 전환, (3)3순위: 내부 검토/보고서 작성 시간 단축. 만약조정으로도 맞출 수 없다면, 발주자에게 사전에상황을보고하여 범위 축소나 일정 연장 중 하나를 선택해야 한다. 사전 통보 없이 일정을 넘기는 것은 감리 신인도를 크게 훼손한다.
 
 **3. 인력 배분 판단: "어떤 전문가를 어디에 배치해야 하는가?"**
 *   **상황**: 감리 팀에 경력 5년차 시니어 1명과 신입 2명이 배정되었다. 시니어를 어디에 배치하고, 신입들을 어떻게 활용해야 하는가?
@@ -187,7 +184,7 @@ tags = ["design_supervision"]
  신입 D -> 응용시스템/화면 검증 (경력자 B 지도)
 ```
 
-이 배분의 핵심은 시니어의 역할을 "집행자"보다 "질량관리자"와 "strategic decision maker"로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여,새로운인들이 실전 경험을 쌓으면서도 최종 품질이 보장되도록 하는 것이다.
+이 배분의 핵심은 시니어의 역할을 "집행자"보다 "질량관리자"와 "strategic decision maker"로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하여,새로운인들이 실전 경험을 쌓으면서도 최종 품질이 보장되도록 하는 것이다.
 
 📢 **섹션 요약 비유**: 감리 인력 배분은 <strong>'영화 제작팀적배치'</strong>과 같습니다. 넷플릭스 감독(시니어)이 작품의 전반을 책임지고, Producers(경력자)가 각 분야를 관리하며, AD들이(신입)ästimulus를 받고 현장에서Experience를 쌓듯이, 감리 팀에서도 시니어의전국적 관점과 경력자의 분임별 전문성, 그리고새로운입의실전 경험을 통한성장을 도모해야 합니다.
 
@@ -195,26 +192,26 @@ tags = ["design_supervision"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-효과적인 [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)을 통해 기대할 수 있는 효과는 다음과 같다.
+효과적인 [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/)을 통해 기대할 수 있는 효과는 다음과 같다.
 
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/">감리 수행</a> 효율성 향상</strong> | 사전 계획으로 현장에서의혼란 최소화 | 감리 일정수세솔 90% 이상 |
+| <strong><a href="/studynote/11_design_supervision/01_audit_framework/017_audit_execution/">감리 수행</a> 효율성 향상</strong> | 사전 계획으로 현장에서의혼란 최소화 | 감리 일정수세솔 90% 이상 |
 | **산출물품질 확보** | 체계적 접근으로 결과물의일관성 보장 | 보고서 오류율 5% 이하 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 만족도 향상</strong> | 투명한 Communicati과 기대치 관리 | 발주자/피감리인 만족도 90% 이상 |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 만족도 향상</strong> | 투명한 Communicati과 기대치 관리 | 발주자/피감리인 만족도 90% 이상 |
 | **팀 협업 강화** | 명확한역할 분담으로 팀원 간 갈등 예방 | 팀 내 갈등 건수 0건 |
 
 **미래 전망:**
-미래에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [감리 계획 수립](/knowledge-base/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 도구가 도입될 것으로예상된다. 이 도구는 이전 감리 프로젝트의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(일정, 인력,발현된문제등)를 분석하여, 새로운 프로젝트에 적절한 일정과 인력 배분을 자동으로 추천할 것이다. 또한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석도 AI가 실시간으로 사업자의 코드/산출물를 분석하여고정도에서リスク평고 결과를 제공할 수 있을 것이다.
+미래에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [감리 계획 수립](/studynote/11_design_supervision/01_audit_framework/014_audit_planning/) 도구가 도입될 것으로예상된다. 이 도구는 이전 감리 프로젝트의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(일정, 인력,발현된문제등)를 분석하여, 새로운 프로젝트에 적절한 일정과 인력 배분을 자동으로 추천할 것이다. 또한 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 분석도 AI가 실시간으로 사업자의 코드/산출물를 분석하여고정도에서リスク평고 결과를 제공할 수 있을 것이다.
 
-📢 **섹션 요약 비유**: 미래의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 감리 계획은 <strong>'자율주행 네비게이션'</strong>과 같습니다. 네비게이션이 실시간 교통정보와 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 최적의 경로와 소요 시간을 추천하듯이, 미래 감리 도구도 사업의특성과 과거 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 최적의 감리 계획안을 자동제안할 것입니다.
+📢 **섹션 요약 비유**: 미래의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 감리 계획은 <strong>'자율주행 네비게이션'</strong>과 같습니다. 네비게이션이 실시간 교통정보와 과거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 최적의 경로와 소요 시간을 추천하듯이, 미래 감리 도구도 사업의특성과 과거 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하여 최적의 감리 계획안을 자동제안할 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-*   감리 범위 ([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) [Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) | 감리가 적용되는 영역, 시스템, 조직, 기간을 명시한 경계선
-*   [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근 (Risk-based Approach) | [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수준에 따라 감리 자원을 합리적으로 배분하는 방법론
-*   마일스톤 (Milestone) | 감리 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중적 주요 완성 시점으로, 일정 관리의기준점
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+*   감리 범위 ([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) [Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/)) | 감리가 적용되는 영역, 시스템, 조직, 기간을 명시한 경계선
+*   [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 기반 접근 (Risk-based Approach) | [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 수준에 따라 감리 자원을 합리적으로 배분하는 방법론
+*   마일스톤 (Milestone) | 감리 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중적 주요 완성 시점으로, 일정 관리의기준점
 *   Deliverable | 감리 과정에서 산출되는 보고서, 분석 결과 등 물리적 산출물
 *   Checkpoint | 감리 일정의 중간 점검 시점으로, 문제 조기 발견을 위한 관리 시점
 
@@ -249,7 +246,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 13 / 530
 
-<- **이전**: [12. 2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/012_2_stage_audit/)
-**다음**: [013. 확인 감리 (Follow-up Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) ->
+<- **이전**: [12. 2단계 감리 - 설계 단계 감리, 종료 단계 감리 (요구사항 정의 감리 생략 조건 사업)](/studynote/11_design_supervision/01_audit_framework/012_2_stage_audit/)
+**다음**: [013. 확인 감리 (Follow-up Audit)](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) ->
 
 ---

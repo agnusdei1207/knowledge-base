@@ -1,35 +1,32 @@
-+++
-title = "52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM"
-date = 2026-05-01
+---
+title: "52. 부스팅 (Boosting) - AdaBoost, GBM, XGBoost, LightGBM"
+date: "2026-05-01"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 앞 모델의 오차를 다음 모델이 순차적으로 보완하는 [앙상블 학습](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/) 방식이다.
-> 2. **가치**: 약한 학습기 여러 개를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결해 강한 예측기를 만들며, 특히 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 매우 강하다.
-> 3. **판단 포인트**: [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 트리 깊이, 반복 수, [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/))를 잘못 잡으면 과적합이 쉽게 발생한다.
+> 1. **본질**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))은 앞 모델의 오차를 다음 모델이 순차적으로 보완하는 [앙상블 학습](/studynote/14_data_engineering/03_ml_dl_llm/125_ensemble_learning/) 방식이다.
+> 2. **가치**: 약한 학습기 여러 개를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결해 강한 예측기를 만들며, 특히 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 매우 강하다.
+> 3. **판단 포인트**: [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 트리 깊이, 반복 수, [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/))를 잘못 잡으면 과적합이 쉽게 발생한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "틀린 부분만 집요하게 고쳐 나가는" 학습법이다. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 여러 모델을 만들고 평균내는 방식이라면, [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 한 모델이 틀린 곳을 다음 모델이 이어서 고친다. 그래서 편향을 줄이는 데 강하다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "틀린 부분만 집요하게 고쳐 나가는" 학습법이다. [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 여러 모델을 만들고 평균내는 방식이라면, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 한 모델이 틀린 곳을 다음 모델이 이어서 고친다. 그래서 편향을 줄이는 데 강하다.
 
-이 방식이 필요한 이유는 복잡한 패턴을 다루는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 단순 모델의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계가 뚜렷하기 때문이다. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 작은 나무를 여러 번 쌓아 올려 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끝까지 끌어올린다.
+이 방식이 필요한 이유는 복잡한 패턴을 다루는 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 단순 모델의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계가 뚜렷하기 때문이다. [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 작은 나무를 여러 번 쌓아 올려 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 끝까지 끌어올린다.
 
-- **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 오답 노트를 다음 날 또 풀고, 그다음 날 또 푸는 끝장 복습과 같다.
+- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 오답 노트를 다음 날 또 풀고, 그다음 날 또 푸는 끝장 복습과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 약한 학습기를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결한다. AdaBoost는 오답 샘플에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 올리고, Gradient Boosting은 잔차 (Residual)를 다음 모델의 타깃으로 삼는다. 이 반복 덕분에 최종 예측이 정답에 수렴한다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 약한 학습기를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)로 연결한다. AdaBoost는 오답 샘플에 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 올리고, Gradient Boosting은 잔차 (Residual)를 다음 모델의 타깃으로 삼는다. 이 반복 덕분에 최종 예측이 정답에 수렴한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -42,72 +39,72 @@ tags = ["studynote-ai"]
 
 | 항목 | 의미 | 영향 |
 | :--- | :--- | :--- |
-| 약한 학습기 | 얕은 결정 트리 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 보완에 적합 |
-| [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) | 각 모델의 기여 정도 | 낮을수록 안정적 |
-| 반복 수 | 몇 번 보정할지 | 많을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)^, 과적합^ |
+| 약한 학습기 | 얕은 결정 트리 | [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 보완에 적합 |
+| [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) | 각 모델의 기여 정도 | 낮을수록 안정적 |
+| 반복 수 | 몇 번 보정할지 | 많을수록 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)^, 과적합^ |
 | 잔차 | 남은 오차 | 다음 모델의 학습 대상 |
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 |
 | :--- | :--- |
-| [AdaBoost](/knowledge-base/studynote/12_it_management/02_itsm_itil/077_Adaboost/) | 오답 샘플 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 높인다 |
+| [AdaBoost](/studynote/12_it_management/02_itsm_itil/077_Adaboost/) | 오답 샘플 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 높인다 |
 | GBM | 잔차를 다음 모델의 타깃으로 삼는다 |
-| XGBoost | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 시스템 최적화가 강하다 |
+| XGBoost | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 시스템 최적화가 강하다 |
 | LightGBM | 빠르고 대용량에 강하다 |
 | CatBoost | 범주형 처리에 강하다 |
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 핵심은 "한 번에 다 맞히려 하지 말고, 조금씩 오차를 없애라"다. 이 때문에 훈련 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 매우 강하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적고 노이즈가 많으면 과적합이 생기기 쉽다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)의 핵심은 "한 번에 다 맞히려 하지 말고, 조금씩 오차를 없애라"다. 이 때문에 훈련 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 매우 강하지만, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적고 노이즈가 많으면 과적합이 생기기 쉽다.
 
-- **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 선생님이 틀린 문제만 콕 집어 다시 내 주는 집중 보충 수업과 같다.
+- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 선생님이 틀린 문제만 콕 집어 다시 내 주는 집중 보충 수업과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)과 자주 비교된다. [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 안정성을 높이고, [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 순차적으로 정확도를 높인다. 스태킹은 여러 모델을 메타 모델로 결합한다는 점에서 또 다르다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)과 자주 비교된다. [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 안정성을 높이고, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 순차적으로 정확도를 높인다. 스태킹은 여러 모델을 메타 모델로 결합한다는 점에서 또 다르다.
 
-| 항목 | [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)) | [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)) | 스태킹 (Stacking) |
+| 항목 | [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/) ([Bagging](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)) | [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) ([Boosting](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)) | 스태킹 (Stacking) |
 | :--- | :--- | :--- | :--- |
-| 방식 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | 순차 | 계층적 |
-| 주 목표 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 편향 감소 | 메타 결합 |
+| 방식 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | 순차 | 계층적 |
+| 주 목표 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 | 편향 감소 | 메타 결합 |
 | 장점 | 안정적 | 고정밀 | 유연함 |
-| 단점 | 한계 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 과적합 위험 | 구현 복잡 |
+| 단점 | 한계 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 과적합 위험 | 구현 복잡 |
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 특히 XGBoost, LightGBM 같은 트리 기반 모델로 널리 쓰인다. 이유는 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 트리 분할이 해석과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모두 좋기 때문이다. 다만 이미지/텍스트 같은 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)에서는 딥러닝이 더 적합한 경우가 많다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 특히 XGBoost, LightGBM 같은 트리 기반 모델로 널리 쓰인다. 이유는 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 트리 분할이 해석과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모두 좋기 때문이다. 다만 이미지/텍스트 같은 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)에서는 딥러닝이 더 적합한 경우가 많다.
 
-- **📢 섹션 요약 비유**: [배깅](/knowledge-base/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 여러 사람이 각자 풀고 투표하는 것, [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 한 사람이 틀린 부분을 다음 사람에게 넘겨가며 고치는 것, 스태킹은 마지막 심사위원이 최종 판단하는 것과 같다.
+- **📢 섹션 요약 비유**: [배깅](/studynote/10_ai/03_llm_nlp/259_bagging_random_forest/)은 여러 사람이 각자 풀고 투표하는 것, [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 한 사람이 틀린 부분을 다음 사람에게 넘겨가며 고치는 것, 스태킹은 마지막 심사위원이 최종 판단하는 것과 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 트리 깊이, 서브샘플링, early stopping이 중요하다. 특히 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적거나 노이즈가 많으면 깊은 트리를 많이 쌓는 방식은 위험하다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지기 시작하면 멈춰야 한다.
+실무에서는 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 트리 깊이, 서브샘플링, early stopping이 중요하다. 특히 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적거나 노이즈가 많으면 깊은 트리를 많이 쌓는 방식은 위험하다. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지기 시작하면 멈춰야 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 문제인가?
-2. [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 트리 깊이를 낮게 시작했는가?
-3. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋과 [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)를 사용했는가?
-4. 범주형 변수 처리와 결측치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
+1. [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/) 문제인가?
+2. [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/)과 트리 깊이를 낮게 시작했는가?
+3. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)셋과 [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/)를 사용했는가?
+4. 범주형 변수 처리와 결측치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 큰 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델을 과하게 쌓는 경우
-- 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 튜닝하는 경우
-- 과적합 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 무시하고 반복 수만 늘리는 경우
+- 작은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 큰 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/) 모델을 과하게 쌓는 경우
+- 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 보고 튜닝하는 경우
+- 과적합 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 무시하고 반복 수만 늘리는 경우
 
-기술사 관점에서는 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)을 "정확도 극대화 도구"로만 말하지 말고, 왜 과적합이 생기고 어떻게 제어하는지까지 설명해야 한다. 그래야 실무 적용성이 생긴다.
+기술사 관점에서는 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)을 "정확도 극대화 도구"로만 말하지 말고, 왜 과적합이 생기고 어떻게 제어하는지까지 설명해야 한다. 그래야 실무 적용성이 생긴다.
 
-- **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 악기 연습에서 틀린 음만 계속 고치는 것과 같다. 잘 고치면 훌륭하지만, 너무 집착하면 오히려 다른 음까지 망칠 수 있다.
+- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 악기 연습에서 틀린 음만 계속 고치는 것과 같다. 잘 고치면 훌륭하지만, 너무 집착하면 오히려 다른 음까지 망칠 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 높은 예측 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 대표적인 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법이다. 작은 약점들을 차례로 메워 가는 구조 덕분에, 많은 산업 문제에서 강력한 실전 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+[부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에서 높은 예측 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내는 대표적인 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 방법이다. 작은 약점들을 차례로 메워 가는 구조 덕분에, 많은 산업 문제에서 강력한 실전 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
-하지만 순차 학습 특성상 느리고, 과적합에 민감하다. 따라서 [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "아무 때나 쓰는 만능"이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 튜닝 역량이 맞을 때 가장 빛나는 기술로 기억해야 한다.
+하지만 순차 학습 특성상 느리고, 과적합에 민감하다. 따라서 [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 "아무 때나 쓰는 만능"이 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조와 튜닝 역량이 맞을 때 가장 빛나는 기술로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 틀린 곳을 끝까지 고쳐서 만점을 노리는 공부법이다. 잘하면 최고지만, 무리하면 과도한 암기가 된다.
+- **📢 섹션 요약 비유**: [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 틀린 곳을 끝까지 고쳐서 만점을 노리는 공부법이다. 잘하면 최고지만, 무리하면 과도한 암기가 된다.
 
 ---
 
@@ -116,9 +113,9 @@ tags = ["studynote-ai"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 잔차 (Residual) | 다음 모델이 학습하는 오차 |
-| [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ([Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate) | 각 트리의 기여 크기 |
-| [조기 종료](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/knowledge-base/studynote/10_ai/03_llm_nlp/281_early_stopping/)) | 과적합 방지 장치 |
-| XGBoost | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 시스템 최적화 강화 |
+| [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) ([Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) Rate) | 각 트리의 기여 크기 |
+| [조기 종료](/studynote/10_ai/03_llm_nlp/281_early_stopping/) ([Early Stopping](/studynote/10_ai/03_llm_nlp/281_early_stopping/)) | 과적합 방지 장치 |
+| XGBoost | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)와 시스템 최적화 강화 |
 | LightGBM | 대용량과 빠른 학습에 강함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -139,11 +136,11 @@ XGBoost / LightGBM / CatBoost
 정형 데이터 고정밀 앙상블
 ```
 
-이 흐름은 오답 보정형 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)이 고성능 산업 표준으로 진화한 과정을 보여준다.
+이 흐름은 오답 보정형 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/)이 고성능 산업 표준으로 진화한 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 틀린 문제만 계속 다시 푸는 공부법이에요.
+1. [부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/)은 틀린 문제만 계속 다시 푸는 공부법이에요.
 2. 첫 번째가 틀린 곳을 두 번째가 고치고, 두 번째가 틀린 곳을 세 번째가 또 고쳐요.
 3. 그래서 마지막에는 아주 정확한 답을 만들 수 있어요.
 
@@ -153,7 +150,7 @@ XGBoost / LightGBM / CatBoost
 
 **진행 상황**: 52 / 420
 
-<- **이전**: [051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)](/knowledge-base/studynote/10_ai/01_ai_basics/051_bagging_bootstrap_aggregating_random_forest/)
-**다음**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/) ->
+<- **이전**: [051. 배깅과 랜덤 포레스트 (Bagging & Random Forest)](/studynote/10_ai/01_ai_basics/051_bagging_bootstrap_aggregating_random_forest/)
+**다음**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/) ->
 
 ---

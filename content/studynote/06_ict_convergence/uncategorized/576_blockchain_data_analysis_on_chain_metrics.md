@@ -1,13 +1,10 @@
-+++
-title = "576. 블록체인 데이터 분석 온체인 메트릭 (Blockchain Data Analysis On-chain Metrics)"
-date = 2026-05-09
+---
+title: "576. 블록체인 데이터 분석 온체인 메트릭 (Blockchain Data Analysis On-chain Metrics)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Ingest -> Normalize -> Label -> Metric -> Dashboard
 
 **진행 상황**: 576 / 800
 
-<- **이전**: [575. STO 증권형 토큰 디지털 증권](/knowledge-base/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/)
-**다음**: [577. 스테이블코인 알고리즘 담보 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/577_stablecoin_algorithm_collateral_model/) ->
+<- **이전**: [575. STO 증권형 토큰 디지털 증권](/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/)
+**다음**: [577. 스테이블코인 알고리즘 담보 모델](/studynote/06_ict_convergence/uncategorized/577_stablecoin_algorithm_collateral_model/) ->
 
 ---

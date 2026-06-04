@@ -1,35 +1,32 @@
-+++
-title = "467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)"
-date = 2026-05-09
+---
+title: "467. 디스크 접근 시간 = 탐색 시간(Seek Time) + 회전 지연(Rotational Latency) + 전송 시간(Transfer Time)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 하드 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 데 걸리는 총시간(Disk Access Time)은, 바늘을 목표 트랙으로 이동시키는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Time)'</strong>, 원판이 돌아가서 목표 섹터가 바늘 밑에 올 때까지 기다리는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>)'</strong>, 그리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 쫙 빨아들이는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a>(<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)'</strong>의 3단계 물리적 합으로 구성된다.
-> 2. **가치**: 이 3박자 중에서도 쇳덩어리(Arm)를 물리적으로 움직여야 하는 <strong>'<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Time)'이 전체 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 80% 이상을 차지하는 최악의 병목</strong>이므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 모든 초점은 이 바늘의 헛스윙(동선 낭비)을 줄이는 데 맞춰져 있다.
-> 3. **융합**: 이 기계적인 레이턴시를 덮어 가리기 위해, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 램(RAM)을 활용한 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)</strong>로 디스크 접근 자체를 0으로 만들거나, <strong>엘리베이터 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>(I/O Scheduling)</strong>를 통해 바늘의 동선을 한 방향으로 묶어버리는 극한의 소프트웨어 융합 튜닝을 선보인다.
+> 1. **본질**: 하드 디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽고 쓰는 데 걸리는 총시간(Disk Access Time)은, 바늘을 목표 트랙으로 이동시키는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Time)'</strong>, 원판이 돌아가서 목표 섹터가 바늘 밑에 올 때까지 기다리는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>)'</strong>, 그리고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 쫙 빨아들이는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a>(<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)'</strong>의 3단계 물리적 합으로 구성된다.
+> 2. **가치**: 이 3박자 중에서도 쇳덩어리(Arm)를 물리적으로 움직여야 하는 <strong>'<a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Time)'이 전체 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 시간의 80% 이상을 차지하는 최악의 병목</strong>이므로, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화의 모든 초점은 이 바늘의 헛스윙(동선 낭비)을 줄이는 데 맞춰져 있다.
+> 3. **융합**: 이 기계적인 레이턴시를 덮어 가리기 위해, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 램(RAM)을 활용한 <strong><a href="/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/">버퍼 캐시</a>(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> Cache)</strong>로 디스크 접근 자체를 0으로 만들거나, <strong>엘리베이터 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>(I/O Scheduling)</strong>를 통해 바늘의 동선을 한 방향으로 묶어버리는 극한의 소프트웨어 융합 튜닝을 선보인다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: CPU가 "디스크 LBA 500번지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가져와!"라고 명령했을 때부터, 진짜 그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램(RAM)에 도착할 때까지 걸리는 물리적 시간의 해부도다. 전자레인지에 데우는 시간(전송)만 있는 게 아니라, 전자레인지 문 열고 넣는 시간(탐색), 접시가 돌아갈 때까지 기다리는 시간([회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))이 합쳐져야 요리가 완성된다.
-- **필요성**: 컴퓨터의 다른 모든 부품(CPU, RAM)은 전자가 빛의 속도로 튀어 다니는([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 반도체다. 오직 하드 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))만이 <strong>"모터가 징~ 돌고 쇳덩어리가 덜그럭 움직이는" 19세기 아날로그 기계 장치</strong>다. CPU는 1초에 30억 번을 계산하는데, 하드디스크 바늘 한 번 움직이는 데 0.008초(800만 번 연산할 시간)가 걸린다. 시스템 엔지니어가 왜 서버가 느린지 튜닝하려면, 도대체 이 8밀리초라는 영겁의 시간이 디스크 내부의 '어떤 움직임'에서 까먹히는지 뼈와 살을 분리해 진단해야만 했다. 이 3대 구성 요소는 모든 I/O 튜닝(조각모음, 스케줄링)의 근본적인 타겟이 된다.
+- **개념**: CPU가 "디스크 LBA 500번지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 가져와!"라고 명령했을 때부터, 진짜 그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 램(RAM)에 도착할 때까지 걸리는 물리적 시간의 해부도다. 전자레인지에 데우는 시간(전송)만 있는 게 아니라, 전자레인지 문 열고 넣는 시간(탐색), 접시가 돌아갈 때까지 기다리는 시간([회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))이 합쳐져야 요리가 완성된다.
+- **필요성**: 컴퓨터의 다른 모든 부품(CPU, RAM)은 전자가 빛의 속도로 튀어 다니는([Solid](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 반도체다. 오직 하드 디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))만이 <strong>"모터가 징~ 돌고 쇳덩어리가 덜그럭 움직이는" 19세기 아날로그 기계 장치</strong>다. CPU는 1초에 30억 번을 계산하는데, 하드디스크 바늘 한 번 움직이는 데 0.008초(800만 번 연산할 시간)가 걸린다. 시스템 엔지니어가 왜 서버가 느린지 튜닝하려면, 도대체 이 8밀리초라는 영겁의 시간이 디스크 내부의 '어떤 움직임'에서 까먹히는지 뼈와 살을 분리해 진단해야만 했다. 이 3대 구성 요소는 모든 I/O 튜닝(조각모음, 스케줄링)의 근본적인 타겟이 된다.
 
-  1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time)</strong>: 사서가 카트를 끌고 내가 찾는 책이 있는 '5번 서가(트랙)'까지 걸어가는 시간이다 (제일 오래 걸림).
-  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>)</strong>: 5번 서가에 도착했는데, 책꽂이가 뺑글뺑글 도는 회전식이라 내 책이 사서 눈앞에 올 때까지 멍하니 서서 기다리는 시간이다.
-  3. <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)</strong>: 눈앞에 온 책을 뽑아서 카트에 싣고 밖으로 던져주는 시간이다 (제일 짧음).
+  1. <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time)</strong>: 사서가 카트를 끌고 내가 찾는 책이 있는 '5번 서가(트랙)'까지 걸어가는 시간이다 (제일 오래 걸림).
+  2. <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>)</strong>: 5번 서가에 도착했는데, 책꽂이가 뺑글뺑글 도는 회전식이라 내 책이 사서 눈앞에 올 때까지 멍하니 서서 기다리는 시간이다.
+  3. <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)</strong>: 눈앞에 온 책을 뽑아서 카트에 싣고 밖으로 던져주는 시간이다 (제일 짧음).
 
 - **등장 배경 및 물리 법칙과의 전쟁**:
-  1. **CPU 스피드의 폭주**: 무어의 법칙으로 CPU가 빛처럼 빨라지자, 기계식 디스크의 느림이 컴퓨터 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 목조르는 최악의 병목([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/))으로 등극.
-  2. **병목 구간의 특정**: 디스크 제조사들이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(MB/s)은 늘렸지만, 바늘이 움직이는 물리적 시간(ms)은 물리 법칙 때문에 못 줄이고 쩔쩔맴.
-  3. **소프트웨어의 멱살 캐리**: 하드웨어가 못 줄이는 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 엘리베이터식 스케줄링으로 커버해야 하는 필연적 이유가 정립됨.
+  1. **CPU 스피드의 폭주**: 무어의 법칙으로 CPU가 빛처럼 빨라지자, 기계식 디스크의 느림이 컴퓨터 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 목조르는 최악의 병목([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/))으로 등극.
+  2. **병목 구간의 특정**: 디스크 제조사들이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송하는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(MB/s)은 늘렸지만, 바늘이 움직이는 물리적 시간(ms)은 물리 법칙 때문에 못 줄이고 쩔쩔맴.
+  3. **소프트웨어의 멱살 캐리**: 하드웨어가 못 줄이는 [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)을 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 엘리베이터식 스케줄링으로 커버해야 하는 필연적 이유가 정립됨.
 
 ```text
 +-------------------------------------------------------------------------+
@@ -55,41 +52,41 @@ tags = ["studynote-operating-system"]
 |                       = 약 12 밀리초 (ms)                               |
 +-------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 이 공식을 뚫어지게 보면 깨닫게 된다. "[전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)(MB/s)"은 사실 속도에 아무런 영향을 주지 못한다. 진짜 범인은 쇳덩어리가 움직이는 <strong>Seek Time</strong>이다. 내가 1바이트를 읽든 1MB를 읽든, 저 덜그럭거리는 바늘 이동 시간(8ms)은 무조건 고정세금으로 빠져나간다. 그래서 디스크는 자잘한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만 개(랜덤 액세스) 복사하면 죽어나가고, 10GB짜리 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개(순차 접근)를 복사하면 바늘을 안 움직이고 쭉 빨아들이니 로켓처럼 빠른 것이다.
+**[다이어그램 해설]** 이 공식을 뚫어지게 보면 깨닫게 된다. "[전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)(MB/s)"은 사실 속도에 아무런 영향을 주지 못한다. 진짜 범인은 쇳덩어리가 움직이는 <strong>Seek Time</strong>이다. 내가 1바이트를 읽든 1MB를 읽든, 저 덜그럭거리는 바늘 이동 시간(8ms)은 무조건 고정세금으로 빠져나간다. 그래서 디스크는 자잘한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만 개(랜덤 액세스) 복사하면 죽어나가고, 10GB짜리 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 1개(순차 접근)를 복사하면 바늘을 안 움직이고 쭉 빨아들이니 로켓처럼 빠른 것이다.
 
-- **📢 섹션 요약 비유**: 짜장면 배달을 시켰을 때, 철가방에서 짜장면을 꺼내 내 책상에 올려주는 시간([전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))은 1초면 됩니다. 하지만 중국집에서 우리 집까지 오토바이를 타고 오는 시간([탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/))과, 하필 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등에 걸려 파란불이 될 때까지 멍하니 서 있는 시간([회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))이 30분이나 잡아먹는 것이 배달(I/O)의 서글픈 현실입니다.
+- **📢 섹션 요약 비유**: 짜장면 배달을 시켰을 때, 철가방에서 짜장면을 꺼내 내 책상에 올려주는 시간([전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))은 1초면 됩니다. 하지만 중국집에서 우리 집까지 오토바이를 타고 오는 시간([탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/))과, 하필 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등에 걸려 파란불이 될 때까지 멍하니 서 있는 시간([회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))이 30분이나 잡아먹는 것이 배달(I/O)의 서글픈 현실입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (Seek Time)의 치명상
+### 1. [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) (Seek Time)의 치명상
 
-헤드(바늘)를 움직이는 액추에이터(Actuator) 모터의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정한다.
-- 1990년대 하드디스크의 평균 Seek Time은 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15ms였다.
+헤드(바늘)를 움직이는 액추에이터(Actuator) 모터의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정한다.
+- 1990년대 하드디스크의 평균 Seek Time은 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15ms였다.
 - 2020년대 엔터프라이즈 하드디스크의 Seek Time은? 놀랍게도 <strong>4~8ms</strong>다.
 - 30년 동안 CPU는 수천 배 빨라졌는데, 디스크 바늘 속도는 고작 2배 빨라졌다. 쇳덩어리를 너무 빨리 움직이면 관성 때문에 위치를 못 잡고 튕겨 나가서 플래터(원판)를 박살 내버리기 때문이다(물리 법칙의 한계).
-- **소프트웨어의 타협**: 하드가 멍청하니 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 바늘 동선을 아껴주기 위해 I/O 스케줄링(엘리베이터) 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 램에 거대하게 파놓게 되었다.
+- **소프트웨어의 타협**: 하드가 멍청하니 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 바늘 동선을 아껴주기 위해 I/O 스케줄링(엘리베이터) 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 램에 거대하게 파놓게 되었다.
 
 ---
 
-### 2. [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/) ([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))과 RPM
+### 2. [회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/) ([Rotational Latency](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/))과 RPM
 
 바늘이 트랙에 도착했는데, 원하는 섹터가 반대편에 있으면 원판이 반 바퀴 돌 때까지 기다려야 한다.
 - 하드디스크 스펙에 적힌 <strong>7200 RPM, 5400 RPM, 10000 RPM (분당 회전수)</strong>이 바로 이 시간을 결정한다.
-- 7200 RPM 하드는 1바퀴 도는 데 약 8.33ms가 걸린다. 운 좋으면 0초, 운 나쁘면 8.33ms를 기다려야 하니, <strong>평균 <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> 시간은 그 절반인 4.16ms</strong>가 된다.
+- 7200 RPM 하드는 1바퀴 도는 데 약 8.33ms가 걸린다. 운 좋으면 0초, 운 나쁘면 8.33ms를 기다려야 하니, <strong>평균 <a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> 시간은 그 절반인 4.16ms</strong>가 된다.
 - 서버용 15000 RPM 하드는 헬기 엔진처럼 미친 듯이 돌아서 이 대기 시간을 2ms로 줄여준다. 대신 발열과 굉음이 폭발한다.
 
 ---
 
-### 3. [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/) ([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))
+### 3. [전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/) ([Transfer Time](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))
 
-바늘이 0과 1의 자성을 읽어서 메인보드 선([SATA](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/SAS)을 타고 램까지 가는 시간이다.
-- 섹터의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양 / 디스크의 회전 속도로 결정된다.
+바늘이 0과 1의 자성을 읽어서 메인보드 선([SATA](/studynote/01_computer_architecture/08_io_storage_systems/341_sata/)/SAS)을 타고 램까지 가는 시간이다.
+- 섹터의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양 / 디스크의 회전 속도로 결정된다.
 - 100MB/s 속도의 하드에서 4KB를 전송하는 데 걸리는 시간은 약 <strong>0.04ms</strong>다.
-- **결론**: 앞의 Seek Time(8ms)에 비하면 티끌만 한 시간이다. 1바이트를 읽기 위해 8ms의 세금을 냈으니, 차라리 한 번 바늘이 간 김에 그 주변 4KB나 1MB를 <strong>뭉텅이로 싹 다 퍼오는 것(Block I/O, <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/">Prefetching</a>)</strong>이 경제학적으로 수백 배 이득이라는 결론이 도출된다.
+- **결론**: 앞의 Seek Time(8ms)에 비하면 티끌만 한 시간이다. 1바이트를 읽기 위해 8ms의 세금을 냈으니, 차라리 한 번 바늘이 간 김에 그 주변 4KB나 1MB를 <strong>뭉텅이로 싹 다 퍼오는 것(Block I/O, <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/">Prefetching</a>)</strong>이 경제학적으로 수백 배 이득이라는 결론이 도출된다.
 
-- **📢 섹션 요약 비유**: [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 "원하는 층의 책장 앞까지 걸어가는 시간"이라면, [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)은 "도서관 회전문이 내 앞에 멈출 때까지 기다리는 시간"입니다. [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)은 "책을 가방에 넣는 시간"이죠. 걸어가고 기다리느라 30분이 걸렸는데, 달랑 만화책 1권만 가방에 넣고(전송) 오면 너무 아깝잖아요? 이왕 간 김에 옆에 꽂힌 만화 전집 10권을 싹 다 가방에 쓸어 담아([미리 읽기](/knowledge-base/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/)) 오는 게 천재적인 독서가(OS)입니다.
+- **📢 섹션 요약 비유**: [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 "원하는 층의 책장 앞까지 걸어가는 시간"이라면, [회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)은 "도서관 회전문이 내 앞에 멈출 때까지 기다리는 시간"입니다. [전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)은 "책을 가방에 넣는 시간"이죠. 걸어가고 기다리느라 30분이 걸렸는데, 달랑 만화책 1권만 가방에 넣고(전송) 오면 너무 아깝잖아요? 이왕 간 김에 옆에 꽂힌 만화 전집 10권을 싹 다 가방에 쓸어 담아([미리 읽기](/studynote/02_operating_system/09_file_system/537_read_ahead_delayed_write/)) 오는 게 천재적인 독서가(OS)입니다.
 
 ---
 
@@ -97,22 +94,22 @@ tags = ["studynote-operating-system"]
 
 ### 비교 1: 순차 접근(Sequential) vs 임의 접근(Random) IOPS
 
-현업 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계자가 뼈에 새기고 사는 두 접근 방식의 극단적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이다.
+현업 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계자가 뼈에 새기고 사는 두 접근 방식의 극단적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이다.
 
-| 항목 | 임의 접근 (Random Access) | 순차 접근 ([Sequential Access](/knowledge-base/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/)) |
+| 항목 | 임의 접근 (Random Access) | 순차 접근 ([Sequential Access](/studynote/02_operating_system/09_file_system/504_file_access_methods_sequential_direct/)) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치</strong> | 디스크 전역에 뿔뿔이 흩어져 있음 | 바로 옆집에 1번부터 100만 번까지 쫙 붙어 있음 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치</strong> | 디스크 전역에 뿔뿔이 흩어져 있음 | 바로 옆집에 1번부터 100만 번까지 쫙 붙어 있음 |
 | **바늘의 움직임** | 1개 읽고 휙 점프, 1개 읽고 휙 점프 | 바늘 고정! 원판만 돌리면서 테이프처럼 쫙 빨아들임 |
-| <strong>지배적 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요소</strong>| <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time)</strong> 90% 소모 | <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)</strong> 99% 소모 (탐색 0회) |
-| **하드디스크 속도**| **1~2 MB/s (절망적 속도, USB보다 느림)**| <strong>200 MB/s (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>! 랜카드 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 압살함)</strong> |
-| **주 사용 앱** | DB의 [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색, OS 부팅 | 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사, [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 빅데이터 풀 스캔 |
+| <strong>지배적 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 요소</strong>| <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time)</strong> 90% 소모 | <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>)</strong> 99% 소모 (탐색 0회) |
+| **하드디스크 속도**| **1~2 MB/s (절망적 속도, USB보다 느림)**| <strong>200 MB/s (<a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>! 랜카드 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 압살함)</strong> |
+| **주 사용 앱** | DB의 [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색, OS 부팅 | 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 복사, [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 빅데이터 풀 스캔 |
 
-### 비교 2: [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) vs [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (물리적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 소멸)
-그렇다면 비싼 돈 주고 산 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 이 3박자 공식이 어떻게 바뀔까?
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time) = 0 ms</strong> (바늘이 없으니 이동 시간 없음)
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>) = 0 ms</strong> (원판이 없으니 기다림 없음)
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>) = 0.01 ms</strong> (전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 플래시 셀 다이렉트 샷)
-- **결론**: SSD는 악마 같은 앞의 두 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(기계적 렉)을 트랜지스터의 힘으로 0으로 지워버렸다. 덕분에 랜덤 액세스(Random I/O) 속도가 하드디스크 대비 무려 **10만 배** 폭등하며, OS의 I/O [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(엘리베이터) 따위는 휴지통에 처박아도 될 정도의 폭력적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 혁명을 일으켰다.
+### 비교 2: [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) vs [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) (물리적 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 소멸)
+그렇다면 비싼 돈 주고 산 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD는 이 3박자 공식이 어떻게 바뀔까?
+- <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a> (Seek Time) = 0 ms</strong> (바늘이 없으니 이동 시간 없음)
+- <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">회전 지연</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/">Rotational Latency</a>) = 0 ms</strong> (원판이 없으니 기다림 없음)
+- <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">전송 시간</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/">Transfer Time</a>) = 0.01 ms</strong> (전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 플래시 셀 다이렉트 샷)
+- **결론**: SSD는 악마 같은 앞의 두 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(기계적 렉)을 트랜지스터의 힘으로 0으로 지워버렸다. 덕분에 랜덤 액세스(Random I/O) 속도가 하드디스크 대비 무려 **10만 배** 폭등하며, OS의 I/O [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)(엘리베이터) 따위는 휴지통에 처박아도 될 정도의 폭력적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 혁명을 일으켰다.
 
 ```text
 +----------+------------+------------+-------------------+
@@ -122,31 +119,31 @@ tags = ["studynote-operating-system"]
 | 최신 SSD | 🚀 0.0 ms  | 🚀 0.0 ms   | 🚀 0.01 ms       |
 +----------+------------+------------+-------------------+
 ```
-**[매트릭스 해설]** SSD의 발명은 인류 컴퓨터 역사상 RAM 다음으로 가장 위대한 도약이다. 저 매트릭스를 보면 [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절 OS 개발자들이 `Seek Time` 1ms를 줄여보겠다고 수만 줄의 스케줄링 큐 코드를 짜며 밤을 새운 것이 허무해질 정도다. 기술의 진보는 소프트웨어의 삽질을 하드웨어의 힘으로 눌러버리는 과정이다.
+**[매트릭스 해설]** SSD의 발명은 인류 컴퓨터 역사상 RAM 다음으로 가장 위대한 도약이다. 저 매트릭스를 보면 [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시절 OS 개발자들이 `Seek Time` 1ms를 줄여보겠다고 수만 줄의 스케줄링 큐 코드를 짜며 밤을 새운 것이 허무해질 정도다. 기술의 진보는 소프트웨어의 삽질을 하드웨어의 힘으로 눌러버리는 과정이다.
 
-- **📢 섹션 요약 비유**: HDD는 사다리차(Seek)를 타고 10층 창문으로 올라가서, 빙글빙글 도는 식탁(Rotate)의 음식을 집어오는 서커스입니다. SSD는 그냥 각 방마다 마법의 텔레포트 구멍(전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))이 뚫려있어서, 100층이든 1층이든 손만 뻗으면 0초 만에 음식을 꺼내오는 마법입니다.
+- **📢 섹션 요약 비유**: HDD는 사다리차(Seek)를 타고 10층 창문으로 올라가서, 빙글빙글 도는 식탁(Rotate)의 음식을 집어오는 서커스입니다. SSD는 그냥 각 방마다 마법의 텔레포트 구멍(전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))이 뚫려있어서, 100층이든 1층이든 손만 뻗으면 0초 만에 음식을 꺼내오는 마법입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오: 디스크 조각 모음 (Defragmentation)의 진실
-1. **과거의 의식**: 윈도우 98/[XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 시절, 사람들은 밤마다 화면에 색깔 상자들이 이리저리 옮겨 다니는 '디스크 조각 모음'을 돌려놓고 잤다. 이걸 안 하면 컴퓨터가 기어 다녔다.
+1. **과거의 의식**: 윈도우 98/[XP](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/) 시절, 사람들은 밤마다 화면에 색깔 상자들이 이리저리 옮겨 다니는 '디스크 조각 모음'을 돌려놓고 잤다. 이걸 안 하면 컴퓨터가 기어 다녔다.
 2. **원인 (Seek Time의 역습)**:
-   - [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰고 지우다 보면 10MB짜리 엑셀 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 하드디스크의 1번, 50만 번, 90만 번 섹터로 갈기갈기 찢어진다([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)).
-   - 엑셀을 켤 때, 바늘이 이 3곳을 뛰어다니느라 <strong><a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Penalty)</strong>을 3연타로 쳐맞고 렉이 폭발한다.
+   - [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 쓰고 지우다 보면 10MB짜리 엑셀 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 하드디스크의 1번, 50만 번, 90만 번 섹터로 갈기갈기 찢어진다([단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/)).
+   - 엑셀을 켤 때, 바늘이 이 3곳을 뛰어다니느라 <strong><a href="/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/">탐색 시간</a>(Seek Penalty)</strong>을 3연타로 쳐맞고 렉이 폭발한다.
 3. **조각 모음의 위력**:
-   - 조각 모음은 이 찢어진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 물리적으로 디스크 한곳에 예쁘게 `1, 2, 3번` 연속으로 쫙 모아주는 수집 연산이다.
+   - 조각 모음은 이 찢어진 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조각들을 물리적으로 디스크 한곳에 예쁘게 `1, 2, 3번` 연속으로 쫙 모아주는 수집 연산이다.
    - 이렇게 모아두면 바늘이 한 번만 이동해서 쭉 긁어오면 되니(Sequential), 엑셀 켜지는 속도가 10배 빨라지는 극강의 튜닝이었다.
-4. <strong>현대의 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 시대)</strong>:
-   - <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> SSD에 디스크 조각 모음을 돌리는 것은 미친 짓이자 자해 공갈이다.</strong>
-   - SSD는 바늘이 없어서 조각이 1만 개로 찢어져 있어도 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time)이 영원히 0이다.
-   - 조각 모음을 한다고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 지우면, 오히려 플래시 메모리의 소중한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명(TBW)만 수십 GB씩 깎아 먹어 비싼 SSD를 조기 사망시키는 최악의 테러 행위가 된다.
+4. <strong>현대의 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (<a href="/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/">SSD</a> 시대)</strong>:
+   - <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> SSD에 디스크 조각 모음을 돌리는 것은 미친 짓이자 자해 공갈이다.</strong>
+   - SSD는 바늘이 없어서 조각이 1만 개로 찢어져 있어도 [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time)이 영원히 0이다.
+   - 조각 모음을 한다고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쓰고 지우면, 오히려 플래시 메모리의 소중한 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 수명(TBW)만 수십 GB씩 깎아 먹어 비싼 SSD를 조기 사망시키는 최악의 테러 행위가 된다.
 
-### [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4, NTFS)의 Block Allocation 꼼수
-최신 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 때 빈 곳 아무 데나 1개씩 쑤셔 넣지 않는다. "어차피 Seek Time 줄이려면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모여있는 게 짱이지!"라며, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 저장할 때 아예 연속된 블록 100개(Block Group)를 통째로 선점(Pre-allocation)해서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이쁘게 뭉쳐 쓴다. 하드웨어의 약점(탐색 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 소프트웨어([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)가 온몸을 비틀어 감싸 안아주는 눈물겨운 우정이다.
+### [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템(EXT4, NTFS)의 Block Allocation 꼼수
+최신 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 저장할 때 빈 곳 아무 데나 1개씩 쑤셔 넣지 않는다. "어차피 Seek Time 줄이려면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모여있는 게 짱이지!"라며, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 하나를 저장할 때 아예 연속된 블록 100개(Block Group)를 통째로 선점(Pre-allocation)해서 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이쁘게 뭉쳐 쓴다. 하드웨어의 약점(탐색 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))을 소프트웨어([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템)가 온몸을 비틀어 감싸 안아주는 눈물겨운 우정이다.
 
-- **📢 섹션 요약 비유**: 흩어진 퍼즐 조각을 주울 때, 방 여기저기 뛰어다니며 줍는 것([단편화](/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 렉)보다 한곳에 빗자루로 모아놓고 한 방에 쓸어 담는 게(조각 모음) 빠릅니다. 하지만 내 몸이 순간 이동([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))을 할 수 있다면, 굳이 빗자루질하느라 땀 뺄 필요 없이 순간 이동으로 하나씩 주워 담는 게 제일 빠르고 힘 안 드는 법입니다.
+- **📢 섹션 요약 비유**: 흩어진 퍼즐 조각을 주울 때, 방 여기저기 뛰어다니며 줍는 것([단편화](/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/) 렉)보다 한곳에 빗자루로 모아놓고 한 방에 쓸어 담는 게(조각 모음) 빠릅니다. 하지만 내 몸이 순간 이동([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))을 할 수 있다면, 굳이 빗자루질하느라 땀 뺄 필요 없이 순간 이동으로 하나씩 주워 담는 게 제일 빠르고 힘 안 드는 법입니다.
 
 ---
 
@@ -157,14 +154,14 @@ tags = ["studynote-operating-system"]
 | 구분 | 내용 |
 |:---|:---|
 | **I/O 병목의 근본 원인 도출** | "왜 서버가 느린가?"에 대해 막연한 감이 아니라, Seek Time 8ms라는 정확한 물리적 수치로 병목 지점을 특정 |
-| <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 탄생</strong> | 이 기계적 렉을 극복하기 위해 [엘리베이터 알고리즘](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/)(CFQ)과 [버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)라는 거대한 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 생태계가 탄생 |
-| **저장 장치 세대교체의 당위성** | [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)의 물리적 벽을 깨부순 SSD의 0ms [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 왜 컴퓨터 패러다임을 바꾼 혁명인지 가장 논리적으로 입증 |
+| <strong>OS <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a>의 탄생</strong> | 이 기계적 렉을 극복하기 위해 [엘리베이터 알고리즘](/studynote/02_operating_system/08_storage_and_io_systems/471_scan_elevator_scheduling/)(CFQ)과 [버퍼 캐시](/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)라는 거대한 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 생태계가 탄생 |
+| **저장 장치 세대교체의 당위성** | [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)의 물리적 벽을 깨부순 SSD의 0ms [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 왜 컴퓨터 패러다임을 바꾼 혁명인지 가장 논리적으로 입증 |
 
 ### 결론 및 미래 전망
 
-디스크 접근 시간 (Disk Access Time)의 3단계 해부도는, 1950년대부터 반세기 넘게 인류의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임져 온 자성 원판([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 위대함과 그 처절한 기계적 한계를 동시에 보여주는 설계도다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 수많은 꼼수([버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), 스케줄링)는 오로지 저 '[탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time)'이라는 쇳덩어리의 관성을 피하기 위해 발명된 눈물겨운 발버둥이었다. 오늘날 SSD의 대중화로 이 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)의 공포는 역사의 뒤안길로 사라지고 있지만, 대용량 아카이브와 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에는 여전히 가성비의 제왕인 HDD가 수만 대씩 윙윙거리며 돌고 있다. 미래의 시스템 아키텍트 역시 "기계적 움직임이 들어가는 곳에는 반드시 끔찍한 병목이 터지며, 이를 막기 위해서는 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 묶고 동선을 짜주는 소프트웨어 튜닝([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))이 필수다"라는 이 3박자 렉이 가르쳐준 불변의 진리를 가슴에 새겨야 할 것이다.
+디스크 접근 시간 (Disk Access Time)의 3단계 해부도는, 1950년대부터 반세기 넘게 인류의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임져 온 자성 원판([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/))의 위대함과 그 처절한 기계적 한계를 동시에 보여주는 설계도다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 수많은 꼼수([버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/), [스풀링](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), 스케줄링)는 오로지 저 '[탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time)'이라는 쇳덩어리의 관성을 피하기 위해 발명된 눈물겨운 발버둥이었다. 오늘날 SSD의 대중화로 이 [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)의 공포는 역사의 뒤안길로 사라지고 있지만, 대용량 아카이브와 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에는 여전히 가성비의 제왕인 HDD가 수만 대씩 윙윙거리며 돌고 있다. 미래의 시스템 아키텍트 역시 "기계적 움직임이 들어가는 곳에는 반드시 끔찍한 병목이 터지며, 이를 막기 위해서는 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))를 묶고 동선을 짜주는 소프트웨어 튜닝([Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))이 필수다"라는 이 3박자 렉이 가르쳐준 불변의 진리를 가슴에 새겨야 할 것이다.
 
-- **📢 섹션 요약 비유**: 로켓을 쏘아 올릴 때 대기권을 돌파하는 10분(Seek Time)이 가장 힘들고 연료를 많이 먹습니다. 우주에 진입하면([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)) 적은 힘으로도 빛처럼 날아갑니다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 대기권 돌파의 고통을 줄이기 위해 로켓 발사 횟수를 최소로 줄이고 한 번에 짐을 꽉꽉 채워 쏘는([버퍼 캐시](/knowledge-base/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) 치밀한 우주 공학을 실천하고 있는 것입니다.
+- **📢 섹션 요약 비유**: 로켓을 쏘아 올릴 때 대기권을 돌파하는 10분(Seek Time)이 가장 힘들고 연료를 많이 먹습니다. 우주에 진입하면([Transfer Time](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)) 적은 힘으로도 빛처럼 날아갑니다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 대기권 돌파의 고통을 줄이기 위해 로켓 발사 횟수를 최소로 줄이고 한 번에 짐을 꽉꽉 채워 쏘는([버퍼 캐시](/studynote/02_operating_system/09_file_system/536_buffer_cache_page_cache/)) 치밀한 우주 공학을 실천하고 있는 것입니다.
 
 ---
 
@@ -172,10 +169,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [하드 디스크 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) ([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [논리적 블록 주소](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ([Disk Scheduling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)) 목적 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [하드 디스크 드라이브](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) ([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 구조 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [논리적 블록 주소](/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [디스크 스케줄링](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ([Disk Scheduling](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)) 목적 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First-Come, First-Served) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,9 +190,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))은 컴퓨터가 디스크와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 [논리적 블록 주소](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address)을 이해하면 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 디스크 접근 시간 = [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))을 잘 알면 나중에 [디스크 스케줄링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ([Disk Scheduling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)) 목적도 훨씬 쉽게 배울 수 있어요.
+1. 디스크 접근 시간 = [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))은 컴퓨터가 디스크와 장치가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
+2. 먼저 [논리적 블록 주소](/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/) (LBA, Logical Block Address)을 이해하면 디스크 접근 시간 = [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 디스크 접근 시간 = [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)(Seek Time) + [회전 지연](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)([Rotational Latency](/studynote/01_computer_architecture/08_io_storage_systems/325_rotational_latency/)) + [전송 시간](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/)([Transfer Time](/studynote/01_computer_architecture/08_io_storage_systems/326_transfer_time/))을 잘 알면 나중에 [디스크 스케줄링](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ([Disk Scheduling](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/)) 목적도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -203,7 +200,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 467 / 800
 
-<- **이전**: [466. 논리적 블록 주소 (LBA, Logical Block Address) - 1차원 배열로 매핑](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/)
-**다음**: [468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ->
+<- **이전**: [466. 논리적 블록 주소 (LBA, Logical Block Address) - 1차원 배열로 매핑](/studynote/02_operating_system/08_storage_and_io_systems/466_logical_block_address_lba/)
+**다음**: [468. 디스크 스케줄링 (Disk Scheduling) 목적 - 탐색 시간 최소화, 처리량 극대화](/studynote/02_operating_system/08_storage_and_io_systems/468_disk_scheduling_purpose/) ->
 
 ---

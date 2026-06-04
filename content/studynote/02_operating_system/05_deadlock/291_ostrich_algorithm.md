@@ -1,29 +1,26 @@
-+++
-title = "291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략"
-date = 2026-05-09
+---
+title: "291. 타조 알고리즘 (Ostrich Algorithm) - 대부분의 OS가 채택하는 무시 전략"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Ostrich [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 맹수가 다가오면 모래에 머리를 박고 '문제가 없다'고 외면하는 타조의 습성에서 유래한 최적화 패러다임으로, 수학적으로 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 극히 낮은 데드락 발생 자체를 시스템 레벨에서 "무시(Ignorance)"하는 전략을 뜻한다.
-> 2. **가치**: 데드락 예방, 회피, 탐지를 위해 시시각각 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 소중한 CPU 클록과 메모리(오버헤드)를 낭비하느니, 차라리 1년에 한 번 얼어버릴 때 사용자가 직접 `Ctrl+Alt+Del` 이나 `Kill -9`로 재부팅(소프트 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하게 만드는 것이 경제 공학적으로 압도적 이득(Cost-Benefit)이기 때문이다.
-> 3. **융합**: 고도의 신뢰성이 요구되는 항공/우주 RTOS를 제외한, UNIX, Linux, Windows 계열의 거의 모든 대중적 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자원 할당의 복잡도 딜레마를 타개하기 위해 암묵적으로 채택한 데드락 대책의 최종 승자적 융합 철학이다.
+> 1. **본질**: 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Ostrich [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 맹수가 다가오면 모래에 머리를 박고 '문제가 없다'고 외면하는 타조의 습성에서 유래한 최적화 패러다임으로, 수학적으로 일어날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 극히 낮은 데드락 발생 자체를 시스템 레벨에서 "무시(Ignorance)"하는 전략을 뜻한다.
+> 2. **가치**: 데드락 예방, 회피, 탐지를 위해 시시각각 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 소중한 CPU 클록과 메모리(오버헤드)를 낭비하느니, 차라리 1년에 한 번 얼어버릴 때 사용자가 직접 `Ctrl+Alt+Del` 이나 `Kill -9`로 재부팅(소프트 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))하게 만드는 것이 경제 공학적으로 압도적 이득(Cost-Benefit)이기 때문이다.
+> 3. **융합**: 고도의 신뢰성이 요구되는 항공/우주 RTOS를 제외한, UNIX, Linux, Windows 계열의 거의 모든 대중적 범용 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 자원 할당의 복잡도 딜레마를 타개하기 위해 암묵적으로 채택한 데드락 대책의 최종 승자적 융합 철학이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터 과학자들은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 악마를 잡기 위해 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 수많은 아름다운 수학 공식을 탄생시켰다. 하지만 정작 이 공식을 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 탑재해 돌려보니, 쥐(데드락) 한 마리 잡자고 초가삼간(컴퓨터 퍼포먼스)을 다 태우는 격이 되었다.
+컴퓨터 과학자들은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)라는 악마를 잡기 위해 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 수많은 아름다운 수학 공식을 탄생시켰다. 하지만 정작 이 공식을 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 탑재해 돌려보니, 쥐(데드락) 한 마리 잡자고 초가삼간(컴퓨터 퍼포먼스)을 다 태우는 격이 되었다.
 
-그래서 공학자들은 냉정한 타협을 한다. <strong>"데드락이 일어날 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>은 수만 분의 일이다. 터져서 재부팅하는 손실이, 평생 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 느린 채로 타이핑하는 손실보다 싸게 막힌다."</strong> 바로 이 모래밭에 머리 박기가 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+그래서 공학자들은 냉정한 타협을 한다. <strong>"데드락이 일어날 <a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>은 수만 분의 일이다. 터져서 재부팅하는 손실이, 평생 <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 느린 채로 타이핑하는 손실보다 싸게 막힌다."</strong> 바로 이 모래밭에 머리 박기가 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-**💡 비유**: 길 가다 운석에 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)). 이를 방어하겠다고 매일 50kg짜리 티타늄 헬멧(회피 오버헤드)을 쓰고 다닐 것인가? 아니면 헬멧 없이 다니면서 만약 맞으면 재수 없게 병원(재부팅)에 한번 실려 가고 말 것인가? 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 후자다.
+**💡 비유**: 길 가다 운석에 맞을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)([교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)). 이를 방어하겠다고 매일 50kg짜리 티타늄 헬멧(회피 오버헤드)을 쓰고 다닐 것인가? 아니면 헬멧 없이 다니면서 만약 맞으면 재수 없게 병원(재부팅)에 한번 실려 가고 말 것인가? 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 후자다.
 
 ```text
 +--------------------------------------------------------------+
@@ -47,7 +44,7 @@ tags = ["studynote-operating-system"]
 +--------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 빈대 잡으려 초가삼간 안 태운다 — 평생 어쩌다 한 번 나타나는 빈대(데드락) 때문에 매일 밤 방독면(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쓰고 자면 병이 납니다. 그냥 자다가 물리면 긁는 게 낫습니다.
+**📢 섹션 요약 비유**: 빈대 잡으려 초가삼간 안 태운다 — 평생 어쩌다 한 번 나타나는 빈대(데드락) 때문에 매일 밤 방독면(탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쓰고 자면 병이 납니다. 그냥 자다가 물리면 긁는 게 낫습니다.
 
 ---
 
@@ -55,38 +52,38 @@ tags = ["studynote-operating-system"]
 
 ### 방어 로직의 "어플리케이션 계층 하청"
 
-OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 채택한다고 해서 데드락이 완전 무법천지가 되는 것은 아니다. 책임을 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)할 뿐이다.
+OS [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 채택한다고 해서 데드락이 완전 무법천지가 되는 것은 아니다. 책임을 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)할 뿐이다.
 
-1. <strong>OS (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>: "나는 가만히 있을 테니, 메모리랑 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 속도나 최고로 뽑아줄게."
-2. **응용 프로그램 (App)**: "어쩔 수 없지. 데드락이 치명적인 데이터페이스(DB) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 백엔드 프로그램인 우리가 직접 유저 모드에서 Lock_Timeout 이나 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim 킬(Kill)을 코딩하자."
+1. <strong>OS (<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>)</strong>: "나는 가만히 있을 테니, 메모리랑 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 접근 속도나 최고로 뽑아줄게."
+2. **응용 프로그램 (App)**: "어쩔 수 없지. 데드락이 치명적인 데이터페이스(DB) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이나 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 백엔드 프로그램인 우리가 직접 유저 모드에서 Lock_Timeout 이나 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Victim 킬(Kill)을 코딩하자."
 3. **최종 사용자 (User)**: "어? 웹 브라우저가 안 꺼지네? 작업 관리자 들어가서 `강제 종료` 해야겠다."
 
 결과적으로, 범용적 컴퓨팅에 가장 최적화된 다단계 보안/방어망이 자연스럽게 형성되었다. OS는 제일 무거운 아키텍처 굴레에서 벗어났다.
 
-**📢 섹션 요약 비유**: 정부(OS)는 길에 모든 경찰을 세우는 대신 "알아서 문단속 하세요(어플리케이션 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))"로 자율화시켰고, 진짜 큰 문제가 생기면 시민(사용자)이 신고(강제 종료)하는 시스템입니다.
+**📢 섹션 요약 비유**: 정부(OS)는 길에 모든 경찰을 세우는 대신 "알아서 문단속 하세요(어플리케이션 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))"로 자율화시켰고, 진짜 큰 문제가 생기면 시민(사용자)이 신고(강제 종료)하는 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 판단 근거 | 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용 (Windows, Linux) | 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 배제 (의료기기, 우주선 RTOS) |
+| 판단 근거 | 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용 (Windows, Linux) | 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 배제 (의료기기, 우주선 RTOS) |
 |:---|:---|:---|
-| [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 성격 | 불쾌하지만 치명적이지 않은 편의성 저하 | 핵미사일 발사처럼 단 한 번이 파국적 결말 |
-| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 수용도| 조금이라도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높이면 UX 개선 (안 수용) | 속업 느려도 무조건 안전 보장 (수용) |
+| [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 성격 | 불쾌하지만 치명적이지 않은 편의성 저하 | 핵미사일 발사처럼 단 한 번이 파국적 결말 |
+| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드 수용도| 조금이라도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 높이면 UX 개선 (안 수용) | 속업 느려도 무조건 안전 보장 (수용) |
 | 개발 / 배포 철학 | "빠르게 내고 버그는 유저가 리보팅" (스타트업) | "모든 수학적 증명 완료 후 발사" (NASA) |
 
-**📢 섹션 요약 비유**: 엑셀이 멈추면 "아, 저장 안 했는데!" 하고 짜증 나면 끝이지만, 로켓 궤도 엔진 코드가 멈추면 수조 원이 터집니다. 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 엑셀을 위한 축복의 쿨병입니다.
+**📢 섹션 요약 비유**: 엑셀이 멈추면 "아, 저장 안 했는데!" 하고 짜증 나면 끝이지만, 로켓 궤도 엔진 코드가 멈추면 수조 원이 터집니다. 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 엑셀을 위한 축복의 쿨병입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>Linux <code>Task Hung</code> 에러</strong>: 리눅스에서 120초 이상 I/O가 멈춰있으면 dmesg에 "[Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) blocked for more than 120 seconds" 메시지만 남기고 방치한다. 시스템을 강제 크래시시키거나 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드로 들어가지 않는다. 타조 철학의 명백한 표본이다.
-2. **Kubernetes의 Liveness Probe**: OS가 타조가 되어버렸으므로, 클라우드 환경에서는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 멈춰있는지 밖에서 헬스 체크를 날린다. 데드락으로 응답이 없으면 K8s가 가차 없이 팟을 죽이고(Reboot) 새로 띄운다. 현대 인프라의 거대한 타조 뒷바라지 시스템이다.
+1. <strong>Linux <code>Task Hung</code> 에러</strong>: 리눅스에서 120초 이상 I/O가 멈춰있으면 dmesg에 "[Task](/studynote/02_operating_system/02_process_thread/150_task/) blocked for more than 120 seconds" 메시지만 남기고 방치한다. 시스템을 강제 크래시시키거나 데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 모드로 들어가지 않는다. 타조 철학의 명백한 표본이다.
+2. **Kubernetes의 Liveness Probe**: OS가 타조가 되어버렸으므로, 클라우드 환경에서는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))가 멈춰있는지 밖에서 헬스 체크를 날린다. 데드락으로 응답이 없으면 K8s가 가차 없이 팟을 죽이고(Reboot) 새로 띄운다. 현대 인프라의 거대한 타조 뒷바라지 시스템이다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 맹신 (No-Timeout <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: "리눅스나 윈도우가 알아서 데드락을 방어해주겠지?" 하고 [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/) 네트워크 응답이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 `무한 대기(Infinite Wait)`로 짜는 행위. 타조는 외면할 뿐 너를 도와주지 않으므로, 그 서비스는 영구 정지(Zombie)된다.
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 맹신 (No-Timeout <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a>)</strong>: "리눅스나 윈도우가 알아서 데드락을 방어해주겠지?" 하고 [소켓](/studynote/02_operating_system/02_process_thread/125_socket/) 네트워크 응답이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락을 `무한 대기(Infinite Wait)`로 짜는 행위. 타조는 외면할 뿐 너를 도와주지 않으므로, 그 서비스는 영구 정지(Zombie)된다.
 
 **📢 섹션 요약 비유**: 안전 그물이 없다는 걸 알았으니 내 몸은 내가 지켜야 합니다. 밧줄 없이 번지점프를 뛰고서 "국가가 살려주겠지?" 하면 안 됩니다.
 
@@ -94,13 +91,13 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | 전통적 교착 예방/탐지 | 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체제 |
+| 기준 | 전통적 교착 예방/탐지 | 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 체제 |
 |:---|:---|:---|
 | CPU 클럭 낭비율 | 최상 (탐색 및 시뮬레이션 몰빵) | 최하 (퍼포먼스 100% 코어 활용) |
-| 엔지니어의 역할 | 시스템 룰 안에서 편하게 코딩 | 데드락을 유저(어플리케이션) 레벨에서 직접 [락 오더링](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 등으로 튜닝 |
+| 엔지니어의 역할 | 시스템 룰 안에서 편하게 코딩 | 데드락을 유저(어플리케이션) 레벨에서 직접 [락 오더링](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/) 등으로 튜닝 |
 | 컴퓨터 과학사적 의의| 이상주의 | 현실주의 (가성비 최강) |
 
-[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))와 같은 순수 컴퓨터 과학자들이 세운 아름다운 데드락 방어 체계는, 현실 세계 엔지니어들의 '가성비율' 앞에 무너졌다. 타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 패배가 아니다. 한정된 자원의 우선순위를 '보안 우려'가 아닌 '[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화'로 재편한 거시적 스케줄링의 가장 위대한 판단이다.
+[다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))와 같은 순수 컴퓨터 과학자들이 세운 아름다운 데드락 방어 체계는, 현실 세계 엔지니어들의 '가성비율' 앞에 무너졌다. 타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 패배가 아니다. 한정된 자원의 우선순위를 '보안 우려'가 아닌 '[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 극대화'로 재편한 거시적 스케줄링의 가장 위대한 판단이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -111,9 +108,9 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 다중 인스턴스 자원 환경 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리 방법 3가지 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [교착 상태 예방](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [상호 배제 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리 방법 3가지 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [교착 상태 예방](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ([Deadlock Prevention](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [상호 배제 부정](/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,9 +128,9 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 길을 가다 아주 가끔 똥을 밟을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(데드락)이 귀찮다고, 사계절 내내 장화와 우비를 입고(방어 오버헤드) 불편하게 다닐 건가요?
+1. 길을 가다 아주 가끔 똥을 밟을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(데드락)이 귀찮다고, 사계절 내내 장화와 우비를 입고(방어 오버헤드) 불편하게 다닐 건가요?
 2. 컴퓨터를 만든 천재들은 "그냥 가볍고 예쁜 운동화 신고 막 뛰어다녀! 똥 밟으면 냄새 나지만 한 번 화장실(재부팅) 가서 씻고 말지 뭐!"라고 결정했어요.
-3. 이처럼 일어날 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 적은 큰일은 '가성비'를 위해 과감하게 무시해버리는 쿨한 성격이 바로 '타조 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'입니다.
+3. 이처럼 일어날 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 적은 큰일은 '가성비'를 위해 과감하게 무시해버리는 쿨한 성격이 바로 '타조 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)'입니다.
 
 ---
 
@@ -141,7 +138,7 @@ OS [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 **진행 상황**: 291 / 800
 
-<- **이전**: [290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)](/knowledge-base/studynote/02_operating_system/05_deadlock/290_deadlock_handling_methods/)
-**다음**: [292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)](/knowledge-base/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ->
+<- **이전**: [290. 교착 상태 처리 방법 3가지 (Deadlock Handling Methods)](/studynote/02_operating_system/05_deadlock/290_deadlock_handling_methods/)
+**다음**: [292. 교착 상태 예방 (Deadlock Prevention) - 4조건 중 하나를 원천적 부정 (효율성 매우 낮음)](/studynote/02_operating_system/05_deadlock/292_deadlock_prevention/) ->
 
 ---

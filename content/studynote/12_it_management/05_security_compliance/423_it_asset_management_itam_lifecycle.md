@@ -1,13 +1,10 @@
-+++
-title = "423. IT 자산 관리 ITAM 라이프사이클 (IT Asset Management ITAM Lifecycle)"
-date = 2026-05-09
+---
+title: "423. IT 자산 관리 ITAM 라이프사이클 (IT Asset Management ITAM Lifecycle)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -123,7 +120,7 @@ ITAM은 4계층 아키텍처(Discovery -> Reconciliation -> Repository -> Insigh
 
 **진행 상황**: 423 / 800
 
-<- **이전**: [422. IT 재무 관리 FinOps 비용 최적화](/knowledge-base/studynote/12_it_management/05_security_compliance/422_it_financial_management_finops_cost/)
-**다음**: [424. 형상 관리 CMDB 구성 항목 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/424_configuration_management_cmdb_ci/) ->
+<- **이전**: [422. IT 재무 관리 FinOps 비용 최적화](/studynote/12_it_management/05_security_compliance/422_it_financial_management_finops_cost/)
+**다음**: [424. 형상 관리 CMDB 구성 항목 관리](/studynote/12_it_management/05_security_compliance/424_configuration_management_cmdb_ci/) ->
 
 ---

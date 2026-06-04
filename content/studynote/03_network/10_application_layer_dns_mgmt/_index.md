@@ -1,6 +1,5 @@
-+++
-title = "10. Application Layer Dns Mgmt"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "10. Application Layer Dns Mgmt"
+tags:
+  - "network"
+---

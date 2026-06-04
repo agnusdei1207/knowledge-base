@@ -1,28 +1,25 @@
-+++
-title = "243. 교착 상태 복구 (Deadlock Recovery)"
-date = 2026-05-09
+---
+title: "243. 교착 상태 복구 (Deadlock Recovery)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태 복구](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))는 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))을 통해 시스템에 데드락이 발생했음을 확인한 후, <strong>특정 프로세스를 강제로 종료(Kill)하거나 자원을 뺏어(Preemption) 데드락의 순환 고리(Cycle)를 물리적으로 끊어내는 사후 조치</strong>다.
+> 1. **본질**: [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))는 탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))을 통해 시스템에 데드락이 발생했음을 확인한 후, <strong>특정 프로세스를 강제로 종료(Kill)하거나 자원을 뺏어(Preemption) 데드락의 순환 고리(Cycle)를 물리적으로 끊어내는 사후 조치</strong>다.
 > 2. **가치**: 데드락 예방이나 회피에 드는 막대한 런타임 오버헤드를 지불하는 대신, 평소에는 자원을 100% 효율로 자유롭게 쓰게 놔두고, 가끔 터지는 사고(데드락)만 외과 수술처럼 도려내는 <strong>가장 경제적인 트레이드오프(Trade-off)</strong>를 제공한다.
-> 3. **융합**: [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에서 가장 어려운 점은 "누구를 죽일 것인가([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/), [Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/))"와 "죽인 놈이 어질러놓은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 되돌릴 것인가([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))"이며, 이 때문에 완벽한 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 [언두](/knowledge-base/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)를 갖춘 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(RDBMS) 환경에서만 제한적으로 완성</strong>된다.
+> 3. **융합**: [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 과정에서 가장 어려운 점은 "누구를 죽일 것인가([희생자 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/), [Victim Selection](/studynote/02_operating_system/05_deadlock/310_victim_selection/))"와 "죽인 놈이 어질러놓은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 되돌릴 것인가([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))"이며, 이 때문에 완벽한 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 [언두](/studynote/05_database/07_exam_summary/454_undo_segment_rollback/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)를 갖춘 <strong><a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(RDBMS) 환경에서만 제한적으로 완성</strong>된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 데드락 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "현재 4개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 꼬리를 물고 무한 대기 중이다"라고 경고를 띄웠을 때, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 DBMS가 개입하여 이 엉킨 실타래를 강제로 끊어 시스템을 다시 굴러가게 만드는 일련의 과정이다.
-- **필요성**: 암세포(데드락)를 찾기만 하고(탐지) 수술을 하지 않으면 환자(시스템)는 죽는다. 인간 관리자가 키보드로 `kill` 명령어를 치기를 기다릴 순 없다. 1초에 수천 건의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 도는 서버에서는, 시스템 스스로가 100밀리초 안에 암세포를 제거하고 자동으로 지혈([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 능력이 있어야만 진정한 무중단 시스템이 성립한다.
+- **개념**: 데드락 탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 "현재 4개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 꼬리를 물고 무한 대기 중이다"라고 경고를 띄웠을 때, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 DBMS가 개입하여 이 엉킨 실타래를 강제로 끊어 시스템을 다시 굴러가게 만드는 일련의 과정이다.
+- **필요성**: 암세포(데드락)를 찾기만 하고(탐지) 수술을 하지 않으면 환자(시스템)는 죽는다. 인간 관리자가 키보드로 `kill` 명령어를 치기를 기다릴 순 없다. 1초에 수천 건의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 도는 서버에서는, 시스템 스스로가 100밀리초 안에 암세포를 제거하고 자동으로 지혈([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))하는 능력이 있어야만 진정한 무중단 시스템이 성립한다.
 
-- **등장 배경**: 자원을 아끼는 것이 미덕이던 시절, 1년에 한 번 날까 말까 한 데드락을 막자고 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌리는 짓이 너무 바보 같다는 것을 학자들이 깨달았다. 결국 "예방하지 말고 터지면 고치자"는 낙관적(Optimistic) 철학이 대두되며 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 연구되었다.
+- **등장 배경**: 자원을 아끼는 것이 미덕이던 시절, 1년에 한 번 날까 말까 한 데드락을 막자고 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌리는 짓이 너무 바보 같다는 것을 학자들이 깨달았다. 결국 "예방하지 말고 터지면 고치자"는 낙관적(Optimistic) 철학이 대두되며 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 연구되었다.
 
 ```text
   [교착 상태 복구(Recovery)의 2가지 근본적 접근법]
@@ -38,65 +35,65 @@ tags = ["studynote-operating-system"]
   - 문제점: 뺏긴 놈이 쓰던 데이터를 10분 전으로 되돌려야 함 (Rollback).
            일반 C/Java 프로그램은 이런 타임머신 기능이 없음.
 ```
-**[다이어그램 해설]** [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 결국 '누군가의 희생'을 강요한다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 통째로 날려버리든, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쥔 자원만 뺏든, 누군가는 자기가 하던 작업을 포기하고 처음부터 다시 시작(Restart)해야만 한다. 이 희생의 크기를 최소화하는 것이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 예술이다.
+**[다이어그램 해설]** [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 결국 '누군가의 희생'을 강요한다. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 통째로 날려버리든, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쥔 자원만 뺏든, 누군가는 자기가 하던 작업을 포기하고 처음부터 다시 시작(Restart)해야만 한다. 이 희생의 크기를 최소화하는 것이 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 예술이다.
 
-- **📢 섹션 요약 비유**: 엉킨 낚싯줄(데드락)을 푸는 두 가지 방법입니다. 1번([프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/))은 그냥 엉킨 부분을 가위로 싹둑 잘라버리고 새 줄을 묶는 것이고, 2번([자원 선점](/knowledge-base/studynote/02_operating_system/05_deadlock/311_resource_preemption/))은 시간을 들여서 매듭을 하나씩 뒤로 풀어내는([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 섬세한 작업입니다. 전자는 빠르지만 줄이 짧아지고, 후자는 줄은 보존되지만 풀기 위한 특별한 기술([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)이 필요합니다.
+- **📢 섹션 요약 비유**: 엉킨 낚싯줄(데드락)을 푸는 두 가지 방법입니다. 1번([프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/))은 그냥 엉킨 부분을 가위로 싹둑 잘라버리고 새 줄을 묶는 것이고, 2번([자원 선점](/studynote/02_operating_system/05_deadlock/311_resource_preemption/))은 시간을 들여서 매듭을 하나씩 뒤로 풀어내는([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) 섬세한 작업입니다. 전자는 빠르지만 줄이 짧아지고, 후자는 줄은 보존되지만 풀기 위한 특별한 기술([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)이 필요합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제1원칙: [희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([Victim Selection](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/))
-"누구를 죽일 것인가?" [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 DB는 사람처럼 감정으로 고르지 않는다. 철저하게 <strong>비용(Cost)이 가장 싼 놈</strong>을 고른다.
+### [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제1원칙: [희생자 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/) ([Victim Selection](/studynote/02_operating_system/05_deadlock/310_victim_selection/))
+"누구를 죽일 것인가?" [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 DB는 사람처럼 감정으로 고르지 않는다. 철저하게 <strong>비용(Cost)이 가장 싼 놈</strong>을 고른다.
 
-| 희생자 선정 척도 (Cost [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 판단 기준 및 이유 |
+| 희생자 선정 척도 (Cost [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 판단 기준 및 이유 |
 |:---|:---|
-| <strong>실행 시간 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">Execution Time</a>)</strong> | 10시간 돈 놈을 죽이면 너무 아깝다. 방금 시작한 놈을 죽이는 게 경제적이다. |
+| <strong>실행 시간 (<a href="/studynote/02_operating_system/06_memory_management/327_execution_time_binding/">Execution Time</a>)</strong> | 10시간 돈 놈을 죽이면 너무 아깝다. 방금 시작한 놈을 죽이는 게 경제적이다. |
 | **자원 점유량 (Resources Held)**| 자원을 100개 쥐고 있는 놈을 죽이면, 자원 100개가 풀리므로 데드락이 한 방에 해결된다. |
 | **남은 시간 (Remaining Time)** | 거의 다 끝나가는 놈은 살려두고, 아직 90% 남은 놈을 죽이는 게 맞다. |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 비용 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Cost)</strong> | DB에서, `UPDATE`를 10만 건 친 놈을 죽이면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 데만 1시간 걸린다. 아무것도 안 쓴 놈을 죽여야 한다. |
+| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 비용 (<a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Cost)</strong> | DB에서, `UPDATE`를 10만 건 친 놈을 죽이면 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 데만 1시간 걸린다. 아무것도 안 쓴 놈을 죽여야 한다. |
 
-### [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제2원칙: [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))
-[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) C를 희생자로 골라 자원을 뺏었다. 그럼 C는 어떻게 되는가?
-1. <strong>Total <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (완전 재시작)</strong>: C를 그냥 완전히 죽이고(Abort), 처음부터 다시 실행(Restart) 시킨다. 가장 구현이 쉽다.
-2. <strong>Partial <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (부분 <a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong>: 데드락이 풀릴 만큼만 시간을 되돌린다(Checkpoint 사용). 완벽하지만 구현이 미치도록 어렵다. DB 엔진만이 가능하다.
+### [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제2원칙: [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) ([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))
+[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) C를 희생자로 골라 자원을 뺏었다. 그럼 C는 어떻게 되는가?
+1. <strong>Total <a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (완전 재시작)</strong>: C를 그냥 완전히 죽이고(Abort), 처음부터 다시 실행(Restart) 시킨다. 가장 구현이 쉽다.
+2. <strong>Partial <a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> (부분 <a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong>: 데드락이 풀릴 만큼만 시간을 되돌린다(Checkpoint 사용). 완벽하지만 구현이 미치도록 어렵다. DB 엔진만이 가능하다.
 
-### [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제3원칙: [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지
-가장 만만한 놈(비용이 싼 놈)만 계속 희생자로 고르다 보면, <strong>그 불쌍한 놈은 평생 10초 돌고 죽고, 10초 돌고 죽기를 반복하며 영원히 작업을 못 끝내는 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a></strong>에 빠진다.
--> **해결책**: 희생자 선정 공식에 반드시 <strong>"지금까지 희생자로 선정된 횟수 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Count)"를 가산점</strong>으로 넣어서, 3번 이상 죽은 놈은 무적 방패를 씌워주어야 한다.
+### [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)의 제3원칙: [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 방지
+가장 만만한 놈(비용이 싼 놈)만 계속 희생자로 고르다 보면, <strong>그 불쌍한 놈은 평생 10초 돌고 죽고, 10초 돌고 죽기를 반복하며 영원히 작업을 못 끝내는 <a href="/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a></strong>에 빠진다.
+-> **해결책**: 희생자 선정 공식에 반드시 <strong>"지금까지 희생자로 선정된 횟수 (<a href="/studynote/02_operating_system/05_deadlock/313_rollback/">Rollback</a> Count)"를 가산점</strong>으로 넣어서, 3번 이상 죽은 놈은 무적 방패를 씌워주어야 한다.
 
-- **📢 섹션 요약 비유**: 은행 강도를 잡기 위해 인질 1명을 희생시켜야 한다면([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)), 나이 든 사람보다 구하기 쉬운 사람, 혹은 이미 다친 사람을 먼저 구하는 식의 피도 눈물도 없는 공학적 계산이 들어갑니다. 단, 매번 같은 사람만 희생시키면 그 사람은 너무 억울하니까([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 몇 번 희생된 사람은 다음엔 무조건 살려주는 보상 제도가 필요합니다.
+- **📢 섹션 요약 비유**: 은행 강도를 잡기 위해 인질 1명을 희생시켜야 한다면([희생자 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/)), 나이 든 사람보다 구하기 쉬운 사람, 혹은 이미 다친 사람을 먼저 구하는 식의 피도 눈물도 없는 공학적 계산이 들어갑니다. 단, 매번 같은 사람만 희생시키면 그 사람은 너무 억울하니까([기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)), 몇 번 희생된 사람은 다음엔 무조건 살려주는 보상 제도가 필요합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### OS의 무시(Ostrich) vs RDBMS의 적극적 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))
+### OS의 무시(Ostrich) vs RDBMS의 적극적 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))
 
-왜 똑같은 데드락인데 범용 OS는 포기하고, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 악착같이 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 해낼까?
+왜 똑같은 데드락인데 범용 OS는 포기하고, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)는 악착같이 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 해낼까?
 
-| 구분 | 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Linux, Windows) | RDBMS ([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL InnoDB) |
+| 구분 | 범용 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Linux, Windows) | RDBMS ([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), MySQL InnoDB) |
 |:---|:---|:---|
-| **데드락 인지** | 못 함 ([타조 알고리즘](/knowledge-base/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)) | 1초마다 Wait-For Graph로 탐지 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/">희생자 선택</a></strong> | 사용자가 작업 관리자로 맘에 안 드는 거 죽임 | [Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)량이 가장 적은 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 자동 선택 |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 능력</strong> | ❌ **없음**. (C/C++ 메모리를 과거로 돌릴 방법 없음) | ✅ **완벽함**. ([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log 덮어쓰기로 1ms 만에 과거로 회귀) |
-| **장애 결과** | 데드락 걸린 프로그램 영원히 응답 없음 (무한 로딩) | 1초 만에 `Deadlock found` 에러 뱉고 정상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 돌아감 |
+| **데드락 인지** | 못 함 ([타조 알고리즘](/studynote/02_operating_system/05_deadlock/291_ostrich_algorithm/)) | 1초마다 Wait-For Graph로 탐지 |
+| <strong><a href="/studynote/02_operating_system/05_deadlock/310_victim_selection/">희생자 선택</a></strong> | 사용자가 작업 관리자로 맘에 안 드는 거 죽임 | [Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)량이 가장 적은 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 자동 선택 |
+| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a> 능력</strong> | ❌ **없음**. (C/C++ 메모리를 과거로 돌릴 방법 없음) | ✅ **완벽함**. ([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log 덮어쓰기로 1ms 만에 과거로 회귀) |
+| **장애 결과** | 데드락 걸린 프로그램 영원히 응답 없음 (무한 로딩) | 1초 만에 `Deadlock found` 에러 뱉고 정상 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)은 돌아감 |
 
-범용 OS가 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 포기한 진짜 이유는 "[롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 기술의 부재"다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 프린터에 문서 절반을 쏴놨는데 킬(Kill)해버리면, 프린터엔 쓰레기 종이가 찍혀 나온다. 하지만 DB는 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정을 "일단 임시 장부([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)에 적고 나중에 확정(Commit)"하는 구조이기 때문에, 언제든지 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)으로 타임머신을 탈 수 있는 완벽한 면허증이 있었다.
+범용 OS가 데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 포기한 진짜 이유는 "[롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) 기술의 부재"다. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 프린터에 문서 절반을 쏴놨는데 킬(Kill)해버리면, 프린터엔 쓰레기 종이가 찍혀 나온다. 하지만 DB는 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수정을 "일단 임시 장부([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)에 적고 나중에 확정(Commit)"하는 구조이기 때문에, 언제든지 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)으로 타임머신을 탈 수 있는 완벽한 면허증이 있었다.
 
-- **📢 섹션 요약 비유**: 화가가 캔버스에 물감으로 그림을 그리는 중(일반 OS)에 붓을 뺏으면 그림이 망가져 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 안 됩니다. 하지만 포토샵(RDBMS)으로 그림을 그릴 때는 붓을 뺏겨도 <strong>Ctrl+Z (<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log)</strong>를 누르면 완벽하게 1분 전으로 돌아갈 수 있기 때문에, 맘 놓고 뺏어도(데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 되는 것입니다.
+- **📢 섹션 요약 비유**: 화가가 캔버스에 물감으로 그림을 그리는 중(일반 OS)에 붓을 뺏으면 그림이 망가져 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 안 됩니다. 하지만 포토샵(RDBMS)으로 그림을 그릴 때는 붓을 뺏겨도 <strong>Ctrl+Z (<a href="/studynote/11_design_supervision/06_exam_summary/393_undo/">Undo</a> Log)</strong>를 누르면 완벽하게 1분 전으로 돌아갈 수 있기 때문에, 맘 놓고 뺏어도(데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 되는 것입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **DB 개발자의 데드락 에러 핸들링 (Retry Pattern)**: 백엔드 개발자라면 누구나 한 번쯤 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 `Deadlock found when trying to get lock; try restarting transaction` 이라는 DB 에러를 본 적이 있을 것이다.
-   - **아키텍트의 의미 부여**: 이 에러는 DB가 고장 난 게 아니다! DB가 데드락 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 <strong>매우 빠르고 훌륭하게 성공했다</strong>는 기쁜 소식이다. DB가 나 대신 한 놈을 죽여서 전체 서버의 멈춤을 막아준 것이다.
-   - **실무 조치**: 이 에러를 받으면 개발자는 절대 당황하지 않고, Exception을 캐치(`catch`)하여 0.1초 쉬었다가 해당 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처음부터 다시 쏘는 <strong>Retry 로직(Spring <code>@Retryable</code>)</strong>만 짜주면 끝난다. (죽은 놈 스스로가 부활하는 완벽한 아키텍처 완성).
-2. <strong>Kubernetes의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Killer와 Liveness Probe (클라우드 시대의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>: 일반 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 앱에서 데드락이 터지면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 안 된다고 했다. 그럼 클라우드 환경은 이를 어떻게 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할까?
-   - **무식함의 미학**: [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 안에 데드락이 터져 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추면 헬스체크(Liveness Probe [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 실패한다.
-   - **실무 조치**: K8s는 복잡하게 락을 뺏고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하지 않는다. 아예 그 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체를 <strong>SIGKILL로 통째로 폭파(Abort)</strong>시키고, 깨끗한 새 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 복제해 띄워버린다. [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대에는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체가 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))이므로 가능한, 가장 무식하지만 완벽한 형태의 데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 아키텍처다.
+1. **DB 개발자의 데드락 에러 핸들링 (Retry Pattern)**: 백엔드 개발자라면 누구나 한 번쯤 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 `Deadlock found when trying to get lock; try restarting transaction` 이라는 DB 에러를 본 적이 있을 것이다.
+   - **아키텍트의 의미 부여**: 이 에러는 DB가 고장 난 게 아니다! DB가 데드락 탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))와 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))를 <strong>매우 빠르고 훌륭하게 성공했다</strong>는 기쁜 소식이다. DB가 나 대신 한 놈을 죽여서 전체 서버의 멈춤을 막아준 것이다.
+   - **실무 조치**: 이 에러를 받으면 개발자는 절대 당황하지 않고, Exception을 캐치(`catch`)하여 0.1초 쉬었다가 해당 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처음부터 다시 쏘는 <strong>Retry 로직(Spring <code>@Retryable</code>)</strong>만 짜주면 끝난다. (죽은 놈 스스로가 부활하는 완벽한 아키텍처 완성).
+2. <strong>Kubernetes의 <a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> Killer와 Liveness Probe (클라우드 시대의 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>: 일반 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 앱에서 데드락이 터지면 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 안 된다고 했다. 그럼 클라우드 환경은 이를 어떻게 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)할까?
+   - **무식함의 미학**: [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 안에 데드락이 터져 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 멈추면 헬스체크(Liveness Probe [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 실패한다.
+   - **실무 조치**: K8s는 복잡하게 락을 뺏고 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하지 않는다. 아예 그 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체를 <strong>SIGKILL로 통째로 폭파(Abort)</strong>시키고, 깨끗한 새 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 복제해 띄워버린다. [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대에는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 자체가 무상태([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))이므로 가능한, 가장 무식하지만 완벽한 형태의 데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)([Recovery](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)) 아키텍처다.
 
 ```text
   +--------------------------------------------------------------------+
@@ -116,7 +113,7 @@ tags = ["studynote-operating-system"]
   |            테이블 업데이트 순서(Lock Ordering)를 알파벳순으로 통일!|
   +--------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 초보자는 데드락 에러가 나면 무서워서 락을 다 풀어버리거나 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 포기한다. 시니어는 데드락 에러가 나는 것을 "DB가 일 잘하고 있네"라며 자연스러운 일상으로 받아들이고, 에러 발생 시 부드럽게 재시도(Retry)하는 래퍼(Wrapper) 코드를 짜서 시스템의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)을 올리는 데 집중한다.
+**[다이어그램 해설]** 초보자는 데드락 에러가 나면 무서워서 락을 다 풀어버리거나 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)를 포기한다. 시니어는 데드락 에러가 나는 것을 "DB가 일 잘하고 있네"라며 자연스러운 일상으로 받아들이고, 에러 발생 시 부드럽게 재시도(Retry)하는 래퍼(Wrapper) 코드를 짜서 시스템의 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/)(Resilience)을 올리는 데 집중한다.
 
 - **📢 섹션 요약 비유**: 게임을 하다가 버그로 캐릭터가 벽에 끼었습니다(데드락). 옛날엔 이걸 풀려고 복잡한 코드를 입력해야 했지만, 지금은 그냥 자살 버튼(DB 강제 킬)을 누르고 부활 지점(Retry)에서 1초 만에 다시 시작하는 것이 가장 빠르고 스트레스 없는 쾌적한 게임 방법입니다.
 
@@ -125,13 +122,13 @@ tags = ["studynote-operating-system"]
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-데드락 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 시스템에 잘 구현해 두면, 평상시에는 락 순서나 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 무거운 제약 없이 <strong>최고 속도(100% 스루풋)로 자원을 남용</strong>하다가, 만에 하나 터지는 데드락 지뢰만 외과 수술처럼 정밀 타격하여 제거함으로써 극한의 성능과 안정성이라는 두 마리 토끼를 잡을 수 있다.
+데드락 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 메커니즘을 시스템에 잘 구현해 두면, 평상시에는 락 순서나 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 같은 무거운 제약 없이 <strong>최고 속도(100% 스루풋)로 자원을 남용</strong>하다가, 만에 하나 터지는 데드락 지뢰만 외과 수술처럼 정밀 타격하여 제거함으로써 극한의 성능과 안정성이라는 두 마리 토끼를 잡을 수 있다.
 
 ### 결론 및 미래 전망
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리의 4단계 진화(예방 --> 회피 --> 탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) --> 무시)는 결국 "버그를 완벽히 막는 비용이, 버그가 터졌을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 비용보다 비싸다"는 컴퓨터 공학의 절대 진리를 증명하는 과정이었다.
-미래의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델인 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">소프트웨어 트랜잭셔널 메모리</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">STM</a>)</strong>와 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> 패턴</strong>은 아예 이 "탐지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"의 철학을 언어와 아키텍처의 기본 문법으로 흡수했다. 처음부터 데드락을 겁내지 않고 낙관적(Optimistic)으로 막무가내로 연산한 뒤, 충돌이 나면 뒤도 안 돌아보고 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))하는 '실패를 가정한 설계(Design for Failure)'가 21세기 시스템 공학의 영원한 패러다임이 되었다.
+[교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 처리의 4단계 진화(예방 --> 회피 --> 탐지/[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) --> 무시)는 결국 "버그를 완벽히 막는 비용이, 버그가 터졌을 때 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하는 비용보다 비싸다"는 컴퓨터 공학의 절대 진리를 증명하는 과정이었다.
+미래의 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 모델인 <strong><a href="/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">소프트웨어 트랜잭셔널 메모리</a> (<a href="/studynote/02_operating_system/04_synchronization/268_software_transactional_memory/">STM</a>)</strong>와 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/12_it_management/05_security_compliance/305_saga/">Saga</a> 패턴</strong>은 아예 이 "탐지와 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)"의 철학을 언어와 아키텍처의 기본 문법으로 흡수했다. 처음부터 데드락을 겁내지 않고 낙관적(Optimistic)으로 막무가내로 연산한 뒤, 충돌이 나면 뒤도 안 돌아보고 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))하는 '실패를 가정한 설계(Design for Failure)'가 21세기 시스템 공학의 영원한 패러다임이 되었다.
 
-- **📢 섹션 요약 비유**: 옛날엔 도자기를 구울 때 금이 가지 않게(예방/회피) 며칠 밤낮을 온도계만 쳐다봤습니다. 지금의 공장(탐지/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 일단 1만 개의 도자기를 미친 속도로 구워낸 뒤, 금이 간 몇 개만 망치로 깨서(Kill) 버리는 것이 훨씬 돈을 많이 번다는 것을 깨달은 것입니다.
+- **📢 섹션 요약 비유**: 옛날엔 도자기를 구울 때 금이 가지 않게(예방/회피) 며칠 밤낮을 온도계만 쳐다봤습니다. 지금의 공장(탐지/[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))은 일단 1만 개의 도자기를 미친 속도로 구워낸 뒤, 금이 간 몇 개만 망치로 깨서(Kill) 버리는 것이 훨씬 돈을 많이 번다는 것을 깨달은 것입니다.
 
 ---
 
@@ -139,10 +136,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [우선순위 올림](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) ([Priority Ceiling Protocol](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [고전적 동기화 문제들](/knowledge-base/studynote/02_operating_system/04_synchronization/245_classic_synchronization_problems/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [라이브락](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [우선순위 올림](/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) ([Priority Ceiling Protocol](/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [고전적 동기화 문제들](/studynote/02_operating_system/04_synchronization/245_classic_synchronization_problems/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -161,8 +158,8 @@ tags = ["studynote-operating-system"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 4명의 아이가 장난감을 서로 꽉 쥐고 안 놔줘서(데드락) 1시간째 아무도 놀지 못하고 울고만 있어요.
-2. 선생님이 나타나서 <strong>"아 안 되겠다, 제일 늦게 온 철수야! 네가 쥐고 있는 로봇 놔! 넌 이따 놀아!"</strong>라며 강제로 장난감을 뺏어버렸어요([희생자 선택](/knowledge-base/studynote/02_operating_system/05_deadlock/310_victim_selection/)).
-3. 철수가 울면서 장난감을 놨지만, 그 장난감을 받은 다른 3명은 꼬인 게 풀려서 꺄르르 웃으며 놀기 시작했답니다. 이렇게 강제로 하나를 희생시켜 꼬인 걸 푸는 걸 <strong>데드락 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>라고 해요!
+2. 선생님이 나타나서 <strong>"아 안 되겠다, 제일 늦게 온 철수야! 네가 쥐고 있는 로봇 놔! 넌 이따 놀아!"</strong>라며 강제로 장난감을 뺏어버렸어요([희생자 선택](/studynote/02_operating_system/05_deadlock/310_victim_selection/)).
+3. 철수가 울면서 장난감을 놨지만, 그 장난감을 받은 다른 3명은 꼬인 게 풀려서 꺄르르 웃으며 놀기 시작했답니다. 이렇게 강제로 하나를 희생시켜 꼬인 걸 푸는 걸 <strong>데드락 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a></strong>라고 해요!
 
 ---
 
@@ -170,7 +167,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 243 / 800
 
-<- **이전**: [242. 교착 상태 탐지 (Deadlock Detection)](/knowledge-base/studynote/02_operating_system/04_synchronization/242_deadlock_detection/)
-**다음**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/knowledge-base/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) ->
+<- **이전**: [242. 교착 상태 탐지 (Deadlock Detection)](/studynote/02_operating_system/04_synchronization/242_deadlock_detection/)
+**다음**: [244. 우선순위 올림 (Priority Ceiling Protocol)](/studynote/02_operating_system/04_synchronization/244_priority_ceiling_protocol/) ->
 
 ---

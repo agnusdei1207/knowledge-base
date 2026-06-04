@@ -1,13 +1,10 @@
-+++
-title = "707. 모델 서빙 인프라 vLLM TGI 최적화 (Model Serving Infrastructure vLLM TGI)"
-date = 2026-05-09
+---
+title: "707. 모델 서빙 인프라 vLLM TGI 최적화 (Model Serving Infrastructure vLLM TGI)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -204,7 +201,7 @@ KV Cache size per token = 2 × num_layers × num_kv_heads × head_dim × dtype_b
 
 **진행 상황**: 707 / 800
 
-<- **이전**: [706. LLM 미세 조정 PEFT QLoRA 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/706_llm_fine_tuning_peft_qlora_strategy/)
-**다음**: [708. AI 칩 NPU TPU GPU 가속기 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/) ->
+<- **이전**: [706. LLM 미세 조정 PEFT QLoRA 전략](/studynote/06_ict_convergence/uncategorized/706_llm_fine_tuning_peft_qlora_strategy/)
+**다음**: [708. AI 칩 NPU TPU GPU 가속기 비교](/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/) ->
 
 ---

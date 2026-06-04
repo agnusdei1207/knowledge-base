@@ -1,26 +1,23 @@
-+++
-title = "23. EVM (Ethereum Virtual Machine) — 이더리움 가상 머신"
-date = 2026-04-29
+---
+title: "23. EVM (Ethereum Virtual Machine) — 이더리움 가상 머신"
+date: "2026-04-29"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (Ethereum [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 이더리움 가상 머신)은 이더리움 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))를 결정론적(Deterministic)으로 실행하는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 세계 컴퓨터의 실행 환경으로, 전 세계 수천 개의 노드가 동일한 코드를 완전히 동일한 결과로 실행하는 것을 보장한다.
-> 2. **가치**: EVM은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)-Based) 256비트 아키텍처로 설계되어 암호학적 연산(해시, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 네이티브로 지원하며, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘으로 무한 루프(Halting Problem)를 차단하여 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전체의 안전성과 일관성을 지킨다.
-> 3. **판단 포인트**: Solidity로 작성된 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일되어 배포되며, [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Optimization)는 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/), NFT, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 등 모든 Web3 애플리케이션의 운영 비용과 직결되므로 설계 초기부터 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 효율을 고려해야 한다.
+> 1. **본질**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (Ethereum [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 이더리움 가상 머신)은 이더리움 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))를 결정론적(Deterministic)으로 실행하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 세계 컴퓨터의 실행 환경으로, 전 세계 수천 개의 노드가 동일한 코드를 완전히 동일한 결과로 실행하는 것을 보장한다.
+> 2. **가치**: EVM은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)-Based) 256비트 아키텍처로 설계되어 암호학적 연산(해시, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))을 네이티브로 지원하며, [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘으로 무한 루프(Halting Problem)를 차단하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 전체의 안전성과 일관성을 지킨다.
+> 3. **판단 포인트**: Solidity로 작성된 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일되어 배포되며, [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/) Optimization)는 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/), NFT, [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 등 모든 Web3 애플리케이션의 운영 비용과 직결되므로 설계 초기부터 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 효율을 고려해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (Ethereum [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 이더리움 가상 머신)은 이더리움 네트워크의 모든 노드에서 동일하게 실행되는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 가상 실행 환경이다.
+[EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) (Ethereum [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), 이더리움 가상 머신)은 이더리움 네트워크의 모든 노드에서 동일하게 실행되는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 가상 실행 환경이다.
 
-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 스크립트 언어가 단순한 전송 조건만 처리하는 한계를 극복하기 위해 비탈릭 부테린(Vitalik Buterin)이 2015년 설계한 EVM은 튜링 완전(Turing-Complete)한 연산을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 처리할 수 있게 했다. EVM이 없다면 [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융), NFT, [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 같은 복잡한 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 애플리케이션은 존재할 수 없다.
+[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 스크립트 언어가 단순한 전송 조건만 처리하는 한계를 극복하기 위해 비탈릭 부테린(Vitalik Buterin)이 2015년 설계한 EVM은 튜링 완전(Turing-Complete)한 연산을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 위에서 처리할 수 있게 했다. EVM이 없다면 [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)([탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융), NFT, [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 같은 복잡한 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 애플리케이션은 존재할 수 없다.
 
 ```text
 +-------------------------------------------------------------+
@@ -46,26 +43,26 @@ tags = ["studynote-ict-convergence"]
 +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: EVM은 전 세계가 공동 소유한 슈퍼컴퓨터다. 아무도 혼자 멈추거나 조작할 수 없고, 모든 참가자가 동시에 같은 프로그램을 돌려 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+- **📢 섹션 요약 비유**: EVM은 전 세계가 공동 소유한 슈퍼컴퓨터다. 아무도 혼자 멈추거나 조작할 수 없고, 모든 참가자가 동시에 같은 프로그램을 돌려 결과를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 256비트 아키텍처
+### 1. [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 256비트 아키텍처
 
-EVM은 256비트(32바이트) 단위의 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 사용한다. 이는 [SHA-3](/knowledge-base/studynote/09_security/02_crypto/101_sha_3/)(Keccak-256) 해시 값과 이더리움 주소(160비트)를 네이티브로 처리하기 위함이다.
+EVM은 256비트(32바이트) 단위의 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 사용한다. 이는 [SHA-3](/studynote/09_security/02_crypto/101_sha_3/)(Keccak-256) 해시 값과 이더리움 주소(160비트)를 네이티브로 처리하기 위함이다.
 
 | 구성 요소 | 크기/특성 | 용도 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | 256bit × 최대 1024 슬롯 | 연산 중간 값 임시 저장 |
-| **메모리 (Memory)** | [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 휘발성 | 함수 실행 중 임시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | 256bit × 최대 1024 슬롯 | 연산 중간 값 임시 저장 |
+| **메모리 (Memory)** | [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 휘발성 | 함수 실행 중 임시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | **스토리지 (Storage)** | 256bit->256bit 맵, 영구 | 컨트랙트 상태 변수 |
-| **콜데이터 (Calldata)** | 읽기 전용 | 외부 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 인자 |
+| **콜데이터 (Calldata)** | 읽기 전용 | 외부 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 인자 |
 
-### 2. [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘
+### 2. [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘
 
-[가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)는 EVM의 각 연산코드([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)) 실행 비용을 ETH로 환산한 단위다.
+[가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)는 EVM의 각 연산코드([Opcode](/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/)) 실행 비용을 ETH로 환산한 단위다.
 
 ```text
 +-----------------------------------------------------+
@@ -86,44 +83,44 @@ EVM은 256비트(32바이트) 단위의 [스택](/knowledge-base/studynote/08_al
 +-----------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)는 자동차 연료다. 출발 전 연료([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit)를 넣고, 복잡한 길(복잡한 연산)을 갈수록 기름을 더 소비하며, 연료가 바닥나면 목적지 못 가고 출발 지점으로 되돌아온다([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)).
+- **📢 섹션 요약 비유**: [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)는 자동차 연료다. 출발 전 연료([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit)를 넣고, 복잡한 길(복잡한 연산)을 갈수록 기름을 더 소비하며, 연료가 바닥나면 목적지 못 가고 출발 지점으로 되돌아온다([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | [WASM](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) ([WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)) | JVM (Java [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) |
+| 항목 | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | [WASM](/studynote/04_software_engineering/10_trends_pm_quality/701_webassembly_wasm_frontend_performance/) ([WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/)) | JVM (Java [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) |
 |:---|:---|:---|:---|
-| **설계 목적** | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 웹 브라우저 고성능 실행 | 범용 애플리케이션 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 단위</strong> | 256bit 네이티브 | 32/64bit | 32/64bit |
-| **실행 비용 제어** | [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘 | 없음 | 없음 |
+| **설계 목적** | [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) | 웹 브라우저 고성능 실행 | 범용 애플리케이션 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 단위</strong> | 256bit 네이티브 | 32/64bit | 32/64bit |
+| **실행 비용 제어** | [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)([Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/)) 메커니즘 | 없음 | 없음 |
 | **결정론적 실행** | 완전 보장 | 보장 가능 | 부분적 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 호환 체인</strong> | Ethereum, [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/), [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) 등 | — | — |
+| <strong><a href="/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 호환 체인</strong> | Ethereum, [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/), [Polygon](/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/) 등 | — | — |
 
-[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))은 이더리움 생태계의 핵심 경쟁 우위로, [BSC](/knowledge-base/studynote/12_it_management/01_governance_strategy/019_bsc/)(Binance Smart Chain), [Polygon](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/), Avalanche C-Chain 등이 EVM을 채택하여 이더리움 DApp을 그대로 이식 가능하게 했다.
+[EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)([EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [Compatibility](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/))은 이더리움 생태계의 핵심 경쟁 우위로, [BSC](/studynote/12_it_management/01_governance_strategy/019_bsc/)(Binance Smart Chain), [Polygon](/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/), Avalanche C-Chain 등이 EVM을 채택하여 이더리움 DApp을 그대로 이식 가능하게 했다.
 
-- **📢 섹션 요약 비유**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 안드로이드 앱 생태계와 같다. 한 번 개발하면 안드로이드 폰(이더리움 호환 체인) 어디서든 그대로 작동한다.
+- **📢 섹션 요약 비유**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)은 안드로이드 앱 생태계와 같다. 한 번 개발하면 안드로이드 폰(이더리움 호환 체인) 어디서든 그대로 작동한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화
-AMM(Automated Market Maker) 스왑 컨트랙트의 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 비용이 경쟁 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 대비 40% 높다.
+### 실무 시나리오: [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화
+AMM(Automated Market Maker) 스왑 컨트랙트의 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 비용이 경쟁 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 대비 40% 높다.
 
-1. <strong>문제 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: `SSTORE` 호출 횟수 과다 — 루프마다 스토리지 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생.
+1. <strong>문제 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: `SSTORE` 호출 횟수 과다 — 루프마다 스토리지 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 발생.
 2. **최적화**: 중간 계산 값을 메모리(Memory)에 임시 저장 후 최종 값만 스토리지에 씀.
-3. **결과**: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 소비 35% 절감, 사용자 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용 대폭 감소.
+3. **결과**: [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 소비 35% 절감, 사용자 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 비용 대폭 감소.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 - `SSTORE` > `MSTORE` 순으로 비용 크므로, 루프 내 스토리지 직접 접근 최소화.
 - 변수 타입 `uint256` 패킹(Packing)으로 슬롯 절약.
-- `view`/`pure` 함수는 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 소모 없음 — 읽기 전용 설계 활용.
+- `view`/`pure` 함수는 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 소모 없음 — 읽기 전용 설계 활용.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit을 과도하게 높게 설정하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). EVM은 실제 소비된 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/)만 차감하지만, [Gas](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit 초과 시 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 자체가 거부되므로 적절한 추정(Estimation)이 필수다. 무작정 높이면 사용자 경험(UX)이 저하된다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- [Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit을 과도하게 높게 설정하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). EVM은 실제 소비된 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/)만 차감하지만, [Gas](/studynote/06_ict_convergence/01_blockchain/024_gas/) Limit 초과 시 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 자체가 거부되므로 적절한 추정(Estimation)이 필수다. 무작정 높이면 사용자 경험(UX)이 저하된다.
 
-- **📢 섹션 요약 비유**: [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화는 연비 좋은 자동차를 설계하는 것과 같다. 엔진([EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))은 정해져 있지만, 설계자가 부품 배치(코드 구조)를 잘 하면 같은 거리를 절반의 연료로 갈 수 있다.
+- **📢 섹션 요약 비유**: [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 최적화는 연비 좋은 자동차를 설계하는 것과 같다. 엔진([EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))은 정해져 있지만, 설계자가 부품 배치(코드 구조)를 잘 하면 같은 거리를 절반의 연료로 갈 수 있다.
 
 ---
 
@@ -131,11 +128,11 @@ AMM(Automated Market Maker) 스왑 컨트랙트의 [트랜잭션](/knowledge-bas
 
 | 기대효과 | 내용 | 수치 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 실행 보장</strong> | 단일 실패 지점 없는 코드 실행 | 99.99% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) |
-| **투명성** | 모든 실행 결과 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영구 기록 | [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성 100% |
-| **확장성 진화** | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 2.0(EOF 포맷) + L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 결합 | TPS 수천~수만 달성 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 실행 보장</strong> | 단일 실패 지점 없는 코드 실행 | 99.99% [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) |
+| **투명성** | 모든 실행 결과 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 영구 기록 | [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성 100% |
+| **확장성 진화** | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 2.0(EOF 포맷) + L2 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 결합 | TPS 수천~수만 달성 |
 
-EVM은 이더리움 생태계의 근간이며, [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) Object Format (EOF), EIP-4844 (Proto-Danksharding) 등의 업그레이드로 성능과 보안이 지속 강화되고 있다. ZK-[EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 기반 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))은 프라이버시와 확장성을 동시에 달성하는 차세대 실행 환경으로 주목받고 있다.
+EVM은 이더리움 생태계의 근간이며, [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) Object Format (EOF), EIP-4844 (Proto-Danksharding) 등의 업그레이드로 성능과 보안이 지속 강화되고 있다. ZK-[EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)([영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) 기반 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))은 프라이버시와 확장성을 동시에 달성하는 차세대 실행 환경으로 주목받고 있다.
 
 - **📢 섹션 요약 비유**: EVM은 세계 모든 은행이 합의한 단 하나의 계산기다. 어느 나라에서 계산하든 항상 같은 답이 나오며, 계산 결과를 누구도 지울 수 없는 영구 영수증으로 남긴다.
 
@@ -145,11 +142,11 @@ EVM은 이더리움 생태계의 근간이며, [EVM](/knowledge-base/studynote/1
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a></strong> | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 위에서 실행되는 자동 계약 코드 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/">Solidity</a></strong> | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일되는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 언어 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a>(<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a>)</strong> | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 연산 비용 단위; 무한 루프 차단 메커니즘 |
-| **EIP (이더리움 개선 제안)** | [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 스펙을 발전시키는 공식 제안 프로세스 |
-| <strong>ZK-<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a></strong> | [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)으로 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 차세대 확장 솔루션 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a></strong> | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 위에서 실행되는 자동 계약 코드 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/057_solidity_smart_contract_language/">Solidity</a></strong> | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)코드로 컴파일되는 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 언어 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/024_gas/">가스</a>(<a href="/studynote/06_ict_convergence/01_blockchain/024_gas/">Gas</a>)</strong> | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 연산 비용 단위; 무한 루프 차단 메커니즘 |
+| **EIP (이더리움 개선 제안)** | [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 스펙을 발전시키는 공식 제안 프로세스 |
+| <strong>ZK-<a href="/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a></strong> | [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)으로 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 차세대 확장 솔루션 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -168,13 +165,13 @@ EVM은 이더리움 생태계의 근간이며, [EVM](/knowledge-base/studynote/1
     v
 [ZK-EVM — 영지식 증명 기반 EVM 검증 (Scroll, zkSync)]
 ```
-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 단순 스크립트에서 출발해 튜링 완전 EVM을 거쳐, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 ZK 증명 기반 EVM으로 확장성과 보안을 동시에 달성하는 방향으로 진화 중이다.
+[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)코인의 단순 스크립트에서 출발해 튜링 완전 EVM을 거쳐, L2 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)과 ZK 증명 기반 EVM으로 확장성과 보안을 동시에 달성하는 방향으로 진화 중이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. EVM은 전 세계 모든 친구들이 함께 쓰는 거대한 <strong>공용 로봇 두뇌</strong>예요!
-2. 이 두뇌에 규칙([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))을 프로그래밍하면, 누가 시키지 않아도 스스로 약속을 지켜 돈을 보내거나 거래를 완료해 줘요.
-3. 연료([가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/))를 넣어줘야 일하고, 연료가 다 떨어지면 작동을 멈추고 원래대로 되돌아가는 아주 신중한 로봇이에요!
+2. 이 두뇌에 규칙([스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))을 프로그래밍하면, 누가 시키지 않아도 스스로 약속을 지켜 돈을 보내거나 거래를 완료해 줘요.
+3. 연료([가스](/studynote/06_ict_convergence/01_blockchain/024_gas/))를 넣어줘야 일하고, 연료가 다 떨어지면 작동을 멈추고 원래대로 되돌아가는 아주 신중한 로봇이에요!
 
 ---
 
@@ -182,7 +179,7 @@ EVM은 이더리움 생태계의 근간이며, [EVM](/knowledge-base/studynote/1
 
 **진행 상황**: 23 / 552
 
-<- **이전**: [22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)
-**다음**: [24. 가스 (Gas) — 이더리움 네트워크 수수료 체계](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) ->
+<- **이전**: [22. 스마트 컨트랙트 (Smart Contract) - 조건이 충족되면 블록체인 상에서 자동 실행되는 프로그램 코드 (닉 자보 제안)](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)
+**다음**: [24. 가스 (Gas) — 이더리움 네트워크 수수료 체계](/studynote/06_ict_convergence/01_blockchain/024_gas/) ->
 
 ---

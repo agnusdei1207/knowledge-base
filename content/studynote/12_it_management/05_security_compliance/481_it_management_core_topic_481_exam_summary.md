@@ -1,13 +1,10 @@
-+++
-title = "481. IT 경영 관리 핵심 토픽 481번 시험 요약 (IT Management Core Topic 481 Exam Summary)"
-date = 2026-05-09
+---
+title: "481. IT 경영 관리 핵심 토픽 481번 시험 요약 (IT Management Core Topic 481 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ IT 경영관리의 핵심 프레임워크들은 **중복과 상호보완** 관�
 
 **진행 상황**: 481 / 800
 
-<- **이전**: [480. IT 경영 관리 핵심 토픽 480번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/480_it_management_core_topic_480_exam_summary/)
-**다음**: [482. IT 경영 관리 핵심 토픽 482번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/482_it_management_core_topic_482_exam_summary/) ->
+<- **이전**: [480. IT 경영 관리 핵심 토픽 480번 시험 요약](/studynote/12_it_management/05_security_compliance/480_it_management_core_topic_480_exam_summary/)
+**다음**: [482. IT 경영 관리 핵심 토픽 482번 시험 요약](/studynote/12_it_management/05_security_compliance/482_it_management_core_topic_482_exam_summary/) ->
 
 ---

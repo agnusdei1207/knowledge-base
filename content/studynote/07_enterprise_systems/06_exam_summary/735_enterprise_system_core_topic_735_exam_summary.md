@@ -1,13 +1,10 @@
-+++
-title = "735. 엔터프라이즈 시스템 핵심 토픽 735번 시험 요약 (Enterprise System Core Topic 735 Exam Summary)"
-date = 2026-05-09
+---
+title: "735. 엔터프라이즈 시스템 핵심 토픽 735번 시험 요약 (Enterprise System Core Topic 735 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 735 / 800
 
-<- **이전**: [734. 엔터프라이즈 시스템 핵심 토픽 734번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/734_enterprise_system_core_topic_734_exam_summary/)
-**다음**: [736. 엔터프라이즈 시스템 핵심 토픽 736번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/736_enterprise_system_core_topic_736_exam_summary/) ->
+<- **이전**: [734. 엔터프라이즈 시스템 핵심 토픽 734번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/734_enterprise_system_core_topic_734_exam_summary/)
+**다음**: [736. 엔터프라이즈 시스템 핵심 토픽 736번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/736_enterprise_system_core_topic_736_exam_summary/) ->
 
 ---

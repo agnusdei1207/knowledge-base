@@ -1,13 +1,10 @@
-+++
-title = "285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)"
-date = 2026-05-09
+---
+title: "285. 멀티모달 데이터 처리 통합 분석 (Multimodal Data Processing Unified Analytics)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 285 / 300
 
-<- **이전**: [284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/284_htap_realtime_analytics/)
-**다음**: [286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/286_edge_data_processing/) ->
+<- **이전**: [284. 실시간 분석 HTAP 하이브리드 트랜잭션 (Real-time Analytics HTAP Hybrid Transaction)](/studynote/14_data_engineering/05_exam_keywords/284_htap_realtime_analytics/)
+**다음**: [286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)](/studynote/14_data_engineering/05_exam_keywords/286_edge_data_processing/) ->
 
 ---

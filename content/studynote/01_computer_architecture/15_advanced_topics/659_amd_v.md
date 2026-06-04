@@ -1,27 +1,24 @@
-+++
-title = "659. AMD-V"
-date = 2026-05-08
+---
+title: "659. AMD-V"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AMD-V (AMD [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 AMD 프로세서의 하드웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기반이며, Secure [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 구조로 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 게스트를 분리한다.
-> 2. **가치**: [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Block (VMCB), [중첩 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ([Nested Page Table](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/), NPT), Rapid [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Indexing (RVI), 주소 공간 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Address Space [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/))가 함께 동작해 전환 비용과 메모리 오버헤드를 낮춘다.
-> 3. **판단 포인트**: AMD-V의 강점은 단일 스위치가 아니라 NPT, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속, 입출력 메모리 관리 장치 (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/)), 필요 시 [메모리 암호화 가상화](/knowledge-base/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) ([Secure Encrypted Virtualization](/knowledge-base/studynote/09_security/04_endpoint_security/391_amd_sev/), SEV) 같은 주변 기능을 어떤 워크로드에 묶어 쓰느냐에서 드러난다.
+> 1. **본질**: AMD-V (AMD [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))는 AMD 프로세서의 하드웨어 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기반이며, Secure [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) 구조로 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 게스트를 분리한다.
+> 2. **가치**: [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Block (VMCB), [중첩 페이지 테이블](/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ([Nested Page Table](/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/), NPT), Rapid [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Indexing (RVI), 주소 공간 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Address Space [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), [ASID](/studynote/02_operating_system/06_memory_management/360_asid/))가 함께 동작해 전환 비용과 메모리 오버헤드를 낮춘다.
+> 3. **판단 포인트**: AMD-V의 강점은 단일 스위치가 아니라 NPT, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속, 입출력 메모리 관리 장치 (Input/Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/), [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/)), 필요 시 [메모리 암호화 가상화](/studynote/02_operating_system/07_virtual_memory/437_memory_encryption_virtualization/) ([Secure Encrypted Virtualization](/studynote/09_security/04_endpoint_security/391_amd_sev/), SEV) 같은 주변 기능을 어떤 워크로드에 묶어 쓰느냐에서 드러난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AMD-V는 AMD가 x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 위해 만든 [하드웨어 보조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 실행 체계다. 기본 문제는 Intel 쪽과 같다. 게스트 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)는 자신이 최고 권한이라고 믿고 움직이지만, 실제로는 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 여러 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 한 프로세서 위에 동시에 안전하게 올려야 한다. 이 충돌을 소프트웨어만으로 처리하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구현 난도가 모두 급격히 나빠진다.
+AMD-V는 AMD가 x86 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 위해 만든 [하드웨어 보조](/studynote/01_computer_architecture/15_advanced_topics/527_hardware_assisted_virtualization/) 실행 체계다. 기본 문제는 Intel 쪽과 같다. 게스트 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)는 자신이 최고 권한이라고 믿고 움직이지만, 실제로는 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 여러 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 한 프로세서 위에 동시에 안전하게 올려야 한다. 이 충돌을 소프트웨어만으로 처리하면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 구현 난도가 모두 급격히 나빠진다.
 
-AMD는 이 문제를 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 구조로 풀었다. 즉 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 host 쪽에서 통제권을 유지하고, 게스트는 guest 쪽에서 실행되며, 어떤 사건을 가로챌지는 VMCB에 미리 적어 둔다. 이 설계는 상태 저장과 규칙 정의를 하나의 메모리 블록 중심으로 다루는 점에서 직관적이다.
+AMD는 이 문제를 [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) 구조로 풀었다. 즉 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 host 쪽에서 통제권을 유지하고, 게스트는 guest 쪽에서 실행되며, 어떤 사건을 가로챌지는 VMCB에 미리 적어 둔다. 이 설계는 상태 저장과 규칙 정의를 하나의 메모리 블록 중심으로 다루는 점에서 직관적이다.
 
 아래 그림은 AMD-V가 VMCB를 중심으로 host와 guest를 왕복시키는 기본 흐름을 보여준다.
 
@@ -44,19 +41,19 @@ AMD는 이 문제를 [SVM](/knowledge-base/studynote/14_data_engineering/05_exam
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AMD-V의 중심에는 VMCB가 있다. VMCB 안에는 게스트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 규칙, 어떤 명령과 입출력 (Input/Output, I/O)을 가로챌지에 대한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 그리고 NPT의 루트 포인터가 함께 들어간다. Intel이 전용 명령으로 [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure ([VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)) 필드를 읽고 쓰는 쪽에 가깝다면, AMD는 VMCB라는 구조체 중심 설계를 택했다고 볼 수 있다.
+AMD-V의 중심에는 VMCB가 있다. VMCB 안에는 게스트 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 상태, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 규칙, 어떤 명령과 입출력 (Input/Output, I/O)을 가로챌지에 대한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), 그리고 NPT의 루트 포인터가 함께 들어간다. Intel이 전용 명령으로 [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure ([VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)) 필드를 읽고 쓰는 쪽에 가깝다면, AMD는 VMCB라는 구조체 중심 설계를 택했다고 볼 수 있다.
 
 | 구성 요소 | 역할 | 실무상 의미 |
 | :--- | :--- | :--- |
 | VMCB | 게스트 상태와 가로채기 규칙 저장 | 디버깅과 상태 추적의 기준점 |
-| VMRUN | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에서 게스트로 진입 | 전환 비용 최적화의 출발점 |
+| VMRUN | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에서 게스트로 진입 | 전환 비용 최적화의 출발점 |
 | NPT / RVI | 게스트 물리 주소를 실제 물리 주소로 매핑 | 메모리 관련 Exit 급감 |
-| [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) | 각 VM의 주소 공간을 주소 변환 캐시 ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/))에서 구분 | 문맥 전환 때 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) flush 감소 |
-| 고급 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 제어기 (Advanced Virtual [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller, AVIC) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달 오버헤드 완화 | 네트워크·실시간 워크로드에 유리 |
+| [ASID](/studynote/02_operating_system/06_memory_management/360_asid/) | 각 VM의 주소 공간을 주소 변환 캐시 ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/), [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/))에서 구분 | 문맥 전환 때 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) flush 감소 |
+| 고급 가상 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 제어기 (Advanced Virtual [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller, AVIC) | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 전달 오버헤드 완화 | 네트워크·실시간 워크로드에 유리 |
 
-AMD-V는 메모리 쪽에서 특히 강하다. NPT는 게스트가 관리하는 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)과 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 관리하는 물리 매핑을 하드웨어가 함께 따라가게 만들어, 과거 섀도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 유지 비용을 크게 줄인다. 여기에 ASID가 더해지면 주소 변환 캐시를 매번 비우지 않아도 되므로, 다수 VM이 오가는 환경에서 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 커진다.
+AMD-V는 메모리 쪽에서 특히 강하다. NPT는 게스트가 관리하는 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)과 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 관리하는 물리 매핑을 하드웨어가 함께 따라가게 만들어, 과거 섀도 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 유지 비용을 크게 줄인다. 여기에 ASID가 더해지면 주소 변환 캐시를 매번 비우지 않아도 되므로, 다수 VM이 오가는 환경에서 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 커진다.
 
-장치 경로에서는 IOMMU가 중요하다. AMD-V로 중앙처리장치 (Central Processing Unit, CPU) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)만 해결해도 장치가 임의의 메모리에 접근하면 격리가 깨질 수 있기 때문이다. 또한 SEV는 AMD-V 위에 얹히는 보안 확장으로, "실행 분리"를 넘어 "메모리 내용 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)"까지 범위를 넓힌다.
+장치 경로에서는 IOMMU가 중요하다. AMD-V로 중앙처리장치 (Central Processing Unit, CPU) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)만 해결해도 장치가 임의의 메모리에 접근하면 격리가 깨질 수 있기 때문이다. 또한 SEV는 AMD-V 위에 얹히는 보안 확장으로, "실행 분리"를 넘어 "메모리 내용 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)"까지 범위를 넓힌다.
 
 - **📢 섹션 요약 비유**: AMD-V는 배달 허브와 같다. 어떤 상자는 바로 보내고, 어떤 상자는 검사대로 돌리고, 어떤 상자는 암호 잠금까지 채우는 규칙을 한 운영 보드에서 관리한다.
 
@@ -66,17 +63,17 @@ AMD-V는 메모리 쪽에서 특히 강하다. NPT는 게스트가 관리하는 
 
 AMD-V를 볼 때는 Intel VT-x와의 차이, 그리고 AMD 내부 확장 기능과의 경계를 같이 봐야 한다. 두 기술 모두 목표는 같지만, 제어 구조와 튜닝 포인트가 조금 다르다. AMD-V의 장점은 VMCB 중심의 단순한 제어 흐름과 일찍부터 강하게 밀어온 NPT 계열 최적화에 있다.
 
-| 항목 | AMD-V | [Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) |
+| 항목 | AMD-V | [Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) |
 | :--- | :--- | :--- |
-| 실행 프레임워크 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) host / guest mode | [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions (VMX) root / non-root mode |
-| 핵심 제어 구조 | VMCB | [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) |
-| 메모리 가속 | NPT / RVI | [확장 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/) (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables, EPT) |
-| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 태깅 | [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) | 가상 프로세서 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Virtual Processor [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), VPID) |
-| [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 예 | AVIC | Intel posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 계열 |
+| 실행 프레임워크 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) host / guest mode | [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions (VMX) root / non-root mode |
+| 핵심 제어 구조 | VMCB | [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) |
+| 메모리 가속 | NPT / RVI | [확장 페이지 테이블](/studynote/01_computer_architecture/15_advanced_topics/661_extended_page_table/) (Extended [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables, EPT) |
+| [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 태깅 | [ASID](/studynote/02_operating_system/06_memory_management/360_asid/) | 가상 프로세서 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) (Virtual Processor [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/), VPID) |
+| [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 예 | AVIC | Intel posted [interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 계열 |
 
-또 하나의 중요한 연결은 AMD-V와 SEV의 관계다. AMD-V는 어디까지나 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>를 실용화하는 실행 기반</strong>이고, SEV는 그 위에 [메모리 암호화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)를 더하는 보안 계층이다. 둘을 혼동하면 "AMD-V만 켜면 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 된다"는 잘못된 결론에 도달하게 된다.
+또 하나의 중요한 연결은 AMD-V와 SEV의 관계다. AMD-V는 어디까지나 <strong><a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>를 실용화하는 실행 기반</strong>이고, SEV는 그 위에 [메모리 암호화](/studynote/01_computer_architecture/15_advanced_topics/796_memory_encryption/)를 더하는 보안 계층이다. 둘을 혼동하면 "AMD-V만 켜면 [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/)이 된다"는 잘못된 결론에 도달하게 된다.
 
-이 비교는 기술 선택에도 직접 연결된다. 예를 들어 장치 passthrough와 메모리 집약 워크로드가 핵심이면 AMD-V의 NPT와 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 조합이 특히 중요하고, 규제 환경에서 운영자 가시성까지 줄여야 한다면 SEV까지 범위를 넓혀 판단해야 한다.
+이 비교는 기술 선택에도 직접 연결된다. 예를 들어 장치 passthrough와 메모리 집약 워크로드가 핵심이면 AMD-V의 NPT와 [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 조합이 특히 중요하고, 규제 환경에서 운영자 가시성까지 줄여야 한다면 SEV까지 범위를 넓혀 판단해야 한다.
 
 - **📢 섹션 요약 비유**: AMD-V가 튼튼한 집 골조라면, SEV는 그 집 방마다 다는 개인 금고다. 골조만으로는 집을 짓지만, 금고까지 달아야 비밀을 지킬 수 있다.
 
@@ -84,16 +81,16 @@ AMD-V를 볼 때는 Intel VT-x와의 차이, 그리고 AMD 내부 확장 기능�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-AMD EPYC 기반 서버에서 AMD-V를 쓸 때 가장 흔한 성공 패턴은 "SVM만 켜지 않는다"는 점이다. NPT, [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/), AVIC, [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), 최신 마이크로코드를 함께 맞춰야 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 메모리와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 병목도 같이 풀린다. 특히 다수의 가상 데스크톱, JVM [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 네트워크 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)처럼 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수가 많고 문맥 전환이 잦은 환경에서 이 차이가 크게 드러난다.
+AMD EPYC 기반 서버에서 AMD-V를 쓸 때 가장 흔한 성공 패턴은 "SVM만 켜지 않는다"는 점이다. NPT, [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/), AVIC, [Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), 최신 마이크로코드를 함께 맞춰야 CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 메모리와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 병목도 같이 풀린다. 특히 다수의 가상 데스크톱, JVM [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 네트워크 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)처럼 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 수가 많고 문맥 전환이 잦은 환경에서 이 차이가 크게 드러난다.
 
 현장에서는 다음 같은 의사결정이 자주 나온다.
 
-1. [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 때문에 구형 모드를 유지할지, NPT를 강제로 켤지 판단한다.
-2. 장치 직접 할당이 필요하면 [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 그룹과 마이그레이션 제약을 함께 검토한다.
-3. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 높은 워크로드는 AVIC 효과를 측정해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)을 조정한다.
+1. [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 때문에 구형 모드를 유지할지, NPT를 강제로 켤지 판단한다.
+2. 장치 직접 할당이 필요하면 [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 그룹과 마이그레이션 제약을 함께 검토한다.
+3. [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 부하가 높은 워크로드는 AVIC 효과를 측정해 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)을 조정한다.
 4. 규제 데이터가 올라가면 AMD-V만이 아니라 SEV 적용 여부까지 분리해 결정한다.
 
-대표적 안티패턴도 분명하다. SVM은 켰지만 NPT를 끄는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 없이 passthrough를 시도하는 구성, SEV가 기본 활성이라고 오해하는 운영 방식은 모두 실무 장애로 이어지기 쉽다. 기술사 답안에서는 "무엇을 켤 것인가"보다 "왜 이 조합이 필요한가"를 설명해야 점수를 얻는다.
+대표적 안티패턴도 분명하다. SVM은 켰지만 NPT를 끄는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) 없이 passthrough를 시도하는 구성, SEV가 기본 활성이라고 오해하는 운영 방식은 모두 실무 장애로 이어지기 쉽다. 기술사 답안에서는 "무엇을 켤 것인가"보다 "왜 이 조합이 필요한가"를 설명해야 점수를 얻는다.
 
 - **📢 섹션 요약 비유**: AMD-V 운영은 좋은 주방 설비를 맞추는 일과 같다. 가스불만 켠다고 요리가 잘되는 것이 아니라 냉장, 환기, 동선까지 같이 맞아야 진짜 효율이 나온다.
 
@@ -101,9 +98,9 @@ AMD EPYC 기반 서버에서 AMD-V를 쓸 때 가장 흔한 성공 패턴은 "SV
 
 ## Ⅴ. 기대효과 및 결론
 
-AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 확장성을 떠받치는 핵심 기반이다. VMCB 중심 제어, NPT 기반 메모리 가속, ASID와 AVIC 같은 보조 기능이 결합되면 높은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 밀도와 낮은 tail latency를 동시에 노릴 수 있다. 특히 대규모 클라우드와 가상 데스크톱, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 개발 환경에서 그 가치가 크다.
+AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 확장성을 떠받치는 핵심 기반이다. VMCB 중심 제어, NPT 기반 메모리 가속, ASID와 AVIC 같은 보조 기능이 결합되면 높은 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 밀도와 낮은 tail latency를 동시에 노릴 수 있다. 특히 대규모 클라우드와 가상 데스크톱, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기반 개발 환경에서 그 가치가 크다.
 
-물론 한계도 있다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입이 완전히 사라지는 것은 아니고, 장치 직접 할당은 운영 유연성을 줄이며, SEV를 더하면 디버깅과 마이그레이션 전략이 복잡해진다. 따라서 AMD-V는 "AMD CPU의 체크박스 기능"이 아니라, 실행 분리와 메모리/장치 정책을 함께 설계하는 플랫폼 관점으로 이해해야 한다.
+물론 한계도 있다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입이 완전히 사라지는 것은 아니고, 장치 직접 할당은 운영 유연성을 줄이며, SEV를 더하면 디버깅과 마이그레이션 전략이 복잡해진다. 따라서 AMD-V는 "AMD CPU의 체크박스 기능"이 아니라, 실행 분리와 메모리/장치 정책을 함께 설계하는 플랫폼 관점으로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: AMD-V는 큰 쇼핑몰의 중앙 설비실과 같다. 에스컬레이터, 조명, 보안문이 따로 움직이는 것 같아도 결국 한 설비실의 설계가 전체 품질을 결정한다.
 
@@ -114,10 +111,10 @@ AMD-V는 단순히 Intel 대응 기능이 아니라, AMD 서버 생태계의 [�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | VMCB | AMD-V에서 게스트 상태와 가로채기 정책을 담는 핵심 구조 |
-| NPT | AMD-V 메모리 가속의 중심이며 섀도 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부담을 줄임 |
-| [ASID](/knowledge-base/studynote/02_operating_system/06_memory_management/360_asid/) | 다수 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 전환 시 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 효율을 지키는 핵심 태그 |
-| AVIC | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로에서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입을 줄임 |
-| SEV | AMD-V 위에서 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 방향으로 확장되는 보안 계층 |
+| NPT | AMD-V 메모리 가속의 중심이며 섀도 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 부담을 줄임 |
+| [ASID](/studynote/02_operating_system/06_memory_management/360_asid/) | 다수 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 전환 시 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 효율을 지키는 핵심 태그 |
+| AVIC | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 경로에서 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입을 줄임 |
+| SEV | AMD-V 위에서 [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/) 방향으로 확장되는 보안 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,7 +134,7 @@ NPT / RVI · ASID · AVIC
 SEV and confidential computing
 ```
 
-이 흐름은 "실행 분리 -> 상태 관리 단순화 -> 메모리/[인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 -> 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
+이 흐름은 "실행 분리 -> 상태 관리 단순화 -> 메모리/[인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 가속 -> 보안 확장"의 축으로 AMD-V를 이해하게 해 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -151,7 +148,7 @@ SEV and confidential computing
 
 **진행 상황**: 660 / 803
 
-<- **이전**: [658. Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)
-**다음**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ->
+<- **이전**: [658. Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)
+**다음**: [660. 중첩 페이지 테이블 (Nested Page Table, NPT)](/studynote/01_computer_architecture/15_advanced_topics/660_nested_page_table/) ->
 
 ---

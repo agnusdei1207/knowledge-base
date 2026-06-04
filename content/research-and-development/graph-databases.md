@@ -1,12 +1,9 @@
-+++
-title = "🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드"
+---
+title: "🌐 Neo4j vs Dgraph 그래프 DB 심층 비교 가이드"
+tags:
+  - "research-and-development"
+---
 
-[taxonomies]
-tags = ["research-and-development"]
-
-[extra]
-tags = ["research-and-development"]
-+++
 
 본 문서는 사내 지식 그래프(Knowledge Graph) 인프라 확장 및 차세대 Graph RAG 아키텍처 설계를 대비하여, 대표적인 그래프 데이터베이스인 <strong>Neo4j</strong>와 <strong>Dgraph</strong>의 아키텍처, 성능, 확장성 및 비즈니스 적합성을 비교 분석한 기술 아카이브입니다.
 
@@ -14,7 +11,7 @@ tags = ["research-and-development"]
 
 ## 1. 그래프 데이터베이스(Graph DB)의 중요성
 
-현대의 엔터프라이즈 데이터는 단순히 테이블 단위로 고립되어 있지 않으며, 데이터 간의 **관계(Relationship)** 자체가 핵심 자산입니다. 
+현대의 엔터프라이즈 데이터는 단순히 테이블 단위로 고립되어 있지 않으며, 데이터 간의 **관계(Relationship)** 자체가 핵심 자산입니다.
 *   **RDB의 한계**: 관계를 추적하기 위해 수많은 Table Join 연산이 발생하며, Join 깊이가 3~4단계 이상 깊어질 때 성능이 기하급수적으로 하락합니다.
 *   **Graph DB의 가치**: 데이터(Node/Vertex)와 관계(Edge/Link)를 물리적으로 직접 연결하여 포인터 역참조 형태로 탐색(Graph Traversal)하므로, 관계의 깊이가 아무리 깊어져도 **상수 시간 $O(1)$에 준하는 관계 탐색 성능**을 유지합니다.
 
@@ -86,20 +83,20 @@ Dgraph는 처음부터 <strong>대규모 수평 확장(Horizontal Scaling)</stro
 
 ```text
 [1. 복잡한 추론 및 그래프 데이터 분석(PageRank, Centrality 등)이 필수적인가?]
-    ├─ 예  → [Neo4j 채택]
-    │        [풍부한 GDS 알고리즘 적극 활용]
-    │
-    └─ 아니오
-        ▼
+    +- 예  -> [Neo4j 채택]
+    |        [풍부한 GDS 알고리즘 적극 활용]
+    |
+    +- 아니오
+        v
 [2. 데이터 크기가 테라바이트 급으로 확장되어 샤딩 및 고가용성 분산 환경이 절대적인가?]
-    ├─ 예  → [Dgraph 채택]
-    │        [클라우드 분산 샤딩 효율성 극대화]
-    │
-    └─ 아니오 → [로컬 파일 기반 Quartz + Vector DB]
+    +- 예  -> [Dgraph 채택]
+    |        [클라우드 분산 샤딩 효율성 극대화]
+    |
+    +- 아니오 -> [로컬 파일 기반 Quartz + Vector DB]
                 [현재 인프라 제로 협업 환경 유지]
 ```
 
 
 
 > [!IMPORTANT]
-> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 <strong><a href="/knowledge-base/research-and-development/n-gram-linker/">N-gram 링커</a></strong>를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.
+> 무리하게 도입 비용이 높은 분산 그래프 DB를 초기에 연동하기보다는, 현재의 마크다운 링킹 관계를 <strong><a href="/research-and-development/n-gram-linker/">N-gram 링커</a></strong>를 통해 촘촘히 유지하고, 임베딩을 통한 pgvector 검색을 1순위로 둔 뒤, 필요 시 Neo4j에 이를 임시 로딩하여 의미 추론 레이어를 얹는 하이브리드 방안을 권장합니다.

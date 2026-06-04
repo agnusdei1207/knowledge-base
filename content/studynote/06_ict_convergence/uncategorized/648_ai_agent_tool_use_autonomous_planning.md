@@ -1,13 +1,10 @@
-+++
-title = "648. AI 에이전트 도구 사용 자율 계획 (AI Agent Tool Use Autonomous Planning)"
-date = 2026-05-09
+---
+title: "648. AI 에이전트 도구 사용 자율 계획 (AI Agent Tool Use Autonomous Planning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -190,7 +187,7 @@ def agent_loop(user_goal, max_iter=10):
 
 **진행 상황**: 648 / 800
 
-<- **이전**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/knowledge-base/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/)
-**다음**: [649. 멀티모달 AI 비전 언어 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/) ->
+<- **이전**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/)
+**다음**: [649. 멀티모달 AI 비전 언어 모델](/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/) ->
 
 ---

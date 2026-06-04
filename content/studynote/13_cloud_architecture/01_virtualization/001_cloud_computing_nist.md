@@ -1,14 +1,11 @@
-+++
-title = "1. 클라우드 컴퓨팅 (Cloud Computing) 5대 특징 (NIST 기준)"
-description = "NIST(미국 국립표준기술연구소)에서 정의한 클라우드 컴퓨팅의 5대 핵심 특징인 주문형 셀프 서비스, 광범위한 네트워크 접속, 리소스 풀링, 신속한 탄력성, 측정 가능한 서비스 분석"
-date = 2026-05-09
+---
+title: "1. 클라우드 컴퓨팅 (Cloud Computing) 5대 특징 (NIST 기준)"
+date: "2026-05-09"
+description: "NIST(미국 국립표준기술연구소)에서 정의한 클라우드 컴퓨팅의 5대 핵심 특징인 주문형 셀프 서비스, 광범위한 네트워크 접속, 리소스 풀링, 신속한 탄력성, 측정 가능한 서비스 분석"
+tags:
+  - "cloud_architecture"
+---
 
-[taxonomies]
-tags = ["cloud_architecture"]
-
-[extra]
-tags = ["cloud_architecture"]
-+++
 
 ```markdown
 # 1. 클라우드 컴퓨팅 (Cloud Computing) 5대 특징 (NIST 기준)
@@ -199,6 +196,6 @@ CSP의 컴퓨팅 자원은 **다중 테넌트(Multi-Tenant)가 공유하는 풀(
 **진행 상황**: 1 / 800
 
 <- **이전**: (첫 번째 글입니다)
-**다음**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/002_iaas/) ->
+**다음**: [2. IaaS (Infrastructure as a Service) - 서버(VM), 스토리지, 네트워크 인프라 제공 (AWS EC2, S3)](/studynote/13_cloud_architecture/01_virtualization/002_iaas/) ->
 
 ---

@@ -1,29 +1,26 @@
-+++
-title = "157. SV (Schedule Variance, 일정 차이)"
-date = 2026-04-21
+---
+title: "157. SV (Schedule Variance, 일정 차이)"
+date: "2026-04-21"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SV (Schedule [Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 일정 차이)는 획득 가치 관리 ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))에서 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value)와 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value)의 차이로 계산되며, 계획 대비 일정이 앞섰는지 늦었는지를 "가치" 기준으로 읽는 지표다.
+> 1. **본질**: SV (Schedule [Variance](/studynote/08_algorithm_stats/08_stats/136_variance/), 일정 차이)는 획득 가치 관리 ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/), [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))에서 [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value)와 [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) (Planned Value)의 차이로 계산되며, 계획 대비 일정이 앞섰는지 늦었는지를 "가치" 기준으로 읽는 지표다.
 > 2. **가치**: 단순 날짜 비교가 아니라 완료된 작업량의 예산 가치를 기준으로 보기 때문에, 일정과 비용을 같은 프레임 안에서 통합적으로 관리할 수 있다.
-> 3. **판단 포인트**: SV는 프로젝트 종료 시 0으로 수렴하는 한계가 있으므로, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)), ES (Earned Schedule), 주공정 분석과 함께 해석해야 실무 판단이 정확해진다.
+> 3. **판단 포인트**: SV는 프로젝트 종료 시 0으로 수렴하는 한계가 있으므로, [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)), ES (Earned Schedule), 주공정 분석과 함께 해석해야 실무 판단이 정확해진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SV는 프로젝트가 현재 시점에서 계획보다 얼마나 앞서거나 늦었는지를 정량적으로 보여주는 일정 성과 지표다. 전통적인 일정 관리는 "원래 6월 완료인데 아직 끝나지 않았다"처럼 달력 기준으로 말하는 경우가 많지만, 이 방식은 작업의 난이도와 가치 차이를 충분히 반영하지 못한다. 같은 1주 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라도 어떤 작업은 영향이 작고, 어떤 작업은 핵심 경로를 흔들 수 있기 때문이다.
+SV는 프로젝트가 현재 시점에서 계획보다 얼마나 앞서거나 늦었는지를 정량적으로 보여주는 일정 성과 지표다. 전통적인 일정 관리는 "원래 6월 완료인데 아직 끝나지 않았다"처럼 달력 기준으로 말하는 경우가 많지만, 이 방식은 작업의 난이도와 가치 차이를 충분히 반영하지 못한다. 같은 1주 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라도 어떤 작업은 영향이 작고, 어떤 작업은 핵심 경로를 흔들 수 있기 때문이다.
 
-EVM은 이 문제를 가치 기반으로 바꿔 본다. 특정 시점까지 계획상 완료되어 있어야 할 가치가 PV이고, 실제로 완료해 얻은 가치가 EV다. 따라서 SV = [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - PV는 "지금까지 원래 끝냈어야 할 만큼을 실제로 끝냈는가"를 금액 단위로 표현한다.
+EVM은 이 문제를 가치 기반으로 바꿔 본다. 특정 시점까지 계획상 완료되어 있어야 할 가치가 PV이고, 실제로 완료해 얻은 가치가 EV다. 따라서 SV = [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - PV는 "지금까지 원래 끝냈어야 할 만큼을 실제로 끝냈는가"를 금액 단위로 표현한다.
 
-이 지표가 필요한 이유는 일정과 비용을 분리해서 보면 판단이 왜곡되기 쉽기 때문이다. 일정은 늦지만 비용은 절감될 수 있고, 반대로 비용을 더 써서 일정을 따라잡을 수도 있다. SV는 프로젝트 관리자에게 일정 진도를 같은 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 비교할 수 있는 공통 언어를 제공한다.
+이 지표가 필요한 이유는 일정과 비용을 분리해서 보면 판단이 왜곡되기 쉽기 때문이다. 일정은 늦지만 비용은 절감될 수 있고, 반대로 비용을 더 써서 일정을 따라잡을 수도 있다. SV는 프로젝트 관리자에게 일정 진도를 같은 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 위에서 비교할 수 있는 공통 언어를 제공한다.
 
 - **📢 섹션 요약 비유**: SV는 달력만 보는 시계가 아니라, "오늘까지 숙제 몇 장 분량을 끝냈어야 하는가"를 함께 보는 학습 진도표와 같다.
 
@@ -31,7 +28,7 @@ EVM은 이 문제를 가치 기반으로 바꿔 본다. 특정 시점까지 계�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료된 작업의 예산 가치이고, PV는 현재 시점까지 계획된 예산 가치다. 따라서 SV가 양수이면 일정 선행, 0이면 계획대로, 음수이면 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 본다.
+SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료된 작업의 예산 가치이고, PV는 현재 시점까지 계획된 예산 가치다. 따라서 SV가 양수이면 일정 선행, 0이면 계획대로, 음수이면 일정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 본다.
 
 아래 그림은 현재 시점에서 계획 가치와 실제 획득 가치의 차이로 SV를 읽는 구조를 보여준다.
 
@@ -56,7 +53,7 @@ SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료�
 
 예를 들어 총예산 BAC (Budget at Completion)가 1,000만원인 프로젝트에서 4개월 시점의 계획 완료율이 60%라면 PV는 600만원이다. 실제 완료율이 45%라면 EV는 450만원이고, 이때 SV는 -150만원이다. 이는 150만원어치의 작업이 아직 일정상 뒤처져 있음을 뜻한다.
 
-다만 SV는 시간 단위가 아니라 금액 단위다. 그래서 일정 차이를 직접 "몇 일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"으로 읽기 어렵고, 프로젝트 완료 시점에는 EV와 PV가 모두 BAC에 도달해 SV가 0으로 수렴한다. 이 한계 때문에 후반 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 ES나 실제 달력 일정 분석으로 보완해야 한다.
+다만 SV는 시간 단위가 아니라 금액 단위다. 그래서 일정 차이를 직접 "몇 일 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"으로 읽기 어렵고, 프로젝트 완료 시점에는 EV와 PV가 모두 BAC에 도달해 SV가 0으로 수렴한다. 이 한계 때문에 후반 일정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 ES나 실제 달력 일정 분석으로 보완해야 한다.
 
 - **📢 섹션 요약 비유**: SV는 오늘까지 풀었어야 할 문제 수와 실제 푼 문제 수의 차이를 점수로 환산해 보여주는 방식과 같다.
 
@@ -66,16 +63,16 @@ SV의 공식은 단순하지만 해석은 맥락이 중요하다. EV는 완료�
 
 SV를 정확히 이해하려면 SPI와 ES를 함께 봐야 한다. SV가 절대 차이를 보여준다면, SPI는 비율로 일정 효율을 보여준다. 또한 ES는 EV를 시간 축으로 다시 번역해, "현재 진도는 실제로 몇 개월 수준인가"를 직접 읽게 해 준다.
 
-| 구분 | SV | [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | ES |
+| 구분 | SV | [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | ES |
 | :--- | :--- | :--- | :--- |
-| 공식 | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | EV를 계획 곡선의 시간으로 환산 |
+| 공식 | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | EV를 계획 곡선의 시간으로 환산 |
 | 단위 | 금액 | 비율 | 시간 |
-| 강점 | 차이 규모 파악 | 프로젝트 간 비교 용이 | 일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 시간으로 해석 가능 |
+| 강점 | 차이 규모 파악 | 프로젝트 간 비교 용이 | 일정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 시간으로 해석 가능 |
 | 한계 | 종료 시 0 수렴 | 종료 시 1 수렴 | 계산과 설명이 더 복잡 |
 
-또한 SV가 음수라고 해서 무조건 납기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 확정되는 것은 아니다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 작업이 주공정 (Critical Path) 밖에 있고 플로트 (Float)가 남아 있다면 전체 완료일은 유지될 수 있다. 반대로 SV가 작아 보여도 주공정 작업에서 발생한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이면 영향이 커질 수 있다.
+또한 SV가 음수라고 해서 무조건 납기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 확정되는 것은 아니다. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 작업이 주공정 (Critical Path) 밖에 있고 플로트 (Float)가 남아 있다면 전체 완료일은 유지될 수 있다. 반대로 SV가 작아 보여도 주공정 작업에서 발생한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이면 영향이 커질 수 있다.
 
-따라서 실무 연결 구조는 보통 다음과 같다. 먼저 프로젝트 전체 SV로 이상 징후를 보고, 다음으로 작업 단위로 쪼개 어느 패키지에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겼는지 찾고, 마지막으로 그 작업이 주공정에 있는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 일정 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한지 판단한다. 이 연결 고리를 빼면 SV는 숫자만 남고 판단 도구가 되지 못한다.
+따라서 실무 연결 구조는 보통 다음과 같다. 먼저 프로젝트 전체 SV로 이상 징후를 보고, 다음으로 작업 단위로 쪼개 어느 패키지에서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 생겼는지 찾고, 마지막으로 그 작업이 주공정에 있는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해 일정 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한지 판단한다. 이 연결 고리를 빼면 SV는 숫자만 남고 판단 도구가 되지 못한다.
 
 - **📢 섹션 요약 비유**: SV가 체온이라면 SPI는 체온 변화율이고, ES는 실제로 며칠 아픈 상태인지 보여주는 달력이라고 볼 수 있다.
 
@@ -83,26 +80,26 @@ SV를 정확히 이해하려면 SPI와 ES를 함께 봐야 한다. SV가 절대 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사 답안이나 실무 보고에서는 단순 계산보다 해석과 조치가 중요하다. 예를 들어 SV가 -80만원이면 "일정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"으로 끝내지 말고, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인이 요구사항 변경인지, 자원 부족인지, 재작업인지, 주공정 영향이 있는지까지 연결해야 한다. 그래야 경영층이 일정 재계획, 자원 추가, 범위 조정 중 무엇을 택할지 결정할 수 있다.
+기술사 답안이나 실무 보고에서는 단순 계산보다 해석과 조치가 중요하다. 예를 들어 SV가 -80만원이면 "일정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"으로 끝내지 말고, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인이 요구사항 변경인지, 자원 부족인지, 재작업인지, 주공정 영향이 있는지까지 연결해야 한다. 그래야 경영층이 일정 재계획, 자원 추가, 범위 조정 중 무엇을 택할지 결정할 수 있다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. EV와 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 산정 기준이 같은 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서 계산되었는가?
-2. SV 음수의 원인이 주공정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가, 비주공정 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가?
-3. SPI가 1보다 작다면 추세가 일시적 문제인지 구조적 문제인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
+1. EV와 [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 산정 기준이 같은 [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)에서 계산되었는가?
+2. SV 음수의 원인이 주공정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가, 비주공정 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가?
+3. SPI가 1보다 작다면 추세가 일시적 문제인지 구조적 문제인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 4. ES로 환산했을 때 실제 완료 예정일이 계약 납기를 넘는가?
-5. 일정 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요하다면 패스트 트래킹 (Fast Tracking)과 크래싱 (Crashing)의 비용 영향을 검토했는가?
+5. 일정 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요하다면 패스트 트래킹 (Fast Tracking)과 크래싱 (Crashing)의 비용 영향을 검토했는가?
 
-### 대표 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 대표 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 적용 상황 | 주의점 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 적용 상황 | 주의점 |
 | :--- | :--- | :--- |
 | Fast Tracking | 선후행 활동 일부 병렬화 가능 | 재작업 위험 증가 |
 | Crashing | 예산 여유가 있고 주공정 단축이 필요 | 비용 증가 |
-| 범위 재조정 | 저우선순위 산출물 조정 가능 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 합의 필요 |
-| 원인 제거 | 승인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 이슈, 자원 부족 해소 | 구조적 병목이면 재계획 필요 |
+| 범위 재조정 | 저우선순위 산출물 조정 가능 | [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 합의 필요 |
+| 원인 제거 | 승인 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 품질 이슈, 자원 부족 해소 | 구조적 병목이면 재계획 필요 |
 
-시험형 계산 문제에서는 공식만 쓰지 말고 "SV<0 -> [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 주공정 검토 -> [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단"의 흐름까지 적어 주면 답안 완성도가 높다. 실무에서도 이 순서가 그대로 통한다.
+시험형 계산 문제에서는 공식만 쓰지 말고 "SV<0 -> [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) -> 주공정 검토 -> [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 판단"의 흐름까지 적어 주면 답안 완성도가 높다. 실무에서도 이 순서가 그대로 통한다.
 
 - **📢 섹션 요약 비유**: SV를 본 뒤 조치하는 일은 길이 막힌 내비게이션을 보고 우회로, 추가 차선, 목적지 변경 중 하나를 고르는 과정과 같다.
 
@@ -110,11 +107,11 @@ SV를 정확히 이해하려면 SPI와 ES를 함께 봐야 한다. SV가 절대 
 
 ## Ⅴ. 기대효과 및 결론
 
-SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수치로 관리할 수 있다. 이는 조기 경보, 작업 단위 원인 분석, 비용 지표와의 통합 보고라는 세 가지 효과를 만든다. 특히 [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))와 함께 보면 "늦으면서 비싼 프로젝트"인지, "늦지만 비용은 통제되는 프로젝트"인지 구분할 수 있어 대응 우선순위가 선명해진다.
+SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수치로 관리할 수 있다. 이는 조기 경보, 작업 단위 원인 분석, 비용 지표와의 통합 보고라는 세 가지 효과를 만든다. 특히 [CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))와 함께 보면 "늦으면서 비싼 프로젝트"인지, "늦지만 비용은 통제되는 프로젝트"인지 구분할 수 있어 대응 우선순위가 선명해진다.
 
-한편 SV는 그 자체로 완결된 지표가 아니다. 종료 시점 수렴 한계, 금액 단위 표현의 직관 부족, 주공정 정보 미포함이라는 제약이 있기 때문이다. 그래서 SV는 독립 지표가 아니라 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 기반 일정 진단의 출발점</strong>으로 기억하는 것이 정확하다.
+한편 SV는 그 자체로 완결된 지표가 아니다. 종료 시점 수렴 한계, 금액 단위 표현의 직관 부족, 주공정 정보 미포함이라는 제약이 있기 때문이다. 그래서 SV는 독립 지표가 아니라 <strong><a href="/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> 기반 일정 진단의 출발점</strong>으로 기억하는 것이 정확하다.
 
-결론적으로 SV는 일정 성과를 가치로 읽는 관리 언어다. 프로젝트 관리자는 이 숫자를 단순한 결과값이 아니라, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)·ES·주공정 분석으로 이어지는 의사결정의 첫 신호로 사용해야 한다.
+결론적으로 SV는 일정 성과를 가치로 읽는 관리 언어다. 프로젝트 관리자는 이 숫자를 단순한 결과값이 아니라, [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)·ES·주공정 분석으로 이어지는 의사결정의 첫 신호로 사용해야 한다.
 
 - **📢 섹션 요약 비유**: SV는 자동차 계기판의 경고등과 같아서, 불이 켜졌다는 사실만 보는 것이 아니라 엔진·연료·브레이크를 함께 점검해야 진짜 문제를 해결할 수 있다.
 
@@ -124,11 +121,11 @@ SV를 활용하면 프로젝트 일정 문제를 감으로 말하지 않고 수�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) | 완료된 작업의 예산 가치 |
-| [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | 현재 시점까지 계획된 예산 가치 |
-| [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | SV를 비율 관점에서 보완하는 일정 효율 지수 |
+| [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) | 완료된 작업의 예산 가치 |
+| [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | 현재 시점까지 계획된 예산 가치 |
+| [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | SV를 비율 관점에서 보완하는 일정 효율 지수 |
 | ES | SV의 종료 수렴 한계를 시간 축으로 보완 |
-| BAC | EV와 [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 계산의 총예산 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) |
+| BAC | EV와 [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) 계산의 총예산 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) |
 | Critical Path | SV가 실제 납기 영향으로 이어지는지 판단하는 핵심 경로 |
 
 ### 관련 키워드 및 발전 흐름도
@@ -149,7 +146,7 @@ Planned Value (PV)
 Schedule Compression / Replanning / Stakeholder Reporting
 ```
 
-이 흐름은 "[기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 성과 측정 -> 일정 차이 해석 -> 보완 지표와 대응 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
+이 흐름은 "[기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 수립 -> 성과 측정 -> 일정 차이 해석 -> 보완 지표와 대응 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)"으로 확장되는 관리 체계를 보여준다.
 
 ### 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +160,7 @@ Schedule Compression / Replanning / Stakeholder Reporting
 
 **진행 상황**: 271 / 587
 
-<- **이전**: [156. CV (Cost Variance) = EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)
-**다음**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ->
+<- **이전**: [156. CV (Cost Variance) = EV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)
+**다음**: [158. CPI (Cost Performance Index, 비용 성과 지수)](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ->
 
 ---

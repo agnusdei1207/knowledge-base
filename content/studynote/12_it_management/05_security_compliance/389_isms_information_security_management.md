@@ -1,13 +1,10 @@
-+++
-title = "389. 정보보안 관리체계 ISMS 인증 심사 (ISMS Information Security Management)"
-date = 2026-05-09
+---
+title: "389. 정보보안 관리체계 ISMS 인증 심사 (ISMS Information Security Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -207,7 +204,7 @@ ISMS 인증은 자발적 인증이지만, 다음과 같은 경우 **의무 인�
 
 **진행 상황**: 389 / 800
 
-<- **이전**: [388. 개인정보 영향 평가 PIA 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/388_privacy_impact_assessment_pia_methodology/)
-**다음**: [390. ISO 27001 정보보안 표준 요구사항](/knowledge-base/studynote/12_it_management/05_security_compliance/390_iso_27001_infosec_standard_requirements/) ->
+<- **이전**: [388. 개인정보 영향 평가 PIA 방법론](/studynote/12_it_management/05_security_compliance/388_privacy_impact_assessment_pia_methodology/)
+**다음**: [390. ISO 27001 정보보안 표준 요구사항](/studynote/12_it_management/05_security_compliance/390_iso_27001_infosec_standard_requirements/) ->
 
 ---

@@ -1,6 +1,5 @@
-+++
-title = "19. Frequent Topics Terms"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "19. Frequent Topics Terms"
+tags:
+  - "network"
+---

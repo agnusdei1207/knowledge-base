@@ -1,13 +1,10 @@
-+++
-title = "673. 데이터 레이크하우스 통합 분석 플랫폼 (Data Lakehouse Unified Analytics Platform)"
-date = 2026-05-09
+---
+title: "673. 데이터 레이크하우스 통합 분석 플랫폼 (Data Lakehouse Unified Analytics Platform)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ Delta Lake는 쓰기 시점에 스키마를 강제 검증(Schema Validation)하�
 
 **진행 상황**: 673 / 800
 
-<- **이전**: [672. 데이터 메시 분산 데이터 소유권](/knowledge-base/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/)
-**다음**: [674. 실시간 스트리밍 분석 Kafka Flink](/knowledge-base/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/) ->
+<- **이전**: [672. 데이터 메시 분산 데이터 소유권](/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/)
+**다음**: [674. 실시간 스트리밍 분석 Kafka Flink](/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/) ->
 
 ---

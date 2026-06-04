@@ -1,13 +1,10 @@
-+++
-title = "447. 리테인 현행 유지 하이브리드 전략 (Retain Hybrid Strategy Assessment)"
-date = 2026-05-09
+---
+title: "447. 리테인 현행 유지 하이브리드 전략 (Retain Hybrid Strategy Assessment)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 447 / 800
 
-<- **이전**: [446. 리타이어 폐기 합리화 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/446_retire_decommission_rationalization_strategy/)
-**다음**: [448. 클라우드 평가 TCO ROI 비용 분석](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/448_cloud_assessment_tco_roi_cost_analysis/) ->
+<- **이전**: [446. 리타이어 폐기 합리화 전략](/studynote/13_cloud_architecture/06_exam_summary/446_retire_decommission_rationalization_strategy/)
+**다음**: [448. 클라우드 평가 TCO ROI 비용 분석](/studynote/13_cloud_architecture/06_exam_summary/448_cloud_assessment_tco_roi_cost_analysis/) ->
 
 ---

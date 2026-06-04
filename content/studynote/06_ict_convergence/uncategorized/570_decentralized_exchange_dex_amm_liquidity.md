@@ -1,13 +1,10 @@
-+++
-title = "570. 탈중앙화 거래소 DEX AMM 유동성 (Decentralized Exchange DEX AMM Liquidity)"
-date = 2026-05-09
+---
+title: "570. 탈중앙화 거래소 DEX AMM 유동성 (Decentralized Exchange DEX AMM Liquidity)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Pool -> Swap -> Price Curve -> Fee -> LP Token
 
 **진행 상황**: 570 / 800
 
-<- **이전**: [569. 블록체인 프라이버시 믹싱 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/569_blockchain_privacy_mixing_protocol/)
-**다음**: [571. Web3 탈중앙 웹 인프라](/knowledge-base/studynote/06_ict_convergence/uncategorized/571_web3_decentralized_web_infrastructure/) ->
+<- **이전**: [569. 블록체인 프라이버시 믹싱 프로토콜](/studynote/06_ict_convergence/uncategorized/569_blockchain_privacy_mixing_protocol/)
+**다음**: [571. Web3 탈중앙 웹 인프라](/studynote/06_ict_convergence/uncategorized/571_web3_decentralized_web_infrastructure/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "512. ERP 도입 방법론 단계별 구현 전략 (ERP Implementation Methodology Phased Strategy)"
-date = 2026-05-09
+---
+title: "512. ERP 도입 방법론 단계별 구현 전략 (ERP Implementation Methodology Phased Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ ERP 구축 방법론을 올바르게 적용하면 업무 처리 속도, 통제 �
 
 **진행 상황**: 512 / 800
 
-<- **이전**: [511. 지식 관리 KMS 조직 학습 혁신](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/511_knowledge_management_kms_organizational_learn/)
-**다음**: [513. SAP S4HANA 클라우드 마이그레이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/513_sap_s4hana_cloud_migration/) ->
+<- **이전**: [511. 지식 관리 KMS 조직 학습 혁신](/studynote/07_enterprise_systems/06_exam_summary/511_knowledge_management_kms_organizational_learn/)
+**다음**: [513. SAP S4HANA 클라우드 마이그레이션](/studynote/07_enterprise_systems/06_exam_summary/513_sap_s4hana_cloud_migration/) ->
 
 ---

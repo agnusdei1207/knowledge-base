@@ -1,27 +1,24 @@
-+++
-title = "502. 비순차 실행 윈도우 (Out-of-Order Execution Window)"
-date = 2026-04-20
+---
+title: "502. 비순차 실행 윈도우 (Out-of-Order Execution Window)"
+date: "2026-04-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 윈도우는 코어가 리네이밍 이후 커밋 (Commit) 이전까지 동시에 붙잡고 보며, 실행 순서를 유연하게 바꿀 수 있는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 가시 범위</strong>다.
-> 2. **가치**: 윈도우가 넓을수록 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 다단계 연산 뒤에 숨어 있는 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 멀리서 찾아낼 수 있어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 (Instruction-Level Parallelism, ILP)과 메모리 수준 병렬성 (Memory-Level Parallelism, MLP)을 함께 끌어올린다.
-> 3. **판단 포인트**: 유효 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 리오더 버퍼 ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) 숫자만으로 결정되지 않으며, 발급 큐·[로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)·물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수·[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도가 함께 받쳐 줄 때 비로소 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득으로 이어진다.
+> 1. **본질**: [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution, OoO) 윈도우는 코어가 리네이밍 이후 커밋 (Commit) 이전까지 동시에 붙잡고 보며, 실행 순서를 유연하게 바꿀 수 있는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 가시 범위</strong>다.
+> 2. **가치**: 윈도우가 넓을수록 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이나 다단계 연산 뒤에 숨어 있는 독립 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 멀리서 찾아낼 수 있어, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 (Instruction-Level Parallelism, ILP)과 메모리 수준 병렬성 (Memory-Level Parallelism, MLP)을 함께 끌어올린다.
+> 3. **판단 포인트**: 유효 [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 리오더 버퍼 ([Reorder Buffer](/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) 숫자만으로 결정되지 않으며, 발급 큐·[로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)·물리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수·[분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 정확도가 함께 받쳐 줄 때 비로소 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득으로 이어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 CPU (Central Processing Unit)가 한 번에 "얼마나 먼 미래까지 생각할 수 있는가"를 나타내는 구조다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져와 디코드한 뒤 리네이밍을 끝내면, 그 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 아직 프로그램 순서대로 완료되지 않았더라도 실행 후보로 관리된다. 이때 가장 오래된 미완료 명령부터 가장 최근에 들어온 명령까지의 범위를 통틀어 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우라고 본다.
+[비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 CPU (Central Processing Unit)가 한 번에 "얼마나 먼 미래까지 생각할 수 있는가"를 나타내는 구조다. [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져와 디코드한 뒤 리네이밍을 끝내면, 그 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 아직 프로그램 순서대로 완료되지 않았더라도 실행 후보로 관리된다. 이때 가장 오래된 미완료 명령부터 가장 최근에 들어온 명령까지의 범위를 통틀어 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우라고 본다.
 
-이 개념이 중요해진 이유는 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 코어 클럭보다 훨씬 길어졌기 때문이다. 예를 들어 마지막 단계 캐시 (Last Level Cache, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)) 미스 하나가 150~300사이클을 잡아먹는 상황에서, 코어가 겨우 수십 개 명령만 들여다볼 수 있다면 곧바로 할 일이 바닥난다. 반대로 수백 개 명령을 동시에 관찰할 수 있으면, 앞쪽 로드가 멈춘 사이에도 뒤쪽 산술 연산·주소 계산·다른 로드를 계속 꺼내 실행할 수 있다.
+이 개념이 중요해진 이유는 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 코어 클럭보다 훨씬 길어졌기 때문이다. 예를 들어 마지막 단계 캐시 (Last Level Cache, [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/)) 미스 하나가 150~300사이클을 잡아먹는 상황에서, 코어가 겨우 수십 개 명령만 들여다볼 수 있다면 곧바로 할 일이 바닥난다. 반대로 수백 개 명령을 동시에 관찰할 수 있으면, 앞쪽 로드가 멈춘 사이에도 뒤쪽 산술 연산·주소 계산·다른 로드를 계속 꺼내 실행할 수 있다.
 
 아래 그림은 윈도우가 단순한 저장 공간이 아니라, "앞으로 볼 수 있는 범위" 자체라는 점을 보여 준다.
 
@@ -41,17 +38,17 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-따라서 윈도우는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 저장한다"는 뜻보다 "가로막힌 지점을 우회할 선택지를 얼마나 확보하느냐"에 더 가깝다. 결국 넓은 윈도우는 고성능 코어가 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고, 그 시간을 다른 일로 메우게 하는 기본 조건이 된다.
+따라서 윈도우는 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 많이 저장한다"는 뜻보다 "가로막힌 지점을 우회할 선택지를 얼마나 확보하느냐"에 더 가깝다. 결국 넓은 윈도우는 고성능 코어가 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고, 그 시간을 다른 일로 메우게 하는 기본 조건이 된다.
 
-- **📢 섹션 요약 비유**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 운전자가 앞유리를 통해 내다볼 수 있는 도로 길이와 같다. 멀리까지 보이면 앞차가 멈춰도 미리 차선을 바꾸지만, 시야가 짧으면 바로 앞이 막히는 순간 함께 서 버린다.
+- **📢 섹션 요약 비유**: [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 운전자가 앞유리를 통해 내다볼 수 있는 도로 길이와 같다. 멀리까지 보이면 앞차가 멈춰도 미리 차선을 바꾸지만, 시야가 짧으면 바로 앞이 막히는 순간 함께 서 버린다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-윈도우는 하나의 버퍼가 아니라 여러 구조의 합성 결과다. 리오더 버퍼는 아직 완료되지 않은 명령의 총수를 제한하고, 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 그중 실행 준비가 된 명령을 골라 내며, [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 메모리 명령의 재배치 가능 범위를 정한다. 여기에 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Physical [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), PRF) 여유가 부족하면 리네이밍 자체가 멈추므로, 실제 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 가장 먼저 포화되는 구조가 결정한다.
+윈도우는 하나의 버퍼가 아니라 여러 구조의 합성 결과다. 리오더 버퍼는 아직 완료되지 않은 명령의 총수를 제한하고, 발급 큐 (Issue [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 그중 실행 준비가 된 명령을 골라 내며, [로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ)는 메모리 명령의 재배치 가능 범위를 정한다. 여기에 물리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (Physical [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), PRF) 여유가 부족하면 리네이밍 자체가 멈추므로, 실제 [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)는 가장 먼저 포화되는 구조가 결정한다.
 
-[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. <strong>필요한 <a href="/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a> ≈ 숨기고 싶은 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> × 그동안 유지하고 싶은 유효 발급률</strong>이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
+[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관점에서는 작은 법칙 하나로 기억하면 좋다. <strong>필요한 <a href="/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/">윈도우 크기</a> ≈ 숨기고 싶은 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> × 그동안 유지하고 싶은 유효 발급률</strong>이다. 예를 들어 200사이클 메모리 미스를 4개/사이클 수준으로 숨기려면, 이상적으로는 수백 개의 독립 마이크로연산 (micro-op)이 시야 안에 있어야 한다. 물론 실제 프로그램에는 의존성, 분기, [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 충돌이 있으므로 하드웨어는 그보다 더 큰 윈도우를 요구하게 된다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -72,52 +69,52 @@ tags = ["studynote-computer-architecture"]
 | 윈도우를 제한하는 요소 | 역할 | 포화 시 나타나는 현상 |
 | :-- | :-- | :-- |
 | 리오더 버퍼 (ROB) | 미완료 명령의 총량 관리 | 더 이상 디스패치 불가, 프런트엔드 정지 |
-| 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | ready 명령 선별 | 준비된 명령을 못 담아 발급률 하락 |
-| [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (LSQ) | 메모리 재정렬·충돌 검사 | 메모리 명령이 병목으로 몰림 |
-| 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (PRF) | 리네이밍 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 저장 | 이름 붙일 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족으로 정체 |
-| [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 | 미래 경로 공급 | 잘못된 경로가 윈도우를 오염 |
+| 발급 큐 (Issue [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | ready 명령 선별 | 준비된 명령을 못 담아 발급률 하락 |
+| [로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (LSQ) | 메모리 재정렬·충돌 검사 | 메모리 명령이 병목으로 몰림 |
+| 물리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) (PRF) | 리네이밍 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 저장 | 이름 붙일 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부족으로 정체 |
+| [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기 | 미래 경로 공급 | 잘못된 경로가 윈도우를 오염 |
 
-중요한 점은 "큰 윈도우 = 큰 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 자동으로 성립하지 않는다는 것이다. 긴 의존성 체인이나 예측 실패가 잦은 코드에서는 윈도우 대부분이 기다리는 명령으로 채워질 수 있다. 그래서 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 절대적인 엔트리 수보다, <strong>그 안에서 얼마나 많은 독립 작업을 발견하고 유지할 수 있느냐</strong>다.
+중요한 점은 "큰 윈도우 = 큰 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)"이 자동으로 성립하지 않는다는 것이다. 긴 의존성 체인이나 예측 실패가 잦은 코드에서는 윈도우 대부분이 기다리는 명령으로 채워질 수 있다. 그래서 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우하는 것은 절대적인 엔트리 수보다, <strong>그 안에서 얼마나 많은 독립 작업을 발견하고 유지할 수 있느냐</strong>다.
 
-- **📢 섹션 요약 비유**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 공사 현장의 작업 대기 구역과 같다. 공간이 넓으면 자재가 늦게 와도 다른 팀이 먼저 일할 수 있지만, 모든 공정이 한 자재만 기다리면 넓은 공간도 금세 답답한 대기실이 된다.
+- **📢 섹션 요약 비유**: [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 공사 현장의 작업 대기 구역과 같다. 공간이 넓으면 자재가 늦게 와도 다른 팀이 먼저 일할 수 있지만, 모든 공정이 한 자재만 기다리면 넓은 공간도 금세 답답한 대기실이 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 발급 큐와 자주 혼동되지만 둘은 같지 않다. 발급 큐는 "지금 당장 어디를 실행할까"를 정하는 내부 스케줄러이고, 윈도우는 그 스케줄러가 참고할 수 있는 전체 시야다. 따라서 리오더 버퍼가 너무 작거나 [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)가 먼저 꽉 차면, 발급 큐 자체가 넉넉해도 유효 윈도우는 좁아진다.
+[비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 발급 큐와 자주 혼동되지만 둘은 같지 않다. 발급 큐는 "지금 당장 어디를 실행할까"를 정하는 내부 스케줄러이고, 윈도우는 그 스케줄러가 참고할 수 있는 전체 시야다. 따라서 리오더 버퍼가 너무 작거나 [로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)가 먼저 꽉 차면, 발급 큐 자체가 넉넉해도 유효 윈도우는 좁아진다.
 
 | 항목 | 작은 윈도우 | 큰 윈도우 |
 | :-- | :-- | :-- |
-| 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 | 제한적 | 상대적으로 유리 |
-| [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 비용 | 작음 | 잘못 채운 명령이 많아 손실 확대 |
+| 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 | 제한적 | 상대적으로 유리 |
+| [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패 비용 | 작음 | 잘못 채운 명령이 많아 손실 확대 |
 | 회로 비용 | 낮음 | 면적·전력·타이밍 부담 증가 |
 | 적합한 코어 | 저전력·실시간 중심 | 고성능·서버 중심 |
 
-다른 관련 개념과 연결해 보면 경계가 더 분명해진다. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 윈도우를 <strong>올바른 미래</strong>로 채우는 전제 조건이고, 발급 큐는 그 미래 중 <strong>당장 실행 가능한 후보</strong>를 고른다. 리오더 버퍼는 비순차로 실행된 결과를 다시 <strong>프로그램 순서</strong>로 정리하고, 메모리 의존성 예측과 LSQ는 로드·스토어가 지나치게 위험하게 앞지르지 않도록 제어한다. 즉 윈도우는 단일 부품이 아니라, 이들 여러 구조가 합쳐 만든 "사고 범위"다.
+다른 관련 개념과 연결해 보면 경계가 더 분명해진다. [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기는 윈도우를 <strong>올바른 미래</strong>로 채우는 전제 조건이고, 발급 큐는 그 미래 중 <strong>당장 실행 가능한 후보</strong>를 고른다. 리오더 버퍼는 비순차로 실행된 결과를 다시 <strong>프로그램 순서</strong>로 정리하고, 메모리 의존성 예측과 LSQ는 로드·스토어가 지나치게 위험하게 앞지르지 않도록 제어한다. 즉 윈도우는 단일 부품이 아니라, 이들 여러 구조가 합쳐 만든 "사고 범위"다.
 
-- **📢 섹션 요약 비유**: 윈도우가 책상 위에 펼쳐 둔 할 일 전체라면, 발급 큐는 그중 오늘 바로 처리할 일 목록이고, 리오더 버퍼는 끝난 일을 번호 순서대로 묶어 제출하는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)철이다.
+- **📢 섹션 요약 비유**: 윈도우가 책상 위에 펼쳐 둔 할 일 전체라면, 발급 큐는 그중 오늘 바로 처리할 일 목록이고, 리오더 버퍼는 끝난 일을 번호 순서대로 묶어 제출하는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)철이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 큰 윈도우가 특히 빛나는 곳은 포인터 추적, 복잡한 조건 검사, 다수의 메모리 접근이 섞인 서버성 워크로드다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진, 자바 가상머신 (Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), JVM) 런타임, 브라우저 엔진처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 긴 로드와 독립 계산이 함께 섞인 코드는 넓은 윈도우가 숨겨 줄 여지가 많다. 반대로 짧은 의존성 체인이 반복되는 임베디드 제어 루프는 윈도우를 크게 키워도 얻는 것이 제한적이다.
+실무에서 큰 윈도우가 특히 빛나는 곳은 포인터 추적, 복잡한 조건 검사, 다수의 메모리 접근이 섞인 서버성 워크로드다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 엔진, 자바 가상머신 (Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), JVM) 런타임, 브라우저 엔진처럼 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 긴 로드와 독립 계산이 함께 섞인 코드는 넓은 윈도우가 숨겨 줄 여지가 많다. 반대로 짧은 의존성 체인이 반복되는 임베디드 제어 루프는 윈도우를 크게 키워도 얻는 것이 제한적이다.
 
-설계 판단도 계층적으로 해야 한다. 윈도우만 키우기보다 프리패처, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, 물리 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수, [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)와 함께 보아야 한다. 예를 들어 메모리 병목이 심한데 LSQ가 먼저 꽉 차면 ROB를 늘려도 효과가 작고, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 잦다면 더 큰 윈도우는 오히려 잘못된 경로를 더 많이 끌어와 낭비를 키운다.
+설계 판단도 계층적으로 해야 한다. 윈도우만 키우기보다 프리패처, [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기, 물리 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수, [로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/)와 함께 보아야 한다. 예를 들어 메모리 병목이 심한데 LSQ가 먼저 꽉 차면 ROB를 늘려도 효과가 작고, [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 잦다면 더 큰 윈도우는 오히려 잘못된 경로를 더 많이 끌어와 낭비를 키운다.
 
-### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 병목이 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가, 아니면 짧은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 의존성인가?
-2. 독립 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실제로 충분히 존재하는가?
+1. 병목이 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인가, 아니면 짧은 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 의존성인가?
+2. 독립 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 실제로 충분히 존재하는가?
 3. ROB, LSQ, PRF 중 어느 구조가 먼저 포화되는가?
-4. [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 윈도우 확대 이득을 상쇄하지 않는가?
+4. [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패가 윈도우 확대 이득을 상쇄하지 않는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)만 늘리고 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기·LSQ·리네이밍 자원은 그대로 두는 설계
-- [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 의존성 위주의 코드를 하드웨어가 알아서 풀어 줄 것이라 기대하는 최적화
-- 잘못된 투기 명령이 윈도우를 채우는 상황을 무시한 채 ROB 수치만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 보는 해석
+- [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)만 늘리고 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기·LSQ·리네이밍 자원은 그대로 두는 설계
+- [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 의존성 위주의 코드를 하드웨어가 알아서 풀어 줄 것이라 기대하는 최적화
+- 잘못된 투기 명령이 윈도우를 채우는 상황을 무시한 채 ROB 수치만 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표로 보는 해석
 
 - **📢 섹션 요약 비유**: 큰 윈도우 운영은 넓은 창고를 짓는 일과 같다. 창고만 키운다고 물류가 빨라지지 않고, 출입문·지게차·배송 계획이 함께 맞아야 진짜 처리량이 늘어난다.
 
@@ -125,11 +122,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우가 충분히 확보되면, 코어는 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고 그 사이 다른 일을 꺼내 처리할 수 있다. 이는 [단일 스레드 성능](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 향상뿐 아니라 여러 메모리 요청을 겹쳐 날리는 능력, 즉 메모리 수준 병렬성까지 끌어올려 준다. 결과적으로 같은 클럭에서도 더 많은 유효 일을 해내는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 개선된다.
+[비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우가 충분히 확보되면, 코어는 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 정면으로 기다리지 않고 그 사이 다른 일을 꺼내 처리할 수 있다. 이는 [단일 스레드 성능](/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/) 향상뿐 아니라 여러 메모리 요청을 겹쳐 날리는 능력, 즉 메모리 수준 병렬성까지 끌어올려 준다. 결과적으로 같은 클럭에서도 더 많은 유효 일을 해내는 방향으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 개선된다.
 
-하지만 윈도우 확대는 공짜가 아니다. 비교 대상이 늘수록 스케줄링 회로가 무거워지고, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 잘못된 투기 실행이 커질수록 한 번에 버려야 하는 일도 많아진다. 따라서 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 "크면 무조건 좋다"보다 <strong>코어가 앞을 얼마나 멀리, 그리고 얼마나 정확히 볼 수 있는가를 결정하는 설계 균형점</strong>으로 기억하는 편이 정확하다.
+하지만 윈도우 확대는 공짜가 아니다. 비교 대상이 늘수록 스케줄링 회로가 무거워지고, [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 실패나 잘못된 투기 실행이 커질수록 한 번에 버려야 하는 일도 많아진다. 따라서 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 "크면 무조건 좋다"보다 <strong>코어가 앞을 얼마나 멀리, 그리고 얼마나 정확히 볼 수 있는가를 결정하는 설계 균형점</strong>으로 기억하는 편이 정확하다.
 
-- **📢 섹션 요약 비유**: [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 체스 선수가 몇 수 앞까지 내다보는 능력과 같다. 많이 본다고 늘 이기는 것은 아니지만, 앞을 거의 못 보면 좋은 수가 있어도 놓쳐 버린다.
+- **📢 섹션 요약 비유**: [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 체스 선수가 몇 수 앞까지 내다보는 능력과 같다. 많이 본다고 늘 이기는 것은 아니지만, 앞을 거의 못 보면 좋은 수가 있어도 놓쳐 버린다.
 
 ---
 
@@ -137,10 +134,10 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| 리오더 버퍼 ([Reorder Buffer](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) | 윈도우의 총 깊이를 제한하는 대표 구조다. |
-| 발급 큐 (Issue [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 윈도우 안에서 실제 실행 후보를 추리는 스케줄러다. |
-| [로드-스토어 큐](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ) | 메모리 명령 재배치를 관리해 유효 윈도우를 결정한다. |
-| [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) | 윈도우를 올바른 미래 명령으로 채울 수 있게 한다. |
+| 리오더 버퍼 ([Reorder Buffer](/studynote/01_computer_architecture/05_control_unit_pipelining/240_reorder_buffer/), ROB) | 윈도우의 총 깊이를 제한하는 대표 구조다. |
+| 발급 큐 (Issue [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 윈도우 안에서 실제 실행 후보를 추리는 스케줄러다. |
+| [로드-스토어 큐](/studynote/01_computer_architecture/15_advanced_topics/508_load_store_queue/) (Load-Store [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), LSQ) | 메모리 명령 재배치를 관리해 유효 윈도우를 결정한다. |
+| [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) | 윈도우를 올바른 미래 명령으로 채울 수 있게 한다. |
 | 메모리 수준 병렬성 (Memory-Level Parallelism, MLP) | 큰 윈도우가 노리는 핵심 효과 중 하나다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -164,11 +161,11 @@ ROB / IQ / LSQ co-scaling
 Latency-tolerant clustered OoO cores
 ```
 
-이 흐름은 "순차 실행 -> [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 -> 윈도우 확대 -> 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
+이 흐름은 "순차 실행 -> [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 도입 -> 윈도우 확대 -> 관련 구조 동시 확장"으로 현대 코어가 시야를 넓혀 온 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 요리사가 한꺼번에 펼쳐 보는 주문서 더미예요.
+1. [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 윈도우는 요리사가 한꺼번에 펼쳐 보는 주문서 더미예요.
 2. 주문서를 많이 볼 수 있으면 1번 요리가 늦어도 2번, 3번 중 바로 할 수 있는 일을 먼저 시작할 수 있어요.
 3. 하지만 너무 많이 펼치면 정리하기 힘들어서, 딱 알맞게 넓은 책상이 필요하답니다.
 
@@ -178,7 +175,7 @@ Latency-tolerant clustered OoO cores
 
 **진행 상황**: 502 / 803
 
-<- **이전**: [501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/501_superscalar_issue_queue/)
-**다음**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/) ->
+<- **이전**: [501. 수퍼스칼라 발급 큐 (Superscalar Issue Queue)](/studynote/01_computer_architecture/15_advanced_topics/501_superscalar_issue_queue/)
+**다음**: [503. 분기 예측 실패 페널티 (Branch Misprediction Penalty)](/studynote/01_computer_architecture/15_advanced_topics/503_branch_misprediction_penalty/) ->
 
 ---

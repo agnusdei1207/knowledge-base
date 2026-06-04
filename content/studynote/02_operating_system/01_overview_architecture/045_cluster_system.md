@@ -1,18 +1,15 @@
-+++
-title = "045. 클러스터 시스템 — Cluster System"
-date = 2026-04-05
+---
+title: "045. 클러스터 시스템 — Cluster System"
+date: "2026-04-05"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 > **핵심 인사이트**
-> 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), [Scale-Up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))의 비용과 한계를 극복하기 위해 상용 하드웨어([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))를 활용한다.
-> 2. 클러스터의 두 핵심 목표는 고가용성(HA, High [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 고성능(HP, High [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) — HA 클러스터는 노드 장애 시 자동 페일오버([Failover](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 무중단을 보장하고, HP 클러스터는 작업을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극대화한다.
-> 3. 클러스터 vs [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) vs [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) — SMP는 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 멀티프로세서(하나의 OS), NUMA는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리이지만 단일 이미지 OS, 클러스터는 각 노드가 독립 OS를 가진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템으로 확장성이 가장 크지만 프로그래밍이 복잡하다.
+> 1. 클러스터 시스템(Cluster System)은 여러 독립 컴퓨터(노드)를 고속 네트워크로 연결해 하나의 단일 시스템처럼 동작시키는 아키텍처 — 단일 고성능 컴퓨터([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), [Scale-Up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))의 비용과 한계를 극복하기 위해 상용 하드웨어([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))를 활용한다.
+> 2. 클러스터의 두 핵심 목표는 고가용성(HA, High [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 고성능(HP, High [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) — HA 클러스터는 노드 장애 시 자동 페일오버([Failover](/studynote/04_software_engineering/05_devops_ci_cd/300_failover_architecture/))로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 무중단을 보장하고, HP 클러스터는 작업을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)해 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 극대화한다.
+> 3. 클러스터 vs [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) vs [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) — SMP는 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 멀티프로세서(하나의 OS), NUMA는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메모리이지만 단일 이미지 OS, 클러스터는 각 노드가 독립 OS를 가진 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템으로 확장성이 가장 크지만 프로그래밍이 복잡하다.
 
 ---
 
@@ -92,11 +89,11 @@ HA 소프트웨어:
   오픈소스: Keepalived (L4 레벨 VIP 관리)
 ```
 
-> 📢 **섹션 요약 비유**: HA 클러스터는 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원 — 메인 전원([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))이 끊기면 자동으로 예비 전원(Standby)으로 전환. Split-Brain은 두 전원이 동시에 켜지는 쇼트 방지!
+> 📢 **섹션 요약 비유**: HA 클러스터는 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) 전원 — 메인 전원([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/))이 끊기면 자동으로 예비 전원(Standby)으로 전환. Split-Brain은 두 전원이 동시에 켜지는 쇼트 방지!
 
 ---
 
-## Ⅲ. [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터 — 고성능 컴퓨팅
+## Ⅲ. [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터 — 고성능 컴퓨팅
 
 ```
 HPC 클러스터 (High-Performance Computing):
@@ -134,11 +131,11 @@ HPC 클러스터 (High-Performance Computing):
   Top500 슈퍼컴퓨터 = 초대형 HPC 클러스터
 ```
 
-> 📢 **섹션 요약 비유**: [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터는 수학 마라톤 팀 — 복잡한 계산(마라톤)을 여러 팀원(컴퓨트 노드)이 구간 나눠 달리고([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)), 결과를 합쳐 빠른 답을 내요!
+> 📢 **섹션 요약 비유**: [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터는 수학 마라톤 팀 — 복잡한 계산(마라톤)을 여러 팀원(컴퓨트 노드)이 구간 나눠 달리고([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)), 결과를 합쳐 빠른 답을 내요!
 
 ---
 
-## Ⅳ. [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) vs [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) vs 클러스터
+## Ⅳ. [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) vs [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) vs 클러스터
 
 ```
 비교: SMP, NUMA, 클러스터
@@ -260,9 +257,9 @@ Kubernetes: 컨테이너 오케스트레이션
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 클러스터는 팀 작업 — 어려운 숙제(계산/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 혼자(단일 서버) 하는 대신 친구들과(노드들) 나눠서 해요!
-2. HA 클러스터는 팀장 교체 — 팀장([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 노드)이 아프면 부팀장(Standby)이 자동으로 팀을 이끌어요. 일이 멈추지 않아요!
-3. [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터는 수학 릴레이 — 어마어마한 계산을 수천 명(노드)이 동시에 나눠서 빠르게 풀어요!
+1. 클러스터는 팀 작업 — 어려운 숙제(계산/[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 혼자(단일 서버) 하는 대신 친구들과(노드들) 나눠서 해요!
+2. HA 클러스터는 팀장 교체 — 팀장([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) 노드)이 아프면 부팀장(Standby)이 자동으로 팀을 이끌어요. 일이 멈추지 않아요!
+3. [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) 클러스터는 수학 릴레이 — 어마어마한 계산을 수천 명(노드)이 동시에 나눠서 빠르게 풀어요!
 
 ---
 
@@ -270,7 +267,7 @@ Kubernetes: 컨테이너 오케스트레이션
 
 **진행 상황**: 45 / 800
 
-<- **이전**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/)
-**다음**: [046. 대기 모드 — OS Standby & Sleep Modes](/knowledge-base/studynote/02_operating_system/01_overview_architecture/046_standby_modes/) ->
+<- **이전**: [044. 셸 — Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/)
+**다음**: [046. 대기 모드 — OS Standby & Sleep Modes](/studynote/02_operating_system/01_overview_architecture/046_standby_modes/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "342. 메트릭 (Metric)"
-date = 2026-05-08
+---
+title: "342. 메트릭 (Metric)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메트릭은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 메트릭은 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 메트릭을 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -23,8 +20,8 @@ tags = ["studynote-network"]
 - **필요성**: 서울에서 부산을 갈 때, A길은 톨게이트를 3번 통과해야 하지만 8차선 아우토반이다. B길은 톨게이트를 1번만 통과하면 되지만 1차선 진흙탕 국도다. 라우터가 A길과 B길 중 하나를 선택하려면 "톨게이트 개수"를 중요하게 여길지, "도로의 넓이"를 중요하게 여길지 점수를 매기는 <strong>평가 기준표</strong>가 필요했다. 이 점수표가 바로 메트릭이다.
 
 - **💡 비유**: 내비게이션 앱에서 목적지를 검색하면 여러 추천 경로가 뜹니다.
-  - 경로 1: **"최단 거리"** (거리는 짧지만 골목길이라 늦게 도착함 -> [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) 방식)
-  - 경로 2: **"최소 시간"** (거리는 좀 돌아가지만 뻥 뚫린 고속도로라 빨리 도착함 -> [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 방식)
+  - 경로 1: **"최단 거리"** (거리는 짧지만 골목길이라 늦게 도착함 -> [RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) 방식)
+  - 경로 2: **"최소 시간"** (거리는 좀 돌아가지만 뻥 뚫린 고속도로라 빨리 도착함 -> [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 방식)
   - 여기서 '거리'나 '시간'처럼 내비게이션이 길의 우열을 가릴 때 쓰는 <strong>"점수 계산 공식"</strong>이 바로 메트릭입니다.
 
 ```text
@@ -36,29 +33,29 @@ tags = ["studynote-network"]
     +---> [관리 거리]
 ```
 
-- **📢 섹션 요약 비유**: ** 메트릭은 오디션 프로그램의 **"심사 기준"**입니다. 심사위원([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 RIP냐 OSPF냐에 따라 외모(거리)를 볼지, 가창력([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 볼지 기준이 다르지만, 어쨌든 1등 점수를 받은 사람 딱 한 명만 무대([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 설 수 있습니다.
+- **📢 섹션 요약 비유**: ** 메트릭은 오디션 프로그램의 **"심사 기준"**입니다. 심사위원([프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))이 RIP냐 OSPF냐에 따라 외모(거리)를 볼지, 가창력([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))을 볼지 기준이 다르지만, 어쨌든 1등 점수를 받은 사람 딱 한 명만 무대([라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블)에 설 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-라우터가 목적지 망(예: `10.1.1.0/24`)으로 가는 두 가지 길을 발견했다. 어떤 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 쓰느냐에 따라 1등이 확연히 갈린다.
+라우터가 목적지 망(예: `10.1.1.0/24`)으로 가는 두 가지 길을 발견했다. 어떤 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 쓰느냐에 따라 1등이 확연히 갈린다.
 
-### 1. [RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) ([Routing Information Protocol](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))의 잣대: Hop Count
+### 1. [RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/) ([Routing Information Protocol](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))의 잣대: Hop Count
 - **기준**: 출발지부터 목적지까지 거쳐야 하는 **"라우터(Hop)의 개수"** 딱 하나만 본다.
 - **계산법**: 내 앞의 라우터 1개를 넘어가면 1점, 2개 넘어가면 2점이다.
 - **치명적 약점**: 100Mbps 선로로 라우터 5개를 거치는 길(5점)과, 10Mbps 구식 선로로 라우터 2개만 거치는 길(2점)이 있다면, RIP는 멍청하게 2점짜리 구식 선로가 1등이라고 판단하고 그쪽으로 패킷을 몰아넣어 인터넷을 거북이로 만든다.
 
-### 2. [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (Open [Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) First)의 잣대: Cost ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
-- **기준**: 선로의 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>, 속도)</strong>을 계산하여 넓은 고속도로일수록 점수를 확 낮춰준다.
-- **계산법**: $\text{Cost} = \frac{[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8}{\text{[Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(bps)}}$
-  - 10Mbps [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^7$ = <strong>Cost <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
-  - 100Mbps 패스트이더넷 = $[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8$ = **Cost 1**
+### 2. [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) (Open [Shortest Path](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/) First)의 잣대: Cost ([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))
+- **기준**: 선로의 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>, 속도)</strong>을 계산하여 넓은 고속도로일수록 점수를 확 낮춰준다.
+- **계산법**: $\text{Cost} = \frac{[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8}{\text{[Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)(bps)}}$
+  - 10Mbps [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) = $[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^7$ = <strong>Cost <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a></strong>
+  - 100Mbps 패스트이더넷 = $[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8 / [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^8$ = **Cost 1**
   - OSPF는 목적지까지 통과하는 모든 선로의 Cost를 덧셈하여, 가장 숫자가 작은(가장 넓은) 길을 1등으로 뽑는다.
 
-### 3. [EIGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) (시스코 전용)의 잣대: 복합 메트릭 (K 상수)
-- **기준**: OSPF처럼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 하나만 보는 게 아니라, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), Delay(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>), Load(부하), <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>), MTU</strong>라는 5가지 요소를 짬뽕해서 계산한다. (실제로는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 2개만 주로 쓴다).
-- **계산법**: 엄청나게 복잡한 수학 공식(DUAL [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 돌려 천만 단위의 거대한 메트릭 점수를 뽑아낸다. 가장 똑똑하고 정밀하게 최단+최적의 길을 찾아낸다.
+### 3. [EIGRP](/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/) (시스코 전용)의 잣대: 복합 메트릭 (K 상수)
+- **기준**: OSPF처럼 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 하나만 보는 게 아니라, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>), Delay(<a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>), Load(부하), <a href="/studynote/04_software_engineering/06_software_architecture/345_reliability_security/">Reliability</a>(<a href="/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a>), MTU</strong>라는 5가지 요소를 짬뽕해서 계산한다. (실제로는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 2개만 주로 쓴다).
+- **계산법**: 엄청나게 복잡한 수학 공식(DUAL [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 돌려 천만 단위의 거대한 메트릭 점수를 뽑아낸다. 가장 똑똑하고 정밀하게 최단+최적의 길을 찾아낸다.
 
 ```text
  +-------------------------------------------------------------+
@@ -77,23 +74,23 @@ tags = ["studynote-network"]
  +-------------------------------------------------------------+
 ```
 
-### 4. 메트릭이 완벽하게 똑같다면? ([ECMP](/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/))
+### 4. 메트릭이 완벽하게 똑같다면? ([ECMP](/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/) [로드 밸런싱](/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/))
 A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우터는 어떤 길을 선택할까?
-라우터는 두 길을 모두 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올려놓고, 패킷이 100개 들어오면 A길로 50개, B길로 50개씩 번갈아 쏘며 부하를 완벽하게 반으로 나누는 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a> (Equal Cost Multi-Path)</strong> 스위칭이라는 환상적인 [로드 밸런싱](/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)을 수행한다.
+라우터는 두 길을 모두 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블에 올려놓고, 패킷이 100개 들어오면 A길로 50개, B길로 50개씩 번갈아 쏘며 부하를 완벽하게 반으로 나누는 <strong><a href="/studynote/03_network/16_data_center_cloud/804_ecmp_equal_cost_multi_path_routing_load_balancing/">ECMP</a> (Equal Cost Multi-Path)</strong> 스위칭이라는 환상적인 [로드 밸런싱](/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/)을 수행한다.
 
-- **📢 섹션 요약 비유**: ** 메트릭은 라우터가 길을 선택할 때 치르는 **"가성비 계산기"**입니다. 멍청한 계산기([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 무조건 거리가 짧은 게 가성비라 우기고, 똑똑한 계산기([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))는 차가 안 막히는 게 가성비라 우기며 가장 싼(낮은 점수) 길만 채택합니다.
+- **📢 섹션 요약 비유**: ** 메트릭은 라우터가 길을 선택할 때 치르는 **"가성비 계산기"**입니다. 멍청한 계산기([RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 무조건 거리가 짧은 게 가성비라 우기고, 똑똑한 계산기([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))는 차가 안 막히는 게 가성비라 우기며 가장 싼(낮은 점수) 길만 채택합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-메트릭을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)이 기반 조건을 만든다면, 메트릭은 그 위에서 핵심 메커니즘을 구현하고, [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+메트릭을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)이 기반 조건을 만든다면, 메트릭은 그 위에서 핵심 메커니즘을 구현하고, [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)의 기반 정리 | 메트릭의 핵심 동작 | [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)의 확장 적용 |
+| 초점 | [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)의 기반 정리 | 메트릭의 핵심 동작 | [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 메트릭은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -101,18 +98,18 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 메트릭을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 수준의 기본 대책으로 충분한지, 아니면 메트릭이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 메트릭을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) 수준의 기본 대책으로 충분한지, 아니면 메트릭이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. 메트릭가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와의 연계 방식을 함께 검증한다.
+2. 메트릭가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 메트릭의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 메트릭을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -120,7 +117,7 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 ## Ⅴ. 기대효과 및 결론
 
-메트릭은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/), 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+메트릭은 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/), 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 메트릭은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -130,10 +127,10 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
 | 메트릭 (Metric) | 최적 경로를 선택하는 비교 척도다. |
-| [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,7 +144,7 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-메트릭는 [동적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [관리 거리](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+메트릭는 [동적 라우팅](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [관리 거리](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/)와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -161,7 +158,7 @@ A길도 메트릭이 10점, B길도 메트릭이 10점(동점)이라면 라우�
 
 **진행 상황**: 463 / 1120
 
-<- **이전**: [341. 동적 라우팅 (Dynamic Routing)](/knowledge-base/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)
-**다음**: [343. 관리 거리 (AD, Administrative Distance)](/knowledge-base/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) ->
+<- **이전**: [341. 동적 라우팅 (Dynamic Routing)](/studynote/03_network/07_network_layer_routing/341_dynamic_routing_protocol_operation/)
+**다음**: [343. 관리 거리 (AD, Administrative Distance)](/studynote/03_network/07_network_layer_routing/343_administrative_distance_ad_protocol_priority/) ->
 
 ---

@@ -1,28 +1,25 @@
-+++
-title = "149. 벤치마크 프로그램 (Benchmark)"
-date = 2026-05-03
+---
+title: "149. 벤치마크 프로그램 (Benchmark)"
+date: "2026-05-03"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 벤치마크 (Benchmark)는 컴퓨터 하드웨어나 소프트웨어의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 객관적이고 동일한 조건에서 비교 평가하기 위해, 의도적으로 설계된 표준화된 테스트용 프로그램이자 작업 부하(Workload)의 집합체다.
-> 2. **가치**: 제조사가 주장하는 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)나 코어 개수 같은 뻥튀기 스펙의 허상을 벗겨내고, 아키텍처의 파이프라인 효율과 메모리 병목을 실전 테스트하여 "실제 현실 업무에서 얼마나 빠른가"를 숫자로 증명한다.
+> 1. **본질**: 벤치마크 (Benchmark)는 컴퓨터 하드웨어나 소프트웨어의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 객관적이고 동일한 조건에서 비교 평가하기 위해, 의도적으로 설계된 표준화된 테스트용 프로그램이자 작업 부하(Workload)의 집합체다.
+> 2. **가치**: 제조사가 주장하는 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)나 코어 개수 같은 뻥튀기 스펙의 허상을 벗겨내고, 아키텍처의 파이프라인 효율과 메모리 병목을 실전 테스트하여 "실제 현실 업무에서 얼마나 빠른가"를 숫자로 증명한다.
 > 3. **판단 포인트**: 특정 부품만 테스트하는 마이크로 벤치마크와 현실의 소프트웨어를 복제한 응용 벤치마크(SPEC)를 융합 활용해야 하며, 테스트 항목 편향을 막기 위해 산술 평균이 아닌 <strong>기하 평균 (Geometric Mean)</strong>을 사용하여 종합 점수의 공정성을 확보한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-벤치마크 프로그램은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교 측정하기 위한 '표준 모의고사 시험지'다. CPU 렌더링, 메모리 복사, 디스크 I/O 등 컴퓨터를 극한으로 혹사시키는 다양한 시나리오 코드를 묶어두고, 이 시험지를 처리하는 데 걸리는 시간이나 초당 처리량을 채점하여 점수화한다.
+벤치마크 프로그램은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교 측정하기 위한 '표준 모의고사 시험지'다. CPU 렌더링, 메모리 복사, 디스크 I/O 등 컴퓨터를 극한으로 혹사시키는 다양한 시나리오 코드를 묶어두고, 이 시험지를 처리하는 데 걸리는 시간이나 초당 처리량을 채점하여 점수화한다.
 
-과거 컴퓨터 시장은 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)(MHz)만 높으면 최고라는 '메가헤르츠 신화'에 빠져 있었다. 제조사들은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 효율([IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))이 엉망이어도 엔진 공회전 속도만 높여 팔았다. 엔지니어들은 이에 반발하여, "실무에서 사용하는 컴파일러나 DB 검색 코드를 직접 돌려보고 나온 시간으로 승부하자!"며 벤치마크 기준을 세웠다. 비영리 단체 SPEC의 출범과 함께, 벤치마크는 단순한 테스트를 넘어 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기업들의 아키텍처 최적화 역량을 증명하는 절대적 잣대가 되었다.
+과거 컴퓨터 시장은 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)(MHz)만 높으면 최고라는 '메가헤르츠 신화'에 빠져 있었다. 제조사들은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 효율([IPC](/studynote/02_operating_system/02_process_thread/117_ipc/))이 엉망이어도 엔진 공회전 속도만 높여 팔았다. 엔지니어들은 이에 반발하여, "실무에서 사용하는 컴파일러나 DB 검색 코드를 직접 돌려보고 나온 시간으로 승부하자!"며 벤치마크 기준을 세웠다. 비영리 단체 SPEC의 출범과 함께, 벤치마크는 단순한 테스트를 넘어 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 기업들의 아키텍처 최적화 역량을 증명하는 절대적 잣대가 되었다.
 
-- **📢 섹션 요약 비유**: 벤치마크는 헬스장 선수들의 '실전 종합 장애물 달리기 대회'와 같습니다. 근육 크기(스펙)만으로 자랑하는 것을 막고, 무거운 돌 옮기기, 진흙탕 기어가기 등 종합 체력 테스트를 똑같이 시켜 제일 먼저 결승선에 도착한 사람의 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 백일하에 까발립니다.
+- **📢 섹션 요약 비유**: 벤치마크는 헬스장 선수들의 '실전 종합 장애물 달리기 대회'와 같습니다. 근육 크기(스펙)만으로 자랑하는 것을 막고, 무거운 돌 옮기기, 진흙탕 기어가기 등 종합 체력 테스트를 똑같이 시켜 제일 먼저 결승선에 도착한 사람의 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 백일하에 까발립니다.
 
 ---
 
@@ -52,7 +49,7 @@ tags = ["studynote-computer-architecture"]
 +------------------------------------------------------------------------+
 ```
 
-어떤 제조사가 [벤치마크 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/842_benchmark_test/) 코드 중 덧셈 하나만 미친 듯이 잘하게 회로를 기형적으로 짰을 때, 산술 평균을 쓰면 그 과목 하나로 전체 점수를 하드캐리하게 된다. 아키텍트들은 이를 막기 위해 <strong>기하 평균 (Geometric Mean)</strong>을 표준으로 도입했다. 단 하나의 테스트 과목이라도 바닥을 기면 최종 점수가 통째로 박살 나게 되므로, 모든 파이프라인에서 골고루 우수한 칩만이 벤치마크 1위를 차지할 수 있다.
+어떤 제조사가 [벤치마크 테스트](/studynote/04_software_engineering/11_testing_validation/842_benchmark_test/) 코드 중 덧셈 하나만 미친 듯이 잘하게 회로를 기형적으로 짰을 때, 산술 평균을 쓰면 그 과목 하나로 전체 점수를 하드캐리하게 된다. 아키텍트들은 이를 막기 위해 <strong>기하 평균 (Geometric Mean)</strong>을 표준으로 도입했다. 단 하나의 테스트 과목이라도 바닥을 기면 최종 점수가 통째로 박살 나게 되므로, 모든 파이프라인에서 골고루 우수한 칩만이 벤치마크 1위를 차지할 수 있다.
 
 - **📢 섹션 요약 비유**: 이 채점 방식은 '아이돌 그룹 데뷔조 뽑기'와 같습니다. 춤 100점인데 노래 0점, 인성 0점인 연습생은 기하 평균이라는 칼날로 썰어 탈락시킵니다. 모든 항목에서 골고루 무난하게 70점 이상은 해주는 올라운더 밸런스 사기캐만을 선발하기 위한 가장 잔인하고 공정한 점수 필터링입니다.
 
@@ -62,16 +59,16 @@ tags = ["studynote-computer-architecture"]
 
 벤치마크 도구는 측정 대상의 범위와 특성에 따라 여러 그물망으로 나뉜다.
 
-| 벤치마크 타겟 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 측정 대상 및 부하(Workload) 특성 | 대표적인 도구 및 적용 포인트 |
+| 벤치마크 타겟 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 측정 대상 및 부하(Workload) 특성 | 대표적인 도구 및 적용 포인트 |
 | :--- | :--- | :--- |
-| **마이크로 벤치마크 (Micro)** | 특정 L1 캐시 속도, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 단일 레이턴시 등 극히 좁은 구역만 조준 | 칩셋의 병목 버그나 단일 부품의 물리적 한계치 스펙(Peak) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| **마이크로 벤치마크 (Micro)** | 특정 L1 캐시 속도, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 단일 레이턴시 등 극히 좁은 구역만 조준 | 칩셋의 병목 버그나 단일 부품의 물리적 한계치 스펙(Peak) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | **합성 벤치마크 (Synthetic)** | 코어와 부동소수점을 100% 혹사시키게 인위적으로 합성한 수학 식 | **Geekbench, Cinebench**. 대략적인 기계의 깡근력을 짧게 일렬 세울 때 |
-| **응용 벤치마크 (Application)** | 실제 쓰이는 렌더링, 브라우저 스크립트 파싱 코드를 가져와 굴림 | **SPEC CPU, PCMark**. 소비자 체감 속도와 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 궁합 입증 |
-| **매크로 벤치마크 (Macro)** | 대용량 DB [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(TPS) 처리나 가상 유저 1만 명 동시 접속 주입 | **TPC-C, Sysbench**. 클라우드 서버의 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 및 방어력 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| **응용 벤치마크 (Application)** | 실제 쓰이는 렌더링, 브라우저 스크립트 파싱 코드를 가져와 굴림 | **SPEC CPU, PCMark**. 소비자 체감 속도와 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 궁합 입증 |
+| **매크로 벤치마크 (Macro)** | 대용량 DB [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)(TPS) 처리나 가상 유저 1만 명 동시 접속 주입 | **TPC-C, Sysbench**. 클라우드 서버의 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 및 방어력 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-아키텍처계의 바이블은 단연 <strong>SPEC (Standard <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corporation)</strong> 벤치마크다. SPEC은 진짜 C/C++ 컴파일러 소스, 체스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 트리 탐색 등 가장 현실적인 애플리케이션 코드를 묶어 제공한다. 칩 제조사들은 이 점수를 올리기 위해 분기 예측과 캐시 구조를 튜닝하는 진짜 올바른 하드웨어 진화를 강제당했다.
+아키텍처계의 바이블은 단연 <strong>SPEC (Standard <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corporation)</strong> 벤치마크다. SPEC은 진짜 C/C++ 컴파일러 소스, 체스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 트리 탐색 등 가장 현실적인 애플리케이션 코드를 묶어 제공한다. 칩 제조사들은 이 점수를 올리기 위해 분기 예측과 캐시 구조를 튜닝하는 진짜 올바른 하드웨어 진화를 강제당했다.
 
-- **📢 섹션 요약 비유**: 마이크로 벤치마크가 복싱 선수의 '펀치 기계 점수 치기'라면, 실전 애플리케이션 벤치마크(SPEC)는 '진짜 링 위에 올려서 12라운드 동안 스파링 시키기'입니다. 펀치 점수가 높아도 링 위에서 뻗어버릴 수 있기에, 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 링 위 성적표(SPEC)를 믿어야 합니다.
+- **📢 섹션 요약 비유**: 마이크로 벤치마크가 복싱 선수의 '펀치 기계 점수 치기'라면, 실전 애플리케이션 벤치마크(SPEC)는 '진짜 링 위에 올려서 12라운드 동안 스파링 시키기'입니다. 펀치 점수가 높아도 링 위에서 뻗어버릴 수 있기에, 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 링 위 성적표(SPEC)를 믿어야 합니다.
 
 ---
 
@@ -80,13 +77,13 @@ tags = ["studynote-computer-architecture"]
 제조사의 화려한 벤치마크 마케팅을 간파하고 내 서비스에 맞는 장비를 골라내는 능력이 필수다.
 
 ### 실무 판단 시나리오
-1. <strong>RDBMS 스토리지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> 도입 시 워크로드 매칭</strong>: "초당 7GB/s 연속 읽기 스피드 1등!"이라는 벤치마크 스펙(Sequential Read)에 현혹되면 안 된다. RDBMS는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 여기저기를 4KB 크기로 콕콕 찌르는 랜덤 엑세스(Random I/O)를 난사한다. 아키텍트는 `Fio`나 `Sysbench`를 돌려 4K **랜덤 IOPS (초당 입출력 횟수)** 점수만 핀포인트로 비교하여 진짜 DB 응답 지연이 없는 칩셋을 골라내야 한다.
-2. **모바일 게임 서버 스트레스 벤치마크**: 짧은 5분간의 피크 벤치마크 점수에 낚이면 오픈 날 서버가 터진다. 서버를 최소 3시간 이상 굴리는 <strong>'지속 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Sustained <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)'</strong> 테스트를 돌려야 발열 스로틀링(Throttling)이나 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 병목으로 인해 TPS가 무너지는 붕괴 지점을 사전에 도출할 수 있다.
+1. <strong>RDBMS 스토리지 <a href="/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/">NVMe</a> 도입 시 워크로드 매칭</strong>: "초당 7GB/s 연속 읽기 스피드 1등!"이라는 벤치마크 스펙(Sequential Read)에 현혹되면 안 된다. RDBMS는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 여기저기를 4KB 크기로 콕콕 찌르는 랜덤 엑세스(Random I/O)를 난사한다. 아키텍트는 `Fio`나 `Sysbench`를 돌려 4K **랜덤 IOPS (초당 입출력 횟수)** 점수만 핀포인트로 비교하여 진짜 DB 응답 지연이 없는 칩셋을 골라내야 한다.
+2. **모바일 게임 서버 스트레스 벤치마크**: 짧은 5분간의 피크 벤치마크 점수에 낚이면 오픈 날 서버가 터진다. 서버를 최소 3시간 이상 굴리는 <strong>'지속 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (Sustained <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)'</strong> 테스트를 돌려야 발열 스로틀링(Throttling)이나 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC) 병목으로 인해 TPS가 무너지는 붕괴 지점을 사전에 도출할 수 있다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **제조사의 벤치마크 앱 감지 후 치팅(Cheating)**: OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `Geekbench` 같은 벤치마크 앱이 실행되는 것을 감지하면, 평소 묶어두었던 CPU/[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 해제하고 전압을 쏟아부어 점수 뻥튀기를 돌리는 꼼수다. 소비자는 이 점수만 보고 샀다가 실제 게임을 돌리면 발열 제어 족쇄가 걸려 끊기는 대형 사기극에 휘말리게 된다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **제조사의 벤치마크 앱 감지 후 치팅(Cheating)**: OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 `Geekbench` 같은 벤치마크 앱이 실행되는 것을 감지하면, 평소 묶어두었던 CPU/[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 해제하고 전압을 쏟아부어 점수 뻥튀기를 돌리는 꼼수다. 소비자는 이 점수만 보고 샀다가 실제 게임을 돌리면 발열 제어 족쇄가 걸려 끊기는 대형 사기극에 휘말리게 된다.
 
-- **📢 섹션 요약 비유**: 이 꼼수 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 평소엔 60km 속도 제한을 걸어놓은 자동차를 '자동차 검사소(벤치마크) 레일' 위에 올라갔을 때만 몰래 락을 풀고 300km/h로 굴려 합격 성적표를 훔쳐 오는 불법 개조 사기극과 같습니다.
+- **📢 섹션 요약 비유**: 이 꼼수 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 평소엔 60km 속도 제한을 걸어놓은 자동차를 '자동차 검사소(벤치마크) 레일' 위에 올라갔을 때만 몰래 락을 풀고 300km/h로 굴려 합격 성적표를 훔쳐 오는 불법 개조 사기극과 같습니다.
 
 ---
 
@@ -94,7 +91,7 @@ tags = ["studynote-computer-architecture"]
 
 벤치마크 프로그램(Benchmark)은 제조사들의 뻥튀기 스펙 광고를 발가벗기고, 하드웨어 아키텍처의 밑바닥 파이프라인 실력을 "공정한 점수표"로 도륙 내어 서열을 정리해 버린 IT 업계의 재판관이다.
 
-"어떤 코드가 기계를 가장 아프게 찌르는가?"를 묻는 질문에서 출발한 벤치마크 생태계는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공학 발전 방향을 강제 유도(Governing)하는 나침반이 되었다. 인텔과 애플, AMD의 아키텍트들은 벤치마크의 테스트 코드를 0.1초라도 빨리 뚫기 위해 기형적이고 창의적인 융합 설계를 끊임없이 토해낸다. 즉, 벤치마크는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 도구를 뛰어넘어 컴퓨터 아키텍처의 진화를 이끄는 자기 실현적 가이드라인이다.
+"어떤 코드가 기계를 가장 아프게 찌르는가?"를 묻는 질문에서 출발한 벤치마크 생태계는 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 공학 발전 방향을 강제 유도(Governing)하는 나침반이 되었다. 인텔과 애플, AMD의 아키텍트들은 벤치마크의 테스트 코드를 0.1초라도 빨리 뚫기 위해 기형적이고 창의적인 융합 설계를 끊임없이 토해낸다. 즉, 벤치마크는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 측정 도구를 뛰어넘어 컴퓨터 아키텍처의 진화를 이끄는 자기 실현적 가이드라인이다.
 
 - **📢 섹션 요약 비유**: 벤치마크는 전 세계 검투사들이 모이는 '로마의 콜로세움'입니다. 각자 앞마당에서 칼을 휘둘러보고 천하제일이라고 뻥치던 장수들이, 이 무자비하고 표준화된 경기장 룰에 맞춰 싸우게 되면서 오직 진짜 괴물 칩만이 황제의 자리를 차지할 수 있게 되었습니다.
 
@@ -104,10 +101,10 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>SPEC (Standard <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corp.)</strong> | 제조사들의 꼼수 벤치마크에 대항해 학계와 업계가 만든 세계 공인 표준 실전 벤치마크의 바이블. |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong> | $[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 \times [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) \times 사이클 타임$. 벤치마크 점수를 올리려면 결국 이 방정식 3요소의 파이프라인 다이어트가 필수. |
+| <strong>SPEC (Standard <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a> Evaluation Corp.)</strong> | 제조사들의 꼼수 벤치마크에 대항해 학계와 업계가 만든 세계 공인 표준 실전 벤치마크의 바이블. |
+| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong> | $[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 \times [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) \times 사이클 타임$. 벤치마크 점수를 올리려면 결국 이 방정식 3요소의 파이프라인 다이어트가 필수. |
 | **기하 평균 (Geometric Mean)** | 단 하나의 테스트 항목이라도 0점에 수렴하면 전체 점수가 박살 나게 만들어, 하드웨어의 특정 편식 어뷰징을 막는 절대 공식. |
-| <strong>스로틀링 (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/">Thermal Throttling</a>)</strong> | 벤치마크 앱을 무한대로 돌리면 CPU가 녹는 걸 막으려고 기계 스스로 클럭을 강제로 반 토막 내어 점수를 추락시키는 방어 기제. |
+| <strong>스로틀링 (<a href="/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/">Thermal Throttling</a>)</strong> | 벤치마크 앱을 무한대로 돌리면 CPU가 녹는 걸 막으려고 기계 스스로 클럭을 강제로 반 토막 내어 점수를 추락시키는 방어 기제. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,7 +136,7 @@ SPEC 벤치마크의 탄생 (응용 벤치마크) / 현실의 헤비급 컴파�
 
 **진행 상황**: 149 / 803
 
-<- **이전**: [148. 데나드 스케일링 (Dennard Scaling)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)
-**다음**: [150. SPEC 벤치마크 (Standard Performance Evaluation Corporation)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/150_spec_benchmark/) ->
+<- **이전**: [148. 데나드 스케일링 (Dennard Scaling)](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)
+**다음**: [150. SPEC 벤치마크 (Standard Performance Evaluation Corporation)](/studynote/01_computer_architecture/03_architecture_basics_performance/150_spec_benchmark/) ->
 
 ---

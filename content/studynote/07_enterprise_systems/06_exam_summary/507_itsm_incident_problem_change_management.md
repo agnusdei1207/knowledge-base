@@ -1,13 +1,10 @@
-+++
-title = "507. ITSM 인시던트 문제 변경 관리 (ITSM Incident Problem Change Management)"
-date = 2026-05-09
+---
+title: "507. ITSM 인시던트 문제 변경 관리 (ITSM Incident Problem Change Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ ITSM Incident/Problem/Change을 올바르게 적용하면 업무 처리 속도, 
 
 **진행 상황**: 507 / 800
 
-<- **이전**: [506. IT 서비스 관리 ITIL 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/506_it_service_management_itil_framework/)
-**다음**: [508. 서비스 데스크 자동화 AI 챗봇](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/508_service_desk_automation_ai_chatbot/) ->
+<- **이전**: [506. IT 서비스 관리 ITIL 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/506_it_service_management_itil_framework/)
+**다음**: [508. 서비스 데스크 자동화 AI 챗봇](/studynote/07_enterprise_systems/06_exam_summary/508_service_desk_automation_ai_chatbot/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "545. 마이데이터 개인 데이터 주권 활용 (MyData Personal Data Sovereignty Utilization)"
-date = 2026-05-09
+---
+title: "545. 마이데이터 개인 데이터 주권 활용 (MyData Personal Data Sovereignty Utilization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 545 / 800
 
-<- **이전**: [544. 옴니채널 통합 채널 고객 경험](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/544_omnichannel_integrated_channel_experience/)
-**다음**: [546. 디지털 트윈 기업 운영 시뮬레이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/546_digital_twin_enterprise_operations_simulation/) ->
+<- **이전**: [544. 옴니채널 통합 채널 고객 경험](/studynote/07_enterprise_systems/06_exam_summary/544_omnichannel_integrated_channel_experience/)
+**다음**: [546. 디지털 트윈 기업 운영 시뮬레이션](/studynote/07_enterprise_systems/06_exam_summary/546_digital_twin_enterprise_operations_simulation/) ->
 
 ---

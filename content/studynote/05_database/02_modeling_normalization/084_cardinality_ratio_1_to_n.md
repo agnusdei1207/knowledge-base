@@ -1,26 +1,23 @@
-+++
-title = "84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N"
+---
+title: "84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N"
+tags:
+  - "database"
+---
 
-[taxonomies]
-tags = ["database"]
-
-[extra]
-tags = ["database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 카디널리티 비율 (Cardinality Ratio)은 엔터티 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 한쪽이 다른 쪽과 몇 개까지 연결될 수 있는지를 나타낸다.
-> 2. **가치**: 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정확히 잡아야 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 위치, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향이 흔들리지 않는다.
-> 3. **판단 포인트**: 비즈니스 규칙이 실제로는 M:N인데 1:N으로 우기면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 문제가 바로 생긴다.
+> 1. **본질**: 카디널리티 비율 (Cardinality Ratio)은 엔터티 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서 한쪽이 다른 쪽과 몇 개까지 연결될 수 있는지를 나타낸다.
+> 2. **가치**: 1:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정확히 잡아야 [외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 위치, [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향이 흔들리지 않는다.
+> 3. **판단 포인트**: 비즈니스 규칙이 실제로는 M:N인데 1:N으로 우기면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 문제가 바로 생긴다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-카디널리티 비율 (Cardinality Ratio)은 엔터티-[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (ER, Entity-Relationship) 모델에서 두 엔터티가 얼마나 많은 인스턴스로 연결되는지 나타내는 표현이다. 가장 자주 보는 형태는 1:1, 1:N, M:N이며, 그중 1:N은 한 부모가 여러 자식을 가질 수 있는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 뜻한다. 이 비율을 잘못 잡으면 테이블 설계가 비즈니스 현실을 거꾸로 반영하게 된다.
+카디널리티 비율 (Cardinality Ratio)은 엔터티-[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) (ER, Entity-Relationship) 모델에서 두 엔터티가 얼마나 많은 인스턴스로 연결되는지 나타내는 표현이다. 가장 자주 보는 형태는 1:1, 1:N, M:N이며, 그중 1:N은 한 부모가 여러 자식을 가질 수 있는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 뜻한다. 이 비율을 잘못 잡으면 테이블 설계가 비즈니스 현실을 거꾸로 반영하게 된다.
 
-카디널리티를 이해해야 하는 이유는 단순히 도식이 예뻐지기 때문이 아니라, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 물리적 구현이 바로 결정되기 때문이다. [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 어디에 둘지, 유니크 제약을 어디에 둘지, 조인 경로가 어떻게 되는지가 여기서 갈린다.
+카디널리티를 이해해야 하는 이유는 단순히 도식이 예뻐지기 때문이 아니라, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 물리적 구현이 바로 결정되기 때문이다. [외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 어디에 둘지, 유니크 제약을 어디에 둘지, 조인 경로가 어떻게 되는지가 여기서 갈린다.
 
 ```text
 Customer 1 ---------< Order N
@@ -35,9 +32,9 @@ PK customer_id       FK customer_id
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서는 부모 테이블의 [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK, Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 자식 테이블의 [외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (FK, Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 내려간다. 이렇게 하면 부모 한 건을 기준으로 여러 자식이 달릴 수 있고, 자식의 소속 부모를 쉽게 찾을 수 있다. 반대로 M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 중간 연결 테이블이 있어야 직접적으로 풀린다.
+1:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에서는 부모 테이블의 [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/) (PK, Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))가 자식 테이블의 [외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/) (FK, Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))로 내려간다. 이렇게 하면 부모 한 건을 기준으로 여러 자식이 달릴 수 있고, 자식의 소속 부모를 쉽게 찾을 수 있다. 반대로 M:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 중간 연결 테이블이 있어야 직접적으로 풀린다.
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 의미 | 구현 포인트 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 의미 | 구현 포인트 |
 | :--- | :--- | :--- |
 | 1:1 | 서로 1개씩만 연결 | 한쪽에 unique FK |
 | 1:N | 한쪽이 여러 개 연결 | N쪽에 FK 배치 |
@@ -56,7 +53,7 @@ PK customer_id       FK customer_id
 +--------------------+
 ```
 
-1:N 설계에서는 FK를 가진 자식 쪽에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두는 것이 일반적이다. 그래야 부모 기준 조회와 자식 그룹 조회가 모두 안정적으로 빠르다. 카디널리티는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델의 개념이지만, 실제 성능과 제약은 물리 설계와 바로 연결된다.
+1:N 설계에서는 FK를 가진 자식 쪽에 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 두는 것이 일반적이다. 그래야 부모 기준 조회와 자식 그룹 조회가 모두 안정적으로 빠르다. 카디널리티는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델의 개념이지만, 실제 성능과 제약은 물리 설계와 바로 연결된다.
 
 - **📢 섹션 요약 비유**: 큰 우산 하나가 여러 사람을 덮을 수는 있지만, 각 사람은 자기 우산을 여러 개 가질 수는 없다.
 
@@ -64,15 +61,15 @@ PK customer_id       FK customer_id
 
 ## Ⅲ. 비교 및 연결
 
-카디널리티는 '몇 개까지 연결되는가'를 말하고, 옵션성(optionality)은 '0도 가능한가'를 말한다. 그래서 1:N과 0:N은 다르다. 이 차이를 무시하면 필수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인데도 null이 남거나, 선택 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인데도 강한 제약을 걸어 입력이 막힌다.
+카디널리티는 '몇 개까지 연결되는가'를 말하고, 옵션성(optionality)은 '0도 가능한가'를 말한다. 그래서 1:N과 0:N은 다르다. 이 차이를 무시하면 필수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인데도 null이 남거나, 선택 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인데도 강한 제약을 걸어 입력이 막힌다.
 
 | 축 | 카디널리티 | 옵션성 | 설계 영향 |
 | :--- | :--- | :--- | :--- |
 | 1:1 | 한 개씩 | 0 / 1 가능 | unique 제약 필요 |
-| 1:N | 하나 대 여러 개 | 0..N / 1..N | FK와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 |
+| 1:N | 하나 대 여러 개 | 0..N / 1..N | FK와 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 |
 | M:N | 여러 개 대 여러 개 | 양쪽 가능 | 연결 테이블 필요 |
 
-[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 관점에서도 1:N은 의미가 크다. 1:N을 제대로 모델링하면 반복 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이고, 집계와 조인이 예측 가능해진다. 반대로 M:N을 억지로 1:N으로 만들면 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 무너지고 갱신 이상이 생기기 쉽다.
+[정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 관점에서도 1:N은 의미가 크다. 1:N을 제대로 모델링하면 반복 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이고, 집계와 조인이 예측 가능해진다. 반대로 M:N을 억지로 1:N으로 만들면 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 무너지고 갱신 이상이 생기기 쉽다.
 
 - **📢 섹션 요약 비유**: 문이 몇 개 달렸는지와, 그 문을 반드시 열어야 하는지 여부는 서로 다른 질문이다.
 
@@ -80,16 +77,16 @@ PK customer_id       FK customer_id
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 만들기 전에 '누가 부모이고 누가 자식인지', '한 부모가 자식을 몇 개 가질 수 있는지'를 문장으로 먼저 적어야 한다. 그다음 1:N이면 FK를 자식 테이블에 두고, M:N이면 연결 테이블을 만든다. 비즈니스 규칙을 테이블 구조로 옮기는 순간이 곧 설계의 핵심이다.
+실무에서는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 만들기 전에 '누가 부모이고 누가 자식인지', '한 부모가 자식을 몇 개 가질 수 있는지'를 문장으로 먼저 적어야 한다. 그다음 1:N이면 FK를 자식 테이블에 두고, M:N이면 연결 테이블을 만든다. 비즈니스 규칙을 테이블 구조로 옮기는 순간이 곧 설계의 핵심이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 실제로 1:N인지 비즈니스 문장으로 확인했는가?
-2. N쪽 FK에 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약을 두었는가?
+1. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 실제로 1:N인지 비즈니스 문장으로 확인했는가?
+2. N쪽 FK에 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약을 두었는가?
 3. M:N인데 억지로 한 테이블에 밀어 넣지 않았는가?
-4. 옵션성과 필수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 구분했는가?
+4. 옵션성과 필수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 구분했는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 여러 자식 ID를 한 컬럼에 쉼표로 저장하는 경우
 - 실제로는 M:N인데 1:N으로 표현해 중복을 늘리는 경우
@@ -101,9 +98,9 @@ PK customer_id       FK customer_id
 
 ## Ⅴ. 기대효과 및 결론
 
-카디널리티를 정확히 잡으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 조회 경로, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향이 한꺼번에 정리된다. 특히 1:N은 가장 흔하면서도 설계 품질을 크게 좌우하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 결국 좋은 모델링은 '[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 그리는 일'이 아니라 '[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 수를 정확히 적는 일'이다.
+카디널리티를 정확히 잡으면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 조회 경로, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 방향이 한꺼번에 정리된다. 특히 1:N은 가장 흔하면서도 설계 품질을 크게 좌우하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 결국 좋은 모델링은 '[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 그리는 일'이 아니라 '[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 수를 정확히 적는 일'이다.
 
-결론적으로 1:N은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 기본이지만, 아무리 기본이라도 잘못 잡으면 전체 설계를 흔든다. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 먼저 문장으로 검증하고, 그다음 테이블로 옮겨야 한다.
+결론적으로 1:N은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 기본이지만, 아무리 기본이라도 잘못 잡으면 전체 설계를 흔든다. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 먼저 문장으로 검증하고, 그다음 테이블로 옮겨야 한다.
 
 - **📢 섹션 요약 비유**: 한 명이 여러 칠판을 가리킬 수는 있어도, 칠판 하나가 여러 선생님을 동시에 모실 수는 없다.
 
@@ -113,11 +110,11 @@ PK customer_id       FK customer_id
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| ER (Entity-Relationship) | 엔터티 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 |
-| PK (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 부모 엔터티를 식별하는 키 |
-| FK (Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 자식 엔터티가 부모를 참조하는 키 |
-| Junction table | M:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 푸는 연결 테이블 |
-| [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 중복과 이상을 줄이는 설계 원리 |
+| ER (Entity-Relationship) | 엔터티 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 |
+| PK (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 부모 엔터티를 식별하는 키 |
+| FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 자식 엔터티가 부모를 참조하는 키 |
+| Junction table | M:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 푸는 연결 테이블 |
+| [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 중복과 이상을 줄이는 설계 원리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +131,7 @@ PK / FK / 연결 테이블 결정
 무결성 제약과 인덱스 적용
 ```
 
-흐름의 핵심은 문장으로 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 확인한 뒤 구조로 옮기는 것이다.
+흐름의 핵심은 문장으로 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 확인한 뒤 구조로 옮기는 것이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -148,7 +145,7 @@ PK / FK / 연결 테이블 결정
 
 **진행 상황**: 84 / 600
 
-<- **이전**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
-**다음**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) ->
+<- **이전**: [83. 관계 (Relationship) - 마름모, 개체 간 연관성](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+**다음**: [85. 참여 제약조건 (Participation Constraint) - 필수 참여(전체), 선택 참여(부분)](/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) ->
 
 ---

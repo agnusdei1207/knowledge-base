@@ -1,13 +1,10 @@
-+++
-title = "396. AWS Lambda 함수 컴퓨팅 서비스 (AWS Lambda Function Compute Service)"
-date = 2026-05-09
+---
+title: "396. AWS Lambda 함수 컴퓨팅 서비스 (AWS Lambda Function Compute Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 396 / 800
 
-<- **이전**: [395. 서버리스 FaaS 이벤트 드리븐 아키텍처](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/395_serverless_faas_event_driven_architecture/)
-**다음**: [397. Knative 쿠버네티스 서버리스 프레임워크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/397_knative_kubernetes_serverless_framework/) ->
+<- **이전**: [395. 서버리스 FaaS 이벤트 드리븐 아키텍처](/studynote/13_cloud_architecture/06_exam_summary/395_serverless_faas_event_driven_architecture/)
+**다음**: [397. Knative 쿠버네티스 서버리스 프레임워크](/studynote/13_cloud_architecture/06_exam_summary/397_knative_kubernetes_serverless_framework/) ->
 
 ---

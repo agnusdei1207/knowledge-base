@@ -1,13 +1,10 @@
-+++
-title = "541. 데이터 리니지 혈통 추적 영향 분석 (Data Lineage Provenance Impact Analysis)"
-date = 2026-05-09
+---
+title: "541. 데이터 리니지 혈통 추적 영향 분석 (Data Lineage Provenance Impact Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 541 / 800
 
-<- **이전**: [540. 데이터 품질 관리 프로파일링 클렌징](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/540_data_quality_management_profiling_cleansing/)
-**다음**: [542. 플랫폼 비즈니스 양면 시장 네트워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/542_platform_business_two_sided_market_network/) ->
+<- **이전**: [540. 데이터 품질 관리 프로파일링 클렌징](/studynote/07_enterprise_systems/06_exam_summary/540_data_quality_management_profiling_cleansing/)
+**다음**: [542. 플랫폼 비즈니스 양면 시장 네트워크](/studynote/07_enterprise_systems/06_exam_summary/542_platform_business_two_sided_market_network/) ->
 
 ---

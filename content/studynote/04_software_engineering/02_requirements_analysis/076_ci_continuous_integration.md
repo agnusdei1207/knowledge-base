@@ -1,16 +1,13 @@
-+++
-title = "76. 지속적 통합 (CI, Continuous Integration)"
+---
+title: "76. 지속적 통합 (CI, Continuous Integration)"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), 지속적 통합)는 작은 변경을 자주 합치고 자동으로 빌드·테스트해 통합의 지옥(Integration Hell)을 막는 실천이다.
+> 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/), 지속적 통합)는 작은 변경을 자주 합치고 자동으로 빌드·테스트해 통합의 지옥(Integration Hell)을 막는 실천이다.
 > 2. **가치**: 빨리 깨지는 파이프라인은 빨리 고칠 수 있으므로, 문제를 한 달 뒤가 아니라 몇 분 안에 발견하게 해 준다.
 > 3. **판단 포인트**: CI는 "자동화된 빌드가 돈다"가 아니라 "main 브랜치가 항상 신뢰 가능한 상태로 유지된다"까지 봐야 완성이다.
 
@@ -36,15 +33,15 @@ CI가 필요한 이유는 코드가 합쳐질수록 문제 원인을 찾기 어�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인은 commit, build, test, report, [artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) publish의 순서로 움직인다. 핵심은 자동화와 반복성이다. 사람이 기억으로 판단하는 단계가 많을수록 CI는 느려지고 흔들린다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 파이프라인은 commit, build, test, report, [artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) publish의 순서로 움직인다. 핵심은 자동화와 반복성이다. 사람이 기억으로 판단하는 단계가 많을수록 CI는 느려지고 흔들린다.
 
 | 단계 | 역할 | 실패 의미 |
 | :-- | :-- | :-- |
-| Commit / [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) | 변경을 중앙에 올림 | 변경이 너무 큼 |
+| Commit / [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)([Pull Request](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/)) | 변경을 중앙에 올림 | 변경이 너무 큼 |
 | Build | 컴파일/패키징 | 코드가 깨짐 |
-| Test | 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 기능이 망가짐 |
-| Report | 알림과 기록 | 피드백 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| Publish | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 | 재현성 확보 |
+| Test | 회귀 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 기능이 망가짐 |
+| Report | 알림과 기록 | 피드백 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| Publish | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 | 재현성 확보 |
 
 ```text
 개발자 -> Commit/PR -> CI 서버
@@ -63,13 +60,13 @@ CI의 철학은 Fail Fast다. 빨리 실패하면 빨리 고칠 수 있다. 그�
 
 ## Ⅲ. 비교 및 연결
 
-CI는 CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 자주 묶이지만 같지 않다. CI는 통합과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 초점이 있고, CD는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과를 다음 단계로 넘기는 데 초점이 있다.
+CI는 CD([Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/))와 자주 묶이지만 같지 않다. CI는 통합과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 초점이 있고, CD는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과를 다음 단계로 넘기는 데 초점이 있다.
 
-| 구분 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | CD |
+| 구분 | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | CD |
 | :-- | :-- | :-- |
-| 목적 | 통합 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 배포 자동화 |
-| 시작점 | 커밋/[PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) |
-| 핵심 산출물 | 빌드 결과, 테스트 결과 | 배포된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| 목적 | 통합 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 배포 자동화 |
+| 시작점 | 커밋/[PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) |
+| 핵심 산출물 | 빌드 결과, 테스트 결과 | 배포된 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
 | 판단 기준 | main 브랜치 안정성 | 릴리스 속도와 안전성 |
 
 CI는 또한 nightly build와 다르다. 밤새 한 번 돌리는 빌드는 피드백이 늦고, 수동 병합은 통합의 지옥을 늦게 발견한다. 반면 CI는 변화마다 즉시 반응한다.
@@ -82,18 +79,18 @@ CI는 또한 nightly build와 다르다. 밤새 한 번 돌리는 빌드는 피�
 
 좋은 CI는 단순히 자동화된 것이 아니라 예측 가능한 것이다. 빌드 시간이 너무 길거나 테스트가 자주 흔들리면 CI는 조직의 신뢰를 잃는다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. main 브랜치가 항상 green 상태인가?
 2. 파이프라인이 짧고 재현 가능한가?
 3. flaky test를 따로 관리하는가?
-4. 빌드 산출물이 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 저장소로 보관되는가?
-5. [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 머지 전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 강제되는가?
+4. 빌드 산출물이 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) 저장소로 보관되는가?
+5. [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/) 머지 전에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 강제되는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 사람만 아는 수동 배포 절차
 - 테스트가 자주 실패하지만 그냥 다시 돌림
 - 브랜치가 너무 길어 통합 지옥이 다시 생김
-- 빌드만 하고 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없음
+- 빌드만 하고 품질 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 없음
 
 기술사 답안에서는 "CI는 자동화 도구가 아니라 협업 규율"이라는 문장을 넣으면 좋다. 왜냐하면 CI는 사람의 개발 습관을 바꾸는 문화이기 때문이다.
 
@@ -105,7 +102,7 @@ CI는 또한 nightly build와 다르다. 밤새 한 번 돌리는 빌드는 피�
 
 CI는 문제를 조기에 발견하고, 통합 비용을 낮추며, 릴리스 신뢰도를 높인다. 또한 빌드와 테스트가 자동화되면서 팀은 "잘 되는지"를 눈으로 확인할 수 있다.
 
-단, CI는 만능이 아니다. 테스트가 엉성하면 빨리 틀린 신호를 줄 뿐이고, 수동 승인에만 의존하면 속도가 다시 느려진다. 그래서 CI는 "자동화된 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 습관"으로 기억해야 한다.
+단, CI는 만능이 아니다. 테스트가 엉성하면 빨리 틀린 신호를 줄 뿐이고, 수동 승인에만 의존하면 속도가 다시 느려진다. 그래서 CI는 "자동화된 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 습관"으로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 매일 문을 잠그는 습관이 있어야 집이 안전하다. CI는 개발 현장의 잠금장치다.
 
@@ -113,12 +110,12 @@ CI는 문제를 조기에 발견하고, 통합 비용을 낮추며, 릴리스 �
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 잦은 통합과 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| CD([Continuous Delivery](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) | 다음 단계 자동화 |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) | 잦은 통합과 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| CD([Continuous Delivery](/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/)/[Deployment](/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/)) | 다음 단계 자동화 |
 | Build | 컴파일/패키징 |
-| Test | 회귀 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Repository | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 |
-| Trunk-based 개발 | 짧은 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| Test | 회귀 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) Repository | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물 보관 |
+| Trunk-based 개발 | 짧은 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +149,7 @@ CD로 배포 자동화
 
 **진행 상황**: 76 / 973
 
-<- **이전**: [75. 공동 코드 소유 (Collective Code Ownership)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/)
-**다음**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ->
+<- **이전**: [75. 공동 코드 소유 (Collective Code Ownership)](/studynote/04_software_engineering/02_requirements_analysis/075_collective_code_ownership/)
+**다음**: [77. 테스트 주도 개발 (TDD, Test Driven Development) - Red-Green-Refactor](/studynote/04_software_engineering/02_requirements_analysis/077_tdd_test_driven_development/) ->
 
 ---

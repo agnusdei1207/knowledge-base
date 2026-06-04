@@ -1,13 +1,10 @@
-+++
-title = "400. 클라우드 스트리밍 Kinesis EventHub (Cloud Streaming Kinesis EventHub)"
-date = 2026-05-09
+---
+title: "400. 클라우드 스트리밍 Kinesis EventHub (Cloud Streaming Kinesis EventHub)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 400 / 800
 
-<- **이전**: [399. 클라우드 큐 서비스 SQS SNS Pub/Sub](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/399_cloud_queue_service_sqs_sns_pubsub/)
-**다음**: [401. 프로메테우스 메트릭 수집 저장 쿼리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/401_prometheus_metrics_collection_storage_query/) ->
+<- **이전**: [399. 클라우드 큐 서비스 SQS SNS Pub/Sub](/studynote/13_cloud_architecture/06_exam_summary/399_cloud_queue_service_sqs_sns_pubsub/)
+**다음**: [401. 프로메테우스 메트릭 수집 저장 쿼리](/studynote/13_cloud_architecture/06_exam_summary/401_prometheus_metrics_collection_storage_query/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "574. IT 경영 관리 핵심 토픽 574번 시험 요약 (IT Management Core Topic 574 Exam Summary)"
-date = 2026-05-09
+---
+title: "574. IT 경영 관리 핵심 토픽 574번 시험 요약 (IT Management Core Topic 574 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 574. IT 경영 관리 핵심 토픽 574번 시험 요약
 
@@ -149,7 +146,7 @@ IT 경영 관리에서 혼동하기 쉬운 5가지 핵심 프레임워크/개념
 
 **진행 상황**: 574 / 800
 
-<- **이전**: [573. IT 경영 관리 핵심 토픽 573번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/573_it_management_core_topic_573_exam_summary/)
-**다음**: [575. IT 경영 관리 핵심 토픽 575번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/575_it_management_core_topic_575_exam_summary/) ->
+<- **이전**: [573. IT 경영 관리 핵심 토픽 573번 시험 요약](/studynote/12_it_management/05_security_compliance/573_it_management_core_topic_573_exam_summary/)
+**다음**: [575. IT 경영 관리 핵심 토픽 575번 시험 요약](/studynote/12_it_management/05_security_compliance/575_it_management_core_topic_575_exam_summary/) ->
 
 ---

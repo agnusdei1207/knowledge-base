@@ -1,19 +1,16 @@
-+++
-title = "180. 우선순위 스케줄링 (Priority Scheduling) - 무한 대기 문제 발생 가능"
-date = 2026-03-22
+---
+title: "180. 우선순위 스케줄링 (Priority Scheduling) - 무한 대기 문제 발생 가능"
+date: "2026-03-22"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 우선순위 스케줄링 (Priority Scheduling)은 Ready 큐에 있는 프로세스 중 우선순위 값이 가장 높은 작업에게 CPU (Central Processing Unit)를 먼저 주는 스케줄링 방식이다.
-> 2. **가치**: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 작업, 대화형 작업, 실시간 작업처럼 더 빨리 반응해야 하는 일을 일반 배치 작업보다 앞세울 수 있어, 시스템의 목적성과 응답성을 높인다.
-> 3. **판단 포인트**: 순수 우선순위만 믿으면 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))와 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/))이 쉽게 생기므로, [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)), 동급 내 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다.
+> 2. **가치**: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 작업, 대화형 작업, 실시간 작업처럼 더 빨리 반응해야 하는 일을 일반 배치 작업보다 앞세울 수 있어, 시스템의 목적성과 응답성을 높인다.
+> 3. **판단 포인트**: 순수 우선순위만 믿으면 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))와 [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/))이 쉽게 생기므로, [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)), 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ([Priority Inheritance](/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)), 동급 내 [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다.
 
 ---
 
@@ -21,9 +18,9 @@ tags = ["studynote-operating-system"]
 
 우선순위 스케줄링은 <strong>"먼저 온 순서"보다 "더 중요한 순서"를 우선하는 CPU 배분 규칙</strong>이다. 프로세스마다 중요도 점수를 두고, 스케줄러는 가장 높은 우선순위의 작업을 먼저 실행한다. 어떤 시스템에서는 작은 숫자가 높은 우선순위를 뜻하고, 어떤 시스템에서는 큰 숫자가 더 높을 수 있지만, 핵심은 숫자의 방향이 아니라 <strong>중요도 기반 선택</strong>이라는 점이다.
 
-이 방식이 필요한 이유는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안의 모든 작업이 같은 가치를 가지지 않기 때문이다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리, 오디오 재생, 사용자 인터페이스 응답, 실시간 제어 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)는 백그라운드 압축이나 배치 분석보다 늦게 처리되면 체감 품질이나 시스템 안정성이 크게 떨어진다. [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served)처럼 순서만 보는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 공평해 보여도, 실제 시스템의 중요도를 반영하지 못한다.
+이 방식이 필요한 이유는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 안의 모든 작업이 같은 가치를 가지지 않기 때문이다. [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리, 오디오 재생, 사용자 인터페이스 응답, 실시간 제어 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)는 백그라운드 압축이나 배치 분석보다 늦게 처리되면 체감 품질이나 시스템 안정성이 크게 떨어진다. [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served)처럼 순서만 보는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 공평해 보여도, 실제 시스템의 중요도를 반영하지 못한다.
 
-특히 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 "누가 더 급한가"를 강제로 반영할 장치가 필요하다. 우선순위 스케줄링은 바로 그 판단 축을 제공하며, 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 실시간 클래스, 인터랙티브 보정, 사용자 `nice` [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)도 모두 이 철학에서 출발한다.
+특히 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서는 "누가 더 급한가"를 강제로 반영할 장치가 필요하다. 우선순위 스케줄링은 바로 그 판단 축을 제공하며, 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 실시간 클래스, 인터랙티브 보정, 사용자 `nice` [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)도 모두 이 철학에서 출발한다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -39,21 +36,21 @@ tags = ["studynote-operating-system"]
 +--------------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 우선순위 스케줄링은 병원 응급실의 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 같다. 먼저 온 사람만 보는 줄서기가 아니라, 더 위급한 환자를 먼저 진료해 전체 시스템을 지키는 방식이다.
+- **📢 섹션 요약 비유**: 우선순위 스케줄링은 병원 응급실의 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계와 같다. 먼저 온 사람만 보는 줄서기가 아니라, 더 위급한 환자를 먼저 진료해 전체 시스템을 지키는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-우선순위 스케줄링의 핵심은 <strong>우선순위 부여 -> 최고 우선순위 탐색 -> CPU 배정 -> 필요 시 선점</strong>의 반복이다. 우선순위는 정적으로 부여될 수도 있고, 대기 시간이나 I/O (Input/Output) 특성에 따라 동적으로 바뀔 수도 있다. 실제 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 값을 PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)나 스케줄링 엔티티에 기록해 둔다.
+우선순위 스케줄링의 핵심은 <strong>우선순위 부여 -> 최고 우선순위 탐색 -> CPU 배정 -> 필요 시 선점</strong>의 반복이다. 우선순위는 정적으로 부여될 수도 있고, 대기 시간이나 I/O (Input/Output) 특성에 따라 동적으로 바뀔 수도 있다. 실제 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 이 값을 PCB ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Control Block)나 스케줄링 엔티티에 기록해 둔다.
 
 | 요소 | 역할 | 판단 포인트 |
 | :--- | :--- | :--- |
-| 우선순위 값 | 중요도 표현 | 정적 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)인지, 동적 조정인지 |
+| 우선순위 값 | 중요도 표현 | 정적 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)인지, 동적 조정인지 |
 | Ready 큐 구조 | 후보 프로세스 저장 | 우선순위별 다중 큐, 힙, 비트맵 등 |
-| [디스패처](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([Dispatcher](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)) | 실행 대상 선택 및 문맥 전환 | 가장 높은 우선순위 탐색 비용 최소화 |
-| 선점 규칙 | 실행 중 작업을 빼앗을지 결정 | 응답성 vs [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 |
-| 동급 내 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 같은 우선순위끼리의 순서 | [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/), 가상 런타임 등 |
+| [디스패처](/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/) ([Dispatcher](/studynote/02_operating_system/03_cpu_scheduling/168_dispatcher/)) | 실행 대상 선택 및 문맥 전환 | 가장 높은 우선순위 탐색 비용 최소화 |
+| 선점 규칙 | 실행 중 작업을 빼앗을지 결정 | 응답성 vs [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 오버헤드 |
+| 동급 내 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 같은 우선순위끼리의 순서 | [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/), 가상 런타임 등 |
 
 보통 선점형 우선순위 스케줄링에서는 더 높은 우선순위 작업이 도착하면 현재 작업을 중단시키고 CPU를 넘긴다. 비선점형에서는 현재 작업이 종료되거나 I/O 대기에 들어갈 때까지 기다린다. 따라서 같은 우선순위 스케줄링이라도 **선점 여부에 따라 응답성은 크게 달라진다**.
 
@@ -74,7 +71,7 @@ tags = ["studynote-operating-system"]
 +--------------------------------------------------------------------+
 ```
 
-우선순위는 어디서 오느냐도 중요하다. 실시간 시스템은 데드라인과 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 중요도가 우선이고, 범용 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 사용자 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), I/O 성향, 대기 시간, 인터랙티브 반응성 등을 함께 고려한다. 그래서 실무에서의 Priority Scheduling은 "숫자 하나"가 아니라 <strong>시스템이 중요도를 표현하는 방식 전체</strong>에 가깝다.
+우선순위는 어디서 오느냐도 중요하다. 실시간 시스템은 데드라인과 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 중요도가 우선이고, 범용 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 사용자 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), I/O 성향, 대기 시간, 인터랙티브 반응성 등을 함께 고려한다. 그래서 실무에서의 Priority Scheduling은 "숫자 하나"가 아니라 <strong>시스템이 중요도를 표현하는 방식 전체</strong>에 가깝다.
 
 - **📢 섹션 요약 비유**: 이 구조는 회사 업무 분장과 비슷하다. 사장님 긴급 지시는 지금 하던 일반 문서를 잠깐 멈추게 만들 수 있고, 같은 급의 일들끼리는 차례표를 돌려 공정하게 처리한다.
 
@@ -82,19 +79,19 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-우선순위 스케줄링을 이해하려면 다른 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)들이 사실상 **"무엇을 우선순위로 보느냐"** 의 차이라는 점을 봐야 한다. FCFS는 도착 순서를 우선순위로 보고, [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))는 예상 실행 시간이 짧은 작업을 더 높은 우선순위로 본다. [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 여러 우선순위 큐를 두고 실행 패턴에 따라 프로세스를 오르내리게 만든다.
+우선순위 스케줄링을 이해하려면 다른 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)들이 사실상 **"무엇을 우선순위로 보느냐"** 의 차이라는 점을 봐야 한다. FCFS는 도착 순서를 우선순위로 보고, [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/))는 예상 실행 시간이 짧은 작업을 더 높은 우선순위로 본다. [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))는 여러 우선순위 큐를 두고 실행 패턴에 따라 프로세스를 오르내리게 만든다.
 
-| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 우선 기준 | 장점 | 약점 | 연결 포인트 |
+| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 우선 기준 | 장점 | 약점 | 연결 포인트 |
 | :--- | :--- | :--- | :--- | :--- |
-| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) | 도착 순서 | 단순하고 예측 가능 | 긴 작업이 전체를 막음 | 우선순위 축이 "먼저 온 순서"인 특수형 |
-| [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 동급 공정성 | 응답성 확보 | 중요도 차별이 약함 | 같은 우선순위 내부 정렬에 자주 사용 |
-| [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) | 짧은 버스트 | 평균 대기 시간 우수 | 실행 시간 예측 어려움 | "짧을수록 높은 우선순위"로 볼 수 있음 |
-| 순수 우선순위 스케줄링 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)상 중요도 | 중요 작업 즉시 처리 가능 | [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 위험 | 실시간/[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 처리에 직접적 |
-| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) | 동적 행동 기반 | 응답성과 공정성 균형 | 튜닝 복잡 | 우선순위 개념을 발전시킨 하이브리드 |
+| [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) | 도착 순서 | 단순하고 예측 가능 | 긴 작업이 전체를 막음 | 우선순위 축이 "먼저 온 순서"인 특수형 |
+| [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 동급 공정성 | 응답성 확보 | 중요도 차별이 약함 | 같은 우선순위 내부 정렬에 자주 사용 |
+| [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) | 짧은 버스트 | 평균 대기 시간 우수 | 실행 시간 예측 어려움 | "짧을수록 높은 우선순위"로 볼 수 있음 |
+| 순수 우선순위 스케줄링 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)상 중요도 | 중요 작업 즉시 처리 가능 | [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) 위험 | 실시간/[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 처리에 직접적 |
+| [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) | 동적 행동 기반 | 응답성과 공정성 균형 | 튜닝 복잡 | 우선순위 개념을 발전시킨 하이브리드 |
 
-중요한 차이는 <strong>정적 우선순위와 동적 우선순위</strong>다. 정적 우선순위는 예측 가능하고 제어하기 쉽지만, 낮은 우선순위 작업이 계속 밀릴 위험이 크다. 동적 우선순위는 대기 시간이 길어지거나 인터랙티브 성향이 강한 작업의 우선순위를 높여 불공정을 줄이지만, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 복잡해진다.
+중요한 차이는 <strong>정적 우선순위와 동적 우선순위</strong>다. 정적 우선순위는 예측 가능하고 제어하기 쉽지만, 낮은 우선순위 작업이 계속 밀릴 위험이 크다. 동적 우선순위는 대기 시간이 길어지거나 인터랙티브 성향이 강한 작업의 우선순위를 높여 불공정을 줄이지만, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 복잡해진다.
 
-또한 우선순위는 CPU 스케줄링만의 개념이 아니다. 디스크 I/O 스케줄링, 네트워크 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 제어에도 같은 사고방식이 적용된다. 즉 이 개념은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 **"무엇을 더 급하다고 볼 것인가"** 를 표현하는 공통 언어다.
+또한 우선순위는 CPU 스케줄링만의 개념이 아니다. 디스크 I/O 스케줄링, 네트워크 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 제어에도 같은 사고방식이 적용된다. 즉 이 개념은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 **"무엇을 더 급하다고 볼 것인가"** 를 표현하는 공통 언어다.
 
 - **📢 섹션 요약 비유**: 우선순위 스케줄링은 줄 세우는 기준을 바꾸는 일과 같다. 키순으로 세울지, 나이순으로 세울지, 급한 사람부터 세울지에 따라 같은 사람들도 전혀 다른 순서가 된다.
 
@@ -102,9 +99,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 우선순위 스케줄링은 단순히 VIP를 먼저 태우는 문제가 아니다. <strong>중요 작업의 응답성을 높이면서도, 낮은 우선순위 작업이 영원히 굶지 않게 만드는 균형 문제</strong>다. 그래서 실제 시스템은 순수 우선순위만 쓰지 않고 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/), 동급 [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 실시간 클래스 분리를 함께 사용한다.
+실무에서 우선순위 스케줄링은 단순히 VIP를 먼저 태우는 문제가 아니다. <strong>중요 작업의 응답성을 높이면서도, 낮은 우선순위 작업이 영원히 굶지 않게 만드는 균형 문제</strong>다. 그래서 실제 시스템은 순수 우선순위만 쓰지 않고 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/), 동급 [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/), 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 실시간 클래스 분리를 함께 사용한다.
 
-가장 대표적인 실패는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)다. 높은 우선순위 작업이 계속 들어오면 낮은 우선순위 작업은 CPU를 한 번도 받지 못할 수 있다. 이를 막기 위해 대기 시간이 길어질수록 우선순위를 점차 높이는 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)을 적용한다. 또 공유 자원을 낮은 우선순위 작업이 쥐고 있을 때, 중간 우선순위 작업들이 계속 CPU를 빼앗아 최상위 작업을 막아 버리는 [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제도 있다. 이 경우에는 락을 잡은 낮은 우선순위 작업을 일시적으로 끌어올리는 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 필요하다.
+가장 대표적인 실패는 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)다. 높은 우선순위 작업이 계속 들어오면 낮은 우선순위 작업은 CPU를 한 번도 받지 못할 수 있다. 이를 막기 위해 대기 시간이 길어질수록 우선순위를 점차 높이는 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)을 적용한다. 또 공유 자원을 낮은 우선순위 작업이 쥐고 있을 때, 중간 우선순위 작업들이 계속 CPU를 빼앗아 최상위 작업을 막아 버리는 [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제도 있다. 이 경우에는 락을 잡은 낮은 우선순위 작업을 일시적으로 끌어올리는 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이 필요하다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -121,15 +118,15 @@ tags = ["studynote-operating-system"]
 
 ### 실무 판단 기준
 
-1. **정말 절대 우선이 필요한가?** 하드 실시간이나 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리라면 선점형 고우선이 필요하지만, 일반 사용자 작업까지 모두 그렇게 설계하면 불공정이 커진다.
-2. **낮은 우선순위 작업이 언젠가는 실행된다는 보장이 있는가?** [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이나 피드백 승급이 없다면 운영상 장애가 숨어 있을 수 있다.
+1. **정말 절대 우선이 필요한가?** 하드 실시간이나 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리라면 선점형 고우선이 필요하지만, 일반 사용자 작업까지 모두 그렇게 설계하면 불공정이 커진다.
+2. **낮은 우선순위 작업이 언젠가는 실행된다는 보장이 있는가?** [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)이나 피드백 승급이 없다면 운영상 장애가 숨어 있을 수 있다.
 3. **동급 작업은 어떻게 공정하게 나눌 것인가?** 같은 우선순위 안에서 RR을 섞지 않으면 특정 작업이 독점할 수 있다.
-4. **락과 공유 자원에 대한 역전 방지가 있는가?** 실시간 시스템에서는 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이나 우선순위 천장 기법이 필수적일 수 있다.
+4. **락과 공유 자원에 대한 역전 방지가 있는가?** 실시간 시스템에서는 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)이나 우선순위 천장 기법이 필수적일 수 있다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 중요해 보인다는 이유로 너무 많은 작업을 높은 우선순위에 몰아넣는 것
-- 사용자 `nice` 값만 조정하고 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)나 역전 가능성은 검토하지 않는 것
+- 사용자 `nice` 값만 조정하고 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)나 역전 가능성은 검토하지 않는 것
 - 실시간 클래스와 일반 클래스를 분리하지 않아 전체 시스템을 불안정하게 만드는 것
 
 - **📢 섹션 요약 비유**: 우선순위 운영은 VIP 전용 통로를 만드는 일과 같다. 꼭 필요한 사람만 그 통로를 써야 질서가 유지되고, 오래 기다린 일반 손님을 가끔 끌어올려 주는 규칙이 있어야 줄이 무너지지 않는다.
@@ -138,11 +135,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-우선순위 스케줄링의 가장 큰 효과는 **시스템이 정말 중요한 일을 먼저 처리하게 만든다** 는 점이다. 덕분에 사용자 인터페이스는 더 민첩해지고, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 서비스는 더 안정적으로 반응하며, 실시간 제어는 필요한 마감 시간에 가까워질 수 있다. 단순 공평성만으로는 얻기 어려운 목적 지향적 자원 배분이 가능해진다.
+우선순위 스케줄링의 가장 큰 효과는 **시스템이 정말 중요한 일을 먼저 처리하게 만든다** 는 점이다. 덕분에 사용자 인터페이스는 더 민첩해지고, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 서비스는 더 안정적으로 반응하며, 실시간 제어는 필요한 마감 시간에 가까워질 수 있다. 단순 공평성만으로는 얻기 어려운 목적 지향적 자원 배분이 가능해진다.
 
-하지만 순수한 우선순위 사회는 쉽게 불공정해진다. 낮은 우선순위 작업은 굶을 수 있고, 락이 섞이면 오히려 높은 우선순위 작업이 막히는 역설도 생긴다. 그래서 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 우선순위를 <strong>절대 규칙</strong>으로만 쓰지 않고, [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/), 피드백 큐, 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 동급 공정 스케줄링을 함께 섞어 사용한다.
+하지만 순수한 우선순위 사회는 쉽게 불공정해진다. 낮은 우선순위 작업은 굶을 수 있고, 락이 섞이면 오히려 높은 우선순위 작업이 막히는 역설도 생긴다. 그래서 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 우선순위를 <strong>절대 규칙</strong>으로만 쓰지 않고, [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/), 피드백 큐, 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 동급 공정 스케줄링을 함께 섞어 사용한다.
 
-정리하면 우선순위 스케줄링은 <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 중요도를 표현하는 가장 기본적인 언어</strong>다. 기억할 핵심은 분명하다. <strong>급한 일을 먼저 처리하게 해 주지만, 그대로 두면 불공정이 커지므로 반드시 보정 메커니즘과 함께 설계해야 한다</strong>는 점이다.
+정리하면 우선순위 스케줄링은 <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 중요도를 표현하는 가장 기본적인 언어</strong>다. 기억할 핵심은 분명하다. <strong>급한 일을 먼저 처리하게 해 주지만, 그대로 두면 불공정이 커지므로 반드시 보정 메커니즘과 함께 설계해야 한다</strong>는 점이다.
 
 - **📢 섹션 요약 비유**: 좋은 지휘자는 솔로 파트를 먼저 들리게 하지만, 나머지 연주자가 영원히 소리를 못 내게 두지는 않는다. 전체 합주가 유지되려면 중요도와 공정성이 함께 맞아야 한다.
 
@@ -152,13 +149,13 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) | 낮은 우선순위 작업이 무한 대기하는 대표 부작용이다 |
-| [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) | 오래 기다린 작업의 우선순위를 높여 기아를 완화한다 |
-| [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) | 낮은 우선순위 작업이 높은 우선순위 작업을 간접적으로 막는 현상이다 |
-| 우선순위 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ([Priority Inheritance](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) | 락을 쥔 낮은 우선순위 작업을 임시 승급시키는 해결책이다 |
-| [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 같은 우선순위 내부의 공정성을 확보하는 보조 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이다 |
-| [SJF](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 실행 시간이 짧을수록 높은 우선순위를 부여한 특수형으로 볼 수 있다 |
-| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 우선순위를 동적으로 조정하는 발전형 스케줄러다 |
+| [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) | 낮은 우선순위 작업이 무한 대기하는 대표 부작용이다 |
+| [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) | 오래 기다린 작업의 우선순위를 높여 기아를 완화한다 |
+| [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) ([Priority Inversion](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/)) | 낮은 우선순위 작업이 높은 우선순위 작업을 간접적으로 막는 현상이다 |
+| 우선순위 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) ([Priority Inheritance](/studynote/02_operating_system/03_cpu_scheduling/206_priority_inheritance/)) | 락을 쥔 낮은 우선순위 작업을 임시 승급시키는 해결책이다 |
+| [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 같은 우선순위 내부의 공정성을 확보하는 보조 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이다 |
+| [SJF](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/) ([Shortest Job First](/studynote/02_operating_system/03_cpu_scheduling/175_sjf_scheduling/)) | 실행 시간이 짧을수록 높은 우선순위를 부여한 특수형으로 볼 수 있다 |
+| [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 우선순위를 동적으로 조정하는 발전형 스케줄러다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,7 +173,7 @@ tags = ["studynote-operating-system"]
         +---------------> MLFQ 같은 동적 하이브리드 정책
 ```
 
-이 흐름도는 중요도 기반 자원 배분이라는 기본 아이디어가, 공정성과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 보정 메커니즘과 결합해 발전해 왔음을 보여 준다.
+이 흐름도는 중요도 기반 자원 배분이라는 기본 아이디어가, 공정성과 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 해결하기 위해 보정 메커니즘과 결합해 발전해 왔음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -190,7 +187,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 180 / 800
 
-<- **이전**: [179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)
-**다음**: [181. 기아 상태 (Starvation / Indefinite Blocking)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/181_starvation_indefinite_blocking/) ->
+<- **이전**: [179. 시간 할당량 (Time Quantum / Time Slice) 의 크기와 문맥 교환 오버헤드](/studynote/02_operating_system/03_cpu_scheduling/179_time_quantum_context_switch/)
+**다음**: [181. 기아 상태 (Starvation / Indefinite Blocking)](/studynote/02_operating_system/03_cpu_scheduling/181_starvation_indefinite_blocking/) ->
 
 ---

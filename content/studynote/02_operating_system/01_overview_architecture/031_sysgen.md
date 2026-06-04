@@ -1,18 +1,15 @@
-+++
-title = "31. SYSGEN — 시스템 생성과 OS 구성"
-date = 2026-04-29
+---
+title: "31. SYSGEN — 시스템 생성과 OS 구성"
+date: "2026-04-29"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: SYSGEN(System Generation, 시스템 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 특정 하드웨어 환경에 맞게 OS를 빌드·구성하는 과정이다. 일반적인 OS 코드베이스를 특정 CPU 아키텍처·메모리 크기·디바이스 드라이버 조합에 맞게 컴파일·링크하는 작업이다.
-> 2. **가치**: SYSGEN은 전통적으로 메인프레임·[임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)에서 중요했다. 현대 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 `make menuconfig`으로 수천 개 옵션을 선택해 최적화된 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지를 빌드하는 SYSGEN 과정을 거친다.
-> 3. **판단 포인트**: 현대 클라우드·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지가 새로운 형태의 SYSGEN이다. 베이스 이미지 선택 -> 패키지 설치 -> 구성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 이미지 빌드가 전통 SYSGEN의 현대적 변형이다.
+> 1. **본질**: SYSGEN(System Generation, 시스템 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))은 특정 하드웨어 환경에 맞게 OS를 빌드·구성하는 과정이다. 일반적인 OS 코드베이스를 특정 CPU 아키텍처·메모리 크기·디바이스 드라이버 조합에 맞게 컴파일·링크하는 작업이다.
+> 2. **가치**: SYSGEN은 전통적으로 메인프레임·[임베디드 시스템](/studynote/02_operating_system/01_overview_architecture/010_embedded_system/)에서 중요했다. 현대 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)도 `make menuconfig`으로 수천 개 옵션을 선택해 최적화된 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 이미지를 빌드하는 SYSGEN 과정을 거친다.
+> 3. **판단 포인트**: 현대 클라우드·[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경에서는 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지가 새로운 형태의 SYSGEN이다. 베이스 이미지 선택 -> 패키지 설치 -> 구성 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) -> 이미지 빌드가 전통 SYSGEN의 현대적 변형이다.
 
 ---
 
@@ -35,7 +32,7 @@ Linux 커널 빌드 예시:
   make install     -> 설치
 ```
 
-- **📢 섹션 요약 비유**: SYSGEN은 맞춤 양복 제작이다. 기성 옷(범용 OS) 대신 체형(하드웨어 환경)에 맞게 재단(컴파일·구성)하여 최적 핏([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량)의 맞춤 양복(최적화된 OS)을 만든다.
+- **📢 섹션 요약 비유**: SYSGEN은 맞춤 양복 제작이다. 기성 옷(범용 OS) 대신 체형(하드웨어 환경)에 맞게 재단(컴파일·구성)하여 최적 핏([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량)의 맞춤 양복(최적화된 OS)을 만든다.
 
 ---
 
@@ -48,11 +45,11 @@ Linux 커널 빌드 예시:
 | **CPU** | 유형·속도·코어 수 |
 | **메모리** | 물리 메모리 크기·타입 |
 | **스토리지** | 디스크 타입·크기·컨트롤러 |
-| **네트워크** | [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 유형·수량 |
+| **네트워크** | [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 유형·수량 |
 | **주변장치** | 프린터·터미널·입출력 장치 |
-| **부팅 옵션** | 부트 장치·[타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) |
+| **부팅 옵션** | 부트 장치·[타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) |
 
-### Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구성 옵션 예시
+### Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 구성 옵션 예시
 
 ```text
 General Setup:
@@ -74,26 +71,26 @@ File Systems:
 -> 필요 없는 드라이버 제외 -> 빌드 시간v, 이미지 크기v
 ```
 
-- **📢 섹션 요약 비유**: Linux make menuconfig는 스마트폰 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 앱이다. 수천 개 옵션 중 내 기기에 맞는 기능만 켜고, 불필요한 기능(안 쓰는 드라이버)은 꺼서 최적화된 시스템을 만든다.
+- **📢 섹션 요약 비유**: Linux make menuconfig는 스마트폰 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 앱이다. 수천 개 옵션 중 내 기기에 맞는 기능만 켜고, 불필요한 기능(안 쓰는 드라이버)은 꺼서 최적화된 시스템을 만든다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 전통 SYSGEN | Linux make [config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 |
+| 비교 | 전통 SYSGEN | Linux make [config](/studynote/15_devops_sre/01_culture_methodology/009_config/) | [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 |
 |:---|:---|:---|:---|
 | 시대 | 메인프레임 시대 | 현대 Linux | 클라우드 시대 |
-| 단위 | OS 전체 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 |
+| 단위 | OS 전체 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) | [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 |
 | 자동화 | 낮음 | 중간 | 높음 |
 | 이식성 | 낮음 | 낮음 | 높음 |
 
-- **📢 섹션 요약 비유**: SYSGEN 발전은 맞춤복 제작 방식이다. 장인 수제(전통 SYSGEN), 반자동 재봉틀(Linux make [config](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)), 맞춤 제작 자동화 공장([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드)으로 발전했다.
+- **📢 섹션 요약 비유**: SYSGEN 발전은 맞춤복 제작 방식이다. 장인 수제(전통 SYSGEN), 반자동 재봉틀(Linux make [config](/studynote/15_devops_sre/01_culture_methodology/009_config/)), 맞춤 제작 자동화 공장([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드)으로 발전했다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/) SYSGEN
+### [임베디드 시스템](/studynote/02_operating_system/01_overview_architecture/010_embedded_system/) SYSGEN
 
 ```text
 Yocto Project (임베디드 Linux):
@@ -108,7 +105,7 @@ Yocto Project (임베디드 Linux):
   - 부팅 시간 수 초
 ```
 
-### 현대 SYSGEN: [Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)
+### 현대 SYSGEN: [Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/)
 
 ```text
 전통 SYSGEN      -> IaC (현대 SYSGEN)
@@ -127,13 +124,13 @@ OS 커널 빌드     -> Terraform 인프라 정의
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **최적화** | 불필요 기능 제거로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량 최적화 |
+| **최적화** | 불필요 기능 제거로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·용량 최적화 |
 | **재현성** | 동일 구성으로 반복 빌드 가능 |
 | **보안** | 불필요 기능 제거로 공격 표면 최소화 |
 
-unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위한 초소형 OS 이미지(수십 KB)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 unikernel은 불필요한 모든 OS 기능을 제거하여 보안·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)·[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경의 차세대 기반 기술로 주목받고 있다.
+unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위한 초소형 OS 이미지(수십 KB)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 unikernel은 불필요한 모든 OS 기능을 제거하여 보안·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화한다. [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)·[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 환경의 차세대 기반 기술로 주목받고 있다.
 
-- **📢 섹션 요약 비유**: Unikernel은 극한의 맞춤복이다. 웹서버 하나만을 위한 OS는 웹서버 기능만 있으면 된다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템도, 사용자 관리도, 불필요한 드라이버도 모두 없는 초경량 전용 OS가 unikernel이다.
+- **📢 섹션 요약 비유**: Unikernel은 극한의 맞춤복이다. 웹서버 하나만을 위한 OS는 웹서버 기능만 있으면 된다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템도, 사용자 관리도, 불필요한 드라이버도 모두 없는 초경량 전용 OS가 unikernel이다.
 
 ---
 
@@ -141,11 +138,11 @@ unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **make menuconfig** | Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) SYSGEN 도구 |
+| **make menuconfig** | Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) SYSGEN 도구 |
 | **Yocto** | 임베디드 Linux SYSGEN |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a></strong> | 현대적 SYSGEN 개념 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a></strong> | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 SYSGEN |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/">Unikernel</a></strong> | 극한 최적화 SYSGEN |
+| <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/">IaC</a></strong> | 현대적 SYSGEN 개념 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/">Docker</a></strong> | [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지 SYSGEN |
+| <strong><a href="/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/">Unikernel</a></strong> | 극한 최적화 SYSGEN |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,7 +166,7 @@ unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위�
 
 1. SYSGEN은 맞춤 양복 제작이에요 — 내 컴퓨터 하드웨어에 딱 맞는 운영체제를 만드는 거예요!
 2. Linux를 직접 빌드하면 필요 없는 드라이버를 빼고 최적화된 버전을 만들 수 있어요!
-3. 현대에는 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드가 새로운 SYSGEN이에요 — 필요한 것만 담은 가벼운 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들어요!
+3. 현대에는 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 빌드가 새로운 SYSGEN이에요 — 필요한 것만 담은 가벼운 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 만들어요!
 
 ---
 
@@ -177,7 +174,7 @@ unikernel이 SYSGEN의 극한이다. 특정 애플리케이션 하나만을 위�
 
 **진행 상황**: 31 / 800
 
-<- **이전**: [30. UEFI vs BIOS — 현대 펌웨어 부팅 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/030_uefi_vs_bios/)
-**다음**: [펌웨어 (Firmware)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) ->
+<- **이전**: [30. UEFI vs BIOS — 현대 펌웨어 부팅 표준](/studynote/02_operating_system/01_overview_architecture/030_uefi_vs_bios/)
+**다음**: [펌웨어 (Firmware)](/studynote/02_operating_system/01_overview_architecture/032_firmware/) ->
 
 ---

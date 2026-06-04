@@ -1,13 +1,10 @@
-+++
-title = "500. IaC 테라폼 모듈 상태 관리 (IaC Terraform Module State Management)"
-date = 2026-05-09
+---
+title: "500. IaC 테라폼 모듈 상태 관리 (IaC Terraform Module State Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 500 / 800
 
-<- **이전**: [499. 클라우드 알림 SNS PagerDuty 통합](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/499_cloud_alerting_sns_pagerduty_integration/)
-**다음**: [501. IaC Pulumi CDK 프로그래밍 언어 기반](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/501_iac_pulumi_cdk_programming_language_based/) ->
+<- **이전**: [499. 클라우드 알림 SNS PagerDuty 통합](/studynote/13_cloud_architecture/06_exam_summary/499_cloud_alerting_sns_pagerduty_integration/)
+**다음**: [501. IaC Pulumi CDK 프로그래밍 언어 기반](/studynote/13_cloud_architecture/06_exam_summary/501_iac_pulumi_cdk_programming_language_based/) ->
 
 ---

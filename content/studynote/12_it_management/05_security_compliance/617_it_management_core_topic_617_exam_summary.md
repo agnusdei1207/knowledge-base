@@ -1,13 +1,10 @@
-+++
-title = "617. IT 경영 관리 핵심 토픽 617번 시험 요약 (IT Management Core Topic 617 Exam Summary)"
-date = 2026-05-09
+---
+title: "617. IT 경영 관리 핵심 토픽 617번 시험 요약 (IT Management Core Topic 617 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ IT 경영 관리 영역은 유사한 명칭의 프레임워크가 혼재하므�
 
 **진행 상황**: 617 / 800
 
-<- **이전**: [616. IT 경영 관리 핵심 토픽 616번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/616_it_management_core_topic_616_exam_summary/)
-**다음**: [618. IT 경영 관리 핵심 토픽 618번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/618_it_management_core_topic_618_exam_summary/) ->
+<- **이전**: [616. IT 경영 관리 핵심 토픽 616번 시험 요약](/studynote/12_it_management/05_security_compliance/616_it_management_core_topic_616_exam_summary/)
+**다음**: [618. IT 경영 관리 핵심 토픽 618번 시험 요약](/studynote/12_it_management/05_security_compliance/618_it_management_core_topic_618_exam_summary/) ->
 
 ---

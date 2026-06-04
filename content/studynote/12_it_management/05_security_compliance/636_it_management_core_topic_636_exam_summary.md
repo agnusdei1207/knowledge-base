@@ -1,13 +1,10 @@
-+++
-title = "636. IT 경영 관리 핵심 토픽 636번 시험 요약 (IT Management Core Topic 636 Exam Summary)"
-date = 2026-05-09
+---
+title: "636. IT 경영 관리 핵심 토픽 636번 시험 요약 (IT Management Core Topic 636 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -202,7 +199,7 @@ UC  (Underpinning Contract)      -+--> SLA (Service Level Agreement)
 
 **진행 상황**: 636 / 800
 
-<- **이전**: [635. IT 경영 관리 핵심 토픽 635번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/635_it_management_core_topic_635_exam_summary/)
-**다음**: [637. IT 경영 관리 핵심 토픽 637번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/637_it_management_core_topic_637_exam_summary/) ->
+<- **이전**: [635. IT 경영 관리 핵심 토픽 635번 시험 요약](/studynote/12_it_management/05_security_compliance/635_it_management_core_topic_635_exam_summary/)
+**다음**: [637. IT 경영 관리 핵심 토픽 637번 시험 요약](/studynote/12_it_management/05_security_compliance/637_it_management_core_topic_637_exam_summary/) ->
 
 ---

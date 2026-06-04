@@ -1,25 +1,22 @@
-+++
-title = "143. 생성 패턴의 목적 (Creational Patterns Purpose)"
-date = 2026-05-10
+---
+title: "143. 생성 패턴의 목적 (Creational Patterns Purpose)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) ([Creational Patterns](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/))은 객체 인스턴스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 캡슐화해 클라이언트가 구체 클래스와 직접 결합되지 않게 만든다.
-> 2. **가치**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직을 분리하면 확장성, 테스트 용이성, 제품군 교체 유연성이 함께 높아진다.
-> 3. **판단 포인트**: 무엇을 만들까보다 누가 어떤 기준으로 만들까를 분리해야 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 효과가 나온다.
+> 1. **본질**: [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/) ([Creational Patterns](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/))은 객체 인스턴스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 캡슐화해 클라이언트가 구체 클래스와 직접 결합되지 않게 만든다.
+> 2. **가치**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직을 분리하면 확장성, 테스트 용이성, 제품군 교체 유연성이 함께 높아진다.
+> 3. **판단 포인트**: 무엇을 만들까보다 누가 어떤 기준으로 만들까를 분리해야 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 효과가 나온다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-객체지향 설계에서 가장 흔한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 실수는 클라이언트가 `new ConcreteClass()`를 직접 호출하며 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 스스로 떠안는 것이다. 처음에는 단순하지만, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙이 늘어나면 클라이언트는 구체 클래스, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 값, 조립 순서, 환경 분기까지 모두 알게 된다.
+객체지향 설계에서 가장 흔한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 실수는 클라이언트가 `new ConcreteClass()`를 직접 호출하며 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 스스로 떠안는 것이다. 처음에는 단순하지만, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙이 늘어나면 클라이언트는 구체 클래스, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 값, 조립 순서, 환경 분기까지 모두 알게 된다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -33,15 +30,15 @@ tags = ["studynote-design-supervision"]
 +----------------------------------------------------------------------+
 ```
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 목적은 이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 별도 계층, 메서드, 객체, 원형으로 옮기는 데 있다. 즉 클라이언트는 무슨 역할의 객체가 필요하다까지만 알고, 구체적으로 어떻게 만들어지는가는 숨긴다. 이 구조가 OCP와 DIP를 실무 수준에서 돕는다.
+[생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 목적은 이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 별도 계층, 메서드, 객체, 원형으로 옮기는 데 있다. 즉 클라이언트는 무슨 역할의 객체가 필요하다까지만 알고, 구체적으로 어떻게 만들어지는가는 숨긴다. 이 구조가 OCP와 DIP를 실무 수준에서 돕는다.
 
-- **📢 섹션 요약 비유**: 손님이 주방에 들어가 직접 요리하는 대신, 주문만 하고 요리는 주방 시스템이 알아서 하게 만드는 것이 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.
+- **📢 섹션 요약 비유**: 손님이 주방에 들어가 직접 요리하는 대신, 주문만 하고 요리는 주방 시스템이 알아서 하게 만드는 것이 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 모두 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 분리하지만, 해결하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 다르다. 유일 인스턴스 보장, 서브클래스 위임, 패밀리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 단계적 조립, [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)처럼 문제 유형별로 초점이 달라진다.
+[생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 모두 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임을 분리하지만, 해결하는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 다르다. 유일 인스턴스 보장, 서브클래스 위임, 패밀리 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 단계적 조립, [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기반 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)처럼 문제 유형별로 초점이 달라진다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -57,33 +54,33 @@ tags = ["studynote-design-supervision"]
 +----------------------------------------------------------------------+
 ```
 
-| 패턴 | 해결하는 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제 | 핵심 메커니즘 |
+| 패턴 | 해결하는 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제 | 핵심 메커니즘 |
 |:---|:---|:---|
-| [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | 인스턴스가 하나만 있어야 함 | private [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자와 전역 접근점 |
-| [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 타입을 하위 클래스가 결정 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메서드 오버라이드 |
-| [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 관련 객체 세트를 일관되게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품군별 팩토리 인터페이스 |
-| [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 복잡한 객체를 단계적으로 조립 | 조립 과정과 표현 분리 |
-| [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 큰 객체를 빠르게 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | [clone](/knowledge-base/studynote/02_operating_system/02_process_thread/149_clone_system_call/) 또는 원형 복사 |
+| [Singleton](/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | 인스턴스가 하나만 있어야 함 | private [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자와 전역 접근점 |
+| [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 타입을 하위 클래스가 결정 | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 메서드 오버라이드 |
+| [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 관련 객체 세트를 일관되게 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품군별 팩토리 인터페이스 |
+| [Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 복잡한 객체를 단계적으로 조립 | 조립 과정과 표현 분리 |
+| [Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 큰 객체를 빠르게 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | [clone](/studynote/02_operating_system/02_process_thread/149_clone_system_call/) 또는 원형 복사 |
 
-이 다섯 패턴은 서로 경쟁 관계라기보다 문제 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 관계다. 예를 들어 UI 테마처럼 버튼·체크박스를 함께 바꿔야 하면 Abstract Factory가 맞고, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 응답처럼 선택 필드가 많은 객체를 안전하게 만들려면 Builder가 더 적합하다.
+이 다섯 패턴은 서로 경쟁 관계라기보다 문제 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 관계다. 예를 들어 UI 테마처럼 버튼·체크박스를 함께 바꿔야 하면 Abstract Factory가 맞고, [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 응답처럼 선택 필드가 많은 객체를 안전하게 만들려면 Builder가 더 적합하다.
 
-- **📢 섹션 요약 비유**: 같은 만든다라는 행위라도 공장 생산, 맞춤 제작, 복사, 한정 수량 관리가 서로 다른 방식인 것처럼 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)도 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제의 종류가 다르다.
+- **📢 섹션 요약 비유**: 같은 만든다라는 행위라도 공장 생산, 맞춤 제작, 복사, 한정 수량 관리가 서로 다른 방식인 것처럼 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)도 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제의 종류가 다르다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 실무 판단은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 복잡성을 어디서 느끼는가에 달려 있다. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 개수, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 타입, 조립 절차, 패밀리 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용 중 무엇이 핵심인지에 따라 패턴 선택이 갈린다.
+[생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 실무 판단은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 복잡성을 어디서 느끼는가에 달려 있다. [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 개수, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 타입, 조립 절차, 패밀리 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용 중 무엇이 핵심인지에 따라 패턴 선택이 갈린다.
 
 | 문제 상황 | 우선 검토 패턴 | 이유 |
 |:---|:---|:---|
-| 애플리케이션 전역에서 인스턴스 1개만 유지 | [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 수 자체가 핵심 제약 |
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 타입이 서브클래스나 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 달라짐 | [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 결정을 하위 계층에 위임 |
-| [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·테마별 관련 객체를 세트로 교체 | [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 제품군 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 함께 보장 |
-| 선택 파라미터가 많아 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 폭발 발생 | [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 조립 단계와 표현을 분리 |
-| [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 비용이 큰 객체를 반복 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [Prototype](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | 새 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)보다 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 효율적 |
+| 애플리케이션 전역에서 인스턴스 1개만 유지 | [Singleton](/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 수 자체가 핵심 제약 |
+| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 타입이 서브클래스나 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 달라짐 | [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 결정을 하위 계층에 위임 |
+| [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)·테마별 관련 객체를 세트로 교체 | [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 제품군 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 함께 보장 |
+| 선택 파라미터가 많아 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자 폭발 발생 | [Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 조립 단계와 표현을 분리 |
+| [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 비용이 큰 객체를 반복 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | [Prototype](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | 새 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)보다 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)가 효율적 |
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와도 연결된다. Spring 같은 프레임워크는 [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/), [Singleton](/knowledge-base/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 개념을 시스템 수준으로 확장한 예다. 그래서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 이해하면 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작도 더 명확하게 보인다.
+[생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 IoC [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와도 연결된다. Spring 같은 프레임워크는 [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/), [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/), [Singleton](/studynote/04_software_engineering/04_testing_quality/253_singleton_pattern_single_instance/) 개념을 시스템 수준으로 확장한 예다. 그래서 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 이해하면 [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 동작도 더 명확하게 보인다.
 
 - **📢 섹션 요약 비유**: 어떤 집은 열쇠 하나만 있으면 되고, 어떤 집은 가구 세트를 통째로 맞춰야 하며, 어떤 집은 샘플 하우스를 복사해 짓는 것이 더 빠른 것과 같은 차이다.
 
@@ -91,41 +88,41 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/), [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 멀티 플랫폼 UI, 복잡한 DTO 조립, 캐시 가능한 원형 객체 관리 등에 널리 쓰인다. 중요한 것은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 감춘다가 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변경의 파급을 어디서 끊을지 설계하는 것</strong>이다.
+실무에서 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/), [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 멀티 플랫폼 UI, 복잡한 DTO 조립, 캐시 가능한 원형 객체 관리 등에 널리 쓰인다. 중요한 것은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 코드를 감춘다가 아니라 <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변경의 파급을 어디서 끊을지 설계하는 것</strong>이다.
 
-기술사 답안에서는 5개 패턴을 단순 나열하기보다, 직접 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 문제 -> [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임 분리 -> 적합한 패턴 선택 -> 기대효과 흐름으로 서술하면 구조적 완성도가 높다.
+기술사 답안에서는 5개 패턴을 단순 나열하기보다, 직접 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 문제 -> [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 책임 분리 -> 적합한 패턴 선택 -> 기대효과 흐름으로 서술하면 구조적 완성도가 높다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 클라이언트가 구체 클래스 이름과 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 절차를 직접 알고 있는가?
-2. [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 타입, 제품군, 조립 순서, 인스턴스 개수 중 무엇이 핵심 문제인가?
+1. 클라이언트가 구체 클래스 이름과 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 절차를 직접 알고 있는가?
+2. [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)할 타입, 제품군, 조립 순서, 인스턴스 개수 중 무엇이 핵심 문제인가?
 3. 새 구현 추가 시 클라이언트 수정 없이 확장 가능한가?
-4. 테스트에서 [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 또는 대체 구현으로 쉽게 바꿔 끼울 수 있는가?
+4. 테스트에서 [Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 또는 대체 구현으로 쉽게 바꿔 끼울 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 오답 포인트
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 오답 포인트
 
 - 단순 값 객체에도 과도한 Builder를 적용해 코드만 비대하게 만드는 설계
-- Singleton을 상태 많은 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 남용해 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제를 만드는 설계
-- Abstract Factory가 필요한데 개별 Factory Method만 흩뿌려 제품군 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 잃는 설계
+- Singleton을 상태 많은 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체에 남용해 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제를 만드는 설계
+- Abstract Factory가 필요한데 개별 Factory Method만 흩뿌려 제품군 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)을 잃는 설계
 
-- **📢 섹션 요약 비유**: 주문서를 정리하지 않은 식당은 메뉴가 늘어날수록 주방이 혼란해지지만, [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 쓰면 누가 무엇을 어떤 규칙으로 만들지 주방 동선이 정리된다.
+- **📢 섹션 요약 비유**: 주문서를 정리하지 않은 식당은 메뉴가 늘어날수록 주방이 혼란해지지만, [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 쓰면 누가 무엇을 어떤 규칙으로 만들지 주방 동선이 정리된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 잘 쓰면 클라이언트는 역할에만 의존하고 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항에서는 자유로워진다. 이는 구현 교체, 테스트 대역 주입, 제품군 전환, [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 확장에 모두 유리하다. 특히 시스템이 커질수록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직 중앙화의 효과가 커진다.
+[생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)을 잘 쓰면 클라이언트는 역할에만 의존하고 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항에서는 자유로워진다. 이는 구현 교체, 테스트 대역 주입, 제품군 전환, [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 기반 확장에 모두 유리하다. 특히 시스템이 커질수록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직 중앙화의 효과가 커진다.
 
-결론적으로 [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 목적은 객체를 예쁘게 만드는 것이 아니라 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변화와 클라이언트 코드를 분리하는 것</strong>이다. 이 관점을 잡으면 5개 패턴을 문제 중심으로 훨씬 쉽게 구분할 수 있다.
+결론적으로 [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)의 목적은 객체를 예쁘게 만드는 것이 아니라 <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> 변화와 클라이언트 코드를 분리하는 것</strong>이다. 이 관점을 잡으면 5개 패턴을 문제 중심으로 훨씬 쉽게 구분할 수 있다.
 
 | 기대효과 | 구체적 내용 |
 |:---|:---|
-| [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소 | 클라이언트가 구체 클래스 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항에서 분리됨 |
+| [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소 | 클라이언트가 구체 클래스 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 세부사항에서 분리됨 |
 | 확장성 향상 | 새 구현 추가 시 기존 호출부 수정 최소화 |
-| 테스트 용이성 | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/), [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), 대체 구현 주입이 쉬워짐 |
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙 중앙화 | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 정책과 조립 순서를 한곳에서 관리 가능 |
+| 테스트 용이성 | [Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/), [Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/), 대체 구현 주입이 쉬워짐 |
+| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 규칙 중앙화 | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 정책과 조립 순서를 한곳에서 관리 가능 |
 
-- **📢 섹션 요약 비유**: [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 건물을 예쁘게 칠하는 기술이 아니라, 자재 반입과 조립 순서를 통제하는 공정 관리 체계에 가깝다.
+- **📢 섹션 요약 비유**: [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 건물을 예쁘게 칠하는 기술이 아니라, 자재 반입과 조립 순서를 통제하는 공정 관리 체계에 가깝다.
 
 ---
 
@@ -133,11 +130,11 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 확장 시 기존 호출부 수정을 줄이는 기준 |
-| [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) | 구체 클래스 대신 추상화에 의존하게 만드는 기반 |
-| [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) / IoC | [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 프레임워크 수준으로 확장된 대표 사례 |
-| [Builder](/knowledge-base/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 복잡한 조립형 객체 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
-| [Abstract Factory](/knowledge-base/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 관련 객체 패밀리 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
+| [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 방식 확장 시 기존 호출부 수정을 줄이는 기준 |
+| [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) | 구체 클래스 대신 추상화에 의존하게 만드는 기반 |
+| [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) / IoC | [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 프레임워크 수준으로 확장된 대표 사례 |
+| [Builder](/studynote/04_software_engineering/04_testing_quality/256_builder_pattern_step_by_step_creation/) | 복잡한 조립형 객체 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
+| [Abstract Factory](/studynote/04_software_engineering/04_testing_quality/255_abstract_factory_pattern_object_families/) | 관련 객체 패밀리 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)의 대표 패턴 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,13 +157,13 @@ tags = ["studynote-design-supervision"]
 생성 책임 분리 · 확장성 · 테스트 용이성 향상
 ```
 
-이 흐름은 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 단순 코딩 습관이 아니라 구조적 의존 문제이며, [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 그 결합을 끊는 방식임을 보여 준다.
+이 흐름은 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 문제가 단순 코딩 습관이 아니라 구조적 의존 문제이며, [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)이 그 결합을 끊는 방식임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 장난감을 만들 때 친구가 매번 공장에 직접 들어가 부품을 꺼내 오면 너무 복잡해져요.
 2. 그래서 누가 만들어 줄지, 세트로 만들지, 복사해서 만들지 정하는 규칙이 필요해요.
-3. [생성 패턴](/knowledge-base/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 장난감 만드는 방법을 똑똑하게 나누는 규칙이에요.
+3. [생성 패턴](/studynote/04_software_engineering/04_testing_quality/252_creational_patterns_overview/)은 장난감 만드는 방법을 똑똑하게 나누는 규칙이에요.
 
 ---
 
@@ -174,7 +171,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 199 / 530
 
-<- **이전**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/)
-**다음**: [144. 싱글턴 패턴 (Singleton Pattern)](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/) ->
+<- **이전**: [142. GoF 23가지 패턴 분류 (GoF 23 Design Patterns Classification)](/studynote/11_design_supervision/10_patterns_antipatterns/142_gof_23_patterns_classification/)
+**다음**: [144. 싱글턴 패턴 (Singleton Pattern)](/studynote/11_design_supervision/03_gof_creational_structural/144_singleton_pattern/) ->
 
 ---

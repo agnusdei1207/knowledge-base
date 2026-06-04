@@ -1,27 +1,24 @@
-+++
-title = "301. BERT (Bidirectional Encoder Representations from Transformers)"
-date = 2026-05-09
+---
+title: "301. BERT (Bidirectional Encoder Representations from Transformers)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: BERT (Bidirectional [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향(Bidirectional)으로 학습하여, 각 토큰의 표현을 좌우 양방향 문맥을 동시에 반영해 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 2018년 구글의 사전 학습 언어 모델이다.
-> 2. **가치**: [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 언어 모델링 ([MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/), Masked Language Modeling)과 다음 문장 예측 ([NSP](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/), [Next Sentence Prediction](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/)) 두 가지 비지도 사전 학습 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)로 대규모 텍스트에서 깊은 양방향 언어 표현을 학습한 뒤, 다운스트림 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)만으로 SOTA를 달성한다.
-> 3. **판단 포인트**: BERT는 [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-only) 구조라 텍스트 **이해** [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/), QA)에 강하고, GPT처럼 텍스트 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>은 하지 않는다. 이 차이를 기술사 시험에서 반드시 구별해야 한다.
+> 1. **본질**: BERT (Bidirectional [Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) Representations from Transformers)는 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향(Bidirectional)으로 학습하여, 각 토큰의 표현을 좌우 양방향 문맥을 동시에 반영해 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 2018년 구글의 사전 학습 언어 모델이다.
+> 2. **가치**: [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 언어 모델링 ([MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/), Masked Language Modeling)과 다음 문장 예측 ([NSP](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/), [Next Sentence Prediction](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/)) 두 가지 비지도 사전 학습 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)로 대규모 텍스트에서 깊은 양방향 언어 표현을 학습한 뒤, 다운스트림 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)만으로 SOTA를 달성한다.
+> 3. **판단 포인트**: BERT는 [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)-only) 구조라 텍스트 **이해** [태스크](/studynote/02_operating_system/02_process_thread/150_task/)([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/studynote/16_bigdata/05_analysis/117_ner/), QA)에 강하고, GPT처럼 텍스트 <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>은 하지 않는다. 이 차이를 기술사 시험에서 반드시 구별해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기존 언어 모델(ELMo, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-1)은 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(좌->우 또는 우->좌)으로만 학습했다. "그는 은행에 **앉았다**"에서 "은행"의 의미가 '금융 기관'인지 '강가의 둑'인지 판단하려면, 앞의 "그는"과 뒤의 "앉았다"를 동시에 고려해야 한다. [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 이 양방향 문맥을 동시에 볼 수 없어 의미 모호성 해소에 취약했다.
+기존 언어 모델(ELMo, [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-1)은 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/)(좌->우 또는 우->좌)으로만 학습했다. "그는 은행에 **앉았다**"에서 "은행"의 의미가 '금융 기관'인지 '강가의 둑'인지 판단하려면, 앞의 "그는"과 뒤의 "앉았다"를 동시에 고려해야 한다. [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 이 양방향 문맥을 동시에 볼 수 없어 의미 모호성 해소에 취약했다.
 
-BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향으로 활용하여 이 문제를 해결했다. 입력 전체를 동시에 보는 셀프 어텐션 덕분에 각 토큰은 자신의 좌측과 우측 모든 토큰으로부터 정보를 받아 표현(Representation)이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
+BERT는 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)를 양방향으로 활용하여 이 문제를 해결했다. 입력 전체를 동시에 보는 셀프 어텐션 덕분에 각 토큰은 자신의 좌측과 우측 모든 토큰으로부터 정보를 받아 표현(Representation)이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다.
 
 ```text
 +----------------------------------------------+
@@ -32,7 +29,7 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 눈가리개를 하고 오른쪽에서 왼쪽으로만 책을 읽는 것이고, BERT는 눈가리개를 벗고 책 전체를 동시에 보면서 "앞 문장, 뒷 문장 다 보고 이 단어가 어떤 뜻인지 결정"하는 것이다. 두 눈으로 보면 깊이감(문맥 이해)이 달라진다.
+- **📢 섹션 요약 비유**: [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 모델은 눈가리개를 하고 오른쪽에서 왼쪽으로만 책을 읽는 것이고, BERT는 눈가리개를 벗고 책 전체를 동시에 보면서 "앞 문장, 뒷 문장 다 보고 이 단어가 어떤 뜻인지 결정"하는 것이다. 두 눈으로 보면 깊이감(문맥 이해)이 달라진다.
 
 ---
 
@@ -67,48 +64,48 @@ BERT는 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keyw
 
 | 모델 | 레이어 수 | 어텐션 헤드 | 파라미터 | 사용 목적 |
 |:---|:---|:---|:---|:---|
-| BERT-Base | 12 | 12 | 110M | 일반 NLP [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
-| BERT-Large | 24 | 16 | 340M | 고성능 NLP [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) |
-| RoBERTa | 24 | 16 | 355M | [NSP](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) 제거, 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| BERT-Base | 12 | 12 | 110M | 일반 NLP [태스크](/studynote/02_operating_system/02_process_thread/150_task/) |
+| BERT-Large | 24 | 16 | 340M | 고성능 NLP [태스크](/studynote/02_operating_system/02_process_thread/150_task/) |
+| RoBERTa | 24 | 16 | 355M | [NSP](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) 제거, 더 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 | KoELECTRA | 12 | 12 | 110M | 한국어 특화 |
 
-- **📢 섹션 요약 비유**: [MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) 학습은 빈칸 채우기 문제를 수십억 개 풀어보는 자습이다. "나는 [빈칸]에 갔다" — 앞뒤를 다 보고 "학교"인지 "병원"인지 맞춰야 하므로, 이 학습만으로도 언어의 풍부한 문맥 구조를 통째로 흡수한다. 선생님(레이블러)이 없어도 인터넷 텍스트 전체가 문제집이 된다.
+- **📢 섹션 요약 비유**: [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) 학습은 빈칸 채우기 문제를 수십억 개 풀어보는 자습이다. "나는 [빈칸]에 갔다" — 앞뒤를 다 보고 "학교"인지 "병원"인지 맞춰야 하므로, 이 학습만으로도 언어의 풍부한 문맥 구조를 통째로 흡수한다. 선생님(레이블러)이 없어도 인터넷 텍스트 전체가 문제집이 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | BERT | [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) |
+| 항목 | BERT | [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) |
 |:---|:---|:---|
-| 구조 | [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용 | [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전용 |
-| 어텐션 방향 | 양방향 (Bidirectional) | [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) (Left-to-Right, 인과적) |
-| 사전 학습 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | [MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) + [NSP](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) | 다음 토큰 예측 (언어 모델링) |
-| 강점 | 텍스트 이해, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/), QA | 텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 요약, 대화 |
-| 출력 | 각 토큰별 문맥 벡터 | 다음 토큰 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 |
+| 구조 | [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) 전용 | [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전용 |
+| 어텐션 방향 | 양방향 (Bidirectional) | [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) (Left-to-Right, 인과적) |
+| 사전 학습 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) | [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) + [NSP](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) | 다음 토큰 예측 (언어 모델링) |
+| 강점 | 텍스트 이해, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), [NER](/studynote/16_bigdata/05_analysis/117_ner/), QA | 텍스트 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 요약, 대화 |
+| 출력 | 각 토큰별 문맥 벡터 | 다음 토큰 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 |
 
-- **📢 섹션 요약 비유**: BERT는 독서 전문가(이해)고 GPT는 작가([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))다. 독서 전문가는 책을 처음부터 끝까지 읽고 "이 문장의 의미가 뭔지" 완벽히 분석한다. 작가는 앞 내용만 보고 다음 내용을 써 내려간다. 같은 [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반이지만 목적에 따라 반대 방향으로 훈련된다.
+- **📢 섹션 요약 비유**: BERT는 독서 전문가(이해)고 GPT는 작가([생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))다. 독서 전문가는 책을 처음부터 끝까지 읽고 "이 문장의 의미가 뭔지" 완벽히 분석한다. 작가는 앞 내용만 보고 다음 내용을 써 내려간다. 같은 [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반이지만 목적에 따라 반대 방향으로 훈련된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">파인 튜닝</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
-- 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/): [CLS] 토큰 벡터 위에 선형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
-- [개체명 인식](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)([NER](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)): 각 토큰별 벡터에 레이블 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
+<strong><a href="/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/">파인 튜닝</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>:
+- 문서 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/): [CLS] 토큰 벡터 위에 선형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
+- [개체명 인식](/studynote/16_bigdata/05_analysis/117_ner/)([NER](/studynote/16_bigdata/05_analysis/117_ner/)): 각 토큰별 벡터에 레이블 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 추가
 - 질의응답(QA): 질문+지문을 입력으로 정답 시작/끝 위치 예측
-- 자연어 추론(NLI): 두 문장 쌍을 입력해 함의/모순/중립 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+- 자연어 추론(NLI): 두 문장 쌍을 입력해 함의/모순/중립 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-**한국어 BERT**: KoBERT (SKT), KoELECTRA (monologg), KlueRoBERTa가 한국어 NLP [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)의 표준 사전 학습 모델로 활용된다. 기술사 시험 채점 시스템, 법률 문서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 금융 뉴스 [감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 등 실무 응용이 넓다.
+**한국어 BERT**: KoBERT (SKT), KoELECTRA (monologg), KlueRoBERTa가 한국어 NLP [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)의 표준 사전 학습 모델로 활용된다. 기술사 시험 채점 시스템, 법률 문서 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 금융 뉴스 [감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/) 등 실무 응용이 넓다.
 
-- **📢 섹션 요약 비유**: BERT [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)은 법학대학원 졸업생(사전 학습된 BERT)에게 "이번에는 특허 법원 일을 하자"라고 전문 직무 교육([파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))을 시키는 것이다. 법학 기본 지식은 이미 갖춰져 있으니, 특허 관련 판례 1만 건만 더 학습하면 특허 전문 변호사가 된다.
+- **📢 섹션 요약 비유**: BERT [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)은 법학대학원 졸업생(사전 학습된 BERT)에게 "이번에는 특허 법원 일을 하자"라고 전문 직무 교육([파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))을 시키는 것이다. 법학 기본 지식은 이미 갖춰져 있으니, 특허 관련 판례 1만 건만 더 학습하면 특허 전문 변호사가 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) + [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))"이라는 [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 패러다임을 NLP 표준으로 확립한 혁명적 모델이다. 출시 직후 11개 NLP 벤치마크에서 SOTA를 달성했으며, 이후 RoBERTa, ALBERT, ELECTRA, DeBERTa로 진화하며 자연어 이해의 표준 기반이 됐다. [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)) 시대의 문을 연 선구자로서 ChatGPT 시대의 직접적인 조상이다.
+BERT는 "사전 학습(Pre-[training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/)) + [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)([Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/))"이라는 [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) 패러다임을 NLP 표준으로 확립한 혁명적 모델이다. 출시 직후 11개 NLP 벤치마크에서 SOTA를 달성했으며, 이후 RoBERTa, ALBERT, ELECTRA, DeBERTa로 진화하며 자연어 이해의 표준 기반이 됐다. [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)([Foundation Model](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)) 시대의 문을 연 선구자로서 ChatGPT 시대의 직접적인 조상이다.
 
-- **📢 섹션 요약 비유**: BERT는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 언어 이해의 "교과서"다. 한국어 문법책을 완벽히 습득한 학생처럼, BERT를 [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)하면 어느 분야 시험(NLP [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))에서든 상위권을 유지한다. 이 범용 언어 지식이 담긴 교과서 덕분에 각 기업은 처음부터 AI를 훈련할 필요 없이 BERT 위에 전문 지식만 덧붙이면 된다.
+- **📢 섹션 요약 비유**: BERT는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 언어 이해의 "교과서"다. 한국어 문법책을 완벽히 습득한 학생처럼, BERT를 [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)하면 어느 분야 시험(NLP [태스크](/studynote/02_operating_system/02_process_thread/150_task/))에서든 상위권을 유지한다. 이 범용 언어 지식이 담긴 교과서 덕분에 각 기업은 처음부터 AI를 훈련할 필요 없이 BERT 위에 전문 지식만 덧붙이면 된다.
 
 ---
 
@@ -116,11 +113,11 @@ BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [MLM](/knowledge-base/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) ([마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 언어 모델링) | [MASK], 빈칸 예측, 비지도 / BERT 사전 학습의 핵심 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 1 |
-| [NSP](/knowledge-base/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) (다음 문장 예측) | [CLS], 문장 쌍, IsNext / BERT 사전 학습의 핵심 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 2 |
-| [파인 튜닝](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) ([Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) | 다운스트림, 소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / BERT를 특정 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)에 적응시키는 방법 |
-| [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) | [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전용, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) / BERT의 반대 방향 학습 방식의 언어 모델 |
-| [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) | 사전 학습, [전이 학습](/knowledge-base/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) / BERT가 확립한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 패러다임 |
+| [MLM](/studynote/10_ai/02_dl_architecture_new/138_mlm_learning/) ([마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 언어 모델링) | [MASK], 빈칸 예측, 비지도 / BERT 사전 학습의 핵심 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 1 |
+| [NSP](/studynote/10_ai/02_dl_architecture_new/139_nsp_next_sentence_prediction/) (다음 문장 예측) | [CLS], 문장 쌍, IsNext / BERT 사전 학습의 핵심 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 2 |
+| [파인 튜닝](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/) ([Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) | 다운스트림, 소량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / BERT를 특정 [태스크](/studynote/02_operating_system/02_process_thread/150_task/)에 적응시키는 방법 |
+| [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) | [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) 전용, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) / BERT의 반대 방향 학습 방식의 언어 모델 |
+| [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) | 사전 학습, [전이 학습](/studynote/10_ai/02_dl_architecture_new/132_transfer_learning/) / BERT가 확립한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +137,7 @@ BERT는 "사전 학습(Pre-[training](/knowledge-base/studynote/04_software_engi
 
 **진행 상황**: 301 / 420
 
-<- **이전**: [300. 포지셔널 인코딩 (Positional Encoding)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)
-**다음**: [302. GPT (Generative Pre-trained Transformer)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ->
+<- **이전**: [300. 포지셔널 인코딩 (Positional Encoding)](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)
+**다음**: [302. GPT (Generative Pre-trained Transformer)](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "427. GPU 인스턴스 AI 학습 추론 최적화 (GPU Instance AI Training Inference)"
-date = 2026-05-09
+---
+title: "427. GPU 인스턴스 AI 학습 추론 최적화 (GPU Instance AI Training Inference)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 427 / 800
 
-<- **이전**: [426. 클라우드 ML 세이지메이커 버텍스 AI](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/426_cloud_ml_sagemaker_vertex_ai/)
-**다음**: [428. 클라우드 AI 서빙 엔드포인트 스케일링](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/428_cloud_ai_serving_endpoint_scaling/) ->
+<- **이전**: [426. 클라우드 ML 세이지메이커 버텍스 AI](/studynote/13_cloud_architecture/06_exam_summary/426_cloud_ml_sagemaker_vertex_ai/)
+**다음**: [428. 클라우드 AI 서빙 엔드포인트 스케일링](/studynote/13_cloud_architecture/06_exam_summary/428_cloud_ai_serving_endpoint_scaling/) ->
 
 ---

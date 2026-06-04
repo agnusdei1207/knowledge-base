@@ -1,13 +1,10 @@
-+++
-title = "402. 그라파나 대시보드 시각화 알림 (Grafana Dashboard Visualization Alerting)"
-date = 2026-05-09
+---
+title: "402. 그라파나 대시보드 시각화 알림 (Grafana Dashboard Visualization Alerting)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 402 / 800
 
-<- **이전**: [401. 프로메테우스 메트릭 수집 저장 쿼리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/401_prometheus_metrics_collection_storage_query/)
-**다음**: [403. 오픈텔레메트리 분산 추적 표준 수집](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/403_opentelemetry_distributed_tracing_standard/) ->
+<- **이전**: [401. 프로메테우스 메트릭 수집 저장 쿼리](/studynote/13_cloud_architecture/06_exam_summary/401_prometheus_metrics_collection_storage_query/)
+**다음**: [403. 오픈텔레메트리 분산 추적 표준 수집](/studynote/13_cloud_architecture/06_exam_summary/403_opentelemetry_distributed_tracing_standard/) ->
 
 ---

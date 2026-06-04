@@ -1,26 +1,23 @@
-+++
-title = "455. 이중 버퍼링 (Double Buffering)"
-date = 2026-05-09
+---
+title: "455. 이중 버퍼링 (Double Buffering)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 이중 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))은 스토리지와 입출력 경로 최적화에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))과의 관계를 함께 봐야 이중 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))은 스토리지와 입출력 경로 최적화에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))과의 관계를 함께 봐야 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-> 1. **ëì**: ìì ëíë(Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì ëì ëíê êì "ëìíë ë ììê ëìë ëì ììëì ëìì íë ëë íì(Dead Time)"ì íêë ëìê ìí, **ë(RAM)ì ëêì íêì ëí ë ê(A, B)ë ëìëê íí ìë ëêì êë ìê ìë êêì I/O ëëí íë êë**ìë.
-> 2. **êì**: íì ëí(A)ìì ëìíë ëìíë ëëëë ê ìëì ìê ëì, ëìì ìê ëëì ë ëí(B)ì ëíìí ííì ëìì ììëììëì <strong>CPU, ëìí, ëìë ë ëë íëìì ììëì ë 1íëì ìë ìê(<a href="/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>) ìì 100% íêëìíë êíì ìëí(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>ì ëìëë.
+> 1. **ëì**: ìì ëíë(Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì ëì ëíê êì "ëìíë ë ììê ëìë ëì ììëì ëìì íë ëë íì(Dead Time)"ì íêë ëìê ìí, **ë(RAM)ì ëêì íêì ëí ë ê(A, B)ë ëìëê íí ìë ëêì êë ìê ìë êêì I/O ëëí íë êë**ìë.
+> 2. **êì**: íì ëí(A)ìì ëìíë ëìíë ëëëë ê ìëì ìê ëì, ëìì ìê ëëì ë ëí(B)ì ëíìí ííì ëìì ììëììëì <strong>CPU, ëìí, ëìë ë ëë íëìì ììëì ë 1íëì ìë ìê(<a href="/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/">Idle</a>) ìì 100% íêëìíë êíì ìëí(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong>ì ëìëë.
 > 3. **ìí**: ì êëì ëìë I/O ìíëë ììíë ëì, íë ìíí êëíì(êì ìì, ëëí ììì)ìì íëì ìììë **íìë(Tearing) íìì ëëíë íëí/ë ëí ìì(Swap)ì íì ëëë ìí**ëì ìëê ëëëì 144Hz ììì ë ì ìë ëëì êëì ììíë.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
@@ -34,8 +31,8 @@ tags = ["studynote-operating-system"]
 - **ð ëì**: ìì ëíëì **êììì ëë ëëê 2ìì**ì êë. ìë(ëí)ê 1êì ë, ìê Aê ìëì ëëì êë ììë ìê Bê ê ìëë ëê ëììêì êì ëëì ë ëë ëêì Aë ëëëë ëë íìë ëìì íë(ëì ëíì ëë). íìë ìëê 2ê(ìì ëí)ë ììêê ëëë. Bê 1ë ìëë ëê ìì ëëë êë ê ìê ëì, Aë ìì ìê 2ë ìëì ëëì ëì ëì ìì ëëë. Aì B ì ëê íë ëë íì í ìì êììì 2ë ìëë ëìêë.
 
 - **ëì ëê ë ëë ìëì êíí**:
-  1. **ëì ëíì íê**: I/O ììì CPUê ëêì êë ìë([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) ìëì íìíëì ëì ëì.
-  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/">Flip-Flop</a> (íí) ììëì ëì</strong>: ëëë êêì ìì ìê(ëí 1ê ëë) ë íìíë ëêë ìê(ìë)ì 2ëë ëíêíë ëëì ëë.
+  1. **ëì ëíì íê**: I/O ììì CPUê ëêì êë ìë([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)) ìëì íìíëì ëì ëì.
+  2. <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/">Flip-Flop</a> (íí) ììëì ëì</strong>: ëëë êêì ìì ìê(ëí 1ê ëë) ë íìíë ëêë ìê(ìë)ì 2ëë ëíêíë ëëì ëë.
   3. **êëíìììì êì**: ëëíê íëì êëë ëìì êëíìëê íëì ëììì íìì ìììë íìì ìëí íêíë íë ëìíëìì íìì ë.
 
 ```text
@@ -72,9 +69,9 @@ tags = ["studynote-operating-system"]
 ìì ëíëì ìíí êíì ëìì 'ìììì ìëì' ëìë êì ììììë íêí íííë.
 - **ììì(Producer)**: ëìí ëëìë. ëìíë ë ëíì ìì ëë ë.
 - **ìëì(Consumer)**: CPU ììê. ë ëíì ëìíë ììëë ë.
-ì ëì 1êì ëíë ëê "ëê ëìê ëì!" "ëê ëê ëì!" íê ë([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/[Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) êíì ëìë ììë ìëë ììì ëìíë.
+ì ëì 1êì ëíë ëê "ëê ëìê ëì!" "ëê ëê ëì!" íê ë([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)/[Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)) êíì ëìë ììë ìëë ììì ëìíë.
 íìë 2êì ëíë ìë ëì ê íìê ìë.
-ìììê `Buffer 1`ì ëë ëì, ìëìë ììíê `Buffer 2`ìì ëëìë ëë. ë ëëë ììê ëëììë ììí ëëëì ììëë ëìíê êì([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) ìë ìê, ìíìí ììì ëë ìë $O(1)$ ëêíê ìëíë.
+ìììê `Buffer 1`ì ëë ëì, ìëìë ììíê `Buffer 2`ìì ëëìë ëë. ë ëëë ììê ëëììë ììí ëëëì ììëë ëìíê êì([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) ìë ìê, ìíìí ììì ëë ìë $O(1)$ ëêíê ìëíë.
 
 ---
 
@@ -96,18 +93,18 @@ tags = ["studynote-operating-system"]
 
 ### ëê 1: ìíí êëíì(ëëí)ììì íë ììì(Tearing) ëì
 
-ìì ëíëì êì ëëìê íìíê ëìëìê êì ì ìëì ëìê ëë êëí ìë([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ì ëëí ììì ìììë.
+ìì ëíëì êì ëëìê íìíê ëìëìê êì ì ìëì ëìê ëë êëí ìë([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ì ëëí ììì ìììë.
 
-| ëê íë | ëì ëíë (Single [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | ìì ëíë (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) |
+| ëê íë | ëì ëíë (Single [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | ìì ëíë (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) |
 |:---|:---|:---|
 | **ëì êì** | ëëì ë(VRAM)ì ëíì 1ìì GPUê ìì êë | GPUë ëì(Back) ëíìì êëê, ëëíë ìì(Front) ëíìë ëìì |
 | **ìëì ìë** | **íìë(Tearing - íë ììì)** ëì | **íë ììì ìë ëì** |
 | **íìë ìì** | ëëíê êëì ììì ìëë ììíë ëììë ììì, GPUê ê ëíì ìì ëì íëìì ììêìë ëìí ëëì íë ìëëì ìë ìë, ìëëëì ì ìëì ëìë êêí íì íì íì | ëëíê ì ëíìë ë ë ëêì, GPUë ë ëíììë ììí êëê ìëê ëëë ìê ëíì 2êë ëì ìëë ìì(Swap)íëëëë ìì íì ìì ìì |
 
-### íëí ëíë (Triple [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì ëì
+### íëí ëíë (Triple [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì ëì
 ìêì ììì ëì ìë. ìì ëíëë ììì ììë.
 - GPUê ë(Back) ëíì êëì ë êëë. ëëíê íëí(Front) ëíë ë ììê ëêì ëì ìì(Swap)í ìê ìë. (ìëë V-Sync ë).
-- ê ìëì ìê ëì GPUë êë ëíìê ììì ë "ëìì([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))" íë. (êìëëì íìíë ìí ë, Input Lag ëì).
+- ê ìëì ìê ëì GPUë êë ëíìê ììì ë "ëìì([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))" íë. (êìëëì íìíë ìí ë, Input Lag ëì).
 - **íêì**: ëíìë 3ì(Triple)ìë ëëë! ëëíê íëí ìì ëê, GPUê ë ìì ë êëëë ìì ë ëêìë? GPUë ëì ìê ëì 'ìë(Third) ëíì'ì êëì íëìì ë ëì ëì êëë. íëììì ìë ìêì 0ìë ììí ëëë êêì íëì ìììê êëìë.
 
 ```text
@@ -121,7 +118,7 @@ tags = ["studynote-operating-system"]
 ```
 **[ëíëì íì]** ëíë íë ë ìêí ëëë VRAMì ìì ëêëìíì ëìêìë, êìëëì 144Hz ììíì ìí êê ëëë ëëìì êêì ìëíë êì íë êì ìì(ìëì, ìëí)ê ìëëì(NVIDIA) ììíì ìë íë êìë.
 
-- **ð ìì ìì ëì**: ìì ëíëì ëì([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ê ëë ë(Back)ìì íìì ë ëëê êëëëê, ëë ì(Front)ì 1ëì ëëë í ìëë ëêë êëë. ëìì ëìê ìì íìì ëëë 1ëì ëë ëêì ëë ëìì ëëëì(ìí ë) íëë êì. ìì ëíëì ëë ë ëêìì 2êë íì, íì ëë ëìê 1ëêììì ëëëë ëì ëë ëìê 2ëêììì ë íì(ëì íëì ëëë)ì ììíê íì êììë ëëë ëììëë.
+- **ð ìì ìì ëì**: ìì ëíëì ëì([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))ê ëë ë(Back)ìì íìì ë ëëê êëëëê, ëë ì(Front)ì 1ëì ëëë í ìëë ëêë êëë. ëìì ëìê ìì íìì ëëë 1ëì ëë ëêì ëë ëìì ëëëì(ìí ë) íëë êì. ìì ëíëì ëë ë ëêìì 2êë íì, íì ëë ëìê 1ëêììì ëëëë ëì ëë ëìê 2ëêììì ë íì(ëì íëì ëëë)ì ììíê íì êììë ëëë ëììëë.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -129,14 +126,14 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-### ìë ìëëì: [Zero-Downtime](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)(ëìë) ëíì Blue-Green ëí ìííì
-ìííìì ëí([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) ìíëììë ì ìì ëíëì 'ìì(Swap)' ìíì 100% ëìíê ëìëì ììì ìëíê ìë.
+### ìë ìëëì: [Zero-Downtime](/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/)(ëìë) ëíì Blue-Green ëí ìííì
+ìííìì ëí([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD) ìíëììë ì ìì ëíëì 'ìì(Swap)' ìíì 100% ëìíê ëìëì ììì ìëíê ìë.
 1. **ëì ìí**: ìëëíì(k8s) ìëì ì ëì(v2) ìì ìëìíí ë, êì ì(v1)ì ëê ì ìì ìë 10ì ëì ììëì ììì ìë(502 Bad Gateway)ë ëëë. (ëì ëíì ëë íì).
-2. <strong>ìì ëíë ëì (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/947_process/">Blue-Green Deployment</a>)</strong>:
+2. <strong>ìì ëíë ëì (<a href="/studynote/12_it_management/05_security_compliance/947_process/">Blue-Green Deployment</a>)</strong>:
    - íëëì íêì ìì **ìë ëìì 2ìí(ëë, êë)** ëëìëë.
    - íì ìì íëíì ëë ìë(v1)ë ëê ìë (Front Buffer).
    - êëíì ìëë ì ëë êë ìë(v2)ì ì ìëë ììëê ìëê íìíêì ë ëìë (Back Bufferì ëìí ìê).
-3. <strong>ìì(Swap)ì ìê (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/">Zero-Downtime</a>)</strong>:
+3. <strong>ìì(Swap)ì ìê (<a href="/studynote/15_devops_sre/02_cicd_gitops/110_zero_downtime_db_schema_rollout/">Zero-Downtime</a>)</strong>:
    - ëëëëì(L4 ììì/Nginx)ì íëí ëìí íìí íìíë ëëìì **êëìë 0.001ì ëì í êìëëë!**
    - ììëì 1ìì ëêë ìì ëëëê ì ëìì íëì ëê ëë.
    - ëì ì ëìì ëêê íìë? íìíë ëì ëëë í êìëëë 1ì ëì ìëí ëë(Roll-back)ì ìêíë. ìêì ììë ëì ìëë ëììë ìëìííë ìììë ëìëì ìíë ëí ìíìë.
@@ -153,24 +150,24 @@ tags = ["studynote-operating-system"]
 
 | êë | ëì |
 |:---|:---|
-| **íëìì êëë(Utilization) 100% ëì** | ëìíë ìë ìê ìë ìì íìë ìêëìë ëìíë íì ìê([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))ì ìêíì I/O ìëí([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì êì 2ëë ëíê |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a> ìì ìë</strong> | ìê ìì(Front)ê ìê ìì(Back)ì ëëì ë ììë ììí êëíì, ë([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) ììë ìëí ìëë-ììí([Thread-safe](/knowledge-base/studynote/02_operating_system/02_process_thread/147_thread_safe/)) íê êì |
-| **UI/UX íìë(Tearing)ì ììí ëì** | ëëí êì ìê(V-Sync)ì [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ëëë ìêë ìêëë íìí ìì(Swap)ìë ëëíì ëëëì íë ìêì ìë íì íë |
+| **íëìì êëë(Utilization) 100% ëì** | ëìíë ìë ìê ìë ìì íìë ìêëìë ëìíë íì ìê([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))ì ìêíì I/O ìëí([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))ì êì 2ëë ëíê |
+| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/">Race Condition</a> ìì ìë</strong> | ìê ìì(Front)ê ìê ìì(Back)ì ëëì ë ììë ììí êëíì, ë([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) ììë ìëí ìëë-ììí([Thread-safe](/studynote/02_operating_system/02_process_thread/147_thread_safe/)) íê êì |
+| **UI/UX íìë(Tearing)ì ììí ëì** | ëëí êì ìê(V-Sync)ì [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ëëë ìêë ìêëë íìí ìì(Swap)ìë ëëíì ëëëì íë ìêì ìë íì íë |
 
 ### êë ë ëë ìë
 
-ìì ëíë (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì "êê(ëëë)ì ë ëë ëëíì, ìê(ìë)ì êëì ììí ëìëëêë"ë ìíí êí íìì ìëììì íëìëìíì êì ìêììê ìêìì ëëìë. ëëë ë ëìíê ìêìë íëì ëë íìë ìììë ììë ë í ììììë, ëì ëìëë íë ìíí íêììë ì 'íí ëì'ììëë ëìí I/O, ëíìí íí í, êëíì ëëë, íëìë ëìë ëí(Blue-Green) ë ëë ëëê(Asynchronous) íìíëìì ììëìì íë ëê íë ëëëìë. ììë ìêì ëíëì ëëë(NVDIMM)ë [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ììì êëì ìííìê ëììë, ë ìì-ìëì êì ìë ììê ììíë í ì 'ëí 2ê êë êë'ì ìë ìì ìë ìê ëëì ëìì ííìë êëí êìë.
+ìì ëíë (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))ì "êê(ëëë)ì ë ëë ëëíì, ìê(ìë)ì êëì ììí ëìëëêë"ë ìíí êí íìì ìëììì íëìëìíì êì ìêììê ìêìì ëëìë. ëëë ë ëìíê ìêìë íëì ëë íìë ìììë ììë ë í ììììë, ëì ëìëë íë ìíí íêììë ì 'íí ëì'ììëë ëìí I/O, ëíìí íí í, êëíì ëëë, íëìë ëìë ëí(Blue-Green) ë ëë ëëê(Asynchronous) íìíëìì ììëìì íë ëê íë ëëëìë. ììë ìêì ëíëì ëëë(NVDIMM)ë [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ììì êëì ìííìê ëììë, ë ìì-ìëì êì ìë ììê ììíë í ì 'ëí 2ê êë êë'ì ìë ìì ìë ìê ëëì ëìì ííìë êëí êìë.
 
 - **ð ìì ìì ëì**: ëëí ëëì(ëì ëí)ììë ëê ëíì ëêìë ëì ììê ë ëêì ëë êëí ììì íì í ìì ìëê ëëëë. ìì ëíëì ìì íë 2êë íëê ë ëìê ë íìì ëìì ëìì íëì ëë ëíë íêìì íí ëì êííë ëì ìë ìì ëëêìëë. ìë(ë)ì ë ëë ëìë êìììë ìëììë ëë ëìíëë.
 
 ---
 
-### ð êë êë ë ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- ëíë ([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | ìë ììë ëìê ìí ëíì íë íëë êë êë. ì ëíì ê ì ë ëìíë ëì êëìê ìí ìì ëíëì ëìí
+### ð êë êë ë ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- ëíë ([Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | ìë ììë ëìê ìí ëíì íë íëë êë êë. ì ëíì ê ì ë ëìíë ëì êëìê ìí ìì ëíëì ëìí
 - V-Sync (ìì ëêí) | ìì ëíë íêìì ëëíê ììì ë ë ëêì GPUê ëìì ë êëê ëêíê ëëë íë ììì ëì ë
 - Blue-Green ëí | ìì ëíëì êëì íëìë ìë 100ë ëìë ëíêíì ììí íë IT ìíë ëìë ìëìíì êêì
-- ìíìí ììì ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | íìíë í ëêìë ëí ìì(Swap)ì 0ì ëëìì ëìììë, ììììê ìì ëë ìêëë êë ëìí ìëíë
-- ë íë ([Lock-Free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) í | ìììì ìëìê ìì ëíìë êìì ììììë ëê íì ëíì ë ìì ìêì íìì íê íìë ìë ììí ìëêì
+- ìíìí ììì ([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | íìíë í ëêìë ëí ìì(Swap)ì 0ì ëëìì ëìììë, ììììê ìì ëë ìêëë êë ëìí ìëíë
+- ë íë ([Lock-Free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)) í | ìììì ìëìê ìì ëíìë êìì ììììë ëê íì ëíì ë ìì ìêì íìì íê íìë ìë ììí ìëêì
 
 ### ð ìëìë ìí 3ì ëì ìë
 1. **ìì ëíëì ëêì?** ëê ëêë(ëí) 1êë ëì ëìë, ë ëê ìëíí "ë ì!" í ë ìëê ìë êì íìë ëì ëë êê êëëì íììì?
@@ -185,10 +182,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| I/O 서브시스템의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) ([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), Simultaneous Peripheral [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) On-Line) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| I/O 서브시스템의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [스풀링](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/) ([Spooling](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), Simultaneous Peripheral [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/) On-Line) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -206,9 +203,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 이중 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 이해하면 이중 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 이중 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 잘 알면 나중에 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))도 훨씬 쉽게 배울 수 있어요.
+1. 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))은 컴퓨터가 디스크와 장치가 데이터를 주고받는 길을 정리하는 방법이에요.
+2. 먼저 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) ([Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 이해하면 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 이중 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) (Double [Buffering](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/))을 잘 알면 나중에 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -216,7 +213,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 455 / 800
 
-<- **이전**: [454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)
-**다음**: [456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ->
+<- **이전**: [454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)
+**다음**: [456. 캐싱 (Caching) - 자주 사용하는 데이터 복사본 유지 (속도 빠른 메모리 활용)](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ->
 
 ---

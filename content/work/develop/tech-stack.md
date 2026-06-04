@@ -1,12 +1,9 @@
-+++
-title = "🛠️ 사내 표준 기술 스택 (Tech Stack)"
+---
+title: "🛠️ 사내 표준 기술 스택 (Tech Stack)"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 우리 조직에서 사용하고 연구하는 핵심 기술 및 라이브러리 목록과 가이드라인입니다. 각 기술의 이론적 배경과 기초 개념은 관련 <strong>Study Note</strong>에서 깊이 있게 학습할 수 있습니다.
 
@@ -50,4 +47,3 @@ tags = ["work"]
 *   **Decap CMS:** Git 저장소를 백엔드로 사용하는 웹 편집 UI. 비개발자도 브라우저에서 Markdown을 수정하고 PR 흐름으로 올릴 수 있게 해주는 계층.
 *   **GitHub / Forgejo / Gitea:** 문서 원본, 권한, 이력, PR 승인을 담당하는 Git 포지 계층.
     *   *이론 및 설계:* **엔터프라이즈 시스템 및 아키텍처** 참고.
-

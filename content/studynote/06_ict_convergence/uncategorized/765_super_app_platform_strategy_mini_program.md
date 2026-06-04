@@ -1,13 +1,10 @@
-+++
-title = "765. 슈퍼앱 플랫폼 전략 미니 프로그램 (Super App Platform Strategy Mini Program)"
-date = 2026-05-09
+---
+title: "765. 슈퍼앱 플랫폼 전략 미니 프로그램 (Super App Platform Strategy Mini Program)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -175,7 +172,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 765 / 800
 
-<- **이전**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/knowledge-base/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/)
-**다음**: [766. 구독 경제 SaaS 리커링 수익 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/) ->
+<- **이전**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/)
+**다음**: [766. 구독 경제 SaaS 리커링 수익 모델](/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/) ->
 
 ---

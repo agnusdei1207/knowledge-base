@@ -1,13 +1,10 @@
-+++
-title = "428. 문제 관리 근본 원인 분석 RCA (Problem Management Root Cause Analysis)"
-date = 2026-05-09
+---
+title: "428. 문제 관리 근본 원인 분석 RCA (Problem Management Root Cause Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -163,7 +160,7 @@ RCA는 인접 ITIL 프로세스(Incident, Change, Knowledge, Availability) 및 �
 
 **진행 상황**: 428 / 800
 
-<- **이전**: [427. 인시던트 관리 에스컬레이션 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/427_incident_management_escalation_response/)
-**다음**: [429. SLA 서비스 수준 관리 SLO SLI](/knowledge-base/studynote/12_it_management/05_security_compliance/429_sla_service_level_management_slo_sli/) ->
+<- **이전**: [427. 인시던트 관리 에스컬레이션 대응](/studynote/12_it_management/05_security_compliance/427_incident_management_escalation_response/)
+**다음**: [429. SLA 서비스 수준 관리 SLO SLI](/studynote/12_it_management/05_security_compliance/429_sla_service_level_management_slo_sli/) ->
 
 ---

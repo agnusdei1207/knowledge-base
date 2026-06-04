@@ -1,13 +1,10 @@
-+++
-title = "503. 벤더 관리 아웃소싱 SLA 성과 평가 (Vendor Management Outsourcing SLA Performance)"
-date = 2026-05-09
+---
+title: "503. 벤더 관리 아웃소싱 SLA 성과 평가 (Vendor Management Outsourcing SLA Performance)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ Policy -> Process -> System -> Data -> KPI
 
 **진행 상황**: 503 / 800
 
-<- **이전**: [502. 오픈소스 거버넌스 라이선스 관리 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/502_open_source_governance_license_management/)
-**다음**: [504. IT 위험 관리 리스크 평가 대응](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/504_it_risk_management_assessment_response/) ->
+<- **이전**: [502. 오픈소스 거버넌스 라이선스 관리 전략](/studynote/07_enterprise_systems/06_exam_summary/502_open_source_governance_license_management/)
+**다음**: [504. IT 위험 관리 리스크 평가 대응](/studynote/07_enterprise_systems/06_exam_summary/504_it_risk_management_assessment_response/) ->
 
 ---

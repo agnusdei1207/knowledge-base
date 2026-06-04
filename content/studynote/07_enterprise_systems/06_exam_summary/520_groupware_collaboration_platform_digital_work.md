@@ -1,13 +1,10 @@
-+++
-title = "520. 그룹웨어 협업 플랫폼 디지털 워크 (Groupware Collaboration Platform Digital Work)"
-date = 2026-05-09
+---
+title: "520. 그룹웨어 협업 플랫폼 디지털 워크 (Groupware Collaboration Platform Digital Work)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ Policy -> Process -> System -> Data -> KPI
 
 **진행 상황**: 520 / 800
 
-<- **이전**: [519. HRM 인적 자원 관리 HR 테크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/519_hrm_human_resource_management_hr_tech/)
-**다음**: [521. RPA 업무 자동화 봇 관리 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/521_rpa_business_automation_bot_management/) ->
+<- **이전**: [519. HRM 인적 자원 관리 HR 테크](/studynote/07_enterprise_systems/06_exam_summary/519_hrm_human_resource_management_hr_tech/)
+**다음**: [521. RPA 업무 자동화 봇 관리 전략](/studynote/07_enterprise_systems/06_exam_summary/521_rpa_business_automation_bot_management/) ->
 
 ---

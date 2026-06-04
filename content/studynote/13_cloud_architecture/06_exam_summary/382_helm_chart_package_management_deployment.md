@@ -1,175 +1,143 @@
-+++
-title = "382. 헬름 차트 패키지 관리 배포 자동화 (Helm Chart Package Management Deployment)"
-date = 2026-05-09
+---
+title: "382. 헬름 차트 패키지 관리 배포 자동화 (Helm Chart Package Management Deployment)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 헬름 차트 패키지 관리 배포 자동화은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Helm은 Kubernetes의 **YAML 매니페스트를 Go Template + values.yaml 기반의 차트(Chart)로 패키징**하여, 동일 차트를 환경별(dev/stg/prod)로 재현 가능하게 배포하는 **CNCF Graduated 프로젝트 패키지 매니저**이며, `Release` 단위로 버전·롤백·히스토리 관리를 수행한다.
+> 2. **가치**: 평균 30~150개에 달하는 K8s 리소스 묶음을 **단일 명령(`helm install/upgrade`)으로 원자적 배포**하고, **3-way Strategic Merge Patch**를 통해 `kubectl apply` 대비 결정론적(Deterministic) 업그레이드와 1초 내 롤백을 보장한다. GitOps(ArgoCD/Flux)와 OCI Registry 연동으로 **배포 자동화 파이프라인의 표준 패키징 레이어**를 형성한다.
+> 3. **판단 포인트**: ① **Helm 2(Tiller) vs Helm 3(클라이언트 전용)** 마이그레이션 의사결정, ② **Umbrella Chart(전역 values 상속) vs Standalone Chart(차트별 독립)** 의존성 전략, ③ **Helm(템플릿 엔진) vs Kustomize(오버레이 엔진)** 패러다임 선택, ④ **Chart Signing + OCI Registry + RBAC** 3종 보안 통제 설계가 핵심 평가 항목이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-헬름 차트 패키지 관리 배포 자동화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+Kubernetes 클러스터에 실제 서비스를 배포하기 위해서는 **Deployment, Service, ConfigMap, Secret, Ingress, HPA, NetworkPolicy, ServiceAccount, Role/RoleBinding, PDB** 등 최소 10~20종의 리소스를 상호의존적으로 정의해야 한다. 컨테이너 이미지 1개당 평균 12.4개의 K8s 오브젝트가 생성된다는 CNCF Survey(2023) 결과는 이 관리 부담을 정량적으로 뒷받침한다. **Raw YAML 매니페스트(2015~2017 시대)**는 환경별 중복(dev/stg/prod)·버전 누락·롤백 불가·변경 이력 불명이라는 4대 고질적 문제를 안고 있었으며, 이는 12-Factor App의 "Config 분리" 원칙과도 정면으로 충돌했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Helm Chart Package Management Deployment 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+Helm(2016년 Deis의 Matt Butcher가 초기 릴리즈, 2018년 v3.0부터 CNCF 재단 인큐베이팅 -> 2020년 Graduated)은 이를 해결하기 위해 **"Chart = 패키지, Release = 인스턴스, Repository = 카탈로그"** 라는 3축 모델을 도입했다. Go Template의 `range`, `if`, `default`, `toYaml` 같은 함수로 매니페스트를 변수화하고, `values.yaml`로 환경별 오버라이드를 흡수하며, Helm 3부터는 클라이언트-사이드 렌더링 + **3-way Strategic Merge Patch**(last-applied-configuration, current, proposed 3개 스냅샷 비교)로 멱등성을 보장한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    헬름 차트 패키지 관리 배포 자동화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[Helm 도입 전: Raw YAML 지옥]                   [Helm 도입 후: 차트 기반 패키징]
++-----------------------------+                +-----------------------------+
+|  myapp-dev-deployment.yaml  |                |   myapp/                    |
+|  myapp-stg-deployment.yaml  |   --->          |   +-- Chart.yaml            |
+|  myapp-prod-deployment.yaml |                |   +-- values.yaml (default) |
+|  myapp-dev-service.yaml     |                |   +-- values-dev.yaml       |
+|  myapp-stg-service.yaml     |                |   +-- values-prod.yaml      |
+|  myapp-prod-service.yaml    |                |   +-- templates/            |
+|  + 6개 ConfigMap × 3 env    |                |       +-- deployment.yaml   |
+|  + 9개 Secret  × 3 env      |                |       +-- service.yaml      |
+|                             |                |       +-- _helpers.tpl      |
+|  총 약 30+ 파일             |                |       +-- NOTES.txt         |
+|  변경 시 30곳 동시 수정      |                |   (단일 차트 = 1개 패키지)  |
++-----------------------------+                +-----------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 헬름 차트 패키지 관리 배포 자동화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: Raw YAML이 "공방에서 도자기 하나하나 손으로 빚는 것"이라면, Helm 차트는 **"석고틀(Chart)에 도자기 찰흙(values)을 갈아넣어 똑같은 모양의 그릇(Release)을 무한히 찍어내는 산업용 프레스"** 와 같다. 도자기의 색깔(values-dev/prod)만 바꾸면 형태는 항상 동일하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-헬름 차트 패키지 관리 배포 자동화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Helm 3의 클라이언트-사이드 아키텍처는 **Helm Client (v3.x 바이너리)** -> **Kubernetes API Server (kube-apiserver)** 의 2-tier 구조로 단순화되었다. Helm 2의 Tiller(클러스터 내부 컴포넌트)는 RBAC 충돌과 단일 실패점(SPOF) 문제로 제거되었다. 클라이언트는 `~/.kube/config`로 kubeconfig를 직접 읽어 `Create/Update/Patch/Delete` API를 호출하며, 차트 내 모든 리소스를 단일 **Release** 단위로 그룹화하기 위해 `app.kubernetes.io/managed-by=Helm` + `release-name` 레이블과 `secret/helm.sh/release.v1` 시크릿(Secret 기반 상태 저장)을 사용한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Helm Chart Package Management Deployment 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[Helm 3 클라이언트 사이드 아키텍처]
+                                  (1) helm install/upgrade
+                                          |
+                                          v
+   +----------------------------------------------------------+
+   |  Helm Client (helm CLI 3.13+)                             |
+   |  +------------+  +--------------+  +------------------+  |
+   |  | Chart      |  | Values Loader|  | Renderer         |  |
+   |  | Loader     |-->| (override &  |-->| (Go template +   |  |
+   |  | (OCI/HTTP) |  |  merge)      |  |  Sprig functions)|  |
+   |  +------------+  +--------------+  +--------+---------+  |
+   +---------------------------------------------+------------+
+                                                | (2) kubeconfig 기반
+                                                v
+   +----------------------------------------------------------+
+   |  Kubernetes API Server (kube-apiserver)                   |
+   |   - 인증: ServiceAccount Token / kubeconfig               |
+   |   - 인가: RBAC (Role/ClusterRole)                         |
+   |   - Admission: OPA/Gatekeeper, PodSecurityAdmission       |
+   +------------------+---------------------------------------+
+                      | (3) etcd 트랜잭션 commit
+                      v
+   +----------------------------------------------------------+
+   |  Cluster State (etcd)                                     |
+   |   + Secret: sh.helm.release.v1.<release>.v<N> (상태저장) |
+   |   + OwnerReference / Label: app.kubernetes.io/managed-by  |
+   +----------------------------------------------------------+
+                      ^                       ^
+                      | (4) Release Read      | (5) Watch Loop
+                      |                       |
+   +------------------+-----------------------+---------------+
+   |  helm list / helm history / helm rollback (Read-Only API) |
+   +----------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Chart** | 패키지 단위 (디렉터리 or `.tgz`) | `Chart.yaml`(메타데이터: `apiVersion: v2`, `name`, `version: 0.1.0` SemVer), `values.yaml`(기본값), `templates/`(Go Template로 렌더링되는 K8s YAML), `charts/`(서브 차트 의존성), `files/`(raw 리소스), `templates/_helpers.tpl`(재사용 스니펫). OCI 1.1 표준(`oci://ghcr.io/org/charts`)을 통해 컨테이너 이미지와 동일 레지스트리에 차트 저장 가능. |
+| **Release** | 클러스터에 배포된 Chart의 인스턴스 | Helm 3부터 `Secret` 오브젝트 `sh.helm.release.v1.<release>.v<revision>`에 **3-way merge 입력 3종**(original manifest, last-applied, current state) + 렌더링된 manifest를 JSON으로 직렬화 저장. 최대 히스토리 10개(기본, `--history-max`로 조정) 보관으로 `helm rollback`이 단순 Secret 읽기로 1초 내 완료. |
+| **Repository** | 차트 카탈로그/배포 채널 | HTTP 서버 + `index.yaml`(차트 목록, URL, SHA256, version 매트릭스). `helm repo add stable https://...` 형태로 등록. OCI 전환 시 `oras`/`helm push`로 OCI Registry에 push. 예: Harbor 2.x, AWS ECR, GHCR 모두 OCI Helm 지원. |
+| **Renderer** | Go Template + Sprig 함수 엔진 | `{{ .Values.replicaCount \| default 3 }}`, `{{- range .Values.ingress.hosts }}`, `{{ include "mychart.fullname" . }}` 등으로 K8s YAML 생성. `toYaml`, `b64enc`, `quote`, `nindent` 등 **150+ Sprig 함수** 사용 가능. `helm template ./mychart`로 로컬 렌더링 결과 미리보기 지원. |
+| **Dependency (의존성)** | 다른 차트 재사용/합성 | `Chart.yaml`의 `dependencies: - name: postgresql version: "12.1.2" repository: https://charts.bitnami.com/bitnami`로 선언, `helm dependency update`로 `charts/`에 락파일(`Chart.lock`) 기반 다운로드. **Umbrella Chart**(전역 `values.yaml` -> 서브 차트 values 상속)와 **Library Chart**(`type: application` 대신 `library`, 템플릿만 export) 두 가지 고급 패턴 제공. |
+| **Hooks** | 배포 lifecycle 특정 시점 개입 | `pre-install`, `post-install`, `pre-upgrade`, `post-upgrade`, `pre-delete`, `post-delete`, `test` 어노테이션(`helm.sh/hook-weight`, `helm.sh/hook-delete-policy: before-hook-creation`)으로 Job/Pod 실행. 예: DB 마이그레이션, ConfigMap 리로드 트리거, Chaos 테스트. |
+| **3-way Strategic Merge** | 멱등성 보장 업그레이드 | kubectl의 2-way(현재 vs 신규) 대비, Helm 3는 ① original(첫 install manifest) ② last-applied(직전 manifest) ③ current(실제 클러스터 상태) **3개 스냅샷**을 비교해 사용자가 직접 수정한 필드는 보존, Helm이 배포한 필드만 업데이트, 삭제된 필드만 제거. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘: 3-way Strategic Merge Patch 의사코드**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+```text
+function threeWayMerge(original, lastApplied, current, proposed):
+    for each field in proposed:
+        if field not in lastApplied:        # Helm이 관리하지 않던 필드
+            KEEP current[field]            # 사용자 수동 변경 보존
+        else if field not in current:      # 사용자가 리소스에서 제거
+            DELETE from proposed
+        else if deepEqual(lastApplied[field], proposed[field]):
+            APPLY proposed[field]          # Helm 의도 반영
+        else if not deepEqual(current[field], proposed[field]):
+            KEEP current[field]            # 사용자 드리프트 보존
+            LOG warning
+    return patched manifest
+```
+
+- **📢 섹션 요약 비유**: 3-way merge는 **"교과서(original)", "학생이 펜으로 밑줄 친 책(last-applied)", "수정본이 적힌 칠판(current)", "교사가 새로 짠 강의안(proposed)"** 4권을 비교해 **칠판에 적힌 정답은 건드리지 않고, 교사가 새로 짠 부분만 업데이트하는** 스마트한 채점 방식이다. 학생이 칠판에 쓴 오답은 보존된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-헬름 차트 패키지 관리 배포 자동화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+Helm은 단독으로 쓰이기보다 **GitOps(ArgoCD/Flux)**, **Kustomize**, **Terraform**, **Operator 패턴**과 경쟁/보완 관계를 형성한다. 기술사 시험 관점에서는 **"왜 이 프로젝트에 Helm을 도입하는가?"** 의 정당화를 위해 비교 분석 능력이 필수다.
 
-| 구분 | 전통적 접근 | 헬름 차트 패키지 관리 배포 자동화 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **Helm (v3)** | **Kustomize** | **Kubectl + Shell** | **Operator (CRD+Controller)** |
+| :--- | :--- | :--- | :--- | :--- |
+| **패러다임** | 템플릿 엔진 (Templating) | 오버레이 엔진 (Patch 누적) | 명령형 절차 스크립트 | Custom Controller + CRD |
+| **환경 분리** | `values-{env}.yaml` + `--values` / `--set` | `overlays/dev/`, `overlays/prod/` 디렉터리 분기 | `if [ "$ENV" = "prod" ]; then sed -i ...` | CRD Spec의 `env` 필드 |
+| **패키지 단위** | Chart (1개 디렉터리/`.tgz`) | kustomization.yaml 루트 | 없음 (수동 묶음) | CRD (Kubernetes-native) |
+| **롤백/히스토리** | `helm rollback` (Secret 기반, N개 보관) | Git revert (속도 느림) | 수동 백업 필요 | Controller의 status에 의존 |
+| **의존성 관리** | `Chart.yaml dependencies` + `helm dependency update` | 없음 (Base는 직접 import) | 없음 | CRD 참조로 표현 |
+| **학습 곡선** | 중간 (Go Template 문법 필요) | 낮음 (YAML 패치) | 낮음 (그러나 멱등성 깨짐) | 높음 (Go/Rust 코딩) |
+| **적합 시나리오** | 멀티 서비스/멀티 환경 패키지 배포 | 단순 환경별 오버레이, K8s 리소스 보강 | 일회성 PoC, 학습용 | Stateful/도메인 특화 자동화 (DB, MQ) |
+| **GitOps 통합** | ArgoCD/Flux 모두 Helm Application/Source 지원 | Kustomize 네이티브, Helm보다 가벼움 | 약함 | Operator SDK 자체가 자동화 |
+| **보안** | Chart Provenance (GPG), OCI Registry RBAC | 순수 YAML (서명 별도) | 없음 | ADMISSION WEBHOOK으로 자체 통제 |
 
-관련 기술 영역과의 연결점도 중요하다. 헬름 차트 패키지 관리 배포 자동화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**연계 생태계 상세**
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 헬름 차트 패키지 관리 배포 자동화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 헬름 차트 패키지 관리 배포 자동화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-헬름 차트 패키지 관리 배포 자동화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 헬름 차트 패키지 관리 배포 자동화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 헬름 차트 패키지 관리 배포 자동화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 헬름 차트 패키지 관리 배포 자동화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 헬름 차트 패키지 관리 배포 자동화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-헬름 차트 패키지 관리 배포 자동화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 헬름 차트 패키지 관리 배포 자동화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **Helm + ArgoCD**: ArgoCD는 `Application.spec.source.helm` 필드로 Helm 차트를 직접 해석한다. `valueFiles: ["values-prod.yaml"]`, `parameters: [{name: replicaCount, value: "5"}]`로 GitOps의 선언적 모델과 Helm의 패키징을 결합. Helm Hook는 ArgoCD가 `PreSync/Sync/PostSync` 단계로 매핑.
+2. **Helm + OCI Registry**: Helm 3.8+부터 `helm registry login ghcr.io` -> `helm push myapp-1.0.0.tgz oci://ghcr.io/myorg/charts`로 컨테이너 이미지 저장소와 통합. 이미지 스캔(Trivy, Grype) 도구 재활용 가능.
+3. **Helm + Terraform**: Terraform의 `helm_release` 리소스(`hashicorp/helm` provider)로 K8s 클러스터 provisioning(Terraform) -> 차트 배포(H
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 382 / 800
 
-<- **이전**: [381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/381_kubernetes_service_discovery_dns_coredns/)
-**다음**: [383. Kustomize 선언적 설정 관리 오버레이](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/383_kustomize_declarative_config_overlay_manageme/) ->
+<- **이전**: [381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS](/studynote/13_cloud_architecture/06_exam_summary/381_kubernetes_service_discovery_dns_coredns/)
+**다음**: [383. Kustomize 선언적 설정 관리 오버레이](/studynote/13_cloud_architecture/06_exam_summary/383_kustomize_declarative_config_overlay_manageme/) ->
 
 ---

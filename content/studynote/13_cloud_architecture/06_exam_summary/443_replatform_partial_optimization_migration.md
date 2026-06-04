@@ -1,175 +1,144 @@
-+++
-title = "443. 리플랫폼 부분 최적화 마이그레이션 (Replatform Partial Optimization Migration)"
-date = 2026-05-09
+---
+title: "443. 리플랫폼 부분 최적화 마이그레이션 (Replatform Partial Optimization Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리플랫폼 부분 최적화 마이그레이션은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 리플랫폼 부분 최적화 마이그레이션(Replatform with Partial Optimization)은 Gartner 6R 모델의 "Replatform(Lift·Tinker·Shift)" 단계에서 전체 리팩터링이 아닌, 운영 부담이 큰 특정 계층(Managed DB, Container Runtime, Object Storage, Caching, Message Broker 등)만 선택적으로 PaaS/Managed Service로 교체하여 TCO를 절감하는 점진적 클라우드 전환 전략이다.
+> 2. **가치**: 동일 코드/도메인 모델을 유지하면서 IaaS 대비 운영비 30~60% 절감, 배포 리드타임 70% 단축, DB 라이선스 비용 80% 이상 제거(예: Oracle SE -> AWS Aurora PostgreSQL 전환 시), 그리고 무중단·저위험 방식으로 레거시 핵심 시스템의 기술 부채를 6~18개월 내 해소 가능하다.
+> 3. **판단 포인트**: "어디까지 최적화할 것인가(Granularity)", "동시 운영 기간의 데이터·트랜잭션 정합성 보장", "Managed Service 종속성(Vendor Lock-in) vs 운영 효율 Trade-off", "Strangler Fig·Anti-Corruption Layer 설계", "ROI 산정 시 라이선스 회수·인력 전환·SLA 영향까지 포함한 TCO 회수 기간(Payback Period) 산출"이 핵심 의사결정 변수이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-리플랫폼 부분 최적화 마이그레이션은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 엔터프라이즈 시스템은 On-Premise의 상용 솔루션(Oracle DB, WebLogic, IBM MQ 등)에 깊이 종속되어 있으며, 10년 이상 운영된 레거시 시스템은 (1) 라이선스·하드웨어 유지비 증가, (2) EOL(End of Life) 도래, (3) 신규 프레임워크(Spring Boot, Node.js, Go 등)와의 통합 한계, (4) Monolithic 아키텍처로 인한 배포 주기 장기화라는 4대 기술 부채에 직면한다. 그러나 "한 번에 전면 리팩토링(Refactor/Re-architect)"은 비즈니스 연속성·예산·조직 역량 측면에서 실패 확률이 매우 높다(Forrester 조사: 전면 리호스팅 대비 리팩토링 프로젝트의 60% 이상이 일정·예산 초과).
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Replatform Partial Optimization Migration 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이에 대한 현실적 해법이 **리플랫폼 부분 최적화 마이그레이션**이다. 이는 전체 시스템을 그대로 옮기는 Lift & Shift(Rehost)와 전면 재설계인 Refactor/Re-architect의 중간 지점이며, 도메인 로직과 API Contract는 보존하면서 **병목·고비용·EOL 임박 컴포넌트**만 Cloud-Native Managed Service로 선택적 치환한다. 대표적으로 (a) RDBMS를 Aurora·Cloud SQL·Azure Database로, (b) EJB/Servlet 컨테이너를 Tomcat·Spring Boot로, (c) 자체 MQ를 Kafka·SQS·Pub/Sub으로, (d) 로컬 파일 시스템 기반의 로그·첨부파일 저장소를 S3·GCS·Blob Storage로 전환하는 케이스가 해당한다.
+
+핵심 사고방식은 "**최소 변경으로 최대 효과(Minimum Viable Migration)**"이며, 이를 통해 CapEx -> OpEx 전환, 라이선스 회수, 자동화(Autoscale, Self-healing) 효과를 얻으면서도 비즈니스 리스크를 최소화한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    리플랫폼 부분 최적화 마이그레이션 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[레거시 환경 - As-Is]                              [리플랫폼 부분 최적화 - To-Be]
++---------------------------------+                 +---------------------------------+
+|        Monolithic Application   |                 |    부분 최적화된 Hybrid App      |
+|  +--------------------------+   |                 |  +--------------------------+   |
+|  |  JSP/Servlet + EJB      |   |                 |  |  Spring Boot (Container) |   | <- 부분 리팩터
+|  |  + 비즈니스 로직          |   |                 |  |  + 도메인 로직 보존       |   |
+|  +----------+---------------+   |                 |  +----------+---------------+   |
+|             | JDBC              |                 |             | HikariCP          |
+|  +----------v---------------+   |    Replatform   |  +----------v---------------+   |
+|  |  Oracle RAC (SE/EE)      |   |  -----------►   |  |  AWS Aurora PostgreSQL  |   | <- Managed DB
+|  |  + TDE + 수동 백업        |   |   Partial       |  |  + 자동 Failover + KMS   |   |
+|  +----------+---------------+   |   Optimization  |  +--------------------------+   |
+|  +----------v---------------+   |                 |  +--------------------------+   |
+|  |  IBM MQ / RabbitMQ (자체)|   |                 |  |  Amazon SQS / MSK(Kafka)|   | <- Managed MQ
+|  +--------------------------+   |                 |  +--------------------------+   |
+|  +----------v---------------+   |                 |  +--------------------------+   |
+|  |  NAS/SAN 파일 스토리지    |   |                 |  |  S3 + CloudFront (CDN)   |   | <- Object Storage
+|  +--------------------------+   |                 |  +--------------------------+   |
+|  +----------v---------------+   |                 |  +--------------------------+   |
+|  |  WebLogic/JBoss + License|   |                 |  |  ECS Fargate / EKS       |   | <- Container Runtime
+|  +--------------------------+   |                 |  +--------------------------+   |
+|  비용구조: CapEx 60% + Lic 30%  |                 |  비용구조: OpEx 100% (사용량 기반)|
++---------------------------------+                 +---------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+| 구분 | 기존(As-Is) | 리플랫폼 부분 최적화 후(To-Be) |
+| :--- | :--- | :--- |
+| **데이터 계층** | Oracle SE/EE, 수동 HA 구성, TDE·RMAN 운영 | Aurora PostgreSQL/MySQL Multi-AZ, 자동 백업·PITR |
+| **런타임** | WebLogic/JBoss(상용 WAS 라이선스) | Open Liberty / Tomcat / Spring Boot 내장 WAS |
+| **메시징** | IBM MQ / TIBCO EMS | Amazon SQS/SNS 또는 MSK(Kafka) |
+| **스토리지** | NAS/SAN, NFS, Tape 백업 | S3 Standard/IA, Glacier, Object Lifecycle |
+| **인프라 운영** | IDC 입주, HW 유지보수, OS 패치 | Fargate/EKS, AWS가 OS·미들웨어 패치 |
+| **비용 흐름** | CapEx 60%, OpEx 40% | OpEx 100% (Pay-per-use) |
 
-- **📢 섹션 요약 비유**: 리플랫폼 부분 최적화 마이그레이션은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 낡은 집의 골조(기둥·보)와 인테리어(도메인 로직)는 그대로 두고, **지붕(Managed DB)·보일러(Container)·창문(Storage)·인터폰(Message Broker)** 만 최신식·무인동작·에너지 1등급으로 교체하는 "선택적 리모델링"과 같다. 철거(Rehost)도, 전면 재건축(Refactor)도 아닌, **살면서 고치는** 방법이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-리플랫폼 부분 최적화 마이그레이션의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+리플랫폼 부분 최적화 마이그레이션은 **① 도메인·계약 보존(Contract-First)** 원칙 하에, **② Anti-Corruption Layer(ACL)** 를 통해 신규 Managed Service와 기존 시스템의 어댑터를 분리하고, **③ Strangler Fig Pattern** 으로 트래픽을 점진적으로 전환하며, **④ 데이터 이중화·CDC(Change Data Capture)** 로 동기화 일관성을 유지하는 것이 핵심 원리이다.
+
+전체 흐름은 (1) As-Is 시스템 분석 -> (2) 최적화 대상 컴포넌트 선정(6R 판단 매트릭스) -> (3) 대상 Managed Service PoC -> (4) ACL·Strangler 라우터 설계 -> (5) 데이터 마이그레이션(DMS/CDC) -> (6) 카나리 트래픽 전환(5% -> 25% -> 50% -> 100%) -> (7) 레거시 컴포넌트 Retire의 7단계로 진행된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Replatform Partial Optimization Migration 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[리플랫폼 부분 최적화 마이그레이션 - 7단계 실행 아키텍처]
+
+  ① Discovery --► ② Decide(6R) --► ③ PoC --► ④ Design(ACL/Strangler)
+                                                        |
+                                                        v
+  +----------------------------------------------------------------+
+  |                  Strangler Fig Proxy / API Gateway              |
+  |   +------------+    +-------------+    +----------------+      |
+  |   | Router Rule|---►| Legacy App  |    | Optimized App  |      |
+  |   | (Header,   |    | (유지)      |    | (신규 PaaS)    |      |
+  |   |  Path, % ) |    +------+------+    +--------+-------+      |
+  |   +------------+           |                    |              |
+  +---------------------------+--------------------+--------------+
+                              | Anti-Corruption    | Anti-Corruption
+                              | Layer(Adapter)     | Layer(Adapter)
+                              v                    v
+                    +------------------+  +----------------------+
+                    | Legacy Oracle DB |  | AWS Aurora PostgreSQL|
+                    +--------+---------+  +----------+-----------+
+                             |   AWS DMS / Debezium   |
+                             |   (CDC, Full+Incr.)    |
+                             +----------+-------------+
+                                        v
+                            +----------------------+
+                            | Migration Task State |
+                            |  (Validating->Loading |
+                            |   -> Ready->Cutover)   |
+                            +----------------------+
+                                        v
+  ⑤ Migrate(DMS) --► ⑥ Canary(5%->100%) --► ⑦ Retire Legacy
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Strangler Fig Router** | 트래픽 점진 전환의 관문. 헤더·경로·비율 기반 라우팅 | Spring Cloud Gateway, AWS ALB(Weighted Target Group), Kong, Istio VirtualService. v1/v2 Weight를 95:5 -> 50:50 -> 0:100 순으로 변경 |
+| **Anti-Corruption Layer (ACL)** | 신규 Managed Service의 API/스키마 차이를 흡수, 레거시 도메인 모델 격리 | DDD Bounded Context 경계에서 Adapter·Translator·Facade 패턴. 예) Oracle의 `NUMBER(15,2)` -> PostgreSQL `NUMERIC(15,2)` 변환기 |
+| **Data Migration Service (DMS)** | 무중단 데이터 이관, CDC로 양방향 동기화 유지 | AWS DMS, Azure DMS, GCP DMS. Full Load + Ongoing Replication 모드, SCN/LSN 기반 체크포인트, Lag 1초 미만 |
+| **Managed DB Proxy** | Connection Pool, Read/Write Split, Failover | RDS Proxy, Azure DB Proxy, ProxySQL. Spring의 `HikariCP` 와 함께 이중 Pool 구성으로 cold start 제거 |
+| **Container Runtime (부분 최적화 핵심)** | JSP/EJB 컨테이너를 경량화 | Spring Boot Embedded Tomcat + Docker -> ECS Fargate / EKS / Cloud Run. JVM 옵션(`-XX:MaxRAMPercentage=75.0`)으로 메모리 효율화 |
+| **Observability Layer** | 양 시스템의 통합 가시성, 전환 기간 SLA 보장 | OpenTelemetry -> Prometheus + Grafana, AWS CloudWatch, Datadog. RED(Rate/Error/Duration) + USE(Utilization/Saturation/Error) |
+| **Feature Flag / Kill-Switch** | 문제 발생 시 즉시 Legacy로 트래픽 복귀 | LaunchDarkly, Unleash, AWS AppConfig. Canary 단계에서 RPS·Error Rate 임계치 초과 시 자동 Rollback |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 파라미터 및 알고리즘은 다음과 같다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **6R 판단 매트릭스**: `Score = (Cost_Saving × 0.35) + (Risk_Reduction × 0.25) + (Time_to_Value × 0.20) + (Vendor_LockIn_Risk⁻¹ × 0.20)`. 임계치 0.6 이상 시 Replatform 후보.
+- **CDC 동기화 지연(Lag) 허용치**: 일반 OLTP는 `Lag < 5s`, 금융/결제는 `Lag < 500ms`. AWS DMS의 `CDCStartPosition "server time"` 옵션 + Kafka Connect Debezium의 `snapshot.mode=initial` 조합.
+- **Strangler 전환 비율 산정**: `r(t) = r₀ + (1 - r₀) × (1 - e^(-kt))`, 초기 비율 `r₀=0.05`, `k=0.1/day`. 30일 만에 95% 도달하는 Sigmoid 곡선.
+- **TCO 회수 기간(Payback Period)**: `PP = (Migration_Cost) / (Annual_Saving)`. Aurora 전환 시 평균 14~22개월, IBM MQ -> SQS 전환 시 8~12개월이 일반적.
+
+- **📢 섹션 요약 비유**: 심장 수술에서 **"전신 마취 + 개흉술(Refactor)"** 이 아니라, **"심도자술(Catheter)"** 처럼 대퇴동맥에 가는 관(Strangler Router)을 넣고, 좁아진 관상동맥(병목 Managed Service)만 스텐트(Managed DB/SQS)로 확장하는 것과 같다. 몸(레거시 도메인)은 깨어있고, 회복도 빠르다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-리플랫폼 부분 최적화 마이그레이션을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+리플랫폼 부분 최적화 마이그레이션은 다른 클라우드 마이그레이션 전략 및 관련 아키텍처 패턴과 명확히 구분된다. 가장 많이 혼동되는 4가지 전략과의 비교는 다음과 같다.
 
-| 구분 | 전통적 접근 | 리플랫폼 부분 최적화 마이그레이션 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 리플랫폼 부분 최적화 마이그레이션은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 리플랫폼 부분 최적화 마이그레이션은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 리플랫폼 부분 최적화 마이그레이션을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-리플랫폼 부분 최적화 마이그레이션을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 리플랫폼 부분 최적화 마이그레이션 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 리플랫폼 부분 최적화 마이그레이션은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 리플랫폼 부분 최적화 마이그레이션의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 리플랫폼 부분 최적화 마이그레이션의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-리플랫폼 부분 최적화 마이그레이션 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 리플랫폼 부분 최적화 마이그레이션은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | Rehost (Lift & Shift) | **Replatform (부분 최적화)** | Repurchase (SaaS 교체) | Refactor / Re-architect |
+| :--- | :--- | :--- | :--- | :--- |
+| **코드 변경** | 없음 (바이너리 그대로) | **최소-중간 (Driver/Config/ACL만)** | 전면 신규 (SaaS 도입) | 전면 재설계 (Cloud-Native) |
+| **아키텍처** | 동등 (1:1 매핑) | **부분 Hybrid (Strangler)** | SaaS 종속 (멀티테넌트) | MSA·Serverless·Event-Driven |
+| **데이터 계층** | 기존 그대로 (EC2 Oracle) | **Managed DB로 치환 (RDS/Aurora)** | SaaS DB 종속 (Salesforce 등) | NoSQL·NewSQL (DynamoDB/Cosmos) |
+| **소요 기간** | 3~6개월 | **6~18개월** | 6~12개월 | 18~48개월 |
+| **리스크** | 낮음 | **중간 (핵심은 CDC·이중 운영)** | 중간-높음 (커스텀 손실) | 높음 (재설계 결함) |
+| **비용 절감** | 10~20% (HW·IDC료) | **30~60% (License 회수 효과)** | 40~70% (라이선스·인프라 통합) | 50~80% (Scale-to-Zero) |
+| **대표 사례** | Oracle on RH
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 443 / 800
 
-<- **이전**: [442. 리호스트 리프트 앤 시프트 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/442_rehost_lift_and_shift_migration/)
-**다음**: [444. 리팩터 클라우드 네이티브 재설계](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/444_refactor_cloud_native_redesign/) ->
+<- **이전**: [442. 리호스트 리프트 앤 시프트 마이그레이션](/studynote/13_cloud_architecture/06_exam_summary/442_rehost_lift_and_shift_migration/)
+**다음**: [444. 리팩터 클라우드 네이티브 재설계](/studynote/13_cloud_architecture/06_exam_summary/444_refactor_cloud_native_redesign/) ->
 
 ---

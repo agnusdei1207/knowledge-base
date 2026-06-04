@@ -1,13 +1,10 @@
-+++
-title = "561. 개인정보 보호 GDPR PIPA 컴플라이언스 (Privacy Protection GDPR PIPA Compliance)"
-date = 2026-05-09
+---
+title: "561. 개인정보 보호 GDPR PIPA 컴플라이언스 (Privacy Protection GDPR PIPA Compliance)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 561 / 800
 
-<- **이전**: [560. 사이버 보안 전략 위험 기반 접근](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/560_cyber_security_strategy_risk_based_approach/)
-**다음**: [562. IT 감사 내부 통제 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/562_it_audit_internal_control_framework/) ->
+<- **이전**: [560. 사이버 보안 전략 위험 기반 접근](/studynote/07_enterprise_systems/06_exam_summary/560_cyber_security_strategy_risk_based_approach/)
+**다음**: [562. IT 감사 내부 통제 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/562_it_audit_internal_control_framework/) ->
 
 ---

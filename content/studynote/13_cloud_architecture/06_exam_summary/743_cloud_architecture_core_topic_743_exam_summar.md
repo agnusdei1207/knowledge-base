@@ -1,13 +1,10 @@
-+++
-title = "743. 클라우드 아키텍처 핵심 토픽 743번 시험 요약 (Cloud Architecture Core Topic 743 Exam Summary)"
-date = 2026-05-09
+---
+title: "743. 클라우드 아키텍처 핵심 토픽 743번 시험 요약 (Cloud Architecture Core Topic 743 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 743 / 800
 
-<- **이전**: [742. 클라우드 아키텍처 핵심 토픽 742번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/742_cloud_architecture_core_topic_742_exam_summar/)
-**다음**: [744. 클라우드 아키텍처 핵심 토픽 744번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/744_cloud_architecture_core_topic_744_exam_summar/) ->
+<- **이전**: [742. 클라우드 아키텍처 핵심 토픽 742번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/742_cloud_architecture_core_topic_742_exam_summar/)
+**다음**: [744. 클라우드 아키텍처 핵심 토픽 744번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/744_cloud_architecture_core_topic_744_exam_summar/) ->
 
 ---

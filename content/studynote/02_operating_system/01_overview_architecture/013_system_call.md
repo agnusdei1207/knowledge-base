@@ -1,35 +1,32 @@
-+++
-title = "13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스"
-date = 2026-03-21
+---
+title: "13. 시스템 호출 (System Call) - 커널 서비스 요청 인터페이스"
+date: "2026-03-21"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 시스템 호출 (System [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 사용자 모드 (User Mode)에서 실행 중인 애플리케이션이 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)의 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안전하게 요청하기 위해 제공되는 소프트웨어적 인터페이스이자 유일한 진입점이다.
-> 2. **가치**: 하드웨어 자원에 대한 직접적인 접근을 차단하고 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 제공함으로써, 시스템의 [보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 안정성 및 프로그램의 이식성 (Portability)을 동시에 확보한다.
-> 3. **융합**: 현대 시스템은 효율적인 시스템 호출 처리를 위해 `syscall`/`sysenter`와 같은 전용 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 `io_uring` 같은 비동기 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 아키텍처를 결합하여 모드 전환 비용을 최소화하는 방향으로 진화하고 있다.
+> 1. **본질**: 시스템 호출 (System [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 사용자 모드 (User Mode)에서 실행 중인 애플리케이션이 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Mode)의 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 안전하게 요청하기 위해 제공되는 소프트웨어적 인터페이스이자 유일한 진입점이다.
+> 2. **가치**: 하드웨어 자원에 대한 직접적인 접근을 차단하고 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)된 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))를 제공함으로써, 시스템의 [보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/), 안정성 및 프로그램의 이식성 (Portability)을 동시에 확보한다.
+> 3. **융합**: 현대 시스템은 효율적인 시스템 호출 처리를 위해 `syscall`/`sysenter`와 같은 전용 CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)와 `io_uring` 같은 비동기 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 아키텍처를 결합하여 모드 전환 비용을 최소화하는 방향으로 진화하고 있다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: 시스템 호출 (System [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 제공하는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하기 위한 프로그래밍 인터페이스다. 사용자 프로세스가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/), 네트워크 통신 등 특권 권한이 필요한 작업을 수행할 때, 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 유발하여 CPU 제어권을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘기는 메커니즘을 의미한다.
+- **개념**: 시스템 호출 (System [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 제공하는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하기 위한 프로그래밍 인터페이스다. 사용자 프로세스가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/), 네트워크 통신 등 특권 권한이 필요한 작업을 수행할 때, 하드웨어 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 유발하여 CPU 제어권을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘기는 메커니즘을 의미한다.
 
-- **필요성**: 사용자 애플리케이션이 디스크 컨트롤러나 네트워크 카드와 같은 하드웨어를 직접 제어하게 되면, 다른 프로세스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 손상시키거나 시스템 전체를 마비시킬 수 있다. 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 자원을 독점 관리하고, 사용자에게는 엄격하게 검증된 "창구"인 시스템 호출만을 개방하여 질서 있는 자원 공유를 실현한다.
+- **필요성**: 사용자 애플리케이션이 디스크 컨트롤러나 네트워크 카드와 같은 하드웨어를 직접 제어하게 되면, 다른 프로세스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 손상시키거나 시스템 전체를 마비시킬 수 있다. 따라서 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 자원을 독점 관리하고, 사용자에게는 엄격하게 검증된 "창구"인 시스템 호출만을 개방하여 질서 있는 자원 공유를 실현한다.
 
-- **💡 비유**: 시스템 호출은 "정부 기관의 민원 창구"와 같다. 시민(사용자 프로세스)은 정부의 전산망(하드웨어 자원)에 직접 접속할 수 없으며, 반드시 규정된 신청서(시스템 호출)를 작성하여 창구 직원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 제출해야 한다. 직원은 신청 내용의 적절성을 검토한 후 대신 업무를 처리하고 결과를 알려준다.
+- **💡 비유**: 시스템 호출은 "정부 기관의 민원 창구"와 같다. 시민(사용자 프로세스)은 정부의 전산망(하드웨어 자원)에 직접 접속할 수 없으며, 반드시 규정된 신청서(시스템 호출)를 작성하여 창구 직원([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에게 제출해야 한다. 직원은 신청 내용의 적절성을 검토한 후 대신 업무를 처리하고 결과를 알려준다.
 
 - **등장 배경**:
-  1. <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 아키텍처의 완성</strong>: [듀얼 모드](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/) ([Dual Mode](/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/)) 하드웨어가 등장함에 따라, 사용자 모드에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 실행할 수 있는 안전한 브리지가 필요해졌다.
-  2. <strong>복잡한 하드웨어의 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: 각기 다른 제조사의 하드웨어를 제어하는 복잡한 저수준 코드를 애플리케이션 개발자가 매번 짤 수 없기에, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 공통된 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 형태의 인터페이스를 제공하게 되었다.
+  1. <strong><a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 아키텍처의 완성</strong>: [듀얼 모드](/studynote/02_operating_system/01_overview_architecture/011_dual_mode/) ([Dual Mode](/studynote/02_operating_system/01_overview_architecture/011_dual_mode/)) 하드웨어가 등장함에 따라, 사용자 모드에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드를 실행할 수 있는 안전한 브리지가 필요해졌다.
+  2. <strong>복잡한 하드웨어의 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>: 각기 다른 제조사의 하드웨어를 제어하는 복잡한 저수준 코드를 애플리케이션 개발자가 매번 짤 수 없기에, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 공통된 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 형태의 인터페이스를 제공하게 되었다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램: 사용자-<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 인터페이스 계층 구조</strong>
-이 도식은 사용자 애플리케이션이 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 거쳐 시스템 호출 인터페이스에 도달하고, 최종적으로 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하는 계층적 흐름을 보여준다.
+- <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 다이어그램: 사용자-<a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 인터페이스 계층 구조</strong>
+이 도식은 사용자 애플리케이션이 표준 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 거쳐 시스템 호출 인터페이스에 도달하고, 최종적으로 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 접근하는 계층적 흐름을 보여준다.
 
 ```text
   +--------------------------------------------------------+
@@ -50,7 +47,7 @@ tags = ["studynote-operating-system"]
   +--------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 대부분의 프로그래머는 시스템 호출을 직접 호출하기보다 `libc`와 같은 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수를 사용한다. 예를 들어 `printf()`를 호출하면 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부에서 최종적으로 `write()`라는 시스템 호출을 발생시킨다. 시스템 호출 인터페이스는 이 요청을 받아 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 유도하고, CPU 모드 비트를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 전환시킨 후 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 해당 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘긴다. 이러한 계층 구조는 애플리케이션이 하드웨어의 세부 사항을 몰라도 일관된 방식으로 자원을 사용할 수 있게 하며, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 모든 요청을 중앙에서 검증할 수 있는 강력한 보안 경계를 형성한다.
+**[다이어그램 해설]** 대부분의 프로그래머는 시스템 호출을 직접 호출하기보다 `libc`와 같은 표준 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 함수를 사용한다. 예를 들어 `printf()`를 호출하면 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부에서 최종적으로 `write()`라는 시스템 호출을 발생시킨다. 시스템 호출 인터페이스는 이 요청을 받아 하드웨어 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 유도하고, CPU 모드 비트를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 전환시킨 후 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내부의 해당 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 루틴으로 제어권을 넘긴다. 이러한 계층 구조는 애플리케이션이 하드웨어의 세부 사항을 몰라도 일관된 방식으로 자원을 사용할 수 있게 하며, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 모든 요청을 중앙에서 검증할 수 있는 강력한 보안 경계를 형성한다.
 
 - **📢 섹션 요약 비유**: 복잡한 기계 장치 내부를 몰라도 외부의 버튼(시스템 호출)만 누르면 기계가 안전하게 동작하도록 설계된 조작 패널과 같습니다.
 
@@ -60,16 +57,16 @@ tags = ["studynote-operating-system"]
 
 - **구성 요소 (표)**
 
-| 요소명 | 역할 | 내부 동작 | [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
+| 요소명 | 역할 | 내부 동작 | [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) | 비유 |
 |:---|:---|:---|:---|:---|
-| **시스템 호출 번호** | 요청된 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 고유 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(e.g., EAX)에 번호를 담아 호출 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 매핑 | 메뉴판 번호 |
-| **시스템 호출 테이블** | 호출 번호와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 주소 매핑 | 번호를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 하여 함수 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/) [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 점프 테이블 (Jump Table) | 주소록 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>/Exception)</strong> | 모드 전환을 유발하는 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | `int 0x80`, `syscall` 등의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 | 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | 비상벨 호출 |
-| **매개변수 전달 메커니즘** | 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전달 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 또는 메모리 블록 주소 활용 | 호출 규약 (Calling Convention) | 서류 가방 전달 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 루틴</strong> | 실제 요청된 기능 수행 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근, 스케줄링 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직 실행 | 특권 명령 실행 | 전문 처리 팀 |
+| **시스템 호출 번호** | 요청된 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 고유 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(e.g., EAX)에 번호를 담아 호출 | [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 기반 매핑 | 메뉴판 번호 |
+| **시스템 호출 테이블** | 호출 번호와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 주소 매핑 | 번호를 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 하여 함수 [포인터 배열](/studynote/05_database/07_exam_summary/423_non_clustered_index/) [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) | 점프 테이블 (Jump Table) | 주소록 |
+| <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> (<a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>/Exception)</strong> | 모드 전환을 유발하는 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | `int 0x80`, `syscall` 등의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행 | 소프트웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | 비상벨 호출 |
+| **매개변수 전달 메커니즘** | 사용자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전달 | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 또는 메모리 블록 주소 활용 | 호출 규약 (Calling Convention) | 서류 가방 전달 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 루틴</strong> | 실제 요청된 기능 수행 | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근, 스케줄링 등 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 로직 실행 | 특권 명령 실행 | 전문 처리 팀 |
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 구조 다이어그램: 매개변수 전달의 3가지 방식</strong>
-시스템 호출 시 사용자 영역의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘기는 세 가지 주요 기법([레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 블록/테이블)을 시각화하여 비교한다.
+- <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 구조 다이어그램: 매개변수 전달의 3가지 방식</strong>
+시스템 호출 시 사용자 영역의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 넘기는 세 가지 주요 기법([레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 블록/테이블)을 시각화하여 비교한다.
 
 ```text
  [A. Register]          [B. Stack]               [C. Block/Table]
@@ -83,15 +80,15 @@ tags = ["studynote-operating-system"]
       +-------> [ Kernel ] <---+-----------(EBX)--------------+
 ```
 
-**[다이어그램 해설]** 시스템 호출은 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)과 유사하지만 모드가 바뀌므로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 방식이 독특하다. ① <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 방식</strong>은 가장 빠르지만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 개수만큼만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있어 단순한 호출에 쓰인다. ② <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 방식</strong>은 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 사용자 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 읽어가는 방식으로, 매개변수 개수에 제한이 없지만 메모리 접근 오버헤드가 있다. ③ <strong>블록/테이블 방식</strong>은 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리의 특정 블록에 저장하고, 그 시작 주소값만 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 담아 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기는 방식이다. 현대의 리눅스나 윈도우는 효율성을 위해 주로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식을 기본으로 하되, 복잡한 구조체는 블록 방식을 혼용하여 최적의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출한다. 이 메커니즘은 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규약'을 형성한다.
+**[다이어그램 해설]** 시스템 호출은 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)과 유사하지만 모드가 바뀌므로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넘기는 방식이 독특하다. ① <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> 방식</strong>은 가장 빠르지만 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 개수만큼만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼 수 있어 단순한 호출에 쓰인다. ② <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 방식</strong>은 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 사용자 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쌓고 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 이를 읽어가는 방식으로, 매개변수 개수에 제한이 없지만 메모리 접근 오버헤드가 있다. ③ <strong>블록/테이블 방식</strong>은 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 메모리의 특정 블록에 저장하고, 그 시작 주소값만 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 담아 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 넘기는 방식이다. 현대의 리눅스나 윈도우는 효율성을 위해 주로 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 방식을 기본으로 하되, 복잡한 구조체는 블록 방식을 혼용하여 최적의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 도출한다. 이 메커니즘은 사용자-[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규약'을 형성한다.
 
 - **심층 동작 원리 (6단계)**:
-  1. <strong>번호 및 인자 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 호출할 시스템 호출 번호를 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 저장하고 인자를 준비한다.
-  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 실행</strong>: `int 0x80` (과거) 또는 `syscall` (현대) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행한다.
-  3. **모드 전환**: CPU가 하드웨어 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 인지하고 모드 비트를 0으로 변경하며 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 전환한다.
-  4. **테이블 조회**: 시스템 호출 번호를 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 삼아 시스템 호출 테이블에서 실제 처리 함수 주소를 찾는다.
-  5. <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 작업 수행</strong>: [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 권한으로 하드웨어 제어 등 요청된 작업을 완수한다.
-  6. **복귀**: `iret` 또는 `sysret` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 결과값을 반환하고 모드 비트를 1로 돌리며 사용자 코드로 돌아간다.
+  1. <strong>번호 및 인자 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 호출할 시스템 호출 번호를 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 저장하고 인자를 준비한다.
+  2. <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 실행</strong>: `int 0x80` (과거) 또는 `syscall` (현대) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행한다.
+  3. **모드 전환**: CPU가 하드웨어 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 인지하고 모드 비트를 0으로 변경하며 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 전환한다.
+  4. **테이블 조회**: 시스템 호출 번호를 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)로 삼아 시스템 호출 테이블에서 실제 처리 함수 주소를 찾는다.
+  5. <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 작업 수행</strong>: [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드 권한으로 하드웨어 제어 등 요청된 작업을 완수한다.
+  6. **복귀**: `iret` 또는 `sysret` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 결과값을 반환하고 모드 비트를 1로 돌리며 사용자 코드로 돌아간다.
 
 - **핵심 코드 (Assembly & C Synergy)**
 ```asm
@@ -103,7 +100,7 @@ mov rdx, 5       ; 세 번째 인자: 메시지 길이
 syscall          ; 커널 모드 진입 (Trap 발생)
 ```
 
-- **📢 섹션 요약 비유**: 식당에서 손님(앱)이 메뉴판 번호(호출 번호)를 가리키며 주문서(매개변수)를 전달하면, 주방([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서 요리를 해서 가져다주는 주문 시스템과 같습니다.
+- **📢 섹션 요약 비유**: 식당에서 손님(앱)이 메뉴판 번호(호출 번호)를 가리키며 주문서(매개변수)를 전달하면, 주방([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))에서 요리를 해서 가져다주는 주문 시스템과 같습니다.
 
 ---
 
@@ -113,16 +110,16 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 | 방식 | 특징 | 장점 | 단점 | 실무 적용 |
 |:---|:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> | CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 직접 값 저장 | 전송 속도가 가장 빠름 | 매개변수 개수 제한 (보통 5~6개) | 소규모 인자 호출 (Linux 표준) |
-| **메모리 블록 (Block)** | 메모리에 저장 후 주소값 전달 | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 가능 | 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 네트워크 패킷, 구조체 전달 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | 프로세스 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 푸시 | 구조가 단순하고 유연함 | 모드 전환 시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 교체 복잡도 | 레거시 아키텍처, 임베디드 |
+| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/">레지스터</a> (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/">Register</a>)</strong> | CPU [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 직접 값 저장 | 전송 속도가 가장 빠름 | 매개변수 개수 제한 (보통 5~6개) | 소규모 인자 호출 (Linux 표준) |
+| **메모리 블록 (Block)** | 메모리에 저장 후 주소값 전달 | 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 가능 | 메모리 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 네트워크 패킷, 구조체 전달 |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">Stack</a>)</strong> | 프로세스 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 푸시 | 구조가 단순하고 유연함 | 모드 전환 시 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 교체 복잡도 | 레거시 아키텍처, 임베디드 |
 
 - **과목 융합 관점**:
-  1. **컴퓨터 아키텍처**: 최신 CPU는 시스템 호출 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 `SYSCALL`/`SYSRET` (AMD) 및 `SYSENTER`/`SYSEXIT` (Intel)을 지원하여, 기존의 범용 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방식보다 수십 배 빠른 진입 속도를 보장한다.
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a></strong>: 시스템 호출을 직접 쓰는 대신 표준 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (libc)를 쓰는 이유는 '[추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)' 때문이다. 리눅스의 `write()`와 윈도우의 `WriteFile()`은 내부 시스템 호출 번호와 방식이 전혀 다르지만, [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 이를 숨겨줌으로써 코드 재사용성을 높인다.
+  1. **컴퓨터 아키텍처**: 최신 CPU는 시스템 호출 전용 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 `SYSCALL`/`SYSRET` (AMD) 및 `SYSENTER`/`SYSEXIT` (Intel)을 지원하여, 기존의 범용 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 방식보다 수십 배 빠른 진입 속도를 보장한다.
+  2. <strong><a href="/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/">소프트웨어 공학</a></strong>: 시스템 호출을 직접 쓰는 대신 표준 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) (libc)를 쓰는 이유는 '[추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)' 때문이다. 리눅스의 `write()`와 윈도우의 `WriteFile()`은 내부 시스템 호출 번호와 방식이 전혀 다르지만, [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)가 이를 숨겨줌으로써 코드 재사용성을 높인다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 비교 다이어그램: 동기 vs 비동기 시스템 호출 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a>)</strong>
-기존의 차단형([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 시스템 호출과 최신 리눅스의 비동기 방식인 `io_uring`의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 원리를 시각화한다.
+- <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 비교 다이어그램: 동기 vs 비동기 시스템 호출 (<a href="/studynote/02_operating_system/08_storage_and_io_systems/464_io_uring/">io_uring</a>)</strong>
+기존의 차단형([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 시스템 호출과 최신 리눅스의 비동기 방식인 `io_uring`의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이 원리를 시각화한다.
 
 ```text
 [Sync System Call]                  [Async io_uring]
@@ -135,31 +132,31 @@ syscall          ; 커널 모드 진입 (Trap 발생)
  (N번 반복 시 N번 전환)                 (한 번의 전환으로 Batch 처리)
 ```
 
-**[다이어그램 해설]** 전통적인 시스템 호출은 한 번 부를 때마다 모드 전환 오버헤드가 발생한다. 특히 고성능 네트워크 서버처럼 초당 수백만 번의 I/O가 발생하는 경우, 이 전환 비용이 CPU의 30% 이상을 점유하기도 한다. 리눅스의 `io_uring`은 이를 해결하기 위해 사용자 공간과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간이 공유하는 원형 큐 (Ring Buffer)를 사용한다. 애플리케이션은 제출 큐 (SQ)에 요청을 쌓아두고 딱 한 번만 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 깨운다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 큐를 비동기적으로 처리한 후 완료 큐 (CQ)에 결과를 담는다. 결과적으로 수천 개의 시스템 호출을 단 한 번의 모드 전환으로 처리할 수 있어, 시스템 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다.
+**[다이어그램 해설]** 전통적인 시스템 호출은 한 번 부를 때마다 모드 전환 오버헤드가 발생한다. 특히 고성능 네트워크 서버처럼 초당 수백만 번의 I/O가 발생하는 경우, 이 전환 비용이 CPU의 30% 이상을 점유하기도 한다. 리눅스의 `io_uring`은 이를 해결하기 위해 사용자 공간과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 공간이 공유하는 원형 큐 (Ring Buffer)를 사용한다. 애플리케이션은 제출 큐 (SQ)에 요청을 쌓아두고 딱 한 번만 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 깨운다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 큐를 비동기적으로 처리한 후 완료 큐 (CQ)에 결과를 담는다. 결과적으로 수천 개의 시스템 호출을 단 한 번의 모드 전환으로 처리할 수 있어, 시스템 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다.
 
 - **📢 섹션 요약 비유**: 매번 물건 하나 살 때마다 마트를 가는 것(동기)보다, 장바구니에 담아두고 한 번에 배달시키는 것(비동기)이 효율적인 것과 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 - **실무 시나리오**:
-  1. <strong>고성능 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 최적화</strong>: DB 엔진은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 위해 `fsync()` 시스템 호출을 자주 사용한다. 하지만 `fsync()`는 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 완료될 때까지 프로세스를 멈추므로, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 기술과 결합하여 시스템 호출 빈도를 조절하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/905_container_security/">컨테이너 보안</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/">seccomp</a>)</strong>: 도커나 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서는 공격자가 시스템 호출을 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점을 공격하는 것을 막아야 한다. 이때 `seccomp` ([Secure Computing mode](/knowledge-base/studynote/02_operating_system/01_overview_architecture/080_seccomp/))를 사용하여 해당 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 사용할 수 있는 시스템 호출 목록을 화이트리스트로 제한하는 보안 정책을 적용한다.
-  3. <strong>디버깅 및 <a href="/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a></strong>: 프로그램이 왜 느린지 분석할 때 `strace` 도구를 사용하면 애플리케이션이 호출하는 모든 시스템 호출과 그 소요 시간을 실시간으로 추적할 수 있다. 이는 블랙박스 형태의 바이너리 문제를 진단하는 가장 강력한 수단이다.
+  1. <strong>고성능 <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a> 최적화</strong>: DB 엔진은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 위해 `fsync()` 시스템 호출을 자주 사용한다. 하지만 `fsync()`는 디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 완료될 때까지 프로세스를 멈추므로, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/) 기술과 결합하여 시스템 호출 빈도를 조절하는 것이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 핵심이다.
+  2. <strong><a href="/studynote/04_software_engineering/11_testing_validation/905_container_security/">컨테이너 보안</a> (<a href="/studynote/02_operating_system/01_overview_architecture/080_seccomp/">seccomp</a>)</strong>: 도커나 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 환경에서는 공격자가 시스템 호출을 통해 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 취약점을 공격하는 것을 막아야 한다. 이때 `seccomp` ([Secure Computing mode](/studynote/02_operating_system/01_overview_architecture/080_seccomp/))를 사용하여 해당 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 사용할 수 있는 시스템 호출 목록을 화이트리스트로 제한하는 보안 정책을 적용한다.
+  3. <strong>디버깅 및 <a href="/studynote/02_operating_system/10_security/613_profiling_gprof/">프로파일링</a></strong>: 프로그램이 왜 느린지 분석할 때 `strace` 도구를 사용하면 애플리케이션이 호출하는 모든 시스템 호출과 그 소요 시간을 실시간으로 추적할 수 있다. 이는 블랙박스 형태의 바이너리 문제를 진단하는 가장 강력한 수단이다.
 
-- <strong>도입 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
+- <strong>도입 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
   - 애플리케이션에서 발생하는 시스템 호출의 빈도가 CPU 사용량 대비 적절한가?
   - 보안상 민감한 시스템 호출 (e.g., `ptrace`, `reboot`)이 일반 사용자 권한으로 노출되어 있지 않은가?
   - 대량 I/O 처리가 필요한 경우 `io_uring`이나 `epoll` 같은 효율적인 시스템 호출 구조를 채택했는가?
   - 시스템 호출 결과값에 대한 예외 처리 (Error Handling)가 모든 케이스에 대해 되어 있는가?
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-  - **Over-calling in Loops**: 반복문 안에서 매번 시스템 호출을 발생시키는 행위 (예: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 1바이트씩 읽기). 반드시 [버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)을 사용하여 한 번에 많이 읽고 시스템 호출 횟수를 줄여야 한다.
-  - **Ignoring Return Values**: 시스템 호출은 하드웨어 상태에 따라 빈번히 실패한다 (e.g., 디스크 풀, 네트워크 단절). 리턴 값을 체크하지 않으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이나 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) 발생의 원인이 된다.
+- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+  - **Over-calling in Loops**: 반복문 안에서 매번 시스템 호출을 발생시키는 행위 (예: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에서 1바이트씩 읽기). 반드시 [버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/454_buffering/)을 사용하여 한 번에 많이 읽고 시스템 호출 횟수를 줄여야 한다.
+  - **Ignoring Return Values**: 시스템 호출은 하드웨어 상태에 따라 빈번히 실패한다 (e.g., 디스크 풀, 네트워크 단절). 리턴 값을 체크하지 않으면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유실이나 [좀비 프로세스](/studynote/02_operating_system/02_process_thread/109_zombie_process/) 발생의 원인이 된다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 운영 플로우: strace를 이용한 장애 진단 흐름</strong>
-시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 `strace`를 통해 병목 지점을 찾아내는 실무적인 분석 단계를 보여준다.
+- <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 운영 플로우: strace를 이용한 장애 진단 흐름</strong>
+시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 시 `strace`를 통해 병목 지점을 찾아내는 실무적인 분석 단계를 보여준다.
 
 ```text
  [Start Trace] ---> [Filter Syscalls] ---> [Analyze Latency] ---> [Identify Bottleneck]
@@ -171,7 +168,7 @@ syscall          ; 커널 모드 진입 (Trap 발생)
                                                          [Action: Check Disk I/O]
 ```
 
-**[다이어그램 해설]** 실무에서 프로세스가 '먹통'이 되었을 때, `strace`를 붙여보면 현재 어떤 시스템 호출에서 멈춰 있는지 즉시 알 수 있다. 예를 들어 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 명령인 `read()`에서 2초 이상 대기가 발생한다면, 이는 애플리케이션 로직의 문제가 아니라 하위 디스크 드라이버나 [네트워크 파일 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/knowledge-base/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제임을 확신할 수 있다. 기술사는 이러한 도구를 활용해 문제의 원인이 사용자 영역(User Space)에 있는지 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에 있는지 명확히 구분하여 해결 전략을 수립해야 한다.
+**[다이어그램 해설]** 실무에서 프로세스가 '먹통'이 되었을 때, `strace`를 붙여보면 현재 어떤 시스템 호출에서 멈춰 있는지 즉시 알 수 있다. 예를 들어 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 읽기 명령인 `read()`에서 2초 이상 대기가 발생한다면, 이는 애플리케이션 로직의 문제가 아니라 하위 디스크 드라이버나 [네트워크 파일 시스템](/studynote/02_operating_system/11_exam_summary/774_nfs_stateless_network_file_system/) ([NFS](/studynote/02_operating_system/09_file_system/543_nfs_network_file_system/))의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제임을 확신할 수 있다. 기술사는 이러한 도구를 활용해 문제의 원인이 사용자 영역(User Space)에 있는지 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Space)에 있는지 명확히 구분하여 해결 전략을 수립해야 한다.
 
 - **📢 섹션 요약 비유**: 환자의 몸 내부를 엑스레이(strace)로 찍어 어떤 장기(시스템 호출)가 제 기능을 못 하는지 찾아내는 정밀 진단 과정과 같습니다.
 
@@ -183,31 +180,31 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 | 구분 | 도입 전 (직접 HW 제어) | 도입 후 (시스템 호출 활용) | 개선 효과 |
 |:---|:---|:---|:---|
-| **안정성** | 앱 버그가 하드웨어 파손 유발 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 검증으로 오류 차단 | [커널 패닉](/knowledge-base/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 발생률 95% 감소 |
-| **이식성** | 특정 HW 전용 코드로 작성 | 표준 API로 작성, HW 독립성 확보 | 개발 비용 및 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전 프로세스에 노출 | 권한 기반 접근 제어 ([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 및 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 강화 |
+| **안정성** | 앱 버그가 하드웨어 파손 유발 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 검증으로 오류 차단 | [커널 패닉](/studynote/02_operating_system/01_overview_architecture/036_kernel_panic/) 발생률 95% 감소 |
+| **이식성** | 특정 HW 전용 코드로 작성 | 표준 API로 작성, HW 독립성 확보 | 개발 비용 및 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 향상 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a></strong> | 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 전 프로세스에 노출 | 권한 기반 접근 제어 ([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/)) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 및 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 강화 |
 
 - **미래 전망**:
-  - <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a> OS (<a href="/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/">Unikernel</a>)</strong>: 클라우드 환경에서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하기 위해, 시스템 호출의 모드 전환 비용조차 아까워 애플리케이션과 OS를 하나로 합쳐 단일 모드에서 실행하는 [유니커널](/knowledge-base/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/) 기술이 부상하고 있다.
-  - **eBPF의 확장**: 시스템 호출의 호출 전후에 동적으로 로직을 삽입하여 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수정 없이 보안 모니터링이나 네트워크 필터링을 수행하는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기술이 시스템 호출 아키텍처의 혁신을 이끌고 있다.
+  - <strong><a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a> OS (<a href="/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/">Unikernel</a>)</strong>: 클라우드 환경에서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화하기 위해, 시스템 호출의 모드 전환 비용조차 아까워 애플리케이션과 OS를 하나로 합쳐 단일 모드에서 실행하는 [유니커널](/studynote/02_operating_system/10_security/640_unikernel_mirageos_architecture/) 기술이 부상하고 있다.
+  - **eBPF의 확장**: 시스템 호출의 호출 전후에 동적으로 로직을 삽입하여 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 수정 없이 보안 모니터링이나 네트워크 필터링을 수행하는 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 기술이 시스템 호출 아키텍처의 혁신을 이끌고 있다.
 
 - **참고 표준**:
   - **POSIX.1**: 시스템 인터페이스 및 시스템 호출 표준 정의
-  - <strong>Linux System <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Table</strong>: 아키텍처별 호출 번호 및 인터페이스 명세
+  - <strong>Linux System <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/">Call</a> Table</strong>: 아키텍처별 호출 번호 및 인터페이스 명세
 
-- **📢 섹션 요약 비유**: 성벽을 높게 쌓아(보안) 안전을 지키던 시대를 지나, 이제는 성문 통과 절차를 자동화([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))하고 성문 밖에서도 안전하게 거래하는 방식([eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/))으로 진화하고 있습니다.
+- **📢 섹션 요약 비유**: 성벽을 높게 쌓아(보안) 안전을 지키던 시대를 지나, 이제는 성문 통과 절차를 자동화([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))하고 성문 밖에서도 안전하게 거래하는 방식([eBPF](/studynote/02_operating_system/10_security/615_ebpf/))으로 진화하고 있습니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
-| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
+| 개념 명칭 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)</strong> | 시스템 호출을 구현하기 위해 의도적으로 발생시키는 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> 테이블 (IVT)</strong> | 시스템 호출 요청 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 어디로 점프할지 알려주는 이정표 |
-| <strong>libc (Standard C <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a>)</strong> | 시스템 호출의 복잡함을 숨기고 개발자에게 친숙한 API를 제공하는 래퍼(Wrapper) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/011_dual_mode/">Dual Mode</a></strong> | 시스템 호출이 안전하게 동작할 수 있게 보장하는 하드웨어적 전제 조건 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a></strong> | 시스템 호출 시 발생하는 사용자-[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 실행 상태 전환 과정 |
+| <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a> (<a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">Trap</a>)</strong> | 시스템 호출을 구현하기 위해 의도적으로 발생시키는 소프트웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/">인터럽트 벡터</a> 테이블 (IVT)</strong> | 시스템 호출 요청 시 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내 어디로 점프할지 알려주는 이정표 |
+| <strong>libc (Standard C <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">Library</a>)</strong> | 시스템 호출의 복잡함을 숨기고 개발자에게 친숙한 API를 제공하는 래퍼(Wrapper) |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/011_dual_mode/">Dual Mode</a></strong> | 시스템 호출이 안전하게 동작할 수 있게 보장하는 하드웨어적 전제 조건 |
+| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/">Context Switch</a></strong> | 시스템 호출 시 발생하는 사용자-[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 간의 실행 상태 전환 과정 |
 
 ---
 
@@ -229,11 +226,11 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 [사용자 모드 복귀 (Return to User Mode) — 결과값 반환, 컨텍스트 복원]
 ```
 
-이 흐름은 사용자 프로그램이 소프트웨어 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 통해 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원을 안전하게 요청하고, 처리 결과를 받아 복귀하는 시스템 콜의 수명 주기를 보여준다.
+이 흐름은 사용자 프로그램이 소프트웨어 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 통해 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 자원을 안전하게 요청하고, 처리 결과를 받아 복귀하는 시스템 콜의 수명 주기를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 시스템 호출은 우리가 스마트폰에서 <strong>'사진 찍기 버튼'</strong>을 누르는 것과 같아요.
-2. 우리가 카메라 렌즈를 직접 조절할 순 없지만, 버튼(시스템 호출)을 누르면 스마트폰 안의 요정([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 대신 사진을 예쁘게 찍어주는 거예요.
+2. 우리가 카메라 렌즈를 직접 조절할 순 없지만, 버튼(시스템 호출)을 누르면 스마트폰 안의 요정([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 대신 사진을 예쁘게 찍어주는 거예요.
 3. 이렇게 정해진 버튼만 눌러야 카메라가 고장 나지 않고 안전하게 오래 사용할 수 있답니다!
 
 ---
@@ -244,7 +241,7 @@ syscall          ; 커널 모드 진입 (Trap 발생)
 
 **진행 상황**: 13 / 800
 
-<- **이전**: [12. 모드 비트 (Mode Bit)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)
-**다음**: [14. API (Application Programming Interface), POSIX 표준](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ->
+<- **이전**: [12. 모드 비트 (Mode Bit)](/studynote/02_operating_system/01_overview_architecture/012_mode_bit/)
+**다음**: [14. API (Application Programming Interface), POSIX 표준](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ->
 
 ---

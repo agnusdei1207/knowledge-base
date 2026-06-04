@@ -1,13 +1,10 @@
-+++
-title = "555. 디지털 혁신 리더십 CxO 역할 (Digital Innovation Leadership CxO Role)"
-date = 2026-05-09
+---
+title: "555. 디지털 혁신 리더십 CxO 역할 (Digital Innovation Leadership CxO Role)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 555 / 800
 
-<- **이전**: [554. DevOps 문화 협업 자동화 피드백](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/554_devops_culture_collaboration_automation_feedb/)
-**다음**: [556. 기술 부채 관리 현대화 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/556_technical_debt_management_modernization/) ->
+<- **이전**: [554. DevOps 문화 협업 자동화 피드백](/studynote/07_enterprise_systems/06_exam_summary/554_devops_culture_collaboration_automation_feedb/)
+**다음**: [556. 기술 부채 관리 현대화 전략](/studynote/07_enterprise_systems/06_exam_summary/556_technical_debt_management_modernization/) ->
 
 ---

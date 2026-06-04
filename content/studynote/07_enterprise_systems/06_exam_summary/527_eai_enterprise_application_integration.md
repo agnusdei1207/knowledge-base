@@ -1,13 +1,10 @@
-+++
-title = "527. EAI 엔터프라이즈 통합 미들웨어 (EAI Enterprise Application Integration)"
-date = 2026-05-09
+---
+title: "527. EAI 엔터프라이즈 통합 미들웨어 (EAI Enterprise Application Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 527 / 800
 
-<- **이전**: [526. 이벤트 드리븐 아키텍처 EDA 설계](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/526_event_driven_architecture_eda_design/)
-**다음**: [528. ESB 엔터프라이즈 서비스 버스 통합](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/528_esb_enterprise_service_bus_integration/) ->
+<- **이전**: [526. 이벤트 드리븐 아키텍처 EDA 설계](/studynote/07_enterprise_systems/06_exam_summary/526_event_driven_architecture_eda_design/)
+**다음**: [528. ESB 엔터프라이즈 서비스 버스 통합](/studynote/07_enterprise_systems/06_exam_summary/528_esb_enterprise_service_bus_integration/) ->
 
 ---

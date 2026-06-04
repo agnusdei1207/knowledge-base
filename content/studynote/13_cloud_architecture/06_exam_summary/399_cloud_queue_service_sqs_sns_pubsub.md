@@ -1,13 +1,10 @@
-+++
-title = "399. 클라우드 큐 서비스 SQS SNS Pub/Sub (Cloud Queue Service SQS SNS PubSub)"
-date = 2026-05-09
+---
+title: "399. 클라우드 큐 서비스 SQS SNS Pub/Sub (Cloud Queue Service SQS SNS PubSub)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 399 / 800
 
-<- **이전**: [398. 클라우드 이벤트 EventBridge 비동기 통신](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/398_cloud_event_eventbridge_async_communication/)
-**다음**: [400. 클라우드 스트리밍 Kinesis EventHub](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/400_cloud_streaming_kinesis_eventhub/) ->
+<- **이전**: [398. 클라우드 이벤트 EventBridge 비동기 통신](/studynote/13_cloud_architecture/06_exam_summary/398_cloud_event_eventbridge_async_communication/)
+**다음**: [400. 클라우드 스트리밍 Kinesis EventHub](/studynote/13_cloud_architecture/06_exam_summary/400_cloud_streaming_kinesis_eventhub/) ->
 
 ---

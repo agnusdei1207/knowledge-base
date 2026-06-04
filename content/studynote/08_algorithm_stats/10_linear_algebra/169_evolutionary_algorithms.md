@@ -1,49 +1,46 @@
-+++
-title = "10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)"
-date = 2026-04-21
+---
+title: "10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Evolutionary [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 은 *자연의 진화 원리(선택, 교차, [돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/))를 모방한 메타휴리스틱* — 기울기 정보 없이 불연속·비볼록 탐색 공간을 탐색한다.
-> 2. **가치**: 해의 인코딩만 정의하면 어떤 최적화 문제도 적용 가능하지만, **공짜 점심 없음 정리 (No Free Lunch Theorem)** 가 "모든 문제에 최선인 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없다"고 말하듯 문제 구조에 맞는 선택이 중요하다.
-> 3. **판단 포인트**: 기울기 기반(빠른 수렴, 미분 가능 필요) vs 진화 기반(느린 수렴, 범용) — 신경망 하이퍼파라미터 최적화, 조합 문제, 공학 설계에서 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 실용적 대안이다.
+> 1. **본질**: 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Evolutionary [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 은 *자연의 진화 원리(선택, 교차, [돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/))를 모방한 메타휴리스틱* — 기울기 정보 없이 불연속·비볼록 탐색 공간을 탐색한다.
+> 2. **가치**: 해의 인코딩만 정의하면 어떤 최적화 문제도 적용 가능하지만, **공짜 점심 없음 정리 (No Free Lunch Theorem)** 가 "모든 문제에 최선인 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없다"고 말하듯 문제 구조에 맞는 선택이 중요하다.
+> 3. **판단 포인트**: 기울기 기반(빠른 수렴, 미분 가능 필요) vs 진화 기반(느린 수렴, 범용) — 신경망 하이퍼파라미터 최적화, 조합 문제, 공학 설계에서 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 실용적 대안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-**메타휴리스틱 (Metaheuristic)**: 특정 문제 구조를 이용하지 않고 일반적 탐색 원리로 좋은 해를 찾는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)군.
+**메타휴리스틱 (Metaheuristic)**: 특정 문제 구조를 이용하지 않고 일반적 탐색 원리로 좋은 해를 찾는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)군.
 
-대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들:
+대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들:
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 영감 | 주요 연산 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 영감 | 주요 연산 |
 |:---|:---|:---|
-| GA (Genetic [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 다윈 진화론 | 선택·교차·[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) |
+| GA (Genetic [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 다윈 진화론 | 선택·교차·[돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) |
 | PSO (Particle Swarm Optimization) | 새떼·물고기떼 | 속도·위치 업데이트 |
-| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) (Simulated Annealing) | 금속 담금질 | 확률적 이동 수락 |
+| [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) (Simulated Annealing) | 금속 담금질 | 확률적 이동 수락 |
 | ACO (Ant Colony Optimization) | 개미 페로몬 | 페로몬 기반 경로 |
-| CMA-ES (Covariance Matrix Adaptation) | 진화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 공분산 적응 |
+| CMA-ES (Covariance Matrix Adaptation) | 진화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 공분산 적응 |
 
 **왜 필요한가?**
 - 목적 함수가 미분 불가능 (블랙박스 함수)
 - 불연속·다봉 탐색 공간
 - 제약이 복잡하여 LP/IP 모델화 어려움
-- [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐색으로 다양한 해 동시 유지
+- [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐색으로 다양한 해 동시 유지
 
-📢 **섹션 요약 비유**: 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "시험 없이 우수한 유전자 고르기"다 — 어떤 특성이 최적인지 몰라도, 많은 개체를 만들어 좋은 것끼리 교배하다 보면 자연스럽게 우수한 해가 나타난다.
+📢 **섹션 요약 비유**: 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "시험 없이 우수한 유전자 고르기"다 — 어떤 특성이 최적인지 몰라도, 많은 개체를 만들어 좋은 것끼리 교배하다 보면 자연스럽게 우수한 해가 나타난다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### GA (Genetic [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 구조
+### GA (Genetic [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 구조
 
 ```
 초기 세대 (Population) 생성
@@ -137,13 +134,13 @@ gBest: 전체 최적 위치
 
 ## Ⅲ. 비교 및 연결
 
-### 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상세 비교
+### 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상세 비교
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 강점 | 약점 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 | 강점 | 약점 |
 |:---|:---|:---|:---|
-| GA | 교차·[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) | 조합 최적화 강함 | 파라미터 민감 |
+| GA | 교차·[돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) | 조합 최적화 강함 | 파라미터 민감 |
 | PSO | 속도 기반 | 연속 공간, 빠름 | 조기 수렴 |
-| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) | 확률적 수용 | 탈출 능력 | 냉각 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 민감 |
+| [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) | 확률적 수용 | 탈출 능력 | 냉각 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 민감 |
 | CMA-ES | 공분산 적응 | 연속 블랙박스 최강 | 고차원 불리 |
 | DE (Differential Evolution) | 차분 변이 | 실수 최적화 강함 | 파라미터 3개 |
 
@@ -151,13 +148,13 @@ gBest: 전체 최적 위치
 
 Wolpert & Macready (1997):
 
-"모든 가능한 문제에 대해 평균 성능을 비교하면, 모든 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 성능은 동일하다."
+"모든 가능한 문제에 대해 평균 성능을 비교하면, 모든 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 성능은 동일하다."
 
 -> 특정 문제 클래스에서 A가 B보다 나으면, 다른 문제 클래스에서는 B가 A보다 낫다.
 
-실용적 함의: <strong>문제 구조를 이용한 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 설계가 범용 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 항상 유리</strong>.
+실용적 함의: <strong>문제 구조를 이용한 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 설계가 범용 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>보다 항상 유리</strong>.
 
-### CMA-ES (Covariance Matrix Adaptation Evolution [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
+### CMA-ES (Covariance Matrix Adaptation Evolution [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))
 
 현재 연속 공간 블랙박스 최적화의 황금 기준:
 
@@ -194,9 +191,9 @@ Wolpert & Macready (1997):
   돌연변이 = 일부 파라미터 랜덤 변경
 ```
 
-<strong>Neural <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Search (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a>)</strong>: GA/강화학습으로 신경망 구조 자체를 탐색 (EfficientNet, DARTS).
+<strong>Neural <a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Search (<a href="/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/">NAS</a>)</strong>: GA/강화학습으로 신경망 구조 자체를 탐색 (EfficientNet, DARTS).
 
-### [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) (Traveling Salesman Problem) — 유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) (Traveling Salesman Problem) — 유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 n = 100개 도시
@@ -212,16 +209,16 @@ GA: O(pop × gen × n) -> 실용적
 ### 기술사 판단 포인트
 
 1. **"GA와 경사하강의 선택 기준은?"** -> 미분 가능 연속 -> 경사하강 / 불연속·조합·블랙박스 -> GA/PSO
-2. **"공짜 점심 없음 정리의 실무 의미는?"** -> 범용 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으므로 문제 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 활용 필수
+2. **"공짜 점심 없음 정리의 실무 의미는?"** -> 범용 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 없으므로 문제 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 활용 필수
 3. **"PSO와 GA의 차이는?"** -> PSO: 연속 탐색 공간에서 빠른 수렴 / GA: 이산 조합 문제에 더 적합
 
-📢 **섹션 요약 비유**: [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(Neural [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) Search)는 "AI가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구조를 설계"하는 것이다 — 인간이 수작업으로 설계하던 신경망 구조를 GA/RL로 자동 탐색해 더 효율적인 구조를 발견한다.
+📢 **섹션 요약 비유**: [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/)(Neural [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) Search)는 "AI가 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 구조를 설계"하는 것이다 — 인간이 수작업으로 설계하던 신경망 구조를 GA/RL로 자동 탐색해 더 효율적인 구조를 발견한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>기울기 없이 탐색하는 최적화의 마지막 수단이자 강력한 대안</strong>이다.
+진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 <strong>기울기 없이 탐색하는 최적화의 마지막 수단이자 강력한 대안</strong>이다.
 
 실무 적용 시 선택 가이드:
 
@@ -239,9 +236,9 @@ GA: O(pop × gen × n) -> 실용적
   근사 해 허용 -> 진화 알고리즘
 ```
 
-현대 응용: [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), 로봇 공학, 분자 설계 (신약 개발), [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 설계 모두에서 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 인간 전문가를 능가하는 해를 발견하고 있다.
+현대 응용: [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/), 로봇 공학, 분자 설계 (신약 개발), [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 설계 모두에서 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 인간 전문가를 능가하는 해를 발견하고 있다.
 
-📢 **섹션 요약 비유**: 진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "답을 몰라도 시행착오로 최선을 찾는 수학적 다윈주의"다 — 수백만 년의 진화를 수천 번의 반복으로 압축해, 인간이 직관으로 찾기 어려운 최적 설계를 자동으로 발굴한다.
+📢 **섹션 요약 비유**: 진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "답을 몰라도 시행착오로 최선을 찾는 수학적 다윈주의"다 — 수백만 년의 진화를 수천 번의 반복으로 압축해, 인간이 직관으로 찾기 어려운 최적 설계를 자동으로 발굴한다.
 
 ---
 
@@ -249,12 +246,12 @@ GA: O(pop × gen × n) -> 실용적
 
 | 개념 | 핵심 연산 | 적합 문제 |
 |:---|:---|:---|
-| GA (유전 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 선택·교차·[돌연변이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) | 조합 최적화, 이산 |
+| GA (유전 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) | 선택·교차·[돌연변이](/studynote/04_software_engineering/10_trends_pm_quality/638_mutation_testing_test_case_verification/) | 조합 최적화, 이산 |
 | PSO (입자 군집) | 속도·위치 업데이트 | 연속 탐색 공간 |
-| [SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) (시뮬레이티드 어닐링) | 확률적 수락 | 조합, 국소 탐색 |
+| [SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/) (시뮬레이티드 어닐링) | 확률적 수락 | 조합, 국소 탐색 |
 | CMA-ES | 공분산 적응 | 연속 블랙박스 최고 |
-| [NAS](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) | GA + 신경망 구조 | [AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), 딥러닝 |
-| 공짜 점심 없음 | 범용 최강 없음 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 지침 |
+| [NAS](/studynote/02_operating_system/08_storage_and_io_systems/492_nas_network_attached_storage/) | GA + 신경망 구조 | [AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/), 딥러닝 |
+| 공짜 점심 없음 | 범용 최강 없음 | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 지침 |
 
 ---
 
@@ -276,13 +273,13 @@ GA: O(pop × gen × n) -> 실용적
                 v
             [CMA-ES / NAS — 공학 설계·신경망 구조 최적화]
 ```
-진화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 브루트 포스와 경사 기반 최적화의 한계를 넘어, 조합 문제와 블랙박스 설계에 맞는 범용 탐색 틀로 발전했다.
+진화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 브루트 포스와 경사 기반 최적화의 한계를 넘어, 조합 문제와 블랙박스 설계에 맞는 범용 탐색 틀로 발전했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **GA는 "우수한 유전자 경쟁"**: 좋은 특성을 가진 부모끼리 교배하면, 세대를 거듭할수록 더 좋은 자손이 나타난다.
 2. **PSO는 "목적지 찾는 새떼"**: 각 새가 자신이 지금껏 발견한 최고 위치와 떼 전체의 최고 위치를 참고하며 날아가 최적 지점을 발견한다.
-3. <strong>공짜 점심 없음은 "만능 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 없음"</strong>: 모든 문제를 동시에 잘 푸는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 존재하지 않으니, 문제에 맞는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 골라야 한다.
+3. <strong>공짜 점심 없음은 "만능 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 없음"</strong>: 모든 문제를 동시에 잘 푸는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 존재하지 않으니, 문제에 맞는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 골라야 한다.
 
 ---
 
@@ -290,7 +287,7 @@ GA: O(pop × gen × n) -> 실용적
 
 **진행 상황**: 169 / 175
 
-<- **이전**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/)
-**다음**: [08. 벨만-포드 (Bellman-Ford)](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) ->
+<- **이전**: [9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP](/studynote/08_algorithm_stats/10_linear_algebra/168_integer_programming/)
+**다음**: [08. 벨만-포드 (Bellman-Ford)](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) ->
 
 ---

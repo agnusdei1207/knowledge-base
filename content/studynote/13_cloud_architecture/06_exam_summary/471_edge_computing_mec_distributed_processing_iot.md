@@ -1,175 +1,159 @@
-+++
-title = "471. 엣지 컴퓨팅 MEC 분산 처리 IoT (Edge Computing MEC Distributed Processing IoT)"
-date = 2026-05-09
+---
+title: "471. 엣지 컴퓨팅 MEC 분산 처리 IoT (Edge Computing MEC Distributed Processing IoT)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드-중심 컴퓨팅을 무선 기지국(DU/CU), MEC 호스트, 게이트웨이 측으로 분산 배치하여, 3GPP TS 23.558의 AF( Application Function)와 ETSI MEC ISG 표준 기반의 1ms 이하 Ultra-Low Latency ULL 서비스를 구현하는 **5G-Edge Native** 아키텍처이다.
+> 2. **가치**: V2X(20ms 이하), 원격 수술·산업용 HMI(≤10ms), 모바일 AR/VR(≤20ms), 비전 검사(≤50ms) 등 결정적 지연시간(latency-critical) 워크로드를 가능케 하며, 5G UPF의 Uplink Classifier / Branching Point / Local Breakout 을 통해 백홀 트래픽을 **60~90%** 절감한다.
+> 3. **판단 포인트**: "Where to compute(어디서 연산할 것인가)"의 결정—단말(On-Device AI) ↔ On-Premise Edge ↔ MEC(5G RAN) ↔ Region Cloud ↔ Hyperscale Cloud—을 데이터 주권, 지연시간, 비용(TCO), 상태 유지(Stateful/Stateless), 동기·비동기 비율, **5G 네트워크 슬라이스(URLLC/eMBB/mMTC)** 매핑 기준으로 트레이드오프 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 컴퓨팅은 **집중화된 자원 풀**을 통한 경제성과 확장성을 제공했지만, 4G LTE 시대의 모바일 트래픽 폭증, IoT 디바이스의 **N x 100B(Billion)** 스케일, 그리고 5G URLLC·XR·자율주행 등 **latency-bound** 워크로드 등장으로 **물리적 한계**가 노출되었다. 일반적인 클라우드 RTT는 30~80ms이며, 이는 인간의 반응시간(150~300ms)에는 충분하지만, 산업용 협동로봇(≤1ms), V2X CAM 메시지(≤20ms), 클라우드 게임(≤10ms), Haptic Feedback(≤5ms)에는 부적합하다. 또한 영상·LiDAR·센서 데이터의 폭증으로 인해 **백홀/코어 네트워크 대역폭 비용**이 기하급수적으로 증가하면서, **데이터를 발생地点에서 처리**하는 패러다임 전환이 요구되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Edge Computing MEC Distributed Processing IoT 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+ETSI(European Telecommunications Standards Institute)는 2014년 Mobile Edge Computing을, 2017년 5G·Wi-Fi·고정 액세스를 모두 포괄하는 **Multi-access Edge Computing(MEC)**으로 명칭을 변경하고, ISG(Industry Specification Group)를 통해 참조 아키텍처(ETSI GS MEC 003), 프레임워크(GS MEC 010), API(GS MEC 011~029) 표준을 제정했다. 3GPP는 **TS 23.558(Architecture for enabling Edge Applications)**, **TS 23.501/23.502(System Architecture for 5G System)**에서 Edge Application Server(EAS), Edge Enabler Server(EES), UPF의 Traffic Steering 규칙(TSC/URR)을 정의하여 MEC가 **5G 코어 네이티브**로 동작하도록 통합했다.
 
 ```text
-+--------------------------------------------------------------+
-|                    엣지 컴퓨팅 MEC 분산 처리 IoT 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[클라우드-중심 모델 vs 엣지-중심 모델]
+
+   (기존) 중앙 집중형                    (신) 엣지 분산형
+   +----------+                          +------------------+
+   | IoT Device|-센서데이터(100%)--►|   | IoT Device      |
+   +----------+                          |  + 임베디드 AI --+|
+        |                                 |     (TFLite/    ||
+        | LTE/5G                          |      ONNX)      ||
+        v                                 +------+----------+
+   +----------+                                  | 전처리(10%)
+   |  EPC/5GC |                                  v
+   +----+-----+                          +------------------+
+        |                                 | Edge Gateway     |
+        v                                 | (K3s/KubeEdge)   |
+   +----------+  지연 50ms+                 |  + 프로토콜 변환 |
+   |  Cloud   |  비용 $$$                  |  + 로컬 캐시    |
+   |(Hyperscale|                          |  + 스트림 분석  |
+   |   DC)    |◄-전체 원본                 +------+----------+
+   |  + 분석  |                                       | 요약/이벤트(1%)
+   |  + AI    |                                       v
+   |  + 저장  |                                  +----------+
+   +----+-----+                                  | 5G UPF   |
+        |                                         |Local Breakout
+        v                                         v
+   +----------+                              +----------+
+   | User/Client|                              | MEC Host|
+   +----------+                              | +AKSAWS  |
+                                              | Greengrass|
+                                              +----+-----+
+                                                   | 정책/메타데이터
+                                                   v
+                                              +----------+
+                                              | Region   |
+                                              | Cloud    |
+                                              +----------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: "택배 기사가 모든 화물을 중앙 물류센터로만 보내던 방식"에서 "**동네 허브(Edge Hub)**에서 1차 분류·처리하고, 전국 본부(Cloud)에는 핵심 화물만 보내는 방식"으로 전환한 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-엣지 컴퓨팅 MEC 분산 처리 IoT의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+ETSI MEC 참조 아키텍처는 **3계층(Host Level / System Level / External Level)**으로 구성된다. 핵심 컴포넌트는 MEC Host(MEC Platform + MEC Apps + Virtualisation Infrastructure), MEC Orchestrator(MEO), Multi-access Orchestrator(MEAO), OSS/BSS, 그리고 User Equipment 측의 **MEC App + UE App**이다. 3GPP는 이를 5G 코어와 통합하면서 AF(Application Function) 기반의 **EES(Edge Enabler Server) ↔ EEC(Edge Enabler Client)** 구조로 매핑한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Edge Computing MEC Distributed Processing IoT 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ETSI MEC + 3GPP 5G 통합 참조 아키텍처]
+
+  +------------------------------------------------------------+
+  |                  External Level (Level 3)                  |
+  |  +----------+  +----------+  +----------+  +----------+    |
+  |  | OSS/BSS  |  |  MEAO    |  |  MEO     |  |  CAP     |    |
+  |  |(Operations|  |(Multi-   |  |(MEC      |  |(Charging|    |
+  |  | Support) |  | access   |  | Orchestr.)|  |  System) |    |
+  |  +----^-----+  +----^-----+  +----^-----+  +----------+    |
+  |       | Mp1/Mp3   | Mm1       | Mm4/Mm5                    |
+  +-------+-----------+-----------+----------------------------+
+  |       |  System Level (Level 2: MEC Framework)              |
+  |  +----+------------------------------+                     |
+  |  |   MEC Platform Service           |  Mp2/Mm2             |
+  |  |   - Traffic Rule Control          |                     |
+  |  |   - DNS, Location, Bandwidth Mgr  |                     |
+  |  |   - MEC Service Registry          |                     |
+  |  +------------+---------------------+                     |
+  +---------------+--------------------------------------------+
+  |               |  Host Level (Level 1)                      |
+  |  +------------v-----------------------------------------+  |
+  |  |            MEC Host  (e.g. 기지국/Regional DC)         |  |
+  |  |  +-----------------------------------------------+   |  |
+  |  |  | Virtualisation Infrastructure (VM/K8s/K3s)   |   |  |
+  |  |  |  +----------+  +----------+  +----------+    |   |  |
+  |  |  |  | MEC App  |  | MEC App  |  | MEC App  |    |   |  |
+  |  |  |  |  (V2X)   |  | (AR/VR)  |  |(Video   |    |   |  |
+  |  |  |  |          |  |          |  | Analytics)|    |   |  |
+  |  |  |  +----------+  +----------+  +----------+    |   |  |
+  |  |  +-----------------------------------------------+   |  |
+  |  +------------------------------------------------------+  |
+  +------------------------------------------------------------+
+        ^                          ^                  ^
+        | N6 (Traffic)             | N33 (NEF/PCF)   | N6
+   +----+----+               +-----+----+      +-----+----+
+   | 5G UPF  |               |  PCF     |      | Data Net|
+   | + AF    |               |  + EES   |      | (Internet/IMS)|
+   +----+----+               +----------+      +----------+
+        | N3
+   +----+----+
+   | (R)AN   | gNB-DU / CU
+   +----+----+
+        | Uu (Radio)
+   +----+----+
+   |   UE    | EEC + UE App
+   +---------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+**3GPP TS 23.558의 Edge Application 키 플로우**는 다음과 같다:
+1. UE가 EEC를 통해 EES에 **EDN(Edge Data Network) Discovery** 요청
+2. EES가 DNS/Local Cache 또는 NRF 조회로 가장 가까운 EDN 식별
+3. AF(예: MEC App)가 EES에 **App Context** 등록, EES가 UE에게 **Edge Application Server Info** 통지
+4. SMF가 UPF에 **URR(Usage Reporting Rule)** + **TSC(Traffic Steering Control)** 설치 -> UPF가 **Local Breakout**으로 트래픽을 MEC 호스트로 라우팅
+5. UE ↔ MEC App 간 **Direct Communication** 성립, 지연시간은 5~15ms 수준
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **UE / IoT Device** | 데이터 발생, EEC(Edge Enabler Client) 내장 | 임베디드 AI(TensorFlow Lite, ONNX Runtime, TVM), NPU(Neural Processing Unit: Apple ANE, Qualcomm Hexagon, Jetson Orin Nano), LwM2M·MQTT·CoAP 클라이언트, OPC UA Pub/Sub |
+| **Edge Gateway / IoT Hub** | 프로토콜 변환, 로컬 스트림 처리, 펌웨어 OTA | K3s/KubeEdge/OpenYurt/KubeFed, eKuiper/Apache NiFi(스트림 처리), Node-RED(시각적 플로우), EMQX/Mosquitto(MQTT Broker), InfluxDB/TimescaleDB(시계열) |
+| **MEC Host (ETSI)** | 5G RAN 측·Region DC 내 가상화 플랫폼 | OpenStack/VMware VIO/裸 Metal Kubernetes, DPDK/SR-IOV/CPU Pinning, DPDK-Accelerated vSwitch(OVS), GPU Pool(NVIDIA A30/L4), CNI: Multus+Cilium |
+| **5G UPF + AF** | Traffic Steering, 정책 적용, 데이터 평면 분기 | Uplink Classifier / Branching Point / Local Breakout, N6 인터페이스, 5G LBO(Local Breakout), LADN(Local Area Data Network) |
+| **MEC Orchestrator(MEO)** | MEC 앱 라이프사이클, 자원 할당, FM | MEC013(앱 패키징·라이프사이클), TOSCA/SAREF 온톨로지, GitOps(Argo CD/Flux) |
+| **Cloud (Region/Hyperscale)** | 장기 보관, Heavy-Training, Cross-Region 분석 | 데이터 레이크(S3/HDFS), 분산 학습(Ray/DeepSpeed/FSDP), Feature Store, MLOps(MLflow/Kubeflow) |
+| **Security Fabric** | Zero-Trust, mTLS, Attestation | SPIFFE/SPIRE 워크로드 ID, TPM 2.0 / SEV-SNP / TrustZone, WireGuard/NetBird 메시 VPN, OPA(Open Policy Agent), Vault 시크릿 관리 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘·파라미터**
+- **Where-to-Compute Decision**: 입력 = (D: 데이터 크기, L_req: 요구 지연시간, C_edge: 엣지 가용자원, Cost_net: 네트워크 비용). 출력 = 데이터 처리 위치. 휴리스틱: `if (D > Threshold or L_req < 10ms) -> Edge / Device`.
+- **Traffic Steering Rule(TSC)**: SMF가 PCF·AF로부터 N5/N33 API로 받음. 구조: `{(UE_IP, App_ID, QFI, Bitrate, Latency_Budget) -> Action(redirect/clone/buffer)}`.
+- **KubeEdge의 EdgeMesh**: 클라우드-엣지 분리 시 Kube-API Server 단절에도 로컬 kubelet이 Pod를 계속 운영, MQTT/LibP2P 기반 동기화.
+- **AI 모델 분할(Split Inference)**: `partition_point` 기준으로 CNN 초반부(Edge)와 후반부(Cloud)를 분할. 계산 부하·전송량 트레이드오프 최적화. **Bottleneck Layer**(파라미터 1MB, FLOPs 80%)를 분할점으로 선정하는 것이 일반적.
+- **Coded Edge Computing**: [BGA18] Lyapunov Optimization 기반 1-bit ADC + Compute-and-Forward로 **Energy Efficiency 4~7×** 향상.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: MEC는 "**공항의 출국장**"과 같다—여권심사·탑승수속(Edge), 최종 목적지 안내(Cloud), 그리고 **기내식·면세점은 지역 특화 서비스(MEC App)**로 승객이 기내에서 즉시 이용하는 구조.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-엣지 컴퓨팅 MEC 분산 처리 IoT을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 엣지 컴퓨팅 MEC 분산 처리 IoT |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 엣지 컴퓨팅 MEC 분산 처리 IoT을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-엣지 컴퓨팅 MEC 분산 처리 IoT을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 엣지 컴퓨팅 MEC 분산 처리 IoT 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 엣지 컴퓨팅 MEC 분산 처리 IoT의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 엣지 컴퓨팅 MEC 분산 처리 IoT의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-엣지 컴퓨팅 MEC 분산 처리 IoT 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 엣지 컴퓨팅 MEC 분산 처리 IoT은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **Cloud Computing** | **Fog Computing (Cisco, 2012)** | **MEC (ETSI/3GPP)** | **On-Device Edge AI** |
+| :--- | :--- | :--- | :--- | :--- |
+| **컴퓨팅 위치** | Region/Hyperscale DC | 디바이스~Cloud 사이 계층, 주로 LAN/On-Prem | 5G RAN·기지국·Aggregation Point | 단말 칩셋·임베디드 MCU |
+| **표준화** | 사실상 표준 없음(NIST 모델) | OpenFog Consortium(2015, IEEE로 이관)
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 471 / 800
 
-<- **이전**: [470. 클라우드 성능 최적화 레이턴시 처리량](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/470_cloud_performance_optimization_latency_throug/)
-**다음**: [472. 엣지 AI 추론 최적화 온디바이스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/472_edge_ai_inference_optimization_on_device/) ->
+<- **이전**: [470. 클라우드 성능 최적화 레이턴시 처리량](/studynote/13_cloud_architecture/06_exam_summary/470_cloud_performance_optimization_latency_throug/)
+**다음**: [472. 엣지 AI 추론 최적화 온디바이스](/studynote/13_cloud_architecture/06_exam_summary/472_edge_ai_inference_optimization_on_device/) ->
 
 ---

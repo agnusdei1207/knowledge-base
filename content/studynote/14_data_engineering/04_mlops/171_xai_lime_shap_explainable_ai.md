@@ -1,25 +1,22 @@
-+++
-title = "171. 설명 가능한 AI (XAI)"
-date = 2026-04-21
+---
+title: "171. 설명 가능한 AI (XAI)"
+date: "2026-04-21"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Explainable [Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))는 모델 정확도만 보는 것이 아니라, 예측이 나온 이유를 사람의 언어로 해석 가능한 형태로 풀어내는 계층이다.
-> 2. **가치**: 금융, 의료, 추천, 이상 탐지처럼 오류 비용이 큰 영역에서는 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) (Local Interpretable Model-agnostic Explanations)과 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/))이 신뢰, 디버깅, 규제 대응의 핵심 근거가 된다.
+> 1. **본질**: 설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) (Explainable [Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/), [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/))는 모델 정확도만 보는 것이 아니라, 예측이 나온 이유를 사람의 언어로 해석 가능한 형태로 풀어내는 계층이다.
+> 2. **가치**: 금융, 의료, 추천, 이상 탐지처럼 오류 비용이 큰 영역에서는 [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) (Local Interpretable Model-agnostic Explanations)과 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) ([SHapley Additive exPlanations](/studynote/10_ai/04_ai_ops_ethics/327_shap/))이 신뢰, 디버깅, 규제 대응의 핵심 근거가 된다.
 > 3. **판단 포인트**: LIME은 빠르고 직관적인 국소 설명에 강하고, SHAP은 일관된 기여도 분해와 전역 집계에 강하지만, 둘 다 인과관계를 증명하는 도구는 아니라는 점을 잊으면 안 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-설명 가능한 AI는 "모델이 맞았는가?"를 넘어서 "왜 이렇게 판단했는가?"를 묻는 접근이다. 딥러닝과 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 모델은 높은 예측력을 주지만, 내부 계산 경로가 복잡해 사람이 그대로 읽기 어렵다. 이 때문에 정확도가 높아도 대출 거절, 의료 판정, 사기 탐지 같은 의사결정에 바로 쓰기에는 신뢰 장벽이 생긴다.
+설명 가능한 AI는 "모델이 맞았는가?"를 넘어서 "왜 이렇게 판단했는가?"를 묻는 접근이다. 딥러닝과 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 모델은 높은 예측력을 주지만, 내부 계산 경로가 복잡해 사람이 그대로 읽기 어렵다. 이 때문에 정확도가 높아도 대출 거절, 의료 판정, 사기 탐지 같은 의사결정에 바로 쓰기에는 신뢰 장벽이 생긴다.
 
 실무에서 필요한 설명은 보통 두 층위로 나뉜다. 하나는 <strong>이 한 건의 예측이 왜 이렇게 나왔는가</strong>라는 국소 설명이고, 다른 하나는 <strong>전체적으로 어떤 변수가 자주 영향을 미치는가</strong>라는 전역 설명이다. LIME과 SHAP이 자주 언급되는 이유도 이 두 질문을 가장 실용적으로 다루는 대표 기법이기 때문이다.
 
@@ -34,7 +31,7 @@ tags = ["studynote-data-engineering"]
 +--------------------------------------------------------------------+
 ```
 
-설명이 없으면 모델 개선도 어렵다. [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수 (Feature Leakage), 편향된 대리 변수, 특정 구간에서의 예측 불안정은 점수만 보고는 발견하기 힘들다. 반대로 설명을 보면 "모델이 신용 점수보다 우편번호를 과도하게 본다"처럼 설계상 위험을 더 빨리 찾아낼 수 있다.
+설명이 없으면 모델 개선도 어렵다. [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수 (Feature Leakage), 편향된 대리 변수, 특정 구간에서의 예측 불안정은 점수만 보고는 발견하기 힘들다. 반대로 설명을 보면 "모델이 신용 점수보다 우편번호를 과도하게 본다"처럼 설계상 위험을 더 빨리 찾아낼 수 있다.
 
 - **📢 섹션 요약 비유**: 설명 가능한 AI는 시험 점수표만 주는 것이 아니라, 어떤 문제를 왜 틀렸는지 해설지를 함께 주는 것과 같다. 점수만 알면 결과는 알 수 있지만, 해설이 있어야 다음에 더 잘할 수 있다.
 
@@ -61,12 +58,12 @@ LIME과 SHAP은 모두 "원래 모델을 직접 뜯어보지 못하더라도 예
 
 | 기법 | 핵심 아이디어 | 잘하는 질문 | 장점 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
-| [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) | 샘플 근방에 단순 대리 모델 적합 | "이 한 건은 왜?" | 빠르고 직관적, 모델 불문 적용 | 샘플링과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설정에 따라 결과가 흔들릴 수 있음 |
-| [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | 기준점 대비 기여도를 공정 분배 | "이 한 건은 왜?" + "전체적으로 무엇이 중요?" | 지역 정확도와 전역 집계 모두 활용 가능 | 계산량 크고, 배경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선택에 민감 |
+| [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) | 샘플 근방에 단순 대리 모델 적합 | "이 한 건은 왜?" | 빠르고 직관적, 모델 불문 적용 | 샘플링과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 설정에 따라 결과가 흔들릴 수 있음 |
+| [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) | 기준점 대비 기여도를 공정 분배 | "이 한 건은 왜?" + "전체적으로 무엇이 중요?" | 지역 정확도와 전역 집계 모두 활용 가능 | 계산량 크고, 배경 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선택에 민감 |
 
 LIME의 강점은 설명문을 사람이 읽기 쉽게 만들 수 있다는 점이다. 예를 들어 "연체 이력 +0.42, 소득 -0.18"처럼 해당 샘플 근방의 선형 계수로 보여 줄 수 있다. 대신 국소 근방 밖에서는 이 선형 설명이 잘 맞지 않을 수 있고, 랜덤 샘플링을 반복할 때 결과가 조금씩 달라질 수 있다.
 
-SHAP은 `f(x) = E[f(X)] + Σφ_i` 형태로 설명할 수 있어 해석 체계가 더 단단하다. TreeSHAP처럼 트리 모델에 최적화된 구현은 매우 실용적이며, 여러 샘플의 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값을 모으면 전역 중요도와 상호작용 힌트도 얻을 수 있다. 하지만 상관관계가 강한 특징들 사이에서는 공헌도가 "공정하게" 나뉘어도 사람 눈에는 직관적이지 않을 수 있다.
+SHAP은 `f(x) = E[f(X)] + Σφ_i` 형태로 설명할 수 있어 해석 체계가 더 단단하다. TreeSHAP처럼 트리 모델에 최적화된 구현은 매우 실용적이며, 여러 샘플의 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값을 모으면 전역 중요도와 상호작용 힌트도 얻을 수 있다. 하지만 상관관계가 강한 특징들 사이에서는 공헌도가 "공정하게" 나뉘어도 사람 눈에는 직관적이지 않을 수 있다.
 
 - **📢 섹션 요약 비유**: LIME은 사건 현장 근처만 확대해서 간단한 지도를 그려 보는 방식이고, SHAP은 여러 사람이 한 일을 규칙적으로 나눠 책임 비율을 계산하는 방식이다. 둘 다 설명은 되지만, 설명을 만드는 기준이 다르다.
 
@@ -76,17 +73,17 @@ SHAP은 `f(x) = E[f(X)] + Σφ_i` 형태로 설명할 수 있어 해석 체계�
 
 LIME과 SHAP을 제대로 쓰려면 다른 설명 기법과의 경계를 알아야 한다. LIME과 SHAP은 개별 예측 설명에 강하지만, Permutation Importance는 모델 전체에서 특정 특징을 섞어 성능이 얼마나 떨어지는지를 본다. PDP (Partial Dependence Plot)와 ICE (Individual Conditional Expectation)는 입력 변화에 따른 평균 반응을 보여 주지만, 특정 한 건의 이유를 직접 설명하는 도구는 아니다.
 
-| 비교 축 | [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | Permutation Importance / PDP |
+| 비교 축 | [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) | [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) | Permutation Importance / PDP |
 | :--- | :--- | :--- | :--- |
 | 설명 범위 | 국소 설명 중심 | 국소 + 전역 집계 가능 | 전역 경향 파악 중심 |
 | 모델 의존성 | 모델 불문 | 모델 불문, 일부 모델 최적화 구현 존재 | 모델 불문 |
-| 해석 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 설정에 따라 변동 가능 | 상대적으로 일관된 덧셈형 설명 | 개별 예측 이유는 약함 |
+| 해석 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 설정에 따라 변동 가능 | 상대적으로 일관된 덧셈형 설명 | 개별 예측 이유는 약함 |
 | 계산 비용 | 중간 | 높음, 근사 필요할 수 있음 | 비교적 낮음 |
-| 대표 활용 | 고객 상담, 케이스 리뷰 | 규제 보고, 모델 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도 분석 | 모델 이해, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스크리닝 |
+| 대표 활용 | 고객 상담, 케이스 리뷰 | 규제 보고, 모델 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 중요도 분석 | 모델 이해, [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 스크리닝 |
 
-또 하나 중요한 연결은 "설명"과 "인과"의 차이다. [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값이 높다고 해서 그 변수를 사람이 바꾸면 결과가 반드시 개선된다는 뜻은 아니다. 예를 들어 병원 입원 기간이 중증도를 대변하는 변수일 수는 있지만, 입원 기간을 인위적으로 줄인다고 환자 위험이 낮아지는 것은 아니다. 설명은 모델의 판단 구조를 보여 주는 것이지, 세상을 바꾸는 원인을 증명하는 것이 아니다.
+또 하나 중요한 연결은 "설명"과 "인과"의 차이다. [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 값이 높다고 해서 그 변수를 사람이 바꾸면 결과가 반드시 개선된다는 뜻은 아니다. 예를 들어 병원 입원 기간이 중증도를 대변하는 변수일 수는 있지만, 입원 기간을 인위적으로 줄인다고 환자 위험이 낮아지는 것은 아니다. 설명은 모델의 판단 구조를 보여 주는 것이지, 세상을 바꾸는 원인을 증명하는 것이 아니다.
 
-실무에서는 세 기법을 조합하는 경우가 많다. 먼저 전역적으로 이상한 특징이 있는지 Permutation Importance나 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [summary](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) plot으로 보고, 특정 오판 샘플은 [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 local SHAP으로 뜯어본다. 즉 XAI는 하나의 차트가 아니라, <strong>전역 점검과 국소 진단을 연결하는 해석 파이프라인</strong>으로 보는 편이 맞다.
+실무에서는 세 기법을 조합하는 경우가 많다. 먼저 전역적으로 이상한 특징이 있는지 Permutation Importance나 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) [summary](/studynote/14_data_engineering/05_exam_keywords/300_summary/) plot으로 보고, 특정 오판 샘플은 [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 local SHAP으로 뜯어본다. 즉 XAI는 하나의 차트가 아니라, <strong>전역 점검과 국소 진단을 연결하는 해석 파이프라인</strong>으로 보는 편이 맞다.
 
 - **📢 섹션 요약 비유**: LIME은 한 학생의 답안지를 자세히 보는 것이고, SHAP은 학생 여러 명의 성적 패턴까지 함께 보는 것이며, 전역 중요도 기법은 과목별 평균점수 통계를 보는 것과 같다.
 
@@ -94,41 +91,41 @@ LIME과 SHAP을 제대로 쓰려면 다른 설명 기법과의 경계를 알아�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 정해야 할 것은 "무엇을 설명하려는가"다. 고객 민원 대응처럼 개별 사례의 사유가 중요하면 local explanation이 필요하고, 모델 거버넌스나 규제 보고처럼 조직 차원의 판단 근거가 필요하면 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 기반 전역 집계가 더 적합하다. 또한 트리 기반 모델인지, 딥러닝인지, 설명을 얼마나 빠르게 생성해야 하는지도 선택 기준이 된다.
+실무에서 가장 먼저 정해야 할 것은 "무엇을 설명하려는가"다. 고객 민원 대응처럼 개별 사례의 사유가 중요하면 local explanation이 필요하고, 모델 거버넌스나 규제 보고처럼 조직 차원의 판단 근거가 필요하면 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 기반 전역 집계가 더 적합하다. 또한 트리 기반 모델인지, 딥러닝인지, 설명을 얼마나 빠르게 생성해야 하는지도 선택 기준이 된다.
 
 | 상황 | 권장 접근 | 이유 | 주의점 |
 | :--- | :--- | :--- | :--- |
-| 고객별 거절 사유 안내 | [LIME](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 Local [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | 한 건 설명이 직관적이어야 함 | 설명 안정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요 |
-| 대출/보험 규제 대응 | [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) 우선 | 전역 중요도와 개별 사유를 함께 제공 가능 | 배경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정의를 명확히 해야 함 |
-| 트리 모델 디버깅 | TreeSHAP | 속도와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)에서 유리 | 상관 특징 해석은 조심 |
-| 딥러닝 [프로토타입](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | LIME로 빠른 진단 후 필요 시 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진단 비용이 낮음 | 과도한 일반화 금지 |
+| 고객별 거절 사유 안내 | [LIME](/studynote/10_ai/04_ai_ops_ethics/326_lime/) 또는 Local [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) | 한 건 설명이 직관적이어야 함 | 설명 안정성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 필요 |
+| 대출/보험 규제 대응 | [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) 우선 | 전역 중요도와 개별 사유를 함께 제공 가능 | 배경 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정의를 명확히 해야 함 |
+| 트리 모델 디버깅 | TreeSHAP | 속도와 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)에서 유리 | 상관 특징 해석은 조심 |
+| 딥러닝 [프로토타입](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/) | LIME로 빠른 진단 후 필요 시 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진단 비용이 낮음 | 과도한 일반화 금지 |
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 설명 목적을 국소 설명, 전역 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 디버깅 중 무엇인지 먼저 분리한다.
-2. SHAP은 배경 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 설명 결과를 바꾸므로, 학습 분포를 대표하는 기준 집합을 별도 관리한다.
-3. LIME은 여러 번 실행해 설명 안정성을 점검한다. 결과가 크게 흔들리면 샘플링·[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 폭을 재검토한다.
-4. 설명 결과를 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙과 대조해 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수, 차별 대리 변수, 비상식적 중요도를 찾는다.
+1. 설명 목적을 국소 설명, 전역 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 디버깅 중 무엇인지 먼저 분리한다.
+2. SHAP은 배경 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋이 설명 결과를 바꾸므로, 학습 분포를 대표하는 기준 집합을 별도 관리한다.
+3. LIME은 여러 번 실행해 설명 안정성을 점검한다. 결과가 크게 흔들리면 샘플링·[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 폭을 재검토한다.
+4. 설명 결과를 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 규칙과 대조해 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 누수, 차별 대리 변수, 비상식적 중요도를 찾는다.
 5. 모델 모니터링에는 예측 Drift뿐 아니라 설명 Drift도 함께 본다. 입력 분포가 달라지면 중요한 특징 순위도 달라질 수 있다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 화려한 [SHAP](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 한 장만 보고 "공정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료"라고 결론 내리기
+- 화려한 [SHAP](/studynote/10_ai/04_ai_ops_ethics/327_shap/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 한 장만 보고 "공정성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 완료"라고 결론 내리기
 - 상관관계가 강한 특징을 독립적 원인처럼 해석하기
-- 설명 결과를 사람 의사결정에 붙이면서 안정성 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 생략하기
-- 예측 성능이 나쁜 모델을 [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 차트로만 포장하기
+- 설명 결과를 사람 의사결정에 붙이면서 안정성 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 생략하기
+- 예측 성능이 나쁜 모델을 [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 차트로만 포장하기
 
-기술사 관점에서는 <strong>설명 목적, 기법 선택, 안정성 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 규제·윤리 연결</strong>을 함께 적어야 답안이 완성된다. XAI는 모델을 예쁘게 포장하는 시각화가 아니라, 위험한 자동화를 사람이 통제 가능한 자동화로 바꾸는 장치다.
+기술사 관점에서는 <strong>설명 목적, 기법 선택, 안정성 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>, 규제·윤리 연결</strong>을 함께 적어야 답안이 완성된다. XAI는 모델을 예쁘게 포장하는 시각화가 아니라, 위험한 자동화를 사람이 통제 가능한 자동화로 바꾸는 장치다.
 
-- **📢 섹션 요약 비유**: [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 실무 적용은 의사가 검사 수치만 보는 것이 아니라, 왜 그런 수치가 나왔는지 병력과 생활 습관까지 같이 해석하는 과정과 같다. 숫자만 맞는다고 진료가 끝나지 않는다.
+- **📢 섹션 요약 비유**: [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) 실무 적용은 의사가 검사 수치만 보는 것이 아니라, 왜 그런 수치가 나왔는지 병력과 생활 습관까지 같이 해석하는 과정과 같다. 숫자만 맞는다고 진료가 끝나지 않는다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설명 가능한 의사결정 보조도구로 격상된다. 운영자는 오판 사례를 더 빨리 디버깅할 수 있고, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)팀은 판단 근거를 남길 수 있으며, 현업 사용자는 모델을 "불투명한 명령"이 아니라 "이유를 제시하는 추천"으로 받아들이기 쉬워진다. 특히 책임 추적이 중요한 산업에서는 이 차이가 매우 크다.
+LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설명 가능한 의사결정 보조도구로 격상된다. 운영자는 오판 사례를 더 빨리 디버깅할 수 있고, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)팀은 판단 근거를 남길 수 있으며, 현업 사용자는 모델을 "불투명한 명령"이 아니라 "이유를 제시하는 추천"으로 받아들이기 쉬워진다. 특히 책임 추적이 중요한 산업에서는 이 차이가 매우 크다.
 
-그러나 설명이 있다고 해서 모델이 공정하거나 인과적으로 올바르다는 뜻은 아니다. 설명은 근사치일 수 있고, 입력 분포가 바뀌면 금방 낡을 수 있으며, 상관 특징이 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 기여도 분배가 해석 논쟁을 낳는다. 따라서 XAI는 정확도 이후의 부가 기능이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 모델 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 운영 모니터링과 함께 관리되어야 한다.
+그러나 설명이 있다고 해서 모델이 공정하거나 인과적으로 올바르다는 뜻은 아니다. 설명은 근사치일 수 있고, 입력 분포가 바뀌면 금방 낡을 수 있으며, 상관 특징이 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는 기여도 분배가 해석 논쟁을 낳는다. 따라서 XAI는 정확도 이후의 부가 기능이 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 모델 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 운영 모니터링과 함께 관리되어야 한다.
 
 결론적으로 LIME과 SHAP은 "블랙박스를 완전히 투명하게 만드는 마법"이 아니라, <strong>사람이 모델을 질문할 수 있게 해 주는 통역기</strong>로 기억하는 것이 가장 정확하다. 모델이 중요한 결정을 내릴수록, 이 통역기의 품질도 함께 관리되어야 한다.
 
@@ -145,7 +142,7 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 | Shapley Value | 협력 게임이론 기반 기여도 분배 원리, SHAP의 수학적 토대 |
 | Global Importance | 여러 샘플 설명을 집계해 전체 경향을 파악하는 분석 |
 | Explanation Drift | 시간에 따라 중요한 특징과 설명 패턴이 달라지는 현상 |
-| [Responsible AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/973_responsible_ai/) | 규제 대응, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 편향 점검, 인간 감독을 포함한 운영 체계 |
+| [Responsible AI](/studynote/09_security/19_ai_advanced_security/973_responsible_ai/) | 규제 대응, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 편향 점검, 인간 감독을 포함한 운영 체계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -177,7 +174,7 @@ LIME과 SHAP을 적절히 사용하면 모델은 단순한 예측기에서 설�
 
 **진행 상황**: 171 / 258
 
-<- **이전**: [170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터](/knowledge-base/studynote/14_data_engineering/04_mlops/170_ab_test_canary_rollout_shadow_mirroring/)
-**다음**: [172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)](/knowledge-base/studynote/14_data_engineering/04_mlops/172_distributed_training_data_model_parallelism/) ->
+<- **이전**: [170. 서빙 아키텍처 A/B 테스트 및 카나리 롤아웃 (Canary Rollout), 섀도우 미러링 검증 라우터](/studynote/14_data_engineering/04_mlops/170_ab_test_canary_rollout_shadow_mirroring/)
+**다음**: [172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)](/studynote/14_data_engineering/04_mlops/172_distributed_training_data_model_parallelism/) ->
 
 ---

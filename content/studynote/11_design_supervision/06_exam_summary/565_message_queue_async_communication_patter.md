@@ -1,175 +1,184 @@
-+++
-title = "565. 메시지 큐 비동기 통신 패턴 (Message Queue Async Communication Pattern)"
-date = 2026-05-09
+---
+title: "565. 메시지 큐 비동기 통신 패턴 (Message Queue Async Communication Pattern)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메시지 큐 비동기 통신 패턴은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 메시지 큐 비동기 통신 패턴은 Producer(발행자)가 Broker(RabbitMQ, Kafka, Amazon SQS 등)의 영구/임시 저장소에 메시지를 적재한 뒤 즉시 ACK를 받고 Consumer가 이를 비결합(Decoupling)된 시점에 Pull/Push 방식으로 소비하는 EDA(Event-Driven Architecture)의 핵심 미들웨어 패턴으로, AMQP 0-9-1, MQTT 5.0, Kafka Binary Protocol 등 wire-level 프로토콜 위에서 QoS 0/1/2, At-least-once/At-most-once/Exactly-once 전송 보장, 그리고 DLQ·Priority Queue·Delay Queue·Consumer Group·Partition Rebalance 등의 세밀한 전달 모델을 제공한다.
+> 2. **가치**: 동기식 REST/RPC 대비 P99 응답 지연 100ms 이하 유지, Consumer 인스턴스 수평 확장 시 초당 100만 메시지 처리(Kafka), 장애 격리율 99.99% 가용성(Aurora/SQS Multi-AZ), 그리고 Batch·Compression·Zero-Copy·PageCache 활용을 통한 네트워크·디스크 I/O 70% 절감 효과를 통해 대용량 트래픽과 이벤트 폭주(Traffic Spike)에 대한 완충(Buffering) 역할을 수행한다.
+> 3. **판단 포인트**: 메시지 순서 보장(Global Ordering vs Per-Partition Ordering)·중복 허용도·Broker의 Push vs Pull·내구성 vs 처리량 트레이드오프, 그리고 `CAP Theorem` 관점에서 Kafka(AP), RabbitMQ(CA+Shovel/Federation), Amazon SQS(완전관리형 AP) 등 솔루션별 일관성·가용성·분할 내성 정책을 어떻게 조화시킬지가 아키텍처 의사결정의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-메시지 큐 비동기 통신 패턴은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 MSA(Microservices Architecture) 환경에서 수십~수백 개의 서비스가 HTTP/REST, gRPC 같은 동기식 프로토콜로 직접 통신하면 다음과 같은 고질적 문제가 발생한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Message Queue Async Communication Pattern 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+1. **결합도(Coupling) 상승**: B 서비스의 일시적 장애가 A 서비스의 응답 지연으로 직결되어 **Cascading Failure**가 연쇄 전파된다.
+2. **처리량 한계**: Tomcat/Spring MVC 기준 Thread Pool 200개 제약으로 초당 1,000 TPS 이상의 Spike에서 Connection Pool 고갈 -> 503 에러 폭증.
+3. **비즈니스 트랜잭션 경계 모호**: 결제->재고차감->쿠폰발급의 3-Phase 작업을 2PC(Two-Phase Commit)로 처리 시 Coordinator 장애 시 Lock 장기 점유.
+4. **시간·공간 결합**: Consumer가 Producer 호출 시점에 반드시 가동 중이어야 함. 야간 배치 시스템과 실시간 시스템의 협업 불가.
+
+이를 해결하기 위해 **메시지 큐(MQ)**는 Producer와 Consumer 사이에서 **시간적 디커플링(Temporal Decoupling)**과 **공간적 디커플링(Spatial Decoupling)**을 제공하며, 1990년대 IBM MQSeries, 2000년대 JMS(Java Message Service) 1.1/2.0, 2010년대 AMQP 1.0 표준화, 그리고 LinkedIn의 Kafka(2011 OSS) 출시를 거치며 **고처리량·분산 로그 기반**으로 진화해 왔다.
 
 ```text
-+--------------------------------------------------------------+
-|                    메시지 큐 비동기 통신 패턴 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+  [동기식 요청-응답 모델 vs 비동기 메시지 큐 모델 비교]
+
+   기존 동기식 (Tightly-Coupled)            비동기 메시지 큐 (Loosely-Coupled)
+   ---------------------------            -------------------------------
+   +--------+    HTTP/JSON    +--------+  +--------+  AMQP/MQTT  +--------+
+   |  API   | ---------------->|  Order |  |  API   | -----------> | Broker |
+   | Gateway| <------ 200 -----| Service|  | Gateway| <--- ACK -- | (Kafka)|
+   +--------+                 +--------+  +--------+             +---+----+
+        |                         |                                  |
+        |  3초 타임아웃 시         | 503 에러 전파                     v
+        v                         v                              +--------+
+   +---------------------------------+   [Consumer Group]        |  Order |
+   |   ✗ 장애 전파 / Thread 점유     |   ------------------>       | Worker |
+   |   ✗ 순서 보존 어려움            |                            +----+---+
+   +---------------------------------+                                 |
+                                                                      v
+                                                                 +--------+
+                                                                 |  Stock |
+                                                                 | Worker |
+                                                                 +--------+
+                                                                 5초 후 처리
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+특히 **대규모 트래픽을 견디는 시스템**의 경우, 2024년 기준 Netflix는 하루 2.5조 건의 이벤트를 Kafka로 처리하고, Uber는 300+ Topic으로 1,000개 마이크로서비스를 연결하며, 카카오·배민·토스 같은 국내 플랫폼도 RabbitMQ/Kafka를 통한 **사가(Saga) 패턴**, **이벤트 소싱(Event Sourcing)**, **CQRS** 구현의 근간으로 활용하고 있다.
 
-- **📢 섹션 요약 비유**: 메시지 큐 비동기 통신 패턴은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 메시지 큐는 마치 우체국의 **우편함(Postbox)**과 같다. 편지(메시지)를 보낸 사람이 우체함에 넣기만 하면 우편부가 분류·배달을 책임지므로, 받는 사람이 부재중이거나 회수하러 갈 시간이 부족해도 손실 없이 전달된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메시지 큐 비동기 통신 패턴의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1) 메시지 큐의 핵심 구성 요소
 
 ```text
-+--------------------------------------------------------------+
-|              Message Queue Async Communication Pattern 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+  +------------------------------------------------------------------------+
+  |                  메시지 큐 비동기 통신 패턴 아키텍처                      |
+  +------------------------------------------------------------------------+
+
+       Producer A --+                              +-- Consumer Group 1
+       (Order API)  |                              |   (Order Worker x 3)
+                    |         +----------+         |
+       Producer B --+--------->|  Broker  |---------+-- Consumer Group 2
+       (Payment)    |         | +------+ |         |   (Stock Worker x 5)
+                    |         | |Topic | |         |
+       Producer C --+         | |Partition|       +-- Consumer Group 3
+       (Member)               | |  0,1,2  |             (Notification)
+                              | +------+ |
+                              | +------+ |         [Offset Commit]
+                              | |  ZK  | |         [Heartbeat]
+                              | |/KRaft| |
+                              | +------+ |
+                              | +------+ |
+                              | | DLQ  | | <--- 실패 메시지 격리 (Retry > N)
+                              | +------+ |
+                              | +------+ |
+                              | |Retry | | <--- 지수 백오프 (1s->2s->4s->...)
+                              | |Queue | |
+                              | +------+ |
+                              +----------+
+                                  |
+                                  v
+                            [ Monitoring ]
+                            Prometheus / Grafana
+                            Burrow / Kafka-Manager
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 2) 핵심 컴포넌트 기술 명세
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Producer (발행자)** | 비즈니스 이벤트를 직렬화(Avro/Protobuf/JSON) 후 Broker로 전송 | `linger.ms=10`(배치 대기), `compression.type=lz4/zstd`, `acks=all`로 Leader+ISR(In-Sync Replica) 모두 저장 확인, **Idempotent Producer**로 `enable.idempotence=true` 시 Producer ID(PID) + Sequence Number로 Broker 측 중복 제거 |
+| **Broker (중개자)** | 메시지 저장·복제·라우팅·순서 보존의 핵심 엔진 | Kafka는 **Partitioned Log** 구조(Segment File 1GB 기본), `unclean.leader.election.enable=false`로 데이터 손실 방지, `min.insync.replicas=2` 설정으로 HA 보장; RabbitMQ는 **Exchange(Direct/Topic/Fanout/Headers)** -> Binding Key 기반 라우팅 |
+| **Consumer (소비자)** | Broker에서 메시지를 가져와 비즈니스 로직 수행, Offset 커밋 | Kafka는 `enable.auto.commit=false` + 수동 `commitSync()` 권장, **Consumer Group**별 Partition 할당 전략(Range/RoundRobin/StickyAssignor), `max.poll.records=500`으로 한 번에 처리량 제한 |
+| **Queue / Topic** | 메시지의 논리적 집합, FCM(FIFO) 또는 Pub/Sub 구조 | Kafka Topic은 **Partition**으로 수평 분할(병렬 처리 단위), `num.partitions=12`, `replication.factor=3` 권장; RabbitMQ는 Queue 단위로 Strict FIFO, **Lazy Queue**(`x-queue-mode=lazy`)로 디스크 기반 메모리 절약 |
+| **DLQ (Dead Letter Queue)** | 재처리 한도 초과·Poison Message 격리 | `x-dead-letter-exchange` (RabbitMQ) 또는 `DeadLetterPublishingRecoverer` (Spring Kafka)로 `retry.backoff.ms=1000`, `max.retries=5` 정책 적용, 운영팀 알람 연동 필수 |
+| **Schema Registry** | 메시지 스키마 버전 관리 및 호환성 검증 | Confluent Schema Registry, Apicurio Registry. Avro/Protobuf 스키마 진화 시 **Backward/Forward/Full Compatibility** 강제, `compatibility.level=BACKWARD` |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 3) 메시지 전달 보장 수준 (Delivery Guarantee)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+| 보장 수준 | 정의 | 구현 메커니즘 | 적용 사례 |
+| :--- | :--- | :--- | :--- |
+| **At-most-once** | 중복 없이 0~1회 전달, 손실 가능 | `acks=0`(Kafka), Consumer 자동 커밋 | 로그·메트릭 수집(손실 허용) |
+| **At-least-once** | 0회 이상 전달, 중복 가능 | `acks=all` + 수동 커밋 + 재시도 | 결제·주문(주문은 멱등 처리 필수) |
+| **Exactly-once** | 정확히 1회 전달, 중복/손실 모두 0 | Kafka 0.11+ **EOS(Exactly-Once Semantics)**: 트랜잭션 Producer + `read_committed` Isolation Level + `__consumer_offsets` 트랜잭션 커밋, 또는 **Transactional Outbox Pattern** | 금융 거래, 항공 예약 |
+
+### 4) 순서 보존 (Ordering) 알고리즘
+
+```text
+  [Per-Partition Ordering 동작 원리]
+
+   Producer                Partition 0            Partition 1            Partition 2
+      |                         |                       |                       |
+      | msg1(key=order-100)----->| offset 0              |                       |
+      | msg2(key=order-200)-----+----------------------->| offset 0              |
+      | msg3(key=order-100)----->| offset 1              |                       |
+      |                         |                       |                       |
+      |                         v                       v                       v
+      |                   Consumer A                Consumer B            Consumer C
+      |                   (동일 key의               (다른 key의            (다른 key의
+      |                    순서 보장)                순서 보장)             순서 보장)
+      |
+      +- Hash(key) % num_partitions 로 동일 key는 동일 Partition에 적재
+         -> Hash Partitioning (Java: `DefaultPartitioner`, `murmur2`)
+```
+
+### 5) 백프레셔(Backpressure)와 흐름 제어
+
+- **Kafka**: Consumer가 `max.poll.records`로 한 번에 가져오는 양을 제한하고, Lag(`kafka_consumergroup_lag`)을 모니터링하여 `lag > 10000` 시 Auto-Scaling.
+- **RabbitMQ**: `prefetch_count=N`으로 한 Consumer에게 동시 전달할 미확인 메시지 수 제한, `qos` 정책 적용.
+- **Amazon SQS**: Visibility Timeout(기본 30초) 동안 다른 Consumer가 처리 못 함, **Long Polling**(`WaitTimeSeconds=20`)으로 빈 폴링 절감.
+
+- **📢 섹션 요약 비유**: 메시지 큐의 백프레셔는 수도꼭지의 **수압 조절기**와 같다. 수도관(Consumer)이 받아들일 수 있는 물(메시지)의 양 이상으로 공급되면 자동으로 압력을 낮춰 파열(시스템 다운)을 막아준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-메시지 큐 비동기 통신 패턴을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1) 메시지 큐 솔루션 비교
 
-| 구분 | 전통적 접근 | 메시지 큐 비동기 통신 패턴 |
+| 구분 | **Apache Kafka** | **RabbitMQ** | **Amazon SQS / SNS** | **Redis Pub/Sub & Streams** | **NATS / JetStream** |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **아키텍처 모델** | 분산 로그 (DLog) | AMQP Exchange-Queue | 완전관리형 Queue/SNS Topic | 인메모리 + 디스크 스트림 | 경량 Pub/Sub + JetStream(영구) |
+| **프로토콜** | Kafka Binary Protocol | AMQP 0-9-1, MQTT, STOMP | AWS API (HTTP/HTTPS) | RESP (Redis) | NATS Text Protocol, gRPC |
+| **처리량(TPS)** | 100만+/Partition | 5만~10만/노드 | 무제한(샤드 자동 확장) | 10만~50만 | 100만+ |
+| **메시지 보존** | 디스크 영구(`retention.ms=604800000`) | 큐 소비 시 삭제 | 14일까지(표준), 15일(확장 FIFO) | Streams: XADD 기반 영구 | JetStream: 영구/스트림 |
+| **순서 보장** | Partition 내 보장 | 단일 큐 FIFO | Standard: Best Effort, FIFO: 엄격 보장 | Streams: ID 단위 보장 | Subject별 보장 |
+| **전달 보장** | At-least-once, Exactly-once(EOS) | At-least-once | At-least-once | At-most-once(Pub/Sub), At-least-once(Streams) | At-least-once, Exactly-once(JetStream) |
+| **푸시/풀** | Pull(Long Polling) | Push(prefetch) | Pull(Long Polling) | Push(Pub/Sub), Pull(Streams) | Push(JetStream Push Consumer) |
+| **주 사용처** | 이벤트 스트리밍, 로그 수집, CDC, 사가 | 작업 큐, RPC 대체, IoT | AWS 네이티브 MSA, 서버리스 | 캐시 무효화, 실시간 알림 | IoT, Edge, k8s Service Mesh |
+| **운영 복잡도** | 높음(ZK/KRaft, Partition 재분배) | 중간(Mirror/Shovel) | 없음(완전관리형) | 낮음 | 낮음 |
+| **라이선스** | Apache 2.0 | MPL 2.0 (RabbitMQ) | 상용(SaaS) | BSD | Apache 2.0 |
+
+### 2) 동기식 통신과의 비교
+
+| 구분 | **동기식 REST/gRPC** | **비동기 메시지 큐** |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| **결합도** | 높음 (Tight Coupling) | 낮음 (Loose Coupling) |
+| **응답 지연** | 네트워크 RTT 합산 (수 ms ~ 수 초) | Producer는 ACK만 수신 (1~10ms) |
+| **장애 전파** | 즉시 전파 (Cascading) | 격리 (Broker에 누적) |
+| **순서 보장** | 호출 순서 = 실행 순서 | 설계 필요 (Partition Key, Idempotency) |
+| **트랜잭션 일관성** | 2PC, Saga(Orchestration) | Saga(Choreography), Eventual Consistency |
+| **확장성** | 수직 확장 위주 | 수평 확장 (Partition/Consumer Group) |
+| **디버깅** | Trace ID로 비교적 용이 | Distributed Tracing 필수 (OpenTelemetry) |
+| **적합 시나리오** | 즉시 응답 필요 (조회, 인증) | 비동기 처리, 이벤트 발행, 배치 |
 
-관련 기술 영역과의 연결점도 중요하다. 메시지 큐 비동기 통신 패턴은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 3) 연계 패턴
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 메시지 큐 비동기 통신 패턴은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 메시지 큐 비동기 통신 패턴을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-메시지 큐 비동기 통신 패턴을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 메시지 큐 비동기 통신 패턴 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 메시지 큐 비동기 통신 패턴은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 메시지 큐 비동기 통신 패턴의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 메시지 큐 비동기 통신 패턴의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-메시지 큐 비동기 통신 패턴 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 메시지 큐 비동기 통신 패턴은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **Event Sourcing**: 모든 도메인 상태 변경을 `OrderCreated`, `OrderPaid`, `OrderShipped` 같은 이벤트로 발행 -> Kafka를 Event Store로 활용,
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 565 / 600
 
-<- **이전**: [564. API 설계 RESTful GraphQL gRPC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/565_api_design_restful_graphql_grpc/)
-**다음**: [566. 데이터 일관성 패턴 최종 일관성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/566_data_consistency_pattern_eventual_consis/) ->
+<- **이전**: [564. API 설계 RESTful GraphQL gRPC](/studynote/11_design_supervision/06_exam_summary/565_api_design_restful_graphql_grpc/)
+**다음**: [566. 데이터 일관성 패턴 최종 일관성](/studynote/11_design_supervision/06_exam_summary/566_data_consistency_pattern_eventual_consis/) ->
 
 ---

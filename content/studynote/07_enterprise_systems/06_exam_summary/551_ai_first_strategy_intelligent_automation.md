@@ -1,13 +1,10 @@
-+++
-title = "551. AI 퍼스트 전략 지능형 자동화 (AI First Strategy Intelligent Automation)"
-date = 2026-05-09
+---
+title: "551. AI 퍼스트 전략 지능형 자동화 (AI First Strategy Intelligent Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 551 / 800
 
-<- **이전**: [550. 데이터 드리븐 의사결정 문화 구축](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/550_data_driven_decision_making_culture/)
-**다음**: [552. 디지털 리터러시 조직 역량 강화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/552_digital_literacy_organization_capability/) ->
+<- **이전**: [550. 데이터 드리븐 의사결정 문화 구축](/studynote/07_enterprise_systems/06_exam_summary/550_data_driven_decision_making_culture/)
+**다음**: [552. 디지털 리터러시 조직 역량 강화](/studynote/07_enterprise_systems/06_exam_summary/552_digital_literacy_organization_capability/) ->
 
 ---

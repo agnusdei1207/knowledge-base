@@ -1,13 +1,10 @@
-+++
-title = "722. 나노 기술 분자 컴퓨팅 나노센서 (Nanotechnology Molecular Computing Nanosensor)"
-date = 2026-05-09
+---
+title: "722. 나노 기술 분자 컴퓨팅 나노센서 (Nanotechnology Molecular Computing Nanosensor)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -162,7 +159,7 @@ Paul Rothemund(2006, Nature) **DNA Origami**: 7,249 nt **M13mp18** scaffold + 20
 
 **진행 상황**: 722 / 800
 
-<- **이전**: [721. 바이오인포매틱스 유전체 분석 정밀의료](/knowledge-base/studynote/06_ict_convergence/uncategorized/721_bioinformatics_genomics_precision_medicine/)
-**다음**: [723. 3D 프린팅 적층 제조 산업 응용](/knowledge-base/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/) ->
+<- **이전**: [721. 바이오인포매틱스 유전체 분석 정밀의료](/studynote/06_ict_convergence/uncategorized/721_bioinformatics_genomics_precision_medicine/)
+**다음**: [723. 3D 프린팅 적층 제조 산업 응용](/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/) ->
 
 ---

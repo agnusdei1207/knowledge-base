@@ -1,31 +1,28 @@
-+++
-title = "374. 배열 프로세서 (Array Processor)"
-date = 2026-03-20
+---
+title: "374. 배열 프로세서 (Array Processor)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Processor)는 동일한 명령을 다수의 연산 소자에 동시에 뿌려, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모양과 하드웨어의 모양을 맞추는 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.
-> 2. **가치**: 행렬, 영상, 격자 시뮬레이션처럼 같은 계산을 대량 반복하는 문제에서 제어 오버헤드를 줄이고 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 크게 높인다.
-> 3. **판단 포인트**: 분기와 불규칙 메모리 접근이 많은 일반 프로그램에는 비효율적이며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성이 높을 때만 진가가 난다.
+> 1. **본질**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 ([Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) Processor)는 동일한 명령을 다수의 연산 소자에 동시에 뿌려, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 모양과 하드웨어의 모양을 맞추는 공간 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다.
+> 2. **가치**: 행렬, 영상, 격자 시뮬레이션처럼 같은 계산을 대량 반복하는 문제에서 제어 오버헤드를 줄이고 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 크게 높인다.
+> 3. **판단 포인트**: 분기와 불규칙 메모리 접근이 많은 일반 프로그램에는 비효율적이며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성이 높을 때만 진가가 난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) Processor)는 하나의 제어장치가 여러 처리 요소를 동시에 지휘하여 동일 연산을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행하는 프로세서 구조다. 핵심 철학은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 회로 수준에서 극단적으로 밀어붙이는 데 있다. 즉, 계산을 빠르게 하려면 명령 해석기를 더 복잡하게 만드는 대신, 단순한 연산기를 많이 배치하자는 발상이다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 ([Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) Processor)는 하나의 제어장치가 여러 처리 요소를 동시에 지휘하여 동일 연산을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 수행하는 프로세서 구조다. 핵심 철학은 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 회로 수준에서 극단적으로 밀어붙이는 데 있다. 즉, 계산을 빠르게 하려면 명령 해석기를 더 복잡하게 만드는 대신, 단순한 연산기를 많이 배치하자는 발상이다.
 
-이 구조가 필요해진 배경은 과학기술 계산과 영상 처리의 성격 때문이다. 기상 예측, 유체 해석, 위성 영상 보정, 행렬 곱셈은 서로 다른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 같은 연산을 반복하는 경우가 많다. CPU (Central Processing Unit) 하나가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 순차적으로 처리하면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출, 분기 판단, 메모리 왕복이 반복되어 계산량보다 제어 비용이 더 커진다.
+이 구조가 필요해진 배경은 과학기술 계산과 영상 처리의 성격 때문이다. 기상 예측, 유체 해석, 위성 영상 보정, 행렬 곱셈은 서로 다른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 같은 연산을 반복하는 경우가 많다. CPU (Central Processing Unit) 하나가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 순차적으로 처리하면 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출, 분기 판단, 메모리 왕복이 반복되어 계산량보다 제어 비용이 더 커진다.
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이 문제를 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄 세우지 말고 연산기를 늘리자"는 방식으로 해결한다. 특히 2차원 격자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 2차원 처리 요소 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 잘 맞기 때문에, 문제 구조와 하드웨어 구조가 자연스럽게 대응된다. 반대로 이런 대응이 없으면 많은 연산기가 놀게 되어 칩 면적과 전력만 낭비된다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이 문제를 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄 세우지 말고 연산기를 늘리자"는 방식으로 해결한다. 특히 2차원 격자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 2차원 처리 요소 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)과 잘 맞기 때문에, 문제 구조와 하드웨어 구조가 자연스럽게 대응된다. 반대로 이런 대응이 없으면 많은 연산기가 놀게 되어 칩 면적과 전력만 낭비된다.
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 왜 빠른지 먼저 보면 구조적 차이가 분명해진다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 왜 빠른지 먼저 보면 구조적 차이가 분명해진다.
 
 ```text
 +--------------------------------------------------------------+
@@ -42,27 +39,27 @@ tags = ["studynote-computer-architecture"]
 +-----------------------+--------------------------------------+
 ```
 
-이 그림의 핵심은 명령 수를 줄이는 것이 아니라, <strong>같은 명령을 받아 실행하는 자리 자체를 복제한다</strong>는 점이다. 따라서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나를 극적으로 줄이는 구조라기보다, 대량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 총 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조로 이해해야 한다.
+이 그림의 핵심은 명령 수를 줄이는 것이 아니라, <strong>같은 명령을 받아 실행하는 자리 자체를 복제한다</strong>는 점이다. 따라서 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 하나를 극적으로 줄이는 구조라기보다, 대량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대한 총 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올리는 구조로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: 한 사람이 운동장 줄을 따라 쓰레기를 하나씩 줍는 대신, 반장이 "지금 줍자"라고 외치면 운동장 칸마다 서 있던 학생들이 동시에 자기 앞 쓰레기를 줍는 방식이 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서다.
+- **📢 섹션 요약 비유**: 한 사람이 운동장 줄을 따라 쓰레기를 하나씩 줍는 대신, 반장이 "지금 줍자"라고 외치면 운동장 칸마다 서 있던 학생들이 동시에 자기 앞 쓰레기를 줍는 방식이 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 기본 구성은 제어장치, 처리 요소 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 로컬 메모리, 그리고 처리 요소 사이 연결망이다. 제어장치는 명령을 해독해 전체 처리 요소에 방송하듯 전달하고, 각 처리 요소는 자신에게 배정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 계산한다. 처리 요소는 보통 PE (Processing Element)라 부르며, 내부에는 간단한 [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 로컬 버퍼가 들어 있다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 기본 구성은 제어장치, 처리 요소 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 로컬 메모리, 그리고 처리 요소 사이 연결망이다. 제어장치는 명령을 해독해 전체 처리 요소에 방송하듯 전달하고, 각 처리 요소는 자신에게 배정된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 계산한다. 처리 요소는 보통 PE (Processing Element)라 부르며, 내부에는 간단한 [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) ([Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 로컬 버퍼가 들어 있다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
-| 제어장치 ([Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | 명령 인출·해독 후 전체 PE에 동일 명령 전파 | 제어 단순화, 방송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화 |
-| 처리 요소 (PE, Processing Element) | 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해 덧셈, 곱셈, 비교 수행 | 개수 대비 면적·전력 효율 |
+| 제어장치 ([Control Unit](/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | 명령 인출·해독 후 전체 PE에 동일 명령 전파 | 제어 단순화, 방송 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 최소화 |
+| 처리 요소 (PE, Processing Element) | 로컬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 대해 덧셈, 곱셈, 비교 수행 | 개수 대비 면적·전력 효율 |
 | 로컬 메모리 | 각 PE가 사용할 피연산자와 중간값 저장 | 전역 메모리 왕복 감소 |
-| 상호연결망 ([Interconnection Network](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)) | 인접 PE 또는 행·열 방향 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 | 병목, 충돌, 확장성 |
-| 전역 메모리 | 대규모 입력·출력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 공급 능력 |
+| 상호연결망 ([Interconnection Network](/studynote/01_computer_architecture/10_parallel_processing_architecture/387_interconnection_network/)) | 인접 PE 또는 행·열 방향 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전달 | 병목, 충돌, 확장성 |
+| 전역 메모리 | 대규모 입력·출력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 공급 능력 |
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 성능은 "연산기 수"만으로 결정되지 않는다. 명령은 하나여도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급이 막히면 PE가 대기 상태가 된다. 그래서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 보통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할, [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/), 인접 PE 간 직접 전달 같은 기법을 함께 쓴다. 특히 격자형 문제에서는 중앙 메모리를 매번 거치지 않고 이웃 PE와 값을 교환하는 것이 매우 중요하다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 성능은 "연산기 수"만으로 결정되지 않는다. 명령은 하나여도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급이 막히면 PE가 대기 상태가 된다. 그래서 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 보통 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분할, [메모리 인터리빙](/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/), 인접 PE 간 직접 전달 같은 기법을 함께 쓴다. 특히 격자형 문제에서는 중앙 메모리를 매번 거치지 않고 이웃 PE와 값을 교환하는 것이 매우 중요하다.
 
-아래 그림은 전역 명령 배포와 국소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 동시에 작동하는 모습을 보여준다.
+아래 그림은 전역 명령 배포와 국소 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 동시에 작동하는 모습을 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -83,69 +80,69 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 구조에서는 두 종류의 흐름이 분리된다. 위에서 아래로 내려오는 것은 <strong>제어 흐름</strong>이고, 좌우 또는 상하로 움직이는 것은 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>이다. 제어는 중앙 집중적이지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 분산적으로 움직이기 때문에, 같은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이라도 [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)보다 공간 구조가 훨씬 더 강하게 드러난다.
+이 구조에서는 두 종류의 흐름이 분리된다. 위에서 아래로 내려오는 것은 <strong>제어 흐름</strong>이고, 좌우 또는 상하로 움직이는 것은 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 흐름</strong>이다. 제어는 중앙 집중적이지만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 분산적으로 움직이기 때문에, 같은 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이라도 [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)보다 공간 구조가 훨씬 더 강하게 드러난다.
 
-또한 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 활성 PE 비율이 중요하다. 예를 들어 64개의 PE를 두었는데 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 40개뿐이거나 분기 때문에 절반만 실행되면, 남는 PE는 성능에 기여하지 못한 채 전력만 소모한다. 따라서 문제 크기와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 하드웨어 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 잘 맞추는 것이 핵심 원리이자 핵심 제약이다.
+또한 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 활성 PE 비율이 중요하다. 예를 들어 64개의 PE를 두었는데 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 40개뿐이거나 분기 때문에 절반만 실행되면, 남는 PE는 성능에 기여하지 못한 채 전력만 소모한다. 따라서 문제 크기와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치를 하드웨어 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 잘 맞추는 것이 핵심 원리이자 핵심 제약이다.
 
-- **📢 섹션 요약 비유**: 교실 전체가 같은 방송을 듣되, 각 학생은 자기 책상 위 문제만 풀고 옆 친구와만 답을 잠깐 확인하는 시험장이라고 생각하면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 구조가 잡힌다.
+- **📢 섹션 요약 비유**: 교실 전체가 같은 방송을 듣되, 각 학생은 자기 책상 위 문제만 풀고 옆 친구와만 답을 잠깐 확인하는 시험장이라고 생각하면 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 구조가 잡힌다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 제대로 이해하려면 [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)와 [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)와의 경계를 함께 봐야 한다. 셋 다 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 추구하지만, 어디에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원을 배치하느냐가 다르다. [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)는 긴 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 파이프라인으로 1차원 스트림을 빠르게 흘려보내고, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 많은 PE를 바둑판처럼 배치해 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 만든다. [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)는 각 코어가 서로 다른 명령을 독립적으로 수행하는 [MIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) (Multiple [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 방향에 가깝다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 제대로 이해하려면 [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)와 [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)와의 경계를 함께 봐야 한다. 셋 다 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 추구하지만, 어디에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원을 배치하느냐가 다르다. [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)는 긴 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 파이프라인으로 1차원 스트림을 빠르게 흘려보내고, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 많은 PE를 바둑판처럼 배치해 공간 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성을 만든다. [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)는 각 코어가 서로 다른 명령을 독립적으로 수행하는 [MIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/) (Multiple [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 방향에 가깝다.
 
-| 비교 항목 | [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/) | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 | [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) |
+| 비교 항목 | [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/) | [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 | [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) |
 | :-- | :-- | :-- | :-- |
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 기준 | 긴 벡터 스트림 | 다수의 PE 격자 | 독립 코어 여러 개 |
+| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 기준 | 긴 벡터 스트림 | 다수의 PE 격자 | 독립 코어 여러 개 |
 | 명령 형태 | 보통 단일 벡터 명령 | 단일 명령 방송 | 코어별 독립 명령 |
-| 강점 | 규칙적 1차원 연산 | 행렬·격자·영상 처리 | 범용 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
-| 약점 | 불규칙 2차원 매핑 한계 | 분기·유휴 PE 문제 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·공유자원 비용 |
-| 현대 계보 | AVX (Advanced Vector Extensions), SVE (Scalable Vector Extension) | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), 시스톨릭 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | [대칭형 다중 처리](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing), 비균일 메모리 접근 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 서버 |
+| 강점 | 규칙적 1차원 연산 | 행렬·격자·영상 처리 | 범용 작업 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
+| 약점 | 불규칙 2차원 매핑 한계 | 분기·유휴 PE 문제 | [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)·공유자원 비용 |
+| 현대 계보 | AVX (Advanced Vector Extensions), SVE (Scalable Vector Extension) | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [TPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/), 시스톨릭 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) | [대칭형 다중 처리](/studynote/01_computer_architecture/10_parallel_processing_architecture/382_smp/) ([SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/), Symmetric Multiprocessing), 비균일 메모리 접근 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/), [Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 서버 |
 
-현대 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 엄밀히 말해 전통적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 그대로 복제한 것은 아니지만, 대량의 단순 연산기를 묶어 같은 커널을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행한다는 점에서 철학을 계승한다. [TPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) ([Tensor Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/))의 시스톨릭 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 여기서 한 걸음 더 나아가, 행렬 곱셈과 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))에 맞게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정교하게 고정한 특화 형태다. 즉, 고전적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 오늘날 범용 GPU와 특화형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기 사이의 공통 조상으로 볼 수 있다.
+현대 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))는 엄밀히 말해 전통적 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 그대로 복제한 것은 아니지만, 대량의 단순 연산기를 묶어 같은 커널을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행한다는 점에서 철학을 계승한다. [TPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/) ([Tensor Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/425_tpu/))의 시스톨릭 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 여기서 한 걸음 더 나아가, 행렬 곱셈과 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/))에 맞게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 정교하게 고정한 특화 형태다. 즉, 고전적 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 오늘날 범용 GPU와 특화형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기 사이의 공통 조상으로 볼 수 있다.
 
-중요한 연결점은 "규칙성"이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 행렬처럼 규칙적으로 배치되고, 연산이 같은 패턴으로 반복되면 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 매우 강하다. 그러나 포인터 추적, [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 탐색, 조건 분기가 많은 워크로드는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 기반 [락스텝](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)([lockstep](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)) 실행을 깨뜨려 효율을 떨어뜨린다. 이 차이가 바로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 범용 CPU를 대체하지 못하고, 가속기 형태로 공존하는 이유다.
+중요한 연결점은 "규칙성"이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 행렬처럼 규칙적으로 배치되고, 연산이 같은 패턴으로 반복되면 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 매우 강하다. 그러나 포인터 추적, [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 탐색, 조건 분기가 많은 워크로드는 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 기반 [락스텝](/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)([lockstep](/studynote/01_computer_architecture/13_reliability_power_management/465_lockstep_architecture/)) 실행을 깨뜨려 효율을 떨어뜨린다. 이 차이가 바로 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서가 범용 CPU를 대체하지 못하고, 가속기 형태로 공존하는 이유다.
 
-- **📢 섹션 요약 비유**: [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)가 긴 도로 위 자동차를 빠르게 흘리는 톨게이트라면, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 주차장 칸마다 동시에 차를 세우고 작업하는 정비소에 가깝고, [다중 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)는 서로 다른 일을 맡은 기사 여러 명이 따로 움직이는 팀에 가깝다.
+- **📢 섹션 요약 비유**: [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)가 긴 도로 위 자동차를 빠르게 흘리는 톨게이트라면, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 주차장 칸마다 동시에 차를 세우고 작업하는 정비소에 가깝고, [다중 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/)는 서로 다른 일을 맡은 기사 여러 명이 따로 움직이는 팀에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 검토할 때 첫 질문은 "이 문제가 정말 같은 계산의 반복인가"다. 선형대수, [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/), 영상 필터, 격자형 시뮬레이션은 적합하지만, 요청마다 제어 흐름이 크게 달라지는 웹 백엔드나 복잡한 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 로직은 적합하지 않다. 즉, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성은 높은데 작업 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성보다 제어 다양성이 낮을 때 채택 가치가 높다.
+실무에서 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 검토할 때 첫 질문은 "이 문제가 정말 같은 계산의 반복인가"다. 선형대수, [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/), 영상 필터, 격자형 시뮬레이션은 적합하지만, 요청마다 제어 흐름이 크게 달라지는 웹 백엔드나 복잡한 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 로직은 적합하지 않다. 즉, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성은 높은데 작업 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성보다 제어 다양성이 낮을 때 채택 가치가 높다.
 
-예를 들어 딥러닝 학습에서 대규모 행렬 곱셈은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 계열 하드웨어에 매우 잘 맞는다. 반면 희소 행렬이 지나치게 많거나, 배치 크기가 너무 작거나, 조건 분기가 많은 전처리 코드가 많으면 PE 활용률이 떨어진다. 이때는 GPU만 늘리는 것보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재배치, 배치 크기 조정, 연산 융합이 먼저다.
+예를 들어 딥러닝 학습에서 대규모 행렬 곱셈은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 계열 하드웨어에 매우 잘 맞는다. 반면 희소 행렬이 지나치게 많거나, 배치 크기가 너무 작거나, 조건 분기가 많은 전처리 코드가 많으면 PE 활용률이 떨어진다. 이때는 GPU만 늘리는 것보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재배치, 배치 크기 조정, 연산 융합이 먼저다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적이고 규칙적으로 분할되는가?
+1. 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적이고 규칙적으로 분할되는가?
 2. 같은 연산을 대량으로 반복하는가?
 3. PE 수를 충분히 채울 만큼 문제 크기가 큰가?
 4. 분기, 예외 처리, 불규칙 접근이 적은가?
-5. 전역 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 PE 수를 뒷받침하는가?
+5. 전역 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 PE 수를 뒷받침하는가?
 
-### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- CPU에 더 적합한 복잡한 제어 로직을 억지로 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서에 올리는 경우
-- [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 무시하고 작은 작업을 반복해서 오프로딩하는 경우
-- PE 수만 보고 성능을 예측하고 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 유휴율을 계산하지 않는 경우
+- CPU에 더 적합한 복잡한 제어 로직을 억지로 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서에 올리는 경우
+- [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 비용을 무시하고 작은 작업을 반복해서 오프로딩하는 경우
+- PE 수만 보고 성능을 예측하고 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 유휴율을 계산하지 않는 경우
 
-기술사 관점에서는 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"만 말하면 부족하다. 반드시 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성, 메모리 공급, 분기 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>, 활용률</strong>을 함께 판단해야 한다. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이론상 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 높아도 실제 활용률이 낮으면 기대 성능이 나오지 않는 대표 구조이기 때문이다.
+기술사 관점에서는 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"만 말하면 부족하다. 반드시 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성, 메모리 공급, 분기 <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a>, 활용률</strong>을 함께 판단해야 한다. [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 이론상 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도가 높아도 실제 활용률이 낮으면 기대 성능이 나오지 않는 대표 구조이기 때문이다.
 
-- **📢 섹션 요약 비유**: 대형 학원 강의실을 빌려 놓고 학생이 세 명만 오면 공간이 남아돌듯, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서도 계산 패턴과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 맞지 않으면 큰 하드웨어가 오히려 비경제적이다.
+- **📢 섹션 요약 비유**: 대형 학원 강의실을 빌려 놓고 학생이 세 명만 오면 공간이 남아돌듯, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서도 계산 패턴과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모가 맞지 않으면 큰 하드웨어가 오히려 비경제적이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 가장 큰 효과는 대량 반복 계산을 제어 오버헤드가 낮은 형태로 밀어붙일 수 있다는 점이다. 같은 실리콘 면적에서 복잡한 제어기보다 많은 산술기를 배치하므로, 조건이 맞는 작업에서는 전력 대비 성능과 단위 시간당 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 크게 높일 수 있다. 이 때문에 과거 슈퍼컴퓨터의 실험적 구조였던 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 철학이 오늘날 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기와 그래픽 연산의 중심으로 되돌아왔다.
+[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 가장 큰 효과는 대량 반복 계산을 제어 오버헤드가 낮은 형태로 밀어붙일 수 있다는 점이다. 같은 실리콘 면적에서 복잡한 제어기보다 많은 산술기를 배치하므로, 조건이 맞는 작업에서는 전력 대비 성능과 단위 시간당 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 크게 높일 수 있다. 이 때문에 과거 슈퍼컴퓨터의 실험적 구조였던 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 철학이 오늘날 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 가속기와 그래픽 연산의 중심으로 되돌아왔다.
 
-다만 만능 구조는 아니다. 범용성은 낮고, 메모리 병목과 유휴 PE 문제를 피하려면 소프트웨어 스케줄링과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 정교해야 한다. 결국 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 기억할 때는 "연산기를 많이 붙인 프로세서"가 아니라, <strong>문제의 규칙성을 하드웨어 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>로 직접 대응시키는 구조</strong>로 이해하는 것이 정확하다.
+다만 만능 구조는 아니다. 범용성은 낮고, 메모리 병목과 유휴 PE 문제를 피하려면 소프트웨어 스케줄링과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 정교해야 한다. 결국 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서를 기억할 때는 "연산기를 많이 붙인 프로세서"가 아니라, <strong>문제의 규칙성을 하드웨어 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>로 직접 대응시키는 구조</strong>로 이해하는 것이 정확하다.
 
-앞으로의 확장 방향은 세 가지로 볼 수 있다. 첫째, 시스톨릭 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 더 예측 가능하게 만드는 특화화가 강화된다. 둘째, 메모리 근접 컴퓨팅과 결합해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 줄이려는 시도가 늘어난다. 셋째, 범용 CPU와 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 가속기를 함께 쓰는 이기종 컴퓨팅이 표준이 되면서, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 독립 주연보다 강력한 조연의 위치를 더 공고히 할 가능성이 크다.
+앞으로의 확장 방향은 세 가지로 볼 수 있다. 첫째, 시스톨릭 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 더 예측 가능하게 만드는 특화화가 강화된다. 둘째, 메모리 근접 컴퓨팅과 결합해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용을 줄이려는 시도가 늘어난다. 셋째, 범용 CPU와 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 가속기를 함께 쓰는 이기종 컴퓨팅이 표준이 되면서, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 독립 주연보다 강력한 조연의 위치를 더 공고히 할 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 모든 일을 잘하는 만능 공구가 아니라, 같은 모양의 부품을 엄청 많이 찍어낼 때 압도적으로 강한 금형 기계라고 기억하면 된다.
+- **📢 섹션 요약 비유**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 모든 일을 잘하는 만능 공구가 아니라, 같은 모양의 부품을 엄청 많이 찍어낼 때 압도적으로 강한 금형 기계라고 기억하면 된다.
 
 ---
 
@@ -153,11 +150,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 상위 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 철학 |
-| [벡터 프로세서](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/) ([Vector Processor](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)) | 같은 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이지만 1차원 스트림 중심 구현 |
-| 시스톨릭 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 철학을 행렬 곱셈에 특화한 현대적 형태 |
-| [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | 대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 상용화한 대표 계열 |
-| 로컬 메모리와 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | PE 활용률과 실제 성능을 좌우하는 핵심 요소 |
+| [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서의 상위 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 철학 |
+| [벡터 프로세서](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/) ([Vector Processor](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)) | 같은 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 계열이지만 1차원 스트림 중심 구현 |
+| 시스톨릭 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Systolic Array](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) | [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서 철학을 행렬 곱셈에 특화한 현대적 형태 |
+| [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | 대량 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산을 상용화한 대표 계열 |
+| 로컬 메모리와 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | PE 활용률과 실제 성능을 좌우하는 핵심 요소 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,11 +178,11 @@ GPU (Graphics Processing Unit)
 인공지능 가속기 · 이기종 컴퓨팅
 ```
 
-이 흐름은 "[SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 원리 -> 공간 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구현 -> 상용 가속기 -> [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 특화"로 이어지는 계보를 보여준다.
+이 흐름은 "[SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 원리 -> 공간 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구현 -> 상용 가속기 -> [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 특화"로 이어지는 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 똑같은 계산을 하는 작은 계산 로봇을 운동장처럼 많이 늘어놓은 컴퓨터예요.
+1. [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 프로세서는 똑같은 계산을 하는 작은 계산 로봇을 운동장처럼 많이 늘어놓은 컴퓨터예요.
 2. 선생님이 "지금 더해"라고 한 번만 말하면 로봇들이 각자 자기 칸의 숫자를 동시에 계산해요.
 3. 그래서 같은 모양의 숙제가 아주 많을 때는 엄청 빠르지만, 문제마다 규칙이 다르면 로봇들이 우왕좌왕하게 돼요.
 
@@ -195,7 +192,7 @@ GPU (Graphics Processing Unit)
 
 **진행 상황**: 375 / 803
 
-<- **이전**: [373. 벡터 프로세서 (Vector Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)
-**다음**: [375. 다중 프로세서 (Multiprocessor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) ->
+<- **이전**: [373. 벡터 프로세서 (Vector Processor)](/studynote/01_computer_architecture/10_parallel_processing_architecture/373_vector_processor/)
+**다음**: [375. 다중 프로세서 (Multiprocessor)](/studynote/01_computer_architecture/10_parallel_processing_architecture/375_multiprocessor/) ->
 
 ---

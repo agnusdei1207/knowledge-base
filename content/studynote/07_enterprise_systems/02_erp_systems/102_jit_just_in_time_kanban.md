@@ -1,18 +1,15 @@
-+++
-title = "102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표"
+---
+title: "102. JIT (Just In Time) - 적기 생산 방식 (도요타 칸반 방식), 재고 제로화 목표"
+tags:
+  - "enterprise_systems"
+---
 
-[taxonomies]
-tags = ["enterprise_systems"]
-
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) (Just In Time)는 "필요한 물품을, 필요한 시간에, 딱 필요한 수량만큼만 생산한다"는 도요타(Toyota)의 혁명적인 철학으로, 과잉 생산과 재고를 악의 근원으로 규정한다.
+> 1. **본질**: [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) (Just In Time)는 "필요한 물품을, 필요한 시간에, 딱 필요한 수량만큼만 생산한다"는 도요타(Toyota)의 혁명적인 철학으로, 과잉 생산과 재고를 악의 근원으로 규정한다.
 > 2. **가치**: 기존의 밀어내기(Push) 방식에서 벗어나 고객의 주문이 들어왔을 때만 뒤에서 앞을 당기는 끌어당기기(Pull) 방식을 적용하여, 창고 비용을 없애고 자금 회전율을 극한으로 끌어올린다.
-> 3. **판단 포인트**: JIT는 자원의 낭비를 완벽히 제거하지만 시스템에 여유(안전 재고)가 전혀 없어, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 이슈(재해, 부품 수급난) 발생 시 즉각 공장 전체가 멈춰버리는 '유리몸' 구조이므로 철저한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리가 병행되어야 한다.
+> 3. **판단 포인트**: JIT는 자원의 낭비를 완벽히 제거하지만 시스템에 여유(안전 재고)가 전혀 없어, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 이슈(재해, 부품 수급난) 발생 시 즉각 공장 전체가 멈춰버리는 '유리몸' 구조이므로 철저한 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리가 병행되어야 한다.
 
 ---
 
@@ -28,7 +25,7 @@ JIT는 이러한 전통적 낭비를 박살 내기 위해 등장했다. 땅도 �
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) 시스템의 뼈대는 <strong>풀(Pull) 생산 시스템</strong>과 이를 통신하게 해주는 <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>, 간판) 시스템</strong>이다. 주문이 발생한 하류 공정이 상류 공정에게 필요한 부품을 요구하는 역방향 정보 흐름을 가진다.
+[JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) 시스템의 뼈대는 <strong>풀(Pull) 생산 시스템</strong>과 이를 통신하게 해주는 <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>, 간판) 시스템</strong>이다. 주문이 발생한 하류 공정이 상류 공정에게 필요한 부품을 요구하는 역방향 정보 흐름을 가진다.
 
 ```text
 +--------------------------------------------------------------+
@@ -44,46 +41,46 @@ JIT는 이러한 전통적 낭비를 박살 내기 위해 등장했다. 땅도 �
 +--------------------------------------------------------------+
 ```
 
-도요타는 공정 간 통신을 위해 부품 상자에 종이 명찰인 '[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)'을 달았다. 하류 공정이 부품을 꺼내 쓰고 빈 상자와 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 상류로 돌려보내면, 상류는 딱 그 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)에 적힌 수량만큼만 생산하여 채운다. 즉, [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 작업 지시서이자 생산을 통제하는 물리적 토큰이다.
+도요타는 공정 간 통신을 위해 부품 상자에 종이 명찰인 '[칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)'을 달았다. 하류 공정이 부품을 꺼내 쓰고 빈 상자와 [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)을 상류로 돌려보내면, 상류는 딱 그 [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)에 적힌 수량만큼만 생산하여 채운다. 즉, [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 작업 지시서이자 생산을 통제하는 물리적 토큰이다.
 
-- **📢 섹션 요약 비유**: 카페 진동벨과 같다. 바리스타는 원두를 미리 다 내려놓지 않는다. [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 진동벨([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))을 주며 주문이 들어온 커피 수량만큼만 그 자리에서 내려서 손님에게 전달한다.
+- **📢 섹션 요약 비유**: 카페 진동벨과 같다. 바리스타는 원두를 미리 다 내려놓지 않는다. [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)에서 진동벨([칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))을 주며 주문이 들어온 커피 수량만큼만 그 자리에서 내려서 손님에게 전달한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-제조업의 2대 생산 방식인 푸시와 풀 방식을 비교하면 JIT의 특징이 명확해진다. 흥미롭게도 이 아날로그 제조 철학은 현대 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '[애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))'로 연결된다.
+제조업의 2대 생산 방식인 푸시와 풀 방식을 비교하면 JIT의 특징이 명확해진다. 흥미롭게도 이 아날로그 제조 철학은 현대 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '[애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))'로 연결된다.
 
-| 항목 | 푸시 (Push) 방식 (기존 대량생산) | 풀 (Pull) 방식 ([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) / [Kanban](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) |
+| 항목 | 푸시 (Push) 방식 (기존 대량생산) | 풀 (Pull) 방식 ([JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) / [Kanban](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)) |
 | :--- | :--- | :--- |
 | **생산 기준** | 수요 예측 기반 (계획 생산) | 실제 주문 기반 (수주 생산) |
 | **핵심 목표** | 기계 가동률 극대화 (규모의 경제) | 재고 최소화, 적기 납품 |
 | **재고 수준** | 잉여 재고 다수 보유 | 안전 재고 거의 없음 (제로 지향) |
-| **SW 공학 연결**| 폭포수(Waterfall) 모델, 대규모 릴리즈 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)), [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드(WIP 제한) |
+| **SW 공학 연결**| 폭포수(Waterfall) 모델, 대규모 릴리즈 | [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)), [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드(WIP 제한) |
 
-물리적 종이 티켓이었던 도요타의 [칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 SW 개발론으로 넘어와 지라(Jira)의 '[칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드'가 되었다. 개발자가 한 번에 많은 일(과잉 생산)을 하지 못하게 WIP ([Work In Progress](/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 제한하는 원리가 똑같이 적용된 것이다.
+물리적 종이 티켓이었던 도요타의 [칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/)은 SW 개발론으로 넘어와 지라(Jira)의 '[칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/) 보드'가 되었다. 개발자가 한 번에 많은 일(과잉 생산)을 하지 못하게 WIP ([Work In Progress](/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/))를 제한하는 원리가 똑같이 적용된 것이다.
 
-- **📢 섹션 요약 비유**: 푸시 방식은 비가 오든 안 오든 일단 우산을 1만 개 만들어 창고에 넣는 도박이고, 풀 방식은 하늘에 먹구름이 낄 때만 우산을 재빨리 조립해 파는 주문형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
+- **📢 섹션 요약 비유**: 푸시 방식은 비가 오든 안 오든 일단 우산을 1만 개 만들어 창고에 넣는 도박이고, 풀 방식은 하늘에 먹구름이 낄 때만 우산을 재빨리 조립해 파는 주문형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-JIT가 성공하려면 전제조건이 극도로 가혹하다. 하청업체가 공장 바로 옆에 붙어 있어야 하고, 납품되는 부품의 불량률이 0%여야 하며, 운송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없어야 한다.
+JIT가 성공하려면 전제조건이 극도로 가혹하다. 하청업체가 공장 바로 옆에 붙어 있어야 하고, 납품되는 부품의 불량률이 0%여야 하며, 운송 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 없어야 한다.
 
-기술사는 이 시스템의 <strong>치명적인 취약점(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)</strong>을 꿰뚫어 보아야 한다. JIT는 예비 부품이 없으므로, 천재지변, 전염병(코로나19), 파업 등으로 부품 하나만 납품이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어도 수조 원 규모의 전체 공장 라인이 셧다운된다. 따라서 현대적 판단으로는 맹목적인 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)(재고 0) 추구보다는, 크리티컬 패스에 있는 핵심 부품은 안전 재고를 유지하는 **JIC (Just In Case)** [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 혼합하여 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성(Resilience)을 확보하는 하이브리드 설계가 필수다.
+기술사는 이 시스템의 <strong>치명적인 취약점(<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>)</strong>을 꿰뚫어 보아야 한다. JIT는 예비 부품이 없으므로, 천재지변, 전염병(코로나19), 파업 등으로 부품 하나만 납품이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어도 수조 원 규모의 전체 공장 라인이 셧다운된다. 따라서 현대적 판단으로는 맹목적인 [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/)(재고 0) 추구보다는, 크리티컬 패스에 있는 핵심 부품은 안전 재고를 유지하는 **JIC (Just In Case)** [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 혼합하여 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)탄력성(Resilience)을 확보하는 하이브리드 설계가 필수다.
 
-- **📢 섹션 요약 비유**: 체지방을 0%로 만든 극한의 보디빌더([JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/))와 같다. 겉보기엔 근육(효율)이 완벽하지만, 감기 [바이러스](/knowledge-base/studynote/02_operating_system/10_security/589_virus/)(부품 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 하나만 들어와도 면역력(안전 재고)이 없어 쓰러지고 만다.
+- **📢 섹션 요약 비유**: 체지방을 0%로 만든 극한의 보디빌더([JIT](/studynote/09_security/11_iam_access_control/568_jit_access/))와 같다. 겉보기엔 근육(효율)이 완벽하지만, 감기 [바이러스](/studynote/02_operating_system/10_security/589_virus/)(부품 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)) 하나만 들어와도 면역력(안전 재고)이 없어 쓰러지고 만다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-JIT를 완벽히 정착시키면 창고와 재고 관리 비용이 소멸하고 자금 회전율이 극대화된다. 또한, 불량품이 나오면 즉시 라인이 멈추고 원인을 찾게 되므로 장기적으로 품질이 비약적으로 상승한다. 하지만 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 교란에는 극도로 취약하다는 분명한 한계가 존재한다.
+JIT를 완벽히 정착시키면 창고와 재고 관리 비용이 소멸하고 자금 회전율이 극대화된다. 또한, 불량품이 나오면 즉시 라인이 멈추고 원인을 찾게 되므로 장기적으로 품질이 비약적으로 상승한다. 하지만 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 교란에는 극도로 취약하다는 분명한 한계가 존재한다.
 
-결론적으로 JIT는 단순한 '재고 관리 기법'이 아니라, 조직 전체의 낭비를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 제거하는 철학이다. 제조업을 넘어 IT [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 소프트웨어 개발론([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))에까지 영향을 미친 인류 최고의 프로세스 혁신 중 하나로 기억해야 한다.
+결론적으로 JIT는 단순한 '재고 관리 기법'이 아니라, 조직 전체의 낭비를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)하고 제거하는 철학이다. 제조업을 넘어 IT [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 소프트웨어 개발론([애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))에까지 영향을 미친 인류 최고의 프로세스 혁신 중 하나로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: JIT는 자전거 타기와 같다. 적당한 속도로 페달(주문)을 밟아야 넘어지지 않고 나아가며, 페달을 멈추거나 체인([공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))이 하나라도 끊어지면 그 즉시 넘어진다.
+- **📢 섹션 요약 비유**: JIT는 자전거 타기와 같다. 적당한 속도로 페달(주문)을 밟아야 넘어지지 않고 나아가며, 페달을 멈추거나 체인([공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/))이 하나라도 끊어지면 그 즉시 넘어진다.
 
 ---
 
@@ -92,9 +89,9 @@ JIT를 완벽히 정착시키면 창고와 재고 관리 비용이 소멸하고 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **풀 (Pull) 시스템** | 고객의 수요에 이끌려 뒤에서부터 작업이 시작되는 JIT의 핵심 엔진 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>) 보드</strong> | 도요타의 생산 지시표가 SW 개발의 시각적 작업 관리 도구로 진화한 형태 |
-| <strong>WIP (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/">Work In Progress</a>) 제한</strong> | 공정 내 미완성품([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업)의 개수를 제한하여 병목을 막는 규칙 |
-| **JIC (Just In Case)** | JIT의 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 극복하기 위해 다시 최소한의 안전 재고를 두는 현대 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">칸반</a> (<a href="/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/">Kanban</a>) 보드</strong> | 도요타의 생산 지시표가 SW 개발의 시각적 작업 관리 도구로 진화한 형태 |
+| <strong>WIP (<a href="/studynote/04_software_engineering/uncategorized/661_kanban_wip_limit/">Work In Progress</a>) 제한</strong> | 공정 내 미완성품([진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중인 작업)의 개수를 제한하여 병목을 막는 규칙 |
+| **JIC (Just In Case)** | JIT의 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 극복하기 위해 다시 최소한의 안전 재고를 두는 현대 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -117,7 +114,7 @@ JIT (Just In Time) 및 칸반 (Kanban) 도입
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 햄버거 가게에서 손님이 오기도 전에 미리 햄버거 100개를 만들어 쌓아두면 다 식어서 맛이 없겠죠?
-2. JIT는 손님이 "불고기버거 주세요!"라고 주문표([칸반](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))를 낼 때만 고기를 구워서 바로 주는 멋진 방법이에요.
+2. JIT는 손님이 "불고기버거 주세요!"라고 주문표([칸반](/studynote/04_software_engineering/02_requirements_analysis/084_kanban_board_wip_limit/))를 낼 때만 고기를 구워서 바로 주는 멋진 방법이에요.
 3. 이렇게 하면 버리는 햄버거가 하나도 없어서 쓰레기도 줄고 돈도 많이 아낄 수 있답니다!
 
 ---
@@ -126,7 +123,7 @@ JIT (Just In Time) 및 칸반 (Kanban) 도입
 
 **진행 상황**: 102 / 482
 
-<- **이전**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/)
-**다음**: [103. S&OP (Sales and Operations Planning) - 영업 및 생산 운영 계획의 주별/월별 전사 통합 조정 회의체](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/) ->
+<- **이전**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/)
+**다음**: [103. S&OP (Sales and Operations Planning) - 영업 및 생산 운영 계획의 주별/월별 전사 통합 조정 회의체](/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/) ->
 
 ---

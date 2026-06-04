@@ -1,13 +1,10 @@
-+++
-title = "565. 블록체인 오라클 오프체인 데이터 연동 (Blockchain Oracle Off-chain Data Integration)"
-date = 2026-05-09
+---
+title: "565. 블록체인 오라클 오프체인 데이터 연동 (Blockchain Oracle Off-chain Data Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Source -> Aggregate -> Sign -> Submit -> Consume
 
 **진행 상황**: 565 / 800
 
-<- **이전**: [564. 탈중앙 저장소 IPFS Filecoin](/knowledge-base/studynote/06_ict_convergence/uncategorized/564_decentralized_storage_ipfs_filecoin/)
-**다음**: [566. 프라이빗 블록체인 Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/uncategorized/566_private_blockchain_hyperledger_fabric/) ->
+<- **이전**: [564. 탈중앙 저장소 IPFS Filecoin](/studynote/06_ict_convergence/uncategorized/564_decentralized_storage_ipfs_filecoin/)
+**다음**: [566. 프라이빗 블록체인 Hyperledger Fabric](/studynote/06_ict_convergence/uncategorized/566_private_blockchain_hyperledger_fabric/) ->
 
 ---

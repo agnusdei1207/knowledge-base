@@ -1,13 +1,10 @@
-+++
-title = "787. IT 경영 관리 핵심 토픽 787번 시험 요약 (IT Management Core Topic 787 Exam Summary)"
-date = 2026-05-09
+---
+title: "787. IT 경영 관리 핵심 토픽 787번 시험 요약 (IT Management Core Topic 787 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -126,7 +123,7 @@ IT 경영관리의 핵심 프레임워크 간 비교는 기술사 시험에서 �
 
 **진행 상황**: 787 / 800
 
-<- **이전**: [786. IT 경영 관리 핵심 토픽 786번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/786_it_management_core_topic_786_exam_summary/)
-**다음**: [788. IT 경영 관리 핵심 토픽 788번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/788_it_management_core_topic_788_exam_summary/) ->
+<- **이전**: [786. IT 경영 관리 핵심 토픽 786번 시험 요약](/studynote/12_it_management/05_security_compliance/786_it_management_core_topic_786_exam_summary/)
+**다음**: [788. IT 경영 관리 핵심 토픽 788번 시험 요약](/studynote/12_it_management/05_security_compliance/788_it_management_core_topic_788_exam_summary/) ->
 
 ---

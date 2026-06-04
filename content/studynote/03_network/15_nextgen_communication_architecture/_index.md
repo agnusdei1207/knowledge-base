@@ -1,6 +1,5 @@
-+++
-title = "15. Nextgen Communication Architecture"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "15. Nextgen Communication Architecture"
+tags:
+  - "network"
+---

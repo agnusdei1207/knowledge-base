@@ -1,13 +1,10 @@
-+++
-title = "533. 데이터 분석 대시보드 시각화 전략 (Data Analytics Dashboard Visualization)"
-date = 2026-05-09
+---
+title: "533. 데이터 분석 대시보드 시각화 전략 (Data Analytics Dashboard Visualization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 533 / 800
 
-<- **이전**: [532. BI 비즈니스 인텔리전스 셀프서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/532_bi_business_intelligence_self_service/)
-**다음**: [534. 예측 분석 머신러닝 비즈니스 인사이트](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/534_predictive_analytics_ml_business_insight/) ->
+<- **이전**: [532. BI 비즈니스 인텔리전스 셀프서비스](/studynote/07_enterprise_systems/06_exam_summary/532_bi_business_intelligence_self_service/)
+**다음**: [534. 예측 분석 머신러닝 비즈니스 인사이트](/studynote/07_enterprise_systems/06_exam_summary/534_predictive_analytics_ml_business_insight/) ->
 
 ---

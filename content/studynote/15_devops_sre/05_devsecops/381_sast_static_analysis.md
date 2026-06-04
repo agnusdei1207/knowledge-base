@@ -1,13 +1,10 @@
-+++
-title = "381. SAST 정적 분석 코드 취약점 조기 발견 (Static Application Security Testing SAST SonarQube)"
-date = 2026-05-09
+---
+title: "381. SAST 정적 분석 코드 취약점 조기 발견 (Static Application Security Testing SAST SonarQube)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 381 / 400
 
-<- **이전**: [380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/380_dast_penetration_testing/)
-**다음**: [382. SCA 오픈소스 취약점 라이선스 분석 (Software Composition Analysis SCA Snyk)](/knowledge-base/studynote/15_devops_sre/05_devsecops/382_sca_open_source_analysis/) ->
+<- **이전**: [380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)](/studynote/15_devops_sre/05_devsecops/380_dast_penetration_testing/)
+**다음**: [382. SCA 오픈소스 취약점 라이선스 분석 (Software Composition Analysis SCA Snyk)](/studynote/15_devops_sre/05_devsecops/382_sca_open_source_analysis/) ->
 
 ---

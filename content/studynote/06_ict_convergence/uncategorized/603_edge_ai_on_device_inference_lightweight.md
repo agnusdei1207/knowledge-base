@@ -1,13 +1,10 @@
-+++
-title = "603. 엣지 AI 온디바이스 추론 경량화 (Edge AI On-Device Inference Lightweight)"
-date = 2026-05-09
+---
+title: "603. 엣지 AI 온디바이스 추론 경량화 (Edge AI On-Device Inference Lightweight)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Train -> Compress -> Deploy -> Infer -> Update
 
 **진행 상황**: 603 / 800
 
-<- **이전**: [602. LPWAN LoRa Sigfox NB-IoT 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/602_lpwan_lora_sigfox_nb_iot_comparison/)
-**다음**: [604. TinyML 초소형 임베디드 머신러닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/604_tinyml_ultra_small_ml_embedded/) ->
+<- **이전**: [602. LPWAN LoRa Sigfox NB-IoT 비교](/studynote/06_ict_convergence/uncategorized/602_lpwan_lora_sigfox_nb_iot_comparison/)
+**다음**: [604. TinyML 초소형 임베디드 머신러닝](/studynote/06_ict_convergence/uncategorized/604_tinyml_ultra_small_ml_embedded/) ->
 
 ---

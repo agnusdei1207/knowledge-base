@@ -1,25 +1,22 @@
-+++
-title = "787. 링 오실레이터 (Ring Oscillator) TRNG"
-date = 2026-05-08
+---
+title: "787. 링 오실레이터 (Ring Oscillator) TRNG"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 링 오실레이터 TRNG는 홀수 개 인버터 루프의 주기 흔들림, 즉 지터(Jitter)를 샘플링해 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 바꾸는 디지털 친화적 난수 구조다.
-> 2. **가치**: 표준 [CMOS](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 공정만으로 구현 가능해 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), 보안 칩에서 비용 대비 활용도가 높다.
+> 1. **본질**: 링 오실레이터 TRNG는 홀수 개 인버터 루프의 주기 흔들림, 즉 지터(Jitter)를 샘플링해 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)로 바꾸는 디지털 친화적 난수 구조다.
+> 2. **가치**: 표준 [CMOS](/studynote/01_computer_architecture/01_basic_electronics_logic/018_cmos/) (Complementary Metal-Oxide-Semiconductor) 공정만으로 구현 가능해 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/), [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/), 보안 칩에서 비용 대비 활용도가 높다.
 > 3. **판단 포인트**: 단일 링은 환경 교란과 주파수 락킹 공격에 약하므로, 다중 RO 뱅크·XOR 결합·헬스 테스트를 함께 넣어야 실전 품질이 나온다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-링 오실레이터는 인버터를 홀수 개 연결해 스스로 계속 뒤집히게 만든 발진 회로다. 이상적으로는 일정 주기로 진동하지만, 실제 실리콘에서는 열잡음·공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변동·근접 배선 간섭 때문에 에지가 조금씩 흔들린다. 바로 그 흔들림이 TRNG에서 쓸 수 있는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 된다. 별도 아날로그 소자 없이도 디지털 공정 위주로 구현할 수 있기 때문에, 현대 보안 칩에서 가장 널리 쓰이는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 중 하나다.
+링 오실레이터는 인버터를 홀수 개 연결해 스스로 계속 뒤집히게 만든 발진 회로다. 이상적으로는 일정 주기로 진동하지만, 실제 실리콘에서는 열잡음·공급 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변동·근접 배선 간섭 때문에 에지가 조금씩 흔들린다. 바로 그 흔들림이 TRNG에서 쓸 수 있는 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)가 된다. 별도 아날로그 소자 없이도 디지털 공정 위주로 구현할 수 있기 때문에, 현대 보안 칩에서 가장 널리 쓰이는 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 소스 중 하나다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,8 +40,8 @@ tags = ["studynote-computer-architecture"]
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| RO Loop | 지터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 길이 다양화, 배치 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| Sampler | 에지 차이를 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 메타안정성 관리 |
+| RO Loop | 지터 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 길이 다양화, 배치 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| Sampler | 에지 차이를 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 메타안정성 관리 |
 | XOR Combiner | 다중 소스 혼합 | 단일 소스 편향 완화 |
 | Conditioner | 통계 품질 향상 | 해시·블록암호 기반 후처리 |
 
@@ -67,13 +64,13 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-RO TRNG는 Avalanche TRNG보다 디지털 통합이 쉽고, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 기반 난수보다 연속 출력에 유리하다. 반면 외부 주파수 주입, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 교란, 온도 편향에 비교적 민감하다. 따라서 하드웨어 보안 관점에서는 "구현 용이성"과 "환경 의존성"을 함께 봐야 한다.
+RO TRNG는 Avalanche TRNG보다 디지털 통합이 쉽고, [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 기반 난수보다 연속 출력에 유리하다. 반면 외부 주파수 주입, [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 교란, 온도 편향에 비교적 민감하다. 따라서 하드웨어 보안 관점에서는 "구현 용이성"과 "환경 의존성"을 함께 봐야 한다.
 
 | 비교 대상 | 장점 | 상대적 약점 |
 | :--- | :--- | :--- |
-| RO [TRNG](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) | 디지털 구현 용이, 연속 출력 가능 | 환경 교란·락킹 공격 대비 필요 |
-| Avalanche [TRNG](/knowledge-base/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) | 높은 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 밀도 | 아날로그 회로 부담과 스트레스 관리 |
-| [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) Startup RNG | 추가 면적이 적음 | 부팅 이벤트 의존, 연속성 부족 |
+| RO [TRNG](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) | 디지털 구현 용이, 연속 출력 가능 | 환경 교란·락킹 공격 대비 필요 |
+| Avalanche [TRNG](/studynote/02_operating_system/10_security/669_hardware_trng_kernel_entropy_pool/) | 높은 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 밀도 | 아날로그 회로 부담과 스트레스 관리 |
+| [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) Startup RNG | 추가 면적이 적음 | 부팅 이벤트 의존, 연속성 부족 |
 
 - **📢 섹션 요약 비유**: 직접 불꽃을 만드는 방식은 강하지만 비싸고, RO 방식은 전등 스위치만으로도 충분히 쓸 만한 불규칙성을 얻는 실용형 장치에 가깝다.
 
@@ -81,7 +78,7 @@ RO TRNG는 Avalanche TRNG보다 디지털 통합이 쉽고, [SRAM](/knowledge-ba
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 적용에서는 첫째, 링 길이와 배치를 다양화해 공통 모드 교란을 줄여야 한다. 둘째, 샘플링 직전 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 워밍업 구간은 버리고, 반복값 검사와 적응형 비율 검사로 고장을 감시해야 한다. 셋째, 보안 칩에서는 전원 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 모니터와 탬퍼 센서를 연계해 주파수 주입 공격 시 출력을 차단하는 것이 좋다. 기술사 답안에서는 "단일 RO는 데모용, 다중 RO+조건화+헬스 테스트가 상용형"이라고 정리하면 판단 포인트가 선명해진다.
+실무 적용에서는 첫째, 링 길이와 배치를 다양화해 공통 모드 교란을 줄여야 한다. 둘째, 샘플링 직전 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 워밍업 구간은 버리고, 반복값 검사와 적응형 비율 검사로 고장을 감시해야 한다. 셋째, 보안 칩에서는 전원 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 모니터와 탬퍼 센서를 연계해 주파수 주입 공격 시 출력을 차단하는 것이 좋다. 기술사 답안에서는 "단일 RO는 데모용, 다중 RO+조건화+헬스 테스트가 상용형"이라고 정리하면 판단 포인트가 선명해진다.
 
 - **📢 섹션 요약 비유**: 한 명의 경비병보다 여러 명의 경비병이 서로 다른 위치에서 교차 감시하는 편이 더 안전하다. RO도 여러 개를 섞어야 믿을 수 있다.
 
@@ -89,7 +86,7 @@ RO TRNG는 Avalanche TRNG보다 디지털 통합이 쉽고, [SRAM](/knowledge-ba
 
 ## Ⅴ. 기대효과 및 결론
 
-RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/knowledge-base/studynote/02_operating_system/10_security/608_secure_boot/), [세션 키](/knowledge-base/studynote/09_security/03_network_security/140_session_key/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [PUF](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 보조 노이즈 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 폭넓게 기여한다. 하지만 지터는 환경의 영향을 받는 물리 현상이므로, 방치하면 편향과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 공격의 표적이 된다. 앞으로는 레이아웃 무작위화, 실시간 품질 추적, 인터커넥트 보안과 결합한 자가 진단형 RO TRNG가 더 중요해질 것이다. 핵심은 "쉽게 구현된다"가 아니라 "쉽게 구현되지만, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 쓰면 쉽게 무너진다"이다.
+RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/studynote/02_operating_system/10_security/608_secure_boot/), [세션 키](/studynote/09_security/03_network_security/140_session_key/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [PUF](/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) 보조 노이즈 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 등에 폭넓게 기여한다. 하지만 지터는 환경의 영향을 받는 물리 현상이므로, 방치하면 편향과 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 공격의 표적이 된다. 앞으로는 레이아웃 무작위화, 실시간 품질 추적, 인터커넥트 보안과 결합한 자가 진단형 RO TRNG가 더 중요해질 것이다. 핵심은 "쉽게 구현된다"가 아니라 "쉽게 구현되지만, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 없이 쓰면 쉽게 무너진다"이다.
 
 - **📢 섹션 요약 비유**: 자동문이 편리하다고 해서 센서를 아무렇게나 달면 오작동하듯, RO TRNG도 실용적이지만 감시 장치가 함께 있어야 믿고 쓸 수 있다.
 
@@ -99,9 +96,9 @@ RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/kn
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 지터 (Jitter) | RO TRNG가 이용하는 직접 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원천 |
-| 조건화기 (Conditioner) | 편향을 줄여 암호용 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 품질을 높이는 후처리 |
-| [Injection](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) | 외부 주파수로 RO를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 대표 공격 |
+| 지터 (Jitter) | RO TRNG가 이용하는 직접 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 원천 |
+| 조건화기 (Conditioner) | 편향을 줄여 암호용 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 품질을 높이는 후처리 |
+| [Injection](/studynote/04_software_engineering/11_testing_validation/872_injection/) [Locking](/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/) | 외부 주파수로 RO를 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)시키는 대표 공격 |
 | 헬스 테스트 | 지속적으로 난수 품질을 감시하는 운용 계층 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -133,7 +130,7 @@ RO TRNG는 온칩 난수 공급을 저비용으로 실현해 [보안 부팅](/kn
 
 **진행 상황**: 788 / 803
 
-<- **이전**: [786. TRNG (True Random Number Generator) 엔트로피 소스](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/786_trng_entropy_source/)
-**다음**: [788. SRAM PUF (Physical Unclonable Function)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/788_sram_puf/) ->
+<- **이전**: [786. TRNG (True Random Number Generator) 엔트로피 소스](/studynote/01_computer_architecture/15_advanced_topics/786_trng_entropy_source/)
+**다음**: [788. SRAM PUF (Physical Unclonable Function)](/studynote/01_computer_architecture/15_advanced_topics/788_sram_puf/) ->
 
 ---

@@ -1,175 +1,165 @@
-+++
-title = "479. 클라우드 네트워크 SDN NFV 가상화 (Cloud Network SDN NFV Virtualization)"
-date = 2026-05-09
+---
+title: "479. 클라우드 네트워크 SDN NFV 가상화 (Cloud Network SDN NFV Virtualization)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 네트워크 SDN NFV 가상화은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 네트워크는 SDN(제어/데이터 평면 분리, OpenFlow·P4 기반 플로우 프로그래밍)과 NFV(전용 미들박스 기능을 VNF/CNF로 추상화, ETSI MANO 프레임워크로 라이프사이클 관리)의 결합으로, 하드웨어 종속을 제거하고 네트워크를 코드로 선언(NetOps, IaC) 가능한 소프트웨어 자원화 구조이다.
+> 2. **가치**: 신규 서비스 배포 TTM을 90% 단축(수 주 -> 수 시간), CapEx 30~60% 절감, 트래픽 패턴에 따른 동적 스케일링 및 마이크로세그먼테이션으로 East-West 트래픽 보안성을 강화하며, 5G 코어·AI 워크로드 같은 초저지연·고대역 요구를 1Gbps~400Gbps 스파인-리프 패브릭에서 마이크로초 단위로 처리한다.
+> 3. **판단 포인트**: SDN 컨트롤러 단일 장애점(SPOF)·컨트롤 평면-데이터 평면 일관성(Eventually Consistent vs Strongly Consistent)·NFV 성능 오버헤드(DPDK·SR-IOV·SmartNIC 오프로딩)·멀티테넌시 격리(VXLAN/EVPN, Geneve)·라이선스·벤더 종속(OASIS TOSCA/ONAP)·Observability(INT, gNMI, Telemetry) 수준을 트래픽 특성·SLA·규제 요건과 함께 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 네트워크 SDN NFV 가상화은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Network SDN NFV Virtualization 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적 데이터센터 네트워크는 벤더 종속형 L2/L3 스위치에 SNMP/CLI로 정적 VLAN·STP·OSPF 구성을 사람이 손으로 해왔으며, 트래픽 80%가 East-West로 전환된 클라우드 환경에서는 페일오버 수십 초, 신규 서비스 배포 수 주, 정책 일관성 부재라는 한계에 직면했다. 또한 L4~L7 전용 하드웨어 어플라이언스(방화벽·LB·IPS·NAT)는 점유 면적·전력·라이선스·구매 주기(12~18개월)·탄력성 부재 문제를 야기했다. NFV/SDN은 이를 **(a) 제어 평면과 데이터 평면의 분리(Decoupling)**, **(b) 범용 x86·SmartNIC 위에서 네트워크 기능을 VM/Container로 실행**, **(c) Northbound API(REST/gNBI/NETCONF)를 통한 선언적 정책 모델**로 해결한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 네트워크 SDN NFV 가상화 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[전통적 네트워크 vs 클라우드 가상화 네트워크 패러다임 비교]
+
+전통적 네트워크                       클라우드 SDN/NFV 네트워크
++----------------------+              +--------------------------------+
+|  전용 하드웨어 박스  |              |  범용 COTS 서버 + White-Box   |
+|  +----+ +----+      |              |  +-----+ +-----+ +-----+     |
+|  |FW  | |LB  | |IPS |              |  |VNF | |VNF  | |CNF  |     |
+|  +----+ +----+      |              |  +-----+ +-----+ +-----+     |
+|   ^       ^         |              |   ^       ^       ^           |
+|   |       |         |              |   +-------+-------+           |
+| +-+-------+------+  |              | +-------v---------+            |
+| | 전용 ASIC/CLOS |  |              | |vSwitch/OVS-DPDK |            |
+| | L2/L3 스위치  |  |              | | + SR-IOV/VF     |            |
+| +----------------+  |              | +-----------------+            |
+|   수동 CLI/SNMP    |              |   SDN Controller (선언적)     |
+|   STP/OSPF/BGP     |              |   VXLAN/EVPN/Segment Routing  |
+|   VLAN 한정 4K     |              |   24-bit VNI(16M 테넌시)     |
+|   수주 배포        |              |   수분 ~ 수시간 배포          |
++----------------------+              +--------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가?**
+- **트래픽 패턴 변화**: 2010년 이후 서버-서버(East-West) 트래픽이 80% 이상 차지 -> 스파인-리프 Clos 패브릭과 VXLAN 오버레이 필요
+- **CapEx/OpEx 절감**: Cisco ASA·F5 BIG-IP 같은 L4~L7 전용 박스 -> iptables·Cilium·eBPF·DPDK 기반 SW 구현으로 HW 비용 30~60% 절감 (AT&T Domain 2.0 사례)
+- **탄력성**: Auto-scaling, Blue-Green·Canary 배포, Kubernetes CNI 동적 IP 할당
+- **규제/보안**: PCI-DSS·GDPR에 따른 마이크로세그먼테이션, 제로트러스트, 워크로드 단위 mTLS
 
-- **📢 섹션 요약 비유**: 클라우드 네트워크 SDN NFV 가상화은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 종전에는 한 가게마다 요리사·소방관·경비원이 각자 상주했다면, 이제는 클라우드 시티 전체를 하나의 지휘 센터(SDN Controller)가 CCTV·무전기로 통합 관제하고, 요리·소방·보안 기능은 언제 어디든 콜센터 인력이 출동하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 네트워크 SDN NFV 가상화의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. SDN 3계층 아키텍처 (ONF 모델)
 
 ```text
+[SDN 3-Layer Architecture: Application / Control / Infrastructure]
+
 +--------------------------------------------------------------+
-|              Cloud Network SDN NFV Virtualization 아키텍처 3계층 구조                   |
+|                  Application Plane (Northbound API)          |
+|  +----------+ +----------+ +----------+ +--------------+   |
+|  | LB 정책  | | 보안 정책| | 텔레메트리| | IaC(Terraform|   |
+|  |(F5/AVI)  | |(Calico)  | |(TIG Stack)| |  /Ansible)   |   |
+|  +----+-----+ +----+-----+ +----+-----+ +------+-------+   |
+|       +------------+------------+---------------+            |
+|                  RESTCONF / gNMI / gRPC / NETCONF           |
 +--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
+|                Control Plane (SDN Controller)                |
+|  +----------------------------------------------------+     |
+|  |  ONOS / OpenDaylight / Faucet / Tungsten Fabric   |     |
+|  |  +----------+  +----------+  +----------+         |     |
+|  |  | Topology |  | Path Mgr |  | Policy   |         |     |
+|  |  | Manager  |  | (SPF/TE) |  | Engine   |         |     |
+|  |  +----------+  +----------+  +----------+         |     |
+|  |  Raft/Etcd Cluster (≥3, Quorum)                    |     |
+|  +----------------------------------------------------+     |
+|              OpenFlow 1.3 / P4Runtime / OVSDB / BGP-LS       |
++--------------------------------------------------------------+
+|              Infrastructure Plane (Data Plane)               |
+|  +-----------------+  +-----------------+  +--------------+ |
+|  | White-Box ToR   |  | SmartNIC/DPU    |  | Software vSw | |
+|  | (Tofino/P4 ASIC)|  | (BlueField-3)   |  | (OVS-DPDK)   | |
+|  | Buffer 32~64MB  |  | ARM cores+NIC   |  | KVM/Xen host | |
+|  | 100/400/800G    |  | 200/400G        |  | 10/25/100G   | |
+|  +-----------------+  +-----------------+  +--------------+ |
 +--------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### 2. NFV ETSI MANO 프레임워크
+
+```text
+[ETSI NFV Reference Architecture (3 Working Domains)]
+
++-------------------- NFV Orchestrator (NFVO) -----------------+
+|  Network Service Orchestration + Resource Orchestration       |
+|  - NS Catalog (NSD), VNF Packages (VNFD)                      |
+|  - Multi-VIM/SDN federation, SLA mgmt, Policy mgmt            |
++----------------+--------------------------------+-------------+
+                 |                                |
+        +--------v---------+              +-------v--------+
+        |  VNF Manager      |              |   Element Mgr   |
+        |  (VNFM)           |              |   (EM/CNF-M)    |
+        |  - LC: Instantiate|              |   - FCAPS       |
+        |    Scale/Heal/Term|              |   - Vendor-     |
+        |  - Day-0/1/2      |              |     proprietary |
+        +--------+---------+              +-------+--------+
+                 |                                |
+                 +-------------+------------------+
+                               | Or-Vi / Or-Vnfm
+                 +-------------v--------------+
+                 |   VIM (OpenStack/VMware)   |
+                 |  - Compute/Storage/Network |
+                 |  - Hypervisor(KVM)         |
+                 |  - vSwitch/OVS, SRI-OV     |
+                 |  - Nova/Neutron/Cinder     |
+                 +----------------------------+
+
+VNFs: vRouter(vyos) | vFW(fortinet-VM) | vLB(Avi) | vCPE
+CNFs: Cilium | Calico | Istio Envoy | K8s Native
+```
+
+### 3. 핵심 기술 메커니즘
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **SDN Controller (ONOS/ODL)** | 글로벌 뷰·정책·경로 계산 | Raft 합의로 3/5 노드 Quorum 유지, OpenFlow `FLOW_MOD` 메시지 100ms 이내下发, 네트워크 토폴로지·링크 비용을 LLDP·BGP-LS로 수집, L-Spine Shortest Path First |
+| **vSwitch (OVS/OVS-DPDK)** | VM/Container 간 L2/L3/L4 포워딩 | Datapath 분류: Fast Path(메가플로우 캐시) / Slow Path(userspace `ofproto-d`); DPDK `pmd` 코어가 NUMA 노드 선호, RSS로 다중 큐 분산, `megaflow` 평균 50만 플로우, O(1) 터널(VXLAN/Geneve) 캡슐화 |
+| **OpenFlow 1.3+ / P4Runtime** | 컨트롤러-스위치 SBI(Southbound) | 12-tuple 매치(MAC/VLAN/IP/TCP/UDP/OXMTlv), `OVS-DPDK`는 `OFFlowMod`로 캐시 미스 시 컨트롤러에 `Packet-In`; P4는 Target(Tofino/Barefoot/Soft) 독립적 파이프라인 프로그래밍, Match-Action Table 최대 32 stage |
+| **NFV MANO** | VNF/CNF 라이프사이클 자동화 | TOSCA/YAML 선언형 모델 -> NFVO가 NS 인스턴스화; Day-2: VNFM이 Auto-Heal(헬스체크 임계치 3회 실패 시 재기동), VNF 스케일링(CPU>70% 5분 지속 시 +1 인스턴스), Day-3: EM의 SNMP/syslog/kafka telemetry 수집 |
+| **Overlay Encapsulation** | 멀티테넌시·L2 over L3 | VXLAN(UDP 4789, VNI 24-bit=16M 테넌트), Geneve(UDP 6081, 가변 옵션 252B, OAM/Context), MPLSoUDP/MPLSoGRE, EVPN Type-2/3/5 경로로 BGP 분산 컨트롤 플레인 |
+| **SmartNIC/DPU (BlueField-3, E810)** | 데이터 평면 오프로딩·격리 | SR-IOV VF(가상 기능)당 별도 큐·QoS, ASAP² Direct로 RDMA RoCE v2 200Gbps; eBPF/XDP/AF_XDP로 커널 바이패스 1Mpps 처리, Crypto·IPsec 오프로드로 CPU 30% 회수 |
+| **Observability Stack** | 성능·장애 가시화 | INT(In-band Network Telemetry, 64-bit ID/Pipe-conf), gNMI Streaming(Protobuf), Prometheus node-exporter + Grafana, eBPF-based Hubble(Cilium L3/L4/L7 흐름 시각화), PTP/NTP 동기화(<1μs) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 4. 핵심 알고리즘/파라미터
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **OpenFlow 메시지 흐름** (컨트롤러-스위치)
+  1. `HELLO` -> 기능 협상 (`OFPT_HELLO` 비트맵)
+  2. `FEATURES_REQUEST` -> 포트/버퍼/테이블 카운트
+  3. `PACKET_IN` (Unknown unicast/Miss) -> 컨트롤러가 `ARP/Ping` 처리
+  4. `FLOW_MOD` -> 60초 idle_timeout, 600초 hard_timeout, priority 1000~32767
+- **OVS-DPDK 성능 튜닝**: `pmd-rxq-affinity 0:1,1:2,2:3`, `nb-rxq=4`, `rx-mtu 9000`(Jumbo), `tso offload on`, `isolcpus=2-7`, `nohz_full=2-7`
+- **NFV Placement Solver**: Hungarian Algorithm(O(n³))으로 VNF Forwarding Graph(VNF-FG)의 SFC 최적 배치; 제약: latency ≤ SLA, resource(CPU/RAM) ≤ capacity, affinity/anti-affinity
+- **Kubernetes CNI (Cilium)**: eBPF `bpf_lxc`/`bpf_netdev_ingress`로 Pod-to-Pod 직접 라우팅, IPAM CRD로 클러스터당 65k Pod, Identity 기반 정책(CIDR 16진 라벨), kube-proxy 대체 시 iptables 규칙 10k -> 0 (성능 3~5배)
+
+- **📢 섹션 요약 비유**: SDN Controller는 도시의 종합 관제탑(전체 지도, 신호·차량 흐름 실시간 파악)이고, vSwitch/OpenFlow는 교차로별 신호등과 카메라(규칙에 따라 차량 통과), SmartNIC/DPU는 자동 신호 처리 칩(사람 없이도 처리), NFV MANO는 도시 시설의 신설·철거·점검을 총괄하는 건설국이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 네트워크 SDN NFV 가상화을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1. 유사·경쟁 개념 비교
 
-| 구분 | 전통적 접근 | 클라우드 네트워크 SDN NFV 가상화 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 네트워크 SDN NFV 가상화은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 네트워크 SDN NFV 가상화은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 네트워크 SDN NFV 가상화을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 네트워크 SDN NFV 가상화을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 네트워크 SDN NFV 가상화 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 네트워크 SDN NFV 가상화은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 네트워크 SDN NFV 가상화의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 네트워크 SDN NFV 가상화의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 네트워크 SDN NFV 가상화 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 네트워크 SDN NFV 가상화은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **전통적 HW 어플라이언스** | **NFV (VNF/CNF)** | **SDN (OpenFlow/P4)** | **하이퍼컨버지드(HCI)** |
+| :--- | :--- | :--- | :--- | :--- |
+| **핵심 추상화** | 박스(Chassis) 단위 폐쇄형 | VM/Container로 기능 추출 | 제어/데이터 평면 분리·API화 | 컴퓨트·스토리지·네트워크 단일 SW |
+| **배포 주기** | 12~18개월 HW 구매 | 30분~수 시간 IaC | 5
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 479 / 800
 
-<- **이전**: [478. 데이터센터 설계 Tier 등급 가용성](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/478_data_center_design_tier_grade_availability/)
-**다음**: [480. VxLAN 오버레이 네트워크 멀티 테넌트](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/480_vxlan_overlay_network_multi_tenant/) ->
+<- **이전**: [478. 데이터센터 설계 Tier 등급 가용성](/studynote/13_cloud_architecture/06_exam_summary/478_data_center_design_tier_grade_availability/)
+**다음**: [480. VxLAN 오버레이 네트워크 멀티 테넌트](/studynote/13_cloud_architecture/06_exam_summary/480_vxlan_overlay_network_multi_tenant/) ->
 
 ---

@@ -1,25 +1,22 @@
-+++
-title = "134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭"
-date = 2026-04-21
+---
+title: "134. Cypher 쿼리 언어 (Cypher Query Language) — 그래프 패턴 매칭"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴을 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 아트처럼 시각적으로 표현하는 선언적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어로, `(노드)-[:관계]->(노드)` 문법이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 직관적으로 기술하게 해준다.
-- **가치**: SQL의 복잡한 다중 JOIN을 `(a)-[:KNOWS*1..3]->(b)` 단 한 줄의 가변 길이 패턴으로 표현할 수 있어, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 개발 생산성이 극적으로 향상된다.
-- **판단 포인트**: `MATCH`로 읽고 `MERGE`로 멱등 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며 `WITH`로 중간 결과를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝하는 세 가지 패턴이 Cypher [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 80%를 구성한다.
+- **본질**: Cypher는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴을 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 아트처럼 시각적으로 표현하는 선언적 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어로, `(노드)-[:관계]->(노드)` 문법이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 직관적으로 기술하게 해준다.
+- **가치**: SQL의 복잡한 다중 JOIN을 `(a)-[:KNOWS*1..3]->(b)` 단 한 줄의 가변 길이 패턴으로 표현할 수 있어, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 개발 생산성이 극적으로 향상된다.
+- **판단 포인트**: `MATCH`로 읽고 `MERGE`로 멱등 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며 `WITH`로 중간 결과를 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝하는 세 가지 패턴이 Cypher [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 80%를 구성한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)의 필요성
-SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차적)이라 복잡한 탐색 로직을 기술하기 어렵다. Cypher는 2011년 Neo4j가 개발한 선언적 [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)로, SQL처럼 "무엇을 원하는가"를 기술하면 엔진이 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 수립한다. 2019년 ISO/GQL([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Query Language) 표준화 과정에서 Cypher가 핵심 영향을 미쳤다.
+### [그래프 쿼리 언어](/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)의 필요성
+SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차적)이라 복잡한 탐색 로직을 기술하기 어렵다. Cypher는 2011년 Neo4j가 개발한 선언적 [그래프 쿼리 언어](/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/)로, SQL처럼 "무엇을 원하는가"를 기술하면 엔진이 최적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 수립한다. 2019년 ISO/GQL([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Query Language) 표준화 과정에서 Cypher가 핵심 영향을 미쳤다.
 
 ### Cypher 문법 기초
 
@@ -43,7 +40,7 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 ```
 
 📢 **섹션 요약 비유**
-> Cypher 문법은 지하철 노선도를 말로 표현하는 것과 같다. `(강남역)-[:2호선]->(역삼역)`이라고 쓰면 지도를 그리듯이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현할 수 있다. SQL의 `JOIN users ON follows.following_id = users.id`보다 훨씬 직관적이다.
+> Cypher 문법은 지하철 노선도를 말로 표현하는 것과 같다. `(강남역)-[:2호선]->(역삼역)`이라고 쓰면 지도를 그리듯이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 표현할 수 있다. SQL의 `JOIN users ON follows.following_id = users.id`보다 훨씬 직관적이다.
 
 ---
 
@@ -72,7 +69,7 @@ SPARQL은 RDF 트리플스토어에 특화되었고, Gremlin은 명령형(절차
 +--------------+-------------------------------------------+
 ```
 
-### 핵심 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 예시 모음
+### 핵심 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 예시 모음
 
 ```cypher
 -- ① 기본 패턴 매칭: 홍길동이 팔로우하는 사람들
@@ -114,13 +111,13 @@ RETURN r;
 |:---:|:---|:---|
 | 전체 조회 | `SELECT * FROM users` | `MATCH (u:User) RETURN u` |
 | 필터 | `WHERE name='홍'` | `WHERE u.name STARTS WITH '홍'` |
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | `JOIN follows ON...` | `-[:FOLLOWS]->` |
-| 3홉 탐색 | 3중 Self-[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) | `-[:FOLLOWS*3]->` |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | `JOIN follows ON...` | `-[:FOLLOWS]->` |
+| 3홉 탐색 | 3중 Self-[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) | `-[:FOLLOWS*3]->` |
 | 집계 | `COUNT(*), GROUP BY` | `count(), WITH` |
-| 최단 경로 | 복잡한 [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) CTE | `shortestPath(...)` |
+| 최단 경로 | 복잡한 [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) CTE | `shortestPath(...)` |
 
 📢 **섹션 요약 비유**
-> Cypher의 `WITH`는 공장 컨베이어 벨트의 중간 검사대와 같다. 1단계에서 만들어진 중간 제품을 검사하고 가공한 뒤 2단계로 넘긴다. SQL의 서브쿼리처럼 괄호 속에 숨기지 않고, [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인처럼 명시적으로 흘러가는 것이 Cypher의 강점이다.
+> Cypher의 `WITH`는 공장 컨베이어 벨트의 중간 검사대와 같다. 1단계에서 만들어진 중간 제품을 검사하고 가공한 뒤 2단계로 넘긴다. SQL의 서브쿼리처럼 괄호 속에 숨기지 않고, [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인처럼 명시적으로 흘러가는 것이 Cypher의 강점이다.
 
 ---
 
@@ -131,12 +128,12 @@ RETURN r;
 | 항목 | Cypher | SPARQL | Gremlin |
 |:---:|:---:|:---:|:---:|
 | 패러다임 | 선언형 | 선언형 | 명령형(절차) |
-| 대상 모델 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) | RDF 트리플 | Property [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) |
-| 문법 직관성 | 높음 ([ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 아트) | 중간 | 낮음 (체이닝) |
+| 대상 모델 | Property [Graph](/studynote/12_it_management/03_ea_isp/888_graph/) | RDF 트리플 | Property [Graph](/studynote/12_it_management/03_ea_isp/888_graph/) |
+| 문법 직관성 | 높음 ([ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 아트) | 중간 | 낮음 (체이닝) |
 | 표준 여부 | openCypher / ISO GQL | W3C 표준 | Apache TinkerPop |
 | 주요 DB | Neo4j, Memgraph | Amazon Neptune, GraphDB | JanusGraph, CosmosDB |
 
-### GDS ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Science) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 연계
+### GDS ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Science) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 연계
 
 ```cypher
 -- Neo4j GDS: PageRank 알고리즘 실행
@@ -156,7 +153,7 @@ ORDER BY size(members) DESC;
 ```
 
 📢 **섹션 요약 비유**
-> Cypher와 Gremlin의 차이는 목적지 안내의 차이다. Cypher는 "강남에서 홍대까지 가는 경로를 보여줘"(선언형)이고, Gremlin은 "이 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고, 지하철 2호선으로 갈아타고, 몇 정거장 가서 내려"(명령형)이다. 목적지가 같아도 사람이 직접 지시하는 방식이 훨씬 복잡하다.
+> Cypher와 Gremlin의 차이는 목적지 안내의 차이다. Cypher는 "강남에서 홍대까지 가는 경로를 보여줘"(선언형)이고, Gremlin은 "이 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 타고, 지하철 2호선으로 갈아타고, 몇 정거장 가서 내려"(명령형)이다. 목적지가 같아도 사람이 직접 지시하는 방식이 훨씬 복잡하다.
 
 ---
 
@@ -176,7 +173,7 @@ LIMIT 10
 RETURN recommended.name, cobuyers;
 ```
 
-### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 포인트
+### [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 포인트
 
 ```text
 Cypher 성능 최적화 지침:
@@ -197,7 +194,7 @@ Cypher 성능 최적화 지침:
 ```
 
 📢 **섹션 요약 비유**
-> 추천 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 "같은 식당을 자주 찾는 단골들이 다른 어떤 식당을 좋아하는가"를 묻는 것과 같다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 이미 그려두었기 때문에, 단골 목록을 하나하나 비교하지 않고 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선을 따라가기만 하면 된다.
+> 추천 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 "같은 식당을 자주 찾는 단골들이 다른 어떤 식당을 좋아하는가"를 묻는 것과 같다. [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB는 이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 이미 그려두었기 때문에, 단골 목록을 하나하나 비교하지 않고 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선을 따라가기만 하면 된다.
 
 ---
 
@@ -208,29 +205,29 @@ Cypher 성능 최적화 지침:
 | 패턴 | 문법 | 용도 |
 |:---:|:---:|:---:|
 | 단순 탐색 | `MATCH (a)-[:R]->(b)` | 직접 연결 조회 |
-| 가변 탐색 | `MATCH (a)-[:R*1..5]->(b)` | N홉 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 |
+| 가변 탐색 | `MATCH (a)-[:R*1..5]->(b)` | N홉 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 |
 | 최단 경로 | `shortestPath((a)-[*]-(b))` | 최단 연결 경로 |
 | 모든 경로 | `allShortestPaths(...)` | 동일 거리 모든 경로 |
-| 멱등 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `MERGE (n {id:$id})` | Upsert 패턴 |
-| [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝 | `WITH var, count(*) AS cnt` | 다단계 집계 |
+| 멱등 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `MERGE (n {id:$id})` | Upsert 패턴 |
+| [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라이닝 | `WITH var, count(*) AS cnt` | 다단계 집계 |
 
 ### 결론
-Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴 매칭에 특화된 선언적 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어로, 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색을 직관적이고 간결하게 표현한다. 기술사 시험에서는 **패턴 매칭 문법 구조**, **MATCH/MERGE/WITH 절의 역할**, **가변 길이 탐색 문법**, <strong>추천·사기탐지 적용 <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 예시</strong>가 핵심 논점이다.
+Cypher는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 패턴 매칭에 특화된 선언적 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어로, 복잡한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색을 직관적이고 간결하게 표현한다. 기술사 시험에서는 **패턴 매칭 문법 구조**, **MATCH/MERGE/WITH 절의 역할**, **가변 길이 탐색 문법**, <strong>추천·사기탐지 적용 <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a> 예시</strong>가 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> Cypher를 익히는 것은 악보 읽기를 배우는 것과 같다. 처음엔 기호가 낯설지만, 패턴이 보이기 시작하면 복잡한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)도 악보 한 장처럼 한눈에 읽힌다. SQL 경험자라면 `MATCH` = `SELECT`, `WHERE` = `WHERE`, `WITH` = 서브쿼리로 대응시키면 금방 익숙해진다.
+> Cypher를 익히는 것은 악보 읽기를 배우는 것과 같다. 처음엔 기호가 낯설지만, 패턴이 보이기 시작하면 복잡한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)도 악보 한 장처럼 한눈에 읽힌다. SQL 경험자라면 `MATCH` = `SELECT`, `WHERE` = `WHERE`, `WITH` = 서브쿼리로 대응시키면 금방 익숙해진다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---:|:---:|:---|
-| openCypher | 표준화 | Neo4j Cypher의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 명세 |
-| ISO GQL | 국제 표준 | 2024 [그래프 쿼리 언어](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/) 표준 |
+| openCypher | 표준화 | Neo4j Cypher의 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 명세 |
+| ISO GQL | 국제 표준 | 2024 [그래프 쿼리 언어](/studynote/05_database/05_distributed_nosql_newsql/285_tree_structure_storage/) 표준 |
 | Gremlin | 대안 언어 | Apache TinkerPop 명령형 언어 |
-| SPARQL | 대안 언어 | W3C RDF 표준 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
-| GDS [Library](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 확장 기능 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(PageRank, 커뮤니티 탐지) |
+| SPARQL | 대안 언어 | W3C RDF 표준 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 언어 |
+| GDS [Library](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 확장 기능 | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(PageRank, 커뮤니티 탐지) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -250,12 +247,12 @@ Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastruct
 [그래프 쿼리 언어 GQL (Graph Query Language) — ISO 표준화]
 ```
 
-이 흐름은 [그래프 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/039_graph_db/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델을 Cypher로 표현하고, 기본 구문과 경로 탐색을 거쳐 GQL 표준으로 수렴하는 진화를 보여준다.
+이 흐름은 [그래프 데이터베이스](/studynote/14_data_engineering/01_infrastructure/039_graph_db/)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 모델을 Cypher로 표현하고, 기본 구문과 경로 탐색을 거쳐 GQL 표준으로 수렴하는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Cypher는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 화살표로 그림처럼 표현하는 언어 — `(홍길동)-[알아요]->(이몽룡)`처럼 쓰면 두 사람의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 딱 표현할 수 있어요.
+1. Cypher는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 화살표로 그림처럼 표현하는 언어 — `(홍길동)-[알아요]->(이몽룡)`처럼 쓰면 두 사람의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 딱 표현할 수 있어요.
 2. `*1..3`은 "최대 3번 연결된 친구까지 찾아줘"라는 뜻 — 친구, 친구의 친구, 친구의 친구의 친구를 한 번에 검색해요.
-3. `MERGE`는 "있으면 그걸 써, 없으면 만들어줘"라는 스마트한 명령 — 중복 없이 안전하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 수 있어요.
+3. `MERGE`는 "있으면 그걸 써, 없으면 만들어줘"라는 스마트한 명령 — 중복 없이 안전하게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 넣을 수 있어요.
 
 ---
 
@@ -263,7 +260,7 @@ Cypher는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastruct
 
 **진행 상황**: 134 / 262
 
-<- **이전**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/knowledge-base/studynote/16_bigdata/06_nosql/133_graph_db/)
-**다음**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/knowledge-base/studynote/16_bigdata/06_nosql/135_time_series_db/) ->
+<- **이전**: [133. 그래프 데이터베이스 (Graph DB) — Neo4j/Amazon Neptune/Memgraph](/studynote/16_bigdata/06_nosql/133_graph_db/)
+**다음**: [135. 시계열 데이터베이스 (Time Series DB) — InfluxDB/TimescaleDB/QuestDB](/studynote/16_bigdata/06_nosql/135_time_series_db/) ->
 
 ---

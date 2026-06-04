@@ -1,18 +1,15 @@
-+++
-title = "118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장"
-date = 2026-04-19
+---
+title: "118. 일회성 CI 러너 (Ephemeral CI Runner) - 격리·보안·클린 빌드 보장"
+date: "2026-04-19"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Ephemeral [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.
-> 2. **가치**: 영구 러너(Persistent Runner)는 이전 빌드의 `node_modules`·악성 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[환경 변수](/knowledge-base/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 남아 <strong>빌드 오염(Build Pollution)·보안 침해</strong>를 유발하지만, Ephemeral 러너는 매번 깨끗한 상태에서 시작한다.
-> 3. **판단 포인트**: GitHub Actions(기본 Ephemeral)·GitLab Runner([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor)·[Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)(K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent)가 대표 구현이며, <strong>빌드 시간 vs 격리 보안</strong>의 트레이드오프(캐시 활용 어려움)를 관리해야 한다.
+> 1. **본질**: Ephemeral [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) Runner는 <strong>빌드마다 새로운 러너(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>/<a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>)를 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>하고, 빌드 완료 후 즉시 삭제</strong>하는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실행 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로, 이전 빌드의 잔여물(캐시·[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·프로세스)이 다음 빌드에 영향을 주지 않는 <strong>완전 격리(Clean Room)</strong>를 보장한다.
+> 2. **가치**: 영구 러너(Persistent Runner)는 이전 빌드의 `node_modules`·악성 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)·[환경 변수](/studynote/02_operating_system/02_process_thread/156_environment_variables/)가 남아 <strong>빌드 오염(Build Pollution)·보안 침해</strong>를 유발하지만, Ephemeral 러너는 매번 깨끗한 상태에서 시작한다.
+> 3. **판단 포인트**: GitHub Actions(기본 Ephemeral)·GitLab Runner([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor)·[Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)(K8s [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent)가 대표 구현이며, <strong>빌드 시간 vs 격리 보안</strong>의 트레이드오프(캐시 활용 어려움)를 관리해야 한다.
 
 ---
 
@@ -40,18 +37,18 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구별 Ephemeral 구현
+### [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구별 Ephemeral 구현
 
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구 | 구현 방식 | 기본 모드 |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 도구 | 구현 방식 | 기본 모드 |
 |:---|:---|:---|
-| **GitHub Actions** | 매 워크플로마다 새 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | **Ephemeral (기본)** |
-| **GitLab Runner** | [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/">Jenkins</a></strong> | K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
-| **Buildkite** | [스팟 인스턴스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) + 자동 종료 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
+| **GitHub Actions** | 매 워크플로마다 새 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) | **Ephemeral (기본)** |
+| **GitLab Runner** | [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) executor | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
+| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/">Jenkins</a></strong> | K8s [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
+| **Buildkite** | [스팟 인스턴스](/studynote/06_ict_convergence/03_cloud_infrastructure/209_spot_instance_cloud_cost_optimization/) + 자동 종료 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 |
 
 ### 캐시 트레이드오프
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 격리 | 속도 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 격리 | 속도 |
 |:---|:---|:---|
 | **완전 Ephemeral** | **최고** | 느림 (매번 설치) |
 | **캐시 레이어 분리** | 높음 | **빠름 (캐시 재사용)** |
@@ -73,10 +70,10 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
+### [Best Practice](/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)
 1. **러너**: Ephemeral 기본, 캐시는 외부 저장소(S3) 활용.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a></strong>: 러너 종료 시 메모리에서 삭제 -> 유출 방지.
-3. **Self-hosted**: K8s [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent로 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제.
+2. <strong><a href="/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">시크릿</a></strong>: 러너 종료 시 메모리에서 삭제 -> 유출 방지.
+3. **Self-hosted**: K8s [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) agent로 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·삭제.
 
 ---
 
@@ -85,10 +82,10 @@ tags = ["studynote-devops-sre"]
 | 지표 | Persistent | Ephemeral | 개선 |
 |:---|:---|:---|:---|
 | 빌드 오염 | 빈번 | **0건** | 완전 제거 |
-| [시크릿](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 | [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) | **삭제 보장** | 보안 강화 |
-| 재현성 | 환경 의존 | **100%** | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 신뢰 |
+| [시크릿](/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/) 유출 | [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) | **삭제 보장** | 보안 강화 |
+| 재현성 | 환경 의존 | **100%** | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 신뢰 |
 
-Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 보안의 기본 원칙</strong>이며, SLSA Level 3 이상에서는 격리된 빌드 환경이 필수 요구 사항이다.
+Ephemeral Runner는 <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>/CD 보안의 기본 원칙</strong>이며, SLSA Level 3 이상에서는 격리된 빌드 환경이 필수 요구 사항이다.
 
 ---
 
@@ -98,8 +95,8 @@ Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/
 |:---|:---|
 | **빌드 오염 (Build Pollution)** | Persistent Runner의 핵심 위험 |
 | **GitHub Actions** | 기본 Ephemeral Runner |
-| <strong>K8s <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Agent</strong> | [Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)/GitLab의 Ephemeral 구현 |
-| **SLSA** | 격리 빌드를 요구하는 [공급망 보안](/knowledge-base/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 프레임워크 |
+| <strong>K8s <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Agent</strong> | [Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)/GitLab의 Ephemeral 구현 |
+| **SLSA** | 격리 빌드를 요구하는 [공급망 보안](/studynote/04_software_engineering/06_software_architecture/374_supply_chain_security/) 프레임워크 |
 | **캐시 레이어** | Ephemeral + 속도의 절충안 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -131,7 +128,7 @@ Ephemeral Runner는 <strong><a href="/knowledge-base/studynote/12_it_management/
 
 **진행 상황**: 118 / 373
 
-<- **이전**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/)
-**다음**: [119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/) ->
+<- **이전**: [117. TextOps/DocOps 자동화 - 문서 파이프라인 CI/CD·Docs-as-Code](/studynote/15_devops_sre/02_cicd_gitops/117_textops_docops_automation/)
+**다음**: [119. Pre-commit Hook 린팅 (Pre-commit Hook Linting) - 커밋 전 자동 코드 품질 검증](/studynote/15_devops_sre/02_cicd_gitops/119_pre_commit_hook_linting/) ->
 
 ---

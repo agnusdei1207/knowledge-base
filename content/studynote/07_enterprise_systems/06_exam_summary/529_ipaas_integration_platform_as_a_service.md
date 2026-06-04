@@ -1,13 +1,10 @@
-+++
-title = "529. iPaaS 통합 플랫폼 서비스 클라우드 (iPaaS Integration Platform as a Service)"
-date = 2026-05-09
+---
+title: "529. iPaaS 통합 플랫폼 서비스 클라우드 (iPaaS Integration Platform as a Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 529 / 800
 
-<- **이전**: [528. ESB 엔터프라이즈 서비스 버스 통합](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/528_esb_enterprise_service_bus_integration/)
-**다음**: [530. 데이터 통합 ETL ELT CDC 파이프라인](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/530_data_integration_etl_elt_cdc_pipeline/) ->
+<- **이전**: [528. ESB 엔터프라이즈 서비스 버스 통합](/studynote/07_enterprise_systems/06_exam_summary/528_esb_enterprise_service_bus_integration/)
+**다음**: [530. 데이터 통합 ETL ELT CDC 파이프라인](/studynote/07_enterprise_systems/06_exam_summary/530_data_integration_etl_elt_cdc_pipeline/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "750. IT 경영 관리 핵심 토픽 750번 시험 요약 (IT Management Core Topic 750 Exam Summary)"
-date = 2026-05-09
+---
+title: "750. IT 경영 관리 핵심 토픽 750번 시험 요약 (IT Management Core Topic 750 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -184,7 +181,7 @@ IT Goals(13IT) -> Governance Objectives(40) -> Process Activities(250+)
 
 **진행 상황**: 750 / 800
 
-<- **이전**: [749. IT 경영 관리 핵심 토픽 749번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/749_it_management_core_topic_749_exam_summary/)
-**다음**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/) ->
+<- **이전**: [749. IT 경영 관리 핵심 토픽 749번 시험 요약](/studynote/12_it_management/05_security_compliance/749_it_management_core_topic_749_exam_summary/)
+**다음**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/) ->
 
 ---

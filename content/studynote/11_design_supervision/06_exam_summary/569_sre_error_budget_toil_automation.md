@@ -1,13 +1,10 @@
-+++
-title = "569. SRE 에러 버짓 토일 자동화 (SRE Error Budget Toil Automation)"
-date = 2026-05-09
+---
+title: "569. SRE 에러 버짓 토일 자동화 (SRE Error Budget Toil Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ $$\text{EB}_\text{remaining}(t) = (1 - \text{SLO}) \times T_\text{period} - \int
 
 **진행 상황**: 569 / 600
 
-<- **이전**: [568. 관측 가능성 메트릭 로그 트레이스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/569_observability_metrics_logs_traces/)
-**다음**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/knowledge-base/studynote/11_design_supervision/06_exam_summary/570_platform_engineering_internal_developer_/) ->
+<- **이전**: [568. 관측 가능성 메트릭 로그 트레이스](/studynote/11_design_supervision/06_exam_summary/569_observability_metrics_logs_traces/)
+**다음**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/studynote/11_design_supervision/06_exam_summary/570_platform_engineering_internal_developer_/) ->
 
 ---

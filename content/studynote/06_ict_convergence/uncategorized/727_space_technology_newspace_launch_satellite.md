@@ -1,13 +1,10 @@
-+++
-title = "727. 우주 기술 뉴스페이스 발사체 위성 (Space Technology NewSpace Launch Satellite)"
-date = 2026-05-09
+---
+title: "727. 우주 기술 뉴스페이스 발사체 위성 (Space Technology NewSpace Launch Satellite)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -109,7 +106,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 727 / 800
 
-<- **이전**: [726. 탄소 포집 CCS CCUS 넷제로 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/726_carbon_capture_ccs_ccus_net_zero_strategy/)
-**다음**: [728. 해양 기술 심해 탐사 해양 에너지](/knowledge-base/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/) ->
+<- **이전**: [726. 탄소 포집 CCS CCUS 넷제로 전략](/studynote/06_ict_convergence/uncategorized/726_carbon_capture_ccs_ccus_net_zero_strategy/)
+**다음**: [728. 해양 기술 심해 탐사 해양 에너지](/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/) ->
 
 ---

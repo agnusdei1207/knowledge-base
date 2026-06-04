@@ -1,13 +1,10 @@
-+++
-title = "571. FinOps 클라우드 비용 최적화 전략 (FinOps Cloud Cost Optimization Strategy)"
-date = 2026-05-09
+---
+title: "571. FinOps 클라우드 비용 최적화 전략 (FinOps Cloud Cost Optimization Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -208,7 +205,7 @@ if z_score > 3.0:  # 99.7% 신뢰구간 이탈
 
 **진행 상황**: 571 / 600
 
-<- **이전**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/knowledge-base/studynote/11_design_supervision/06_exam_summary/571_platform_engineering_internal_developer_/)
-**다음**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/572_green_it_carbon_aware_sustainable_comput/) ->
+<- **이전**: [570. 플랫폼 엔지니어링 내부 개발자 포탈](/studynote/11_design_supervision/06_exam_summary/571_platform_engineering_internal_developer_/)
+**다음**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/studynote/11_design_supervision/06_exam_summary/572_green_it_carbon_aware_sustainable_comput/) ->
 
 ---

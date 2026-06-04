@@ -1,13 +1,10 @@
-+++
-title = "500. 데이터 거버넌스 정책 품질 관리 (Data Governance Policy Quality Management)"
-date = 2026-05-09
+---
+title: "500. 데이터 거버넌스 정책 품질 관리 (Data Governance Policy Quality Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 500 / 800
 
-<- **이전**: [499. 클라우드 아키텍처 하이브리드 멀티 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/499_cloud_architecture_hybrid_multi_strategy/)
-**다음**: [501. AI 거버넌스 윤리 가이드라인 규제](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/501_ai_governance_ethics_guideline_regulation/) ->
+<- **이전**: [499. 클라우드 아키텍처 하이브리드 멀티 전략](/studynote/07_enterprise_systems/06_exam_summary/499_cloud_architecture_hybrid_multi_strategy/)
+**다음**: [501. AI 거버넌스 윤리 가이드라인 규제](/studynote/07_enterprise_systems/06_exam_summary/501_ai_governance_ethics_guideline_regulation/) ->
 
 ---

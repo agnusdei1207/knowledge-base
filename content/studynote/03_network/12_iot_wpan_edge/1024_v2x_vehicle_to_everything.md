@@ -1,27 +1,24 @@
-+++
-title = "1024. V2X (Vehicle-to-Everything)"
-date = 2026-05-08
+---
+title: "1024. V2X (Vehicle-to-Everything)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))는 달리는 자동차가 다른 차량(V2V), 도로 인프라(V2I), 보행자(V2P), 네트워크(V2N) 등 모든 것과 실시간으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 무선 통신 기술 체계다.
-> 2. **가치**: 카메라나 라이다([LiDAR](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 센서만으로는 볼 수 없는 '앞차의 앞차'의 급브레이크 상황이나 코너 너머의 보행자를 통신으로 미리 감지하여 자율주행의 인지적 한계(시야각 제약)를 완벽하게 극복한다.
-> 3. **판단 포인트**: 통신이 1초만 지연돼도 대형 사고로 직결되므로, 상용화 시 코어망을 거치는 V2N(기지국 통신)보다는 차량 간 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/)(PC5 인터페이스 등)으로 1~5ms 이내의 초저지연성을 담보하는 물리적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 설계가 [V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 아키텍처의 핵심이다.
+> 1. **본질**: [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/)([Vehicle-to-Everything](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))는 달리는 자동차가 다른 차량(V2V), 도로 인프라(V2I), 보행자(V2P), 네트워크(V2N) 등 모든 것과 실시간으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 무선 통신 기술 체계다.
+> 2. **가치**: 카메라나 라이다([LiDAR](/studynote/06_ict_convergence/02_iot_mobility/140_lidar_light_detection_and_ranging_tof/)) 센서만으로는 볼 수 없는 '앞차의 앞차'의 급브레이크 상황이나 코너 너머의 보행자를 통신으로 미리 감지하여 자율주행의 인지적 한계(시야각 제약)를 완벽하게 극복한다.
+> 3. **판단 포인트**: 통신이 1초만 지연돼도 대형 사고로 직결되므로, 상용화 시 코어망을 거치는 V2N(기지국 통신)보다는 차량 간 [직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/)(PC5 인터페이스 등)으로 1~5ms 이내의 초저지연성을 담보하는 물리적 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 설계가 [V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 아키텍처의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-현재의 자율주행차(예: 테슬라 FSD)는 눈(카메라)과 귀(초음파/라이다)에만 의존하는 '독립형([Standalone](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) 자율주행'이다. 하지만 짙은 안개가 끼거나 커브 길에 건물이 가려져 있으면 센서로는 앞의 상황을 절대 알 수 없다.
+현재의 자율주행차(예: 테슬라 FSD)는 눈(카메라)과 귀(초음파/라이다)에만 의존하는 '독립형([Standalone](/studynote/06_ict_convergence/02_iot_mobility/150_5g_sa_standalone_architecture/)) 자율주행'이다. 하지만 짙은 안개가 끼거나 커브 길에 건물이 가려져 있으면 센서로는 앞의 상황을 절대 알 수 없다.
 
-이 인지적 사각지대를 해소하기 위해 자동차에 '입과 귀(통신)'를 달아 주변 환경과 실시간으로 대화하게 만든 것이 <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>(<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">Vehicle-to-Everything</a>)</strong>다. 내가 보지 못하는 위험을 도로의 신호등이나 앞차가 밀리초(ms) 단위로 내비게이션에 꽂아주는 '협력형(Cooperative) 자율주행'으로 진화하기 위한 필수 불가결한 신경망이다.
+이 인지적 사각지대를 해소하기 위해 자동차에 '입과 귀(통신)'를 달아 주변 환경과 실시간으로 대화하게 만든 것이 <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a>(<a href="/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">Vehicle-to-Everything</a>)</strong>다. 내가 보지 못하는 위험을 도로의 신호등이나 앞차가 밀리초(ms) 단위로 내비게이션에 꽂아주는 '협력형(Cooperative) 자율주행'으로 진화하기 위한 필수 불가결한 신경망이다.
 
 ```text
 [위성 통신 핸드오버 (ISL]
@@ -32,7 +29,7 @@ tags = ["studynote-network"]
     +---> [C-V2X / WAVE 매체 제어]
 ```
 
-- **📢 섹션 요약 비유**: 내 눈(카메라)으로만 운전하는 초보 운전자에게, 하늘에서 헬기를 탄 교통 캐스터([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신망)가 "1km 앞 코너 돌자마자 공사 중이니 미리 브레이크 밟으세요"라고 귀에 속삭여주는 것이다.
+- **📢 섹션 요약 비유**: 내 눈(카메라)으로만 운전하는 초보 운전자에게, 하늘에서 헬기를 탄 교통 캐스터([V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/) 통신망)가 "1km 앞 코너 돌자마자 공사 중이니 미리 브레이크 밟으세요"라고 귀에 속삭여주는 것이다.
 
 ---
 
@@ -61,7 +58,7 @@ V2X는 누구와 통신하느냐에 따라 4가지 핵심 서브 아키텍처로
 1. **V2V (Vehicle-to-Vehicle)**: 차량 간 통신. 앞차가 급정거하거나 사고가 나면 뒤따르는 수십 대의 차량에 즉각적으로 경고 브로드캐스트를 쏜다 (센서 시야 한계 극복).
 2. **V2I (Vehicle-to-Infrastructure)**: 차량과 도로 인프라(신호등, 가로등) 통신. 신호등이 빨간불로 바뀔 때까지 남은 초를 차에 알려주어 교차로 딜레마 존 사고를 막는다.
 3. **V2P (Vehicle-to-Pedestrian)**: 차량과 보행자 스마트폰 통신. 골목길에서 튀어나오는 어린이를 미리 감지한다.
-4. **V2N (Vehicle-to-Network)**: 차량과 [이동통신망](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)(서버) 통신. 광역 교통 정보나 정밀 지도(HD Map)를 다운로드한다.
+4. **V2N (Vehicle-to-Network)**: 차량과 [이동통신망](/studynote/03_network/11_wireless_mobile_communication/551_cellular_network_concept_reuse_handover/)(서버) 통신. 광역 교통 정보나 정밀 지도(HD Map)를 다운로드한다.
 
 - **📢 섹션 요약 비유**: 친구(V2V)와는 소리쳐서 바로 대화하고, 동네 이장님(V2I)에게는 방송으로 마을 소식을 듣고, 먼 친척(V2N)과는 전화기로 날씨를 묻는 종합 커뮤니케이션 세트다.
 
@@ -71,47 +68,47 @@ V2X는 누구와 통신하느냐에 따라 4가지 핵심 서브 아키텍처로
 
 V2X를 구현하는 하위 물리 계층 통신 표준은 크게 'Wi-Fi 진영'과 '이동통신(셀룰러) 진영'으로 나뉘어 수년간 표준 전쟁을 치렀다.
 
-| 비교 항목 | [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) ([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) 진영 | [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) ([Cellular V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)) 진영 |
+| 비교 항목 | [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) ([DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) 진영 | [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) ([Cellular V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)) 진영 |
 |:---:|:---|:---|
-| **기반 기술** | Wi-Fi (IEEE 802.11p) 기반 | 이동통신 ([3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 기반 |
-| **통신 주체** | 차량 및 노변 기지국([RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)) 중심 | 기지국 및 클라우드(V2N)까지 통합 |
-| **비용 및 인프라** | 도로마다 새 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 장비(공유기)를 촘촘히 깔아야 함 | 기존 이통사 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 인프라 재활용 가능 |
+| **기반 기술** | Wi-Fi (IEEE 802.11p) 기반 | 이동통신 ([3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 기반 |
+| **통신 주체** | 차량 및 노변 기지국([RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)) 중심 | 기지국 및 클라우드(V2N)까지 통합 |
+| **비용 및 인프라** | 도로마다 새 [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 장비(공유기)를 촘촘히 깔아야 함 | 기존 이통사 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 기지국 인프라 재활용 가능 |
 | **고속 이동 지원**| 시속 100km 이상에서 연결 불안정 | 시속 250km 이상 고속 주행에서도 안정적 |
-| **시장 승자** | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시장 선점 (현재 도태 중) | **미국, 중국 중심 글로벌 표준 주도 (승자)** |
+| **시장 승자** | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시장 선점 (현재 도태 중) | **미국, 중국 중심 글로벌 표준 주도 (승자)** |
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 면허가 필요 없는 [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)([DSRC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) 방식이 자율주행 테스트베드에 깔렸으나, 전파 도달 거리가 짧고 고속 주행 시 신호가 끊기는 한계 때문에 현재 글로벌 완성차 업계와 표준은 완벽하게 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 기반의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a></strong>로 넘어간 상태다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 면허가 필요 없는 [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/)([DSRC](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/)) 방식이 자율주행 테스트베드에 깔렸으나, 전파 도달 거리가 짧고 고속 주행 시 신호가 끊기는 한계 때문에 현재 글로벌 완성차 업계와 표준은 완벽하게 <strong><a href="/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/">5G</a> 기반의 <a href="/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/">C-V2X</a></strong>로 넘어간 상태다.
 
-- **📢 섹션 요약 비유**: WAVE가 집 안에서 쓰던 무선 공유기(Wi-Fi)를 길거리에 주렁주렁 매달아 보려던 시도라면, C-V2X는 처음부터 쌩쌩 달리는 스마트폰용 기지국([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))을 자동차에 맞춰 개조한 것이다.
+- **📢 섹션 요약 비유**: WAVE가 집 안에서 쓰던 무선 공유기(Wi-Fi)를 길거리에 주렁주렁 매달아 보려던 시도라면, C-V2X는 처음부터 쌩쌩 달리는 스마트폰용 기지국([LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))을 자동차에 맞춰 개조한 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 적용 시나리오:**
-군집 주행([Platooning](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/))이 대표적이다. 여러 대의 화물 트럭이 1~2미터 간격으로 바짝 붙어 달리면 공기 저항을 획기적으로 줄여 연비를 아낄 수 있다. 선두 트럭이 브레이크를 밟는 순간, 뒤따르는 트럭들이 사람의 반사 신경을 거치지 않고 V2V 통신으로 밀리초 만에 동시 브레이크를 밟는다.
+군집 주행([Platooning](/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/))이 대표적이다. 여러 대의 화물 트럭이 1~2미터 간격으로 바짝 붙어 달리면 공기 저항을 획기적으로 줄여 연비를 아낄 수 있다. 선두 트럭이 브레이크를 밟는 순간, 뒤따르는 트럭들이 사람의 반사 신경을 거치지 않고 V2V 통신으로 밀리초 만에 동시 브레이크를 밟는다.
 
 **기술사 판단 포인트 (Trade-off):**
-자율주행 통신망 아키텍처 설계 시 <strong>'기지국(망) 의존성'과 '<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>(<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>)'을 완벽하게 분리</strong>해야 한다.
+자율주행 통신망 아키텍처 설계 시 <strong>'기지국(망) 의존성'과 '<a href="/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>(<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/">Direct</a>)'을 완벽하게 분리</strong>해야 한다.
 1. 모든 브레이크 제어 정보를 V2N(기지국을 거쳐 서버로 갔다 오는 방식)으로 처리하면, 산골짜기나 터널에서 기지국 음영 지역에 들어서는 순간 대형 참사가 발생한다.
-2. 따라서 생명과 직결된 크리티컬 제어(V2V, V2I)는 기지국(Uu 인터페이스)을 거치지 않고 차량끼리 주파수를 직접 주고받는 <strong>PC5 인터페이스(단말 간 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>, Sidelink)</strong>로 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Redundancy) 설계하는 것이 필수적 판단이다.
+2. 따라서 생명과 직결된 크리티컬 제어(V2V, V2I)는 기지국(Uu 인터페이스)을 거치지 않고 차량끼리 주파수를 직접 주고받는 <strong>PC5 인터페이스(단말 간 <a href="/studynote/02_operating_system/02_process_thread/120_direct_communication/">직접 통신</a>, Sidelink)</strong>로 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)(Redundancy) 설계하는 것이 필수적 판단이다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 평소에는 기지국(카카오톡)으로 편하게 대화하지만, 눈앞에서 폭탄이 터지는 긴급 상황에서는 무조건 내 육성(PC5 [직접 통신](/knowledge-base/studynote/02_operating_system/02_process_thread/120_direct_communication/))으로 소리를 질러야 뒷사람을 살릴 수 있다.
+- **📢 섹션 요약 비유**: 평소에는 기지국(카카오톡)으로 편하게 대화하지만, 눈앞에서 폭탄이 터지는 긴급 상황에서는 무조건 내 육성(PC5 [직접 통신](/studynote/02_operating_system/02_process_thread/120_direct_communication/))으로 소리를 질러야 뒷사람을 살릴 수 있다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스마트폰이자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드'로 바꾸어 놓았다. V2X가 전면 도입되면 꼬리물기 교통 체증(Phantom Traffic Jam)이 사라지고, 교차로 교통사고를 80% 이상 줄일 수 있을 것으로 기대된다.
+V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스마트폰이자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 노드'로 바꾸어 놓았다. V2X가 전면 도입되면 꼬리물기 교통 체증(Phantom Traffic Jam)이 사라지고, 교차로 교통사고를 80% 이상 줄일 수 있을 것으로 기대된다.
 
-결론적으로 V2X는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율주행이 맞닥뜨린 '시야 제약'을 돌파할 수 있는 유일한 해결책이다. [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대의 통신(초저지연, 초고도화) 인프라와 결합하여, 하늘의 드론과 지상의 자동차가 하나의 거대한 지능형 신경망으로 묶이는 **소프트웨어 정의 자동차(SDV)** 생태계의 핵심 근간으로 자리 잡을 것이다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+결론적으로 V2X는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반의 자율주행이 맞닥뜨린 '시야 제약'을 돌파할 수 있는 유일한 해결책이다. [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 시대의 통신(초저지연, 초고도화) 인프라와 결합하여, 하늘의 드론과 지상의 자동차가 하나의 거대한 지능형 신경망으로 묶이는 **소프트웨어 정의 자동차(SDV)** 생태계의 핵심 근간으로 자리 잡을 것이다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 장님 코끼리 만지기 식으로 더듬거리던 나홀로 자율주행차들이, 마침내 서로 텔레파시([V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))를 쏘며 한 몸처럼 움직이는 거대한 물고기 떼(스마트 교통)로 진화하는 것이다.
+- **📢 섹션 요약 비유**: 장님 코끼리 만지기 식으로 더듬거리던 나홀로 자율주행차들이, 마침내 서로 텔레파시([V2X](/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/))를 쏘며 한 몸처럼 움직이는 거대한 물고기 떼(스마트 교통)로 진화하는 것이다.
 
 ---
 
@@ -119,10 +116,10 @@ V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 저전력 통신 (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
-| [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
-| [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [위성 통신 핸드오버](/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) ([ISL](/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 저전력 통신 (Low [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
+| [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
+| [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +133,7 @@ V2X는 자동차를 단순한 이동 수단에서 '바퀴 달린 거대한 스�
     +---> [확장 B: 자율형 엣지 협업]
 ```
 
-V2X는 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [C-V2X](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+V2X는 [위성 통신 핸드오버](/studynote/09_security/uncategorized/1101_isl_inter_satellite_link_low_earth_orbit_routing/) (ISL에서 출발해 현재 메커니즘을 정교화하고, 이후 [C-V2X](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/) / [WAVE](/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/) [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ V2X는 [위성 통신 핸드오버](/knowledge-base/studynote/09_security/uncate
 
 **진행 상황**: 126 / 1120
 
-<- **이전**: [1023. 위성 통신 핸드오버와 ISL (Inter-Satellite Link)](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/)
-**다음**: [1025. C-V2X / WAVE (DSRC) 매체 제어](/knowledge-base/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/) ->
+<- **이전**: [1023. 위성 통신 핸드오버와 ISL (Inter-Satellite Link)](/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/)
+**다음**: [1025. C-V2X / WAVE (DSRC) 매체 제어](/studynote/03_network/12_iot_wpan_edge/1025_c_v2x_wave_dsrc/) ->
 
 ---

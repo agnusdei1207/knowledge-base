@@ -1,13 +1,10 @@
-+++
-title = "627. IT 경영 관리 핵심 토픽 627번 시험 요약 (IT Management Core Topic 627 Exam Summary)"
-date = 2026-05-09
+---
+title: "627. IT 경영 관리 핵심 토픽 627번 시험 요약 (IT Management Core Topic 627 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -159,7 +156,7 @@ IT 경영관리의 핵심은 **"정렬(Alignment) - 전달(Delivery) - 지원(Su
 
 **진행 상황**: 627 / 800
 
-<- **이전**: [626. IT 경영 관리 핵심 토픽 626번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/626_it_management_core_topic_626_exam_summary/)
-**다음**: [628. IT 경영 관리 핵심 토픽 628번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/628_it_management_core_topic_628_exam_summary/) ->
+<- **이전**: [626. IT 경영 관리 핵심 토픽 626번 시험 요약](/studynote/12_it_management/05_security_compliance/626_it_management_core_topic_626_exam_summary/)
+**다음**: [628. IT 경영 관리 핵심 토픽 628번 시험 요약](/studynote/12_it_management/05_security_compliance/628_it_management_core_topic_628_exam_summary/) ->
 
 ---

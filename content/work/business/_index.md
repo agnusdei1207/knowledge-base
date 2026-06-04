@@ -1,17 +1,17 @@
-+++
-title = "💼 사업 문서 허브"
+---
+title: "💼 사업 문서 허브"
+tags:
+  - "work"
+---
 
-[extra]
-tags = ["work"]
-+++
 
 사업 관련 기획, 파이프라인, 고객 요구, 수익 모델 메모를 모으는 상위 문서입니다.
 
 관련 문서:
-- [knowledgebase-decision-log](/knowledge-base/work/develop/knowledgebase-decision-log/)
-- [business-pipeline](/knowledge-base/work/business/business-pipeline/)
-- [go-to-market](/knowledge-base/work/business/go-to-market/)
-- [research-and-development](/knowledge-base/research-and-development/)
+- [knowledgebase-decision-log](/work/develop/knowledgebase-decision-log/)
+- [business-pipeline](/work/business/business-pipeline/)
+- [go-to-market](/work/business/go-to-market/)
+- [research-and-development](/research-and-development/)
 
 ---
 
@@ -62,7 +62,7 @@ tags = ["work"]
 
 ## 4. 연결 문서
 
-- 파이프라인 운영 관점: [business-pipeline](/knowledge-base/work/business/business-pipeline/)
-- 시장 진입 관점: [go-to-market](/knowledge-base/work/business/go-to-market/)
-- 기술 검증 관점: [research-and-development](/knowledge-base/research-and-development/)
-- 선택 배경과 운영 철학: [knowledgebase-decision-log](/knowledge-base/work/develop/knowledgebase-decision-log/)
+- 파이프라인 운영 관점: [business-pipeline](/work/business/business-pipeline/)
+- 시장 진입 관점: [go-to-market](/work/business/go-to-market/)
+- 기술 검증 관점: [research-and-development](/research-and-development/)
+- 선택 배경과 운영 철학: [knowledgebase-decision-log](/work/develop/knowledgebase-decision-log/)

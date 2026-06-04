@@ -1,13 +1,10 @@
-+++
-title = "692. IT 경영 관리 핵심 토픽 692번 시험 요약 (IT Management Core Topic 692 Exam Summary)"
-date = 2026-05-09
+---
+title: "692. IT 경영 관리 핵심 토픽 692번 시험 요약 (IT Management Core Topic 692 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -24,7 +21,7 @@ IT 예산이 매출 대비 평균 3~7%(제조업 3.2%, 금융업 7.5%, 통신 11
 
 **진행 상황**: 692 / 800
 
-<- **이전**: [691. IT 경영 관리 핵심 토픽 691번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/691_it_management_core_topic_691_exam_summary/)
-**다음**: [693. IT 경영 관리 핵심 토픽 693번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/693_it_management_core_topic_693_exam_summary/) ->
+<- **이전**: [691. IT 경영 관리 핵심 토픽 691번 시험 요약](/studynote/12_it_management/05_security_compliance/691_it_management_core_topic_691_exam_summary/)
+**다음**: [693. IT 경영 관리 핵심 토픽 693번 시험 요약](/studynote/12_it_management/05_security_compliance/693_it_management_core_topic_693_exam_summary/) ->
 
 ---

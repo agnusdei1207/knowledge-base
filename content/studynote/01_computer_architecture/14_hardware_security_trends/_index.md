@@ -1,9 +1,9 @@
-+++
-title = "14. 하드웨어 보안 및 최신 트렌드"
+---
+title: "14. 하드웨어 보안 및 최신 트렌드"
+tags:
+  - "computer_architecture"
+---
 
-[extra]
-tags = ["computer_architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

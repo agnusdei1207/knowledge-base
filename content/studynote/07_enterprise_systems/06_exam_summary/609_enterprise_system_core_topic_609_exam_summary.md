@@ -1,13 +1,10 @@
-+++
-title = "609. 엔터프라이즈 시스템 핵심 토픽 609번 시험 요약 (Enterprise System Core Topic 609 Exam Summary)"
-date = 2026-05-09
+---
+title: "609. 엔터프라이즈 시스템 핵심 토픽 609번 시험 요약 (Enterprise System Core Topic 609 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 609 / 800
 
-<- **이전**: [608. 엔터프라이즈 시스템 핵심 토픽 608번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/608_enterprise_system_core_topic_608_exam_summary/)
-**다음**: [610. 엔터프라이즈 시스템 핵심 토픽 610번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/610_enterprise_system_core_topic_610_exam_summary/) ->
+<- **이전**: [608. 엔터프라이즈 시스템 핵심 토픽 608번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/608_enterprise_system_core_topic_608_exam_summary/)
+**다음**: [610. 엔터프라이즈 시스템 핵심 토픽 610번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/610_enterprise_system_core_topic_610_exam_summary/) ->
 
 ---

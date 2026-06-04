@@ -1,24 +1,21 @@
-+++
-title = "138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID"
-date = 2026-04-21
+---
+title: "138. NewSQL — CockroachDB/TiDB/YugabyteDB SQL+수평확장+ACID"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: NewSQL은 전통 RDBMS의 ACID([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/knowledge-base/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 보장과 SQL 인터페이스를 유지하면서 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 수준의 수평 확장([Scale-Out](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 동시에 달성하는 차세대 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.
-- **가치**: 기존 RDBMS 앱을 최소 코드 변경으로 글로벌 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 마이그레이션할 수 있으며, NoSQL로 전환 시 포기해야 했던 [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·[트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[외래 키](/knowledge-base/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 그대로 활용한다.
-- **판단 포인트**: [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 워크로드에서 단일 지역 규모를 초과하거나 [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 강한 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 필요할 때 NewSQL이 최적이며, 분석([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)) 위주는 별도 [데이터 웨어하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)와 병행해야 한다.
+- **본질**: NewSQL은 전통 RDBMS의 ACID([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/), [Consistency](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), [Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/), [Durability](/studynote/05_database/04_transactions_concurrency/196_durability_permanent_storage/)) 보장과 SQL 인터페이스를 유지하면서 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 수준의 수평 확장([Scale-Out](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))을 동시에 달성하는 차세대 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)다.
+- **가치**: 기존 RDBMS 앱을 최소 코드 변경으로 글로벌 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 마이그레이션할 수 있으며, NoSQL로 전환 시 포기해야 했던 [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·[트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)·[외래 키](/studynote/05_database/02_modeling_normalization/072_foreign_key_fk/)를 그대로 활용한다.
+- **판단 포인트**: [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) 워크로드에서 단일 지역 규모를 초과하거나 [멀티 리전](/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) 강한 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 필요할 때 NewSQL이 최적이며, 분석([OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)) 위주는 별도 [데이터 웨어하우스](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/)와 병행해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 등장 배경
+### [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 등장 배경
 
 ```text
 RDBMS 한계 vs NoSQL 트레이드오프:
@@ -42,24 +39,24 @@ RDBMS 한계 vs NoSQL 트레이드오프:
 +---------------------------------------------------------+
 ```
 
-### 대표 [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 솔루션
+### 대표 [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 솔루션
 
-| 솔루션 | SQL 호환 | [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) | 특화 기능 |
+| 솔루션 | SQL 호환 | [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) | 특화 기능 |
 |:---:|:---:|:---:|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/">CockroachDB</a></strong> | PostgreSQL | [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) | 지역 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 서바이벌 목표 |
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/">TiDB</a></strong> | MySQL | [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) (TiKV) | [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/)(TiFlash), [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
-| **YugabyteDB** | PostgreSQL + [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/) CQL | [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)/Paxos | DocDB 스토리지, [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
-| **Google Spanner** | SQL | TrueTime + Paxos | 글로벌 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 완전 관리형 |
-| **VoltDB** | SQL | 없음(단일 노드 ACID) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인메모리 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) |
+| <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/">CockroachDB</a></strong> | PostgreSQL | [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) | 지역 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/), 서바이벌 목표 |
+| <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/">TiDB</a></strong> | MySQL | [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) (TiKV) | [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/)(TiFlash), [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
+| **YugabyteDB** | PostgreSQL + [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/) CQL | [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/)/Paxos | DocDB 스토리지, [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) |
+| **Google Spanner** | SQL | TrueTime + Paxos | 글로벌 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 완전 관리형 |
+| **VoltDB** | SQL | 없음(단일 노드 ACID) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인메모리 [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) |
 
 📢 **섹션 요약 비유**
-> NewSQL은 오프로드 기능을 탑재한 고급 세단과 같다. 도심([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))에서는 고급 세단(ACID + SQL)처럼 편안하게 달리고, 산길(대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경)에서도 SUV(수평 확장)처럼 거침없이 주행한다. 이전에는 도심용 세단과 산악용 SUV 중 하나를 선택해야 했다.
+> NewSQL은 오프로드 기능을 탑재한 고급 세단과 같다. 도심([OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))에서는 고급 세단(ACID + SQL)처럼 편안하게 달리고, 산길(대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경)에서도 SUV(수평 확장)처럼 거침없이 주행한다. 이전에는 도심용 세단과 산악용 SUV 중 하나를 선택해야 했다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 아키텍처
+### [CockroachDB](/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 아키텍처
 
 ```text
 +-------------------------------------------------------------+
@@ -91,7 +88,7 @@ RDBMS 한계 vs NoSQL 트레이드오프:
 +-------------------------------------------------------------+
 ```
 
-### [TiDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/) [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) (Hybrid Transactional/Analytical Processing) 아키텍처
+### [TiDB](/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/) [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) (Hybrid Transactional/Analytical Processing) 아키텍처
 
 ```text
 +--------------------------------------------------------------+
@@ -114,7 +111,7 @@ RDBMS 한계 vs NoSQL 트레이드오프:
 +--------------------------------------------------------------+
 ```
 
-### [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 개요
+### [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) 개요
 
 ```text
 Raft 합의 과정 (쓰기 확인):
@@ -132,13 +129,13 @@ Raft 합의 과정 (쓰기 확인):
 ```
 
 📢 **섹션 요약 비유**
-> [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의는 의장(Leader)이 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 회의 의결과 같다. 의장이 안건을 내면 과반수가 "찬성"을 표하는 순간 가결되고, 의장이 쓰러지면 새 의장을 투표로 선출한다. 모든 결정이 기록으로 남아 나중에 합류한 위원도 회의 내용을 정확히 따라잡을 수 있다.
+> [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의는 의장(Leader)이 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 회의 의결과 같다. 의장이 안건을 내면 과반수가 "찬성"을 표하는 순간 가결되고, 의장이 쓰러지면 새 의장을 투표로 선출한다. 모든 결정이 기록으로 남아 나중에 합류한 위원도 회의 내용을 정확히 따라잡을 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Google Spanner의 TrueTime과 외부 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)
+### Google Spanner의 TrueTime과 외부 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)
 
 ```text
 TrueTime API:
@@ -153,25 +150,25 @@ TrueTime API:
 -> 글로벌 선형화(Global Linearizability) 보장
 ```
 
-### [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) vs RDBMS vs [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 포지셔닝
+### [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) vs RDBMS vs [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 포지셔닝
 
-| 기준 | RDBMS | [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) | [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) |
+| 기준 | RDBMS | [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) | [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) |
 |:---:|:---:|:---:|:---:|
 | SQL | ✅ 완전 | ❌/부분 | ✅ 완전 |
 | ACID | ✅ | ❌/부분 | ✅ |
 | 수평 확장 | ❌ 제한 | ✅ | ✅ |
-| [멀티 리전](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) | ❌ | ✅ | ✅ |
+| [멀티 리전](/studynote/15_devops_sre/02_cicd_gitops/100_multi_region_deployment_pipeline_disaster_recovery/) | ❌ | ✅ | ✅ |
 | 기존 앱 호환 | 기준 | 재작성 필요 | 최소 수정 |
 | 단순성 | 높음 | 중간 | 중간~낮음 |
 
 📢 **섹션 요약 비유**
-> NewSQL과 RDBMS의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 전기차와 내연기관차의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 같다. 전기차([NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/))는 기존 도로 인프라(SQL 생태계)를 그대로 이용하면서 새 엔진([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의)으로 구동된다. 기름(수직 확장) 없이도 장거리(대규모 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경)를 달릴 수 있다.
+> NewSQL과 RDBMS의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 전기차와 내연기관차의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)와 같다. 전기차([NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/))는 기존 도로 인프라(SQL 생태계)를 그대로 이용하면서 새 엔진([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의)으로 구동된다. 기름(수직 확장) 없이도 장거리(대규모 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경)를 달릴 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [CockroachDB](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 지역 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 준수)
+### [CockroachDB](/studynote/05_database/05_distributed_nosql_newsql/292_etl_process/) 지역 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 준수)
 
 ```sql
 -- 테이블에 지역 컬럼 추가 + 지역별 파티셔닝
@@ -191,7 +188,7 @@ ALTER PARTITION kr OF TABLE user_data
 CONFIGURE ZONE USING constraints='[+region=ap-northeast-2]';
 ```
 
-### 기술사 [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 도입 판단 기준
+### 기술사 [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 도입 판단 기준
 
 ```text
 NewSQL 도입 검토 기준:
@@ -207,13 +204,13 @@ NewSQL 도입 검토 기준:
 ```
 
 📢 **섹션 요약 비유**
-> CockroachDB의 지역 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "한국 고객 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한국 서버에만"이라는 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)을 DB 레벨에서 강제하는 것이다. 마치 한국 우편물이 반드시 한국 우체국을 통해서만 보관되도록 법적으로 강제하는 것처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지정한 지역 밖으로 나가지 않음을 보장한다.
+> CockroachDB의 지역 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "한국 고객 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한국 서버에만"이라는 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)을 DB 레벨에서 강제하는 것이다. 마치 한국 우편물이 반드시 한국 우체국을 통해서만 보관되도록 법적으로 강제하는 것처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지정한 지역 밖으로 나가지 않음을 보장한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션 시나리오
+### 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 마이그레이션 시나리오
 
 ```text
 Before: 리전별 독립 PostgreSQL + 애플리케이션 레벨 샤딩
@@ -226,22 +223,22 @@ After: TiDB/CockroachDB 글로벌 클러스터
 ```
 
 ### 결론
-NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표준이다. 특히 글로벌 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 규정이 중요한 엔터프라이즈 환경에서 RDBMS 마이그레이션 경로로 주목받는다. 기술사 시험에서는 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a> <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/">합의 알고리즘</a> 원리</strong>, <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a>(<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/">TiDB</a> TiFlash)의 행/컬럼 이중 저장 구조</strong>, <strong>지역 <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>과 <a href="/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a></strong>, <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/">NewSQL</a> vs RDBMS vs <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> 포지셔닝</strong>이 핵심 논점이다.
+NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표준이다. 특히 글로벌 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 규정이 중요한 엔터프라이즈 환경에서 RDBMS 마이그레이션 경로로 주목받는다. 기술사 시험에서는 <strong><a href="/studynote/05_database/04_transactions_concurrency/259_raft_paxos/">Raft</a> <a href="/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/">합의 알고리즘</a> 원리</strong>, <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/">HTAP</a>(<a href="/studynote/05_database/05_distributed_nosql_newsql/293_elt_process/">TiDB</a> TiFlash)의 행/컬럼 이중 저장 구조</strong>, <strong>지역 <a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">파티셔닝</a>과 <a href="/studynote/09_security/16_data_privacy/809_data_sovereignty/">데이터 주권</a></strong>, <strong><a href="/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/">NewSQL</a> vs RDBMS vs <a href="/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> 포지셔닝</strong>이 핵심 논점이다.
 
 📢 **섹션 요약 비유**
-> [NewSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 도입은 기존 아파트(RDBMS)를 허물지 않고 지하에 새 기초([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 엔진)를 놓아 건물을 통째로 들어 올리는 리모델링이다. 입주자(애플리케이션)는 같은 집 구조(SQL)를 그대로 쓰면서, 건물이 갑자기 옆에 증축(수평 확장)되는 마법을 경험하게 된다.
+> [NewSQL](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/) 도입은 기존 아파트(RDBMS)를 허물지 않고 지하에 새 기초([분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 엔진)를 놓아 건물을 통째로 들어 올리는 리모델링이다. 입주자(애플리케이션)는 같은 집 구조(SQL)를 그대로 쓰면서, 건물이 갑자기 옆에 증축(수평 확장)되는 마법을 경험하게 된다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---:|:---:|:---|
-| [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) | [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·리더 선출 |
-| [MVCC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/449_mvcc/) | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 | 타임스탬프 기반 다버전 관리 |
-| [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) | 처리 모델 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)+분석 동시 처리 |
-| TrueTime | Google 기술 | GPS 기반 글로벌 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
-| 지역 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 지역 강제 |
+| [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) | [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·리더 선출 |
+| [MVCC](/studynote/11_design_supervision/06_exam_summary/449_mvcc/) | [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 | 타임스탬프 기반 다버전 관리 |
+| [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) | 처리 모델 | [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)+분석 동시 처리 |
+| TrueTime | Google 기술 | GPS 기반 글로벌 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) |
+| 지역 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 지역 강제 |
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -261,12 +258,12 @@ NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표�
     v
 [HTAP (Hybrid Transactional/Analytical Processing) — 트랜잭션·분석을 단일 엔진에서 처리]
 ```
-이 흐름은 RDBMS와 NoSQL의 양립 불가능해 보이던 확장성-[일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 트레이드오프를 NewSQL이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)으로 해소하고, 나아가 HTAP으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 분석을 통합하는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 패러다임의 진화를 보여준다.
+이 흐름은 RDBMS와 NoSQL의 양립 불가능해 보이던 확장성-[일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 트레이드오프를 NewSQL이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)으로 해소하고, 나아가 HTAP으로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)과 분석을 통합하는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 패러다임의 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. NewSQL은 슈퍼히어로 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) — 기존 DB(RDBMS)의 정확함과 NoSQL의 힘을 동시에 가졌어요.
-2. [Raft](/knowledge-base/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의는 학급 반장 선거와 같아요. 과반수가 찬성하면 결정이 확정되고, 반장이 자리를 비우면 바로 새 반장을 뽑아요.
-3. TiDB는 [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(거래 처리)와 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)(통계 분석)을 같은 DB에서 동시에 할 수 있어서, 음식점에서 주문도 받고 매출 보고서도 실시간으로 뽑을 수 있는 것 같아요.
+1. NewSQL은 슈퍼히어로 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) — 기존 DB(RDBMS)의 정확함과 NoSQL의 힘을 동시에 가졌어요.
+2. [Raft](/studynote/05_database/04_transactions_concurrency/259_raft_paxos/) 합의는 학급 반장 선거와 같아요. 과반수가 찬성하면 결정이 확정되고, 반장이 자리를 비우면 바로 새 반장을 뽑아요.
+3. TiDB는 [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(거래 처리)와 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)(통계 분석)을 같은 DB에서 동시에 할 수 있어서, 음식점에서 주문도 받고 매출 보고서도 실시간으로 뽑을 수 있는 것 같아요.
 
 ---
 
@@ -274,7 +271,7 @@ NewSQL은 "SQL 또는 확장성" 이분법을 극복한 현대 OLTP의 새 표�
 
 **진행 상황**: 138 / 262
 
-<- **이전**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/knowledge-base/studynote/16_bigdata/06_nosql/137_multi_model_db/)
-**다음**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/) ->
+<- **이전**: [137. 다중 모델 데이터베이스 (Multi-Model DB) — ArangoDB/SurrealDB](/studynote/16_bigdata/06_nosql/137_multi_model_db/)
+**다음**: [139. 인메모리 데이터베이스 (In-Memory DB) — Redis/Memcached/SAP HANA](/studynote/16_bigdata/06_nosql/139_inmemory_db/) ->
 
 ---

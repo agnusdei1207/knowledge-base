@@ -1,13 +1,10 @@
-+++
-title = "606. IT 경영 관리 핵심 토픽 606번 시험 요약 (IT Management Core Topic 606 Exam Summary)"
-date = 2026-05-09
+---
+title: "606. IT 경영 관리 핵심 토픽 606번 시험 요약 (IT Management Core Topic 606 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -179,7 +176,7 @@ IT 경영 관리는 **국제 표준(ISO/IEC 38500, ISO/IEC 33000)** 과 **프레
 
 **진행 상황**: 606 / 800
 
-<- **이전**: [605. IT 경영 관리 핵심 토픽 605번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/605_it_management_core_topic_605_exam_summary/)
-**다음**: [607. IT 경영 관리 핵심 토픽 607번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/607_it_management_core_topic_607_exam_summary/) ->
+<- **이전**: [605. IT 경영 관리 핵심 토픽 605번 시험 요약](/studynote/12_it_management/05_security_compliance/605_it_management_core_topic_605_exam_summary/)
+**다음**: [607. IT 경영 관리 핵심 토픽 607번 시험 요약](/studynote/12_it_management/05_security_compliance/607_it_management_core_topic_607_exam_summary/) ->
 
 ---

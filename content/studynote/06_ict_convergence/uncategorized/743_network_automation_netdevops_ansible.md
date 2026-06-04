@@ -1,13 +1,10 @@
-+++
-title = "743. 네트워크 자동화 NetDevOps Ansible (Network Automation NetDevOps Ansible)"
-date = 2026-05-09
+---
+title: "743. 네트워크 자동화 NetDevOps Ansible (Network Automation NetDevOps Ansible)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -145,7 +142,7 @@ Ansible의 가장 중요한 설계 철학. 동일 Playbook을 100회 실행해�
 
 **진행 상황**: 743 / 800
 
-<- **이전**: [742. 인텐트 기반 네트워킹 IBN 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/)
-**다음**: [744. AIOps IT 운영 지능화 이상 탐지](/knowledge-base/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/) ->
+<- **이전**: [742. 인텐트 기반 네트워킹 IBN 자동화](/studynote/06_ict_convergence/uncategorized/742_intent_based_networking_ibn_automation/)
+**다음**: [744. AIOps IT 운영 지능화 이상 탐지](/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/) ->
 
 ---

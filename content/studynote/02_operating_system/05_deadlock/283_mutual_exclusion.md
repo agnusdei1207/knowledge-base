@@ -1,27 +1,24 @@
-+++
-title = "283. 상호 배제 (Mutual Exclusion) - 자원은 비공유 모드로만 사용 가능"
-date = 2026-05-09
+---
+title: "283. 상호 배제 (Mutual Exclusion) - 자원은 비공유 모드로만 사용 가능"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 첫 번째 필수 조건으로서의 상호 배제 (Mutual Exclusion)는 "최소 하나 이상의 자원이 비공유 모드(Non-sharable)로 오직 한 번에 하나의 프로세스만 독점 점유할 수 있도록 제한"된 본질적 상태를 뜻한다.
-> 2. **가치**: 읽기 전용 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Read-only Memory)처럼 다수가 무한 자원 공유로 사용하면 데드락 자체가 성립 불가하나, 프린터 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), DB 행(Row) 업데이트같이 정합성이 걸린 필수 요소들은 어쩔 수 없이 배타적 락(Exclusive [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 써야 하므로 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 불씨를 품게 된다.
-> 3. **융합**: 상호 배제 조건을 부정하여 데드락을 원천 차단하는 것은 현실 세계 업데이트 인프라에선 사실상 불가능하며, 이에 따라 Read-Write 스플릿 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 낙관적 락(Optimistic [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 연산([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))과 융합하여 독점 가능성(블로킹 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))을 낮추는 방향으로 우회 발전하고 있다.
+> 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))의 첫 번째 필수 조건으로서의 상호 배제 (Mutual Exclusion)는 "최소 하나 이상의 자원이 비공유 모드(Non-sharable)로 오직 한 번에 하나의 프로세스만 독점 점유할 수 있도록 제한"된 본질적 상태를 뜻한다.
+> 2. **가치**: 읽기 전용 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(Read-only Memory)처럼 다수가 무한 자원 공유로 사용하면 데드락 자체가 성립 불가하나, 프린터 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), DB 행(Row) 업데이트같이 정합성이 걸린 필수 요소들은 어쩔 수 없이 배타적 락(Exclusive [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 써야 하므로 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)의 불씨를 품게 된다.
+> 3. **융합**: 상호 배제 조건을 부정하여 데드락을 원천 차단하는 것은 현실 세계 업데이트 인프라에선 사실상 불가능하며, 이에 따라 Read-Write 스플릿 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 낙관적 락(Optimistic [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)), [락-프리](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 연산([CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))과 융합하여 독점 가능성(블로킹 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/))을 낮추는 방향으로 우회 발전하고 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-공유 자원에 두 명이 동시에 수정을 시도하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서진다. 이를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 관점에서는 반드시 방어해야 하는 숙제거리이므로 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)), [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 등으로 막아왔다 (이것이 긍정적 측면의 상호 배제).
+공유 자원에 두 명이 동시에 수정을 시도하면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 부서진다. 이를 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 관점에서는 반드시 방어해야 하는 숙제거리이므로 뮤텍스([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)), [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) 등으로 막아왔다 (이것이 긍정적 측면의 상호 배제).
 
-하지만 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 재앙 관점</strong>에서 돌아보면, 이 "너 하나만 써!"라는 상호 배제 성질이야말로 모든 데드락이 꼬여 들어가게 하는 <strong>원죄(첫 번째 조건)</strong>이다. 자원을 모두가 무제한 펑펑 같이 쓸 수 있다면 데드락은 발생하지 않는다.
+하지만 <strong><a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)의 재앙 관점</strong>에서 돌아보면, 이 "너 하나만 써!"라는 상호 배제 성질이야말로 모든 데드락이 꼬여 들어가게 하는 <strong>원죄(첫 번째 조건)</strong>이다. 자원을 모두가 무제한 펑펑 같이 쓸 수 있다면 데드락은 발생하지 않는다.
 
 **💡 비유**: 주차장의 장애인 전용석 공간(상호 배제). 그 자리는 무조건 한 차만 주차해야 한다는 강행 규정이 있으므로 차 두 대가 동시에 머리를 밀어 넣으면 오지도 가지도 못하는 데드락의 1차 조건이 성립한다. 넓은 잔디밭(공유 구역)에선 결코 생기지 않는다.
 
@@ -47,22 +44,22 @@ tags = ["studynote-operating-system"]
 +---------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 상호 배제는 안전 금고 열쇠 — 금고를 나 혼자 열고 쓰니 도둑맞지 않아 좋지만([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 열쇠를 들고 낮잠 자면 뒷사람 일정이 올스톱 되는(교착 악몽) 양날의 검입니다.
+**📢 섹션 요약 비유**: 상호 배제는 안전 금고 열쇠 — 금고를 나 혼자 열고 쓰니 도둑맞지 않아 좋지만([동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), 열쇠를 들고 낮잠 자면 뒷사람 일정이 올스톱 되는(교착 악몽) 양날의 검입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [상호 배제 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/)(Prevention)의 비현실성
+### [상호 배제 부정](/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/)(Prevention)의 비현실성
 
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 1번 조건인 '상호 배제'를 찢어버리려면, 세상의 모든 자원을 "다중 동시 공유(Sharing)"로 오픈해야 한다.
+[교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 막기 위해 1번 조건인 '상호 배제'를 찢어버리려면, 세상의 모든 자원을 "다중 동시 공유(Sharing)"로 오픈해야 한다.
 
 운영체제로 치면:
 - CD-ROM 동시 굽기 (에러)
 - 콘솔에 두 프로세스가 동시 `printf` 텍스트 혼선 (에러 출력)
 - 은행 잔고 +50, -30 덮어쓰기 파괴 (금융 사고)
 
--> 결론적으로 <strong>하드웨어 디바이스와 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 근본적 태생 제약</strong>에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 <strong>절대 불가능</strong>하다.
+-> 결론적으로 <strong>하드웨어 디바이스와 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 구조의 근본적 태생 제약</strong>에 의해 상호 배제를 부정하여 데드락을 원천 차단하는 것은 <strong>절대 불가능</strong>하다.
 
 **📢 섹션 요약 비유**: 데드락 1번 조건을 부정하는 건, 화장실을 칸막이 없이 다 같이 투명 통유리로 쓰라는 것 — 데드락은 없어지겠지만 큰일(정합성 혼돈)이 발생해 아무도 사용할 수 없습니다.
 
@@ -70,25 +67,25 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 타겟 자원 | 공유 제약 수준 | [상호 배제 부정](/knowledge-base/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/) 가능성 | 결과 및 대안 |
+| [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 타겟 자원 | 공유 제약 수준 | [상호 배제 부정](/studynote/02_operating_system/05_deadlock/293_deny_mutual_exclusion/) 가능성 | 결과 및 대안 |
 |:---|:---|:---|:---|
-| 읽기 전용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 완전 자유 공유 | 가능 (기본 제공) | 읽기는 락 불필요 ([Read-Write Lock](/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/) 분기) |
-| 원자적 연산 변수 | 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 공유 | 구조적 가능 | `AtomicInteger` 같은 락 구조 이탈 최적화 |
-| [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/프린터 I/O | 비공유 엄격 | 불가능 | [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 큐로 위임하여 가상 대행 공유 |
-| DB Update [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 비공유 엄격 (락) | 불가능 | 테이블 분할([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))로 상호 배제 블록을 잘게 쪼갬 |
+| 읽기 전용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 완전 자유 공유 | 가능 (기본 제공) | 읽기는 락 불필요 ([Read-Write Lock](/studynote/02_operating_system/04_synchronization/280_read_write_lock/) 분기) |
+| 원자적 연산 변수 | 하드웨어 [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 공유 | 구조적 가능 | `AtomicInteger` 같은 락 구조 이탈 최적화 |
+| [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)/프린터 I/O | 비공유 엄격 | 불가능 | [스풀링](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)([Spooling](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/)) 큐로 위임하여 가상 대행 공유 |
+| DB Update [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 비공유 엄격 (락) | 불가능 | 테이블 분할([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))로 상호 배제 블록을 잘게 쪼갬 |
 
-**📢 섹션 요약 비유**: 상호 배제를 없앨 순 없지만 우회하는 꼼수는 있죠. 직접 프린터에 가지 못하게 막는 대신, 인쇄 매니저([스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/))가 원고만 싹 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 확보해 줄을 세워주는 겁니다.
+**📢 섹션 요약 비유**: 상호 배제를 없앨 순 없지만 우회하는 꼼수는 있죠. 직접 프린터에 가지 못하게 막는 대신, 인쇄 매니저([스풀링](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/))가 원고만 싹 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 확보해 줄을 세워주는 겁니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>데드락 우회를 위한 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a>(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">Spooling</a>)</strong>: 수많은 프로세스가 제한된 프린터를 동시 점유 시 데드락 위험(1번 조건). OS는 각 프로세스가 가상의 디스크 버퍼(Spool)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시 쓰는 건 다 허락(공유 자원화)해주고 백그라운드 데몬이 순차 배송. 1번 상호배제 조건을 "단일 데몬 전유물화 + 다수 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"로 우회 해결한 명저.
-2. <strong>트랜잭셔널 분리 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴)</strong>: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
+1. <strong>데드락 우회를 위한 <a href="/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">스풀링</a>(<a href="/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/">Spooling</a>)</strong>: 수많은 프로세스가 제한된 프린터를 동시 점유 시 데드락 위험(1번 조건). OS는 각 프로세스가 가상의 디스크 버퍼(Spool)에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 동시 쓰는 건 다 허락(공유 자원화)해주고 백그라운드 데몬이 순차 배송. 1번 상호배제 조건을 "단일 데몬 전유물화 + 다수 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)"로 우회 해결한 명저.
+2. <strong>트랜잭셔널 분리 (<a href="/studynote/12_it_management/05_security_compliance/306_cqrs/">CQRS</a> 패턴)</strong>: RDB 인프라에서 읽기 노드(Read Replica) 수백 개는 상호 배제 트랜잭션이 없어 데드락-Free 구역. [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 노드([Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) DB) 하나에만 배타 락을 집중, 즉 구조 레벨에서 '상호 배제 구역'을 분리 폐쇄시킴.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. -> [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음.
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- **오버 락킹 (불필요한 싱크로나이즈드)**: 읽기만 하는 구역이고 내부 상태가 불변 객체([Immutable Object](/studynote/11_design_supervision/03_gof_creational_structural/172_builder_immutable_object/))인데 굳이 `synchronized` 클래스를 덧씌워 "아무 의미 없는 상호 배제 공간"으로 변형. -> [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화 + 다른 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 로직과 맞물려 잠재적 데드락 부채를 떠안음.
 
 **📢 섹션 요약 비유**: 불변 객체에 락을 거는 것은, 박물관 유리벽 속 미술품을 구경하는데 한 번에 한 명만 복도에 들어오라는 지나친 통제 — 구경(읽기)만 하는 곳은 상호 배제가 필요악도 아닙니다.
 
@@ -98,11 +95,11 @@ tags = ["studynote-operating-system"]
 
 | 기준 | 상호 배제 제약 (Exclusive) | 비-상호 배제 (Sharable) |
 |:---|:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 보장 | 절대적 보장 | 불가능 (경합 오염) |
-| 데드락 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 필수 조건 충족 (조건 발화) | 0% 불가능 (사이드 이펙트 없음) |
-| 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) | 낮아져서 병목 지점 화 | 코어 숫자에 맞추어 선형 극대화 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 보장 | 절대적 보장 | 불가능 (경합 오염) |
+| 데드락 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | 필수 조건 충족 (조건 발화) | 0% 불가능 (사이드 이펙트 없음) |
+| 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)) | 낮아져서 병목 지점 화 | 코어 숫자에 맞추어 선형 극대화 |
 
-[교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에 있어 첫 번째 조건인 '상호 배제'는 부정하거나 제거할 수 없는 필요악이다. 운영체제와 백엔드 엔지니어링의 목표는 이 조건을 없애는 것이 아니라, "상호 배제가 지배하는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 점유 대기나 순환 대기와 같은 다른 3가지 악재가 연쇄적으로 결합하지 못하도록 제어"하는 데 있다.
+[교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에 있어 첫 번째 조건인 '상호 배제'는 부정하거나 제거할 수 없는 필요악이다. 운영체제와 백엔드 엔지니어링의 목표는 이 조건을 없애는 것이 아니라, "상호 배제가 지배하는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 점유 대기나 순환 대기와 같은 다른 3가지 악재가 연쇄적으로 결합하지 못하도록 제어"하는 데 있다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -112,10 +109,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 정의 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 4가지 필요조건 ([모두 만족해야 발생](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [점유하며 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ([Hold-and-Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 정의 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) 발생 4가지 필요조건 ([모두 만족해야 발생](/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [점유하며 대기](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ([Hold-and-Wait](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,7 +140,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 283 / 800
 
-<- **이전**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/knowledge-base/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)
-**다음**: [284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ->
+<- **이전**: [282. 교착 상태 발생 4가지 필요조건 (모두 만족해야 발생) (Deadlock Four Necessary Conditions)](/studynote/02_operating_system/05_deadlock/282_deadlock_four_necessary_conditions/)
+**다음**: [284. 점유하며 대기 (Hold-and-Wait) - 자원을 보유한 상태로 다른 자원 대기](/studynote/02_operating_system/05_deadlock/284_hold_and_wait/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "601. 에너지 하베스팅 저전력 IoT 전원 (Energy Harvesting Low Power IoT Supply)"
-date = 2026-05-09
+---
+title: "601. 에너지 하베스팅 저전력 IoT 전원 (Energy Harvesting Low Power IoT Supply)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Harvest -> Store -> Regulate -> Sleep -> Transmit
 
 **진행 상황**: 601 / 800
 
-<- **이전**: [600. 광컴퓨팅 포토닉스 데이터센터](/knowledge-base/studynote/06_ict_convergence/uncategorized/600_optical_computing_photonics_data_center/)
-**다음**: [602. LPWAN LoRa Sigfox NB-IoT 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/602_lpwan_lora_sigfox_nb_iot_comparison/) ->
+<- **이전**: [600. 광컴퓨팅 포토닉스 데이터센터](/studynote/06_ict_convergence/uncategorized/600_optical_computing_photonics_data_center/)
+**다음**: [602. LPWAN LoRa Sigfox NB-IoT 비교](/studynote/06_ict_convergence/uncategorized/602_lpwan_lora_sigfox_nb_iot_comparison/) ->
 
 ---

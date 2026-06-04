@@ -1,28 +1,25 @@
-+++
-title = "176. 페트리 넷 (Petri Net) - 병행 시스템 명세"
-description = "페트리 넷의 Place, Transition, Token을 이용해 병행 시스템의 자원 경쟁과 검증 포인트를 정리한다."
-date = 2026-04-03
+---
+title: "176. 페트리 넷 (Petri Net) - 병행 시스템 명세"
+date: "2026-04-03"
+description: "페트리 넷의 Place, Transition, Token을 이용해 병행 시스템의 자원 경쟁과 검증 포인트를 정리한다."
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 페트리 넷 (Petri Net)은 장소 (Place)에 놓인 토큰 (Token)이 전이 (Transition)를 통해 이동하는 규칙으로 상태, 자원, 사건을 표현하는 병행 시스템용 정형 명세 모델이다.
-> 2. **가치**: [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 가능성을 코드 작성 전에 구조적으로 드러내고 분석할 수 있다.
-> 3. **판단 포인트**: 모든 시스템을 페트리 넷으로 그릴 필요는 없으며, 자원 경쟁과 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙이 핵심 위험인 구간에 집중해야 분석 비용 대비 효과가 크다.
+> 2. **가치**: [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) ([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)), [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) ([Synchronization](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)), [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), 데드락 ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 가능성을 코드 작성 전에 구조적으로 드러내고 분석할 수 있다.
+> 3. **판단 포인트**: 모든 시스템을 페트리 넷으로 그릴 필요는 없으며, 자원 경쟁과 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙이 핵심 위험인 구간에 집중해야 분석 비용 대비 효과가 크다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-페트리 넷은 병행 시스템이 "어떤 상태에 있는가"와 "어떤 사건이 발생할 수 있는가"를 동시에 표현하기 위한 정형 모델이다. 순서도는 보통 한 줄의 절차를 따라가며, 일반적인 상태도는 전체 시스템 상태를 한 점으로 뭉쳐 그리는 경향이 있다. 그러나 실제 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 여러 작업이 동시에 진행되고, 같은 자원을 서로 차지하려 하며, 어떤 사건은 특정 조건이 만족될 때만 발생한다.
+페트리 넷은 병행 시스템이 "어떤 상태에 있는가"와 "어떤 사건이 발생할 수 있는가"를 동시에 표현하기 위한 정형 모델이다. 순서도는 보통 한 줄의 절차를 따라가며, 일반적인 상태도는 전체 시스템 상태를 한 점으로 뭉쳐 그리는 경향이 있다. 그러나 실제 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템은 여러 작업이 동시에 진행되고, 같은 자원을 서로 차지하려 하며, 어떤 사건은 특정 조건이 만족될 때만 발생한다.
 
-이 개념이 필요한 이유는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류가 코드의 길이보다 <strong>실행 순서의 조합</strong>에서 발생하기 때문이다. 결제 승인, 재고 차감, 주문 확정이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 쇼핑몰 시스템을 생각하면, 각 기능을 따로 보면 단순해도 서로 어떤 자원을 공유하고 어떤 순서 제약을 가지는지는 쉽게 놓치게 된다. 이런 경우 문제는 함수 문장 안보다, 여러 흐름이 만나는 경계에서 터진다.
+이 개념이 필요한 이유는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 오류가 코드의 길이보다 <strong>실행 순서의 조합</strong>에서 발생하기 때문이다. 결제 승인, 재고 차감, 주문 확정이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 쇼핑몰 시스템을 생각하면, 각 기능을 따로 보면 단순해도 서로 어떤 자원을 공유하고 어떤 순서 제약을 가지는지는 쉽게 놓치게 된다. 이런 경우 문제는 함수 문장 안보다, 여러 흐름이 만나는 경계에서 터진다.
 
 아래 그림은 병행 시스템이 왜 일반적인 순차 모델보다 더 강한 표현 도구를 요구하는지 보여 준다.
 
@@ -36,7 +33,7 @@ tags = ["software_engineering"]
 +--------------------------------------------------------------------+
 ```
 
-즉 페트리 넷은 "무슨 순서로 적을까"보다 "지금 어떤 조건이 충족되어야 이 사건이 일어나는가"를 중심에 둔다. 그래서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 자원 경쟁, 대기 조건, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 같은 문제를 표현하기에 적합하다.
+즉 페트리 넷은 "무슨 순서로 적을까"보다 "지금 어떤 조건이 충족되어야 이 사건이 일어나는가"를 중심에 둔다. 그래서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리, 자원 경쟁, 대기 조건, [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 같은 문제를 표현하기에 적합하다.
 
 - **📢 섹션 요약 비유**: 페트리 넷은 사람들이 차례대로 한 명씩 걷는 복도 지도가 아니라, 여러 사람이 동시에 움직이면서 같은 열쇠를 서로 쓰려는 건물 출입 통제도와 같다.
 
@@ -44,19 +41,19 @@ tags = ["software_engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-페트리 넷의 기본 구성은 장소, 전이, 아크 (Arc), 토큰, 마킹 (Marking)이다. 장소는 상태나 자원을, 전이는 사건이나 연산을, 아크는 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를, 토큰은 현재 조건 충족 여부나 자원 수량을 나타낸다. 마킹은 어느 장소에 토큰이 몇 개 놓여 있는지를 뜻하며, 현재 시스템 상태를 수학적으로 표현한 결과다.
+페트리 넷의 기본 구성은 장소, 전이, 아크 (Arc), 토큰, 마킹 (Marking)이다. 장소는 상태나 자원을, 전이는 사건이나 연산을, 아크는 연결 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를, 토큰은 현재 조건 충족 여부나 자원 수량을 나타낸다. 마킹은 어느 장소에 토큰이 몇 개 놓여 있는지를 뜻하며, 현재 시스템 상태를 수학적으로 표현한 결과다.
 
 | 구성 요소 | 의미 | 핵심 질문 |
 | :--- | :--- | :--- |
 | 장소 (Place) | 상태, 조건, 자원 저장 위치 | 지금 무엇이 준비되어 있는가? |
 | 전이 (Transition) | 사건, 작업, 상태 변화 | 언제 실행될 수 있는가? |
-| 아크 (Arc) | 입력/출력 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 어떤 조건이 어떤 사건과 연결되는가? |
+| 아크 (Arc) | 입력/출력 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 어떤 조건이 어떤 사건과 연결되는가? |
 | 토큰 (Token) | 자원 수량, 권한, 작업 인스턴스 | 몇 개가 동시에 존재하는가? |
 | 마킹 (Marking) | 현재 토큰 분포 | 시스템의 현재 단면은 무엇인가? |
 
-전이의 핵심 규칙은 **활성화 (Enabled)** 와 **발화 (Firing)** 이다. 어떤 전이가 활성화되려면, 모든 입력 장소에 필요한 수의 토큰이 있어야 한다. 전이가 발화하면 입력 토큰은 소비되고, 출력 장소에는 새로운 토큰이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이 간단한 규칙만으로 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 자원 획득, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분기, 병합, 대기 상태를 표현할 수 있다.
+전이의 핵심 규칙은 **활성화 (Enabled)** 와 **발화 (Firing)** 이다. 어떤 전이가 활성화되려면, 모든 입력 장소에 필요한 수의 토큰이 있어야 한다. 전이가 발화하면 입력 토큰은 소비되고, 출력 장소에는 새로운 토큰이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 이 간단한 규칙만으로 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 자원 획득, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분기, 병합, 대기 상태를 표현할 수 있다.
 
-아래 그림은 두 조건이 모두 만족될 때만 작업이 실행되는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조를 보여 준다.
+아래 그림은 두 조건이 모두 만족될 때만 작업이 실행되는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 구조를 보여 준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -75,7 +72,7 @@ tags = ["software_engineering"]
 +--------------------------------------------------------------------+
 ```
 
-이 구조를 결제 시스템에 적용하면, `결제 요청 토큰`과 `재고 확보 토큰`이 모두 있을 때만 `주문 확정 전이`가 발화하도록 설계할 수 있다. 반대로 어느 한쪽 토큰이 없으면 전이는 멈춘다. 그래서 페트리 넷은 단순 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 아니라, <strong>조건 기반 실행 규칙을 분석 가능한 형태로 바꾸는 모델</strong>이다.
+이 구조를 결제 시스템에 적용하면, `결제 요청 토큰`과 `재고 확보 토큰`이 모두 있을 때만 `주문 확정 전이`가 발화하도록 설계할 수 있다. 반대로 어느 한쪽 토큰이 없으면 전이는 멈춘다. 그래서 페트리 넷은 단순 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구가 아니라, <strong>조건 기반 실행 규칙을 분석 가능한 형태로 바꾸는 모델</strong>이다.
 
 또한 페트리 넷은 도달 가능성 (Reachability), 유계성 (Boundedness), 활성성 (Liveness) 같은 성질을 분석할 수 있다. 특정 마킹에 도달 가능한지, 어떤 장소의 토큰 수가 무한히 커질 수 있는지, 어떤 전이가 영원히 발화 불가능해지는지 같은 질문을 모델 수준에서 다룰 수 있다는 점이 정형 명세로서의 강점이다.
 
@@ -85,18 +82,18 @@ tags = ["software_engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-페트리 넷은 플로우차트나 유한 상태 기계 (Finite [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)와 경쟁하기보다, 그들이 잘 드러내지 못하는 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조를 보완한다. 플로우차트는 순차 절차를 이해시키는 데 좋고, FSM은 단일 객체의 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 강하다. 반면 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 작업과 공유 자원 경쟁까지 함께 표현하려면 상태 수가 급격히 증가하거나, 실제 제약이 그림 밖의 설명문으로 밀려나는 경우가 많다.
+페트리 넷은 플로우차트나 유한 상태 기계 (Finite [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Machine, FSM)와 경쟁하기보다, 그들이 잘 드러내지 못하는 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조를 보완한다. 플로우차트는 순차 절차를 이해시키는 데 좋고, FSM은 단일 객체의 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)에 강하다. 반면 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 움직이는 작업과 공유 자원 경쟁까지 함께 표현하려면 상태 수가 급격히 증가하거나, 실제 제약이 그림 밖의 설명문으로 밀려나는 경우가 많다.
 
 | 모델 | 강한 영역 | 약한 영역 | 페트리 넷과의 차이 |
 | :--- | :--- | :--- | :--- |
-| 플로우차트 | 절차적 순서 설명 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 자원 경쟁 표현이 약함 | 주로 한 줄 흐름 중심 |
-| FSM | 단일 객체 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 조합에서 상태 폭발 가능 | 전역 상태를 한 점으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
-| [Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 활동도 / Business [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation ([BPMN](/knowledge-base/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/)) | 업무 흐름 공유 | 엄밀한 수학 분석은 제한적 | 협업 표현은 좋지만 형식성은 약함 |
-| 페트리 넷 | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 자원 공유, 분석 가능성 | 모델링 학습 비용 존재 | 부분 순서와 토큰 기반 의미론 제공 |
+| 플로우차트 | 절차적 순서 설명 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 자원 경쟁 표현이 약함 | 주로 한 줄 흐름 중심 |
+| FSM | 단일 객체 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 조합에서 상태 폭발 가능 | 전역 상태를 한 점으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| [Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 활동도 / Business [Process](/studynote/12_it_management/05_security_compliance/943_process/) Model and Notation ([BPMN](/studynote/04_software_engineering/03_design_architecture/163_bpmn_business_process_modeling_notation/)) | 업무 흐름 공유 | 엄밀한 수학 분석은 제한적 | 협업 표현은 좋지만 형식성은 약함 |
+| 페트리 넷 | [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/), 자원 공유, 분석 가능성 | 모델링 학습 비용 존재 | 부분 순서와 토큰 기반 의미론 제공 |
 
-FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM으로 합치면 전체 상태 수는 곱셈 형태로 커진다. 반면 페트리 넷은 각 장소와 토큰의 분포로 상태를 표현하므로, 병행 구조를 더 분해된 형태로 다룰 수 있다. 물론 대규모 모델에서는 여전히 상태 공간 폭발 문제가 생길 수 있지만, 적어도 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조를 자연스럽게 표현한다는 점에서 출발점이 다르다.
+FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM으로 합치면 전체 상태 수는 곱셈 형태로 커진다. 반면 페트리 넷은 각 장소와 토큰의 분포로 상태를 표현하므로, 병행 구조를 더 분해된 형태로 다룰 수 있다. 물론 대규모 모델에서는 여전히 상태 공간 폭발 문제가 생길 수 있지만, 적어도 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조를 자연스럽게 표현한다는 점에서 출발점이 다르다.
 
-또한 페트리 넷은 컬러드 페트리 넷 (Colored Petri Net), 타임드 페트리 넷 (Timed Petri Net), 워크플로우 넷 (Workflow Net) 등으로 확장된다. 따라서 단순 이론 모델에 그치지 않고, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 제조 공정 제어, 업무 프로세스 모델링, 임베디드 제어 분석으로 연결된다.
+또한 페트리 넷은 컬러드 페트리 넷 (Colored Petri Net), 타임드 페트리 넷 (Timed Petri Net), 워크플로우 넷 (Workflow Net) 등으로 확장된다. 따라서 단순 이론 모델에 그치지 않고, [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 제조 공정 제어, 업무 프로세스 모델링, 임베디드 제어 분석으로 연결된다.
 
 - **📢 섹션 요약 비유**: 플로우차트가 한 사람의 동선 지도라면, 페트리 넷은 여러 사람이 동시에 움직이며 열쇠와 방을 공유하는 건물 운영 지도에 가깝다.
 
@@ -104,7 +101,7 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 페트리 넷이 빛나는 곳은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 흐름이 충돌할 때 비용이 큰 영역"이다. 결제-재고-배송 확정, 생산 설비의 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 송수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 락 획득 순서 같은 문제는 오류가 나면 장애 원인 추적 비용이 매우 크다. 이런 구간은 페트리 넷으로 핵심 자원과 전이 규칙을 먼저 모델링해 보는 것이 설계 리스크를 크게 줄인다.
+실무에서 페트리 넷이 빛나는 곳은 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 흐름이 충돌할 때 비용이 큰 영역"이다. 결제-재고-배송 확정, 생산 설비의 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/), 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)의 송수신 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 락 획득 순서 같은 문제는 오류가 나면 장애 원인 추적 비용이 매우 크다. 이런 구간은 페트리 넷으로 핵심 자원과 전이 규칙을 먼저 모델링해 보는 것이 설계 리스크를 크게 줄인다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -120,31 +117,31 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 
 ### 실무 판단 기준
 
-1. **공유 자원이 있는가?** 락, 재고, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), 연결 수처럼 수량 제한 자원이 있으면 페트리 넷이 유리하다.
+1. **공유 자원이 있는가?** 락, 재고, [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/), 연결 수처럼 수량 제한 자원이 있으면 페트리 넷이 유리하다.
 2. **동시 실행이 핵심 위험인가?** 순차 로직보다 인터리빙과 경쟁이 문제라면 적합하다.
-3. <strong>무엇을 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할 것인가?</strong> 데드락, 활성성, 자원 누수, 무한 대기 중 무엇을 보고 싶은지 먼저 정한다.
+3. <strong>무엇을 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>할 것인가?</strong> 데드락, 활성성, 자원 누수, 무한 대기 중 무엇을 보고 싶은지 먼저 정한다.
 4. **모델 범위를 좁혔는가?** 시스템 전체가 아니라 위험한 핵심 경로를 잘라 모델링해야 효과가 크다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 화면 흐름, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·조회·수정·삭제형 단순 업무 로직까지 모두 페트리 넷으로 표현하려는 것
+- 화면 흐름, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·조회·수정·삭제형 단순 업무 로직까지 모두 페트리 넷으로 표현하려는 것
 - 토큰이 무엇을 의미하는지 정의하지 않은 채 그림만 그리는 것
 - 예외 경로와 자원 반환 경로를 빼고 "정상 흐름"만 모델링하는 것
 - 분석 속성을 정하지 않고 다이어그램만 만들고 끝내는 것
 
-실무에서는 페트리 넷을 코드 대체물로 쓰기보다, 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용 스켈레톤으로 쓰는 편이 효과적이다. 예를 들어 결제 시스템이라면 주문 확정 전체가 아니라 `재고 예약`, `결제 승인`, `보상 취소`, `락 해제` 같은 핵심 전이만 모델링해도 충분히 큰 위험을 줄일 수 있다.
+실무에서는 페트리 넷을 코드 대체물로 쓰기보다, 설계 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)용 스켈레톤으로 쓰는 편이 효과적이다. 예를 들어 결제 시스템이라면 주문 확정 전체가 아니라 `재고 예약`, `결제 승인`, `보상 취소`, `락 해제` 같은 핵심 전이만 모델링해도 충분히 큰 위험을 줄일 수 있다.
 
-- **📢 섹션 요약 비유**: 페트리 넷은 도시 전체를 축척 없이 다 그리는 지도가 아니라, 사고가 자주 나는 교차로만 확대해 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 교통 모형과 같다.
+- **📢 섹션 요약 비유**: 페트리 넷은 도시 전체를 축척 없이 다 그리는 지도가 아니라, 사고가 자주 나는 교차로만 확대해 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 체계를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 교통 모형과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-페트리 넷을 적절히 쓰면 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제를 구현 후 디버깅 단계가 아니라 설계 단계에서 드러낼 수 있다. 자원 경쟁이 시각적으로 보이고, 전이 조건이 명시되며, 도달 가능성과 활성성을 분석할 수 있어 설계 리뷰의 수준이 높아진다. 특히 개발자, 아키텍트, 테스터가 같은 모델을 두고 대화할 수 있다는 점도 크다.
+페트리 넷을 적절히 쓰면 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 문제를 구현 후 디버깅 단계가 아니라 설계 단계에서 드러낼 수 있다. 자원 경쟁이 시각적으로 보이고, 전이 조건이 명시되며, 도달 가능성과 활성성을 분석할 수 있어 설계 리뷰의 수준이 높아진다. 특히 개발자, 아키텍트, 테스터가 같은 모델을 두고 대화할 수 있다는 점도 크다.
 
-물론 페트리 넷이 만능은 아니다. 모델 범위를 잘못 잡으면 오히려 복잡도가 커질 수 있고, 토큰 의미가 불분명하면 분석도 공허해진다. 또한 대규모 시스템에서는 여전히 상태 공간 폭발 문제가 남으므로, 컬러드·타임드 확장이나 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 전략을 함께 고려해야 한다.
+물론 페트리 넷이 만능은 아니다. 모델 범위를 잘못 잡으면 오히려 복잡도가 커질 수 있고, 토큰 의미가 불분명하면 분석도 공허해진다. 또한 대규모 시스템에서는 여전히 상태 공간 폭발 문제가 남으므로, 컬러드·타임드 확장이나 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 전략을 함께 고려해야 한다.
 
-정리하면 페트리 넷은 병행 시스템을 위한 "정지 화면"이 아니라, <strong>조건이 맞을 때만 사건이 발생하고 토큰이 이동하는 규칙 시스템</strong>이다. 기억할 핵심은 분명하다. <strong>장소는 상태와 자원을 담고, 전이는 조건 충족 시 발화하며, 토큰 흐름은 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>의 구조를 드러낸다.</strong>
+정리하면 페트리 넷은 병행 시스템을 위한 "정지 화면"이 아니라, <strong>조건이 맞을 때만 사건이 발생하고 토큰이 이동하는 규칙 시스템</strong>이다. 기억할 핵심은 분명하다. <strong>장소는 상태와 자원을 담고, 전이는 조건 충족 시 발화하며, 토큰 흐름은 <a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a>의 구조를 드러낸다.</strong>
 
 - **📢 섹션 요약 비유**: 페트리 넷은 여러 문이 있는 놀이공원에서 표와 열쇠가 있어야만 다음 구역으로 넘어갈 수 있게 설계한 출입 규칙표와 같다.
 
@@ -160,7 +157,7 @@ FSM과의 차이는 특히 중요하다. 독립된 두 하위 시스템을 FSM�
 | 마킹 (Marking) | 현재 시스템 상태를 토큰 분포로 나타낸다. |
 | 활성성 (Liveness) | 어떤 전이가 영원히 막히지 않는지 판단하는 분석 개념이다. |
 | 유계성 (Boundedness) | 장소의 토큰 수가 무한히 늘지 않는지 보는 안전성 기준이다. |
-| 데드락 ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) | 더 이상 발화 가능한 전이가 없는 정지 상태를 분석 대상으로 삼는다. |
+| 데드락 ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) | 더 이상 발화 가능한 전이가 없는 정지 상태를 분석 대상으로 삼는다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -181,7 +178,7 @@ marking and firing rules
 safer concurrent design and test scenarios
 ```
 
-이 흐름도는 비정형 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 요구를 페트리 넷 구조로 바꾸고, 그 위에서 발화 규칙과 도달 가능성 분석을 수행해 더 안전한 구현과 테스트로 연결하는 과정을 요약한다.
+이 흐름도는 비정형 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 요구를 페트리 넷 구조로 바꾸고, 그 위에서 발화 규칙과 도달 가능성 분석을 수행해 더 안전한 구현과 테스트로 연결하는 과정을 요약한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -195,7 +192,7 @@ safer concurrent design and test scenarios
 
 **진행 상황**: 176 / 973
 
-<- **이전**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/knowledge-base/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/)
-**다음**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/knowledge-base/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/) ->
+<- **이전**: [175. 요구사항 명세 언어 (Z, VDM 등 정형 언어)](/studynote/04_software_engineering/03_design_architecture/175_formal_informal_specification_languages/)
+**다음**: [177. 요구사항 도구 (Jira, DOORS 등) 활용 전략](/studynote/04_software_engineering/03_design_architecture/177_requirements_management_tools_jira_doors/) ->
 
 ---

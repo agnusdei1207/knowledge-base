@@ -1,18 +1,15 @@
-+++
-title = "035. PMBOK 10대 지식 영역"
-date = 2026-03-03
+---
+title: "035. PMBOK 10대 지식 영역"
+date: "2026-03-03"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 > **핵심 인사이트**
-> 1. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)로 구조화한 국제 표준 프레임워크다.
-> 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)과 교차되어 49개 프로세스를 구성한다([PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th).
-> 3. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론이 확산됨에 따라 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th([2021](/knowledge-base/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
+> 1. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge) 10대 지식 영역은 프로젝트 관리의 전 영역을 통합·범위·일정·원가·품질·자원·의사소통·위험·조달·[이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)로 구조화한 국제 표준 프레임워크다.
+> 2. 각 지식 영역은 착수·계획·실행·감시통제·종료의 5개 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/)과 교차되어 49개 프로세스를 구성한다([PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th).
+> 3. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) 시대에 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론이 확산됨에 따라 [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th([2021](/studynote/04_software_engineering/11_testing_validation/869_owasp_top_10_2021/))는 12개 원칙과 8개 성과 영역으로 패러다임이 전환되었지만, 6th의 10대 지식 영역은 여전히 PMP 시험의 기반이다.
 
 ---
 
@@ -34,22 +31,22 @@ tags = ["studynote-software-engineering"]
 
 | 영역         | 핵심 산출물                    | 핵심 도구         |
 |-------------|-------------------------------|------------------|
-| 통합         | [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), 프로젝트 관리 계획 | 전문가 판단      |
-| 범위         | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 범위 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)               | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 분해, 검사   |
-| 일정         | 프로젝트 일정, [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)             | [PDM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/), 일정 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)   |
-| 원가         | 원가 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)               | 유사 산정, 모수  |
-| 품질         | 품질 관리 계획, [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)     | 파레토, 관리도   |
+| 통합         | [프로젝트 헌장](/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), 프로젝트 관리 계획 | 전문가 판단      |
+| 범위         | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 범위 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)               | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) 분해, 검사   |
+| 일정         | 프로젝트 일정, [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)             | [PDM](/studynote/07_enterprise_systems/02_erp_systems/123_pdm_product_data_management/), 일정 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)   |
+| 원가         | 원가 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/), [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)               | 유사 산정, 모수  |
+| 품질         | 품질 관리 계획, [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)     | 파레토, 관리도   |
 | 자원         | RAM, 자원 달력                 | RACI 매트릭스    |
 | 의사소통     | 의사소통 관리 계획             | 커뮤니케이션 모델|
-| 위험         | 위험 등록부                    | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·영향 매트릭스|
+| 위험         | 위험 등록부                    | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)·영향 매트릭스|
 | 조달         | 계약서, 입찰 문서              | 공급업체 선정    |
-| [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)   | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 등록부              | 권력/관심 그리드  |
+| [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)   | [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 등록부              | 권력/관심 그리드  |
 
 > 📢 **섹션 요약 비유**: 집 짓기의 10가지 역할 — 건축가(통합), 설계도(범위), 공사 일정표(일정), 예산(원가), 감리(품질)...
 
 ---
 
-## Ⅱ. 5 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/) × [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 지식 영역
+## Ⅱ. 5 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/) × [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 지식 영역
 
 ```
 프로세스 그룹
@@ -73,7 +70,7 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 핵심 지식 영역 심화
 
-### 3-1. 범위 관리 — [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))
+### 3-1. 범위 관리 — [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))
 
 ```
 프로젝트
@@ -87,7 +84,7 @@ tags = ["studynote-software-engineering"]
 - **100% 규칙**: WBS는 전체 작업을 빠짐없이 포함
 - **롤링 웨이브 계획**: 가까운 작업은 상세, 먼 작업은 고수준
 
-### 3-2. 일정 관리 — [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/))
+### 3-2. 일정 관리 — [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) ([Critical Path Method](/studynote/04_software_engineering/01_overview_principles/037_cpm/))
 
 ```
 A(3일) -> B(2일) -> D(4일)
@@ -98,27 +95,27 @@ CPM: A->C->D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 여유시간(Float): B = 12 - (3+2+4) = 3일
 ```
 
-### 3-3. 원가 관리 — [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/))
+### 3-3. 원가 관리 — [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/))
 
 | 지표  | 공식           | 의미                |
 |-------|----------------|---------------------|
-| [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)    | 계획 예산      | 완료 예정 작업 가치  |
-| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)    | 획득 가치      | 실제 완료 작업 가치  |
-| [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)    | 실제 원가      | 실제 지출 금액       |
-| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)   | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)/[AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)          | 원가 효율 (1=정상)  |
-| [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)   | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)/[PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)          | 일정 효율 (1=정상)  |
+| [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)    | 계획 예산      | 완료 예정 작업 가치  |
+| [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)    | 획득 가치      | 실제 완료 작업 가치  |
+| [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)    | 실제 원가      | 실제 지출 금액       |
+| [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)   | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)/[AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)          | 원가 효율 (1=정상)  |
+| [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)   | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/)/[PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/)          | 일정 효율 (1=정상)  |
 
 > 📢 **섹션 요약 비유**: WBS는 집의 설계도, CPM은 공사 일정표, EVM은 실시간 가계부 — 세 가지가 함께 있어야 프로젝트가 통제된다.
 
 ---
 
-## Ⅳ. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th 변화 — 프로세스에서 원칙으로
+## Ⅳ. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th 변화 — 프로세스에서 원칙으로
 
-| 구분      | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th               | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th              |
+| 구분      | [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 6th               | [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7th              |
 |-----------|-------------------------|------------------------|
 | 구조      | 10개 지식 영역 + 49 프로세스 | 12개 원칙 + 8개 성과 영역 |
 | 초점      | 프로세스 준수            | 가치 전달              |
-| 방법론    | 예측형(Waterfall) 중심   | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 통합            |
+| 방법론    | 예측형(Waterfall) 중심   | [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 통합            |
 | 산출물    | ITTO(입력·도구·기법·출력) | 모델·방법·공학         |
 
 > 📢 **섹션 요약 비유**: 6th가 '요리 레시피 책'이라면, 7th는 '요리 철학 교과서' — 결과물 중심에서 가치 중심으로.
@@ -127,13 +124,13 @@ CPM: A->C->D = 3+5+4 = 12일 (최장 경로 = 임계 경로)
 
 ## Ⅴ. 실무 시나리오 — SI 프로젝트 적용
 
-| 단계       | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 적용 포인트                        |
+| 단계       | [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 적용 포인트                        |
 |-----------|------------------------------------------|
-| 착수       | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 분석(권력/관심 그리드), 헌장   |
-| 계획       | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) -> 일정 -> [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)            |
-| 실행       | 품질 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 조달 관리, 팀 빌딩            |
-| 감시통제   | [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)/[SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 추적, [변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))     |
-| 종료       | [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) 기록, 최종 인수 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)               |
+| 착수       | [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 분석(권력/관심 그리드), 헌장   |
+| 계획       | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) -> 일정 -> [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)            |
+| 실행       | 품질 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/), 조달 관리, 팀 빌딩            |
+| 감시통제   | [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)/[SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) 추적, [변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/)([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))     |
+| 종료       | [교훈](/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) 기록, 최종 인수 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)               |
 
 > 📢 **섹션 요약 비유**: PMBOK은 건설 현장의 표준 공정표 — 표준을 따르면 누가 감독해도 품질이 일정하게 유지된다.
 
@@ -188,7 +185,7 @@ Scrum + PMBOK 조합, SAFe 연계
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 큰 프로젝트를 잘 관리하기 위한 10가지 역할 설명서예요.
+1. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 큰 프로젝트를 잘 관리하기 위한 10가지 역할 설명서예요.
 2. 일정, 비용, 품질, 위험 등 각 역할이 서로 협력해야 프로젝트가 성공해요.
 3. 마치 축구팀의 포지션 역할 매뉴얼처럼, 모두가 자기 역할을 알아야 이길 수 있어요!
 
@@ -198,7 +195,7 @@ Scrum + PMBOK 조합, SAFe 연계
 
 **진행 상황**: 35 / 973
 
-<- **이전**: [레거시 시스템 현대화 (Legacy System Modernization)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/)
-**다음**: [036. WBS — 작업 분해 구조 (Work Breakdown Structure)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/036_wbs/) ->
+<- **이전**: [레거시 시스템 현대화 (Legacy System Modernization)](/studynote/04_software_engineering/01_overview_principles/034_legacy_system_modernization/)
+**다음**: [036. WBS — 작업 분해 구조 (Work Breakdown Structure)](/studynote/04_software_engineering/01_overview_principles/036_wbs/) ->
 
 ---

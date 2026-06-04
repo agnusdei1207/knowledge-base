@@ -1,19 +1,16 @@
-+++
-title = "573. 접근 제어 행렬 (Access Matrix) - 주체(행)와 객체(열) 교차점의 권한 표현 모형"
-date = 2026-05-09
+---
+title: "573. 접근 제어 행렬 (Access Matrix) - 주체(행)와 객체(열) 교차점의 권한 표현 모형"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 접근 제어 행렬은 <strong>행(Row)에 주체(프로세스/<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>을, <strong>열(Column)에 객체(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>/프린터)</strong>를 배치하고, 각 교차점에 <strong>권한 집합(읽기/<a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>/실행)</strong>을 표기하여 접근 권한을 수학적으로 표현하는 모델이다.
-> 2. **가치**: 이 **2차원 행렬 구조** 덕분에, OS는 특정 프로세스가 특정 객체에 접근하려 할 때 `(프로세스, 객체)` 좌표만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 되므로 $O(1)$ 시간에 접근 권한을 검증할 수 있다.
-> 3. **한계**: 실제 시스템에서 행렬의 99%이상이 비어있어(희소 행렬), 메모리 낭비가 심하다. 따라서 실제로는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>(행 기준 분할)</strong> 또는 <strong>Capability(열 기준 분할)</strong>로 구현한다.
+> 1. **본질**: 접근 제어 행렬은 <strong>행(Row)에 주체(프로세스/<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a>)</strong>을, <strong>열(Column)에 객체(<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>/프린터)</strong>를 배치하고, 각 교차점에 <strong>권한 집합(읽기/<a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a>/실행)</strong>을 표기하여 접근 권한을 수학적으로 표현하는 모델이다.
+> 2. **가치**: 이 **2차원 행렬 구조** 덕분에, OS는 특정 프로세스가 특정 객체에 접근하려 할 때 `(프로세스, 객체)` 좌표만 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 되므로 $O(1)$ 시간에 접근 권한을 검증할 수 있다.
+> 3. **한계**: 실제 시스템에서 행렬의 99%이상이 비어있어(희소 행렬), 메모리 낭비가 심하다. 따라서 실제로는 <strong><a href="/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a>(행 기준 분할)</strong> 또는 <strong>Capability(열 기준 분할)</strong>로 구현한다.
 
 ---
 
@@ -52,8 +49,8 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 ### 2.1 희소 행렬(Sparse Matrix) 문제
 
 실제 시스템에서는:
-- [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(사용자) 수: 수만~수십만
-- 객체([파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 수: 수백만~수천만
+- [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(사용자) 수: 수만~수십만
+- 객체([파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)) 수: 수백만~수천만
 - 행렬 칸 수: 수조~수천조
 - 실제 권한이 있는 칸: 약 0.01%
 
@@ -82,8 +79,8 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ### 3.2 Global Table의 한계
 
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/030_linear_search/">선형 탐색</a></strong>: 권한 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 탐색해야 하므로 $O(N)$ 시간
-- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>: 중앙 테이블에 동시 접근 시 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 발생
+- <strong><a href="/studynote/08_algorithm_stats/03_graph_search/030_linear_search/">선형 탐색</a></strong>: 권한 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시 리스트 전체를 탐색해야 하므로 $O(N)$ 시간
+- <strong><a href="/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/">락 경합</a></strong>: 중앙 테이블에 동시 접근 시 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제 발생
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -91,9 +88,9 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ## Ⅲ. 비교 및 연결
 
-접근 제어 행렬 (Access Matrix)은(는) [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)), [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제)과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
+접근 제어 행렬 (Access Matrix)은(는) [보호 도메인](/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/studynote/02_operating_system/10_security/572_protection_domain/)), [전역 테이블](/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제)과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
 
-| 비교 축 | [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)) | 접근 제어 행렬 (Access Matrix) | [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) |
+| 비교 축 | [보호 도메인](/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/studynote/02_operating_system/10_security/572_protection_domain/)) | 접근 제어 행렬 (Access Matrix) | [전역 테이블](/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) |
 |:---|:---|:---|:---|
 | 초점 | 기반 조건 | 현재 판단 기준 | 확장/세분화 방향 |
 | 운영 관점 | 준비 단계 | 핵심 제어 단계 | 후속 최적화 단계 |
@@ -105,8 +102,8 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **이론적 완전성**: 접근 제어 행렬은 보안 정책의 수학적 모델로서 완전한 표현력을 제공한다.
-- **실제 한계**: 희소 행렬 문제로 인해 실제 시스템에서는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> 또는 **Capability** 방식으로 분할 구현된다.
-- **현대적 변형**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인덱싱과 유사하게, 해시 맵 등을 활용하여 탐색 성능을 개선한다.
+- **실제 한계**: 희소 행렬 문제로 인해 실제 시스템에서는 <strong><a href="/studynote/02_operating_system/09_file_system/549_acl_access_control_list/">ACL</a></strong> 또는 **Capability** 방식으로 분할 구현된다.
+- **현대적 변형**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인덱싱과 유사하게, 해시 맵 등을 활용하여 탐색 성능을 개선한다.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -114,7 +111,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 ## Ⅴ. 기대효과 및 결론
 
-접근 제어 행렬 (Access Matrix)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+접근 제어 행렬 (Access Matrix)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [전역 테이블](/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제)처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -124,10 +121,10 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) vs 보안 ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 개념 차이 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [전역 테이블](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) ([Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/)) vs 보안 ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))의 개념 차이 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [보호 도메인](/studynote/02_operating_system/10_security/572_protection_domain/) ([Protection Domain](/studynote/02_operating_system/10_security/572_protection_domain/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [전역 테이블](/studynote/02_operating_system/10_security/574_global_table/) ([Global Table](/studynote/02_operating_system/10_security/574_global_table/)) 방식 구현 (행렬 희소성 문제) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -149,7 +146,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 2. <strong>희소 행렬 문제</strong>는 100명의 학생과 1000개의 교실이 있으면 표가 10만칸이 되는데, 실제 출입 가능한 칸은 수십 개뿐이라 **칸의 대부분이 비어있어** 공간이 낭비되는 것과 같다.
 
-3. <strong>구현 분할</strong>은 비어있는 칸을 생략하고, <strong>"출입 가능한 경우만"</strong>을명부(명부)에 적어두는 것과 같다. 이렇게 하면 공간을 절약할 수 있지만, 특정 학생의 출입 가능 교실을 찾으려면명부를 모두 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하는 문제가 있다.
+3. <strong>구현 분할</strong>은 비어있는 칸을 생략하고, <strong>"출입 가능한 경우만"</strong>을명부(명부)에 적어두는 것과 같다. 이렇게 하면 공간을 절약할 수 있지만, 특정 학생의 출입 가능 교실을 찾으려면명부를 모두 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 하는 문제가 있다.
 
 ---
 
@@ -157,7 +154,7 @@ Matrix[i][j] = 도메인 i가 객체 j에 대해 보유한 권한 집합
 
 **진행 상황**: 573 / 800
 
-<- **이전**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)
-**다음**: [574. 전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)](/knowledge-base/studynote/02_operating_system/10_security/574_global_table/) ->
+<- **이전**: [572. 보호 도메인 (Protection Domain) - 프로세스가 접근할 수 있는 자원(객체)과 권한(Access Right)의](/studynote/02_operating_system/10_security/572_protection_domain/)
+**다음**: [574. 전역 테이블 (Global Table) 방식 구현 (행렬 희소성 문제)](/studynote/02_operating_system/10_security/574_global_table/) ->
 
 ---

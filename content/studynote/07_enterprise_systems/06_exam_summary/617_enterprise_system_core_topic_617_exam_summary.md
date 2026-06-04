@@ -1,13 +1,10 @@
-+++
-title = "617. 엔터프라이즈 시스템 핵심 토픽 617번 시험 요약 (Enterprise System Core Topic 617 Exam Summary)"
-date = 2026-05-09
+---
+title: "617. 엔터프라이즈 시스템 핵심 토픽 617번 시험 요약 (Enterprise System Core Topic 617 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 617 / 800
 
-<- **이전**: [616. 엔터프라이즈 시스템 핵심 토픽 616번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/616_enterprise_system_core_topic_616_exam_summary/)
-**다음**: [618. 엔터프라이즈 시스템 핵심 토픽 618번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/618_enterprise_system_core_topic_618_exam_summary/) ->
+<- **이전**: [616. 엔터프라이즈 시스템 핵심 토픽 616번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/616_enterprise_system_core_topic_616_exam_summary/)
+**다음**: [618. 엔터프라이즈 시스템 핵심 토픽 618번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/618_enterprise_system_core_topic_618_exam_summary/) ->
 
 ---

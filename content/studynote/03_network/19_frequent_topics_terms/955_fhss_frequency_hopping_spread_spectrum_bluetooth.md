@@ -1,13 +1,10 @@
-+++
-title = "955. FHSS (주파수 도약)"
-date = 2026-05-08
+---
+title: "955. FHSS (주파수 도약)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -20,7 +17,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 954번 문서에서 배운 협대역(Narrowband) 통신은 하나의 주파수 차선만 씁니다.
-- 옆에서 드론 조종기나 전자레인지가 똑같은 주파수(예: 2.4GHz)의 굉음을 쏘면, 내 통신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 간섭에 부딪혀 100% 파괴됩니다.
+- 옆에서 드론 조종기나 전자레인지가 똑같은 주파수(예: 2.4GHz)의 굉음을 쏘면, 내 통신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 간섭에 부딪혀 100% 파괴됩니다.
 
 ```text
 [확산 스펙트럼]
@@ -31,13 +28,13 @@ tags = ["studynote-network"]
     +---> [DSSS]
 ```
 
-- **📢 섹션 요약 비유**: FHSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: FHSS는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: <strong>송신자와 수신자가 사전에 약속된 '비밀 수학 공식(도약 패턴, PN Sequence)'에 따라, 0.01초 등 아주 짧은 시간 간격(Hop)마다 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 보내는 주파수 채널을 메뚜기처럼 이리저리 미친 듯이 점프(Hopping)하며 통신하는 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a> 기술</strong>입니다.
+- **개념**: <strong>송신자와 수신자가 사전에 약속된 '비밀 수학 공식(도약 패턴, PN Sequence)'에 따라, 0.01초 등 아주 짧은 시간 간격(Hop)마다 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 실어 보내는 주파수 채널을 메뚜기처럼 이리저리 미친 듯이 점프(Hopping)하며 통신하는 <a href="/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/">확산 스펙트럼</a> 기술</strong>입니다.
 
 ```text
 [확산 스펙트럼]
@@ -55,49 +52,49 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 전파 방해(Jamming)와 간섭(Interference)의 무력화 🌟
-[블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([Bluetooth](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))가 2.4GHz 쓰레기 주파수 대역에서도 안 끊기고 노래를 들려주는 핵심 원리입니다.
-- [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz 대역을 79개의 얇은 차선으로 쪼갠 뒤, 1초에 무려 <strong>1,600번</strong>이나 차선을 휙휙 바꿔가며(도약하며) 노래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏩니다.
-- 만약 30번 차선에서 강한 전자레인지 노이즈(간섭)가 터졌습니다. [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 30번 차선에 머무는 시간은 1/1,600초뿐입니다. 찰나의 시간 동안 딱 1글자만 깨지고, 1/1,600초 뒤에 바로 45번 깨끗한 차선으로 점프하여 도망가기 때문에(간섭 회피), 우리가 노래를 들을 땐 끊긴 줄도 모르게 완벽히 재생됩니다.
+[블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)([Bluetooth](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/))가 2.4GHz 쓰레기 주파수 대역에서도 안 끊기고 노래를 들려주는 핵심 원리입니다.
+- [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/)는 2.4GHz 대역을 79개의 얇은 차선으로 쪼갠 뒤, 1초에 무려 <strong>1,600번</strong>이나 차선을 휙휙 바꿔가며(도약하며) 노래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏩니다.
+- 만약 30번 차선에서 강한 전자레인지 노이즈(간섭)가 터졌습니다. [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 30번 차선에 머무는 시간은 1/1,600초뿐입니다. 찰나의 시간 동안 딱 1글자만 깨지고, 1/1,600초 뒤에 바로 45번 깨끗한 차선으로 점프하여 도망가기 때문에(간섭 회피), 우리가 노래를 들을 땐 끊긴 줄도 모르게 완벽히 재생됩니다.
 
-### 2. 군사급 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지 ([보안성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
-- 해커가 공중의 전파를 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기로 잡으려 합니다.
+### 2. 군사급 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 방지 ([보안성](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))
+- 해커가 공중의 전파를 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)기로 잡으려 합니다.
 - 하지만 송신자가 다음 0.1초 뒤에 79개 채널 중 어디로 점프할지는 <strong>둘만의 비밀 암호키(PN 코드)</strong>로 계산됩니다.
-- 해커는 패턴을 모르니 79개 채널을 멍청하게 다 켜놓고 쳐다봐야 하는데, 이러면 다른 사람들의 쓰레기 전파까지 다 주워 먹게 되어 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립해 내는 것이 불가능해집니다(군사용 보안 통신).
+- 해커는 패턴을 모르니 79개 채널을 멍청하게 다 켜놓고 쳐다봐야 하는데, 이러면 다른 사람들의 쓰레기 전파까지 다 주워 먹게 되어 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립해 내는 것이 불가능해집니다(군사용 보안 통신).
 
-### 3. 동시 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (CDMA의 사촌)
-- 좁은 방에 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기기 10쌍이 있습니다.
+### 3. 동시 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) (CDMA의 사촌)
+- 좁은 방에 [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 기기 10쌍이 있습니다.
 - A쌍은 `1 ➜ 5 ➜ 9` 패턴으로 점프하고, B쌍은 `2 ➜ 6 ➜ 8` 패턴으로 점프합니다.
 - 점프 패턴이 서로 다르기 때문에, 아주 가끔 우연히 같은 차선에서 부딪히는 찰나를 제외하면, 10쌍이 허공의 79개 차선을 미친 듯이 엇갈리며 평화롭게 동시에 통신할 수 있습니다.
 
-- <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (956번)</strong>: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부숴서 넓은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체에 '안개처럼 한 번에 확' 뿌려버리는 방식. (넓고 얇게 바르기 - 와이파이, 3G 통신)
-- **FHSS**: 좁고 강한 빔을 쏘되, 그 빔의 위치를 미친 듯이 여기저기로 '옮겨 다니는' 방식. (메뚜기 점프 - [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 군용 무전기)
+- <strong><a href="/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/">DSSS</a> (956번)</strong>: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 잘게 부숴서 넓은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 전체에 '안개처럼 한 번에 확' 뿌려버리는 방식. (넓고 얇게 바르기 - 와이파이, 3G 통신)
+- **FHSS**: 좁고 강한 빔을 쏘되, 그 빔의 위치를 미친 듯이 여기저기로 '옮겨 다니는' 방식. (메뚜기 점프 - [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/), 군용 무전기)
 
-FHSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)이 기반 조건을 만든다면, FHSS는 그 위에서 핵심 메커니즘을 구현하고, DSSS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+FHSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)이 기반 조건을 만든다면, FHSS는 그 위에서 핵심 메커니즘을 구현하고, DSSS는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)의 기반 정리 | FHSS의 핵심 동작 | DSSS의 확장 적용 |
+| 초점 | [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)의 기반 정리 | FHSS의 핵심 동작 | DSSS의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 기존 라디오 통신은 고속도로의 '1차선'만 고집스럽게 달리는 자동차입니다. 1차선에 사고(노이즈 간섭)가 나거나 경찰([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자)이 막고 있으면 100% 걸립니다. **FHSS(주파수 도약 확산)** 통신은 범인과 첩자가 짜고 치는 '미친 차선 변경 레이싱'입니다. 범인과 첩자는 사전에 암호 쪽지(도약 패턴)를 나눴습니다. "1초 뒤엔 3차선, 그다음 1초 뒤엔 8차선, 그다음엔 2차선으로 달려!" 경찰(해커)은 이 차가 다음 1초 뒤에 어느 차선으로 나타날지 절대 알 수 없어 추격([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))을 포기하게 됩니다. 설령 8차선에 대형 트럭(방해 전파)이 막고 있더라도, 자동차는 8차선에 고작 1초 머물다 바로 2차선으로 피신해(간섭 회피) 버리므로, 자동차에 탄 승객([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 약간 흔들릴 뿐 아무 피해 없이 목적지까지 완벽하게 도착하는 극한의 스텔스 통신술입니다.
+- **📢 섹션 요약 비유**: 기존 라디오 통신은 고속도로의 '1차선'만 고집스럽게 달리는 자동차입니다. 1차선에 사고(노이즈 간섭)가 나거나 경찰([도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)자)이 막고 있으면 100% 걸립니다. **FHSS(주파수 도약 확산)** 통신은 범인과 첩자가 짜고 치는 '미친 차선 변경 레이싱'입니다. 범인과 첩자는 사전에 암호 쪽지(도약 패턴)를 나눴습니다. "1초 뒤엔 3차선, 그다음 1초 뒤엔 8차선, 그다음엔 2차선으로 달려!" 경찰(해커)은 이 차가 다음 1초 뒤에 어느 차선으로 나타날지 절대 알 수 없어 추격([도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/))을 포기하게 됩니다. 설령 8차선에 대형 트럭(방해 전파)이 막고 있더라도, 자동차는 8차선에 고작 1초 머물다 바로 2차선으로 피신해(간섭 회피) 버리므로, 자동차에 탄 승객([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 약간 흔들릴 뿐 아무 피해 없이 목적지까지 완벽하게 도착하는 극한의 스텔스 통신술입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 FHSS를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) 수준의 기본 대책으로 충분한지, 아니면 FHSS가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 DSSS와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 FHSS를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) 수준의 기본 대책으로 충분한지, 아니면 FHSS가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 DSSS와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 구분 명확성 부족인지, 설명력 악화인지 먼저 분리한다.
-2. FHSS가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. FHSS가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 DSSS와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - FHSS의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: FHSS를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -105,7 +102,7 @@ FHSS를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 
 
 ## Ⅴ. 기대효과 및 결론
 
-FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [DSSS](/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: FHSS는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -115,10 +112,10 @@ FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [DSSS](/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +129,7 @@ FHSS는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-FHSS는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSSS와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+FHSS는 [확산 스펙트럼](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)에서 출발해 현재 메커니즘을 정교화하고, 이후 DSSS와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +143,7 @@ FHSS는 [확산 스펙트럼](/knowledge-base/studynote/03_network/19_frequent_t
 
 **진행 상황**: 1076 / 1120
 
-<- **이전**: [954. 확산 스펙트럼 (Spread Spectrum)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)
-**다음**: [956. DSSS (직접 확산)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) ->
+<- **이전**: [954. 확산 스펙트럼 (Spread Spectrum)](/studynote/03_network/19_frequent_topics_terms/954_spread_spectrum_communication_anti_jamming_cdma/)
+**다음**: [956. DSSS (직접 확산)](/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) ->
 
 ---

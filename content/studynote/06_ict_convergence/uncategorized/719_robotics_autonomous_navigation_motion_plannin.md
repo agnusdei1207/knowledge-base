@@ -1,13 +1,10 @@
-+++
-title = "719. 로보틱스 자율 내비게이션 모션 플래닝 (Robotics Autonomous Navigation Motion Planning)"
-date = 2026-05-09
+---
+title: "719. 로보틱스 자율 내비게이션 모션 플래닝 (Robotics Autonomous Navigation Motion Planning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ s.t. ẋ(t) = f(x(t), u(t))           // 차량 동역학 (Bicycle Model)
 
 **진행 상황**: 719 / 800
 
-<- **이전**: [718. 음성 인식 ASR 화자 분리 합성](/knowledge-base/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/)
-**다음**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/knowledge-base/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/) ->
+<- **이전**: [718. 음성 인식 ASR 화자 분리 합성](/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/)
+**다음**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/) ->
 
 ---

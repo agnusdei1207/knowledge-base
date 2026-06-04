@@ -1,13 +1,10 @@
-+++
-title = "614. 클라우드 네이티브 12팩터 설계 원칙 (Cloud Native 12 Factor Design Principles)"
-date = 2026-05-09
+---
+title: "614. 클라우드 네이티브 12팩터 설계 원칙 (Cloud Native 12 Factor Design Principles)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -171,7 +168,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 614 / 800
 
-<- **이전**: [613. 하이브리드 클라우드 온프레미스 연동](/knowledge-base/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/)
-**다음**: [615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/615_container_orchestration_kubernetes_architectu/) ->
+<- **이전**: [613. 하이브리드 클라우드 온프레미스 연동](/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/)
+**다음**: [615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처](/studynote/06_ict_convergence/uncategorized/615_container_orchestration_kubernetes_architectu/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "520. 프로메테우스 PromQL 메트릭 쿼리 언어 (Prometheus PromQL Metrics Query Language)"
-date = 2026-05-09
+---
+title: "520. 프로메테우스 PromQL 메트릭 쿼리 언어 (Prometheus PromQL Metrics Query Language)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 520 / 800
 
-<- **이전**: [519. 클라우드 관측 가능성 종합 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/519_cloud_observability_comprehensive_strategy/)
-**다음**: [521. 분산 시스템 일관성 모델 CAP PACELC](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/521_distributed_system_consistency_cap_pacelc/) ->
+<- **이전**: [519. 클라우드 관측 가능성 종합 전략](/studynote/13_cloud_architecture/06_exam_summary/519_cloud_observability_comprehensive_strategy/)
+**다음**: [521. 분산 시스템 일관성 모델 CAP PACELC](/studynote/13_cloud_architecture/06_exam_summary/521_distributed_system_consistency_cap_pacelc/) ->
 
 ---

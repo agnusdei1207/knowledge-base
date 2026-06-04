@@ -1,37 +1,34 @@
-+++
-title = "190. 스택 머신 (Stack Machine)"
-date = 2026-04-19
+---
+title: "190. 스택 머신 (Stack Machine)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산 대상의 위치를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적지 않고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단의 값들을 암묵적으로 사용하는 <strong>0-주소 실행 모델</strong>이다.
-> 2. **가치**: [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 주소 필드가 사라지므로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 짧아지고, 바이트코드 크기와 구현 복잡도를 줄이기 쉬워진다.
-> 3. **판단 포인트**: 코드 밀도와 이식성에는 강하지만, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (ILP, [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism)과 임의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근에는 약해 **실물 CPU보다는 가상 머신에 더 잘 맞는다**.
+> 1. **본질**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산 대상의 위치를 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적지 않고, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단의 값들을 암묵적으로 사용하는 <strong>0-주소 실행 모델</strong>이다.
+> 2. **가치**: [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 주소 필드가 사라지므로 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식이 짧아지고, 바이트코드 크기와 구현 복잡도를 줄이기 쉬워진다.
+> 3. **판단 포인트**: 코드 밀도와 이식성에는 강하지만, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 (ILP, [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism)과 임의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근에는 약해 **실물 CPU보다는 가상 머신에 더 잘 맞는다**.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산에 필요한 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) ([GPR](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), General Purpose [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 이름으로 지정하지 않고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/))의 맨 위 값부터 순서대로 꺼내 계산하는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조다. 즉 `ADD`는 "어느 값을 더할지"를 적는 명령이 아니라, "방금 쌓아 둔 두 값을 더하라"는 약속으로 해석된다.
+[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Machine)은 연산에 필요한 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 [범용 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/) ([GPR](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), General Purpose [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 이름으로 지정하지 않고, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) ([Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/))의 맨 위 값부터 순서대로 꺼내 계산하는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 구조다. 즉 `ADD`는 "어느 값을 더할지"를 적는 명령이 아니라, "방금 쌓아 둔 두 값을 더하라"는 약속으로 해석된다.
 
-이 구조가 등장한 배경에는 초창기 컴퓨터의 비싼 메모리와 제한된 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭이 있다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호나 메모리 주소를 매번 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적으면 실행은 유연해지지만, 코드 크기는 커진다. 반대로 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오는 순서를 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 통일해 주소 필드를 생략하므로, 짧은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 같은 계산을 표현할 수 있다.
+이 구조가 등장한 배경에는 초창기 컴퓨터의 비싼 메모리와 제한된 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 폭이 있다. [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호나 메모리 주소를 매번 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 적으면 실행은 유연해지지만, 코드 크기는 커진다. 반대로 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 들어오는 순서를 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)으로 통일해 주소 필드를 생략하므로, 짧은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 같은 계산을 표현할 수 있다.
 
-특히 식 계산, [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 중간값 저장처럼 "가장 최근 결과를 곧바로 다음 연산에 쓰는" 문제에서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조는 자연스럽다. 후위 표기법 (RPN, Reverse Polish Notation)과 결합하면 괄호 해석이나 임시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 배치 없이도 계산 순서를 직관적으로 실행할 수 있다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 하드웨어 역사에서는 한 축을 담당했고, 소프트웨어 역사에서는 바이트코드 실행 모델의 핵심 뼈대로 다시 살아남았다.
+특히 식 계산, [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/), 중간값 저장처럼 "가장 최근 결과를 곧바로 다음 연산에 쓰는" 문제에서 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구조는 자연스럽다. 후위 표기법 (RPN, Reverse Polish Notation)과 결합하면 괄호 해석이나 임시 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 배치 없이도 계산 순서를 직관적으로 실행할 수 있다. 그래서 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 하드웨어 역사에서는 한 축을 담당했고, 소프트웨어 역사에서는 바이트코드 실행 모델의 핵심 뼈대로 다시 살아남았다.
 
-- **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 작업대 위에 접시를 쌓아 두고 요리하는 방식과 같다. 요리사는 창고 전체를 뒤지지 않고, 가장 위 접시 두 개만 집어 조리한 뒤 결과를 다시 맨 위에 올려놓는다.
+- **📢 섹션 요약 비유**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 작업대 위에 접시를 쌓아 두고 요리하는 방식과 같다. 요리사는 창고 전체를 뒤지지 않고, 가장 위 접시 두 개만 집어 조리한 뒤 결과를 다시 맨 위에 올려놓는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 핵심은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치를 말하지 않아도 된다</strong>는 점이다. 이를 위해 시스템은 보통 [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 캐시, 산술논리장치 ([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), 그리고 `PUSH`/`POP`/연산 명령으로 구성된다. 연산 명령은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 맨 위 1~2개 값을 암묵적으로 읽고, 결과를 다시 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위에 쌓는다.
+[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 핵심은 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>가 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 위치를 말하지 않아도 된다</strong>는 점이다. 이를 위해 시스템은 보통 [스택 포인터](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 캐시, 산술논리장치 ([ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)), 그리고 `PUSH`/`POP`/연산 명령으로 구성된다. 연산 명령은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 맨 위 1~2개 값을 암묵적으로 읽고, 결과를 다시 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 위에 쌓는다.
 
 아래 그림은 `A B + C *` 같은 후위 표기식이 어떻게 처리되는지를 보여준다.
 
@@ -49,16 +46,16 @@ tags = ["studynote-computer-architecture"]
 +-----------+------------------------------+---------------------------+
 ```
 
-이 모델에서 `ADD`나 `MUL`은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">0-주소 명령어</a> (<a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">Zero-Address Instruction</a>)</strong> 로 동작한다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에는 목적지와 소스 주소가 없고, 하드웨어나 가상 머신이 "최상단 두 값을 사용한다"는 규칙을 알고 있다. 따라서 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 단순해지지만, 값을 원하는 순서로 미리 쌓아 두는 컴파일러 또는 해석기 역할이 중요해진다.
+이 모델에서 `ADD`나 `MUL`은 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">0-주소 명령어</a> (<a href="/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/">Zero-Address Instruction</a>)</strong> 로 동작한다. [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에는 목적지와 소스 주소가 없고, 하드웨어나 가상 머신이 "최상단 두 값을 사용한다"는 규칙을 알고 있다. 따라서 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 형식은 단순해지지만, 값을 원하는 순서로 미리 쌓아 두는 컴파일러 또는 해석기 역할이 중요해진다.
 
 | 구성 요소 | 역할 | 설계상 의미 |
 | :-- | :-- | :-- |
-| [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) | 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기 위치 추적 | `PUSH`/`POP`의 기준점 |
-| [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 (TOS, Top Of [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)) | 바로 다음 연산에 쓰일 값 | 가장 빈번한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 지점 |
-| [0-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) | 주소 없이 동작만 표현 | 코드 밀도 향상 |
-| 후위 표기법 (RPN, Reverse Polish Notation) | 연산 순서를 선형화 | 괄호와 임시 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부담 감소 |
+| [스택 포인터](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) | 현재 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기 위치 추적 | `PUSH`/`POP`의 기준점 |
+| [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 (TOS, Top Of [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/)) | 바로 다음 연산에 쓰일 값 | 가장 빈번한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 지점 |
+| [0-주소 명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) | 주소 없이 동작만 표현 | 코드 밀도 향상 |
+| 후위 표기법 (RPN, Reverse Polish Notation) | 연산 순서를 선형화 | 괄호와 임시 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 부담 감소 |
 
-실제로 성능을 높이려면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전체를 매번 메모리에 두지 않고, 최상단 1~2개 값을 내부 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 캐시하는 기법도 사용한다. 하지만 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 자체는 여전히 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 중심"이며, 이 점이 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 장점과 한계를 동시에 만든다.
+실제로 성능을 높이려면 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전체를 매번 메모리에 두지 않고, 최상단 1~2개 값을 내부 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 캐시하는 기법도 사용한다. 하지만 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델 자체는 여전히 "[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 중심"이며, 이 점이 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 장점과 한계를 동시에 만든다.
 
 - **📢 섹션 요약 비유**: 이 구조는 계산기가 아니라 쟁반 릴레이에 가깝다. 누가 어느 재료를 쓸지 번호표로 지시하지 않고, 쟁반 위에 마지막에 올린 재료부터 차례대로 써서 다음 요리를 만든다.
 
@@ -66,61 +63,61 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신을 제대로 이해하려면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine)과 비교해야 한다. 두 구조의 가장 큰 차이는 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 명시적으로 가리키느냐, 암묵적으로 소비하느냐</strong>다. [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 `ADD R1, R2, R3`처럼 위치를 직접 지정해 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 재사용성을 높이고, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 `PUSH`, `ADD` 중심으로 코드 밀도와 단순성을 높인다.
+[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신을 제대로 이해하려면 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine)과 비교해야 한다. 두 구조의 가장 큰 차이는 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 명시적으로 가리키느냐, 암묵적으로 소비하느냐</strong>다. [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 `ADD R1, R2, R3`처럼 위치를 직접 지정해 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성과 재사용성을 높이고, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 `PUSH`, `ADD` 중심으로 코드 밀도와 단순성을 높인다.
 
-| 비교 항목 | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 |
+| 비교 항목 | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신 | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 |
 | :-- | :-- | :-- |
-| [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 지정 | 암묵적, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 사용 | 명시적, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호 사용 |
-| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 | 짧은 편 | 상대적으로 김 |
-| 중간값 재사용 | 깊은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 필요 | 특정 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 유지 가능 |
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행성 | 낮음 | 높음 |
+| [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) 지정 | 암묵적, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 사용 | 명시적, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 번호 사용 |
+| [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이 | 짧은 편 | 상대적으로 김 |
+| 중간값 재사용 | 깊은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 필요 | 특정 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 유지 가능 |
+| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행성 | 낮음 | 높음 |
 | 컴파일 대상 | 바이트코드, 수식 평가 | 실물 CPU, 고성능 실행 |
 
-왜 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮을까? 많은 연산이 같은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기를 두고 경쟁하기 때문이다. 예를 들어 독립적인 두 덧셈이 있어도, 둘 다 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 상태에 의존하면 명령 재배치가 쉽지 않다. 반면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 서로 다른 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합을 쓰게 배치해 두면 동시에 실행할 여지가 커진다.
+왜 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮을까? 많은 연산이 같은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기를 두고 경쟁하기 때문이다. 예를 들어 독립적인 두 덧셈이 있어도, 둘 다 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 상태에 의존하면 명령 재배치가 쉽지 않다. 반면 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신은 서로 다른 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합을 쓰게 배치해 두면 동시에 실행할 여지가 커진다.
 
-그럼에도 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 사라지지 않았다. Java 가상 머신 (JVM, Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), 일부 계산기 언어와 인터프리터는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 명령 모델을 채택했다. 이유는 하드웨어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수를 숨길 수 있어 플랫폼 독립성이 좋아지고, 바이트코드 설계가 단순해지기 때문이다. 즉 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 "실행 성능의 최종 승자"라기보다, "중간 표현과 이식성의 강자"로 위치를 바꿔 생존한 셈이다.
+그럼에도 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 사라지지 않았다. Java 가상 머신 (JVM, Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)), [WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/), 일부 계산기 언어와 인터프리터는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 명령 모델을 채택했다. 이유는 하드웨어 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 수를 숨길 수 있어 플랫폼 독립성이 좋아지고, 바이트코드 설계가 단순해지기 때문이다. 즉 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 "실행 성능의 최종 승자"라기보다, "중간 표현과 이식성의 강자"로 위치를 바꿔 생존한 셈이다.
 
-- **📢 섹션 요약 비유**: [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신이 서랍이 많은 공방이라면, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 한 줄로 쌓인 작업 상자다. 공방은 여러 사람이 동시에 일하기 좋고, 작업 상자는 규칙이 단순해서 어디서나 같은 방식으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽다.
+- **📢 섹션 요약 비유**: [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신이 서랍이 많은 공방이라면, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 한 줄로 쌓인 작업 상자다. 공방은 여러 사람이 동시에 일하기 좋고, 작업 상자는 규칙이 단순해서 어디서나 같은 방식으로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉽다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 좋은가 나쁜가"보다 <strong>어떤 계층에서 쓰느냐</strong>가 더 중요하다. 물리 CPU의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 채택하기에는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당 최적화, 깊은 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 비용 문제가 크다. 반면 가상 머신의 중간 코드로 쓰면 구현 단순성, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기, 이식성이 큰 장점이 된다.
+실무에서는 "[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 좋은가 나쁜가"보다 <strong>어떤 계층에서 쓰느냐</strong>가 더 중요하다. 물리 CPU의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 채택하기에는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 할당 최적화, 깊은 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 접근 비용 문제가 크다. 반면 가상 머신의 중간 코드로 쓰면 구현 단순성, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 크기, 이식성이 큰 장점이 된다.
 
 ### 적용이 유리한 경우
 
 1. **바이트코드 설계**: 여러 하드웨어에서 공통 실행 모델을 제공해야 할 때 유리하다.
 2. **수식 계산 엔진**: 파서가 후위 표기식으로 변환하기 쉬운 경우 자연스럽다.
-3. **교육용 아키텍처**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 의미와 실행 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 직관적으로 설명하기 좋다.
+3. **교육용 아키텍처**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 의미와 실행 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)을 직관적으로 설명하기 좋다.
 
 ### 회피가 필요한 경우
 
-1. **고성능 실물 CPU 설계**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 최적화가 중요하면 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반이 유리하다.
-2. **깊은 임시값 재사용이 많은 코드**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 셔플 명령이 많아져 오히려 비효율적일 수 있다.
-3. **랜덤 접근이 잦은 워크로드**: 특정 값을 바로 집어 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
+1. **고성능 실물 CPU 설계**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 최적화가 중요하면 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반이 유리하다.
+2. **깊은 임시값 재사용이 많은 코드**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 셔플 명령이 많아져 오히려 비효율적일 수 있다.
+3. **랜덤 접근이 잦은 워크로드**: 특정 값을 바로 집어 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
 
 ### 판단 체크포인트
 
-- 컴파일러가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이를 안정적으로 관리할 수 있는가?
+- 컴파일러가 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이를 안정적으로 관리할 수 있는가?
 - 바이트코드 크기 절감이 실제 배포 이점으로 이어지는가?
-- 최종 실행 단계에서 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러나 해석기가 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 연산을 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 잘 매핑할 수 있는가?
+- 최종 실행 단계에서 [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just-In-Time](/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일러나 해석기가 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 연산을 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)로 잘 매핑할 수 있는가?
 
-실무적으로는 "[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 표현하고, 실제 실행 직전에는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반으로 최적화"하는 절충이 자주 쓰인다. 그래서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 최종 하드웨어보다 <strong>중간 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>에서 더 큰 힘을 발휘한다.
+실무적으로는 "[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 표현하고, 실제 실행 직전에는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반으로 최적화"하는 절충이 자주 쓰인다. 그래서 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 최종 하드웨어보다 <strong>중간 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a> 계층</strong>에서 더 큰 힘을 발휘한다.
 
-- **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 전국 공용 택배 규격 상자와 같다. 상자 규격이 단순하면 어디서나 보내기 쉽지만, 창고 내부에서 가장 빠르게 분류하려면 결국 창고 사정에 맞게 다시 정리해야 한다.
+- **📢 섹션 요약 비유**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 전국 공용 택배 규격 상자와 같다. 상자 규격이 단순하면 어디서나 보내기 쉽지만, 창고 내부에서 가장 빠르게 분류하려면 결국 창고 사정에 맞게 다시 정리해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 가장 큰 효과는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 표현을 단순화하고, 계산 과정을 선형적 흐름으로 바꾼다는 점이다. 이 덕분에 바이트코드 포맷이 간결해지고, 서로 다른 하드웨어 위에서도 동일한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델을 유지하기 쉬워진다. 특히 가상 실행 환경에서는 이 단순성이 구현 안정성과 이식성으로 직결된다.
+[스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 가장 큰 효과는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 표현을 단순화하고, 계산 과정을 선형적 흐름으로 바꾼다는 점이다. 이 덕분에 바이트코드 포맷이 간결해지고, 서로 다른 하드웨어 위에서도 동일한 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 모델을 유지하기 쉬워진다. 특히 가상 실행 환경에서는 이 단순성이 구현 안정성과 이식성으로 직결된다.
 
-반면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 모든 문제의 답은 아니다. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기 중심 모델은 중간값을 자유롭게 재사용하거나 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 끌어내는 데 불리하다. 따라서 현대 컴퓨터구조 관점에서 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 "최고 성능을 위한 주류 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)"라기보다, "간결한 중간 표현과 실행 모델"로 기억하는 것이 정확하다.
+반면 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 모든 문제의 답은 아니다. [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 꼭대기 중심 모델은 중간값을 자유롭게 재사용하거나 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행을 끌어내는 데 불리하다. 따라서 현대 컴퓨터구조 관점에서 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 "최고 성능을 위한 주류 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)"라기보다, "간결한 중간 표현과 실행 모델"로 기억하는 것이 정확하다.
 
-정리하면 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 대체한 실패작이 아니라, 목적이 다른 설계 철학이다. 메모리 제약 시대에는 코드 밀도를 위해 의미가 있었고, 오늘날에는 JVM과 [WebAssembly](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 같은 가상 실행 환경에서 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 이식성을 위해 다시 의미를 가진다. 즉 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 본질은 <strong>느린 구조</strong>가 아니라, <strong>주소를 생략해 계산을 표현하는 구조</strong>에 있다.
+정리하면 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 대체한 실패작이 아니라, 목적이 다른 설계 철학이다. 메모리 제약 시대에는 코드 밀도를 위해 의미가 있었고, 오늘날에는 JVM과 [WebAssembly](/studynote/04_software_engineering/05_devops_ci_cd/319_webassembly_architecture/) 같은 가상 실행 환경에서 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)와 이식성을 위해 다시 의미를 가진다. 즉 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신의 본질은 <strong>느린 구조</strong>가 아니라, <strong>주소를 생략해 계산을 표현하는 구조</strong>에 있다.
 
-- **📢 섹션 요약 비유**: [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 고속 경주차보다 표준 컨테이너에 가깝다. 가장 빠르지는 않아도, 어디서나 같은 규격으로 싣고 내릴 수 있어 넓은 생태계에서 오래 살아남는다.
+- **📢 섹션 요약 비유**: [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 고속 경주차보다 표준 컨테이너에 가깝다. 가장 빠르지는 않아도, 어디서나 같은 규격으로 싣고 내릴 수 있어 넓은 생태계에서 오래 살아남는다.
 
 ---
 
@@ -128,11 +125,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [0-주소 명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) ([Zero-Address Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/)) | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 암묵적으로 사용하는 명령 형식 |
-| 후위 표기법 (RPN, Reverse Polish Notation) | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 식을 자연스럽게 실행하게 만드는 표현 방식 |
-| [스택 포인터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) | 현재 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이와 최상단 위치를 관리하는 기준 |
-| Java 가상 머신 (JVM, Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 바이트코드의 대표적 현대 활용 사례 |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine) | 성능과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 측면에서 비교되는 주류 구조 |
+| [0-주소 명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) ([Zero-Address Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/)) | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 최상단 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/)를 암묵적으로 사용하는 명령 형식 |
+| 후위 표기법 (RPN, Reverse Polish Notation) | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신이 식을 자연스럽게 실행하게 만드는 표현 방식 |
+| [스택 포인터](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/) ([SP](/studynote/01_computer_architecture/04_instruction_set_architecture/166_sp/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/) Pointer) | 현재 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 깊이와 최상단 위치를 관리하는 기준 |
+| Java 가상 머신 (JVM, Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 바이트코드의 대표적 현대 활용 사례 |
+| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 머신 ([Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/) Machine) | 성능과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 측면에서 비교되는 주류 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,13 +151,13 @@ tags = ["studynote-computer-architecture"]
         +---------------> WebAssembly
 ```
 
-이 흐름은 "식 표현 단순화 -> [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 실행 -> 주소 생략형 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) -> 현대 바이트코드 활용"으로 이어지는 진화를 보여준다.
+이 흐름은 "식 표현 단순화 -> [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반 실행 -> 주소 생략형 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) -> 현대 바이트코드 활용"으로 이어지는 진화를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 장난감을 상자 맨 위에 차곡차곡 쌓아 두고, 항상 맨 위 장난감부터 꺼내 노는 규칙이에요.
+1. [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 머신은 장난감을 상자 맨 위에 차곡차곡 쌓아 두고, 항상 맨 위 장난감부터 꺼내 노는 규칙이에요.
 2. 그래서 "몇 번째 서랍에서 꺼내"라고 길게 말하지 않아도, "더해!" 같은 짧은 말만으로도 일을 시킬 수 있어요.
-3. 대신 여러 장난감을 여기저기 동시에 꺼내 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 어려워서, 빠른 공장 기계보다는 공통 규칙이 중요한 가상 컴퓨터에서 더 잘 어울려요.
+3. 대신 여러 장난감을 여기저기 동시에 꺼내 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)는 어려워서, 빠른 공장 기계보다는 공통 규칙이 중요한 가상 컴퓨터에서 더 잘 어울려요.
 
 ---
 
@@ -168,7 +165,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 190 / 803
 
-<- **이전**: [189. 서브루틴 호출 (Call) 및 복귀 (Return)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)
-**다음**: [191. 0-주소 명령어 (Zero-Address Instruction)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) ->
+<- **이전**: [189. 서브루틴 호출 (Call) 및 복귀 (Return)](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/)
+**다음**: [191. 0-주소 명령어 (Zero-Address Instruction)](/studynote/01_computer_architecture/04_instruction_set_architecture/191_0_address_instruction/) ->
 
 ---

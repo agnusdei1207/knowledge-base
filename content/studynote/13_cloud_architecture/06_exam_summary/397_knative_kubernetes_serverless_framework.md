@@ -1,13 +1,10 @@
-+++
-title = "397. Knative 쿠버네티스 서버리스 프레임워크 (Knative Kubernetes Serverless Framework)"
-date = 2026-05-09
+---
+title: "397. Knative 쿠버네티스 서버리스 프레임워크 (Knative Kubernetes Serverless Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 397 / 800
 
-<- **이전**: [396. AWS Lambda 함수 컴퓨팅 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/396_aws_lambda_function_compute_service/)
-**다음**: [398. 클라우드 이벤트 EventBridge 비동기 통신](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/398_cloud_event_eventbridge_async_communication/) ->
+<- **이전**: [396. AWS Lambda 함수 컴퓨팅 서비스](/studynote/13_cloud_architecture/06_exam_summary/396_aws_lambda_function_compute_service/)
+**다음**: [398. 클라우드 이벤트 EventBridge 비동기 통신](/studynote/13_cloud_architecture/06_exam_summary/398_cloud_event_eventbridge_async_communication/) ->
 
 ---

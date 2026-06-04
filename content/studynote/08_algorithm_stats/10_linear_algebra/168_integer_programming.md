@@ -1,19 +1,16 @@
-+++
-title = "9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP"
-date = 2026-04-21
+---
+title: "9. 정수 프로그래밍 (IP, Integer Programming) — 분기 한정, MILP"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IP (Integer Programming, 정수 계획법) 는 결정 변수가 정수여야 하는 최적화 — LP보다 훨씬 어렵고 ([NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) in general) 실세계의 이진(0/1) 결정 문제를 직접 모델링한다.
-> 2. **가치**: [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법 ([Branch and Bound](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)) 이 LP 완화와 결합해 최적 정수해를 체계적으로 탐색하며, CPLEX·Gurobi 같은 현대 솔버가 수백만 변수 문제를 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 평균 시간에 풀어낸다.
-> 3. **판단 포인트**: MILP (Mixed Integer [Linear Programming](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/), 혼합 정수 선형 계획법) — 일부 변수가 정수, 일부는 연속 — 가 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 포트폴리오 등 실무 문제의 가장 일반적인 형태다.
+> 1. **본질**: IP (Integer Programming, 정수 계획법) 는 결정 변수가 정수여야 하는 최적화 — LP보다 훨씬 어렵고 ([NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) in general) 실세계의 이진(0/1) 결정 문제를 직접 모델링한다.
+> 2. **가치**: [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법 ([Branch and Bound](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)) 이 LP 완화와 결합해 최적 정수해를 체계적으로 탐색하며, CPLEX·Gurobi 같은 현대 솔버가 수백만 변수 문제를 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 평균 시간에 풀어낸다.
+> 3. **판단 포인트**: MILP (Mixed Integer [Linear Programming](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/), 혼합 정수 선형 계획법) — 일부 변수가 정수, 일부는 연속 — 가 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 포트폴리오 등 실무 문제의 가장 일반적인 형태다.
 
 ---
 
@@ -39,11 +36,11 @@ x ∈ {0, 1}ⁿ    (예/아니오 결정)
 
 | 분야 | IP 모델 | 예시 |
 |:---|:---|:---|
-| [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 | xᵢⱼ ∈ {0,1}: i번 작업을 j시간대 배정 | 항공 승무원 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) |
+| [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링 | xᵢⱼ ∈ {0,1}: i번 작업을 j시간대 배정 | 항공 승무원 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) |
 | 네트워크 설계 | yᵢⱼ ∈ {0,1}: 링크 설치 여부 | 광섬유 네트워크 |
-| 포트폴리오 | 자산 선택 0/1 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추적 |
-| 배낭 문제 ([Knapsack](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)) | 물건 선택 0/1 | 화물 적재 |
-| 순회 판매원 ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | 경로 선택 0/1 | 물류 경로 |
+| 포트폴리오 | 자산 선택 0/1 | [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 추적 |
+| 배낭 문제 ([Knapsack](/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)) | 물건 선택 0/1 | 화물 적재 |
+| 순회 판매원 ([TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | 경로 선택 0/1 | 물류 경로 |
 
 📢 **섹션 요약 비유**: IP는 "분수로 살 수 없는 쇼핑"이다 — 냉장고를 0.7개 살 수 없듯, 정수 단위로만 결정해야 하는 현실 문제를 다룬다.
 
@@ -51,7 +48,7 @@ x ∈ {0, 1}ⁿ    (예/아니오 결정)
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법 ([Branch and Bound](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)) 트리
+### [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법 ([Branch and Bound](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)) 트리
 
 ```
 IP 문제: min cᵀx, x ∈ ℤⁿ
@@ -73,19 +70,19 @@ IP 문제: min cᵀx, x ∈ ℤⁿ
 
 1. **LP 완화** (Relaxation): 정수 제약 해제 -> 현재 노드의 하한 (Lower Bound) 계산
 2. **분기** (Branch): 비정수 변수 선택 -> 두 자식 노드 (xᵢ ≤ ⌊xᵢ*⌋, xᵢ ≥ ⌈xᵢ*⌉)
-3. **한정** (Bound): 노드 하한 ≥ 현재 상한 (Upper Bound) -> [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (Prune)
+3. **한정** (Bound): 노드 하한 ≥ 현재 상한 (Upper Bound) -> [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (Prune)
 4. **갱신**: 정수해 발견 시 UB 갱신
 
-| [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 연산 | 설명 |
+| [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 연산 | 설명 |
 |:---|:---|
 | LP 완화 | 현재 노드 하한 계산 (LP 풀이) |
 | 분기 변수 선택 | 최대 분수 규칙, 강한 분기 등 |
-| 한정 ([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | LB ≥ UB 또는 비가능 시 제거 |
+| 한정 ([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) | LB ≥ UB 또는 비가능 시 제거 |
 | 상한 갱신 | 정수해 발견 시 UB 업데이트 |
 
 ### 절삭면 (Cutting Planes)
 
-고모리 절삭 (Gomory Cuts): LP 완화 해에서 정수해만 남기는 추가 제약 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+고모리 절삭 (Gomory Cuts): LP 완화 해에서 정수해만 남기는 추가 제약 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ```
 LP 완화 가능 영역     절삭면 추가 후
@@ -99,9 +96,9 @@ LP 완화 가능 영역     절삭면 추가 후
 절삭면 = 정수 가능 영역만 남기는 선형 부등식
 ```
 
-현대 솔버: **Branch and Cut** = [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + 절삭면 결합.
+현대 솔버: **Branch and Cut** = [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + 절삭면 결합.
 
-📢 **섹션 요약 비유**: [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법은 "체계적 가능성 탐색 + 조기 포기"다 — 모든 경우를 다 확인하지 않고, 더 좋은 답이 나올 수 없는 가지를 미리 잘라낸다.
+📢 **섹션 요약 비유**: [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/)법은 "체계적 가능성 탐색 + 조기 포기"다 — 모든 경우를 다 확인하지 않고, 더 좋은 답이 나올 수 없는 가지를 미리 잘라낸다.
 
 ---
 
@@ -125,20 +122,20 @@ s.t. Σⱼ xᵢⱼ = 1  ∀i       (수요 충족)
 
 | 문제 | 복잡도 | 비고 |
 |:---|:---|:---|
-| 일반 0-1 IP | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
-| 배낭 문제 | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) (위약: O(nW) DP) | 의사 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) |
-| 순회 판매원 ([TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
-| 최소 [스패닝 트리](/knowledge-base/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) | P | LP 완화가 정수 -> 프리마/[크루스칼](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) |
-| 최단 경로 | P | [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) |
-| 최대 매칭 (이분) | P | 헝가리안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 일반 0-1 IP | [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
+| 배낭 문제 | [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) (위약: O(nW) DP) | 의사 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) |
+| 순회 판매원 ([TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) | [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | |
+| 최소 [스패닝 트리](/studynote/03_network/19_frequent_topics_terms/959_spanning_tree_protocol_stp_loop_avoidance/) | P | LP 완화가 정수 -> 프리마/[크루스칼](/studynote/08_algorithm_stats/03_graph_search/042_kruskal/) |
+| 최단 경로 | P | [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) |
+| 최대 매칭 (이분) | P | 헝가리안 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | 네트워크 플로우 | P | LP 행렬이 완전 단모듈 |
 
 ### 현대 MIP 솔버의 강점
 
 Gurobi 예시 (2023):
 - 1,000만 변수, 200만 제약 MILP 풀기 가능
-- 이진 IP 내부 [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/): [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 정수해 빠르게 찾기
-- [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/): 수십 코어 활용
+- 이진 IP 내부 [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/): [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 정수해 빠르게 찾기
+- [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/): 수십 코어 활용
 
 📢 **섹션 요약 비유**: 절삭면은 "정수만 남기는 필터"다 — LP의 넓은 가능 영역을 잘라내어 정수해를 담은 더 작은 다면체로 만드는 수학적 가위질.
 
@@ -146,7 +143,7 @@ Gurobi 예시 (2023):
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 항공사 승무원 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
+### 항공사 승무원 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링
 
 ```
 xᵢⱼ ∈ {0,1}: 승무원 i를 비행 편 j에 배정 여부
@@ -160,7 +157,7 @@ s.t. Σᵢ xᵢⱼ ≥ 1    ∀j  (각 편 최소 1명 승무원)
 
 수천 명 승무원, 수만 편 -> MILP로 수십억 원 절약 (American Airlines 등 실 적용).
 
-### 배낭 문제 (0-1 [Knapsack](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)) — 동적 계획 vs IP
+### 배낭 문제 (0-1 [Knapsack](/studynote/08_algorithm_stats/06_np_theory/116_knapsack/)) — 동적 계획 vs IP
 
 ```
 n = 5, W = 10:
@@ -174,8 +171,8 @@ IP 방법: 분기 한정, 절삭면
 
 ### 기술사 판단 포인트
 
-1. **"LP와 IP 복잡도 차이는?"** -> LP: [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) (내점법), IP: 일반 [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
-2. <strong>"<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>법의 핵심 두 가지는?"</strong> -> LP 완화 (하한) + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
+1. **"LP와 IP 복잡도 차이는?"** -> LP: [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) (내점법), IP: 일반 [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/)
+2. <strong>"<a href="/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>법의 핵심 두 가지는?"</strong> -> LP 완화 (하한) + [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) (상한 초과 시 제거)
 3. **"TSP가 IP로 표현 가능한가?"** -> ✅ 가능, Miller-Tucker-Zemlin 제약으로 부분 순환 제거
 
 📢 **섹션 요약 비유**: 배낭 문제의 LP 완화는 "물건을 잘게 자를 수 있다"고 가정하는 것이다 — 잘라도 된다면 쉽지만, 0 또는 1만 허용되면(정수 제약) 훨씬 어려워진다.
@@ -184,14 +181,14 @@ IP 방법: 분기 한정, 절삭면
 
 ## Ⅴ. 기대효과 및 결론
 
-IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</strong>다. 아무리 복잡한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 물류 경로도 IP 모델로 표현하면 전역 최적을 추구할 수 있다.
+IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</strong>다. 아무리 복잡한 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 네트워크 설계, 물류 경로도 IP 모델로 표현하면 전역 최적을 추구할 수 있다.
 
 현대 MIP 솔버의 발전:
-- 1990년대 대비 솔버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 10억배 이상 향상
-- 이 중 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선이 수천배, 하드웨어 개선이 수십만배
-- LP 완화 + 절삭면 + [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화의 결합이 핵심
+- 1990년대 대비 솔버 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 10억배 이상 향상
+- 이 중 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 개선이 수천배, 하드웨어 개선이 수십만배
+- LP 완화 + 절삭면 + [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) + [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화의 결합이 핵심
 
-📢 **섹션 요약 비유**: IP 솔버의 발전은 "체계적인 보물 지도"가 된 것이다 — 이전엔 모든 경우를 일일이 확인해야 했지만, 이제는 지도(LP 완화 하한)와 가위([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))로 최적 보물을 효율적으로 찾는다.
+📢 **섹션 요약 비유**: IP 솔버의 발전은 "체계적인 보물 지도"가 된 것이다 — 이전엔 모든 경우를 일일이 확인해야 했지만, 이제는 지도(LP 완화 하한)와 가위([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/))로 최적 보물을 효율적으로 찾는다.
 
 ---
 
@@ -199,10 +196,10 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 
 | 개념 | 핵심 | 연결 |
 |:---|:---|:---|
-| IP | x ∈ ℤⁿ, [NP-hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, [TSP](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) |
+| IP | x ∈ ℤⁿ, [NP-hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) | [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, [TSP](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) |
 | MILP | 정수+연속 혼합 | 시설 입지, 포트폴리오 |
-| LP 완화 | 정수 제약 해제 | [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 하한 |
-| [분기 한정](/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) | LP완화+분기+[가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | MIP 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| LP 완화 | 정수 제약 해제 | [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) 하한 |
+| [분기 한정](/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/) | LP완화+분기+[가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | MIP 표준 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | 절삭면 | Gomory cuts | 정수 가능 영역 축소 |
 
 ---
@@ -230,7 +227,7 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **IP는 "반만 살 수 없는 쇼핑"**: 물건은 1개씩만 살 수 있고, 0.5개나 1.7개는 불가능하다.
-2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>은 "나무 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> 게임"</strong>: 모든 경우를 탐색하되, 이미 더 좋은 답이 있으면 그 가지는 더 볼 필요 없이 잘라버린다.
+2. <strong><a href="/studynote/08_algorithm_stats/01_basics/011_branch_and_bound/">분기 한정</a>은 "나무 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> 게임"</strong>: 모든 경우를 탐색하되, 이미 더 좋은 답이 있으면 그 가지는 더 볼 필요 없이 잘라버린다.
 3. **LP 완화는 "일단 분수 허용"**: 어려운 정수 문제를 쉬운 연속 문제로 먼저 풀어 "이 이하는 불가능"한 기준점을 얻는다.
 
 ---
@@ -239,7 +236,7 @@ IP/MILP는 <strong>현실 세계 이산 결정 문제의 수학적 언어</stron
 
 **진행 상황**: 168 / 175
 
-<- **이전**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/)
-**다음**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/) ->
+<- **이전**: [8. 선형 프로그래밍 (LP, Linear Programming) — 심플렉스법](/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/)
+**다음**: [10. 진화 알고리즘 — 유전 알고리즘 (GA), 입자 군집 최적화 (PSO)](/studynote/08_algorithm_stats/10_linear_algebra/169_evolutionary_algorithms/) ->
 
 ---

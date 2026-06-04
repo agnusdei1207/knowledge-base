@@ -1,13 +1,10 @@
-+++
-title = "434. 소프트웨어 개발 방법론 워터폴 애자일 (Software Development Waterfall Agile)"
-date = 2026-05-09
+---
+title: "434. 소프트웨어 개발 방법론 워터폴 애자일 (Software Development Waterfall Agile)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -190,7 +187,7 @@ Royce의 원래 정의는 **피드백 루프가 없는 선형 모델**이었으�
 
 **진행 상황**: 434 / 800
 
-<- **이전**: [433. 프로그램 관리 포트폴리오 최적화](/knowledge-base/studynote/12_it_management/05_security_compliance/433_program_management_portfolio_optimization/)
-**다음**: [435. 요구사항 관리 추적 변경 제어](/knowledge-base/studynote/12_it_management/05_security_compliance/435_requirements_management_traceability/) ->
+<- **이전**: [433. 프로그램 관리 포트폴리오 최적화](/studynote/12_it_management/05_security_compliance/433_program_management_portfolio_optimization/)
+**다음**: [435. 요구사항 관리 추적 변경 제어](/studynote/12_it_management/05_security_compliance/435_requirements_management_traceability/) ->
 
 ---

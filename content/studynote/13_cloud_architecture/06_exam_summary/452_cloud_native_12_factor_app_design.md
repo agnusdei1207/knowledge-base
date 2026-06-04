@@ -1,13 +1,10 @@
-+++
-title = "452. 클라우드 네이티브 12팩터 앱 설계 (Cloud Native 12 Factor App Design)"
-date = 2026-05-09
+---
+title: "452. 클라우드 네이티브 12팩터 앱 설계 (Cloud Native 12 Factor App Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 452 / 800
 
-<- **이전**: [451. 멀티클라우드 관리 CMP 통합 운영](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/451_multi_cloud_management_cmp_unified_operations/)
-**다음**: [453. 클라우드 네이티브 성숙도 모델 평가](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/453_cloud_native_maturity_model_assessment/) ->
+<- **이전**: [451. 멀티클라우드 관리 CMP 통합 운영](/studynote/13_cloud_architecture/06_exam_summary/451_multi_cloud_management_cmp_unified_operations/)
+**다음**: [453. 클라우드 네이티브 성숙도 모델 평가](/studynote/13_cloud_architecture/06_exam_summary/453_cloud_native_maturity_model_assessment/) ->
 
 ---

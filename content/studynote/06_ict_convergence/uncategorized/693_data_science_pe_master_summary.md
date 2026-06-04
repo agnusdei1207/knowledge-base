@@ -1,13 +1,10 @@
-+++
-title = "693. 데이터 사이언스 기술사 마스터 정리 (Data Science PE Master Summary)"
-date = 2026-05-09
+---
+title: "693. 데이터 사이언스 기술사 마스터 정리 (Data Science PE Master Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -188,7 +185,7 @@ CRISP-DM (1996)          Microsoft TDSP (2017)         Google MLOps Levels (2021
 
 **진행 상황**: 693 / 800
 
-<- **이전**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/knowledge-base/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/)
-**다음**: [694. ICT 융합 기술 최신 동향 2025](/knowledge-base/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/) ->
+<- **이전**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/)
+**다음**: [694. ICT 융합 기술 최신 동향 2025](/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/) ->
 
 ---

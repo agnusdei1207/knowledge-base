@@ -1,13 +1,10 @@
-+++
-title = "515. gRPC 프로토콜 버퍼 고성능 API (gRPC Protocol Buffer High Performance API)"
-date = 2026-05-09
+---
+title: "515. gRPC 프로토콜 버퍼 고성능 API (gRPC Protocol Buffer High Performance API)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 515 / 800
 
-<- **이전**: [514. GraphQL 클라우드 API 스키마 퍼스트](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/514_graphql_cloud_api_schema_first/)
-**다음**: [516. WebSocket 실시간 양방향 통신](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/516_websocket_real_time_bidirectional_communicati/) ->
+<- **이전**: [514. GraphQL 클라우드 API 스키마 퍼스트](/studynote/13_cloud_architecture/06_exam_summary/514_graphql_cloud_api_schema_first/)
+**다음**: [516. WebSocket 실시간 양방향 통신](/studynote/13_cloud_architecture/06_exam_summary/516_websocket_real_time_bidirectional_communicati/) ->
 
 ---

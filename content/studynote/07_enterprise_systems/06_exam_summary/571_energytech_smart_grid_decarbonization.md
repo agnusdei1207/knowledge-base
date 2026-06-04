@@ -1,13 +1,10 @@
-+++
-title = "571. 에너지테크 스마트 그리드 탈탄소 (EnergyTech Smart Grid Decarbonization)"
-date = 2026-05-09
+---
+title: "571. 에너지테크 스마트 그리드 탈탄소 (EnergyTech Smart Grid Decarbonization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 571 / 800
 
-<- **이전**: [570. 모빌리티 MaaS 자율주행 서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/570_mobility_maas_autonomous_driving_service/)
-**다음**: [572. 프로젝트 관리 PMBOK 7판 원칙](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/572_project_management_pmbok_7th_principles/) ->
+<- **이전**: [570. 모빌리티 MaaS 자율주행 서비스](/studynote/07_enterprise_systems/06_exam_summary/570_mobility_maas_autonomous_driving_service/)
+**다음**: [572. 프로젝트 관리 PMBOK 7판 원칙](/studynote/07_enterprise_systems/06_exam_summary/572_project_management_pmbok_7th_principles/) ->
 
 ---

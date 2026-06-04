@@ -1,13 +1,10 @@
-+++
-title = "429. SLA 서비스 수준 관리 SLO SLI (SLA Service Level Management SLO SLI)"
-date = 2026-05-09
+---
+title: "429. SLA 서비스 수준 관리 SLO SLI (SLA Service Level Management SLO SLI)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -130,7 +127,7 @@ SLA/SLO/SLI는 서로 혼용되지만 명확한 책임 소재가 다르며, 동�
 
 **진행 상황**: 429 / 800
 
-<- **이전**: [428. 문제 관리 근본 원인 분석 RCA](/knowledge-base/studynote/12_it_management/05_security_compliance/428_problem_management_root_cause_analysis/)
-**다음**: [430. 지식 관리 KMS 조직 학습 체계](/knowledge-base/studynote/12_it_management/05_security_compliance/430_knowledge_management_kms_learning_system/) ->
+<- **이전**: [428. 문제 관리 근본 원인 분석 RCA](/studynote/12_it_management/05_security_compliance/428_problem_management_root_cause_analysis/)
+**다음**: [430. 지식 관리 KMS 조직 학습 체계](/studynote/12_it_management/05_security_compliance/430_knowledge_management_kms_learning_system/) ->
 
 ---

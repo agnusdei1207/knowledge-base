@@ -1,27 +1,24 @@
-+++
-title = "146. 무어의 법칙 (Moore's Law)"
-date = 2026-04-19
+---
+title: "146. 무어의 법칙 (Moore's Law)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 무어의 법칙 (Moore's Law)은 같은 비용과 면적 안에 집적할 수 있는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 약 18~24개월마다 두 배 가까이 증가해 왔다는 <strong>경험 법칙</strong>이다.
-> 2. **가치**: 이 추세는 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)가 더 많은 연산, 더 큰 메모리, 더 낮은 기능당 비용을 동시에 제공하도록 만들어 컴퓨팅 대중화를 이끌었다.
-> 3. **판단 포인트**: 오늘날 핵심은 "계속 더 작게 만들 수 있는가"보다, 미세화의 수익이 줄어드는 상황에서 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 3차원 적층, 특화 가속기로 어떻게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 이어 갈 것인가이다.
+> 1. **본질**: 무어의 법칙 (Moore's Law)은 같은 비용과 면적 안에 집적할 수 있는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 약 18~24개월마다 두 배 가까이 증가해 왔다는 <strong>경험 법칙</strong>이다.
+> 2. **가치**: 이 추세는 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)가 더 많은 연산, 더 큰 메모리, 더 낮은 기능당 비용을 동시에 제공하도록 만들어 컴퓨팅 대중화를 이끌었다.
+> 3. **판단 포인트**: 오늘날 핵심은 "계속 더 작게 만들 수 있는가"보다, 미세화의 수익이 줄어드는 상황에서 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)), 3차원 적층, 특화 가속기로 어떻게 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 이어 갈 것인가이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-무어의 법칙 (Moore's Law)은 인텔 공동 창업자 고든 무어가 1965년에 제시한 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업의 성장 관찰식이다. 요지는 **집적회로 (Integrated Circuit, IC)** 의 같은 면적 안에 넣을 수 있는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 주기적으로 증가하며, 그 결과 기능당 비용이 지속적으로 하락한다는 것이다. 이는 자연의 절대 법칙이라기보다, 공정 기술·설계 자동화·대규모 투자·산업 로드맵이 함께 만들어 낸 산업 규율에 가깝다.
+무어의 법칙 (Moore's Law)은 인텔 공동 창업자 고든 무어가 1965년에 제시한 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업의 성장 관찰식이다. 요지는 **집적회로 (Integrated Circuit, IC)** 의 같은 면적 안에 넣을 수 있는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수가 주기적으로 증가하며, 그 결과 기능당 비용이 지속적으로 하락한다는 것이다. 이는 자연의 절대 법칙이라기보다, 공정 기술·설계 자동화·대규모 투자·산업 로드맵이 함께 만들어 낸 산업 규율에 가깝다.
 
-이 개념이 중요했던 이유는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 단순한 발명 하나로는 지속되지 않기 때문이다. 진공관에서 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/), 개별 소자에서 집적회로로 넘어온 뒤에도, 더 많은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 소자를 같은 칩에 밀어 넣지 못하면 **중앙처리장치 (Central Processing Unit, CPU)** 의 복잡도, 캐시 용량, 메모리 제어 능력은 빠르게 한계에 부딪힌다. 무어의 법칙은 "더 작게, 더 많이, 더 싸게"라는 공통 목표를 제시해 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업 전체를 장기 투자 가능한 구조로 만들었다.
+이 개념이 중요했던 이유는 컴퓨터 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상이 단순한 발명 하나로는 지속되지 않기 때문이다. 진공관에서 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/), 개별 소자에서 집적회로로 넘어온 뒤에도, 더 많은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 소자를 같은 칩에 밀어 넣지 못하면 **중앙처리장치 (Central Processing Unit, CPU)** 의 복잡도, 캐시 용량, 메모리 제어 능력은 빠르게 한계에 부딪힌다. 무어의 법칙은 "더 작게, 더 많이, 더 싸게"라는 공통 목표를 제시해 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 산업 전체를 장기 투자 가능한 구조로 만들었다.
 
 - **📢 섹션 요약 비유**: 무어의 법칙은 같은 크기의 공책 한 권에 해마다 더 작은 글씨로 더 많은 내용을 적어 넣는 약속과 같다. 글씨가 잘 보이고 종이가 찢어지지 않는 한, 한 권의 공책이 해마다 더 똑똑해진다.
 
@@ -29,7 +26,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-무어의 법칙은 "칩이 저절로 빨라진다"는 주문이 아니라, <strong>미세화 -> 집적도 증가 -> 기능 확장 -> 비용 구조 변화</strong>라는 연쇄 효과다. 선폭이 줄어들면 같은 다이 (Die) 면적에 더 많은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣을 수 있고, 설계자는 그 여유를 더 깊은 파이프라인, 더 큰 캐시, 더 많은 코어, 더 정교한 예측 회로에 배분한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 배선 길이 감소와 게이트 축소 덕분에 지연시간도 함께 줄어들었지만, 시간이 갈수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정만이 아니라 아키텍처 선택과 전력 제어에 더 크게 의존하게 되었다.
+무어의 법칙은 "칩이 저절로 빨라진다"는 주문이 아니라, <strong>미세화 -> 집적도 증가 -> 기능 확장 -> 비용 구조 변화</strong>라는 연쇄 효과다. 선폭이 줄어들면 같은 다이 (Die) 면적에 더 많은 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 넣을 수 있고, 설계자는 그 여유를 더 깊은 파이프라인, 더 큰 캐시, 더 많은 코어, 더 정교한 예측 회로에 배분한다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 배선 길이 감소와 게이트 축소 덕분에 지연시간도 함께 줄어들었지만, 시간이 갈수록 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정만이 아니라 아키텍처 선택과 전력 제어에 더 크게 의존하게 되었다.
 
 아래 그림은 무어의 법칙이 단순한 숫자 증가가 아니라, 설계 선택지를 어떻게 넓혀 왔는지를 보여 준다.
 
@@ -50,14 +47,14 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------+
 ```
 
-이 흐름이 오래 유지될 수 있었던 배경에는 포토리소그래피 (Photolithography) [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상, 공정 수율 개선, 설계 자동화 (Electronic Design Automation, [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)), 대규모 생산 경제가 있었다. 즉 무어의 법칙은 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 숫자만의 이야기가 아니라, 제조·설계·경제가 동시에 맞물릴 때만 성립한다.
+이 흐름이 오래 유지될 수 있었던 배경에는 포토리소그래피 (Photolithography) [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상, 공정 수율 개선, 설계 자동화 (Electronic Design Automation, [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/)), 대규모 생산 경제가 있었다. 즉 무어의 법칙은 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 숫자만의 이야기가 아니라, 제조·설계·경제가 동시에 맞물릴 때만 성립한다.
 
 | 시기 | 대표 변화 | 산업적 의미 |
 | :--- | :--- | :--- |
-| 1960~1980년대 | 집적회로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 확산 | 계산기, 미니컴퓨터, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [마이크로프로세서](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) 상용화 |
-| 1990~2000년대 | 미세화와 [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) 동행 | 클럭 상승, 개인용 컴퓨터 보급, 서버 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급증 |
-| 2005년 이후 | 전력의 벽 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall) 가시화 | 싱글 코어 고클럭 정체, 멀티코어·캐시 중심 설계 전환 |
-| 최근 | 3nm급 공정·[칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)·고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 공정 미세화만으로 부족해져 패키징과 이종 집적이 중요 |
+| 1960~1980년대 | 집적회로 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 확산 | 계산기, 미니컴퓨터, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [마이크로프로세서](/studynote/01_computer_architecture/03_architecture_basics_performance/129_microprocessor/) 상용화 |
+| 1990~2000년대 | 미세화와 [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) 동행 | 클럭 상승, 개인용 컴퓨터 보급, 서버 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 급증 |
+| 2005년 이후 | 전력의 벽 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall) 가시화 | 싱글 코어 고클럭 정체, 멀티코어·캐시 중심 설계 전환 |
+| 최근 | 3nm급 공정·[칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)·고대역폭 메모리 ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 공정 미세화만으로 부족해져 패키징과 이종 집적이 중요 |
 
 - **📢 섹션 요약 비유**: 같은 크기의 도시 땅에 더 작은 집을 지을 수 있게 되자, 사람들은 단순히 인구만 늘린 것이 아니라 도서관, 창고, 도로, 공원까지 같이 넣기 시작했다. 무어의 법칙은 땅이 커진 것이 아니라 설계 자유도가 커진 사건이다.
 
@@ -65,36 +62,36 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-무어의 법칙을 제대로 이해하려면 [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/))과 구분해야 한다. 무어의 법칙은 <strong>얼마나 많이 집적할 수 있는가</strong>를 말하고, [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)은 <strong>작아질수록 전력 밀도가 함께 낮아지는가</strong>를 설명한다. 두 흐름이 함께 갈 때는 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 증가가 곧 클럭 상승과 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 이어졌지만, [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)이 붕괴한 뒤에는 "더 많이 넣을 수 있다"와 "더 빠르게 돌릴 수 있다"가 더 이상 같은 뜻이 아니게 되었다.
+무어의 법칙을 제대로 이해하려면 [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/))과 구분해야 한다. 무어의 법칙은 <strong>얼마나 많이 집적할 수 있는가</strong>를 말하고, [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)은 <strong>작아질수록 전력 밀도가 함께 낮아지는가</strong>를 설명한다. 두 흐름이 함께 갈 때는 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 수 증가가 곧 클럭 상승과 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 이어졌지만, [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)이 붕괴한 뒤에는 "더 많이 넣을 수 있다"와 "더 빠르게 돌릴 수 있다"가 더 이상 같은 뜻이 아니게 되었다.
 
-| 비교 항목 | 무어의 법칙 (Moore's Law) | [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) | [More than Moore](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) |
+| 비교 항목 | 무어의 법칙 (Moore's Law) | [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) | [More than Moore](/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) |
 | :--- | :--- | :--- | :--- |
 | 핵심 질문 | 같은 면적·비용에 얼마나 많이 넣는가 | 미세화해도 전력 밀도가 유지되는가 | 미세화 한계 이후 무엇으로 확장하는가 |
-| 중심 지표 | [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 집적도, 기능당 비용 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 전력 밀도, 클럭 여유 | 패키징, 이종 집적, 시스템 수준 효율 |
-| 황금기 효과 | 고집적·저비용 | 고클럭·저발열 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 |
-| 한계 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 공정 비용 급등, 수율 부담 | 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 발열, 전력의 벽 | 복잡한 설계·패키징·소프트웨어 협업 필요 |
+| 중심 지표 | [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 집적도, 기능당 비용 | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 전력 밀도, 클럭 여유 | 패키징, 이종 집적, 시스템 수준 효율 |
+| 황금기 효과 | 고집적·저비용 | 고클럭·저발열 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 유지 |
+| 한계 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | 공정 비용 급등, 수율 부담 | 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/), 발열, 전력의 벽 | 복잡한 설계·패키징·소프트웨어 협업 필요 |
 
-이 차이는 컴퓨터구조 전반에 영향을 주었다. 무어의 법칙이 제공한 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 예산은 암달의 법칙 (Amdahl's Law)을 의식한 병렬화, 캐시 계층 확대, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 벡터 연산기, 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 및 신경망처리장치 ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 같은 특화 블록의 등장을 가능하게 했다. 반대로 공정 미세화만 믿는 설계는 이제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·개발비를 동시에 설명하지 못한다.
+이 차이는 컴퓨터구조 전반에 영향을 주었다. 무어의 법칙이 제공한 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 예산은 암달의 법칙 (Amdahl's Law)을 의식한 병렬화, 캐시 계층 확대, [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/), 벡터 연산기, 그래픽처리장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 및 신경망처리장치 ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)) 같은 특화 블록의 등장을 가능하게 했다. 반대로 공정 미세화만 믿는 설계는 이제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·전력·개발비를 동시에 설명하지 못한다.
 
-- **📢 섹션 요약 비유**: 무어의 법칙이 "가방에 더 많은 도구를 넣을 수 있다"는 이야기라면, [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)은 "가방이 무거워지지 않는다"는 이야기다. 예전에는 둘 다 맞았지만, 이제는 도구는 늘어도 무게가 같이 늘기 때문에 가방 구조 자체를 바꿔야 한다.
+- **📢 섹션 요약 비유**: 무어의 법칙이 "가방에 더 많은 도구를 넣을 수 있다"는 이야기라면, [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)은 "가방이 무거워지지 않는다"는 이야기다. 예전에는 둘 다 맞았지만, 이제는 도구는 늘어도 무게가 같이 늘기 때문에 가방 구조 자체를 바꿔야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 무어의 법칙은 더 이상 "기다리면 다음 세대 칩이 공짜로 해결해 준다"는 가정으로 쓰면 안 된다. 최신 공정은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득을 주지만, 마스크 비용, 수율 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 패키징 복잡도, 냉각 설계 비용도 함께 상승한다. 따라서 설계자는 <strong>공정 미세화가 정말 필요한 블록과, 성숙 공정으로도 충분한 블록을 분리</strong>해서 판단해야 한다.
+실무에서 무어의 법칙은 더 이상 "기다리면 다음 세대 칩이 공짜로 해결해 준다"는 가정으로 쓰면 안 된다. 최신 공정은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이득을 주지만, 마스크 비용, 수율 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 패키징 복잡도, 냉각 설계 비용도 함께 상승한다. 따라서 설계자는 <strong>공정 미세화가 정말 필요한 블록과, 성숙 공정으로도 충분한 블록을 분리</strong>해서 판단해야 한다.
 
-### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 연산 밀도가 높은 블록만 최신 공정으로 보내고, 입출력 (Input/Output, I/O)·아날로그·전원부는 성숙 공정에 남기는 것이 유리한가?
-2. 단일 대형 다이보다 [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 분할이 수율·원가·확장성 면에서 더 나은가?
-3. 목표가 지연시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 개선인지, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 확대인지에 따라 CPU·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 중 어느 자원이 핵심인가?
-4. 공정 이득이 줄어드는 상황에서 소프트웨어 병렬화, 메모리 지역성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화를 함께 수행하고 있는가?
+2. 단일 대형 다이보다 [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) 기반 분할이 수율·원가·확장성 면에서 더 나은가?
+3. 목표가 지연시간 ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 개선인지, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 확대인지에 따라 CPU·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) 중 어느 자원이 핵심인가?
+4. 공정 이득이 줄어드는 상황에서 소프트웨어 병렬화, 메모리 지역성, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 최적화를 함께 수행하고 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **무어의 법칙 맹신**: 레거시 코드를 그대로 둔 채 하드웨어 세대 교체만 기다리는 전략이다. 싱글 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 폭이 제한된 지금은 구조적 병목이 그대로 남는다.
-- **최신 공정 만능주의**: 모든 블록을 가장 비싼 공정으로 통합하면 수율과 개발비가 급격히 악화된다. 특히 대면적 칩에서는 작은 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 하나가 전체 폐기로 이어진다.
+- **무어의 법칙 맹신**: 레거시 코드를 그대로 둔 채 하드웨어 세대 교체만 기다리는 전략이다. 싱글 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 폭이 제한된 지금은 구조적 병목이 그대로 남는다.
+- **최신 공정 만능주의**: 모든 블록을 가장 비싼 공정으로 통합하면 수율과 개발비가 급격히 악화된다. 특히 대면적 칩에서는 작은 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 하나가 전체 폐기로 이어진다.
 
 결국 오늘의 기술사 판단은 "몇 나노인가"보다 "어떤 기능을 어떤 공정·패키지·아키텍처 조합으로 배치할 것인가"에 가깝다. 무어의 법칙이 약해질수록 시스템 수준 최적화 능력이 더 중요해진다.
 
@@ -104,9 +101,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-무어의 법칙은 지난 반세기 동안 컴퓨팅 산업의 기본 성장 리듬을 제공했다. 이 법칙 덕분에 같은 가격으로 더 강한 CPU, 더 큰 메모리, 더 정교한 센서 제어, 더 풍부한 사용자 경험이 가능해졌고, 개인용 컴퓨팅에서 모바일, 클라우드, 인공지능까지 이어지는 플랫폼 확장이 가능했다. 즉 무어의 법칙은 단순한 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 통계가 아니라, 소프트웨어 산업 전체가 기대해 온 공급 측 성장 모델이었다.
+무어의 법칙은 지난 반세기 동안 컴퓨팅 산업의 기본 성장 리듬을 제공했다. 이 법칙 덕분에 같은 가격으로 더 강한 CPU, 더 큰 메모리, 더 정교한 센서 제어, 더 풍부한 사용자 경험이 가능해졌고, 개인용 컴퓨팅에서 모바일, 클라우드, 인공지능까지 이어지는 플랫폼 확장이 가능했다. 즉 무어의 법칙은 단순한 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 통계가 아니라, 소프트웨어 산업 전체가 기대해 온 공급 측 성장 모델이었다.
 
-다만 이제는 미세화의 물리적·경제적 한계가 분명해졌다. 앞으로의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정 축소만으로 설명되지 않으며, [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 2.5D/3D 패키징, 메모리 근접 배치, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속기, 소프트웨어 병렬화가 함께 가야 한다. 따라서 무어의 법칙은 "영원한 자연 법칙"이 아니라, <strong>산업이 오랫동안 유지해 온 고밀도 집적의 성장 규율</strong>로 기억하는 것이 가장 정확하다.
+다만 이제는 미세화의 물리적·경제적 한계가 분명해졌다. 앞으로의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 공정 축소만으로 설명되지 않으며, [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/), 2.5D/3D 패키징, 메모리 근접 배치, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 특화 가속기, 소프트웨어 병렬화가 함께 가야 한다. 따라서 무어의 법칙은 "영원한 자연 법칙"이 아니라, <strong>산업이 오랫동안 유지해 온 고밀도 집적의 성장 규율</strong>로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 예전에는 같은 평수 집 안에 가구를 더 촘촘히 넣는 것만으로 생활이 좋아졌지만, 이제는 수납장을 위로 쌓고 방의 용도를 나누고 가구를 맞춤 제작해야 같은 집에서 더 잘 살 수 있다.
 
@@ -116,11 +113,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [데나드 스케일링](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) | 무어의 법칙이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 체감되던 시기의 전력 측 보조 법칙이다. |
-| 전력의 벽 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall) | 집적도는 증가해도 발열과 전력 제약 때문에 클럭을 계속 올릴 수 없게 만든 한계다. |
-| [칩렛](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) | 대형 단일 칩 대신 기능 블록을 분할 제작해 수율과 확장성을 확보하는 현대적 우회 전략이다. |
-| 고대역폭 메모리 ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 로직과 메모리를 가깝게 배치해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목을 줄이는 패키징 중심 확장 방법이다. |
-| [More than Moore](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) | 미세화만이 아니라 센서, 전력, 패키징, 이종 집적으로 시스템 가치를 키우는 흐름이다. |
+| [데나드 스케일링](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/) ([Dennard Scaling](/studynote/01_computer_architecture/03_architecture_basics_performance/148_dennard_scaling/)) | 무어의 법칙이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 체감되던 시기의 전력 측 보조 법칙이다. |
+| 전력의 벽 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Wall) | 집적도는 증가해도 발열과 전력 제약 때문에 클럭을 계속 올릴 수 없게 만든 한계다. |
+| [칩렛](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/) ([Chiplet](/studynote/01_computer_architecture/14_hardware_security_trends/497_chiplet/)) | 대형 단일 칩 대신 기능 블록을 분할 제작해 수율과 확장성을 확보하는 현대적 우회 전략이다. |
+| 고대역폭 메모리 ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 로직과 메모리를 가깝게 배치해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 병목을 줄이는 패키징 중심 확장 방법이다. |
+| [More than Moore](/studynote/01_computer_architecture/15_advanced_topics/534_more_than_moore/) | 미세화만이 아니라 센서, 전력, 패키징, 이종 집적으로 시스템 가치를 키우는 흐름이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,7 +153,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 146 / 803
 
-<- **이전**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/)
-**다음**: [147. 황의 법칙 (Hwang's Law)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/) ->
+<- **이전**: [145. 구스타프슨의 법칙 (Gustafson's Law)](/studynote/01_computer_architecture/03_architecture_basics_performance/145_gustafsons_law/)
+**다음**: [147. 황의 법칙 (Hwang's Law)](/studynote/01_computer_architecture/03_architecture_basics_performance/147_hwangs_law/) ->
 
 ---

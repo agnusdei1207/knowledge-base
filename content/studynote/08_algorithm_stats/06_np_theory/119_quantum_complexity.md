@@ -1,18 +1,15 @@
-+++
-title = "014. 양자 복잡도 — BQP, QMA"
-date = 2026-04-05
+---
+title: "014. 양자 복잡도 — BQP, QMA"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
-> 1. BQP(Bounded-error [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) time)는 양자 컴퓨터가 다항 시간에 효율적으로 풀 수 있는 문제 클래스 — 고전 컴퓨터의 P에 대응하며, Shor [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(인수분해)과 [Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(탐색)이 BQP의 대표적 예다.
+> 1. BQP(Bounded-error [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) [Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) time)는 양자 컴퓨터가 다항 시간에 효율적으로 풀 수 있는 문제 클래스 — 고전 컴퓨터의 P에 대응하며, Shor [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(인수분해)과 [Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(탐색)이 BQP의 대표적 예다.
 > 2. BQP와 NP의 관계는 아직 미지수 — BQP⊄NP, NP⊄BQP인지 모두 미증명이며, 현재 P ⊆ BQP ⊆ PSPACE가 알려진 포함 관계다. 양자 컴퓨터가 모든 NP 문제를 빠르게 풀지는 못한다(NP⊄BQP로 추정).
-> 3. QMA([Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Merlin-Arthur)는 NP의 양자 대응 — 양자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)가 다항 시간에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 문제 클래스로, Local Hamiltonian 문제가 QMA-완전이며, 양자 물리학과 계산 복잡도가 만나는 지점이다.
+> 3. QMA([Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/) Merlin-Arthur)는 NP의 양자 대응 — 양자 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Verifier)가 다항 시간에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 문제 클래스로, Local Hamiltonian 문제가 QMA-완전이며, 양자 물리학과 계산 복잡도가 만나는 지점이다.
 
 ---
 
@@ -51,11 +48,11 @@ QMA (Quantum Merlin-Arthur):
   QMATIME(poly) = QMA
 ```
 
-> 📢 **섹션 요약 비유**: 양자 복잡도는 고전의 확장판 — P(고전 빠름)의 양자 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) BQP, NP(고전 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능)의 양자 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) QMA. 양자가 더 넓은 공간에서 놀아요!
+> 📢 **섹션 요약 비유**: 양자 복잡도는 고전의 확장판 — P(고전 빠름)의 양자 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) BQP, NP(고전 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능)의 양자 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) QMA. 양자가 더 넓은 공간에서 놀아요!
 
 ---
 
-## Ⅱ. BQP 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅱ. BQP 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 BQP의 대표 문제와 알고리즘:
@@ -98,7 +95,7 @@ HHL Algorithm (하로우-하시딤-로이드, 2009):
   제한: 해를 양자 상태로만 얻음 (측정 = 정보 손실)
 ```
 
-> 📢 **섹션 요약 비유**: Shor vs [Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) 비교 — Shor는 지수 가속(엘리베이터 vs 계단), Grover는 이차 가속(빠른 걸음 vs 보통 걸음). Shor가 훨씬 큰 혁신!
+> 📢 **섹션 요약 비유**: Shor vs [Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) 비교 — Shor는 지수 가속(엘리베이터 vs 계단), Grover는 이차 가속(빠른 걸음 vs 보통 걸음). Shor가 훨씬 큰 혁신!
 
 ---
 
@@ -143,7 +140,7 @@ NP와 QMA 관계:
   (BQP ⊄ QMA 추정, 즉 BQP ≠ QMA)
 ```
 
-> 📢 **섹션 요약 비유**: QMA는 양자 시험 채점 — 답(양자 증명)을 받아서 양자 컴퓨터로 채점. 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 할 수 있어도 답 자체 찾기(풀기)는 어려워요!
+> 📢 **섹션 요약 비유**: QMA는 양자 시험 채점 — 답(양자 증명)을 받아서 양자 컴퓨터로 채점. 맞는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 할 수 있어도 답 자체 찾기(풀기)는 어려워요!
 
 ---
 
@@ -194,7 +191,7 @@ BQP의 실용적 의미:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환
+## Ⅴ. 실무 시나리오 — [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환
 
 ```
 양자 위협 대응: 후양자 암호(PQC) 전환
@@ -244,7 +241,7 @@ NIST PQC 표준화 (2024):
   -> 지속적 수학적 검증 필요
 ```
 
-> 📢 **섹션 요약 비유**: [PQC](/knowledge-base/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
+> 📢 **섹션 요약 비유**: [PQC](/studynote/12_it_management/05_security_compliance/992_quantum_computing_pqc_transition/) 전환은 자물쇠 교체 — 양자 컴퓨터가 현재 자물쇠([RSA](/studynote/09_security/03_network_security/110_rsa/))를 딸 수 있는 열쇠(Shor)를 가질 때를 대비해 미리 양자 내성 자물쇠(격자 암호)로 교체!
 
 ---
 
@@ -306,9 +303,9 @@ NIST PQC 표준 완성 (2024)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. BQP는 양자 컴퓨터의 초능력 — 인수분해(Shor)와 탐색([Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/))을 고전 컴퓨터보다 훨씬 빠르게 해요. 특정 문제에서만 쓸 수 있는 초능력!
-2. QMA는 양자 시험 채점 — 양자 증명을 양자 컴퓨터로 채점. 채점([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 빠르지만 처음부터 답 만들기(풀기)는 여전히 어려워요!
-3. PQC는 양자 내성 자물쇠 — 미래 양자 컴퓨터가 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 자물쇠를 딸 수 있어서, 미리 격자 암호라는 새 자물쇠로 바꾸는 거예요!
+1. BQP는 양자 컴퓨터의 초능력 — 인수분해(Shor)와 탐색([Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/))을 고전 컴퓨터보다 훨씬 빠르게 해요. 특정 문제에서만 쓸 수 있는 초능력!
+2. QMA는 양자 시험 채점 — 양자 증명을 양자 컴퓨터로 채점. 채점([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))은 빠르지만 처음부터 답 만들기(풀기)는 여전히 어려워요!
+3. PQC는 양자 내성 자물쇠 — 미래 양자 컴퓨터가 [RSA](/studynote/09_security/03_network_security/110_rsa/) 자물쇠를 딸 수 있어서, 미리 격자 암호라는 새 자물쇠로 바꾸는 거예요!
 
 ---
 
@@ -316,7 +313,7 @@ NIST PQC 표준 완성 (2024)
 
 **진행 상황**: 119 / 175
 
-<- **이전**: [013. ETH — 지수 시간 가설](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)
-**다음**: [001. 유클리드 호제법 — Euclidean Algorithm](/knowledge-base/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/) ->
+<- **이전**: [013. ETH — 지수 시간 가설](/studynote/08_algorithm_stats/06_np_theory/118_eth/)
+**다음**: [001. 유클리드 호제법 — Euclidean Algorithm](/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/) ->
 
 ---

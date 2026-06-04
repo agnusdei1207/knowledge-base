@@ -1,13 +1,10 @@
-+++
-title = "665. 이상 탐지 비지도 학습 오토인코더 (Anomaly Detection Unsupervised Autoencoder)"
-date = 2026-05-09
+---
+title: "665. 이상 탐지 비지도 학습 오토인코더 (Anomaly Detection Unsupervised Autoencoder)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ $$\mathcal{L}_{\text{sparse}} = \mathcal{L}_{\text{rec}} + \beta \sum_{j=1}^{d} 
 
 **진행 상황**: 665 / 800
 
-<- **이전**: [664. 시계열 예측 자기회귀 트랜스포머](/knowledge-base/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/)
-**다음**: [666. 자연어 처리 NER 감성 분석 요약](/knowledge-base/studynote/06_ict_convergence/uncategorized/666_nlp_ner_sentiment_analysis_summarization/) ->
+<- **이전**: [664. 시계열 예측 자기회귀 트랜스포머](/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/)
+**다음**: [666. 자연어 처리 NER 감성 분석 요약](/studynote/06_ict_convergence/uncategorized/666_nlp_ner_sentiment_analysis_summarization/) ->
 
 ---

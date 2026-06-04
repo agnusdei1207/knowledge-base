@@ -1,13 +1,10 @@
-+++
-title = "657. 지식 증류 모델 경량화 프루닝 (Knowledge Distillation Model Pruning Compression)"
-date = 2026-05-09
+---
+title: "657. 지식 증류 모델 경량화 프루닝 (Knowledge Distillation Model Pruning Compression)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ $$L_{KD} = \alpha \cdot T^2 \cdot \text{KL}\big(\text{Softmax}(z^T/T) \,\|\, \te
 
 **진행 상황**: 657 / 800
 
-<- **이전**: [656. 강화 학습 RLHF 인간 피드백 정렬](/knowledge-base/studynote/06_ict_convergence/uncategorized/656_reinforcement_learning_rlhf_human_feedback/)
-**다음**: [658. 양자화 INT8 INT4 모델 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/658_quantization_int8_int4_model_optimization/) ->
+<- **이전**: [656. 강화 학습 RLHF 인간 피드백 정렬](/studynote/06_ict_convergence/uncategorized/656_reinforcement_learning_rlhf_human_feedback/)
+**다음**: [658. 양자화 INT8 INT4 모델 최적화](/studynote/06_ict_convergence/uncategorized/658_quantization_int8_int4_model_optimization/) ->
 
 ---

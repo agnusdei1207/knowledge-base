@@ -1,31 +1,28 @@
-+++
-title = "306. 탐지 알고리즘의 오버헤드 (Detection Overhead)"
-date = 2026-05-09
+---
+title: "306. 탐지 알고리즘의 오버헤드 (Detection Overhead)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 무방비로 열어두고 사후에 잡는 '탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))' 모델의 가장 큰 딜레마는, 이 <strong>탐지 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 1초에 한 번 돌릴지 10분에 한 번 돌릴지 정하는 '감찰 주기(Invokation Frequency) 튜닝'의 어려움</strong>에 있다.
+> 1. **본질**: [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)를 무방비로 열어두고 사후에 잡는 '탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))' 모델의 가장 큰 딜레마는, 이 <strong>탐지 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>을 1초에 한 번 돌릴지 10분에 한 번 돌릴지 정하는 '감찰 주기(Invokation Frequency) 튜닝'의 어려움</strong>에 있다.
 > 2. **가치**: 탐지 로직이 무거운 $O(n^2)$의 족쇄이므로 너무 자주 돌리면 배보다 배꼽이 커져 CPU가 연산에 질식하고, 너무 게으르게 돌리면 이미 데드락 덩어리가 스노우볼처럼 불어나 서버가 마비되는 상극의 트레이드오프(Trade-off)를 조율해야 하는 엔지니어링 묘수다.
-> 3. **융합**: 실무 컴퓨팅은 "정해진 타이머" 식의 멍청한 스캔 대신, "갑자기 CPU 스루풋(Utilization)이 기준치 밑으로 곤두박질칠 때(수상함 감지)" 혹은 "특정 프로세스가 락을 잡고 너무 오랫동안 멈춰있을 때([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))"에만 백그라운드 탐지 데몬을 전격 깨우는 '[트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 기반 하이브리드'로 융합 발전했다.
+> 3. **융합**: 실무 컴퓨팅은 "정해진 타이머" 식의 멍청한 스캔 대신, "갑자기 CPU 스루풋(Utilization)이 기준치 밑으로 곤두박질칠 때(수상함 감지)" 혹은 "특정 프로세스가 락을 잡고 너무 오랫동안 멈춰있을 때([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/))"에만 백그라운드 탐지 데몬을 전격 깨우는 '[트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 기반 하이브리드'로 융합 발전했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-교착 탐지([Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 예방과 회피를 무시한 대가로, <strong>컴퓨터가 엄청나게 빠른 속도로 쌩쌩 달리게 해주는 마약</strong>이다.
-그러나 가끔 발생하는 교통사고(데드락)를 치우기 위해선 드론(탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 띄워 공중에서 빙글빙글 도는 놈들을 찾아야 하는데 이 드론 배터리 소모량이 문제다.
+교착 탐지([Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))는 예방과 회피를 무시한 대가로, <strong>컴퓨터가 엄청나게 빠른 속도로 쌩쌩 달리게 해주는 마약</strong>이다.
+그러나 가끔 발생하는 교통사고(데드락)를 치우기 위해선 드론(탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 띄워 공중에서 빙글빙글 도는 놈들을 찾아야 하는데 이 드론 배터리 소모량이 문제다.
 
 1. 드론을 **매 초마다** 하늘에 띄우면? 경찰 월급(CPU 비용)으로 예산이 거덜 나서 아무 프로그램도 못 돌린다. (회피 모델보다 구려지는 상황 도래)
 2. 드론을 **매일 자정에 1번만** 띄우면? 점심시간에 사고가 났는데 밤 12시까지 도로는 꽉 막힌 채 멈춰 12시간 블랙아웃을 겪는다.
 
-결국 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍트에게 <strong>"탐지 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 오버헤드 최소화 기법 / 언제 발동할 것인가?"</strong>는 데드락 이론 전체 성패를 가르는 가장 가치 있는 실전 튜닝 요소다.
+결국 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 아키텍트에게 <strong>"탐지 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 오버헤드 최소화 기법 / 언제 발동할 것인가?"</strong>는 데드락 이론 전체 성패를 가르는 가장 가치 있는 실전 튜닝 요소다.
 
 **💡 비유**: 교장이 일진(데드락)을 잡겠다며 10분마다 쉬는 시간에 전 교실을 돌면, 애들 수업(정상 프로세스)이 엉망진창 늦어진다(오버헤드). 그렇다고 1년에 한 번 돌면 학교 폭력 피해자들(데드락)이 졸업할 때까지 구제받지 못한다. "최적의 타이밍"이 목숨줄이다.
 
@@ -51,7 +48,7 @@ tags = ["studynote-operating-system"]
 +--------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: 최고의 선생님은 안 오다가도, 반에서 갑자기 "책 넘어가는 소리도 멈추고 이상할 정도로 쥐죽은 듯 고요할 때(CPU 이용률 바닥+큐 터짐)"만 딱 나타나서 잡는 베테랑 선생님입니다(스마트 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 탐지).
+**📢 섹션 요약 비유**: 최고의 선생님은 안 오다가도, 반에서 갑자기 "책 넘어가는 소리도 멈추고 이상할 정도로 쥐죽은 듯 고요할 때(CPU 이용률 바닥+큐 터짐)"만 딱 나타나서 잡는 베테랑 선생님입니다(스마트 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 탐지).
 
 ---
 
@@ -59,53 +56,53 @@ tags = ["studynote-operating-system"]
 
 ### 연산량의 한계와 '희생자 범위' 결론
 
-탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단일 인스턴스([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/))일 때 $O(V+E)$, 다중 인스턴스 은행원 변형일 때 무려 $O(m \times n^2)$의 무거운 빅-오를 지닌다.
+탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단일 인스턴스([DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/))일 때 $O(V+E)$, 다중 인스턴스 은행원 변형일 때 무려 $O(m \times n^2)$의 무거운 빅-오를 지닌다.
 
-1. <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발동 시 사이클 복합화 (Snowball Effect)</strong>:
+1. <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 발동 시 사이클 복합화 (Snowball Effect)</strong>:
    - 스캔을 오랫동안 미루면, 데드락의 원(Cycle)이 1개가 아니라 마치 올림픽 오륜기처럼 5~6명의 무고한 프로세스가 더 붙어서 <strong>거대한 거미줄 교착망</strong>을 형성한다.
    - 이때 한 번 뒤늦게 탐지가 발동하면, 원 1개를 끊기 위해 누구를 잘라야 할지 계산하는 연산량이 기하급수적으로 폭증하며 연쇄 살해(Cascade Abort)의 참극이 터진다.
-2. <strong>CPU <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 지표 (Utilization Drop)</strong>:
-   - [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에 빠진 시스템의 가장 뚜렷한 '생체 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)'는 <strong>"시스템 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)의 극단적 저하(Drop)"</strong>다.
-   - 워커 스레드들이 죄다 [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)/Wait 상태로 빠지면서, CPU는 할 일이 없어 [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태에 머문다. OS 데몬은 "디스크 IO나 네트워크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아닌데 CPU Idle이 80%를 넘고 대기 큐가 쌓인다? -> 무조건 교착이다"로 간주하여 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 발동시킨다.
+2. <strong>CPU <a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> <a href="/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a> 지표 (Utilization Drop)</strong>:
+   - [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)에 빠진 시스템의 가장 뚜렷한 '생체 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)'는 <strong>"시스템 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)의 극단적 저하(Drop)"</strong>다.
+   - 워커 스레드들이 죄다 [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)/Wait 상태로 빠지면서, CPU는 할 일이 없어 [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태에 머문다. OS 데몬은 "디스크 IO나 네트워크 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 아닌데 CPU Idle이 80%를 넘고 대기 큐가 쌓인다? -> 무조건 교착이다"로 간주하여 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 발동시킨다.
 
-**📢 섹션 요약 비유**: 탐지기를 너무 아끼면, 2차 추돌, 3차 추돌로 다리 위 모든 차가 얽혀 견인차([복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직) 1대로 도저히 수숩이 안 되는 엄청난 폭발이 일어납니다. 타이밍이 재난의 크기를 결정합니다.
+**📢 섹션 요약 비유**: 탐지기를 너무 아끼면, 2차 추돌, 3차 추돌로 다리 위 모든 차가 얽혀 견인차([복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 로직) 1대로 도저히 수숩이 안 되는 엄청난 폭발이 일어납니다. 타이밍이 재난의 크기를 결정합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 감시 발동 조건 | CPU 낭비(Overhead) | 데드락 조기 발견율 | 시스템 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 |
+| 감시 발동 조건 | CPU 낭비(Overhead) | 데드락 조기 발견율 | 시스템 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용 |
 |:---|:---|:---|:---|
-| [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 실패 즉시 | 극상 (수만 번 반복 실행) | 100% (원 1개 때 즉발) | 가장 저렴 (1명만 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) |
+| [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 실패 즉시 | 극상 (수만 번 반복 실행) | 100% (원 1개 때 즉발) | 가장 저렴 (1명만 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)) |
 | 정기 타이머 (예: 5분) | 중간 (시간표대로 소모) | 중간 (재수 좋으면 빠름) | 중간 (몇 명 더 잡혀있음) |
-| <strong>CPU 이용률 저하 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a></strong> | **거의 0% (최적화)** | **다소 늦음 (징후가 터져야 함)** | <strong>조금 피해 큼 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 효율과 트레이드됨)</strong> |
+| <strong>CPU 이용률 저하 <a href="/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a></strong> | **거의 0% (최적화)** | **다소 늦음 (징후가 터져야 함)** | <strong>조금 피해 큼 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 효율과 트레이드됨)</strong> |
 
-**📢 섹션 요약 비유**: 항상 하늘에 띄워두는 비싼 헬기(즉시 스캔)보다, 지상에서 싸이렌 소리(징후)가 나면 그제야 출동시키는 자가용([트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 스캔)이 실전에서는 국룰입니다.
+**📢 섹션 요약 비유**: 항상 하늘에 띄워두는 비싼 헬기(즉시 스캔)보다, 지상에서 싸이렌 소리(징후)가 나면 그제야 출동시키는 자가용([트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) 스캔)이 실전에서는 국룰입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>RDBMS의 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 파라미터</strong>: 오라클이나 자바 어플리케이션은 사실 거대한 뱅커스 $O(N^2)$ 탐지를 돌리지 않는다. 실무의 최강 기술은 무식한 <strong>"<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)"</strong>이다. `innodb_lock_wait_timeout = 50s` 처럼 값을 세팅해 두고, 50초 동안 락을 잡고 안 놔주면 그냥 묻지도 따지지도 않고 "너 사이클 걸렸지?" 간주하고 DB가 트랜잭션을 강제 에러 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킨다(희생양 화). 오버헤드 0%에 빛나는 야매 탐지법의 극치다.
-2. <strong>PostgreSQL의 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 탐지(Deadlock_timeout)</strong>: Postgre는 매우 영리하다. 기본 1초 정도 대기하다가 1초가 넘어가면 락을 포기하는 게 아니라, "그제야 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(WFG)"을 한 번 살짝 돌린다. 탐지 오버헤드를 막기 위해 평온할 땐 스캔을 끄고 누군가 막힐 때만 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발동시키는 명품 실무 로직이다.
+1. <strong>RDBMS의 <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a> <a href="/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a> 파라미터</strong>: 오라클이나 자바 어플리케이션은 사실 거대한 뱅커스 $O(N^2)$ 탐지를 돌리지 않는다. 실무의 최강 기술은 무식한 <strong>"<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a>(<a href="/studynote/02_operating_system/05_deadlock/319_timeout_prevention/">Timeout</a>)"</strong>이다. `innodb_lock_wait_timeout = 50s` 처럼 값을 세팅해 두고, 50초 동안 락을 잡고 안 놔주면 그냥 묻지도 따지지도 않고 "너 사이클 걸렸지?" 간주하고 DB가 트랜잭션을 강제 에러 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)시킨다(희생양 화). 오버헤드 0%에 빛나는 야매 탐지법의 극치다.
+2. <strong>PostgreSQL의 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 탐지(Deadlock_timeout)</strong>: Postgre는 매우 영리하다. 기본 1초 정도 대기하다가 1초가 넘어가면 락을 포기하는 게 아니라, "그제야 [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(WFG)"을 한 번 살짝 돌린다. 탐지 오버헤드를 막기 위해 평온할 땐 스캔을 끄고 누군가 막힐 때만 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발동시키는 명품 실무 로직이다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- <strong><a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용을 고려 못한 잦은 스캔 무한 루프</strong>: 탐지를 1초에 한 번씩 돌리도록 커스텀 코드를 짰는데, 막상 사이클이 걸렸을 때 그 프로세스를 죽일 수 있는([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 모듈을 완벽하게 구현 못 해 두었다면? 매 1초마다 "어! 사이클 떴어!"라고 경고 콘솔만 무한으로 찍으며 시스템 자원만 우왁스럽게 갉아먹는 반쪽짜리 탐지 데몬의 참사가 열린다.
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- <strong><a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> 비용을 고려 못한 잦은 스캔 무한 루프</strong>: 탐지를 1초에 한 번씩 돌리도록 커스텀 코드를 짰는데, 막상 사이클이 걸렸을 때 그 프로세스를 죽일 수 있는([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) 모듈을 완벽하게 구현 못 해 두었다면? 매 1초마다 "어! 사이클 떴어!"라고 경고 콘솔만 무한으로 찍으며 시스템 자원만 우왁스럽게 갉아먹는 반쪽짜리 탐지 데몬의 참사가 열린다.
 
-**📢 섹션 요약 비유**: 요즘 실무는 복잡하게 얽힌 화살표 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 안 그리고, "너 줄 선지 50초 넘었어? 그럼 데드락 걸린 거로 치고 넌 아웃이야!([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))" 라고 훨씬 터프하고 오버헤드 0인 무식한 방식을 대부분 채택해 돌리고 있습니다. 효율이 생명이니까요.
+**📢 섹션 요약 비유**: 요즘 실무는 복잡하게 얽힌 화살표 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 안 그리고, "너 줄 선지 50초 넘었어? 그럼 데드락 걸린 거로 치고 넌 아웃이야!([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))" 라고 훨씬 터프하고 오버헤드 0인 무식한 방식을 대부분 채택해 돌리고 있습니다. 효율이 생명이니까요.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | 주기적 강제 감시망 | [휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감시망 (실무 승자) |
+| 기준 | 주기적 강제 감시망 | [휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감시망 (실무 승자) |
 |:---|:---|:---|
-| 자원 고갈 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 스캔하다가 CPU가 다 죽음 | 평온할 땐 스캔 안 함 (안정권) |
-| 설계 복잡도 | 50줄짜리 단순 루프 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | CPU Load, [Wait Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/089_wait_queue/) 추적 센서 연동 필수 |
+| 자원 고갈 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 스캔하다가 CPU가 다 죽음 | 평온할 땐 스캔 안 함 (안정권) |
+| 설계 복잡도 | 50줄짜리 단순 루프 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) | CPU Load, [Wait Queue](/studynote/02_operating_system/02_process_thread/089_wait_queue/) 추적 센서 연동 필수 |
 
-교착 탐지([Deadlock Detection](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) 모델의 치명적 약점인 연산량(Overhead) 딜레마는, "언제 어떻게 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 데몬을 깨울 것인가"라는 영리한 엔지니어링 감각으로 돌파되었다.
-과학자들의 무거운 매트릭스 공식은, 현장 개발자들의 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/knowledge-base/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 한 방과 시스템 지표 센서(Utilization Trigger)의 융합 앞에서 <strong>자원 이용률 지상주의의 완벽한 최적화 무기</strong>로 아름답게 다듬어져 오늘날 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 교착 처리의 표준 유산으로 살아남았다.
+교착 탐지([Deadlock Detection](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) 모델의 치명적 약점인 연산량(Overhead) 딜레마는, "언제 어떻게 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 데몬을 깨울 것인가"라는 영리한 엔지니어링 감각으로 돌파되었다.
+과학자들의 무거운 매트릭스 공식은, 현장 개발자들의 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)([Timeout](/studynote/02_operating_system/05_deadlock/319_timeout_prevention/)) 한 방과 시스템 지표 센서(Utilization Trigger)의 융합 앞에서 <strong>자원 이용률 지상주의의 완벽한 최적화 무기</strong>로 아름답게 다듬어져 오늘날 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 교착 처리의 표준 유산으로 살아남았다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -115,10 +112,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [교착 상태 탐지](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) ([Deadlock Detection](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [교착 상태 복구](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery from Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [프로세스 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/107_process_termination/) 방식 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [교착 상태 탐지](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/) ([Deadlock Detection](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [대기 그래프](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [교착 상태 복구](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ([Recovery from Deadlock](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [프로세스 종료](/studynote/02_operating_system/02_process_thread/107_process_termination/) 방식 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,7 +133,7 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. "탐지 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"은 도둑(데드락)을 잡으려고 하늘에 띄우는 배터리를 어마어마하게 먹는 감시 드론이에요.
+1. "탐지 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)"은 도둑(데드락)을 잡으려고 하늘에 띄우는 배터리를 어마어마하게 먹는 감시 드론이에요.
 2. 매 초당 띄우면 전기세 폭탄 맞아 집안이 망하고, 1년에 한 번 띄우면 온 동네가 일진들로 도둑맞겠죠? (탐지 주기의 고민)
 3. 그래서 똑똑한 관리자는 평소엔 드론을 끄고 자다가, "이상하게 동네가 조용하고 아무도 밖에서 뛰어놀지 않고 얼어붙어 있을 때(CPU 사용률 저하)"만 드론을 띄워 도둑을 낚아채는(오버헤드 절감) 마술을 부린답니다!
 
@@ -146,7 +143,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 306 / 800
 
-<- **이전**: [305. 대기 그래프 (Wait-for Graph) - 자원 정점을 제거하고 프로세스 간 간선만 남긴 그래프 (단일 자원 탐지용)](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)
-**다음**: [307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치](/knowledge-base/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ->
+<- **이전**: [305. 대기 그래프 (Wait-for Graph) - 자원 정점을 제거하고 프로세스 간 간선만 남긴 그래프 (단일 자원 탐지용)](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)
+**다음**: [307. 교착 상태 복구 (Recovery from Deadlock) - 데드락 해소 조치](/studynote/02_operating_system/05_deadlock/307_recovery_from_deadlock/) ->
 
 ---

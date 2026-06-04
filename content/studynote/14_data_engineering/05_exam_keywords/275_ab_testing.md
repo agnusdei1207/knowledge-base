@@ -1,13 +1,10 @@
-+++
-title = "275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)"
-date = 2026-05-09
+---
+title: "275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -153,7 +150,7 @@ $$n = \frac{(Z_{1-\alpha/2} + Z_{1-\beta})^2 \cdot 2\sigma^2}{\delta^2} \cdot (1
 
 **진행 상황**: 275 / 300
 
-<- **이전**: [274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/274_data_drift/)
-**다음**: [276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/276_causal_inference/) ->
+<- **이전**: [274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)](/studynote/14_data_engineering/05_exam_keywords/274_data_drift/)
+**다음**: [276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)](/studynote/14_data_engineering/05_exam_keywords/276_causal_inference/) ->
 
 ---

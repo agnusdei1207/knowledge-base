@@ -1,13 +1,10 @@
-+++
-title = "606. 클라우드 아키텍처 핵심 토픽 606번 시험 요약 (Cloud Architecture Core Topic 606 Exam Summary)"
-date = 2026-05-09
+---
+title: "606. 클라우드 아키텍처 핵심 토픽 606번 시험 요약 (Cloud Architecture Core Topic 606 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 606 / 800
 
-<- **이전**: [605. 클라우드 아키텍처 핵심 토픽 605번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/605_cloud_architecture_core_topic_605_exam_summar/)
-**다음**: [607. 클라우드 아키텍처 핵심 토픽 607번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/607_cloud_architecture_core_topic_607_exam_summar/) ->
+<- **이전**: [605. 클라우드 아키텍처 핵심 토픽 605번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/605_cloud_architecture_core_topic_605_exam_summar/)
+**다음**: [607. 클라우드 아키텍처 핵심 토픽 607번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/607_cloud_architecture_core_topic_607_exam_summar/) ->
 
 ---

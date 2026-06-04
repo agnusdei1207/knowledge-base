@@ -1,13 +1,10 @@
-+++
-title = "282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)"
-date = 2026-05-09
+---
+title: "282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -166,7 +163,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 282 / 300
 
-<- **이전**: [281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/281_data_sovereignty/)
-**다음**: [283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/283_dw_modernization/) ->
+<- **이전**: [281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)](/studynote/14_data_engineering/05_exam_keywords/281_data_sovereignty/)
+**다음**: [283. 데이터 웨어하우스 모더나이제이션 클라우드 이관 (DW Modernization Cloud Migration)](/studynote/14_data_engineering/05_exam_keywords/283_dw_modernization/) ->
 
 ---

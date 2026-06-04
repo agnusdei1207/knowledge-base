@@ -1,13 +1,10 @@
-+++
-title = "501. AI 거버넌스 윤리 가이드라인 규제 (AI Governance Ethics Guideline Regulation)"
-date = 2026-05-09
+---
+title: "501. AI 거버넌스 윤리 가이드라인 규제 (AI Governance Ethics Guideline Regulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ AI 거버넌스을 제대로 적용하면 IT 투자가 업무 성과와 연결�
 
 **진행 상황**: 501 / 800
 
-<- **이전**: [500. 데이터 거버넌스 정책 품질 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/500_data_governance_policy_quality_management/)
-**다음**: [502. 오픈소스 거버넌스 라이선스 관리 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/502_open_source_governance_license_management/) ->
+<- **이전**: [500. 데이터 거버넌스 정책 품질 관리](/studynote/07_enterprise_systems/06_exam_summary/500_data_governance_policy_quality_management/)
+**다음**: [502. 오픈소스 거버넌스 라이선스 관리 전략](/studynote/07_enterprise_systems/06_exam_summary/502_open_source_governance_license_management/) ->
 
 ---

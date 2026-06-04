@@ -1,13 +1,10 @@
-+++
-title = "746. MLOps 머신러닝 생명주기 관리 (MLOps Machine Learning Lifecycle Management)"
-date = 2026-05-09
+---
+title: "746. MLOps 머신러닝 생명주기 관리 (MLOps Machine Learning Lifecycle Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ MLOps 플랫폼은 통상 7계층 아키텍처로 구성된다. 각 계층은 **
 
 **진행 상황**: 746 / 800
 
-<- **이전**: [745. 데이터옵스 파이프라인 자동화 품질](/knowledge-base/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/)
-**다음**: [747. LLMOps 대규모 언어 모델 운영 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/) ->
+<- **이전**: [745. 데이터옵스 파이프라인 자동화 품질](/studynote/06_ict_convergence/uncategorized/745_dataops_pipeline_automation_quality/)
+**다음**: [747. LLMOps 대규모 언어 모델 운영 관리](/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "625. 로그 관리 ELK 스택 Loki 파이프라인 (Log Management ELK Stack Loki Pipeline)"
-date = 2026-05-09
+---
+title: "625. 로그 관리 ELK 스택 Loki 파이프라인 (Log Management ELK Stack Loki Pipeline)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -162,7 +159,7 @@ Loki는 Grafana Labs가 만든 **"Prometheus for logs"** 철학의 **수평 확�
 
 **진행 상황**: 625 / 800
 
-<- **이전**: [624. 분산 추적 예거 집킨 오픈텔레메트리](/knowledge-base/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/)
-**다음**: [626. eBPF 커널 관측성 네트워크 보안](/knowledge-base/studynote/06_ict_convergence/uncategorized/626_ebpf_kernel_observability_network_security/) ->
+<- **이전**: [624. 분산 추적 예거 집킨 오픈텔레메트리](/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/)
+**다음**: [626. eBPF 커널 관측성 네트워크 보안](/studynote/06_ict_convergence/uncategorized/626_ebpf_kernel_observability_network_security/) ->
 
 ---

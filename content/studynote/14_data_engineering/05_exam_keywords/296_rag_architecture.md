@@ -1,13 +1,10 @@
-+++
-title = "296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)"
-date = 2026-05-09
+---
+title: "296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ RAG는 단독 기술이 아니라, LLM의 한계를 보완하는 **인접 기술
 
 **진행 상황**: 296 / 300
 
-<- **이전**: [295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/295_llmops/)
-**다음**: [297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/297_prompt_engineering/) ->
+<- **이전**: [295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)](/studynote/14_data_engineering/05_exam_keywords/295_llmops/)
+**다음**: [297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)](/studynote/14_data_engineering/05_exam_keywords/297_prompt_engineering/) ->
 
 ---

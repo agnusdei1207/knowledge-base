@@ -1,13 +1,10 @@
-+++
-title = "619. GitOps ArgoCD Flux 선언적 배포 (GitOps ArgoCD Flux Declarative Deployment)"
-date = 2026-05-09
+---
+title: "619. GitOps ArgoCD Flux 선언적 배포 (GitOps ArgoCD Flux Declarative Deployment)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ GitOps는 Weaveworks가 2017년 처음 명명(CNCF TAG App Delivery 정식 채�
 
 **진행 상황**: 619 / 800
 
-<- **이전**: [618. Helm 차트 패키지 관리 배포 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/)
-**다음**: [620. 카나리 배포 Flagger 프로그레시브 딜리버리](/knowledge-base/studynote/06_ict_convergence/uncategorized/620_canary_deploy_flagger_progressive_delivery/) ->
+<- **이전**: [618. Helm 차트 패키지 관리 배포 자동화](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/)
+**다음**: [620. 카나리 배포 Flagger 프로그레시브 딜리버리](/studynote/06_ict_convergence/uncategorized/620_canary_deploy_flagger_progressive_delivery/) ->
 
 ---

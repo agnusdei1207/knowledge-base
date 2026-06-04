@@ -1,13 +1,10 @@
-+++
-title = "518. IT 경영 관리 핵심 토픽 518번 시험 요약 (IT Management Core Topic 518 Exam Summary)"
-date = 2026-05-09
+---
+title: "518. IT 경영 관리 핵심 토픽 518번 시험 요약 (IT Management Core Topic 518 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 기술사 합격 Study Note — 518. IT 경영 관리 핵심 토픽
 
@@ -143,7 +140,7 @@ ISO 38500 + COBIT + Balanced Scorecard를 결합한 **4-Perspective IT Scorecard
 
 **진행 상황**: 518 / 800
 
-<- **이전**: [517. IT 경영 관리 핵심 토픽 517번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/517_it_management_core_topic_517_exam_summary/)
-**다음**: [519. IT 경영 관리 핵심 토픽 519번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/519_it_management_core_topic_519_exam_summary/) ->
+<- **이전**: [517. IT 경영 관리 핵심 토픽 517번 시험 요약](/studynote/12_it_management/05_security_compliance/517_it_management_core_topic_517_exam_summary/)
+**다음**: [519. IT 경영 관리 핵심 토픽 519번 시험 요약](/studynote/12_it_management/05_security_compliance/519_it_management_core_topic_519_exam_summary/) ->
 
 ---

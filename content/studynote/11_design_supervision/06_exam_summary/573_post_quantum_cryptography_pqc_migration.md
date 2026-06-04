@@ -1,13 +1,10 @@
-+++
-title = "573. 양자 내성 암호 포스트 양자 전환 (Post Quantum Cryptography PQC Migration)"
-date = 2026-05-09
+---
+title: "573. 양자 내성 암호 포스트 양자 전환 (Post Quantum Cryptography PQC Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -198,7 +195,7 @@ NIST는 2016년 PQC 표준화 프로젝트를 시작해 2022년 7월 1차 4개 �
 
 **진행 상황**: 573 / 600
 
-<- **이전**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/573_green_it_carbon_aware_sustainable_comput/)
-**다음**: [574. 엣지 컴퓨팅 MEC 분산 지능](/knowledge-base/studynote/11_design_supervision/06_exam_summary/574_edge_computing_mec_distributed_intellige/) ->
+<- **이전**: [572. 그린 IT 탄소 인식 컴퓨팅 지속가능성](/studynote/11_design_supervision/06_exam_summary/573_green_it_carbon_aware_sustainable_comput/)
+**다음**: [574. 엣지 컴퓨팅 MEC 분산 지능](/studynote/11_design_supervision/06_exam_summary/574_edge_computing_mec_distributed_intellige/) ->
 
 ---

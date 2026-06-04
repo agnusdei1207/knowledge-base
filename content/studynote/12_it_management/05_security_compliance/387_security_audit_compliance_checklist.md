@@ -1,13 +1,10 @@
-+++
-title = "387. 보안 감사 컴플라이언스 체크리스트 (Security Audit Compliance Checklist)"
-date = 2026-05-09
+---
+title: "387. 보안 감사 컴플라이언스 체크리스트 (Security Audit Compliance Checklist)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 387 / 800
 
-<- **이전**: [386. 취약점 관리 CVE CVSS 패치 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/386_vulnerability_management_cve_cvss_patching/)
-**다음**: [388. 개인정보 영향 평가 PIA 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/388_privacy_impact_assessment_pia_methodology/) ->
+<- **이전**: [386. 취약점 관리 CVE CVSS 패치 전략](/studynote/12_it_management/05_security_compliance/386_vulnerability_management_cve_cvss_patching/)
+**다음**: [388. 개인정보 영향 평가 PIA 방법론](/studynote/12_it_management/05_security_compliance/388_privacy_impact_assessment_pia_methodology/) ->
 
 ---

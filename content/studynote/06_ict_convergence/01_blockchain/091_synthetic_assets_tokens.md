@@ -1,39 +1,36 @@
-+++
-title = "91. 합성 자산 (Synthetic Assets) 토큰 구조"
+---
+title: "91. 합성 자산 (Synthetic Assets) 토큰 구조"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 합성 자산 (Synthetic Assets)은 주식, 원자재, 법정화폐 등 오프체인의 실물 자산 가격을 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)와 오라클을 이용해 온체인에서 1:1로 추종하게 만든 파생 토큰이다.
-> 2. **가치**: 기존 금융 시장의 진입 장벽(국경, 환전, 거래 시간 제한)을 파괴하고, [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)상에서 누구나 전 세계 자산을 24시간 검열 저항적으로 거래할 수 있는 유동성을 제공한다.
-> 3. **판단 포인트**: 자산 가치를 뒷받침하기 위해 초과 담보 (Over-collateralization) 모델을 필수적으로 사용하며, 담보 자산의 가격 변동에 따른 강제 청산 (Liquidation) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 어떻게 관리하느냐가 시스템 안정성의 핵심이다.
+> 1. **본질**: 합성 자산 (Synthetic Assets)은 주식, 원자재, 법정화폐 등 오프체인의 실물 자산 가격을 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)와 오라클을 이용해 온체인에서 1:1로 추종하게 만든 파생 토큰이다.
+> 2. **가치**: 기존 금융 시장의 진입 장벽(국경, 환전, 거래 시간 제한)을 파괴하고, [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)상에서 누구나 전 세계 자산을 24시간 검열 저항적으로 거래할 수 있는 유동성을 제공한다.
+> 3. **판단 포인트**: 자산 가치를 뒷받침하기 위해 초과 담보 (Over-collateralization) 모델을 필수적으로 사용하며, 담보 자산의 가격 변동에 따른 강제 청산 (Liquidation) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 어떻게 관리하느냐가 시스템 안정성의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-합성 자산 (Synthetic Assets)은 현실 세계의 금융 자산을 소유하지 않고도 해당 자산의 가격 변동성에 투자할 수 있도록 설계된 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 상품이다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 외부의 데이터인 가격 피드를 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))을 통해 컨트랙트에 입력받아 자산의 가치를 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다.
+합성 자산 (Synthetic Assets)은 현실 세계의 금융 자산을 소유하지 않고도 해당 자산의 가격 변동성에 투자할 수 있도록 설계된 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 금융([DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) 상품이다. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크 외부의 데이터인 가격 피드를 오라클([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/))을 통해 컨트랙트에 입력받아 자산의 가치를 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)한다.
 
-이 개념이 등장한 이유는 전통 금융(TradFi) 시스템이 가진 심각한 제약 때문이다. 특정 국가의 주식이나 부동산에 투자하려면 복잡한 신원 증명, 높은 수수료, 영업시간 제한 등 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화된 장벽을 넘어야 한다. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 이러한 제약 없이 글로벌 유동성을 연결할 수 있지만, 온체인에는 코인밖에 없다는 한계가 있었다. 이를 해결하기 위해 실물 경제의 가치를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 안으로 끌고 들어오는 다리로서 합성 자산이 필수적으로 요구되었다.
+이 개념이 등장한 이유는 전통 금융(TradFi) 시스템이 가진 심각한 제약 때문이다. 특정 국가의 주식이나 부동산에 투자하려면 복잡한 신원 증명, 높은 수수료, 영업시간 제한 등 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/))화된 장벽을 넘어야 한다. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 이러한 제약 없이 글로벌 유동성을 연결할 수 있지만, 온체인에는 코인밖에 없다는 한계가 있었다. 이를 해결하기 위해 실물 경제의 가치를 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 안으로 끌고 들어오는 다리로서 합성 자산이 필수적으로 요구되었다.
 
-- **📢 섹션 요약 비유**: 합성 자산은 진짜 자동차를 사서 주차장에 두는 대신, 자동차의 가격표만 떼어와서 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 글로벌 전광판에 붙여놓고 전 세계인이 그 가격표를 24시간 사고팔게 만든 디지털 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술이다.
+- **📢 섹션 요약 비유**: 합성 자산은 진짜 자동차를 사서 주차장에 두는 대신, 자동차의 가격표만 떼어와서 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이라는 글로벌 전광판에 붙여놓고 전 세계인이 그 가격표를 24시간 사고팔게 만든 디지털 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 기술이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-합성 자산이 실물 자산의 가격을 완벽하게 추종하고 가치를 보존하기 위해서는 오라클([Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 가격 피드와 초과 담보 (Over-collateralization)라는 두 가지 강력한 톱니바퀴가 필요하다.
+합성 자산이 실물 자산의 가격을 완벽하게 추종하고 가치를 보존하기 위해서는 오라클([Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) 가격 피드와 초과 담보 (Over-collateralization)라는 두 가지 강력한 톱니바퀴가 필요하다.
 
 | 핵심 구성 요소 | 역할 및 메커니즘 | 기술적 한계 및 병목 |
 | :--- | :--- | :--- |
-| <strong>오라클 (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong> | 체인링크(Chainlink) 등 외부 데이터망이 실물 자산(예: 테슬라 주가) 가격을 1초 단위로 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 공급 | 오라클이 해킹되거나 데이터가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 토큰 가격이 왜곡됨 |
-| **초과 담보 (Over-collateralization)** | 허공에 찍어낸 토큰의 가치를 보증하기 위해, 발행자는 토큰 가치보다 훨씬 큰 금액(예: 400%)의 이더리움이나 SNX 코인을 컨트랙트에 잠금([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) | 자본 효율성이 떨어지며 담보물 자체의 가격 변동 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 존재 |
+| <strong>오라클 (<a href="/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong> | 체인링크(Chainlink) 등 외부 데이터망이 실물 자산(예: 테슬라 주가) 가격을 1초 단위로 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)에 공급 | 오라클이 해킹되거나 데이터가 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 토큰 가격이 왜곡됨 |
+| **초과 담보 (Over-collateralization)** | 허공에 찍어낸 토큰의 가치를 보증하기 위해, 발행자는 토큰 가치보다 훨씬 큰 금액(예: 400%)의 이더리움이나 SNX 코인을 컨트랙트에 잠금([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) | 자본 효율성이 떨어지며 담보물 자체의 가격 변동 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 존재 |
 | **유동성 풀 (Liquidity Pool)** | 발행된 합성 자산(sTSLA 등)을 누구나 거래할 수 있게 AMM(자동 마켓 메이커) 형태로 묶어둔 거래소 | 유동성이 부족하면 슬리피지(Slippage)가 발생해 1:1 가격 추종이 깨짐 |
 
 ```text
@@ -56,21 +53,21 @@ tags = ["ict_convergence"]
 
 이 구조에서 가장 중요한 것은 담보율 유지다. 100달러짜리 sTSLA를 만들기 위해 400달러의 이더리움을 맡겼는데, 이더리움 가격이 폭락하여 담보 가치가 150달러로 떨어지면, 시스템은 사용자 동의 없이 담보물을 강제로 팔아치우는 청산(Liquidation) 메커니즘을 작동시켜 토큰의 최소 가치를 방어한다.
 
-- **📢 섹션 요약 비유**: 합성 자산 발행은 전당포에 롤렉스 시계를 맡기고 10만 원을 빌리는 것과 같다. 롤렉스 시계 가격이 똥값이 되어 빌려 간 10만 원의 가치도 못 지킬 것 같으면, 전당포 주인([스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))이 시계를 즉시 시장에 내다 팔아 손실을 막아버리는 냉혹한 시스템이다.
+- **📢 섹션 요약 비유**: 합성 자산 발행은 전당포에 롤렉스 시계를 맡기고 10만 원을 빌리는 것과 같다. 롤렉스 시계 가격이 똥값이 되어 빌려 간 10만 원의 가치도 못 지킬 것 같으면, 전당포 주인([스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))이 시계를 즉시 시장에 내다 팔아 손실을 막아버리는 냉혹한 시스템이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-합성 자산은 자산을 토큰화한다는 점에서 스테이블코인 (Stablecoin)이나 STO ([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)와 헷갈리기 쉽지만, 내재된 구조와 권리가 전혀 다르다.
+합성 자산은 자산을 토큰화한다는 점에서 스테이블코인 (Stablecoin)이나 STO ([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Token Offering)와 헷갈리기 쉽지만, 내재된 구조와 권리가 전혀 다르다.
 
 | 구분 | 합성 자산 토큰 (Synthetic) | 스테이블코인 (예: DAI) | 토큰증권 (STO) |
 | :--- | :--- | :--- | :--- |
 | **추종 대상** | 주식, 원자재, 지수 등 무한대 | 1 달러(USD)에 고정 | 실제 회사 주식, 실물 부동산 |
 | **소유권 및 배당** | 실제 자산의 소유권/배당금 **없음** | 해당 없음 | 실제 소유권 및 배당 권리 **있음** |
-| **규제 영역** | 파생상품에 가까움 ([DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) | 화폐/지불 수단 | 자본시장법 등 증권 규제 적용 |
+| **규제 영역** | 파생상품에 가까움 ([DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/)) | 화폐/지불 수단 | 자본시장법 등 증권 규제 적용 |
 
-스테이블코인이 법정화폐의 가치 변동성을 없애기 위해 만들어졌다면, 합성 자산은 오히려 실물 자산의 극심한 변동성을 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내로 가져오기 위해 만들어졌다. STO가 규제를 철저히 지키며 실제 소유권을 증명한다면, 합성 자산은 규제를 우회하여 가격 노출(Price Exposure)만을 제공하는 데 집중한다.
+스테이블코인이 법정화폐의 가치 변동성을 없애기 위해 만들어졌다면, 합성 자산은 오히려 실물 자산의 극심한 변동성을 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 내로 가져오기 위해 만들어졌다. STO가 규제를 철저히 지키며 실제 소유권을 증명한다면, 합성 자산은 규제를 우회하여 가격 노출(Price Exposure)만을 제공하는 데 집중한다.
 
 - **📢 섹션 요약 비유**: STO는 아파트 등기부등본에 내 이름을 직접 올리는 것이고, 스테이블코인은 현금을 금고에 넣어두고 영수증을 받는 것이다. 반면 합성 자산은 친구와 "내일 아파트값이 오르면 네가 돈을 줘"라고 내기를 거는 증서와 같다. 집의 소유권은 없지만, 가격이 오르면 똑같이 돈을 번다.
 
@@ -78,17 +75,17 @@ tags = ["ict_convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 설계하거나 실무에 합성 자산을 도입할 때, 기술사와 아키텍트는 철저한 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 헤징 관점으로 접근해야 한다. 무한한 유동성은 무한한 취약점을 동반하기 때문이다.
+[DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 설계하거나 실무에 합성 자산을 도입할 때, 기술사와 아키텍트는 철저한 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 헤징 관점으로 접근해야 한다. 무한한 유동성은 무한한 취약점을 동반하기 때문이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **오라클 조작 저항성**: 단일 오라클에 의존하지 않고, TWAP(시간 가중 평균 가격) 방식을 도입하여 [플래시 론](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)([Flash Loan](/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/))을 이용한 순간적인 가격 조작 공격을 방어할 수 있는가?
+1. **오라클 조작 저항성**: 단일 오라클에 의존하지 않고, TWAP(시간 가중 평균 가격) 방식을 도입하여 [플래시 론](/studynote/06_ict_convergence/01_blockchain/035_flash_loan/)([Flash Loan](/studynote/06_ict_convergence/01_blockchain/035_flash_loan/))을 이용한 순간적인 가격 조작 공격을 방어할 수 있는가?
 2. **담보 자산의 다변화**: 단일 암호화폐(예: 이더리움)만 담보로 받으면 해당 코인 폭락 시 시스템 전체가 붕괴(Death Spiral)될 수 있다. 담보 포트폴리오가 분산되어 있는가?
-3. **청산 엔진의 효율성**: 네트워크 폭주 상태(가스비 급등)에서도 청산 봇(Keeper)들이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 강제 청산을 집행할 수 있는 아키텍처인가?
+3. **청산 엔진의 효율성**: 네트워크 폭주 상태(가스비 급등)에서도 청산 봇(Keeper)들이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 없이 강제 청산을 집행할 수 있는 아키텍처인가?
 
 ### 실무 판단 포인트
 
-- **채택 시점**: 글로벌 유저를 대상으로 마찰 없는 24시간 파생상품 거래소를 구축하고자 할 때, AMM 기반의 합성 자산 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 채택이 가장 효과적이다.
+- **채택 시점**: 글로벌 유저를 대상으로 마찰 없는 24시간 파생상품 거래소를 구축하고자 할 때, AMM 기반의 합성 자산 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 채택이 가장 효과적이다.
 - **회피 시점**: 사용자가 의결권이나 실제 배당, 실물 인도를 요구하는 비즈니스 모델이라면 합성 자산이 아닌 STO(토큰증권) 플랫폼으로 선회해야 한다.
 
 - **📢 섹션 요약 비유**: 합성 자산 플랫폼 운영은 줄타기 곡예와 같다. 균형을 잡는 장대(오라클)가 조금만 휘청이거나, 안전그물(담보)이찢어지면, 모든 관객의 돈이 허공으로 날아가는 끔찍한 연쇄 청산이 발생한다.
@@ -99,7 +96,7 @@ tags = ["ict_convergence"]
 
 합성 자산은 국경, 시간, 신용이라는 기존 금융의 3대 장벽을 파괴한다. 아프리카의 인터넷 사용자도 클릭 한 번으로 미국 금(Gold)의 수익률을 누릴 수 있고, 레버리지와 인버스 모델로 확장이 자유롭다.
 
-하지만 오라클 의존성 문제와 과도한 초과 담보로 인한 자본 비효율성(Capital Inefficiency)은 여전히 숙제다. 이를 해결하기 위해 향후에는 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))을 활용해 신용 대출 기반의 합성 자산을 만들거나, 실물 연계 자산(RWA, Real World Asset)과 융합하여 담보를 다각화하는 방향으로 진화할 것이다. 결론적으로 합성 자산은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 단순한 화폐망을 넘어 전 세계 모든 가치의 파생을 품어내는 '글로벌 유동성 블랙홀'이 되기 위한 핵심 인프라다.
+하지만 오라클 의존성 문제와 과도한 초과 담보로 인한 자본 비효율성(Capital Inefficiency)은 여전히 숙제다. 이를 해결하기 위해 향후에는 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/))을 활용해 신용 대출 기반의 합성 자산을 만들거나, 실물 연계 자산(RWA, Real World Asset)과 융합하여 담보를 다각화하는 방향으로 진화할 것이다. 결론적으로 합성 자산은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 단순한 화폐망을 넘어 전 세계 모든 가치의 파생을 품어내는 '글로벌 유동성 블랙홀'이 되기 위한 핵심 인프라다.
 
 - **📢 섹션 요약 비유**: 합성 자산은 현실의 모든 가치를 빨아들여 디지털 세상에 띄워 놓는 거대한 거울이다. 거울 속 물건은 만질 수 없지만 그 가치는 완벽히 현실과 동일하게 움직인다.
 
@@ -109,10 +106,10 @@ tags = ["ict_convergence"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>오라클 (<a href="/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong> | [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외부의 실물 자산 가격 데이터를 컨트랙트로 밀어넣는 핵심 신뢰 계층 |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> (Collateralized Debt Position)</strong> | 사용자가 담보를 예치하고 합성 자산을 발행받는 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 금고 구조 |
-| **RWA (Real World Asset)** | 합성 자산과 달리 현실 세계의 실물 자산 자체를 토큰화하여 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 가져오는 기술 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/">플래시 론</a> 공격 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/035_flash_loan/">Flash Loan</a> Attack)</strong> | 무담보 대출로 막대한 자금을 빌려 오라클 가격을 조작해 합성 자산 시스템을 터는 대표적 해킹 기법 |
+| <strong>오라클 (<a href="/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/">Oracle</a>)</strong> | [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 외부의 실물 자산 가격 데이터를 컨트랙트로 밀어넣는 핵심 신뢰 계층 |
+| <strong><a href="/studynote/09_security/04_endpoint_security/193_crl_distribution_point_cdp/">CDP</a> (Collateralized Debt Position)</strong> | 사용자가 담보를 예치하고 합성 자산을 발행받는 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 금고 구조 |
+| **RWA (Real World Asset)** | 합성 자산과 달리 현실 세계의 실물 자산 자체를 토큰화하여 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)으로 가져오는 기술 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/035_flash_loan/">플래시 론</a> 공격 (<a href="/studynote/06_ict_convergence/01_blockchain/035_flash_loan/">Flash Loan</a> Attack)</strong> | 무담보 대출로 막대한 자금을 빌려 오라클 가격을 조작해 합성 자산 시스템을 터는 대표적 해킹 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +129,7 @@ tags = ["ict_convergence"]
 RWA (실물 연계 자산)와 ZKP 신용 기반 파생 모델 융합
 ```
 
-이 흐름도는 단순한 암호화폐 거래에서 현실 가격의 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 그리고 더 나은 자본 효율성을 갖춘 파생 금융으로 발전하는 과정을 보여준다.
+이 흐름도는 단순한 암호화폐 거래에서 현실 가격의 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/), 그리고 더 나은 자본 효율성을 갖춘 파생 금융으로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +143,7 @@ RWA (실물 연계 자산)와 ZKP 신용 기반 파생 모델 융합
 
 **진행 상황**: 91 / 552
 
-<- **이전**: [90. 거버넌스 51% 방어 체계 (분산 슬래싱 Slashing) - 악의적 행동 적발 시 스테이킹한 지분을 몰수하는 PoS 방어 기법](/knowledge-base/studynote/06_ict_convergence/01_blockchain/090_slashing_pos_governance_defense/)
-**다음**: [92. 탈중앙화 신탁 관리 (Decentralized Escrow)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/092_decentralized_escrow_trust/) ->
+<- **이전**: [90. 거버넌스 51% 방어 체계 (분산 슬래싱 Slashing) - 악의적 행동 적발 시 스테이킹한 지분을 몰수하는 PoS 방어 기법](/studynote/06_ict_convergence/01_blockchain/090_slashing_pos_governance_defense/)
+**다음**: [92. 탈중앙화 신탁 관리 (Decentralized Escrow)](/studynote/06_ict_convergence/01_blockchain/092_decentralized_escrow_trust/) ->
 
 ---

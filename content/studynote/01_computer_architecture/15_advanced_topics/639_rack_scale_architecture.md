@@ -1,25 +1,22 @@
-+++
-title = "639. 랙 스케일 아키텍처 (Rack Scale Architecture)"
-date = 2026-05-08
+---
+title: "639. 랙 스케일 아키텍처 (Rack Scale Architecture)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 랙 스케일 아키텍처 (Rack Scale [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 서버 한 대를 완성품으로 보는 대신, 랙 전체를 하나의 조립형 컴퓨터로 보고 자원을 배치하는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 방식이다.
+> 1. **본질**: 랙 스케일 아키텍처 (Rack Scale [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/), [RSA](/studynote/09_security/03_network_security/110_rsa/))는 서버 한 대를 완성품으로 보는 대신, 랙 전체를 하나의 조립형 컴퓨터로 보고 자원을 배치하는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계 방식이다.
 > 2. **가치**: 연산, 메모리, 스토리지를 랙 안에서 분리하고 다시 묶음으로써 워크로드별 자원 비율을 유연하게 맞추고, 부품별 교체 주기를 독립적으로 가져갈 수 있다.
-> 3. **판단 포인트**: RSA의 성공은 하드웨어 분해보다 소프트웨어 조합에 달려 있으며, 랙 내부 패브릭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 자원 지역성, 운영 자동화가 받쳐주지 않으면 단순한 서버 집합보다 오히려 복잡해질 수 있다.
+> 3. **판단 포인트**: RSA의 성공은 하드웨어 분해보다 소프트웨어 조합에 달려 있으며, 랙 내부 패브릭 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 자원 지역성, 운영 자동화가 받쳐주지 않으면 단순한 서버 집합보다 오히려 복잡해질 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-랙 스케일 아키텍처는 서버 섀시를 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계의 기본 단위로 보지 않는다. 대신 랙 전체를 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시스템으로 간주하고, 그 안의 CPU, 메모리, 스토리지를 필요에 따라 다시 조립해 쓰는 방식을 택한다. 즉 서버는 더 이상 고정된 상자가 아니라, 랙에서 순간적으로 구성되는 결과물이 된다.
+랙 스케일 아키텍처는 서버 섀시를 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 설계의 기본 단위로 보지 않는다. 대신 랙 전체를 하나의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시스템으로 간주하고, 그 안의 CPU, 메모리, 스토리지를 필요에 따라 다시 조립해 쓰는 방식을 택한다. 즉 서버는 더 이상 고정된 상자가 아니라, 랙에서 순간적으로 구성되는 결과물이 된다.
 
 이 개념이 필요한 이유는 워크로드마다 요구하는 자원 비율이 크게 다르기 때문이다. 검색 색인 구축은 메모리와 스토리지를 많이 원하지만, 암호화 처리나 모델 서빙은 연산기 비중이 크다. 전통적인 서버 중심 구조에서는 이 차이를 맞추기 위해 과대 사양 장비를 여러 종류로 사야 했고, 그 결과 특정 자원은 남고 특정 자원은 늘 부족해지는 좌초 현상이 반복됐다.
 
@@ -31,16 +28,16 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-RSA의 핵심은 자원 디스어그리게이션이다. 연산 노드, 메모리 셸프, 플래시 묶음 섀시 (Just a Bunch of Flash, JBOF), 네트워크 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 랙 내부 패브릭으로 연결하고, 랙 매니저가 이들을 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드로 조합한다. 랙을 경계로 잡는 이유는 케이블 길이와 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 통제하면서도, 서버 한 대보다 훨씬 유연한 재구성을 가능하게 하는 균형점이기 때문이다.
+RSA의 핵심은 자원 디스어그리게이션이다. 연산 노드, 메모리 셸프, 플래시 묶음 섀시 (Just a Bunch of Flash, JBOF), 네트워크 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 랙 내부 패브릭으로 연결하고, 랙 매니저가 이들을 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드로 조합한다. 랙을 경계로 잡는 이유는 케이블 길이와 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 통제하면서도, 서버 한 대보다 훨씬 유연한 재구성을 가능하게 하는 균형점이기 때문이다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| Compute sled | CPU와 기본 메모리를 가진 연산 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 코어 수, 부트 경로, 로컬 캐시 |
-| Memory shelf | 추가 메모리 용량을 제공 | [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 연동, 티어 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| Flash shelf 또는 JBOF | 대용량 스토리지 제공 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 장애 격리 |
-| Rack fabric | 랙 내부 자원을 고속 연결 | 오버서브스크립션, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) |
-| Rack manager | 자원 탐색·조합·회수 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 자동화, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 스케줄링 |
-| [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) / Cooling plane | 랙 단위 전력과 냉각 관리 | 피크 전력, 열 밀도, 정비성 |
+| Compute sled | CPU와 기본 메모리를 가진 연산 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 코어 수, 부트 경로, 로컬 캐시 |
+| Memory shelf | 추가 메모리 용량을 제공 | [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 연동, 티어 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| Flash shelf 또는 JBOF | 대용량 스토리지 제공 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 장애 격리 |
+| Rack fabric | 랙 내부 자원을 고속 연결 | 오버서브스크립션, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/) |
+| Rack manager | 자원 탐색·조합·회수 | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 자동화, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 스케줄링 |
+| [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) / Cooling plane | 랙 단위 전력과 냉각 관리 | 피크 전력, 열 밀도, 정비성 |
 
 ```text
 +--------------------------------------------------------------+
@@ -54,7 +51,7 @@ RSA의 핵심은 자원 디스어그리게이션이다. 연산 노드, 메모리
 +--------------------------------------------------------------+
 ```
 
-실제 동작은 보통 다음 순서로 이뤄진다. 워크로드가 CPU 4개, 메모리 1TB, 플래시 20TB를 요청하면 랙 매니저가 비어 있는 자원을 선택하고, 패브릭 주소와 부트 정보를 묶어 하나의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드를 만들어 준다. 일이 끝나면 그 자원은 다시 해체되어 다른 조합으로 재사용된다. 이때 중요한 것은 컴퓨트와 데이터의 지역성이다. 같은 랙 안이라고 해도 로컬 메모리보다 멀 수 있으므로, 가장 뜨거운 경로는 여전히 가까운 자원에 둬야 한다.
+실제 동작은 보통 다음 순서로 이뤄진다. 워크로드가 CPU 4개, 메모리 1TB, 플래시 20TB를 요청하면 랙 매니저가 비어 있는 자원을 선택하고, 패브릭 주소와 부트 정보를 묶어 하나의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드를 만들어 준다. 일이 끝나면 그 자원은 다시 해체되어 다른 조합으로 재사용된다. 이때 중요한 것은 컴퓨트와 데이터의 지역성이다. 같은 랙 안이라고 해도 로컬 메모리보다 멀 수 있으므로, 가장 뜨거운 경로는 여전히 가까운 자원에 둬야 한다.
 
 - **📢 섹션 요약 비유**: RSA는 대형 공연장의 무대 세트 창고와 같다. 공연마다 필요한 배경과 조명이 다르니, 무대를 통째로 새로 사는 대신 창고 자재를 조합해 그때그때 다른 무대를 만드는 것이다.
 
@@ -72,9 +69,9 @@ RSA를 이해하려면 전통 서버와 블레이드 서버를 함께 비교해�
 | 운영 난이도 | 낮음 | 중간 | 높음 |
 | 기대 효과 | 단순성 | 집적도 | 활용률·민첩성 |
 
-블레이드 서버가 섀시를 공유하는 단계였다면, RSA는 실제 자원까지 풀로 풀어 버리는 단계다. 그래서 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 [자원 풀링](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/), [오픈 컴퓨트 프로젝트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/), [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))의 랙 표준, 컴포저블 인프라와 직접 연결된다. 특히 CXL은 메모리 디스어그리게이션을 현실화하는 기술적 기반이고, OCP는 이런 조합형 하드웨어를 기계적으로 꽂고 빼기 쉬운 생태계를 만든다.
+블레이드 서버가 섀시를 공유하는 단계였다면, RSA는 실제 자원까지 풀로 풀어 버리는 단계다. 그래서 컴퓨트 익스프레스 링크 ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 기반 [자원 풀링](/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/), [오픈 컴퓨트 프로젝트](/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ([Open Compute Project](/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/), [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/))의 랙 표준, 컴포저블 인프라와 직접 연결된다. 특히 CXL은 메모리 디스어그리게이션을 현실화하는 기술적 기반이고, OCP는 이런 조합형 하드웨어를 기계적으로 꽂고 빼기 쉬운 생태계를 만든다.
 
-- **📢 섹션 요약 비유**: 전통 서버가 완제품 가구라면, 블레이드 서버는 같은 책장 안에 들어가는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 가구이고, RSA는 공용 공방에서 목재와 서랍을 조합해 방 크기에 맞는 가구를 즉석에서 만드는 방식이다.
+- **📢 섹션 요약 비유**: 전통 서버가 완제품 가구라면, 블레이드 서버는 같은 책장 안에 들어가는 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 가구이고, RSA는 공용 공방에서 목재와 서랍을 조합해 방 크기에 맞는 가구를 즉석에서 만드는 방식이다.
 
 ---
 
@@ -82,30 +79,30 @@ RSA를 이해하려면 전통 서버와 블레이드 서버를 함께 비교해�
 
 RSA는 워크로드 종류가 많고 자원 비율이 자주 바뀌는 대규모 환경에서 효과가 크다. 예를 들어 검색 서비스는 주간에는 메모리 캐시 비중이 크고, 야간에는 색인 재구축 때문에 스토리지와 CPU 수요가 커진다. 랙 스케일 구조에서는 같은 랙 안의 자원을 다시 조합해 낮에는 메모리 중심, 밤에는 연산 중심 노드로 운영할 수 있어 장비 활용률이 높아진다.
 
-또한 세대 교체도 더 세밀해진다. CPU 세대만 바꾸고 메모리 셸프는 재사용하거나, 스토리지만 더 큰 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 교체하는 식이다. 하지만 이 유연성은 자동화가 있을 때만 이점이 된다. 스케줄러가 지역성을 모르고, 애플리케이션이 원격 메모리를 전혀 의식하지 않으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 장애 복잡도만 증가한다.
+또한 세대 교체도 더 세밀해진다. CPU 세대만 바꾸고 메모리 셸프는 재사용하거나, 스토리지만 더 큰 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)로 교체하는 식이다. 하지만 이 유연성은 자동화가 있을 때만 이점이 된다. 스케줄러가 지역성을 모르고, 애플리케이션이 원격 메모리를 전혀 의식하지 않으면 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 장애 복잡도만 증가한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 워크로드별 CPU·메모리·스토리지 비율이 실제로 크게 다른가?
 2. 랙 매니저와 스케줄러가 자원 지역성을 반영할 수 있는가?
 3. 패브릭 장애가 랙 전체 중단으로 번지지 않도록 격리 설계가 되어 있는가?
-4. 라이선스, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 운영 조직이 조합형 노드 모델을 감당할 수 있는가?
+4. 라이선스, [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/), 운영 조직이 조합형 노드 모델을 감당할 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 규모가 작은 고정형 전산실에 RSA를 도입해 복잡성만 늘리는 선택
-- 가장 민감한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 경로까지 모두 원격 자원에 의존하도록 배치하는 설계
+- 가장 민감한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 경로까지 모두 원격 자원에 의존하도록 배치하는 설계
 - 하드웨어 조합은 가능하지만, 모니터링과 장애 분석 체계는 전통 서버 기준으로만 남겨 두는 운영
 
-- **📢 섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 운용은 주방을 넓게 쓰는 일과 비슷하다. 재료를 많이 꺼내 놓을수록 화려해 보이지만, 동선과 냉장 보관 규칙이 없으면 요리는 더 느려지고 엉망이 된다.
+- **📢 섹션 요약 비유**: [RSA](/studynote/09_security/03_network_security/110_rsa/) 운용은 주방을 넓게 쓰는 일과 비슷하다. 재료를 많이 꺼내 놓을수록 화려해 보이지만, 동선과 냉장 보관 규칙이 없으면 요리는 더 느려지고 엉망이 된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-RSA의 가장 큰 효과는 활용률 향상과 교체 주기 분리다. 서버라는 묶음 대신 자원 단위로 사고하면, 남는 메모리나 스토리지를 다른 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드에 재배분할 수 있고, 특정 부품만 세대 교체해 투자 효율도 높일 수 있다. 랙 단위 전력·냉각 최적화와 맞물리면, 동일한 랙 면적에서 더 많은 유효 작업을 처리하는 구조로 진화한다.
+RSA의 가장 큰 효과는 활용률 향상과 교체 주기 분리다. 서버라는 묶음 대신 자원 단위로 사고하면, 남는 메모리나 스토리지를 다른 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 노드에 재배분할 수 있고, 특정 부품만 세대 교체해 투자 효율도 높일 수 있다. 랙 단위 전력·냉각 최적화와 맞물리면, 동일한 랙 면적에서 더 많은 유효 작업을 처리하는 구조로 진화한다.
 
-물론 RSA는 모든 환경의 정답이 아니다. 하이퍼스케일 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)처럼 자동화와 표준화가 성숙한 곳에서는 강력하지만, 작은 조직이나 정적 워크로드에는 과한 설계일 수 있다. 앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), 광 인터커넥트, 액체 냉각과 결합하면서 더 정교한 랙 단위 조합형 시스템이 확산되겠지만, 기억해야 할 관점은 분명하다. <strong>RSA는 서버를 더 잘 사는 방법이 아니라, 랙 전체를 하나의 자원 시장으로 운영하는 방법</strong>이다.
+물론 RSA는 모든 환경의 정답이 아니다. 하이퍼스케일 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)처럼 자동화와 표준화가 성숙한 곳에서는 강력하지만, 작은 조직이나 정적 워크로드에는 과한 설계일 수 있다. 앞으로는 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), 광 인터커넥트, 액체 냉각과 결합하면서 더 정교한 랙 단위 조합형 시스템이 확산되겠지만, 기억해야 할 관점은 분명하다. <strong>RSA는 서버를 더 잘 사는 방법이 아니라, 랙 전체를 하나의 자원 시장으로 운영하는 방법</strong>이다.
 
 - **📢 섹션 요약 비유**: RSA는 마을 장터와 같다. 각 집이 모든 물건을 다 갖추는 대신, 장터에 모아 두고 필요한 만큼 사고파니 훨씬 적은 자원으로 더 다양한 생활이 가능해진다.
 
@@ -116,10 +113,10 @@ RSA의 가장 큰 효과는 활용률 향상과 교체 주기 분리다. 서버�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 디스어그리게이션 (Disaggregation) | 서버 단위로 묶인 자원을 연산·메모리·스토리지 단위로 푸는 출발점 |
-| 컴포저블 인프라 (Composable Infrastructure) | [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)된 자원을 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시스템으로 조합하는 운영 모델 |
-| 컴퓨트 익스프레스 링크 ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) | 메모리와 가속기 디스어그리게이션을 뒷받침하는 핵심 인터커넥트 |
+| 컴포저블 인프라 (Composable Infrastructure) | [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)된 자원을 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 따라 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 시스템으로 조합하는 운영 모델 |
+| 컴퓨트 익스프레스 링크 ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/), [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) | 메모리와 가속기 디스어그리게이션을 뒷받침하는 핵심 인터커넥트 |
 | 플래시 묶음 섀시 (Just a Bunch of Flash, JBOF) | 랙 스케일 스토리지 계층의 대표적 물리 형태 |
-| [오픈 컴퓨트 프로젝트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ([Open Compute Project](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/), [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)) | 랙·전원·서비스성 표준을 제공하는 생태계 |
+| [오픈 컴퓨트 프로젝트](/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ([Open Compute Project](/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/), [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/)) | 랙·전원·서비스성 표준을 제공하는 생태계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,7 +150,7 @@ CXL 기반 컴포저블 랙 인프라
 
 **진행 상황**: 640 / 803
 
-<- **이전**: [638. 자원 풀링 (Resource Pooling, CXL 기반)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)
-**다음**: [640. 오픈 컴퓨트 프로젝트 (OCP, Open Compute Project)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ->
+<- **이전**: [638. 자원 풀링 (Resource Pooling, CXL 기반)](/studynote/01_computer_architecture/15_advanced_topics/638_resource_pooling_cxl/)
+**다음**: [640. 오픈 컴퓨트 프로젝트 (OCP, Open Compute Project)](/studynote/01_computer_architecture/15_advanced_topics/640_open_compute_project/) ->
 
 ---

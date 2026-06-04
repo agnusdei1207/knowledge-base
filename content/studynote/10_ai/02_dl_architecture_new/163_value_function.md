@@ -1,29 +1,26 @@
-+++
-title = "163. 가치 함수 (Value Function)"
-date = 2026-04-17
+---
+title: "163. 가치 함수 (Value Function)"
+date: "2026-04-17"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가치 함수 (Value Function)는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에이전트가 어떤 상태나 행동이 장기적으로 얼마나 유리한지 숫자로 표현한 미래 기대 보상 지도다.
-> 2. **가치**: 즉시 보상 ([Immediate](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Reward)만 보면 보이지 않는 우회 경로, 희소 보상 (Sparse Reward), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 (Delayed Reward) 문제를 가치 함수가 연결해 주기 때문에 장기 최적화가 가능해진다.
+> 1. **본질**: 가치 함수 (Value Function)는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) ([Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) 에이전트가 어떤 상태나 행동이 장기적으로 얼마나 유리한지 숫자로 표현한 미래 기대 보상 지도다.
+> 2. **가치**: 즉시 보상 ([Immediate](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) Reward)만 보면 보이지 않는 우회 경로, 희소 보상 (Sparse Reward), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 (Delayed Reward) 문제를 가치 함수가 연결해 주기 때문에 장기 최적화가 가능해진다.
 > 3. **판단 포인트**: 상태 가치 함수 $V$와 행동 가치 함수 $Q$ 중 무엇을 학습할지, 그리고 표 기반 (Tabular)으로 둘지 함수 근사 (Function Approximation)로 확장할지는 상태 공간 크기와 행동 선택 방식에 따라 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-가치 함수 (Value Function)는 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 또는 상태-행동 ([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-Action) 쌍이 미래에 얼마나 큰 누적 보상 (Return)을 만들 수 있는지 추정하는 함수다. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서 에이전트는 보상을 즉시 다 받지 못하므로, 지금의 선택이 나중에 어떤 결과로 이어지는지 보여 주는 중간 지표가 필요하다. 가치 함수가 바로 그 역할을 맡는다.
+가치 함수 (Value Function)는 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 또는 상태-행동 ([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)-Action) 쌍이 미래에 얼마나 큰 누적 보상 (Return)을 만들 수 있는지 추정하는 함수다. [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서 에이전트는 보상을 즉시 다 받지 못하므로, 지금의 선택이 나중에 어떤 결과로 이어지는지 보여 주는 중간 지표가 필요하다. 가치 함수가 바로 그 역할을 맡는다.
 
-이 개념이 필요한 이유는 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 환경이 대개 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 구조를 가지기 때문이다. 미로 탐색에서는 출구에 도착할 때만 큰 보상이 주어지고, 로봇 제어에서는 몇 초 뒤 넘어졌는지 성공했는지가 중요하다. 보상만 따라가면 에이전트는 눈앞의 작은 점수에 집착하거나, 어느 행동이 최종 성공에 기여했는지 알지 못한다.
+이 개념이 필요한 이유는 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 환경이 대개 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보상 구조를 가지기 때문이다. 미로 탐색에서는 출구에 도착할 때만 큰 보상이 주어지고, 로봇 제어에서는 몇 초 뒤 넘어졌는지 성공했는지가 중요하다. 보상만 따라가면 에이전트는 눈앞의 작은 점수에 집착하거나, 어느 행동이 최종 성공에 기여했는지 알지 못한다.
 
-결국 가치 함수는 "지금 얼마를 받았는가"보다 "이 위치에서 출발하면 앞으로 얼마나 벌 수 있는가"를 계산한다. 그래서 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))이 행동을 고르는 손이라면, 가치 함수는 그 손이 참고하는 지도라고 볼 수 있다.
+결국 가치 함수는 "지금 얼마를 받았는가"보다 "이 위치에서 출발하면 앞으로 얼마나 벌 수 있는가"를 계산한다. 그래서 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))이 행동을 고르는 손이라면, 가치 함수는 그 손이 참고하는 지도라고 볼 수 있다.
 
 - **📢 섹션 요약 비유**: 보상은 오늘 받은 용돈이고, 가치 함수는 이 동네에서 계속 장사했을 때 한 달 뒤 얼마를 벌 수 있을지 적어 둔 상권 지도와 같다.
 
@@ -31,12 +28,12 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가치 함수는 할인율 (Discount Factor) $\gamma$를 사용해 미래 보상을 현재 시점으로 환산한다. 상태 가치 함수 $V^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s)$는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) $\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$를 따를 때 상태 $s$의 장기 가치를, 행동 가치 함수 $Q^\[pi](/knowledge-base/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s, a)$는 상태 $s$에서 행동 $a$를 했을 때의 장기 가치를 뜻한다. 핵심은 "현재 가치 = 지금 보상 + 다음 상태 가치의 할인 합"이라는 [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/))이다.
+가치 함수는 할인율 (Discount Factor) $\gamma$를 사용해 미래 보상을 현재 시점으로 환산한다. 상태 가치 함수 $V^\[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s)$는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) $\[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)$를 따를 때 상태 $s$의 장기 가치를, 행동 가치 함수 $Q^\[pi](/studynote/12_it_management/01_governance_strategy/805_process_innovation/)(s, a)$는 상태 $s$에서 행동 $a$를 했을 때의 장기 가치를 뜻한다. 핵심은 "현재 가치 = 지금 보상 + 다음 상태 가치의 할인 합"이라는 [벨만 방정식](/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/studynote/10_ai/05_data_science_ml/372_bellman_equation/))이다.
 
-| 구분 | 질문 | 주 용도 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 구분 | 질문 | 주 용도 | 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | :--- | :--- | :--- | :--- |
-| 상태 가치 함수 $V(s)$ | "이 상태는 전반적으로 좋은가?" | 상태 평가, 크리틱 (Critic) | 시간차 학습 (Temporal Difference [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)), [Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) |
-| 행동 가치 함수 $Q(s, a)$ | "이 상태에서 이 행동은 좋은가?" | 행동 선택, 최적 행동 탐색 | Q-러닝 ([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)), [딥 큐 네트워크](/knowledge-base/studynote/10_ai/02_dl_architecture_new/168_dqn/) ([Deep Q-Network](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/), [DQN](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) |
+| 상태 가치 함수 $V(s)$ | "이 상태는 전반적으로 좋은가?" | 상태 평가, 크리틱 (Critic) | 시간차 학습 (Temporal Difference [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/)), [Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) |
+| 행동 가치 함수 $Q(s, a)$ | "이 상태에서 이 행동은 좋은가?" | 행동 선택, 최적 행동 탐색 | Q-러닝 ([Q-Learning](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)), [딥 큐 네트워크](/studynote/10_ai/02_dl_architecture_new/168_dqn/) ([Deep Q-Network](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/), [DQN](/studynote/06_ict_convergence/04_ai_llm/465_dqn_deep_q_network/)) |
 
 아래 그림은 가치가 어떻게 다음 상태의 정보로부터 역방향으로 전파되듯 갱신되는지 보여 준다.
 
@@ -68,40 +65,40 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-가치 함수를 제대로 이해하려면 보상 (Reward), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 모델 (Model)과의 경계를 같이 봐야 한다. 보상은 한 번의 사건에 붙는 점수이고, 가치 함수는 그 점수가 이어질 미래 전체를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 숫자다. [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 무엇을 할지 고르는 규칙이며, 가치 함수는 그 규칙이 얼마나 좋은지 평가하는 기준이다.
+가치 함수를 제대로 이해하려면 보상 (Reward), [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 모델 (Model)과의 경계를 같이 봐야 한다. 보상은 한 번의 사건에 붙는 점수이고, 가치 함수는 그 점수가 이어질 미래 전체를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 숫자다. [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 무엇을 할지 고르는 규칙이며, 가치 함수는 그 규칙이 얼마나 좋은지 평가하는 기준이다.
 
 | 개념 | 무엇을 표현하는가 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
 | 보상 (Reward) | 한 시점의 즉시 피드백 | 정의가 단순함 | 장기 효과를 직접 못 봄 |
-| 가치 함수 $V, Q$ | 미래 누적 보상의 기대값 | 장기 최적화 가능 | 추정 오차가 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)에 전파됨 |
-| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 행동 선택 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 또는 규칙 | 직접 행동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 | 평가 기준이 없으면 개선이 어려움 |
+| 가치 함수 $V, Q$ | 미래 누적 보상의 기대값 | 장기 최적화 가능 | 추정 오차가 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)에 전파됨 |
+| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) ([Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/)) | 행동 선택 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 또는 규칙 | 직접 행동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능 | 평가 기준이 없으면 개선이 어려움 |
 
-또 상태 가치 함수 $V$는 상태 자체의 수준을 보고, 행동 가치 함수 $Q$는 행동별 차이를 본다. 그래서 행동 공간이 명확한 이산 문제에서는 $Q$ 기반 방법이 직관적이고, 연속 제어처럼 행동이 매우 많은 문제에서는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반이나 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 구조가 더 자연스럽다. 액터는 행동을 만들고, 크리틱은 가치 함수를 계산해 액터를 교정한다.
+또 상태 가치 함수 $V$는 상태 자체의 수준을 보고, 행동 가치 함수 $Q$는 행동별 차이를 본다. 그래서 행동 공간이 명확한 이산 문제에서는 $Q$ 기반 방법이 직관적이고, 연속 제어처럼 행동이 매우 많은 문제에서는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반이나 [액터-크리틱](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 구조가 더 자연스럽다. 액터는 행동을 만들고, 크리틱은 가치 함수를 계산해 액터를 교정한다.
 
-즉 가치 함수는 독립 개념이 아니라 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 다른 부품들과 맞물려 동작한다. 모델 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Model-Based [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서는 환경 예측 모델과 결합해 계획을 세우고, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서는 학습 방향을 안정화하는 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
+즉 가치 함수는 독립 개념이 아니라 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 다른 부품들과 맞물려 동작한다. 모델 기반 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Model-Based [Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/))에서는 환경 예측 모델과 결합해 계획을 세우고, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 기반 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)에서는 학습 방향을 안정화하는 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 역할을 한다.
 
-- **📢 섹션 요약 비유**: 보상은 한 끼 식사 평가표, 가치 함수는 맛집 평점 누적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 오늘 어디로 갈지 정하는 선택 리스트와 같다.
+- **📢 섹션 요약 비유**: 보상은 한 끼 식사 평가표, 가치 함수는 맛집 평점 누적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 오늘 어디로 갈지 정하는 선택 리스트와 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가치 함수는 게임 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)보다도 로봇, 추천, 광고 입찰, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 제어처럼 장기 효과가 중요한 문제에서 의미가 크다. 예를 들어 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 클릭만 보상으로 두면 자극적인 콘텐츠에 치우칠 수 있지만, 체류 시간·재방문·이탈률을 함께 반영한 가치 함수는 더 긴 관점의 추천을 유도한다. 반대로 보상 정의가 잘못되면 가치 함수도 잘못된 목표를 정교하게 학습한다.
+실무에서 가치 함수는 게임 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)보다도 로봇, 추천, 광고 입찰, [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 제어처럼 장기 효과가 중요한 문제에서 의미가 크다. 예를 들어 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)이 클릭만 보상으로 두면 자극적인 콘텐츠에 치우칠 수 있지만, 체류 시간·재방문·이탈률을 함께 반영한 가치 함수는 더 긴 관점의 추천을 유도한다. 반대로 보상 정의가 잘못되면 가치 함수도 잘못된 목표를 정교하게 학습한다.
 
-### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 상태 수가 작고 이산적이면 표 기반 $Q$ 학습부터 검토한다.
-2. 상태가 이미지·센서열처럼 크면 함수 근사와 경험 재현 ([Experience Replay](/knowledge-base/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)), 타깃 네트워크 ([Target Network](/knowledge-base/studynote/10_ai/02_dl_architecture_new/170_target_network/)) 같은 안정화 장치를 함께 둔다.
-3. 할인율 $\gamma$가 너무 낮으면 단기 반응형이 되고, 너무 높으면 학습 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 커질 수 있으므로 문제의 시간 지평과 맞춘다.
-4. 희소 보상 환경에서는 보상 설계, [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) ([Exploration](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)), 보조 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 함께 설계한다.
+2. 상태가 이미지·센서열처럼 크면 함수 근사와 경험 재현 ([Experience Replay](/studynote/10_ai/02_dl_architecture_new/169_experience_replay/)), 타깃 네트워크 ([Target Network](/studynote/10_ai/02_dl_architecture_new/170_target_network/)) 같은 안정화 장치를 함께 둔다.
+3. 할인율 $\gamma$가 너무 낮으면 단기 반응형이 되고, 너무 높으면 학습 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 커질 수 있으므로 문제의 시간 지평과 맞춘다.
+4. 희소 보상 환경에서는 보상 설계, [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/) ([Exploration](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)), 보조 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 함께 설계한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 즉시 보상만 최적화해 장기 실패를 만드는 설계
-- 가치 함수 오차를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않은 채 실제 제어 시스템에 바로 연결하는 설계
-- 오프라인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 밖 상태까지 과신하는 설계
+- 가치 함수 오차를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하지 않은 채 실제 제어 시스템에 바로 연결하는 설계
+- 오프라인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 밖 상태까지 과신하는 설계
 
-예를 들어 자율주행 시뮬레이터에서 차선 유지 보상만 두면, 차량이 지나치게 보수적으로 움직이거나 합류를 회피하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 나올 수 있다. 이때는 안전, [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률, 승차감 같은 복합 목표를 가치 함수가 균형 있게 반영하도록 설계해야 한다.
+예를 들어 자율주행 시뮬레이터에서 차선 유지 보상만 두면, 차량이 지나치게 보수적으로 움직이거나 합류를 회피하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 나올 수 있다. 이때는 안전, [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)률, 승차감 같은 복합 목표를 가치 함수가 균형 있게 반영하도록 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 가치 함수를 잘못 설계하는 것은 회사 평가표에 "야근 시간"만 넣는 것과 같다. 사람들은 성과보다 늦게까지 남아 있는 법부터 배운다.
 
@@ -109,11 +106,11 @@ tags = ["studynote-ai"]
 
 ## Ⅴ. 기대효과 및 결론
 
-가치 함수가 잘 학습되면 에이전트는 단기 유혹보다 장기 성과를 우선하는 결정을 할 수 있다. 이는 탐색 효율 향상, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선 가속, 희소 보상 문제 완화로 이어진다. 특히 [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 계열에서는 가치 함수가 학습의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 안전장치 역할까지 맡는다.
+가치 함수가 잘 학습되면 에이전트는 단기 유혹보다 장기 성과를 우선하는 결정을 할 수 있다. 이는 탐색 효율 향상, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 개선 가속, 희소 보상 문제 완화로 이어진다. 특히 [액터-크리틱](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) 계열에서는 가치 함수가 학습의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 줄이는 안전장치 역할까지 맡는다.
 
-다만 가치 함수는 어디까지나 추정치다. 함수 근사 오차, 분포 이동 (Distribution Shift), 보상 설계 오류가 있으면 잘못된 미래를 자신 있게 예측할 수 있다. 그래서 최근에는 분포형 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Distributional [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), 불확실성 추정, 오프라인 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 같은 방향으로 가치 추정의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이고 있다.
+다만 가치 함수는 어디까지나 추정치다. 함수 근사 오차, 분포 이동 (Distribution Shift), 보상 설계 오류가 있으면 잘못된 미래를 자신 있게 예측할 수 있다. 그래서 최근에는 분포형 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) (Distributional [Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)), 불확실성 추정, 오프라인 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/) 같은 방향으로 가치 추정의 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 높이고 있다.
 
-정리하면 가치 함수는 "미래를 숫자로 접어 넣은 요약본"으로 기억하면 좋다. [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 성패는 보상을 얼마나 잘 주느냐만이 아니라, 그 보상이 미래 전체와 어떻게 연결되는지를 가치 함수로 얼마나 안정적으로 학습하느냐에 달려 있다.
+정리하면 가치 함수는 "미래를 숫자로 접어 넣은 요약본"으로 기억하면 좋다. [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)의 성패는 보상을 얼마나 잘 주느냐만이 아니라, 그 보상이 미래 전체와 어떻게 연결되는지를 가치 함수로 얼마나 안정적으로 학습하느냐에 달려 있다.
 
 - **📢 섹션 요약 비유**: 가치 함수는 지도 앱의 예상 도착 시간과 같다. 지금 눈앞 도로만 보는 것이 아니라, 앞으로의 정체와 우회로까지 합쳐서 어떤 길이 진짜 이득인지 알려 준다.
 
@@ -123,11 +120,11 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [마르코프 결정 과정](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/), [MDP](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) | 가치 함수를 정의하는 상태, 행동, 전이, 보상의 기본 틀 |
+| [마르코프 결정 과정](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/) ([Markov Decision Process](/studynote/10_ai/04_ai_ops_ethics/314_mdp_rl/), [MDP](/studynote/06_ict_convergence/04_ai_llm/463_markov_decision_process_mdp/)) | 가치 함수를 정의하는 상태, 행동, 전이, 보상의 기본 틀 |
 | 리턴 (Return) | 가치 함수가 예측하려는 할인 누적 보상 |
-| [벨만 방정식](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/knowledge-base/studynote/10_ai/05_data_science_ml/372_bellman_equation/)) | 가치 갱신의 수학적 핵심 |
-| Q-러닝 ([Q-Learning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)) | 행동 가치 함수 $Q$를 직접 학습하는 대표 기법 |
-| [액터-크리틱](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) ([Actor-Critic](/knowledge-base/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가치 함수를 함께 학습하는 구조 |
+| [벨만 방정식](/studynote/10_ai/05_data_science_ml/372_bellman_equation/) ([Bellman Equation](/studynote/10_ai/05_data_science_ml/372_bellman_equation/)) | 가치 갱신의 수학적 핵심 |
+| Q-러닝 ([Q-Learning](/studynote/10_ai/04_ai_ops_ethics/316_q_learning/)) | 행동 가치 함수 $Q$를 직접 학습하는 대표 기법 |
+| [액터-크리틱](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/) ([Actor-Critic](/studynote/10_ai/02_dl_architecture_new/172_actor_critic/)) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 가치 함수를 함께 학습하는 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -150,7 +147,7 @@ DQN (Deep Q-Network) · Actor-Critic
 분포형 강화 학습 · 오프라인 강화 학습
 ```
 
-이 흐름도는 한 번의 보상이 장기 가치 추정으로 확장되고, 다시 심층 [강화 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)으로 발전하는 흐름을 보여 준다.
+이 흐름도는 한 번의 보상이 장기 가치 추정으로 확장되고, 다시 심층 [강화 학습](/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/)으로 발전하는 흐름을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +161,7 @@ DQN (Deep Q-Network) · Actor-Critic
 
 **진행 상황**: 163 / 420
 
-<- **이전**: [162. 마르코프 결정 과정 (MDP)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/162_mdp/)
-**다음**: [164. 정책 (Policy, π)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) ->
+<- **이전**: [162. 마르코프 결정 과정 (MDP)](/studynote/10_ai/02_dl_architecture_new/162_mdp/)
+**다음**: [164. 정책 (Policy, π)](/studynote/10_ai/02_dl_architecture_new/164_policy/) ->
 
 ---

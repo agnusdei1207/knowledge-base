@@ -1,175 +1,138 @@
-+++
-title = "492. DevOps 환경 감리 자동화 검증 (DevOps Environment Audit Automation)"
-date = 2026-05-09
+---
+title: "492. DevOps 환경 감리 자동화 검증 (DevOps Environment Audit Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DevOps 환경 감리 자동화 검증은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: DevOps 파이프라인(Plan->Code->Build->Test->Release->Deploy->Operate->Monitor)의 모든 산출물(IaC, 컨테이너 이미지, SBOM, 배포 매니페스트, 정책 로그)을 Policy-as-Code(OPA/Rego, Sentinel, Kyverno) 기반으로 기계 판독 가능한 형태로 자동 검증하여, 감리 통제 항목(Control Objective)을 Continuous Controls Monitoring(CCM) 수준으로 전환하는 기법이다.
+> 2. **가치**: 전통 수동 감리의 평균 120~180 영업일 소요를 72시간 이내의 자동 증적 수집(Automated Evidence Collection)으로 단축하며, ISO 27001·SOC2·PCI-DSS·전자금융감독규정 등 다중 규제 매핑 시 중복 작업 약 65% 제거, 감리 통제 미흡(Coverage Gap) 발견 시점 MTTD(Mean Time To Detect)를 30일->수 분으로 단축한다.
+> 3. **판단 포인트**: (a) Policy Engine 선택 시 Rego(Datalog 기반) vs Sentinel(Go-like) vs Cedar(Logic-programming) 트레이드오프, (b) Shift-Left(이슈 발생 시점) vs Shield-Left(배포 차단 시점) 적용 균형, (c) Attestation(서명·해시) 기반 Supply Chain 보장과 Runtime Admission Control(Kyverno/OPA Gatekeeper)의 이중 계층 설계가 핵심 의사결정 분기점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DevOps 환경 감리 자동화 검증은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 정보시스템 감리는 ① 감리인 도임 -> ② 통제 항목(Control Item)별 증적(Evidence) 수기 수집 -> ③ 인터뷰·점검표 작성 -> ④ 결론 도출의 4단계 워터폴 방식으로 진행되어, 통상 1차 시스템 1,200~2,000개 통제 항목에 대해 4~6개월이 소요된다. 그러나 클라우드 네이티브 환경에서 Kubernetes 매니페스트가 하루 수십 회, Terraform 모듈이 주 수백 회 변경되는 상황에서, **"Point-in-time Audit(특정 시점 스냅샷)"** 패러다임은 본질적으로 작동하지 못한다. 감리가 끝나는 시점에는 이미 검증 대상 시스템이 완전히 변모(snapshot rot)되어 있다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, DevOps Environment Audit Automation 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+DevOps 환경 감리 자동화 검증(DevOps Environment Audit Automation, 이하 DEAA)은 이러한 문제를 해결하기 위해 **(1) 통제를 코드로 표현(Policy-as-Code, PaC)**, **(2) 빌드·배포 파이프라인 자체에 통제 게이트(Policy Enforcement Point, PEP)를 삽입**, **(3) 모든 의사결정 로그를 불변 저장소(WORM, 예: AWS S3 Object Lock)에 attestation 형태로 보존**하는 3축 통합 프레임워크이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    DevOps 환경 감리 자동화 검증 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[전통 감리]  수동 샘플링 -> 4~6개월 소요 -> 결과 무효화 위험
+                v 진화
+[DEAA]      통제 코드화 + 자동 PEP + 불변 증적체인
+   +--------------------------------------------------------------+
+   |  Source  | Build | Test | Stage | Prod |   Audit Plane      |
+   |  (Git)   |(CI)   |(QA)  |(Pre-Prod)|(Live)|  (Always-on)     |
+   |          |       |      |        |     |                    |
+   |  v IaC  | v SBOM|vSAST |v Admission|v Drift|   v Continuous  |
+   |  Scan   | Gen   |DAST  | Control | Detect|     Monitoring   |
+   |  v      | v Sign |v CVE |v OPA   |v eBPF |   v Compliance   |
+   |  Trivy  | Cosign |SBOM  | Gatekeepr| Falco|     Dashboard   |
+   +--------------------------------------------------------------+
+                       |
+                       v
+        +----------------------------------+
+        |  Immutable Evidence Store (WORM) |
+        |   +- in-toto Attestation        |
+        |   +- Sigstore Rekor(Log)        |
+        |   +- SIEM -> SOAR -> Audit Report |
+        +----------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+기존 패러다임 대비 핵심 변화는 **"증적(Evidence)을 사람이 만들면 비용이 들고, 위조 가능하며, 사후에야 존재한다"**는 전제에서 **"증적은 시스템이 암호학적 서명(SHA-256 + Sigstore/RFC 3161 TSA)으로 자동 생성하며, 정책 위반 자체가 빌드 차단으로 이어지므로 사후 위반이 구조적으로 불가능"**한 패러다임으로의 전환이다.
 
-- **📢 섹션 요약 비유**: DevOps 환경 감리 자동화 검증은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 전통 감리가 "1년에 한 번 총 들고 다니며 현장을 둘러보는 건강검진"이라면, DEAA는 **"웨어러블 심전도 모니터처럼 24시간 심장 박동을 측정해 이상이 감지되는 즉시 알람이 울리는 상시 모니터링 시스템"**과 같다. 심전도 데이터(WORM 저장된 attestation)는 의사가 필요할 때 언제든 불러 검토할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DevOps 환경 감리 자동화 검증의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+DEAA의 참조 아키텍처는 ISO/IEC 42001(AI), ISO 27001:2022(Annex A 5.37~5.41 개발 통제), NIST SSDF(Secure Software Development Framework SP 800-218), SLSA v1.0(Build L3), 그리고 가이드라인으로는 CIS Software Supply Chain Guide, OWASP CICD-SEC-01~10, CISA SBOM 최소요소(Type·Version·Supplier·Dependency 관계)를 상호 매핑한 5-Layer Audit Plane 위에 구성된다.
 
 ```text
-+--------------------------------------------------------------+
-|              DevOps Environment Audit Automation 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[DEAA 5-Layer Reference Architecture]
+-------------------------------------------------------------------
+ Layer 5  |  Governance & Reporting Layer
+          |  +-------------------------------------------------+
+          |  | Compliance Scorecard | Risk Heatmap | Audit PDF |
+          |  |  - ISO 27001 Ctrl Map |  - CVSS > 7 | Gen via   |
+          |  |  - SOC2 CC-series     |  - Drift %  | Jinja2    |
+          |  +-------------------------------------------------+
+-------------------------------------------------------------------
+ Layer 4  |  Continuous Controls Monitoring (CCM)
+          |  +--------------------------------------------------+
+          |  |  Evidence Aggregator ->  Time-Series DB (Prometheus)|
+          |  |  - Control State(t)  = f(policy_eval, runtime_obs)|
+          |  |  - Violation EventBus (NATS/Kafka) -> SOAR          |
+          |  +--------------------------------------------------+
+-------------------------------------------------------------------
+ Layer 3  |  Policy Decision Point (PDP) & Enforcement Point (PEP)
+          |  +----------------+    +--------------------------+
+          |  | OPA / Rego     |◄--►|  Kyverno (K8s)           |
+          |  | Cedar (AWS)    |    |  Gatekeeper (K8s)        |
+          |  | Sentinel (TF)  |    |  Conftest (YAML)         |
+          |  +----------------+    +--------------------------+
+-------------------------------------------------------------------
+ Layer 2  |  Software Supply Chain Integrity
+          |  +--------------------------------------------------+
+          |  |  Source -► SLSA L3 Build -► SBOM(CycloneDX/SPDX) |
+          |  |  -► Cosign Sign -► Rekor Transparency Log        |
+          |  |  -► in-toto Attestation (predicate: vuln-scan)   |
+          |  +--------------------------------------------------+
+-------------------------------------------------------------------
+ Layer 1  |  Infrastructure & Runtime Telemetry
+          |  +----------------+  +------------+  +------------+
+          |  | Terraform/Cloud |  | K8s API    |  | eBPF/Falco |
+          |  | Formation Drift |  | Audit Log  |  | Runtime    |
+          |  +----------------+  +------------+  +------------+
+-------------------------------------------------------------------
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+각 계층의 동작 원리를 보다 자세히 살펴보자.
+
+### 1) Layer 1 — 원천 데이터 수집 계층
+
+인프라 변경 사실(Change Truth)은 세 곳에서 발생한다: (a) **IaC Repository**(Git commit SHA), (b) **Cloud Provider의 State Store**(Terraform State, AWS CloudTrail, Azure Activity Log), (c) **Kubernetes Control Plane**(etcd). 이 세 원천의 일치 여부가 감사 통제 A.8.32(Change Management)의 핵심이다. **Drift Detection**은 `terraform plan -detailed-exitcode` 또는 `driftctl`로 IaC 의도(Intent)와 실세계 상태(Actual State)의 차이를 산출하며, 이 결과 자체가 하나의 통제 증적이 된다.
+
+Runtime 계층에서는 eBPF 기반 Falco가 Syscall 이벤트를 스트리밍하여 컨테이너 내부의 비정상 행위(예: `/bin/bash` in production pod, outbound to non-allowlisted CIDR)를 탐지한다. 이 이벤트 로그에는 Kubernetes Namespace, Pod UID, Container Image SHA, cgroup ID가 태그로 부착되어, **증적 단위(Evidence Unit) = (행위자, 행위, 시점, 자원)**의 4-tuple을 만족한다.
+
+### 2) Layer 2 — Supply Chain Integrity 계층
+
+**SLSA(Supply-chain Levels for Secure Artifacts) v1.0**의 Level 3 요건은 빌드 환경의 격리(Hermetic, Two-party review, Hardened runner)와 출처 무결성(Provenance)이다. **in-toto Attestation**은 `predicateType`(예: `https://cyclonedx.org/bom`, `https://slsa.dev/verification/v1`)과 `subject[].digest.sha256`을 갖는 JSON-LD 형태의 진술서로, Cosign이 이를 Sigstore Rekor 투명 로그(append-only Merkle Tree)에 기록한다. Rekor의 inclusion proof는 **"X 시점에 Y 해시값의 attestation이 제출되었다"**는 시간적 증명(Time-Stamp Authority, RFC 3161)을 제공한다.
+
+SBOM(Software Bill of Materials)은 CISA 최소요소인 CycloneDX 1.5 또는 SPDX 2.3 포맷을 따른다. SBOM 내부의 의존성 그래프(Dependency Graph)는 VEX(Vulnerability Exploitability eXchange) 문서와 결합되어, "해당 CVE가 우리 빌드에 영향이 있는가(Reachability Analysis)"를 판단하는 근거가 된다.
+
+### 3) Layer 3 — Policy Decision / Enforcement 계층
+
+핵심 알고리즘으로 **OPA(Open Policy Agent)**는 Rego라는 Datalog-inspired 언어를 사용해 정책 표현식 `input` (JSON 형태의 평가 대상)과 `data` (외부에서 주입되는 참조 데이터, 예: 허용된 이미지 레지스트리 목록)를 받아 `result = { "allow": bool, "violations": [...] }`를 반환한다. 평가 시점은 크게 4종: ① **PR Time**(GitHub Action의 `opa test`, `conftest verify` -> Merge 차단), ② **Build Time**(Tekton/Chains에서 in-toto predicate 생성 직전), ③ **Admission Time**(kube-apiserver의 ValidatingAdmissionWebhook, 평균 레이턴시 < 50ms), ④ **Runtime**(Falco output -> OPA input 재평가 -> SOAR 액션).
+
+**Kyverno**는 Kubernetes CRD 네이티브 정책 엔진으로, `validate`, `mutate`, `generate`, `verifyImages` 4가지 액션을 지원한다. `verifyImages`는 컨테이너 이미지의 Cosign 서명을 자동 검증하여 unsigned image 배포를 차단한다. **Sentinel**(HashiCorp)은 Terraform Cloud, Vault, Nomad에 임베드되며, 정책에 따라 `soft-mandatory`, `hard-mandatory`를 구분한다(soft는 override 가능, hard는 불가).
+
+### 4) Layer 4 — Continuous Controls Monitoring(CCM) 계층
+
+CCM은 **통제 상태의 시간 함수** `S_c(t) ∈ {0, 1, 2, 3}` (0=Failed, 1=At-Risk, 2=Compliant, 3=Verified)를 정의하고, 매 평가 사이클(예: 5분)마다 갱신한다. Open Policy Administration Layer(OPAL)는 OPA의 데이터 평면과 정책 평면을 분리하여, 정책 변경을 OPA 인스턴스에 핫리로드(보통 3초 내)하는 채널을 제공한다. CCM의 출력은 Prometheus 메트릭(`opa_policy_decision_total{policy="...",result="deny"}`)로 노출되어 Grafana 대시보드에서 시계열로 조회 가능하며, 90일 보관 후 WORM 스토리지로 이전된다.
+
+### 5) Layer 5 — Governance & Reporting 계층
+
+감사 보고서는 **자동 생성**된다. Jinja2 + LaTeX 템플릿이 다음을 결합: (i) 정책 평가 이력, (ii) SBOM, (iii) in-toto attestation, (iv) Runtime incident, (v) 사람의 승인 기록(e-signature, PKI 기반). PDF는 PAdES(ETSI EN 319 142) 표준에 따라 디지털 서명되어, 감리인이 검토 후 추가 서명할 수 있다. SOC2 Type II 보고서 자동 생성 도구로는 **Drata, Vanta, Secureframe, Tugboat Logic**(이 분야를 "Trust Assurance"라 칭함)이 있으며, 이들은 100여 SaaS(Okta, GitHub, AWS, GCP) API를 통합하여 통제 항목을 자동 폴링한다.
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-DevOps 환경 감리 자동화 검증을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | DevOps 환경 감리 자동화 검증 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. DevOps 환경 감리 자동화 검증은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 DevOps 환경 감리 자동화 검증은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 DevOps 환경 감리 자동화 검증을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-DevOps 환경 감리 자동화 검증을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, DevOps 환경 감리 자동화 검증 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: DevOps 환경 감리 자동화 검증은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | DevOps 환경 감리 자동화 검증의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | DevOps 환경 감리 자동화 검증의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-DevOps 환경 감리 자동화 검증 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. DevOps 환경 감리 자동화 검증은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **IaC Scanner** | Terraform/CloudFormation 정적 분석, 드리프트 탐지 | Checkov(2,000+ 정책, Python AST 분석), tfsec(Golang, Go AST), Terrascan(OPA 기반, Rego 정책 500+), driftctl(RFC 1918 망 외 IP 식별, JSON diff). 평가: 평균 1,000 LoC IaC를 8~15초 스캔 |
+| **Policy Engine (PDP)** | 정책 표현식 평가, 결정 반환 | OPA v0.60+(Rego v1), HashiCorp Sentinel v0.21+, AWS Cedar v4.0+, Kyverno v1.11+. 평가 모델: Allow/Deny + Reason + Metadata(통제 매핑, 예: `control_id="ISO27001-A.8.32"`) |
+| **Admission Controller (PEP)** | K8s API 호출 시 정책 강제 | OPA Gatekeeper(v3, mutation+validation), Kyverno(Native CRD), AWS EKS Pod Identity webhook. latency P99 < 80ms, 5xx error 시 Fail-Open vs Fail-Closed 정책 결정 필요 |
+| **SBOM Generator** | 빌드 산출물 의존성 트리 생성 | Syft(Anchore), CycloneDX-gomod, cdxgen, SPDX SBOM Generator. 출력 포맷: CycloneDX 1.5, SPDX 2.3, 내부 RDF 변환 |
+| **Attestation Signer** | 진술서에 서명 및 투명 로그 기록 | Sigstore Cosign(키리스 서명, OIDC + Fulcio CA), Rekor(append-only Merkle tree, 1.4M+ entries), in-toto-golang v0.9, Witness(루트 정책) |
+| **Runtime Detector** | 컨테이너 비정상 행위 탐지 | Falco v
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 492 / 600
 
-<- **이전**: [491. 애자일 프로젝트 감리 방법론](/knowledge-base/studynote/11_design_supervision/06_exam_summary/492_agile_project_audit_methodology/)
-**다음**: [493. 마이크로서비스 감리 분산 시스템 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/493_microservice_audit_distributed_system/) ->
+<- **이전**: [491. 애자일 프로젝트 감리 방법론](/studynote/11_design_supervision/06_exam_summary/492_agile_project_audit_methodology/)
+**다음**: [493. 마이크로서비스 감리 분산 시스템 진단](/studynote/11_design_supervision/06_exam_summary/493_microservice_audit_distributed_system/) ->
 
 ---

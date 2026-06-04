@@ -1,13 +1,10 @@
-+++
-title = "590. 증강현실 AR 산업 현장 가이드 (Augmented Reality AR Industrial Guide)"
-date = 2026-05-09
+---
+title: "590. 증강현실 AR 산업 현장 가이드 (Augmented Reality AR Industrial Guide)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Capture -> Track -> Register -> Overlay -> Guide
 
 **진행 상황**: 590 / 800
 
-<- **이전**: [589. 웨어러블 헬스케어 모니터링](/knowledge-base/studynote/06_ict_convergence/uncategorized/589_wearable_device_healthcare_monitoring/)
-**다음**: [591. 가상현실 VR 몰입형 훈련](/knowledge-base/studynote/06_ict_convergence/uncategorized/591_virtual_reality_vr_immersive_training/) ->
+<- **이전**: [589. 웨어러블 헬스케어 모니터링](/studynote/06_ict_convergence/uncategorized/589_wearable_device_healthcare_monitoring/)
+**다음**: [591. 가상현실 VR 몰입형 훈련](/studynote/06_ict_convergence/uncategorized/591_virtual_reality_vr_immersive_training/) ->
 
 ---

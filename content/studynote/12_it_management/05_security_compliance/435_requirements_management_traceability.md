@@ -1,13 +1,10 @@
-+++
-title = "435. 요구사항 관리 추적 변경 제어 (Requirements Management Traceability)"
-date = 2026-05-09
+---
+title: "435. 요구사항 관리 추적 변경 제어 (Requirements Management Traceability)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -160,7 +157,7 @@ $$P(CR_i) = w_1 \cdot Impact_i + w_2 \cdot Urgency_i + w_3 \cdot Cost_i^{-1} + w
 
 **진행 상황**: 435 / 800
 
-<- **이전**: [434. 소프트웨어 개발 방법론 워터폴 애자일](/knowledge-base/studynote/12_it_management/05_security_compliance/434_software_development_waterfall_agile/)
-**다음**: [436. 테스트 관리 품질 보증 자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/436_test_management_quality_assurance_automation/) ->
+<- **이전**: [434. 소프트웨어 개발 방법론 워터폴 애자일](/studynote/12_it_management/05_security_compliance/434_software_development_waterfall_agile/)
+**다음**: [436. 테스트 관리 품질 보증 자동화](/studynote/12_it_management/05_security_compliance/436_test_management_quality_assurance_automation/) ->
 
 ---

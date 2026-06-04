@@ -1,13 +1,10 @@
-+++
-title = "277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)"
-date = 2026-05-09
+---
+title: "277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -197,7 +194,7 @@ Repeat:
 
 **진행 상황**: 277 / 300
 
-<- **이전**: [276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/276_causal_inference/)
-**다음**: [278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/278_de_identification/) ->
+<- **이전**: [276. 인과 추론 도구 변수 인과 그래프 (Causal Inference Instrumental Variable DAG)](/studynote/14_data_engineering/05_exam_keywords/276_causal_inference/)
+**다음**: [278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)](/studynote/14_data_engineering/05_exam_keywords/278_de_identification/) ->
 
 ---

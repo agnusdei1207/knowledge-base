@@ -1,30 +1,27 @@
-+++
-title = "389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계"
-date = 2026-05-09
+---
+title: "389. 페이지 부재율 (Page Fault Rate) 와 실질 접근 시간 (EAT) 성능 관계"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율($p$)은 메모리 접근 시 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 없어서 디스크로 달려가야([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 의미하며, 실질 접근 시간([Effective Access Time](/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/), EAT)은 이 **[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) $p$에 디스크라는 끔찍한 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(수백만 배 느림)을 가중 평균하여 뽑아낸 시스템의 진짜 체감 속도 공식**이다.
-> 2. **가치**: 아무리 CPU 클럭이 5GHz로 날아다녀도, 이 부재율 $p$가 <strong>10만 분의 1 (0.00001)</strong>만 넘어가도 전체 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 반토막 나는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 치명적인 지렛대 효과'를 수학적으로 완벽하게 증명한다.
-> 3. **융합**: 이 잔혹한 수식은 운영체제가 왜 그토록 눈에 불을 켜고 <strong>지역성(Locality) 보장</strong>과 <strong>우수한 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/">페이지 교체 알고리즘</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 등)</strong> 개발에 목숨을 걸어야 하는지를 설명하는 아키텍처 튜닝의 절대적 나침반으로 융합된다.
+> 1. **본질**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율($p$)은 메모리 접근 시 필요한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 없어서 디스크로 달려가야([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 의미하며, 실질 접근 시간([Effective Access Time](/studynote/02_operating_system/06_memory_management/359_effective_access_time/), EAT)은 이 **[확률](/studynote/08_algorithm_stats/08_stats/130_probability/) $p$에 디스크라는 끔찍한 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(수백만 배 느림)을 가중 평균하여 뽑아낸 시스템의 진짜 체감 속도 공식**이다.
+> 2. **가치**: 아무리 CPU 클럭이 5GHz로 날아다녀도, 이 부재율 $p$가 <strong>10만 분의 1 (0.00001)</strong>만 넘어가도 전체 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 반토막 나는 '[가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 치명적인 지렛대 효과'를 수학적으로 완벽하게 증명한다.
+> 3. **융합**: 이 잔혹한 수식은 운영체제가 왜 그토록 눈에 불을 켜고 <strong>지역성(Locality) 보장</strong>과 <strong>우수한 <a href="/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/">페이지 교체 알고리즘</a>(<a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 등)</strong> 개발에 목숨을 걸어야 하는지를 설명하는 아키텍처 튜닝의 절대적 나침반으로 융합된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율($p$)은 `0 ≤ p ≤ 1` 사이의 값을 가진다. $p=0$이면 메모리에 모든 게 다 있어서 한 번도 폴트가 안 난 유토피아고, $p=1$이면 메모리 읽을 때마다 매번 디스크로 달려가는 순수 지옥([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))이다. 이 $p$ 값을 EAT 공식에 대입하면 우리가 실제로 겪게 될 컴퓨터의 버벅거림([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 나노초 단위로 도출된다.
-- **필요성**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))를 도입한 학자들은 경영진에게 "램 16GB로 100GB짜리 프로그램을 돌릴 수 있습니다!"라고 자랑했다. 경영진이 "그럼 디스크 읽느라 엄청 느려지는 거 아니냐?"라고 묻자, 학자들은 "아닙니다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)상 디스크를 읽는 경우는 0.0001%에 불과하므로 평균 내면 램 속도랑 똑같습니다"라고 방어해야 했다. 이 방어를 위해, 직관적인 느낌이 아닌 <strong>냉혹한 숫자로 팩트 폭행을 가하는 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가 방정식(EAT 공식)</strong>이 절대적으로 필요했다.
+- **개념**: [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율($p$)은 `0 ≤ p ≤ 1` 사이의 값을 가진다. $p=0$이면 메모리에 모든 게 다 있어서 한 번도 폴트가 안 난 유토피아고, $p=1$이면 메모리 읽을 때마다 매번 디스크로 달려가는 순수 지옥([스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/))이다. 이 $p$ 값을 EAT 공식에 대입하면 우리가 실제로 겪게 될 컴퓨터의 버벅거림([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))이 나노초 단위로 도출된다.
+- **필요성**: [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/))를 도입한 학자들은 경영진에게 "램 16GB로 100GB짜리 프로그램을 돌릴 수 있습니다!"라고 자랑했다. 경영진이 "그럼 디스크 읽느라 엄청 느려지는 거 아니냐?"라고 묻자, 학자들은 "아닙니다. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)상 디스크를 읽는 경우는 0.0001%에 불과하므로 평균 내면 램 속도랑 똑같습니다"라고 방어해야 했다. 이 방어를 위해, 직관적인 느낌이 아닌 <strong>냉혹한 숫자로 팩트 폭행을 가하는 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 평가 방정식(EAT 공식)</strong>이 절대적으로 필요했다.
 
 - **등장 배경 및 튜닝 지표의 탄생**:
-  1. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 빛과 그림자</strong>: 무한한 공간을 얻었지만, 디스크 I/O라는 치명적 발목을 잡힘.
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 하락의 체감</strong>: 체감 속도가 툭툭 끊기자, 도대체 폴트가 몇 번 나야 시스템이 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 느려지는지 역산할 지표가 필요해짐.
+  1. <strong><a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>의 빛과 그림자</strong>: 무한한 공간을 얻었지만, 디스크 I/O라는 치명적 발목을 잡힘.
+  2. <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 하락의 체감</strong>: 체감 속도가 툭툭 끊기자, 도대체 폴트가 몇 번 나야 시스템이 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 느려지는지 역산할 지표가 필요해짐.
   3. **EAT 방정식의 완성**: 하드웨어 메모리 속도와 디스크 속도 사이의 갭(Gap)이 만 배 이상 벌어진 현대에 와서, 이 수식은 메모리 증설 여부를 결정하는 기업 서버 튜닝의 절대 진리가 됨.
 
 ```text
@@ -45,9 +42,9 @@ tags = ["studynote-operating-system"]
 | -> EAT 결괏값 도출 = (1-p) × 100ns  +  p × 8,000,000ns               |
 +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 페널티는 기껏해야 100ns 한 번 더 더하는 애교 수준이었다. 하지만 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 페널티는 <strong>8백만 나노초</strong>다. 수식에서 뒷부분 `p × 8,000,000`의 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 워낙 폭력적으로 거대하기 때문에, $p$가 아주 조금만 커져도 앞부분(램 속도)을 완전히 집어삼키고 시스템 전체를 디스크 속도로 끌어내려 버리는 지렛대(Leverage) 역전 현상이 발생한다.
+**[다이어그램 해설]** [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 페널티는 기껏해야 100ns 한 번 더 더하는 애교 수준이었다. 하지만 [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 페널티는 <strong>8백만 나노초</strong>다. 수식에서 뒷부분 `p × 8,000,000`의 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 워낙 폭력적으로 거대하기 때문에, $p$가 아주 조금만 커져도 앞부분(램 속도)을 완전히 집어삼키고 시스템 전체를 디스크 속도로 끌어내려 버리는 지렛대(Leverage) 역전 현상이 발생한다.
 
-- **📢 섹션 요약 비유**: 우주선이 광속으로 100일간 비행(100ns 메모리 접근)하다가, 기름이 떨어져서([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 주유선을 부르느라 공중에 10년 동안 멈춰서 기다려야(8,000,000ns) 한다면, 우주선의 '평균(EAT) 비행 속도'는 자전거보다도 느려지는 끔찍한 평균의 함정입니다.
+- **📢 섹션 요약 비유**: 우주선이 광속으로 100일간 비행(100ns 메모리 접근)하다가, 기름이 떨어져서([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 주유선을 부르느라 공중에 10년 동안 멈춰서 기다려야(8,000,000ns) 한다면, 우주선의 '평균(EAT) 비행 속도'는 자전거보다도 느려지는 끔찍한 평균의 함정입니다.
 
 ---
 
@@ -55,56 +52,56 @@ tags = ["studynote-operating-system"]
 
 ### EAT의 잔혹한 수학 공식 증명
 
-실제 수치를 대입하여 $p$ 값에 따른 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 계산해 보자.
+실제 수치를 대입하여 $p$ 값에 따른 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 계산해 보자.
 - $M$ (메모리 접근 시간) = 200 ns
-- $PFT$ ([페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 시간, 디스크 I/O) = 8 밀리초 = 8,000,000 ns
+- $PFT$ ([페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 시간, 디스크 I/O) = 8 밀리초 = 8,000,000 ns
 - **$EAT = (1 - p) \times 200 + p \times 8,000,000$**
 - 식 정리: $EAT = 200 - 200p + 8,000,000p = 200 + 7,999,800p$
 
 1. **폴트율 $p = 0.001$ (1,000번 중 1번 폴트 날 때)**
    - $EAT = 200 + 7,999.8 = 8,199.8 ns$
-   - 결과: 원래 200ns짜리 시스템이 8199ns가 되었다. 무려 <strong>40배(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/">4000</a>%) 느려졌다!</strong>
+   - 결과: 원래 200ns짜리 시스템이 8199ns가 되었다. 무려 <strong>40배(<a href="/studynote/02_operating_system/09_file_system/548_special_permissions_setuid/">4000</a>%) 느려졌다!</strong>
 
-2. <strong>허용 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하율을 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 미만으로 막고 싶다면?</strong>
-   - 조건: $EAT < 220 ns$ (200ns의 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 추가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용)
+2. <strong>허용 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하율을 <a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>% 미만으로 막고 싶다면?</strong>
+   - 조건: $EAT < 220 ns$ (200ns의 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 추가 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용)
    - $200 + 7,999,800p < 220$
    - $7,999,800p < 20$
    - $p < 0.0000025$
-   - **결론**: 시스템 속도 저하를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%로 막으려면, 40만 번의 메모리 접근 중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 단 1번 이하로 터져야 한다.
+   - **결론**: 시스템 속도 저하를 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%로 막으려면, 40만 번의 메모리 접근 중 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 단 1번 이하로 터져야 한다.
 
 ---
 
-### 스왑 오버헤드 2배열의 저주 ([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))
+### 스왑 오버헤드 2배열의 저주 ([Dirty Bit](/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))
 
-[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 시간($PFT$)은 램에 '빈 공간(Free Frame)'이 없을 때 더욱 악화된다.
-- 램이 꽉 차서 남의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크로 내쫓고([Swap out](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) 내 걸 가져와야(Swap in) 한다.
-- 이때 쫓겨나는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 올라온 후 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번이라도 수정되었다면 ([페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a>=1</strong>로 찍힘), 디스크에 그 변경 사항을 덮어쓰고 나가야 한다.
-- 즉, <strong>디스크 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 1회(8ms) + 디스크 읽기 1회(8ms) = 총 16ms</strong>의 페널티를 맞는다. 공식의 뒤통수를 치는 곱빼기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. OS가 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 짤 때 기왕이면 '수정되지 않은(Dirty=0) 깨끗한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'를 우선적으로 골라 죽이는 이유가 바로 이 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티를 피하기 위해서다.
+[페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 시간($PFT$)은 램에 '빈 공간(Free Frame)'이 없을 때 더욱 악화된다.
+- 램이 꽉 차서 남의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 디스크로 내쫓고([Swap out](/studynote/02_operating_system/06_memory_management/336_swap_out_in/)) 내 걸 가져와야(Swap in) 한다.
+- 이때 쫓겨나는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램에 올라온 후 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 번이라도 수정되었다면 ([페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 <strong><a href="/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/">Dirty Bit</a>=1</strong>로 찍힘), 디스크에 그 변경 사항을 덮어쓰고 나가야 한다.
+- 즉, <strong>디스크 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> 1회(8ms) + 디스크 읽기 1회(8ms) = 총 16ms</strong>의 페널티를 맞는다. 공식의 뒤통수를 치는 곱빼기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이다. OS가 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 짤 때 기왕이면 '수정되지 않은(Dirty=0) 깨끗한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)'를 우선적으로 골라 죽이는 이유가 바로 이 디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 페널티를 피하기 위해서다.
 
-- **📢 섹션 요약 비유**: 빈 택시에 타는 건 문 열고 1초면 되지만(일반 폴트), 안에 만취한 진상 손님이 있다면 그놈을 끄집어내려 실랑이하는 시간(디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))까지 추가되어 내가 택시에 타서 출발하기까지 걸리는 시간(EAT)이 두 배로 늘어나는 빡침의 연속입니다.
+- **📢 섹션 요약 비유**: 빈 택시에 타는 건 문 열고 1초면 되지만(일반 폴트), 안에 만취한 진상 손님이 있다면 그놈을 끄집어내려 실랑이하는 시간(디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))까지 추가되어 내가 택시에 타서 출발하기까지 걸리는 시간(EAT)이 두 배로 늘어나는 빡침의 연속입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) EAT vs [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) EAT
+### 비교 1: [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) EAT vs [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) EAT
 
-시스템의 속도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유발하는 두 쌍두마차 공식의 파괴력 비교다.
+시스템의 속도 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 유발하는 두 쌍두마차 공식의 파괴력 비교다.
 
-| 지표 | [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 공식의 영향력 | [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 공식의 영향력 |
+| 지표 | [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 미스 공식의 영향력 | [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 공식의 영향력 |
 |:---|:---|:---|
 | **페널티 시간 (Penalty)** | 작음 (메모리 1회 왕복 = 수십 나노초 추가) | **우주적 크기 (디스크 I/O = 수백만 나노초 추가)** |
-| <strong>속도 반토막(2배 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>) 조건</strong>| 캐시 미스가 약 <strong>50%</strong>나 터져야 2배 느려짐 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 고작 <strong>0.000025%</strong>만 터져도 2배 느려짐 |
-| **운영체제의 개입** | 하드웨어 혼자서 조용히 덮어쓰고 끝남 (OS 모름) | OS가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 깨어나 모든 걸 중단시키고 진두지휘 |
-| **대응책 (Tuning)** | [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)) 적용, 코딩 구조 변경 | **물리 램(RAM) 용량 증설**, 고성능 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 교체 |
+| <strong>속도 반토막(2배 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>) 조건</strong>| 캐시 미스가 약 <strong>50%</strong>나 터져야 2배 느려짐 | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 고작 <strong>0.000025%</strong>만 터져도 2배 느려짐 |
+| **운영체제의 개입** | 하드웨어 혼자서 조용히 덮어쓰고 끝남 (OS 모름) | OS가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 모드로 깨어나 모든 걸 중단시키고 진두지휘 |
+| **대응책 (Tuning)** | [거대 페이지](/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/)) 적용, 코딩 구조 변경 | **물리 램(RAM) 용량 증설**, 고성능 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 교체 |
 
-### [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성 (Locality) 이 만들어낸 구원의 빛
+### [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성 (Locality) 이 만들어낸 구원의 빛
 
-저렇게 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 조금만 엇나가도 컴퓨터가 터져버리는데 우리는 어떻게 배그나 롤을 끊김 없이 하고 있을까?
-바로 '[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성'이라는 소프트웨어 자연법칙 덕분이다.
+저렇게 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 조금만 엇나가도 컴퓨터가 터져버리는데 우리는 어떻게 배그나 롤을 끊김 없이 하고 있을까?
+바로 '[참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 지역성'이라는 소프트웨어 자연법칙 덕분이다.
 - 프로그램은 한 번 로드한 코드의 주변부를 뺑글뺑글 맴돌며(for/while 루프) 실행된다.
-- 초반 1초 동안 미친 듯이 폴트를 맞으며 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>, 핵심 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 조각 모음)</strong>을 램에 쏙 올려놓고 나면, 그 뒤로 3시간 동안 게임을 할 때는 10억 번의 메모리 접근 중 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 거의 0에 수렴하게([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 100%) 된다.
-- 결국 OS는 이 '[워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)'이 램에서 쫓겨나지 않고 옹기종기 잘 모여있게 방어막만 쳐주면, 미친 듯이 치솟는 EAT 수식을 안정권(200ns)으로 완벽하게 제압할 수 있다.
+- 초반 1초 동안 미친 듯이 폴트를 맞으며 <strong><a href="/studynote/02_operating_system/04_synchronization/265_working_set/">워킹 셋</a>(<a href="/studynote/02_operating_system/04_synchronization/265_working_set/">Working Set</a>, 핵심 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 조각 모음)</strong>을 램에 쏙 올려놓고 나면, 그 뒤로 3시간 동안 게임을 할 때는 10억 번의 메모리 접근 중 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트가 거의 0에 수렴하게([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) 100%) 된다.
+- 결국 OS는 이 '[워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/)'이 램에서 쫓겨나지 않고 옹기종기 잘 모여있게 방어막만 쳐주면, 미친 듯이 치솟는 EAT 수식을 안정권(200ns)으로 완벽하게 제압할 수 있다.
 
 ```text
 +----------+------------+------------+-----------------------------+
@@ -114,29 +111,29 @@ tags = ["studynote-operating-system"]
 | 객체 무작위 점프| ☠️ 최악 (낮음)| 0.01 이상    | 🐢 100배 지연 렉|
 +----------+------------+------------+-----------------------------+
 ```
-**[매트릭스 해설]** EAT 공식을 통해 우리가 배우는 진짜 교훈은 하드웨어 이론이 아니다. "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 짤 때 메모리 점프 뛰게([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 등) 만들지 마라! 네 코드가 지역성을 파괴하면 OS가 아무리 날고 기어도 서버는 뻗어버린다!"는 주니어 개발자를 향한 컴퓨터 구조의 준엄한 경고장이다.
+**[매트릭스 해설]** EAT 공식을 통해 우리가 배우는 진짜 교훈은 하드웨어 이론이 아니다. "[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 짤 때 메모리 점프 뛰게([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 등) 만들지 마라! 네 코드가 지역성을 파괴하면 OS가 아무리 날고 기어도 서버는 뻗어버린다!"는 주니어 개발자를 향한 컴퓨터 구조의 준엄한 경고장이다.
 
-- **📢 섹션 요약 비유**: 수식으로만 보면 복권 당첨([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 방어) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 터무니없이 낮아 보이지만, 알고 보니 로또 번호 6개 중 5개가 매주 똑같이 나오는 조작된 기계(Locality)라는 걸 깨닫고 안심하며 로또([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 즐기는 상황입니다.
+- **📢 섹션 요약 비유**: 수식으로만 보면 복권 당첨([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 방어) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 터무니없이 낮아 보이지만, 알고 보니 로또 번호 6개 중 5개가 매주 똑같이 나오는 조작된 기계(Locality)라는 걸 깨닫고 안심하며 로또([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))를 즐기는 상황입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 진단과 RAM 증설의 결단
+### 실무 시나리오: [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/)) 진단과 RAM 증설의 결단
 1. **문제의 발단**: 웹 서비스에 이벤트가 터져 동시 접속자가 10배 늘었다. 아파치 서버에 띄운 수백 개의 PHP 워커(Worker)들이 16GB 램을 서로 차지하려고 물고 뜯는다.
 2. <strong>EAT의 붕괴 현장 (<code>vmstat</code> 모니터링)</strong>:
    - 서버 엔지니어가 `vmstat 1`을 쳤더니, `si (스왑 인)`와 `so (스왑 아웃)` 컬럼의 숫자가 수천을 뚫고 미친 듯이 올라간다.
-   - 워커들이 자기 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)을 유지할 최소한의 램 공간조차 부족해서, 방금 퍼온 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옆 워커가 디스크로 바로 차버리는 지옥의 무한 루프([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))가 돌고 있다. 폴트율 $p$가 기하급수적으로 커져 $EAT$가 디스크 속도에 동기화되었다.
+   - 워커들이 자기 [워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/)을 유지할 최소한의 램 공간조차 부족해서, 방금 퍼온 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 옆 워커가 디스크로 바로 차버리는 지옥의 무한 루프([스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/))가 돌고 있다. 폴트율 $p$가 기하급수적으로 커져 $EAT$가 디스크 속도에 동기화되었다.
    - CPU 사용률(`us`, `sy`)은 1%인데, 디스크 대기(`wa`, iowait)가 99%를 찍고 서버는 응답을 거부한다.
 3. **신의 결단 (하드웨어 증설)**:
    - 이때 "OS 튜닝으로 어떻게 안 되나요?"라고 묻는 건 EAT 방정식을 모르는 바보다.
-   - $p$ 값이 물리적 한계를 넘어섰을 때는 그 어떤 [페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)도 소용이 없다. 엔지니어는 즉각 "EAT 붕괴입니다. 당장 AWS에서 램 32GB 인스턴스로 스케일업([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 결재 올리세요!"라고 선언하고 물리 램을 꽂아 이 참사를 끝낸다.
+   - $p$ 값이 물리적 한계를 넘어섰을 때는 그 어떤 [페이지 교체 알고리즘](/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)도 소용이 없다. 엔지니어는 즉각 "EAT 붕괴입니다. 당장 AWS에서 램 32GB 인스턴스로 스케일업([Scale-up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)) 결재 올리세요!"라고 선언하고 물리 램을 꽂아 이 참사를 끝낸다.
 
-### [HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시대에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대로의 패러다임 시프트
-EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 과거 회전형 하드디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절엔 8ms라는 괴물이었지만, 최근 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오며 0.05ms (50 마이크로초) 수준으로 160배 이상 쪼그라들었다.
-이 엄청난 하드웨어의 발전 덕분에, 현대의 스마트폰이나 PC는 $p$(폴트율) 값이 조금 튀어도(램이 모자라도) 사용자가 예전처럼 컴퓨터가 멈췄다고 느끼지 않고 스무스하게 넘어가는 '[가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 진정한 르네상스'를 맞이하게 되었다.
+### [HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/) 시대에서 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대로의 패러다임 시프트
+EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 과거 회전형 하드디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 시절엔 8ms라는 괴물이었지만, 최근 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 시대가 오며 0.05ms (50 마이크로초) 수준으로 160배 이상 쪼그라들었다.
+이 엄청난 하드웨어의 발전 덕분에, 현대의 스마트폰이나 PC는 $p$(폴트율) 값이 조금 튀어도(램이 모자라도) 사용자가 예전처럼 컴퓨터가 멈췄다고 느끼지 않고 스무스하게 넘어가는 '[가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 진정한 르네상스'를 맞이하게 되었다.
 
-- **📢 섹션 요약 비유**: 예전엔 램(책상)이 좁아서 디스크(창고)까지 걸어가서 책을 가져오느라(8ms) 공부를 못했는데, 이제는 창고가 바로 내 등 뒤로 이사를 와서([NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 의자만 돌리면 바로 꺼낼 수 있게 되니 책상이 조금 좁아도 공부 속도에 큰 타격이 없는 축복받은 환경입니다.
+- **📢 섹션 요약 비유**: 예전엔 램(책상)이 좁아서 디스크(창고)까지 걸어가서 책을 가져오느라(8ms) 공부를 못했는데, 이제는 창고가 바로 내 등 뒤로 이사를 와서([NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) 의자만 돌리면 바로 꺼낼 수 있게 되니 책상이 조금 좁아도 공부 속도에 큰 타격이 없는 축복받은 환경입니다.
 
 ---
 
@@ -147,14 +144,14 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 | 구분 | 내용 |
 |:---|:---|
 | **튜닝의 수학적 근거 제공** | 경영진에게 "램 용량을 늘리면 시스템 속도가 지수함수적으로 튄다"는 것을 팩트(EAT 수식)로 증명해 예산을 따내는 절대 무기 |
-| <strong>교체 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 진화 촉진</strong> | 이 수식의 페널티가 너무나 무서웠기에, OS 학자들은 단 한 번의 Fault라도 줄이기 위해 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/), [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 등 수백 가지 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쥐어짜 내며 발전함 |
+| <strong>교체 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> 진화 촉진</strong> | 이 수식의 페널티가 너무나 무서웠기에, OS 학자들은 단 한 번의 Fault라도 줄이기 위해 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/), [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/), [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) 등 수백 가지 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쥐어짜 내며 발전함 |
 | **비동기 I/O의 철학 확장** | CPU가 메모리 페널티 동안 뻗어있지 않고 문맥 교환으로 도망가는 구조가 현대 서버의 비동기 넌블로킹(Non-blocking) 아키텍처의 뼈대가 됨 |
 
 ### 결론 및 미래 전망
 
-[페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ($p$)과 실질 접근 시간 (EAT) 방정식은, 보이지 않는 가상 세계의 속임수([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))가 물리적 세계(속도)에서 어떤 청구서를 내미는지를 보여주는 가장 잔인하고도 정직한 영수증이다. 하드웨어의 속도 차이(100ns vs 8ms)가 만들어내는 지렛대 효과는, OS가 램과 디스크 사이에서 얼마나 처절한 줄타기를 하고 있는지를 증명한다. 앞으로 옵테인(Optane) 메모리나 [스토리지 클래스 메모리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))처럼 램과 디스크의 경계를 허무는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장 매체가 상용화된다면, 이 EAT 공식의 뒤쪽 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Penalty)가 0에 한없이 수렴하게 되면서, 인류는 마침내 "램 용량"이라는 영원한 굴레에서 100% 해방되는 진정한 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 유토피아를 맞이하게 될 것이다.
+[페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ($p$)과 실질 접근 시간 (EAT) 방정식은, 보이지 않는 가상 세계의 속임수([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))가 물리적 세계(속도)에서 어떤 청구서를 내미는지를 보여주는 가장 잔인하고도 정직한 영수증이다. 하드웨어의 속도 차이(100ns vs 8ms)가 만들어내는 지렛대 효과는, OS가 램과 디스크 사이에서 얼마나 처절한 줄타기를 하고 있는지를 증명한다. 앞으로 옵테인(Optane) 메모리나 [스토리지 클래스 메모리](/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/))처럼 램과 디스크의 경계를 허무는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 저장 매체가 상용화된다면, 이 EAT 공식의 뒤쪽 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Penalty)가 0에 한없이 수렴하게 되면서, 인류는 마침내 "램 용량"이라는 영원한 굴레에서 100% 해방되는 진정한 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 유토피아를 맞이하게 될 것이다.
 
-- **📢 섹션 요약 비유**: 다이어트약([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))을 먹으면 평소엔 살이 쭉쭉 빠지지만(장점), 약을 안 먹는 날($p$ 상승)엔 요요현상(EAT 붕괴)이 8만 배로 터지는 치명적 부작용 공식입니다. OS는 이 요요가 절대 안 오게 매일매일 체중([워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))을 쪼아대며 관리하는 지독한 헬스 트레이너입니다.
+- **📢 섹션 요약 비유**: 다이어트약([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))을 먹으면 평소엔 살이 쭉쭉 빠지지만(장점), 약을 안 먹는 날($p$ 상승)엔 요요현상(EAT 붕괴)이 8만 배로 터지는 치명적 부작용 공식입니다. OS는 이 요요가 절대 안 오게 매일매일 체중([워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/))을 쪼아대며 관리하는 지독한 헬스 트레이너입니다.
 
 ---
 
@@ -162,10 +159,10 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 과정 6단계 (OS [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ([Swap Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)) / 베이킹 스토어 (Backing Store) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [익명 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) ([Anonymous Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 과정 6단계 (OS [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ([Swap Space](/studynote/02_operating_system/07_virtual_memory/390_swap_space/)) / 베이킹 스토어 (Backing Store) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [익명 메모리](/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/) ([Anonymous Memory](/studynote/02_operating_system/07_virtual_memory/391_anonymous_memory/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -183,9 +180,9 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 과정 6단계 (OS [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등)을 이해하면 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계을 잘 알면 나중에 [스왑 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ([Swap Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/)) / 베이킹 스토어 (Backing Store)도 훨씬 쉽게 배울 수 있어요.
+1. [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리 과정 6단계 (OS [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 저장, 디스크 읽기, 문맥교환 등)을 이해하면 [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)율 ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) Rate) 와 실질 접근 시간 (EAT) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관계을 잘 알면 나중에 [스왑 공간](/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ([Swap Space](/studynote/02_operating_system/07_virtual_memory/390_swap_space/)) / 베이킹 스토어 (Backing Store)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -193,7 +190,7 @@ EAT 수식의 뒷부분을 담당하던 `Page Fault Time(디스크 속도)`이 �
 
 **진행 상황**: 389 / 800
 
-<- **이전**: [388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/388_page_fault_handling_6_steps/)
-**다음**: [390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ->
+<- **이전**: [388. 페이지 부재 처리 과정 6단계 (OS 트랩, 레지스터 저장, 디스크 읽기, 문맥교환 등)](/studynote/02_operating_system/07_virtual_memory/388_page_fault_handling_6_steps/)
+**다음**: [390. 스왑 공간 (Swap Space) / 베이킹 스토어 (Backing Store)](/studynote/02_operating_system/07_virtual_memory/390_swap_space/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "272. ATM (Asynchronous Transfer Mode)"
-date = 2026-05-08
+---
+title: "272. ATM (Asynchronous Transfer Mode)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 1990년대 초 ITU-T에서 제정한 고속 셀 릴레이(Cell Relay) 통신 규격. 프레임이 아닌 '고정 크기 셀(Cell)'을 다룬다는 점이 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)과 완전히 다른 세계다.
-- **필요성**: 당시 사람들은 "전화선망, 케이블TV망, 인터넷망을 하나로 싹 다 통일([B-ISDN](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/))해 버리자!"라는 원대한 꿈을 꿨다. 그런데 인터넷 패킷은 크기가 1500바이트나 돼서 라우터가 처리하는 데 시간이 걸려 음성(전화) 신호가 뚝뚝 끊겼다. 하드웨어(칩셋) 입장에서 가장 빠르게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 방법은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 언제나 똑같은 '고정 크기'다. 이래서 53바이트의 초소형 규격 박스가 탄생했다.
+- **개념**: 1990년대 초 ITU-T에서 제정한 고속 셀 릴레이(Cell Relay) 통신 규격. 프레임이 아닌 '고정 크기 셀(Cell)'을 다룬다는 점이 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)과 완전히 다른 세계다.
+- **필요성**: 당시 사람들은 "전화선망, 케이블TV망, 인터넷망을 하나로 싹 다 통일([B-ISDN](/studynote/03_network/05_lan_wan_l2_devices/279_b_isdn_broadband_integrated_services_digital_network/))해 버리자!"라는 원대한 꿈을 꿨다. 그런데 인터넷 패킷은 크기가 1500바이트나 돼서 라우터가 처리하는 데 시간이 걸려 음성(전화) 신호가 뚝뚝 끊겼다. 하드웨어(칩셋) 입장에서 가장 빠르게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 방법은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기가 언제나 똑같은 '고정 크기'다. 이래서 53바이트의 초소형 규격 박스가 탄생했다.
 
-- **💡 비유**: 일반적인 인터넷망이 트럭, 승용차, 오토바이가 마구잡이로 뒤섞여 달리는 <strong>"일반 도로"</strong>라면, ATM은 모든 화물을 똑같은 크기의 <strong>"53cm 규격 택배 상자(Cell)"</strong>로 잘게 포장해서 컨베이어 벨트에 끝없이 쏟아붓는 <strong>"최첨단 물류 센터"</strong>입니다. 상자 크기가 똑같으니 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계(ATM [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 박스를 눈감고도 초광속으로 쳐낼 수 있습니다.
+- **💡 비유**: 일반적인 인터넷망이 트럭, 승용차, 오토바이가 마구잡이로 뒤섞여 달리는 <strong>"일반 도로"</strong>라면, ATM은 모든 화물을 똑같은 크기의 <strong>"53cm 규격 택배 상자(Cell)"</strong>로 잘게 포장해서 컨베이어 벨트에 끝없이 쏟아붓는 <strong>"최첨단 물류 센터"</strong>입니다. 상자 크기가 똑같으니 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기계(ATM [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))가 박스를 눈감고도 초광속으로 쳐낼 수 있습니다.
 
 ```text
 [CIR / FECN, BECN 혼잡 알림]
@@ -33,21 +30,21 @@ tags = ["studynote-network"]
     +---> [ATM 동기화]
 ```
 
-- **📢 섹션 요약 비유**: <strong> ATM은 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(돌덩이)와 음성(물)을 섞어 보내기 위해 모든 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같은 크기의 </strong>"얼음 큐브(53바이트 셀)"**로 얼려서 파이프로 쏘아 보내는 완벽한 융합 통신 모델이었습니다.
+- **📢 섹션 요약 비유**: <strong> ATM은 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(돌덩이)와 음성(물)을 섞어 보내기 위해 모든 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 똑같은 크기의 </strong>"얼음 큐브(53바이트 셀)"**로 얼려서 파이프로 쏘아 보내는 완벽한 융합 통신 모델이었습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 53바이트의 구성
-ATM 셀은 오직 두 부분으로만 나뉜다. [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 FCS 같은 무거운 꼬리도 없다.
-- <strong>헤더 (Header): 5 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a></strong> - 어디로 갈지 적힌 이정표 (VPI/VCI 번호).
-- <strong>페이로드 (Payload): 48 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a></strong> - 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(음성, 영상, IP 패킷).
+ATM 셀은 오직 두 부분으로만 나뉜다. [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)의 FCS 같은 무거운 꼬리도 없다.
+- <strong>헤더 (Header): 5 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a></strong> - 어디로 갈지 적힌 이정표 (VPI/VCI 번호).
+- <strong>페이로드 (Payload): 48 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a></strong> - 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(음성, 영상, IP 패킷).
 
-### 2. 왜 하필 48바이트(페이로드) [인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? (유럽 vs 미국의 기싸움)
+### 2. 왜 하필 48바이트(페이로드) [인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)? (유럽 vs 미국의 기싸움)
 ITU-T 회의장에서 페이로드 크기를 두고 미국과 유럽이 치열하게 싸운 결과다.
-- <strong>미국 (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/">데이터 중심</a>)</strong>: "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 효율을 높여야 하니, 헤더 오버헤드를 줄이게 페이로드를 <strong>64바이트</strong>로 큼직하게 갑시다!"
-- **유럽 (음성 중심)**: "아닙니다! 우리는 나라가 다닥다닥 붙어있어 전화 통화(음성) [에코](/knowledge-base/studynote/03_network/01_data_communication/031_에코_반향/)(메아리) 지연에 민감합니다. 셀이 다 채워질 때까지 기다리는 시간을 줄이려면 작게 <strong>32바이트</strong>로 갑시다!"
+- <strong>미국 (<a href="/studynote/04_software_engineering/06_software_architecture/383_data_centric_architecture/">데이터 중심</a>)</strong>: "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 효율을 높여야 하니, 헤더 오버헤드를 줄이게 페이로드를 <strong>64바이트</strong>로 큼직하게 갑시다!"
+- **유럽 (음성 중심)**: "아닙니다! 우리는 나라가 다닥다닥 붙어있어 전화 통화(음성) [에코](/studynote/03_network/01_data_communication/031_에코_반향/)(메아리) 지연에 민감합니다. 셀이 다 채워질 때까지 기다리는 시간을 줄이려면 작게 <strong>32바이트</strong>로 갑시다!"
 - **결론**: 치열한 기싸움 끝에 $ \frac{64 + 32}{2} = 48 $ 이라는 타협안을 도출했다. (그래서 전 세계 IT 역사상 유일하게 2의 승수(16, 32, 64)가 아닌 48바이트라는 괴상한 규격이 탄생했다.)
 
 ```text
@@ -73,22 +70,22 @@ ITU-T 회의장에서 페이로드 크기를 두고 미국과 유럽이 치열�
 
 ### 3. ATM의 몰락 (셀 택스, Cell Tax)
 천재적인 아이디어였으나 치명적인 딜레마가 있었다. 바로 <strong>오버헤드(Cell Tax)</strong>다.
-1500바이트 IP 패킷 하나를 보내려면 ATM은 이를 48바이트씩 32조각으로 썰어야 한다. 조각마다 5바이트 헤더가 붙으니 버려지는 대역폭만 약 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에 달했다.
-게다가 시대가 흘러 라우터 CPU 성능이 괴물같이 좋아지고, [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 광랜 속도가 1Gbps, 10Gbps로 깡패처럼 폭증해 버리자 "그냥 1500바이트 뚱뚱한 패킷도 0.0001초 만에 보내버리면 전화 안 끊기잖아?"라는 **"대역폭으로 찍어 누르기"** 전법에 밀려나, 결국 ATM은 ADSL([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷) 시절을 끝으로 역사 속으로 사라졌다.
+1500바이트 IP 패킷 하나를 보내려면 ATM은 이를 48바이트씩 32조각으로 썰어야 한다. 조각마다 5바이트 헤더가 붙으니 버려지는 대역폭만 약 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%에 달했다.
+게다가 시대가 흘러 라우터 CPU 성능이 괴물같이 좋아지고, [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 광랜 속도가 1Gbps, 10Gbps로 깡패처럼 폭증해 버리자 "그냥 1500바이트 뚱뚱한 패킷도 0.0001초 만에 보내버리면 전화 안 끊기잖아?"라는 **"대역폭으로 찍어 누르기"** 전법에 밀려나, 결국 ATM은 ADSL([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷) 시절을 끝으로 역사 속으로 사라졌다.
 
-- **📢 섹션 요약 비유**: ** ATM은 완벽한 융합을 위해 만들어진 **"가장 정교하고 아름다운 시계태엽"**이었습니다. 하지만 무식하게 힘으로 다 때려 부수는 거인인 **"기가비트 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IP망)"**이 등장하면서 복잡한 시계태엽은 설 자리를 잃었습니다.
+- **📢 섹션 요약 비유**: ** ATM은 완벽한 융합을 위해 만들어진 **"가장 정교하고 아름다운 시계태엽"**이었습니다. 하지만 무식하게 힘으로 다 때려 부수는 거인인 **"기가비트 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IP망)"**이 등장하면서 복잡한 시계태엽은 설 자리를 잃었습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-ATM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림이 기반 조건을 만든다면, ATM는 그 위에서 핵심 메커니즘을 구현하고, ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+ATM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림이 기반 조건을 만든다면, ATM는 그 위에서 핵심 메커니즘을 구현하고, ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림의 기반 정리 | ATM의 핵심 동작 | ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 확장 적용 |
+| 초점 | [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림의 기반 정리 | ATM의 핵심 동작 | ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: ATM는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -96,18 +93,18 @@ ATM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 ATM를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림 수준의 기본 대책으로 충분한지, 아니면 ATM가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 ATM를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림 수준의 기본 대책으로 충분한지, 아니면 ATM가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. ATM가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와의 연계 방식을 함께 검증한다.
+2. ATM가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - ATM의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: ATM를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -115,7 +112,7 @@ ATM를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-ATM는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+ATM는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: ATM는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -125,10 +122,10 @@ ATM는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
-| ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
+| ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,12 +139,12 @@ ATM는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 �
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-ATM는 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림에서 출발해 현재 메커니즘을 정교화하고, 이후 ATM [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+ATM는 [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) / FECN, BECN 혼잡 알림에서 출발해 현재 메커니즘을 정교화하고, 이후 ATM [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -156,7 +153,7 @@ ATM는 [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_
 
 **진행 상황**: 393 / 1120
 
-<- **이전**: [271. CIR (Committed Information Rate) / FECN, BECN 혼잡 알림](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/)
-**다음**: [273. ATM 동기화 (셀 헤더의 HEC 사용)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/273_atm_synchronization_hec/) ->
+<- **이전**: [271. CIR (Committed Information Rate) / FECN, BECN 혼잡 알림](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/)
+**다음**: [273. ATM 동기화 (셀 헤더의 HEC 사용)](/studynote/03_network/05_lan_wan_l2_devices/273_atm_synchronization_hec/) ->
 
 ---

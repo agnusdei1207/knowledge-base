@@ -1,175 +1,198 @@
-+++
-title = "538. 형상 관리 버전 제어 변경 추적 (Configuration Management Version Control)"
-date = 2026-05-09
+---
+title: "538. 형상 관리 버전 제어 변경 추적 (Configuration Management Version Control)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 형상 관리 버전 제어 변경 추적은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 형상 관리(Configuration Management)는 SW 산출물(SCM, Source Code Management)과 빌드/배포 산출물(ACI/SCI, Software/Baseline Configuration Item)에 대한 **식별·제어·감사·보고**의 4대 핵심 기능을 수행하며, Git의 SHA-1 해시 기반 콘텐츠 주소 저장(content-addressable storage)과 DAG(Directed Acyclic Graph) 구조를 통해 변경 이력의 **불변성(Immutability)**과 **추적성(Traceability)**을 수학적으로 보장하는 VCS(Version Control System)입니다.
+> 2. **가치**: IEEE 828-2012 및 CMMI v2.0의 BAS(Ensure Configuration Management) 프로세스 영역 준수를 통해 **변경 결함 65% 감소**(DORA Report 기준), 평균 변경 리드타임(MTTR) 단축, 롤백 시간 분 단위 절감, ISO 27001 및 21434 감사 대응 시 변경 이력 **100% 증거력 확보**라는 정량적 효과를 제공합니다.
+> 3. **판단 포인트**: 중앙집중형(SVN, Perforce) vs 분산형(Git, Mercurial) 트레이드오프, GitFlow/Trunk-based/GitHub Flow 브랜칭 모델의 조직 규모·배포 주기 적합성 판단, **Monorepo vs Polyrepo** 아키텍처 선택, 그리고 Signed Commit(GPG/SSH), SBOM 연동을 통한 **공급망 보안(Software Supply Chain Security)** 대응 여부가 핵심 의사결정 사항입니다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-형상 관리 버전 제어 변경 추적은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+소프트웨어 시스템의 규모가 모놀리식에서 마이크로서비스, MSA, 그리고 AI 워크로드 기반 플랫폼으로 진화하면서, 하루에도 수천~수만 건의 코드·인프라·모델 산출물이 생성·변경·폐기됩니다. 전통적 문서 중심의 형상 관리(Manual CMDB, File Server 복사)는 다음의 기술적 한계에 직면합니다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Configuration Management Version Control 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+- **추적성 부재(Broken Traceability)**: 누가, 언제, 어떤 이유로 변경했는지 복원 불가
+- **동시성 충돌(Concurrency Conflict)**: 동일 파일 동시 수정 시 Lost Update 문제 발생
+- **베이스라인 무결성 훼손(Baseline Integrity)**: 릴리스 후 Hotfix가 베이스라인을 임의 변경
+- **공급망 공격 취약점**: SolarWinds(2020), CodeCov(2021), 3CX(2023) 사례처럼 빌드 파이프라인의 위변조 탐지 불가
+
+이에 IEEE 828(SCM 표준), ISO/IEC 12207(소프트웨어 수명주기), CMMI v2.0의 CM 프로세스 영역, 그리고 SLSA(Supply-chain Levels for Software Artifacts) 프레임워크 v1.0(2024)이 **기계 판독 가능한(Machine-Readable)** 형상 관리의 표준을 제시하고 있으며, Git 2.45+(2024 release)의 Partial Clone, Scalar(대규모 모노레포), CRDT 기반 협업 도구(Dolthub, JuiceFS) 등이 새로운 패러다임을 형성하고 있습니다.
 
 ```text
-+--------------------------------------------------------------+
-|                    형상 관리 버전 제어 변경 추적 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|            SW 형상 관리의 진화 (Evolution of CM Paradigm)         |
++------------------------------------------------------------------+
+|                                                                  |
+|  1세대(1970s)        2세대(1990s)         3세대(2005~)            |
+|  SCCS, RCS  ------►  CVS, SVN  ------►  Git, Mercurial          |
+|  (단일 파일 락)      (중앙집중 서버)      (분산 P2P, SHA-1 DAG)   |
+|       |                  |                     |                 |
+|       v                  v                     v                 |
+|  Lock-Modify-      Copy-Modify-Merge     Snapshot+Reflog         |
+|  Unlock            (CVS 충돌 마커)       (전체 스냅샷 저장)      |
+|                                                                  |
+|  4세대(2020s) -------------------------------------►              |
+|  - Monorepo + Virtual Filesystem (Scalar, VFS for Git)           |
+|  - Content-Addressable Storage (CAS) + Merkle Tree               |
+|  - GitOps + ArgoCD/Flux (Git as Single Source of Truth)          |
+|  - AI-기반 PR 리뷰(CodeRabbit, Sourcery), Semantic Versioning     |
+|  - Sigstore + SLSA L3 Supply Chain Attestation                   |
+|                                                                  |
++------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+| 구분 | 1세대 (SCCS/RCS) | 2세대 (CVS/SVN) | 3세대 (Git/Mercurial) | 4세대 (GitOps/AI) |
+|---|---|---|---|---|
+| 아키텍처 | 로컬 단일 사용자 | Client-Server 중앙집중 | 분산(Distributed) P2P | 클라우드 + GitOps + AI |
+| 식별 단위 | 파일 단위 Revision | 파일 트리 Revision | 콘텐츠 해시(SHA-1/256) | CAS + Merkle DAG |
+| 동시성 처리 | Lock 강제 | Pessimistic Lock + Merge | Optimistic 병합 + Reflog | CRDT, 자동 머지, AI 리뷰 |
+| 베이스라인 | Tag/Label | Tag + Trunk | Tag + Annotated Tag + GPG | Signed Tag + SLSA Provenance |
+| 규모 한계 | 단일 파일 | 수만 파일 | 수백만 파일 | 수십억 객체(Virtual FS) |
+| 감사(Audit) | 수동 로그 | SVN hooks, ACL | Reflog + Audit Log | OPA Policy + Sigstore Rekor |
+| 대표 도구 | SCCS 5.x, RCS 5.10 | SVN 1.14.x, Perforce | Git 2.45, Mercurial 6.8 | GitLab 17, GitHub Copilot, ArgoCD 2.12 |
 
-- **📢 섹션 요약 비유**: 형상 관리 버전 제어 변경 추적은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 형상 관리는 **항공기의 블랙박스(Black Box) + 항공 교통 관제(ATC)**의 결합체입니다. 블랙박스처럼 모든 변경을 변조 불가능하게 기록하고, ATC처럼 여러 개발자의 동시 비행(병렬 브랜치)이 충돌 없이 안전하게 착륙(머지)하도록 조정합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-형상 관리 버전 제어 변경 추적의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. 형상 관리의 4대 핵심 기능 (IEEE 828-2012)
+
+| 기능 | 설명 | 구현 메커니즘 | 산출물 |
+|---|---|---|---|
+| **식별(Configuration Identification)** | 형상 항목(CI) 고유 번호 부여 | URI + Hash (예: `git://repo/path@v2.45.1#abc123`) | SCI(Software CI) 목록, Baselines |
+| **제어(Configuration Control)** | 변경 요청(CR) -> 승인 -> 반영 | CCB(Configuration Control Board), Git Branch Policy | 변경 요청서(CR), 승인 로그 |
+| **감사(Configuration Audit)** | FCA(Functional), PCA(Physical) 감사 | CI Test, Traceability Matrix | 감사 보고서 |
+| **상태 보고(Status Accounting)** | 변경 이력·승인 상태 데이터베이스화 | Git Log, Issue Tracker Link, SBOM | Status Reports, Dashboard |
+
+### 2. Git 내부 아키텍처 (3-Tier Object Model)
 
 ```text
-+--------------------------------------------------------------+
-|              Configuration Management Version Control 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|                    Git Object Storage (Content-Addressable)        |
+|                                                                    |
+|   Working Tree --(git add)--► Staging Index --(git commit)--► Repo |
+|        |                            |                       |       |
+|        v                            v                       v       |
+|   +--------+                  +----------+           +----------+  |
+|   | Files  |                  |  Index   |           |  .git/   |  |
+|   | (Blob) |                  |  (Tree)  |           | objects/ |  |
+|   +--------+                  +----------+           +----------+  |
+|                                                                    |
+|   Git 내부 4대 객체 타입:                                           |
+|                                                                    |
+|   +----------+    +----------+    +----------+    +----------+    |
+|   |   Blob   |    |   Tree   |    |  Commit  |    |   Tag    |    |
+|   |(파일내용)|    |(디렉토리)|    |(메타+루트)|    |(이름별칭)|    |
+|   |          |    |          |    |          |    |          |    |
+|   | SHA-1:   |    | SHA-1:   |    | SHA-1:   |    | SHA-1:   |    |
+|   | content  |◄---+ blob refs|◄---+ tree ptr |    | object   |    |
+|   | hash     |    |          |    | parent*  |    | ptr      |    |
+|   +----------+    +----------+    +----------+    +----------+    |
+|        |                |                |                |         |
+|        +----------------+----------------+----------------+         |
+|                            zlib 압축 저장                           |
++--------------------------------------------------------------------+
+
+예) Commit Object 구조 (간소화):
++-----------------------------------------------------+
+| tree 4b825dc642cb6eb9a060e54bf8d69288fbee4904      |
+| parent 7c4a8d09ca3762af61e9052092d0e10c4a1b2c3a    |
+| author dev@example.com 1719456000 +0900            |
+| committer ci-bot@example.com 1719456010 +0900      |
+|                                                      |
+| feat(user): JWT 토큰 갱신 API 추가 (#1234)         |
+|                                                      |
+| - JwtAuthFilter.java: RefreshToken 로직 추가        |
+| - UserController.java: POST /auth/refresh 엔드포인트|
+| - application.yml: jwt.refresh-expire=7d 설정       |
+|                                                      |
+| Signed-off-by: dev@example.com                      |
+| [gpgsig] -----BEGIN PGP SIGNATURE-----             |
++-----------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 3. Git 핵심 알고리즘
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+| 원리 | 수식/메커니즘 | 설명 |
+|---|---|---|
+| **콘텐츠 주소 저장 (CAS)** | `SHA-1(content) = 40 hex digits` | 파일 내용으로 해시 -> 동일 내용 자동 중복 제거(Deduplication) |
+| **DAG 구조** | `Commit_i = (Tree, Parent_i-1, Parent_i-2, ...)` | 각 Commit은 부모 Commit을 가리키며, 사이클 불가 -> **불변성** 보장 |
+| **Merkle Tree 검증** | `Root = H(H(A) || H(B))` | 임의 객체 변조 시 Root 해시 변경 -> **End-to-End 무결성** |
+| **3-way Merge** | `Merge = f(Base, Ours, Theirs)` | 공통 조상(Base) 비교로 충돌 자동 해결, 충돌 시 `.git/objects/merge` 마커 삽입 |
+| **Pack 파일 압축** | Delta Offset Encoding | Git 2.11+의 **ORC(Oreach Reachability Compressor)**, Midx(Multi-pack Index)로 대용량 Repo 최적화 |
+| **Reachability Bitmaps** | BFS + Bitmap | `git log --use-bitmap-indexes`로 수십억 객체 Repo에서 O(1) 커밋 그래프 도달성 판단 |
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-형상 관리 버전 제어 변경 추적을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 형상 관리 버전 제어 변경 추적 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 형상 관리 버전 제어 변경 추적은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 형상 관리 버전 제어 변경 추적은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 형상 관리 버전 제어 변경 추적을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-형상 관리 버전 제어 변경 추적을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 형상 관리 버전 제어 변경 추적 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 형상 관리 버전 제어 변경 추적은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 형상 관리 버전 제어 변경 추적의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 형상 관리 버전 제어 변경 추적의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 4. Git 참조 모델 (Refs) 및 브랜치
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-형상 관리 버전 제어 변경 추적 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
++----------------------------------------------------------------------+
+|                  .git/refs 구조 및 브랜치 워크플로우                  |
++----------------------------------------------------------------------+
+|                                                                      |
+|   .git/                                                              |
+|   +-- HEAD --► refs/heads/main                                       |
+|   |                                                                  |
+|   +-- refs/                                                          |
+|   |   +-- heads/           (로컬 브랜치)                              |
+|   |   |   +-- main          --► commit A --► commit B (HEAD)        |
+|   |   |   +-- feature/auth  --► commit X --► commit Y               |
+|   |   |   +-- hotfix/2024-q3                                          |
+|   |   +-- remotes/origin/  (원격 추적 브랜치)                        |
+|   |   |   +-- main          --► commit B (fetched)                   |
+|   |   +-- tags/             (Annotated Tag, GPG Sign 지원)           |
+|   |       +-- v1.4.2        --► commit B                             |
+|   |                                                                  |
+|   +-- objects/    (Loose + Pack)                                     |
+|   |   +-- pack/   (.pack + .idx + .rev)                              |
+|   |   +-- info/   (alternates, packs)                                |
+|   |                                                                  |
+|   +-- hooks/     (pre-commit, post-merge, commit-msg)                |
+|                                                                      |
+|   -----------------------------------------------------              |
+|   GitOps 브랜치 보호 정책 (Branch Protection Rules)                  |
+|   -----------------------------------------------------              |
+|   main:  [직접 push 차단]  [필수: 2 Approve]                          |
+|          [필수: CI 통과] [필수: Signed Commit]                       |
+|          [Linear History 강제 (no merge commit)]                     |
+|                                                                      |
+|   feature/*: [Squash Merge 허용]  [Force Push: 본인 브랜치만]         |
++----------------------------------------------------------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|---|---|---|
+| **Working Tree** | 개발자 작업 디렉토리 | 파일 시스템 직접 조작, `.gitignore`로 추적 제외 |
+| **Index (Staging Area)** | 커밋 전 임시 저장소 | `git update-index`, `--intent-to-add`로 부분 추적 |
+| **Local Repository** | `.git/objects/`에 객체 저장 | Pack 파일(델타 압축) + Loose 객체 + Multi-pack Index(Midx) |
+| **Remote Repository** | 협업용 중앙 서버 (Bare Repo) | Git Protocol v2 (`git://`), Smart HTTP, SSH, 원자적 Push |
+| **Reflog** | 로컬 HEAD 이동 이력 (90일) | `git reflog expire --expire=now`로 수동 정리, 복구 도구 |
+| **Hooks** | 이벤트 트리거 자동화 | `pre-commit` (lint), `commit-msg` (Conventional Commits), `pre-push` (테스트), `post-receive` (CI 트리거) |
+| **Refs (refs/heads, refs/tags)** | 사람이 읽을 수 있는 포인터 | Annotated Tag는 Tagger, 메시지, GPG 서명 포함 |
+| **DAG Engine (commit-graph)** | 커밋 관계 그래프 | Git 2.24+ `commit-graph`로 그래프 사전 계산, `git log` 속도 O(1) |
 
-1. 형상 관리 버전 제어 변경 추적은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+### 5. 분산 버전 제어(DVCS) 프로토콜
 
----
-
+| 프로토콜 | 계층 | 특징 | 사용 시나리오 |
+|---|---|---|---|
+| **Local** | `file://` | 동일 머신 내 Bare Repo | 개인 백업 |
+| **SSH** | TCP/22 | 인증·암호화, Git LFS 지원 | 사내/원격 |
+| **Git Protocol v2** | TCP/9418 | 무인증, **Smart Server** fetch 최적화 | 공개 OSS (kernel.org, GitHub) |
+| **Smart HTTP** | TCP/80/443 | 방화벽 친화, LFS over HTTPS, OAuth 토큰 | GitHub, GitLab, Bitbucket |
+| **Bundle** | 단일 파일 |
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 538 / 600
 
-<- **이전**: [537. 비기능 요구사항 검증 신뢰성 가용성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/538_nfr_verification_reliability_availabilit/)
-**다음**: [539. 릴리스 관리 배포 전략 롤백](/knowledge-base/studynote/11_design_supervision/06_exam_summary/539_release_management_deployment_rollback/) ->
+<- **이전**: [537. 비기능 요구사항 검증 신뢰성 가용성](/studynote/11_design_supervision/06_exam_summary/538_nfr_verification_reliability_availabilit/)
+**다음**: [539. 릴리스 관리 배포 전략 롤백](/studynote/11_design_supervision/06_exam_summary/539_release_management_deployment_rollback/) ->
 
 ---

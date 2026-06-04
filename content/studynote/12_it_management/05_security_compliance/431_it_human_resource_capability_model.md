@@ -1,13 +1,10 @@
-+++
-title = "431. IT 인력 관리 역량 모델 교육 (IT Human Resource Capability Model)"
-date = 2026-05-09
+---
+title: "431. IT 인력 관리 역량 모델 교육 (IT Human Resource Capability Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -166,7 +163,7 @@ IT 인력 관리 역량 모델(IT Human Resource Capability Model)이란 **조�
 
 **진행 상황**: 431 / 800
 
-<- **이전**: [430. 지식 관리 KMS 조직 학습 체계](/knowledge-base/studynote/12_it_management/05_security_compliance/430_knowledge_management_kms_learning_system/)
-**다음**: [432. 프로젝트 관리 PMBOK 원칙 적용](/knowledge-base/studynote/12_it_management/05_security_compliance/432_project_management_pmbok_application/) ->
+<- **이전**: [430. 지식 관리 KMS 조직 학습 체계](/studynote/12_it_management/05_security_compliance/430_knowledge_management_kms_learning_system/)
+**다음**: [432. 프로젝트 관리 PMBOK 원칙 적용](/studynote/12_it_management/05_security_compliance/432_project_management_pmbok_application/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "743. IT 경영 관리 핵심 토픽 743번 시험 요약 (IT Management Core Topic 743 Exam Summary)"
-date = 2026-05-09
+---
+title: "743. IT 경영 관리 핵심 토픽 743번 시험 요약 (IT Management Core Topic 743 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ COBIT 2019의 가장 중요한 운영 원리는 **Goal Cascade**다. 기업의 *
 
 **진행 상황**: 743 / 800
 
-<- **이전**: [742. IT 경영 관리 핵심 토픽 742번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/742_it_management_core_topic_742_exam_summary/)
-**다음**: [744. IT 경영 관리 핵심 토픽 744번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/744_it_management_core_topic_744_exam_summary/) ->
+<- **이전**: [742. IT 경영 관리 핵심 토픽 742번 시험 요약](/studynote/12_it_management/05_security_compliance/742_it_management_core_topic_742_exam_summary/)
+**다음**: [744. IT 경영 관리 핵심 토픽 744번 시험 요약](/studynote/12_it_management/05_security_compliance/744_it_management_core_topic_744_exam_summary/) ->
 
 ---

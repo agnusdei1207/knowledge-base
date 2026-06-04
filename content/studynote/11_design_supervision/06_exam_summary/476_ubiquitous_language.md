@@ -1,13 +1,10 @@
-+++
-title = "476. 유비쿼터스 언어 도메인 모델링 (Ubiquitous Language Domain Modeling)"
-date = 2026-05-09
+---
+title: "476. 유비쿼터스 언어 도메인 모델링 (Ubiquitous Language Domain Modeling)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 476 / 600
 
-<- **이전**: [475. 애그리게이트 루트 일관성 경계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/476_aggregate_root/)
-**다음**: [477. 헥사고날 아키텍처 포트 어댑터](/knowledge-base/studynote/11_design_supervision/06_exam_summary/477_hexagonal_architecture/) ->
+<- **이전**: [475. 애그리게이트 루트 일관성 경계](/studynote/11_design_supervision/06_exam_summary/476_aggregate_root/)
+**다음**: [477. 헥사고날 아키텍처 포트 어댑터](/studynote/11_design_supervision/06_exam_summary/477_hexagonal_architecture/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "660. IT 경영 관리 핵심 토픽 660번 시험 요약 (IT Management Core Topic 660 Exam Summary)"
-date = 2026-05-09
+---
+title: "660. IT 경영 관리 핵심 토픽 660번 시험 요약 (IT Management Core Topic 660 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 660. IT 경영 관리 핵심 토픽 — 정보시스템 거버넌스 및 전략 계획 (IT Governance & Strategic Planning)
 
@@ -214,7 +211,7 @@ ITIL 4는 **34개의 관리 실무(Practice)** 와 **SVS(Service Value System)**
 
 **진행 상황**: 660 / 800
 
-<- **이전**: [659. IT 경영 관리 핵심 토픽 659번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/659_it_management_core_topic_659_exam_summary/)
-**다음**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/) ->
+<- **이전**: [659. IT 경영 관리 핵심 토픽 659번 시험 요약](/studynote/12_it_management/05_security_compliance/659_it_management_core_topic_659_exam_summary/)
+**다음**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "30. 데이터 민주화 — 모든 사람을 위한 데이터 접근"
-date = 2026-04-29
+---
+title: "30. 데이터 민주화 — 모든 사람을 위한 데이터 접근"
+date: "2026-04-29"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)([Data Democratization](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가만이 아닌 모든 조직 구성원이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쉽게 접근하고 분석할 수 있는 환경을 만드는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 결정하는 문화"를 조직 전체로 확산한다.
-> 2. **가치**: 시민 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자(Citizen [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Scientist)와 셀프서비스 분석(Self-[Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Analytics)이 핵심 도구다. [Tableau](/knowledge-base/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/knowledge-base/studynote/16_bigdata/08_visualization/165_power_bi/)·Google [Looker](/knowledge-base/studynote/16_bigdata/08_visualization/166_looker/) 같은 노코드/로우코드 도구로 IT 비전문가도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 의사결정에 활용할 수 있다.
-> 3. **판단 포인트**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)의 역설 — [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 높이면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·거버넌스 위험이 증가한다. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 연합 거버넌스(Federated Governance)가 이 트레이드오프를 해결하는 현대적 접근이다.
+> 1. **본질**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)([Data Democratization](/studynote/16_bigdata/01_intro/010_data_democratization/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전문가만이 아닌 모든 조직 구성원이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쉽게 접근하고 분석할 수 있는 환경을 만드는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 결정하는 문화"를 조직 전체로 확산한다.
+> 2. **가치**: 시민 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 과학자(Citizen [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Scientist)와 셀프서비스 분석(Self-[Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Analytics)이 핵심 도구다. [Tableau](/studynote/16_bigdata/08_visualization/164_tableau/)·[Power BI](/studynote/16_bigdata/08_visualization/165_power_bi/)·Google [Looker](/studynote/16_bigdata/08_visualization/166_looker/) 같은 노코드/로우코드 도구로 IT 비전문가도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석하고 의사결정에 활용할 수 있다.
+> 3. **판단 포인트**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)의 역설 — [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)을 높이면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질·보안·거버넌스 위험이 증가한다. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))의 연합 거버넌스(Federated Governance)가 이 트레이드오프를 해결하는 현대적 접근이다.
 
 ---
 
@@ -36,23 +33,23 @@ tags = ["studynote-bigdata"]
   - 의사결정 속도 대폭 향상
 ```
 
-- **📢 섹션 요약 비유**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소와 같다. 이전에는 주유원(IT팀)이 해줬지만, 셀프 주유기(셀프서비스 분석 도구)가 생기면서 누구나 스스로 주유([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)할 수 있게 됐다.
+- **📢 섹션 요약 비유**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소와 같다. 이전에는 주유원(IT팀)이 해줬지만, 셀프 주유기(셀프서비스 분석 도구)가 생기면서 누구나 스스로 주유([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석)할 수 있게 됐다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 성숙도 단계
+### [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) 성숙도 단계
 
 | 단계 | 내용 |
 |:---|:---|
-| **1단계 접근** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 권한 부여 |
+| **1단계 접근** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소 권한 부여 |
 | **2단계 도구** | BI 도구·대시보드 제공 |
 | **3단계 셀프서비스** | 노코드 분석 환경 구축 |
-| **4단계 문화** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 문화 정착 |
-| <strong>5단계 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조</strong> | GenAI 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 |
+| **4단계 문화** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 문화 정착 |
+| <strong>5단계 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 보조</strong> | GenAI 자연어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의 |
 
-### [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/)
+### [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)와 [데이터 리터러시](/studynote/12_it_management/01_governance_strategy/058_data_literacy/)
 
 ```text
 데이터 카탈로그:
@@ -68,25 +65,25 @@ tags = ["studynote-bigdata"]
   - 통계적 오류 이해 (상관 vs 인과)
 ```
 
-- **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 OPAC 시스템이다. 어떤 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 어디(저장소)에 있는지, 최신 판(업데이트 날짜)인지, 신뢰할 수 있는 출처(품질 등급)인지를 쉽게 검색할 수 있다.
+- **📢 섹션 요약 비유**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 OPAC 시스템이다. 어떤 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 어디(저장소)에 있는지, 최신 판(업데이트 날짜)인지, 신뢰할 수 있는 출처(품질 등급)인지를 쉽게 검색할 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) | [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) | 전통 BI |
+| 비교 | [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) | [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) | 전통 BI |
 |:---|:---|:---|:---|
-| 접근 | 전 구성원 접근 허용 | [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자치 | 중앙 IT 분석 |
+| 접근 | 전 구성원 접근 허용 | [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자치 | 중앙 IT 분석 |
 | 거버넌스 | 연합 거버넌스 | 연합 거버넌스 | 중앙 집중 |
-| 도구 | 셀프서비스 BI | [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) | 고정 보고서 |
+| 도구 | 셀프서비스 BI | [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/) | 고정 보고서 |
 
-- **📢 섹션 요약 비유**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)·[데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·전통 BI는 식품 유통 구조다. 중앙 마트(전통 BI), 편의점 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)([데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)), 지역 농장직거래([데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/))로 각각 효율성과 [접근성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)의 균형이 다르다.
+- **📢 섹션 요약 비유**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)·[데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)·전통 BI는 식품 유통 구조다. 중앙 마트(전통 BI), 편의점 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)([데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)), 지역 농장직거래([데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/))로 각각 효율성과 [접근성](/studynote/04_software_engineering/05_devops_ci_cd/292_accessibility_kwcag_wcag/)의 균형이 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### GenAI 기반 자연어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의
+### GenAI 기반 자연어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의
 
 ```text
 기존: SELECT AVG(revenue) FROM sales WHERE year=2024
@@ -101,7 +98,7 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
       Tableau Pulse, Power BI Copilot
 ```
 
-### [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리
+### [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리
 
 ```text
 위험: 데이터 오남용, 잘못된 분석
@@ -112,7 +109,7 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
   - 감사 로그: 누가 어떤 데이터를 조회했는지 추적
 ```
 
-- **📢 섹션 요약 비유**: [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리는 셀프 주유소 안전 장치다. 누구나 주유는 할 수 있지만, 불법 주유 방지(Row-level [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))·품질 표시(연료 등급 표기)·사고 기록([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))이 필요하다.
+- **📢 섹션 요약 비유**: [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) 위험 관리는 셀프 주유소 안전 장치다. 누구나 주유는 할 수 있지만, 불법 주유 방지(Row-level [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))·품질 표시(연료 등급 표기)·사고 기록([감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/))이 필요하다.
 
 ---
 
@@ -120,13 +117,13 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **의사결정 속도** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요청 대기 없이 즉시 분석 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문화</strong> | 전 조직 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 |
-| **IT 병목 해소** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 고부가 작업 집중 |
+| **의사결정 속도** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요청 대기 없이 즉시 분석 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 문화</strong> | 전 조직 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정 |
+| **IT 병목 해소** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)팀이 고부가 작업 집중 |
 
-2025년 이후 GenAI 자연어 질의 도구가 [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)의 최전선이 되고 있다. SQL을 모르는 경영진도 "지난 분기 상위 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 고객의 재구매율은?"을 자연어로 물으면 LLM이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)까지 자동으로 제공한다. 이는 [데이터 리터러시](/knowledge-base/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 장벽을 사실상 제거하는 변화다.
+2025년 이후 GenAI 자연어 질의 도구가 [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)의 최전선이 되고 있다. SQL을 모르는 경영진도 "지난 분기 상위 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 고객의 재구매율은?"을 자연어로 물으면 LLM이 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)까지 자동으로 제공한다. 이는 [데이터 리터러시](/studynote/12_it_management/01_governance_strategy/058_data_literacy/) 장벽을 사실상 제거하는 변화다.
 
-- **📢 섹션 요약 비유**: GenAI [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통역사다. 비즈니스팀의 일상 언어를 DB가 이해하는 SQL로 즉시 번역해주어, 언어 장벽 없이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 대화할 수 있게 해준다.
+- **📢 섹션 요약 비유**: GenAI [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 질의는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 통역사다. 비즈니스팀의 일상 언어를 DB가 이해하는 SQL로 즉시 번역해주어, 언어 장벽 없이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 대화할 수 있게 해준다.
 
 ---
 
@@ -134,10 +131,10 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **셀프서비스 분석** | [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 핵심 도구 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견·신뢰 인프라 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a></strong> | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/) 아키텍처 |
-| <strong>시민 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자</strong> | 비전문가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
+| **셀프서비스 분석** | [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) 핵심 도구 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/">데이터 카탈로그</a></strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견·신뢰 인프라 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/">데이터 메시</a></strong> | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/) 아키텍처 |
+| <strong>시민 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학자</strong> | 비전문가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석가 |
 | **GenAI 질의** | 자연어 기반 극한 민주화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -160,9 +157,9 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터 민주화](/knowledge-base/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소예요 — 이제 누구나 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 수 있어요!
-2. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 검색 시스템이에요 — 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디 있는지 쉽게 찾을 수 있어요!
-3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 덕분에 이제 "지난달 매출이 얼마야?"라고 자연어로 물어보면 AI가 분석해서 바로 알려줘요!
+1. [데이터 민주화](/studynote/16_bigdata/01_intro/010_data_democratization/)는 셀프 주유소예요 — 이제 누구나 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 분석할 수 있어요!
+2. [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 검색 시스템이에요 — 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디 있는지 쉽게 찾을 수 있어요!
+3. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 덕분에 이제 "지난달 매출이 얼마야?"라고 자연어로 물어보면 AI가 분석해서 바로 알려줘요!
 
 ---
 
@@ -170,7 +167,7 @@ GenAI 질의: "2024년 평균 매출이 얼마야?"
 
 **진행 상황**: 242 / 262
 
-<- **이전**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/knowledge-base/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/)
-**다음**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/knowledge-base/studynote/16_bigdata/13_intro_trends/243_data_economy/) ->
+<- **이전**: [236. 데이터 옵저버빌리티 (Monte Carlo, Bigeye) 데이터 파이프라인 신뢰성](/studynote/16_bigdata/12_trends/241_monte_carlo_bigeye/)
+**다음**: [31. 데이터 경제 — 데이터가 자산이 되는 세계](/studynote/16_bigdata/13_intro_trends/243_data_economy/) ->
 
 ---

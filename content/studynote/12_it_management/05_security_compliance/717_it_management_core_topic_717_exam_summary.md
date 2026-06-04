@@ -1,13 +1,10 @@
-+++
-title = "717. IT 경영 관리 핵심 토픽 717번 시험 요약 (IT Management Core Topic 717 Exam Summary)"
-date = 2026-05-09
+---
+title: "717. IT 경영 관리 핵심 토픽 717번 시험 요약 (IT Management Core Topic 717 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -120,7 +117,7 @@ IT 경영관리의 3계층 참조 모델(Three-Layer Reference Model)은 국제 
 
 **진행 상황**: 717 / 800
 
-<- **이전**: [716. IT 경영 관리 핵심 토픽 716번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/716_it_management_core_topic_716_exam_summary/)
-**다음**: [718. IT 경영 관리 핵심 토픽 718번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/718_it_management_core_topic_718_exam_summary/) ->
+<- **이전**: [716. IT 경영 관리 핵심 토픽 716번 시험 요약](/studynote/12_it_management/05_security_compliance/716_it_management_core_topic_716_exam_summary/)
+**다음**: [718. IT 경영 관리 핵심 토픽 718번 시험 요약](/studynote/12_it_management/05_security_compliance/718_it_management_core_topic_718_exam_summary/) ->
 
 ---

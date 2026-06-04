@@ -1,13 +1,10 @@
-+++
-title = "417. ITIL 4 서비스 가치 시스템 SVS (ITIL 4 Service Value System SVS)"
-date = 2026-05-09
+---
+title: "417. ITIL 4 서비스 가치 시스템 SVS (ITIL 4 Service Value System SVS)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ SVS는 ITIL 4 Foundation(Fast Lane, 2019) 및 ITIL 4 Create, Deliver and Support
 
 **진행 상황**: 417 / 800
 
-<- **이전**: [416. IT 서비스 카탈로그 셀프서비스 포탈](/knowledge-base/studynote/12_it_management/05_security_compliance/416_it_service_catalog_self_service_portal/)
-**다음**: [418. 서비스 디자인 서비스 블루프린트](/knowledge-base/studynote/12_it_management/05_security_compliance/418_service_design_service_blueprint/) ->
+<- **이전**: [416. IT 서비스 카탈로그 셀프서비스 포탈](/studynote/12_it_management/05_security_compliance/416_it_service_catalog_self_service_portal/)
+**다음**: [418. 서비스 디자인 서비스 블루프린트](/studynote/12_it_management/05_security_compliance/418_service_design_service_blueprint/) ->
 
 ---

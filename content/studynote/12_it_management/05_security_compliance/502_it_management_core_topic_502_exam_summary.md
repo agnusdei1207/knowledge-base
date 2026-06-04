@@ -1,13 +1,10 @@
-+++
-title = "502. IT 경영 관리 핵심 토픽 502번 시험 요약 (IT Management Core Topic 502 Exam Summary)"
-date = 2026-05-09
+---
+title: "502. IT 경영 관리 핵심 토픽 502번 시험 요약 (IT Management Core Topic 502 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ IT 경영 관리의 핵심 메커니즘은 **PDCA + 거버넌스 루프**로 작
 
 **진행 상황**: 502 / 800
 
-<- **이전**: [501. IT 경영 관리 핵심 토픽 501번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/501_it_management_core_topic_501_exam_summary/)
-**다음**: [503. IT 경영 관리 핵심 토픽 503번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/503_it_management_core_topic_503_exam_summary/) ->
+<- **이전**: [501. IT 경영 관리 핵심 토픽 501번 시험 요약](/studynote/12_it_management/05_security_compliance/501_it_management_core_topic_501_exam_summary/)
+**다음**: [503. IT 경영 관리 핵심 토픽 503번 시험 요약](/studynote/12_it_management/05_security_compliance/503_it_management_core_topic_503_exam_summary/) ->
 
 ---

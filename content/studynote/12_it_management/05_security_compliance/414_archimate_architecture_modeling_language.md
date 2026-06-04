@@ -1,13 +1,10 @@
-+++
-title = "414. ArchiMate 아키텍처 모델링 언어 (ArchiMate Architecture Modeling Language)"
-date = 2026-05-09
+---
+title: "414. ArchiMate 아키텍처 모델링 언어 (ArchiMate Architecture Modeling Language)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -175,7 +172,7 @@ ArchiMate의 메타모델은 **구조(Structure) - 행동(Behavior) - 정보(Inf
 
 **진행 상황**: 414 / 800
 
-<- **이전**: [413. TOGAF ADM 아키텍처 개발 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/413_togaf_adm_architecture_development_method/)
-**다음**: [415. BPM 프로세스 관리 BPMN 모델링](/knowledge-base/studynote/12_it_management/05_security_compliance/415_bpm_process_management_bpmn_modeling/) ->
+<- **이전**: [413. TOGAF ADM 아키텍처 개발 방법론](/studynote/12_it_management/05_security_compliance/413_togaf_adm_architecture_development_method/)
+**다음**: [415. BPM 프로세스 관리 BPMN 모델링](/studynote/12_it_management/05_security_compliance/415_bpm_process_management_bpmn_modeling/) ->
 
 ---

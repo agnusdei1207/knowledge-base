@@ -1,29 +1,26 @@
-+++
-title = "530. 하이퍼바이저 트랩"
-date = 2026-05-08
+---
+title: "530. 하이퍼바이저 트랩"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Hypervisor](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))은 게스트 운영체제가 민감한 명령이나 이벤트를 실행했을 때 CPU (Central Processing Unit)가 이를 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) Exit로 바꾸어 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 제어권을 넘기는 강제 인터셉트 메커니즘이다.
-> 2. **가치**: 이 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 덕분에 여러 가상 머신이 한 물리 하드웨어를 공유해도 전역 상태 변경은 항상 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 거치므로, 수정하지 않은 운영체제도 안전하게 공존할 수 있다.
-> 3. **판단 포인트**: 좋은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 설계는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 없애는 것이 아니라 꼭 필요한 곳에만 남기는 것이며, Exit 비율이 높을수록 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 지터가 커진다.
+> 1. **본질**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Hypervisor](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))은 게스트 운영체제가 민감한 명령이나 이벤트를 실행했을 때 CPU (Central Processing Unit)가 이를 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) Exit로 바꾸어 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)에게 제어권을 넘기는 강제 인터셉트 메커니즘이다.
+> 2. **가치**: 이 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 덕분에 여러 가상 머신이 한 물리 하드웨어를 공유해도 전역 상태 변경은 항상 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)를 거치므로, 수정하지 않은 운영체제도 안전하게 공존할 수 있다.
+> 3. **판단 포인트**: 좋은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 설계는 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 없애는 것이 아니라 꼭 필요한 곳에만 남기는 것이며, Exit 비율이 높을수록 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 지터가 커진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 "여러 손님이 같은 하드웨어를 쓰지만, 열쇠는 한 명만 쥔다"는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 기본 원칙을 실현하는 장치다. 게스트 운영체제는 자신이 진짜 최고 권한인 것처럼 부팅되지만, 실제 CPU 제어권까지 그대로 주면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 마스크, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 기준 주소, I/O (Input/Output) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 같은 전역 자원을 다른 VM과 동시에 망가뜨릴 수 있다. 그래서 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 민감한 동작만큼은 반드시 자기 검문소를 통과하게 만들어야 한다.
+[하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 "여러 손님이 같은 하드웨어를 쓰지만, 열쇠는 한 명만 쥔다"는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 기본 원칙을 실현하는 장치다. 게스트 운영체제는 자신이 진짜 최고 권한인 것처럼 부팅되지만, 실제 CPU 제어권까지 그대로 주면 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 마스크, [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 기준 주소, I/O (Input/Output) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 같은 전역 자원을 다른 VM과 동시에 망가뜨릴 수 있다. 그래서 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 민감한 동작만큼은 반드시 자기 검문소를 통과하게 만들어야 한다.
 
-이 필요성은 Popek과 Goldberg의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 조건과도 맞닿아 있다. 시스템 상태를 바꾸는 민감한 명령은 [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 가능한 형태여야 하며, 그렇지 않으면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 소프트웨어 번역이나 우회 기법으로 부족한 부분을 메워야 한다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86이 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에 까다로웠던 이유도 바로 이 [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 경계가 완전하지 않았기 때문이다.
+이 필요성은 Popek과 Goldberg의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 조건과도 맞닿아 있다. 시스템 상태를 바꾸는 민감한 명령은 [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 가능한 형태여야 하며, 그렇지 않으면 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 소프트웨어 번역이나 우회 기법으로 부족한 부분을 메워야 한다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86이 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에 까다로웠던 이유도 바로 이 [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 경계가 완전하지 않았기 때문이다.
 
-이 그림은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 없을 때와 있을 때의 차이를 단순하게 보여 준다.
+이 그림은 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 없을 때와 있을 때의 차이를 단순하게 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -37,17 +34,17 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-즉 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 늦추는 부수 효과가 있어도, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 자체를 성립시키는 안전 경계다. 중요한 질문은 "[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 좋은가 나쁜가"가 아니라, <strong>어떤 경계는 반드시 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>해야 하고 어떤 경계는 하드웨어 빠른 경로로 우회할 수 있는가</strong>다.
+즉 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 늦추는 부수 효과가 있어도, [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 자체를 성립시키는 안전 경계다. 중요한 질문은 "[트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 좋은가 나쁜가"가 아니라, <strong>어떤 경계는 반드시 <a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>해야 하고 어떤 경계는 하드웨어 빠른 경로로 우회할 수 있는가</strong>다.
 
-- **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 놀이공원 관제실과 같다. 아이들이 각자 자동차를 몰아도, 중앙 문을 열고 닫는 버튼만은 관제실이 쥐고 있어야 전체 놀이기구가 안전하게 돌아간다.
+- **📢 섹션 요약 비유**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 놀이공원 관제실과 같다. 아이들이 각자 자동차를 몰아도, 중앙 문을 열고 닫는 버튼만은 관제실이 쥐고 있어야 전체 놀이기구가 안전하게 돌아간다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-현대 x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 게스트가 VMX ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions) Non-Root 모드에서 실행되고, [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure)의 execution control 필드가 "무엇을 trap할지"를 지정한다. 대상이 아닌 일반 연산은 그대로 실행되지만, `MOV to CR`, `CPUID`, MSR (Model-Specific [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 접근인 `RDMSR/WRMSR`, `HLT`, `IN/OUT`, 특정 예외나 EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) violation 같은 이벤트는 CPU가 즉시 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit로 전환한다. 이 순간 CPU는 guest-state를 저장하고 host-state를 로드한 뒤, exit reason과 qualification을 VMCS에 기록해 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 상황을 해석하게 만든다.
+현대 x86 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)에서는 게스트가 VMX ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions) Non-Root 모드에서 실행되고, [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure)의 execution control 필드가 "무엇을 trap할지"를 지정한다. 대상이 아닌 일반 연산은 그대로 실행되지만, `MOV to CR`, `CPUID`, MSR (Model-Specific [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)) 접근인 `RDMSR/WRMSR`, `HLT`, `IN/OUT`, 특정 예외나 EPT (Extended [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) violation 같은 이벤트는 CPU가 즉시 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit로 전환한다. 이 순간 CPU는 guest-state를 저장하고 host-state를 로드한 뒤, exit reason과 qualification을 VMCS에 기록해 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 상황을 해석하게 만든다.
 
-이 그림은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 빠른 경로와 느린 경로를 어떻게 가르는지 보여 준다.
+이 그림은 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 빠른 경로와 느린 경로를 어떻게 가르는지 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -63,73 +60,73 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 받으면 세 가지 중 하나를 선택한다. 첫째, 실제 하드웨어 접근을 막고 가상 결과만 돌려주는 에뮬레이션. 둘째, 권한을 검사한 뒤 제한적으로 허용하는 중재. 셋째, 게스트에게 예외나 가상 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 주입해 스스로 처리하게 하는 방식이다. 이때 한번의 Exit/Entry는 수백~수천 사이클 이상이 들 수 있으므로, 빈도가 높으면 처리량뿐 아니라 tail latency도 악화된다.
+[하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 받으면 세 가지 중 하나를 선택한다. 첫째, 실제 하드웨어 접근을 막고 가상 결과만 돌려주는 에뮬레이션. 둘째, 권한을 검사한 뒤 제한적으로 허용하는 중재. 셋째, 게스트에게 예외나 가상 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 주입해 스스로 처리하게 하는 방식이다. 이때 한번의 Exit/Entry는 수백~수천 사이클 이상이 들 수 있으므로, 빈도가 높으면 처리량뿐 아니라 tail latency도 악화된다.
 
-| [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 유형 | 대표 예시 | [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 이유 | 줄이는 방향 |
+| [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 유형 | 대표 예시 | [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 이유 | 줄이는 방향 |
 | :--- | :--- | :--- | :--- |
-| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 기반 | `MOV CR`, `CPUID`, `HLT`, `RDMSR` | 전역 상태 변경 또는 특권 정보 노출 | 비트맵 정교화, 캐시 응답 |
-| I/O 기반 | `IN/OUT`, MMIO (Memory-Mapped I/O) | 장치 모델을 거쳐야 함 | VirtIO (Virtual I/O), [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) |
-| 메모리/예외 기반 | EPT violation, 예외 bitmap 대상 | 주소 격리와 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) | EPT 튜닝, [huge page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) |
-| 명시적 호출 | `VMCALL`/hypercall | 협력적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청 | trap을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) API로 전환 |
+| [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 기반 | `MOV CR`, `CPUID`, `HLT`, `RDMSR` | 전역 상태 변경 또는 특권 정보 노출 | 비트맵 정교화, 캐시 응답 |
+| I/O 기반 | `IN/OUT`, MMIO (Memory-Mapped I/O) | 장치 모델을 거쳐야 함 | VirtIO (Virtual I/O), [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) |
+| 메모리/예외 기반 | EPT violation, 예외 bitmap 대상 | 주소 격리와 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) | EPT 튜닝, [huge page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) |
+| 명시적 호출 | `VMCALL`/hypercall | 협력적 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 요청 | trap을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) API로 전환 |
 
-핵심은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 "금지"만을 의미하지 않는다는 점이다. [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 격리를 지키기 위한 인터셉트이면서 동시에, 하드웨어와 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 역할을 나누는 제어면의 경계다.
+핵심은 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 "금지"만을 의미하지 않는다는 점이다. [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 격리를 지키기 위한 인터셉트이면서 동시에, 하드웨어와 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 역할을 나누는 제어면의 경계다.
 
-- **📢 섹션 요약 비유**: [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 고속도로 톨게이트와 같다. 대부분의 차는 그냥 지나가게 두고, 검사가 필요한 차만 잠깐 세워 확인해야 길 전체가 막히지 않는다.
+- **📢 섹션 요약 비유**: [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 고속도로 톨게이트와 같다. 대부분의 차는 그냥 지나가게 두고, 검사가 필요한 차만 잠깐 세워 확인해야 길 전체가 막히지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 예외, 하이퍼콜과 비슷해 보이지만 목적과 주체가 다르다. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 외부 장치가 비동기적으로 알리는 사건이고, 예외는 현재 명령 실행 중 CPU 내부 규칙이 깨졌을 때 발생한다. 반면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 정책상 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>가 보고 판단해야 하는 사건</strong>을 의도적으로 걸러내는 장치다.
+[하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 예외, 하이퍼콜과 비슷해 보이지만 목적과 주체가 다르다. [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)는 외부 장치가 비동기적으로 알리는 사건이고, 예외는 현재 명령 실행 중 CPU 내부 규칙이 깨졌을 때 발생한다. 반면 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 <strong><a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 정책상 <a href="/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a>가 보고 판단해야 하는 사건</strong>을 의도적으로 걸러내는 장치다.
 
-| 항목 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) | 예외 (Exception) | 하이퍼콜 (Hypercall) |
+| 항목 | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) | 예외 (Exception) | 하이퍼콜 (Hypercall) |
 | :--- | :--- | :--- | :--- | :--- |
 | 발생 방식 | 게스트 동작을 강제 인터셉트 | 외부 장치가 비동기 통보 | CPU 규칙 위반/내부 이벤트 | 게스트가 협력적으로 호출 |
-| 목적 | 격리와 자원 통제 | 사건 전달 | 오류 또는 상태 보고 | [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)-heavy 경로 대체 |
-| 비용 성격 | Exit/Entry 오버헤드 큼 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 Exit 가능 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 Exit 가능 | trap보다 예측 가능 |
-| 대표 활용 | 특권 명령, I/O 중재 | 타이머, 네트워크 패킷 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관련 이벤트 | VirtIO, paravirt [clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) |
+| 목적 | 격리와 자원 통제 | 사건 전달 | 오류 또는 상태 보고 | [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)-heavy 경로 대체 |
+| 비용 성격 | Exit/Entry 오버헤드 큼 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 Exit 가능 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에 따라 Exit 가능 | trap보다 예측 가능 |
+| 대표 활용 | 특권 명령, I/O 중재 | 타이머, 네트워크 패킷 | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 관련 이벤트 | VirtIO, paravirt [clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) |
 
-이 차이는 최적화 전략에도 직접 연결된다. 예를 들어 I/O trap이 많으면 장치 에뮬레이션보다 VirtIO 같은 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 경로가 낫고, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Exit가 많으면 APICv (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))나 posted interrupt가 도움 된다. 같은 ISA에서는 CPU 연산을 최대한 직접 실행시키고, 정말 없는 장치나 특수 경로만 에뮬레이션하는 하이브리드 구조가 현대 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 기본이다.
+이 차이는 최적화 전략에도 직접 연결된다. 예를 들어 I/O trap이 많으면 장치 에뮬레이션보다 VirtIO 같은 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 경로가 낫고, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Exit가 많으면 APICv (Advanced Programmable [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))나 posted interrupt가 도움 된다. 같은 ISA에서는 CPU 연산을 최대한 직접 실행시키고, 정말 없는 장치나 특수 경로만 에뮬레이션하는 하이브리드 구조가 현대 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 기본이다.
 
-또한 컨테이너와도 경계가 선명하다. 컨테이너는 같은 커널을 공유하므로 CPU 실행 경로에 이런 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 계층이 없다. 반대로 VM은 커널까지 분리하는 대신, 이 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 메커니즘을 비용으로 지불한다.
+또한 컨테이너와도 경계가 선명하다. 컨테이너는 같은 커널을 공유하므로 CPU 실행 경로에 이런 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 계층이 없다. 반대로 VM은 커널까지 분리하는 대신, 이 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 메커니즘을 비용으로 지불한다.
 
-- **📢 섹션 요약 비유**: [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 무단 침입자를 붙잡는 경비원이라면, 하이퍼콜은 정문 안내데스크다. 둘 다 관리자를 부르지만 하나는 강제 검문이고, 다른 하나는 정식 요청이다.
+- **📢 섹션 요약 비유**: [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 무단 침입자를 붙잡는 경비원이라면, 하이퍼콜은 정문 안내데스크다. 둘 다 관리자를 부르지만 하나는 강제 검문이고, 다른 하나는 정식 요청이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 것은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)의 존재 자체가 아니라 <strong>어떤 이유로 얼마나 자주 발생하는가</strong>다. `kvm_stat`, `perf kvm stat` 같은 도구로 Exit reason을 보면 병목 위치가 드러난다. `EXIT_REASON_IO_INSTRUCTION`이 높다면 VirtIO 전환이나 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 검토가 먼저이고, `CPUID`/`MSR` Exit가 많다면 기능 노출 정책을 다듬어야 하며, EPT violation이 많다면 메모리 매핑이나 [huge page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 전략을 먼저 점검해야 한다.
+실무에서 중요한 것은 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)의 존재 자체가 아니라 <strong>어떤 이유로 얼마나 자주 발생하는가</strong>다. `kvm_stat`, `perf kvm stat` 같은 도구로 Exit reason을 보면 병목 위치가 드러난다. `EXIT_REASON_IO_INSTRUCTION`이 높다면 VirtIO 전환이나 [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 검토가 먼저이고, `CPUID`/`MSR` Exit가 많다면 기능 노출 정책을 다듬어야 하며, EPT violation이 많다면 메모리 매핑이나 [huge page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 전략을 먼저 점검해야 한다.
 
-### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 꼭 필요한 인터셉트만 활성화되어 있는가, 아니면 무차별 [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 정책으로 대부분을 가로채고 있는가?
+1. 꼭 필요한 인터셉트만 활성화되어 있는가, 아니면 무차별 [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 정책으로 대부분을 가로채고 있는가?
 2. I/O 경로가 에뮬레이션 위주인지, VirtIO 같은 협력 경로가 있는지 구분했는가?
-3. [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 Exit가 많다면 APICv, posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), paravirtual clock을 활용할 수 있는가?
-4. 보안상 반드시 trap해야 하는 경계와, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 때문에 직접 실행시켜도 되는 경계를 분리했는가?
+3. [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 Exit가 많다면 APICv, posted [interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), paravirtual clock을 활용할 수 있는가?
+4. 보안상 반드시 trap해야 하는 경계와, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 때문에 직접 실행시켜도 되는 경계를 분리했는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 드라이버로 I/O [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 폭풍을 만드는 게스트
-- 필요 없는 `CPUID`/`MSR` 인터셉트를 넓게 열어 두는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
-- 중첩 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 습관적으로 켜서 Exit 경로를 불필요하게 늘리는 운영
-- [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 만드는 side-channel 가능성을 완전히 무시하는 보안 판단
+- [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 드라이버로 I/O [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 폭풍을 만드는 게스트
+- 필요 없는 `CPUID`/`MSR` 인터셉트를 넓게 열어 두는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- 중첩 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 습관적으로 켜서 Exit 경로를 불필요하게 늘리는 운영
+- [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 만드는 side-channel 가능성을 완전히 무시하는 보안 판단
 
-기술사 답안에서는 "[트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 많으면 느리다"로 끝내면 부족하다. <strong>왜 그 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>이 생겼고, 어떤 하드웨어 가속 또는 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> 기법으로 대체할 수 있는지</strong>까지 연결해야 실무 감각이 드러난다.
+기술사 답안에서는 "[트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 많으면 느리다"로 끝내면 부족하다. <strong>왜 그 <a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>이 생겼고, 어떤 하드웨어 가속 또는 <a href="/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/">반가상화</a> 기법으로 대체할 수 있는지</strong>까지 연결해야 실무 감각이 드러난다.
 
-- **📢 섹션 요약 비유**: [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 분석은 병원 응급실 동선 점검과 같다. 응급 환자를 가려내는 문은 꼭 필요하지만, 가벼운 환자까지 모두 응급실로 몰리면 진짜 급한 환자도 늦어진다.
+- **📢 섹션 요약 비유**: [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 분석은 병원 응급실 동선 점검과 같다. 응급 환자를 가려내는 문은 꼭 필요하지만, 가벼운 환자까지 모두 응급실로 몰리면 진짜 급한 환자도 늦어진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)의 가장 큰 효과는 공용 하드웨어 위에 여러 개의 "가짜 독립 컴퓨터"를 안전하게 세울 수 있게 해 준다는 점이다. 게스트는 자기만의 커널과 장치를 가진 것처럼 보이지만, 실제 위험한 순간마다 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 제어권을 되찾아 시스템 전체를 지킨다. 이 덕분에 멀티테넌시, 레거시 OS 수용, 강한 격리가 모두 가능한 것이다.
+[하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)의 가장 큰 효과는 공용 하드웨어 위에 여러 개의 "가짜 독립 컴퓨터"를 안전하게 세울 수 있게 해 준다는 점이다. 게스트는 자기만의 커널과 장치를 가진 것처럼 보이지만, 실제 위험한 순간마다 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 제어권을 되찾아 시스템 전체를 지킨다. 이 덕분에 멀티테넌시, 레거시 OS 수용, 강한 격리가 모두 가능한 것이다.
 
-반면 한계도 분명하다. Exit/Entry 오버헤드는 실시간성에 불리하고, 장치 I/O가 많은 워크로드에서는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동을 키우며, [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 처리 시간 자체가 보안 측정 지표가 되기도 한다. 그래서 미래 방향은 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 완전히 없애는 것보다, APICv·EPT·SR-IOV처럼 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>이 필요 없는 경로를 넓히고 꼭 필요한 경계만 더 정교하게 남기는 것</strong>에 가깝다.
+반면 한계도 분명하다. Exit/Entry 오버헤드는 실시간성에 불리하고, 장치 I/O가 많은 워크로드에서는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 변동을 키우며, [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 처리 시간 자체가 보안 측정 지표가 되기도 한다. 그래서 미래 방향은 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)을 완전히 없애는 것보다, APICv·EPT·SR-IOV처럼 <strong><a href="/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/">트랩</a>이 필요 없는 경로를 넓히고 꼭 필요한 경계만 더 정교하게 남기는 것</strong>에 가깝다.
 
-결론적으로 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 필요악이 아니라, <strong>직접 실행과 격리 통제를 가르는 핵심 경계</strong>다. 이 경계를 얼마나 좁고 정확하게 설계하느냐가 현대 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 품질을 결정한다.
+결론적으로 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 필요악이 아니라, <strong>직접 실행과 격리 통제를 가르는 핵심 경계</strong>다. 이 경계를 얼마나 좁고 정확하게 설계하느냐가 현대 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)의 품질을 결정한다.
 
-- **📢 섹션 요약 비유**: [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 성 안의 다리문과 같다. 항상 닫아 두면 왕래가 막히고, 항상 열어 두면 침입자가 들어온다. 정말 필요한 순간에만 정확히 열고 닫는 것이 좋은 설계다.
+- **📢 섹션 요약 비유**: [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)은 성 안의 다리문과 같다. 항상 닫아 두면 왕래가 막히고, 항상 열어 두면 침입자가 들어온다. 정말 필요한 순간에만 정확히 열고 닫는 것이 좋은 설계다.
 
 ---
 
@@ -137,12 +134,12 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 실제로 구현되는 전환 현상이다. |
-| [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) | 어떤 이벤트를 trap할지와 Exit 이유를 저장하는 제어 구조다. |
-| Hypercall | trap을 협력적 호출로 바꾸는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 인터페이스다. |
-| VirtIO | I/O [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 빈도를 크게 줄이는 대표적인 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 장치 경로다. |
-| APICv / posted [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 Exit를 줄이는 하드웨어 가속이다. |
-| EPT | 메모리 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 경로에서 trap을 줄이는 주소 변환 가속이다. |
+| [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)이 실제로 구현되는 전환 현상이다. |
+| [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) | 어떤 이벤트를 trap할지와 Exit 이유를 저장하는 제어 구조다. |
+| Hypercall | trap을 협력적 호출로 바꾸는 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 인터페이스다. |
+| VirtIO | I/O [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 빈도를 크게 줄이는 대표적인 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 장치 경로다. |
+| APICv / posted [interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 Exit를 줄이는 하드웨어 가속이다. |
+| EPT | 메모리 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 경로에서 trap을 줄이는 주소 변환 가속이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -165,11 +162,11 @@ VirtIO · SR-IOV로 I/O Trap 축소
 Confidential VM · 더 정교한 선택적 인터셉트
 ```
 
-이 흐름은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 "무조건 [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)"에서 "정말 필요한 경계만 [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)"하는 방향으로 발전해 왔음을 보여 준다.
+이 흐름은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 "무조건 [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)"에서 "정말 필요한 경계만 [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)"하는 방향으로 발전해 왔음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 가상 컴퓨터가 위험한 버튼을 누르려고 하면, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 "잠깐!" 하고 먼저 확인해요.
+1. 가상 컴퓨터가 위험한 버튼을 누르려고 하면, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 "잠깐!" 하고 먼저 확인해요.
 2. 괜찮은 일은 그냥 하게 두고, 위험한 일만 대신 처리해 주니까 여러 컴퓨터가 같이 살아도 싸우지 않아요.
 3. 하지만 너무 자주 불러 세우면 느려지니까, 꼭 필요한 일만 선생님을 부르게 만드는 게 중요하답니다.
 
@@ -179,7 +176,7 @@ Confidential VM · 더 정교한 선택적 인터셉트
 
 **진행 상황**: 530 / 803
 
-<- **이전**: [529. 가상 머신 제어 구조 (VMCS)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)
-**다음**: [531. 에뮬레이션 지연](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/531_emulation_latency/) ->
+<- **이전**: [529. 가상 머신 제어 구조 (VMCS)](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/)
+**다음**: [531. 에뮬레이션 지연](/studynote/01_computer_architecture/15_advanced_topics/531_emulation_latency/) ->
 
 ---

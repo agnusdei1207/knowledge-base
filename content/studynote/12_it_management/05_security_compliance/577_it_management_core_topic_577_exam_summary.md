@@ -1,13 +1,10 @@
-+++
-title = "577. IT 경영 관리 핵심 토픽 577번 시험 요약 (IT Management Core Topic 577 Exam Summary)"
-date = 2026-05-09
+---
+title: "577. IT 경영 관리 핵심 토픽 577번 시험 요약 (IT Management Core Topic 577 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 577. IT 경영 관리 핵심 토픽 577번 시험 요약 (IT Management Core Topic 577 Exam Summary)
 
@@ -169,7 +166,7 @@ $$\text{거버넌스 성숙도} = f(\text{목표 달성률}, \text{위험 통제
 
 **진행 상황**: 577 / 800
 
-<- **이전**: [576. IT 경영 관리 핵심 토픽 576번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/576_it_management_core_topic_576_exam_summary/)
-**다음**: [578. IT 경영 관리 핵심 토픽 578번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/578_it_management_core_topic_578_exam_summary/) ->
+<- **이전**: [576. IT 경영 관리 핵심 토픽 576번 시험 요약](/studynote/12_it_management/05_security_compliance/576_it_management_core_topic_576_exam_summary/)
+**다음**: [578. IT 경영 관리 핵심 토픽 578번 시험 요약](/studynote/12_it_management/05_security_compliance/578_it_management_core_topic_578_exam_summary/) ->
 
 ---

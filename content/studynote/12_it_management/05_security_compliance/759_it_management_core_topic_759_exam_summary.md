@@ -1,13 +1,10 @@
-+++
-title = "759. IT 경영 관리 핵심 토픽 759번 시험 요약 (IT Management Core Topic 759 Exam Summary)"
-date = 2026-05-09
+---
+title: "759. IT 경영 관리 핵심 토픽 759번 시험 요약 (IT Management Core Topic 759 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -204,7 +201,7 @@ IT 포트폴리오는 **Application Portfolio**, **Project/Program Portfolio**, 
 
 **진행 상황**: 759 / 800
 
-<- **이전**: [758. IT 경영 관리 핵심 토픽 758번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/758_it_management_core_topic_758_exam_summary/)
-**다음**: [760. IT 경영 관리 핵심 토픽 760번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/760_it_management_core_topic_760_exam_summary/) ->
+<- **이전**: [758. IT 경영 관리 핵심 토픽 758번 시험 요약](/studynote/12_it_management/05_security_compliance/758_it_management_core_topic_758_exam_summary/)
+**다음**: [760. IT 경영 관리 핵심 토픽 760번 시험 요약](/studynote/12_it_management/05_security_compliance/760_it_management_core_topic_760_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "547. IT 자산 관리 라이프사이클 최적화 (IT Asset Management Lifecycle Optimization)"
-date = 2026-05-09
+---
+title: "547. IT 자산 관리 라이프사이클 최적화 (IT Asset Management Lifecycle Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 547 / 600
 
-<- **이전**: [546. 가용성 관리 MTBF MTTR 고가용성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/547_availability_management_mtbf_mttr_ha/)
-**다음**: [548. 지식 관리 KMS 조직 학습 시스템](/knowledge-base/studynote/11_design_supervision/06_exam_summary/548_knowledge_management_kms_organizational_/) ->
+<- **이전**: [546. 가용성 관리 MTBF MTTR 고가용성](/studynote/11_design_supervision/06_exam_summary/547_availability_management_mtbf_mttr_ha/)
+**다음**: [548. 지식 관리 KMS 조직 학습 시스템](/studynote/11_design_supervision/06_exam_summary/548_knowledge_management_kms_organizational_/) ->
 
 ---

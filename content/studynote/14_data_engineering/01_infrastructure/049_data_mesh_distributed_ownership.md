@@ -1,22 +1,19 @@
-+++
-title = "049. 데이터 메시 — Data Mesh Distributed Ownership"
-date = 2026-04-05
+---
+title: "049. 데이터 메시 — Data Mesh Distributed Ownership"
+date: "2026-04-05"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 > **핵심 인사이트**
-> 1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/knowledge-base/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 중앙화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 아니라 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(비즈니스 단위)이 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소유·관리·제공하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임 — 중앙 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 조직 성장에 따라 병목·[사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)·품질 저하로 이어지는 문제를 해결한다.
-> 2. "[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership) + [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product)"이 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 핵심 원칙 — 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀은 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내부 고객(다른 팀)을 위한 "제품"으로 취급하며, [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)·문서·품질 기준을 함께 제공해야 한다.
-> 3. 연합 계산 거버넌스(Federated Computational Governance)가 자율성과 통제 사이의 균형 — 각 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 자율적으로 운영하되, 공통 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준·접근 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·컴플라이언스는 중앙에서 계산적(자동화)으로 강제함으로써 "표준화된 자율성"을 실현한다.
+> 1. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)([Data Mesh](/studynote/12_it_management/05_security_compliance/320_data_mesh/))는 중앙화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀이 아니라 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(비즈니스 단위)이 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 소유·관리·제공하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 패러다임 — 중앙 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)가 조직 성장에 따라 병목·[사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)·품질 저하로 이어지는 문제를 해결한다.
+> 2. "[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 소유권([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) Ownership) + [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a Product)"이 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)의 핵심 원칙 — 각 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀은 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내부 고객(다른 팀)을 위한 "제품"으로 취급하며, [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)·문서·품질 기준을 함께 제공해야 한다.
+> 3. 연합 계산 거버넌스(Federated Computational Governance)가 자율성과 통제 사이의 균형 — 각 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 자율적으로 운영하되, 공통 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표준·접근 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·컴플라이언스는 중앙에서 계산적(자동화)으로 강제함으로써 "표준화된 자율성"을 실현한다.
 
 ---
 
-## Ⅰ. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 배경
+## Ⅰ. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 배경
 
 ```
 중앙화 데이터 아키텍처의 한계:
@@ -48,7 +45,7 @@ tags = ["studynote-data-engineering"]
   중앙 데이터 레이크 -> 데이터 메시 = 데이터 메시
 ```
 
-> 📢 **섹션 요약 비유**: 중앙 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 한계 = 중앙 주방 식당 — 모든 재료를 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀)에서만 처리. 손님([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀) 요청 밀림, 주방이 모든 재료 특성 파악 불가. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리!
+> 📢 **섹션 요약 비유**: 중앙 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) 한계 = 중앙 주방 식당 — 모든 재료를 중앙 주방([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀)에서만 처리. 손님([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 팀) 요청 밀림, 주방이 모든 재료 특성 파악 불가. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)는 각 코너([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리!
 
 ---
 
@@ -104,11 +101,11 @@ tags = ["studynote-data-engineering"]
   -> 도메인 팀이 설정 실수해도 자동 차단
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙 = 프랜차이즈 식당 — 각 매장([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))이 자체 운영(소유권). 손님을 위한 표준 메뉴([데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)). 본사 POS/레시피 제공(셀프서비스 플랫폼). 위생 기준 자동 점검(거버넌스)!
+> 📢 **섹션 요약 비유**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 4원칙 = 프랜차이즈 식당 — 각 매장([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))이 자체 운영(소유권). 손님을 위한 표준 메뉴([데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)). 본사 POS/레시피 제공(셀프서비스 플랫폼). 위생 기준 자동 점검(거버넌스)!
 
 ---
 
-## Ⅲ. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) 설계
+## Ⅲ. [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/) 설계
 
 ```
 데이터 제품 구현:
@@ -146,7 +143,7 @@ tags = ["studynote-data-engineering"]
   -> 다른 팀이 검색하여 사용
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객을 위한 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 "orders [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 관리. [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 문서, 품질 기준 포함. 다른 팀은 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
+> 📢 **섹션 요약 비유**: [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객을 위한 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)이 "orders [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 관리. [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), 문서, 품질 기준 포함. 다른 팀은 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
 
 ---
 
@@ -193,11 +190,11 @@ Trade-off:
   - 작은 조직에는 과도한 복잡성
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 도구 = 프랜차이즈 인프라 — [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/)(표준 식재료 창고), DataHub(메뉴 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)), Great Expectations(위생 검사 자동화), [OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)(본사 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동 강제). 모두 갖춰야 프랜차이즈 운영!
+> 📢 **섹션 요약 비유**: [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) 도구 = 프랜차이즈 인프라 — [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/)(표준 식재료 창고), DataHub(메뉴 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)), Great Expectations(위생 검사 자동화), [OPA](/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/)(본사 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 자동 강제). 모두 갖춰야 프랜차이즈 운영!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)
+## Ⅴ. 실무 시나리오 — 핀테크 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/)
 
 ```
 핀테크 기업 데이터 메시 전환:
@@ -241,7 +238,7 @@ Phase 3 (12~18개월) - 전사 확대:
   작은 조직: 데이터 메시 과도 -> Data Fabric이 적합
 ```
 
-> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 중앙 주방->코너 요리 전환 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 3주 대기에서 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 직접 요리로. 파이프라인 대기 3주->2일. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급율 12->78%!
+> 📢 **섹션 요약 비유**: 핀테크 [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 중앙 주방->코너 요리 전환 — 중앙 주방([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 3주 대기에서 각 코너([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)) 직접 요리로. 파이프라인 대기 3주->2일. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자급율 12->78%!
 
 ---
 
@@ -301,9 +298,9 @@ AI 기반 메타데이터
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 프랜차이즈 식당 — 중앙 주방([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 대신 각 코너([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리). 파이프라인 대기 3주->2일!
-2. [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객용 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 팀이 "주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)+문서+품질 기준으로 제공. 다른 팀이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
-3. 연합 거버넌스 = 프랜차이즈 본사 위생 점검 — 각 매장이 자율 운영하되, 위생 기준([정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))은 자동(코드)으로 강제. 표준화된 자율성!
+1. [데이터 메시](/studynote/12_it_management/05_security_compliance/211_data_mesh_domain_ownership/) = 프랜차이즈 식당 — 중앙 주방([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 팀) 대신 각 코너([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))가 직접 요리([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리). 파이프라인 대기 3주->2일!
+2. [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/) = 내부 고객용 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) — 주문 팀이 "주문 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)"를 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)+문서+품질 기준으로 제공. 다른 팀이 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)에서 검색 후 바로 사용!
+3. 연합 거버넌스 = 프랜차이즈 본사 위생 점검 — 각 매장이 자율 운영하되, 위생 기준([정책](/studynote/10_ai/02_dl_architecture_new/164_policy/))은 자동(코드)으로 강제. 표준화된 자율성!
 
 ---
 
@@ -311,7 +308,7 @@ AI 기반 메타데이터
 
 **진행 상황**: 49 / 258
 
-<- **이전**: [048. 일관 해싱 — Consistent Hashing & Ring](/knowledge-base/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/)
-**다음**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/) ->
+<- **이전**: [048. 일관 해싱 — Consistent Hashing & Ring](/studynote/14_data_engineering/01_infrastructure/048_consistent_hashing_ring_structure/)
+**다음**: [데이터 패브릭 가상화 (Data Fabric Virtualization)](/studynote/14_data_engineering/01_infrastructure/050_data_fabric_virtualization/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)"
-date = 2026-05-09
+---
+title: "293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -47,7 +44,7 @@ Google SRE 워크북이 정의한 **SLI/SLO/Error Budget** 프레임워크를 �
 
 **진행 상황**: 293 / 300
 
-<- **이전**: [292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/292_lakehouse_medallion/)
-**다음**: [294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/294_automl_hyperparameter/) ->
+<- **이전**: [292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)](/studynote/14_data_engineering/05_exam_keywords/292_lakehouse_medallion/)
+**다음**: [294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)](/studynote/14_data_engineering/05_exam_keywords/294_automl_hyperparameter/) ->
 
 ---

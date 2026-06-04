@@ -1,13 +1,10 @@
-+++
-title = "297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)"
-date = 2026-05-09
+---
+title: "297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -18,7 +15,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 297 / 300
 
-<- **이전**: [296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/296_rag_architecture/)
-**다음**: [298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/298_ai_agent_workflow/) ->
+<- **이전**: [296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)](/studynote/14_data_engineering/05_exam_keywords/296_rag_architecture/)
+**다음**: [298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)](/studynote/14_data_engineering/05_exam_keywords/298_ai_agent_workflow/) ->
 
 ---

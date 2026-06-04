@@ -1,13 +1,10 @@
-+++
-title = "582. 자율주행 자동차 센서 퓨전 아키텍처 (Autonomous Vehicle Sensor Fusion Architecture)"
-date = 2026-05-09
+---
+title: "582. 자율주행 자동차 센서 퓨전 아키텍처 (Autonomous Vehicle Sensor Fusion Architecture)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Capture -> Calibrate -> Fuse -> Perceive -> Plan
 
 **진행 상황**: 582 / 800
 
-<- **이전**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/)
-**다음**: [583. V2X 차량 통신 C-V2X DSRC](/knowledge-base/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/) ->
+<- **이전**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/)
+**다음**: [583. V2X 차량 통신 C-V2X DSRC](/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/) ->
 
 ---

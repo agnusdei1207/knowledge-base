@@ -1,10 +1,10 @@
-+++
-title = "Study Note (기술사 16과목)"
-description = "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
+---
+title: "Study Note (기술사 16과목)"
+description: "PE 16과목 핵심 정리 — 정보통신기술사·컴퓨터응용시스템기술사"
+tags:
+  - "studynote"
+---
 
-[extra]
-tags = ["studynote"]
-+++
 
 [ 종합 지식 포털 ] > **Study Note**
 
@@ -37,4 +37,4 @@ tags = ["studynote"]
 ---
 
 > [!TIP]
-> 공부하는 도중에 발견한 핵심 키워드는 <strong><a href="/knowledge-base/inbox/">inbox</a></strong>에 빠르게 적어두고 나중에 스터디노트에 융합해 보세요.
+> 공부하는 도중에 발견한 핵심 키워드는 <strong><a href="/inbox/">inbox</a></strong>에 빠르게 적어두고 나중에 스터디노트에 융합해 보세요.

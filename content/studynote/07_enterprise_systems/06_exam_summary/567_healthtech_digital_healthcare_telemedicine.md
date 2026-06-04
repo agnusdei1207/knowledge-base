@@ -1,13 +1,10 @@
-+++
-title = "567. 헬스테크 디지털 헬스케어 원격의료 (HealthTech Digital Healthcare Telemedicine)"
-date = 2026-05-09
+---
+title: "567. 헬스테크 디지털 헬스케어 원격의료 (HealthTech Digital Healthcare Telemedicine)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 567 / 800
 
-<- **이전**: [566. 핀테크 디지털 금융 혁신 레그테크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/566_fintech_digital_finance_innovation_regtech/)
-**다음**: [568. 에듀테크 디지털 교육 학습 플랫폼](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/568_edutech_digital_education_learning_platform/) ->
+<- **이전**: [566. 핀테크 디지털 금융 혁신 레그테크](/studynote/07_enterprise_systems/06_exam_summary/566_fintech_digital_finance_innovation_regtech/)
+**다음**: [568. 에듀테크 디지털 교육 학습 플랫폼](/studynote/07_enterprise_systems/06_exam_summary/568_edutech_digital_education_learning_platform/) ->
 
 ---

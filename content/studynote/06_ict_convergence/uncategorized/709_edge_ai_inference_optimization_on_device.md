@@ -1,13 +1,10 @@
-+++
-title = "709. 엣지 AI 추론 최적화 온디바이스 (Edge AI Inference Optimization On-Device)"
-date = 2026-05-09
+---
+title: "709. 엣지 AI 추론 최적화 온디바이스 (Edge AI Inference Optimization On-Device)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 709 / 800
 
-<- **이전**: [708. AI 칩 NPU TPU GPU 가속기 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/)
-**다음**: [710. ICT 융합 기술사 종합 아키텍처 마스터 맵](/knowledge-base/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/) ->
+<- **이전**: [708. AI 칩 NPU TPU GPU 가속기 비교](/studynote/06_ict_convergence/uncategorized/708_ai_chip_npu_tpu_gpu_accelerator_comparison/)
+**다음**: [710. ICT 융합 기술사 종합 아키텍처 마스터 맵](/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/) ->
 
 ---

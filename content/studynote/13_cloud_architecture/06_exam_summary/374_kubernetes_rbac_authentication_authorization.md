@@ -1,13 +1,10 @@
-+++
-title = "374. 쿠버네티스 RBAC 인증 인가 보안 (Kubernetes RBAC Authentication Authorization)"
-date = 2026-05-09
+---
+title: "374. 쿠버네티스 RBAC 인증 인가 보안 (Kubernetes RBAC Authentication Authorization)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 374 / 800
 
-<- **이전**: [373. 쿠버네티스 네트워크 정책 서비스 메시](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/373_kubernetes_network_policy_service_mesh/)
-**다음**: [375. 쿠버네티스 시크릿 관리 볼트 연동](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/375_kubernetes_secret_management_vault_integratio/) ->
+<- **이전**: [373. 쿠버네티스 네트워크 정책 서비스 메시](/studynote/13_cloud_architecture/06_exam_summary/373_kubernetes_network_policy_service_mesh/)
+**다음**: [375. 쿠버네티스 시크릿 관리 볼트 연동](/studynote/13_cloud_architecture/06_exam_summary/375_kubernetes_secret_management_vault_integratio/) ->
 
 ---

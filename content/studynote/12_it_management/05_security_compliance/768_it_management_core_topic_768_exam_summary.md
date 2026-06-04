@@ -1,13 +1,10 @@
-+++
-title = "768. IT 경영 관리 핵심 토픽 768번 시험 요약 (IT Management Core Topic 768 Exam Summary)"
-date = 2026-05-09
+---
+title: "768. IT 경영 관리 핵심 토픽 768번 시험 요약 (IT Management Core Topic 768 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ IT 경영관리 영역은 다수의 유사·경쟁 프레임워크가 존재하�
 
 **진행 상황**: 768 / 800
 
-<- **이전**: [767. IT 경영 관리 핵심 토픽 767번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/767_it_management_core_topic_767_exam_summary/)
-**다음**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/) ->
+<- **이전**: [767. IT 경영 관리 핵심 토픽 767번 시험 요약](/studynote/12_it_management/05_security_compliance/767_it_management_core_topic_767_exam_summary/)
+**다음**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/) ->
 
 ---

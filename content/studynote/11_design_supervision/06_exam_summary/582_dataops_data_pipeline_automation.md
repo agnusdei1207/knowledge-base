@@ -1,13 +1,10 @@
-+++
-title = "582. 데이터 옵스 데이터 파이프라인 자동화 (DataOps Data Pipeline Automation)"
-date = 2026-05-09
+---
+title: "582. 데이터 옵스 데이터 파이프라인 자동화 (DataOps Data Pipeline Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ WHEN NOT MATCHED THEN
 
 **진행 상황**: 582 / 600
 
-<- **이전**: [581. 제로 트러스트 아키텍처 감리 관점](/knowledge-base/studynote/11_design_supervision/06_exam_summary/582_zero_trust_architecture_audit_perspectiv/)
-**다음**: [583. MLOps 머신러닝 운영 자동화 파이프라인](/knowledge-base/studynote/11_design_supervision/06_exam_summary/583_mlops_machine_learning_operations_pipeli/) ->
+<- **이전**: [581. 제로 트러스트 아키텍처 감리 관점](/studynote/11_design_supervision/06_exam_summary/582_zero_trust_architecture_audit_perspectiv/)
+**다음**: [583. MLOps 머신러닝 운영 자동화 파이프라인](/studynote/11_design_supervision/06_exam_summary/583_mlops_machine_learning_operations_pipeli/) ->
 
 ---

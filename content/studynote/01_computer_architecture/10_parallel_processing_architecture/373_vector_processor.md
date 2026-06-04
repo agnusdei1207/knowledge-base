@@ -1,27 +1,24 @@
-+++
-title = "373. 벡터 프로세서 (Vector Processor)"
-date = 2026-03-20
+---
+title: "373. 벡터 프로세서 (Vector Processor)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 벡터 프로세서 (Vector Processor)는 같은 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소마다 반복하는 문제를, 원소 단위가 아니라 <strong>벡터 단위 명령</strong>으로 처리해 제어 오버헤드를 줄이는 아키텍처다.
-> 2. **가치**: 긴 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 파이프라인화된 연산기, 높은 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 맞물리면 과학 계산·행렬 연산·[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서 스칼라 처리보다 훨씬 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 낸다.
-> 3. **판단 포인트**: 벡터화 효과는 연산기 수보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성, 메모리 공급 속도, 분기와 의존성의 정도에 의해 결정되므로 “[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어가 있다”는 사실만으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장되지는 않는다.
+> 1. **본질**: 벡터 프로세서 (Vector Processor)는 같은 연산을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 원소마다 반복하는 문제를, 원소 단위가 아니라 <strong>벡터 단위 명령</strong>으로 처리해 제어 오버헤드를 줄이는 아키텍처다.
+> 2. **가치**: 긴 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 파이프라인화된 연산기, 높은 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 맞물리면 과학 계산·행렬 연산·[신호](/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서 스칼라 처리보다 훨씬 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 낸다.
+> 3. **판단 포인트**: 벡터화 효과는 연산기 수보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규칙성, 메모리 공급 속도, 분기와 의존성의 정도에 의해 결정되므로 “[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어가 있다”는 사실만으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 보장되지는 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-벡터 프로세서 (Vector Processor)는 동일한 연산을 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 작업을 빠르게 처리하도록 설계된 특수 목적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다. 스칼라 프로세서 (Scalar Processor)가 `A[0]+B[0]`, `A[1]+B[1]`처럼 원소 하나씩 명령을 반복 해석한다면, 벡터 프로세서는 “두 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 더하라”는 식으로 큰 덩어리를 지시한다. 핵심은 계산 그 자체보다 <strong>반복 제어 비용과 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 해독 비용을 얼마나 줄이느냐</strong>에 있다.
+벡터 프로세서 (Vector Processor)는 동일한 연산을 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 작업을 빠르게 처리하도록 설계된 특수 목적 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 구조다. 스칼라 프로세서 (Scalar Processor)가 `A[0]+B[0]`, `A[1]+B[1]`처럼 원소 하나씩 명령을 반복 해석한다면, 벡터 프로세서는 “두 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 전체를 더하라”는 식으로 큰 덩어리를 지시한다. 핵심은 계산 그 자체보다 <strong>반복 제어 비용과 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 해독 비용을 얼마나 줄이느냐</strong>에 있다.
 
-이 구조가 필요해진 배경은 고성능 컴퓨팅 ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/), [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)) 문제의 특성 때문이다. 기상 예측, 유체 해석, 선형대수, 디지털 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서는 서로 독립적인 원소에 같은 덧셈·곱셈·누산을 길게 반복하는 경우가 많다. 이런 문제를 일반 중앙처리장치 (Central Processing Unit, CPU)로 처리하면 루프 제어, 분기, 주소 계산이 누적되어 산술 연산기보다 제어부가 더 바빠지는 역전 현상이 생긴다.
+이 구조가 필요해진 배경은 고성능 컴퓨팅 ([High Performance Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/), [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/)) 문제의 특성 때문이다. 기상 예측, 유체 해석, 선형대수, 디지털 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 처리에서는 서로 독립적인 원소에 같은 덧셈·곱셈·누산을 길게 반복하는 경우가 많다. 이런 문제를 일반 중앙처리장치 (Central Processing Unit, CPU)로 처리하면 루프 제어, 분기, 주소 계산이 누적되어 산술 연산기보다 제어부가 더 바빠지는 역전 현상이 생긴다.
 
 벡터 프로세서는 바로 이 지점을 겨냥한다. 한 번 명령을 시작하면 길이 `N`의 벡터를 연속적으로 흘려 보내며 파이프라인을 가득 채우고, 연산기와 메모리 시스템을 끊김 없이 사용하도록 만든다. 따라서 벡터 프로세서는 “연산을 더 똑똑하게 한다”기보다 “반복되는 연산을 덩어리로 묶어 시스템을 낭비 없이 움직이게 한다”는 관점으로 이해해야 한다.
 
@@ -38,7 +35,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 그림은 벡터 프로세서의 핵심이 “더 많은 명령”이 아니라 “덜 자주 지시하고 더 오래 흘려보내는 것”임을 보여준다. 즉 벡터 프로세서는 반복문을 빨리 도는 CPU가 아니라, 반복문 자체를 하드웨어 수준에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 장치다.
+이 그림은 벡터 프로세서의 핵심이 “더 많은 명령”이 아니라 “덜 자주 지시하고 더 오래 흘려보내는 것”임을 보여준다. 즉 벡터 프로세서는 반복문을 빨리 도는 CPU가 아니라, 반복문 자체를 하드웨어 수준에서 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 장치다.
 
 - **📢 섹션 요약 비유**: 벡터 프로세서는 학생 100명에게 숙제를 한 줄씩 따로 말하는 선생님이 아니라, 방송 마이크로 같은 지시를 한 번에 전달하는 교장 선생님과 같다.
 
@@ -46,19 +43,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-벡터 프로세서의 내부는 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 벡터 기능 유닛 (Vector Functional Unit), 벡터 길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector Length [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 마스크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Mask [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 그리고 고대역폭 메모리 시스템으로 구성된다. 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 여러 스칼라 값을 한 줄로 저장하고, 기능 유닛은 같은 연산을 원소별로 파이프라인 처리한다. 벡터 길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 이번 연산에서 몇 개 원소를 실제로 다룰지 알려 주고, 마스크는 조건이 맞는 원소만 선택적으로 연산하게 만든다.
+벡터 프로세서의 내부는 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 벡터 기능 유닛 (Vector Functional Unit), 벡터 길이 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Vector Length [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 마스크 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) (Mask [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)), 그리고 고대역폭 메모리 시스템으로 구성된다. 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 여러 스칼라 값을 한 줄로 저장하고, 기능 유닛은 같은 연산을 원소별로 파이프라인 처리한다. 벡터 길이 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)는 이번 연산에서 몇 개 원소를 실제로 다룰지 알려 주고, 마스크는 조건이 맞는 원소만 선택적으로 연산하게 만든다.
 
-벡터 처리의 중요한 특징은 “모든 원소를 같은 순간에 한꺼번에 계산”하는 것만이 아니라, <strong>연산 파이프라인을 연속 투입으로 꽉 채우는 것</strong>이다. 예를 들어 덧셈 파이프라인 지연이 4사이클이어도 첫 결과가 나온 뒤에는 매 사이클마다 다음 원소의 결과가 나올 수 있다. 이때 로드, 연산, 저장을 겹쳐 수행하는 체이닝 ([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/))이 가능하면 한 벡터 연산의 결과가 곧바로 다음 벡터 연산의 입력으로 이어져 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급격히 높아진다.
+벡터 처리의 중요한 특징은 “모든 원소를 같은 순간에 한꺼번에 계산”하는 것만이 아니라, <strong>연산 파이프라인을 연속 투입으로 꽉 채우는 것</strong>이다. 예를 들어 덧셈 파이프라인 지연이 4사이클이어도 첫 결과가 나온 뒤에는 매 사이클마다 다음 원소의 결과가 나올 수 있다. 이때 로드, 연산, 저장을 겹쳐 수행하는 체이닝 ([Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/))이 가능하면 한 벡터 연산의 결과가 곧바로 다음 벡터 연산의 입력으로 이어져 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 급격히 높아진다.
 
-| 구성 요소 | 역할 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 포인트 |
+| 구성 요소 | 역할 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 판단 포인트 |
 | :--- | :--- | :--- |
-| 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 다수 원소를 일괄 저장 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 길이와 개수 |
+| 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 다수 원소를 일괄 저장 | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 길이와 개수 |
 | 벡터 기능 유닛 | 덧셈·곱셈·나눗셈 등 원소별 연산 | 파이프라인 깊이와 체이닝 지원 |
-| 벡터 길이 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 유효 원소 수 지정 | 꼬리 처리(Tail Handling) 효율 |
-| 마스크 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 조건부 실행 제어 | 분기 제거 가능성 |
-| 메모리 뱅크 | 연속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 충돌, [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 효율 |
+| 벡터 길이 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 유효 원소 수 지정 | 꼬리 처리(Tail Handling) 효율 |
+| 마스크 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 조건부 실행 제어 | 분기 제거 가능성 |
+| 메모리 뱅크 | 연속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 충돌, [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 효율 |
 
-아래 그림은 벡터 명령이 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불러와 연산하고 다시 저장되는 전체 흐름을 보여준다.
+아래 그림은 벡터 명령이 메모리에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 불러와 연산하고 다시 저장되는 전체 흐름을 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -78,7 +75,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-또 하나의 핵심은 [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [메모리 인터리빙](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) ([Memory Interleaving](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/))이다. 벡터 프로세서는 연속 주소뿐 아니라 일정 간격으로 떨어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 읽을 수 있지만, 간격이 메모리 뱅크 충돌을 일으키면 기대한 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 나오지 않는다. 그래서 벡터 아키텍처는 연산기 설계만이 아니라 메모리 배치, 뱅크 수, 주소 패턴까지 함께 설계해야 진짜 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 난다.
+또 하나의 핵심은 [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))와 [메모리 인터리빙](/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/) ([Memory Interleaving](/studynote/01_computer_architecture/06_memory_hierarchy_cache/254_memory_interleaving/))이다. 벡터 프로세서는 연속 주소뿐 아니라 일정 간격으로 떨어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)도 읽을 수 있지만, 간격이 메모리 뱅크 충돌을 일으키면 기대한 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 나오지 않는다. 그래서 벡터 아키텍처는 연산기 설계만이 아니라 메모리 배치, 뱅크 수, 주소 패턴까지 함께 설계해야 진짜 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 난다.
 
 - **📢 섹션 요약 비유**: 벡터 프로세서는 한 줄 계산대를 여러 개 붙인 대형 마트와 같다. 손님이 계속 들어와야 계산대가 놀지 않고, 물건이 잘 정리되어 있어야 줄이 꼬이지 않는다.
 
@@ -86,43 +83,43 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-벡터 프로세서를 이해하려면 스칼라 프로세서, [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 프로세서 ([Superscalar](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) Processor), 그리고 그래픽 처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와의 경계를 함께 봐야 한다. 스칼라 프로세서는 범용 제어와 복잡한 분기에 강하지만 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 큰 문제에서는 제어 오버헤드가 크다. [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)는 서로 다른 명령을 동시에 여러 개 발행해 명령 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)을 끌어올리지만, 기본 단위는 여전히 스칼라다. 반면 벡터 프로세서는 같은 명령을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체에 길게 흘려보내는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Level Parallelism, [DLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))에 최적화되어 있다.
+벡터 프로세서를 이해하려면 스칼라 프로세서, [수퍼스칼라](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 프로세서 ([Superscalar](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) Processor), 그리고 그래픽 처리장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))와의 경계를 함께 봐야 한다. 스칼라 프로세서는 범용 제어와 복잡한 분기에 강하지만 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 큰 문제에서는 제어 오버헤드가 크다. [수퍼스칼라](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)는 서로 다른 명령을 동시에 여러 개 발행해 명령 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)을 끌어올리지만, 기본 단위는 여전히 스칼라다. 반면 벡터 프로세서는 같은 명령을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전체에 길게 흘려보내는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)-Level Parallelism, [DLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/386_dlp/))에 최적화되어 있다.
 
-| 구분 | 스칼라 프로세서 | [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 프로세서 | 벡터 프로세서 | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
+| 구분 | 스칼라 프로세서 | [수퍼스칼라](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/) 프로세서 | 벡터 프로세서 | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
 | :--- | :--- | :--- | :--- | :--- |
-| 주 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 거의 없음 | 명령 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 |
-| 강점 | 범용성, 분기 처리 | 범용 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | 규칙적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산 | 대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
-| 약점 | 루프 오버헤드 | 복잡도·전력 증가 | 불규칙 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 약함 | 분기·메모리 지역성 민감 |
-| 대표 맥락 | 일반 프로그램 | 고성능 CPU 코어 | 슈퍼컴퓨터, [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장 | 그래픽, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) |
+| 주 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 거의 없음 | 명령 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 |
+| 강점 | 범용성, 분기 처리 | 범용 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상 | 규칙적 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산 | 대량 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| 약점 | 루프 오버헤드 | 복잡도·전력 증가 | 불규칙 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 약함 | 분기·메모리 지역성 민감 |
+| 대표 맥락 | 일반 프로그램 | 고성능 CPU 코어 | 슈퍼컴퓨터, [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장 | 그래픽, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) |
 
-플린 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Flynn's Taxonomy) 관점에서 벡터 프로세서는 단일 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 다중 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))의 대표적 구현이다. 다만 고전적 벡터 프로세서는 긴 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심이고, 현대 CPU의 고급 벡터 확장 (Advanced Vector Extensions, AVX)이나 ARM의 고급 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Advanced [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)) 확장은 이를 범용 프로세서 안으로 축소·통합한 형태다. 즉 오늘날 벡터 아키텍처는 별도 슈퍼컴퓨터 부품으로만 남아 있는 것이 아니라, 일반 CPU 내부의 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 명령 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 생활화되었다.
+플린 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) (Flynn's Taxonomy) 관점에서 벡터 프로세서는 단일 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 다중 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/))의 대표적 구현이다. 다만 고전적 벡터 프로세서는 긴 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 중심이고, 현대 CPU의 고급 벡터 확장 (Advanced Vector Extensions, AVX)이나 ARM의 고급 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Advanced [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)) 확장은 이를 범용 프로세서 안으로 축소·통합한 형태다. 즉 오늘날 벡터 아키텍처는 별도 슈퍼컴퓨터 부품으로만 남아 있는 것이 아니라, 일반 CPU 내부의 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 명령 집합 구조 ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))로 생활화되었다.
 
-한편 GPU는 벡터 프로세서의 철학을 훨씬 대규모로 확장한 존재로 볼 수 있다. 둘 다 같은 계산을 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 데 강하지만, GPU는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음과 메모리 계층을 더 넓게 사용하고, 벡터 프로세서는 긴 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 명시적 벡터 명령에 더 무게를 둔다. 따라서 벡터 프로세서는 “[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 이전의 오래된 기술”이 아니라, 오늘날 CPU [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)·[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기의 공통 조상으로 보는 편이 정확하다.
+한편 GPU는 벡터 프로세서의 철학을 훨씬 대규모로 확장한 존재로 볼 수 있다. 둘 다 같은 계산을 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 반복 적용하는 데 강하지만, GPU는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 묶음과 메모리 계층을 더 넓게 사용하고, 벡터 프로세서는 긴 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)와 명시적 벡터 명령에 더 무게를 둔다. 따라서 벡터 프로세서는 “[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 이전의 오래된 기술”이 아니라, 오늘날 CPU [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)·[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)·[인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기의 공통 조상으로 보는 편이 정확하다.
 
-- **📢 섹션 요약 비유**: 스칼라가 1인용 자전거라면, [수퍼스칼라](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)는 한 사람이 손발을 더 바쁘게 쓰는 외발자전거 묘기이고, 벡터 프로세서는 여러 좌석이 일렬로 붙은 열차, GPU는 그 열차를 수십 편성 동시에 굴리는 차량기지에 가깝다.
+- **📢 섹션 요약 비유**: 스칼라가 1인용 자전거라면, [수퍼스칼라](/studynote/01_computer_architecture/05_control_unit_pipelining/236_superscalar/)는 한 사람이 손발을 더 바쁘게 쓰는 외발자전거 묘기이고, 벡터 프로세서는 여러 좌석이 일렬로 붙은 열차, GPU는 그 열차를 수십 편성 동시에 굴리는 차량기지에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 벡터 프로세서의 효과를 얻으려면 “코드가 길게 반복된다”는 사실만으로는 부족하다. 첫째, 각 반복이 서로 독립적이어야 한다. `A[i] = A[i-1] + 1`처럼 이전 결과를 다음 반복이 참조하면 루프 운반 의존성 (Loop-Carried Dependency) 때문에 벡터화가 어렵다. 둘째, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적이거나 규칙적 간격을 가져야 한다. 포인터가 제멋대로 흩어진 구조체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)은 벡터 로드 효율을 떨어뜨리고 캐시 및 메모리 뱅크 충돌을 키운다.
+실무에서 벡터 프로세서의 효과를 얻으려면 “코드가 길게 반복된다”는 사실만으로는 부족하다. 첫째, 각 반복이 서로 독립적이어야 한다. `A[i] = A[i-1] + 1`처럼 이전 결과를 다음 반복이 참조하면 루프 운반 의존성 (Loop-Carried Dependency) 때문에 벡터화가 어렵다. 둘째, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적이거나 규칙적 간격을 가져야 한다. 포인터가 제멋대로 흩어진 구조체 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)은 벡터 로드 효율을 떨어뜨리고 캐시 및 메모리 뱅크 충돌을 키운다.
 
-셋째, 분기가 많으면 마스크로 우회할 수는 있어도 효율이 떨어진다. `if`가 루프 내부에 많을수록 벡터 유닛은 모든 원소를 같은 리듬으로 밀어 넣기 어려워지고, 일부 원소만 연산하는 구간이 많아져 자원이 비게 된다. 그래서 벡터 친화적 코드는 보통 구조체 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures, AoS)보다 구조 분리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) (Structure of Arrays, [SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))에 가깝고, 작은 조건문을 수학적 마스킹으로 바꾸며, 컴파일러 자동 벡터화가 가능한 단순 루프 형태를 유지한다.
+셋째, 분기가 많으면 마스크로 우회할 수는 있어도 효율이 떨어진다. `if`가 루프 내부에 많을수록 벡터 유닛은 모든 원소를 같은 리듬으로 밀어 넣기 어려워지고, 일부 원소만 연산하는 구간이 많아져 자원이 비게 된다. 그래서 벡터 친화적 코드는 보통 구조체 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) of Structures, AoS)보다 구조 분리 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) (Structure of Arrays, [SoA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))에 가깝고, 작은 조건문을 수학적 마스킹으로 바꾸며, 컴파일러 자동 벡터화가 가능한 단순 루프 형태를 유지한다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 반복문의 각 원소 연산이 이전 원소 결과에 의존하지 않는가?
-2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 연속적이어서 벡터 로드/저장이 자연스러운가?
-3. 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 연산기의 소비 속도를 따라갈 수 있는가?
+2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배치가 연속적이어서 벡터 로드/저장이 자연스러운가?
+3. 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 연산기의 소비 속도를 따라갈 수 있는가?
 4. 분기와 예외 처리를 마스크 기반으로 바꿀 수 있는가?
-5. 컴파일러의 자동 벡터화 보고서나 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 어셈블리를 통해 실제 벡터 명령 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 여부를 확인했는가?
+5. 컴파일러의 자동 벡터화 보고서나 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 어셈블리를 통해 실제 벡터 명령 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 여부를 확인했는가?
 
 ### 채택/회피 판단
 
-- **채택이 유리한 경우**: 행렬 계산, 이미지 필터링, 암호화, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 과학 시뮬레이션처럼 같은 수식을 큰 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 반복 적용할 때
-- **회피가 유리한 경우**: 포인터 추적, 불규칙 [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 분기 많은 비즈니스 로직처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이 들쭉날쭉할 때
+- **채택이 유리한 경우**: 행렬 계산, 이미지 필터링, 암호화, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 과학 시뮬레이션처럼 같은 수식을 큰 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 반복 적용할 때
+- **회피가 유리한 경우**: 포인터 추적, 불규칙 [그래프 탐색](/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/), 분기 많은 비즈니스 로직처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴이 들쭉날쭉할 때
 
-기술사 답안 관점에서 기억할 포인트는 단순하다. 벡터 프로세서는 “SIMD이므로 빠르다”가 아니라, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성이 충분할 때 제어 비용을 줄여 높은 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>을 확보하는 구조</strong>라고 서술해야 한다. 그리고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인은 연산기 부족보다 메모리 병목, 분기, 의존성에서 먼저 찾는 것이 정확하다.
+기술사 답안 관점에서 기억할 포인트는 단순하다. 벡터 프로세서는 “SIMD이므로 빠르다”가 아니라, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규칙성이 충분할 때 제어 비용을 줄여 높은 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>을 확보하는 구조</strong>라고 서술해야 한다. 그리고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 원인은 연산기 부족보다 메모리 병목, 분기, 의존성에서 먼저 찾는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 벡터 프로세서는 잘 정렬된 군악대에는 매우 강하지만, 각자 다른 박자로 움직이는 시장 한복판 인파를 한 줄로 행진시키는 데는 맞지 않는다.
 
@@ -130,11 +127,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-벡터 프로세서의 가장 큰 효과는 단위 명령당 처리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량을 키워 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이고, 같은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 적은 제어 오버헤드와 더 나은 전력 효율로 얻는 데 있다. 특히 긴 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산에서는 루프 제어, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 페치, [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 부담이 줄어들어 계산 자원이 본래 목적에 더 집중된다. 이 때문에 벡터 철학은 슈퍼컴퓨터를 넘어 CPU [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장, 모바일 프로세서, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기까지 널리 스며들었다.
+벡터 프로세서의 가장 큰 효과는 단위 명령당 처리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량을 키워 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이고, 같은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 더 적은 제어 오버헤드와 더 나은 전력 효율로 얻는 데 있다. 특히 긴 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 연산에서는 루프 제어, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 페치, [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) 부담이 줄어들어 계산 자원이 본래 목적에 더 집중된다. 이 때문에 벡터 철학은 슈퍼컴퓨터를 넘어 CPU [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 확장, 모바일 프로세서, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기까지 널리 스며들었다.
 
-하지만 벡터 프로세서는 만능 해법이 아니다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이가 짧거나 불규칙하면 벡터 준비 비용이 이득을 상쇄할 수 있고, 메모리 공급이 느리면 연산기는 쉽게 굶는다. 또 조건 분기와 의존성이 많은 코드에서는 스칼라 또는 다른 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 모델이 더 자연스럽다. 따라서 벡터 프로세서를 기억할 때는 “많이 동시에 계산하는 기술”보다 “같은 일을 규칙적으로 반복하는 문제를 가장 경제적으로 처리하는 기술”이라는 관점이 중요하다.
+하지만 벡터 프로세서는 만능 해법이 아니다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 길이가 짧거나 불규칙하면 벡터 준비 비용이 이득을 상쇄할 수 있고, 메모리 공급이 느리면 연산기는 쉽게 굶는다. 또 조건 분기와 의존성이 많은 코드에서는 스칼라 또는 다른 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 모델이 더 자연스럽다. 따라서 벡터 프로세서를 기억할 때는 “많이 동시에 계산하는 기술”보다 “같은 일을 규칙적으로 반복하는 문제를 가장 경제적으로 처리하는 기술”이라는 관점이 중요하다.
 
-앞으로의 확장 방향도 이 연장선에 있다. 벡터 명령은 더 넓은 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 더 유연한 길이 가변 벡터, 더 강한 행렬·텐서 연산 지원으로 발전하고 있다. 즉 벡터 프로세서는 과거의 슈퍼컴퓨터 유산이 아니라, 현대 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처의 공통 문법으로 계속 진화 중이다.
+앞으로의 확장 방향도 이 연장선에 있다. 벡터 명령은 더 넓은 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 더 유연한 길이 가변 벡터, 더 강한 행렬·텐서 연산 지원으로 발전하고 있다. 즉 벡터 프로세서는 과거의 슈퍼컴퓨터 유산이 아니라, 현대 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 아키텍처의 공통 문법으로 계속 진화 중이다.
 
 - **📢 섹션 요약 비유**: 벡터 프로세서는 많은 상자를 한 번에 옮기는 지게차와 같다. 길이 잘 닦인 창고에서는 압도적으로 빠르지만, 좁고 울퉁불퉁한 골목에서는 손수레가 더 나을 수 있다.
 
@@ -144,11 +141,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 벡터 프로세서가 속하는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)로, 하나의 명령을 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 적용한다. |
+| [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 벡터 프로세서가 속하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)로, 하나의 명령을 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 적용한다. |
 | 루프 벡터화 (Loop Vectorization) | 컴파일러가 반복문을 벡터 명령으로 바꾸어 하드웨어 SIMD를 활용하게 만드는 기법이다. |
-| [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 메모리에서 벡터 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 올 때 원소 간 주소 간격을 뜻하며 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율에 직접 영향 준다. |
+| [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 메모리에서 벡터 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 올 때 원소 간 주소 간격을 뜻하며 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 효율에 직접 영향 준다. |
 | 마스킹 (Masking) | 조건 분기를 벡터 친화적으로 처리하기 위한 선택 실행 메커니즘이다. |
-| [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | 벡터 처리 철학을 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조로 확장한 대표 사례다. |
+| [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) | 벡터 처리 철학을 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구조로 확장한 대표 사례다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -168,7 +165,7 @@ SIMD (Single Instruction Multiple Data)
 GPU (Graphics Processing Unit) · 텐서 가속기
 ```
 
-이 흐름은 “반복문 최적화”에서 출발해 “전용 벡터 하드웨어”, “범용 CPU 내장 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)”, “대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속기”로 확장되는 진화 방향을 보여준다.
+이 흐름은 “반복문 최적화”에서 출발해 “전용 벡터 하드웨어”, “범용 CPU 내장 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/)”, “대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가속기”로 확장되는 진화 방향을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -182,7 +179,7 @@ GPU (Graphics Processing Unit) · 텐서 가속기
 
 **진행 상황**: 374 / 803
 
-<- **이전**: [372. MIMD (다중 명령어 다중 데이터)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/)
-**다음**: [374. 배열 프로세서 (Array Processor)](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/374_array_processor/) ->
+<- **이전**: [372. MIMD (다중 명령어 다중 데이터)](/studynote/01_computer_architecture/10_parallel_processing_architecture/372_mimd/)
+**다음**: [374. 배열 프로세서 (Array Processor)](/studynote/01_computer_architecture/10_parallel_processing_architecture/374_array_processor/) ->
 
 ---

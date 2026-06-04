@@ -1,29 +1,26 @@
-+++
-title = "686. 인지 부하 (Cognitive Load) 팀 토폴로지"
-date = 2026-05-08
+---
+title: "686. 인지 부하 (Cognitive Load) 팀 토폴로지"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 인지 부하 (Cognitive Load) 팀 토폴로지은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 인지 부하 (Cognitive Load) 팀 토폴로지은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-심리학에서 유래한 '인지 부하' 개념을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 본격적으로 도입한 것은 매슈 스켈톤과 마누엘 파이스의 저서 《팀 토폴로지(Team Topologies)》다.
+심리학에서 유래한 '인지 부하' 개념을 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에 본격적으로 도입한 것은 매슈 스켈톤과 마누엘 파이스의 저서 《팀 토폴로지(Team Topologies)》다.
 
-과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/knowledge-base/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
+과거 모놀리식 환경에서는 코딩만 잘하면 됐다. 하지만 현대의 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 개발자가 비즈니스 로직([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식)뿐만 아니라, [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/), [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/), [Terraform](/studynote/15_devops_sre/05_devsecops/195_terraform_hashicorp_agnostic_aws_gcp/), [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/), 장애 알람 설정까지 전부 알아야 배포가 가능해졌다. 사람의 뇌는 한 번에 처리할 수 있는 정보량에 명확한 한계가 있으므로, 이 한계를 초과하면 생산성은 수직 낙하하고 코드는 스파게티가 되며 직원은 퇴사한다.
 
-따라서 최신 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 단순히 서버와 DB를 쪼개는 것을 넘어, <strong>"팀이 감당할 수 있는 인지 부하의 크기에 맞춰 소프트웨어의 경계와 조직 구조를 함께 쪼개는 작업"</strong>으로 진화했다.
+따라서 최신 [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 설계는 단순히 서버와 DB를 쪼개는 것을 넘어, <strong>"팀이 감당할 수 있는 인지 부하의 크기에 맞춰 소프트웨어의 경계와 조직 구조를 함께 쪼개는 작업"</strong>으로 진화했다.
 
 - **📢 섹션 요약 비유**: 요리사(개발자)에게 프랑스 요리, 중국 요리, 한식을 모두 만들라고 하면서 재료 구매, 설거지, 세금 계산, 전구 교체까지 다 시키면 요리가 망한다. 요리사는 한 가지 요리에만 집중하게 하고, 나머지는 전문 지원팀이 맡아주는 구조를 짜는 것이다.
 
@@ -76,9 +73,9 @@ tags = ["studynote-software-engineering"]
 
 | 기존 접근법 (문제점) | 팀 토폴로지 접근법 (해결책) |
 |:---|:---|
-| **Full-stack 맹신**: "[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 니까 개발자가 AWS, K8s, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD까지 다 알아서 해!" | **인지 부하 기반 설계**: "인간의 한계를 인정하라. 인프라는 플랫폼 팀이 추상화해서 제공한다." |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 조직</strong>: 기획팀 $\rightarrow$ 개발팀 $\rightarrow$ QA팀 $\rightarrow$ 운영팀 | **스트림 정렬**: 하나의 비즈니스 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 책임지는 다기능 팀(Cross-functional Team) 중심 구성. |
-| **소통 만능주의**: "타 부서와 무조건 소통을 많이 해라." | **소통 최소화 원칙**: 팀 간의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 외에는 불필요한 소통(의존성)을 끊어 인지 부하를 줄인다. |
+| **Full-stack 맹신**: "[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 니까 개발자가 AWS, K8s, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD까지 다 알아서 해!" | **인지 부하 기반 설계**: "인간의 한계를 인정하라. 인프라는 플랫폼 팀이 추상화해서 제공한다." |
+| <strong><a href="/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a> 조직</strong>: 기획팀 $\rightarrow$ 개발팀 $\rightarrow$ QA팀 $\rightarrow$ 운영팀 | **스트림 정렬**: 하나의 비즈니스 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)을 책임지는 다기능 팀(Cross-functional Team) 중심 구성. |
+| **소통 만능주의**: "타 부서와 무조건 소통을 많이 해라." | **소통 최소화 원칙**: 팀 간의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동 외에는 불필요한 소통(의존성)을 끊어 인지 부하를 줄인다. |
 
 결국 좋은 아키텍처는 "어떻게 하면 팀끼리 회의를 안 하고(소통 안 하고) 각자 알아서 코드를 배포하게 만들까?"를 고민하는 것이다.
 
@@ -110,7 +107,7 @@ tags = ["studynote-software-engineering"]
 
 MSA로의 시스템 개편은 단순히 코드를 쪼개는 기술적 행위가 아니다. 사람(개발자)의 한계를 인정하고, 팀의 인지 부하가 넘치지 않도록 방어벽을 세우며, 팀 간의 소통 방식을 아키텍처 수준에서 설계하는 사회-기술적(Socio-Technical) 설계의 궁극적 완성형이다.
 
-- **📢 섹션 요약 비유**: 컴퓨터의 CPU(개발자)는 너무 많은 프로그램을 띄우면 멈춰버린다. 따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(플랫폼 팀)가 메모리와 프로세스를 잘 정리해서, CPU가 당장 풀어야 할 수학 문제(비즈니스 로직)에만 100% 집중할 수 있게 해주는 완벽한 환경 설정이다.
+- **📢 섹션 요약 비유**: 컴퓨터의 CPU(개발자)는 너무 많은 프로그램을 띄우면 멈춰버린다. 따라서 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(플랫폼 팀)가 메모리와 프로세스를 잘 정리해서, CPU가 당장 풀어야 할 수학 문제(비즈니스 로직)에만 100% 집중할 수 있게 해주는 완벽한 환경 설정이다.
 
 ---
 
@@ -124,10 +121,10 @@ MSA로의 시스템 개편은 단순히 코드를 쪼개는 기술적 행위가 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 인지 부하 (Cognitive Load) 팀 토폴로지의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 인지 부하 (Cognitive Load) 팀 토폴로지은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 인지 부하 (Cognitive Load) 팀 토폴로지의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 인지 부하 (Cognitive Load) 팀 토폴로지은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 인지 부하 (Cognitive Load) 팀 토폴로지 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 인지 부하 (Cognitive Load) 팀 토폴로지에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 인지 부하 (Cognitive Load) 팀 토폴로지에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,13 +144,13 @@ MSA로의 시스템 개편은 단순히 코드를 쪼개는 기술적 행위가 
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 인지 부하 (Cognitive Load) 팀 토폴로지은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -161,7 +158,7 @@ MSA로의 시스템 개편은 단순히 코드를 쪼개는 기술적 행위가 
 
 **진행 상황**: 859 / 973
 
-<- **이전**: [685. 토일 (Toil) 자동화 축소 대상 작업](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)
-**다음**: [687. 시큐어 코딩 입력값 검증 XSS SQLi 방어](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/) ->
+<- **이전**: [685. 토일 (Toil) 자동화 축소 대상 작업](/studynote/04_software_engineering/10_trends_pm_quality/685_toil_automation_sre/)
+**다음**: [687. 시큐어 코딩 입력값 검증 XSS SQLi 방어](/studynote/04_software_engineering/10_trends_pm_quality/687_secure_coding_xss_sqli/) ->
 
 ---

@@ -1,175 +1,228 @@
-+++
-title = "377. 쿠버네티스 스케줄링 노드 어피니티 테인트 (Kubernetes Scheduling Affinity Taint Toleration)"
-date = 2026-05-09
+---
+title: "377. 쿠버네티스 스케줄링 노드 어피니티 테인트 (Kubernetes Scheduling Affinity Taint Toleration)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 쿠버네티스 스케줄링은 **kube-scheduler**의 Scheduling Framework(PreFilter->Filter->Score->Reserve->Permit->PreBind->Bind 플러그인 체인)를 통해 **Node Affinity(노드 속성 매칭)**, **Pod Affinity/Anti-Affinity(토폴로지 도메인 기반 동거/분리)**, **Taints & Tolerations(노드 거부 + 파드 허용 매커니즘)** 3축으로 제어하며, 각 규칙은 `required`와 `preferred` 두 가지 강도(또는 `IgnoredDuringExecution` vs `RequiredDuringExecution`)로 정의된다.
+> 2. **가치**: 단일 클러스터에서 GPU 노드, SSD 노드, 베어메탈 노드 등 **이종(heterogeneous) 하드웨어 자원**을 효율적으로 분리 활용하고, 고가용성·비용 최적화·데이터 지역성(Data Locality)을 동시에 달성할 수 있어, 멀티 AZ·하이브리드 클라우드 환경의 **TCO 30~50% 절감**과 **SLO 위반 0건** 수준의 배치가 가능하다.
+> 3. **판단 포인트**: 스케줄링 규칙이 과도하게 엄격(strict)하면 **Pending 파드 누적**으로 인한 클러스터 포화, 너무 느슨하면 **노드 편중(Skew)·핫스팟** 발생. `requiredDuringSchedulingRequiredDuringExecution` 사용 시 롤링 업데이트 중 노드 컨디션 변경으로 **예기치 못한 Eviction**이 발생할 수 있어, 운영 시 **PodDisruptionBudget(PDB)**·`topologySpreadConstraints`·`cluster-autoscaler`와의 정합성을 반드시 검증해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+쿠버네티스 초기(v1.0~v1.5)에는 스케줄링 제어가 `nodeName` 하드코딩과 `nodeSelector`(라벨 단순 매칭) 수준에 머물러, **GPU·NVMe·베어메탈** 등 이종 하드웨어가 혼재하는 환경에서 "어떤 파드를 어디에 배치할 것인가"를 세밀하게 제어하기 어려웠다. 특히 ① **전용 노드 분리**(법적 컴플라이언스용), ② **데이터 지역성**(빅데이터·ML 워크로드), ③ **장애 도메인 분산**(HA), ④ **비용 최적화**(스팟 인스턴스 활용)을 단일 메커니즘으로 표현할 수 없었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Kubernetes Scheduling Affinity Taint Toleration 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이를 해결하기 위해 v1.6에서 **Taints and Tolerations**(#41511), v1.8에서 **Inter-Pod Affinity/Anti-Affinity**(#26880), v1.10에서 **Node Affinity**가 GA 되었고, v1.16에서 **Even Pods Spread(현 topologySpreadConstraints)**가 베타 도입되었다. 현재는 Scheduling Framework v2 기반의 12개 확장 포인트(QueueSort, PreFilter, Filter, PostFilter, Reserve, Permit, PreBind, Bind, Unreserve, PostBind, Reserve, WaitOnPermit)에서 플러그인 형태로 구현되어, **확장성과 선언형 정책 표현**을 동시에 만족한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    쿠버네티스 스케줄링 노드 어피니티 테인트 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[문제 상황: 이종 하드웨어 클러스터의 스케줄링 난제]
+
+   +---------------------------------------------------------+
+   |                Kubernetes Cluster (v1.28+)               |
+   |                                                         |
+   |  Node-A (GPU A100)  Node-B (CPU 64c)  Node-C (Spot VM)  |
+   |  +------------+    +------------+    +------------+    |
+   |  | GPU Driver |    | NVMe SSD   |    | Preemptible|    |
+   |  | 80GB VRAM  |    | 4TB Local  |    | Low Cost   |    |
+   |  +------------+    +------------+    +------------+    |
+   |       ^                  ^                 ^           |
+   |       |                  |                 |           |
+   |   +---+----+        +----+---+        +----+---+      |
+   |   |ML Pod  |        |DB Pod  |        |BatchPod|      |
+   |   |(need   |        |(need   |        |(tolerate|     |
+   |   | GPU)   |        | SSD)   |        | spot)   |     |
+   |   +--------+        +--------+        +--------+      |
+   |                                                         |
+   |   ❌ 문제1: ML Pod가 CPU 노드에 스케줄 -> OOM 즉시 실패 |
+   |   ❌ 문제2: DB Pod가 HDD 노드 스케줄 -> IOPS 1/10     |
+   |   ❌ 문제3: 핵심 파드가 Spot 노드 -> 강제 Eviction     |
+   +---------------------------------------------------------+
+
+   ✅ 해결: Affinity(긍정적 끌어당김) + Taint(부정적 밀어냄)로
+            양방향 제어로 "맞는 파드를 맞는 노드에" 배치
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존(nodeSelector only) vs 신규(Affinity+Taint+Toleration) 비교**:
+- `nodeSelector`: `kubernetes.io/os=linux` 같은 **단일 라벨 equality**만 지원, OR·IN 연산 불가
+- `nodeAffinity`: `In/NotIn/Exists/DoesNotExist` 4종 연산자 + Gt/Lt(버전 1.28 GA) + `required/preferred` 강도
+- `podAffinity`: 라벨 셀렉터로 **다른 파드와의 관계**를 토폴로지 키(`kubernetes.io/hostname`, `topology.kubernetes.io/zone` 등)로 표현
 
-- **📢 섹션 요약 비유**: 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 마치 **호텔 컨시어지 시스템**과 같다. "VIP 손님(파드)"이 "스위트룸(GPU 노드)"만 받겠다고 선언(Affinity)하고, 동시에 "스위트룸" 쪽에서 "VIP 외 출입금지(Taint)"라고 적어두면, 오직 VIP만 열쇠(Toleration)를 들고 들어가게 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-쿠버네티스 스케줄링 노드 어피니티 테인트의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### Scheduling Framework 플러그인 체인
+
+kube-scheduler는 **2단계**(Scheduling Cycle, Binding Cycle)로 동작하며, 각 단계에서 확장 포인트가 호출된다. Node Affinity와 Taint/Toleration은 **Filter** 단계의 `NodeAffinity` 플러그인과 `TaintToleration` 플러그인이 담당하고, Pod Affinity는 `InterPodAffinity` 플러그인이 담당한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Kubernetes Scheduling Affinity Taint Toleration 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[Scheduling Framework 처리 흐름 - Affinity/Taint 관점]
+
+  +--------------------------------------------------------------+
+  |                    Scheduling Cycle                          |
+  |                                                              |
+  |  Pod In   --->  QueueSort  --->  PreFilter  --->  Filter       |
+  |                                          |                   |
+  |                                          v                   |
+  |                  +-------------------------------+            |
+  |                  |   Filter (Node 후보군 축소)    |            |
+  |                  |  +- NodeUnschedulable         |            |
+  |                  |  +- NodeName                  |            |
+  |                  |  +- NodeAffinity ⭐           |            |
+  |                  |  +- NodePorts                 |            |
+  |                  |  +- NodeResourcesFit          |            |
+  |                  |  +- NodeSelector              |            |
+  |                  |  +- TaintToleration ⭐        |            |
+  |                  |  +- NodeAffinity during Exec  |            |
+  |                  |  +- ...                       |            |
+  |                  +-------------------------------+            |
+  |                                          |                   |
+  |                                          v                   |
+  |                  +-------------------------------+            |
+  |                  |   Reserve (자원 가용량 선점)    |            |
+  |                  |  VolumeBinding, NodeResources  |            |
+  |                  +-------------------------------+            |
+  |                                          |                   |
+  |                                          v                   |
+  |                  +-------------------------------+            |
+  |                  |   Permit (특수 게이팅)          |            |
+  |                  +-------------------------------+            |
+  |                                                              |
+  |  - - - - - - - - - - - - - - - - - - - - - - - - - - -   |
+  |                                                              |
+  |                    Binding Cycle                             |
+  |                                                              |
+  |  PreBind  --->  Bind (apiserver patch)  --->  PostBind          |
+  +--------------------------------------------------------------+
+
+  ⭐ = 본 토픽 핵심 플러그인
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### Taint와 Toleration의 매칭 메커니즘
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+Taint는 `key=value:Effect` 3-tuple로 구성되며, **3가지 Effect**가 있다:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+| Effect | 동작 | 대표 사용 사례 |
+|:---|:---|:---|
+| `NoSchedule` | 해당 Taint를 tolerate하지 않는 파드는 신규 스케줄링 차단 (기존 파드는 유지) | 전용 노드, GPU 격리 |
+| `PreferNoSchedule` | 가능하면 스케줄하지 않음(soft), 단 필터링은 하지 않음 | 베스트-에포트 회피 |
+| `NoExecute` | tolerate하지 않는 기존 파드까지 **즉시 evict**(exclusionTimeout 적용) | 노드 컨디션 `NotReady`, 스팟 인터럽트, Drain |
+
+매칭은 `key`(필수), `value`(옵션), `effect`(옵션) 3개 조합으로 `operator`(`Equal`/`Exists`)와 비교한다. `Exists`는 값 무시, `Equal`은 키·값·이펙트 완전 일치 요구.
+
+```text
+[Taint/Toleration 매칭 의사코드 - kube-scheduler TaintToleration 플러그인]
+
+  for each node N with taints T₁..Tₖ:
+    for each taint tᵢ in N:
+      tolerationFound = false
+      for each toleration tolⱼ in pod.spec.tolerations:
+        if (tolⱼ.key == tᵢ.key || tolⱼ.key == "")          # "" == wildcard
+           AND (tolⱼ.operator == "Exists"
+                || (tolⱼ.operator == "Equal"
+                    && tolⱼ.value == tᵢ.value))
+           AND (tolⱼ.effect == tᵢ.effect || tolⱼ.effect == ""):
+          tolerationFound = true
+          break
+        if !tolerationFound && tᵢ.effect in ["NoSchedule","NoExecute"]:
+          node_excluded = true
+
+      # PreferNoSchedule: count 후 Score 단계에서 페널티
+      if tᵢ.effect == "PreferNoSchedule" && !tolerationFound:
+        node.preferredScore -= 1
+
+  if node_excluded: return Unschedulable
+```
+
+### Affinity 명세 상세 (YAML 스키마)
+
+```yaml
+# pod.spec.affinity 전체 구조
+affinity:
+  nodeAffinity:                       # ① 노드 속성 기반
+    requiredDuringSchedulingIgnoredDuringExecution:   # hard - 스케줄 시점만 강제
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: kubernetes.io/egress-gateway
+          operator: In                  # In, NotIn, Exists, DoesNotExist
+          values: ["egress-gw-1"]
+    requiredDuringSchedulingRequiredDuringExecution:   # hard - 실행 중에도 강제
+      nodeSelectorTerms:
+      - matchExpressions:
+        - key: node.kubernetes.io/unreachable
+          operator: Exists              # unreachable 노드에서도 떠 있게
+    preferredDuringSchedulingIgnoredDuringExecution:   # soft - 가중치 기반 선호
+    - weight: 80
+      preference:
+        matchExpressions:
+        - key: topology.kubernetes.io/zone
+            operator: In
+            values: ["ap-northeast-2a"]   # 동일 AZ 우선
+
+  podAffinity:                        # ② 다른 파드와의 동거
+    requiredDuringSchedulingIgnoredDuringExecution:
+    - labelSelector:
+        matchLabels:
+          app: cache
+          tier: redis
+      topologyKey: kubernetes.io/hostname # 같은 호스트에 배치
+      namespaceSelector: {}             # 모든 ns에서 검색
+
+  podAntiAffinity:                    # ③ 다른 파드와의 분리 (HA 핵심)
+    preferredDuringSchedulingIgnoredDuringExecution:
+    - weight: 100
+      podAffinityTerm:
+        labelSelector:
+          matchLabels:
+            app: api-gateway
+        topologyKey: topology.kubernetes.io/zone
+```
+
+### 구성 요소 요약
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Node Affinity** | 파드를 특정 노드 라벨에 매칭 | `In/NotIn/Exists/DoesNotExist/Gt/Lt` 6종 연산자, `required`/`preferred` 2종 강도, `IgnoredDuringExecution`(v1 기본) vs `RequiredDuringExecution`(v1.24+ Stable) |
+| **Pod Affinity** | 동일 토폴로지 도메인 내 다른 파드와 **동거** | `topologyKey`로 정의한 도메인(hostname/zone/region) 안에서 `labelSelector` 매칭 파드 존재 시 스케줄 허용, 캐시·사이드카·gRPC locality 활용 |
+| **Pod Anti-Affinity** | 동일 도메인 내 동일 파드 **분산 배치** | `topologyKey` 기준 분산, ReplicaSet/StatefulSet과 결합해 **HA 클러스터 표준**, 단 도메인당 Pod 수 < required 수면 Pending 발생 가능 |
+| **Taints** | 노드 측에서 파드 배치를 **거부/제약** 선언 | `key=value:Effect` 3-tuple, Effect 3종(`NoSchedule`/`PreferNoSchedule`/`NoExecute`), `kubectl taint node N1 key=val:NoSchedule` |
+| **Tolerations** | 파드 측에서 특정 Taint를 **허용** 선언 | `key`/`operator`/`value`/`effect`/`tolerationSeconds` 필드, `tolerationSeconds`는 `NoExecute`에 한해 evict까지의 유예시간 |
+| **NodeSelector** | (Legacy) 단순 라벨 equality 매칭 | `pod.spec.nodeSelector: {disktype: ssd}` 형태, `nodeAffinity`의 `required...IgnoredDuringExecution`과 동치 |
+| **Topology Spread Constraints** | 도메인별 Pod 수 균등 분배 | `maxSkew`, `minDomains`, `topologyKey`, `whenUnsatisfiable`(`DoNotSchedule`/`ScheduleAnyway`), v1.19 GA |
+| **Scheduling Framework 플러그인** | kube-scheduler 확장 지점 | PreFilter/Filter/PostFilter/Score/Reserve/Permit/PreBind/Bind 등 12개 확장점, 플러그인 체이닝 |
+
+### 핵심 알고리즘: PreFilter 단계의 InterPodAffinity
+
+`InterPodAffinity` 플러그인은 **이전 스케줄링 결과 캐시**(`PodAffinityMatcher`)를 활용한다. 신규 파드 P가 `podAffinity` 규칙을 가지면:
+1. P와 라벨 셀렉터가 매칭되는 기존 파드 집합 `M`을 클러스터 전역에서 검색
+2. `M`의 파드가 존재하는 노드 집합 `N_M`을 topologyKey 기준으로 도메인 매핑
+3. `N_M`의 모든 노드를 "호환 노드 셋"으로 표시 -> Filter 단계에서 후보 보존
+4. 반대로 `podAntiAffinity`는 `N_M`을 **제외** 후보로 처리
+
+이때 **시간 복잡도**는 `O(P × N × |affinityTerms|)`이며, 대규모 클러스터(1만 노드+)에서는 `MatchInterPodAffinity` Score 플러그인이 **Hot Path**가 되어 `SchedulingThroughput`이 20~30% 저하될 수 있어, **NamespaceSelector** 범위 제한과 **PreferNoSchedule 가중치 튜닝**이 필수적이다.
+
+- **📢 섹션 요약 비유**: **Taint**는 노드의 "이 방은 VIP 전용입니다" 팻말이고, **Toleration**은 파드의 "저는 VIP 패스를 가진 손님입니다" 카드이다. `NoExecute`는 "유예시간 30초 후 퇴장"이라는 시한부 퇴장 명령과 같고, **Affinity**는 "저는 창가가 좋은 친구와 같은 자리에 앉고 싶어요"라는 선호를 표현한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-쿠버네티스 스케줄링 노드 어피니티 테인트을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 주요 스케줄링 메커니즘 비교
 
-| 구분 | 전통적 접근 | 쿠버네티스 스케줄링 노드 어피니티 테인트 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 쿠버네티스 스케줄링 노드 어피니티 테인트을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-쿠버네티스 스케줄링 노드 어피니티 테인트을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 쿠버네티스 스케줄링 노드 어피니티 테인트 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 쿠버네티스 스케줄링 노드 어피니티 테인트의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 쿠버네티스 스케줄링 노드 어피니티 테인트의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-쿠버네티스 스케줄링 노드 어피니티 테인트 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 쿠버네티스 스케줄링 노드 어피니티 테인트은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | `nodeSelector` | `nodeAffinity` | `podAffinity/Anti-Affinity` | `Taint/T
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 377 / 800
 
-<- **이전**: [376. 쿠버네티스 오퍼레이터 커스텀 리소스 정의](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/376_kubernetes_operator_custom_resource_definitio/)
-**다음**: [378. 쿠버네티스 오토스케일링 HPA VPA CA](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/378_kubernetes_autoscaling_hpa_vpa_cluster/) ->
+<- **이전**: [376. 쿠버네티스 오퍼레이터 커스텀 리소스 정의](/studynote/13_cloud_architecture/06_exam_summary/376_kubernetes_operator_custom_resource_definitio/)
+**다음**: [378. 쿠버네티스 오토스케일링 HPA VPA CA](/studynote/13_cloud_architecture/06_exam_summary/378_kubernetes_autoscaling_hpa_vpa_cluster/) ->
 
 ---

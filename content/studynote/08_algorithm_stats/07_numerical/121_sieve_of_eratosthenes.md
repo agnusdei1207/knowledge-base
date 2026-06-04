@@ -1,22 +1,19 @@
-+++
-title = "002. 에라토스테네스의 체 — Sieve of Eratosthenes"
-date = 2026-04-05
+---
+title: "002. 에라토스테네스의 체 — Sieve of Eratosthenes"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
-> 1. [에라토스테네스의 체](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)([Sieve of Eratosthenes](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/))는 2~N까지 소수를 한 번에 구하는 O(N log log N) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — "소수의 배수를 모두 제거"하는 원리로, N이 클 때 개별 소수 판별을 N번 반복하는 O(N√N)보다 압도적으로 효율적이다.
+> 1. [에라토스테네스의 체](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)([Sieve of Eratosthenes](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/))는 2~N까지 소수를 한 번에 구하는 O(N log log N) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — "소수의 배수를 모두 제거"하는 원리로, N이 클 때 개별 소수 판별을 N번 반복하는 O(N√N)보다 압도적으로 효율적이다.
 > 2. 배수 제거 시작점이 p^ — 소수 p의 배수를 제거할 때 2p, 3p, ...(p-1)p는 이미 앞선 소수에 의해 제거됐으므로, p^부터 시작하면 불필요한 연산을 줄일 수 있다.
-> 3. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배열과 분할 체로 메모리와 캐시 효율을 극대화 — N=10억 범위의 소수 구하기는 Segmented Sieve로 분할하여 L1 캐시 크기에 맞춰 처리해야 실용적이다.
+> 3. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배열과 분할 체로 메모리와 캐시 효율을 극대화 — N=10억 범위의 소수 구하기는 Segmented Sieve로 분할하여 L1 캐시 크기에 맞춰 처리해야 실용적이다.
 
 ---
 
-## Ⅰ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리
+## Ⅰ. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 원리
 
 ```
 에라토스테네스의 체 동작 원리:
@@ -54,7 +51,7 @@ tags = ["studynote-algorithm-stats"]
   -> p^부터 처리하면 됨
 ```
 
-> 📢 **섹션 요약 비유**: [에라토스테네스의 체](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) = 번호표 소각 — 2번 배수(짝수) 소각, 3번 배수 소각, 5번 배수 소각... 남은 번호표가 모두 소수! 불필요한 것을 제거하는 소수 대청소!
+> 📢 **섹션 요약 비유**: [에라토스테네스의 체](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) = 번호표 소각 — 2번 배수(짝수) 소각, 3번 배수 소각, 5번 배수 소각... 남은 번호표가 모두 소수! 불필요한 것을 제거하는 소수 대청소!
 
 ---
 
@@ -117,7 +114,7 @@ bool 배열: 1GB (불가)
 Segmented Sieve: L1 캐시 크기(32KB)로 분할
 ```
 
-> 📢 **섹션 요약 비유**: 체 구현 — is_prime 배열에서 배수 제거. N=100만에서 개별 판별보다 263배 빠름. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배열로 메모리도 8배 절감!
+> 📢 **섹션 요약 비유**: 체 구현 — is_prime 배열에서 배수 제거. N=100만에서 개별 판별보다 263배 빠름. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 배열로 메모리도 8배 절감!
 
 ---
 
@@ -225,11 +222,11 @@ def segmented_sieve(n):
   GCD + 소수 = 정수론 알고리즘의 핵심
 ```
 
-> 📢 **섹션 요약 비유**: 소수 응용 — [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호는 큰 소수(비밀번호), 해시 테이블은 소수 크기(충돌 방지), 코딩테스트는 체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(빠른 계산). 수학이 현대 컴퓨팅을 지탱!
+> 📢 **섹션 요약 비유**: 소수 응용 — [RSA](/studynote/09_security/03_network_security/110_rsa/) 암호는 큰 소수(비밀번호), 해시 테이블은 소수 크기(충돌 방지), 코딩테스트는 체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(빠른 계산). 수학이 현대 컴퓨팅을 지탱!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 암호화 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+## Ⅴ. 실무 시나리오 — 암호화 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ```
 시나리오: RSA 키 생성에서 소수 판별
@@ -270,7 +267,7 @@ def segmented_sieve(n):
   -> 3배 빠름
 ```
 
-> 📢 **섹션 요약 비유**: 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 파이프라인 — 에라토스테네스(초등 검문소: 70% 걸러냄) + 밀러-라빈(전문 검사: 나머지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 두 단계 협력으로 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 효율적 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)!
+> 📢 **섹션 요약 비유**: 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 파이프라인 — 에라토스테네스(초등 검문소: 70% 걸러냄) + 밀러-라빈(전문 검사: 나머지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 두 단계 협력으로 [RSA](/studynote/09_security/03_network_security/110_rsa/) 소수 효율적 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)!
 
 ---
 
@@ -327,7 +324,7 @@ Post-Quantum 암호로 전환 중
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [에라토스테네스의 체](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) = 번호표 소각 — 2번 배수 다 소각, 3번 배수 소각... 남은 번호표가 소수! 배수를 지우는 대청소!
+1. [에라토스테네스의 체](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/) = 번호표 소각 — 2번 배수 다 소각, 3번 배수 소각... 남은 번호표가 소수! 배수를 지우는 대청소!
 2. p^부터 시작 = 이미 한 청소 반복 안 하기 — 3의 배수 중 6은 이미 2가 청소했어요. 9부터(3^) 시작하면 더 효율적!
 3. Segmented Sieve = 큰 책 쪽 나눠 읽기 — 1000페이지 책을 30페이지씩 나눠 읽으면 책상(캐시)에 올라가요. 10억도 빠르게 처리!
 
@@ -337,7 +334,7 @@ Post-Quantum 암호로 전환 중
 
 **진행 상황**: 121 / 175
 
-<- **이전**: [001. 유클리드 호제법 — Euclidean Algorithm](/knowledge-base/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/)
-**다음**: [003. 소수 판별 — Primality Test](/knowledge-base/studynote/08_algorithm_stats/07_numerical/122_primality_test/) ->
+<- **이전**: [001. 유클리드 호제법 — Euclidean Algorithm](/studynote/08_algorithm_stats/07_numerical/120_euclidean_algorithm/)
+**다음**: [003. 소수 판별 — Primality Test](/studynote/08_algorithm_stats/07_numerical/122_primality_test/) ->
 
 ---

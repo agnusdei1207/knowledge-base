@@ -1,13 +1,10 @@
-+++
-title = "784. 벤더 독립 오픈 표준 이식성 전략 (Vendor Independence Open Standard Portability)"
-date = 2026-05-09
+---
+title: "784. 벤더 독립 오픈 표준 이식성 전략 (Vendor Independence Open Standard Portability)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -129,7 +126,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 784 / 800
 
-<- **이전**: [783. 기술 부채 관리 현대화 전략 우선순위](/knowledge-base/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/)
-**다음**: [785. 하이브리드 업무 디지털 워크플레이스](/knowledge-base/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/) ->
+<- **이전**: [783. 기술 부채 관리 현대화 전략 우선순위](/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/)
+**다음**: [785. 하이브리드 업무 디지털 워크플레이스](/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/) ->
 
 ---

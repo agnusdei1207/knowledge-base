@@ -1,13 +1,10 @@
-+++
-title = "694. 클라우드 아키텍처 핵심 토픽 694번 시험 요약 (Cloud Architecture Core Topic 694 Exam Summary)"
-date = 2026-05-09
+---
+title: "694. 클라우드 아키텍처 핵심 토픽 694번 시험 요약 (Cloud Architecture Core Topic 694 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 694 / 800
 
-<- **이전**: [693. 클라우드 아키텍처 핵심 토픽 693번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/693_cloud_architecture_core_topic_693_exam_summar/)
-**다음**: [695. 클라우드 아키텍처 핵심 토픽 695번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/695_cloud_architecture_core_topic_695_exam_summar/) ->
+<- **이전**: [693. 클라우드 아키텍처 핵심 토픽 693번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/693_cloud_architecture_core_topic_693_exam_summar/)
+**다음**: [695. 클라우드 아키텍처 핵심 토픽 695번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/695_cloud_architecture_core_topic_695_exam_summar/) ->
 
 ---

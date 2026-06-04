@@ -1,21 +1,18 @@
-+++
-title = "654. 할리우드 원칙 (Hollywood Principle)"
-date = 2026-05-10
+---
+title: "654. 할리우드 원칙 (Hollywood Principle)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 - 할리우드 원칙은 "먼저 호출하지 말고, 때가 되면 우리가 호출하겠다"는 제어 역전의 설계 문장이다.
 - 상위 프레임워크가 흐름을 소유하고 하위 모듈은 확장 지점만 제공하므로 스파게티 의존을 줄일 수 있다.
-- 콜백, [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/), [DI](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 이벤트 리스너 구조의 공통 토대가 바로 이 원칙이다.
+- 콜백, [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/), [DI](/studynote/11_design_supervision/10_patterns_antipatterns/661_enterprise_di_framework_lifecycle/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 이벤트 리스너 구조의 공통 토대가 바로 이 원칙이다.
 
 ## Ⅰ. 개요 및 필요성
-전통적인 구조에서는 애플리케이션 코드가 필요한 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 직접 호출하며 흐름을 통제한다. 하지만 UI 프레임워크, 배치 엔진, 서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 수명주기와 공통 처리 절차가 복잡한 환경에서는 이 방식이 확장성과 일관성을 빠르게 해친다. 그래서 상위 골격이 흐름을 잡고, 하위 구성요소는 정해진 시점에만 참여하도록 만드는 할리우드 원칙이 필요해진다.
+전통적인 구조에서는 애플리케이션 코드가 필요한 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 직접 호출하며 흐름을 통제한다. 하지만 UI 프레임워크, 배치 엔진, 서버 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)처럼 수명주기와 공통 처리 절차가 복잡한 환경에서는 이 방식이 확장성과 일관성을 빠르게 해친다. 그래서 상위 골격이 흐름을 잡고, 하위 구성요소는 정해진 시점에만 참여하도록 만드는 할리우드 원칙이 필요해진다.
 
 ```text
 +------------+      직접 호출      +------------+
@@ -25,11 +22,11 @@ tags = ["studynote-design-supervision"]
        +---- 수명주기·예외처리·공통정책이 흩어지면 전체 흐름 관리가 어려워짐 ----+
 ```
 
-이 원칙은 하위 모듈의 자유를 빼앗는 것이 아니라, 공통 흐름과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에 모아 품질을 일정하게 유지하도록 돕는다. 그래서 프레임워크 중심 아키텍처에서 특히 중요하다.
+이 원칙은 하위 모듈의 자유를 빼앗는 것이 아니라, 공통 흐름과 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 한곳에 모아 품질을 일정하게 유지하도록 돕는다. 그래서 프레임워크 중심 아키텍처에서 특히 중요하다.
 - **📢 섹션 요약 비유**: 공연장에서 배우가 조명실에 계속 전화하는 대신, 무대 감독이 cue를 줄 때만 움직여야 공연이 매끄럽습니다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-할리우드 원칙의 본질은 상위 모듈이 실행 순서와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 소유하고, 하위 모듈은 등록된 확장 포인트를 통해 필요한 순간에 호출된다는 점이다. 이것이 바로 IoC의 실무적 표현이다.
+할리우드 원칙의 본질은 상위 모듈이 실행 순서와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 소유하고, 하위 모듈은 등록된 확장 포인트를 통해 필요한 순간에 호출된다는 점이다. 이것이 바로 IoC의 실무적 표현이다.
 
 ```text
 +------------+    register    +------------+
@@ -47,49 +44,49 @@ tags = ["studynote-design-supervision"]
 
 | 구성 요소 | 역할 | 대표 예시 |
 | :--- | :--- | :--- |
-| 프레임워크/[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 전체 흐름, 수명주기, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 관리한다. | Spring, Android, 배치 엔진 |
-| 확장 지점 | 하위 모듈이 끼어드는 계약과 호출 시점을 정의한다. | 인터페이스, [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/), 이벤트 훅 |
-| 플러그인/구현체 | 정해진 계약에 맞춰 구체 기능만 제공한다. | Controller, Listener, [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 프레임워크/[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) | 전체 흐름, 수명주기, 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 관리한다. | Spring, Android, 배치 엔진 |
+| 확장 지점 | 하위 모듈이 끼어드는 계약과 호출 시점을 정의한다. | 인터페이스, [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/), 이벤트 훅 |
+| 플러그인/구현체 | 정해진 계약에 맞춰 구체 기능만 제공한다. | Controller, Listener, [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
-따라서 하위 모듈은 "언제 호출될지"보다 "무엇을 제공할지"에 집중한다. 이 구조는 제어 흐름을 중앙에 모아 예외 처리, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 로깅, 보안 같은 횡단 관심사를 일관되게 적용하게 만든다.
+따라서 하위 모듈은 "언제 호출될지"보다 "무엇을 제공할지"에 집중한다. 이 구조는 제어 흐름을 중앙에 모아 예외 처리, [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 로깅, 보안 같은 횡단 관심사를 일관되게 적용하게 만든다.
 - **📢 섹션 요약 비유**: 학예회에서 아이들이 각자 마음대로 등장하는 게 아니라, 사회자가 이름을 부를 때만 무대에 올라가야 순서가 안 꼬입니다.
 
 ## Ⅲ. 비교 및 연결
-| 구분 | 전통적 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출 | 할리우드 원칙 적용 | 연결 개념 |
+| 구분 | 전통적 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 호출 | 할리우드 원칙 적용 | 연결 개념 |
 | :--- | :--- | :--- | :--- |
 | 제어권 | 애플리케이션 코드가 직접 흐름을 짠다. | 프레임워크가 흐름을 소유한다. | IoC |
-| 확장 방식 | 필요할 때마다 직접 객체를 만들고 호출한다. | 정해진 훅이나 인터페이스에 구현을 꽂는다. | Plugin [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/) |
-| 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 예외 처리·보안·로깅이 중복되기 쉽다. | 프레임워크가 중앙에서 일괄 적용한다. | AOP, [Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) |
-| 결합 구조 | 호출 순서가 코드 곳곳에 흩어진다. | 상위 골격과 하위 구현이 계약 중심으로 분리된다. | [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) |
+| 확장 방식 | 필요할 때마다 직접 객체를 만들고 호출한다. | 정해진 훅이나 인터페이스에 구현을 꽂는다. | Plugin [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/) |
+| 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 예외 처리·보안·로깅이 중복되기 쉽다. | 프레임워크가 중앙에서 일괄 적용한다. | AOP, [Template Method](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) |
+| 결합 구조 | 호출 순서가 코드 곳곳에 흩어진다. | 상위 골격과 하위 구현이 계약 중심으로 분리된다. | [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) |
 
-할리우드 원칙은 [DIP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), 콜백, 이벤트 기반 구조와 맞물려 동작한다. 상위 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 하위 구현의 역할이 분리될수록 확장은 쉬워지고, 공통 품질은 안정적으로 유지된다.
+할리우드 원칙은 [DIP](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/), 콜백, 이벤트 기반 구조와 맞물려 동작한다. 상위 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 하위 구현의 역할이 분리될수록 확장은 쉬워지고, 공통 품질은 안정적으로 유지된다.
 - **📢 섹션 요약 비유**: 요리사는 메뉴판을 보고 주문을 넣고, 주방은 그 신호에 맞춰 움직여야 식당이 질서 있게 돌아갑니다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서는 웹 프레임워크의 요청 처리 파이프라인, 배치 잡 실행기, UI 생명주기, 메시지 리스너, 플러그인 플랫폼에서 할리우드 원칙을 쉽게 찾을 수 있다. 기술사 판단에서는 단순히 IoC [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 썼는지가 아니라, 상위 흐름과 하위 구현의 책임이 명확히 분리되었는지, 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 중앙 집중형으로 관리되는지를 본다.
+실무에서는 웹 프레임워크의 요청 처리 파이프라인, 배치 잡 실행기, UI 생명주기, 메시지 리스너, 플러그인 플랫폼에서 할리우드 원칙을 쉽게 찾을 수 있다. 기술사 판단에서는 단순히 IoC [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 썼는지가 아니라, 상위 흐름과 하위 구현의 책임이 명확히 분리되었는지, 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 중앙 집중형으로 관리되는지를 본다.
 
 반대로 작은 유틸리티 함수 호출까지 모두 프레임워크화하면 과설계가 된다. 따라서 공통 수명주기와 확장 포인트가 반복될 때에만 이 원칙을 적용하는 것이 적절하다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- 실행 순서, 예외 처리, 보안 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한곳에서 통제되고 있는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- 실행 순서, 예외 처리, 보안 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 한곳에서 통제되고 있는가?
 - 하위 모듈이 상위 흐름을 역으로 호출하며 순환 의존을 만들고 있지 않은가?
 - 확장 지점이 인터페이스·이벤트·콜백 형태로 명확히 정의되어 있는가?
-- 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 각 모듈이 복사 구현하지 않고 프레임워크가 재사용하게 했는가?
+- 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 각 모듈이 복사 구현하지 않고 프레임워크가 재사용하게 했는가?
 - 단순 유틸리티 수준의 문제에 불필요하게 거대한 IoC 구조를 도입하고 있지 않은가?
 
 - **📢 섹션 요약 비유**: 학교 방송은 각 반이 제멋대로 틀면 시끄럽고, 방송실이 시간표대로 틀어야 모두가 맞춰 움직일 수 있습니다.
 
 ## Ⅴ. 기대효과 및 결론
-할리우드 원칙을 적용하면 공통 흐름이 표준화되고, 새로운 기능은 확장 지점에 끼워 넣는 방식으로 추가할 수 있어 변경 비용이 낮아진다. 또한 프레임워크가 일관된 수명주기와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 보장하므로 운영 안정성과 개발 생산성이 함께 올라간다.
+할리우드 원칙을 적용하면 공통 흐름이 표준화되고, 새로운 기능은 확장 지점에 끼워 넣는 방식으로 추가할 수 있어 변경 비용이 낮아진다. 또한 프레임워크가 일관된 수명주기와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 보장하므로 운영 안정성과 개발 생산성이 함께 올라간다.
 
 결론적으로 이 원칙은 "프레임워크가 왜 코드를 호출하는가"를 이해하게 해 주는 핵심 문장이다. 제어가 중앙에 있을수록 시스템은 예측 가능해지고, 하위 모듈은 더 작고 명확해진다.
 - **📢 섹션 요약 비유**: 놀이공원 기차는 승객이 선로를 정하는 게 아니라 기관사가 정한 길로 달려야 안전합니다.
 
 ### 📌 관련 개념 맵
 - **IoC**: 제어권을 상위 골격으로 이동시킨다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a></strong>: 고수준 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저수준 구현을 계약 중심으로 분리한다.
+- <strong><a href="/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a></strong>: 고수준 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 저수준 구현을 계약 중심으로 분리한다.
 - **Callback/Event**: 프레임워크가 필요한 순간 하위 모듈을 호출한다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/">Template Method</a></strong>: 변하지 않는 흐름은 상위가, 가변 지점은 하위가 맡는다.
+- <strong><a href="/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/">Template Method</a></strong>: 변하지 않는 흐름은 상위가, 가변 지점은 하위가 맡는다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -119,7 +116,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 165 / 530
 
-<- **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
-**다음**: [112. 응집도 (Cohesion)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) ->
+<- **이전**: [111. 할리우드 원칙 (Hollywood Principle)](/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)
+**다음**: [112. 응집도 (Cohesion)](/studynote/11_design_supervision/02_architecture_principles/112_cohesion/) ->
 
 ---

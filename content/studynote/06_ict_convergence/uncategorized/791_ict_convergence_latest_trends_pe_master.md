@@ -1,13 +1,10 @@
-+++
-title = "791. ICT 융합 기술 최신 동향 기술사 마스터 (ICT Convergence Latest Trends PE Master)"
-date = 2026-05-09
+---
+title: "791. ICT 융합 기술 최신 동향 기술사 마스터 (ICT Convergence Latest Trends PE Master)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ ICT 융합의 표준 참조 아키텍처는 **ITU-T Y.3170(Y.3172·Y.3320·Y.353
 
 **진행 상황**: 791 / 800
 
-<- **이전**: [790. 6G 비전 AI 네이티브 자율 네트워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/)
-**다음**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/knowledge-base/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/) ->
+<- **이전**: [790. 6G 비전 AI 네이티브 자율 네트워크](/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/)
+**다음**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/) ->
 
 ---

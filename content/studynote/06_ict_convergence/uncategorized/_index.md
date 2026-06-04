@@ -1,6 +1,5 @@
-+++
-title = "Uncategorized"
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
+---
+title: "Uncategorized"
+tags:
+  - "studynote-ict-convergence"
+---

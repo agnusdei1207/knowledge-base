@@ -1,17 +1,14 @@
-+++
-title = "276. 모멘텀 (Momentum)"
-date = 2026-05-09
+---
+title: "276. 모멘텀 (Momentum)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모멘텀(Momentum)은 이전 기울기 방향을 속도 벡터(Velocity)로 누적해 관성(Inertia)을 부여함으로써 SGD의 진동을 줄이고 [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)(Local Minimum) 탈출 능력을 높이는 최적화 기법이다.
+> 1. **본질**: 모멘텀(Momentum)은 이전 기울기 방향을 속도 벡터(Velocity)로 누적해 관성(Inertia)을 부여함으로써 SGD의 진동을 줄이고 [지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/)(Local Minimum) 탈출 능력을 높이는 최적화 기법이다.
 > 2. **가치**: β=0.9 모멘텀 계수로 이전 속도의 90%를 유지하여 좁고 깊은 계곡 방향에서는 빠르게 가속하고, 진동 방향에서는 서로 상쇄되어 효과적으로 수렴한다.
 > 3. **판단 포인트**: 기술사 시험에서 모멘텀(v = βv - α∇L), 네스테로프 모멘텀(NAG, Nesterov Accelerated Gradient)의 수식 차이와 각각의 직관적 의미를 물어보는 문제가 빈출이다.
 
@@ -19,10 +16,10 @@ tags = ["studynote-ai"]
 
 ## Ⅰ. 개요 및 필요성
 
-표준 SGD([Stochastic Gradient Descent](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 매 스텝 현재 기울기만 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하므로:
+표준 SGD([Stochastic Gradient Descent](/studynote/14_data_engineering/05_exam_keywords/241_optimizer_sgd_minibatch_adam_momentum_adaptive/))는 매 스텝 현재 기울기만 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)하므로:
 
 - **진동(Oscillation)**: 좁고 깊은 골짜기에서 양쪽 벽을 튕기며 내려가는 현상
-- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a>(Local Minimum) 갇힘</strong>: 작은 돌출부에서 기울기가 0이 되어 학습 정체
+- <strong><a href="/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a>(Local Minimum) 갇힘</strong>: 작은 돌출부에서 기울기가 0이 되어 학습 정체
 - **느린 수렴**: 그래디언트 방향이 매번 달라 비효율적인 경로로 이동
 
 모멘텀(Momentum)은 물리학의 관성(Inertia) 개념을 도입해 이 문제를 해결한다. 공이 경사면을 굴러내려갈 때 이전 속도가 누적되어 일정한 방향으로 가속하는 것처럼, <strong>이전 업데이트 방향의 속도(Velocity)를 누적</strong>하여 갱신에 반영한다.
@@ -36,7 +33,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: SGD가 발만 보며 조심스럽게 한 걸음씩 내딛는 등산가라면, 모멘텀은 오르막·내리막 경험을 기억해 관성으로 달리는 스키 선수다. 내리막에서 속도가 붙어 작은 돌기([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))도 넘어갈 수 있다.
+- **📢 섹션 요약 비유**: SGD가 발만 보며 조심스럽게 한 걸음씩 내딛는 등산가라면, 모멘텀은 오르막·내리막 경험을 기억해 관성으로 달리는 스키 선수다. 내리막에서 속도가 붙어 작은 돌기([지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))도 넘어갈 수 있다.
 
 ---
 
@@ -50,10 +47,10 @@ tags = ["studynote-ai"]
 ```
 
 - **β (모멘텀 계수)**: 보통 0.9. 이전 속도의 90% 유지
-- <strong>α (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>)</strong>: 현재 기울기에 적용되는 스텝 크기
-- **∇L(w)**: 현재 위치에서의 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 기울기
+- <strong>α (<a href="/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a>)</strong>: 현재 기울기에 적용되는 스텝 크기
+- **∇L(w)**: 현재 위치에서의 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/) 기울기
 
-### 진동 감소 효과 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 진동 감소 효과 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```
 SGD (진동 심함)            Momentum (진동 감소)
@@ -84,7 +81,7 @@ SGD (진동 심함)            Momentum (진동 감소)
 | 수렴 속도 | 빠름 | 더 빠름 |
 | 진동 | 감소 | 더 많이 감소 |
 
-### 속도 벡터 누적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 속도 벡터 누적 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```
 스텝 1:  v_1 = 0 - α·∇L  ->  방향 결정
@@ -101,7 +98,7 @@ SGD (진동 심함)            Momentum (진동 감소)
            +------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 모멘텀은 눈 위에서 굴러가는 눈덩이다. 처음엔 작지만 굴러갈수록 커지고(속도 누적), 작은 돌멩이([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))는 그냥 넘어갈 수 있지만 큰 언덕(전역 최솟값 직전 상승)에는 멈춘다.
+- **📢 섹션 요약 비유**: 모멘텀은 눈 위에서 굴러가는 눈덩이다. 처음엔 작지만 굴러갈수록 커지고(속도 누적), 작은 돌멩이([지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))는 그냥 넘어갈 수 있지만 큰 언덕(전역 최솟값 직전 상승)에는 멈춘다.
 
 ---
 
@@ -111,23 +108,23 @@ SGD (진동 심함)            Momentum (진동 감소)
 
 - **β = 0**: 순수 SGD와 동일
 - **β = 0.5**: 약한 관성, 진동 일부 감소
-- **β = 0.9**: 표준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 강한 관성
+- **β = 0.9**: 표준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), 강한 관성
 - **β = 0.99**: 매우 강한 관성, 과도한 오버슈팅(Overshooting) 위험
 
 ### RMSProp과의 차이
 
 | 항목 | 모멘텀 | RMSProp |
 |:---|:---|:---|
-| 목적 | 수렴 방향 가속 | 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) |
+| 목적 | 수렴 방향 가속 | 적응형 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) |
 | 누적 정보 | 기울기의 1차 모멘텀(방향) | 기울기 제곱의 지수 이동 평균(크기) |
-| 핵심 효과 | 진동 감소, [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출 | 파라미터별 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정 |
-| Adam과 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) = Momentum + RMSProp | [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) = Momentum + RMSProp |
+| 핵심 효과 | 진동 감소, [지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) 탈출 | 파라미터별 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 조정 |
+| Adam과 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) = Momentum + RMSProp | [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) = Momentum + RMSProp |
 
 ### 연결 개념
 
-- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a></strong>: 모멘텀(1차 모멘텀)과 RMSProp(2차 모멘텀)을 결합한 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)
-- <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(BN)</strong>: 모멘텀과 함께 사용 시 더 높은 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 가능
-- <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>: 모멘텀과 함께 [코사인 어닐링](/knowledge-base/studynote/10_ai/05_data_science_ml/407_cosine_annealing/) 사용 시 최적 수렴
+- <strong><a href="/studynote/10_ai/03_llm_nlp/277_adam_optimizer/">Adam</a></strong>: 모멘텀(1차 모멘텀)과 RMSProp(2차 모멘텀)을 결합한 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)
+- <strong><a href="/studynote/10_ai/03_llm_nlp/282_batch_normalization/">배치 정규화</a>(BN)</strong>: 모멘텀과 함께 사용 시 더 높은 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 가능
+- <strong><a href="/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong>: 모멘텀과 함께 [코사인 어닐링](/studynote/10_ai/05_data_science_ml/407_cosine_annealing/) 사용 시 최적 수렴
 
 - **📢 섹션 요약 비유**: 모멘텀이 "방향 유지"에 집중한다면, RMSProp은 "보폭 조절"에 집중한다. Adam은 이 두 전문가의 능력을 합친 만능 선수다.
 
@@ -139,16 +136,16 @@ SGD (진동 심함)            Momentum (진동 감소)
 
 1. **수식 암기**: v_t = βv_{t-1} - α∇L(w_t), w_{t+1} = w_t + v_t
 2. **NAG 구별**: 현재 위치 vs 예측 위치에서의 기울기 계산 차이
-3. **β 값 해석**: 0.9는 지수 이동 평균에서 과거 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 스텝 정도의 기울기를 기억
+3. **β 값 해석**: 0.9는 지수 이동 평균에서 과거 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) 스텝 정도의 기울기를 기억
 4. **오버슈팅 문제**: β가 너무 크면 최솟값을 지나쳐 진동할 수 있음
 
 ### 실무 시나리오
 
-- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> 학습</strong>: SGD + Momentum(β=0.9), [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 0.1, [weight decay](/knowledge-base/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 1e-4
-- <strong>이미지 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a>(<a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">Generative Adversarial Network</a>)</strong>: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자/판별자 모두 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 사용이 일반적이지만 모멘텀 단독도 가능
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 최적화</strong>: [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 등에서 Adam이 주로 사용되나, 모멘텀 SGD도 경쟁력 있음
+- <strong><a href="/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/">ResNet</a> 학습</strong>: SGD + Momentum(β=0.9), [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/) 0.1, [weight decay](/studynote/10_ai/01_ai_basics/091_l1_l2_regularization_weight_decay/) 1e-4
+- <strong>이미지 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a> <a href="/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">GAN</a>(<a href="/studynote/14_data_engineering/03_ml_dl_llm/154_gan_generative_adversarial_network/">Generative Adversarial Network</a>)</strong>: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)자/판별자 모두 [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 사용이 일반적이지만 모멘텀 단독도 가능
+- <strong><a href="/studynote/14_data_engineering/05_exam_keywords/253_reinforcement_learning_mdp_policy_value_q_learning_dqn/">강화 학습</a> <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 최적화</strong>: [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 등에서 Adam이 주로 사용되나, 모멘텀 SGD도 경쟁력 있음
 
-### [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 가이드
+### [하이퍼파라미터 튜닝](/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 가이드
 
 ```
 β (모멘텀 계수) 선택 기준:
@@ -159,20 +156,20 @@ SGD (진동 심함)            Momentum (진동 감소)
 +---------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: β=0.9 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 자동차의 관성을 조절하는 것과 같다. 0.9는 "90%는 기존 방향으로, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 현재 도로 방향으로" 조향하는 것이다. 너무 강한 관성(0.99)은 커브에서 이탈하고, 너무 약한 관성(0.5)은 핸들이 덜덜 떨린다.
+- **📢 섹션 요약 비유**: β=0.9 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 마치 자동차의 관성을 조절하는 것과 같다. 0.9는 "90%는 기존 방향으로, [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%는 현재 도로 방향으로" 조향하는 것이다. 너무 강한 관성(0.99)은 커브에서 이탈하고, 너무 약한 관성(0.5)은 핸들이 덜덜 떨린다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-모멘텀 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 주요 효과:
+모멘텀 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 주요 효과:
 
 1. **수렴 속도 향상**: 일관된 방향으로의 누적 가속으로 SGD 대비 2-5배 빠른 수렴
-2. **진동 감소**: 지그재그 업데이트 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)로 안정적인 수렴 경로
-3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a> 탈출</strong>: 관성으로 작은 국부 극소값 극복
+2. **진동 감소**: 지그재그 업데이트 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)로 안정적인 수렴 경로
+3. <strong><a href="/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/">지역 최솟값</a> 탈출</strong>: 관성으로 작은 국부 극소값 극복
 4. **안장점(Saddle Point) 탈출**: 기울기 ≈ 0 구간에서도 이전 속도로 계속 이동
 
-네스테로프 모멘텀(NAG)은 표준 모멘텀보다 이론적으로 더 우수한 수렴률을 보장하며, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 기반이 되는 핵심 아이디어다.
+네스테로프 모멘텀(NAG)은 표준 모멘텀보다 이론적으로 더 우수한 수렴률을 보장하며, [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 기반이 되는 핵심 아이디어다.
 
 - **📢 섹션 요약 비유**: 모멘텀 학습은 포환 던지기와 같다. 선수가 빙글빙글 돌아 관성을 쌓은 뒤 던져야(속도 누적 후 갱신) 멀리 나간다. 처음부터 그냥 던지면(SGD) 짧게 날아갈 뿐이다.
 
@@ -182,12 +179,12 @@ SGD (진동 심함)            Momentum (진동 감소)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 모멘텀 (Momentum) | 속도 벡터, β 계수, 관성 / SGD에 관성 추가한 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) |
+| 모멘텀 (Momentum) | 속도 벡터, β 계수, 관성 / SGD에 관성 추가한 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) |
 | 속도 벡터 (Velocity) | 기울기 누적, 지수 이동 평균 / 모멘텀의 핵심 누적 변수 |
-| 네스테로프 모멘텀 (NAG) | 예측 위치 기울기, 빠른 수렴 / 모멘텀의 개선 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
-| [지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) (Local Minimum) | [경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/), 탈출 / 모멘텀이 해결하는 핵심 문제 |
+| 네스테로프 모멘텀 (NAG) | 예측 위치 기울기, 빠른 수렴 / 모멘텀의 개선 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| [지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/) (Local Minimum) | [경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/), 탈출 / 모멘텀이 해결하는 핵심 문제 |
 | 오버슈팅 (Overshooting) | 큰 β, 발산 위험 / 모멘텀의 단점 |
-| RMSProp | 적응형 [학습률](/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 2차 모멘텀 / 모멘텀과 결합해 [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 형성 |
+| RMSProp | 적응형 [학습률](/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/), 2차 모멘텀 / 모멘텀과 결합해 [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) 형성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -198,7 +195,7 @@ SGD (진동 심함)            Momentum (진동 감소)
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 모멘텀은 언덕에서 굴러내려가는 공처럼, 한번 방향이 정해지면 그 방향으로 점점 빠르게 달리는 것이에요.
-2. 작은 웅덩이([지역 최솟값](/knowledge-base/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠져도 속도가 붙어 있으면 그냥 넘어갈 수 있어요.
+2. 작은 웅덩이([지역 최솟값](/studynote/10_ai/01_ai_basics/083_local_minima_vs_global_minimum/))에 빠져도 속도가 붙어 있으면 그냥 넘어갈 수 있어요.
 3. 하지만 너무 빠르면 목표 지점을 지나쳐버리는 오버슈팅이 일어날 수 있으니, β 값으로 속도를 조절해야 해요.
 
 ---
@@ -207,7 +204,7 @@ SGD (진동 심함)            Momentum (진동 감소)
 
 **진행 상황**: 276 / 420
 
-<- **이전**: [275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)
-**다음**: [277. Adam (Adaptive Moment Estimation)](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) ->
+<- **이전**: [275. 경사 하강법 (GD) / SGD (Stochastic Gradient Descent)](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/)
+**다음**: [277. Adam (Adaptive Moment Estimation)](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) ->
 
 ---

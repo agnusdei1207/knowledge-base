@@ -1,27 +1,24 @@
-+++
-title = "1100. 스위치 포트 미러링 (SPAN/TAP)"
-date = 2026-05-08
+---
+title: "1100. 스위치 포트 미러링 (SPAN/TAP)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 깡통 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 데이터가 들어오면 2~24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 몽땅 복사해서 뿌립니다(모든 통신 공유).
-- <strong>L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소록이 있습니다. 철수(1번)가 영희(2번)에게 패킷을 보내면, 기계 내부에서 1번과 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 직통([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 스위칭)으로 쾅 묶어버립니다.
-- **문제**: 보안팀이 감시하려고 24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 [침입 탐지 시스템](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 엑스레이)을 꽂아놔도, 철수의 패킷이 24번으로는 단 1비트도 흘러오지 않기 때문에 네트워크 전체가 <strong>완벽한 '감시 사각지대(블랙박스)'</strong>로 변해 해커가 춤을 추게 됩니다.
+- 깡통 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)([Hub](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/))는 1번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 데이터가 들어오면 2~24번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 몽땅 복사해서 뿌립니다(모든 통신 공유).
+- <strong>L2 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>(<a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">Switch</a>)</strong>: [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소록이 있습니다. 철수(1번)가 영희(2번)에게 패킷을 보내면, 기계 내부에서 1번과 2번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 직통([ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 스위칭)으로 쾅 묶어버립니다.
+- **문제**: 보안팀이 감시하려고 24번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 [침입 탐지 시스템](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/)([IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/), 엑스레이)을 꽂아놔도, 철수의 패킷이 24번으로는 단 1비트도 흘러오지 않기 때문에 네트워크 전체가 <strong>완벽한 '감시 사각지대(블랙박스)'</strong>로 변해 해커가 춤을 추게 됩니다.
 
 ```text
 [VLAN 간 라우팅]
@@ -32,7 +29,7 @@ tags = ["studynote-network"]
     +---> [UTP 배선 카테고리]
 ```
 
-- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -40,11 +37,11 @@ tags = ["studynote-network"]
 
 시스코가 만든 이 블랙박스를 깨부수는 흑마법입니다.
 
-- **개념**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 관리자 화면(소프트웨어)에 명령어를 쳐서, <strong>특정 원본 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Source)들로 지나다니는 모든 송수신 패킷의 쌍둥이 복사본을 0.01초 단위로 미친 듯이 찍어내어(Mirroring), 감시 장비가 꽂힌 목적지 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Destination) 하나로 모조리 쏟아붓게 만드는 트래픽 스니핑(엿듣기) 코어 기술</strong>입니다.
+- **개념**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비의 관리자 화면(소프트웨어)에 명령어를 쳐서, <strong>특정 원본 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Source)들로 지나다니는 모든 송수신 패킷의 쌍둥이 복사본을 0.01초 단위로 미친 듯이 찍어내어(Mirroring), 감시 장비가 꽂힌 목적지 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>(Destination) 하나로 모조리 쏟아붓게 만드는 트래픽 스니핑(엿듣기) 코어 기술</strong>입니다.
 
-1. **Local SPAN**: 원본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1번)와 복사본을 받을 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(24번)가 <strong>'같은 쇳덩어리 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 1대 안'</strong>에 있을 때 씁니다. (가장 흔함)
-2. **RSPAN (Remote SPAN)**: "감시 장비가 3층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 있는데, 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽을 감시하고 싶어!"
-   - 1층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 패킷을 복사한 뒤, 특수한 <strong>'가짜 <a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 방(<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 999 등)'</strong>이라는 트렁크 터널에 복사본을 태워 3층 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 날려 보내는 장거리 릴레이 스니핑 꼼수입니다. (ERSPAN은 L3 라우터를 넘어 [GRE](/knowledge-base/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널로 쏩니다.)
+1. **Local SPAN**: 원본 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1번)와 복사본을 받을 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(24번)가 <strong>'같은 쇳덩어리 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 1대 안'</strong>에 있을 때 씁니다. (가장 흔함)
+2. **RSPAN (Remote SPAN)**: "감시 장비가 3층 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 있는데, 1층 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 트래픽을 감시하고 싶어!"
+   - 1층 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 패킷을 복사한 뒤, 특수한 <strong>'가짜 <a href="/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 방(<a href="/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> 999 등)'</strong>이라는 트렁크 터널에 복사본을 태워 3층 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)까지 날려 보내는 장거리 릴레이 스니핑 꼼수입니다. (ERSPAN은 L3 라우터를 넘어 [GRE](/studynote/03_network/07_network_layer_routing/378_gre_generic_routing_encapsulation/) 터널로 쏩니다.)
 
 ```text
 [VLAN 간 라우팅]
@@ -55,7 +52,7 @@ tags = ["studynote-network"]
     +---> [UTP 배선 카테고리]
 ```
 
-- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -63,44 +60,44 @@ tags = ["studynote-network"]
 
 돈이 안 들어서 제일 좋지만, 장애가 터지면 형편없는 쓰레기가 됩니다.
 
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> 한계</strong>: 1번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps)와 2번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps)를 몽땅 복사해서 감시용 24번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps) 1곳에 욱여넣으려고 합니다.
-- **재앙**: $1G + 1G = 2Gbps$의 트래픽이 1Gbps짜리 감시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍으로 쏟아지면? 1기가의 트래픽이 병목에 걸려 바닥에 처참하게 버려집니다(Packet Drop).
-- 해커는 이걸 노립니다. 회사망에 엄청난 디도스(트래픽)를 걸어 SPAN 복사본 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 병목으로 뻗게 만든 뒤, 감시 카메라가 안 돌아가는 틈을 타 몰래 기밀문서를 유유히 빼돌립니다(보안 탐지율 떡락).
+- <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/">오버플로우</a> 한계</strong>: 1번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps)와 2번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps)를 몽땅 복사해서 감시용 24번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(1Gbps) 1곳에 욱여넣으려고 합니다.
+- **재앙**: $1G + 1G = 2Gbps$의 트래픽이 1Gbps짜리 감시 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 구멍으로 쏟아지면? 1기가의 트래픽이 병목에 걸려 바닥에 처참하게 버려집니다(Packet Drop).
+- 해커는 이걸 노립니다. 회사망에 엄청난 디도스(트래픽)를 걸어 SPAN 복사본 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 병목으로 뻗게 만든 뒤, 감시 카메라가 안 돌아가는 틈을 타 몰래 기밀문서를 유유히 빼돌립니다(보안 탐지율 떡락).
 
-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 기반 조건을 만든다면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 그 위에서 핵심 메커니즘을 구현하고, [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 기반 조건을 만든다면, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 그 위에서 핵심 메커니즘을 구현하고, [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 기반 정리 | [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심 동작 | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리의 확장 적용 |
+| 초점 | [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)의 기반 정리 | [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)의 핵심 동작 | [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- SPAN의 패킷 유실과 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하를 못 견딘 금융권은 '하드웨어'로 승부합니다.
-- **TAP 장비**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 잇는 광케이블 선 중간에 가위로 싹둑 잘라서 끼워 넣는 수백만 원짜리 <strong>'물리적 Y자 프리즘 광분배기 기계'</strong>입니다.
-- **효과**: 소프트웨어가 복사하는 게 아니라, 빛(패킷)이 지나갈 때 <strong>물리학적인 거울(광 스플리터)</strong>로 빛을 50:50으로 정확히 쪼개서 한 가닥은 원래 길로 보내고, 한 가닥은 엑스레이([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))로 쏴줍니다.
-- 전기가 나가도 원본 통신은 100% 정상 작동하며([Fail-Safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)), 트래픽이 100Gbps로 쏟아져도 단 1비트의 복사본 손실도 없이 100% 감시 장비로 복제해 내는 <strong>무결점 트래픽 복사 아키텍처의 끝판왕</strong>입니다.
+- SPAN의 패킷 유실과 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU 부하를 못 견딘 금융권은 '하드웨어'로 승부합니다.
+- **TAP 장비**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 잇는 광케이블 선 중간에 가위로 싹둑 잘라서 끼워 넣는 수백만 원짜리 <strong>'물리적 Y자 프리즘 광분배기 기계'</strong>입니다.
+- **효과**: 소프트웨어가 복사하는 게 아니라, 빛(패킷)이 지나갈 때 <strong>물리학적인 거울(광 스플리터)</strong>로 빛을 50:50으로 정확히 쪼개서 한 가닥은 원래 길로 보내고, 한 가닥은 엑스레이([IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/))로 쏴줍니다.
+- 전기가 나가도 원본 통신은 100% 정상 작동하며([Fail-Safe](/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)), 트래픽이 100Gbps로 쏟아져도 단 1비트의 복사본 손실도 없이 100% 감시 장비로 복제해 내는 <strong>무결점 트래픽 복사 아키텍처의 끝판왕</strong>입니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 통신</strong>은 회사의 각 부서 사이를 연결하는 완벽히 독립된 <strong>'밀실 유리관 터널'</strong>입니다. 철수 방과 영희 방 사이에 밀실 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)가 연결되어 둘이 비밀 서류를 주고받아도, 24번 방에 있는 경찰([IDS](/knowledge-base/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 보안장비)은 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안이 보이지 않아 꿀 먹은 벙어리가 됩니다. 이를 감시하는 첫 번째 꼼수 <strong>SPAN(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)</strong>은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 안에 있는 <strong>'<a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 관리자(소프트웨어)'</strong>를 매수하는 것입니다. "관리자야, 철수 방 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)로 서류가 지나갈 때마다 복사기에서 쌍둥이 서류를 한 장 더 찍어내서 내 24번 방으로 던져라!" 공짜라 좋지만, 서류가 1초에 1억 장 쏟아지면 관리자가 복사기를 돌리다 지쳐서 서류를 버려버리는 구멍(패킷 드롭)이 터집니다. 완벽한 두 번째 방법 <strong>TAP 장비</strong>는 아예 철수와 영희의 유리관 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 <strong>'마법의 Y자 거울(물리적 광 스플리터 분배기)'</strong>을 공사해서 꽂아버리는 겁니다. 서류 뭉치가 빛의 속도로 지나가면 거울에 반사되어 원본과 100% 똑같은 빛의 분신술이 만들어져 경찰 방으로 쏙 들어갑니다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU나 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목에 전혀 구애받지 않고, 해커가 무슨 장난을 쳐도 0.001초의 오차 없이 모든 지문을 투명하게 빨아들이는 궁극의 하드웨어 스니핑 덫입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a> 통신</strong>은 회사의 각 부서 사이를 연결하는 완벽히 독립된 <strong>'밀실 유리관 터널'</strong>입니다. 철수 방과 영희 방 사이에 밀실 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)가 연결되어 둘이 비밀 서류를 주고받아도, 24번 방에 있는 경찰([IDS](/studynote/02_operating_system/10_security/601_ids_ips_syscall_tracing/) 보안장비)은 그 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 안이 보이지 않아 꿀 먹은 벙어리가 됩니다. 이를 감시하는 첫 번째 꼼수 <strong>SPAN(<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/">미러링</a>)</strong>은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 기계 안에 있는 <strong>'<a href="/studynote/09_security/18_iot_ot_physical/933_cctv/">CCTV</a> 관리자(소프트웨어)'</strong>를 매수하는 것입니다. "관리자야, 철수 방 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)로 서류가 지나갈 때마다 복사기에서 쌍둥이 서류를 한 장 더 찍어내서 내 24번 방으로 던져라!" 공짜라 좋지만, 서류가 1초에 1억 장 쏟아지면 관리자가 복사기를 돌리다 지쳐서 서류를 버려버리는 구멍(패킷 드롭)이 터집니다. 완벽한 두 번째 방법 <strong>TAP 장비</strong>는 아예 철수와 영희의 유리관 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 중간에 <strong>'마법의 Y자 거울(물리적 광 스플리터 분배기)'</strong>을 공사해서 꽂아버리는 겁니다. 서류 뭉치가 빛의 속도로 지나가면 거울에 반사되어 원본과 100% 똑같은 빛의 분신술이 만들어져 경찰 방으로 쏙 들어갑니다. [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CPU나 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목에 전혀 구애받지 않고, 해커가 무슨 장난을 쳐도 0.001초의 오차 없이 모든 지문을 투명하게 빨아들이는 궁극의 하드웨어 스니핑 덫입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -108,10 +105,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,7 +122,7 @@ tags = ["studynote-network"]
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/)는 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 간 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) 배선 카테고리와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -139,7 +136,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 210 / 1120
 
-<- **이전**: [109. RTS/CTS (Request To Send / Clear To Send)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
-**다음**: [1101. UTP 배선 카테고리](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1101_utp_cable_category_cat5_cat6/) ->
+<- **이전**: [109. RTS/CTS (Request To Send / Clear To Send)](/studynote/03_network/02_multiplexing_multiple_access/109_RTS_CTS_은닉노드문제/)
+**다음**: [1101. UTP 배선 카테고리](/studynote/03_network/20_performance_evaluation_advanced/1101_utp_cable_category_cat5_cat6/) ->
 
 ---

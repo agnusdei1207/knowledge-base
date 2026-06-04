@@ -1,31 +1,28 @@
-+++
-title = "238. A* (A Star) 알고리즘 (휴리스틱 G+H)"
-date = 2026-05-09
+---
+title: "238. A* (A Star) 알고리즘 (휴리스틱 G+H)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 수만 갈래의 미로 속에서 목적지까지 가장 빠른 최단 경로를 찾을 때, <strong>"지금까지 내가 힘들게 걸어온 실제 비용(G)"과 "앞으로 목적지까지 남은 대충 짐작한 눈치 거리(H, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>)"를 더한 총점(F = G + H)</strong>을 기준으로 가장 점수가 낮은(유리한) 길만 골라서 파고드는 게임 길 찾기의 끝판왕이다.
-> 2. **가치**: 맹목적으로 사방을 다 뒤지는 [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/)(너비 우선)나 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 멍청하게 엉뚱한 반대 방향까지 원을 그리며 탐색하느라 컴퓨터 메모리(RAM)를 펑펑 터뜨렸다. A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 목적지 방향을 짐작하는 등대 불빛(H)을 켜주어, 엉뚱한 길은 쳐다보지도 않고 목적지를 향해 날카롭게 직진하는 극한의 효율(속도 폭발)을 달성해 냈다. 스타크래프트, 롤(LoL) 등 맵을 누비는 모든 게임 AI의 심장이다.
-> 3. **판단 포인트**: A* 의 마법은 짐작 점수 <strong>H(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>)</strong>를 어떻게 짜느냐에 달렸다. H를 항상 "실제 남은 거리보다 같거나 더 짧게(가볍게)" 예측(Admissible)하도록 수식을 짜면 완벽한 100% 최단 거리를 보장하지만, 만약 H를 엉망으로 짜서 실제보다 과대평가(Overestimate)해버리면 A* 는 바보가 되어 멀리 돌아가는 오답을 뱉어내는 뼈아픈 트레이드오프 병목이 존재한다.
+> 1. **본질**: A* (에이 스타) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 수만 갈래의 미로 속에서 목적지까지 가장 빠른 최단 경로를 찾을 때, <strong>"지금까지 내가 힘들게 걸어온 실제 비용(G)"과 "앞으로 목적지까지 남은 대충 짐작한 눈치 거리(H, <a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>)"를 더한 총점(F = G + H)</strong>을 기준으로 가장 점수가 낮은(유리한) 길만 골라서 파고드는 게임 길 찾기의 끝판왕이다.
+> 2. **가치**: 맹목적으로 사방을 다 뒤지는 [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/)(너비 우선)나 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 멍청하게 엉뚱한 반대 방향까지 원을 그리며 탐색하느라 컴퓨터 메모리(RAM)를 펑펑 터뜨렸다. A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 목적지 방향을 짐작하는 등대 불빛(H)을 켜주어, 엉뚱한 길은 쳐다보지도 않고 목적지를 향해 날카롭게 직진하는 극한의 효율(속도 폭발)을 달성해 냈다. 스타크래프트, 롤(LoL) 등 맵을 누비는 모든 게임 AI의 심장이다.
+> 3. **판단 포인트**: A* 의 마법은 짐작 점수 <strong>H(<a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>)</strong>를 어떻게 짜느냐에 달렸다. H를 항상 "실제 남은 거리보다 같거나 더 짧게(가볍게)" 예측(Admissible)하도록 수식을 짜면 완벽한 100% 최단 거리를 보장하지만, 만약 H를 엉망으로 짜서 실제보다 과대평가(Overestimate)해버리면 A* 는 바보가 되어 멀리 돌아가는 오답을 뱉어내는 뼈아픈 트레이드오프 병목이 존재한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 스타크래프트에서 마린을 클릭하고 저 멀리 적의 기지를 우클릭했다. 마린 앞에는 나무도 있고, 언덕도 있고, 지뢰밭도 있다.
-마린([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 이 복잡한 장애물을 뚫고 어떻게 '가장 짧은 길(최단 경로)'을 찾아 1초 만에 뛰어갈까?
+마린([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 이 복잡한 장애물을 뚫고 어떻게 '가장 짧은 길(최단 경로)'을 찾아 1초 만에 뛰어갈까?
 
-초창기 컴퓨터는 무식했다. 내 주위에 있는 상하좌우 타일을 파도처럼 동심원을 그리며 싹 다 뒤져서 목적지에 닿을 때까지 퍼져나가는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a> / <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 업글 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 썼다. 목적지가 동쪽에 있는데, 이 멍청한 코드는 서쪽 타일도 똑같이 꼼꼼하게 다 뒤지며 쓸데없는 연산량 낭비로 게임을 렉(Lag)에 빠뜨렸다.
+초창기 컴퓨터는 무식했다. 내 주위에 있는 상하좌우 타일을 파도처럼 동심원을 그리며 싹 다 뒤져서 목적지에 닿을 때까지 퍼져나가는 <strong><a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>(<a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a> / <a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> 업글 <a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)</strong> [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 썼다. 목적지가 동쪽에 있는데, 이 멍청한 코드는 서쪽 타일도 똑같이 꼼꼼하게 다 뒤지며 쓸데없는 연산량 낭비로 게임을 렉(Lag)에 빠뜨렸다.
 
 공학자들은 분노했다. "아니, 목적지가 저기 3시 방향 동쪽에 보이면, 대충 동쪽 길 위주로만 파고들면 안 돼? 왜 9시 서쪽 길을 뒤지고 앉아있냐고!"
-여기서 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 꼼수(눈치)인 <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> 개념이 들어간 **A* (A Star)** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 1968년에 탄생했다. "내가 걸어온 진짜 거리 비용에다가, 목적지까지 남은 '직선거리 짐작 비용(H)'을 더해서, 목적지와 반대되는 방향의 길은 아예 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 무겁게 때려버려 탐색에서 버려버리자!"
+여기서 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)의 꼼수(눈치)인 <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> 개념이 들어간 **A* (A Star)** [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 1968년에 탄생했다. "내가 걸어온 진짜 거리 비용에다가, 목적지까지 남은 '직선거리 짐작 비용(H)'을 더해서, 목적지와 반대되는 방향의 길은 아예 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)를 무겁게 때려버려 탐색에서 버려버리자!"
 이 위대한 눈치 빠른 나침반 덕분에 탐색 공간은 동심원 형태에서 목적지를 향해 길쭉하게 뻗어나가는 타원형으로 확 줄어들며 길 찾기 시스템의 패러다임이 완성되었다.
 
 ```text
@@ -37,13 +34,13 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)(무식 탐색)는 바다 한가운데서 보물을 찾을 때, 내 배를 중심으로 사방으로 그물을 끝없이 넓게 펼치는 멍청한 어부다(돈과 시간이 엄청 듦). A* (에이 스타)는 손에 '보물섬을 향해 빛나는 나침반([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) H)'을 든 해적이다. 나침반이 동쪽을 가리키면 서쪽 바다는 아예 그물도 안 던지고, 보물섬 방향으로만 날카롭게 배를 몰고 직진하여 최단 시간에 보물을 낚아채는 궁극의 항해술이다.
+- **📢 섹션 요약 비유**: [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)(무식 탐색)는 바다 한가운데서 보물을 찾을 때, 내 배를 중심으로 사방으로 그물을 끝없이 넓게 펼치는 멍청한 어부다(돈과 시간이 엄청 듦). A* (에이 스타)는 손에 '보물섬을 향해 빛나는 나침반([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) H)'을 든 해적이다. 나침반이 동쪽을 가리키면 서쪽 바다는 아예 그물도 안 던지고, 보물섬 방향으로만 날카롭게 배를 몰고 직진하여 최단 시간에 보물을 낚아채는 궁극의 항해술이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뇌는 3개의 수학적 기호(F, G, H)가 완벽한 삼위일체를 이루며 다음 발걸음 타일을 결정하는 오픈 리스트(Open List) 아키텍처를 따른다.
+A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뇌는 3개의 수학적 기호(F, G, H)가 완벽한 삼위일체를 이루며 다음 발걸음 타일을 결정하는 오픈 리스트(Open List) 아키텍처를 따른다.
 
 ```text
 +--------------------------------------------------------------+
@@ -72,16 +69,16 @@ A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 +--------------------------------------------------------------+
 ```
 
-<strong>핵심 원리 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">Admissible Heuristic</a>, 허용 가능한 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 조건)</strong>:
+<strong>핵심 원리 (<a href="/studynote/10_ai/01_ai_basics/018_admissible_heuristic/">Admissible Heuristic</a>, 허용 가능한 <a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 조건)</strong>:
 A* 가 무조건 100% 최단 거리를 찾아내기 위한 절대 조건이 있다. <strong>H(n) 값이 실제 남은 진짜 거리보다 '절대 크면 안 된다(과대평가 금지)'</strong>는 것이다.
-목적지까지 진짜 100km가 남았는데, 짐작 함수 H가 실수로 "아! 200km 남았어!"라고 크게 과대평가해버리면, A* 는 "우와 이 길은 점수(비용)가 너무 크네, 최악의 길이다 버려!"라고 생각하고 그 진짜 지름길을 쳐다보지도 않고 스킵해 버리는 끔찍한 버그(오답 도출)가 터진다. 그래서 H는 주로 벽을 무시한 '맨해튼 거리(격자 십자 이동)'나 '[유클리디안 거리](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)(직선 대각선 거리)'를 써서, 무조건 실제 꼬불꼬불한 골목길 현실보다 **더 짧게(가볍게) 예측되도록** 짜야만 A* 가 완벽하게 돌아간다.
+목적지까지 진짜 100km가 남았는데, 짐작 함수 H가 실수로 "아! 200km 남았어!"라고 크게 과대평가해버리면, A* 는 "우와 이 길은 점수(비용)가 너무 크네, 최악의 길이다 버려!"라고 생각하고 그 진짜 지름길을 쳐다보지도 않고 스킵해 버리는 끔찍한 버그(오답 도출)가 터진다. 그래서 H는 주로 벽을 무시한 '맨해튼 거리(격자 십자 이동)'나 '[유클리디안 거리](/studynote/05_database/06_dw_olap_trends/350_ann/)(직선 대각선 거리)'를 써서, 무조건 실제 꼬불꼬불한 골목길 현실보다 **더 짧게(가볍게) 예측되도록** 짜야만 A* 가 완벽하게 돌아간다.
 
 | 요소 | 역할 |
 |:---|:---|
-| [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) | 규칙, 상태, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기계가 추론 가능한 형태로 만든다. |
-| 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 완전 탐색과 [휴리스틱 탐색](/knowledge-base/studynote/10_ai/01_ai_basics/015_heuristic_search/)의 비용 차이를 만든다. |
-| 최적성 | 해를 반드시 찾는지, 최선인지가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준이 된다. |
-| 학습 결합 | 현대 AI는 탐색과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 학습을 함께 사용한다. |
+| [지식 표현](/studynote/10_ai/01_ai_basics/007_knowledge_representation/) | 규칙, 상태, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 기계가 추론 가능한 형태로 만든다. |
+| 탐색 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 완전 탐색과 [휴리스틱 탐색](/studynote/10_ai/01_ai_basics/015_heuristic_search/)의 비용 차이를 만든다. |
+| 최적성 | 해를 반드시 찾는지, 최선인지가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택 기준이 된다. |
+| 학습 결합 | 현대 AI는 탐색과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 학습을 함께 사용한다. |
 
 - **📢 섹션 요약 비유**: G는 '택시 미터기에 찍힌 요금'이고, H는 '조수석에 앉은 친구의 눈대중'이다. 내비게이션(A*)은 요금(G)과 친구의 예상(H)을 더해서 다음 골목을 정한다. 친구가 멍청하게 "이 골목 들어가면 10만 원 더 나올 거 같은데?(H 과대평가)"라고 뻥을 치면, 기사는 그 골목이 1만 원이면 가는 진짜 지름길인데도 쫄아서 안 들어가고 삥 돌아가게 된다(최단 거리 실패). 그래서 친구(H)는 항상 실제 나오는 돈보다 "에이, 5천 원이면 갈걸?(H 과소평가)"이라고 좀 싸게 뻥을 쳐줘야, 기사가 그 길을 용기 있게 찔러보며 진짜 지름길을 놓치지 않게 된다.
 
@@ -89,17 +86,17 @@ A* 가 무조건 100% 최단 거리를 찾아내기 위한 절대 조건이 있�
 
 ## Ⅲ. 비교 및 연결
 
-게임 엔진이나 물류 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 인프라 아키텍트가 길 찾기(Pathfinding) 로직을 결정할 때 비교하는 3대 절대 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 과정과 트레이드오프다.
+게임 엔진이나 물류 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 인프라 아키텍트가 길 찾기(Pathfinding) 로직을 결정할 때 비교하는 3대 절대 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 과정과 트레이드오프다.
 
-| 길 찾기 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 탐색의 판단 기준 (무엇을 보고 움직이나?) | 장점 및 킬러 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 치명적 단점 및 붕괴 상황 |
+| 길 찾기 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 탐색의 판단 기준 (무엇을 보고 움직이나?) | 장점 및 킬러 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 치명적 단점 및 붕괴 상황 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (너비 우선)</strong> | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 그딴 거 모름. **방 이동 횟수만 셈.** | 맵에 지뢰([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 없고 모든 방이 1m로 똑같을 때 제일 빠름. | 늪지대나 아스팔트처럼 걷기 힘든 정도(비용/[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 다르면 완전히 바보가 됨. |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>)</strong> | **오직 G(실제 걸어온 비용)만 본다.** 목적지가 어딘지 눈치채지 못하고 사방 팔방 360도로 둥글게 원을 그리며 무식하게 다 뒤짐. | <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(비용)가 있는 맵에서 100% 무조건 최단 거리를 완벽히 찾아냄.</strong> | 목적지 반대 방향(뒤쪽)까지 다 스캔하느라 **컴퓨터 메모리 연산 낭비(느림)가 끔찍함.** |
-| **A* (A Star, 본 문서)** | **G(과거의 피땀) + H(미래 짐작 눈치)<strong>를 동시에 보며 목적지로 날카롭게 뻗어 나감. | <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>보다 </strong>탐색 공간(RAM 소모)을 1/10로 박살 내고 번개같이 정답을 찾아내는 길 찾기의 신.** | **H([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)) 함수를 개발자가 이상하게(과대평가) 하드코딩해버리면 최단 거리를 못 찾는 버그**가 남. |
+| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/035_bfs/">BFS</a> (너비 우선)</strong> | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 그딴 거 모름. **방 이동 횟수만 셈.** | 맵에 지뢰([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 없고 모든 방이 1m로 똑같을 때 제일 빠름. | 늪지대나 아스팔트처럼 걷기 힘든 정도(비용/[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 다르면 완전히 바보가 됨. |
+| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>)</strong> | **오직 G(실제 걸어온 비용)만 본다.** 목적지가 어딘지 눈치채지 못하고 사방 팔방 360도로 둥글게 원을 그리며 무식하게 다 뒤짐. | <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>(비용)가 있는 맵에서 100% 무조건 최단 거리를 완벽히 찾아냄.</strong> | 목적지 반대 방향(뒤쪽)까지 다 스캔하느라 **컴퓨터 메모리 연산 낭비(느림)가 끔찍함.** |
+| **A* (A Star, 본 문서)** | **G(과거의 피땀) + H(미래 짐작 눈치)<strong>를 동시에 보며 목적지로 날카롭게 뻗어 나감. | <a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>보다 </strong>탐색 공간(RAM 소모)을 1/10로 박살 내고 번개같이 정답을 찾아내는 길 찾기의 신.** | **H([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/)) 함수를 개발자가 이상하게(과대평가) 하드코딩해버리면 최단 거리를 못 찾는 버그**가 남. |
 
-흥미롭게도 A* 공식 `F = G + H`에서, 만약 개발자가 <strong>H를 항상 0(0점)</strong>으로 만들어버리면(미래 눈치를 아예 안 봄), A* [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 마법처럼 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 완벽하게 퇴화(변신)</strong>해 버린다. [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 A* 의 특수한(멍청한) 케이스에 불과하다.
+흥미롭게도 A* 공식 `F = G + H`에서, 만약 개발자가 <strong>H를 항상 0(0점)</strong>으로 만들어버리면(미래 눈치를 아예 안 봄), A* [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 마법처럼 <strong><a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a>(<a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>) <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>으로 완벽하게 퇴화(변신)</strong>해 버린다. [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 A* 의 특수한(멍청한) 케이스에 불과하다.
 
-- **📢 섹션 요약 비유**: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))는 '눈 가리고 땅바닥 동전 줍기'다. 목적지가 동쪽인지 모른 채 눈을 가리고 있으니, 내 주변 동심원을 그리며 바닥을 박박 기다 보면 결국 100% 정답(최단 거리)을 잡지만 온몸이 흙투성이가 된다(연산 폭발). A* (에이 스타)는 눈을 가린 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)에게 '빛나는 목적지 레이저 포인터(H)'를 쥐여준 것이다. 포인터가 가리키는 동쪽으로만 바닥을 더듬고 나아가니, 반대쪽 바닥은 더듬지도 않고 최단 시간에 목적지를 박살 내버리는 똑똑한 사냥꾼이다.
+- **📢 섹션 요약 비유**: [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))는 '눈 가리고 땅바닥 동전 줍기'다. 목적지가 동쪽인지 모른 채 눈을 가리고 있으니, 내 주변 동심원을 그리며 바닥을 박박 기다 보면 결국 100% 정답(최단 거리)을 잡지만 온몸이 흙투성이가 된다(연산 폭발). A* (에이 스타)는 눈을 가린 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)에게 '빛나는 목적지 레이저 포인터(H)'를 쥐여준 것이다. 포인터가 가리키는 동쪽으로만 바닥을 더듬고 나아가니, 반대쪽 바닥은 더듬지도 않고 최단 시간에 목적지를 박살 내버리는 똑똑한 사냥꾼이다.
 
 ---
 
@@ -107,12 +104,12 @@ A* 가 무조건 100% 최단 거리를 찾아내기 위한 절대 조건이 있�
 
 스타크래프트나 리그 오브 레전드(LoL) 같은 수만 개의 유닛이 동시 다발적으로 움직이는 RTS 게임 엔진에 무지성으로 A* 를 꽂아 넣으면, CPU가 타버리면서 유닛들이 버벅대고 멈춰버리는 끔찍한 병목이 터진다.
 
-### 실무 아키텍처 판단 ([체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
+### 실무 아키텍처 판단 ([체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/))
 1. **타일 격자(Grid)의 함정과 내비게이션 메쉬 (NavMesh) 결단**: 맵을 마인크래프트처럼 1x1 격자 타일 수백만 개로 쪼개놓고 A* 를 돌리면 타일마다 F=G+H 계산을 하느라 CPU가 죽는다. 최신 3D 게임 엔진(Unity, Unreal)의 실무 아키텍트는 격자 타일을 찢어버리고, 캐릭터가 걸을 수 있는 넓은 다각형 평면을 수십 개로 큼직큼직하게 묶어버리는 **내비게이션 메쉬(NavMesh)** 기술을 A* 와 강제 결합한다. "1m 단위 타일"로 점프하는 게 아니라 "거실 바닥(폴리곤 1) $\rightarrow$ 복도(폴리곤 2)"처럼 폴리곤 노드 덩어리 단위로 A* 를 듬성듬성 돌려 연산량을 1/1000로 박살 내야 한다.
-2. **동적 장애물(Dynamic Obstacle) 붕괴와 D* (D Star) 회피 기동**: A* 는 처음에 맵이 멈춰있다는 가정하에 '최단 거리 완벽한 선'을 한 방에 쭉 그어버린다. 근데 걷는 중간에 갑자기 다른 유닛(동적 장애물)이 내 앞길을 막아버리면? A* 는 멘붕에 빠져서 처음 출발점부터 전체 계산을 다시 돌리는 뻘짓(Re-planning 지옥)을 한다. 유닛이 수시로 움직이는 실시간 전쟁 게임에서는 맵 변화 시 **기존에 계산해 둔 A* 트리를 버리지 않고 막힌 부분만 부분적으로 꿰매어(Repair) 업데이트하는 D* (Dynamic A*)나 D* Lite 아키텍처**로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 튜닝해야 유닛들의 문워크(버벅거림)를 막는다.
+2. **동적 장애물(Dynamic Obstacle) 붕괴와 D* (D Star) 회피 기동**: A* 는 처음에 맵이 멈춰있다는 가정하에 '최단 거리 완벽한 선'을 한 방에 쭉 그어버린다. 근데 걷는 중간에 갑자기 다른 유닛(동적 장애물)이 내 앞길을 막아버리면? A* 는 멘붕에 빠져서 처음 출발점부터 전체 계산을 다시 돌리는 뻘짓(Re-planning 지옥)을 한다. 유닛이 수시로 움직이는 실시간 전쟁 게임에서는 맵 변화 시 **기존에 계산해 둔 A* 트리를 버리지 않고 막힌 부분만 부분적으로 꿰매어(Repair) 업데이트하는 D* (Dynamic A*)나 D* Lite 아키텍처**로 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 튜닝해야 유닛들의 문워크(버벅거림)를 막는다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>H(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>) 함수 과대평가(Overestimation) 버그에 의한 삽질</strong>: 로봇 청소기 길 찾기를 짜면서, 개발자가 코딩 실수로 장애물이 없다는 전제의 맨해튼 거리(H)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 상수를 무식하게 곱해버려 실제 남은 거리보다 훨씬 크도록 설계해 버린 멍청한 사태. H가 너무 커지면 로봇은 G(실제 과거 비용)는 무시한 채 오직 목적지로 당장 뛰어가려는 탐욕스러운 탐색(Greedy Best-First Search)으로 타락해 버린다. 그 결과, 목적지 쪽 벽에 부딪히면 벽을 따라 부드럽게 우회하는 최단 거리를 찾지 못하고, 벽 근처에서 계속 헛발질만 하다 엉뚱하게 삥 돌아가는 <strong>Sub-optimal(오답 경로)</strong>을 뱉어내는 끔찍한 불량 로봇이 탄생한다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- <strong>H(<a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a>) 함수 과대평가(Overestimation) 버그에 의한 삽질</strong>: 로봇 청소기 길 찾기를 짜면서, 개발자가 코딩 실수로 장애물이 없다는 전제의 맨해튼 거리(H)에 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 상수를 무식하게 곱해버려 실제 남은 거리보다 훨씬 크도록 설계해 버린 멍청한 사태. H가 너무 커지면 로봇은 G(실제 과거 비용)는 무시한 채 오직 목적지로 당장 뛰어가려는 탐욕스러운 탐색(Greedy Best-First Search)으로 타락해 버린다. 그 결과, 목적지 쪽 벽에 부딪히면 벽을 따라 부드럽게 우회하는 최단 거리를 찾지 못하고, 벽 근처에서 계속 헛발질만 하다 엉뚱하게 삥 돌아가는 <strong>Sub-optimal(오답 경로)</strong>을 뱉어내는 끔찍한 불량 로봇이 탄생한다.
 
 - **📢 섹션 요약 비유**: 격자 타일(Grid) A* 는 '모눈종이 개수 세며 걷기'다. 1보 걸을 때마다 1칸씩 계산하니 발이 너무 느리다. 내비메쉬(NavMesh)는 '징검다리 뜀틀'이다. 거실 전체를 징검다리 돌 1개로 묶어버리니까, "거실 밟고 복도 밟아!" 2번의 계산만으로 목적지 경로가 순식간에 튀어나오는 마법이다. 동적 장애물 붕괴(A*)는 내비게이션 믿고 고속도로 가는데 갑자기 앞차 사고로 길이 막혔을 때, "집으로 다시 돌아가서 경로 1부터 다시 짜야지!" 하는 미친 짓이다. D* 는 집으로 안 가고 "오케이, 이 골목만 살짝 우회해서 원래 길로 다시 합류할게(Repair)!"라고 현장에서 즉각 대처하는 베테랑 기사의 스킬이다.
 
@@ -120,13 +117,13 @@ A* 가 무조건 100% 최단 거리를 찾아내기 위한 절대 조건이 있�
 
 ## Ⅴ. 기대효과 및 결론
 
-A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 인간의 두 가지 사고방식, 즉 <strong>'지금까지 들인 피땀 어린 노력(G, 팩트 기반 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)'과 '앞으로 일어날 미래에 대한 날카로운 직감(H, <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 예측)'을 하나의 수학 공식(F)으로 완벽하게 결합해 낸 길 찾기 AI의 불멸의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터피스</strong>다.
+A* (에이 스타) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 인간의 두 가지 사고방식, 즉 <strong>'지금까지 들인 피땀 어린 노력(G, 팩트 기반 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>)'과 '앞으로 일어날 미래에 대한 날카로운 직감(H, <a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> 예측)'을 하나의 수학 공식(F)으로 완벽하게 결합해 낸 길 찾기 AI의 불멸의 <a href="/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/">마스</a>터피스</strong>다.
 
-[다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 과거의 진실(G)에만 집착하여 맹목적으로 사방을 뒤지는 답답한 원리원칙주의자라면, A* 는 미래의 빛(H)을 쳐다보며 쓸데없는 길은 과감히 버리고 목적지를 향해 날카로운 창처럼 파고드는 천재적인 모험가다. 이 위대한 타협과 최적화 덕분에, 1990년대부터 모든 게임의 NPC들은 바보처럼 벽에 부딪히지 않고 플레이어를 향해 섬뜩할 정도로 정확한 최단 지름길을 파악해 우르르 몰려올 수 있게 되었다.
+[다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))가 과거의 진실(G)에만 집착하여 맹목적으로 사방을 뒤지는 답답한 원리원칙주의자라면, A* 는 미래의 빛(H)을 쳐다보며 쓸데없는 길은 과감히 버리고 목적지를 향해 날카로운 창처럼 파고드는 천재적인 모험가다. 이 위대한 타협과 최적화 덕분에, 1990년대부터 모든 게임의 NPC들은 바보처럼 벽에 부딪히지 않고 플레이어를 향해 섬뜩할 정도로 정확한 최단 지름길을 파악해 우르르 몰려올 수 있게 되었다.
 
-오늘날 화성을 탐사하는 큐리오시티 로버의 자율 주행, 수백만 개의 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로를 꼬이지 않게 연결하는 배선 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 테슬라 자율주행 자동차의 전방 100m 궤적 예측(Trajectory Planning)의 그 깊은 심연에는 변함없이 이 A* 의 삼위일체(F=G+H) 방정식이 맥박 치고 있다. 무한대의 우주(탐색 공간) 속에서 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 길을 잃지 않고 정답을 쏘아 맞출 수 있도록 이끌어주는 영원히 꺼지지 않는 북극성, 그것이 바로 A Star(*) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+오늘날 화성을 탐사하는 큐리오시티 로버의 자율 주행, 수백만 개의 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 회로를 꼬이지 않게 연결하는 배선 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/), 테슬라 자율주행 자동차의 전방 100m 궤적 예측(Trajectory Planning)의 그 깊은 심연에는 변함없이 이 A* 의 삼위일체(F=G+H) 방정식이 맥박 치고 있다. 무한대의 우주(탐색 공간) 속에서 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)이 길을 잃지 않고 정답을 쏘아 맞출 수 있도록 이끌어주는 영원히 꺼지지 않는 북극성, 그것이 바로 A Star(*) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-- **📢 섹션 요약 비유**: A* 는 인생을 살아가는 '가장 완벽한 나침반'이다. G는 "내가 이 직장에 들어와서 지금까지 쓴 3년의 눈물과 경력"이다([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 이것만 보고 퇴사를 못 한다). H는 "내가 이직을 하면 저 멋진 꿈(목적지)까지 대충 2년이면 도달할 수 있을 것 같아!"라는 눈부신 희망(직감)이다. 인생을 가장 짧은 시간에 성공(최적화)으로 이끄는 자는, 오직 이 과거의 사실(G)과 미래의 희망(H)을 냉철하게 더해 가장 가벼운(점수가 낮은) 발걸음을 옮기는 자뿐이다. 컴퓨터 공학은 이 인생의 진리를 단 3글자(F=G+H)로 증명해 냈다.
+- **📢 섹션 요약 비유**: A* 는 인생을 살아가는 '가장 완벽한 나침반'이다. G는 "내가 이 직장에 들어와서 지금까지 쓴 3년의 눈물과 경력"이다([다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)는 이것만 보고 퇴사를 못 한다). H는 "내가 이직을 하면 저 멋진 꿈(목적지)까지 대충 2년이면 도달할 수 있을 것 같아!"라는 눈부신 희망(직감)이다. 인생을 가장 짧은 시간에 성공(최적화)으로 이끄는 자는, 오직 이 과거의 사실(G)과 미래의 희망(H)을 냉철하게 더해 가장 가벼운(점수가 낮은) 발걸음을 옮기는 자뿐이다. 컴퓨터 공학은 이 인생의 진리를 단 3글자(F=G+H)로 증명해 냈다.
 
 ---
 
@@ -134,8 +131,8 @@ A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/0
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>) <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | A* 의 아버지. H(눈치)가 없어서 모든 방향으로 동심원을 그리며 다 뒤지지만, 100% 최단 거리는 무조건 보장하는 조금 멍청하지만 정직한 길 찾기의 근본 수학 공식 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> | A* 를 천재로 만든 '눈치 코치' 짐작 점수(H). 목적지까지 장애물이 없다고 치고 대충 잰 '직선거리'나 '맨해튼 거리'를 써서 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 목적지 방향으로 강제로 끄집어당기는 미친 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 등대 불빛 |
+| <strong><a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> (<a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">Dijkstra</a>) <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong> | A* 의 아버지. H(눈치)가 없어서 모든 방향으로 동심원을 그리며 다 뒤지지만, 100% 최단 거리는 무조건 보장하는 조금 멍청하지만 정직한 길 찾기의 근본 수학 공식 |
+| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/">휴리스틱</a> (<a href="/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/">Heuristic</a>)</strong> | A* 를 천재로 만든 '눈치 코치' 짐작 점수(H). 목적지까지 장애물이 없다고 치고 대충 잰 '직선거리'나 '맨해튼 거리'를 써서 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 목적지 방향으로 강제로 끄집어당기는 미친 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 등대 불빛 |
 | **그리디(Greedy) 최고 우선 탐색** | A* 의 나쁜 형제. G(과거)는 개나 줘버리고 오직 H(미래 눈치)만 보고 달리는 불나방. 속도는 빛처럼 빠르지만, 벽에 가로막히면 삥 돌아가는 완전 오답의 길을 안내하는 위험한 꼼수 |
 | **내비게이션 메쉬 (NavMesh)** | A* 가 수백만 개 타일을 계산하다가 뻗는 걸 막기 위해, 걸을 수 있는 바닥을 커다란 다각형(폴리곤)으로 대충 묶어버려서 점프 횟수를 확 줄여주는 현대 3D 게임 엔진의 필수 조미료 |
 
@@ -147,8 +144,8 @@ A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/0
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 넓은 미로에서 보물 상자를 찾을 때, 옛날 방식([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))은 눈을 가린 채 내 몸 주변의 **모든 땅바닥을 동그랗게 다 만져보며** 찾아서 시간이 엄청 오래 걸렸어요.
-2. **A* (에이 스타)**는 한 손에 **"저기 동쪽에 보물이 있어!"라고 알려주는 빛나는 나침반([휴리스틱](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) H)**을 들고 있는 천재 [탐험](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가예요!
+1. 넓은 미로에서 보물 상자를 찾을 때, 옛날 방식([다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/))은 눈을 가린 채 내 몸 주변의 **모든 땅바닥을 동그랗게 다 만져보며** 찾아서 시간이 엄청 오래 걸렸어요.
+2. **A* (에이 스타)**는 한 손에 **"저기 동쪽에 보물이 있어!"라고 알려주는 빛나는 나침반([휴리스틱](/studynote/02_operating_system/03_cpu_scheduling/210_heuristics_scheduling/) H)**을 들고 있는 천재 [탐험](/studynote/10_ai/04_ai_ops_ethics/315_exploration_exploitation/)가예요!
 3. 그래서 서쪽이나 북쪽 같은 엉뚱한 길은 쳐다보지도 않고, 내가 걸어온 길(G)과 나침반이 가리키는 남은 거리(H)를 합쳐서 <strong>보물을 향해 휙! 하고 최단 거리 지름길로만 달려가는 최고의 마법</strong>이랍니다.
 
 ---
@@ -157,7 +154,7 @@ A* (에이 스타) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/0
 
 **진행 상황**: 238 / 420
 
-<- **이전**: [237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적](/knowledge-base/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)
-**다음**: [239. 미니맥스 (Minimax)와 알파베타 가지치기](/knowledge-base/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) ->
+<- **이전**: [237. 언덕 오르기 탐색 (Hill Climbing)과 지역 최적](/studynote/10_ai/03_llm_nlp/237_hill_climbing_local_optima/)
+**다음**: [239. 미니맥스 (Minimax)와 알파베타 가지치기](/studynote/10_ai/03_llm_nlp/239_minimax_alpha_beta_pruning/) ->
 
 ---

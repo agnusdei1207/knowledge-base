@@ -1,17 +1,14 @@
-+++
-title = "038. RZ — 복귀 제로 라인 코딩 (Return to Zero)"
-date = 2026-03-03
+---
+title: "038. RZ — 복귀 제로 라인 코딩 (Return to Zero)"
+date: "2026-03-03"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 > **핵심 인사이트**
-> 1. RZ(Return to [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 절반에서 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 반드시 0V로 복귀하는 라인 코딩으로, [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 전환 자체가 클락 정보를 내포해 별도 클락 선 없이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한 자기 클락킹(Self-Clocking) 코딩이다.
-> 2. RZ의 핵심 단점은 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비효율성 — [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 50%만 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하고 나머지 50%는 0으로 복귀하므로, 동일 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 NRZ 대비 2배의 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요하다.
+> 1. RZ(Return to [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 절반에서 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 반드시 0V로 복귀하는 라인 코딩으로, [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 전환 자체가 클락 정보를 내포해 별도 클락 선 없이 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한 자기 클락킹(Self-Clocking) 코딩이다.
+> 2. RZ의 핵심 단점은 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비효율성 — [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기의 50%만 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전달하고 나머지 50%는 0으로 복귀하므로, 동일 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 NRZ 대비 2배의 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 필요하다.
 > 3. 현대 디지털 통신에서 RZ는 직접 사용되지 않지만, 광섬유 통신의 RZ-OOK(On-Off Keying)와 OTDM에서 초단 펄스 구현에 활용되며, 맨체스터 코딩의 개념적 전신이다.
 
 ---
@@ -35,17 +32,17 @@ RZ (Return to Zero):
        (1=교대로 +V/-V, 0=0V)
 ```
 
-| 구분      | 1 표현          | 0 표현    | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)     |
+| 구분      | 1 표현          | 0 표현    | [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)     |
 |---------|---------------|--------|----------|
 | NRZ-L   | +V 유지        | -V 유지  | 불가      |
 | RZ 단극성 | +V -> 0V       | 0V 유지  | 가능      |
 | RZ 양극성 | ±V -> 0V 교대   | 0V 유지  | 가능      |
 
-> 📢 **섹션 요약 비유**: NRZ가 도로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(초록/빨강 계속 유지)이라면, RZ는 점멸 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등 — 항상 중간에 한 번씩 꺼졌다가 켜져서 리듬을 알 수 있다.
+> 📢 **섹션 요약 비유**: NRZ가 도로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등(초록/빨강 계속 유지)이라면, RZ는 점멸 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등 — 항상 중간에 한 번씩 꺼졌다가 켜져서 리듬을 알 수 있다.
 
 ---
 
-## II. RZ vs NRZ [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비교
+## II. RZ vs NRZ [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 비교
 
 ```
 동일 데이터(1Mbps)를 전송할 때:
@@ -66,7 +63,7 @@ RZ:
   -> 광섬유처럼 대역폭이 풍부한 곳에서 활용
 ```
 
-> 📢 **섹션 요약 비유**: RZ로 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려면 도로가 2배 넓어야 한다 — 자동 리듬은 좋지만 비용이 두 배.
+> 📢 **섹션 요약 비유**: RZ로 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려면 도로가 2배 넓어야 한다 — 자동 리듬은 좋지만 비용이 두 배.
 
 ---
 
@@ -94,7 +91,7 @@ RZ:
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 광통신에서의 RZ 활용
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 광통신에서의 RZ 활용
 
 ```
 광섬유 RZ-OOK (On-Off Keying):
@@ -144,7 +141,7 @@ USB 2.0:
   이유: 펄스 인터리빙 가능
 ```
 
-> 📢 **섹션 요약 비유**: 라인 코딩 선택은 포장 방식 선택 — 속도, 거리, 비용, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요건에 따라 최적 포장이 다르다.
+> 📢 **섹션 요약 비유**: 라인 코딩 선택은 포장 방식 선택 — 속도, 거리, 비용, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 요건에 따라 최적 포장이 다르다.
 
 ---
 
@@ -201,8 +198,8 @@ NRZ 효율 + 클락 정보 내포
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. RZ 코딩은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 항상 중간에 0으로 잠깐 돌아오는 방식이에요 — 이 덕분에 수신자가 박자를 쉽게 맞출 수 있어요.
-2. 하지만 같은 정보를 보내는 데 NRZ보다 도로([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 2배 필요해서 보통 유선 통신에서는 잘 안 써요.
+1. RZ 코딩은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 항상 중간에 0으로 잠깐 돌아오는 방식이에요 — 이 덕분에 수신자가 박자를 쉽게 맞출 수 있어요.
+2. 하지만 같은 정보를 보내는 데 NRZ보다 도로([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))가 2배 필요해서 보통 유선 통신에서는 잘 안 써요.
 3. 광섬유 통신에서는 아주 짧은 빛 펄스를 빠르게 쏠 때 RZ 방식을 써서 수십 테라비트를 전송할 수 있어요!
 
 ---
@@ -211,7 +208,7 @@ NRZ 효율 + 클락 정보 내포
 
 **진행 상황**: 38 / 1120
 
-<- **이전**: [037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩](/knowledge-base/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)
-**다음**: [039. 맨체스터 / 차분 맨체스터 인코딩](/knowledge-base/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/) ->
+<- **이전**: [037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩](/studynote/03_network/01_data_communication/037_NRZ_L_NRZ_I/)
+**다음**: [039. 맨체스터 / 차분 맨체스터 인코딩](/studynote/03_network/01_data_communication/039_맨체스터_차분맨체스터/) ->
 
 ---

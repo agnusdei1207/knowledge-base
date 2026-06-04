@@ -1,17 +1,14 @@
-+++
-title = "729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)"
-date = 2026-05-08
+---
+title: "729. 크로스 사이트 요청 위조 (CSRF 원리 및 방어 토큰 방식 SameSite 설정)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 크로스 사이트 요청 위조는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 크로스 사이트 요청 위조는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 크로스 사이트 요청 위조를 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,7 +16,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 해커의 요청이 정상적인 나의 IP와 나의 정상적인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 달고 날아오기 때문에, 서버의 방화벽이나 입력값 필터링만으로는 이게 해커의 짓인지 구분할 수가 없습니다.
+- 해커의 요청이 정상적인 나의 IP와 나의 정상적인 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 달고 날아오기 때문에, 서버의 방화벽이나 입력값 필터링만으로는 이게 해커의 짓인지 구분할 수가 없습니다.
 
 ```text
 [크로스 사이트 스크립팅 (XSS]
@@ -30,7 +27,7 @@ tags = ["studynote-network"]
     +---> [APT (Advanced Persistent…]
 ```
 
-- **📢 섹션 요약 비유**: 크로스 사이트 요청 위조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 크로스 사이트 요청 위조는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -41,12 +38,12 @@ tags = ["studynote-network"]
 ### 1. 동작 원리 (숨겨진 난수 맞추기)
 1. 앨리스가 A 은행의 `[송금 화면]`에 정상적으로 찰칵 접속합니다.
 2. 은행 서버는 앨리스에게 화면을 뿌려줄 때, 화면 속 HTML 폼(Form) 깊숙한 곳에 눈에 안 보이는 입력칸(Hidden)으로 <strong><code>CSRF_TOKEN: x9f@8zk</code>라는 일회용 무작위 난수</strong>를 쏙 끼워 넣어 줍니다. (서버도 이 난수를 기억해 둡니다.)
-3. 앨리스가 송금 버튼을 누르면, [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)와 함께 이 `x9f@8zk` 토큰이 같이 은행 서버로 날아가고, 은행은 "음, 아까 내가 준 토큰표 가져왔네. 정상 처리!" 통과시킵니다.
+3. 앨리스가 송금 버튼을 누르면, [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)와 함께 이 `x9f@8zk` 토큰이 같이 은행 서버로 날아가고, 은행은 "음, 아까 내가 준 토큰표 가져왔네. 정상 처리!" 통과시킵니다.
 
 ### 2. 해커의 절망
-- 해커의 '고양이 낚시 사이트'에서 앨리스가 클릭하면, 앨리스의 브라우저가 은행 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 자동으로 붙여서 쏩니다.
-- **하지만!** 해커는 은행이 방금 앨리스의 진짜 화면 안에 몰래 뿌려준 <strong>일회용 토큰 <code>x9f@8zk</code>가 무엇인지 절대 알 방법이 없습니다</strong> (동일 출처 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), SOP 탓에 해커가 남의 화면을 훔쳐볼 수 없음).
-- 결국 해커가 억지로 날린 송금 요청 패킷 안에는 [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰표가 텅 비어있거나 가짜 값이 들어있게 됩니다. 서버는 "[쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 맞는데, 토큰표가 없잖아! 너 해커 낚시 사이트에서 왔지!"라며 즉시 걷어차 버립니다. (방어 100% 성공)
+- 해커의 '고양이 낚시 사이트'에서 앨리스가 클릭하면, 앨리스의 브라우저가 은행 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 자동으로 붙여서 쏩니다.
+- **하지만!** 해커는 은행이 방금 앨리스의 진짜 화면 안에 몰래 뿌려준 <strong>일회용 토큰 <code>x9f@8zk</code>가 무엇인지 절대 알 방법이 없습니다</strong> (동일 출처 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), SOP 탓에 해커가 남의 화면을 훔쳐볼 수 없음).
+- 결국 해커가 억지로 날린 송금 요청 패킷 안에는 [CSRF](/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰표가 텅 비어있거나 가짜 값이 들어있게 됩니다. 서버는 "[쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)는 맞는데, 토큰표가 없잖아! 너 해커 낚시 사이트에서 왔지!"라며 즉시 걷어차 버립니다. (방어 100% 성공)
 
 ```text
 [크로스 사이트 스크립팅 (XSS]
@@ -66,20 +63,20 @@ tags = ["studynote-network"]
 서버 개발자가 일일이 토큰을 만들기 귀찮을 때, 최신 웹 브라우저(크롬 등)가 아예 자체적으로 지원하기 시작한 가장 강력하고 우아한 방어막입니다.
 
 ### 1. 브라우저의 똑똑한 반란
-- **기존의 바보 브라우저**: 내가 '고양이.com(A 사이트)'에서 버튼을 눌러도, 요청 목적지가 '은행.com(B 사이트)'이면 무조건 은행 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 친절하게 다 붙여서 날려줬습니다(Third-party [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 허용).
-- <strong><code>SameSite</code> 속성의 등장</strong>: 서버가 로그인 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `SameSite=Lax` 나 `SameSite=Strict` 라는 꼬리표를 하나 딱 달아줍니다.
-  - 이 꼬리표를 본 브라우저는 선언합니다. <strong>"앞으로는 내가 현재 보고 있는 주소창의 사이트 이름(A)과, 데이터가 날아갈 목적지 사이트 이름(B)이 다르면(크로스 사이트), 보안을 위해 아예 이 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 꺼내서 붙여주지 않겠다!"</strong>
+- **기존의 바보 브라우저**: 내가 '고양이.com(A 사이트)'에서 버튼을 눌러도, 요청 목적지가 '은행.com(B 사이트)'이면 무조건 은행 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 친절하게 다 붙여서 날려줬습니다(Third-party [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 허용).
+- <strong><code>SameSite</code> 속성의 등장</strong>: 서버가 로그인 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 구워줄 때 `SameSite=Lax` 나 `SameSite=Strict` 라는 꼬리표를 하나 딱 달아줍니다.
+  - 이 꼬리표를 본 브라우저는 선언합니다. <strong>"앞으로는 내가 현재 보고 있는 주소창의 사이트 이름(A)과, 데이터가 날아갈 목적지 사이트 이름(B)이 다르면(크로스 사이트), 보안을 위해 아예 이 <a href="/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/">쿠키</a>를 꺼내서 붙여주지 않겠다!"</strong>
 
 ### 2. 해커의 멸망
-- 이제 앨리스가 '고양이 사이트'에서 낚시 버튼을 아무리 클릭해 봐야, 앨리스의 크롬 브라우저가 "목적지는 은행인데 넌 왜 고양이 사이트에서 누르냐? [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 안 줄래!" 하고 [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 떼버리고 그냥 알맹이 없는 빈 껍데기 요청만 은행으로 쏩니다. 은행은 당연히 로그인이 안 된 비회원 쓰레기 요청으로 간주하고 폐기합니다.
+- 이제 앨리스가 '고양이 사이트'에서 낚시 버튼을 아무리 클릭해 봐야, 앨리스의 크롬 브라우저가 "목적지는 은행인데 넌 왜 고양이 사이트에서 누르냐? [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/) 안 줄래!" 하고 [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)를 떼버리고 그냥 알맹이 없는 빈 껍데기 요청만 은행으로 쏩니다. 은행은 당연히 로그인이 안 된 비회원 쓰레기 요청으로 간주하고 폐기합니다.
 
-크로스 사이트 요청 위조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS가 기반 조건을 만든다면, 크로스 사이트 요청 위조는 그 위에서 핵심 메커니즘을 구현하고, [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+크로스 사이트 요청 위조를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [크로스 사이트 스크립팅](/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS가 기반 조건을 만든다면, 크로스 사이트 요청 위조는 그 위에서 핵심 메커니즘을 구현하고, [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS의 기반 정리 | 크로스 사이트 요청 위조의 핵심 동작 | [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…의 확장 적용 |
+| 초점 | [크로스 사이트 스크립팅](/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS의 기반 정리 | 크로스 사이트 요청 위조의 핵심 동작 | [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 크로스 사이트 요청 위조는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -87,22 +84,22 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 토큰을 만들기 귀찮을 때 서버가 쓰는 단순한 꼼수입니다. 모든 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 헤더에는 `Referer` (이 요청을 쏜 직전 사이트 주소)가 적혀 날아옵니다.
+- 토큰을 만들기 귀찮을 때 서버가 쓰는 단순한 꼼수입니다. 모든 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 요청 헤더에는 `Referer` (이 요청을 쏜 직전 사이트 주소)가 적혀 날아옵니다.
 - 은행 서버는 딱 한 줄만 짭니다. <strong>"내게 온 송금 요청의 <code>Referer</code> 주소가 <code>http://A은행.com</code>으로 시작하지 않으면 모조리 버려라!"</strong> 해커의 고양이 사이트에서 온 요청은 `Referer`가 고양이 주소이므로 가차 없이 차단됩니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 사기를 막는 두 가지 철벽. '[CSRF](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰'은 은행이 진짜 창구에 온 손님에게만 1분 뒤에 폭발하는 '비밀 일회용 도장'을 쥐여주고, 송금 서류에 인감도장([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 이 비밀 도장(토큰) 두 개가 동시에 찍혀야만 돈을 주는 시스템입니다. 해커가 멀리서 강제로 사장님 팔을 조종해 인감을 찍게 만들어도 비밀 도장이 없어 사기가 불가능합니다. 'SameSite [쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)'는 아예 내 지갑(브라우저) 자체가 똑똑해져서, "내가 지금 진짜 은행 건물 안에 들어가 있는 게 아니라면, 절대 주머니에서 내 인감도장([쿠키](/knowledge-base/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 꺼내주지 않겠다!"라고 철벽을 치는 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 보안 지갑 기술입니다.
+- **📢 섹션 요약 비유**: [CSRF](/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 사기를 막는 두 가지 철벽. '[CSRF](/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/) 토큰'은 은행이 진짜 창구에 온 손님에게만 1분 뒤에 폭발하는 '비밀 일회용 도장'을 쥐여주고, 송금 서류에 인감도장([쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))과 이 비밀 도장(토큰) 두 개가 동시에 찍혀야만 돈을 주는 시스템입니다. 해커가 멀리서 강제로 사장님 팔을 조종해 인감을 찍게 만들어도 비밀 도장이 없어 사기가 불가능합니다. 'SameSite [쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/)'는 아예 내 지갑(브라우저) 자체가 똑똑해져서, "내가 지금 진짜 은행 건물 안에 들어가 있는 게 아니라면, 절대 주머니에서 내 인감도장([쿠키](/studynote/03_network/09_application_layer_web_email/475_cookie_local_state/))을 꺼내주지 않겠다!"라고 철벽을 치는 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 보안 지갑 기술입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-크로스 사이트 요청 위조는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…, 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+크로스 사이트 요청 위조는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…, 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 크로스 사이트 요청 위조는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -112,10 +109,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ([XSS](/knowledge-base/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [크로스 사이트 스크립팅](/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) ([XSS](/studynote/03_network/14_network_security_threats/726_xss_cross_site_scripting_types/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
-| [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
-| [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
+| [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +126,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 예측형 위협 대응]
 ```
 
-크로스 사이트 요청 위조는 [크로스 사이트 스크립팅](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [APT](/knowledge-base/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+크로스 사이트 요청 위조는 [크로스 사이트 스크립팅](/studynote/04_software_engineering/08_security_compliance_devsecops/500_xss_defense_escaping_csp/) (XSS에서 출발해 현재 메커니즘을 정교화하고, 이후 [APT](/studynote/09_security/15_malware_attack_vectors/748_apt/) (Advanced Persistent…와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 850 / 1120
 
-<- **이전**: [728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용](/knowledge-base/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)
-**다음**: [730. APT (Advanced Persistent Threat 고도화 공격망](/knowledge-base/studynote/03_network/14_network_security_threats/730_sql_injection_error_blind_union/) ->
+<- **이전**: [728. CSRF (Cross-Site Request Forgery) 인증 세션 권한 도용](/studynote/03_network/14_network_security_threats/728_csrf_cross_site_request_forgery_concept/)
+**다음**: [730. APT (Advanced Persistent Threat 고도화 공격망](/studynote/03_network/14_network_security_threats/730_sql_injection_error_blind_union/) ->
 
 ---

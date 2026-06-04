@@ -1,13 +1,10 @@
-+++
-title = "638. 엔터프라이즈 시스템 핵심 토픽 638번 시험 요약 (Enterprise System Core Topic 638 Exam Summary)"
-date = 2026-05-09
+---
+title: "638. 엔터프라이즈 시스템 핵심 토픽 638번 시험 요약 (Enterprise System Core Topic 638 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 638 / 800
 
-<- **이전**: [637. 엔터프라이즈 시스템 핵심 토픽 637번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/637_enterprise_system_core_topic_637_exam_summary/)
-**다음**: [639. 엔터프라이즈 시스템 핵심 토픽 639번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/639_enterprise_system_core_topic_639_exam_summary/) ->
+<- **이전**: [637. 엔터프라이즈 시스템 핵심 토픽 637번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/637_enterprise_system_core_topic_637_exam_summary/)
+**다음**: [639. 엔터프라이즈 시스템 핵심 토픽 639번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/639_enterprise_system_core_topic_639_exam_summary/) ->
 
 ---

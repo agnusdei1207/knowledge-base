@@ -1,13 +1,10 @@
-+++
-title = "690. 오픈 데이터 공공 데이터 활용 전략 (Open Data Public Data Utilization Strategy)"
-date = 2026-05-09
+---
+title: "690. 오픈 데이터 공공 데이터 활용 전략 (Open Data Public Data Utilization Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -139,7 +136,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 690 / 800
 
-<- **이전**: [689. 데이터 윤리 편향 감사 공정성 지표](/knowledge-base/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/)
-**다음**: [691. 데이터 리터러시 조직 역량 교육](/knowledge-base/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/) ->
+<- **이전**: [689. 데이터 윤리 편향 감사 공정성 지표](/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/)
+**다음**: [691. 데이터 리터러시 조직 역량 교육](/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/) ->
 
 ---

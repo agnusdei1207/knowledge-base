@@ -1,13 +1,10 @@
-+++
-title = "593. 클라우드 환경 감리 가상화 검증 (Cloud Environment Audit Virtualization)"
-date = 2026-05-09
+---
+title: "593. 클라우드 환경 감리 가상화 검증 (Cloud Environment Audit Virtualization)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -188,7 +185,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 593 / 600
 
-<- **이전**: [592. AI 기반 코드 리뷰 감리 지원 도구](/knowledge-base/studynote/11_design_supervision/06_exam_summary/592_ai_based_code_review_audit_support_tool/)
-**다음**: [594. 데이터 품질 감리 정합성 완전성 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/594_data_quality_audit_consistency_completeness/) ->
+<- **이전**: [592. AI 기반 코드 리뷰 감리 지원 도구](/studynote/11_design_supervision/06_exam_summary/592_ai_based_code_review_audit_support_tool/)
+**다음**: [594. 데이터 품질 감리 정합성 완전성 진단](/studynote/11_design_supervision/06_exam_summary/594_data_quality_audit_consistency_completeness/) ->
 
 ---

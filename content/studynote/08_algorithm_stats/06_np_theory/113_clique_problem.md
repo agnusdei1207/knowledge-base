@@ -1,18 +1,15 @@
-+++
-title = "008. 클리크 문제 — Clique Problem"
-date = 2026-04-05
+---
+title: "008. 클리크 문제 — Clique Problem"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
-> 1. 클리크(Clique)란 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 정점이 서로 연결된 완전 부분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
-> 2. 클리크 문제는 사회 네트워크 분석(SNS에서 완전 연결 그룹 탐지), 생물정보학(단백질 상호작용 네트워크 분석), [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(밀집 연결 사용자 클러스터 발견)에서 핵심 도구이지만 — 정확한 최대 클리크 탐색은 지수 시간이 소요된다.
-> 3. 클리크(모든 쌍 연결)와 독립 집합(어떤 쌍도 연결 안 됨)은 여그래프(Complement [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))를 통해 동치로 환원되며 — 두 문제 모두 NP-완전이므로, 실용적으로는 근사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 Bron-Kerbosch [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) 기반)이 사용된다.
+> 1. 클리크(Clique)란 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 모든 정점이 서로 연결된 완전 부분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Complete Subgraph)를 말하며 — k-Clique 문제(크기 k 이상의 클리크가 존재하는가?)는 SAT로부터 다항 시간 귀납에 의해 NP-완전임이 증명된다.
+> 2. 클리크 문제는 사회 네트워크 분석(SNS에서 완전 연결 그룹 탐지), 생물정보학(단백질 상호작용 네트워크 분석), [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)(밀집 연결 사용자 클러스터 발견)에서 핵심 도구이지만 — 정확한 최대 클리크 탐색은 지수 시간이 소요된다.
+> 3. 클리크(모든 쌍 연결)와 독립 집합(어떤 쌍도 연결 안 됨)은 여그래프(Complement [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))를 통해 동치로 환원되며 — 두 문제 모두 NP-완전이므로, 실용적으로는 근사 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 Bron-Kerbosch [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/) 기반)이 사용된다.
 
 ---
 
@@ -117,7 +114,7 @@ k-클리크 ∈ NP 증명:
 
 ---
 
-## Ⅲ. [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅲ. [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 클리크 알고리즘:
@@ -159,7 +156,7 @@ SNS 클리크 탐색 현실:
   Dense Subgraph Discovery: 완화된 클리크 개념
 ```
 
-> 📢 **섹션 요약 비유**: 클리크 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 퍼즐 최적화 — 모든 조합을 다 시도하는 건 너무 느리니, Bron-Kerbosch는 "이 방향은 어차피 안 될 것 같아" 하며 빠르게 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/).
+> 📢 **섹션 요약 비유**: 클리크 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 퍼즐 최적화 — 모든 조합을 다 시도하는 건 너무 느리니, Bron-Kerbosch는 "이 방향은 어차피 안 될 것 같아" 하며 빠르게 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/).
 
 ---
 
@@ -329,7 +326,7 @@ GNN 기반 클리크 탐색
 
 **진행 상황**: 113 / 175
 
-<- **이전**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/)
-**다음**: [009. 버텍스 커버 — Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/) ->
+<- **이전**: [007. SAT — 불리언 만족 가능성 문제](/studynote/08_algorithm_stats/06_np_theory/112_sat/)
+**다음**: [009. 버텍스 커버 — Vertex Cover](/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/) ->
 
 ---

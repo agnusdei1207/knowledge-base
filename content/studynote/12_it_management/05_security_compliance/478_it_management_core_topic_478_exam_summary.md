@@ -1,13 +1,10 @@
-+++
-title = "478. IT 경영 관리 핵심 토픽 478번 시험 요약 (IT Management Core Topic 478 Exam Summary)"
-date = 2026-05-09
+---
+title: "478. IT 경영 관리 핵심 토픽 478번 시험 요약 (IT Management Core Topic 478 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -191,7 +188,7 @@ RACI는 COBIT 2019와 ITIL 4에서 공통으로 권장하는 **역할-책임 매
 
 **진행 상황**: 478 / 800
 
-<- **이전**: [477. IT 경영 관리 핵심 토픽 477번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/477_it_management_core_topic_477_exam_summary/)
-**다음**: [479. IT 경영 관리 핵심 토픽 479번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/479_it_management_core_topic_479_exam_summary/) ->
+<- **이전**: [477. IT 경영 관리 핵심 토픽 477번 시험 요약](/studynote/12_it_management/05_security_compliance/477_it_management_core_topic_477_exam_summary/)
+**다음**: [479. IT 경영 관리 핵심 토픽 479번 시험 요약](/studynote/12_it_management/05_security_compliance/479_it_management_core_topic_479_exam_summary/) ->
 
 ---

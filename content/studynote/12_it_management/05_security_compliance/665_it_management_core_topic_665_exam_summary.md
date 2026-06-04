@@ -1,13 +1,10 @@
-+++
-title = "665. IT 경영 관리 핵심 토픽 665번 시험 요약 (IT Management Core Topic 665 Exam Summary)"
-date = 2026-05-09
+---
+title: "665. IT 경영 관리 핵심 토픽 665번 시험 요약 (IT Management Core Topic 665 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ ISO/IEC 38500:2015 (Corporate governance of IT)는 **3-Task(Evaluate, Direct, Mo
 
 **진행 상황**: 665 / 800
 
-<- **이전**: [664. IT 경영 관리 핵심 토픽 664번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/664_it_management_core_topic_664_exam_summary/)
-**다음**: [666. IT 경영 관리 핵심 토픽 666번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/666_it_management_core_topic_666_exam_summary/) ->
+<- **이전**: [664. IT 경영 관리 핵심 토픽 664번 시험 요약](/studynote/12_it_management/05_security_compliance/664_it_management_core_topic_664_exam_summary/)
+**다음**: [666. IT 경영 관리 핵심 토픽 666번 시험 요약](/studynote/12_it_management/05_security_compliance/666_it_management_core_topic_666_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "646. IT 경영 관리 핵심 토픽 646번 시험 요약 (IT Management Core Topic 646 Exam Summary)"
-date = 2026-05-09
+---
+title: "646. IT 경영 관리 핵심 토픽 646번 시험 요약 (IT Management Core Topic 646 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -113,7 +110,7 @@ IT 거버넌스를 둘러싼 4대 프레임워크(COBIT 2019, ITIL 4, ISO 38500,
 
 **진행 상황**: 646 / 800
 
-<- **이전**: [645. IT 경영 관리 핵심 토픽 645번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/645_it_management_core_topic_645_exam_summary/)
-**다음**: [647. IT 경영 관리 핵심 토픽 647번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/647_it_management_core_topic_647_exam_summary/) ->
+<- **이전**: [645. IT 경영 관리 핵심 토픽 645번 시험 요약](/studynote/12_it_management/05_security_compliance/645_it_management_core_topic_645_exam_summary/)
+**다음**: [647. IT 경영 관리 핵심 토픽 647번 시험 요약](/studynote/12_it_management/05_security_compliance/647_it_management_core_topic_647_exam_summary/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "006. 다항 시간 환산 (Polynomial Reduction)"
-date = 2026-04-05
+---
+title: "006. 다항 시간 환산 (Polynomial Reduction)"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
-> 1. 다항 시간 환산([Polynomial](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Reduction, A ≤_p B)은 "문제 A를 문제 B로 변환할 수 있고, B를 다항 시간에 풀 수 있으면 A도 다항 시간에 풀린다"는 원리로 — NP-완전 증명의 핵심 도구이며, Cook-Levin 정리에서 SAT이 NP-완전임을 보인 방법이다.
+> 1. 다항 시간 환산([Polynomial](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) Reduction, A ≤_p B)은 "문제 A를 문제 B로 변환할 수 있고, B를 다항 시간에 풀 수 있으면 A도 다항 시간에 풀린다"는 원리로 — NP-완전 증명의 핵심 도구이며, Cook-Levin 정리에서 SAT이 NP-완전임을 보인 방법이다.
 > 2. A ≤_p B의 방향성이 핵심 — "A가 B로 환산된다" = "B가 A보다 적어도 같거나 더 어렵다" = B가 A의 상한(upper bound), 이 방향을 혼동하면 복잡도 이론 전체가 뒤집힌다.
-> 3. 3-[SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/) ≤_p 3-Color ≤_p Clique ≤_p 독립 집합 ≤_p 정점 커버처럼 환산 체인을 구성하면 모든 NP-완전 문제가 서로 등가임을 증명할 수 있어 — 하나를 풀면 모두를 풀 수 있다는 NP-완전의 연대를 보여준다.
+> 3. 3-[SAT](/studynote/12_it_management/03_ea_isp/887_chaining/) ≤_p 3-Color ≤_p Clique ≤_p 독립 집합 ≤_p 정점 커버처럼 환산 체인을 구성하면 모든 NP-완전 문제가 서로 등가임을 증명할 수 있어 — 하나를 풀면 모두를 풀 수 있다는 NP-완전의 연대를 보여준다.
 
 ---
 
@@ -53,7 +50,7 @@ A ≤_p B의 복잡도 의미:
 
 ---
 
-## Ⅱ. Cook-Levin 정리와 [SAT](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)
+## Ⅱ. Cook-Levin 정리와 [SAT](/studynote/12_it_management/03_ea_isp/887_chaining/)
 
 ```
 Cook-Levin 정리 (1971/1973):
@@ -216,7 +213,7 @@ NP-완전 증명:
   스케줄링: 클라우드 작업 배치 -> Bin Packing 근사
 ```
 
-> 📢 **섹션 요약 비유**: NP-완전 증명의 의의는 의사 진단 — "이 병은 치료가 어렵다"는 걸 증명해야 무리한 치료 시도를 멈추고 증상 관리([근사 알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))로 전환할 수 있어요.
+> 📢 **섹션 요약 비유**: NP-완전 증명의 의의는 의사 진단 — "이 병은 치료가 어렵다"는 걸 증명해야 무리한 치료 시도를 멈추고 증상 관리([근사 알고리즘](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/))로 전환할 수 있어요.
 
 ---
 
@@ -278,7 +275,7 @@ ETH 기반 알고리즘 하한 증명
 
 **진행 상황**: 111 / 175
 
-<- **이전**: [005. P = NP 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/)
-**다음**: [007. SAT — 불리언 만족 가능성 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/112_sat/) ->
+<- **이전**: [005. P = NP 문제](/studynote/08_algorithm_stats/06_np_theory/110_p_equals_np/)
+**다음**: [007. SAT — 불리언 만족 가능성 문제](/studynote/08_algorithm_stats/06_np_theory/112_sat/) ->
 
 ---

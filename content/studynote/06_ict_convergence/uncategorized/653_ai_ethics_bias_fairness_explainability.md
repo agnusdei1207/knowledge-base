@@ -1,13 +1,10 @@
-+++
-title = "653. AI 윤리 편향 공정성 설명 가능성 (AI Ethics Bias Fairness Explainability)"
-date = 2026-05-09
+---
+title: "653. AI 윤리 편향 공정성 설명 가능성 (AI Ethics Bias Fairness Explainability)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ Responsible AI 시스템은 크게 **① 데이터 계층의 Bias Audit**, **②
 
 **진행 상황**: 653 / 800
 
-<- **이전**: [652. AI 할루시네이션 환각 방지 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/)
-**다음**: [654. AI 규제 EU AI Act 위험 등급](/knowledge-base/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/) ->
+<- **이전**: [652. AI 할루시네이션 환각 방지 전략](/studynote/06_ict_convergence/uncategorized/652_ai_hallucination_prevention_strategy/)
+**다음**: [654. AI 규제 EU AI Act 위험 등급](/studynote/06_ict_convergence/uncategorized/654_ai_regulation_eu_ai_act_risk_classification/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "502. TOGAF ADM 아키텍처 개발 방법 (TOGAF ADM Architecture Development Method)"
-date = 2026-05-09
+---
+title: "502. TOGAF ADM 아키텍처 개발 방법 (TOGAF ADM Architecture Development Method)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -176,7 +173,7 @@ EA 사업을 수행하는 기술사는 ADM의 **적용 범위(Scope)**, **Iterat
 
 **진행 상황**: 502 / 600
 
-<- **이전**: [501. EA 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/502_ea_enterprise_architecture_framework/)
-**다음**: [503. Zachman 프레임워크 분류 체계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/503_zachman_framework_classification/) ->
+<- **이전**: [501. EA 엔터프라이즈 아키텍처 프레임워크](/studynote/11_design_supervision/06_exam_summary/502_ea_enterprise_architecture_framework/)
+**다음**: [503. Zachman 프레임워크 분류 체계](/studynote/11_design_supervision/06_exam_summary/503_zachman_framework_classification/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "643. BERT 양방향 인코더 사전 학습 (BERT Bidirectional Encoder Pre-training)"
-date = 2026-05-09
+---
+title: "643. BERT 양방향 인코더 사전 학습 (BERT Bidirectional Encoder Pre-training)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ BERT는 **사전학습 패러다임의 3대 축**(encoder-only / decoder-only / 
 
 **진행 상황**: 643 / 800
 
-<- **이전**: [642. GPT 대규모 언어 모델 사전 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/)
-**다음**: [644. 파인 튜닝 전이 학습 도메인 적응](/knowledge-base/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/) ->
+<- **이전**: [642. GPT 대규모 언어 모델 사전 학습](/studynote/06_ict_convergence/uncategorized/642_gpt_large_language_model_pre_training/)
+**다음**: [644. 파인 튜닝 전이 학습 도메인 적응](/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/) ->
 
 ---

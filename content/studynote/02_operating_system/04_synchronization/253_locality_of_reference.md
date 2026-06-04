@@ -1,28 +1,25 @@
-+++
-title = "253. 참조의 지역성 (Locality of Reference)"
-date = 2026-05-09
+---
+title: "253. 참조의 지역성 (Locality of Reference)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 프로그램이 실행될 때 메모리의 모든 영역을 균등하게 접근하는 것이 아니라, <strong>"한 번 접근했던 곳이나 그 근처의 메모리 영역을 집중적으로 다시 접근하는 성질"</strong>을 뜻하는 컴퓨터 과학의 근본적인 통계적 법칙이다.
-> 2. **가치**: 이 마법 같은 법칙 덕분에 값비싼 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)(Cache)를 전체 램(RAM)의 1/1000 크기만 달아놔도 <strong>캐시 <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>(Cache <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/359_effective_access_time/">Hit Ratio</a>)을 90% 이상 유지</strong>할 수 있으며, 현대 컴퓨터의 메모리 계층 구조가 경제적으로 성립하는 절대적 근거가 된다.
-> 3. **융합**: 크게 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">Temporal Locality</a>)</strong>과 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a>(<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">Spatial Locality</a>)</strong>으로 나뉘며, 운영체제의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 설계, CPU의 하드웨어 캐시 라인(Cache Line) 크기 결정, 그리고 개발자의 Data-Oriented 코딩 패턴까지 컴퓨터 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전체를 관통하는 핵심 원리다.
+> 1. **본질**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 프로그램이 실행될 때 메모리의 모든 영역을 균등하게 접근하는 것이 아니라, <strong>"한 번 접근했던 곳이나 그 근처의 메모리 영역을 집중적으로 다시 접근하는 성질"</strong>을 뜻하는 컴퓨터 과학의 근본적인 통계적 법칙이다.
+> 2. **가치**: 이 마법 같은 법칙 덕분에 값비싼 [캐시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)(Cache)를 전체 램(RAM)의 1/1000 크기만 달아놔도 <strong>캐시 <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/">적중률</a>(Cache <a href="/studynote/02_operating_system/06_memory_management/359_effective_access_time/">Hit Ratio</a>)을 90% 이상 유지</strong>할 수 있으며, 현대 컴퓨터의 메모리 계층 구조가 경제적으로 성립하는 절대적 근거가 된다.
+> 3. **융합**: 크게 <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a>(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">Temporal Locality</a>)</strong>과 <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a>(<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">Spatial Locality</a>)</strong>으로 나뉘며, 운영체제의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/studynote/02_operating_system/04_synchronization/259_paging/)) 설계, CPU의 하드웨어 캐시 라인(Cache Line) 크기 결정, 그리고 개발자의 Data-Oriented 코딩 패턴까지 컴퓨터 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 전체를 관통하는 핵심 원리다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: CPU가 메모리의 어떤 주소를 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때, 그 패턴이 무작위(Random)가 아니라 특정 시간대와 특정 공간에 편중되어 나타나는 현상이다.
-- **필요성**: 만약 프로그램이 메모리 16GB의 공간을 주사위 던지듯 1번지, 10억 번지, 3천 번지 등 완전한 무작위(Random Access)로 접근한다면, CPU는 16GB짜리 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) L1 캐시를 만들어야만 제 속도를 낼 수 있다. (이는 수천만 원이 든다). 하지만 다행히도 프로그램은 방금 불렀던 변수를 또 부르는 성질이 있어서, "그럼 방금 부른 변수 주변만 쏙 빼서 작은 상자(캐시)에 담아두자"라는 저비용 고효율의 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 전략을 세울 수 있었다.
+- **개념**: CPU가 메모리의 어떤 주소를 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)(읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))할 때, 그 패턴이 무작위(Random)가 아니라 특정 시간대와 특정 공간에 편중되어 나타나는 현상이다.
+- **필요성**: 만약 프로그램이 메모리 16GB의 공간을 주사위 던지듯 1번지, 10억 번지, 3천 번지 등 완전한 무작위(Random Access)로 접근한다면, CPU는 16GB짜리 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) L1 캐시를 만들어야만 제 속도를 낼 수 있다. (이는 수천만 원이 든다). 하지만 다행히도 프로그램은 방금 불렀던 변수를 또 부르는 성질이 있어서, "그럼 방금 부른 변수 주변만 쏙 빼서 작은 상자(캐시)에 담아두자"라는 저비용 고효율의 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) 전략을 세울 수 있었다.
 
-- **등장 배경**: 피터 데닝(Peter Denning)이 1970년에 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [워킹 셋](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델을 제안하며 학술적으로 정립되었다. 이 법칙 덕분에 컴퓨터 설계자들은 느린 메인 메모리와 빠른 CPU 사이의 거대한 속도 격차([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))를 '[캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)'라는 아주 작은 징검다리 하나로 극복할 수 있다는 확신을 얻었다.
+- **등장 배경**: 피터 데닝(Peter Denning)이 1970년에 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [워킹 셋](/studynote/02_operating_system/04_synchronization/265_working_set/)([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/)) 모델을 제안하며 학술적으로 정립되었다. 이 법칙 덕분에 컴퓨터 설계자들은 느린 메인 메모리와 빠른 CPU 사이의 거대한 속도 격차([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))를 '[캐시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)'라는 아주 작은 징검다리 하나로 극복할 수 있다는 확신을 얻었다.
 
 ```text
   [참조의 지역성에 따른 메모리 접근 패턴(Access Pattern) 시각화]
@@ -37,18 +34,18 @@ tags = ["studynote-operating-system"]
   -> 10, 11, 12번지를 썼더니 1초 뒤에 또 10, 11, 12번지를 부른다 (시간적 지역성)
   캐시 적중률: 95% 이상! (캐시에 한 번 올려두면 미친 듯이 뽕을 뽑음)
 ```
-**[다이어그램 해설]** 컴퓨터 구조론에서 이 지역성의 법칙은 물리학의 만유인력과 같다. 의도한 게 아니라, 인간이 생각하고 코드를 짜는 방식(루프, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/), 순차적 실행) 자체가 자연스럽게 이 두 가지 지역성을 뿜어내게 되어 있다.
+**[다이어그램 해설]** 컴퓨터 구조론에서 이 지역성의 법칙은 물리학의 만유인력과 같다. 의도한 게 아니라, 인간이 생각하고 코드를 짜는 방식(루프, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/), 순차적 실행) 자체가 자연스럽게 이 두 가지 지역성을 뿜어내게 되어 있다.
 
-- **📢 섹션 요약 비유**: 마트의 진열대 배치 원리입니다. 맥주를 사는 사람은 방금 샀던 맥주를 한 캔 더 살 확률이 높고([시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), 맥주를 산 사람은 바로 옆에 있는 땅콩이나 오징어를 집어들 확률이 압도적으로 높습니다([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)). 그래서 편의점 매대에 맥주와 안주를 같이 올려두면 손님(CPU)이 멀리 안 가고 한 번에 물건을 쓸어 담습니다(Cache [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)).
+- **📢 섹션 요약 비유**: 마트의 진열대 배치 원리입니다. 맥주를 사는 사람은 방금 샀던 맥주를 한 캔 더 살 확률이 높고([시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)), 맥주를 산 사람은 바로 옆에 있는 땅콩이나 오징어를 집어들 확률이 압도적으로 높습니다([공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)). 그래서 편의점 매대에 맥주와 안주를 같이 올려두면 손님(CPU)이 멀리 안 가고 한 번에 물건을 쓸어 담습니다(Cache [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 지역성의 3가지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 지역성의 3가지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
-#### 1. [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))
-- **정의**: 특정 메모리 주소가 한 번 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되면, <strong>가까운 미래에 다시 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>될 확률이 매우 높다</strong>는 성질.
+#### 1. [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/) ([Temporal Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))
+- **정의**: 특정 메모리 주소가 한 번 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되면, <strong>가까운 미래에 다시 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>될 확률이 매우 높다</strong>는 성질.
 - **코드 사례**:
   ```c
   int sum = 0;
@@ -56,10 +53,10 @@ tags = ["studynote-operating-system"]
       sum += i;  // 변수 'sum'과 'i'는 100번 연속으로 똑같은 주소에서 계속 불린다!
   }
   ```
-- **시스템 활용**: CPU 캐시 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">Least Recently Used</a>)</strong>가 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 믿고 동작한다. "방금 안 쓴 놈은 나중에도 안 쓸 테니 캐시에서 버리고, 방금 쓴 놈을 캐시에 남겨라."
+- **시스템 활용**: CPU 캐시 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)인 <strong><a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a>(<a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">Least Recently Used</a>)</strong>가 [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 믿고 동작한다. "방금 안 쓴 놈은 나중에도 안 쓸 테니 캐시에서 버리고, 방금 쓴 놈을 캐시에 남겨라."
 
-#### 2. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))
-- **정의**: 특정 메모리 주소가 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되면, <strong>그 주소와 물리적으로 인접한 주소들이 곧 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>될 확률이 높다</strong>는 성질.
+#### 2. [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/) ([Spatial Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))
+- **정의**: 특정 메모리 주소가 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)되면, <strong>그 주소와 물리적으로 인접한 주소들이 곧 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>될 확률이 높다</strong>는 성질.
 - **코드 사례**:
   ```c
   int arr[100];
@@ -67,13 +64,13 @@ tags = ["studynote-operating-system"]
       arr[i] = 1; // arr[0] 다음엔 무조건 물리적으로 바로 옆에 있는 arr[1]을 부른다!
   }
   ```
-- **시스템 활용**: CPU가 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 올릴 때, 1바이트만 가져오지 않고 주변의 <strong>64바이트(캐시 라인, Cache Line)</strong>를 한 번에 뭉텅이로 퍼 오는 이유다. "어차피 옆에 거 달라고 할 테니 미리 다 가져가자([Prefetching](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))."
+- **시스템 활용**: CPU가 메모리에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 퍼 올릴 때, 1바이트만 가져오지 않고 주변의 <strong>64바이트(캐시 라인, Cache Line)</strong>를 한 번에 뭉텅이로 퍼 오는 이유다. "어차피 옆에 거 달라고 할 테니 미리 다 가져가자([Prefetching](/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))."
 
-#### 3. [순차적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/))
-- **정의**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순차적으로(In-order) 실행되는 경향. ([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)의 특별한 형태). 프로그래머가 분기문(`if`, `goto`)을 남발하지 않는 이상, 코드는 위에서 아래로 순차적으로 메모리를 읽으며 내려간다.
+#### 3. [순차적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/) ([Sequential Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/249_sequential_locality/))
+- **정의**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 순차적으로(In-order) 실행되는 경향. ([공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)의 특별한 형태). 프로그래머가 분기문(`if`, `goto`)을 남발하지 않는 이상, 코드는 위에서 아래로 순차적으로 메모리를 읽으며 내려간다.
 
 ### 캐시 라인 (Cache Line) 구조와 무임승차
-[공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 극대화하기 위해 하드웨어는 메인 메모리와 캐시 간의 전송 단위를 `블록(Block)` 단위로 묶어버렸다.
+[공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 극대화하기 위해 하드웨어는 메인 메모리와 캐시 간의 전송 단위를 `블록(Block)` 단위로 묶어버렸다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -103,37 +100,37 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)) vs [Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 의 캐시 친화도 대결
+### [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) ([배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)) vs [Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 의 캐시 친화도 대결
 
 자료구조 시간에 "삽입/삭제가 잦으면 Linked List가 빠르다"고 배운다. 하지만 최신 CPU 환경에서는 그 이론이 완전히 <strong>박살(Death by Cache Miss)</strong>난다.
 
-| 특성 | [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) / Vector) | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) |
+| 특성 | [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) ([Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) / Vector) | [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) ([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) |
 |:---|:---|:---|
-| **메모리 배치** | **물리적으로 100% 틈 없이 연속됨** | 힙([Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 공간 사방팔방에 흩어져 있음 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a></strong> | **극강 (100% 발생)** | **최악 (0%에 수렴)** |
-| **Cache Line** | 64바이트 퍼오면 안에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 16개(int) 꽉 차있음 (무임승차 15번) | 64바이트 퍼와도 다음 노드 주소는 저 멀리 딴 곳에 있음 (무임승차 불가) |
-| **순회 속도** | <strong>Cache <a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 100%로 미친 듯이 빠름</strong> | 포인터 타고 갈 때마다 Cache Miss 폭격 (수백 배 느림) |
+| **메모리 배치** | **물리적으로 100% 틈 없이 연속됨** | 힙([Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)) 공간 사방팔방에 흩어져 있음 |
+| <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a></strong> | **극강 (100% 발생)** | **최악 (0%에 수렴)** |
+| **Cache Line** | 64바이트 퍼오면 안에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 16개(int) 꽉 차있음 (무임승차 15번) | 64바이트 퍼와도 다음 노드 주소는 저 멀리 딴 곳에 있음 (무임승차 불가) |
+| **순회 속도** | <strong>Cache <a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 100%로 미친 듯이 빠름</strong> | 포인터 타고 갈 때마다 Cache Miss 폭격 (수백 배 느림) |
 
-현대의 게임 엔진이나 고성능 서버 아키텍처에서는 O(1) 삽입 속도를 자랑하는 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 버리고, 삽입 시 O(N)으로 밀어내더라도 순회(Iteration) 시 캐시 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 미친 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(Vector)을 쓰는 <strong>'Data-Oriented Design (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 지향 설계)'</strong>이 절대 표준이 되었다. [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 무시하는 코드는 현대 CPU에서 범죄나 다름없다.
+현대의 게임 엔진이나 고성능 서버 아키텍처에서는 O(1) 삽입 속도를 자랑하는 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)를 버리고, 삽입 시 O(N)으로 밀어내더라도 순회(Iteration) 시 캐시 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 미친 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(Vector)을 쓰는 <strong>'Data-Oriented Design (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 지향 설계)'</strong>이 절대 표준이 되었다. [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 무시하는 코드는 현대 CPU에서 범죄나 다름없다.
 
-### [False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) - 캐시 라인의 저주
-멀티코어 환경에서 [공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 너무 잘 지켜도 버그가 난다.
-- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1은 `A` 변수를 쓰고, [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2는 `B` 변수를 쓴다. (서로 락이 필요 없는 완벽한 분리).
+### [False Sharing](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/) ([거짓 공유](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)) - 캐시 라인의 저주
+멀티코어 환경에서 [공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)을 너무 잘 지켜도 버그가 난다.
+- [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1은 `A` 변수를 쓰고, [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2는 `B` 변수를 쓴다. (서로 락이 필요 없는 완벽한 분리).
 - 그런데 하필 `A`와 `B`가 메모리상에서 딱 붙어있어서 <strong>'하나의 64바이트 캐시 라인'</strong>에 같이 올라갔다.
-- [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1이 `A`를 갱신하면, CPU 하드웨어는 무식하게 "이 64바이트 캐시 라인 전체가 오염되었다!"고 선언하고 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2의 캐시까지 강제로 삭제해 버린다.
-- 결과적으로 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로의 캐시를 미친 듯이 파괴하며 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1/100로 박살 나는 현상을 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>(<a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">False Sharing</a>)</strong>라 부르며, 멀티스레드 최적화의 가장 무서운 적이다. (해결책: 변수 사이에 쓸데없는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 64바이트만큼 쑤셔 넣어 캐시 라인을 물리적으로 찢어놓는다).
+- [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1이 `A`를 갱신하면, CPU 하드웨어는 무식하게 "이 64바이트 캐시 라인 전체가 오염되었다!"고 선언하고 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 2의 캐시까지 강제로 삭제해 버린다.
+- 결과적으로 두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로의 캐시를 미친 듯이 파괴하며 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 1/100로 박살 나는 현상을 <strong><a href="/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">거짓 공유</a>(<a href="/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/">False Sharing</a>)</strong>라 부르며, 멀티스레드 최적화의 가장 무서운 적이다. (해결책: 변수 사이에 쓸데없는 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))을 64바이트만큼 쑤셔 넣어 캐시 라인을 물리적으로 찢어놓는다).
 
-- **📢 섹션 요약 비유**: [거짓 공유](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)([False Sharing](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))는 사이가 안 좋은 두 형제를 하나의 큰 이불(캐시 라인)로 덮어준 것과 같습니다. 형이 자기 쪽 이불을 걷어차면 동생 이불까지 같이 날아가 버려서 동생이 감기에 걸립니다. 이불을 아예 2개로 찢어서(메모리 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 나눠줘야 해결됩니다.
+- **📢 섹션 요약 비유**: [거짓 공유](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/)([False Sharing](/studynote/01_computer_architecture/11_multicore_synchronization/409_false_sharing/))는 사이가 안 좋은 두 형제를 하나의 큰 이불(캐시 라인)로 덮어준 것과 같습니다. 형이 자기 쪽 이불을 걷어차면 동생 이불까지 같이 날아가 버려서 동생이 감기에 걸립니다. 이불을 아예 2개로 찢어서(메모리 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 나눠줘야 해결됩니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>DB <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 캐시 파괴 (Table Full Scan의 공포)</strong>:
-   - 실무에서 DBA가 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 `SELECT * FROM table`을 갈기는 풀 스캔 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 가장 혐오하는 이유가 단순히 디스크를 많이 읽어서가 아니다.
-   - **아키텍트 분석**: 풀 스캔이 도는 순간 수백만 건의 쓸데없는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리로 올라오며, 기존에 예쁘게 쌓여있던 [캐시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)와 버퍼 풀([시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 띠고 있던 뜨거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들)을 빗자루로 싹 다 쓸어버린다(**Cache Pollution**). 이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나 때문에 다른 잘 돌던 1,000명의 유저 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 속도가 일제히 박살 난다. 캐시의 [시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 훼손하는 코드는 서버 전체의 재앙이다.
-2. <strong>2차원 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>의 루프 순서 (행 우선 vs 열 우선)</strong>: C/C++ 개발자 면접에 100% 나오는 질문이다.
+1. <strong>DB <a href="/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/">쿼리</a>의 캐시 파괴 (Table Full Scan의 공포)</strong>:
+   - 실무에서 DBA가 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 없이 `SELECT * FROM table`을 갈기는 풀 스캔 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 가장 혐오하는 이유가 단순히 디스크를 많이 읽어서가 아니다.
+   - **아키텍트 분석**: 풀 스캔이 도는 순간 수백만 건의 쓸데없는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리로 올라오며, 기존에 예쁘게 쌓여있던 [캐시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/259_cache_memory/)와 버퍼 풀([시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 띠고 있던 뜨거운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)들)을 빗자루로 싹 다 쓸어버린다(**Cache Pollution**). 이 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 하나 때문에 다른 잘 돌던 1,000명의 유저 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 응답 속도가 일제히 박살 난다. 캐시의 [시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/)을 훼손하는 코드는 서버 전체의 재앙이다.
+2. <strong>2차원 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>의 루프 순서 (행 우선 vs 열 우선)</strong>: C/C++ 개발자 면접에 100% 나오는 질문이다.
    ```c
    // [ ✅ Good: 공간적 지역성 극대화 ]
    for(int i=0; i<1000; i++)
@@ -145,7 +142,7 @@ tags = ["studynote-operating-system"]
        for(int i=0; i<1000; i++)
            sum += arr[i][j]; // 세로(Col)로 건너뛰며 읽음. 매번 캐시 라인을 벗어남. 100배 느림.
    ```
-   이 단순한 루프 순서 하나가 딥러닝 행렬 곱셈 연산에서는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수만 배까지 차이 나게 만든다. <strong>"메모리가 어떻게 연속되어 있는가"</strong>를 이해하고 코딩하는 자만이 하드웨어의 축복을 받는다.
+   이 단순한 루프 순서 하나가 딥러닝 행렬 곱셈 연산에서는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 수만 배까지 차이 나게 만든다. <strong>"메모리가 어떻게 연속되어 있는가"</strong>를 이해하고 코딩하는 자만이 하드웨어의 축복을 받는다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -170,22 +167,22 @@ tags = ["studynote-operating-system"]
   |             16개씩 꽉꽉 차서 무임승차함! (공간적 지역성 1000% 획득) |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 전통적인 객체 지향([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 은 인간이 이해하긴 좋지만, 메모리를 파편화시켜 CPU 캐시 입장에선 쥐약이다. 메모리 계층 구조를 극한으로 쥐어짜는 게임 엔진(Unity DOTS 등)이나 HFT(고주파 거래) 시스템은 구조체를 버리고 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 열(Column) 단위의 연속된 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SoA</a>)</strong>로 찢어서 관리한다. 인간의 편의([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))를 버리고 하드웨어의 식성(지역성)에 맞춘 극단적 아키텍처다.
+**[다이어그램 해설]** 전통적인 객체 지향([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/)) 은 인간이 이해하긴 좋지만, 메모리를 파편화시켜 CPU 캐시 입장에선 쥐약이다. 메모리 계층 구조를 극한으로 쥐어짜는 게임 엔진(Unity DOTS 등)이나 HFT(고주파 거래) 시스템은 구조체를 버리고 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 열(Column) 단위의 연속된 <a href="/studynote/08_algorithm_stats/04_datastructure/055_array/">배열</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/">SoA</a>)</strong>로 찢어서 관리한다. 인간의 편의([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))를 버리고 하드웨어의 식성(지역성)에 맞춘 극단적 아키텍처다.
 
-- **📢 섹션 요약 비유**: 서랍(캐시) 정리를 할 때, "필통, 공책, 지우개([OOP](/knowledge-base/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))"를 세트로 묶어서 서랍에 넣으면 부피가 커서 몇 세트 못 들어갑니다. 하지만 "연필은 연필끼리 100자루, 지우개는 지우개끼리 100개([SoA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))" 묶어서 연속으로 넣어두면 공간 활용도([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))가 미친 듯이 올라가서 연필을 찾을 때 한 번에 100개를 움켜쥘 수 있습니다.
+- **📢 섹션 요약 비유**: 서랍(캐시) 정리를 할 때, "필통, 공책, 지우개([OOP](/studynote/04_software_engineering/06_software_architecture/322_oop_4_characteristics/))"를 세트로 묶어서 서랍에 넣으면 부피가 커서 몇 세트 못 들어갑니다. 하지만 "연필은 연필끼리 100자루, 지우개는 지우개끼리 100개([SoA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/))" 묶어서 연속으로 넣어두면 공간 활용도([공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))가 미친 듯이 올라가서 연필을 찾을 때 한 번에 100개를 움켜쥘 수 있습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성을 극한으로 이해하고 프로그래밍하면, 수천만 원짜리 RAM과 SSD를 증설하지 않고도 기존 L1/L2 캐시의 [Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate를 99% 이상 방어하여 시스템의 응답 속도와 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 수십 배 이상 공짜로 끌어올리는 하드웨어 마법을 부릴 수 있다.
+[참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성을 극한으로 이해하고 프로그래밍하면, 수천만 원짜리 RAM과 SSD를 증설하지 않고도 기존 L1/L2 캐시의 [Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate를 99% 이상 방어하여 시스템의 응답 속도와 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 수십 배 이상 공짜로 끌어올리는 하드웨어 마법을 부릴 수 있다.
 
 ### 결론 및 미래 전망
-[참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 단순한 소프트웨어 코딩 기법이 아니라, 현대 폰 노이만 아키텍처를 지탱하는 <strong>유일한 생명줄</strong>이다. 운영체제의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 교체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [버퍼 풀 매니저](/knowledge-base/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/), 웹 서버의 [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 심지어 브라우저의 이미지 로딩까지 IT 인프라의 모든 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법은 예외 없이 이 '시간적/[공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)'이라는 통계적 진리에 기반을 두고 있다.
-미래의 하드웨어 트렌드인 <strong>인메모리 프로세싱(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>, <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">Processing-In-Memory</a>)</strong>이나 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">Compute Express Link</a>)</strong> 기술은 메모리를 가져오는 비용조차 아까워 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳에 아예 연산 코어를 박아버리자"는 철학으로 진화하고 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적으로 뭉쳐있을 때 그 가치가 폭발하는 지역성의 원칙은 앞으로도 컴퓨터 공학의 가장 위대한 대전제로 남을 것이다.
+[참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 단순한 소프트웨어 코딩 기법이 아니라, 현대 폰 노이만 아키텍처를 지탱하는 <strong>유일한 생명줄</strong>이다. 운영체제의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)([페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 교체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 [버퍼 풀 매니저](/studynote/05_database/01_db_architecture_relational/050_buffer_pool_manager/), 웹 서버의 [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/), 심지어 브라우저의 이미지 로딩까지 IT 인프라의 모든 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기법은 예외 없이 이 '시간적/[공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/)'이라는 통계적 진리에 기반을 두고 있다.
+미래의 하드웨어 트렌드인 <strong>인메모리 프로세싱(<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">PIM</a>, <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/430_pim/">Processing-In-Memory</a>)</strong>이나 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a>(<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">Compute Express Link</a>)</strong> 기술은 메모리를 가져오는 비용조차 아까워 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는 곳에 아예 연산 코어를 박아버리자"는 철학으로 진화하고 있다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 연속적으로 뭉쳐있을 때 그 가치가 폭발하는 지역성의 원칙은 앞으로도 컴퓨터 공학의 가장 위대한 대전제로 남을 것이다.
 
-- **📢 섹션 요약 비유**: [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 인간 사회의 "인맥"과 같습니다. 오늘 만난 사람([시간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))과 내일 또 만날 확률이 높고, 내 친구의 친구([공간적 지역성](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))와도 친해질 확률이 높습니다. 이 인맥의 끈적함을 잘 이용하는 영업사원(CPU)만이 쓸데없이 전국을 돌아다니지 않고 동네 안에서 최고의 실적([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)을 올릴 수 있습니다.
+- **📢 섹션 요약 비유**: [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)의 지역성은 인간 사회의 "인맥"과 같습니다. 오늘 만난 사람([시간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))과 내일 또 만날 확률이 높고, 내 친구의 친구([공간적 지역성](/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/))와도 친해질 확률이 높습니다. 이 인맥의 끈적함을 잘 이용하는 영업사원(CPU)만이 쓸데없이 전국을 돌아다니지 않고 동네 안에서 최고의 실적([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/) Rate)을 올릴 수 있습니다.
 
 ---
 
@@ -193,9 +190,9 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [윈도우 동기화](/knowledge-base/studynote/02_operating_system/04_synchronization/251_windows_synchronization/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [윈도우 동기화](/studynote/02_operating_system/04_synchronization/251_windows_synchronization/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 이벤트 객체 (Event Object) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [RCU](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ([Read-Copy-Update](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [RCU](/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ([Read-Copy-Update](/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | SeqLock (순차 락) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -214,8 +211,8 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 내가 책상에서 그림을 그릴 때, 방금 쓴 빨간색 크레파스는 1분 뒤에 또 쓸 확률이 엄청 높죠? 이걸 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a></strong>이라고 해요.
-2. 그리고 빨간색 크레파스 옆에 있는 주황색 크레파스도 곧 같이 쓸 확률이 아주 높아요. 이걸 <strong><a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a></strong>이라고 해요.
+1. 내가 책상에서 그림을 그릴 때, 방금 쓴 빨간색 크레파스는 1분 뒤에 또 쓸 확률이 엄청 높죠? 이걸 <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/">시간적 지역성</a></strong>이라고 해요.
+2. 그리고 빨간색 크레파스 옆에 있는 주황색 크레파스도 곧 같이 쓸 확률이 아주 높아요. 이걸 <strong><a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/248_spatial_locality/">공간적 지역성</a></strong>이라고 해요.
 3. 이 두 가지 마법의 성질 덕분에, 멀리 있는 큰 장난감 상자(RAM)를 매번 뒤질 필요 없이, 책상 위에 작은 필통(캐시) 하나만 올려놔도 하루 종일 그림을 초스피드로 그릴 수 있답니다!
 
 ---
@@ -224,7 +221,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 253 / 800
 
-<- **이전**: [252. 메모리 계층 구조 (Memory Hierarchy)](/knowledge-base/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)
-**다음**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/knowledge-base/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ->
+<- **이전**: [252. 메모리 계층 구조 (Memory Hierarchy)](/studynote/02_operating_system/04_synchronization/252_memory_hierarchy/)
+**다음**: [254. RCU (Read-Copy-Update) - 리눅스 고성능 동기화 (읽기는 락 프리, 쓰기는 복사 후 갱신)](/studynote/02_operating_system/04_synchronization/254_rcu_read_copy_update/) ->
 
 ---

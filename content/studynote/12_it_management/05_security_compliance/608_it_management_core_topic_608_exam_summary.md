@@ -1,13 +1,10 @@
-+++
-title = "608. IT 경영 관리 핵심 토픽 608번 시험 요약 (IT Management Core Topic 608 Exam Summary)"
-date = 2026-05-09
+---
+title: "608. IT 경영 관리 핵심 토픽 608번 시험 요약 (IT Management Core Topic 608 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ COBIT 2019의 핵심은 **Goals Cascade** 메커니즘이다. 13개 거버넌스
 
 **진행 상황**: 608 / 800
 
-<- **이전**: [607. IT 경영 관리 핵심 토픽 607번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/607_it_management_core_topic_607_exam_summary/)
-**다음**: [609. IT 경영 관리 핵심 토픽 609번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/609_it_management_core_topic_609_exam_summary/) ->
+<- **이전**: [607. IT 경영 관리 핵심 토픽 607번 시험 요약](/studynote/12_it_management/05_security_compliance/607_it_management_core_topic_607_exam_summary/)
+**다음**: [609. IT 경영 관리 핵심 토픽 609번 시험 요약](/studynote/12_it_management/05_security_compliance/609_it_management_core_topic_609_exam_summary/) ->
 
 ---

@@ -1,9 +1,9 @@
-+++
-title = "12. 빅데이터 최신 동향"
+---
+title: "12. 빅데이터 최신 동향"
+tags:
+  - "studynote-bigdata"
+---
 
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 빅데이터 최신 동향은 **생성형 AI(LLM)와 데이터 플랫폼의 융합**, 중앙 집중에서 **데이터 메시(Data Mesh)로의 분산 전환**, 실시간 처리의 기본화(Zero-ETL·Streaming-First) 세 축으로 수렴되고 있다.

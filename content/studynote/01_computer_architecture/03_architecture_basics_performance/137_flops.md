@@ -1,29 +1,26 @@
-+++
-title = "137. FLOPS (Floating-point Operations Per Second)"
-date = 2026-04-19
+---
+title: "137. FLOPS (Floating-point Operations Per Second)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: FLOPS (Floating-point Operations Per Second)는 시스템이 1초 동안 수행할 수 있는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산량을 나타내며, 특히 과학기술 계산과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 드러내는 대표 지표다.
-> 2. **가치**: 같은 클럭이라도 FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) 개수, [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 폭, FMA (Fused Multiply-Add) 지원 여부에 따라 FLOPS는 크게 달라지므로, 이 지표는 마이크로아키텍처의 계산 밀도를 읽게 해 준다.
-> 3. **판단 포인트**: FLOPS는 어디까지나 "연산기 기준의 잠재력"이므로, 실제 시스템 평가는 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(FP64/FP32/FP16), [LINPACK](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) 같은 실효 벤치마크와 함께 해석해야 한다.
+> 1. **본질**: FLOPS (Floating-point Operations Per Second)는 시스템이 1초 동안 수행할 수 있는 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산량을 나타내며, 특히 과학기술 계산과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 능력을 드러내는 대표 지표다.
+> 2. **가치**: 같은 클럭이라도 FPU ([Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) 개수, [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 폭, FMA (Fused Multiply-Add) 지원 여부에 따라 FLOPS는 크게 달라지므로, 이 지표는 마이크로아키텍처의 계산 밀도를 읽게 해 준다.
+> 3. **판단 포인트**: FLOPS는 어디까지나 "연산기 기준의 잠재력"이므로, 실제 시스템 평가는 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동, [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(FP64/FP32/FP16), [LINPACK](/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) 같은 실효 벤치마크와 함께 해석해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-FLOPS (Floating-point Operations Per Second)는 컴퓨터가 초당 몇 번의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 완료할 수 있는지를 나타내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. 여기서 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)은 정수보다 훨씬 넓은 범위의 실수를 다루기 위한 표현 방식으로, 기상 예측, 유체 해석, 3차원 그래픽, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델 학습처럼 연속값 계산이 많은 분야에서 핵심이 된다. 즉 FLOPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 몇 개 실행했는가"보다 "실수 계산을 얼마나 많이 끝냈는가"에 초점을 둔다.
+FLOPS (Floating-point Operations Per Second)는 컴퓨터가 초당 몇 번의 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산을 완료할 수 있는지를 나타내는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. 여기서 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)은 정수보다 훨씬 넓은 범위의 실수를 다루기 위한 표현 방식으로, 기상 예측, 유체 해석, 3차원 그래픽, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 모델 학습처럼 연속값 계산이 많은 분야에서 핵심이 된다. 즉 FLOPS는 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 몇 개 실행했는가"보다 "실수 계산을 얼마나 많이 끝냈는가"에 초점을 둔다.
 
-이 지표가 중요해진 이유는 초기의 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)만으로는 과학기술 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제대로 설명할 수 없었기 때문이다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게는 아키텍처마다 다르지만, [IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers 754) 규격 기반의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈·덧셈은 상대적으로 비교 기준을 세우기 쉽다. 그래서 슈퍼컴퓨터 분야에서는 "얼마나 많은 명령을 셌는가"보다 "얼마나 큰 수치 계산을 감당할 수 있는가"를 보려는 방향으로 기준이 이동했다.
+이 지표가 중요해진 이유는 초기의 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)만으로는 과학기술 계산 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제대로 설명할 수 없었기 때문이다. [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게는 아키텍처마다 다르지만, [IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/) (Institute of Electrical and Electronics 엔진ers 754) 규격 기반의 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 곱셈·덧셈은 상대적으로 비교 기준을 세우기 쉽다. 그래서 슈퍼컴퓨터 분야에서는 "얼마나 많은 명령을 셌는가"보다 "얼마나 큰 수치 계산을 감당할 수 있는가"를 보려는 방향으로 기준이 이동했다.
 
-FLOPS가 필요한 또 다른 이유는 현대 계산의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 매우 높기 때문이다. 단일 코어가 순차적으로 명령을 처리하는 시대와 달리, 오늘날의 CPU (Central Processing Unit), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 같은 형태의 실수 연산을 대량 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리한다. 이때 FLOPS는 개별 코어의 속도보다, 시스템 전체가 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산을 어떤 밀도로 밀어낼 수 있는지 보여 주는 공통 언어가 된다.
+FLOPS가 필요한 또 다른 이유는 현대 계산의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 매우 높기 때문이다. 단일 코어가 순차적으로 명령을 처리하는 시대와 달리, 오늘날의 CPU (Central Processing Unit), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), [NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/) ([Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/))는 같은 형태의 실수 연산을 대량 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리한다. 이때 FLOPS는 개별 코어의 속도보다, 시스템 전체가 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산을 어떤 밀도로 밀어낼 수 있는지 보여 주는 공통 언어가 된다.
 
 - **📢 섹션 요약 비유**: FLOPS는 학생이 책장을 몇 번 넘겼는지를 세는 점수가 아니라, 1분 동안 수학 문제를 몇 개 정확히 풀었는지를 보는 점수와 같다. 진짜 계산 중심 작업에서는 동작 횟수보다 계산 결과를 얼마나 많이 만들어 내는지가 더 중요하다.
 
@@ -31,12 +28,12 @@ FLOPS가 필요한 또 다른 이유는 현대 계산의 [병렬](/knowledge-bas
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-FLOPS는 단순히 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 하나로 정해지지 않는다. 실제로는 코어 수, 각 코어의 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기 수, 한 사이클에 처리 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭, 그리고 FMA 지원 여부가 함께 결합되어 결정된다. 가장 단순한 개념식은 아래처럼 정리할 수 있다.
+FLOPS는 단순히 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) 하나로 정해지지 않는다. 실제로는 코어 수, 각 코어의 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기 수, 한 사이클에 처리 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭, 그리고 FMA 지원 여부가 함께 결합되어 결정된다. 가장 단순한 개념식은 아래처럼 정리할 수 있다.
 
 - `Peak FLOPS ≈ 코어 수 × 사이클당 부동소수점 연산 수 × 동작 주파수`
 - FMA를 지원하면 `a × b + c`를 한 번의 파이프라인 흐름에서 처리하며, 보통 곱셈 1회와 덧셈 1회를 합쳐 2 FLOPs로 계산한다.
 
-아래 그림은 FLOPS가 왜 "연산기 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"와 직결되는지 보여 준다.
+아래 그림은 FLOPS가 왜 "연산기 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)도"와 직결되는지 보여 준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -62,17 +59,17 @@ FLOPS는 단순히 [클럭 주파수](/knowledge-base/studynote/01_computer_arch
 +----------------------------------------------------------------------+
 ```
 
-예를 들어 2.0 GHz에서 동작하는 프로세서가 코어당 매 사이클 8개의 FP32 (32-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 연산을 처리하고, 이런 코어가 64개 있다면 이론상 최대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `64 × 8 × 2.0 GHz = 1024 GFLOPS`, 즉 약 1.024 TFLOPS가 된다. 여기에 벡터 폭을 늘리거나 FMA를 적극 사용하면 같은 클럭에서도 FLOPS가 더 커진다. 그래서 현대 고성능 칩은 클럭만 무작정 올리기보다 벡터 연산기와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 파이프라인을 넓히는 방향으로 발전해 왔다.
+예를 들어 2.0 GHz에서 동작하는 프로세서가 코어당 매 사이클 8개의 FP32 (32-bit [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)) 연산을 처리하고, 이런 코어가 64개 있다면 이론상 최대 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 `64 × 8 × 2.0 GHz = 1024 GFLOPS`, 즉 약 1.024 TFLOPS가 된다. 여기에 벡터 폭을 늘리거나 FMA를 적극 사용하면 같은 클럭에서도 FLOPS가 더 커진다. 그래서 현대 고성능 칩은 클럭만 무작정 올리기보다 벡터 연산기와 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 파이프라인을 넓히는 방향으로 발전해 왔다.
 
-하지만 이 수치는 대부분 Peak FLOPS, 즉 이론 최고치다. 실제 프로그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 늦게 오거나, 분기 때문에 파이프라인이 비거나, 모든 연산이 완벽한 FMA 형태로 맞아떨어지지 않기 때문에 보통 Sustained FLOPS가 더 낮다. 따라서 FLOPS를 볼 때는 "칩이 낼 수 있는 최대 계산 밀도"와 "현실 워크로드에서 유지되는 계산 밀도"를 구분해야 한다.
+하지만 이 수치는 대부분 Peak FLOPS, 즉 이론 최고치다. 실제 프로그램은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 메모리에서 늦게 오거나, 분기 때문에 파이프라인이 비거나, 모든 연산이 완벽한 FMA 형태로 맞아떨어지지 않기 때문에 보통 Sustained FLOPS가 더 낮다. 따라서 FLOPS를 볼 때는 "칩이 낼 수 있는 최대 계산 밀도"와 "현실 워크로드에서 유지되는 계산 밀도"를 구분해야 한다.
 
 | 요소 | FLOPS에 미치는 영향 | 설계 포인트 |
 | :--- | :--- | :--- |
-| FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) 수 | 동시에 처리 가능한 실수 연산 수 증가 | 코어당 [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 파이프라인 개수 |
-| [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 폭 | 한 명령으로 처리하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 증가 | AVX, SVE, 벡터 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭 |
-| FMA 지원 | 같은 흐름에서 곱셈+덧셈 수행 | 연산 밀도와 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상 |
+| FPU ([Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) 수 | 동시에 처리 가능한 실수 연산 수 증가 | 코어당 [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 파이프라인 개수 |
+| [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) 폭 | 한 명령으로 처리하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수 증가 | AVX, SVE, 벡터 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭 |
+| FMA 지원 | 같은 흐름에서 곱셈+덧셈 수행 | 연산 밀도와 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상 |
 | 동작 주파수 | 단위 시간당 사이클 수 증가 | 발열·전력 한계와 균형 |
-| 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 연산기 유휴 시간 감소 | 연산기 활용률 유지 |
+| 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 연산기 유휴 시간 감소 | 연산기 활용률 유지 |
 
 - **📢 섹션 요약 비유**: FLOPS를 높이는 일은 한 사람이 더 빨리 계산하게 만드는 것보다, 계산대를 여러 줄로 늘리고 한 번에 여러 학생이 같이 문제를 풀게 만드는 것에 가깝다. 계산기가 많아질수록 초당 끝나는 문제 수가 늘어난다.
 
@@ -80,18 +77,18 @@ FLOPS는 단순히 [클럭 주파수](/knowledge-base/studynote/01_computer_arch
 
 ## Ⅲ. 비교 및 연결
 
-FLOPS를 제대로 해석하려면 무엇과 비교해야 하는지 경계를 분명히 봐야 한다. 먼저 MIPS가 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수"를 중심으로 본다면, FLOPS는 "[부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산량"을 중심으로 본다. 따라서 정수 분기와 문자열 처리 비중이 큰 웹 서버에서는 높은 FLOPS가 곧바로 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뜻하지 않지만, 행렬 연산과 수치 해석 중심 워크로드에서는 FLOPS가 훨씬 직접적인 지표가 된다.
+FLOPS를 제대로 해석하려면 무엇과 비교해야 하는지 경계를 분명히 봐야 한다. 먼저 MIPS가 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수"를 중심으로 본다면, FLOPS는 "[부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산량"을 중심으로 본다. 따라서 정수 분기와 문자열 처리 비중이 큰 웹 서버에서는 높은 FLOPS가 곧바로 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 뜻하지 않지만, 행렬 연산과 수치 해석 중심 워크로드에서는 FLOPS가 훨씬 직접적인 지표가 된다.
 
-또한 같은 FLOPS라도 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 따라 의미가 크게 달라진다. FP64 (64-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))는 과학 계산과 시뮬레이션에 유리하지만 회로 비용이 크고 전력 소모가 높다. 반면 FP32는 그래픽과 범용 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 널리 쓰이고, FP16 (16-bit [Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))이나 BF16 ([Bfloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/))은 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습·추론에서 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻기 위해 자주 선택된다. 즉 같은 100 TFLOPS라도 FP64 기준인지 FP16 기준인지에 따라 실질적인 계산 능력의 성격이 달라진다.
+또한 같은 FLOPS라도 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)에 따라 의미가 크게 달라진다. FP64 (64-bit [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))는 과학 계산과 시뮬레이션에 유리하지만 회로 비용이 크고 전력 소모가 높다. 반면 FP32는 그래픽과 범용 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리에서 널리 쓰이고, FP16 (16-bit [Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/))이나 BF16 ([Bfloat16](/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/))은 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습·추론에서 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 얻기 위해 자주 선택된다. 즉 같은 100 TFLOPS라도 FP64 기준인지 FP16 기준인지에 따라 실질적인 계산 능력의 성격이 달라진다.
 
-| 비교 축 | [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 중심 해석 | FLOPS 중심 해석 | 의미 |
+| 비교 축 | [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 중심 해석 | FLOPS 중심 해석 | 의미 |
 | :--- | :--- | :--- | :--- |
-| 측정 대상 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 수 | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 수 | 계산 성격이 다름 |
+| 측정 대상 | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리 수 | [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산 수 | 계산 성격이 다름 |
 | 유리한 워크로드 | 제어·정수 중심 | 수치 계산·행렬 중심 | 적용 분야 차이 |
-| 왜곡 가능성 | [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 차이 영향 큼 | [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·메모리 병목 영향 큼 | 맥락 없는 숫자 해석 위험 |
+| 왜곡 가능성 | [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 차이 영향 큼 | [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)·메모리 병목 영향 큼 | 맥락 없는 숫자 해석 위험 |
 | 대표 확장 지표 | DMIPS | GFLOPS, TFLOPS, PFLOPS | 도메인별 진화 |
 
-이 비교는 다른 과목 개념과도 연결된다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식 관점에서는 FLOPS가 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)의 한 형태이고, [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 관점에서는 연산기가 충분히 빨라도 메모리 공급이 느리면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 막힌다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리 관점에서는 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/), 다중 코어, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처가 FLOPS 확대의 직접 수단이며, 벤치마크 관점에서는 LINPACK이 대표적인 실효 측정 방법으로 연결된다.
+이 비교는 다른 과목 개념과도 연결된다. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 방정식 관점에서는 FLOPS가 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)의 한 형태이고, [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 관점에서는 연산기가 충분히 빨라도 메모리 공급이 느리면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 막힌다. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리 관점에서는 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/), 다중 코어, [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 아키텍처가 FLOPS 확대의 직접 수단이며, 벤치마크 관점에서는 LINPACK이 대표적인 실효 측정 방법으로 연결된다.
 
 - **📢 섹션 요약 비유**: FLOPS와 MIPS의 차이는 "종이를 몇 장 처리했는가"와 "수학 문제를 몇 개 풀었는가"의 차이와 같다. 또 같은 수학 문제라도 초등 산수인지 대학 미적분인지에 따라 점수 의미가 달라지듯, FP64와 FP16 FLOPS도 같은 숫자로만 비교하면 오해하기 쉽다.
 
@@ -99,43 +96,43 @@ FLOPS를 제대로 해석하려면 무엇과 비교해야 하는지 경계를 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 FLOPS는 특히 [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)) 시스템, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 학습 서버, [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 장비를 평가할 때 자주 등장한다. 그러나 기술사 관점의 판단은 "[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 수치가 높다"에서 끝나면 안 된다. 실제 업무에서는 Peak FLOPS, Sustained FLOPS, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 상호연결망, 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봐야 올바른 아키텍처 선택이 가능하다.
+실무에서 FLOPS는 특히 [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/) ([High Performance Computing](/studynote/06_ict_convergence/03_cloud_infrastructure/226_hpc_supercomputing_infrastructure/)) 시스템, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 학습 서버, [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 장비를 평가할 때 자주 등장한다. 그러나 기술사 관점의 판단은 "[카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 수치가 높다"에서 끝나면 안 된다. 실제 업무에서는 Peak FLOPS, Sustained FLOPS, 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 상호연결망, 전력 대비 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봐야 올바른 아키텍처 선택이 가능하다.
 
-예를 들어 과학기술 계산용 클러스터라면 FP64 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [LINPACK](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) 효율이 중요하다. 반대로 [대규모 언어 모델](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 학습 장비를 고르는 상황이라면 FP16 또는 BF16 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 노드 간 통신 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 중요해질 수 있다. 같은 "100 TFLOPS급" 장비라도 워크로드가 요구하는 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 구조가 다르면 실제 생산성은 크게 달라진다.
+예를 들어 과학기술 계산용 클러스터라면 FP64 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 [LINPACK](/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) 효율이 중요하다. 반대로 [대규모 언어 모델](/studynote/04_software_engineering/09_cloud_native_ai_architecture/582_llm_based_code_generation_tools/) 학습 장비를 고르는 상황이라면 FP16 또는 BF16 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 노드 간 통신 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 중요해질 수 있다. 같은 "100 TFLOPS급" 장비라도 워크로드가 요구하는 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 구조가 다르면 실제 생산성은 크게 달라진다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 기준을 먼저 고정했는가?</strong>
+1. <strong><a href="/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a> 기준을 먼저 고정했는가?</strong>
    FP64, FP32, FP16, BF16 중 무엇을 기준으로 본 수치인지 먼저 확인해야 한다.
 2. **이론치가 아니라 실효치가 있는가?**
-   [LINPACK](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/), 실제 학습 시간, 시뮬레이션 완료 시간 같은 Sustained [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봐야 한다.
+   [LINPACK](/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/), 실제 학습 시간, 시뮬레이션 완료 시간 같은 Sustained [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 봐야 한다.
 3. **메모리와 인터커넥트가 받쳐 주는가?**
    FLOPS가 높아도 메모리 병목과 노드 간 통신 지연이 크면 연산기가 놀게 된다.
-4. <strong>전력 대비 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 적절한가?</strong>
-   [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [총 소유 비용](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 때문에 FLOPS/Watt도 핵심 판단 기준이 된다.
+4. <strong>전력 대비 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>이 적절한가?</strong>
+   [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터에서는 [총 소유 비용](/studynote/07_enterprise_systems/01_strategy_governance/006_tco_total_cost_of_ownership/)([TCO](/studynote/12_it_management/01_governance_strategy/016_tco/)) 때문에 FLOPS/Watt도 핵심 판단 기준이 된다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **정수·분기 중심 서비스에 FLOPS만 보고 가속기를 도입하는 판단**
-  웹 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의는 높은 FLOPS보다 지연시간, 캐시 효율, 메모리 접근 패턴이 더 중요할 수 있다.
-- <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>를 무시한 채 TFLOPS 숫자만 비교하는 판단</strong>
-  FP16 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높은 장비가 FP64 중심 시뮬레이션에서 반드시 유리한 것은 아니다.
-- <strong>Peak FLOPS를 실제 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>으로 오해하는 판단</strong>
+  웹 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 처리, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의는 높은 FLOPS보다 지연시간, 캐시 효율, 메모리 접근 패턴이 더 중요할 수 있다.
+- <strong><a href="/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>를 무시한 채 TFLOPS 숫자만 비교하는 판단</strong>
+  FP16 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 높은 장비가 FP64 중심 시뮬레이션에서 반드시 유리한 것은 아니다.
+- <strong>Peak FLOPS를 실제 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a>으로 오해하는 판단</strong>
   애플리케이션이 FMA 친화적이지 않거나 메모리 접근이 불규칙하면 이론치와 실측치 차이가 크게 벌어진다.
 
-결국 FLOPS는 "계산 엔진의 최대 출력"을 보여 주는 유용한 지표지만, 채택 판단은 반드시 워크로드 특성과 함께 내려야 한다. 시험 답안에서는 FLOPS의 정의를 말한 뒤, [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 차이와 메모리 병목까지 연결해 주면 좋은 답이 된다.
+결국 FLOPS는 "계산 엔진의 최대 출력"을 보여 주는 유용한 지표지만, 채택 판단은 반드시 워크로드 특성과 함께 내려야 한다. 시험 답안에서는 FLOPS의 정의를 말한 뒤, [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 차이와 메모리 병목까지 연결해 주면 좋은 답이 된다.
 
-- **📢 섹션 요약 비유**: FLOPS만 보고 장비를 고르는 것은 트럭의 엔진 마력만 보고 화물 운송 회사를 고르는 것과 같다. 실제로는 짐칸 크기, 도로 상태, 연료 효율까지 봐야 배송 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정된다.
+- **📢 섹션 요약 비유**: FLOPS만 보고 장비를 고르는 것은 트럭의 엔진 마력만 보고 화물 운송 회사를 고르는 것과 같다. 실제로는 짐칸 크기, 도로 상태, 연료 효율까지 봐야 배송 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정된다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-FLOPS는 현대 컴퓨터가 얼마나 강한 수치 계산 능력을 갖고 있는지를 압축해서 보여 주는 핵심 지표다. 이 개념 덕분에 우리는 단순 클럭 경쟁을 넘어, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) FPU 구조·벡터화·가속기 설계가 왜 중요한지 체계적으로 설명할 수 있게 되었다. 특히 슈퍼컴퓨터와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라처럼 계산 밀도가 경쟁력인 영역에서는 FLOPS가 여전히 중요한 출발점이다.
+FLOPS는 현대 컴퓨터가 얼마나 강한 수치 계산 능력을 갖고 있는지를 압축해서 보여 주는 핵심 지표다. 이 개념 덕분에 우리는 단순 클럭 경쟁을 넘어, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) FPU 구조·벡터화·가속기 설계가 왜 중요한지 체계적으로 설명할 수 있게 되었다. 특히 슈퍼컴퓨터와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 인프라처럼 계산 밀도가 경쟁력인 영역에서는 FLOPS가 여전히 중요한 출발점이다.
 
-다만 FLOPS를 기억할 때는 한계도 함께 기억해야 한다. 이 수치는 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 친화적 워크로드에서 강력하지만, 모든 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대표하지는 않는다. 또한 높은 FLOPS가 있으려면 이를 먹여 살릴 메모리 구조, 냉각, 전력 공급, 소프트웨어 최적화가 함께 갖춰져야 한다.
+다만 FLOPS를 기억할 때는 한계도 함께 기억해야 한다. 이 수치는 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 친화적 워크로드에서 강력하지만, 모든 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대표하지는 않는다. 또한 높은 FLOPS가 있으려면 이를 먹여 살릴 메모리 구조, 냉각, 전력 공급, 소프트웨어 최적화가 함께 갖춰져야 한다.
 
-앞으로의 방향은 단순히 더 높은 Peak FLOPS를 쌓는 것보다, 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 활용, 메모리 근접 연산, 전력 효율 향상, 실제 워크로드 기준 최적화로 이동하고 있다. 따라서 FLOPS는 "숫자가 큰 스펙"이 아니라, <strong>어떤 계산을 어떤 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로 얼마나 지속적으로 처리할 수 있는가를 묻는 질문</strong>으로 기억하는 것이 가장 정확하다.
+앞으로의 방향은 단순히 더 높은 Peak FLOPS를 쌓는 것보다, 혼합 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 활용, 메모리 근접 연산, 전력 효율 향상, 실제 워크로드 기준 최적화로 이동하고 있다. 따라서 FLOPS는 "숫자가 큰 스펙"이 아니라, <strong>어떤 계산을 어떤 <a href="/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/">정밀도</a>로 얼마나 지속적으로 처리할 수 있는가를 묻는 질문</strong>으로 기억하는 것이 가장 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 계산 시스템은 시험장에서 문제를 많이 풀 수 있는 천재일 뿐 아니라, 문제집을 제때 받고 연필이 끊기지 않으며 끝까지 집중하는 학생과 같다. FLOPS는 그 학생의 계산 실력을 보여 주지만, 성적은 결국 시험 환경 전체가 함께 만든다.
 
@@ -145,11 +142,11 @@ FLOPS는 현대 컴퓨터가 얼마나 강한 수치 계산 능력을 갖고 있
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| FPU ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) | FLOPS를 실제로 만들어 내는 하드웨어 실행 유닛으로, 개수와 구조가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. |
+| FPU ([Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Unit) | FLOPS를 실제로 만들어 내는 하드웨어 실행 유닛으로, 개수와 구조가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 좌우한다. |
 | FMA (Fused Multiply-Add) | 한 번의 파이프라인 흐름에서 곱셈과 덧셈을 결합해 연산 밀도를 높이는 핵심 기술이다. |
-| [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 같은 명령으로 여러 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요소를 동시에 처리해 FLOPS를 확장하는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 방식이다. |
-| [LINPACK](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) | 이론 FLOPS가 아니라 실효 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는 대표 벤치마크다. |
-| [HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 높은 FLOPS를 유지하려면 필요한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 속도를 받쳐 주는 고대역폭 메모리다. |
+| [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 같은 명령으로 여러 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요소를 동시에 처리해 FLOPS를 확장하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 방식이다. |
+| [LINPACK](/studynote/01_computer_architecture/03_architecture_basics_performance/153_linpack/) | 이론 FLOPS가 아니라 실효 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정하는 대표 벤치마크다. |
+| [HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/) ([High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) | 높은 FLOPS를 유지하려면 필요한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공급 속도를 받쳐 주는 고대역폭 메모리다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,7 +169,7 @@ GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁
 혼합 정밀도(FP32/FP16/BF16) · AI/HPC 실효 성능 최적화
 ```
 
-이 흐름은 단일 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기에서 출발해, 벡터화와 대규모 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리, 그리고 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)별 최적화로 FLOPS 활용이 확장된 과정을 보여 준다.
+이 흐름은 단일 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 연산기에서 출발해, 벡터화와 대규모 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)처리, 그리고 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)별 최적화로 FLOPS 활용이 확장된 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -186,7 +183,7 @@ GPU (Graphics Processing Unit) · 대규모 병렬 FLOPS 경쟁
 
 **진행 상황**: 137 / 803
 
-<- **이전**: [136. MIPS (Million Instructions Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/136_mips/)
-**다음**: [138. 응답 시간 (Response Time)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ->
+<- **이전**: [136. MIPS (Million Instructions Per Second)](/studynote/01_computer_architecture/03_architecture_basics_performance/136_mips/)
+**다음**: [138. 응답 시간 (Response Time)](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ->
 
 ---

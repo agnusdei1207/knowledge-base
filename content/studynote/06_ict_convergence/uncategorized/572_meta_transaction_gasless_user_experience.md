@@ -1,13 +1,10 @@
-+++
-title = "572. 메타트랜잭션 가스리스 사용자 경험 (Meta Transaction Gasless User Experience)"
-date = 2026-05-09
+---
+title: "572. 메타트랜잭션 가스리스 사용자 경험 (Meta Transaction Gasless User Experience)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sign -> Relay -> Verify -> Execute -> Reimburse
 
 **진행 상황**: 572 / 800
 
-<- **이전**: [571. Web3 탈중앙 웹 인프라](/knowledge-base/studynote/06_ict_convergence/uncategorized/571_web3_decentralized_web_infrastructure/)
-**다음**: [573. 블록체인 포렌식 거래 추적](/knowledge-base/studynote/06_ict_convergence/uncategorized/573_blockchain_forensics_transaction_tracing/) ->
+<- **이전**: [571. Web3 탈중앙 웹 인프라](/studynote/06_ict_convergence/uncategorized/571_web3_decentralized_web_infrastructure/)
+**다음**: [573. 블록체인 포렌식 거래 추적](/studynote/06_ict_convergence/uncategorized/573_blockchain_forensics_transaction_tracing/) ->
 
 ---

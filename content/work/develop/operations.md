@@ -1,25 +1,22 @@
-+++
-title = "⚙️ 운영 허브"
+---
+title: "⚙️ 운영 허브"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 운영 절차, 배포 흐름, 문서 관리 규칙, 장애 대응 메모를 연결하는 상위 문서입니다.
 
 관련 문서:
-- [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- [development](/knowledge-base/work/develop/)
-- [sales](/knowledge-base/work/business/sales/)
-- [knowledgebase-decision-log](/knowledge-base/work/develop/knowledgebase-decision-log/)
-- [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
-- [decap-cms](/knowledge-base/work/develop/decap-cms/)
-- [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
-- [mcp-client-setup](/knowledge-base/work/develop/mcp-client-setup/)
-- [codex-sdk-operations](/knowledge-base/work/develop/codex-sdk-operations/)
+- [quartz-deployment](/work/develop/quartz-deployment/)
+- [development](/work/develop/)
+- [sales](/work/business/sales/)
+- [knowledgebase-decision-log](/work/develop/knowledgebase-decision-log/)
+- [knowledge-pipeline](/work/develop/knowledge-pipeline/)
+- [decap-cms](/work/develop/decap-cms/)
+- [claude-code-mcp](/work/develop/claude-code-mcp/)
+- [mcp-client-setup](/work/develop/mcp-client-setup/)
+- [codex-sdk-operations](/work/develop/codex-sdk-operations/)
 
 ---
 
@@ -57,11 +54,11 @@ tags = ["work"]
 
 ## 3. 연결 문서
 
-- 배포 가이드: [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- 구현 관점: [development](/knowledge-base/work/develop/)
-- 고객 대응과 전달 포인트: [sales](/knowledge-base/work/business/sales/)
-- 검색/적재 흐름: [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
-- 웹 편집 계층: [decap-cms](/knowledge-base/work/develop/decap-cms/)
-- Claude Code 운영안: [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
-- MCP 클라이언트 표준: [mcp-client-setup](/knowledge-base/work/develop/mcp-client-setup/)
-- Codex SDK 운영안: [codex-sdk-operations](/knowledge-base/work/develop/codex-sdk-operations/)
+- 배포 가이드: [quartz-deployment](/work/develop/quartz-deployment/)
+- 구현 관점: [development](/work/develop/)
+- 고객 대응과 전달 포인트: [sales](/work/business/sales/)
+- 검색/적재 흐름: [knowledge-pipeline](/work/develop/knowledge-pipeline/)
+- 웹 편집 계층: [decap-cms](/work/develop/decap-cms/)
+- Claude Code 운영안: [claude-code-mcp](/work/develop/claude-code-mcp/)
+- MCP 클라이언트 표준: [mcp-client-setup](/work/develop/mcp-client-setup/)
+- Codex SDK 운영안: [codex-sdk-operations](/work/develop/codex-sdk-operations/)

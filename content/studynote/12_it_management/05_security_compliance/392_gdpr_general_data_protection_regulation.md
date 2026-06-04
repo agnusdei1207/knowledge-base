@@ -1,13 +1,10 @@
-+++
-title = "392. GDPR 일반 데이터 보호 규정 대응 (GDPR General Data Protection Regulation)"
-date = 2026-05-09
+---
+title: "392. GDPR 일반 데이터 보호 규정 대응 (GDPR General Data Protection Regulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ GDPR의 기술적 아키텍처는 **원칙(Principle) -> 적법성(Lawful Basis)
 
 **진행 상황**: 392 / 800
 
-<- **이전**: [391. SOC 2 서비스 조직 통제 보고서](/knowledge-base/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/)
-**다음**: [393. 개인정보보호법 PIPA 국내 규제 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/) ->
+<- **이전**: [391. SOC 2 서비스 조직 통제 보고서](/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/)
+**다음**: [393. 개인정보보호법 PIPA 국내 규제 대응](/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/) ->
 
 ---

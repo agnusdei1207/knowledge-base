@@ -1,17 +1,14 @@
-+++
-title = "59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색"
-date = 2026-04-10
+---
+title: "59. 블룸 필터 (Bloom Filter) - 디스크 I/O 최적화 확률적 검색"
+date: "2026-04-10"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)([Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))는 원본 데이터를 저장하지 않고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)과 해시 함수로 집합 포함 여부를 빠르게 추정하는 확률적 자료구조다.
+> 1. **본질**: [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)([Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/))는 원본 데이터를 저장하지 않고 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)과 해시 함수로 집합 포함 여부를 빠르게 추정하는 확률적 자료구조다.
 > 2. **가치**: "없다"는 답을 빠르게 얻어 디스크 I/O를 줄이고, LSM Tree 기반 저장소의 읽기 병목을 완화한다.
 > 3. **판단 포인트**: 거짓 양성(False Positive)은 허용되지만 거짓 음성(False Negative)은 없어야 하며, 삭제가 필요하면 Counting Bloom Filter를 고려해야 한다.
 
@@ -19,9 +16,9 @@ tags = ["studynote-data-engineering"]
 
 ## Ⅰ. 개요 및 필요성
 
-LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만든다. 그런데 읽을 때는 후보 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 많이 뒤져야 하므로 디스크 I/O가 폭증한다.
+LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만든다. 그런데 읽을 때는 후보 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 많이 뒤져야 하므로 디스크 I/O가 폭증한다.
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 "이 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 그 키가 절대 없다"를 아주 싸게 판별해, 불필요한 디스크 접근을 막는다. 즉, 읽기 패널티를 줄이는 문지기 역할이다.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 "이 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 그 키가 절대 없다"를 아주 싸게 판별해, 불필요한 디스크 접근을 막는다. 즉, 읽기 패널티를 줄이는 문지기 역할이다.
 
 - **📢 섹션 요약 비유**: 건물마다 문을 다 열어 보지 않아도 경비원이 명부를 보고 바로 아니라고 알려 주는 것과 같다.
 
@@ -29,7 +26,7 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/))과 여러 해시 함수로 동작한다. 데이터를 넣을 때는 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 바꾸고, 조회할 때는 그 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 모두 1인지 확인한다.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/))과 여러 해시 함수로 동작한다. 데이터를 넣을 때는 여러 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 바꾸고, 조회할 때는 그 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들이 모두 1인지 확인한다.
 
 ```text
 데이터 추가
@@ -43,12 +40,12 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 | 요소 | 의미 |
 | :-- | :-- |
-| [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 0/1만 가진 저장 공간 |
+| [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/) | 0/1만 가진 저장 공간 |
 | Hash Functions | 위치를 찍는 함수들 |
 | False Positive | 없는데 있다고 나오는 경우 |
-| False Negative | [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)에서는 없어야 하는 경우 |
+| False Negative | [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)에서는 없어야 하는 경우 |
 
-수학적으로는 `m`([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수), `k`(해시 수), `n`(원소 수)의 조합이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 너무 작으면 전부 1로 차버리고, 해시 수가 맞지 않으면 거짓 양성이 늘어난다.
+수학적으로는 `m`([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수), `k`(해시 수), `n`(원소 수)의 조합이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 너무 작으면 전부 1로 차버리고, 해시 수가 맞지 않으면 거짓 양성이 늘어난다.
 
 - **📢 섹션 요약 비유**: 여러 도장을 찍어 놓고, 하나라도 빈칸이 있으면 "절대 안 왔다"라고 바로 판단하는 방식이다.
 
@@ -56,15 +53,15 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ## Ⅲ. 비교 및 연결
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 정확한 저장 구조가 아니라 빠른 판별 구조다.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 정확한 저장 구조가 아니라 빠른 판별 구조다.
 
 | 방식 | 장점 | 한계 |
 | :-- | :-- | :-- |
 | 해시 집합 | 정확함 | 메모리 사용 큼 |
-| [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) | 매우 빠르고 메모리 효율적 | False Positive 가능 |
-| Counting [Bloom Filter](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) | 삭제 가능 | 메모리와 복잡도 증가 |
+| [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) | 매우 빠르고 메모리 효율적 | False Positive 가능 |
+| Counting [Bloom Filter](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/) | 삭제 가능 | 메모리와 복잡도 증가 |
 
-특히 [Cassandra](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), [HBase](/knowledge-base/studynote/05_database/04_transactions_concurrency/543_hbase/), RocksDB 같은 시스템에서 SSTable 앞단 필터로 자주 쓰인다. 즉, [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 디스크를 열어보기 전에 "열 필요 없는 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"을 걸러 주는 1차 관문이다.
+특히 [Cassandra](/studynote/05_database/04_transactions_concurrency/541_cassandra/), [HBase](/studynote/05_database/04_transactions_concurrency/543_hbase/), RocksDB 같은 시스템에서 SSTable 앞단 필터로 자주 쓰인다. 즉, [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 디스크를 열어보기 전에 "열 필요 없는 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)"을 걸러 주는 1차 관문이다.
 
 - **📢 섹션 요약 비유**: 우편함 목록을 먼저 훑어보고, 없다고 나오면 굳이 집 문을 두드리지 않는 것이다.
 
@@ -72,18 +69,18 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 메모리와 정확도의 균형이 핵심이다. 같은 데이터라도 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 크게 잡으면 거짓 양성이 줄어든다.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 메모리와 정확도의 균형이 핵심이다. 같은 데이터라도 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 크게 잡으면 거짓 양성이 줄어든다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. False Positive 허용 범위가 정해져 있는가?
-2. 원소 수 `n`과 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 `m`이 맞게 설계되었는가?
+2. 원소 수 `n`과 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 `m`이 맞게 설계되었는가?
 3. 삭제가 필요하면 Counting Bloom Filter가 필요한가?
 4. 디스크 I/O 절감 효과가 실제 병목과 맞는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 부족해 모든 값이 1이 되는 설계
+- [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)이 부족해 모든 값이 1이 되는 설계
 - 삭제가 필요한데 일반 Bloom Filter만 쓰는 설계
 - 메모리 절감보다 거짓 양성 증가를 더 크게 만드는 설계
 
@@ -93,9 +90,9 @@ LSM Tree 계열 저장소는 쓰기를 빠르게 하려고 SSTable을 많이 만
 
 ## Ⅴ. 기대효과 및 결론
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 "아닌 것"을 빨리 걸러서 디스크를 덜 읽게 만드는 장치다. 그래서 대규모 저장소에서 읽기 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 살리는 데 효과적이다.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 "아닌 것"을 빨리 걸러서 디스크를 덜 읽게 만드는 장치다. 그래서 대규모 저장소에서 읽기 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 살리는 데 효과적이다.
 
-다만 완전한 정답을 주는 도구는 아니므로, 정확한 자료구조와 함께 써야 한다. 결국 [블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화용 1차 필터로 기억하면 된다.
+다만 완전한 정답을 주는 도구는 아니므로, 정확한 자료구조와 함께 써야 한다. 결국 [블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화용 1차 필터로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 서랍을 다 열기 전에 먼저 "이 서랍은 아니야"라고 골라주는 빠른 탐색 도구다.
 
@@ -133,7 +130,7 @@ LSM 기반 읽기 최적화
 
 ## 어린이를 위한 3줄 비유 설명
 
-[블룸 필터](/knowledge-base/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 친구가 왔는지 빠르게 확인하는 명부예요.
+[블룸 필터](/studynote/12_it_management/02_itsm_itil/061_bloomfilter/)는 친구가 왔는지 빠르게 확인하는 명부예요.
 없다고 나오면 진짜 없다고 믿어도 돼요.
 하지만 있다고 나와도 한 번 더 확인해야 할 때가 있어요.
 
@@ -143,7 +140,7 @@ LSM 기반 읽기 최적화
 
 **진행 상황**: 59 / 258
 
-<- **이전**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)
-**다음**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/) ->
+<- **이전**: [58. 뉴에스큐엘 (NewSQL) - 분산 RDBMS와 구글 스패너(Spanner)](/studynote/14_data_engineering/01_infrastructure/058_newsql_google_spanner_truetime_distributed_transaction/)
+**다음**: [60. 다크 데이터 (Dark Data) 발굴 및 프라이버시 클린 룸 (Privacy Clean Room)](/studynote/14_data_engineering/01_infrastructure/060_dark_data_discovery_privacy_clean_room/) ->
 
 ---

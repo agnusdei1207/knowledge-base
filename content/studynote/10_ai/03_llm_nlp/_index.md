@@ -1,6 +1,5 @@
-+++
-title = "3. LLM NLP"
-
-[extra]
-tags = ["studynote-ai"]
-+++
+---
+title: "3. LLM NLP"
+tags:
+  - "studynote-ai"
+---

@@ -1,13 +1,10 @@
-+++
-title = "691. 데이터 리터러시 조직 역량 교육 (Data Literacy Organization Capability Education)"
-date = 2026-05-09
+---
+title: "691. 데이터 리터러시 조직 역량 교육 (Data Literacy Organization Capability Education)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ $$ROI(\%) = \frac{Net\ Program\ Benefits}{Program\ Costs} \times 100$$
 
 **진행 상황**: 691 / 800
 
-<- **이전**: [690. 오픈 데이터 공공 데이터 활용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/)
-**다음**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/knowledge-base/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/) ->
+<- **이전**: [690. 오픈 데이터 공공 데이터 활용 전략](/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/)
+**다음**: [692. 데이터 엔지니어링 아키텍처 종합 요약](/studynote/06_ict_convergence/uncategorized/692_data_engineering_architecture_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "491. IT 거버넌스 COBIT 프레임워크 (IT Governance COBIT Framework)"
-date = 2026-05-09
+---
+title: "491. IT 거버넌스 COBIT 프레임워크 (IT Governance COBIT Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ IT 거버넌스 COBIT을 제대로 적용하면 IT 투자가 업무 성과와 �
 
 **진행 상황**: 491 / 800
 
-<- **이전**: [490. 전략 기획 SWOT PEST 5Forces 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/490_strategy_planning_swot_pest_5forces/)
-**다음**: [492. 기업 아키텍처 EA TOGAF 적용](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/492_enterprise_architecture_ea_togaf_application/) ->
+<- **이전**: [490. 전략 기획 SWOT PEST 5Forces 분석](/studynote/07_enterprise_systems/06_exam_summary/490_strategy_planning_swot_pest_5forces/)
+**다음**: [492. 기업 아키텍처 EA TOGAF 적용](/studynote/07_enterprise_systems/06_exam_summary/492_enterprise_architecture_ea_togaf_application/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "549. API 퍼스트 설계 개발자 경험 (API First Design Developer Experience)"
-date = 2026-05-09
+---
+title: "549. API 퍼스트 설계 개발자 경험 (API First Design Developer Experience)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 549 / 800
 
-<- **이전**: [548. SaaS 전환 전략 구독 경제 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/548_saas_transformation_subscription_economy/)
-**다음**: [550. 데이터 드리븐 의사결정 문화 구축](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/550_data_driven_decision_making_culture/) ->
+<- **이전**: [548. SaaS 전환 전략 구독 경제 모델](/studynote/07_enterprise_systems/06_exam_summary/548_saas_transformation_subscription_economy/)
+**다음**: [550. 데이터 드리븐 의사결정 문화 구축](/studynote/07_enterprise_systems/06_exam_summary/550_data_driven_decision_making_culture/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "391. SOC 2 서비스 조직 통제 보고서 (SOC 2 Service Organization Control Report)"
-date = 2026-05-09
+---
+title: "391. SOC 2 서비스 조직 통제 보고서 (SOC 2 Service Organization Control Report)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -138,7 +135,7 @@ SOC 2는 종종 다른 통제 프레임워크와 혼동되므로, 각 프레임�
 
 **진행 상황**: 391 / 800
 
-<- **이전**: [390. ISO 27001 정보보안 표준 요구사항](/knowledge-base/studynote/12_it_management/05_security_compliance/390_iso_27001_infosec_standard_requirements/)
-**다음**: [392. GDPR 일반 데이터 보호 규정 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/392_gdpr_general_data_protection_regulation/) ->
+<- **이전**: [390. ISO 27001 정보보안 표준 요구사항](/studynote/12_it_management/05_security_compliance/390_iso_27001_infosec_standard_requirements/)
+**다음**: [392. GDPR 일반 데이터 보호 규정 대응](/studynote/12_it_management/05_security_compliance/392_gdpr_general_data_protection_regulation/) ->
 
 ---

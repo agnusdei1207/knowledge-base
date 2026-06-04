@@ -1,20 +1,17 @@
-+++
-title = "70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)"
-description = "FHSS의 본질과 원리, 아키텍처, DSSS와의 비교 및 실무 적용 가이드"
-date = 2024-05-20
+---
+title: "70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)"
+date: "2024-05-20"
+description: "FHSS의 본질과 원리, 아키텍처, DSSS와의 비교 및 실무 적용 가이드"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: FHSS는 주파수를 빠르게 바꾸며 신호를 분산시켜 재밍과 간섭에 강하게 만드는 방식이다.
-> 2. **가치**: 좁은 시간에 여러 주파수를 번갈아 사용하므로 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)/간섭 회피에 유리하다.
-> 3. **판단**: 송수신 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 홉 패턴 관리가 핵심이다.
+> 2. **가치**: 좁은 시간에 여러 주파수를 번갈아 사용하므로 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)/간섭 회피에 유리하다.
+> 3. **판단**: 송수신 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 홉 패턴 관리가 핵심이다.
 
 ---
 
@@ -22,7 +19,7 @@ tags = ["network"]
 
 고정 주파수는 간섭에 약하다. FHSS는 주파수를 계속 바꿔서 공격과 잡음의 영향을 줄인다.
 
-그래서 무선 통신과 [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 계열에서 자주 언급된다.
+그래서 무선 통신과 [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 계열에서 자주 언급된다.
 
 - **📢 섹션 요약 비유**: 한 길만 가지 않고 여러 골목을 번갈아 다니는 것이다.
 
@@ -41,7 +38,7 @@ Spread Transmission
 | 요소 | 의미 |
 | :-- | :-- |
 | Hop Pattern | 주파수 이동 규칙 |
-| [Synchronization](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 송수신 동기 |
+| [Synchronization](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 송수신 동기 |
 | Anti-jamming | 재밍 회피 |
 
 FHSS는 일정한 규칙에 따라 주파수를 바꾸며 전송한다. 수신기는 같은 패턴을 따라가며 복원한다.
@@ -54,13 +51,13 @@ FHSS는 일정한 규칙에 따라 주파수를 바꾸며 전송한다. 수신�
 
 | 방식 | 특징 | 장점 |
 | :-- | :-- | :-- |
-| [FHSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) | 주파수 점프 | 재밍 회피 |
-| [DSSS](/knowledge-base/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) | 코드 확산 | 처리 이득 |
+| [FHSS](/studynote/03_network/19_frequent_topics_terms/955_fhss_frequency_hopping_spread_spectrum_bluetooth/) | 주파수 점프 | 재밍 회피 |
+| [DSSS](/studynote/03_network/19_frequent_topics_terms/956_dsss_direct_sequence_spread_spectrum_chipping_code/) | 코드 확산 | 처리 이득 |
 
 | 개념 | 의미 |
 | :-- | :-- |
 | Hop Sequence | 이동 순서 |
-| [Spread Spectrum](/knowledge-base/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/) | 확산 통신 |
+| [Spread Spectrum](/studynote/03_network/01_data_communication/068_스펙트럼_확산_Spread_Spectrum/) | 확산 통신 |
 
 FHSS와 DSSS는 둘 다 확산 스펙트럼이지만, 확산하는 방법이 다르다.
 
@@ -70,18 +67,18 @@ FHSS와 DSSS는 둘 다 확산 스펙트럼이지만, 확산하는 방법이 다
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한가?
+1. [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 가능한가?
 2. 홉 패턴이 관리되는가?
 3. 재밍 대응이 필요한가?
 4. DSSS와 차이를 설명할 수 있는가?
 5. 주파수 자원 정책을 고려하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 홉 패턴 없이 무작정 바꾸는 설계
-- [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패를 무시하는 설계
+- [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 실패를 무시하는 설계
 - DSSS와 혼동하는 설계
 - 주파수 규제를 고려하지 않는 설계
 
@@ -141,7 +138,7 @@ FHSS는 그런 통신 방법이에요.
 
 **진행 상황**: 70 / 1120
 
-<- **이전**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/knowledge-base/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/)
-**다음**: [71. 다중화 (Multiplexing) 개념 및 특징](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) ->
+<- **이전**: [69. 직접 수열 확산 스펙트럼 (DSSS, Direct Sequence Spread Spectrum) - PN 시퀀스](/studynote/03_network/01_data_communication/069_직접_수열_확산_DSSS/)
+**다음**: [71. 다중화 (Multiplexing) 개념 및 특징](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) ->
 
 ---

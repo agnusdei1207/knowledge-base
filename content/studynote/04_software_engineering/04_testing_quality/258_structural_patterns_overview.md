@@ -1,27 +1,24 @@
-+++
-title = "258. 구조 패턴 (Structural Patterns) - 클래스/객체 조합"
-date = 2026-05-08
+---
+title: "258. 구조 패턴 (Structural Patterns) - 클래스/객체 조합"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 구조 패턴 (Structural Patterns) - 클래스/객체 조합은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 구조 패턴 (Structural Patterns) - 클래스/객체 조합은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 1만 줄짜리 뚱뚱한 클래스 1개(God Class)를 짜면 시스템이 망한다는 것은 243번([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))에서 뼈저리게 배웠습니다.
+- 1만 줄짜리 뚱뚱한 클래스 1개(God Class)를 짜면 시스템이 망한다는 것은 243번([SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))에서 뼈저리게 배웠습니다.
 - 그래서 우리는 시스템을 작고 귀여운 100개의 미니 클래스(레고 블록)들로 다 찢어놨습니다.
-- **새로운 문제의 봉착**: 이 작게 찢어놓은 100개의 조각들을 다시 묶어서 "주문 결제 처리"라는 거대한 실무 기능을 수행하게끔 '거미줄([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))'로 잘 엮어내야 하는데, 어떻게 엮어야 버그가 안 나고 확장이 잘 될까요?
+- **새로운 문제의 봉착**: 이 작게 찢어놓은 100개의 조각들을 다시 묶어서 "주문 결제 처리"라는 거대한 실무 기능을 수행하게끔 '거미줄([관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/))'로 잘 엮어내야 하는데, 어떻게 엮어야 버그가 안 나고 확장이 잘 될까요?
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -71,13 +68,13 @@ tags = ["studynote-software-engineering"]
 
 정보처리기사 시험에서 "다음 중 구조 패턴이 아닌 것은?"으로 객관식 1번 문제로 나옵니다. "어데프 퍼컴브플" 처럼 앞글자를 따서라도 달달 외워야 합니다. (각 패턴의 디테일은 259~265번에서 폭격합니다.)
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong>: "야! 삼성 돼지코랑 미국 콘센트 구멍 모양이 안 맞아! 중간에 **변환기(돼지코)** 꽂아서 호환되게 억지로 엮어버려!"
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>)</strong>: "기능이랑 껍데기를 하나로 합치면 커질 때 100개로 쪼개져! **뼈대와 속살을 다리로 이어서(분리)** 각자 자유롭게 뚱뚱해지게 놔둬!"
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">컴포지트</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a>)</strong>: "폴더 안에 폴더, 그 안에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)... <strong>그릇이랑 내용물을 똑같은 놈(단일 인터페이스)으로 취급</strong>해서 폴더 트리를 무한대로 박아버려!"
-4. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">데코레이터</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">Decorator</a>)</strong>: "무기 하나 추가할 때마다 클래스 새로 짜? 미쳤어? 그냥 기본 로봇 껍데기 위에 **포장지 씌우듯 동적으로 기능을 덕지덕지** 덧씌워서 덩치를 불려!"
-5. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">퍼사드</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">Facade</a>)</strong>: "클래스 10개가 거미줄처럼 얽혀서 너무 복잡해! 사용자 눈앞에 **거대한 정문(단순한 입구) 1개만** 딱 세워놓고, 뒤에 복잡한 건 지가 알아서 통제하게 가려버려!"
-6. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong>: "DB 접근권한이나 속도 때문에 아무나 못 들여보내! <strong>가짜 대리인(비서)</strong>을 앞에 세워놓고 비서가 대신 통제하고 심부름하게 시켜!"
-7. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">플라이웨이트</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">Flyweight</a>)</strong>: "똑같이 생긴 총알 10만 개 쏘는데 메모리가 모자라! 껍데기 1개만 만들어놓고 **참조값만 돌려쓰며 메모리 극한 다이어트** 해!"
+1. <strong><a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a> (<a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">Adapter</a>)</strong>: "야! 삼성 돼지코랑 미국 콘센트 구멍 모양이 안 맞아! 중간에 **변환기(돼지코)** 꽂아서 호환되게 억지로 엮어버려!"
+2. <strong><a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> (<a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>)</strong>: "기능이랑 껍데기를 하나로 합치면 커질 때 100개로 쪼개져! **뼈대와 속살을 다리로 이어서(분리)** 각자 자유롭게 뚱뚱해지게 놔둬!"
+3. <strong><a href="/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">컴포지트</a> (<a href="/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/">Composite</a>)</strong>: "폴더 안에 폴더, 그 안에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)... <strong>그릇이랑 내용물을 똑같은 놈(단일 인터페이스)으로 취급</strong>해서 폴더 트리를 무한대로 박아버려!"
+4. <strong><a href="/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">데코레이터</a> (<a href="/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/">Decorator</a>)</strong>: "무기 하나 추가할 때마다 클래스 새로 짜? 미쳤어? 그냥 기본 로봇 껍데기 위에 **포장지 씌우듯 동적으로 기능을 덕지덕지** 덧씌워서 덩치를 불려!"
+5. <strong><a href="/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">퍼사드</a> (<a href="/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/">Facade</a>)</strong>: "클래스 10개가 거미줄처럼 얽혀서 너무 복잡해! 사용자 눈앞에 **거대한 정문(단순한 입구) 1개만** 딱 세워놓고, 뒤에 복잡한 건 지가 알아서 통제하게 가려버려!"
+6. <strong><a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">프록시</a> (<a href="/studynote/04_software_engineering/04_testing_quality/264_proxy_pattern_surrogate_access_control/">Proxy</a>)</strong>: "DB 접근권한이나 속도 때문에 아무나 못 들여보내! <strong>가짜 대리인(비서)</strong>을 앞에 세워놓고 비서가 대신 통제하고 심부름하게 시켜!"
+7. <strong><a href="/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">플라이웨이트</a> (<a href="/studynote/04_software_engineering/04_testing_quality/265_flyweight_pattern_instance_sharing/">Flyweight</a>)</strong>: "똑같이 생긴 총알 10만 개 쏘는데 메모리가 모자라! 껍데기 1개만 만들어놓고 **참조값만 돌려쓰며 메모리 극한 다이어트** 해!"
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -92,7 +89,7 @@ tags = ["studynote-software-engineering"]
 - 구조 패턴 7개가 목숨 걸고 외치는 객체지향 최고의 명언입니다.
 - 기능 덩치를 불리려고 `extends(상속)`를 떡칠하면 부모가 바뀔 때 자식이 다 터집니다(강한 결합). 구조 패턴들은 상속을 버리고, 내 뱃속에 다른 객체를 변수로 몰래 품어서 대신 일하게 시키는 <strong>'합성(Composition)'</strong>을 통해 시스템의 관절을 고무줄처럼 유연하게 조립합니다.
 
-> 📢 **섹션 요약 비유**: <strong>구조 패턴(Structural Patterns)</strong>은 레고 조각들을 모아 <strong>'거대한 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a> 합체 로봇을 조립하는 7가지 비법서'</strong>입니다. 252번의 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이 예쁘고 튼튼한 레고 블록 1개(팔, 다리)를 공장에서 어떻게 잘 찍어낼지 고민하는 기술이었다면, 구조 패턴은 찍어져 나온 그 수백 개의 팔, 다리, 머리 블록들을 어떻게 맞물려 끼워야 거대한 합체 로봇(아키텍처)이 튼튼하게 서 있을 수 있는지 가르쳐줍니다. 만약 팔 블록과 몸통 블록의 튀어나온 돌기 모양이 달라 끼워지지 않으면 중간에 특수 연결 블록(1. [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))을 끼워서 억지로 호환시켜 버립니다. 로봇 겉면에 미사일을 달고 싶은데 몸통을 다시 뜯어내기 귀찮으면, 그냥 기존 로봇 껍데기 위에 자석처럼 장갑을 덧대어(4. [데코레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 덩치와 기능을 불려 나갑니다. 조종사가 로봇의 복잡한 100개의 전선을 일일이 조작하다 감전될까 봐, 조종석 앞에 큼직한 '합체 전원 버튼' 딱 1개(5. [퍼사드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))만 만들어 뒤의 복잡함을 싹 가려줍니다. 단일 부품의 한계를 뛰어넘어, 수십 개의 객체를 엮어 위대한 성벽을 쌓아 올리는 아키텍트들의 필수 조립 공학입니다.
+> 📢 **섹션 요약 비유**: <strong>구조 패턴(Structural Patterns)</strong>은 레고 조각들을 모아 <strong>'거대한 <a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">트랜스포머</a> 합체 로봇을 조립하는 7가지 비법서'</strong>입니다. 252번의 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 패턴이 예쁘고 튼튼한 레고 블록 1개(팔, 다리)를 공장에서 어떻게 잘 찍어낼지 고민하는 기술이었다면, 구조 패턴은 찍어져 나온 그 수백 개의 팔, 다리, 머리 블록들을 어떻게 맞물려 끼워야 거대한 합체 로봇(아키텍처)이 튼튼하게 서 있을 수 있는지 가르쳐줍니다. 만약 팔 블록과 몸통 블록의 튀어나온 돌기 모양이 달라 끼워지지 않으면 중간에 특수 연결 블록(1. [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/))을 끼워서 억지로 호환시켜 버립니다. 로봇 겉면에 미사일을 달고 싶은데 몸통을 다시 뜯어내기 귀찮으면, 그냥 기존 로봇 껍데기 위에 자석처럼 장갑을 덧대어(4. [데코레이터](/studynote/04_software_engineering/04_testing_quality/262_decorator_pattern_dynamic_wrapper/)) 덩치와 기능을 불려 나갑니다. 조종사가 로봇의 복잡한 100개의 전선을 일일이 조작하다 감전될까 봐, 조종석 앞에 큼직한 '합체 전원 버튼' 딱 1개(5. [퍼사드](/studynote/04_software_engineering/04_testing_quality/263_facade_pattern_simplified_interface/))만 만들어 뒤의 복잡함을 싹 가려줍니다. 단일 부품의 한계를 뛰어넘어, 수십 개의 객체를 엮어 위대한 성벽을 쌓아 올리는 아키텍트들의 필수 조립 공학입니다.
 
 - **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
@@ -104,21 +101,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-구조 패턴 (Structural Patterns)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+구조 패턴 (Structural Patterns)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 구조 패턴 (Structural Patterns)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 구조 패턴 (Structural Patterns)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -130,10 +127,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 구조 패턴 (Structural Patterns)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 구조 패턴 (Structural Patterns)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 구조 패턴 (Structural Patterns)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 구조 패턴 (Structural Patterns)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 구조 패턴 (Structural Patterns) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 구조 패턴 (Structural Patterns)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 구조 패턴 (Structural Patterns)에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,13 +150,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 구조 패턴 (Structural Patterns)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -167,7 +164,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 258 / 973
 
-<- **이전**: [257. 프로토타입 (Prototype) - 원본 객체를 복사하여 생성](/knowledge-base/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)
-**다음**: [259. 어댑터 (Adapter) - 인터페이스 호환성 제공](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ->
+<- **이전**: [257. 프로토타입 (Prototype) - 원본 객체를 복사하여 생성](/studynote/04_software_engineering/04_testing_quality/257_prototype_pattern_object_cloning/)
+**다음**: [259. 어댑터 (Adapter) - 인터페이스 호환성 제공](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/) ->
 
 ---

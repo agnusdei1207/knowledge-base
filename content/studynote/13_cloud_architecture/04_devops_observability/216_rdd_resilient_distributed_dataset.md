@@ -1,47 +1,44 @@
-+++
-title = "216. RDD (Resilient Distributed Dataset)"
-date = 2026-04-21
+---
+title: "216. RDD (Resilient Distributed Dataset)"
+date: "2026-04-21"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)([Resilient Distributed Dataset](/knowledge-base/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))는 Spark의 핵심 추상화로, 클러스터 전체에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 '불변([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모음이며, 장애 시 계보(Lineage)를 역추적하여 잃어버린 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 재계산하는 내결함성 메커니즘을 내장한다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고 "어떻게 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐는지"(변환 계보)를 기록하는 방식으로 내결함성을 구현하여, HDFS의 3벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 대비 저장 오버헤드 없이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호한다.
+> 1. **본질**: [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/)([Resilient Distributed Dataset](/studynote/14_data_engineering/01_infrastructure/025_spark_rdd_resilient_distributed_dataset/))는 Spark의 핵심 추상화로, 클러스터 전체에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 '불변([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/))' [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모음이며, 장애 시 계보(Lineage)를 역추적하여 잃어버린 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 자동으로 재계산하는 내결함성 메커니즘을 내장한다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하지 않고 "어떻게 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐는지"(변환 계보)를 기록하는 방식으로 내결함성을 구현하여, HDFS의 3벌 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 대비 저장 오버헤드 없이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호한다.
 > 3. **판단 포인트**: RDD는 저수준 API로 유연하지만 최적화가 어렵다. 현대 Spark에서는 DataFrame/Dataset API를 우선 사용하고, 세밀한 제어가 필요할 때만 RDD를 직접 사용하는 것이 권장된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하는 것은 빠르지만 <strong>메모리는 휘발성</strong>이라 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라진다. 2) 기존 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템은 세밀한 업데이트를 지원하지만 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경에서 내결함성 구현이 복잡</strong>하다.
+Spark를 설계할 때 Matei Zaharia가 직면한 문제는 두 가지였다: 1) 메모리에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유지하는 것은 빠르지만 <strong>메모리는 휘발성</strong>이라 장애 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사라진다. 2) 기존 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 시스템은 세밀한 업데이트를 지원하지만 <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 환경에서 내결함성 구현이 복잡</strong>하다.
 
-RDD는 이 두 문제에 대한 우아한 해결책이다: <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 대신 변환 과정을 기록한다.</strong> [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 map() 연산으로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐다면, 이 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Lineage)를 [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 기록한다. 노드 장애로 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B의 일부가 유실되면, Lineage를 따라 원본 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 해당 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산한다.
+RDD는 이 두 문제에 대한 우아한 해결책이다: <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 <a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>하는 대신 변환 과정을 기록한다.</strong> [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 map() 연산으로 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)됐다면, 이 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)(Lineage)를 [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/)([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/))로 기록한다. 노드 장애로 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B의 일부가 유실되면, Lineage를 따라 원본 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A에서 해당 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)만 재계산한다.
 
-RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장애 시 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), **Distributed**([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/): 클러스터 전체에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)), **Dataset**([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 컬렉션).
+RDD라는 이름은 세 가지 특성에서 왔다: **Resilient**(탄력적: 장애 시 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)), **Distributed**([분산](/studynote/08_algorithm_stats/08_stats/136_variance/): 클러스터 전체에 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)), **Dataset**([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋: 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 컬렉션).
 
-📢 **섹션 요약 비유**: RDD의 Lineage 기반 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 레시피를 기억하는 것과 같다. 완성된 케이크([RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B)가 엎질러지면, 레시피(Lineage)를 보고 재료(원본 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A)부터 다시 만들 수 있다. 케이크를 여러 개 복사해두는 것(3벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))보다 레시피 한 장이 더 경제적이다.
+📢 **섹션 요약 비유**: RDD의 Lineage 기반 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)는 레시피를 기억하는 것과 같다. 완성된 케이크([RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) B)가 엎질러지면, 레시피(Lineage)를 보고 재료(원본 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) A)부터 다시 만들 수 있다. 케이크를 여러 개 복사해두는 것(3벌 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/))보다 레시피 한 장이 더 경제적이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 주요 특성
+### [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 주요 특성
 
 | 특성 | 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a></strong> (불변) | [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 수정 불가, 변환 시 새 [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **Distributed** ([분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | 클러스터 여러 노드에 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a></strong> | 액션 호출 전까지 변환 연산 실행 안 됨 |
+| <strong><a href="/studynote/13_cloud_architecture/05_data_engineering/298_immutable/">Immutable</a></strong> (불변) | [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 수정 불가, 변환 시 새 [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **Distributed** ([분산](/studynote/08_algorithm_stats/08_stats/136_variance/)) | 클러스터 여러 노드에 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong><a href="/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/">Lazy Evaluation</a></strong> | 액션 호출 전까지 변환 연산 실행 안 됨 |
 | **Fault Tolerant** | Lineage DAG로 장애 시 자동 재계산 |
-| **In-Memory** | 기본적으로 메모리에 유지 ([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 핵심) |
+| **In-Memory** | 기본적으로 메모리에 유지 ([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 핵심) |
 
-### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 유형
+### [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 연산 유형
 
 ```
 RDD 연산 두 가지:
@@ -68,7 +65,7 @@ RDD 연산 두 가지:
    +-----------------------------------------------------+
 ```
 
-### Lineage [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
+### Lineage [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) 예시
 
 ```
   textFile("input.txt")     <- RDD[String] (원본)
@@ -85,7 +82,7 @@ RDD 연산 두 가지:
          v saveAsTextFile()  <- 액션! 이 시점에 전체 DAG 실행
 ```
 
-### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) Python 코드 예시
+### [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) Python 코드 예시
 
 ```python
 sc = spark.sparkContext
@@ -108,31 +105,31 @@ counts.count()  # 첫 액션 시 캐시에 저장
 counts.count()  # 두 번째 호출은 캐시에서 즉시 반환
 ```
 
-📢 **섹션 요약 비유**: RDD의 트랜스포메이션과 액션은 요리 주문과 조리의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 트랜스포메이션은 레시피 작성(재료 준비, 조리 순서 계획)이고, 액션은 실제 요리 시작이다. 주문이 들어오기(액션) 전까지는 준비만 하고 실제 조리는 하지 않는다([Lazy](/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/)).
+📢 **섹션 요약 비유**: RDD의 트랜스포메이션과 액션은 요리 주문과 조리의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)다. 트랜스포메이션은 레시피 작성(재료 준비, 조리 순서 계획)이고, 액션은 실제 요리 시작이다. 주문이 들어오기(액션) 전까지는 준비만 하고 실제 조리는 하지 않는다([Lazy](/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/)).
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) vs DataFrame vs Dataset
+### [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) vs DataFrame vs Dataset
 
-| 항목 | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) | DataFrame | Dataset |
+| 항목 | [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) | DataFrame | Dataset |
 |:---|:---|:---|:---|
-| Spark [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 1.x | 2.x | 2.x |
+| Spark [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 1.x | 2.x | 2.x |
 | 언어 | Python/Scala/Java | Python/Scala/Java | Scala/Java 전용 |
-| [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) | 없음 (비정형) | ✅ (컬럼명+타입) | ✅ (타입 안전) |
+| [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) | 없음 (비정형) | ✅ (컬럼명+타입) | ✅ (타입 안전) |
 | Catalyst 최적화 | ❌ | ✅ | ✅ |
 | Tungsten 메모리 | ❌ | ✅ | ✅ |
-| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮음 | 높음 | 높음 |
-| 사용 권장 | 저수준 제어 필요 시 | 구조화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 타입 안전 필요 시 |
+| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 낮음 | 높음 | 높음 |
+| 사용 권장 | 저수준 제어 필요 시 | 구조화 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 타입 안전 필요 시 |
 
-📢 **섹션 요약 비유**: [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/)->DataFrame->Dataset의 진화는 메모 지->엑셀 스프레드시트->[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
+📢 **섹션 요약 비유**: [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/)->DataFrame->Dataset의 진화는 메모 지->엑셀 스프레드시트->[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블의 진화와 같다. 메모지는 자유롭지만 검색이 어렵고, 엑셀은 컬럼이 있어 분석이 쉬우며, DB는 타입 검증까지 된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a> 직접 사용이 필요한 상황</strong>:
+<strong><a href="/studynote/13_cloud_architecture/05_data_engineering/310_audit/">RDD</a> 직접 사용이 필요한 상황</strong>:
 ```python
 # 1. 비구조화 데이터 처리
 rdd = sc.textFile("s3://raw-logs/*.log")
@@ -150,7 +147,7 @@ rdd.mapPartitions(lambda records:
 rdd.checkpoint()  # Lineage가 너무 길어질 때 중간 저장
 ```
 
-<strong>DataFrame <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 우선 사용 권장</strong>:
+<strong>DataFrame <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 우선 사용 권장</strong>:
 ```python
 # DataFrame API: Catalyst 옵티마이저가 자동 최적화
 df = spark.read.parquet("s3://mybucket/data/")
@@ -163,7 +160,7 @@ result.show()
 
 **기술사 판단 포인트**:
 - Lineage가 매우 길어지면(수십 단계의 트랜스포메이션) 장애 시 재계산 시간이 길어진다. `checkpoint()`로 중간 결과를 디스크에 저장하여 Lineage를 절단한다.
-- `collect()`는 전체 RDD를 드라이버 메모리로 가져오므로, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 사용 시 OutOfMemoryError 발생. 결과가 큰 경우 `take(n)` 또는 `saveAsTextFile()` 사용.
+- `collect()`는 전체 RDD를 드라이버 메모리로 가져오므로, 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 사용 시 OutOfMemoryError 발생. 결과가 큰 경우 `take(n)` 또는 `saveAsTextFile()` 사용.
 - Spark 3.x에서 DataFrame과 Dataset은 내부적으로 동일 (Dataset[Row] = DataFrame).
 
 📢 **섹션 요약 비유**: checkpoint()는 긴 게임 세이브 포인트와 같다. 너무 오래 진행하다가 죽으면 처음부터 다시 해야 하므로(Lineage 재계산), 중간에 세이브(checkpoint)해두면 그 지점부터 다시 시작할 수 있다.
@@ -174,12 +171,12 @@ result.show()
 
 | 기대효과 | 설명 |
 |:---|:---|
-| 내결함성 | Lineage 기반 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용 없음 |
-| 유연성 | 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 커스텀 로직 처리 가능 |
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 | 수천 노드에 자동 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 분배 |
+| 내결함성 | Lineage 기반 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 비용 없음 |
+| 유연성 | 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 커스텀 로직 처리 가능 |
+| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 | 수천 노드에 자동 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 분배 |
 | 메모리 최적화 | cache()/persist()로 반복 처리 최적화 |
 
-RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변환 계보"라는 두 원칙이 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 복잡한 내결함성 문제를 우아하게 해결한다. DataFrame/Dataset이 대부분의 경우를 커버하지만, RDD의 원리를 이해해야 Spark의 본질을 파악할 수 있다.
+RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변환 계보"라는 두 원칙이 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템의 복잡한 내결함성 문제를 우아하게 해결한다. DataFrame/Dataset이 대부분의 경우를 커버하지만, RDD의 원리를 이해해야 Spark의 본질을 파악할 수 있다.
 
 📢 **섹션 요약 비유**: RDD는 Spark의 DNA다. 눈에 보이는 것은 DataFrame이지만, 그 안에는 RDD의 원리가 흐른다. DataFrame을 잘 쓰려면 RDD를 이해해야 한다.
 
@@ -189,16 +186,16 @@ RDD는 Spark의 철학을 가장 순수하게 담은 추상화다. "불변 + 변
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| Lineage (계보) | [RDD](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 내결함성의 핵심 메커니즘 |
-| [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)) | 트랜스포메이션이 즉시 실행되지 않는 이유 |
-| DataFrame / Dataset | RDD를 기반으로 한 고수준 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 기반 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
-| [DAG](/knowledge-base/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) | Spark가 실행 계획을 표현하는 방식 |
-| checkpoint() | 긴 Lineage를 절단하여 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 단축 |
-| [Catalyst Optimizer](/knowledge-base/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | DataFrame이 RDD보다 빠른 이유 (자동 최적화) |
+| Lineage (계보) | [RDD](/studynote/13_cloud_architecture/05_data_engineering/310_audit/) 내결함성의 핵심 메커니즘 |
+| [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) ([Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)) | 트랜스포메이션이 즉시 실행되지 않는 이유 |
+| DataFrame / Dataset | RDD를 기반으로 한 고수준 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 기반 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| [DAG](/studynote/06_ict_convergence/05_data_science/401_bayesian_network_dag_causality/) ([Directed Acyclic Graph](/studynote/06_ict_convergence/03_cloud_infrastructure/255_apache_airflow_dag/)) | Spark가 실행 계획을 표현하는 방식 |
+| checkpoint() | 긴 Lineage를 절단하여 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간 단축 |
+| [Catalyst Optimizer](/studynote/16_bigdata/03_spark/057_catalyst_optimizer/) | DataFrame이 RDD보다 빠른 이유 (자동 최적화) |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. RDD는 레시피를 기억하는 요리책처럼, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 만들어졌는지 기록해둬서 잃어버려도 다시 만들 수 있어.
+1. RDD는 레시피를 기억하는 요리책처럼, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어떻게 만들어졌는지 기록해둬서 잃어버려도 다시 만들 수 있어.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -220,7 +217,7 @@ Spark SQL: SQL 인터페이스 + Predicate Pushdown
 
 **진행 상황**: 215 / 371
 
-<- **이전**: [215. 아파치 스파크 (Apache Spark)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/)
-**다음**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/) ->
+<- **이전**: [215. 아파치 스파크 (Apache Spark)](/studynote/13_cloud_architecture/04_devops_observability/215_apache_spark_in_memory_processing/)
+**다음**: [217. 지연 평가 / DAG 최적화 (Lazy Evaluation)](/studynote/13_cloud_architecture/04_devops_observability/217_lazy_evaluation_spark_optimization/) ->
 
 ---

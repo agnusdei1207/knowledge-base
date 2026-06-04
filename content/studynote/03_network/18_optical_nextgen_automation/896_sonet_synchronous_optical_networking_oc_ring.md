@@ -1,13 +1,10 @@
-+++
-title = "896. SONET (동기식 광통신망)"
-date = 2026-05-08
+---
+title: "896. SONET (동기식 광통신망)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 미국 국가표준협회(ANSI)에서 북미 지역(미국, 캐나다, 일본 등)을 위해 제정한 <strong>동기식(<a href="/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) 광케이블 디지털 전송망 국제 표준</strong>입니다.
-- **역사적 의의**: 1980년대 후반, 각기 다른 장비 회사들의 광통신 신호를 하나로 통일하기 위해 만들어진 최초의 표준이며, 이 SONET을 뼈대로 삼아 ITU-T가 전 세계 글로벌 표준으로 살짝 다듬어 발표한 것이 바로 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a> (895번)</strong>입니다. (SONET이 형, SDH가 동생격입니다.)
+- **개념**: 미국 국가표준협회(ANSI)에서 북미 지역(미국, 캐나다, 일본 등)을 위해 제정한 <strong>동기식(<a href="/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/">Synchronous</a>) 광케이블 디지털 전송망 국제 표준</strong>입니다.
+- **역사적 의의**: 1980년대 후반, 각기 다른 장비 회사들의 광통신 신호를 하나로 통일하기 위해 만들어진 최초의 표준이며, 이 SONET을 뼈대로 삼아 ITU-T가 전 세계 글로벌 표준으로 살짝 다듬어 발표한 것이 바로 <strong><a href="/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a> (895번)</strong>입니다. (SONET이 형, SDH가 동생격입니다.)
 
 ```text
 [SDH]
@@ -31,25 +28,25 @@ tags = ["studynote-network"]
     +---> [ROF]
 ```
 
-- **📢 섹션 요약 비유**: SONET는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: SONET는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SDH가 `STM`이라는 레고 블록 단위를 썼듯, SONET은 <strong><code>OC</code> (광 <a href="/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a>)</strong>라는 단위를 씁니다.
+SDH가 `STM`이라는 레고 블록 단위를 썼듯, SONET은 <strong><code>OC</code> (광 <a href="/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/">반송파</a>)</strong>라는 단위를 씁니다.
 
 ### 1. 기본 블록: OC-1 (51.84 Mbps)
 - 북미의 낡은 전화망 규격(T3 선로)을 품기 위해 만든 가장 작은 기본 포장 박스입니다.
 - **속도**: 딱 <strong>51.84 Mbps</strong>입니다. (SDH의 기본인 STM-1(155Mbps)의 정확히 1/3 크기입니다.)
 
-### 2. [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 규격 (SDH와의 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 🌟
+### 2. [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 규격 (SDH와의 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 🌟
 SONET은 이 51.84Mbps짜리 OC-1 박스를 계속 곱해서 속도를 올립니다. 놀랍게도 속도를 올리다 보면 SDH의 박스 크기와 완벽하게 일치하게 되어 두 대륙 간 광통신이 뚫립니다.
 - **OC-3 (155.52 Mbps)**: OC-1 $\times$ 3. ➜ **(SDH의 STM-1과 완벽히 일치!)**
 - **OC-12 (622 Mbps)**: ➜ (SDH의 STM-4와 일치)
 - **OC-48 (2.5 Gbps)**: ➜ (SDH의 STM-16과 일치)
-- <strong>OC-192 (<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Gbps)</strong>: ➜ (SDH의 STM-64와 일치)
-- 이 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 덕분에 한국([SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))에서 미국(SONET)으로 광케이블을 쏴도 중간에서 포장지를 뜯을 필요 없이 100% 직통으로 데이터가 넘어갈 수 있었습니다.
+- <strong>OC-192 (<a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a> Gbps)</strong>: ➜ (SDH의 STM-64와 일치)
+- 이 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 덕분에 한국([SDH](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))에서 미국(SONET)으로 광케이블을 쏴도 중간에서 포장지를 뜯을 필요 없이 100% 직통으로 데이터가 넘어갈 수 있었습니다.
 
 ```text
 [SDH]
@@ -66,13 +63,13 @@ SONET은 이 51.84Mbps짜리 OC-1 박스를 계속 곱해서 속도를 올립니
 
 ## Ⅲ. 비교 및 연결
 
-SONET/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 전송망이 수십 년간 국가 심장부를 지킨 절대적인 이유는 <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 치유(Self-Healing)</strong> 능력 때문입니다.
+SONET/[SDH](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 전송망이 수십 년간 국가 심장부를 지킨 절대적인 이유는 <strong><a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 치유(Self-Healing)</strong> 능력 때문입니다.
 
 - **링(Ring) 토폴로지 구성**: 전화국 A, B, C, D를 직선으로 잇지 않고 둥근 원(Ring) 모양으로 엮습니다. 그리고 광케이블을 무조건 **2가닥(Working 선 + Protect 선)** 깔아둡니다.
-- <strong>0.05초의 기적 (<a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/">APS</a>, Automatic <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Switching)</strong>:
+- <strong>0.05초의 기적 (<a href="/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/">APS</a>, Automatic <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">Protection</a> Switching)</strong>:
   - 산사태가 나서 A와 B 사이의 주 회선(Working) 광케이블이 뚝 끊어졌습니다.
   - 끊어지자마자 SONET 프레임 앞부분에 있는 감시 꼬리표(Overhead) 센서가 "비상! A-B 단절!" 알람을 울립니다.
-  - A와 B 장비는 찰나의 순간에 **50ms (0.05초)** 만에 스위치를 '딸깍' 돌려서, 트래픽을 예비 선로(Protect)로 밀어 넣어 반대 방향으로 원을 뺑 돌아서 가게 만듭니다. (우회 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)). 사람들은 통화가 끊긴 줄도 모릅니다.
+  - A와 B 장비는 찰나의 순간에 **50ms (0.05초)** 만에 스위치를 '딸깍' 돌려서, 트래픽을 예비 선로(Protect)로 밀어 넣어 반대 방향으로 원을 뺑 돌아서 가게 만듭니다. (우회 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)). 사람들은 통화가 끊긴 줄도 모릅니다.
 
 SONET를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. SDH가 기반 조건을 만든다면, SONET는 그 위에서 핵심 메커니즘을 구현하고, ROF는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -80,7 +77,7 @@ SONET를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 |:---|:---|:---|:---|
 | 초점 | SDH의 기반 정리 | SONET의 핵심 동작 | ROF의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: SONET는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -88,22 +85,22 @@ SONET를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 위대한 기술이었으나, 기본 박스 크기가 딱딱 고정되어 있어 인터넷의 주범인 '용량이 들쭉날쭉한 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IP) 패킷'을 싣기에는 빈 공간이 너무 많이 낭비되었습니다.
-- 결국 100Gbps 시대가 오면서, 더 크고 유연한 무적의 강철 컨테이너인 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/">OTN</a>(893번)</strong>에게 왕좌를 내어주고 역사 속으로 서서히 퇴역 중입니다.
+- 위대한 기술이었으나, 기본 박스 크기가 딱딱 고정되어 있어 인터넷의 주범인 '용량이 들쭉날쭉한 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)(IP) 패킷'을 싣기에는 빈 공간이 너무 많이 낭비되었습니다.
+- 결국 100Gbps 시대가 오면서, 더 크고 유연한 무적의 강철 컨테이너인 <strong><a href="/studynote/03_network/18_optical_nextgen_automation/893_otn_optical_transport_network_g709_fec_container/">OTN</a>(893번)</strong>에게 왕좌를 내어주고 역사 속으로 서서히 퇴역 중입니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a></strong>가 유럽의 규격을 맞춘 '1,500cc짜리 중형 트럭'이라면, <strong>SONET</strong>은 북미 대륙을 달리기 위해 만든 '500cc짜리 소형 트럭'입니다. 처음엔 각자 동네에서 자기 트럭만 썼습니다. 하지만 두 대륙이 교류하기 위해 평화 협정을 맺었습니다. "야, 우리 500cc 트럭 3대를 테이프로 묶어서 달리면, 너네 1,500cc 트럭 1대랑 덩치랑 속도가 100% 똑같아지잖아!"(OC-3 = STM-1 호환). 덕분에 태평양을 건널 때 트럭 모양을 바꿀 필요가 없어졌습니다. 게다가 이 트럭들은 산사태로 터널이 무너지면 단 0.05초 만에 차머리를 180도 돌려서 산등성이 우회로(Ring 구조 Self-Healing)를 타고 달려 목적지에 절대 지각하지 않는 완벽한 국가 재난 방위 배송 시스템이었습니다.
+- **📢 섹션 요약 비유**: <strong><a href="/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/">SDH</a></strong>가 유럽의 규격을 맞춘 '1,500cc짜리 중형 트럭'이라면, <strong>SONET</strong>은 북미 대륙을 달리기 위해 만든 '500cc짜리 소형 트럭'입니다. 처음엔 각자 동네에서 자기 트럭만 썼습니다. 하지만 두 대륙이 교류하기 위해 평화 협정을 맺었습니다. "야, 우리 500cc 트럭 3대를 테이프로 묶어서 달리면, 너네 1,500cc 트럭 1대랑 덩치랑 속도가 100% 똑같아지잖아!"(OC-3 = STM-1 호환). 덕분에 태평양을 건널 때 트럭 모양을 바꿀 필요가 없어졌습니다. 게다가 이 트럭들은 산사태로 터널이 무너지면 단 0.05초 만에 차머리를 180도 돌려서 산등성이 우회로(Ring 구조 Self-Healing)를 타고 달려 목적지에 절대 지각하지 않는 완벽한 국가 재난 방위 배송 시스템이었습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SONET는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [ROF](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+SONET는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [ROF](/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: SONET는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -113,10 +110,10 @@ SONET는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
+| [SDH](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [ROF](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [ROF](/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,7 +141,7 @@ SONET는 SDH에서 출발해 현재 메커니즘을 정교화하고, 이후 ROF�
 
 **진행 상황**: 1017 / 1120
 
-<- **이전**: [895. SDH (동기식 디지털 위계)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)
-**다음**: [897. RoF (Radio over Fiber)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) ->
+<- **이전**: [895. SDH (동기식 디지털 위계)](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/)
+**다음**: [897. RoF (Radio over Fiber)](/studynote/03_network/18_optical_nextgen_automation/897_rof_radio_over_fiber_analog_transmission_centralized/) ->
 
 ---

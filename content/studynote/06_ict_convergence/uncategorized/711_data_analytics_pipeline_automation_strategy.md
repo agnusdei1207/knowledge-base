@@ -1,13 +1,10 @@
-+++
-title = "711. 데이터 분석 파이프라인 자동화 전략 (Data Analytics Pipeline Automation Strategy)"
-date = 2026-05-09
+---
+title: "711. 데이터 분석 파이프라인 자동화 전략 (Data Analytics Pipeline Automation Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -106,7 +103,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 711 / 800
 
-<- **이전**: [710. 710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)](/knowledge-base/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/)
-**다음**: [712. 증거 기반 의사결정 분석 프레임워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/) ->
+<- **이전**: [710. 710. ICT 융합 기술사 종합 아키텍처 마스터 맵 (ICT Convergence PE Master Architecture Map)](/studynote/06_ict_convergence/uncategorized/710_ict_convergence_pe_master_architecture_map/)
+**다음**: [712. 증거 기반 의사결정 분석 프레임워크](/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)"
-date = 2026-05-09
+---
+title: "390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 390 / 400
 
-<- **이전**: [389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)](/knowledge-base/studynote/15_devops_sre/05_devsecops/389_chaos_engineering_security/)
-**다음**: [391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/391_cwpp_workload_protection/) ->
+<- **이전**: [389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)](/studynote/15_devops_sre/05_devsecops/389_chaos_engineering_security/)
+**다음**: [391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)](/studynote/15_devops_sre/05_devsecops/391_cwpp_workload_protection/) ->
 
 ---

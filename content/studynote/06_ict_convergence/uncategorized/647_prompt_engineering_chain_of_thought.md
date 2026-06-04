@@ -1,13 +1,10 @@
-+++
-title = "647. 프롬프트 엔지니어링 체인 오브 쏘트 (Prompt Engineering Chain of Thought)"
-date = 2026-05-09
+---
+title: "647. 프롬프트 엔지니어링 체인 오브 쏘트 (Prompt Engineering Chain of Thought)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -127,7 +124,7 @@ CoT 기반 추론 시스템은 단순 프롬프트 기법을 넘어 **검증·�
 
 **진행 상황**: 647 / 800
 
-<- **이전**: [646. RAG 검색 증강 생성 벡터 검색](/knowledge-base/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/)
-**다음**: [648. AI 에이전트 도구 사용 자율 계획](/knowledge-base/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/) ->
+<- **이전**: [646. RAG 검색 증강 생성 벡터 검색](/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/)
+**다음**: [648. AI 에이전트 도구 사용 자율 계획](/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/) ->
 
 ---

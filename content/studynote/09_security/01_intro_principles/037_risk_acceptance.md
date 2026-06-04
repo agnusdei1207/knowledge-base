@@ -1,22 +1,19 @@
-+++
-title = "037. 위험 수용 (Risk Acceptance)"
-date = 2026-03-03
+---
+title: "037. 위험 수용 (Risk Acceptance)"
+date: "2026-03-03"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 > **핵심 인사이트**
-> 1. 위험 수용([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Acceptance)은 4가지 [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)(완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.
-> 2. 위험 수용은 무기력한 방치가 아니라 임원급 의사결정자([CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/), CRO, CEO)의 명시적 승인을 받고 모니터링 계획을 수립하는 거버넌스 행위다 — 문서화와 주기적 재검토가 필수다.
-> 3. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(Annual Loss Expectancy = SLE × ARO)로 손실을 수치화하고 대응 비용과 비교해 수용 여부를 결정하는 [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)이 현대 보안 위험 관리의 표준이다.
+> 1. 위험 수용([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Acceptance)은 4가지 [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)(완화·회피·전가·수용) 중 하나로, 위험 처리 비용이 위험 발생 시 손실보다 크거나 비즈니스 필요에 의해 위험을 의도적으로 감내하는 결정이다.
+> 2. 위험 수용은 무기력한 방치가 아니라 임원급 의사결정자([CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/), CRO, CEO)의 명시적 승인을 받고 모니터링 계획을 수립하는 거버넌스 행위다 — 문서화와 주기적 재검토가 필수다.
+> 3. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(Annual Loss Expectancy = SLE × ARO)로 손실을 수치화하고 대응 비용과 비교해 수용 여부를 결정하는 [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)이 현대 보안 위험 관리의 표준이다.
 
 ---
 
-## I. 4가지 [위험 대응 전략](/knowledge-base/studynote/09_security/01_intro_principles/033_risk_response_strategies/)
+## I. 4가지 [위험 대응 전략](/studynote/09_security/01_intro_principles/033_risk_response_strategies/)
 
 ```
 위험 대응 (Risk Response) 전략:
@@ -68,7 +65,7 @@ tags = ["studynote-security"]
 | 수용 조건              | 설명                            |
 |---------------------|--------------------------------|
 | 경제적 합리성          | 대응 비용 > 예상 손실           |
-| [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 허용         | [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite 이내              |
+| [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 허용         | [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Appetite 이내              |
 | 기술적 불가능          | 현실적 완화 방법 없음            |
 | 명시적 승인           | 임원급 서명 문서화               |
 
@@ -76,7 +73,7 @@ tags = ["studynote-security"]
 
 ---
 
-## III. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)
+## III. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/)
 
 ```
 위험 수용 결정을 위한 수치 계산:
@@ -105,7 +102,7 @@ ALE (Annual Loss Expectancy, 연간 손실 예상):
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 위험 수용서 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Acceptance Form)
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 위험 수용서 ([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Acceptance Form)
 
 ```
 위험 수용서 필수 항목:
@@ -218,7 +215,7 @@ AI 기반 위험 점수 자동화
 
 **진행 상황**: 37 / 1108
 
-<- **이전**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)
-**다음**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ->
+<- **이전**: [036. 위험 경감 (Risk Mitigation)](/studynote/09_security/01_intro_principles/036_risk_mitigation/)
+**다음**: [038. 잔여 위험 (Residual Risk) — 통제 후 남는 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) ->
 
 ---

@@ -1,12 +1,11 @@
-+++
-title = "Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계"
+---
+title: "Quartz v5 아키텍처 분석 — 백링크·그래프 뷰·빌드 한계"
+tags:
+  - "research-and-development"
+  - "quartz"
+  - "knowledge-base"
+---
 
-[taxonomies]
-tags = ["research-and-development", "quartz", "knowledge-base"]
-
-[extra]
-tags = ["research-and-development", "quartz", "knowledge-base"]
-+++
 
 [ 종합 지식 포털 ] > R&D > **Quartz 분석**
 
@@ -36,7 +35,7 @@ tags = ["research-and-development", "quartz", "knowledge-base"]
 
 - **본질**: 텍스트 기반 역참조 인덱스
 - **표시 위치**: 페이지 하단에 리스트 형태
-- **데이터 흐름**: 빌드타임에 전체 파일 간 `wikilink`를 스캔 → 역방향 매핑 생성
+- **데이터 흐름**: 빌드타임에 전체 파일 간 `wikilink`를 스캔 -> 역방향 매핑 생성
 - **용도**: "이 개념이 어디서 쓰이고 있는가?" — 지식 탐색의 핵심
 
 ### 1.2 그래프 뷰 — 시각화
@@ -47,7 +46,7 @@ tags = ["research-and-development", "quartz", "knowledge-base"]
 <div class="rd-graph-container">
   <div class="node-sec">A</div>
   <div class="node-sec">B</div>
-  <div class="arrows">↑ &nbsp;&nbsp;&nbsp;&nbsp; → &nbsp;&nbsp;&nbsp;&nbsp; ↓</div>
+  <div class="arrows">^ &nbsp;&nbsp;&nbsp;&nbsp; -> &nbsp;&nbsp;&nbsp;&nbsp; v</div>
   <div class="node-tert">D</div>
   <div class="node-tert">C</div>
   <div class="caption">노드(문서)와 엣지(링크)의 시각적 관계</div>
@@ -80,11 +79,11 @@ tags = ["research-and-development", "quartz", "knowledge-base"]
 
 <div class="rd-pipeline-container">
   <div class="pipeline-step-head">📄 content/*.md (9,600+)</div>
-  <div class="pipeline-arrow">▼</div>
-  <div class="step-parse"><strong>①</strong> remark-parse: Markdown → MDAST (추상 구문 트리)</div>
-  <div class="pipeline-arrow">▼</div>
-  <div class="step-rehype"><strong>②</strong> rehype: MDAST → HAST (HTML AST)</div>
-  <div class="pipeline-arrow">▼</div>
+  <div class="pipeline-arrow">v</div>
+  <div class="step-parse"><strong>①</strong> remark-parse: Markdown -> MDAST (추상 구문 트리)</div>
+  <div class="pipeline-arrow">v</div>
+  <div class="step-rehype"><strong>②</strong> rehype: MDAST -> HAST (HTML AST)</div>
+  <div class="pipeline-arrow">v</div>
   <div class="step-plugins">
     <strong>③ 플러그인 체인</strong>
     <ul>
@@ -96,9 +95,9 @@ tags = ["research-and-development", "quartz", "knowledge-base"]
       <li><del>og-image: OG 이미지 렌더링</del> (비활성화 완료)</li>
     </ul>
   </div>
-  <div class="pipeline-arrow">▼</div>
-  <div class="step-ssr"><strong>④</strong> Preact SSR: JSX → 정적 HTML</div>
-  <div class="pipeline-arrow">▼</div>
+  <div class="pipeline-arrow">v</div>
+  <div class="step-ssr"><strong>④</strong> Preact SSR: JSX -> 정적 HTML</div>
+  <div class="pipeline-arrow">v</div>
   <div class="pipeline-step-head">📁 public/ 출력</div>
 </div>
 
@@ -118,10 +117,10 @@ tags = ["research-and-development", "quartz", "knowledge-base"]
 
 | 한계 | 원인 | 영향 |
 |------|------|------|
-| **메모리 폭발** | 전체 파일 AST를 Node.js 힙에 동시 보유 | 9,600파일 → 8GB 필요 |
+| **메모리 폭발** | 전체 파일 AST를 Node.js 힙에 동시 보유 | 9,600파일 -> 8GB 필요 |
 | **빌드 시간** | 파일 수에 초선형(superlinear) 증가 | 10K파일 ≈ 5분 |
-| **증분 빌드 미지원** | 1개 파일 수정 → 전체 리빌드 | CI 비용 증가 |
-| **검색 인덱스 일체형** | FlexSearch 인덱스를 빌드 중 생성 → 추가 메모리 | 분리 불가 (Pagefind 대체 불가) |
+| **증분 빌드 미지원** | 1개 파일 수정 -> 전체 리빌드 | CI 비용 증가 |
+| **검색 인덱스 일체형** | FlexSearch 인덱스를 빌드 중 생성 -> 추가 메모리 | 분리 불가 (Pagefind 대체 불가) |
 
 
 <div class="rd-memory-container">

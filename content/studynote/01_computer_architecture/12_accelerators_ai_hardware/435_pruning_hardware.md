@@ -1,29 +1,26 @@
-+++
-title = "435. 가지치기 (Pruning) 지원 하드웨어"
-date = 2026-03-20
+---
+title: "435. 가지치기 (Pruning) 지원 하드웨어"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 가지치기 지원 하드웨어는 희소성 (Sparsity) 이 생긴 신경망에서 0 또는 거의 0에 해당하는 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 연산을 실제 회로 수준에서 건너뛰어, 같은 클럭 안에 더 많은 유효 연산을 처리하게 만드는 구조다.
-> 2. **가치**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상의 핵심은 연산기 수를 무작정 늘리는 것이 아니라, 메모리에서 읽어올 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양과 곱셈-누산 ([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Multiply-Accumulate](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 낭비를 줄여 전력 대비 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 데 있다.
-> 3. **판단 포인트**: 가지치기는 아무 모델에나 자동으로 이득을 주지 않으며, 하드웨어가 이해할 수 있는 구조적 희소성 (Structured Sparsity), [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 형식, 재학습 전략이 함께 맞아야 실제 가속으로 이어진다.
+> 1. **본질**: 가지치기 지원 하드웨어는 희소성 (Sparsity) 이 생긴 신경망에서 0 또는 거의 0에 해당하는 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 연산을 실제 회로 수준에서 건너뛰어, 같은 클럭 안에 더 많은 유효 연산을 처리하게 만드는 구조다.
+> 2. **가치**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상의 핵심은 연산기 수를 무작정 늘리는 것이 아니라, 메모리에서 읽어올 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 양과 곱셈-누산 ([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Multiply-Accumulate](/studynote/01_computer_architecture/12_accelerators_ai_hardware/428_mac_operation/)) 낭비를 줄여 전력 대비 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 데 있다.
+> 3. **판단 포인트**: 가지치기는 아무 모델에나 자동으로 이득을 주지 않으며, 하드웨어가 이해할 수 있는 구조적 희소성 (Structured Sparsity), [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 형식, 재학습 전략이 함께 맞아야 실제 가속으로 이어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-가지치기 지원 하드웨어는 신경망에서 중요도가 낮은 연결을 제거해 만들어진 희소 행렬 (Sparse Matrix)을 효율적으로 실행하도록 설계된 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 구조다. 딥러닝 모델은 학습이 끝난 뒤 살펴보면 많은 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0 또는 0에 가까운 값으로 수렴하는데, 일반적인 밀집 연산 하드웨어는 이런 값도 똑같이 읽고 곱하고 더한다. 결과적으로 의미 없는 연산이 전력, 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 연산 슬롯을 모두 차지한다.
+가지치기 지원 하드웨어는 신경망에서 중요도가 낮은 연결을 제거해 만들어진 희소 행렬 (Sparse Matrix)을 효율적으로 실행하도록 설계된 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 가속기 구조다. 딥러닝 모델은 학습이 끝난 뒤 살펴보면 많은 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)가 0 또는 0에 가까운 값으로 수렴하는데, 일반적인 밀집 연산 하드웨어는 이런 값도 똑같이 읽고 곱하고 더한다. 결과적으로 의미 없는 연산이 전력, 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 연산 슬롯을 모두 차지한다.
 
-특히 대규모 추론에서는 "얼마나 빨리 계산하느냐"보다 "얼마나 적은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 움직이느냐"가 더 중요하다. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 절반이 사실상 불필요한데도 고대역폭 메모리 ([HBM](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [High Bandwidth Memory](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 와 캐시를 통해 그대로 운반하면, 연산기보다 메모리 경로가 먼저 포화된다. 가지치기 지원 하드웨어는 이 낭비를 줄이기 위해 0을 저장 단계에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 실행 단계에서는 해당 위치의 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 동작을 비활성화한다.
+특히 대규모 추론에서는 "얼마나 빨리 계산하느냐"보다 "얼마나 적은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 움직이느냐"가 더 중요하다. [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)의 절반이 사실상 불필요한데도 고대역폭 메모리 ([HBM](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/), [High Bandwidth Memory](/studynote/01_computer_architecture/14_hardware_security_trends/495_hbm/)) 와 캐시를 통해 그대로 운반하면, 연산기보다 메모리 경로가 먼저 포화된다. 가지치기 지원 하드웨어는 이 낭비를 줄이기 위해 0을 저장 단계에서 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 실행 단계에서는 해당 위치의 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 동작을 비활성화한다.
 
-즉 이 개념의 출발점은 "더 빠른 곱셈기"가 아니라 "하지 않아도 되는 곱셈을 제거하는 시스템"이다. 가지치기 자체는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기법이지만, 실제 속도 향상은 하드웨어가 희소성을 이해하고 스케줄링할 수 있을 때 비로소 실현된다.
+즉 이 개념의 출발점은 "더 빠른 곱셈기"가 아니라 "하지 않아도 되는 곱셈을 제거하는 시스템"이다. 가지치기 자체는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 기법이지만, 실제 속도 향상은 하드웨어가 희소성을 이해하고 스케줄링할 수 있을 때 비로소 실현된다.
 
 - **📢 섹션 요약 비유**: 배달 트럭에 빈 상자가 절반 섞여 있다면, 엔진을 더 큰 것으로 바꾸기보다 처음부터 빈 상자를 싣지 않는 편이 훨씬 효율적이다. 가지치기 지원 하드웨어는 바로 그 "빈 상자 제거 장치"가 달린 물류 시스템이다.
 
@@ -31,17 +28,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가지치기 지원 하드웨어의 핵심은 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장 -> 위치 복원 -> 유효 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 연산</strong>의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
+가지치기 지원 하드웨어의 핵심은 <strong><a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 저장 -> 위치 복원 -> 유효 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>만 연산</strong>의 세 단계를 짧은 파이프라인으로 연결하는 데 있다. 여기서 중요한 값은 0의 개수가 아니라 실제로 남아 있는 비영 (Non-Zero) 원소 수, 즉 `NNZ (Number of Non-Zero elements)`다. 이상적으로는 전체 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 `dense 연산량`이 아니라 `NNZ 기준 연산량`에 가까워져야 한다.
 
 아래 표는 대표 구성 요소와 역할을 정리한 것이다.
 
 | 구성 요소 | 역할 | 설계 시 주의점 |
 | :-- | :-- | :-- |
-| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 버퍼 | 0이 아닌 값만 저장 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기가 너무 커지면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 이익 감소 |
-| [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)/마스크 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | 원래 위치를 복원 | 디코딩 지연이 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 절감 효과를 잡아먹지 않아야 함 |
-| 선택기 (Selector) · [멀티플렉서](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) ([MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/), [Multiplexer](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)) | 필요한 활성값만 연산기로 전달 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재배치 비용과 배선 복잡도 관리 필요 |
-| 희소 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 작업이 있는 연산 유닛만 활성화 | 부하 불균형 시 일부 연산기 유휴 발생 |
-| [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)) | 건너뛴 위치를 반영해 결과 합산 | 출력 순서 보존과 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌 방지 필요 |
+| [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 버퍼 | 0이 아닌 값만 저장 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 크기가 너무 커지면 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 이익 감소 |
+| [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)/마스크 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | 원래 위치를 복원 | 디코딩 지연이 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 절감 효과를 잡아먹지 않아야 함 |
+| 선택기 (Selector) · [멀티플렉서](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/) ([MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/), [Multiplexer](/studynote/01_computer_architecture/01_basic_electronics_logic/041_multiplexer/)) | 필요한 활성값만 연산기로 전달 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 재배치 비용과 배선 복잡도 관리 필요 |
+| 희소 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) | 작업이 있는 연산 유닛만 활성화 | 부하 불균형 시 일부 연산기 유휴 발생 |
+| [누산기](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) ([Accumulator](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)) | 건너뛴 위치를 반영해 결과 합산 | 출력 순서 보존과 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 충돌 방지 필요 |
 
 이 그림은 가지치기 지원 하드웨어가 "메모리 절감"과 "연산 스킵"을 동시에 만드는 흐름을 보여준다.
 
@@ -69,9 +66,9 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-문제는 희소성이 높다고 해서 언제나 하드웨어가 행복해지는 것은 아니라는 점이다. 비정형 가지치기 (Unstructured Pruning) 는 정확도 보존에는 유리할 수 있지만, 살아남은 값의 위치가 들쭉날쭉해 주소 계산과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 그래서 실제 상용 가속기는 `2:4`, `4:8`, 블록 스파시티 (Block Sparsity) 같은 구조적 희소성 규칙을 선호한다. 예를 들어 연속된 4개 값 중 정확히 2개만 남기는 `2:4` 규칙은 소프트웨어 입장에서는 제약이지만, 하드웨어 입장에서는 회로를 단순하게 만들어 안정적인 2배 내외 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 노릴 수 있다.
+문제는 희소성이 높다고 해서 언제나 하드웨어가 행복해지는 것은 아니라는 점이다. 비정형 가지치기 (Unstructured Pruning) 는 정확도 보존에는 유리할 수 있지만, 살아남은 값의 위치가 들쭉날쭉해 주소 계산과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동이 복잡해진다. 그래서 실제 상용 가속기는 `2:4`, `4:8`, 블록 스파시티 (Block Sparsity) 같은 구조적 희소성 규칙을 선호한다. 예를 들어 연속된 4개 값 중 정확히 2개만 남기는 `2:4` 규칙은 소프트웨어 입장에서는 제약이지만, 하드웨어 입장에서는 회로를 단순하게 만들어 안정적인 2배 내외 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 노릴 수 있다.
 
-또한 가지치기 지원 하드웨어는 연산기만의 문제가 아니다. 희소성을 활용해도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석, 워프/[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 캐시 라인 낭비가 크면 실제 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기대보다 낮아진다. 따라서 좋은 설계는 "0이 많다"보다 "0이 예측 가능하게 배치된다"를 더 중시한다.
+또한 가지치기 지원 하드웨어는 연산기만의 문제가 아니다. 희소성을 활용해도 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석, 워프/[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 정렬, 캐시 라인 낭비가 크면 실제 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 기대보다 낮아진다. 따라서 좋은 설계는 "0이 많다"보다 "0이 예측 가능하게 배치된다"를 더 중시한다.
 
 - **📢 섹션 요약 비유**: 좌석이 비어 있는 버스를 아무 정류장에나 세우면 승객 찾느라 시간이 더 든다. 반대로 비어 있는 좌석이 항상 같은 규칙으로 배치되면, 안내원이 손쉽게 승객을 태워 버스를 빠르게 출발시킬 수 있다.
 
@@ -79,32 +76,32 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-가지치기 지원 하드웨어를 이해하려면 단순히 "0을 줄인다"는 수준을 넘어, 어떤 희소성을 어떤 하드웨어가 처리하기 쉬운지 비교해야 한다. 같은 희소성이라도 구조가 다르면 가속기 설계 난이도와 실효 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라진다.
+가지치기 지원 하드웨어를 이해하려면 단순히 "0을 줄인다"는 수준을 넘어, 어떤 희소성을 어떤 하드웨어가 처리하기 쉬운지 비교해야 한다. 같은 희소성이라도 구조가 다르면 가속기 설계 난이도와 실효 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라진다.
 
 | 비교 축 | 비정형 가지치기 (Unstructured) | 구조적 가지치기 (Structured) | 하드웨어 관점 해석 |
 | :-- | :-- | :-- | :-- |
 | 0의 배치 | 임의 위치에 흩어짐 | 채널·블록·N:M 규칙으로 정렬 | 구조적 형태가 배선과 스케줄링에 유리 |
 | 정확도 유지 | 비교적 유리 | 재학습이 더 중요 | 규칙이 강할수록 모델 자유도 감소 |
-| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 높을 수 있음 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 단순 | 실제 칩 구현은 구조적 방식이 안정적 |
-| 실행 오버헤드 | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 비용 큼 | 예측 가능한 선택 가능 | 실효 속도는 구조적 방식이 앞서는 경우가 많음 |
+| [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 높을 수 있음 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)가 단순 | 실제 칩 구현은 구조적 방식이 안정적 |
+| 실행 오버헤드 | [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 탐색 비용 큼 | 예측 가능한 선택 가능 | 실효 속도는 구조적 방식이 앞서는 경우가 많음 |
 
-이 개념은 다른 컴퓨터구조 주제와도 강하게 연결된다. 먼저 [시스톨릭 어레이](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) 나 [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 는 본래 밀집 행렬 곱에 최적화된 구조인데, 여기에 희소성 해석기를 붙이면 기존 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 유지하면서도 불필요한 MAC을 줄일 수 있다. 둘째, [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 관점에서 보면 가지치기 지원 하드웨어의 진짜 이익은 연산 생략보다 <strong>메모리 이동량 감소</strong>에 있다. 셋째, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 와 결합하면 남아 있는 비영 값 자체의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭도 줄어들어, 메모리와 연산 모두에서 이득이 증폭된다.
+이 개념은 다른 컴퓨터구조 주제와도 강하게 연결된다. 먼저 [시스톨릭 어레이](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/) ([Systolic Array](/studynote/01_computer_architecture/12_accelerators_ai_hardware/426_systolic_array/)) 나 [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) 는 본래 밀집 행렬 곱에 최적화된 구조인데, 여기에 희소성 해석기를 붙이면 기존 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로를 유지하면서도 불필요한 MAC을 줄일 수 있다. 둘째, [메모리 월](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) 관점에서 보면 가지치기 지원 하드웨어의 진짜 이익은 연산 생략보다 <strong>메모리 이동량 감소</strong>에 있다. 셋째, [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) 와 결합하면 남아 있는 비영 값 자체의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 폭도 줄어들어, 메모리와 연산 모두에서 이득이 증폭된다.
 
-다만 가지치기와 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 서로 다른 문제를 푼다. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 "값의 표현 폭"을 줄이고, 가지치기는 "값의 개수"를 줄인다. 둘을 혼동하면 설계 판단이 흐려진다. 전자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 최적화라면, 후자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 자체를 줄이는 최적화다.
+다만 가지치기와 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 서로 다른 문제를 푼다. [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)는 "값의 표현 폭"을 줄이고, 가지치기는 "값의 개수"를 줄인다. 둘을 혼동하면 설계 판단이 흐려진다. 전자가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기 최적화라면, 후자는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 존재 자체를 줄이는 최적화다.
 
-- **📢 섹션 요약 비유**: 옷장 정리는 두 가지가 있다. 옷을 작게 접어 넣는 것은 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)이고, 안 입는 옷 자체를 버리는 것은 가지치기다. 가지치기 지원 하드웨어는 버려진 옷 칸을 열어보지도 않는 똑똑한 옷장이다.
+- **📢 섹션 요약 비유**: 옷장 정리는 두 가지가 있다. 옷을 작게 접어 넣는 것은 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)이고, 안 입는 옷 자체를 버리는 것은 가지치기다. 가지치기 지원 하드웨어는 버려진 옷 칸을 열어보지도 않는 똑똑한 옷장이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 흔한 오해는 "모델을 많이 가지치면 자동으로 추론 속도가 빨라진다"는 생각이다. 실제로는 하드웨어가 지원하지 않는 형태의 희소성은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 파일만 예뻐졌을 뿐 실행 시간은 거의 줄지 않을 수 있다. 따라서 도입 판단은 모델 정확도, 희소성 패턴, 런타임 엔진, 가속기 세대까지 함께 봐야 한다.
+실무에서 가장 흔한 오해는 "모델을 많이 가지치면 자동으로 추론 속도가 빨라진다"는 생각이다. 실제로는 하드웨어가 지원하지 않는 형태의 희소성은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 파일만 예뻐졌을 뿐 실행 시간은 거의 줄지 않을 수 있다. 따라서 도입 판단은 모델 정확도, 희소성 패턴, 런타임 엔진, 가속기 세대까지 함께 봐야 한다.
 
 대표적인 판단 기준은 다음과 같다.
 
-1. <strong>하드웨어 지원 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 신경망 처리 장치 ([NPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 디지털 학습 가속기 ([DLA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/), [Deep Learning Accelerator](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/)) 가 구조적 희소성 명령을 실제로 제공하는지 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-2. <strong>희소성 형식 일치 여부 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 하드웨어가 `2:4` 를 요구하는데 모델은 임의 희소성으로 가지치기되었다면, 기대한 가속은 나오지 않는다.
-3. **정확도 복원 비용 검토**: 가지치기 후 미세조정 ([Fine-tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 이 필요한데, 그 비용이 운영 이익보다 크면 채택 가치가 낮다.
+1. <strong>하드웨어 지원 여부 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 그래픽 처리 장치 ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)), 신경망 처리 장치 ([NPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/), [Neural Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/424_npu/)), 디지털 학습 가속기 ([DLA](/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/), [Deep Learning Accelerator](/studynote/01_computer_architecture/12_accelerators_ai_hardware/429_dla/)) 가 구조적 희소성 명령을 실제로 제공하는지 먼저 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. <strong>희소성 형식 일치 여부 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: 하드웨어가 `2:4` 를 요구하는데 모델은 임의 희소성으로 가지치기되었다면, 기대한 가속은 나오지 않는다.
+3. **정확도 복원 비용 검토**: 가지치기 후 미세조정 ([Fine-tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) 이 필요한데, 그 비용이 운영 이익보다 크면 채택 가치가 낮다.
 4. **메모리 병목 여부 측정**: 이미 연산 병목이 아니라 메모리 병목이라면, 가지치기 지원 하드웨어는 특히 효과가 크다.
 
 아래 판단 트리는 실무 도입 여부를 가르는 핵심 질문을 요약한 것이다.
@@ -133,17 +130,17 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------+
 ```
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- 모델 프로파일링에서 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률과 연산 유닛 활용률을 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
+- 모델 프로파일링에서 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 사용률과 연산 유닛 활용률을 함께 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
 - 희소 포맷 변환, 컴파일러, 런타임 엔진이 같은 규칙을 공유하는가?
-- [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장량까지 포함해 실제 메모리 절감률을 계산했는가?
+- [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 저장량까지 포함해 실제 메모리 절감률을 계산했는가?
 - 작은 모델에 과도한 가지치기를 적용해 정확도만 잃는 상황은 아닌가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 임의 가지치기를 해 놓고 범용 GPU가 자동으로 0을 건너뛸 것이라 기대하는 경우
-- 정확도 회복용 재학습 없이 배포해 품질 저하를 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 착각하는 경우
+- 정확도 회복용 재학습 없이 배포해 품질 저하를 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상으로 착각하는 경우
 - 메모리 병목이 아닌 제어 병목 워크로드에 희소성 최적화를 과도하게 적용하는 경우
 
 - **📢 섹션 요약 비유**: 규격이 다른 레일 위에 빠른 열차를 올리면 속도가 아니라 탈선이 일어난다. 가지치기 지원 하드웨어도 마찬가지로, 모델의 희소성 모양이 칩의 규격과 맞아야만 진짜 속도를 낸다.
@@ -152,11 +149,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-가지치기 지원 하드웨어가 제대로 작동하면 기대효과는 분명하다. 첫째, 불필요한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 줄어 전성비가 좋아진다. 둘째, 비영 값만 이동하므로 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구량이 낮아진다. 셋째, 같은 실리콘 면적에서도 유효 연산 비율이 높아져 추론 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올릴 수 있다.
+가지치기 지원 하드웨어가 제대로 작동하면 기대효과는 분명하다. 첫째, 불필요한 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 횟수가 줄어 전성비가 좋아진다. 둘째, 비영 값만 이동하므로 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 요구량이 낮아진다. 셋째, 같은 실리콘 면적에서도 유효 연산 비율이 높아져 추론 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 끌어올릴 수 있다.
 
-하지만 이 효과는 항상 "이론치 그대로" 나오지 않는다. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 비용, 부하 불균형, 구조적 희소성 강제에 따른 정확도 손실, 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 미지원이 있으면 이득이 빠르게 줄어든다. 즉 가지치기 지원 하드웨어는 만능 가속기가 아니라, <strong>희소성이 충분하고 규칙적이며 메모리 병목이 큰 추론 환경에서 특히 강한 특화 기술</strong>로 이해해야 한다.
+하지만 이 효과는 항상 "이론치 그대로" 나오지 않는다. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 해석 비용, 부하 불균형, 구조적 희소성 강제에 따른 정확도 손실, 소프트웨어 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 미지원이 있으면 이득이 빠르게 줄어든다. 즉 가지치기 지원 하드웨어는 만능 가속기가 아니라, <strong>희소성이 충분하고 규칙적이며 메모리 병목이 큰 추론 환경에서 특히 강한 특화 기술</strong>로 이해해야 한다.
 
-앞으로는 세 방향이 중요해진다. 하나는 `N:M` 규칙을 더 유연하게 다루는 하드웨어, 하나는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·복원 오버헤드를 줄이는 컴파일러, 마지막 하나는 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·오프로딩과 함께 묶는 통합 최적화다. 결국 이 개념을 기억할 때는 "0을 많이 만들었다"가 아니라 **"0을 하드웨어가 부담 없이 무시할 수 있게 설계했다"** 로 정리하는 것이 정확하다.
+앞으로는 세 방향이 중요해진다. 하나는 `N:M` 규칙을 더 유연하게 다루는 하드웨어, 하나는 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·복원 오버헤드를 줄이는 컴파일러, 마지막 하나는 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)·오프로딩과 함께 묶는 통합 최적화다. 결국 이 개념을 기억할 때는 "0을 많이 만들었다"가 아니라 **"0을 하드웨어가 부담 없이 무시할 수 있게 설계했다"** 로 정리하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 좋은 청소기는 먼지를 세게 빨아들이는 기계가 아니라, 먼지가 많은 곳만 정확히 찾아 힘을 쓰는 기계다. 가지치기 지원 하드웨어도 필요한 계산에만 전력을 집중할 때 진가가 난다.
 
@@ -166,11 +163,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| 희소성 (Sparsity) | 가지치기 결과로 생기는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포이며, 하드웨어 최적화의 출발점 |
+| 희소성 (Sparsity) | 가지치기 결과로 생기는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포이며, 하드웨어 최적화의 출발점 |
 | 구조적 희소성 (Structured Sparsity) | 하드웨어가 예측 가능한 규칙으로 0을 건너뛰게 해 실제 가속 가능성을 높임 |
-| [텐서 코어](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) | 구조적 희소성 규칙을 반영해 고속 행렬 곱을 수행하는 대표 실행 유닛 |
-| [메모리 월](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 가지치기 지원 하드웨어가 특히 큰 효과를 내는 병목 지점 |
-| [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | 남아 있는 비영 값의 표현 폭을 줄여 가지치기와 함께 최적화 효과를 증폭 |
+| [텐서 코어](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) ([Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)) | 구조적 희소성 규칙을 반영해 고속 행렬 곱을 수행하는 대표 실행 유닛 |
+| [메모리 월](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/) ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 가지치기 지원 하드웨어가 특히 큰 효과를 내는 병목 지점 |
+| [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) ([Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)) | 남아 있는 비영 값의 표현 폭을 줄여 가지치기와 함께 최적화 효과를 증폭 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,7 +190,7 @@ tags = ["studynote-computer-architecture"]
 양자화 · 메모리 오프로딩과 결합한 통합 추론 최적화
 ```
 
-이 흐름은 "모델 경량화 아이디어"가 단순한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)에서 끝나지 않고, 하드웨어 명령과 메모리 시스템까지 포함하는 실행 최적화로 확장되는 과정을 보여준다.
+이 흐름은 "모델 경량화 아이디어"가 단순한 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)에서 끝나지 않고, 하드웨어 명령과 메모리 시스템까지 포함하는 실행 최적화로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -207,7 +204,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 436 / 803
 
-<- **이전**: [434. 양자화 (Quantization, INT8, INT4)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
-**다음**: [436. DPU (Data Processing Unit / SmartNIC)](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ->
+<- **이전**: [434. 양자화 (Quantization, INT8, INT4)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)
+**다음**: [436. DPU (Data Processing Unit / SmartNIC)](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) ->
 
 ---

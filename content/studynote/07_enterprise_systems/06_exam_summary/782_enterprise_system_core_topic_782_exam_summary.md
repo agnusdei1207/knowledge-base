@@ -1,13 +1,10 @@
-+++
-title = "782. 엔터프라이즈 시스템 핵심 토픽 782번 시험 요약 (Enterprise System Core Topic 782 Exam Summary)"
-date = 2026-05-09
+---
+title: "782. 엔터프라이즈 시스템 핵심 토픽 782번 시험 요약 (Enterprise System Core Topic 782 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 782 / 800
 
-<- **이전**: [781. 엔터프라이즈 시스템 핵심 토픽 781번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/781_enterprise_system_core_topic_781_exam_summary/)
-**다음**: [783. 엔터프라이즈 시스템 핵심 토픽 783번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/783_enterprise_system_core_topic_783_exam_summary/) ->
+<- **이전**: [781. 엔터프라이즈 시스템 핵심 토픽 781번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/781_enterprise_system_core_topic_781_exam_summary/)
+**다음**: [783. 엔터프라이즈 시스템 핵심 토픽 783번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/783_enterprise_system_core_topic_783_exam_summary/) ->
 
 ---

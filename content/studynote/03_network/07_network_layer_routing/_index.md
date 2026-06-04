@@ -1,6 +1,5 @@
-+++
-title = "07. Network Layer Routing"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "07. Network Layer Routing"
+tags:
+  - "network"
+---

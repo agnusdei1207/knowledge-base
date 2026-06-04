@@ -1,13 +1,10 @@
-+++
-title = "584. IT 경영 관리 핵심 토픽 584번 시험 요약 (IT Management Core Topic 584 Exam Summary)"
-date = 2026-05-09
+---
+title: "584. IT 경영 관리 핵심 토픽 584번 시험 요약 (IT Management Core Topic 584 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ IT 투자 평가의 정량적 의사결정은 다음 4가지 모델을 활용한
 
 **진행 상황**: 584 / 800
 
-<- **이전**: [583. IT 경영 관리 핵심 토픽 583번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/583_it_management_core_topic_583_exam_summary/)
-**다음**: [585. IT 경영 관리 핵심 토픽 585번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/585_it_management_core_topic_585_exam_summary/) ->
+<- **이전**: [583. IT 경영 관리 핵심 토픽 583번 시험 요약](/studynote/12_it_management/05_security_compliance/583_it_management_core_topic_583_exam_summary/)
+**다음**: [585. IT 경영 관리 핵심 토픽 585번 시험 요약](/studynote/12_it_management/05_security_compliance/585_it_management_core_topic_585_exam_summary/) ->
 
 ---

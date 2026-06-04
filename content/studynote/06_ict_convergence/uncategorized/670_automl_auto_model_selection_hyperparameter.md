@@ -1,13 +1,10 @@
-+++
-title = "670. AutoML 자동 모델 선택 하이퍼파라미터 (AutoML Auto Model Selection Hyperparameter)"
-date = 2026-05-09
+---
+title: "670. AutoML 자동 모델 선택 하이퍼파라미터 (AutoML Auto Model Selection Hyperparameter)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -162,7 +159,7 @@ $$\min_{x \in \mathcal{X}} f(x), \quad f(x) = \mathbb{E}_{(x_i, y_i)\sim \mathca
 
 **진행 상황**: 670 / 800
 
-<- **이전**: [669. 추천 시스템 협업 필터링 딥러닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/669_recommendation_system_collaborative_deep_lear/)
-**다음**: [671. 데이터 거버넌스 정책 품질 관리 체계](/knowledge-base/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/) ->
+<- **이전**: [669. 추천 시스템 협업 필터링 딥러닝](/studynote/06_ict_convergence/uncategorized/669_recommendation_system_collaborative_deep_lear/)
+**다음**: [671. 데이터 거버넌스 정책 품질 관리 체계](/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/) ->
 
 ---

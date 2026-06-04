@@ -1,13 +1,10 @@
-+++
-title = "716. IT 경영 관리 핵심 토픽 716번 시험 요약 (IT Management Core Topic 716 Exam Summary)"
-date = 2026-05-09
+---
+title: "716. IT 경영 관리 핵심 토픽 716번 시험 요약 (IT Management Core Topic 716 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ PMO는 **Project Management Office(프로젝트 관리)** -> **Program Managemen
 
 **진행 상황**: 716 / 800
 
-<- **이전**: [715. IT 경영 관리 핵심 토픽 715번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/715_it_management_core_topic_715_exam_summary/)
-**다음**: [717. IT 경영 관리 핵심 토픽 717번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/717_it_management_core_topic_717_exam_summary/) ->
+<- **이전**: [715. IT 경영 관리 핵심 토픽 715번 시험 요약](/studynote/12_it_management/05_security_compliance/715_it_management_core_topic_715_exam_summary/)
+**다음**: [717. IT 경영 관리 핵심 토픽 717번 시험 요약](/studynote/12_it_management/05_security_compliance/717_it_management_core_topic_717_exam_summary/) ->
 
 ---

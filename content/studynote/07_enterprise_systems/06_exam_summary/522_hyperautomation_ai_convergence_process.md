@@ -1,13 +1,10 @@
-+++
-title = "522. 하이퍼오토메이션 AI 융합 프로세스 (Hyperautomation AI Convergence Process)"
-date = 2026-05-09
+---
+title: "522. 하이퍼오토메이션 AI 융합 프로세스 (Hyperautomation AI Convergence Process)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 522 / 800
 
-<- **이전**: [521. RPA 업무 자동화 봇 관리 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/521_rpa_business_automation_bot_management/)
-**다음**: [523. 로우코드 노코드 시민 개발 플랫폼](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/523_low_code_no_code_citizen_developer_platform/) ->
+<- **이전**: [521. RPA 업무 자동화 봇 관리 전략](/studynote/07_enterprise_systems/06_exam_summary/521_rpa_business_automation_bot_management/)
+**다음**: [523. 로우코드 노코드 시민 개발 플랫폼](/studynote/07_enterprise_systems/06_exam_summary/523_low_code_no_code_citizen_developer_platform/) ->
 
 ---

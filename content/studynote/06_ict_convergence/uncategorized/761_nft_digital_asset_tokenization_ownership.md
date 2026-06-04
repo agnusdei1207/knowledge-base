@@ -1,13 +1,10 @@
-+++
-title = "761. NFT 디지털 자산 토큰화 소유권 (NFT Digital Asset Tokenization Ownership)"
-date = 2026-05-09
+---
+title: "761. NFT 디지털 자산 토큰화 소유권 (NFT Digital Asset Tokenization Ownership)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -172,7 +169,7 @@ NFT 토큰화 시스템의 아키텍처는 크게 **5계층(5-Layer Stack)**으�
 
 **진행 상황**: 761 / 800
 
-<- **이전**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/)
-**다음**: [762. CBDC 중앙은행 디지털 화폐 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/) ->
+<- **이전**: [760. 탈중앙화 금융 DeFi 프로토콜 설계](/studynote/06_ict_convergence/uncategorized/760_decentralized_finance_defi_protocol_design/)
+**다음**: [762. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/) ->
 
 ---

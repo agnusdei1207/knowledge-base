@@ -1,13 +1,10 @@
-+++
-title = "795. ICT 융합 기술사 논술 키워드 최종 정리 (ICT PE Essay Keywords Final Summary)"
-date = 2026-05-09
+---
+title: "795. ICT 융합 기술사 논술 키워드 최종 정리 (ICT PE Essay Keywords Final Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ ICT 융합 논술의 5-Step 표준 서술 프레임워크는 아래와 같다. �
 
 **진행 상황**: 795 / 800
 
-<- **이전**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/knowledge-base/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/)
-**다음**: [796. ICT 융합 기술 종합 마스터 아키텍처 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/796_ict_convergence_master_architecture_final/) ->
+<- **이전**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/)
+**다음**: [796. ICT 융합 기술 종합 마스터 아키텍처 정리](/studynote/06_ict_convergence/uncategorized/796_ict_convergence_master_architecture_final/) ->
 
 ---

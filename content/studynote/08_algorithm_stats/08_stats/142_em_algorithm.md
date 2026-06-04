@@ -1,28 +1,25 @@
-+++
-title = "13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정"
-date = 2026-04-21
+---
+title: "13. EM 알고리즘 (Expectation-Maximization) — 잠재변수 추정"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
-> EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Expectation-Maximization [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation)가 불가능할 때, 잠재변수(Latent Variable)에 대한 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)을 계산하고 파라미터를 갱신하는 과정을 반복해 수렴시키는" 우아한 반복 최적화 기법이다.
-> E-단계(Expectation Step)와 M-단계(Maximization Step)를 교대 반복할 때마다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도(Log-Likelihood)는 단조 증가(Monotonically Non-Decreasing)가 보장된다 — 이것이 EM의 수학적 핵심이다.
-> [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)(Gaussian Mixture Models) 클러스터링, HMM(Hidden [Markov Model](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)) 학습, 결측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대체까지 — EM은 "불완전한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 다루는 통계학의 만능 열쇠다.
+> EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(Expectation-Maximization [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 "관측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만으로 [MLE](/studynote/08_algorithm_stats/08_stats/143_mle/)(Maximum Likelihood Estimation)가 불가능할 때, 잠재변수(Latent Variable)에 대한 [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/)을 계산하고 파라미터를 갱신하는 과정을 반복해 수렴시키는" 우아한 반복 최적화 기법이다.
+> E-단계(Expectation Step)와 M-단계(Maximization Step)를 교대 반복할 때마다 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도(Log-Likelihood)는 단조 증가(Monotonically Non-Decreasing)가 보장된다 — 이것이 EM의 수학적 핵심이다.
+> [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/)(Gaussian Mixture Models) 클러스터링, HMM(Hidden [Markov Model](/studynote/01_computer_architecture/15_advanced_topics/755_markov_model/)) 학습, 결측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대체까지 — EM은 "불완전한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 다루는 통계학의 만능 열쇠다.
 
 ---
 
-## Ⅰ. 문제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 잠재변수와 불완전 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+## Ⅰ. 문제 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/): 잠재변수와 불완전 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
-<strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Complete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때
-<strong>불완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Incomplete <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: X만 관측, Z는 숨겨져 있음
+<strong>완전 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Complete <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: (X, Z) — 관측값 X와 잠재변수 Z 모두 알 때
+<strong>불완전 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> (Incomplete <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong>: X만 관측, Z는 숨겨져 있음
 
-<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a>(Maximum Likelihood Estimation) 목표</strong>:
+<strong><a href="/studynote/08_algorithm_stats/08_stats/143_mle/">MLE</a>(Maximum Likelihood Estimation) 목표</strong>:
 
 ```
 θ* = argmax log P(X|θ) = argmax log Σ_Z P(X, Z|θ)
@@ -30,13 +27,13 @@ tags = ["studynote-algorithm"]
 
 잠재변수 Z에 대한 합산(marginalization) 때문에 log 안에 Σ가 생겨 <strong>직접 미분 최적화가 불가능</strong>하다. log(합)은 합(log)보다 훨씬 복잡하다.
 
-**EM의 핵심 아이디어**: 직접 최적화하는 대신, <strong>완전 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 우도에 대한 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/">기댓값</a>(Q 함수)</strong>을 반복 최대화한다.
+**EM의 핵심 아이디어**: 직접 최적화하는 대신, <strong>완전 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/">로그</a> 우도에 대한 <a href="/studynote/08_algorithm_stats/08_stats/135_expected_value/">기댓값</a>(Q 함수)</strong>을 반복 최대화한다.
 
 📢 **섹션 요약 비유**: 잠재변수 문제는 "배달 기록 없이 창고 재고 파악하기"와 같다. 어떤 상품이 어디로 갔는지 모르지만(Z 숨겨짐), 남은 재고(X)를 보면서 "아마 이런 패턴이겠지"를 추론하는 것이 EM이다.
 
 ---
 
-## Ⅱ. EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수식
+## Ⅱ. EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수식
 
 **Q 함수 (보조 함수)**:
 
@@ -86,7 +83,7 @@ Q 함수를 최대화하는 새 파라미터를 찾음:
 
 ## Ⅲ. 단조 증가 보장 (Jensen's Inequality)
 
-EM이 각 반복마다 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도를 감소시키지 않는 이유는 **Jensen 부등식(Jensen's Inequality)** 때문이다.
+EM이 각 반복마다 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도를 감소시키지 않는 이유는 **Jensen 부등식(Jensen's Inequality)** 때문이다.
 
 **Jensen 부등식**: f가 오목 함수(concave)이면, E[f(X)] ≤ f(E[X]).
 log는 오목 함수이므로:
@@ -98,55 +95,55 @@ log Σ_Z P(Z|X, θ_old) · [P(X,Z|θ) / P(Z|X, θ_old)]
 
 이를 정리하면: **log P(X|θ_new) ≥ log P(X|θ_old)**
 
-즉 매 반복마다 관측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도는 줄어들지 않는다. **단조 증가 보장**.
+즉 매 반복마다 관측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도는 줄어들지 않는다. **단조 증가 보장**.
 
 **수렴 특성**:
 - 국소 최대값(Local Maximum)에 수렴 — 전역 최대값(Global Maximum) 보장 없음
-- 해결책: 다양한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값으로 여러 번 실행 (Multiple Random Restarts)
+- 해결책: 다양한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)값으로 여러 번 실행 (Multiple Random Restarts)
 - 안장점(Saddle Point)에서 멈출 수 있음
 
-📢 **섹션 요약 비유**: EM의 단조 증가 보장은 "낮은 곳으로만 흐르는 물"과 같다. 물은 절대 위로 흐르지 않듯, EM의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도는 절대 낮아지지 않는다. 다만 산의 최고봉(전역 최대)이 아닌 언덕 위(국소 최대)에서 멈출 수 있다.
+📢 **섹션 요약 비유**: EM의 단조 증가 보장은 "낮은 곳으로만 흐르는 물"과 같다. 물은 절대 위로 흐르지 않듯, EM의 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 우도는 절대 낮아지지 않는다. 다만 산의 최고봉(전역 최대)이 아닌 언덕 위(국소 최대)에서 멈출 수 있다.
 
 ---
 
 ## Ⅳ. GMM에서의 EM 구체 적용
 
-<strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/">GMM</a>(Gaussian Mixture Models, <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/">가우시안 혼합 모델</a>)</strong>은 K개 가우시안 분포의 가중합:
+<strong><a href="/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/">GMM</a>(Gaussian Mixture Models, <a href="/studynote/14_data_engineering/02_math_mining/114_gaussian_mixture_model/">가우시안 혼합 모델</a>)</strong>은 K개 가우시안 분포의 가중합:
 
 ```
 P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 ```
 
-파라미터: π_k (혼합 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), μ_k (평균), Σ_k (공분산 행렬)
-잠재변수 Z_i = k: i번째 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 k번째 클러스터에 속함
+파라미터: π_k (혼합 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)), μ_k (평균), Σ_k (공분산 행렬)
+잠재변수 Z_i = k: i번째 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 k번째 클러스터에 속함
 
 **GMM의 E/M 단계 구체 계산**:
 
 | 단계 | 계산 항목 | 수식 |
 |:---:|:---|:---|
 | **E-단계** | 책임도 (Responsibility) | r_ik = π_k·N(xᵢ\|μ_k,Σ_k) / Σ_j π_j·N(xᵢ\|μ_j,Σ_j) |
-| **M-단계** | 혼합 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 | π_k^[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = (1/N) Σᵢ r_ik |
-| **M-단계** | 평균 갱신 | μ_k^[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·xᵢ / Σᵢ r_ik |
-| **M-단계** | 공분산 갱신 | Σ_k^[new](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·(xᵢ-μ_k)(xᵢ-μ_k)ᵀ / Σᵢ r_ik |
+| **M-단계** | 혼합 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 갱신 | π_k^[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = (1/N) Σᵢ r_ik |
+| **M-단계** | 평균 갱신 | μ_k^[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·xᵢ / Σᵢ r_ik |
+| **M-단계** | 공분산 갱신 | Σ_k^[new](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = Σᵢ r_ik·(xᵢ-μ_k)(xᵢ-μ_k)ᵀ / Σᵢ r_ik |
 
-<strong>K-평균(K-Means)과의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: K-Means는 <strong>하드 EM(Hard EM)</strong>으로 해석 가능하다. r_ik ∈ {0, 1} (단 하나의 클러스터에만 완전 배정). GMM의 r_ik ∈ (0,1)인 소프트 EM과 달리, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 배정 없이 가장 가까운 클러스터에만 완전 배정한다.
+<strong>K-평균(K-Means)과의 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a></strong>: K-Means는 <strong>하드 EM(Hard EM)</strong>으로 해석 가능하다. r_ik ∈ {0, 1} (단 하나의 클러스터에만 완전 배정). GMM의 r_ik ∈ (0,1)인 소프트 EM과 달리, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 배정 없이 가장 가까운 클러스터에만 완전 배정한다.
 
-📢 **섹션 요약 비유**: GMM의 EM은 "설문 결과 분석"과 같다. 응답자가 어느 집단(Z)에 속하는지 모른 채 설문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(X)만 있을 때, 먼저 "아마 이 집단이겠지" [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정(E-단계)하고, 그 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 각 집단의 평균·분산을 갱신(M-단계)하는 것이다.
+📢 **섹션 요약 비유**: GMM의 EM은 "설문 결과 분석"과 같다. 응답자가 어느 집단(Z)에 속하는지 모른 채 설문 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(X)만 있을 때, 먼저 "아마 이 집단이겠지" [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정(E-단계)하고, 그 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 각 집단의 평균·분산을 갱신(M-단계)하는 것이다.
 
 ---
 
-## Ⅴ. 응용: HMM 학습, 결측 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 변형
+## Ⅴ. 응용: HMM 학습, 결측 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 변형
 
-<strong>Baum-Welch <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: HMM 파라미터 추정을 위한 EM 특수 케이스.
-- E-단계: Forward-Backward Algorithm으로 숨겨진 상태의 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
-- M-단계: 전이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·방출 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)·[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신
+<strong>Baum-Welch <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>: HMM 파라미터 추정을 위한 EM 특수 케이스.
+- E-단계: Forward-Backward Algorithm으로 숨겨진 상태의 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 계산
+- M-단계: 전이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)·방출 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)·[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 갱신
 
-<strong>결측 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Missing <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 대체(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/">Imputation</a>)</strong>:
+<strong>결측 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(Missing <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>) 대체(<a href="/studynote/06_ict_convergence/05_data_science/367_missing_value_imputation_mice/">Imputation</a>)</strong>:
 - 결측값을 잠재변수 Z로 취급
-- E-단계: 결측값의 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)(조건부 평균) 계산
-- M-단계: 완전화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 파라미터 추정
+- E-단계: 결측값의 [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/)(조건부 평균) 계산
+- M-단계: 완전화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 파라미터 추정
 
-<strong>EM 변형 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
+<strong>EM 변형 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>:
 
 ```
 +-----------------------------------------------+
@@ -160,19 +157,19 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 +--------------+--------------+-----------------+
 ```
 
-📢 **섹션 요약 비유**: EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 응용은 "불완전한 퍼즐 맞추기"와 같다. 빠진 조각(잠재변수)을 "아마 이 모양이겠지"로 임시 채우고 전체 그림을 맞춰보고, 다시 빠진 조각 모양을 수정하기를 반복하면 결국 완성된 그림이 나타난다.
+📢 **섹션 요약 비유**: EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 응용은 "불완전한 퍼즐 맞추기"와 같다. 빠진 조각(잠재변수)을 "아마 이 모양이겠지"로 임시 채우고 전체 그림을 맞춰보고, 다시 빠진 조각 모양을 수정하기를 반복하면 결국 완성된 그림이 나타난다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [MLE](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) (잠재변수) | 해결 방법 |
+| EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [MLE](/studynote/08_algorithm_stats/08_stats/143_mle/) (잠재변수) | 해결 방법 |
 | E-단계 | 사후 분포 P(Z\|X,θ) | 계산 대상 |
 | M-단계 | Q 함수 최대화 | 파라미터 갱신 |
 | Jensen 부등식 | 단조 증가 보장 | 수학적 근거 |
-| [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) | 소프트 EM | 주요 응용 |
+| [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) | 소프트 EM | 주요 응용 |
 | K-Means | 하드 EM | EM 특수 케이스 |
 | Baum-Welch | HMM 학습 | EM 특수 케이스 |
 
@@ -196,13 +193,13 @@ P(x) = Σ_{k=1}^{K} π_k · N(x | μ_k, Σ_k)
 [변분 추론 (Variational Inference) — EM의 확장, 복잡한 사후 분포 근사]
 ```
 
-이 흐름은 잠재 변수를 포함한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 모델의 우도 최대화를 위해 EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개발되고, [GMM](/knowledge-base/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 등의 응용을 거쳐 베이지안 방법과 변분 추론으로 발전하는 과정을 보여준다.
+이 흐름은 잠재 변수를 포함한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 모델의 우도 최대화를 위해 EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 개발되고, [GMM](/studynote/10_ai/05_data_science_ml/360_gmm_em_algorithm/) 등의 응용을 거쳐 베이지안 방법과 변분 추론으로 발전하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-반 아이들을 키와 성격으로 두 팀으로 나누고 싶은데, 누가 어느 팀인지 모를 때 — 먼저 "아마 이 아이는 A팀이겠지" [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 나눠보고(E-단계), 그 기준으로 팀 평균 키를 다시 계산해(M-단계), 반복하면 딱 맞는 팀 구분이 나와!
+반 아이들을 키와 성격으로 두 팀으로 나누고 싶은데, 누가 어느 팀인지 모를 때 — 먼저 "아마 이 아이는 A팀이겠지" [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 나눠보고(E-단계), 그 기준으로 팀 평균 키를 다시 계산해(M-단계), 반복하면 딱 맞는 팀 구분이 나와!
 이건 "가구 배치"랑 똑같아 — 사람들이 어디 많이 모이는지 보고(E), 거기에 소파를 두고(M), 다시 관찰하고 반복하다 보면 가장 좋은 배치가 완성돼.
-EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 절대로 결과가 나빠지지 않아 — 반복할수록 점점 더 좋아지는 게 수학으로 증명됐거든!
+EM [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 절대로 결과가 나빠지지 않아 — 반복할수록 점점 더 좋아지는 게 수학으로 증명됐거든!
 
 ---
 
@@ -210,7 +207,7 @@ EM [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_alg
 
 **진행 상황**: 142 / 175
 
-<- **이전**: [12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재](/knowledge-base/studynote/08_algorithm_stats/08_stats/141_markov_property/)
-**다음**: [14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/knowledge-base/studynote/08_algorithm_stats/08_stats/143_mle/) ->
+<- **이전**: [12. 마르코프 성질 (Markov Property) — 미래 ⊥ 과거 | 현재](/studynote/08_algorithm_stats/08_stats/141_markov_property/)
+**다음**: [14. 최대 우도 추정 (MLE, Maximum Likelihood Estimation)](/studynote/08_algorithm_stats/08_stats/143_mle/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "638. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)"
-date = 2026-05-09
+---
+title: "638. 클라우드 마이그레이션 6R 전략 (Cloud Migration 6R Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -171,7 +168,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 638 / 800
 
-<- **이전**: [637. 스팟 인스턴스 리저브드 비용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/637_spot_instance_reserved_cost_strategy/)
-**다음**: [639. API 게이트웨이 매니지드 서비스 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/) ->
+<- **이전**: [637. 스팟 인스턴스 리저브드 비용 전략](/studynote/06_ict_convergence/uncategorized/637_spot_instance_reserved_cost_strategy/)
+**다음**: [639. API 게이트웨이 매니지드 서비스 비교](/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/) ->
 
 ---

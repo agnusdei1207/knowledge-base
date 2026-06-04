@@ -1,13 +1,10 @@
-+++
-title = "530. 데이터 통합 ETL ELT CDC 파이프라인 (Data Integration ETL ELT CDC Pipeline)"
-date = 2026-05-09
+---
+title: "530. 데이터 통합 ETL ELT CDC 파이프라인 (Data Integration ETL ELT CDC Pipeline)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 530 / 800
 
-<- **이전**: [529. iPaaS 통합 플랫폼 서비스 클라우드](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/529_ipaas_integration_platform_as_a_service/)
-**다음**: [531. 마스터 데이터 관리 MDM 골든 레코드](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/531_master_data_management_mdm_golden_record/) ->
+<- **이전**: [529. iPaaS 통합 플랫폼 서비스 클라우드](/studynote/07_enterprise_systems/06_exam_summary/529_ipaas_integration_platform_as_a_service/)
+**다음**: [531. 마스터 데이터 관리 MDM 골든 레코드](/studynote/07_enterprise_systems/06_exam_summary/531_master_data_management_mdm_golden_record/) ->
 
 ---

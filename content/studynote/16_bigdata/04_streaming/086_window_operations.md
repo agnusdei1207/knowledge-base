@@ -1,18 +1,15 @@
-+++
-title = "11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션"
-date = 2026-04-21
+---
+title: "11. 윈도우 연산 (Window Operations) — 텀블링/슬라이딩/세션"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-- **본질**: 윈도우 연산(Window Operations)은 무한한 스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유한한 집합으로 나누어 집계·분석하는 스트리밍의 핵심 메커니즘으로, 시간 기반(Tumbling·Sliding·[Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))과 카운트 기반 윈도우가 있으며 이벤트 시간과 처리 시간 모두에 적용된다.
-- **가치**: 윈도우 없이는 "지난 5분간의 평균 거래금액", "1시간 내 3회 이상 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패" 같은 시간 범위 기반 집계가 불가능하며, 각 윈도우 유형의 특성이 다르므로 비즈니스 요구에 맞는 유형 선택이 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 정확도와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다.
+- **본질**: 윈도우 연산(Window Operations)은 무한한 스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 유한한 집합으로 나누어 집계·분석하는 스트리밍의 핵심 메커니즘으로, 시간 기반(Tumbling·Sliding·[Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/))과 카운트 기반 윈도우가 있으며 이벤트 시간과 처리 시간 모두에 적용된다.
+- **가치**: 윈도우 없이는 "지난 5분간의 평균 거래금액", "1시간 내 3회 이상 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)인 실패" 같은 시간 범위 기반 집계가 불가능하며, 각 윈도우 유형의 특성이 다르므로 비즈니스 요구에 맞는 유형 선택이 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 정확도와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 결정한다.
 - **판단 포인트**: 텀블링(Tumbling)은 겹치지 않아 단순하고 효율적이나 경계 직전/직후의 이벤트가 다른 집계에 들어간다. 슬라이딩(Sliding)은 더 부드러운 결과를 주지만 이벤트가 여러 윈도우에 중복 포함되어 메모리 비용이 `크기/슬라이드` 배 증가한다.
 
 ---
@@ -34,13 +31,13 @@ tags = ["studynote-bigdata"]
 ```
 
 **📢 섹션 요약 비유**
-> 윈도우는 "흐르는 강물에서 물을 퍼내는 양동이"다. 양동이 없이 강물의 양을 재는 것은 불가능하다. 양동이 크기([윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))와 퍼내는 주기(슬라이드)를 어떻게 설계하느냐에 따라 측정 방식이 달라진다.
+> 윈도우는 "흐르는 강물에서 물을 퍼내는 양동이"다. 양동이 없이 강물의 양을 재는 것은 불가능하다. 양동이 크기([윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/))와 퍼내는 주기(슬라이드)를 어떻게 설계하느냐에 따라 측정 방식이 달라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 네 가지 윈도우 유형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)
+### 1. 네 가지 윈도우 유형 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)
 
 ```
 [텀블링 윈도우 (Tumbling Window) - 크기=5분, 슬라이드 없음]
@@ -102,20 +99,20 @@ stream.keyBy(e -> e.getUserId())
 |:---|:---|:---|:---|:---|
 | 텀블링 (Tumbling) | 없음 | 고정 | 낮음 | 시간별 집계, 일별 통계 |
 | 슬라이딩 (Sliding) | 있음 | 고정 (크기 > 슬라이드) | 높음 (크기/슬라이드 배) | 이동 평균, 트렌드 분석 |
-| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 없음 | 동적 (활동 기반) | 보통 | 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 분석 |
-| 글로벌 (Global) | 없음 | 무한 | 매우 높음 | 카운트 기반 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 없음 | 동적 (활동 기반) | 보통 | 사용자 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 분석 |
+| 글로벌 (Global) | 없음 | 무한 | 매우 높음 | 카운트 기반 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
 
 **📢 섹션 요약 비유**
-> 텀블링은 "1시간짜리 수업 교시(겹침 없음)", 슬라이딩은 "2시간짜리 이동 수업(1시간마다 시작, 겹침 있음)", [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "학생이 공부를 시작~멈추는 한 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)"이다. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우는 크기가 고정되어 있지 않고 사용자 행동에 따라 달라진다.
+> 텀블링은 "1시간짜리 수업 교시(겹침 없음)", 슬라이딩은 "2시간짜리 이동 수업(1시간마다 시작, 겹침 있음)", [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "학생이 공부를 시작~멈추는 한 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)"이다. [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우는 크기가 고정되어 있지 않고 사용자 행동에 따라 달라진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 1. 윈도우 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)와 이빅터(Evictor)
+### 1. 윈도우 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)(Trigger)와 이빅터(Evictor)
 
-- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>(Trigger)</strong>: 윈도우 함수를 언제 실행할지 결정
-  - `EventTimeTrigger`: [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)가 윈도우 끝을 초과할 때 (기본)
+- <strong><a href="/studynote/05_database/04_transactions_concurrency/507_acid_properties/">트리거</a>(Trigger)</strong>: 윈도우 함수를 언제 실행할지 결정
+  - `EventTimeTrigger`: [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)가 윈도우 끝을 초과할 때 (기본)
   - `ProcessingTimeTrigger`: 처리 시간 기준
   - `CountTrigger`: N개 이벤트마다
 
@@ -123,7 +120,7 @@ stream.keyBy(e -> e.getUserId())
   - `CountEvictor`: 최근 N개만 유지
   - `TimeEvictor`: 최근 N초만 유지
 
-### 2. 윈도우 [Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) (스트림 간 조인)
+### 2. 윈도우 [Join](/studynote/05_database/04_transactions_concurrency/521_join/) (스트림 간 조인)
 
 ```java
 // 같은 시간 윈도우 내에서 두 스트림 조인
@@ -147,10 +144,10 @@ orders.join(deliveries)
 |:---|:---|
 | 5분마다 집계 리포트 | 텀블링 (5분) |
 | 실시간 1분 이동평균 (5분 범위) | 슬라이딩 (5분, 1분) |
-| 사용자 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)별 총 구매금액 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) (갭 30분) |
+| 사용자 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)별 총 구매금액 | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) (갭 30분) |
 | 이상 패턴: 3번 연속 실패 | 카운트 기반 글로벌 윈도우 + CountTrigger |
 
-### 2. 슬라이딩 윈도우 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 주의
+### 2. 슬라이딩 윈도우 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 주의
 
 슬라이딩 윈도우에서 크기=60분, 슬라이드=1분이면 각 이벤트가 60개 윈도우에 중복 포함된다. 이는 메모리 60배 증가를 의미한다.
 
@@ -162,7 +159,7 @@ orders.join(deliveries)
 해결책: 집계함수(SUM, COUNT)는 증분 집계(Incremental Aggregation)를 사용하여 중간 상태만 저장.
 
 **📢 섹션 요약 비유**
-> 슬라이딩 윈도우의 메모리 비용은 "여러 교시 동시 수업에 같은 학생이 중복 출석"하는 것과 같다. 60교시에 같은 학생이 있으면 출석부가 60배 두꺼워진다. [집계 함수](/knowledge-base/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)를 쓰면 출석부 대신 "각 교시 출석 인원수"만 기록해서 메모리를 절약한다.
+> 슬라이딩 윈도우의 메모리 비용은 "여러 교시 동시 수업에 같은 학생이 중복 출석"하는 것과 같다. 60교시에 같은 학생이 있으면 출석부가 60배 두꺼워진다. [집계 함수](/studynote/05_database/03_relational_model/147_aggregate_function_group_by/)를 쓰면 출석부 대신 "각 교시 출석 인원수"만 기록해서 메모리를 절약한다.
 
 ---
 
@@ -174,26 +171,26 @@ orders.join(deliveries)
 |:---|:---|
 | 텀블링 | 정기적 집계 자동화, 낮은 메모리 비용 |
 | 슬라이딩 | 부드러운 이동 통계, 실시간 트렌드 파악 |
-| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) | 사용자 행동 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 보존, 비즈니스 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 단위 분석 |
+| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) | 사용자 행동 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 보존, 비즈니스 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 단위 분석 |
 
 ### 2. 결론
 
-윈도우 연산은 스트리밍 집계의 <strong>기본 문법</strong>이다. 기술사 답안에서는 네 가지 윈도우 유형의 특성과 차이점을 시각적으로 설명하고, 이벤트 시간 기반 윈도우와 [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)의 연결, 슬라이딩 윈도우의 메모리 트레이드오프를 함께 서술하는 것이 핵심이다.
+윈도우 연산은 스트리밍 집계의 <strong>기본 문법</strong>이다. 기술사 답안에서는 네 가지 윈도우 유형의 특성과 차이점을 시각적으로 설명하고, 이벤트 시간 기반 윈도우와 [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)의 연결, 슬라이딩 윈도우의 메모리 트레이드오프를 함께 서술하는 것이 핵심이다.
 
 **📢 섹션 요약 비유**
-> 윈도우 연산은 "흐르는 강물을 사진 찍는 방법"이다. 텀블링은 "5초마다 찍는 연속 사진(겹침 없음)", 슬라이딩은 "1초마다 찍되 5초짜리 노출로 찍는 사진(겹침 있음)", [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "일몰부터 일출까지 찍는 타임랩스(자연 경계)" — 각각 다른 정보를 담는다.
+> 윈도우 연산은 "흐르는 강물을 사진 찍는 방법"이다. 텀블링은 "5초마다 찍는 연속 사진(겹침 없음)", 슬라이딩은 "1초마다 찍되 5초짜리 노출로 찍는 사진(겹침 있음)", [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)은 "일몰부터 일출까지 찍는 타임랩스(자연 경계)" — 각각 다른 정보를 담는다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [Watermark](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/) | 윈도우 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [워터마크](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)가 윈도우 끝에 도달하면 윈도우 닫힘 |
+| [Watermark](/studynote/16_bigdata/04_streaming/085_watermark/) | 윈도우 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [워터마크](/studynote/16_bigdata/04_streaming/085_watermark/)가 윈도우 끝에 도달하면 윈도우 닫힘 |
 | Event Time | 기반 시간 | 이벤트 시간 기준 윈도우 정확도 향상 |
 | Trigger | 윈도우 제어 | 윈도우 실행 시점 결정 |
-| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 상태 저장 | 슬라이딩 윈도우 상태는 RocksDB 권장 |
-| [CEP](/knowledge-base/studynote/16_bigdata/04_streaming/098_cep/) | 응용 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우 패턴의 복합 이벤트 감지 |
+| [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Backend | 상태 저장 | 슬라이딩 윈도우 상태는 RocksDB 권장 |
+| [CEP](/studynote/16_bigdata/04_streaming/098_cep/) | 응용 | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 윈도우 패턴의 복합 이벤트 감지 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -213,11 +210,11 @@ orders.join(deliveries)
 [결과 출력 (Trigger & Output) — 윈도우 완료 시 싱크(Sink)에 결과 방출]
 ```
 
-이 흐름은 무한 스트림을 유한 윈도우로 구획하고 집계·출력하는 스트리밍 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 나타낸다.
+이 흐름은 무한 스트림을 유한 윈도우로 구획하고 집계·출력하는 스트리밍 처리 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-물고기를 잡을 때 그물(윈도우)의 모양이 중요해요. 텀블링 그물은 5분마다 새 그물로 교체해서 물고기가 두 그물에 걸리지 않고, 슬라이딩 그물은 1분마다 앞으로 당기면서 최근 5분 물고기를 항상 보여주고, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 그물은 물고기가 몰릴 때 벌어지고 5분 동안 물고기가 없으면 닫혀요. 어떤 그물을 쓰느냐에 따라 잡히는 물고기 수가 달라진답니다!
+물고기를 잡을 때 그물(윈도우)의 모양이 중요해요. 텀블링 그물은 5분마다 새 그물로 교체해서 물고기가 두 그물에 걸리지 않고, 슬라이딩 그물은 1분마다 앞으로 당기면서 최근 5분 물고기를 항상 보여주고, [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 그물은 물고기가 몰릴 때 벌어지고 5분 동안 물고기가 없으면 닫혀요. 어떤 그물을 쓰느냐에 따라 잡히는 물고기 수가 달라진답니다!
 
 ---
 
@@ -225,7 +222,7 @@ orders.join(deliveries)
 
 **진행 상황**: 86 / 262
 
-<- **이전**: [10. 워터마크 (Watermark) — 지연 이벤트 허용 임계](/knowledge-base/studynote/16_bigdata/04_streaming/085_watermark/)
-**다음**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/knowledge-base/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/) ->
+<- **이전**: [10. 워터마크 (Watermark) — 지연 이벤트 허용 임계](/studynote/16_bigdata/04_streaming/085_watermark/)
+**다음**: [12. 정확히 한 번 (Exactly-Once Semantics) — 2PC + Idempotent Sink](/studynote/16_bigdata/04_streaming/087_exactly_once_semantics/) ->
 
 ---

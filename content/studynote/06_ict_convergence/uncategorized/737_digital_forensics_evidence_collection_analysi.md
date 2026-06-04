@@ -1,13 +1,10 @@
-+++
-title = "737. 디지털 포렌식 증거 수집 분석 법정 (Digital Forensics Evidence Collection Analysis)"
-date = 2026-05-09
+---
+title: "737. 디지털 포렌식 증거 수집 분석 법정 (Digital Forensics Evidence Collection Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 737 / 800
 
-<- **이전**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/knowledge-base/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/)
-**다음**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/knowledge-base/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/) ->
+<- **이전**: [736. 로봇 협동 코봇 휴먼 로봇 인터랙션](/studynote/06_ict_convergence/uncategorized/736_collaborative_robot_cobot_human_interaction/)
+**다음**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/) ->
 
 ---

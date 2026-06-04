@@ -1,34 +1,31 @@
-+++
-title = "139. 액터 모델 (Actor Model) - Erlang, Akka 동시성 모델"
-date = 2026-05-08
+---
+title: "139. 액터 모델 (Actor Model) - Erlang, Akka 동시성 모델"
+date: "2026-05-08"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 액터 모델은 동시 시스템을 설계하기 위한 수학적 모델로, 독립적인 액터들이 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)을 통해서만 상호작용하며 상태를 캡슐화한다.
-> 2. **가치**: 락 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 문제를 피하고, 장애 격리와 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)을 제공하여 확장성 있고 fault-tolerant한 시스템을 구축할 수 있다.
-> 3. **융합**: 액터 모델은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 프로세스와 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 추상화한 것으로, 경량 프로세스, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/), 메시지 큐 등과 깊은 관련이 있다.
+> 1. **본질**: 액터 모델은 동시 시스템을 설계하기 위한 수학적 모델로, 독립적인 액터들이 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)을 통해서만 상호작용하며 상태를 캡슐화한다.
+> 2. **가치**: 락 기반 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)의 문제를 피하고, 장애 격리와 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)을 제공하여 확장성 있고 fault-tolerant한 시스템을 구축할 수 있다.
+> 3. **융합**: 액터 모델은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 프로세스와 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 추상화한 것으로, 경량 프로세스, [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/), 메시지 큐 등과 깊은 관련이 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 액터 모델은 카를 하위트(Carl Hewitt)가 1973년에 제안한 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델로, 시스템을 독립적인 액터들의 집합으로 본다. 각 액터는 상태와 행동을 가지고 있으며, 다른 액터와는 오직 비동기 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)을 통해서만 통신한다. 공유 상태가 없으므로 락이 필요 없고, 이로 인해 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)이 근본적으로 제거된다.
+- **개념**: 액터 모델은 카를 하위트(Carl Hewitt)가 1973년에 제안한 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델로, 시스템을 독립적인 액터들의 집합으로 본다. 각 액터는 상태와 행동을 가지고 있으며, 다른 액터와는 오직 비동기 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)을 통해서만 통신한다. 공유 상태가 없으므로 락이 필요 없고, 이로 인해 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)이 근본적으로 제거된다.
 
-- **필요성**: 전통적인 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델에서의 락 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 데드락, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), [락 경합 등](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)의 문제를 동반한다. 액터 모델은 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)이라는 간단한 추상화를 통해 이러한 문제를 근본적으로 해결하고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 자연스럽게 제공한다.
+- **필요성**: 전통적인 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델에서의 락 기반 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)는 데드락, [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/), [락 경합 등](/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)의 문제를 동반한다. 액터 모델은 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)이라는 간단한 추상화를 통해 이러한 문제를 근본적으로 해결하고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 자연스럽게 제공한다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 모델의 한계</strong>: [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등은 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반으로_lock_과 _condition_variable_에 의존하여 복잡하고 오류가 쉽다.
-  2. **액터 모델의 formal화**: 1970년대 후반부터 수학적으로 형식화되어, [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 시스템으로서의 액터가 연구되기 시작했다.
-  3. **실용 구현 및 확산**: [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)(1986년)에서 액터 모델을 핵심으로 채택하여 높은 가용성의 통신 시스템을 구축하였고, 이후 Akka, Orleans 등 다양한 프레임워크에서 채택되었다.
+  1. <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> <a href="/studynote/15_devops_sre/01_culture_methodology/014_concurrency/">동시성</a> 모델의 한계</strong>: [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 등은 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 기반으로_lock_과 _condition_variable_에 의존하여 복잡하고 오류가 쉽다.
+  2. **액터 모델의 formal화**: 1970년대 후반부터 수학적으로 형식화되어, [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 시스템으로서의 액터가 연구되기 시작했다.
+  3. **실용 구현 및 확산**: [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)(1986년)에서 액터 모델을 핵심으로 채택하여 높은 가용성의 통신 시스템을 구축하였고, 이후 Akka, Orleans 등 다양한 프레임워크에서 채택되었다.
 
-액터 모델의 기본 동작을 보여주면, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 어떻게 이루어지는지 알 수 있다.
+액터 모델의 기본 동작을 보여주면, [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)과 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)가 어떻게 이루어지는지 알 수 있다.
 
 ```text
    +-------------------------------------------------------------------+
@@ -62,15 +59,15 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 관련 기술 | 비유 |
 |---|---|:---|:---|:---|
-| **액터 (Actor)** | [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 기본 단위 | 상태와 행동 보유, 메시지 처리 | [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 프로세스, Akka 액터 | 우체국 직원 |
-| **메일박스 (Mailbox)** | 메시지 저장 큐 | [FIFO](/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 또는 우선순위 기반 큐 | 메시지 큐, 채널 | 우편함 |
-| **행동 (Behavior)** | 메시지 처리 방식 | 현재 메시지에 대한 처리 로직 | [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 함수 | 직원 매뉴얼 |
-- **메시지 (Message)** | 액터 간 통신 단위 | 불변 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 | 시리얼라이즈 가능한 객체 | 편지
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 액터 실행 관리 | [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 또는 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)에 매핑 | ForkJoinPool, [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) | 우체국 관리자
+| **액터 (Actor)** | [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)의 기본 단위 | 상태와 행동 보유, 메시지 처리 | [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/) 프로세스, Akka 액터 | 우체국 직원 |
+| **메일박스 (Mailbox)** | 메시지 저장 큐 | [FIFO](/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/) 또는 우선순위 기반 큐 | 메시지 큐, 채널 | 우편함 |
+| **행동 (Behavior)** | 메시지 처리 방식 | 현재 메시지에 대한 처리 로직 | [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 함수 | 직원 매뉴얼 |
+- **메시지 (Message)** | 액터 간 통신 단위 | 불변 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 | 시리얼라이즈 가능한 객체 | 편지
+- <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 액터 실행 관리 | [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 또는 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)에 매핑 | ForkJoinPool, [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) | 우체국 관리자
 
 ### 액터 모델의 내부 동작 원리
 
-액터 모델이 어떻게 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)과 상태 관리를 수행하는지를 단계별로 살펴보면 다음과 같다.
+액터 모델이 어떻게 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)과 상태 관리를 수행하는지를 단계별로 살펴보면 다음과 같다.
 
 ```text
    +--------------------------------------------------------------------+
@@ -97,7 +94,7 @@ tags = ["studynote-operating-system"]
    +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 위 다이어그램은 액터가 메시지를 처리하는 전체 주기를 보여준다. 특히 4단계에서 행동 변경을 통해 상태 기계를 구현할 수 있음을 보여주며, 이는 액터가 복잡한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 구현하는 데 유용하다. 메시지 전송은 비동기이므로 발신자는 즉시 다음 작업을 진행할 수 있다.
+**[다이어그램 해설]** 위 다이어그램은 액터가 메시지를 처리하는 전체 주기를 보여준다. 특히 4단계에서 행동 변경을 통해 상태 기계를 구현할 수 있음을 보여주며, 이는 액터가 복잡한 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)을 구현하는 데 유용하다. 메시지 전송은 비동기이므로 발신자는 즉시 다음 작업을 진행할 수 있다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -105,25 +102,25 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 액터 모델 vs 전통적인 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델
+### 비교 1: 액터 모델 vs 전통적인 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델
 
-| 비교 항목 | 액터 모델 | 전통적인 [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델 (락 기반) |
+| 비교 항목 | 액터 모델 | 전통적인 [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 모델 (락 기반) |
 |:---|:---|:---|
-| **상태 공유** | 없음 ([메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)만) | 있음 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 원리</strong> | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 순서 | 락, [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 등 |
-| **오류 격리** | 액터 수준 (하나의 액터 오류가 다른 액터에 직접 영향 안줌) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/) 오염 가능) |
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/">위치 투명성</a></strong> | 가능 (같은 코드로 로컬/원격 액터 처리) | 어렵다 ([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 로컬에 한정) |
-| **확장성** | 좋음 (경량 액터 수백만 개 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능) | 제한적 ([스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수와 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) |
-| **주 사용처** | [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/[OTP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/748_otp/), Akka, Orleans | 일반적인 멀티스레드 애플리케이션 |
+| **상태 공유** | 없음 ([메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)만) | 있음 ([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)) |
+| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 원리</strong> | [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 순서 | 락, [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/), [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 등 |
+| **오류 격리** | 액터 수준 (하나의 액터 오류가 다른 액터에 직접 영향 안줌) | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 ([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/) 오염 가능) |
+| <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/">위치 투명성</a></strong> | 가능 (같은 코드로 로컬/원격 액터 처리) | 어렵다 ([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)는 로컬에 한정) |
+| **확장성** | 좋음 (경량 액터 수백만 개 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 가능) | 제한적 ([스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수와 [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)) |
+| **주 사용처** | [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/[OTP](/studynote/01_computer_architecture/15_advanced_topics/748_otp/), Akka, Orleans | 일반적인 멀티스레드 애플리케이션 |
 
-액터 모델은 상태 공유를 제거함으로써 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)을 근본적으로 없애지만, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 지연과 액터 간 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 복잡성이라는 새로운 도전과제를 제시한다.
+액터 모델은 상태 공유를 제거함으로써 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)을 근본적으로 없애지만, [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 지연과 액터 간 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 설계 복잡성이라는 새로운 도전과제를 제시한다.
 
 ### 과목 융합 관점
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS, <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a>)</strong>: 액터는 경량 프로세스(LWP)와 유사하며, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), 메시지 큐 등)을 추상화한 것이다. 특히 Erlang의 액터는 경량 프로세스와 직접 매핑되며, Akka는 JVM [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 사용한다.
-- **컴퓨터 네트워크 (Computer Network)**: 액터 모델의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)을 제공하며, 이는 RPC나 메시지 지향 미들웨어(MOM)와 유사한 개념이다. 네트워크 지연과 부분 실패를 고려한 설정이 필요하다.
+- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS, <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">Operating System</a>)</strong>: 액터는 경량 프로세스(LWP)와 유사하며, [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/), 메시지 큐 등)을 추상화한 것이다. 특히 Erlang의 액터는 경량 프로세스와 직접 매핑되며, Akka는 JVM [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/)을 사용한다.
+- **컴퓨터 네트워크 (Computer Network)**: 액터 모델의 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)을 제공하며, 이는 RPC나 메시지 지향 미들웨어(MOM)와 유사한 개념이다. 네트워크 지연과 부분 실패를 고려한 설정이 필요하다.
 
-액터 모델이 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개념과 어떻게 대응되는지를 보여주면, 그 관계를 명확히 알 수 있다.
+액터 모델이 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 개념과 어떻게 대응되는지를 보여주면, 그 관계를 명확히 알 수 있다.
 
 ```text
    +--------------------------------------------------------------------+
@@ -141,7 +138,7 @@ tags = ["studynote-operating-system"]
    +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 위 다이어그램은 액터 모델이 어떻게 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기존 개념들을 추상화하여 구현되는지 보여준다. 액터는 경량 프로세스와 유사하게 작동하며, [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 기반으로 한다. 특히 액터 모델은 상태 공유를 제거함으로써 프로세스 격리의 이점을 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 수준에서 달성한다.
+**[다이어그램 해설]** 위 다이어그램은 액터 모델이 어떻게 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 기존 개념들을 추상화하여 구현되는지 보여준다. 액터는 경량 프로세스와 유사하게 작동하며, [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/) 메커니즘을 기반으로 한다. 특히 액터 모델은 상태 공유를 제거함으로써 프로세스 격리의 이점을 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 수준에서 달성한다.
 
 - **📢 섹션 요약 비유**: 비슷해 보이는 공구를 나란히 놓고 언제 망치를 쓰고 언제 드라이버를 써야 하는지 구분하는 것과 같다.
 
@@ -151,11 +148,11 @@ tags = ["studynote-operating-system"]
 
 ### 실무 시나리오
 
-1. **시나리오 -- 통신 시스템에서의 고가용성 구축**: 전화 교환 시스템처럼 높은 가용성이 요구되는 시스템에서는 액터 모델을 사용하여 각 전화 회선이나 트랜잭션을 별도 액터로 모델링한다. 하나의 액터에서 오류가 발생해도 다른 액터에 직접적인 영향을 미치지 않으며, 감시자 액터(supervisor)가 오류를 감지하여 자동으로 재시작할 수 있다. 이는 [Erlang](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/OTP의 "let it crash" 철학을 구현하는 것이다.
+1. **시나리오 -- 통신 시스템에서의 고가용성 구축**: 전화 교환 시스템처럼 높은 가용성이 요구되는 시스템에서는 액터 모델을 사용하여 각 전화 회선이나 트랜잭션을 별도 액터로 모델링한다. 하나의 액터에서 오류가 발생해도 다른 액터에 직접적인 영향을 미치지 않으며, 감시자 액터(supervisor)가 오류를 감지하여 자동으로 재시작할 수 있다. 이는 [Erlang](/studynote/03_network/20_performance_evaluation_advanced/1004_erlang_traffic_load_unit_calculation/)/OTP의 "let it crash" 철학을 구현하는 것이다.
 
-2. **시나리오 -- 웹 애플리케이션에서의 실시간 기능 채팅**: 다수의 사용자가 동시에 채팅을 하는 시스템에서는 각 사용자 연결을 별도 액터로 처리함으로써, 사용자 간 상호작용을 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 모델링할 수 있다. 이때 액터는 사용자의 상태(닉네임, 채팅방 등)를 캡슐화하고, 메시지를 통해 방 참가/퇴장 또는 메시지 전송을 처리한다.
+2. **시나리오 -- 웹 애플리케이션에서의 실시간 기능 채팅**: 다수의 사용자가 동시에 채팅을 하는 시스템에서는 각 사용자 연결을 별도 액터로 처리함으로써, 사용자 간 상호작용을 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)로 모델링할 수 있다. 이때 액터는 사용자의 상태(닉네임, 채팅방 등)를 캡슐화하고, 메시지를 통해 방 참가/퇴장 또는 메시지 전송을 처리한다.
 
-3. <strong>시나리오 -- <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기 관리 시스템에서의 디바이스 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a></strong>: 수천 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스를 관리하는 시스템에서는 각 디바이스를 별도 액터로 모델링하여 디바이스 상태를 캡슐화하고, 명령 및 이벤트를 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 처리한다. 이는 디바이스 연결/해제나 상태 변경을 비동기적으로 처리하면서도 시스템 전체의 안정성을 유지할 수 있게 한다.
+3. <strong>시나리오 -- <a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> 기기 관리 시스템에서의 디바이스 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a></strong>: 수천 개의 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스를 관리하는 시스템에서는 각 디바이스를 별도 액터로 모델링하여 디바이스 상태를 캡슐화하고, 명령 및 이벤트를 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)로 처리한다. 이는 디바이스 연결/해제나 상태 변경을 비동기적으로 처리하면서도 시스템 전체의 안정성을 유지할 수 있게 한다.
 
 실무 판단은 단순히 "액터 모델을 사용할지 말지"가 아니라, 시스템의 요구사항, 실패 모델, 확장성 필요 등을 종합적으로 고려해야 한다. 아래 의사결정 플로우는 설계자가 액터 모델을 적용할 때 고려해야 할 요소를 정리한 것이다.
 
@@ -192,19 +189,19 @@ tags = ["studynote-operating-system"]
    +-----------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 의사결정 흐름의 핵심은 "액터 모델은 모든 상황에 최적의 해결책이 아니다"라는 점이다. 장애 격리와 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 중요한 경우에는 액터 모델이 적합하지만, 메시지 처리 지연이 critical한 경우나 매우 낮은 지연이 필요한 경우에는 다른 접근 방식을 고려해야 한다. 따라서 첫 번째 질문은 sempre "정말 장애 격리와 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 최우선인가?"에서 시작해야 한다.
+**[다이어그램 해설]** 이 의사결정 흐름의 핵심은 "액터 모델은 모든 상황에 최적의 해결책이 아니다"라는 점이다. 장애 격리와 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 중요한 경우에는 액터 모델이 적합하지만, 메시지 처리 지연이 critical한 경우나 매우 낮은 지연이 필요한 경우에는 다른 접근 방식을 고려해야 한다. 따라서 첫 번째 질문은 sempre "정말 장애 격리와 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)이 최우선인가?"에서 시작해야 한다.
 
-### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- **기술적**: [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 메커니즘이 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 구현되었는가?(순서 보장, 전달 보장 중 필요한 보장 수준) 액터의 상태가 충분히 캡슐화되어 있는가?
-- **운영 보안적**: 액터 간 메시지 전송 시 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 권한 검사가 이루어지는가? 악성 메시지에 대한 방어가 마련되어 있는가?
+- **기술적**: [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 메커니즘이 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 있게 구현되었는가?(순서 보장, 전달 보장 중 필요한 보장 수준) 액터의 상태가 충분히 캡슐화되어 있는가?
+- **운영 보안적**: 액터 간 메시지 전송 시 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 및 권한 검사가 이루어지는가? 악성 메시지에 대한 방어가 마련되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- <strong>동기식 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/">메시지 전달</a> 오용</strong>: 액터 모델의 장점인 비동기성을 살리지 못하고 동기식 호출로 구현해서 데드락 가능성이 높은 것.
-- <strong>과도한 액터 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 너무 세분화하여 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 관리 오버헤드가 실제 작업 비용을 초과하는 것.
+- <strong>동기식 <a href="/studynote/02_operating_system/02_process_thread/119_message_passing/">메시지 전달</a> 오용</strong>: 액터 모델의 장점인 비동기성을 살리지 못하고 동기식 호출로 구현해서 데드락 가능성이 높은 것.
+- <strong>과도한 액터 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong>: 너무 세분화하여 액터 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 관리 오버헤드가 실제 작업 비용을 초과하는 것.
 
-- **📢 섹션 요약 비유**: 과도한 액터 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 마치 작은 일마다 별도의 직원을 고용하는 것과 같아서, 처음에는 책임이 duidelijk해 보이지만 finalement 인력 관리 비용이 비효율적으로 증가하게 된다.
+- **📢 섹션 요약 비유**: 과도한 액터 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 마치 작은 일마다 별도의 직원을 고용하는 것과 같아서, 처음에는 책임이 duidelijk해 보이지만 finalement 인력 관리 비용이 비효율적으로 증가하게 된다.
 
 ---
 
@@ -214,17 +211,17 @@ tags = ["studynote-operating-system"]
 
 | 구분 | 최적화 전 | 최적화 후 | 개선 효과 |
 |---|---|---|---|
-| **정량** | 락 경간으로 인한 대기 시간 높음 | 비동기 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)로 경합 제거 | 대기 시간 **거의 0%** ([경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 없음) |
-| **정량** | 데드락 가능성 높음 | [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 모델로 데드락 근본 제거 | 데드락 가능성 **근본적으로 0%** |
-| **정성** | 디버깅 어려운 경쟁 상태 문제 | 명시적 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 계약 | 문제 재현 및 해결 용이성 향상 |
+| **정량** | 락 경간으로 인한 대기 시간 높음 | 비동기 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)로 경합 제거 | 대기 시간 **거의 0%** ([경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 없음) |
+| **정량** | 데드락 가능성 높음 | [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 모델로 데드락 근본 제거 | 데드락 가능성 **근본적으로 0%** |
+| **정성** | 디버깅 어려운 경쟁 상태 문제 | 명시적 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 계약 | 문제 재현 및 해결 용이성 향상 |
 
 ### 미래 전망
 
-- <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 액터 모델의 표준화</strong>: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 제공하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 액터 모델이 표준화될 것이다(예: Orleans의 발전 형태).
-- **하드웨어 가속 액터 경로**: 네트워크 카드에서의 오프로드 가능한 액터 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)이 연구되어 CPU 사용량을 줄일 수 있다.
-- <strong>형식 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 통합</strong>: 액터 모델의 수학적 형식성을 활용한 자동 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구가 개발되어 오류를 사전에 차단할 수 있다.
+- <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 액터 모델의 표준화</strong>: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템에서의 [위치 투명성](/studynote/05_database/05_distributed_nosql_newsql/263_location_transparency/)과 장애 격리를 제공하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 액터 모델이 표준화될 것이다(예: Orleans의 발전 형태).
+- **하드웨어 가속 액터 경로**: 네트워크 카드에서의 오프로드 가능한 액터 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)이 연구되어 CPU 사용량을 줄일 수 있다.
+- <strong>형식 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 통합</strong>: 액터 모델의 수학적 형식성을 활용한 자동 형식 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구가 개발되어 오류를 사전에 차단할 수 있다.
 
-액터 모델의 진화 방향을 시간축으로 요약하면, 이론 모델에서 시작하여 실용 구현으로, 다시 분석 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구와의 통합으로 이동하고 있음을 확인할 수 있다.
+액터 모델의 진화 방향을 시간축으로 요약하면, 이론 모델에서 시작하여 실용 구현으로, 다시 분석 및 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 도구와의 통합으로 이동하고 있음을 확인할 수 있다.
 
 ```text
    +----------------------------------------------------------------------------------------------+
@@ -247,7 +244,7 @@ tags = ["studynote-operating-system"]
    +----------------------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 1970년대에 카를 하위트가 이론 모델을 제안한 후, 1980년대 중반에 Erlang에서 처음 실용적으로 채택되어 통신 시스템의 높은 가용성을 달성하였다. 1990년대 후반에는 Akka 등 JVM 기반 프레임워크가 등장하여 액터 모델의 확산에 기여하였다. 현재는 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 하드웨어 가속이 연구되고 있으며, 미래에는 액터 모델 자체가 더 정교해져서 자동으로 최적화되고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는 시대가 올 것이다.
+**[다이어그램 해설]** 1970년대에 카를 하위트가 이론 모델을 제안한 후, 1980년대 중반에 Erlang에서 처음 실용적으로 채택되어 통신 시스템의 높은 가용성을 달성하였다. 1990년대 후반에는 Akka 등 JVM 기반 프레임워크가 등장하여 액터 모델의 확산에 기여하였다. 현재는 형식 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 하드웨어 가속이 연구되고 있으며, 미래에는 액터 모델 자체가 더 정교해져서 자동으로 최적화되고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되는 시대가 올 것이다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -257,10 +254,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [멀티프로세스 아키텍처](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) ([크롬 브라우저 등](/knowledge-base/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [멀티스레드 아키텍처 오버헤드](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/) ([락 경합 등](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [고루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/) ([Goroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [코루틴](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/knowledge-base/studynote/02_operating_system/02_process_thread/141_coroutine/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [멀티프로세스 아키텍처](/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/) ([크롬 브라우저 등](/studynote/02_operating_system/02_process_thread/137_multiprocess_architecture/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [멀티스레드 아키텍처 오버헤드](/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/) ([락 경합 등](/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [고루틴](/studynote/02_operating_system/02_process_thread/140_goroutine/) ([Goroutine](/studynote/02_operating_system/02_process_thread/140_goroutine/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [코루틴](/studynote/02_operating_system/02_process_thread/141_coroutine/) ([Coroutine](/studynote/02_operating_system/02_process_thread/141_coroutine/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -282,7 +279,7 @@ tags = ["studynote-operating-system"]
 2. 그래서 한 사람이 실수해도 다른 사람의 전화에는 영향을 미치지 않아서 전체 시스템이 안정해.
 3. 이렇게 하면 많은 사람들이 동시에 이야기해도 서로 방해하지 않고 잘 이야기할 수 있게 된단다.
 
-(End of [file](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) - total lines will be around 300)
+(End of [file](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) - total lines will be around 300)
 
 ---
 
@@ -290,7 +287,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 139 / 800
 
-<- **이전**: [138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)](/knowledge-base/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)
-**다음**: [140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)](/knowledge-base/studynote/02_operating_system/02_process_thread/140_goroutine/) ->
+<- **이전**: [138. 멀티스레드 아키텍처 오버헤드 (락 경합 등) (Multithread Architecture Overhead)](/studynote/02_operating_system/02_process_thread/138_multithread_architecture_overhead/)
+**다음**: [140. 고루틴 (Goroutine) - Go 언어의 경량 스레드 (M:N 모델)](/studynote/02_operating_system/02_process_thread/140_goroutine/) ->
 
 ---

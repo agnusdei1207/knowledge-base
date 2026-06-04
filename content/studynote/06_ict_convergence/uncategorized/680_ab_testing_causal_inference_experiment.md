@@ -1,13 +1,10 @@
-+++
-title = "680. A/B 테스팅 인과 추론 실험 설계 (AB Testing Causal Inference Experiment)"
-date = 2026-05-09
+---
+title: "680. A/B 테스팅 인과 추론 실험 설계 (AB Testing Causal Inference Experiment)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ $$
 
 **진행 상황**: 680 / 800
 
-<- **이전**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/knowledge-base/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/)
-**다음**: [681. 데이터 시각화 대시보드 스토리텔링](/knowledge-base/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/) ->
+<- **이전**: [679. 합성 데이터 시뮬레이션 프라이버시 보존](/studynote/06_ict_convergence/uncategorized/679_synthetic_data_simulation_privacy_preserving/)
+**다음**: [681. 데이터 시각화 대시보드 스토리텔링](/studynote/06_ict_convergence/uncategorized/681_data_visualization_dashboard_storytelling/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "529. 스트랭글러 패턴 점진적 마이그레이션 (Strangler Pattern Gradual Migration)"
-date = 2026-05-09
+---
+title: "529. 스트랭글러 패턴 점진적 마이그레이션 (Strangler Pattern Gradual Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 529 / 800
 
-<- **이전**: [528. 앰배서더 패턴 외부 통신 프록시](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/528_ambassador_pattern_external_communication_pro/)
-**다음**: [530. 벌크헤드 패턴 장애 격리 자원 분리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/530_bulkhead_pattern_fault_isolation_resource/) ->
+<- **이전**: [528. 앰배서더 패턴 외부 통신 프록시](/studynote/13_cloud_architecture/06_exam_summary/528_ambassador_pattern_external_communication_pro/)
+**다음**: [530. 벌크헤드 패턴 장애 격리 자원 분리](/studynote/13_cloud_architecture/06_exam_summary/530_bulkhead_pattern_fault_isolation_resource/) ->
 
 ---

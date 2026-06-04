@@ -1,22 +1,19 @@
-+++
-title = "61. 컴팬딩 (Companding) / 압신 - μ-law, A-law"
-description = "인간의 청각 특성을 반영하여 양자화 잡음을 제어하고 통신 대역폭을 최적화하는 비선형 압축 및 신장 기술의 핵심 원리"
-date = 2024-05-15
+---
+title: "61. 컴팬딩 (Companding) / 압신 - μ-law, A-law"
+date: "2024-05-15"
+description: "인간의 청각 특성을 반영하여 양자화 잡음을 제어하고 통신 대역폭을 최적화하는 비선형 압축 및 신장 기술의 핵심 원리"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 # 61. 컴팬딩/압신 (Companding) - μ-law 및 A-law
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 컴팬딩(Companding)은 Compressing([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))과 Expanding(신장)을 결합한 비선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술이다.
+> 1. **본질**: 컴팬딩(Companding)은 Compressing([압축](/studynote/02_operating_system/06_memory_management/347_compaction/))과 Expanding(신장)을 결합한 비선형 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 기술이다.
 > 2. **가치**: 낮은 진폭의 음성 구간에 더 촘촘한 스텝을 주어 체감 음질을 지키면서 8비트 수준의 전송 효율을 얻는다.
-> 3. **표준**: μ-law와 A-law는 PSTN (Public Switched Telephone Network) 음성망에서 널리 쓰인 대표적인 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일 컴팬딩 규격이다.
+> 3. **표준**: μ-law와 A-law는 PSTN (Public Switched Telephone Network) 음성망에서 널리 쓰인 대표적인 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 스케일 컴팬딩 규격이다.
 
 ---
 
@@ -24,7 +21,7 @@ tags = ["network"]
 
 음성은 일정한 에너지로 고르게 퍼져 있지 않다. 사람의 청각은 작은 소리 변화에 더 민감하고, 큰 소리의 미세한 차이는 상대적으로 덜 민감하다.
 
-선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)만으로는 이 특성을 잘 반영하기 어렵다. 그래서 송신 측에서 신호를 먼저 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 수신 측에서 다시 펴 주는 컴팬딩이 필요해졌다.
+선형 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)만으로는 이 특성을 잘 반영하기 어렵다. 그래서 송신 측에서 신호를 먼저 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고, 수신 측에서 다시 펴 주는 컴팬딩이 필요해졌다.
 
 - **📢 섹션 요약 비유**: 작은 글자는 크게 복사하고, 큰 글자는 조금 줄여서 노트에 옮기는 방식이다.
 
@@ -46,14 +43,14 @@ PCM (Pulse Code Modulation) 양자화
 복원된 음성
 ```
 
-| 항목 | 선형 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 컴팬딩 |
+| 항목 | 선형 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 컴팬딩 |
 | :-- | :-- | :-- |
 | 스텝 크기 | 전체 구간 동일 | 작은 신호에 촘촘, 큰 신호에 성김 |
 | 잡음 체감 | 작은 소리 구간에서 큼 | 청감 특성에 맞춰 줄어듦 |
-| [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 효율 | 낮음 | 높음 |
-| 대표 용도 | 일반 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 음성 통신 |
+| [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 효율 | 낮음 | 높음 |
+| 대표 용도 | 일반 수치 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 음성 통신 |
 
-컴팬딩의 핵심은 "같은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로도 더 잘 들리게 만드는 것"이다. 즉, 진짜 신호를 그대로 보존하는 것이 아니라, 인간이 중요하게 느끼는 구간에 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 더 배분한다.
+컴팬딩의 핵심은 "같은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수로도 더 잘 들리게 만드는 것"이다. 즉, 진짜 신호를 그대로 보존하는 것이 아니라, 인간이 중요하게 느끼는 구간에 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 더 배분한다.
 
 - **📢 섹션 요약 비유**: 조용한 구석은 더 크게 들려주고, 너무 큰 소리는 적당히 눌러서 전체 균형을 맞추는 라디오 볼륨 조절이다.
 
@@ -63,10 +60,10 @@ PCM (Pulse Code Modulation) 양자화
 
 | 규격 | 특징 | 주 사용 지역/환경 |
 | :-- | :-- | :-- |
-| μ-law | 곡선이 더 급격한 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 북미, 일본 계열 PSTN |
+| μ-law | 곡선이 더 급격한 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) | 북미, 일본 계열 PSTN |
 | A-law | μ-law보다 중간 구간이 조금 더 완만 | 유럽 계열 PSTN |
 
-둘 다 목적은 같다. 작은 신호의 해상도를 높이고 큰 신호는 덜 민감하게 다루어, 제한된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 안에서 음성 품질을 확보하는 것이다.
+둘 다 목적은 같다. 작은 신호의 해상도를 높이고 큰 신호는 덜 민감하게 다루어, 제한된 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 안에서 음성 품질을 확보하는 것이다.
 
 ```text
 입력 신호
@@ -88,19 +85,19 @@ G.711 같은 음성 코덱 표준은 이런 컴팬딩 특성을 묶어 전화망
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 음성처럼 인간 청감이 중요한 신호인지 확인한다.
 2. G.711, PSTN, PBX 같은 기존 음성 인프라와 호환되는지 본다.
-3. 전송 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 음질 사이의 균형이 필요한지 판단한다.
+3. 전송 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 음질 사이의 균형이 필요한지 판단한다.
 4. μ-law와 A-law의 지역/장비 호환성을 점검한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 음성 컴팬딩을 혼동하는 설계
+- 일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)과 음성 컴팬딩을 혼동하는 설계
 - 음성 품질보다 원본 파형 복원을 과도하게 집착하는 설계
 - 장비 호환성을 무시하고 μ-law/A-law를 임의로 섞는 설계
-- [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약이 필요 없는 구간에 컴팬딩을 남용하는 설계
+- [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 절약이 필요 없는 구간에 컴팬딩을 남용하는 설계
 
 기술사 관점에서는 "왜 비선형이어야 하는가"를 설명할 수 있어야 한다. 컴팬딩은 신호를 왜곡하는 기술이 아니라, 인간의 청감과 전송 제약을 함께 만족시키는 타협점이다.
 
@@ -110,7 +107,7 @@ G.711 같은 음성 코덱 표준은 이런 컴팬딩 특성을 묶어 전화망
 
 ## Ⅴ. 기대효과 및 결론
 
-컴팬딩은 음성 통신망의 제한된 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 효율적으로 쓰게 해 주는 오래된 표준이지만, 지금도 음성 코덱 설계의 기본 원리를 이해하는 데 중요하다.
+컴팬딩은 음성 통신망의 제한된 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 효율적으로 쓰게 해 주는 오래된 표준이지만, 지금도 음성 코덱 설계의 기본 원리를 이해하는 데 중요하다.
 
 결국 핵심은 "신호의 물리적 정확도"와 "사람이 느끼는 품질"이 같지 않다는 점을 설계에 반영하는 것이다.
 
@@ -162,7 +159,7 @@ IP 기반 음성 서비스
 
 **진행 상황**: 61 / 1120
 
-<- **이전**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/knowledge-base/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)
-**다음**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) ->
+<- **이전**: [60. 양자화 잡음 (Quantization Noise/Error), 양자화 스텝](/studynote/03_network/01_data_communication/060_양자화_잡음_양자화_스텝/)
+**다음**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "619. IT 경영 관리 핵심 토픽 619번 시험 요약 (IT Management Core Topic 619 Exam Summary)"
-date = 2026-05-09
+---
+title: "619. IT 경영 관리 핵심 토픽 619번 시험 요약 (IT Management Core Topic 619 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ RTO(Recovery Time Objective) = 허용 가능한 서비스 중단 시간
 
 **진행 상황**: 619 / 800
 
-<- **이전**: [618. IT 경영 관리 핵심 토픽 618번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/618_it_management_core_topic_618_exam_summary/)
-**다음**: [620. IT 경영 관리 핵심 토픽 620번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/620_it_management_core_topic_620_exam_summary/) ->
+<- **이전**: [618. IT 경영 관리 핵심 토픽 618번 시험 요약](/studynote/12_it_management/05_security_compliance/618_it_management_core_topic_618_exam_summary/)
+**다음**: [620. IT 경영 관리 핵심 토픽 620번 시험 요약](/studynote/12_it_management/05_security_compliance/620_it_management_core_topic_620_exam_summary/) ->
 
 ---

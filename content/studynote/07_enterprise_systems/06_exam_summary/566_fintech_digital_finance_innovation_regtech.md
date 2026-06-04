@@ -1,13 +1,10 @@
-+++
-title = "566. 핀테크 디지털 금융 혁신 레그테크 (FinTech Digital Finance Innovation RegTech)"
-date = 2026-05-09
+---
+title: "566. 핀테크 디지털 금융 혁신 레그테크 (FinTech Digital Finance Innovation RegTech)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 566 / 800
 
-<- **이전**: [565. 스마트 시티 데이터 플랫폼 거버넌스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/565_smart_city_data_platform_governance/)
-**다음**: [567. 헬스테크 디지털 헬스케어 원격의료](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/567_healthtech_digital_healthcare_telemedicine/) ->
+<- **이전**: [565. 스마트 시티 데이터 플랫폼 거버넌스](/studynote/07_enterprise_systems/06_exam_summary/565_smart_city_data_platform_governance/)
+**다음**: [567. 헬스테크 디지털 헬스케어 원격의료](/studynote/07_enterprise_systems/06_exam_summary/567_healthtech_digital_healthcare_telemedicine/) ->
 
 ---

@@ -1,175 +1,171 @@
-+++
-title = "572. 클라우드 아키텍처 핵심 토픽 572번 시험 요약 (Cloud Architecture Core Topic 572 Exam Summary)"
-date = 2026-05-09
+---
+title: "572. 클라우드 아키텍처 핵심 토픽 572번 시험 요약 (Cloud Architecture Core Topic 572 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 NIST의 IaaS/PaaS/SaaS/FaaS 서비스 모델과 Public/Hybrid/Multi/Private 배포 모델을 기반으로, 컨테이너 오케스트레이션(Kubernetes), IaC(Terraform/Pulumi), 서비스 메시(Istio/Linkerd), 옵저버빌리티(OpenTelemetry)为核心的 4대 축을 결합해弹性·자동화·비용 최적화를 달성하는 분산 시스템 설계 패러다임이다.
+> 2. **가치**: 온프레미스 대비 CAPEX->OPEX 전환으로 초기 인프라 투자 70~90% 절감, 오토스케일링을 통한 트래픽 변동 대응력 10~100배 향상, MTTR(평균 복구 시간)을 Well-Architected Framework 적용 시 60% 단축, 글로벌 멀티리전 배포로 사용자 RTT 50~200ms 개선 효과가 검증되어 있다.
+> 3. **판단 포인트**: 단일 클라우드 종속(Vendor Lock-in) vs 멀티클라우드, Stateless 컨테이너 vs Stateful 워크로드, 중앙 집중 EKS/AKS/GKE vs 분산 셀 아키텍처, 동기식 Strong Consistency vs 비동기식 Eventually Consistent의 CAP 트레이드오프, 그리고 FinOps 기반 Reserved/On-Demand/Spot 인스턴스 조합 비율(전형적 60/30/10)이 핵심 의사결정 변수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 아키텍처는 더 이상 "데이터센터를 외부에 둔다"는 단순한 의미가 아니다. 2026년 현재의 클라우드 아키텍처는 **Infrastructure as Code(IaC) 기반의 선언적 프로비저닝 -> GitOps 기반 지속적 배포 -> 셀프힐링 오케스트레이션 -> AIOps 기반 자동 스케일링**으로 이어지는 *자율운영(Self-Operating)* 체계다. 한국 클라우드 시장 규모는 2024년 기준 약 12조 원으로, 금융권의 Digital Bank 트래픽은 평시 대비 1,000배까지 폭증하는 블랙프라이데이급 이벤트가 일상화되면서 기존 모놀리식 아키텍처로는 SLA 99.99% 보증이 불가능해졌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 572 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+핵심 과제는 세 가지다. 첫째, **탄력성(Elasticity)**: 1분 단위 Auto Scaling으로 리소스를 동적 할당하여 Peak 대비 Idle 비용을 0에 수렴시켜야 한다. 둘째, **불변 인프라(Immutable Infrastructure)**: Cattle vs Pet 패러다임 전환으로 인스턴스를 수리하지 않고 교체(Phoenix Server)하여 Configuration Drift를 원천 차단한다. 셋째, **관측 가능성(Observability)**: 로그·메트릭·트레이스의 3-Pillar 통합 분석을 통해 분산 시스템의 장애를 5분 이내에 근본 원인까지 추적해야 한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 572번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[전통 모놀리식 vs 클라우드 네이티브 아키텍처 진화]
+
+  +------------------+         +------------------------------+
+  |   Monolithic Era |   --->   |     Cloud-Native Era         |
+  |  (1990s-2010s)   |         |        (2015~현재)            |
+  +------------------+         +------------------------------+
+  +--------------+             +--------------+  +--------------+
+  |  1대의 거대한|             |  수백~수만 개 |  |   Serverless |
+  |   WAS + DB  |             |  마이크로서비스|  |  Function    |
+  |  (Pet Server)|             |  (Cattle)    |  |  (Lambda)    |
+  +--------------+             +--------------+  +--------------+
+        |                            |                |
+        v                            v                v
+  수동 배포/장애복구              GitOps/CI-CD        Event-Driven
+  Scale-up만 가능                HPA/VPA/Cluster   사용량 기반 과금
+  월 단위 Capacity Plan          Auto-Scale          Auto-Scale to 0
+  HA = Active-Standby            Multi-AZ Active-    0->N Auto-Active
+  라이선스 종속(Lock-in)         Active              Open 표준 기반
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 전통 아키텍처가 "한 대의 거대한 수족관에 모든 물고기를 키우는 것"이라면, 클라우드 아키텍처는 "IoT 센서로 수질을 실시간 모니터링하며 자동으로 먹이와 산소를 공급하는 스마트 양식장"이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 572번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처의 5계층 참조 모델(Well-Architected Framework)을 기준으로 핵심 구성 요소를 분해한다. AWS Well-Architected 6 Pillars(운영 우수성, 보안, 안정성, 성능 효율, 비용 최적화, 지속가능성)와 Azure/AWS/GCP의 공통 베이스라인을 통합한 결과, 현대 클라우드 아키텍처는 **인프라 계층 -> 데이터 계층 -> 애플리케이션 계층 -> 오케스트레이션 계층 -> 거버넌스 계층**의 5-tier 모델로 추상화된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 572 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[클라우드 아키텍처 5계층 참조 모델]
+
+   +-----------------------------------------------------+
+   |  5. 거버넌스 계층 (Governance)                       |
+   |  - Cloud Center of Excellence (CCoE)                |
+   |  - FinOps, Policy as Code (OPA/Sentinel)            |
+   |  - CSPM(CWPP/CIEM) : Wiz, PrismaCloud, Lacework     |
+   +-----------------------------------------------------+
+   |  4. 옵저버빌리티 계층 (Observability)                |
+   |  - Logs(Loki/CloudWatch) Metrics(Prom/CloudWatch)  |
+   |  - Traces(Jaeger/Tempo/X-Ray) - OpenTelemetry 표준 |
+   |  - AIOps: Coralogix/Datadog/New Relic               |
+   +-----------------------------------------------------+
+   |  3. 오케스트레이션 계층 (Orchestration)              |
+   |  - K8s Controller Loop(관찰->비교->조정)              |
+   |  - Service Mesh: Istio(Envoy Sidecar) mTLS/L7라우팅|
+   |  - API Gateway: Kong/Apigee/ALB+Kong KIC           |
+   +-----------------------------------------------------+
+   |  2. 플랫폼/데이터 계층 (Platform & Data)             |
+   |  - 컨테이너 런타임: containerd, CRI-O, runC        |
+   |  - DB: OLTP(Aurora/Cloud SQL/CockroachDB)          |
+   |  - OLAP(BigQuery/Snowflake/Redshift)                |
+   |  - Cache: Redis 7.x Cluster Mode(샤딩 16384 슬롯)  |
+   +-----------------------------------------------------+
+   |  1. 인프라 계층 (Infrastructure)                     |
+   |  - Compute: EC2/GCE/Azure VM + BareMetal            |
+  |  - Network: VPC/Subnet(Public/Private/DB 분리)      |
+   |  - Storage: Block(EBS)/Object(S3)/File(EFS)        |
+   |  - IaC: Terraform/Pulumi/CloudFormation/CDK        |
+   +-----------------------------------------------------+
+                              ^
+                              | AWS/Azure/GCP API, Crossplane
+                              |
+              +---------------+---------------+
+              |  Multi-Cloud / Hybrid Edge    |
+              |  (Anthos, ARO, AWS Outposts)  |
+              +-------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **IaC 엔진 (Terraform/Pulumi/CDK)** | 인프라의 선언적 정의 및 프로비저닝 자동화 | HCL 또는 TypeScript로 `.tf` 작성 -> `terraform plan`(Diff 확인) -> `terraform apply`(State Lock: DynamoDB/Consul로 동시성 제어) -> State File을 S3+GCS에 버전 관리, Drift Detection(30분 주기 reconcile)으로 실제 인프라와 코드 일치 보장 |
+| **Kubernetes Control Plane** | 컨테이너화된 워크로드의 선언적 배포/스케일링/자가 치유 | `etcd`(RAFT 합의 알고리즘) + `kube-apiserver` + `scheduler`(Bin-packing/스프레드 토폴로지) + `controller-manager`(ReplicaSet/Deployment/StatefulSet) + `cloud-controller-manager`(AWS/GCP 통합) 구성, 5초 주기 Reconcile Loop로 Desired State 유지 |
+| **Service Mesh (Istio/Linkerd)** | L7 트래픽 관리, mTLS 기반 Zero-Trust 보안, 관측성 | Envoy Sidecar가 Pod 내 모든 트래픽을 Interception(iptables/pf) -> mTLS 1.3 자동 적용 -> xDS API로 Control Plane에서 동적 라우팅/Retry/Circuit Breaker 주입, Ambient Mesh(2024~)로 Sidecar 제거 가능 |
+| **오브젝트 스토리지 (S3/GCS/Blob)** | 11 nines(99.999999999%) 내구성으로 페타바급 데이터 저장 | Erasure Coding(Reed-Solomon, 4+2 또는 6+3 패리티), Multi-AZ/Region 자동 복제, 버전 관리 + Object Lock(WORM) + Lifecycle Policy(IA/Glacier 자동 계층화) |
+| **API Gateway (Kong/Apigee/Envoy Gateway)** | 외부 트래픽 진입점, 인증/인가/속도 제한/변환 | OAuth 2.0/OIDC JWT 검증, Rate Limiting(Token Bucket 알고리즘, Redis 백엔드), Circuit Breaker(50% 실패율 시 30초 Open), GraphQL/REST/WebSocket 프로토콜 변환, Plugin SDK로 Lua/Go 확장 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 파라미터**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **K8s HPA(Horizontal Pod Autoscaler)**: 메트릭 수집 주기 15초, `targetAverageUtilization=70%` 기준, 안정화 윈도우(`--horizontal-pod-autoscaler-downscale-stabilization`) 기본 5분으로 Flapping 방지. 예측 스케일링(KEDA + K8s-based Event-driven Autoscaling)은 Cron 메트릭으로 트래픽 30분 전 사전 증설.
+- **Consistent Hashing in Redis Cluster**: 키 공간을 16,384개 슬롯으로 분할 -> `CRC16(key) mod 16384` -> 3 Master × 3 Replica 구성, 노드 추가 시 재배치 비율 1/N(전체 키의 약 1/N만 이동).
+- **CAP Theorem in Cloud DB**: DynamoDB/Cassandra는 AP(가용성 + 파티션 허용, Eventually Consistent, 1초 내 정합), Google Spanner/CockroachDB는 CP+순간 일관성(트루타임 API + 2PC), RDBMS Aurora Global은 동기식 Secondary로 Strong Consistency.
+- **SR-IOV/DPDK 네트워킹**: VM에서 물리 NIC를 직접 바이패스하여 25Gbps 라인레이트 달성, 컨테이너에서는 Cilium eBPF가 커널 우회로 Pod-to-Pod 지연을 0.1ms 이하로 단축.
+
+- **📢 섹션 요약 비유**: IaC가 "건축 설계 도면"이라면, K8s는 "자동으로 건축 자재를 배치하는 로봇", Service Mesh는 "건물 내 모든 통로의 보안·방화·환기 시스템", 옵저버빌리티는 "CCTV·온도·전력 센서 통합 관제실"이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 572번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### A. 서비스 모델(IaaS/PaaS/SaaS/FaaS) 비교
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 572번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | IaaS (EC2/Azure VM) | PaaS (Beanstalk/App Engine) | SaaS (Salesforce/Office 365) | FaaS (Lambda/Cloud Functions) |
+| :--- | :--- | :--- | :--- | :--- |
+| **관리 책임 범위** | OS~미들웨어 직접 관리 | 런타임·OS 자동, 코드만 관리 | 완전 관리(설정·확장) | 함수 코드만 관리, 전부 자동 |
+| **콜드 스타트 지연** | 1~3분(인스턴스 기동) | 30초~2분 | 즉시(브라우저) | 100ms~5초(예약 Concurrency로 0) |
+| **최대 실행 시간** | 무제한 | 플랫폼별 60~120분 | 무제한 | 15분(AWS Lambda 최대) |
+| **확장 단위** | 인스턴스(수직/수평) | 인스턴스/App 단위 | 사용자 단위 | 동시성(Concurrency, 1000 기본) |
+| **과금 모델** | 시간/초 단위 | 인스턴스 + 요청 | 사용자 라이선스 | 호출 수(ms 단위) + GB-초 |
+| **적합 워크로드** | 레거시 리프트앤시프트, GPU | API·웹 표준 워크로드 | CRM·메일·협업 | 이벤트 기반, 간헐적 작업, ETL |
+| **TCO 우위** | 장기 부하 안정 | 중간 부하 변동 | 사용자 수 확정 | 극단적 변동(0->N) |
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### B. 배포 모델(Public/Hybrid/Private/Multi/Community) 비교
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+| 구분 | Public Cloud | Private Cloud | Hybrid Cloud | Multi-Cloud |
+| :--- | :--- | :--- | :--- | :--- |
+| **소유권** | CSP(AWS/Azure/GCP) | 자체 데이터센터 | Public + Private 혼용 | 2개 이상 CSP |
+| **컴플라이언스** | 글로벌 표준(Iso27001/SOC2) | 규제 산업 최적 | 데이터 주권 충족 | 벤더 종속 회피 |
+| **네트워크 연결** | Internet/BGP | 전용선/SDN | Direct Connect/ExpressRoute + VPN IPSec | Transit Gateway + Interconnect |
+| **대표 사례** | Netflix, Airbnb | 금융·공공(KEPCO NCP) | 뱅크샐러드, 토스 | Spotify(GCP+S3) |
+| **도입 난이도** | ★☆☆ | ★★★ | ★★★★ | ★★★★★ |
+| **Latency** | Region 내 1~10ms | On-Prem 0.5ms | Cross-Region 20~80ms | Cross-Cloud 30~100ms |
 
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 572번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 572번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 572번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 572번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 572번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### C. 클라우드 아키텍처의 통합 연결
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 572번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
+[클라우드 생태계 통합 아키텍처 - Zone 분리]
 
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 572번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
+  +---------------- Edge Zone (CDN/5G MEC) ----------------+
+  |  Cloudflare Workers / AWS Wavelength / CloudFront     |
+  |  Cache Hit Ratio 90%+, 사용자 RTT 10ms 이하            |
+  +---------------------+----------------------------------+
+                        | HTTPS/gRPC
+                        v
+  +---------------- Public Zone (DMZ) ---------------------+
+  |  - WAF(AWS WAF 룰셋: SQL Injection, XSS)               |
+  |  - DDoS Shield(AWS Shield Advanced 1Tbps 흡수)         |
+  |  - API Gateway + Lambda@Edge                            |
+  +---------------------+----------------------------------+
+                        |
+                        v
+  +---------------- Private Zone (VPC 내부) ----------------+
+  |  - EKS/AKS/GKE Worker Node (3+ AZ 분산)                |
+  |  - RDS Aurora Multi-Master, ElastiCache Redis Cluster   |
+  |  - Internal ALB + Istio Service Mesh                    |
+  +---------------------+----------------------------------+
+                        | VPC Peering / TGW
+                        v
+  +---------------- Data Zone (관리 격리) ------------------+
+  |  - S3 Glacier Deep Archive(연 1회 접근)                 |
 
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 572 / 800
 
-<- **이전**: [571. 클라우드 아키텍처 핵심 토픽 571번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/571_cloud_architecture_core_topic_571_exam_summar/)
-**다음**: [573. 클라우드 아키텍처 핵심 토픽 573번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/573_cloud_architecture_core_topic_573_exam_summar/) ->
+<- **이전**: [571. 클라우드 아키텍처 핵심 토픽 571번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/571_cloud_architecture_core_topic_571_exam_summar/)
+**다음**: [573. 클라우드 아키텍처 핵심 토픽 573번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/573_cloud_architecture_core_topic_573_exam_summar/) ->
 
 ---

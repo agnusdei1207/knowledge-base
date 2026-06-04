@@ -1,13 +1,10 @@
-+++
-title = "411. 포스트모템 장애 분석 재발 방지 (Postmortem Failure Analysis Prevention)"
-date = 2026-05-09
+---
+title: "411. 포스트모템 장애 분석 재발 방지 (Postmortem Failure Analysis Prevention)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 411 / 800
 
-<- **이전**: [410. 온콜 관리 에스컬레이션 인시던트 대응](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/410_on_call_management_escalation_incident_respon/)
-**다음**: [412. 카오스 엔지니어링 리트머스 장애 주입](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/412_chaos_engineering_litmus_fault_injection/) ->
+<- **이전**: [410. 온콜 관리 에스컬레이션 인시던트 대응](/studynote/13_cloud_architecture/06_exam_summary/410_on_call_management_escalation_incident_respon/)
+**다음**: [412. 카오스 엔지니어링 리트머스 장애 주입](/studynote/13_cloud_architecture/06_exam_summary/412_chaos_engineering_litmus_fault_injection/) ->
 
 ---

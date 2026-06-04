@@ -1,18 +1,15 @@
-+++
-title = "855. Fake (페이크)"
-date = 2026-05-08
+---
+title: "855. Fake (페이크)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Fake (페이크)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: Fake (페이크)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -21,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 Fake는 "진짜처럼 동작하는 가짜"다. 인메모리 DB나 간단한 로컬 저장소가 대표적이다.
 
-Stub보다 현실적이고, Mock보다 상호작용 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)보다는 기능 동작에 가깝다.
+Stub보다 현실적이고, Mock보다 상호작용 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)보다는 기능 동작에 가깝다.
 
 - **📢 섹션 요약 비유**: 모형 기차가 실제로 굴러가지만, 본선에는 못 올리는 것과 같다.
 
@@ -42,7 +39,7 @@ Stub보다 현실적이고, Mock보다 상호작용 [검증](/knowledge-base/stu
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 Fake (페이크)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 Fake (페이크)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -80,13 +77,13 @@ Fake는 외부 의존 없이 동작하는 환경을 만들 때 좋다.
 
 Fake는 Stub보다 더 동작적이고, Mock보다 덜 엄격하다. 그래서 상태와 동작 사이의 타협점이다.
 
-| 구분 | [Stub](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) | Fake | [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) |
+| 구분 | [Stub](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/) | Fake | [Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) |
 |:---|:---|:---|:---|
-| 동작 | 없음/고정 | 실제 동작 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 |
+| 동작 | 없음/고정 | 실제 동작 | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심 |
 | 현실성 | 낮음 | 중간 | 낮음~중간 |
-| 목적 | 값 반환 | 축소 구현 | 행위 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| 목적 | 값 반환 | 축소 구현 | 행위 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 
-[In-memory DB](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/), 테스트 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 간단한 큐 구현에 자주 쓰인다.
+[In-memory DB](/studynote/16_bigdata/06_nosql/139_inmemory_db/), 테스트 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템, 간단한 큐 구현에 자주 쓰인다.
 
 - **📢 섹션 요약 비유**: 장난감이지만 바퀴는 돌아가는 자동차다.
 
@@ -100,7 +97,7 @@ Fake는 Stub보다 더 동작적이고, Mock보다 덜 엄격하다. 그래서 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 DB, [메시지 브로커](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), 캐시 대체에 쓴다. 하지만 프로덕션 코드와 섞이면 위험하다.
+실무에서는 DB, [메시지 브로커](/studynote/07_enterprise_systems/03_eai_esb_msa/145_message_broker_sync_async/), 캐시 대체에 쓴다. 하지만 프로덕션 코드와 섞이면 위험하다.
 
 체크 포인트는 다음과 같다.
 1. 테스트 전용인지 확인한다.
@@ -119,7 +116,7 @@ Fake는 Stub보다 더 동작적이고, Mock보다 덜 엄격하다. 그래서 �
 
 ## Ⅴ. 기대효과 및 결론
 
-Fake는 테스트를 현실적으로 만들어 준다. 외부 의존성을 줄이면서도 실제 동작에 가까운 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 돕는다.
+Fake는 테스트를 현실적으로 만들어 준다. 외부 의존성을 줄이면서도 실제 동작에 가까운 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 돕는다.
 
 결론적으로 이 개념은 "동작하는 테스트 전용 대체물"이다.
 
@@ -135,10 +132,10 @@ Fake는 테스트를 현실적으로 만들어 준다. 외부 의존성을 줄�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | Fake (페이크)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | Fake (페이크)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | Fake (페이크) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | Fake (페이크)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | Fake (페이크)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | Fake (페이크)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | Fake (페이크) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | Fake (페이크)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,13 +155,13 @@ Fake (페이크) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Fake (페이크)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -172,7 +169,7 @@ Fake (페이크) 개념 정립
 
 **진행 상황**: 517 / 973
 
-<- **이전**: [462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)
-**다음**: [463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) ->
+<- **이전**: [462. Mock (목) - 행위(Behavior) 검증을 위해 예상되는 호출 명세가 프로그래밍된 객체](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/)
+**다음**: [463. Fake (페이크) - 실제 동작하지만 프로덕션에는 적합하지 않은 축소판 (인메모리 DB 등)](/studynote/04_software_engineering/11_testing_validation/855_fake_test_double/) ->
 
 ---

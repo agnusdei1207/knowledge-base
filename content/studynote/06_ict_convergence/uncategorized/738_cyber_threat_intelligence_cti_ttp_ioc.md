@@ -1,13 +1,10 @@
-+++
-title = "738. 사이버 위협 인텔리전스 CTI TTP IOC (Cyber Threat Intelligence CTI TTP IOC)"
-date = 2026-05-09
+---
+title: "738. 사이버 위협 인텔리전스 CTI TTP IOC (Cyber Threat Intelligence CTI TTP IOC)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -83,7 +80,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 738 / 800
 
-<- **이전**: [737. 디지털 포렌식 증거 수집 분석 법정](/knowledge-base/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/)
-**다음**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/knowledge-base/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/) ->
+<- **이전**: [737. 디지털 포렌식 증거 수집 분석 법정](/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/)
+**다음**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/) ->
 
 ---

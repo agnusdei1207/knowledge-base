@@ -1,13 +1,10 @@
-+++
-title = "499. 클라우드 알림 SNS PagerDuty 통합 (Cloud Alerting SNS PagerDuty Integration)"
-date = 2026-05-09
+---
+title: "499. 클라우드 알림 SNS PagerDuty 통합 (Cloud Alerting SNS PagerDuty Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 499 / 800
 
-<- **이전**: [498. 클라우드 로깅 CloudTrail 감사 추적](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/498_cloud_logging_cloudtrail_audit_trail/)
-**다음**: [500. IaC 테라폼 모듈 상태 관리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/500_iac_terraform_module_state_management/) ->
+<- **이전**: [498. 클라우드 로깅 CloudTrail 감사 추적](/studynote/13_cloud_architecture/06_exam_summary/498_cloud_logging_cloudtrail_audit_trail/)
+**다음**: [500. IaC 테라폼 모듈 상태 관리](/studynote/13_cloud_architecture/06_exam_summary/500_iac_terraform_module_state_management/) ->
 
 ---

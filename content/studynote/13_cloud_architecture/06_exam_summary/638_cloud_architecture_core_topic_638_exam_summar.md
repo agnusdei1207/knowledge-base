@@ -1,13 +1,10 @@
-+++
-title = "638. 클라우드 아키텍처 핵심 토픽 638번 시험 요약 (Cloud Architecture Core Topic 638 Exam Summary)"
-date = 2026-05-09
+---
+title: "638. 클라우드 아키텍처 핵심 토픽 638번 시험 요약 (Cloud Architecture Core Topic 638 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 638 / 800
 
-<- **이전**: [637. 클라우드 아키텍처 핵심 토픽 637번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/637_cloud_architecture_core_topic_637_exam_summar/)
-**다음**: [639. 클라우드 아키텍처 핵심 토픽 639번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/639_cloud_architecture_core_topic_639_exam_summar/) ->
+<- **이전**: [637. 클라우드 아키텍처 핵심 토픽 637번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/637_cloud_architecture_core_topic_637_exam_summar/)
+**다음**: [639. 클라우드 아키텍처 핵심 토픽 639번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/639_cloud_architecture_core_topic_639_exam_summar/) ->
 
 ---

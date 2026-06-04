@@ -1,18 +1,15 @@
-+++
-title = "039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화"
-date = 2026-03-04
+---
+title: "039. 간트 차트 (Gantt Chart) — 프로젝트 일정 시각화"
+date: "2026-03-04"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 > **핵심 인사이트**
-> 1. 간트 차트(Gantt Chart)는 프로젝트 작업([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/))을 가로 막대로 표현하여 시작일·종료일·진행률·선후관계를 한눈에 보여주는 일정 관리 도구로, 1910년대 Henry L. Gantt가 고안한 이후 현재까지 가장 널리 사용되는 프로젝트 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 도구다.
+> 1. 간트 차트(Gantt Chart)는 프로젝트 작업([Task](/studynote/02_operating_system/02_process_thread/150_task/))을 가로 막대로 표현하여 시작일·종료일·진행률·선후관계를 한눈에 보여주는 일정 관리 도구로, 1910년대 Henry L. Gantt가 고안한 이후 현재까지 가장 널리 사용되는 프로젝트 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 도구다.
 > 2. 간트 차트의 핵심 정보는 '의존성(Dependency)'과 '크리티컬 패스(Critical Path)' — 선행 작업 없이 시작할 수 없는 작업들의 연쇄와 전체 프로젝트 기간을 결정하는 가장 긴 경로를 시각적으로 드러낸다.
-> 3. 간트 차트는 계획을 쉽게 공유하고 이해관계자와 소통하는 장점이 있지만, 작업 간 복잡한 의존성 표현의 한계와 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서의 과도한 상세화 함정(Analysis Paralysis)을 주의해야 한다.
+> 3. 간트 차트는 계획을 쉽게 공유하고 이해관계자와 소통하는 장점이 있지만, 작업 간 복잡한 의존성 표현의 한계와 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서의 과도한 상세화 함정(Analysis Paralysis)을 주의해야 한다.
 
 ---
 
@@ -73,7 +70,7 @@ DB 설계              [====]
 
 ---
 
-## III. [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) vs 간트 차트
+## III. [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/) vs 간트 차트
 
 ```
 CPM (Critical Path Method)과의 관계:
@@ -99,15 +96,15 @@ CPM에서 간트로:
 
 | 도구       | 강점              | 약점           |
 |----------|-----------------|--------------|
-| 간트 차트   | 직관적 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)       | 복잡한 의존성 한계 |
-| [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)      | 임계 경로 정확 계산   | 직관성 부족     |
-| [PERT](/knowledge-base/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)     | 불확실성 (낙관/비관) 반영| 복잡          |
+| 간트 차트   | 직관적 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)       | 복잡한 의존성 한계 |
+| [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)      | 임계 경로 정확 계산   | 직관성 부족     |
+| [PERT](/studynote/12_it_management/04_sdlc_testing/151_pert_three_point_estimation/)     | 불확실성 (낙관/비관) 반영| 복잡          |
 
 > 📢 **섹션 요약 비유**: CPM이 최단 경로를 계산하는 수학, 간트 차트는 그 결과를 지도로 그리는 것 — 계산과 소통의 역할 분담.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서의 간트
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 환경에서의 간트
 
 ```
 전통 간트 vs 애자일 로드맵:
@@ -133,7 +130,7 @@ CPM에서 간트로:
   스토리 포인트 + 속도(Velocity)로 완료 예측
 ```
 
-> 📢 **섹션 요약 비유**: [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 간트는 대략적인 여행 경로만 그리는 것 — 다음 도시는 상세히, 한 달 뒤 도시는 방향만, 나머지는 가면서 결정.
+> 📢 **섹션 요약 비유**: [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 간트는 대략적인 여행 경로만 그리는 것 — 다음 도시는 상세히, 한 달 뒤 도시는 방향만, 나머지는 가면서 결정.
 
 ---
 
@@ -163,7 +160,7 @@ CPM에서 간트로:
   Ganttproject: 무료, 오픈소스
 ```
 
-> 📢 **섹션 요약 비유**: 크리티컬 패스는 연쇄 고리 — 핵심 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발이 1주 늦으면 전체 납기가 1주 늦어지므로 PM이 최우선 관리.
+> 📢 **섹션 요약 비유**: 크리티컬 패스는 연쇄 고리 — 핵심 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 개발이 1주 늦으면 전체 납기가 1주 늦어지므로 PM이 최우선 관리.
 
 ---
 
@@ -224,7 +221,7 @@ GitHub Copilot + 프로젝트 관리 통합
 
 **진행 상황**: 39 / 973
 
-<- **이전**: [038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/038_pert/)
-**다음**: [040. EVM (Earned Value Management) — 획득 가치 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/) ->
+<- **이전**: [038. PERT — 프로그램 평가 검토 기법 (Program Evaluation Review Technique)](/studynote/04_software_engineering/01_overview_principles/038_pert/)
+**다음**: [040. EVM (Earned Value Management) — 획득 가치 관리](/studynote/04_software_engineering/01_overview_principles/040_evm/) ->
 
 ---

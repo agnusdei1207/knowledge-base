@@ -1,13 +1,10 @@
-+++
-title = "74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률"
-date = 2026-04-10
+---
+title: "74. 대수의 법칙 (LLN, Law of Large Numbers) - 수렴 확률"
+date: "2026-04-10"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -37,7 +34,7 @@ Sample Mean -> Expected Value
 
 | 개념 | 의미 |
 | :-- | :-- |
-| [Expected Value](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) | 기대값 |
+| [Expected Value](/studynote/08_algorithm_stats/08_stats/135_expected_value/) | 기대값 |
 | Sample Mean | 표본평균 |
 | Convergence | 수렴 |
 
@@ -49,14 +46,14 @@ Sample Mean -> Expected Value
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | LLN | [CLT](/knowledge-base/studynote/08_algorithm_stats/08_stats/139_clt/) |
+| 구분 | LLN | [CLT](/studynote/08_algorithm_stats/08_stats/139_clt/) |
 | :-- | :-- | :-- |
 | 대상 | 평균 수렴 | 분포 형태 |
 | 핵심 | 기대값 근접 | 정규 근사 |
 
 | 관련 | 의미 |
 | :-- | :-- |
-| [Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| [Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | Statistical Inference | 통계 추론 |
 
 LLN은 장기 평균의 안정성을 보여 준다.
@@ -67,20 +64,20 @@ LLN은 장기 평균의 안정성을 보여 준다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 기대값과 표본평균을 구분하는가?
 2. LLN과 CLT를 구분하는가?
 3. 표본 수 증가의 의미를 아는가?
 4. 장기 평균 안정성을 설명할 수 있는가?
-5. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 수렴의 개념을 아는가?
+5. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 수렴의 개념을 아는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - LLN과 CLT를 혼동하는 설계
 - 작은 표본에서 과신하는 설계
 - 평균 수렴을 분포 수렴과 동일시하는 설계
-- [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 개념을 무시하는 설계
+- [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 개념을 무시하는 설계
 
 기술사 관점에서는 대수의 법칙을 "표본평균의 기대값 수렴 원리"로 설명해야 한다.
 
@@ -134,7 +131,7 @@ Convergence
 
 **진행 상황**: 74 / 258
 
-<- **이전**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/knowledge-base/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/)
-**다음**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/knowledge-base/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/) ->
+<- **이전**: [73. 중심 극한 정리 (CLT) - 30개 표본 정규분포 마법](/studynote/14_data_engineering/02_math_mining/073_central_limit_theorem_clt_sample_mean_normal_distribution/)
+**다음**: [75. 조건부 확률(Conditional Probability)과 베이즈 정리(Bayes)](/studynote/14_data_engineering/02_math_mining/075_conditional_probability_bayes_theorem_posterior/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)"
-date = 2026-05-09
+---
+title: "279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -175,7 +172,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 279 / 300
 
-<- **이전**: [278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/278_de_identification/)
-**다음**: [280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/280_homomorphic_encryption/) ->
+<- **이전**: [278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)](/studynote/14_data_engineering/05_exam_keywords/278_de_identification/)
+**다음**: [280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)](/studynote/14_data_engineering/05_exam_keywords/280_homomorphic_encryption/) ->
 
 ---

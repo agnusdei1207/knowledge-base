@@ -1,13 +1,10 @@
-+++
-title = "513. IT 경영 관리 핵심 토픽 513번 시험 요약 (IT Management Core Topic 513 Exam Summary)"
-date = 2026-05-09
+---
+title: "513. IT 경영 관리 핵심 토픽 513번 시험 요약 (IT Management Core Topic 513 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 513. IT 경영 관리 핵심 토픽 513번 시험 요약 (IT Management Core Topic 513 Exam Summary)
 
@@ -172,7 +169,7 @@ ITIL 4(2019, AXELOS) 의 **SVS(Service Value System)** 은 5대 컴포넌트가 
 
 **진행 상황**: 513 / 800
 
-<- **이전**: [512. IT 경영 관리 핵심 토픽 512번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/512_it_management_core_topic_512_exam_summary/)
-**다음**: [514. IT 경영 관리 핵심 토픽 514번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/514_it_management_core_topic_514_exam_summary/) ->
+<- **이전**: [512. IT 경영 관리 핵심 토픽 512번 시험 요약](/studynote/12_it_management/05_security_compliance/512_it_management_core_topic_512_exam_summary/)
+**다음**: [514. IT 경영 관리 핵심 토픽 514번 시험 요약](/studynote/12_it_management/05_security_compliance/514_it_management_core_topic_514_exam_summary/) ->
 
 ---

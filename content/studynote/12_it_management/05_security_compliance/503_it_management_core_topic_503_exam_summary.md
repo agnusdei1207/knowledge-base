@@ -1,13 +1,10 @@
-+++
-title = "503. IT 경영 관리 핵심 토픽 503번 시험 요약 (IT Management Core Topic 503 Exam Summary)"
-date = 2026-05-09
+---
+title: "503. IT 경영 관리 핵심 토픽 503번 시험 요약 (IT Management Core Topic 503 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -124,7 +121,7 @@ AXELOS(현재 PeopleCert)에서 관리하며, **서비스 가치 시스템(SVS: 
 
 **진행 상황**: 503 / 800
 
-<- **이전**: [502. IT 경영 관리 핵심 토픽 502번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/502_it_management_core_topic_502_exam_summary/)
-**다음**: [504. IT 경영 관리 핵심 토픽 504번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/504_it_management_core_topic_504_exam_summary/) ->
+<- **이전**: [502. IT 경영 관리 핵심 토픽 502번 시험 요약](/studynote/12_it_management/05_security_compliance/502_it_management_core_topic_502_exam_summary/)
+**다음**: [504. IT 경영 관리 핵심 토픽 504번 시험 요약](/studynote/12_it_management/05_security_compliance/504_it_management_core_topic_504_exam_summary/) ->
 
 ---

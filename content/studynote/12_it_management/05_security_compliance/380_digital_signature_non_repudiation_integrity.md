@@ -1,13 +1,10 @@
-+++
-title = "380. 전자서명 디지털 서명 비부인 무결성 (Digital Signature Non-repudiation Integrity)"
-date = 2026-05-09
+---
+title: "380. 전자서명 디지털 서명 비부인 무결성 (Digital Signature Non-repudiation Integrity)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -144,7 +141,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 380 / 800
 
-<- **이전**: [379. PKI 공개키 인프라 인증서 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/379_pki_public_key_infrastructure_certificate/)
-**다음**: [381. 침입 탐지 IDS 침입 방지 IPS 비교](/knowledge-base/studynote/12_it_management/05_security_compliance/381_intrusion_detection_ids_prevention_ips/) ->
+<- **이전**: [379. PKI 공개키 인프라 인증서 관리](/studynote/12_it_management/05_security_compliance/379_pki_public_key_infrastructure_certificate/)
+**다음**: [381. 침입 탐지 IDS 침입 방지 IPS 비교](/studynote/12_it_management/05_security_compliance/381_intrusion_detection_ids_prevention_ips/) ->
 
 ---

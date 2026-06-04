@@ -1,175 +1,160 @@
-+++
-title = "729. 클라우드 아키텍처 핵심 토픽 729번 시험 요약 (Cloud Architecture Core Topic 729 Exam Summary)"
-date = 2026-05-09
-
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
-
+---
+title: "729. 클라우드 아키텍처 핵심 토픽 729번 시험 요약 (Cloud Architecture Core Topic 729 Exam Summary)"
+date: 2026-05-09
+tags:
+  - "studynote-cloud-architecture"
+---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 CAP 정리를 넘어 **12-Factor App, Cell-Based Architecture, Cell-Based Reliability(Netflix), Sidecar/Ambassador Pattern(서비스 메시), SLO/Error Budget 기반 운영**을 통합한 **탄력적 분산 시스템 설계 체계**이며, AWS Well-Architected Framework 6대 축(운영우수성, 보안, 안정성, 성능효율성, 비용최적화, 지속가능성)과 CNCF Cloud Native Trail Map이 시험의 평가 기준선이다.
+> 2. **가치**: Auto Scaling + Multi-AZ + Multi-Region 구성을 통해 **단일 리전 가용성 99.99%(연 52분 장애), 글로벌 가용성 99.999%(연 5분 장애)** 달성이 가능하며, Pay-per-Use 모델로 **CapEx 대비 OpEx 전환 시 약 30~40% TCO 절감**, 컨테이너 오케스트레이션 도입 시 배포 주기 **수개월 → 수시간**, 장애 복구 시간(MTTR) **평균 70% 단축** 효과가 검증되어 있다.
+> 3. **판단 포인트**: **단일 클라우드 종속(Vendor Lock-in) vs Multi-Cloud(추상화 계층 비용)**, **Synchronous Replication(낮은 RPO vs 높은 비용) vs Asynchronous(저비용 vs 데이터 손실 가능)**, **Strong Consistency vs Eventual Consistency**, **Serverless(콜드 스타트 vs 무제한 확장) vs Container(상시 워밍 vs 운영 부담)**의 트레이드오프를 **RTO/RPO, 트래픽 패턴, 데이터 주권, 규제 요건**과 함께 의사결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 온프레미스 아키텍처는 **수직 확장(Scale-Up)** 방식의 모놀리식(Monolithic) 애플리케이션을 SAN/NAS 기반 스토리지와 메인프레임급 RDBMS(MySQL, Oracle RAC)에 의존했으며, 트래픽 증가 시 **"예측 과잉 프로비저닝(Over-provisioning)"**으로 인한 유휴 자원률 60~70%, CAPEX 회수 기간 5~7년, 장애 복구 RTO 수 시간~수 일이라는 구조적 한계를 가졌다. 또한 DC 건설/증설에는 평균 12~18개월, 네트워크 회선 증설에는 3~6개월이 소요되어 **"Time-to-Market"** 요구사항을 충족하지 못했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 729 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+클라우드 아키텍처는 AWS(2006년 EC2 출시)를 기점으로 **가상화(KVM, Xen, Hyper-V) → 컨테이너화(Docker 2013) → 오케스트레이션(Kubernetes 2015) → 서버리스(Lambda 2014) → 서비스 메시(Istio 2017) → eBPF 기반 관측가능성(Cilium 2021)**로 진화해왔으며, **"Infrastructure as Code(Terraform, Pulumi, CloudFormation)", "Immutable Infrastructure", "Pet vs Cattle 서버"** 패러다임을 통해 **선언적(Declarative) 인프라 관리**와 **자동화된 회복 탄력성(Self-healing)**을 달성한다. 2024년 기준 글로벌 퍼블릭 클라우드 시장 규모는 약 6,800억 USD로 성장했으며, Gartner는 2027년 엔터프라이즈 IT 지출의 **51%**가 퍼블릭 클라우드로 전환될 것으로 전망한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 729번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+┌─────────────────────────────────────────────────────────────────────┐
+│        전통 On-Premise 아키텍처                  Cloud-Native 아키텍처        │
+├─────────────────────────────────────────────────────────────────────┤
+│                                                                     │
+│  [사용자]            [사용자]                                       │
+│      │                  │                                          │
+│      ▼                  ▼                                          │
+│  ┌────────┐         ┌────────┐     ┌──────────────┐                │
+│  │L4/L7   │         │  CDN   │────▶│ Edge/CloudFront│              │
+│  │Switch  │         │(CloudF)│     │ (Anycast)    │                │
+│  └────┬───┘         └────┬───┘     └──────┬───────┘                │
+│       │                  │                │                        │
+│       ▼                  ▼                ▼                        │
+│  ┌─────────┐       ┌──────────┐    ┌──────────┐                  │
+│  │WebLogic│      │ECS Fargate│    │ Lambda   │                    │
+│  │(모놀리식)│      │(컨테이너)  │    │(이벤트기반)│                   │
+│  └────┬────┘       └────┬─────┘    └────┬─────┘                    │
+│       ▼                  ▼                ▼                        │
+│  ┌─────────┐       ┌──────────┐    ┌──────────┐                  │
+│  │Oracle   │       │Aurora    │    │ DynamoDB │                    │
+│  │RAC      │       │Multi-Master│   │(NoSQL)   │                   │
+│  └────┬────┘       └────┬─────┘    └────┬─────┘                    │
+│       ▼                  ▼                ▼                        │
+│  ┌─────────┐       ┌──────────┐    ┌──────────┐                  │
+│  │SAN/NAS  │       │S3/Glacier│    │S3+RRS    │                    │
+│  │(RAID 5) │       │(11 9s)   │    │(99.99%)  │                    │
+│  └─────────┘       └──────────┘    └──────────┘                  │
+│                                                                     │
+│  수직확장(Scale-Up)         수평확장(Scale-Out) + 탄력적 자동화           │
+│  CAPEX 중심                  OPEX 중심 (Pay-per-Use)                  │
+│  수동 운영                    IaC + GitOps 자동화                       │
+└─────────────────────────────────────────────────────────────────────┘
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+클라우드 네이티브의 핵심은 단순한 "클라우드 사용"이 아니라 **"애플리케이션이 클라우드 환경의 특징(탄력성, 분산, 자동화)을 최대한 활용하도록 설계"**되는 것이다. CNCF(Cloud Native Computing Foundation)는 **"Containers, Service Mesh, Microservices, Immutable Infrastructure, Declarative APIs"**를 5대 핵심 요소로 정의하며, Google은 **"Borg → Omega → Kubernetes"** 15년의 운영 노하우를 오픈소스로 공개했다.
 
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 온프레미스가 "자기 집을 짓고 가구까지 사서 사는" 것이라면, 클라우드 아키텍처는 "전 세계 호텔 체인의 회원권으로 어디서든 필요한 방만 골라 쓰고, 짐은 호텔이 알아서 보관해주는" 시스템이다. 호텔이 붐비면 자동으로 더 빌려주고(탄력성), 호텔 화재 시 다른 호텔로 즉시 옮겨준다(장애 대응).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 729번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처는 **NIST SP 500-292 참조 모델**(5대 역할: Cloud Consumer, Provider, Auditor, Broker, Carrier)을 기반으로, **다층 계층(Multi-Tier) 아키텍처**, **Cell-Based Architecture**, **Sharded Architecture** 등 다양한 패턴이 존재한다. 현대 클라우드 네이티브 아키텍처의 핵심은 **"12-Factor App(Heroku 2011) + Beyond the 12-Factor(AppDynamics) + 15-Factor App(Kubernetes 최적화)"** 원칙을 준수하는 것이다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 729 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                 ┌──────────────────────────────────────────┐
+                 │   Global Edge / Multi-Region Active-Active │
+                 │   (Route 53 Latency-Based / Cloudflare)  │
+                 └────────────────┬─────────────────────────┘
+                                  │
+              ┌───────────────────┼───────────────────┐
+              ▼                   ▼                   ▼
+        ┌──────────┐         ┌──────────┐       ┌──────────┐
+        │ Region A │         │ Region B │       │ Region C │
+        │ (Seoul)  │         │ (Tokyo)  │       │ (Virginia)│
+        └────┬─────┘         └────┬─────┘       └────┬─────┘
+             │                    │                   │
+   ┌─────────┼─────────┐         ...                 ...
+   ▼         ▼         ▼
+┌─────┐  ┌─────┐   ┌─────┐
+│ AZ-a│  │ AZ-b│   │ AZ-c│  (Availability Zone: 독립 DC)
+└──┬──┘  └──┬──┘   └──┬──┘
+   │        │         │
+   ▼        ▼         ▼
+┌──────────────────────────────────┐
+│  L7 ALB / NLB / API Gateway     │
+│  (WAF + Shield + Cognito 인증)   │
+└────────────────┬─────────────────┘
+                 │
+   ┌─────────────┼──────────────┐
+   ▼             ▼              ▼
+┌────────┐  ┌────────┐     ┌────────┐
+│ECS/EKS │  │Lambda  │     │Step    │
+│Service │  │Function│     │Functions│
+│(Fargate)│ │(이벤트) │     │(워크플로)│
+└───┬────┘  └───┬────┘     └────┬───┘
+    │           │                │
+    └───────────┼────────────────┘
+                ▼
+      ┌─────────────────────┐
+      │ Service Mesh (Istio)│
+      │ mTLS + Circuit Break│
+      └──────────┬──────────┘
+                 │
+   ┌─────────────┼─────────────┐
+   ▼             ▼              ▼
+┌────────┐  ┌────────┐     ┌────────┐
+│Aurora  │  │DynamoDB│    │ Elasti-│
+│Global   │  │Global  │     │Cache   │
+│Database │  │Tables  │     │Redis   │
+└────────┘  └────────┘     └────────┘
+                 │
+                 ▼
+      ┌─────────────────────┐
+      │ Observability Stack │
+      │ (Prometheus+Grafana │ + Loki + Tempo + Jaeger)
+      └─────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Edge / CDN 계층** | 글로벌 정적 콘텐츠 캐싱, DDoS 방어, TLS Termination | CloudFront(50+ Edge Location), Cloudflare(Aquara Network), Fastly(Varnish VCL). **Anycast Routing**으로 사용자 근접 노드 자동 라우팅, 캐시 적중률(Cache Hit Ratio) 90% 이상 시 Origin 부하 90% 감소 |
+| **Global Load Balancer** | DNS 기반 멀티 리전 트래픽 분배, Active-Active/Active-Passive 페일오버 | AWS Route 53 Latency-Based/Geolocation/Weighted, GCP Cloud DNS, Azure Traffic Manager. **TTL 관리**(60초~300초)와 **Health Check**로 자동 페일오버, **RTO 30초 이내** 달성 |
+| **Application Load Balancer(ALB)** | L7 라우팅(Path/Host/Header 기반), WebSocket 지원, gRPC | AWS ALB(50% 더 낮은 비용 vs Classic), Envoy Proxy 기반. **Sticky Session**(쿠키), **Weighted Target Group**으로 카나리/블루그린 배포. Connection Draining으로 무중단 배포 |
+| **컨테이너 오케스트레이션** | 선언적 배포, 자동 스케일링, 자가 치환(Self-healing) | Kubernetes 1.30+, EKS/GKE/AKS. **HPA**(CPU/Memory/RPS 기반), **VPA**(Pod 리소스 자동 조정), **KEDA**(이벤트 기반 0→N 스케일링), **Cluster Autoscaler**, **Karpenter**(서버리스 노드 프로비저닝, 30초 내 신규 노드) |
+| **서비스 메시(Service Mesh)** | 마이크로서비스 간 mTLS, 트래픽 관리, 관측가능성 | Istio 1.22, Linkerd 2.15, Consul Connect. **Sidecar Envoy**로 L4/L7 정책 주입, **Circuit Breaker**(5xx 50% 시 자동 차단), **Retry/Timeout**, **Traffic Mirroring**(Shadow Traffic) |
+| **데이터 계층** | RDBMS(트랜잭션), NoSQL(대규모), Object Storage(파일) | Aurora(MySQL/PostgreSQL 호환, 6-way Replication), DynamoDB(99.999% SLA, 10ms 미만 latency), S3(11 9s 내구성, 99.99% 가용성), RDS Multi-AZ(동기 복제, RPO 0) |
+| **캐시 계층** | Read-Through, Write-Behind, Session 저장 | ElastiCache Redis 7.2(클러스터 모드, 500 노드, 68.2GB/노드), Memcached, Hazelcast. **Cache Stampede** 방지(Lazy Loading + Async Refresh) |
+| **메시지 큐/이벤트 스트림** | 비동기 처리, 이벤트 드리븐, Pub/Sub | Apache Kafka(파티션 순서 보장, exactly-once), Amazon SQS(Standard/FIFO), SNS(Push), EventBridge(450+ SaaS 통합), RabbitMQ(AMQP 0-9-1) |
+| **관측가능성(Observability)** | Metrics/Logs/Traces 통합, AIOps | **3 Pillars**: Prometheus(메트릭), Loki(로그), Tempo/Jaeger(분산 트레이싱). OpenTelemetry SDK 표준. **RED Method**(Rate, Error, Duration), **USE Method**(Utilization, Saturation, Errors) |
+| **IaC / GitOps** | 인프라 선언적 정의, Git 기반 배포 자동화 | Terraform 1.7+(State Lock with DynamoDB), Pulumi(TS/Python/Go), AWS CDK, ArgoCD/Flux(GitOps). **Policy as Code**: OPA/Conftest, **SBOM**: CycloneDX/SPDX |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘/수식:**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **가용성(Availability) 계산식**: `A = MTBF / (MTBF + MTTR)`
+   - 99.9%(Three-9) = 연 8.76시간 장애
+   - 99.95% = 연 4.38시간
+   - 99.99%(Four-9) = 연 52.56분
+   - 99.999%(Five-9) = 연 5.26분 (통신사 등급)
 
----
+2. **CAP 정리 (Brewer's Theorem)**: 분산 시스템은 **Consistency(일관성), Availability(가용성), Partition Tolerance(파티션 내성)** 중 최대 2가지만 보장 가능. 클라우드는 P는 필수이므로 C와 A 사이에서 선택. → **PACELC 확장**: 평상시에도 Latency vs Consistency 트레이드오프 존재
 
-## Ⅲ. 비교 및 연결
+3. **Amdahl's Law(암달의 법칙)**: `Speedup = 1 / ((1-P) + P/N)` (P: 병렬화 가능 비율, N: 프로세서 수). 병렬화 가능한 부분이 90%여도 N→∞일 때 최대 10배 성능 향상 한계
 
-클라우드 아키텍처 핵심 토픽 729번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+4. **Little's Law**: `L = λ × W` (시스템 내 평균 요청 수 = 도착률 × 평균 체류시간). 동시 사용자 10,000명, 평균 응답 200ms라면 처리량 λ = 50,000 RPS 필요
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 729번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+5. **Queueing Theory (M/M/c)**: Erlang C 공식으로 콜센터/요청 큐의 대기 확률 계산. **PoC(Probability of Call Waiting)**, **ASA(Average Speed of Answer)** 도출
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+6. **Auto Scaling 알고리즘**: AWS Target Tracking(예: CPU 60% 목표), Step Scaling(임계값 기반 단계별), Scheduled Scaling(예측 가능 패턴), Predictive Scaling(ML 기반 2일 전 예측)
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 729번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 729번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 729번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 729번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 729번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 729번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 729번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+7. **분산 합의
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 729 / 800
 
-<- **이전**: [728. 클라우드 아키텍처 핵심 토픽 728번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/728_cloud_architecture_core_topic_728_exam_summar/)
-**다음**: [730. 클라우드 아키텍처 핵심 토픽 730번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/730_cloud_architecture_core_topic_730_exam_summar/) ->
+<- **이전**: [728. 클라우드 아키텍처 핵심 토픽 728번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/728_cloud_architecture_core_topic_728_exam_summar/)
+**다음**: [730. 클라우드 아키텍처 핵심 토픽 730번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/730_cloud_architecture_core_topic_730_exam_summar/) ->
 
 ---

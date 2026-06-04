@@ -1,175 +1,210 @@
-+++
-title = "428. 클라우드 AI 서빙 엔드포인트 스케일링 (Cloud AI Serving Endpoint Scaling)"
-date = 2026-05-09
+---
+title: "428. 클라우드 AI 서빙 엔드포인트 스케일링 (Cloud AI Serving Endpoint Scaling)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 AI 서빙 엔드포인트 스케일링은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: GPU 자원의 비선형적 비용 구조(예: A100 80GB 시간당 약 $3.06 vs CPU 대비 50배)에서 출발한 **AI 서빙 스케일링은 Kubernetes HPA + KEDA 이벤트 드리븐 + NVIDIA Triton/TGI/vLLM의 동적 배칭(dynamic batching)**을 결합하여, p99 지연시간을 SLA 내로 유지하면서 GPU Utilization을 60% 이상으로 끌어올리는 다층 오토스케일링 체계이다.
+> 2. **가치**: Cold Start를 Warm Pool(예: KServe 0->1, 약 8~15초 단축)로 줄이고, **Continuous Batching(vLLM, 2024)**, **PagedAttention(KV Cache 메모리 4~24배 효율화)**, **In-flight Batching(Triton)**을 통해 LLM Throughput을 **23배**(vLLM vs naive HF)까지 향상시키며, Spot Instance + Queue-based 스케일링으로 인프라 비용을 60~80% 절감 가능하다.
+> 3. **판단 포인트**: 트레이드오프는 **(a) Cold Start 지연 vs 비용 효율**, **(b) 처리량 최대화(batching^) vs 지연시간 최소화(queue depthv)**, **(c) GPU 종류 균일성(성능 최적화) vs 이기종 GPU(MIG/H100/A100 혼용, 유연성)** 사이에서 발생하며, LLM(메모리 바운드)·비전 CNN(연산 바운드)·추천 시스템(메모리/연산 혼합) 등 모델 특성별 스케일링 전략을 차별화해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 AI 서빙 엔드포인트 스케일링은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+AI 모델의 학습(Training) 비용은 단발성 Capex 성격이 강하지만, **추론(Inference) 서빙은 365일 24시간 발생하는 Opex**이다. 2024년 기준 대규모 생성형 AI 서비스(예: ChatGPT, Claude, Copilot)는 **일 평균 수억~수십억 토큰**을 처리하며, 이를 안정적으로 제공하기 위한 엔드포인트 스케일링은 클라우드 인프라 운영의 핵심 과제가 되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud AI Serving Endpoint Scaling 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 웹 서비스 스케일링은 **요청 단위(RPS) 기반의 Stateless 컨테이너 수평 확장**으로 충분했지만, AI 서빙은 다음의 구조적 차이로 인해 동일한 접근이 통하지 않는다.
 
-```text
-+--------------------------------------------------------------+
-|                    클라우드 AI 서빙 엔드포인트 스케일링 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+```
++---------------------------------------------------------------------+
+|        기존 웹 서비스 vs AI 추론 서빙의 구조적 차이                    |
++---------------------------------------------------------------------+
+|                                                                     |
+|  [기존 웹 서비스]                  [AI 추론 서빙]                    |
+|  +----------+                    +----------------------+          |
+|  | Nginx    |  Stateless        | Triton / vLLM        |          |
+|  | App Pod  |  - 수 ms 응답       | - State(가중치) 보유   |          |
+|  | DB Cache |  - CPU 충분        | - GPU 필요            |          |
+|  +----------+                    | - 수십~수백 초 응답     |          |
+|       |                          | - Batching 필수       |          |
+|       |   HPA: CPU/Memory        +----------------------+          |
+|       v                                  |                          |
+|  +----------+                  +----------------------+            |
+|  | 5~50 Pod |                  | GPU 노드 풀 관리     |            |
+|  | CPU 노드 |                  | 1~수백 장 (A100/H100) |            |
+|  +----------+                  +----------------------+            |
+|                                                                     |
+|  ❗ 결정적 차이점:                                                    |
+|  ① 모델 가중치 수 GB~수백 GB -> Pod 이동/시작 비용 큼                  |
+|  ② GPU 자원 분할/공유 기술 필요 (MIG, MPS, Time-slicing)            |
+|  ③ 응답시간이 길어 Queue 기반 + 비동기 처리 필수                     |
+|  ④ 동적 배칭(Dynamic Batching)으로 Throughput 최적화                |
+|  ⑤ Cold Start 문제 (8~60초) -> Warm Pool, Pre-warmed Pod 필수       |
++---------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가? (Old vs New Paradigm)**
 
-- **📢 섹션 요약 비유**: 클라우드 AI 서빙 엔드포인트 스케일링은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 구분 | 기존 웹 스케일링 (Web 2.0) | AI 서빙 스케일링 (AI 2.0) |
+| :--- | :--- | :--- |
+| 자원 단위 | vCPU, Memory (GB) | GPU (A100, H100, L4), NPU, Memory, VRAM |
+| 부하 신호 | CPU%, RPS, Queue depth | GPU SM Utilization, KV Cache 사용률, 토큰/s |
+| 스케일링 단위 | Pod (수 ms~수 초 시작) | GPU 노드 (수 분), Warm Pod (수 초) |
+| 처리량 최적화 | Connection Pool, Thread | Dynamic Batching, Continuous Batching, Speculative Decoding |
+| 비용 모델 | Pay-per-Request, Reserved | GPU 시간(고정) + Token 기반(Passthrough) 혼합 |
+| 트래픽 패턴 | Poisson, 주기적 | Viral(챗봇), Bursty(검색/추천), Long-tail(다국어 LLM) |
+
+- **📢 섹션 요약 비유**: AI 서빙 스케일링은 마치 **고속도로 톨게이트**와 같다. 일반 웹 트래픽은 승용차가 빠르게 지나가는 것이지만, AI 추론은 **컨테이너 트럭(GPU)이 화물(모델 가중치)을 싣고 고속 톨게이트(엔드포인트)를 통과**하는 형태다. 트럭이 막히지 않으면서도 톨게이트 비용(토큰당 비용)을 최소화하려면, **여러 화물을 모아 한 번에 운송(배칭)**, **트럭 대기장(Warm Pool) 운영**, **혼잡 시 추가 톨게이트(Auto-scaling)**를 동시에 운영해야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 AI 서빙 엔드포인트 스케일링의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 AI 서빙 엔드포인트 스케일링은 **4계층 오토스케일링 아키텍처**로 구성된다.
 
-```text
-+--------------------------------------------------------------+
-|              Cloud AI Serving Endpoint Scaling 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+```
++--------------------------------------------------------------------------+
+|         4-Layer Cloud AI Serving Endpoint Scaling Architecture           |
++--------------------------------------------------------------------------+
+|                                                                          |
+|   [Client Apps]                                                         |
+|        | HTTPS / gRPC / WebSocket                                       |
+|        v                                                                |
+|   +-----------------------------------------------------+               |
+|   | Layer 1: L7 LB / API Gateway (Global)               |               |
+|   |  - Envoy, NGINX, AWS ALB, GCP GLB                   |               |
+|   |  - Token-aware Routing (헤더 모델명/version)         |               |
+|   |  - Rate Limit, Retry, Circuit Breaker                |               |
+|   +-----------------------------------------------------+               |
+|        |                                                                |
+|        v                                                                |
+|   +-----------------------------------------------------+               |
+|   | Layer 2: Service Mesh / Inference Gateway           |               |
+|   |  - Istio, KServe Ingress, Cloud Run Gateway          |               |
+|   |  - Canary(10%->50%->100%), A/B Routing                |               |
+|   |  - mTLS, Token 인증, Model ID 기반 분기              |               |
+|   +-----------------------------------------------------+               |
+|        |                                                                |
+|        v                                                                |
+|   +-----------------------------------------------------+               |
+|   | Layer 3: Inference Server (Model Serving)            |               |
+|   |  - NVIDIA Triton (Backend: TensorRT/PyTorch/ONNX)   |               |
+|   |  - vLLM (LLM 특화, PagedAttention)                  |               |
+|   |  - TGI(HuggingFace), TorchServe, BentoML, MLflow     |               |
+|   |  - Dynamic/Continuous Batching, KV Cache 관리        |               |
+|   |  - CUDA Graphs, FlashAttention, Quantization         |               |
+|   +-----------------------------------------------------+               |
+|        |  PCIe / NVLink                                                 |
+|        v                                                                |
+|   +-----------------------------------------------------+               |
+|   | Layer 4: GPU Resource Orchestration                  |               |
+|   |  - Kubernetes + GPU Operator (NVIDIA Device Plugin) |               |
+|   |  - MIG(7-instance), MPS, Time-slicing               |               |
+|   |  - HPA / VPA / KEDA / Karpenter                     |               |
+|   |  - Cluster Autoscaler (GPU 노드 1~수백)              |               |
+|   |  - Spot/On-demand Mix, Warm Pool                    |               |
+|   +-----------------------------------------------------+               |
+|                                                                          |
+|   [Storage: S3/GCS 모델 가중치 (10~700GB), Feature Store, Vector DB]      |
++--------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **NVIDIA Triton Inference Server** | 표준 모델 서빙 런타임 | TensorRT/PyTorch/ONNX/Python 백엔드, HTTP/gRPC, Dynamic Batching(max_batch_size, queue_policy), Concurrent Model Execution, Model Analyzer로 최적 설정 탐색 |
+| **vLLM (LLM 전용)** | LLM 추론 특화 서빙 | PagedAttention(블록 단위 KV Cache, 4~24배 효율), Continuous Batching(매 디코드 스텝마다 신규 요청 삽입), 23배 throughput 달성(vs HuggingFace naive) |
+| **HuggingFace TGI** | LLM/Transformer 서빙 | Rust 기반, FlashAttention v2/v3, Paged Attention, Token streaming, GPTQ/AWQ 양자화 내장 |
+| **KServe (Kubeflow)** | Kubernetes-native 추론 플랫폼 | Serverless(0->N 스케일), Canary Rollout, ModelMesh(다수 모델 동적 로딩), Transformer(전/후처리), Open Inference Protocol v2 |
+| **KEDA (Kubernetes Event-driven Autoscaling)** | 이벤트 기반 HPA 확장기 | Kafka/RabbitMQ/Prometheus/Cron ScaledObject, 0까지 스케일 다운(Scale-to-Zero), GPU 메트릭(nvidia-smi-exporter) 트리거 |
+| **Karpenter** | AWS 노드 프로비저너 | Spot/Odor-aware 스케줄링, 50초 내 노드 준비, GPU/TPU/별가속기 자동 선택, Consolidation(비용 최소화) |
+| **NVIDIA GPU Operator + Device Plugin** | GPU 자원 노출/관리 | `nvidia.com/gpu: 1` 등 리소스 노출, MIG(1->7 slice), MPS, Time-slicing(4-way share), DCGM 메트릭 수집 |
+| **Model Mesh / Multi-Model Serving** | 다수 모델 동적 로딩 | LRU Eviction, 모델 가중치(700B) 시 RAM/VRAM 초과분 SSD Tier 캐싱, Pod당 수십~수백 모델 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘 및 파라미터
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**(1) Dynamic Batching의 수학적 이해**
+Triton의 Dynamic Batching은 다음과 같은 큐잉 모델을 따른다.
+
+```
+처리량(throughput) = batch_size / (T_static + batch_size × T_per_sample)
+
+  - T_static: 모델 고정 오버헤드 (커널 로딩, attention setup)
+  - T_per_sample: 샘플당 처리 시간
+  - batch_size: 동일 forward pass에 묶이는 요청 수
+```
+
+`max_batch_size` ^ -> Throughput ^, Latency ^
+트레이드오프 -> 보통 `max_queue_delay_microseconds` (예: 10000μs=10ms)로 cap
+
+**(2) Continuous Batching (vLLM)**
+- 기존 Static Batching: 가장 긴 시퀀스 끝날 때까지 짧은 요청 대기 (GPU 낭비)
+- Continuous Batching: 매 iteration마다 완료된 요청 제거 + 신규 요청 삽입
+- 효과: 평균 GPU utilization 30%->80%, throughput 23× (vLLM 논문, SOSP'23)
+
+**(3) PagedAttention 메모리 관리**
+- KV Cache를 OS의 Paging처럼 **블록(보통 16 token) 단위로 분할**
+- 내부 단편화(Internal Fragmentation) 4% 이하 (vs 기존 60~80%)
+- 메모리 낭비 4~24배 감소 -> 동일 VRAM에서 동시 처리량 4×^
+
+**(4) HPA 스케일링 공식 (K8s HPA)**
+```
+desiredReplicas = ceil[currentReplicas × (currentMetricValue / desiredMetricValue)]
+
+예: GPU Utilization 현재 80%, 목표 60%
+     desiredReplicas = 5 × (80/60) = 7 (Pod)
+```
+- 안정화 윈도우(`--horizontal-pod-autoscaler-downscale-stabilization`, 기본 5분)
+- 스케일 업 30s~1m, 스케일 다운 5m (Cost-saving 위해 비대칭)
+
+**(5) Queue-based Autoscaling (KEDA + Kafka/SQS)**
+```
+backlog_per_pod = queue_depth / current_pod_count
+if backlog_per_pod > threshold (예: 5):  scale_up
+if backlog_per_pod < 1 for 10min:       scale_to_zero
+```
+- LLM 응답시간 30초인 경우, RPS보다 **queue depth**가 더 정확한 스케일링 신호
+
+- **📢 섹션 요약 비유**: 4계층 구조는 **공항 관제 시스템**과 같다. **1층(API Gateway)**은 탑승구(보안/게이트), **2층(Inference Gateway)**은 활주로 라우팅(우선순위/Canary), **3층(Inference Server)**은 실제 항공기(GPU/엔진), **4층(Resource Orchestration)**은 격납고/지상조직원(노드/스케줄링)이다. 비행기 이착륙이 지연되면 활주로(처리량)를 늘리고, 수요가 줄면 격납고(Pod)를 닫아 비용을 절감한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 AI 서빙 엔드포인트 스케일링을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | **KServe / Knative** | **Triton Inference Server** | **SageMaker Endpoint** | **Cloud Run / Lambda (GPU)** |
+| :--- | :--- | :--- | :--- | :--- |
+| **주 사용처** | K8s-native 멀티모델 | GPU 추론 표준 런타임 | AWS 매니지드 ML 서빙 | 경량/콜드 스타트 허용 |
+| **스케일링** | HPA + KEDA + Scale-to-Zero | 자체 부하 분산 (single pod) | Target Tracking (Invocations, GPU%) | 요청 기반 (1->N), Cold Start 큼 |
+| **모델 크기** | 수 GB~수백 GB (PVC/OCI) | 수 GB~수십 GB (Local FS) | 수 GB~수백 GB (S3 마운트) | 10GB 이하 권장 (Container size) |
+| **Batching** | 사용자 구현 (Triton 통합 가능) | Dynamic Batching 내장 | Mini-batch 자동 (Built-in) | 미지원 (Stateless 권장) |
+| **GPU** | NVIDIA GPU, MIG 지원 | CUDA/TensorRT 최적화 | 모든 인스턴스 (G4/G5/P4/P5) | L4 (Cloud Run, 2024 GA) |
+| **Cold Start** | 5~15s (Warm Image, Knative) | 8~30s (모델 로드 포함) | 30~60s (엔드포인트) | 5~10s (L4) |
+| **비용 모델** | 노드 시간 (BYO K8s) | 노드 시간 (BYO K8s) | 인스턴스 시간 + Invocations | 요청/시간 (Pay-per-use) |
+| **운영 부담** | 높음 (CRD, Istio) | 중간 (서버 운영) | 낮음 (매니지드) | 매우 낮음 (서버리스) |
+| **적합 시나리오** | 하이브리드, On-Prem 연동 | 고성능 GPU 서빙 | AWS 종속, 빠른 출시 | 트래픽 변동 크고 LLM API |
 
-| 구분 | 전통적 접근 | 클라우드 AI 서빙 엔드포인트 스케일링 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+### 상호 보완 관계 및 통합 패턴
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 AI 서빙 엔드포인트 스케일링은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 AI 서빙 엔드포인트 스케일링은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 AI 서빙 엔드포인트 스케일링을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 AI 서빙 엔드포인트 스케일링을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 AI 서빙 엔드포인트 스케일링 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 AI 서빙 엔드포인트 스케일링은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 AI 서빙 엔드포인트 스케일링의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 AI 서빙 엔드포인트 스케일링의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 AI 서빙 엔드포인트 스케일링 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
 ```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 AI 서빙 엔드포인트 스케일링은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+[프레임워크 선택 의사결정 플로우]
+                  +---------------------+
+                  |  트래픽 패턴은?      |
+                  +----------+----------+
+            +----------------+----------------+
+            v                v                v
+        Constant        Bursty/Viral      LLM Streaming
+            |                |                |
+            v                v                v
+      SageMaker       Cloud Run
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 428 / 800
 
-<- **이전**: [427. GPU 인스턴스 AI 학습 추론 최적화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/427_gpu_instance_ai_training_inference/)
-**다음**: [429. 클라우드 벡터 DB 유사도 검색 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/429_cloud_vector_db_similarity_search_service/) ->
+<- **이전**: [427. GPU 인스턴스 AI 학습 추론 최적화](/studynote/13_cloud_architecture/06_exam_summary/427_gpu_instance_ai_training_inference/)
+**다음**: [429. 클라우드 벡터 DB 유사도 검색 서비스](/studynote/13_cloud_architecture/06_exam_summary/429_cloud_vector_db_similarity_search_service/) ->
 
 ---

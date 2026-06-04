@@ -1,13 +1,10 @@
-+++
-title = "504. IT 위험 관리 리스크 평가 대응 (IT Risk Management Assessment Response)"
-date = 2026-05-09
+---
+title: "504. IT 위험 관리 리스크 평가 대응 (IT Risk Management Assessment Response)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ IT 리스크 관리을 올바르게 적용하면 업무 처리 속도, 통제 �
 
 **진행 상황**: 504 / 800
 
-<- **이전**: [503. 벤더 관리 아웃소싱 SLA 성과 평가](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/503_vendor_management_outsourcing_sla_performance/)
-**다음**: [505. 비즈니스 연속성 BCP DRP 복구 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/505_business_continuity_bcp_drp_recovery/) ->
+<- **이전**: [503. 벤더 관리 아웃소싱 SLA 성과 평가](/studynote/07_enterprise_systems/06_exam_summary/503_vendor_management_outsourcing_sla_performance/)
+**다음**: [505. 비즈니스 연속성 BCP DRP 복구 전략](/studynote/07_enterprise_systems/06_exam_summary/505_business_continuity_bcp_drp_recovery/) ->
 
 ---

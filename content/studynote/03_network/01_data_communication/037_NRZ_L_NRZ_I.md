@@ -1,18 +1,15 @@
-+++
-title = "037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩"
-date = 2026-03-03
+---
+title: "037. NRZ-L과 NRZ-I — 비복귀 제로 라인 코딩"
+date: "2026-03-03"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 > **핵심 인사이트**
-> 1. NRZ(Non-Return to [Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기 중 0V로 복귀하지 않는 라인 코딩 방식으로, NRZ-L(Level)은 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 자체를 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨로, NRZ-I(Inverted)는 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마다 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 반전시켜 표현한다.
-> 2. NRZ-L의 핵심 문제는 긴 연속 0 또는 1이 발생할 때 클락 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 불가능한 기저선 천이([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) Wandering)와 DC 성분 발생이며, NRZ-I는 연속 1에서는 해결되지만 연속 0 문제는 여전히 존재한다.
-> 3. 이 한계 때문에 실제 물리 계층에서는 맨체스터([Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)), 4B/5B+NRZI(FastEthernet), 8B/10B([Gigabit Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)), PAM4(400GbE)처럼 클락 내장 코딩으로 발전해 왔다.
+> 1. NRZ(Non-Return to [Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/))는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 주기 중 0V로 복귀하지 않는 라인 코딩 방식으로, NRZ-L(Level)은 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 값 자체를 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨로, NRZ-I(Inverted)는 1 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)마다 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 반전시켜 표현한다.
+> 2. NRZ-L의 핵심 문제는 긴 연속 0 또는 1이 발생할 때 클락 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 불가능한 기저선 천이([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/) Wandering)와 DC 성분 발생이며, NRZ-I는 연속 1에서는 해결되지만 연속 0 문제는 여전히 존재한다.
+> 3. 이 한계 때문에 실제 물리 계층에서는 맨체스터([Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)), 4B/5B+NRZI(FastEthernet), 8B/10B([Gigabit Ethernet](/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)), PAM4(400GbE)처럼 클락 내장 코딩으로 발전해 왔다.
 
 ---
 
@@ -33,12 +30,12 @@ NRZ-I (Non-Return to Zero Inverted):
   규칙: 1 = 이전 신호에서 반전, 0 = 변화 없음
 ```
 
-| 구분    | 기준          | 1 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 처리     | 0 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 처리  |
+| 구분    | 기준          | 1 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 처리     | 0 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 처리  |
 |-------|-------------|--------------|------------|
-| NRZ-L | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨     | 높은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지   | 낮은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지|
-| NRZ-I | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화     | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 반전       | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지    |
+| NRZ-L | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 레벨     | 높은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지   | 낮은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지|
+| NRZ-I | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 변화     | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 반전       | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 유지    |
 
-> 📢 **섹션 요약 비유**: NRZ-L은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등처럼 빨강=0, 초록=1 고정 — NRZ-I는 1이 올 때마다 색깔을 바꾸는 방식.
+> 📢 **섹션 요약 비유**: NRZ-L은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등처럼 빨강=0, 초록=1 고정 — NRZ-I는 1이 올 때마다 색깔을 바꾸는 방식.
 
 ---
 
@@ -64,11 +61,11 @@ NRZ-I 개선:
   But 연속 0 문제 여전히 존재
 ```
 
-> 📢 **섹션 요약 비유**: NRZ-L은 "빨강만 30초 계속" — 운전자가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 고장인지 멈춘 건지 모른다. NRZ-I는 1마다 바뀌니 연속 1은 해결되지만 연속 0은 동일 문제.
+> 📢 **섹션 요약 비유**: NRZ-L은 "빨강만 30초 계속" — 운전자가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 고장인지 멈춘 건지 모른다. NRZ-I는 1마다 바뀌니 연속 1은 해결되지만 연속 0은 동일 문제.
 
 ---
 
-## III. 클락 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제
+## III. 클락 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제
 
 ```
 문제 상황:
@@ -87,11 +84,11 @@ NRZ-I 개선:
   3. 4B/5B: 4비트를 5비트로 변환 (연속 0 제거)
 ```
 
-> 📢 **섹션 요약 비유**: 수신기가 심장박동기처럼 규칙적인 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 기대하는데, NRZ에서 긴 1이 오면 "아직 살아있나?" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 — 자기 클락킹 코딩이 해결책.
+> 📢 **섹션 요약 비유**: 수신기가 심장박동기처럼 규칙적인 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 기대하는데, NRZ에서 긴 1이 오면 "아직 살아있나?" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 불가 — 자기 클락킹 코딩이 해결책.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발전된 라인 코딩 비교
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 발전된 라인 코딩 비교
 
 ```
 NRZ-L: 가장 단순, 긴 런(run)에 취약
@@ -104,19 +101,19 @@ NRZ-I: 연속 1 처리, USB/HDMI에 사용
 PAM4: 4레벨 펄스, 400GbE 이상
 ```
 
-| 코딩          | 최대 연속 동일 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 사용처              |
+| 코딩          | 최대 연속 동일 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | 사용처              |
 |-------------|--------------|-------------------|
 | NRZ-L       | 제한 없음      | 단순 RS-232        |
-| NRZ-I       | 연속 0 문제   | [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 2.0           |
+| NRZ-I       | 연속 0 문제   | [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 2.0           |
 | 맨체스터     | 최대 1비트     | 10BASE-T          |
 | 4B/5B+NRZI  | 최대 3비트     | 100BASE-TX        |
-| 8B/10B      | 최대 5비트     | [Gigabit Ethernet](/knowledge-base/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)  |
+| 8B/10B      | 최대 5비트     | [Gigabit Ethernet](/studynote/03_network/03_physical_layer_media/139_1000base_t_gigabit_ethernet/)  |
 
-> 📢 **섹션 요약 비유**: 라인 코딩의 역사는 단순함(NRZ)에서 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(맨체스터)으로, 다시 효율(4B/5B)로, 또 고속(PAM4)으로 진화하는 과정이다.
+> 📢 **섹션 요약 비유**: 라인 코딩의 역사는 단순함(NRZ)에서 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)(맨체스터)으로, 다시 효율(4B/5B)로, 또 고속(PAM4)으로 진화하는 과정이다.
 
 ---
 
-## V. 실무 시나리오 — [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 2.0 NRZI 사용 이유
+## V. 실무 시나리오 — [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 2.0 NRZI 사용 이유
 
 ```
 USB 2.0 데이터 인코딩:
@@ -137,7 +134,7 @@ NRZI (NRZ-I 변형):
   별도 클락 선 불필요
 ```
 
-> 📢 **섹션 요약 비유**: USB가 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 보내다가 1이 6개 연속되면 강제로 0을 끼워 넣는 것 — 너무 길게 같은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 지속되는 것을 막는 안전장치.
+> 📢 **섹션 요약 비유**: USB가 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 보내다가 1이 6개 연속되면 강제로 0을 끼워 넣는 것 — 너무 길게 같은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 지속되는 것을 막는 안전장치.
 
 ---
 
@@ -195,7 +192,7 @@ AI 데이터센터 초고속 링크
 
 1. NRZ-L은 "빨강=1, 파랑=0"처럼 색깔로 데이터를 표현하는 방법이에요.
 2. 같은 색이 너무 오래 지속되면 수신자가 "색이 바뀌지 않은 건지, 아직 전송 중인 건지" 알 수 없는 문제가 생겨요.
-3. 그래서 현대 인터넷 케이블은 더 영리한 방법(맨체스터, 4B/5B)을 써서 항상 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 변화가 있도록 해요!
+3. 그래서 현대 인터넷 케이블은 더 영리한 방법(맨체스터, 4B/5B)을 써서 항상 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 변화가 있도록 해요!
 
 ---
 
@@ -203,7 +200,7 @@ AI 데이터센터 초고속 링크
 
 **진행 상황**: 37 / 1120
 
-<- **이전**: [036. 단극성·극성·양극성 신호 (Unipolar / Polar / Bipolar)](/knowledge-base/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
-**다음**: [038. RZ — 복귀 제로 라인 코딩 (Return to Zero)](/knowledge-base/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) ->
+<- **이전**: [036. 단극성·극성·양극성 신호 (Unipolar / Polar / Bipolar)](/studynote/03_network/01_data_communication/036_단극성_극성_양극성/)
+**다음**: [038. RZ — 복귀 제로 라인 코딩 (Return to Zero)](/studynote/03_network/01_data_communication/038_RZ_Return_to_Zero/) ->
 
 ---

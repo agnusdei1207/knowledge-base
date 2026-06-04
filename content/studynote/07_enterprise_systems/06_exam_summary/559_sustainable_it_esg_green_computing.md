@@ -1,13 +1,10 @@
-+++
-title = "559. 지속가능 IT ESG 그린 컴퓨팅 (Sustainable IT ESG Green Computing)"
-date = 2026-05-09
+---
+title: "559. 지속가능 IT ESG 그린 컴퓨팅 (Sustainable IT ESG Green Computing)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 559 / 800
 
-<- **이전**: [558. 디지털 윤리 AI 책임 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/558_digital_ethics_ai_responsibility_framework/)
-**다음**: [560. 사이버 보안 전략 위험 기반 접근](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/560_cyber_security_strategy_risk_based_approach/) ->
+<- **이전**: [558. 디지털 윤리 AI 책임 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/558_digital_ethics_ai_responsibility_framework/)
+**다음**: [560. 사이버 보안 전략 위험 기반 접근](/studynote/07_enterprise_systems/06_exam_summary/560_cyber_security_strategy_risk_based_approach/) ->
 
 ---

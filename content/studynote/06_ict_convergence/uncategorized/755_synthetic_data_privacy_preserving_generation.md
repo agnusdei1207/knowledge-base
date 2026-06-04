@@ -1,13 +1,10 @@
-+++
-title = "755. 합성 데이터 프라이버시 보존 생성 (Synthetic Data Privacy Preserving Generation)"
-date = 2026-05-09
+---
+title: "755. 합성 데이터 프라이버시 보존 생성 (Synthetic Data Privacy Preserving Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ Output: ε_T ≤ ε_target -> release G_θ
 
 **진행 상황**: 755 / 800
 
-<- **이전**: [754. AI 안전 정렬 문제 강건성 검증](/knowledge-base/studynote/06_ict_convergence/uncategorized/754_ai_safety_alignment_problem_robustness/)
-**다음**: [756. 차등 프라이버시 연합 학습 보안](/knowledge-base/studynote/06_ict_convergence/uncategorized/756_differential_privacy_federated_learning_secur/) ->
+<- **이전**: [754. AI 안전 정렬 문제 강건성 검증](/studynote/06_ict_convergence/uncategorized/754_ai_safety_alignment_problem_robustness/)
+**다음**: [756. 차등 프라이버시 연합 학습 보안](/studynote/06_ict_convergence/uncategorized/756_differential_privacy_federated_learning_secur/) ->
 
 ---

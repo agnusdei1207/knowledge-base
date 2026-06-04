@@ -1,13 +1,10 @@
-+++
-title = "527. 기술 부채 관리 리팩터링 전략 (Technical Debt Management Refactoring Strategy)"
-date = 2026-05-09
+---
+title: "527. 기술 부채 관리 리팩터링 전략 (Technical Debt Management Refactoring Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 # 527. 기술 부채 관리 리팩터링 전략 (Technical Debt Management Refactoring Strategy)
 
@@ -203,7 +200,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 527 / 600
 
-<- **이전**: [526. 린 스타트업 MVP 가설 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/527_lean_startup_mvp_hypothesis_validation/)
-**다음**: [528. 코드 리뷰 정적 분석 품질 관문](/knowledge-base/studynote/11_design_supervision/06_exam_summary/528_code_review_static_analysis_quality_gate/) ->
+<- **이전**: [526. 린 스타트업 MVP 가설 검증](/studynote/11_design_supervision/06_exam_summary/527_lean_startup_mvp_hypothesis_validation/)
+**다음**: [528. 코드 리뷰 정적 분석 품질 관문](/studynote/11_design_supervision/06_exam_summary/528_code_review_static_analysis_quality_gate/) ->
 
 ---

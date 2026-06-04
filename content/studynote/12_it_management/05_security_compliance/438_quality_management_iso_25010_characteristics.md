@@ -1,13 +1,10 @@
-+++
-title = "438. 품질 관리 ISO 25010 품질 특성 (Quality Management ISO 25010 Characteristics)"
-date = 2026-05-09
+---
+title: "438. 품질 관리 ISO 25010 품질 특성 (Quality Management ISO 25010 Characteristics)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -186,7 +183,7 @@ ROOT: Software Product Quality
 
 **진행 상황**: 438 / 800
 
-<- **이전**: [437. 비용 산정 FP COCOMO COSMIC](/knowledge-base/studynote/12_it_management/05_security_compliance/437_cost_estimation_fp_cocomo_cosmic/)
-**다음**: [439. SW 아키텍처 평가 ATAM CBAM](/knowledge-base/studynote/12_it_management/05_security_compliance/439_sw_architecture_evaluation_atam_cbam/) ->
+<- **이전**: [437. 비용 산정 FP COCOMO COSMIC](/studynote/12_it_management/05_security_compliance/437_cost_estimation_fp_cocomo_cosmic/)
+**다음**: [439. SW 아키텍처 평가 ATAM CBAM](/studynote/12_it_management/05_security_compliance/439_sw_architecture_evaluation_atam_cbam/) ->
 
 ---

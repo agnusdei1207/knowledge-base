@@ -1,13 +1,10 @@
-+++
-title = "407. OT 보안 산업 제어 시스템 SCADA (OT Security ICS SCADA Protection)"
-date = 2026-05-09
+---
+title: "407. OT 보안 산업 제어 시스템 SCADA (OT Security ICS SCADA Protection)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ IEC 62443 시리즈는 OT 보안을 **4단계 도메인**(General, Policies & Pr
 
 **진행 상황**: 407 / 800
 
-<- **이전**: [406. IoT 보안 디바이스 인증 펌웨어](/knowledge-base/studynote/12_it_management/05_security_compliance/406_iot_security_device_authentication_firmware/)
-**다음**: [408. AI 보안 적대적 공격 방어 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/408_ai_security_adversarial_attack_defense/) ->
+<- **이전**: [406. IoT 보안 디바이스 인증 펌웨어](/studynote/12_it_management/05_security_compliance/406_iot_security_device_authentication_firmware/)
+**다음**: [408. AI 보안 적대적 공격 방어 전략](/studynote/12_it_management/05_security_compliance/408_ai_security_adversarial_attack_defense/) ->
 
 ---

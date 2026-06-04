@@ -1,13 +1,10 @@
-+++
-title = "601. IT 경영 관리 핵심 토픽 601번 시험 요약 (IT Management Core Topic 601 Exam Summary)"
-date = 2026-05-09
+---
+title: "601. IT 경영 관리 핵심 토픽 601번 시험 요약 (IT Management Core Topic 601 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ IT 경영관리 601번은 **유사 프레임워크 간의 미묘한 차이**를 
 
 **진행 상황**: 601 / 800
 
-<- **이전**: [600. IT 경영 관리 핵심 토픽 600번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/600_it_management_core_topic_600_exam_summary/)
-**다음**: [602. IT 경영 관리 핵심 토픽 602번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/602_it_management_core_topic_602_exam_summary/) ->
+<- **이전**: [600. IT 경영 관리 핵심 토픽 600번 시험 요약](/studynote/12_it_management/05_security_compliance/600_it_management_core_topic_600_exam_summary/)
+**다음**: [602. IT 경영 관리 핵심 토픽 602번 시험 요약](/studynote/12_it_management/05_security_compliance/602_it_management_core_topic_602_exam_summary/) ->
 
 ---

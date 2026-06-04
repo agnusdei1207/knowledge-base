@@ -1,13 +1,10 @@
-+++
-title = "754. AI 안전 정렬 문제 강건성 검증 (AI Safety Alignment Problem Robustness)"
-date = 2026-05-09
+---
+title: "754. AI 안전 정렬 문제 강건성 검증 (AI Safety Alignment Problem Robustness)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ LLM·Foundation Model이 산업 전반에 임베딩됨에 따라 "모델이 학�
 
 **진행 상황**: 754 / 800
 
-<- **이전**: [753. 책임 있는 AI 공정성 편향 감사](/knowledge-base/studynote/06_ict_convergence/uncategorized/753_responsible_ai_fairness_bias_audit/)
-**다음**: [755. 합성 데이터 프라이버시 보존 생성](/knowledge-base/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/) ->
+<- **이전**: [753. 책임 있는 AI 공정성 편향 감사](/studynote/06_ict_convergence/uncategorized/753_responsible_ai_fairness_bias_audit/)
+**다음**: [755. 합성 데이터 프라이버시 보존 생성](/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/) ->
 
 ---

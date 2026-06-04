@@ -1,13 +1,10 @@
-+++
-title = "763. 오픈 뱅킹 마이데이터 API 생태계 (Open Banking MyData API Ecosystem)"
-date = 2026-05-09
+---
+title: "763. 오픈 뱅킹 마이데이터 API 생태계 (Open Banking MyData API Ecosystem)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -132,7 +129,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 763 / 800
 
-<- **이전**: [762. CBDC 중앙은행 디지털 화폐 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/)
-**다음**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/knowledge-base/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/) ->
+<- **이전**: [762. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/762_cbdc_central_bank_digital_currency_policy/)
+**다음**: [764. 임베디드 금융 BaaS 금융 서비스 내장](/studynote/06_ict_convergence/uncategorized/764_embedded_finance_baas_banking_as_service/) ->
 
 ---

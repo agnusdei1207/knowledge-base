@@ -1,27 +1,24 @@
-+++
-title = "484. 로우해머 공격 (Rowhammer)"
-date = 2026-03-20
+---
+title: "484. 로우해머 공격 (Rowhammer)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로우해머 공격 (Rowhammer)은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 특정 행을 매우 빠르게 반복 활성화해, 인접 행의 전하를 흔들고 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립을 유발하는 하드웨어 교란 공격이다.
-> 2. **가치**: 공격자는 대상 데이터를 직접 쓰지 않아도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 객체 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 같은 민감 구조를 물리적으로 변조할 수 있어, 메모리 안정성 자체가 보안 전제가 될 수 없음을 보여 준다.
-> 3. **판단 포인트**: 방어는 TRR (Target Row Refresh), [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Error-Correcting Code](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)), 리프레시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 메모리 배치 격리, 이상 접근 모니터링을 함께 써야 하며, 어느 하나만으로 완전 방어를 기대하면 위험하다.
+> 1. **본질**: 로우해머 공격 (Rowhammer)은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)의 특정 행을 매우 빠르게 반복 활성화해, 인접 행의 전하를 흔들고 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립을 유발하는 하드웨어 교란 공격이다.
+> 2. **가치**: 공격자는 대상 데이터를 직접 쓰지 않아도 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/), 권한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/), 객체 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 같은 민감 구조를 물리적으로 변조할 수 있어, 메모리 안정성 자체가 보안 전제가 될 수 없음을 보여 준다.
+> 3. **판단 포인트**: 방어는 TRR (Target Row Refresh), [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Error-Correcting Code](/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)), 리프레시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 메모리 배치 격리, 이상 접근 모니터링을 함께 써야 하며, 어느 하나만으로 완전 방어를 기대하면 위험하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-로우해머는 메모리 셀이 단순 저장소가 아니라, 물리적으로 간섭을 주고받는 아주 작은 전하 저장 장치라는 사실을 악용하는 공격이다. DRAM은 각 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 커패시터의 전하로 표현하고, 주기적으로 리프레시해 값을 유지한다. 그런데 공정이 미세화되면서 셀 간 거리가 좁아지고, 특정 행을 짧은 시간 안에 지나치게 많이 두드리면 인접 행 전하가 약해져 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집힐 수 있다.
+로우해머는 메모리 셀이 단순 저장소가 아니라, 물리적으로 간섭을 주고받는 아주 작은 전하 저장 장치라는 사실을 악용하는 공격이다. DRAM은 각 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 커패시터의 전하로 표현하고, 주기적으로 리프레시해 값을 유지한다. 그런데 공정이 미세화되면서 셀 간 거리가 좁아지고, 특정 행을 짧은 시간 안에 지나치게 많이 두드리면 인접 행 전하가 약해져 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집힐 수 있다.
 
-이 점이 중요한 이유는 기존 보안 모델이 "메모리는 읽거나 쓰지 않으면 값이 그대로 있다"는 가정을 깔고 있기 때문이다. 로우해머는 그 가정을 깨고, 소프트웨어가 반복 접근만으로 물리적 교란을 만들어 권한 정보를 변조할 수 있음을 보여 주었다. 즉 버퍼 오버플로처럼 논리적 버그를 이용하지 않아도, 메모리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체를 흔들어 시스템을 무너뜨릴 수 있다.
+이 점이 중요한 이유는 기존 보안 모델이 "메모리는 읽거나 쓰지 않으면 값이 그대로 있다"는 가정을 깔고 있기 때문이다. 로우해머는 그 가정을 깨고, 소프트웨어가 반복 접근만으로 물리적 교란을 만들어 권한 정보를 변조할 수 있음을 보여 주었다. 즉 버퍼 오버플로처럼 논리적 버그를 이용하지 않아도, 메모리 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 자체를 흔들어 시스템을 무너뜨릴 수 있다.
 
 아래 그림은 로우해머의 기본 배치를 단순화해 보여 준다.
 
@@ -38,7 +35,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-즉 로우해머는 "읽으면 안 되는 것을 읽는" 공격이 아니라, "건드리면 안 되는 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 흔들어 값 자체를 바꾸는" 공격이다. 그래서 하드웨어 보안에서는 정보 유출뿐 아니라 정보 변조를 만드는 물리 공격면으로 따로 기억해야 한다.
+즉 로우해머는 "읽으면 안 되는 것을 읽는" 공격이 아니라, "건드리면 안 되는 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 흔들어 값 자체를 바꾸는" 공격이다. 그래서 하드웨어 보안에서는 정보 유출뿐 아니라 정보 변조를 만드는 물리 공격면으로 따로 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 로우해머는 바로 옆 벽을 계속 두드려 중간 방 액자를 떨어뜨리는 것과 같다. 내 방에 직접 들어가지 않아도, 옆방 벽을 흔들어 피해를 만들 수 있다.
 
@@ -46,16 +43,16 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-로우해머의 핵심은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 행 활성화 횟수와 리프레시 간격의 싸움이다. 메모리 컨트롤러가 어떤 행을 열면 해당 행의 셀 전하가 센스 앰프로 읽히고, 이후 다른 행을 열려면 다시 닫고 새 행을 활성화해야 한다. 공격자는 이 열기-닫기 과정을 매우 높은 빈도로 반복해, 리프레시가 오기 전에 이웃 행의 전하를 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 아래로 떨어뜨리려 한다.
+로우해머의 핵심은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 행 활성화 횟수와 리프레시 간격의 싸움이다. 메모리 컨트롤러가 어떤 행을 열면 해당 행의 셀 전하가 센스 앰프로 읽히고, 이후 다른 행을 열려면 다시 닫고 새 행을 활성화해야 한다. 공격자는 이 열기-닫기 과정을 매우 높은 빈도로 반복해, 리프레시가 오기 전에 이웃 행의 전하를 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 아래로 떨어뜨리려 한다.
 
-공격 성공에는 몇 가지 조건이 필요하다. 첫째, 공격자가 같은 뱅크 안에서 인접한 행을 충분히 빠르게 번갈아 접근해야 한다. 둘째, 캐시가 반복 접근을 흡수하지 않도록 캐시 라인 플러시 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`CLFLUSH`)나 eviction 기법으로 실제 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 접근을 유도해야 한다. 셋째, 뒤집힐 만한 민감 구조가 피해 행에 놓이도록 메모리 배치를 맞추거나 운 좋게 만나야 한다. 결국 로우해머는 단순 반복문이 아니라, 메모리 계층과 배치 전략까지 계산하는 공격이다.
+공격 성공에는 몇 가지 조건이 필요하다. 첫째, 공격자가 같은 뱅크 안에서 인접한 행을 충분히 빠르게 번갈아 접근해야 한다. 둘째, 캐시가 반복 접근을 흡수하지 않도록 캐시 라인 플러시 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`CLFLUSH`)나 eviction 기법으로 실제 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 접근을 유도해야 한다. 셋째, 뒤집힐 만한 민감 구조가 피해 행에 놓이도록 메모리 배치를 맞추거나 운 좋게 만나야 한다. 결국 로우해머는 단순 반복문이 아니라, 메모리 계층과 배치 전략까지 계산하는 공격이다.
 
 | 요소 | 공격에 미치는 영향 | 실무적 의미 |
 | :-- | :-- | :-- |
 | 행 활성화 빈도 | 높을수록 전하 교란 가능성 증가 | 고속 반복 접근과 캐시 우회가 중요하다. |
-| 리프레시 주기 | 길수록 피해 행이 버티기 어렵다 | 리프레시 강화는 방어지만 전력·[성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용이 든다. |
-| 메모리 배치 | 피해 행에 민감 구조가 있어야 효과적 | [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/), 권한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 주요 표적이 된다. |
-| [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 세대·공정 | 미세화될수록 교란 특성이 달라진다 | 세대가 올라가도 자동으로 안전해지지 않는다. |
+| 리프레시 주기 | 길수록 피해 행이 버티기 어렵다 | 리프레시 강화는 방어지만 전력·[성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비용이 든다. |
+| 메모리 배치 | 피해 행에 민감 구조가 있어야 효과적 | [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/), 권한 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)가 주요 표적이 된다. |
+| [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 세대·공정 | 미세화될수록 교란 특성이 달라진다 | 세대가 올라가도 자동으로 안전해지지 않는다. |
 
 아래 그림은 공격자가 실제로 노리는 반복 패턴을 요약한다.
 
@@ -74,7 +71,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-이 구조 때문에 로우해머는 메모리 컨트롤러, 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 물리 배치, 리프레시 회로를 모두 함께 본다. 또한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만 뒤집혀도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리나 권한 플래그가 변조될 수 있으므로, "한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정도는 괜찮다"는 직관이 통하지 않는다.
+이 구조 때문에 로우해머는 메모리 컨트롤러, 캐시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 물리 배치, 리프레시 회로를 모두 함께 본다. 또한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 하나만 뒤집혀도 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리나 권한 플래그가 변조될 수 있으므로, "한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정도는 괜찮다"는 직관이 통하지 않는다.
 
 - **📢 섹션 요약 비유**: 로우해머는 문을 한 번 세게 차는 것이 아니라, 경비가 순찰 오기 전까지 같은 벽을 엄청 빠르게 수백 번 두드려 틈을 만드는 일과 같다. 한 번의 충격보다 반복이 더 위험하다.
 
@@ -91,34 +88,34 @@ tags = ["studynote-computer-architecture"]
 | Half-Double | 한 칸 떨어진 행까지 연쇄 영향 활용 | 전통적 인접성 가정을 흔든다 | 단순 인접 감시만으로는 부족하다 |
 | Blacksmith | 다양한 비주기 패턴을 조합 | TRR 우회 연구에서 주목 | 패턴 기반 탐지를 어렵게 만든다 |
 
-또한 로우해머는 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)·스펙터와 구분해서 기억해야 한다. [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)과 스펙터가 주로 정보를 "읽어 내는" 사이드 채널 계열이라면, 로우해머는 메모리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 직접 교란해 값을 "바꿔 버리는" fault 계열이다. 그래서 보안 관점에서도 누설 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 문제뿐 아니라, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 파괴와 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 문제로 연결된다.
+또한 로우해머는 [멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)·스펙터와 구분해서 기억해야 한다. [멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)과 스펙터가 주로 정보를 "읽어 내는" 사이드 채널 계열이라면, 로우해머는 메모리 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 직접 교란해 값을 "바꿔 버리는" fault 계열이다. 그래서 보안 관점에서도 누설 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 문제뿐 아니라, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 파괴와 [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 문제로 연결된다.
 
-이 차이를 이해하면 왜 ECC만으로 충분하지 않은지도 보인다. ECC는 우연한 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류에는 강하지만, 공격자가 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 의도적으로 맞춰 뒤집거나 탐지를 우회하면 한계가 드러난다. 즉 로우해머는 메모리 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보안 수준으로 끌어올려 생각하게 만든 사례다.
+이 차이를 이해하면 왜 ECC만으로 충분하지 않은지도 보인다. ECC는 우연한 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류에는 강하지만, 공격자가 여러 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 의도적으로 맞춰 뒤집거나 탐지를 우회하면 한계가 드러난다. 즉 로우해머는 메모리 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 보안 수준으로 끌어올려 생각하게 만든 사례다.
 
-- **📢 섹션 요약 비유**: [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)과 스펙터가 남의 일기장을 훔쳐보는 문제라면, 로우해머는 아예 일기장 글자를 지우거나 바꿔 쓰는 문제다. 읽기와 변조는 대응 방식부터 다르다.
+- **📢 섹션 요약 비유**: [멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)과 스펙터가 남의 일기장을 훔쳐보는 문제라면, 로우해머는 아예 일기장 글자를 지우거나 바꿔 쓰는 문제다. 읽기와 변조는 대응 방식부터 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 로우해머 대응은 서버, 클라우드, 모바일 환경마다 강조점이 다르다. 서버는 ECC와 메모리 텔레메트리, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준 격리가 중요하고, 클라우드는 테넌트 간 동일 물리 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 공유를 고려해야 한다. 모바일과 브라우저 환경은 제한된 캐시 플러시 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 막아서는 부족하며, 메모리 할당 패턴과 샌드박스 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 봐야 한다.
+실무에서 로우해머 대응은 서버, 클라우드, 모바일 환경마다 강조점이 다르다. 서버는 ECC와 메모리 텔레메트리, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 수준 격리가 중요하고, 클라우드는 테넌트 간 동일 물리 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 공유를 고려해야 한다. 모바일과 브라우저 환경은 제한된 캐시 플러시 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 막아서는 부족하며, 메모리 할당 패턴과 샌드박스 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)까지 함께 봐야 한다.
 
-### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong>하드웨어 완화 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: TRR, On-Die [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 벤더 권고 펌웨어가 실제 장비에 적용되어 있는가?
-2. <strong>메모리 오류 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), patrol scrub, 반복 오류 알림이 운영 모니터링에 연결되어 있는가?
-3. <strong>민감 구조 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 (PTE, [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry), [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 자격 증명 구조가 공격자 데이터와 무분별하게 인접 배치되지 않는가?
+1. <strong>하드웨어 완화 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a></strong>: TRR, On-Die [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 벤더 권고 펌웨어가 실제 장비에 적용되어 있는가?
+2. <strong>메모리 오류 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong>: [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), patrol scrub, 반복 오류 알림이 운영 모니터링에 연결되어 있는가?
+3. <strong>민감 구조 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>: [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 (PTE, [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/) Entry), [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 자격 증명 구조가 공격자 데이터와 무분별하게 인접 배치되지 않는가?
 4. **캐시 우회 가정 점검**: `CLFLUSH`를 막았다고 끝내지 않고 eviction 기반 해머링 가능성까지 검토했는가?
-5. **다중 테넌트 통제**: 공유 호스트에서 고위험 워크로드와 비신뢰 코드를 어떻게 분리할지 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
+5. **다중 테넌트 통제**: 공유 호스트에서 고위험 워크로드와 비신뢰 코드를 어떻게 분리할지 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - "ECC가 있으니 로우해머도 안전하다"고 단정하는 설계
 - 벤더의 TRR 지원 문구만 믿고 실제 취약성 검증은 하지 않는 운영
 - 브라우저·모바일 샌드박스에서 캐시 플러시 차단만으로 공격이 끝났다고 보는 판단
-- 메모리 오류 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이벤트로만 보고 보안 관제와 연결하지 않는 방식
+- 메모리 오류 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이벤트로만 보고 보안 관제와 연결하지 않는 방식
 
-기술사 답안에서는 로우해머를 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이슈로만 쓰지 말고, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 공격이 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)으로 이어지는 경로까지 설명해야 한다. 예를 들어 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)이나 권한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집히면 메모리 접근 권한 자체가 재해석될 수 있으므로, 하드웨어 오류가 곧 보안 침해가 된다.
+기술사 답안에서는 로우해머를 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 이슈로만 쓰지 말고, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 공격이 [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/)으로 이어지는 경로까지 설명해야 한다. 예를 들어 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)이나 권한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집히면 메모리 접근 권한 자체가 재해석될 수 있으므로, 하드웨어 오류가 곧 보안 침해가 된다.
 
 - **📢 섹션 요약 비유**: 로우해머 대응은 벽이 무너지지 않게 페인트만 칠하는 일이 아니라, 벽 두께를 보강하고, 흔들림 센서를 달고, 중요한 서류는 벽 근처에 두지 않는 종합 대책과 같다.
 
@@ -126,9 +123,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-로우해머를 의식한 설계는 메모리를 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자원이 아니라 보안 경계의 일부로 다루게 만든다. 덕분에 메모리 오류 모니터링, 물리 배치 인식, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/), 다중 테넌트 격리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 강화된다. 특히 클라우드와 고집적 모바일 환경에서는 이런 시각 전환이 필수다.
+로우해머를 의식한 설계는 메모리를 단순 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 자원이 아니라 보안 경계의 일부로 다루게 만든다. 덕분에 메모리 오류 모니터링, 물리 배치 인식, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/), 다중 테넌트 격리 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 함께 강화된다. 특히 클라우드와 고집적 모바일 환경에서는 이런 시각 전환이 필수다.
 
-그러나 방어는 계속 움직이는 표적이다. DDR5의 On-Die [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 강화된 TRR, 컨트롤러 수준 이상 접근 탐지 같은 진화가 진행되고 있지만, Half-Double이나 Blacksmith처럼 새로운 교란 패턴도 계속 등장한다. 앞으로는 메모리 컨트롤러의 교란 감지, 더 정교한 행 배치 격리, 외부 확장 메모리까지 포함한 disturbance-aware 설계가 중요해질 것이다. 로우해머를 기억하는 가장 좋은 문장은 이것이다. **메모리는 저장 장치이면서 동시에 물리적 공격면이다.**
+그러나 방어는 계속 움직이는 표적이다. DDR5의 On-Die [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/), 강화된 TRR, 컨트롤러 수준 이상 접근 탐지 같은 진화가 진행되고 있지만, Half-Double이나 Blacksmith처럼 새로운 교란 패턴도 계속 등장한다. 앞으로는 메모리 컨트롤러의 교란 감지, 더 정교한 행 배치 격리, 외부 확장 메모리까지 포함한 disturbance-aware 설계가 중요해질 것이다. 로우해머를 기억하는 가장 좋은 문장은 이것이다. **메모리는 저장 장치이면서 동시에 물리적 공격면이다.**
 
 - **📢 섹션 요약 비유**: 로우해머 이후의 좋은 건물 관리는 자물쇠만 점검하지 않는다. 벽이 반복 충격에도 버티는지, 중요한 금고가 진동에 취약한 자리 근처에 있지 않은지까지 함께 본다.
 
@@ -138,11 +135,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀 | 전하 저장이라는 물리 특성 때문에 교란과 리프레시가 핵심 이슈가 된다. |
+| [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 셀 | 전하 저장이라는 물리 특성 때문에 교란과 리프레시가 핵심 이슈가 된다. |
 | 리프레시 (Refresh) | 피해 행 전하가 완전히 사라지기 전에 값을 복원하는 기본 방어축이다. |
 | TRR (Target Row Refresh) | 과도한 행 활성화를 감지해 주변 행을 먼저 리프레시하는 대표 완화다. |
-| [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Error-Correcting Code](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)) | 우발적 오류 완화에는 강하지만 공격적 다중 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변조에는 한계가 있다. |
-| PTE ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry) | 한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변조만으로도 권한 해석이 달라질 수 있는 고가치 표적이다. |
+| [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) ([Error-Correcting Code](/studynote/01_computer_architecture/13_reliability_power_management/463_ecc_memory/)) | 우발적 오류 완화에는 강하지만 공격적 다중 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변조에는 한계가 있다. |
+| PTE ([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/) Entry) | 한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 변조만으로도 권한 해석이 달라질 수 있는 고가치 표적이다. |
 | Half-Double | 전통적 인접 행 가정을 넘어선 최신 교란 변형으로 방어 재설계를 요구한다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -161,7 +158,7 @@ Disturbance Error 발견
         +---------> TRR · ECC · On-Die ECC · 행 배치 격리
 ```
 
-이 흐름은 "고집적 메모리의 물리 한계"가 "실제 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 공격"으로 이어지고, 다시 메모리 컨트롤러와 시스템 소프트웨어가 함께 방어를 진화시키는 과정을 보여 준다.
+이 흐름은 "고집적 메모리의 물리 한계"가 "실제 [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 공격"으로 이어지고, 다시 메모리 컨트롤러와 시스템 소프트웨어가 함께 방어를 진화시키는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -175,7 +172,7 @@ Disturbance Error 발견
 
 **진행 상황**: 484 / 803
 
-<- **이전**: [483. 스펙터 (Spectre)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)
-**다음**: [485. 물리적 복제 방지 기능 (PUF)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) ->
+<- **이전**: [483. 스펙터 (Spectre)](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)
+**다음**: [485. 물리적 복제 방지 기능 (PUF)](/studynote/01_computer_architecture/14_hardware_security_trends/485_puf/) ->
 
 ---

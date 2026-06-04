@@ -1,13 +1,10 @@
-+++
-title = "549. IT 경영 관리 핵심 토픽 549번 시험 요약 (IT Management Core Topic 549 Exam Summary)"
-date = 2026-05-09
+---
+title: "549. IT 경영 관리 핵심 토픽 549번 시험 요약 (IT Management Core Topic 549 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ IT 경영 관리는 단일 프레임워크가 아닌 **프레임워크 연합체
 
 **진행 상황**: 549 / 800
 
-<- **이전**: [548. IT 경영 관리 핵심 토픽 548번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/548_it_management_core_topic_548_exam_summary/)
-**다음**: [550. IT 경영 관리 핵심 토픽 550번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/550_it_management_core_topic_550_exam_summary/) ->
+<- **이전**: [548. IT 경영 관리 핵심 토픽 548번 시험 요약](/studynote/12_it_management/05_security_compliance/548_it_management_core_topic_548_exam_summary/)
+**다음**: [550. IT 경영 관리 핵심 토픽 550번 시험 요약](/studynote/12_it_management/05_security_compliance/550_it_management_core_topic_550_exam_summary/) ->
 
 ---

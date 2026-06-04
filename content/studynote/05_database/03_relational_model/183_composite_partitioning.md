@@ -1,29 +1,26 @@
-+++
-title = "183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)"
-date = 2026-05-06
+---
+title: "183. 컴포지트 파티셔닝 (Composite Partitioning) - 복합 (Range + Hash 등)"
+date: "2026-05-06"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션을 조합해, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수명주기 관리 축</strong>과 <strong>부하 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 축</strong>을 서로 다른 기준으로 동시에 설계하는 2단 분할 방식이다.
+> 1. **본질**: [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) ([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/))은 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션을 조합해, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 수명주기 관리 축</strong>과 <strong>부하 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 축</strong>을 서로 다른 기준으로 동시에 설계하는 2단 분할 방식이다.
 > 2. **가치**: 레인지 + 해시 (Range + Hash), 레인지 + 리스트 (Range + List) 같은 조합을 쓰면 월별 보관·삭제는 단순하게 유지하면서도 특정 월 내부의 핫스팟, 지역 분리, 테넌트 편중 문제를 함께 완화할 수 있다.
-> 3. **판단 포인트**: 단일 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)으로는 관리성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중 하나가 계속 아쉬울 때 선택해야 하며, 서브파티션 수·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 안정성을 통제하지 못하면 복잡도만 늘어난다.
+> 3. **판단 포인트**: 단일 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)으로는 관리성과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 중 하나가 계속 아쉬울 때 선택해야 하며, 서브파티션 수·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 안정성을 통제하지 못하면 복잡도만 늘어난다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 하나의 대용량 테이블을 상위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 하위 서브파티션으로 연속 분할하는 방식이다. 핵심은 "한 기준으로는 관리하고, 다른 기준으로는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)한다"는 점이다. 즉 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 더 잘게 자르는 기술이 아니라, <strong>운영 목적과 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 목적을 분리해 설계하는 구조</strong>라고 보는 편이 정확하다.
+[컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 하나의 대용량 테이블을 상위 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 하위 서브파티션으로 연속 분할하는 방식이다. 핵심은 "한 기준으로는 관리하고, 다른 기준으로는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)한다"는 점이다. 즉 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 단순히 더 잘게 자르는 기술이 아니라, <strong>운영 목적과 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 목적을 분리해 설계하는 구조</strong>라고 보는 편이 정확하다.
 
-이 방식이 필요한 이유는 단일 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 각기 한쪽 요구에만 강하기 때문이다. [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/))은 월별 삭제와 보관 주기 관리에는 탁월하지만 최신 월 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 몰리기 쉽고, [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) ([Hash Partitioning](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/))은 입력 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에는 강하지만 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 떼어내기 어렵다. [리스트 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) ([List Partitioning](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/))은 지역·채널·국가처럼 업무 의미를 살리기 좋지만 특정 값 편중이 생기면 큰 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 남는다. [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 이 상충 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 "메인 기준 + 보조 기준"으로 풀어낸다.
+이 방식이 필요한 이유는 단일 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 각기 한쪽 요구에만 강하기 때문이다. [레인지 파티셔닝](/studynote/05_database/03_relational_model/180_range_partitioning/) ([Range Partitioning](/studynote/05_database/03_relational_model/180_range_partitioning/))은 월별 삭제와 보관 주기 관리에는 탁월하지만 최신 월 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 몰리기 쉽고, [해시 파티셔닝](/studynote/05_database/03_relational_model/181_hash_partitioning/) ([Hash Partitioning](/studynote/05_database/03_relational_model/181_hash_partitioning/))은 입력 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)에는 강하지만 오래된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 깔끔하게 떼어내기 어렵다. [리스트 파티셔닝](/studynote/05_database/03_relational_model/182_list_partitioning/) ([List Partitioning](/studynote/05_database/03_relational_model/182_list_partitioning/))은 지역·채널·국가처럼 업무 의미를 살리기 좋지만 특정 값 편중이 생기면 큰 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 남는다. [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 이 상충 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 "메인 기준 + 보조 기준"으로 풀어낸다.
 
-예를 들어 주문 이력 테이블은 `order_date`로 월별 아카이브를 해야 하고, 같은 달 안에서는 `customer_id` 쏠림 때문에 동시 입력 부하를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)해야 할 수 있다. 이때 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 날짜, 서브파티션은 고객번호로 나누면 삭제와 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 한 번에 잡을 수 있다. 규제 때문에 국가별 분리가 중요하다면 날짜 아래에 국가 코드 리스트를 두는 방식도 가능하다.
+예를 들어 주문 이력 테이블은 `order_date`로 월별 아카이브를 해야 하고, 같은 달 안에서는 `customer_id` 쏠림 때문에 동시 입력 부하를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)해야 할 수 있다. 이때 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 날짜, 서브파티션은 고객번호로 나누면 삭제와 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 한 번에 잡을 수 있다. 규제 때문에 국가별 분리가 중요하다면 날짜 아래에 국가 코드 리스트를 두는 방식도 가능하다.
 
 아래 그림은 왜 "한 축만으로는 부족한지"를 보여 준다.
 
@@ -42,7 +39,7 @@ tags = ["studynote-database"]
 +--------------------------------------------------------------------+
 ```
 
-중요한 점은 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션이 같은 질문에 답하지 않는다는 것이다. 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "무엇을 한 번에 버리거나 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)할 것인가"에 답하고, 서브파티션은 "그 안에서 어떻게 고르게 나누거나 의미 있게 나눌 것인가"에 답한다.
+중요한 점은 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션이 같은 질문에 답하지 않는다는 것이다. 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)은 "무엇을 한 번에 버리거나 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)할 것인가"에 답하고, 서브파티션은 "그 안에서 어떻게 고르게 나누거나 의미 있게 나눌 것인가"에 답한다.
 
 - **📢 섹션 요약 비유**: 큰 창고를 먼저 월별 구역으로 나눈 뒤, 각 구역 안을 다시 선반 번호나 지역별 바구니로 나누는 방식과 같다. 창고 정리는 월 단위로 쉽고, 사람들이 몰리는 구역 안에서도 짐을 한 군데에 쌓지 않게 된다.
 
@@ -50,7 +47,7 @@ tags = ["studynote-database"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))은 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 테이블에 행이 들어오면 먼저 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 보고 상위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 결정한 뒤, 그 안에서 다시 서브파티션 키를 평가해 최종 저장 위치를 정한다. 즉 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 한 번이 아니라 두 번 일어난다. 조회 시에도 조건절에 메인 키와 서브 키가 함께 있으면 단계적으로 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/))이 가능해져 읽어야 할 범위를 더 줄일 수 있다.
+[데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/) ([Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System, [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/))은 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) 테이블에 행이 들어오면 먼저 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키를 보고 상위 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)을 결정한 뒤, 그 안에서 다시 서브파티션 키를 평가해 최종 저장 위치를 정한다. 즉 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이 한 번이 아니라 두 번 일어난다. 조회 시에도 조건절에 메인 키와 서브 키가 함께 있으면 단계적으로 [파티션 프루닝](/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/studynote/05_database/03_relational_model/184_partition_pruning/))이 가능해져 읽어야 할 범위를 더 줄일 수 있다.
 
 ```sql
 CREATE TABLE order_history (
@@ -70,7 +67,7 @@ SUBPARTITIONS 8 (
 );
 ```
 
-아래 그림은 입력과 조회가 두 단계로 좁혀지는 구조를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
+아래 그림은 입력과 조회가 두 단계로 좁혀지는 구조를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여 준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -91,32 +88,32 @@ SUBPARTITIONS 8 (
 
 | 조합 | 메인 기준 | 서브 기준 | 잘 맞는 요구 | 주의점 |
 | :--- | :--- | :--- | :--- | :--- |
-| 레인지 + 해시 (Range + Hash) | 날짜, 기간 | 고객번호, 계정번호 | 보관 주기 관리 + [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 서브파티션 수가 많아지면 세그먼트와 통계 관리가 늘어남 |
-| 레인지 + 리스트 (Range + List) | 날짜, 기간 | 지역, 국가, 채널 | 기간 관리 + 업무 경계 분리 | 새 코드 추가 시 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정의와 예외 처리 절차가 필요 |
-| 리스트 + 해시 (List + Hash) | 국가, 테넌트 | 사용자 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 규제 분리 + 내부 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 메인 리스트 값이 자주 바뀌면 구조 유지가 어려움 |
+| 레인지 + 해시 (Range + Hash) | 날짜, 기간 | 고객번호, 계정번호 | 보관 주기 관리 + [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 서브파티션 수가 많아지면 세그먼트와 통계 관리가 늘어남 |
+| 레인지 + 리스트 (Range + List) | 날짜, 기간 | 지역, 국가, 채널 | 기간 관리 + 업무 경계 분리 | 새 코드 추가 시 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정의와 예외 처리 절차가 필요 |
+| 리스트 + 해시 (List + Hash) | 국가, 테넌트 | 사용자 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 규제 분리 + 내부 균등 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 메인 리스트 값이 자주 바뀌면 구조 유지가 어려움 |
 
-구조 설계에서 가장 중요한 기술 포인트는 총 서브파티션 수다. 예를 들어 36개월을 유지하고 월마다 16개 해시 서브파티션을 두면 총 576개 저장 단위가 생긴다. 이 수는 프루닝 이점도 주지만, 동시에 통계 수집, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 세그먼트 수, [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/) 부담을 함께 늘린다. 따라서 "작게 많이 쪼갤수록 좋다"가 아니라 "운영 가능한 개수까지 쪼개야 한다"가 원칙이다.
+구조 설계에서 가장 중요한 기술 포인트는 총 서브파티션 수다. 예를 들어 36개월을 유지하고 월마다 16개 해시 서브파티션을 두면 총 576개 저장 단위가 생긴다. 이 수는 프루닝 이점도 주지만, 동시에 통계 수집, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 세그먼트 수, [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/) 부담을 함께 늘린다. 따라서 "작게 많이 쪼갤수록 좋다"가 아니라 "운영 가능한 개수까지 쪼개야 한다"가 원칙이다.
 
-또한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 함께 따라와야 한다. 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 유지보수와 잘 맞고, 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Global Index](/knowledge-base/studynote/05_database/03_relational_model/185_global_vs_local_index/))는 넓은 검색에는 유리할 수 있지만 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제·교체 시 관리 비용이 커질 수 있다. [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 테이블만의 설계가 아니라 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 통계, 유지보수 방식까지 묶어 보는 주제다.
+또한 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 함께 따라와야 한다. 로컬 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 유지보수와 잘 맞고, 글로벌 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) ([Global Index](/studynote/05_database/03_relational_model/185_global_vs_local_index/))는 넓은 검색에는 유리할 수 있지만 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제·교체 시 관리 비용이 커질 수 있다. [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 테이블만의 설계가 아니라 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 통계, 유지보수 방식까지 묶어 보는 주제다.
 
-- **📢 섹션 요약 비유**: 우편물을 먼저 월별 창구로 보낸 뒤, 그 창구 안에서 우편번호 끝자리나 지역별로 다시 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것과 같다. 처음 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 보관과 폐기에 유리하고, 두 번째 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 창구 한곳에 편지가 몰리지 않게 해 준다.
+- **📢 섹션 요약 비유**: 우편물을 먼저 월별 창구로 보낸 뒤, 그 창구 안에서 우편번호 끝자리나 지역별로 다시 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것과 같다. 처음 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 보관과 폐기에 유리하고, 두 번째 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 창구 한곳에 편지가 몰리지 않게 해 준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 장점은 단일 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 비교할 때 더 선명해진다. 레인지 하나만 쓰면 수명주기 관리는 쉽지만 최신 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 커질 수 있고, 해시 하나만 쓰면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)은 좋지만 기간별 삭제와 아카이브가 불편하다. 리스트 하나만 쓰면 업무 설명력은 높지만 특정 값 집중을 제어하기 어렵다. [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "왜 나누는가"를 두 층으로 분리해 이 약점을 보완한다.
+[컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)의 장점은 단일 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 비교할 때 더 선명해진다. 레인지 하나만 쓰면 수명주기 관리는 쉽지만 최신 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)이 커질 수 있고, 해시 하나만 쓰면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)은 좋지만 기간별 삭제와 아카이브가 불편하다. 리스트 하나만 쓰면 업무 설명력은 높지만 특정 값 집중을 제어하기 어렵다. [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "왜 나누는가"를 두 층으로 분리해 이 약점을 보완한다.
 
 | 방식 | 강한 지점 | 약한 지점 | 대표 질문 |
 | :--- | :--- | :--- | :--- |
-| [레인지 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/180_range_partitioning/) | 기간별 관리, 보관 주기, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제 | 최신 구간 집중, 내부 편중 해소 한계 | "언제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는가?" |
-| [해시 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/181_hash_partitioning/) | 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/), 동시 입력 부하 완화 | 기간 관리와 업무 설명력 약함 | "어떻게 고르게 나눌 것인가?" |
-| [리스트 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) | 지역·채널·국가 같은 의미 보존 | 값 추가 관리, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 위험 | "어떤 코드 경계로 분리할 것인가?" |
-| [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 관리 축과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 축을 동시에 설계 | 설계·운영·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 복잡도 증가 | "두 질문을 함께 만족시킬 수 있는가?" |
+| [레인지 파티셔닝](/studynote/05_database/03_relational_model/180_range_partitioning/) | 기간별 관리, 보관 주기, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제 | 최신 구간 집중, 내부 편중 해소 한계 | "언제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되었는가?" |
+| [해시 파티셔닝](/studynote/05_database/03_relational_model/181_hash_partitioning/) | 균등 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/), 동시 입력 부하 완화 | 기간 관리와 업무 설명력 약함 | "어떻게 고르게 나눌 것인가?" |
+| [리스트 파티셔닝](/studynote/05_database/03_relational_model/182_list_partitioning/) | 지역·채널·국가 같은 의미 보존 | 값 추가 관리, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 위험 | "어떤 코드 경계로 분리할 것인가?" |
+| [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/) | 관리 축과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 축을 동시에 설계 | 설계·운영·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 복잡도 증가 | "두 질문을 함께 만족시킬 수 있는가?" |
 
-이 비교가 중요한 이유는 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 항상 정답은 아니기 때문이다. 조회 패턴이 거의 `order_date` 하나뿐이라면 Range만으로도 충분할 수 있고, 기간 개념 없이 균등 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)만 필요하다면 Hash 단독이 더 단순하다. 반대로 `order_date + customer_id`, `settlement_month + region_code`처럼 두 축이 함께 자주 등장한다면 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조의 의미가 커진다.
+이 비교가 중요한 이유는 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 항상 정답은 아니기 때문이다. 조회 패턴이 거의 `order_date` 하나뿐이라면 Range만으로도 충분할 수 있고, 기간 개념 없이 균등 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)만 필요하다면 Hash 단독이 더 단순하다. 반대로 `order_date + customer_id`, `settlement_month + region_code`처럼 두 축이 함께 자주 등장한다면 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조의 의미가 커진다.
 
-관련 개념과의 연결도 분명하다. [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)은 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조에서 메인·서브 단계로 확장되고, 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 유지보수와 결합되며, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교체·드롭·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기준으로 단순화된다. 즉 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 단순한 저장 기법이 아니라 <strong>프루닝, <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>, 운영 자동화까지 연결되는 설계 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong>다.
+관련 개념과의 연결도 분명하다. [파티션 프루닝](/studynote/05_database/03_relational_model/184_partition_pruning/)은 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) 구조에서 메인·서브 단계로 확장되고, 로컬 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)는 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 유지보수와 결합되며, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 교체·드롭·[백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 기준으로 단순화된다. 즉 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 단순한 저장 기법이 아니라 <strong>프루닝, <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a>, 운영 자동화까지 연결되는 설계 <a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a></strong>다.
 
 - **📢 섹션 요약 비유**: 호텔을 층별로 먼저 나누고, 각 층 안에서 방 번호나 투숙객 유형별로 다시 구분하는 것과 같다. 층만 있으면 관리하기 쉽고, 방만 있으면 세밀하지만, 둘을 함께 써야 운영과 배치가 동시에 깔끔해진다.
 
@@ -124,26 +121,26 @@ SUBPARTITIONS 8 (
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "보관 주기 관리가 필요하면서, 그 단위 안에서 다시 쏠림이나 업무 분리가 발생하는가"를 먼저 본다. 예를 들어 월별 주문 이력 36개월치를 보관해야 하고, 최신 월에는 상위 5% 고객이 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽의 40%를 차지한다면 `order_date` 기준 Range + `customer_id` 기준 Hash 조합이 현실적이다. 반대로 월별 정산 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 7년 보관해야 하면서 국가별 규제와 접근 권한을 분리해야 한다면 Range + List가 더 설명력 있다.
+실무에서는 "보관 주기 관리가 필요하면서, 그 단위 안에서 다시 쏠림이나 업무 분리가 발생하는가"를 먼저 본다. 예를 들어 월별 주문 이력 36개월치를 보관해야 하고, 최신 월에는 상위 5% 고객이 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽의 40%를 차지한다면 `order_date` 기준 Range + `customer_id` 기준 Hash 조합이 현실적이다. 반대로 월별 정산 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 7년 보관해야 하면서 국가별 규제와 접근 권한을 분리해야 한다면 Range + List가 더 설명력 있다.
 
-기술사 답안에서는 단순히 "두 가지를 섞는다"고 쓰면 부족하다. 메인 키는 보관·삭제·아카이브 기준이어야 하고, 서브 키는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 규제 경계 문제를 실제로 해결해야 한다. 또한 전체 서브파티션 수, 통계 수집 주기, [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지보수 방식, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경 가능성까지 함께 판단해야 한다.
+기술사 답안에서는 단순히 "두 가지를 섞는다"고 쓰면 부족하다. 메인 키는 보관·삭제·아카이브 기준이어야 하고, 서브 키는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 규제 경계 문제를 실제로 해결해야 한다. 또한 전체 서브파티션 수, 통계 수집 주기, [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 유지보수 방식, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경 가능성까지 함께 판단해야 한다.
 
-### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 실제 보관 주기, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제 기준과 일치하는가?
-2. 서브파티션 키가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 완화 또는 업무 경계 분리라는 명확한 목적을 해결하는가?
+1. 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키가 실제 보관 주기, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 삭제 기준과 일치하는가?
+2. 서브파티션 키가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 완화 또는 업무 경계 분리라는 명확한 목적을 해결하는가?
 3. `기간 수 × 서브파티션 수`가 운영 가능한 세그먼트 수 안에 들어오는가?
-4. 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 글로벌 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 중 어떤 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 유지보수에 더 적합한가?
-5. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경이 드물어 행 이동과 재배치 비용을 감당할 수 있는가?
+4. 로컬 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)와 글로벌 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 중 어떤 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 유지보수에 더 적합한가?
+5. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경이 드물어 행 이동과 재배치 비용을 감당할 수 있는가?
 
-### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 나오는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 최신 월이 느리다는 이유만으로 근거 없이 서브파티션 수를 과도하게 늘리는 경우
 - `status`처럼 자주 변하는 컬럼을 서브파티션 키로 잡아 행 이동을 유발하는 경우
-- 지역 분리가 중요하다고 하면서 `DEFAULT` 예외 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 List 서브파티션을 운영하는 경우
-- [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조는 복잡하게 만들고 정작 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 메인 키를 사용하지 않아 프루닝 이점을 못 얻는 경우
+- 지역 분리가 중요하다고 하면서 `DEFAULT` 예외 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 List 서브파티션을 운영하는 경우
+- [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 구조는 복잡하게 만들고 정작 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 메인 키를 사용하지 않아 프루닝 이점을 못 얻는 경우
 
-핵심은 "복합이라서 좋은 것"이 아니라, 서로 다른 문제를 서로 다른 키에 맡길 수 있을 때만 좋다는 점이다. 관리 문제와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 경계가 분명할수록 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 강해진다.
+핵심은 "복합이라서 좋은 것"이 아니라, 서로 다른 문제를 서로 다른 키에 맡길 수 있을 때만 좋다는 점이다. 관리 문제와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 경계가 분명할수록 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 강해진다.
 
 - **📢 섹션 요약 비유**: 학교 서고를 학년별로 먼저 나누고, 각 학년 책장을 다시 과목별로 나누는 것은 분명한 목적이 있을 때만 가치가 있다. 학년 구분도 필요 없고 과목도 자주 바뀌는데 억지로 칸만 늘리면, 찾기도 어렵고 정리도 더 힘들어진다.
 
@@ -151,11 +148,11 @@ SUBPARTITIONS 8 (
 
 ## Ⅴ. 기대효과 및 결론
 
-[컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 잘 맞으면 수명주기 관리와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리가 동시에 좋아진다. 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 빠르게 보관·삭제하고, 활성 구간 내부에서는 서브파티션을 통해 입력 경합과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중을 낮출 수 있다. 여기에 [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)과 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞물리면 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 범위와 유지보수 범위가 함께 줄어든다.
+[컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)이 잘 맞으면 수명주기 관리와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 관리가 동시에 좋아진다. 오래된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위로 빠르게 보관·삭제하고, 활성 구간 내부에서는 서브파티션을 통해 입력 경합과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 편중을 낮출 수 있다. 여기에 [파티션 프루닝](/studynote/05_database/03_relational_model/184_partition_pruning/)과 로컬 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞물리면 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 범위와 유지보수 범위가 함께 줄어든다.
 
-하지만 대가도 분명하다. [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정의가 복잡해지고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 수가 늘며, 통계 수집과 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리가 더 민감해진다. 즉 [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "더 많은 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)"이 아니라 <strong>더 많은 설계 책임</strong>을 뜻한다. 운영 체계가 따라오지 않으면 장점보다 관리 비용이 먼저 드러난다.
+하지만 대가도 분명하다. [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 정의가 복잡해지고, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 수가 늘며, 통계 수집과 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 관리가 더 민감해진다. 즉 [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 "더 많은 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)"이 아니라 <strong>더 많은 설계 책임</strong>을 뜻한다. 운영 체계가 따라오지 않으면 장점보다 관리 비용이 먼저 드러난다.
 
-미래에는 일부 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 자동 [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 자동 통계 수집을 강화하더라도, 어떤 축을 메인으로 둘지와 어떤 축을 서브로 둘지는 여전히 아키텍트의 판단 영역으로 남는다. 따라서 이 개념은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 번 자른다"가 아니라, <strong>관리 축과 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 축을 직교화하는 설계 기법</strong>으로 기억하는 것이 맞다.
+미래에는 일부 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 자동 [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)과 자동 통계 수집을 강화하더라도, 어떤 축을 메인으로 둘지와 어떤 축을 서브로 둘지는 여전히 아키텍트의 판단 영역으로 남는다. 따라서 이 개념은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 두 번 자른다"가 아니라, <strong>관리 축과 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 축을 직교화하는 설계 기법</strong>으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 잘 만든 대형 문서함은 바깥쪽에는 연도별 큰 서랍이 있고, 서랍 안에는 부서별 작은 칸막이가 있다. 연도 단위 정리도 쉽고, 자주 찾는 문서가 한곳에 뭉쳐 엉키지도 않는다.
 
@@ -165,13 +162,13 @@ SUBPARTITIONS 8 (
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 | 보관 주기, 삭제, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)처럼 상위 운영 기준을 담당한다. |
-| 서브파티션 키 | 상위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내부의 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 업무 경계 분리를 담당한다. |
-| [파티션 프루닝](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/)) | 조건절에 맞는 메인 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션만 읽게 해 복합 구조의 읽기 이점을 만든다. |
-| 로컬 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 유지보수와 결합되어 복합 구조 운영을 단순화한다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) | 서브파티션이 필요한 대표 이유로, 특정 값 집중을 완화하는 대상이다. |
-| 행 이동 (Row Movement) | [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경 시 물리 재배치가 발생해 복합 구조에서 비용이 커질 수 있다. |
-| 레인지·해시·[리스트 파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/) | [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 구성하는 기본 재료이자 비교 대상이다. |
+| 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 | 보관 주기, 삭제, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)처럼 상위 운영 기준을 담당한다. |
+| 서브파티션 키 | 상위 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 내부의 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 또는 업무 경계 분리를 담당한다. |
+| [파티션 프루닝](/studynote/05_database/03_relational_model/184_partition_pruning/) ([Partition Pruning](/studynote/05_database/03_relational_model/184_partition_pruning/)) | 조건절에 맞는 메인 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)과 서브파티션만 읽게 해 복합 구조의 읽기 이점을 만든다. |
+| 로컬 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) (Local [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 단위 유지보수와 결합되어 복합 구조 운영을 단순화한다. |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 쏠림 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skew) | 서브파티션이 필요한 대표 이유로, 특정 값 집중을 완화하는 대상이다. |
+| 행 이동 (Row Movement) | [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 키 변경 시 물리 재배치가 발생해 복합 구조에서 비용이 커질 수 있다. |
+| 레인지·해시·[리스트 파티셔닝](/studynote/05_database/03_relational_model/182_list_partitioning/) | [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)을 구성하는 기본 재료이자 비교 대상이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -189,11 +186,11 @@ SUBPARTITIONS 8 (
 파티션 프루닝 · 로컬 인덱스 · 운영 자동화 결합
 ```
 
-이 흐름은 "단일 기준 분할"에서 "운영 축과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 축을 분리한 분할"로 사고가 확장되는 과정을 보여 준다.
+이 흐름은 "단일 기준 분할"에서 "운영 축과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 축을 분리한 분할"로 사고가 확장되는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 큰 장난감장을 먼저 월별 칸으로 나누고, 그 안을 다시 친구 이름표나 종류별 상자로 나누는 방법이에요.
+1. [컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) [파티셔닝](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)은 큰 장난감장을 먼저 월별 칸으로 나누고, 그 안을 다시 친구 이름표나 종류별 상자로 나누는 방법이에요.
 2. 그래서 지난달 장난감은 칸째로 정리하기 쉽고, 이번 달 장난감도 한곳에만 몰리지 않아요.
 3. 하지만 작은 상자를 너무 많이 만들면 오히려 정리할 칸이 너무 많아져서 관리가 힘들어져요.
 
@@ -203,7 +200,7 @@ SUBPARTITIONS 8 (
 
 **진행 상황**: 183 / 600
 
-<- **이전**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/knowledge-base/studynote/05_database/03_relational_model/182_list_partitioning/)
-**다음**: [184. 파티션 프루닝 (Partition Pruning)](/knowledge-base/studynote/05_database/03_relational_model/184_partition_pruning/) ->
+<- **이전**: [182. 리스트 파티셔닝 (List Partitioning) - 명시적 특정 값(지역명 등) 기준](/studynote/05_database/03_relational_model/182_list_partitioning/)
+**다음**: [184. 파티션 프루닝 (Partition Pruning)](/studynote/05_database/03_relational_model/184_partition_pruning/) ->
 
 ---

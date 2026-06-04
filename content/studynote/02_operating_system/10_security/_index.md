@@ -1,6 +1,5 @@
-+++
-title = "10. Security"
-
-[extra]
-tags = ["operating_system"]
-+++
+---
+title: "10. Security"
+tags:
+  - "operating_system"
+---

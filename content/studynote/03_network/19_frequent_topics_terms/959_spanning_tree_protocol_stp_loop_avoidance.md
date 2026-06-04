@@ -1,13 +1,10 @@
-+++
-title = "959. 스패닝 트리"
-date = 2026-05-08
+---
+title: "959. 스패닝 트리"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,9 +16,9 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명)이 깎여 0이 되면 죽어서 사라집니다.
-- <strong>L2 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 무식함</strong>: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 프레임)에는 [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 타이머가 아예 없습니다!
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동그랗게(루프 구조로) 물리적으로 연결되어 있을 때, 방송 패킷(브로드캐스트) 하나가 딱 던져지면, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 서로서로 메아리를 복사해 영원히 뺑뺑이를 돌려([브로드캐스트 스톰](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)) 단 5초 만에 CPU 100%를 찍고 사내망 전체가 마비(다운)되는 최악의 재앙이 터집니다.
+L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명)이 깎여 0이 되면 죽어서 사라집니다.
+- <strong>L2 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>의 무식함</strong>: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패킷([이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 프레임)에는 [TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/)(수명) 타이머가 아예 없습니다!
+- [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 동그랗게(루프 구조로) 물리적으로 연결되어 있을 때, 방송 패킷(브로드캐스트) 하나가 딱 던져지면, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들이 서로서로 메아리를 복사해 영원히 뺑뺑이를 돌려([브로드캐스트 스톰](/studynote/03_network/20_performance_evaluation_advanced/1097_broadcast_storm_switching_loop_stp/)) 단 5초 만에 CPU 100%를 찍고 사내망 전체가 마비(다운)되는 최악의 재앙이 터집니다.
 
 ```text
 [VLAN 트렁킹]
@@ -32,13 +29,13 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
     +---> [루프 어보이던스]
 ```
 
-- **📢 섹션 요약 비유**: 스패닝 트리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 스패닝 트리는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 물리적으로 [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(루프)되어 연결된 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크 망에서, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 서로 BPDU라는 귓속말 패킷을 주고받아 대장(루트)을 뽑고, <strong>특정 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>를 소프트웨어적으로 논리적으로 차단(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)하여 루프(동그라미)를 끊어내어 장애 없는 '트리(나뭇가지)' 모양의 안전한 망을 자동 구축하는 루핑 방지 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
+- **개념**: 물리적으로 [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)(루프)되어 연결된 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 네트워크 망에서, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들끼리 서로 BPDU라는 귓속말 패킷을 주고받아 대장(루트)을 뽑고, <strong>특정 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>를 소프트웨어적으로 논리적으로 차단(<a href="/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>)하여 루프(동그라미)를 끊어내어 장애 없는 '트리(나뭇가지)' 모양의 안전한 망을 자동 구축하는 루핑 방지 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>입니다.
 
 ```text
 [VLAN 트렁킹]
@@ -57,23 +54,23 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 방을 만들면 서열 정리가 0.1초 만에 일어납니다.
 
-1. <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> 귓속말 날리기 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Unit)</strong>:
-   - [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜면, 2초마다 모든 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 서로에게 자기 스펙을 담은 명함([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))을 날립니다. "내 번호([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID)가 제일 낮아! 내가 대장이야!"
-2. <strong>루트 브릿지 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/">Root Bridge</a>) 선출 (대장 뽑기)</strong>:
-   - 명함을 다 까보고, 고유 번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소나 Priority 우선순위 값)가 <strong>가장 낮은 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 전국 통일 대장(루트 브릿지)</strong>으로 뽑혀 왕좌에 앉습니다.
-3. <strong>루트 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (Root <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 선정 (왕에게 가는 최단거리 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 열기)</strong>:
-   - 나머지 쫄따구 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 자기 몸에 뚫린 구멍([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))들 중에서 대장(루트 브릿지)과 가장 가깝게 가는 구멍 1개씩만 골라서 초록색 불을 켜고(활성화) 길을 엽니다.
-4. <strong>차단 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 목 조르기 🌟 핵심 🌟</strong>:
-   - 대장으로 가는 최단 거리 구멍(루트 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 다 열고 나면, <strong>나머지 빙글빙글 돌아서 갈 수 있는 쓸데없는 샛길(루프를 만드는 주범 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)들은 모조리 빨간 불을 켜서 강제로 소프트웨어적으로 꽉 막아버립니다(<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> 상태).</strong>
+1. <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/">BPDU</a> 귓속말 날리기 (<a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Unit)</strong>:
+   - [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 전원을 켜면, 2초마다 모든 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 서로에게 자기 스펙을 담은 명함([BPDU](/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))을 날립니다. "내 번호([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) ID)가 제일 낮아! 내가 대장이야!"
+2. <strong>루트 브릿지 (<a href="/studynote/03_network/05_lan_wan_l2_devices/255_root_bridge_rp_dp_bp/">Root Bridge</a>) 선출 (대장 뽑기)</strong>:
+   - 명함을 다 까보고, 고유 번호([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소나 Priority 우선순위 값)가 <strong>가장 낮은 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>가 전국 통일 대장(루트 브릿지)</strong>으로 뽑혀 왕좌에 앉습니다.
+3. <strong>루트 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (Root <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 선정 (왕에게 가는 최단거리 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 열기)</strong>:
+   - 나머지 쫄따구 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 자기 몸에 뚫린 구멍([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))들 중에서 대장(루트 브릿지)과 가장 가깝게 가는 구멍 1개씩만 골라서 초록색 불을 켜고(활성화) 길을 엽니다.
+4. <strong>차단 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> (<a href="/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a>) 목 조르기 🌟 핵심 🌟</strong>:
+   - 대장으로 가는 최단 거리 구멍(루트 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지정 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))을 다 열고 나면, <strong>나머지 빙글빙글 돌아서 갈 수 있는 쓸데없는 샛길(루프를 만드는 주범 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a>)들은 모조리 빨간 불을 켜서 강제로 소프트웨어적으로 꽉 막아버립니다(<a href="/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a> 상태).</strong>
    - 전산실에 물리적인 랜선은 세모(△)로 3개가 꽂혀 있지만, 실제 데이터가 흐르는 길은 한쪽 선이 막혀 브이(∨) 모양(Tree)이 되어 루핑이 100% 원천 차단됩니다.
 
-스패닝 트리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹이 기반 조건을 만든다면, 스패닝 트리는 그 위에서 핵심 메커니즘을 구현하고, [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+스패닝 트리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹이 기반 조건을 만든다면, 스패닝 트리는 그 위에서 핵심 메커니즘을 구현하고, [루프 어보이던스](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹의 기반 정리 | 스패닝 트리의 핵심 동작 | [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)의 확장 적용 |
+| 초점 | [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹의 기반 정리 | 스패닝 트리의 핵심 동작 | [루프 어보이던스](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 스패닝 트리는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -81,22 +78,22 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- <strong>자가 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Self-Healing)</strong>: 만약 대장으로 가는 주 회선 랜선이 포크레인에 찍혀 끊어졌습니다! [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 20초 동안 명함([BPDU](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))이 안 오는 걸 깨닫고 "선 끊겼다! 아까 막아뒀던 샛길 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))의 빨간불 끄고 다시 파란불 켜라!" 며 우회로를 스스로 살려냅니다.
-- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">RSTP</a> (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">Rapid STP</a>, 802.1w)</strong>: 옛날 오리지널 STP는 우회로 빨간불 끄고 파란불 켜는데 무려 50초(Listen ➜ Learn ➜ [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))나 걸렸습니다. 50초면 은행 서버 접속이 다 끊깁니다. 그래서 1초 만에 팍! 하고 넘겨주는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 버전인 RSTP가 현대 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 기본 헌법으로 장착되어 있습니다.
+- <strong>자가 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(Self-Healing)</strong>: 만약 대장으로 가는 주 회선 랜선이 포크레인에 찍혀 끊어졌습니다! [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 20초 동안 명함([BPDU](/studynote/03_network/05_lan_wan_l2_devices/254_bpdu_bridge_protocol_data_unit/))이 안 오는 걸 깨닫고 "선 끊겼다! 아까 막아뒀던 샛길 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))의 빨간불 끄고 다시 파란불 켜라!" 며 우회로를 스스로 살려냅니다.
+- <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">RSTP</a> (<a href="/studynote/03_network/05_lan_wan_l2_devices/260_rstp_rapid_spanning_tree_protocol_ieee_802_1w/">Rapid STP</a>, 802.1w)</strong>: 옛날 오리지널 STP는 우회로 빨간불 끄고 파란불 켜는데 무려 50초(Listen ➜ Learn ➜ [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/))나 걸렸습니다. 50초면 은행 서버 접속이 다 끊깁니다. 그래서 1초 만에 팍! 하고 넘겨주는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 버전인 RSTP가 현대 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 기본 헌법으로 장착되어 있습니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 루핑 현상은 동네 거리에 '세 갈래 순환 교차로'를 뚫어놨더니, 자동차(브로드캐스트 패킷) 한 대가 빠져나가지 못하고 교차로를 영원히 빙글빙글 도는 좀비가 되어 교차로가 꽉 막혀버리는 재앙입니다. <strong>스패닝 트리(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>)</strong>는 교차로 한가운데에 부임한 '냉혹한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 교통경찰'입니다. 경찰은 3개의 톨게이트 길 중, 대장(루트 브릿지)으로 가는 가장 빠르고 큰길 딱 2개만 차단기를 열어줍니다. 그리고 나머지 교차로로 삥 돌아가는 <strong>1개의 샛길 톨게이트는 아예 빨간 차단봉을 내려 강제로 막아버립니다(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 차단, <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>).</strong> 물리적으로 도로는 이어져 있지만 차단봉 때문에 차들이 절대 뺑뺑 돌 수 없는 '나뭇가지(트리)' 모양 도로가 완성됩니다. 만약 열려 있던 메인 도로가 산사태로 끊어지면, 경찰은 1초 만에 막아뒀던 샛길 차단봉을 스르륵 올려(우회로 개방) 차들이 다시 우회해서 빠져나가게 해주는 무적의 루프 예방 자동 차단 시스템입니다.
+- **📢 섹션 요약 비유**: [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 루핑 현상은 동네 거리에 '세 갈래 순환 교차로'를 뚫어놨더니, 자동차(브로드캐스트 패킷) 한 대가 빠져나가지 못하고 교차로를 영원히 빙글빙글 도는 좀비가 되어 교차로가 꽉 막혀버리는 재앙입니다. <strong>스패닝 트리(<a href="/studynote/01_computer_architecture/15_advanced_topics/570_stp_vs_mtp/">STP</a>)</strong>는 교차로 한가운데에 부임한 '냉혹한 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 교통경찰'입니다. 경찰은 3개의 톨게이트 길 중, 대장(루트 브릿지)으로 가는 가장 빠르고 큰길 딱 2개만 차단기를 열어줍니다. 그리고 나머지 교차로로 삥 돌아가는 <strong>1개의 샛길 톨게이트는 아예 빨간 차단봉을 내려 강제로 막아버립니다(<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 차단, <a href="/studynote/02_operating_system/02_process_thread/122_sync_async_communication/">Blocking</a>).</strong> 물리적으로 도로는 이어져 있지만 차단봉 때문에 차들이 절대 뺑뺑 돌 수 없는 '나뭇가지(트리)' 모양 도로가 완성됩니다. 만약 열려 있던 메인 도로가 산사태로 끊어지면, 경찰은 1초 만에 막아뒀던 샛길 차단봉을 스르륵 올려(우회로 개방) 차들이 다시 우회해서 빠져나가게 해주는 무적의 루프 예방 자동 차단 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-스패닝 트리는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+스패닝 트리는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [루프 어보이던스](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 스패닝 트리는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +103,10 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [루프 어보이던스](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +120,7 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-스패닝 트리는 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹에서 출발해 현재 메커니즘을 정교화하고, 이후 [루프 어보이던스](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+스패닝 트리는 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 트렁킹에서 출발해 현재 메커니즘을 정교화하고, 이후 [루프 어보이던스](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/)와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +134,7 @@ L3 라우터는 패킷이 길을 잃고 뺑뺑이 돌면 [TTL](/knowledge-base/s
 
 **진행 상황**: 1080 / 1120
 
-<- **이전**: [958. VLAN 트렁킹 (IEEE 802.1Q 태그)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/958_vlan_trunking_ieee_802_1q_tagging/)
-**다음**: [960. 루프 어보이던스 (STP 적용)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/) ->
+<- **이전**: [958. VLAN 트렁킹 (IEEE 802.1Q 태그)](/studynote/03_network/19_frequent_topics_terms/958_vlan_trunking_ieee_802_1q_tagging/)
+**다음**: [960. 루프 어보이던스 (STP 적용)](/studynote/03_network/19_frequent_topics_terms/960_loop_avoidance_stp_ttl_routing_prevention/) ->
 
 ---

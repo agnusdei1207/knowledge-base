@@ -1,25 +1,22 @@
-+++
-title = "158. CPI (Cost Performance Index, 비용 성과 지수)"
-date = 2026-04-21
+---
+title: "158. CPI (Cost Performance Index, 비용 성과 지수)"
+date: "2026-04-21"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPI (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 비용 성과 지수)는 획득 가치([EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Earned Value)를 실제 비용([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/), [Actual Cost](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))으로 나눈 값으로, 지출 1원당 얼마만큼의 계획 가치를 만들어 냈는지를 보여주는 비용 효율 지표다.
+> 1. **본질**: CPI (Cost [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 비용 성과 지수)는 획득 가치([EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), Earned Value)를 실제 비용([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/), [Actual Cost](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/))으로 나눈 값으로, 지출 1원당 얼마만큼의 계획 가치를 만들어 냈는지를 보여주는 비용 효율 지표다.
 > 2. **가치**: 절대 초과 금액만으로는 프로젝트 규모 차이를 설명하기 어렵지만, CPI는 비율 지표이므로 프로젝트 간 효율 비교와 완료 예상 총비용(EAC, Estimate at Completion) 예측에 직접 활용할 수 있다.
-> 3. **판단 포인트**: CPI는 값 자체보다 추세와 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)의 신뢰도가 중요하므로, [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 산정 방식이 부정확하거나 범위 변경이 통제되지 않으면 숫자가 좋아 보여도 의사결정 근거로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
+> 3. **판단 포인트**: CPI는 값 자체보다 추세와 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)의 신뢰도가 중요하므로, [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 산정 방식이 부정확하거나 범위 변경이 통제되지 않으면 숫자가 좋아 보여도 의사결정 근거로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 어렵다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CPI (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득 가치 관리)에서 비용 효율을 측정하는 대표 지표다. 일정 지표가 "얼마나 빨리 가는가"를 보여준다면, CPI는 "돈을 들인 만큼 가치가 만들어지고 있는가"를 보여준다. 즉 예산 집행의 속도가 아니라 예산 사용의 생산성을 보는 지표다.
+CPI (Cost [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) ([Earned Value Management](/studynote/04_software_engineering/01_overview_principles/040_evm/), 획득 가치 관리)에서 비용 효율을 측정하는 대표 지표다. 일정 지표가 "얼마나 빨리 가는가"를 보여준다면, CPI는 "돈을 들인 만큼 가치가 만들어지고 있는가"를 보여준다. 즉 예산 집행의 속도가 아니라 예산 사용의 생산성을 보는 지표다.
 
 이 지표가 필요한 이유는 단순 비용 초과 금액만으로는 상황의 심각도를 판단하기 어렵기 때문이다. 예를 들어 두 프로젝트가 모두 1천만 원을 초과했다 해도, 하나는 10억 원짜리 사업이고 다른 하나는 5천만 원짜리 사업일 수 있다. 이때 상대적 효율을 보여 주는 비율 지표가 없으면 경영층은 어디가 더 위험한지 즉시 판단하기 어렵다.
 
@@ -31,7 +28,7 @@ CPI (Cost [Performance](/knowledge-base/studynote/04_software_engineering/05_dev
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CPI의 계산은 단순하지만, 해석은 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 구조 안에서 봐야 한다. EV는 "실제로 끝낸 일의 예산 가치"이고, AC는 "그 일을 위해 실제로 쓴 돈"이다. 따라서 `CPI = EV / AC`는 현재 비용 효율의 압축값이 된다.
+CPI의 계산은 단순하지만, 해석은 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 구조 안에서 봐야 한다. EV는 "실제로 끝낸 일의 예산 가치"이고, AC는 "그 일을 위해 실제로 쓴 돈"이다. 따라서 `CPI = EV / AC`는 현재 비용 효율의 압축값이 된다.
 
 아래 그림은 EVM에서 CPI가 어떤 정보 흐름으로 만들어지는지 보여준다.
 
@@ -58,8 +55,8 @@ CPI의 계산은 단순하지만, 해석은 [EVM](/knowledge-base/studynote/12_i
 
 | CPI 구간 | 의미 | 관리 해석 | 권장 대응 |
 | :--- | :--- | :--- | :--- |
-| CPI > 1.0 | 비용 효율 우수 | 계획보다 적은 비용으로 진척 | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 과대계상 여부도 함께 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| CPI = 1.0 부근 | 계획 수준 | 비용 집행이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 유사 | 추세 유지 여부 모니터링 |
+| CPI > 1.0 | 비용 효율 우수 | 계획보다 적은 비용으로 진척 | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 과대계상 여부도 함께 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| CPI = 1.0 부근 | 계획 수준 | 비용 집행이 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 유사 | 추세 유지 여부 모니터링 |
 | 0.9 ≤ CPI < 1.0 | 경미한 비효율 | 작은 누적 오차가 시작됨 | 원인 분석, 재작업·범위 변화 점검 |
 | CPI < 0.9 | 심각한 비용 문제 | 같은 방식 유지 시 초과 가능성 큼 | 예측 재산정, 시정 계획 필요 |
 
@@ -71,17 +68,17 @@ CPI의 계산은 단순하지만, 해석은 [EVM](/knowledge-base/studynote/12_i
 
 ## Ⅲ. 비교 및 연결
 
-CPI는 비용 지표이지만, 단독으로 쓰면 프로젝트 상태를 오해할 수 있다. 비용 차이([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), [Cost Variance](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))는 현재 얼마가 초과 또는 절감되었는지 보여 주고, 일정 성과 지수([SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 진척 속도를 보여 준다. 즉 CPI는 효율, CV는 금액, SPI는 속도를 담당한다.
+CPI는 비용 지표이지만, 단독으로 쓰면 프로젝트 상태를 오해할 수 있다. 비용 차이([CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), [Cost Variance](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/))는 현재 얼마가 초과 또는 절감되었는지 보여 주고, 일정 성과 지수([SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), Schedule [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))는 진척 속도를 보여 준다. 즉 CPI는 효율, CV는 금액, SPI는 속도를 담당한다.
 
 | 지표 | 공식 | 보는 관점 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- | :--- |
-| CPI | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) | 비용 효율 | 규모가 다른 프로젝트 비교 가능 | EV가 부정확하면 왜곡됨 |
-| [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) | 비용 차이 금액 | 초과 규모를 직관적으로 보여 줌 | 프로젝트 규모 차이 반영이 약함 |
-| [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | 일정 효율 | 늦는지 빠른지 즉시 파악 가능 | 비용 문제는 설명하지 못함 |
+| CPI | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) | 비용 효율 | 규모가 다른 프로젝트 비교 가능 | EV가 부정확하면 왜곡됨 |
+| [CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) - [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) | 비용 차이 금액 | 초과 규모를 직관적으로 보여 줌 | 프로젝트 규모 차이 반영이 약함 |
+| [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) | [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) / [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/) | 일정 효율 | 늦는지 빠른지 즉시 파악 가능 | 비용 문제는 설명하지 못함 |
 
 CPI와 SPI를 함께 보면 경영적으로 더 강한 판단이 가능하다. 예를 들어 SPI는 좋지만 CPI가 나쁘다면 "일정을 맞추려고 비용을 과도하게 투입한 상태"일 수 있다. 반대로 CPI는 좋지만 SPI가 나쁘다면 "돈은 아꼈지만 일정이 밀려 사업 가치가 훼손되는 상태"일 수 있다.
 
-또한 CPI는 EAC, ETC (Estimate to Complete, 잔여 소요 비용), TCPI (To-Complete [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 잔여 작업 달성 필요 효율)로 이어진다. 즉 현재 효율을 보는 데서 끝나지 않고, "앞으로 얼마가 더 필요하며 남은 구간에서 어느 정도 효율을 내야 예산을 맞출 수 있는가"까지 연결되는 지표 체계의 출발점이다.
+또한 CPI는 EAC, ETC (Estimate to Complete, 잔여 소요 비용), TCPI (To-Complete [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 잔여 작업 달성 필요 효율)로 이어진다. 즉 현재 효율을 보는 데서 끝나지 않고, "앞으로 얼마가 더 필요하며 남은 구간에서 어느 정도 효율을 내야 예산을 맞출 수 있는가"까지 연결되는 지표 체계의 출발점이다.
 
 - **📢 섹션 요약 비유**: CPI는 연비, CV는 지금까지 더 쓴 기름값, SPI는 목적지까지의 시간표와 같다. 운전을 제대로 판단하려면 세 가지를 함께 봐야 한다.
 
@@ -89,11 +86,11 @@ CPI와 SPI를 함께 보면 경영적으로 더 강한 판단이 가능하다. �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 CPI를 사용할 때 가장 중요한 전제는 [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 측정의 신뢰성이다. 완료율이 주관적으로 부풀려지거나, 범위 변경이 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 반영되지 않으면 CPI는 정확한 숫자처럼 보이지만 실제로는 착시를 만든다. 따라서 CPI 관리의 핵심은 계산보다 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제와 진척률 산정 규칙에 있다.
+실무에서 CPI를 사용할 때 가장 중요한 전제는 [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) 측정의 신뢰성이다. 완료율이 주관적으로 부풀려지거나, 범위 변경이 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 반영되지 않으면 CPI는 정확한 숫자처럼 보이지만 실제로는 착시를 만든다. 따라서 CPI 관리의 핵심은 계산보다 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 통제와 진척률 산정 규칙에 있다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> 산정 규칙 명확화</strong>: 0/100, 50/50, 마일스톤 방식 중 어떤 기준으로 진척을 인정하는가?
+1. <strong><a href="/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a> 산정 규칙 명확화</strong>: 0/100, 50/50, 마일스톤 방식 중 어떤 기준으로 진척을 인정하는가?
 2. **범위 변경 반영**: 승인된 변경이 BAC와 PV에 적절히 반영되었는가?
 3. **기간·누적 병행 관리**: 최근 악화를 보기 위한 기간 CPI와 전체 흐름을 보기 위한 누적 CPI를 함께 보는가?
 4. **예측 재산정**: CPI 악화 시 EAC와 ETC를 즉시 갱신하는가?
@@ -102,26 +99,26 @@ CPI와 SPI를 함께 보면 경영적으로 더 강한 판단이 가능하다. �
 ### 기술사형 판단 문장
 
 - **채택해야 할 때**: 다수 프로젝트를 포트폴리오 차원에서 비교하거나, 예산 소진 속도와 실제 가치 창출을 함께 관리해야 할 때
-- **주의해야 할 때**: 연구개발형 과제처럼 진척률을 정량화하기 어렵거나, [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 자주 흔들리는 환경일 때
-- **함께 봐야 할 지표**: [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), 품질 지표, 변경 요청 추세, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 소진율
+- **주의해야 할 때**: 연구개발형 과제처럼 진척률을 정량화하기 어렵거나, [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 자주 흔들리는 환경일 때
+- **함께 봐야 할 지표**: [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/), 품질 지표, 변경 요청 추세, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 소진율
 
-### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **CPI만 좋게 보이게 EV를 과대 계상**: 문서상 진척률은 높지만 실제 산출물이 미완성인 경우
-- **누적 CPI만 보는 관리**: 최근 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화를 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 놓치는 경우
+- **누적 CPI만 보는 관리**: 최근 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 악화를 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에 놓치는 경우
 - **시정 조치 없는 보고 반복**: CPI 하락을 인지하면서도 원인별 대응이 없는 경우
 
 기술사 답안에서는 CPI를 "비용 초과 여부"가 아니라 "투입 대비 가치 창출 효율"로 정의하고, EAC 예측과 연계해 설명하면 관리 지표로서의 깊이가 살아난다.
 
-- **📢 섹션 요약 비유**: CPI 관리는 가게 매출만 보는 게 아니라, 재료비와 실제 판매량을 함께 보며 장사가 남는 구조인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 일과 같다. 숫자가 좋아 보여도 계산 방식이 틀리면 착시일 뿐이다.
+- **📢 섹션 요약 비유**: CPI 관리는 가게 매출만 보는 게 아니라, 재료비와 실제 판매량을 함께 보며 장사가 남는 구조인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 일과 같다. 숫자가 좋아 보여도 계산 방식이 틀리면 착시일 뿐이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-CPI를 제대로 운영하면 비용 문제를 늦게 발견하는 일을 줄일 수 있다. 규모가 다른 프로젝트를 공정하게 비교할 수 있고, 일정 시점의 효율을 바탕으로 완료 시 비용을 조기에 예측할 수 있으며, 예산 재배분이나 범위 조정 같은 경영 의사결정을 더 빠르게 내릴 수 있다. 그래서 CPI는 단순한 프로젝트 관리자([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager) 보고서 항목이 아니라, 프로젝트 통제력을 높이는 관리 언어라 할 수 있다.
+CPI를 제대로 운영하면 비용 문제를 늦게 발견하는 일을 줄일 수 있다. 규모가 다른 프로젝트를 공정하게 비교할 수 있고, 일정 시점의 효율을 바탕으로 완료 시 비용을 조기에 예측할 수 있으며, 예산 재배분이나 범위 조정 같은 경영 의사결정을 더 빠르게 내릴 수 있다. 그래서 CPI는 단순한 프로젝트 관리자([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager) 보고서 항목이 아니라, 프로젝트 통제력을 높이는 관리 언어라 할 수 있다.
 
-하지만 CPI에도 한계는 있다. EV가 주관적이면 지표 전체가 흔들리고, 품질 저하나 [기술 부채](/knowledge-base/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 누적 같은 문제는 CPI 하나만으로 포착되지 않는다. 또한 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구간에서는 진척률 측정 오차가 커서 과도한 해석을 경계해야 한다.
+하지만 CPI에도 한계는 있다. EV가 주관적이면 지표 전체가 흔들리고, 품질 저하나 [기술 부채](/studynote/12_it_management/02_itsm_itil/100_technical_debt_monitoring_release_policy/) 누적 같은 문제는 CPI 하나만으로 포착되지 않는다. 또한 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 구간에서는 진척률 측정 오차가 커서 과도한 해석을 경계해야 한다.
 
 결론적으로 CPI는 "얼마를 썼는가"가 아니라 "쓴 만큼 가치가 나왔는가"를 묻는 지표다. 따라서 기억해야 할 관점은 하나다. CPI는 비용 관리 숫자가 아니라, 비용을 가치로 바꾸는 효율의 온도계다.
 
@@ -133,14 +130,14 @@ CPI를 제대로 운영하면 비용 문제를 늦게 발견하는 일을 줄일
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value) | 실제 완료된 작업을 예산 가치로 환산한 값으로 CPI의 분자 |
-| [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) ([Actual Cost](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) | 실제 지출 비용으로 CPI의 분모 |
+| [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/) (Earned Value) | 실제 완료된 작업을 예산 가치로 환산한 값으로 CPI의 분자 |
+| [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) ([Actual Cost](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) | 실제 지출 비용으로 CPI의 분모 |
 | BAC (Budget at Completion) | 전체 승인 예산으로 EAC 예측의 기준 |
 | EAC (Estimate at Completion) | 현재 CPI를 바탕으로 계산하는 완료 예상 총비용 |
 | ETC (Estimate to Complete) | 앞으로 추가로 필요한 비용 예측 |
-| TCPI (To-Complete [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 남은 작업에서 요구되는 목표 효율 |
-| [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 비용이 아닌 일정 효율을 보여 주는 짝 지표 |
-| [CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)) | 효율이 아닌 절대 금액 차이를 보여 주는 지표 |
+| TCPI (To-Complete [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 남은 작업에서 요구되는 목표 효율 |
+| [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) (Schedule [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 비용이 아닌 일정 효율을 보여 주는 짝 지표 |
+| [CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/) ([Cost Variance](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/)) | 효율이 아닌 절대 금액 차이를 보여 주는 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -175,7 +172,7 @@ CPI (Cost Performance Index)
 
 **진행 상황**: 272 / 587
 
-<- **이전**: [157. SV (Schedule Variance, 일정 차이)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)
-**다음**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ->
+<- **이전**: [157. SV (Schedule Variance, 일정 차이)](/studynote/12_it_management/04_sdlc_testing/157_sv_schedule_variance/)
+**다음**: [159. SPI (Schedule Performance Index, 일정 성과 지수)](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "561. IT 경영 관리 핵심 토픽 561번 시험 요약 (IT Management Core Topic 561 Exam Summary)"
-date = 2026-05-09
+---
+title: "561. IT 경영 관리 핵심 토픽 561번 시험 요약 (IT Management Core Topic 561 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ IT 경영 관리의 4대 핵심 축은 **① IT 거버넌스(Governance)**, **�
 
 **진행 상황**: 561 / 800
 
-<- **이전**: [560. IT 경영 관리 핵심 토픽 560번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/560_it_management_core_topic_560_exam_summary/)
-**다음**: [562. IT 경영 관리 핵심 토픽 562번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/562_it_management_core_topic_562_exam_summary/) ->
+<- **이전**: [560. IT 경영 관리 핵심 토픽 560번 시험 요약](/studynote/12_it_management/05_security_compliance/560_it_management_core_topic_560_exam_summary/)
+**다음**: [562. IT 경영 관리 핵심 토픽 562번 시험 요약](/studynote/12_it_management/05_security_compliance/562_it_management_core_topic_562_exam_summary/) ->
 
 ---

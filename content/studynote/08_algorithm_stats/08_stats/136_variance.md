@@ -1,18 +1,15 @@
-+++
-title = "7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도"
-date = 2026-04-21
+---
+title: "7. 분산 (Variance) / 표준편차 (Standard Deviation) — 산포도"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
 > 분산 (Variance) 은 "평균에서 얼마나 흩어져 있는가"를 측정하는 제곱 평균이고, 표준편차 (Standard Deviation) 는 원래 단위로 복원한 산포 척도다.
-> 공분산 (Covariance) 과 상관 계수 (Correlation Coefficient) 는 두 변수의 연동 방향과 강도를 측정하며, 포트폴리오 이론·특징 선택·[정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 설계의 핵심이다.
+> 공분산 (Covariance) 과 상관 계수 (Correlation Coefficient) 는 두 변수의 연동 방향과 강도를 측정하며, 포트폴리오 이론·특징 선택·[정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 설계의 핵심이다.
 > 체비쇼프 부등식 (Chebyshev's Inequality) 은 분포의 형태를 모르더라도 "평균 ±kσ 범위 밖에 있을 확률의 상한"을 보장하는 분포-무관 (Distribution-Free) 부등식이다.
 
 ---
@@ -69,7 +66,7 @@ Var[cX] = c^·Var[X]         (스케일 제곱)
 Var[aX+b] = a^·Var[X]       (이동+스케일)
 ```
 
-**핵심**: [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)은 E[X+c] = E[X]+c 이지만, 분산은 Var[X+c] = Var[X] — 이동해도 흩어짐은 그대로다.
+**핵심**: [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/)은 E[X+c] = E[X]+c 이지만, 분산은 Var[X+c] = Var[X] — 이동해도 흩어짐은 그대로다.
 
 ### 합의 분산
 
@@ -125,7 +122,7 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 ρ = -1: 완전 음의 선형 상관
 ```
 
-<strong>저분산 vs 고분산 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
+<strong>저분산 vs 고분산 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a></strong>:
 
 ```
 +----------------------------------------------------------+
@@ -143,7 +140,7 @@ Cov[X,Y] = E[(X-μX)(Y-μY)]
 +----------------------------------------------------------+
 ```
 
-### 변동 계수 ([CV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), Coefficient of Variation)
+### 변동 계수 ([CV](/studynote/12_it_management/04_sdlc_testing/156_cv_cost_variance/), Coefficient of Variation)
 
 ```
 CV = σ / μ × 100%
@@ -167,18 +164,18 @@ P(|X-μ| ≥ kσ) ≤ 1/k^    (k > 0)
 동치: P(|X-μ| < kσ) ≥ 1 - 1/k^
 ```
 
-<strong>분포 모양에 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>없이</strong> 성립하는 강력한 부등식!
+<strong>분포 모양에 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>없이</strong> 성립하는 강력한 부등식!
 
 | k 값 | P(|X-μ| ≥ kσ) ≤ | P(μ ± kσ 범위 내) ≥ |
 |:---:|:---:|:---:|
 | 1 | 100% (자명) | 0% |
 | 2 | 25% | 75% |
-| 3 | [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).1% | 88.9% |
+| 3 | [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/).1% | 88.9% |
 | 4 | 6.25% | 93.75% |
-| [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 1% | 99% |
+| [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 1% | 99% |
 
-<strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a>와의 비교</strong>:
-- [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) μ±2σ: 95.4% (체비쇼프: 75% 이상 보장)
+<strong><a href="/studynote/08_algorithm_stats/08_stats/138_normal_distribution/">정규 분포</a>와의 비교</strong>:
+- [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) μ±2σ: 95.4% (체비쇼프: 75% 이상 보장)
 - 체비쇼프는 더 느슨하지만 **모든 분포에 적용 가능**
 
 ### 응용 — 표본 평균의 수렴 증명
@@ -196,13 +193,13 @@ X₁,...,Xₙ i.i.d., E[Xᵢ]=μ, Var[Xᵢ]=σ^
 -> 대수의 법칙 (Law of Large Numbers) 증명!
 ```
 
-📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%다"라는 최악의 경우 보증서다.
+📢 **섹션 요약 비유**: 체비쇼프 부등식은 "분포가 어떻든 간에, 평균에서 3배 표준편차 이상 벗어날 확률은 최대 [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/)%다"라는 최악의 경우 보증서다.
 
 ---
 
 ## Ⅴ. 분산의 실무 응용
 
-### 금융 위험 분석 ([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)
+### 금융 위험 분석 ([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)
 
 ```
 포트폴리오 수익률 R = w₁R₁ + w₂R₂
@@ -214,7 +211,7 @@ Var[R] = w₁^Var[R₁] + w₂^Var[R₂] + 2w₁w₂Cov[R₁,R₂]
 -> ρ > 0 이면 리스크 분산 효과 감소
 ```
 
-### ML [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))
+### ML [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) ([Regularization](/studynote/14_data_engineering/03_ml_dl_llm/134_regularization_dropout_batch_norm/))
 
 ```
 L2 정규화 (Ridge): 가중치 분산 억제
@@ -239,14 +236,14 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 분산 | [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) | E[X^]-(E[X])^ |
-| 표준편차 | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 68-95-99.7 | μ±σ 범위 정의 |
+| 분산 | [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) | E[X^]-(E[X])^ |
+| 표준편차 | [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/) 68-95-99.7 | μ±σ 범위 정의 |
 | 공분산 | 상관 계수 | 표준화한 공분산 |
-| 체비쇼프 | [대수의 법칙](/knowledge-base/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) | 수렴 증명 도구 |
+| 체비쇼프 | [대수의 법칙](/studynote/14_data_engineering/02_math_mining/074_law_of_large_numbers_lln_convergence_probability/) | 수렴 증명 도구 |
 | 변동 계수 | 비교 통계 | 단위 무관 산포 |
-| ML [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 과적합 방지 | 분산 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 메커니즘 |
+| ML [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 과적합 방지 | 분산 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) 메커니즘 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -286,6 +283,6 @@ SPC (Statistical Process Control, 통계적 공정 관리):
 **진행 상황**: 136 / 175
 
 <- **이전**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]]
-**다음**: [8. 확률 분포 — 이항/포아송/정규/지수/균등](/knowledge-base/studynote/08_algorithm_stats/08_stats/137_probability_distributions/) ->
+**다음**: [8. 확률 분포 — 이항/포아송/정규/지수/균등](/studynote/08_algorithm_stats/08_stats/137_probability_distributions/) ->
 
 ---

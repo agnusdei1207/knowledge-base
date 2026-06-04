@@ -1,13 +1,10 @@
-+++
-title = "688. 인과 추론 도구 변수 반사실 분석 (Causal Inference Instrumental Counterfactual)"
-date = 2026-05-09
+---
+title: "688. 인과 추론 도구 변수 반사실 분석 (Causal Inference Instrumental Counterfactual)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -183,7 +180,7 @@ LATE = E[Y(1) − Y(0) | Complier] = (E[Y|Z=1] − E[Y|Z=0]) / (E[X|Z=1] − E[X
 
 **진행 상황**: 688 / 800
 
-<- **이전**: [687. 설명 가능 AI XAI LIME SHAP 해석](/knowledge-base/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/)
-**다음**: [689. 데이터 윤리 편향 감사 공정성 지표](/knowledge-base/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/) ->
+<- **이전**: [687. 설명 가능 AI XAI LIME SHAP 해석](/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/)
+**다음**: [689. 데이터 윤리 편향 감사 공정성 지표](/studynote/06_ict_convergence/uncategorized/689_data_ethics_bias_audit_fairness_metrics/) ->
 
 ---

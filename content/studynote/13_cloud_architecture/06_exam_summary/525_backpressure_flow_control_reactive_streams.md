@@ -1,13 +1,10 @@
-+++
-title = "525. 백프레셔 흐름 제어 리액티브 스트림 (Backpressure Flow Control Reactive Streams)"
-date = 2026-05-09
+---
+title: "525. 백프레셔 흐름 제어 리액티브 스트림 (Backpressure Flow Control Reactive Streams)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 525 / 800
 
-<- **이전**: [524. CQRS 명령 조회 분리 읽기 모델](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/524_cqrs_command_query_read_model_separation/)
-**다음**: [526. 서킷 브레이커 재시도 타임아웃 패턴](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/526_circuit_breaker_retry_timeout_pattern/) ->
+<- **이전**: [524. CQRS 명령 조회 분리 읽기 모델](/studynote/13_cloud_architecture/06_exam_summary/524_cqrs_command_query_read_model_separation/)
+**다음**: [526. 서킷 브레이커 재시도 타임아웃 패턴](/studynote/13_cloud_architecture/06_exam_summary/526_circuit_breaker_retry_timeout_pattern/) ->
 
 ---

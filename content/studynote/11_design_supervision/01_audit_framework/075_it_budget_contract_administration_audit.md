@@ -1,17 +1,14 @@
-+++
-title = "75. IT 예산 및 계약 행정 처리, 정산 요건(과업 완료) 부합 검토 감리"
-date = 2026-04-10
+---
+title: "75. IT 예산 및 계약 행정 처리, 정산 요건(과업 완료) 부합 검토 감리"
+date: "2026-04-10"
+tags:
+  - "studynote-design"
+---
 
-[taxonomies]
-tags = ["studynote-design"]
-
-[extra]
-tags = ["studynote-design"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: IT (Information Technology) 예산·계약 행정 감리는 돈을 아끼는 절차가 아니라, 승인 범위·계약 조항·검수 증거·정산 금액이 한 줄로 이어지는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 통제다.
+> 1. **본질**: IT (Information Technology) 예산·계약 행정 감리는 돈을 아끼는 절차가 아니라, 승인 범위·계약 조항·검수 증거·정산 금액이 한 줄로 이어지는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 통제다.
 > 2. **가치**: 예산은 한도, 계약은 약속, 검수는 사실, 정산은 지급이므로 네 단계가 분리되면 과지급·미지급·범위 누락이 바로 생긴다.
 > 3. **판단 포인트**: 변경계약과 추가과업이 생겼다면 승인 흔적과 3-way match(계약·검수·청구 대조)가 맞는지 먼저 봐야 한다.
 
@@ -39,16 +36,16 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심 구조는 예산 배정, 계약 체결, 수행·[변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/), 검수·정산의 순서다. 각 단계는 서로 다른 증빙을 요구하므로, 감리자는 한 장짜리 총액보다 단계별 흔적을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+핵심 구조는 예산 배정, 계약 체결, 수행·[변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/), 검수·정산의 순서다. 각 단계는 서로 다른 증빙을 요구하므로, 감리자는 한 장짜리 총액보다 단계별 흔적을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
-| 단계 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 대상 | 흔한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
+| 단계 | [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 대상 | 흔한 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) |
 | :--- | :--- | :--- |
 | 예산 | 계정, 세목, 집행 한도 | 잔액만 보고 집행 |
 | 계약 | 범위, 단가, 납기, 변경조항 | 추가과업 누락 |
-| 검수 | 산출물, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 서명 | 증빙 부족 |
+| 검수 | 산출물, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 서명 | 증빙 부족 |
 | 정산 | 청구서, 세금계산서, 지급액 | 중복 지급 |
 
-예산 통제는 금액 상한을, 계약 통제는 약속의 내용과 책임을, 정산 통제는 실제 지급 가능성을 점검한다. 세 단계가 모두 맞아야만 결재선이 아니라 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)선까지 통과한다.
+예산 통제는 금액 상한을, 계약 통제는 약속의 내용과 책임을, 정산 통제는 실제 지급 가능성을 점검한다. 세 단계가 모두 맞아야만 결재선이 아니라 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)선까지 통과한다.
 
 - **📢 섹션 요약 비유**: 한 장의 영수증보다 단계별 증빙이 더 중요하다.
 
@@ -77,7 +74,7 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 체크 포인트는 간단하다.
 - 추가과업이 구두 합의로 끝나지 않았는가.
-- 검수 기준이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·수량·기한으로 구체화돼 있는가.
+- 검수 기준이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·수량·기한으로 구체화돼 있는가.
 - 계약 종료 후 정산이 아니라, 검수 완료 후 정산이 되었는가.
 
 안티패턴은 더 분명하다. 인보이스만 보고 지급하거나, 변경요청을 이메일 한 통으로 처리하거나, 여러 건을 쪼개 결재선을 회피하는 방식은 감리에서 바로 걸린다.
@@ -88,7 +85,7 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 감리는 예산·계약·검수를 하나의 선으로 묶어, 돈이 어디서 왔고 왜 나갔는지 설명 가능하게 만든다. 그래서 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응도 빨라지고, 사업부와 회계부의 해석 차이도 줄어든다.
+좋은 감리는 예산·계약·검수를 하나의 선으로 묶어, 돈이 어디서 왔고 왜 나갔는지 설명 가능하게 만든다. 그래서 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응도 빨라지고, 사업부와 회계부의 해석 차이도 줄어든다.
 
 앞으로는 전자계약, 전자검수, 자동정산이 늘어나겠지만 원리는 같다. 시스템이 좋아져도 결론은 동일하다. "승인된 범위 안에서 수행했고, 그 수행이 증빙됐으며, 그 증빙에 맞춰 지급했는가"가 핵심이다.
 
@@ -101,10 +98,10 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 예산 | 집행 한도와 계정 통제 |
-| 계약 | 책임 범위와 [변경 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/079_change_enablement/) |
-| 검수 | 수행 완료의 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 계약 | 책임 범위와 [변경 관리](/studynote/12_it_management/02_itsm_itil/079_change_enablement/) |
+| 검수 | 수행 완료의 사실 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 | 정산 | 지급 가능성의 최종 판단 |
-| [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)추적 | 문서와 결재의 연결성 |
+| [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)추적 | 문서와 결재의 연결성 |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -142,7 +139,7 @@ IT 프로젝트는 예산 항목이 먼저 잡히고, 계약 조항이 그 범�
 
 **진행 상황**: 115 / 530
 
-<- **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/knowledge-base/studynote/11_design_supervision/01_audit_framework/640_penetration_testing_vulnerability_remediation_audit/)
-**다음**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) ->
+<- **이전**: [74. 모의 침투 테스트 및 취약점 조치 감리](/studynote/11_design_supervision/01_audit_framework/640_penetration_testing_vulnerability_remediation_audit/)
+**다음**: [76. 서비스 데스크 및 인시던트 관리 체계 확인 (Service Desk and Incident Management Audit)](/studynote/11_design_supervision/01_audit_framework/076_service_desk_incident_management_audit/) ->
 
 ---

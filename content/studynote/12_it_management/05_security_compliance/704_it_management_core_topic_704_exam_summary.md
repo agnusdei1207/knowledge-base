@@ -1,13 +1,10 @@
-+++
-title = "704. IT 경영 관리 핵심 토픽 704번 시험 요약 (IT Management Core Topic 704 Exam Summary)"
-date = 2026-05-09
+---
+title: "704. IT 경영 관리 핵심 토픽 704번 시험 요약 (IT Management Core Topic 704 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ COBIT 2019의 가장 강력한 설계 원리는 **"Enterprise Goal -> Alignment 
 
 **진행 상황**: 704 / 800
 
-<- **이전**: [703. IT 경영 관리 핵심 토픽 703번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/703_it_management_core_topic_703_exam_summary/)
-**다음**: [705. IT 경영 관리 핵심 토픽 705번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/705_it_management_core_topic_705_exam_summary/) ->
+<- **이전**: [703. IT 경영 관리 핵심 토픽 703번 시험 요약](/studynote/12_it_management/05_security_compliance/703_it_management_core_topic_703_exam_summary/)
+**다음**: [705. IT 경영 관리 핵심 토픽 705번 시험 요약](/studynote/12_it_management/05_security_compliance/705_it_management_core_topic_705_exam_summary/) ->
 
 ---

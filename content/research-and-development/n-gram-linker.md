@@ -1,12 +1,9 @@
-+++
-title = "🚀 N-gram 해시 링커 알고리즘 설명서"
+---
+title: "🚀 N-gram 해시 링커 알고리즘 설명서"
+tags:
+  - "research-and-development"
+---
 
-[taxonomies]
-tags = ["research-and-development"]
-
-[extra]
-tags = ["research-and-development"]
-+++
 
 # 🚀 N-gram 해시 링커 알고리즘 (N-Gram Hash Linker)
 
@@ -16,11 +13,11 @@ tags = ["research-and-development"]
 
 ## 📌 1. 기존 기술의 한계 (정규식 백트래킹 병목)
 
-지식베이스의 문서 수가 늘어남에 따라(9,430개 문서, 19,846개 전공 키워드), 특정 문서 본문에서 키워드를 찾아 `[전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)` 형태로 자동 치환하는 링킹 작업에서 치명적인 속도 저하가 발생했습니다.
+지식베이스의 문서 수가 늘어남에 따라(9,430개 문서, 19,846개 전공 키워드), 특정 문서 본문에서 키워드를 찾아 `[전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)` 형태로 자동 치환하는 링킹 작업에서 치명적인 속도 저하가 발생했습니다.
 
 ### 🔴 1~2세대 방식: 단순 루프 정규식 치환
 *   **원리**: $O(M \times N)$ 복잡도로 매 파일마다 20,000여 개의 정규식 패턴을 순차적으로 대입.
-*   **문제점 (Catastrophic Backtracking)**: 
+*   **문제점 (Catastrophic Backtracking)**:
     *   파이썬의 정규식 엔진(NFA 구조)은 매칭 실패 시 백트래킹(탐색 복원)을 반복합니다.
     *   대다수 키워드는 문서 내에 존재하지 않는데도 경계 조건 검사(`(?<!...)` 등)를 수행하느라 CPU 연산이 정체되며, 문서 9,400개 처리 시 <strong>10분 이상 소요되거나 무한 대기 상태(Hang)</strong>에 빠졌습니다.
 
@@ -36,22 +33,22 @@ tags = ["research-and-development"]
 
 ```text
 [마크다운 본문]
-    │
-    ├─ [코드블럭 등] 임시 격리 → [Placeholder]
-    │
-    ▼
+    |
+    +- [코드블럭 등] 임시 격리 -> [Placeholder]
+    |
+    v
 [1~3어절 조합 수집]
-    │
-    └─ 문서당 약 300개 조합
-    │
-    ▼
+    |
+    +- 문서당 약 300개 조합
+    |
+    v
 [19,846개 키워드 해시 맵 대조]
-    │
-    ├─ O(1) Hash Table Lookup
-    └─ matched_kws = {c for c in candidates if c in keyword_map}
+    |
+    +- O(1) Hash Table Lookup
+    +- matched_kws = {c for c in candidates if c in keyword_map}
        보통 5~20개로 필터링
-    │
-    ▼
+    |
+    v
 [실제 검증된 소수 키워드만 1대1 정규식 치환 및 격리 해제]
 ```
 

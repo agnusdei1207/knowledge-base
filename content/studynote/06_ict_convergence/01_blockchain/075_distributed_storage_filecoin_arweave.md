@@ -1,26 +1,23 @@
-+++
-title = "75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)"
+---
+title: "75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Filecoin은 저장 용량과 검색에 시장 가격을 붙여 증명 가능한 저장을 사는 구조이고, Arweave는 영구 보관을 목표로 하는 endowment 모델이다.
-> 2. **가치**: 둘 다 content addressing과 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 증명을 통해 "누가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갖고 있는가"를 수학적으로 확인하려고 한다.
+> 2. **가치**: 둘 다 content addressing과 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 증명을 통해 "누가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 갖고 있는가"를 수학적으로 확인하려고 한다.
 > 3. **판단 포인트**: 삭제 권리와 규제 보존 기간이 중요하면 무기한 공개 저장을 피해야 하며, 불변성은 곧 법적 안전이 아니다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-중앙 서버에만 저장하면 편하지만, 비용과 검열, [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제가 남는다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조각내고 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 두며, 증명 가능한 방식으로 저장 사실을 확인한다.
+중앙 서버에만 저장하면 편하지만, 비용과 검열, [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제가 남는다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조각내고 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)해 두며, 증명 가능한 방식으로 저장 사실을 확인한다.
 
-[IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) ([InterPlanetary File System](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)) 계열의 content addressing은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 대신 해시를 쓰게 만들고, 그 위에서 Filecoin과 Arweave는 서로 다른 경제 모델을 얹는다. 하나는 시장형 저장소이고, 다른 하나는 장기 보관형 저장소다.
+[IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) ([InterPlanetary File System](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/)) 계열의 content addressing은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 이름 대신 해시를 쓰게 만들고, 그 위에서 Filecoin과 Arweave는 서로 다른 경제 모델을 얹는다. 하나는 시장형 저장소이고, 다른 하나는 장기 보관형 저장소다.
 
 ```text
 Client -> Hash / Content Address -> Storage Network -> Proof -> Retrieval
@@ -37,7 +34,7 @@ Client -> Hash / Content Address -> Storage Network -> Proof -> Retrieval
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Filecoin은 storage deal과 retrieval market을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맡기고 찾는 비용을 명시한다. Arweave는 한 번 올리면 오래 남는 permaweb 성격이 강하고, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보관비를 endowment처럼 운용한다.
+Filecoin은 storage deal과 retrieval market을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 맡기고 찾는 비용을 명시한다. Arweave는 한 번 올리면 오래 남는 permaweb 성격이 강하고, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 보관비를 endowment처럼 운용한다.
 
 | 요소 | Filecoin | Arweave |
 | :--- | :--- | :--- |
@@ -46,7 +43,7 @@ Filecoin은 storage deal과 retrieval market을 통해 [데이터](/knowledge-ba
 | 강점 | 대용량, 비용 협상 | 불변 기록, 장기 보존 |
 | 약점 | 계약 관리 필요 | 삭제/수정이 매우 어려움 |
 
-공통점은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이름으로 찾지 않고 해시와 증명으로 찾는다는 것이다. 그래서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장은 단순 백업보다 훨씬 강한 무결성을 제공한다.
+공통점은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 이름으로 찾지 않고 해시와 증명으로 찾는다는 것이다. 그래서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장은 단순 백업보다 훨씬 강한 무결성을 제공한다.
 
 - **📢 섹션 요약 비유**: 맡긴 사실을 증명할 수 있어야 진짜 보관이다.
 
@@ -62,7 +59,7 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 | 변경성 | 상대적으로 유연 | 매우 낮음 |
 | 비용 해석 | 계약형 | 선납형 |
 
-중앙형 객체 저장소와 비교하면, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장은 운영 편의보다 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성과 탈중앙성을 먼저 산다. 대신 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 삭제, 규제 대응은 더 엄격히 설계해야 한다.
+중앙형 객체 저장소와 비교하면, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장은 운영 편의보다 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성과 탈중앙성을 먼저 산다. 대신 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 삭제, 규제 대응은 더 엄격히 설계해야 한다.
 
 - **📢 섹션 요약 비유**: 임대 창고와 영구 금고는 같은 장소가 아니다.
 
@@ -70,14 +67,14 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격부터 나눈다. 대용량 냉데이터와 증명 가능한 보관이 필요하면 Filecoin을, 공개적이고 오래 남아야 하는 기록은 Arweave를 검토한다.
+실무에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 성격부터 나눈다. 대용량 냉데이터와 증명 가능한 보관이 필요하면 Filecoin을, 공개적이고 오래 남아야 하는 기록은 Arweave를 검토한다.
 
 체크 포인트는 다음과 같다.
-- 개인 정보나 삭제 요구가 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가.
+- 개인 정보나 삭제 요구가 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인가.
 - 암호화와 키 관리가 먼저 되어 있는가.
-- [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로와 원본 보관 전략이 있는가.
+- [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로와 원본 보관 전략이 있는가.
 
-안티패턴은 "블록체인이라 안전하다"고 믿고 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 올리는 것이다. 불변성은 감사에는 좋지만, 법적 삭제권과 충돌할 수 있다.
+안티패턴은 "블록체인이라 안전하다"고 믿고 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 그대로 올리는 것이다. 불변성은 감사에는 좋지만, 법적 삭제권과 충돌할 수 있다.
 
 - **📢 섹션 요약 비유**: 오래 남는 보관함은 넣기 전에 더 조심해야 한다.
 
@@ -85,9 +82,9 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 
 ## Ⅴ. 기대효과 및 결론
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 저장을 서비스가 아니라 계약으로 바꾼다. 그래서 누가 얼마나 오래 보관하는지, 검색은 가능한지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 정말 남아 있는지를 다시 묻는다.
+[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지는 저장을 서비스가 아니라 계약으로 바꾼다. 그래서 누가 얼마나 오래 보관하는지, 검색은 가능한지, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 정말 남아 있는지를 다시 묻는다.
 
-기억할 결론은 분명하다. Filecoin은 시장형 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 저장, Arweave는 영구 기록 보관이다. 목적이 다르므로 같은 기준으로 고르면 안 된다.
+기억할 결론은 분명하다. Filecoin은 시장형 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 저장, Arweave는 영구 기록 보관이다. 목적이 다르므로 같은 기준으로 고르면 안 된다.
 
 - **📢 섹션 요약 비유**: 빌려 쓰는 사물함과 영원히 남는 금고는 다르다.
 
@@ -97,11 +94,11 @@ Filecoin과 Arweave의 차이는 "가격"과 "보존 기간"에 있다. Filecoin
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [IPFS](/knowledge-base/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) | content addressing |
+| [IPFS](/studynote/06_ict_convergence/01_blockchain/055_ipfs_interplanetary_file_system/) | content addressing |
 | Filecoin | 저장/검색 시장 |
 | Arweave | 영구 보관 |
 | PoRep / PoSt | 저장 증명 |
-| Encryption | 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| Encryption | 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -133,7 +130,7 @@ retrieval
 
 **진행 상황**: 75 / 552
 
-<- **이전**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)
-**다음**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/) ->
+<- **이전**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/)
+**다음**: [76. 무허가형 (Permissionless) vs 허가형 (Permissioned) 블록체인](/studynote/06_ict_convergence/01_blockchain/076_permissionless_vs_permissioned_blockchain/) ->
 
 ---

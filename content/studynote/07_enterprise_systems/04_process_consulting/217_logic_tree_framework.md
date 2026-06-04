@@ -1,29 +1,26 @@
-+++
-title = "217. 로직 트리 (Logic Tree) 구조 분해 프레임워크"
-date = 2026-05-08
+---
+title: "217. 로직 트리 (Logic Tree) 구조 분해 프레임워크"
+date: "2026-05-08"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로직 트리 (Logic Tree)는 하나의 핵심 질문을 [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) (Mutually Exclusive, Collectively Exhaustive)하게 분해해, 복잡한 문제를 구조적으로 이해하고 설명하는 사고 프레임워크다.
-> 2. **가치**: 브레인스토밍처럼 생각나는 대로 원인을 나열하는 대신, 무엇이 빠졌고 무엇이 겹쳤는지를 드러내어 근본 원인 분석과 실행 우선순위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 정확도를 높인다.
-> 3. **판단 포인트**: 좋은 로직 트리는 예쁜 도식이 아니라, 끝단 노드가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고 실제 액션으로 연결될 때 비로소 의사결정 도구가 된다.
+> 1. **본질**: 로직 트리 (Logic Tree)는 하나의 핵심 질문을 [MECE](/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) (Mutually Exclusive, Collectively Exhaustive)하게 분해해, 복잡한 문제를 구조적으로 이해하고 설명하는 사고 프레임워크다.
+> 2. **가치**: 브레인스토밍처럼 생각나는 대로 원인을 나열하는 대신, 무엇이 빠졌고 무엇이 겹쳤는지를 드러내어 근본 원인 분석과 실행 우선순위 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)의 정확도를 높인다.
+> 3. **판단 포인트**: 좋은 로직 트리는 예쁜 도식이 아니라, 끝단 노드가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하고 실제 액션으로 연결될 때 비로소 의사결정 도구가 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-로직 트리 (Logic Tree)는 상위 문제를 하위 원인, 구성 요소, 대안으로 계층적으로 분해하는 구조화 기법이다. 핵심은 단순 분해가 아니라, 각 가지가 서로 겹치지 않고 전체를 빠짐없이 덮도록 설계하는 데 있다. 그래서 로직 트리는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립, 장애 분석, 비용 절감, 프로젝트 계획처럼 원인이 다층적인 문제에서 특히 강력하다.
+로직 트리 (Logic Tree)는 상위 문제를 하위 원인, 구성 요소, 대안으로 계층적으로 분해하는 구조화 기법이다. 핵심은 단순 분해가 아니라, 각 가지가 서로 겹치지 않고 전체를 빠짐없이 덮도록 설계하는 데 있다. 그래서 로직 트리는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립, 장애 분석, 비용 절감, 프로젝트 계획처럼 원인이 다층적인 문제에서 특히 강력하다.
 
 이 기법이 필요한 이유는 복잡한 문제일수록 사람의 직관이 특정 경험에 편향되기 쉽기 때문이다. 예를 들어 "매출 감소"를 논의할 때 누군가는 마케팅만, 누군가는 가격만, 누군가는 경쟁사만 떠올린다. 이렇게 접근하면 증상과 원인, 내부 요인과 외부 요인이 한꺼번에 섞여 논의가 길어지고 실행은 흐려진다.
 
-로직 트리는 이런 혼선을 줄이기 위해 질문을 먼저 고정한다. "무엇으로 구성되는가?", "왜 발생했는가?", "어떻게 해결할 것인가?" 중 무엇을 답해야 하는지 정한 뒤, 그 질문에 맞는 분해 규칙을 적용하면 회의가 의견 대결이 아니라 구조 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 바뀐다.
+로직 트리는 이런 혼선을 줄이기 위해 질문을 먼저 고정한다. "무엇으로 구성되는가?", "왜 발생했는가?", "어떻게 해결할 것인가?" 중 무엇을 답해야 하는지 정한 뒤, 그 질문에 맞는 분해 규칙을 적용하면 회의가 의견 대결이 아니라 구조 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)으로 바뀐다.
 
 - **📢 섹션 요약 비유**: 로직 트리는 어두운 창고를 감으로 뒤지는 방식이 아니라, 창고 도면을 펴고 구역별로 번호를 붙여 하나씩 수색하는 방식과 같다.
 
@@ -31,15 +28,15 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-로직 트리의 내부 원리는 `질문 고정 -> 분해 기준 선택 -> 하위 노드 검증 -> 실행 단위 도출`의 순서로 움직인다. 먼저 루트 질문을 한 문장으로 정의하고, 그다음 수식, 프로세스, 구성 요소, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 같은 분해 기준을 선택한다. 이후 각 가지가 MECE한지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 더 이상 쪼개는 것이 의미 없을 때 측정 지표나 실행 과제를 Leaf Node로 남긴다.
+로직 트리의 내부 원리는 `질문 고정 -> 분해 기준 선택 -> 하위 노드 검증 -> 실행 단위 도출`의 순서로 움직인다. 먼저 루트 질문을 한 문장으로 정의하고, 그다음 수식, 프로세스, 구성 요소, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 같은 분해 기준을 선택한다. 이후 각 가지가 MECE한지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 더 이상 쪼개는 것이 의미 없을 때 측정 지표나 실행 과제를 Leaf Node로 남긴다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :-- | :-- | :-- |
 | Root Question | 분석의 출발점 | 문제를 한 문장으로 고정하고 범위를 넘지 않게 유지 |
 | Branch Rule | 가지를 나누는 기준 | 수식, 시간 흐름, 구성 요소처럼 한 가지 축으로 분해 |
 | Node | 중간 가설 또는 범주 | 상위 질문에 직접 답해야 하며 수준이 섞이면 안 됨 |
-| Leaf | 최종 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단위 | [KPI](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/), 원인 증거, 담당자, 액션으로 연결 가능해야 함 |
-| [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) Check | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 품질 필터 | 중복, 누락, 증상-원인 혼재 여부를 점검 |
+| Leaf | 최종 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단위 | [KPI](/studynote/12_it_management/01_governance_strategy/018_kpi/), 원인 증거, 담당자, 액션으로 연결 가능해야 함 |
+| [MECE](/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) Check | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 품질 필터 | 중복, 누락, 증상-원인 혼재 여부를 점검 |
 
 아래 그림은 로직 트리가 단순 트리 모양이 아니라 문제 해결 순서를 강제하는 장치임을 보여준다.
 
@@ -60,7 +57,7 @@ tags = ["studynote-enterprise"]
 +--------------------------------------------------------------------+
 ```
 
-이 구조의 핵심은 트리의 끝이 반드시 실행 가능한 수준에 도달해야 한다는 점이다. "고객 경험 개선" 같은 추상어로 끝나면 트리는 발표 자료일 뿐이고, "결제 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이탈률 18% -> 12%"처럼 계량 지표와 책임 주체가 붙어야 진짜 운영 도구가 된다.
+이 구조의 핵심은 트리의 끝이 반드시 실행 가능한 수준에 도달해야 한다는 점이다. "고객 경험 개선" 같은 추상어로 끝나면 트리는 발표 자료일 뿐이고, "결제 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이탈률 18% -> 12%"처럼 계량 지표와 책임 주체가 붙어야 진짜 운영 도구가 된다.
 
 - **📢 섹션 요약 비유**: 로직 트리는 나무 그림을 그리는 일이 아니라, 큰 나뭇가지를 잘라 끝에서 바로 장작으로 쓸 수 있는 크기까지 쪼개는 작업과 같다.
 
@@ -68,15 +65,15 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-로직 트리는 다른 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구와 자주 혼동되지만 목적이 다르다. 마인드맵 ([Mind Map](/knowledge-base/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/))은 아이디어를 넓게 확산하는 데 강하고, 피시본 다이어그램 (Fishbone Diagram)은 특정 결과에 연결된 원인군을 모으는 데 유용하다. 반면 로직 트리는 "전체를 빠짐없이 검토했는가"를 따질 수 있다는 점에서 실행 설계와 기술사 서술에 더 적합하다.
+로직 트리는 다른 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) 도구와 자주 혼동되지만 목적이 다르다. 마인드맵 ([Mind Map](/studynote/04_software_engineering/03_design_architecture/180_mind_map_affinity_diagram/))은 아이디어를 넓게 확산하는 데 강하고, 피시본 다이어그램 (Fishbone Diagram)은 특정 결과에 연결된 원인군을 모으는 데 유용하다. 반면 로직 트리는 "전체를 빠짐없이 검토했는가"를 따질 수 있다는 점에서 실행 설계와 기술사 서술에 더 적합하다.
 
 | 도구 | 핵심 질문 | 강점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| 로직 트리 | 무엇/왜/어떻게를 구조적으로 설명하는가 | [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) 기반 분해, 우선순위화, 실행 전환 용이 | 분해 기준이 잘못 잡히면 전체가 흔들림 |
-| 마인드맵 | 어떤 생각이 연상되는가 | 발상 확장, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아이디어 수집 | 중복과 누락을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 어려움 |
+| 로직 트리 | 무엇/왜/어떻게를 구조적으로 설명하는가 | [MECE](/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) 기반 분해, 우선순위화, 실행 전환 용이 | 분해 기준이 잘못 잡히면 전체가 흔들림 |
+| 마인드맵 | 어떤 생각이 연상되는가 | 발상 확장, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 아이디어 수집 | 중복과 누락을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하기 어려움 |
 | 피시본 다이어그램 | 어떤 원인군이 결과를 만들었는가 | 제조·품질 문제의 원인 정리 | 해결 대안 설계나 범위 분해에는 약함 |
 
-엔터프라이즈 영역에서는 로직 트리가 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), RCA (Root Cause Analysis), [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), 보안 공격 트리와 자연스럽게 연결된다. 결국 공통점은 "복잡한 대상을 다루기 위해 경계를 나누고, 끝단에서 판단을 내린다"는 구조다. 차이는 로직 트리가 특히 문제 정의와 실행 설계의 다리 역할을 한다는 데 있다.
+엔터프라이즈 영역에서는 로직 트리가 [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), RCA (Root Cause Analysis), [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/), 보안 공격 트리와 자연스럽게 연결된다. 결국 공통점은 "복잡한 대상을 다루기 위해 경계를 나누고, 끝단에서 판단을 내린다"는 구조다. 차이는 로직 트리가 특히 문제 정의와 실행 설계의 다리 역할을 한다는 데 있다.
 
 - **📢 섹션 요약 비유**: 마인드맵이 생각을 넓게 던지는 그물이라면, 로직 트리는 목표 지점만 정확히 향하도록 접힌 낚싯대와 같다.
 
@@ -84,18 +81,18 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 로직 트리는 "복잡하지만 설명 책임이 큰 문제"에 우선 적용하는 것이 맞다. 예를 들어 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) 전환 여부를 검토할 때, 단순 유행 추종이 아니라 병목 원인이 배포 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인지, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 잠금인지, 조직 구조인지 먼저 분해해야 한다. 이때 로직 트리를 쓰면 기술적 대안과 비용 대안이 같은 레벨에서 비교되어, 왜 특정 선택을 했는지 경영진에게 설명하기 쉬워진다.
+실무에서 로직 트리는 "복잡하지만 설명 책임이 큰 문제"에 우선 적용하는 것이 맞다. 예를 들어 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) ([Microservice Architecture](/studynote/07_enterprise_systems/06_exam_summary/365_msa_microservice_architecture/)) 전환 여부를 검토할 때, 단순 유행 추종이 아니라 병목 원인이 배포 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)인지, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 잠금인지, 조직 구조인지 먼저 분해해야 한다. 이때 로직 트리를 쓰면 기술적 대안과 비용 대안이 같은 레벨에서 비교되어, 왜 특정 선택을 했는지 경영진에게 설명하기 쉬워진다.
 
-반대로 탐색적 아이데이션 단계에서는 지나치게 일찍 로직 트리를 강제하면 창의성이 줄 수 있다. 그래서 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발산에는 브레인스토밍이나 마인드맵을 쓰고, 실제 투자와 일정이 걸리는 순간 로직 트리로 수렴시키는 방식이 가장 실용적이다.
+반대로 탐색적 아이데이션 단계에서는 지나치게 일찍 로직 트리를 강제하면 창의성이 줄 수 있다. 그래서 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 발산에는 브레인스토밍이나 마인드맵을 쓰고, 실제 투자와 일정이 걸리는 순간 로직 트리로 수렴시키는 방식이 가장 실용적이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 루트 질문이 한 문장으로 고정되어 있는가?
 2. 1차 분해 기준이 수식·프로세스·구성 요소 중 하나로 명확한가?
-3. 각 Leaf가 지표, 증거, 실행안 중 하나로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한가?
+3. 각 Leaf가 지표, 증거, 실행안 중 하나로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한가?
 4. 증상과 원인을 같은 층위에 섞지 않았는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 조직도 기준으로만 가지를 나누어 실제 원인을 가리는 트리
 - "기술", "운영", "기타"처럼 기준이 불균형한 트리
@@ -107,7 +104,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-로직 트리를 잘 쓰면 문제를 보는 공통 언어가 생긴다. 회의는 추상적 주장보다 구조와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심으로 바뀌고, 실행 과제는 빠짐없이 정리되며, 우선순위 논쟁도 훨씬 생산적으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다. 특히 엔터프라이즈 프로젝트처럼 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 많은 환경에서는 "왜 이 결론에 도달했는가"를 설명하는 추적성이 큰 장점이 된다.
+로직 트리를 잘 쓰면 문제를 보는 공통 언어가 생긴다. 회의는 추상적 주장보다 구조와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 중심으로 바뀌고, 실행 과제는 빠짐없이 정리되며, 우선순위 논쟁도 훨씬 생산적으로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다. 특히 엔터프라이즈 프로젝트처럼 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 많은 환경에서는 "왜 이 결론에 도달했는가"를 설명하는 추적성이 큰 장점이 된다.
 
 다만 트리의 품질은 분해 기준의 품질을 넘지 못한다. 잘못된 첫 분해는 전체 사고를 왜곡하고, 과도한 세분화는 관리 비용만 높인다. 따라서 로직 트리는 많이 쪼개는 기술이 아니라, 올바른 축으로 필요한 만큼만 쪼개는 기술로 기억하는 것이 맞다.
 
@@ -119,10 +116,10 @@ tags = ["studynote-enterprise"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [MECE](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) (Mutually Exclusive, Collectively Exhaustive) | 로직 트리의 가지 품질을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 핵심 원칙 |
-| [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) | 프로젝트 목표를 작업 단위로 분해하는 실무형 로직 트리 |
+| [MECE](/studynote/07_enterprise_systems/04_process_consulting/215_mece_mutually_exclusive_collectively_exhaustive_issue_tree/) (Mutually Exclusive, Collectively Exhaustive) | 로직 트리의 가지 품질을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 핵심 원칙 |
+| [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ([Work Breakdown Structure](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)) | 프로젝트 목표를 작업 단위로 분해하는 실무형 로직 트리 |
 | RCA (Root Cause Analysis) | Why Tree 중심의 근본 원인 분석 기법 |
-| [Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) | 분기별 선택 결과를 비교하는 의사결정형 트리 |
+| [Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/) | 분기별 선택 결과를 비교하는 의사결정형 트리 |
 | Attack Tree | 보안 목표를 침투 경로로 분해한 응용 형태 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -143,7 +140,7 @@ RCA · WBS · Decision Support
 Data-driven Action Design
 ```
 
-이 흐름은 로직 트리가 단순 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구를 넘어, 분석과 실행을 연결하는 엔터프라이즈 의사결정 체계로 확장되는 과정을 보여준다.
+이 흐름은 로직 트리가 단순 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 도구를 넘어, 분석과 실행을 연결하는 엔터프라이즈 의사결정 체계로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -157,7 +154,7 @@ Data-driven Action Design
 
 **진행 상황**: 217 / 482
 
-<- **이전**: [216. LISS (Linearly Independent, Spatially Spanning) 논리 원리](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)
-**다음**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/) ->
+<- **이전**: [216. LISS (Linearly Independent, Spatially Spanning) 논리 원리](/studynote/07_enterprise_systems/04_process_consulting/216_liss_logic/)
+**다음**: [218. 포터의 본원적 경쟁 전략 - 원가 우위, 차별화, 집중화](/studynote/07_enterprise_systems/04_process_consulting/218_porter_generic_strategies/) ->
 
 ---

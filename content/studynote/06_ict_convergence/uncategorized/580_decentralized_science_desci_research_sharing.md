@@ -1,13 +1,10 @@
-+++
-title = "580. 탈중앙화 과학 DeSci 연구 공유 (Decentralized Science DeSci Research Sharing)"
-date = 2026-05-09
+---
+title: "580. 탈중앙화 과학 DeSci 연구 공유 (Decentralized Science DeSci Research Sharing)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ DeSci 탈중앙 과학 연구 공유은(는) 현장의 상태를 데이터로 �
 
 **진행 상황**: 580 / 800
 
-<- **이전**: [579. ZK Rollup 영지식 롤업 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/579_zero_knowledge_rollup_zk_rollup_protocol/)
-**다음**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/) ->
+<- **이전**: [579. ZK Rollup 영지식 롤업 프로토콜](/studynote/06_ict_convergence/uncategorized/579_zero_knowledge_rollup_zk_rollup_protocol/)
+**다음**: [581. 디지털 트윈 산업 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/581_digital_twin_industrial_simulation_optimizati/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "790. IT 경영 관리 핵심 토픽 790번 시험 요약 (IT Management Core Topic 790 Exam Summary)"
-date = 2026-05-09
+---
+title: "790. IT 경영 관리 핵심 토픽 790번 시험 요약 (IT Management Core Topic 790 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -198,7 +195,7 @@ IT 경영 관리 영역은 유사한 이름·기능을 가진 프레임워크가
 
 **진행 상황**: 790 / 800
 
-<- **이전**: [789. IT 경영 관리 핵심 토픽 789번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/789_it_management_core_topic_789_exam_summary/)
-**다음**: [791. IT 경영 관리 핵심 토픽 791번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/791_it_management_core_topic_791_exam_summary/) ->
+<- **이전**: [789. IT 경영 관리 핵심 토픽 789번 시험 요약](/studynote/12_it_management/05_security_compliance/789_it_management_core_topic_789_exam_summary/)
+**다음**: [791. IT 경영 관리 핵심 토픽 791번 시험 요약](/studynote/12_it_management/05_security_compliance/791_it_management_core_topic_791_exam_summary/) ->
 
 ---

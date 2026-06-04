@@ -1,13 +1,10 @@
-+++
-title = "483. IT 경영 관리 핵심 토픽 483번 시험 요약 (IT Management Core Topic 483 Exam Summary)"
-date = 2026-05-09
+---
+title: "483. IT 경영 관리 핵심 토픽 483번 시험 요약 (IT Management Core Topic 483 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ IT 경영 관리 4대 축의 핵심 메커니즘은 **"PDCA + Strategy -> Archit
 
 **진행 상황**: 483 / 800
 
-<- **이전**: [482. IT 경영 관리 핵심 토픽 482번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/482_it_management_core_topic_482_exam_summary/)
-**다음**: [484. IT 경영 관리 핵심 토픽 484번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/484_it_management_core_topic_484_exam_summary/) ->
+<- **이전**: [482. IT 경영 관리 핵심 토픽 482번 시험 요약](/studynote/12_it_management/05_security_compliance/482_it_management_core_topic_482_exam_summary/)
+**다음**: [484. IT 경영 관리 핵심 토픽 484번 시험 요약](/studynote/12_it_management/05_security_compliance/484_it_management_core_topic_484_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "606. MQTT CoAP IoT 프로토콜 비교 (MQTT CoAP IoT Protocol Comparison)"
-date = 2026-05-09
+---
+title: "606. MQTT CoAP IoT 프로토콜 비교 (MQTT CoAP IoT Protocol Comparison)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -139,7 +136,7 @@ CoAP는 **REST 아키텍처 스타일을 UDP에 매핑**한 프로토콜이다. 
 
 **진행 상황**: 606 / 800
 
-<- **이전**: [605. OTA 무선 업데이트 펌웨어 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/)
-**다음**: [607. Matter 스마트홈 통합 표준 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/) ->
+<- **이전**: [605. OTA 무선 업데이트 펌웨어 관리](/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/)
+**다음**: [607. Matter 스마트홈 통합 표준 프로토콜](/studynote/06_ict_convergence/uncategorized/607_matter_smart_home_unified_standard_protocol/) ->
 
 ---

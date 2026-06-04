@@ -1,22 +1,19 @@
-+++
-title = "830. 피벗과 린 스타트업 (Pivot & Lean Startup)"
-date = 2026-03-03
+---
+title: "830. 피벗과 린 스타트업 (Pivot & Lean Startup)"
+date: "2026-03-03"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 > **핵심 인사이트**
-> 1. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/))은 실패가 아니라 학습에 기반한 전략적 방향 전환으로, Eric Ries의 [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 프레임워크에서 "가설이 틀렸음이 검증되었을 때 핵심 요소는 유지하면서 다른 요소를 바꾸는 것"으로 정의된다.
-> 2. [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)의 핵심 엔진은 Build-Measure-Learn 루프 — [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)(최소 기능 제품)를 빠르게 만들어 실제 고객 데이터를 수집하고, 그 학습으로 다음 빌드를 개선하거나 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)을 결정한다.
-> 3. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 타이밍은 과학이 아닌 판단의 영역이며, 너무 빨리 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)하면 아이디어 가능성을 포기하고 너무 늦게 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)하면 자원을 낭비하게 된다 — 선행 지표(Vanity [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 아닌 Actionable [Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 정확히 측정하는 것이 관건이다.
+> 1. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)([Pivot](/studynote/12_it_management/01_governance_strategy/829_pivot/))은 실패가 아니라 학습에 기반한 전략적 방향 전환으로, Eric Ries의 [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 프레임워크에서 "가설이 틀렸음이 검증되었을 때 핵심 요소는 유지하면서 다른 요소를 바꾸는 것"으로 정의된다.
+> 2. [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)의 핵심 엔진은 Build-Measure-Learn 루프 — [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)(최소 기능 제품)를 빠르게 만들어 실제 고객 데이터를 수집하고, 그 학습으로 다음 빌드를 개선하거나 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)을 결정한다.
+> 3. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 타이밍은 과학이 아닌 판단의 영역이며, 너무 빨리 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)하면 아이디어 가능성을 포기하고 너무 늦게 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)하면 자원을 낭비하게 된다 — 선행 지표(Vanity [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) 아닌 Actionable [Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))를 정확히 측정하는 것이 관건이다.
 
 ---
 
-## I. [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 핵심 원칙
+## I. [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/) 핵심 원칙
 
 ```
 Lean Startup (Eric Ries, 2011):
@@ -72,7 +69,7 @@ BML 루프 (Build-Measure-Learn):
 
 ---
 
-## III. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 유형 10가지
+## III. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 유형 10가지
 
 ```
 Eric Ries의 피벗 유형:
@@ -102,11 +99,11 @@ Eric Ries의 피벗 유형:
 10. Technology: 같은 솔루션, 다른 기술 스택
 ```
 
-> 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)은 볼링에서 공 방향 바꾸기 — 레인(핵심 역량)은 그대로, 핀(타겟/방법)만 바꾸는 것.
+> 📢 **섹션 요약 비유**: [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)은 볼링에서 공 방향 바꾸기 — 레인(핵심 역량)은 그대로, 핀(타겟/방법)만 바꾸는 것.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 결정 타이밍
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 결정 타이밍
 
 ```
 피벗 신호 (Pivot Trigger):
@@ -133,11 +130,11 @@ Runaway의 함정:
   -> 피벗 결정은 충분한 Runway 있을 때!
 ```
 
-> 📢 **섹션 요약 비유**: [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 타이밍은 주식 매도 타이밍처럼 과학이 아닌 판단 — "이미 반등 신호가 있는데 너무 일찍 팔았다"를 피하려면 선행 지표 필수.
+> 📢 **섹션 요약 비유**: [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 타이밍은 주식 매도 타이밍처럼 과학이 아닌 판단 — "이미 반등 신호가 있는데 너무 일찍 팔았다"를 피하려면 선행 지표 필수.
 
 ---
 
-## V. 실무 시나리오 — B2B [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)
+## V. 실무 시나리오 — B2B [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)
 
 ```
 사례: 팀 생산성 앱 스타트업
@@ -166,7 +163,7 @@ Runaway의 함정:
   NPS 52 달성
 ```
 
-> 📢 **섹션 요약 비유**: 소비자 앱으로 실패했지만 기업 고객의 열렬한 반응을 발견 -> 고객 세그먼트 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) -> 수익화 성공.
+> 📢 **섹션 요약 비유**: 소비자 앱으로 실패했지만 기업 고객의 열렬한 반응을 발견 -> 고객 세그먼트 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) -> 수익화 성공.
 
 ---
 
@@ -214,9 +211,9 @@ Discovery Kanban, Design Thinking과 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [린 스타트업](/knowledge-base/studynote/12_it_management/01_governance_strategy/827_lean_startup/)은 큰 요리를 만들기 전에 작은 시식 요리([MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/))로 사람들의 반응을 먼저 확인하는 방법이에요.
-2. [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/)은 요리 방향이 틀렸을 때 재료(핵심 기술)는 살리면서 레시피(방향)를 바꾸는 전략적 결정이에요.
-3. Slack이 게임 회사 내부 채팅 도구에서 전 세계 업무용 메신저로 바뀐 것이 역사상 가장 유명한 [피벗](/knowledge-base/studynote/12_it_management/01_governance_strategy/829_pivot/) 중 하나예요!
+1. [린 스타트업](/studynote/12_it_management/01_governance_strategy/827_lean_startup/)은 큰 요리를 만들기 전에 작은 시식 요리([MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/))로 사람들의 반응을 먼저 확인하는 방법이에요.
+2. [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/)은 요리 방향이 틀렸을 때 재료(핵심 기술)는 살리면서 레시피(방향)를 바꾸는 전략적 결정이에요.
+3. Slack이 게임 회사 내부 채팅 도구에서 전 세계 업무용 메신저로 바뀐 것이 역사상 가장 유명한 [피벗](/studynote/12_it_management/01_governance_strategy/829_pivot/) 중 하나예요!
 
 ---
 
@@ -224,7 +221,7 @@ Discovery Kanban, Design Thinking과 통합
 
 **진행 상황**: 68 / 587
 
-<- **이전**: [38. 양손잡이 조직 (Ambidextrous Organization)](/knowledge-base/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
-**다음**: [039. 디자인 씽킹 (Design Thinking)](/knowledge-base/studynote/12_it_management/01_governance_strategy/039_design_thinking/) ->
+<- **이전**: [38. 양손잡이 조직 (Ambidextrous Organization)](/studynote/12_it_management/01_governance_strategy/038_ambidextrous_organization/)
+**다음**: [039. 디자인 씽킹 (Design Thinking)](/studynote/12_it_management/01_governance_strategy/039_design_thinking/) ->
 
 ---

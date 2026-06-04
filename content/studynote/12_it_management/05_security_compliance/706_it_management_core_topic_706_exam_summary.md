@@ -1,13 +1,10 @@
-+++
-title = "706. IT 경영 관리 핵심 토픽 706번 시험 요약 (IT Management Core Topic 706 Exam Summary)"
-date = 2026-05-09
+---
+title: "706. IT 경영 관리 핵심 토픽 706번 시험 요약 (IT Management Core Topic 706 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 706. IT 경영 관리 핵심 토픽 706번 시험 요약 (IT Management Core Topic 706 Exam Summary)
 
@@ -183,7 +180,7 @@ IT 경영 관리의 기술적 핵심은 **① 전략-투자-운영-평가의 4�
 
 **진행 상황**: 706 / 800
 
-<- **이전**: [705. IT 경영 관리 핵심 토픽 705번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/705_it_management_core_topic_705_exam_summary/)
-**다음**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/) ->
+<- **이전**: [705. IT 경영 관리 핵심 토픽 705번 시험 요약](/studynote/12_it_management/05_security_compliance/705_it_management_core_topic_705_exam_summary/)
+**다음**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/) ->
 
 ---

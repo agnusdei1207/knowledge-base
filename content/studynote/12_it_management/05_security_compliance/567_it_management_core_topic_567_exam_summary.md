@@ -1,13 +1,10 @@
-+++
-title = "567. IT 경영 관리 핵심 토픽 567번 시험 요약 (IT Management Core Topic 567 Exam Summary)"
-date = 2026-05-09
+---
+title: "567. IT 경영 관리 핵심 토픽 567번 시험 요약 (IT Management Core Topic 567 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ IT 거버넌스의 핵심 아키텍처는 **COBIT 2019의 거버넌스 시스템
 
 **진행 상황**: 567 / 800
 
-<- **이전**: [566. IT 경영 관리 핵심 토픽 566번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/566_it_management_core_topic_566_exam_summary/)
-**다음**: [568. IT 경영 관리 핵심 토픽 568번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/568_it_management_core_topic_568_exam_summary/) ->
+<- **이전**: [566. IT 경영 관리 핵심 토픽 566번 시험 요약](/studynote/12_it_management/05_security_compliance/566_it_management_core_topic_566_exam_summary/)
+**다음**: [568. IT 경영 관리 핵심 토픽 568번 시험 요약](/studynote/12_it_management/05_security_compliance/568_it_management_core_topic_568_exam_summary/) ->
 
 ---

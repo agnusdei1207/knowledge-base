@@ -1,18 +1,15 @@
-+++
-title = "622. 유지보수 인수인계 — Maintenance Transition"
-date = 2026-04-05
+---
+title: "622. 유지보수 인수인계 — Maintenance Transition"
+date: "2026-04-05"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 > **핵심 인사이트**
-> 1. 유지보수 인수인계(Maintenance Transition)는 개발 완료 시스템을 운영·유지보수 조직으로 이관하는 프로세스 — 불충분한 인수인계는 시스템 운영 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애의 주원인이 되며, [ITIL](/knowledge-base/studynote/12_it_management/02_itsm_itil/846_itil/) [서비스 전환](/knowledge-base/studynote/12_it_management/02_itsm_itil/850_service_transition/)([Service Transition](/knowledge-base/studynote/12_it_management/02_itsm_itil/850_service_transition/))의 핵심 단계다.
+> 1. 유지보수 인수인계(Maintenance Transition)는 개발 완료 시스템을 운영·유지보수 조직으로 이관하는 프로세스 — 불충분한 인수인계는 시스템 운영 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애의 주원인이 되며, [ITIL](/studynote/12_it_management/02_itsm_itil/846_itil/) [서비스 전환](/studynote/12_it_management/02_itsm_itil/850_service_transition/)([Service Transition](/studynote/12_it_management/02_itsm_itil/850_service_transition/))의 핵심 단계다.
 > 2. 성공적 인수인계의 핵심은 "지식 이전(Knowledge Transfer)" — 코드·문서만 전달하는 기술적 이관과 달리, 운영팀이 시스템의 의도·한계·비기능 특성을 이해하는 묵시적 지식 이전이 진짜 인수인계다.
-> 3. 인수인계 완료 기준(Exit Criteria)을 명확히 하지 않으면 개발팀과 운영팀 간 분쟁이 발생 — [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/), 인수인계 문서 서명, 시운전 기간(Parallel Run/Pilot) 등 명확한 완료 조건이 필수다.
+> 3. 인수인계 완료 기준(Exit Criteria)을 명확히 하지 않으면 개발팀과 운영팀 간 분쟁이 발생 — [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/), 인수인계 문서 서명, 시운전 기간(Parallel Run/Pilot) 등 명확한 완료 조건이 필수다.
 
 ---
 
@@ -184,7 +181,7 @@ tags = ["studynote-design-supervision"]
   개발팀 추가 지원 투입
 ```
 
-> 📢 **섹션 요약 비유**: 인수인계 품질 지표는 학교 전학 적응도 — 전학 후(이관) 성적([MTBF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)), 문제 해결력([MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 교과서 이해도(문서 완결성). 지표가 나쁘면 추가 보충수업(지원)!
+> 📢 **섹션 요약 비유**: 인수인계 품질 지표는 학교 전학 적응도 — 전학 후(이관) 성적([MTBF](/studynote/01_computer_architecture/13_reliability_power_management/450_mtbf/)), 문제 해결력([MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)), 교과서 이해도(문서 완결성). 지표가 나쁘면 추가 보충수업(지원)!
 
 ---
 
@@ -288,7 +285,7 @@ IaC (Terraform) 인계
 
 1. 인수인계는 가게 인수 — 기존 사장(개발팀)이 새 사장(운영팀)에게 장사 비법(묵시적 지식)까지 다 알려줘야 해요. 레시피(문서)만으론 부족!
 2. 병행 운영은 견습 기간 — 선생(개발팀)이 옆에서 보면서 학생(운영팀)이 직접 운전(운영). 실수해도 즉시 도움!
-3. 완료 기준이 중요 — 서명 없이 "다 줬어요"는 분쟁 원인. [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 100% + 독립 운영 X주 무장애 + 서명 = 진짜 완료!
+3. 완료 기준이 중요 — 서명 없이 "다 줬어요"는 분쟁 원인. [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 100% + 독립 운영 X주 무장애 + 서명 = 진짜 완료!
 
 ---
 
@@ -296,7 +293,7 @@ IaC (Terraform) 인계
 
 **진행 상황**: 67 / 530
 
-<- **이전**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/)
-**다음**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/) ->
+<- **이전**: [45. 사업자 지체상금 분쟁 예방을 위한 진척도 및 지연 사유 증빙 점검 (Liquidated Damages Progress Verification)](/studynote/11_design_supervision/01_audit_framework/045_liquidated_damages_progress_verification/)
+**다음**: [46. 테스트 계획·시나리오·결과서 완결성 대조 확인 (Test Plan, Scenario and Result Verification)](/studynote/11_design_supervision/01_audit_framework/046_test_plan_scenario_result_verification/) ->
 
 ---

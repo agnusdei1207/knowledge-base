@@ -1,13 +1,10 @@
-+++
-title = "263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)"
-date = 2026-05-09
+---
+title: "263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -49,7 +46,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 263 / 300
 
-<- **이전**: [262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/262_data_lineage/)
-**다음**: [264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/264_mdm_master_data/) ->
+<- **이전**: [262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)](/studynote/14_data_engineering/05_exam_keywords/262_data_lineage/)
+**다음**: [264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)](/studynote/14_data_engineering/05_exam_keywords/264_mdm_master_data/) ->
 
 ---

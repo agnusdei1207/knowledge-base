@@ -1,175 +1,151 @@
-+++
-title = "793. 클라우드 아키텍처 핵심 토픽 793번 시험 요약 (Cloud Architecture Core Topic 793 Exam Summary)"
-date = 2026-05-09
+---
+title: "793. 클라우드 아키텍처 핵심 토픽 793번 시험 요약 (Cloud Architecture Core Topic 793 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 컨테이너 오케스트레이션(Kubernetes), 선언적 IaC(Terraform/CloudFormation), 서비스 메시(Istio/Linkerd), 서버리스(FaaS) 및 12-Factor/Cloud-Native 원칙을 결합하여, 워크로드의 탄력적 확장(Scaling), 자가 치유(Self-healing), 불변 인프라(Immutable Infra)를 통해 CAP 정리를 만족하는 분산 시스템 설계 패러다임이다.
+> 2. **가치**: Auto Scaling Group + HPA(Horizontal Pod Autoscaler) 조합으로 트래픽 10배 급증 시 60초 내 대응 가능, Spot Instance + Reserved Instance 혼용으로 컴퓨팅 비용 40~70% 절감, Multi-AZ/Region 구성으로 RTO ≤ 4분 / RPO ≤ 1분 수준의 DR(Disaster Recovery) 달성, MTTR(Mean Time To Recovery)을 모놀리식 대비 80% 단축.
+> 3. **판단 포인트**: Stateful(데이터베이스, 메시지 큐) vs Stateless(API, 배치) 워크로드의 분리 전략, Synchronous(REST/gRPC) vs Asynchronous(Event Bus/Kafka) 통신 패턴 선택, EDA(Event-Driven Architecture) 기반 Choreography vs Orchestration(Saga) 트랜잭션 모델 결정, FinOps 기반 Reserved/Spot/On-Demand 인스턴스 비율 최적화, Shared Responsibility Model 하의 Zero Trust 보안 모델 적용 여부.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 On-Premise 3-Tier 아키텍처(Monolithic + RDBMS + Load Balancer)는 CAP 정리에서 Consistency를 우선시하여 수직 확장(Vertical Scaling) 위주로 설계되었으며, 최대 18~36개월의 하드웨어 도입 사이클, CapEx 중심의 비용 구조, 트래픽 정점(Peak) 기준의 과다 용량 설계로 평균 30~40%의 유휴 자원(Idle Resource)이 발생한다. 또한, 단일 장애점(SPOF: Single Point of Failure)인 Active-Standby DB 구성은 RTO가 수 시간에서 수일 수준이며, HA(High Availability) 구성 변경 시 수동 개입과 수 시간의 다운타임이 요구된다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 793 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+클라우드 아키텍처는 NIST SP 800-145 기준의 5대 특성(탄력적 확장, 측정 가능성, 주문형 셀프서비스, 광범위한 네트워크 접근, 자원 풀링)을 기반으로, IaaS(EC2, Compute Engine), PaaS(Elastic Beanstalk, App Engine), SaaS(Office 365, Salesforce), FaaS(Lambda, Cloud Functions)의 4계층 서비스 모델을 제공한다. 이를 통해 ① 마이크로서비스 경계를 통한 도메인별 독립 배포, ② 컨테이너를 통한 환경 일관성(Dev/Prod Parity) 확보, ③ 선언적 IaC로 GitOps 기반의 불변 인프라 운영, ④ 서비스 메시로 East-West 트래픽의 L7 관찰가능성(Observability) 확보가 가능해진다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 793번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++---------------------------------------------------------------------+
+|            전통 모놀리식 On-Premise 아키텍처 vs Cloud-Native          |
++---------------------------------------------------------------------+
+|                                                                     |
+|  [On-Premise Monolithic]              [Cloud-Native Microservices]  |
+|  +----------------------+             +------------------------+    |
+|  |   Load Balancer (HW) |             |   Global LB / CDN      |    |
+|  +----------+-----------+             |   (CloudFront/Akamai)  |    |
+|             |                         +-----------+------------+    |
+|  +----------v-----------+                         |                 |
+|  |   WAS (WebLogic)     |             +-----------v------------+    |
+|  |   +----------------+ |             |  API Gateway (Kong)    |    |
+|  |   | Order | User   | |             +-----------+------------+    |
+|  |   | Pay   | Stock  | |                         |                 |
+|  |   +----------------+ |         +---------------+---------------+ |
+|  |   Tomcat 5.x (단일)  |         |               |               | |
+|  +----------+-----------+         v               v               v |
+|             |              +---------+      +---------+      +---------+
+|  +----------v-----------+  | Order   |      | User    |      | Payment |
+|  |  Oracle RAC (Active) |  | Service |      | Service |      | Service|
+|  |  + Standby           |  | (Pod×3) |      | (Pod×3) |      | (Pod×3)|
+|  +----------+-----------+  +----+----+      +----+----+      +----+----+
+|             |                   |                |                |    |
+|  +----------v-----------+  +----v----+      +----v----+      +----v----+
+|  |  SAN Storage         |  | RDS     |      |DynamoDB |      | Aurora  |
+|  |  (FC-SAN, 10TB)      |  | (Multi- |      | (NoSQL) |      | (MySQL) |
+|  +----------------------+  |  AZ)    |      +---------+      +---------+
+|                            +----+----+                                 |
+|                                 |         Service Mesh (Istio)        |
+|  CapEx 5억 / 18개월 도입        |         +-----------------+          |
+|  Peak 기반 35% 유휴             v         | mTLS, Retry,    |          |
+|  HA 수동 4시간 다운       +----------+    | Circuit Breaker |          |
+|                           | S3/Kafka |◄---+ Telemetry       |          |
+|                           +----------+    +-----------------+          |
+|                                                                     |
+|                           OpEx 기반 / 5분 Provisioning               |
+|                           Auto Scaling (HPA: 1->1000 Pod)            |
+|                           Multi-AZ Auto-Healing (RTO < 60s)          |
++---------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+온프레미스 대비 클라우드 네이티브의 핵심 차별점은 **불변 인프라(Immutable Infrastructure)** + **선언적 구성(Declarative Configuration)**의 결합이다. 기존 Pet -> Cattle 패러다임 전환으로 VM/컨테이너를 1회 생성 후 폐기(Replace)하는 방식을 채택하여, Configuration Drift(설정 변동) 없이 동일 환경의 수평적 확장이 가능하다. CNCF(Cloud Native Computing Foundation) 2024年度报告에 따르면, 글로벌 Fortune 500 기업의 89%가 Kubernetes를 프로덕션 운영 중이며, 평균 컨테이너 배포 빈도는 주 2.3회 -> 일 12.7회(약 45배 증가)로 증가했다.
 
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 클라우드 아키텍처는 호텔의 객실처럼 필요할 때 즉시 예약하고, 체크아웃 시 원래 상태로 자동 복구되는 **"셀프 청소 호텔"**과 같다. 반면 전통적인 온프레미스는 손님이 직접 청소하고 관리하는 **"자택寄宿"**에 비유할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 793번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 네이티브 아키텍처의 4대 핵심 계층은 **① 인프라 계층(IaaS) -> ② 런타임 계층(Container/Orchestration) -> ③ 플랫폼 계층(Service Mesh/Serverless) -> ④ 애플리케이션 계층(Microservices/EDA)**으로 구성된다. 각 계층은 독립적으로 스케일링되며, API/Contract 기반의 느슨한 결합(Loose Coupling)으로 운영된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 793 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|         Cloud-Native 4-Layer Reference Architecture (C4 Model)       |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [Layer 4: Application - Microservices / Serverless]                |
+|  +-------------------------------------------------------------+    |
+|  |  Order Service | Payment Service | Inventory | Notification |    |
+|  |  (Spring Boot) | (Node.js)      | (Go)      | (Python)     |    |
+|  |  REST/gRPC + Circuit Breaker (Resilience4j)                 |    |
+|  +------+--------------+--------------+----------+-------------+    |
+|         |              |              |          |                   |
+|  [Layer 3: Service Mesh & API Gateway]                              |
+|  +------v--------------v--------------v----------v-------------+    |
+|  |  Istio Control Plane (Istiod)                                |    |
+|  |  +----------+  +----------+  +------------+  +----------+  |    |
+|  |  | mTLS     |  | Traffic  |  | Observab.  |  | Policy   |  |    |
+|  |  | (SPIFFE) |  | Mgmt v2  |  | (Prometheus|  | (OPA)    |  |    |
+|  |  |          |  | (Canary) |  |  + Jaeger) |  |          |  |    |
+|  |  +----------+  +----------+  +------------+  +----------+  |    |
+|  +-------------------------+------------------------------------+    |
+|                            |                                          |
+|  [Layer 2: Container Orchestration (Kubernetes)]                     |
+|  +------------------------v------------------------------------+    |
+|  |  +-------------+  +-------------+  +------------------+   |    |
+|  |  | kube-apiserver|  | etcd (Raft) |  | kube-scheduler   |   |    |
+|  |  | (3 Replica)  |  | Consensus   |  | Affinity/Taint   |   |    |
+|  |  +-------------+  +-------------+  +------------------+   |    |
+|  |  +-------------+  +-------------+  +------------------+   |    |
+|  |  | kubelet     |  | kube-proxy  |  | CNI (Cilium)     |   |    |
+|  |  | (CRI-O)     |  | (iptables/  |  | eBPF-based       |   |    |
+|  |  |             |  |  IPVS)      |  | Networking       |   |    |
+|  |  +-------------+  +-------------+  +------------------+   |    |
+|  |  HPA: cpu > 70% -> Scale (30s interval)                     |    |
+|  |  VPA: Memory Right-Sizing (Recommender)                    |    |
+|  |  Cluster Autoscaler: Pending Pod -> New Node                |    |
+|  |  PDB (PodDisruptionBudget): minAvailable: 2                 |    |
+|  +-------------------------+------------------------------------+    |
+|                            |                                          |
+|  [Layer 1: Infrastructure (IaaS)]                                    |
+|  +------------------------v------------------------------------+    |
+|  |  Region (ap-northeast-2)                                     |    |
+|  |  +-- AZ-a: Node Group (m6i.2xlarge × 5, Spot 60%)          |    |
+|  |  +-- AZ-b: Node Group (m6i.2xlarge × 5, Spot 60%)          |    |
+|  |  +-- AZ-c: Node Group (m6i.2xlarge × 5, On-Demand 40%)     |    |
+|  |  Terraform/IaC -> Provider (AWS/GCP/Azure) -> State Locking   |    |
+|  |  Karpenter: Just-in-Time Node Provisioning (90s)            |    |
+|  +--------------------------------------------------------------+    |
+|                                                                      |
+|  [Cross-Cutting: Observability & Security]                           |
+|  +--------------------------------------------------------------+    |
+|  | Prometheus + Grafana + Loki (Logs) + Tempo (Traces)        |    |
+|  | SLI/SLO: 99.95% Availability, p99 Latency < 200ms           |    |
+|  | Error Budget: 0.05% × 30d = 216분 (Burn Rate Alert)        |    |
+|  | Vault: Dynamic Secrets (PostgreSQL Role, AWS IAM)            |    |
+|  +--------------------------------------------------------------+    |
++----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-클라우드 아키텍처 핵심 토픽 793번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 793번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 793번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 793번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 793번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 793번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 793번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 793번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 793번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **Kubernetes Control Plane** | 클러스터 상태 관리 및 선언적 조정의 중추 | kube-apiserver(Etcd Frontend, REST API, RABC 인증), etcd(Raft 합의 알고리즘, Quorum 기반 분산 KV Store, WAL 2GB), kube-scheduler(Bin-packing, Affinity/Anti-Affinity, Taints/Tolerations, Topology Spread Constraints) |
+| **Container Runtime & CNI** | 컨테이너 실행 및 Pod 네트워킹 | containerd/CRI-O(OCI 호환), Cilium(eBPF 기반 XDP, kube-proxy 대체, 30~40% Latency 절감), Calico(BGP 모드, Network Policy), Multus(Multiple Network Interface, SR-IOV/NVIDIA GPU) |
+| **Service Mesh (Istio/Linkerd)** | East-West 트래픽 L7 제어, mTLS, 관찰가능성 | Envoy Sidecar(1.28 LTS, xDS API), Istiod(Pilot/Citadel/Galley 통합, SPIFFE/SPIRE 인증서 자동 로테이션 24h), Linkerd(Buoyant Rust Proxy, 2.14, Linkerd2-proxy 1ms P99 추가 지연), Ambient Mesh(Sidecar 제거, HBONE 터널) |
+| **Serverless (FaaS/BaaS)** | 이벤트 기반 Stateless 컴퓨팅, Zero Scaling | AWS Lambda(15분 Timeout, 10GB Memory, 6 vCPU, SnapStart 200ms->30ms 콜드 스타트), Knative(Serving: 0->N Autoscaling, Eventing: CloudEvent 1.0), OpenFaaS(Cold Start 0.5s, K8s-native), Cloudflare Workers(V8 Isolates, 0ms 콜드 스타트) |
+| **Infrastructure as Code (IaC)** | 인프라의 선언적 정의 및 GitOps 자동화 | Terraform 1.7+(HCL, State Locking via DynamoDB, Module Registry, Sentinel Policy as Code), Pulumi(General-purpose Language: TS/Python/Go), Crossplane(K8s CRD 기반, GitOps for Infra), AWS CDK(CloudFormation 추상화) |
+| **Event Streaming & Message Bus** | 비동기 이벤트 전달, Pub/Sub, CQRS/Event Sourcing | Apache Kafka(KRaft 모드, ZooKeeper 제거, 3.6+, Partition 1MB/s, ISR 복제), AWS Kinesis(Data Streams/MSK Serverless), NATS JetStream(At-Least-Once, Exactly-Once), RabbitMQ 3.13(Quorum Queue, Streams) |
+| **Observability Stack (3 Pillars)** | 메트릭, 로그, 트레이스 통합 | Prometheus(TSDB, PromQL, 14d 기본 보존, 30만 Series/노드), Grafana(Mimir 100× 확장, Loki LogQL), Jaeger/Tempo(OpenTelemetry OTLP, W3C TraceContext), eBPF/Pixie(Zero-Instrumentation Auto-Instrumentation) |
+| **Zero Trust Security** | 신원 기반 접근, 최소 권한, 암호화 | SPIFFE/SPIRE(Workload Identity, 1년 Cert 자동 발급), OPA/Gatekeeper(Rego Policy, Admission Webhook), Vault(Transit Engine,
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 793 / 800
 
-<- **이전**: [792. 클라우드 아키텍처 핵심 토픽 792번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/792_cloud_architecture_core_topic_792_exam_summar/)
-**다음**: [794. 클라우드 아키텍처 핵심 토픽 794번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/794_cloud_architecture_core_topic_794_exam_summar/) ->
+<- **이전**: [792. 클라우드 아키텍처 핵심 토픽 792번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/792_cloud_architecture_core_topic_792_exam_summar/)
+**다음**: [794. 클라우드 아키텍처 핵심 토픽 794번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/794_cloud_architecture_core_topic_794_exam_summar/) ->
 
 ---

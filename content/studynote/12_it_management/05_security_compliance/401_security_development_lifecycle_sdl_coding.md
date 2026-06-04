@@ -1,13 +1,10 @@
-+++
-title = "401. 보안 개발 생명주기 SDL 보안 코딩 (Security Development Lifecycle SDL Coding)"
-date = 2026-05-09
+---
+title: "401. 보안 개발 생명주기 SDL 보안 코딩 (Security Development Lifecycle SDL Coding)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -145,7 +142,7 @@ SDL의 구현(Implementation) 단계는 단순히 "안전한 함수 사용"을 �
 
 **진행 상황**: 401 / 800
 
-<- **이전**: [400. 보안 아키텍처 디자인 원칙 심층 방어](/knowledge-base/studynote/12_it_management/05_security_compliance/400_security_architecture_defense_in_depth/)
-**다음**: [402. DevSecOps 보안 내재화 파이프라인](/knowledge-base/studynote/12_it_management/05_security_compliance/402_devsecops_security_integration_pipeline/) ->
+<- **이전**: [400. 보안 아키텍처 디자인 원칙 심층 방어](/studynote/12_it_management/05_security_compliance/400_security_architecture_defense_in_depth/)
+**다음**: [402. DevSecOps 보안 내재화 파이프라인](/studynote/12_it_management/05_security_compliance/402_devsecops_security_integration_pipeline/) ->
 
 ---

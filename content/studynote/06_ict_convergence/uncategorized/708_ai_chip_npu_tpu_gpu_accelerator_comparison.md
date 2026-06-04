@@ -1,13 +1,10 @@
-+++
-title = "708. AI 칩 NPU TPU GPU 가속기 비교 (AI Chip NPU TPU GPU Accelerator Comparison)"
-date = 2026-05-09
+---
+title: "708. AI 칩 NPU TPU GPU 가속기 비교 (AI Chip NPU TPU GPU Accelerator Comparison)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -132,7 +129,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 708 / 800
 
-<- **이전**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/)
-**다음**: [709. 엣지 AI 추론 최적화 온디바이스](/knowledge-base/studynote/06_ict_convergence/uncategorized/709_edge_ai_inference_optimization_on_device/) ->
+<- **이전**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/)
+**다음**: [709. 엣지 AI 추론 최적화 온디바이스](/studynote/06_ict_convergence/uncategorized/709_edge_ai_inference_optimization_on_device/) ->
 
 ---

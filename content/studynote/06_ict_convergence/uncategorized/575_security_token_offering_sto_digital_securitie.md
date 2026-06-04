@@ -1,13 +1,10 @@
-+++
-title = "575. 보안 토큰 STO 디지털 증권 (Security Token Offering STO Digital Securities)"
-date = 2026-05-09
+---
+title: "575. 보안 토큰 STO 디지털 증권 (Security Token Offering STO Digital Securities)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ STO 증권형 토큰 디지털 증권은(는) 현장의 상태를 데이터로 �
 
 **진행 상황**: 575 / 800
 
-<- **이전**: [574. RegTech 규제 준수 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/)
-**다음**: [576. 블록체인 데이터 분석 온체인 지표](/knowledge-base/studynote/06_ict_convergence/uncategorized/576_blockchain_data_analysis_on_chain_metrics/) ->
+<- **이전**: [574. RegTech 규제 준수 자동화](/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/)
+**다음**: [576. 블록체인 데이터 분석 온체인 지표](/studynote/06_ict_convergence/uncategorized/576_blockchain_data_analysis_on_chain_metrics/) ->
 
 ---

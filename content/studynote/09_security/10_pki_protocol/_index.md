@@ -1,9 +1,9 @@
-+++
-title = "10. PKI 및 보안 프로토콜"
+---
+title: "10. PKI 및 보안 프로토콜"
+tags:
+  - "security"
+---
 
-[extra]
-tags = ["security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

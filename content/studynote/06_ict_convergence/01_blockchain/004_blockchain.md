@@ -1,27 +1,24 @@
-+++
-title = "4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)"
+---
+title: "4. 블록체인 (Blockchain) - 분산 원장 기술(DLT, Distributed Ledger Technology)"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 # 04. 블록체인 (Blockchain)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블록체인은 [분산 원장 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/), Distributed Ledger Technology)의일종로서, 거래 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 블록(Block) 단위로 묶고 이를 시간 순서대로 사슬(Chain)처럼 연결하여 모든 참여 노드가동일한 장부부본을 보유하는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술이다.
-> 2. **가치**:변조 불가능성(Immutability), 투명성(Transparency), [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))라는 세 가지 핵심 특성을 통해 중개자 없이도 신뢰할 수 있는 거래가 가능하며, 금융, [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리, 디지털 신원증명 등 광범위한 분야에 적용된다.
-> 3. **융합**: [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)), Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터), [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 등 타 기술과 결합하여 신뢰 기반의 차세대 디지털 인프라로 활용되며, 특히 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))와의 결합으로 자동화된 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 애플리케이션([DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)) 생태계를구축한다.
+> 1. **본질**: 블록체인은 [분산 원장 기술](/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)([DLT](/studynote/03_network/18_optical_nextgen_automation/919_dlt_distributed_ledger_technology_consensus_bottleneck/), Distributed Ledger Technology)의일종로서, 거래 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 블록(Block) 단위로 묶고 이를 시간 순서대로 사슬(Chain)처럼 연결하여 모든 참여 노드가동일한 장부부본을 보유하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술이다.
+> 2. **가치**:변조 불가능성(Immutability), 투명성(Transparency), [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)([Decentralization](/studynote/06_ict_convergence/01_blockchain/010_decentralization/))라는 세 가지 핵심 특성을 통해 중개자 없이도 신뢰할 수 있는 거래가 가능하며, 금융, [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리, 디지털 신원증명 등 광범위한 분야에 적용된다.
+> 3. **융합**: [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)), Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터), [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 등 타 기술과 결합하여 신뢰 기반의 차세대 디지털 인프라로 활용되며, 특히 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)([Smart Contract](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/))와의 결합으로 자동화된 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 애플리케이션([DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)) 생태계를구축한다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 ### 개념의 정의
 
-블록체인은 2008년 사토시 나카모토(Satoshi Nakamoto)가 비트코인(Bitcoin)의 백서에서 처음 제안한 혁신적 기술이다. 전통적인 중앙화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식에서는 하나의 중앙 서버(예: 은행의 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))가 모든 거래 기록을보관한다. 그러나 이 방식에는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이라는 구조적 취약점이 존재한다. 서버가 해킹되거나고장하면 전체 시스템이 마비될 수 있다. 블록체인은 이러한 중앙화 구조의 한계를 극복하기 위해, 모든 참여 노드(	Node)가 동일한 거래 기록의부본을분산하여보유し, 공신알고리즘([Consensus Algorithm](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))을 통해 모든 노드가 동일한 상태에 도달하도록 하는 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술이다.
+블록체인은 2008년 사토시 나카모토(Satoshi Nakamoto)가 비트코인(Bitcoin)의 백서에서 처음 제안한 혁신적 기술이다. 전통적인 중앙화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 방식에서는 하나의 중앙 서버(예: 은행의 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/))가 모든 거래 기록을보관한다. 그러나 이 방식에는 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/), Single Point of Failure)이라는 구조적 취약점이 존재한다. 서버가 해킹되거나고장하면 전체 시스템이 마비될 수 있다. 블록체인은 이러한 중앙화 구조의 한계를 극복하기 위해, 모든 참여 노드(	Node)가 동일한 거래 기록의부본을분산하여보유し, 공신알고리즘([Consensus Algorithm](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))을 통해 모든 노드가 동일한 상태에 도달하도록 하는 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 기술이다.
 
 ### 탄생 배경과 필요성
 
@@ -29,11 +26,11 @@ tags = ["ict_convergence"]
 
 ### 💡 analogy
 
-블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께답え합わせ을 하며, 누구든 불일치가 있으면즉시에수정하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조し고も, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은사호도 훼손되지 않는다.은행의중간업무를완전에성략에서きる.
+블록체인은 여러 명이 동시에 같은 내용의 거래 내역 공부를 하고, 매일 저녁 모두 함께답え합わせ을 하며, 누구든 불일치가 있으면즉시에수정하는 회계 시스템과 같다. 한 명이 공부를 분실하거나 위조し고も, 나머지 수백 명의 정확한 기록이 존재하기 때문에 전체 시스템의 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)은사호도 훼손되지 않는다.은행의중간업무를완전에성략에서きる.
 
 ### 배경 설명
 
-블록체인의 동작 원리를 단계별로 설명하면 다음과 같다. 제일보, 사용자가 거래([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))를 요청하면, 해당 거래는 네트워크 내의 모든 노드에 전파(Broadcast)된다. 제이보, 노드들은 거래를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verify)하여 유효한 거래만 거래 풀(	Mempool)에 모은다. 제삼보, 채굴자(Miner) 또는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Validator)는 거래 풀에서 거래를 선택하여 새 블록을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이 과정에서작업량증명(Proof of Work) 또는 지분증명(Proof of Stake) 등의 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)을 수행한다. 제사보, consensus에 도달하면 새 블록이 기존 체인에추가되고, 모든 노드가동일한블록체인을갱신한다.일단 추가된 블록은 previous 해시(Hash) 값 때문에 내용을 변경하면 후속 모든 블록이무효가 되므로, 리론상 변조이 불가능하다.
+블록체인의 동작 원리를 단계별로 설명하면 다음과 같다. 제일보, 사용자가 거래([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/))를 요청하면, 해당 거래는 네트워크 내의 모든 노드에 전파(Broadcast)된다. 제이보, 노드들은 거래를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)(Verify)하여 유효한 거래만 거래 풀(	Mempool)에 모은다. 제삼보, 채굴자(Miner) 또는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자(Validator)는 거래 풀에서 거래를 선택하여 새 블록을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한다. 이 과정에서작업량증명(Proof of Work) 또는 지분증명(Proof of Stake) 등의 [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)을 수행한다. 제사보, consensus에 도달하면 새 블록이 기존 체인에추가되고, 모든 노드가동일한블록체인을갱신한다.일단 추가된 블록은 previous 해시(Hash) 값 때문에 내용을 변경하면 후속 모든 블록이무효가 되므로, 리론상 변조이 불가능하다.
 
 ### 📢 비유 요약
 
@@ -64,13 +61,13 @@ tags = ["ict_convergence"]
 +------------------------+-----------------------------------------+
 ```
 
-블록 헤더(Block Header)는 6개의 주요 필드로 구성된다. [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Version) 필드는 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 사용된 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 나타낸다. 이전 블록 해시(Previous Block Hash) 필드는 바로 앞선 블록의 해시값을 저장하여 블록들을 사슬처럼 연결하는 역할을 한다. 이것이 블록체인의변조 방지 핵심 메커니즘이다. [머클 루트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/knowledge-base/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 해당 블록 내 모든 거래의 해시치를휘취하여 만든 최종 해시값이다. 타임스탬프(Timestamp)는 블록이 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 시간을 기록한다. 난이도 목표(Difficulty Target)와 논스([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))는작업량증명(PoW)에서 채굴 경쟁의 난이도를조정하는 역할을 한다.
+블록 헤더(Block Header)는 6개의 주요 필드로 구성된다. [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Version) 필드는 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)에 사용된 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 나타낸다. 이전 블록 해시(Previous Block Hash) 필드는 바로 앞선 블록의 해시값을 저장하여 블록들을 사슬처럼 연결하는 역할을 한다. 이것이 블록체인의변조 방지 핵심 메커니즘이다. [머클 루트](/studynote/06_ict_convergence/01_blockchain/008_merkle_root/)([Merkle Root](/studynote/06_ict_convergence/01_blockchain/008_merkle_root/))는 해당 블록 내 모든 거래의 해시치를휘취하여 만든 최종 해시값이다. 타임스탬프(Timestamp)는 블록이 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 시간을 기록한다. 난이도 목표(Difficulty Target)와 논스([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))는작업량증명(PoW)에서 채굴 경쟁의 난이도를조정하는 역할을 한다.
 
-### [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)
+### [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)
 
-[합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)([Consensus Algorithm](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))은분산된 노드들이 네트워크 상태에 대해 단일판본적합의(Agreement)에 도달하게 하는 메커니즘이다. 주요한 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)의 종류와 특징은 다음과 같다. [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW, Proof of Work)은 해시 퍼즐을 가장 먼저 해독한 노드에게 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 부여하며, 비트코인에서사용된다. [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/)(PoS, Proof of Stake)는 보유 지분(Stake)에 비례하여 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기회를 부여하며, 이더리움 2.0에서채용되었다. [비잔틴 장애 허용](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)([BFT](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))은 네트워크 내 악의적 노드가 1/3 미만인 경우 정상적으로 합의에 도달할 수 있으며, [하이퍼레저 패브릭](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)([Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/))에서 활용된다.
+[합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)([Consensus Algorithm](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))은분산된 노드들이 네트워크 상태에 대해 단일판본적합의(Agreement)에 도달하게 하는 메커니즘이다. 주요한 [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)의 종류와 특징은 다음과 같다. [작업 증명](/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/)(PoW, Proof of Work)은 해시 퍼즐을 가장 먼저 해독한 노드에게 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 부여하며, 비트코인에서사용된다. [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/)(PoS, Proof of Stake)는 보유 지분(Stake)에 비례하여 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 기회를 부여하며, 이더리움 2.0에서채용되었다. [비잔틴 장애 허용](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/)([BFT](/studynote/01_computer_architecture/15_advanced_topics/647_bft_verification/), Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))은 네트워크 내 악의적 노드가 1/3 미만인 경우 정상적으로 합의에 도달할 수 있으며, [하이퍼레저 패브릭](/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/)([Hyperledger Fabric](/studynote/06_ict_convergence/01_blockchain/058_hyperledger_fabric_private_blockchain/))에서 활용된다.
 
-### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조
+### [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원장 구조
 
 ```
 [전 세계 분산 노드 네트워크]
@@ -85,7 +82,7 @@ tags = ["ict_convergence"]
 [동일한 거래 기록을 동시에保有]
 ```
 
-블록체인의 가장 근본적인 특성은분산성이다. 비트코인 네트워크에는 17,000개 이상의 활성 노드가분포되어 있으며, 각 노드는 [Genesis Block](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)(첫 번째 블록)부터 현재까지 모든 거래 기록의부본을보유한다. 어떤 노드가 공격을수け고고장하거나악의적로 조작을 시도하여도,기타수천 개의충실な 노ード이/가정しい기록을보유하고 있기 때문에, 네트워크 전체의-integrity는 유지된다.
+블록체인의 가장 근본적인 특성은분산성이다. 비트코인 네트워크에는 17,000개 이상의 활성 노드가분포되어 있으며, 각 노드는 [Genesis Block](/studynote/06_ict_convergence/01_blockchain/005_genesis_block/)(첫 번째 블록)부터 현재까지 모든 거래 기록의부본을보유한다. 어떤 노드가 공격을수け고고장하거나악의적로 조작을 시도하여도,기타수천 개의충실な 노ード이/가정しい기록을보유하고 있기 때문에, 네트워크 전체의-integrity는 유지된다.
 
 ### 📢 비유 요약
 
@@ -97,15 +94,15 @@ tags = ["ict_convergence"]
 
 ### 암호화폐
 
-블록체인의 가장 잘 알려진 적용 분야는 암호화폐(Cryptocurrency)이다. 비트코인(Bitcoin)은 디지털 화폐로서 최초의 블록체인 애플리케이션이며, 2024년 현재 시가총액 1조 달러 이상의 가치를 보유하고 있다. 이더리움(Ethereum)은 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 기능을 갖춘 차세대 블록체인 플랫폼으로, 다양한 [DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 애플리케이션)과 토큰의 기반이 된다. 스테이블코인(Stablecoin)은법정통화(예: 미국 달러)과 1:1으로 연동된 암호화폐로, USDC, USDT 등이 대표적이다.
+블록체인의 가장 잘 알려진 적용 분야는 암호화폐(Cryptocurrency)이다. 비트코인(Bitcoin)은 디지털 화폐로서 최초의 블록체인 애플리케이션이며, 2024년 현재 시가총액 1조 달러 이상의 가치를 보유하고 있다. 이더리움(Ethereum)은 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/) 기능을 갖춘 차세대 블록체인 플랫폼으로, 다양한 [DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/)([탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 애플리케이션)과 토큰의 기반이 된다. 스테이블코인(Stablecoin)은법정통화(예: 미국 달러)과 1:1으로 연동된 암호화폐로, USDC, USDT 등이 대표적이다.
 
-### [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리
+### [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리
 
-블록체인의 불변성과투명성은 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/))에 유용하게 활용된다. Walmart는 식품 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적에 블록체인을 도입하여, 한일부 오염 식품의 출처를수초 만에추종할 수 있게 되었다.이왕는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드업계에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게추종할 수 있다(예: De Beers의 Tracr 플랫폼).
+블록체인의 불변성과투명성은 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 관리([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/))에 유용하게 활용된다. Walmart는 식품 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 추적에 블록체인을 도입하여, 한일부 오염 식품의 출처를수초 만에추종할 수 있게 되었다.이왕는 확인하는 데 최대 7일이나 걸렸다. 다이아몬드업계에서는 블록체인을 통해 광산에서 최종 소비자까지 다이아몬드의 출처와 품질을 투명하게추종할 수 있다(예: De Beers의 Tracr 플랫폼).
 
 ### 디지털 신원증명 및 전자정부
 
-[탈중앙화 신원증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/)([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), Decentralized Identity)은 블록체인 기반의 [신원 관리](/knowledge-base/studynote/09_security/11_iam_access_control/527_identity_management/) 시스템이다. 사용자는 정부나은행등의 Issuer로부터 Verifiable Credential([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 증명)을받고, 자신의 지갑에 보존한다. 증명서가 필요한 경우,Verifier는 블록체인에서Issuer의공개건을 확인하여 증명서의 진위를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.중개자 없이도신빈정명가 가능해진다. 에스웨덴, 핀란드 등은 이미 정부 차원의 블록체인 기반 전자민원 서비스를 제공하고 있다.
+[탈중앙화 신원증명](/studynote/06_ict_convergence/01_blockchain/052_did_architecture_issuer_holder_verifier_vc_vp/)([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/), Decentralized Identity)은 블록체인 기반의 [신원 관리](/studynote/09_security/11_iam_access_control/527_identity_management/) 시스템이다. 사용자는 정부나은행등의 Issuer로부터 Verifiable Credential([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 증명)을받고, 자신의 지갑에 보존한다. 증명서가 필요한 경우,Verifier는 블록체인에서Issuer의공개건을 확인하여 증명서의 진위를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.중개자 없이도신빈정명가 가능해진다. 에스웨덴, 핀란드 등은 이미 정부 차원의 블록체인 기반 전자민원 서비스를 제공하고 있다.
 
 ### 📢 비유 요약
 
@@ -119,13 +116,13 @@ tags = ["ict_convergence"]
 
 블록체인 네트워크의품질관리에서 가장 중요한 영역은 Consensus Algorithm의 안전성이다. 51% 공격(51% Attack)은 악의적 노드가 전체 해시 파워의 51% 이상을장악하여 거래를 조작하는 공격으로,작업량증명(PoW) 기반 네트워크의 경우 이론적 위험이 존재한다. 2024년 현재 비트코인의 경우 전 세계 최대산력을 보유하고 있어 사실상 51% 공격이불가능하지만,산력이낮은 알트코인들의 경우 여전히リスク가 존재한다.
 
-### [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)심계
+### [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)심계
 
-[스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의품질test에おい고, 이하의취약점이중점적에 проверяются.  재진입([Re-entrancy](/knowledge-base/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/)) 취약점은 2016년 The [DAO](/knowledge-base/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹의 원인이었으며, 외부 계약 호출 시 상태 업데이트 순서를 잘못 배치할 경우발생한다. 일출/하일([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)/[Underflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 취약점은 연산 결과가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입의 범위를 초과하거나 미달할 때 발생한다. 권한 탈취([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 취약점은 접근 제어 통제를 제대로 구현하지 않아 악의적 사용자가관리자 권한을 획득하는 경우이다.
+[스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)의품질test에おい고, 이하의취약점이중점적에 проверяются.  재진입([Re-entrancy](/studynote/06_ict_convergence/01_blockchain/056_smart_contract_vulnerability_reentrancy/)) 취약점은 2016년 The [DAO](/studynote/06_ict_convergence/01_blockchain/054_dao_decentralized_autonomous_organization/) 해킹의 원인이었으며, 외부 계약 호출 시 상태 업데이트 순서를 잘못 배치할 경우발생한다. 일출/하일([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)/[Underflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/096_underflow/)) 취약점은 연산 결과가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입의 범위를 초과하거나 미달할 때 발생한다. 권한 탈취([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) 취약점은 접근 제어 통제를 제대로 구현하지 않아 악의적 사용자가관리자 권한을 획득하는 경우이다.
 
 ### 네트워크건전성모니터링
 
-블록체인 네트워크의 здоров성을 모니터링하는 주요 지표는 다음과 같다. 노드 수(Node Count)는 네트워크의 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 수준을나타낸다. 블록 높이(Block Height)는 현재 blockchain의 길이를 나타낸다. 평균 거래 수수료(Average [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Fee)는 네트워크 혼잡도를 반영한다. 해시 율(Hash Rate, PoW의 경우)은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 수준을나타낸다. 이러한 지표들은 [Prometheus](/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/) 등의 도구를 통해 실시간으로 모니터링된다.
+블록체인 네트워크의 здоров성을 모니터링하는 주요 지표는 다음과 같다. 노드 수(Node Count)는 네트워크의 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 수준을나타낸다. 블록 높이(Block Height)는 현재 blockchain의 길이를 나타낸다. 평균 거래 수수료(Average [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Fee)는 네트워크 혼잡도를 반영한다. 해시 율(Hash Rate, PoW의 경우)은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 수준을나타낸다. 이러한 지표들은 [Prometheus](/studynote/15_devops_sre/03_sre_observability/136_prometheus/), [Grafana](/studynote/16_bigdata/08_visualization/168_grafana/) 등의 도구를 통해 실시간으로 모니터링된다.
 
 ### 📢 비유 요약
 
@@ -137,23 +134,23 @@ tags = ["ict_convergence"]
 
 ### 레이어 2 솔루션의 부상
 
-온체인(On-chain) 확장성의한계을 극복하기 위해 레이어 2(Layer 2) 솔루션이 급속히 발전하고 있다. [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 기술은 메인 체인(Layer 1) 밖에서 많은 거래를 처리하고, 그 결과만 압축하여 메인 체인에 게시한다. 옵티미스틱 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 사기 증명(Fraud Proof)을 통해 거래의 유효성을 보장하며, Arbitrum, Optimism 등이대표적이다. ZK [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Zero-Knowledge [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))을 통해 즉각적으로 거래의 유효성을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, zkSync, StarkNet 등이대표적이다.
+온체인(On-chain) 확장성의한계을 극복하기 위해 레이어 2(Layer 2) 솔루션이 급속히 발전하고 있다. [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)([Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 기술은 메인 체인(Layer 1) 밖에서 많은 거래를 처리하고, 그 결과만 압축하여 메인 체인에 게시한다. 옵티미스틱 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 사기 증명(Fraud Proof)을 통해 거래의 유효성을 보장하며, Arbitrum, Optimism 등이대표적이다. ZK [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(Zero-Knowledge [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))은 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/)([Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))을 통해 즉각적으로 거래의 유효성을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, zkSync, StarkNet 등이대표적이다.
 
 ### 모듈러블록체인의 등장
 
-기존의 모놀리식블록체인([Monolithic Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/))이 모든 기능(실행, 합의, 정산, [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/))을 단일 체인에서 처리하는 반면, 차세대 모듈러블록체인([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))은이러한기능을-separate하여 각 계층을 최적화한다. Celestia는 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 계층에 전문화된 모듈러블록체인으로, 다른 실행 레이어(예: 이더리움)가 자신의 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)을 Celestia에 위임할 수 있게 한다.
+기존의 모놀리식블록체인([Monolithic Blockchain](/studynote/06_ict_convergence/01_blockchain/096_monolithic_blockchain_solana/))이 모든 기능(실행, 합의, 정산, [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/))을 단일 체인에서 처리하는 반면, 차세대 모듈러블록체인([Modular Blockchain](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/))은이러한기능을-separate하여 각 계층을 최적화한다. Celestia는 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)([DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/), [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)) 계층에 전문화된 모듈러블록체인으로, 다른 실행 레이어(예: 이더리움)가 자신의 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)을 Celestia에 위임할 수 있게 한다.
 
 ### 📢 비유 요약
 
-블록체인 기술의 발전은도로システム의진화와사있는. 처음에는 모든 차량이일반국도를 이용하였으나(모놀리식), 교통 체증이 심화되자 고속도로(Layer 2)를 새로 만들었다([롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)). 더욱 본격적으로는도로의종류를공능별로-separate하여 고속도로는 고속도로 전용으로, 일반도로는 일반도로 전용으로 운영하는방식(모듈러)로 발전하고 있다.
+블록체인 기술의 발전은도로システム의진화와사있는. 처음에는 모든 차량이일반국도를 이용하였으나(모놀리식), 교통 체증이 심화되자 고속도로(Layer 2)를 새로 만들었다([롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)). 더욱 본격적으로는도로의종류를공능별로-separate하여 고속도로는 고속도로 전용으로, 일반도로는 일반도로 전용으로 운영하는방식(모듈러)로 발전하고 있다.
 
 ### 결론
 
-블록체인은 단순한 기술이 아니라, 인터넷의정보를신임에서きる형에서공유한다는관점부터, 제삼세대 인터넷의 핵심 인프라로 평가받는다.변조 불가능성, 투명성, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 라는 세 가지 핵심 특성은 현대 디지털 사회에서 점점 중요해지는 "정보 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)"과 "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)"에 대한 요구를 만족시키는화시대적 해결책이다. Consensus알고리즘, [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/), 레이어 2 솔루션 등 관련 기술이 급속히 발전하면서, 블록체인은 가까운 장래에 더욱 넓은 분야에 적용될 것으로 기대된다.
+블록체인은 단순한 기술이 아니라, 인터넷의정보를신임에서きる형에서공유한다는관점부터, 제삼세대 인터넷의 핵심 인프라로 평가받는다.변조 불가능성, 투명성, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 라는 세 가지 핵심 특성은 현대 디지털 사회에서 점점 중요해지는 "정보 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)"과 "[데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)"에 대한 요구를 만족시키는화시대적 해결책이다. Consensus알고리즘, [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/), 레이어 2 솔루션 등 관련 기술이 급속히 발전하면서, 블록체인은 가까운 장래에 더욱 넓은 분야에 적용될 것으로 기대된다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 ```
 +------------------------------------------------------------------+
@@ -215,14 +212,14 @@ tags = ["ict_convergence"]
 [합의 알고리즘 (Consensus Algorithm)]
 ```
 
-이 흐름도는 거래 요청 ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Request)에서 출발해 네트워크 전파 (Network Propagation), Mempool ([Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Pool), 새 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Block Creation), [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) ([Consensus Algorithm](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))으로 이어지는 블록체인 처리 순서를 보여준다.
+이 흐름도는 거래 요청 ([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Request)에서 출발해 네트워크 전파 (Network Propagation), Mempool ([Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Pool), 새 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (Block Creation), [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/) ([Consensus Algorithm](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/))으로 이어지는 블록체인 처리 순서를 보여준다.
 
 ## 참고
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_, 03_... 형식 (2자리 숫자)
+- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_, 03_... 형식 (2자리 숫자)
 
 ---
 
@@ -230,7 +227,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 4 / 552
 
-<- **이전**: [3. 시맨틱 웹 (Semantic Web) - 온톨로지(Ontology) 기반 의미 연결망](/knowledge-base/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)
-**다음**: [5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록](/knowledge-base/studynote/06_ict_convergence/01_blockchain/005_genesis_block/) ->
+<- **이전**: [3. 시맨틱 웹 (Semantic Web) - 온톨로지(Ontology) 기반 의미 연결망](/studynote/06_ict_convergence/01_blockchain/003_semantic_web/)
+**다음**: [5. 제네시스 블록 (Genesis Block) - 블록체인의 첫 번째 블록](/studynote/06_ict_convergence/01_blockchain/005_genesis_block/) ->
 
 ---

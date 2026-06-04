@@ -1,13 +1,10 @@
-+++
-title = "611. IT 경영 관리 핵심 토픽 611번 시험 요약 (IT Management Core Topic 611 Exam Summary)"
-date = 2026-05-09
+---
+title: "611. IT 경영 관리 핵심 토픽 611번 시험 요약 (IT Management Core Topic 611 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ IT 경영관리는 국제 표준 프레임워크의 계층적 통합으로 구�
 
 **진행 상황**: 611 / 800
 
-<- **이전**: [610. IT 경영 관리 핵심 토픽 610번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/610_it_management_core_topic_610_exam_summary/)
-**다음**: [612. IT 경영 관리 핵심 토픽 612번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/612_it_management_core_topic_612_exam_summary/) ->
+<- **이전**: [610. IT 경영 관리 핵심 토픽 610번 시험 요약](/studynote/12_it_management/05_security_compliance/610_it_management_core_topic_610_exam_summary/)
+**다음**: [612. IT 경영 관리 핵심 토픽 612번 시험 요약](/studynote/12_it_management/05_security_compliance/612_it_management_core_topic_612_exam_summary/) ->
 
 ---

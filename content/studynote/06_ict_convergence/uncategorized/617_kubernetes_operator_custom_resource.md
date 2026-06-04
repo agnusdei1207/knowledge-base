@@ -1,13 +1,10 @@
-+++
-title = "617. 쿠버네티스 오퍼레이터 커스텀 리소스 (Kubernetes Operator Custom Resource)"
-date = 2026-05-09
+---
+title: "617. 쿠버네티스 오퍼레이터 커스텀 리소스 (Kubernetes Operator Custom Resource)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ repeat
 
 **진행 상황**: 617 / 800
 
-<- **이전**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/knowledge-base/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/)
-**다음**: [618. Helm 차트 패키지 관리 배포 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/) ->
+<- **이전**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/)
+**다음**: [618. Helm 차트 패키지 관리 배포 자동화](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/) ->
 
 ---

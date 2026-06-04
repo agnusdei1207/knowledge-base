@@ -1,13 +1,10 @@
-+++
-title = "427. 인시던트 관리 에스컬레이션 대응 (Incident Management Escalation Response)"
-date = 2026-05-09
+---
+title: "427. 인시던트 관리 에스컬레이션 대응 (Incident Management Escalation Response)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -192,7 +189,7 @@ def evaluate_escalation(incident, current_state):
 
 **진행 상황**: 427 / 800
 
-<- **이전**: [426. 릴리스 관리 배포 전략 롤백](/knowledge-base/studynote/12_it_management/05_security_compliance/426_release_management_deploy_strategy_rollback/)
-**다음**: [428. 문제 관리 근본 원인 분석 RCA](/knowledge-base/studynote/12_it_management/05_security_compliance/428_problem_management_root_cause_analysis/) ->
+<- **이전**: [426. 릴리스 관리 배포 전략 롤백](/studynote/12_it_management/05_security_compliance/426_release_management_deploy_strategy_rollback/)
+**다음**: [428. 문제 관리 근본 원인 분석 RCA](/studynote/12_it_management/05_security_compliance/428_problem_management_root_cause_analysis/) ->
 
 ---

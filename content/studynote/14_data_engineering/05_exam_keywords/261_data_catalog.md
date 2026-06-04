@@ -1,13 +1,10 @@
-+++
-title = "261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)"
-date = 2026-05-09
+---
+title: "261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -116,7 +113,7 @@ USER: Column: cust_birth_dt | Type: DATE | Sample: ["1990-04-15", "1985-12-01"]
 
 **진행 상황**: 261 / 300
 
-<- **이전**: [260. 데이터 프로덕트 데이터 서비스 계약 (Data Product Data Contract SLA)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/260_data_product_contract/)
-**다음**: [262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/262_data_lineage/) ->
+<- **이전**: [260. 데이터 프로덕트 데이터 서비스 계약 (Data Product Data Contract SLA)](/studynote/14_data_engineering/05_exam_keywords/260_data_product_contract/)
+**다음**: [262. 데이터 리니지 혈통 추적 영향도 분석 (Data Lineage Impact Analysis Provenance)](/studynote/14_data_engineering/05_exam_keywords/262_data_lineage/) ->
 
 ---

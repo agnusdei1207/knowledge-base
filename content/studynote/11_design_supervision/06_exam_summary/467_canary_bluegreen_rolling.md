@@ -1,13 +1,10 @@
-+++
-title = "467. 카나리 배포 블루 그린 롤링 전략 (Canary Blue Green Rolling Deployment)"
-date = 2026-05-09
+---
+title: "467. 카나리 배포 블루 그린 롤링 전략 (Canary Blue Green Rolling Deployment)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -203,7 +200,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 467 / 600
 
-<- **이전**: [466. 컨슈머 주도 계약 테스트](/knowledge-base/studynote/11_design_supervision/06_exam_summary/467_consumer_driven_contract/)
-**다음**: [468. 피처 플래그 토글 점진적 릴리스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/468_feature_flag_toggle/) ->
+<- **이전**: [466. 컨슈머 주도 계약 테스트](/studynote/11_design_supervision/06_exam_summary/467_consumer_driven_contract/)
+**다음**: [468. 피처 플래그 토글 점진적 릴리스](/studynote/11_design_supervision/06_exam_summary/468_feature_flag_toggle/) ->
 
 ---

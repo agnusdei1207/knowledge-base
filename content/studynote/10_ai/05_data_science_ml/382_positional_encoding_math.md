@@ -1,38 +1,35 @@
-+++
-title = "382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식"
-date = 2026-05-09
+---
+title: "382. 트랜스포머 포지셔널 인코딩 (Positional Encoding) 수식"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 [어텐션 메커니즘](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)은 위치 정보가 없으므로, [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))을 토큰 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더해 시퀀스 내 위치 정보를 주입한다.
-> 2. **가치**: 사인/코사인 삼각함수 PE ([Positional Encoding](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))는 학습 없이도 작동하며, 훈련보다 긴 시퀀스로 외삽(Extrapolation)이 가능하고, 상대 위치 정보를 내적으로 표현할 수 있다.
-> 3. **판단 포인트**: 고정 PE (삼각함수) vs 학습 가능 PE (Learned PE) vs 상대 PE (RoPE, ALiBi) 비교와 각각의 외삽 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 이해하는 것이 핵심이다.
+> 1. **본질**: [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)의 [어텐션 메커니즘](/studynote/10_ai/04_ai_ops_ethics/296_attention_mechanism/)은 위치 정보가 없으므로, [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) ([Positional Encoding](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))을 토큰 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더해 시퀀스 내 위치 정보를 주입한다.
+> 2. **가치**: 사인/코사인 삼각함수 PE ([Positional Encoding](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))는 학습 없이도 작동하며, 훈련보다 긴 시퀀스로 외삽(Extrapolation)이 가능하고, 상대 위치 정보를 내적으로 표현할 수 있다.
+> 3. **판단 포인트**: 고정 PE (삼각함수) vs 학습 가능 PE (Learned PE) vs 상대 PE (RoPE, ALiBi) 비교와 각각의 외삽 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 트레이드오프를 이해하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 시퀀스를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하므로 토큰 순서 정보가 자동으로 반영되지 않는다. CNN은 지역 수용 영역 (Receptive Field), RNN은 순차 처리로 위치 정보를 내재하지만, 어텐션은 집합(Set) 연산과 본질적으로 같다.
+[트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 시퀀스를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 처리하므로 토큰 순서 정보가 자동으로 반영되지 않는다. CNN은 지역 수용 영역 (Receptive Field), RNN은 순차 처리로 위치 정보를 내재하지만, 어텐션은 집합(Set) 연산과 본질적으로 같다.
 
-이를 해결하기 위해 각 위치 pos에 대한 벡터를 토큰 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다:
+이를 해결하기 위해 각 위치 pos에 대한 벡터를 토큰 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)에 더한다:
 ```
 입력 = 토큰 임베딩 + 포지셔널 인코딩
 ```
 
-- **📢 섹션 요약 비유**: [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 줄을 서있는 사람들에게 번호표를 나눠주는 것이다. [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 사람들의 얼굴([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))만 보므로 누가 몇 번째인지 별도로 알려줘야 한다.
+- **📢 섹션 요약 비유**: [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 줄을 서있는 사람들에게 번호표를 나눠주는 것이다. [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 사람들의 얼굴([임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))만 보므로 누가 몇 번째인지 별도로 알려줘야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 삼각함수 [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) 수식
+### 삼각함수 [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) 수식
 
 ```
 PE(pos, 2i)   = sin( pos / 10000^(2i/dₘₒₐₑₗ) )
@@ -77,9 +74,9 @@ PE(pos) · PE(pos+k) = f(k)  (pos에 독립적)
 
 | PE 방식 | 외삽 | 학습 파라미터 | 상대 위치 | 채택 모델 |
 |:---|:---|:---|:---|:---|
-| 삼각함수 PE | 가능 | 없음 | 암묵적 | 원래 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
-| Learned PE | 어려움 | 있음 (pos×d) | 없음 | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2 |
-| RoPE | 우수 | 없음 | 명시적 | LLaMA, [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-NeoX |
+| 삼각함수 PE | 가능 | 없음 | 암묵적 | 원래 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
+| Learned PE | 어려움 | 있음 (pos×d) | 없음 | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-2 |
+| RoPE | 우수 | 없음 | 명시적 | LLaMA, [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-NeoX |
 | ALiBi | 우수 | 없음 | 선형 패널티 | BLOOM |
 
 - **📢 섹션 요약 비유**: 삼각함수 PE는 "위치마다 고유한 음악 코드(주파수 조합)"를 부여하는 것이다. 낮은 음(저주파)은 큰 틀의 위치를, 높은 음(고주파)은 세밀한 위치를 표현한다.
@@ -88,7 +85,7 @@ PE(pos) · PE(pos+k) = f(k)  (pos에 독립적)
 
 ## Ⅲ. 비교 및 연결
 
-RoPE (Rotary Position [Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)/키 벡터를 회전 행렬로 변환해 상대 위치를 정확히 반영:
+RoPE (Rotary Position [Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))는 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)/키 벡터를 회전 행렬로 변환해 상대 위치를 정확히 반영:
 ```
 RoPE: q' = q · R(pos_q), k' = k · R(pos_k)
 q'·k' = q · R(pos_q - pos_k) · kᵀ  <- 상대 위치만 의존
@@ -105,21 +102,21 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base: 512 위치까지 학습 PE (Learned) -> 512 초과 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
-- LLaMA 2: RoPE -> 4096->32768 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 외삽 가능
-- RoPE의 NTK-aware [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/): 기반 값 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)000을 늘려 외삽 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
+- [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)-base: 512 위치까지 학습 PE (Learned) -> 512 초과 시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하
+- LLaMA 2: RoPE -> 4096->32768 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 외삽 가능
+- RoPE의 NTK-aware [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/): 기반 값 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)000을 늘려 외삽 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상
 
 기술사 포인트: 삼각함수 PE의 주파수 해석 + 상대 위치 내적 성질 + RoPE 외삽 장점을 연결해 설명하면 고득점 가능.
 
-- **📢 섹션 요약 비유**: RoPE의 외삽 능력은 "훈련 때 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)km까지만 달렸지만 마라톤 42km도 같은 방식으로 달릴 수 있는" 범용성이다.
+- **📢 섹션 요약 비유**: RoPE의 외삽 능력은 "훈련 때 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)km까지만 달렸지만 마라톤 42km도 같은 방식으로 달릴 수 있는" 범용성이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)가 위치 불변(Position-invariant)인 어텐션의 단점을 보완하는 핵심 설계다. 삼각함수 PE는 우아한 수학적 성질로 상대 위치를 암묵적으로 반영하며, RoPE와 ALiBi는 이를 발전시켜 더 긴 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 처리를 가능하게 한다. LLM의 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 길이 경쟁에서 PE 설계는 핵심 기술 요소다.
+[포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)가 위치 불변(Position-invariant)인 어텐션의 단점을 보완하는 핵심 설계다. 삼각함수 PE는 우아한 수학적 성질로 상대 위치를 암묵적으로 반영하며, RoPE와 ALiBi는 이를 발전시켜 더 긴 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 처리를 가능하게 한다. LLM의 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 길이 경쟁에서 PE 설계는 핵심 기술 요소다.
 
-- **📢 섹션 요약 비유**: [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)에게 "시간 감각"을 주는 시계다. 이 시계가 없으면 모든 단어가 동시에 도착한 것처럼 보인다.
+- **📢 섹션 요약 비유**: [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/)은 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)에게 "시간 감각"을 주는 시계다. 이 시계가 없으면 모든 단어가 동시에 도착한 것처럼 보인다.
 
 ---
 
@@ -127,12 +124,12 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) | 위치 정보, 삼각함수 / [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 위치 주입 |
+| [포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/) | 위치 정보, 삼각함수 / [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 위치 주입 |
 | 삼각함수 PE | sin, cos, 주파수 / 고정 위치 표현 |
-| Learned PE | [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), 학습 가능 / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 위치 표현 |
+| Learned PE | [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/), 학습 가능 / [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 위치 표현 |
 | RoPE | 회전 행렬, 상대 위치 / 외삽 우수 PE |
 | ALiBi | 거리 패널티 / 선형 외삽 PE |
-| 외삽 (Extrapolation) | 긴 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) / 훈련 길이 초과 일반화 |
+| 외삽 (Extrapolation) | 긴 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) / 훈련 길이 초과 일반화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,7 +139,7 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 단어들을 동시에 보는데, 어떤 단어가 몇 번째인지 모르니까 번호표([포지셔널 인코딩](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))를 달아줘야 해.
+1. [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)는 단어들을 동시에 보는데, 어떤 단어가 몇 번째인지 모르니까 번호표([포지셔널 인코딩](/studynote/10_ai/04_ai_ops_ethics/300_positional_encoding/))를 달아줘야 해.
 2. 삼각함수 PE는 위치마다 다른 주파수의 음악 코드를 부여해서, 어떤 두 위치든 고유하게 구별할 수 있게 해.
 3. RoPE는 각 위치마다 시계를 다른 각도로 돌려서, 두 단어의 거리(상대 위치)를 자동으로 계산할 수 있게 하는 더 똑똑한 번호표야.
 
@@ -152,7 +149,7 @@ Attention score = QKᵀ/√dₖ - m·|pos_q - pos_k|  (m: 헤드별 기울기)
 
 **진행 상황**: 382 / 420
 
-<- **이전**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/knowledge-base/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/)
-**다음**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/knowledge-base/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/) ->
+<- **이전**: [381. 스케일드 닷 프로덕트 어텐션 (Scaled Dot-Product Attention)](/studynote/10_ai/05_data_science_ml/381_scaled_dot_product_attention/)
+**다음**: [383. LLM 자기 회귀 (Auto-Regressive) 언어 모델 우도 수식](/studynote/10_ai/05_data_science_ml/383_llm_autoregressive_math/) ->
 
 ---

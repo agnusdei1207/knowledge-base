@@ -1,13 +1,10 @@
-+++
-title = "472. IT 경영 관리 핵심 토픽 472번 시험 요약 (IT Management Core Topic 472 Exam Summary)"
-date = 2026-05-09
+---
+title: "472. IT 경영 관리 핵심 토픽 472번 시험 요약 (IT Management Core Topic 472 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -173,7 +170,7 @@ Weill & Ross(2004)의 **"IT Governance Three Models"** 가 본 토픽의 이론�
 
 **진행 상황**: 472 / 800
 
-<- **이전**: [471. IT 경영 관리 핵심 토픽 471번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/471_it_management_core_topic_471_exam_summary/)
-**다음**: [473. IT 경영 관리 핵심 토픽 473번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/473_it_management_core_topic_473_exam_summary/) ->
+<- **이전**: [471. IT 경영 관리 핵심 토픽 471번 시험 요약](/studynote/12_it_management/05_security_compliance/471_it_management_core_topic_471_exam_summary/)
+**다음**: [473. IT 경영 관리 핵심 토픽 473번 시험 요약](/studynote/12_it_management/05_security_compliance/473_it_management_core_topic_473_exam_summary/) ->
 
 ---

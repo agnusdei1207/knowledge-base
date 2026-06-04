@@ -1,13 +1,10 @@
-+++
-title = "729. 스마트 교통 ITS 자율주행 V2X 신호 (Smart Transportation ITS Autonomous V2X)"
-date = 2026-05-09
+---
+title: "729. 스마트 교통 ITS 자율주행 V2X 신호 (Smart Transportation ITS Autonomous V2X)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 729 / 800
 
-<- **이전**: [728. 해양 기술 심해 탐사 해양 에너지](/knowledge-base/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/)
-**다음**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/) ->
+<- **이전**: [728. 해양 기술 심해 탐사 해양 에너지](/studynote/06_ict_convergence/uncategorized/728_ocean_technology_deep_sea_exploration_energy/)
+**다음**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/) ->
 
 ---

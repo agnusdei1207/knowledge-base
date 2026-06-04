@@ -1,13 +1,10 @@
-+++
-title = "520. 칸반 WIP 제한 흐름 최적화 (Kanban WIP Limit Flow Optimization)"
-date = 2026-05-09
+---
+title: "520. 칸반 WIP 제한 흐름 최적화 (Kanban WIP Limit Flow Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 520 / 600
 
-<- **이전**: [519. 애자일 스크럼 스프린트 백로그](/knowledge-base/studynote/11_design_supervision/06_exam_summary/520_agile_scrum_sprint_backlog/)
-**다음**: [521. XP 익스트림 프로그래밍 실천법](/knowledge-base/studynote/11_design_supervision/06_exam_summary/521_xp_extreme_programming_practice/) ->
+<- **이전**: [519. 애자일 스크럼 스프린트 백로그](/studynote/11_design_supervision/06_exam_summary/520_agile_scrum_sprint_backlog/)
+**다음**: [521. XP 익스트림 프로그래밍 실천법](/studynote/11_design_supervision/06_exam_summary/521_xp_extreme_programming_practice/) ->
 
 ---

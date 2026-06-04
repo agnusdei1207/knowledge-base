@@ -1,13 +1,10 @@
-+++
-title = "505. 비즈니스 연속성 BCP DRP 복구 전략 (Business Continuity BCP DRP Recovery)"
-date = 2026-05-09
+---
+title: "505. 비즈니스 연속성 BCP DRP 복구 전략 (Business Continuity BCP DRP Recovery)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ BCP/DRP을 올바르게 적용하면 업무 처리 속도, 통제 수준, 데이
 
 **진행 상황**: 505 / 800
 
-<- **이전**: [504. IT 위험 관리 리스크 평가 대응](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/504_it_risk_management_assessment_response/)
-**다음**: [506. IT 서비스 관리 ITIL 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/506_it_service_management_itil_framework/) ->
+<- **이전**: [504. IT 위험 관리 리스크 평가 대응](/studynote/07_enterprise_systems/06_exam_summary/504_it_risk_management_assessment_response/)
+**다음**: [506. IT 서비스 관리 ITIL 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/506_it_service_management_itil_framework/) ->
 
 ---

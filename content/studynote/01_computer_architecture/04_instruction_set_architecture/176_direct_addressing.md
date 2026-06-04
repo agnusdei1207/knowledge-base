@@ -1,27 +1,24 @@
-+++
-title = "176. 직접 주소 지정 (Direct)"
-date = 2026-04-19
+---
+title: "176. 직접 주소 지정 (Direct)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 직접 주소 지정 (Direct Addressing)은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드 값 자체가 유효 주소 (Effective Address, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))가 되는 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)이다.
-> 2. **가치**: 주소 계산 단계가 거의 없어 하드웨어가 단순하고 예측 가능하지만, 그 단순함은 곧 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 안에 표현 가능한 주소 범위로 스스로를 묶는다는 뜻이기도 하다.
-> 3. **판단 포인트**: 메모리 맵 I/O (Memory-Mapped I/O, MMIO), [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/), 부트 코드처럼 위치가 고정된 대상에는 강하지만, 재배치 (Relocation)와 위치 독립 코드 (Position-Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC)가 필요한 현대 범용 프로그램에는 불리하다.
+> 1. **본질**: 직접 주소 지정 (Direct Addressing)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드 값 자체가 유효 주소 (Effective Address, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))가 되는 [주소 지정 방식](/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)이다.
+> 2. **가치**: 주소 계산 단계가 거의 없어 하드웨어가 단순하고 예측 가능하지만, 그 단순함은 곧 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 안에 표현 가능한 주소 범위로 스스로를 묶는다는 뜻이기도 하다.
+> 3. **판단 포인트**: 메모리 맵 I/O (Memory-Mapped I/O, MMIO), [인터럽트 벡터](/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/), 부트 코드처럼 위치가 고정된 대상에는 강하지만, 재배치 (Relocation)와 위치 독립 코드 (Position-Independent [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC)가 필요한 현대 범용 프로그램에는 불리하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-직접 주소 지정은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 적힌 주소가 곧바로 메모리의 목적지를 뜻하는 방식이다. 예를 들어 `LOAD 1000`이라면, 여기서 `1000`은 상수값이 아니라 <strong>1000번지 메모리를 읽으라</strong>는 의미가 된다. 즉 프로세서는 "어디에서 값을 가져올까?"라는 질문에 대해, 이미 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 적혀 있는 숫자를 그대로 답으로 사용한다.
+직접 주소 지정은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 적힌 주소가 곧바로 메모리의 목적지를 뜻하는 방식이다. 예를 들어 `LOAD 1000`이라면, 여기서 `1000`은 상수값이 아니라 <strong>1000번지 메모리를 읽으라</strong>는 의미가 된다. 즉 프로세서는 "어디에서 값을 가져올까?"라는 질문에 대해, 이미 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 적혀 있는 숫자를 그대로 답으로 사용한다.
 
-이 방식이 중요했던 이유는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터의 메모리 공간이 작고 구조가 단순했기 때문이다. 주소 공간이 수 킬로바이트 수준이라면, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 일부만 주소로 써도 시스템 전체 메모리를 직접 가리킬 수 있었다. 별도의 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산기가 없어도 되므로 제어 장치 구현이 쉽고, 하드웨어 비용도 낮았다.
+이 방식이 중요했던 이유는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터의 메모리 공간이 작고 구조가 단순했기 때문이다. 주소 공간이 수 킬로바이트 수준이라면, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 일부만 주소로 써도 시스템 전체 메모리를 직접 가리킬 수 있었다. 별도의 베이스 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)나 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 계산기가 없어도 되므로 제어 장치 구현이 쉽고, 하드웨어 비용도 낮았다.
 
 아래 그림은 직접 주소 지정의 핵심이 "주소 계산"이 아니라 "주소 제시"에 있음을 보여 준다.
 
@@ -40,7 +37,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------------+
 ```
 
-여기서 중요한 점은 직접 주소 지정이 [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/))과 다르다는 사실이다. [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 숫자 자체가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)지만, 직접 주소 지정은 그 숫자가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 장소</strong>를 가리킨다. 따라서 둘 다 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 숫자가 보이더라도, 해석 방식은 전혀 다르다.
+여기서 중요한 점은 직접 주소 지정이 [즉시 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/))과 다르다는 사실이다. [즉시 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 숫자 자체가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)지만, 직접 주소 지정은 그 숫자가 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 있는 장소</strong>를 가리킨다. 따라서 둘 다 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에 숫자가 보이더라도, 해석 방식은 전혀 다르다.
 
 - **📢 섹션 요약 비유**: 직접 주소 지정은 친구 집 전화번호를 묻는 것이 아니라, 편지 봉투에 집 주소를 그대로 써서 그 집으로 바로 보내는 방식과 같다.
 
@@ -48,18 +45,18 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-직접 주소 지정의 핵심 식은 매우 단순하다. `EA = A`이다. 여기서 `A`는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드이고, `EA`는 실제로 접근할 유효 주소다. 베이스 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 더하지도 않고, 메모리 안의 포인터를 한 번 더 따라가지도 않는다.
+직접 주소 지정의 핵심 식은 매우 단순하다. `EA = A`이다. 여기서 `A`는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 주소 필드이고, `EA`는 실제로 접근할 유효 주소다. 베이스 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 더하지도 않고, 메모리 안의 포인터를 한 번 더 따라가지도 않는다.
 
 | 항목 | 직접 주소 지정에서의 의미 | 설계상 함의 |
 | :--- | :--- | :--- |
 | 주소 필드 `A` | 곧바로 유효 주소 `EA`가 됨 | 주소 계산기 부담이 작음 |
-| 추가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리 접근 | 보통 1회 | [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)보다 짧은 경로 |
-| 주소 표현 범위 | 주소 필드 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수에 의해 제한 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 공간이 충돌 |
-| 코드 이동성 | 낮음 | 재배치와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 환경에 불리 |
+| 추가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메모리 접근 | 보통 1회 | [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)보다 짧은 경로 |
+| 주소 표현 범위 | 주소 필드 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수에 의해 제한 | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 공간이 충돌 |
+| 코드 이동성 | 낮음 | 재배치와 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 환경에 불리 |
 
-실행 흐름도 단순하다. [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고, 디코더가 주소 필드 `A`를 분리한 뒤, 그 값을 주소 버스로 내보내면 메모리가 해당 위치의 값을 돌려준다. 이때 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출은 별개로 이미 일어났다고 보면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피연산자를 얻기 위한 추가 메모리 접근은 한 번이다. 그래서 직접 주소 지정은 메모리 기반 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/) 가운데 이해가 가장 쉽고 구현이 단순한 편에 속한다.
+실행 흐름도 단순하다. [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고, 디코더가 주소 필드 `A`를 분리한 뒤, 그 값을 주소 버스로 내보내면 메모리가 해당 위치의 값을 돌려준다. 이때 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출은 별개로 이미 일어났다고 보면, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 피연산자를 얻기 위한 추가 메모리 접근은 한 번이다. 그래서 직접 주소 지정은 메모리 기반 [주소 지정 방식](/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/) 가운데 이해가 가장 쉽고 구현이 단순한 편에 속한다.
 
-아래 그림은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 범위가 직접 충돌한다는 점을 보여 준다.
+아래 그림은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 길이와 주소 범위가 직접 충돌한다는 점을 보여 준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -74,7 +71,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------------+
 ```
 
-예를 들어 16비트 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [연산 코드](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))에 4비트를 쓰면, 주소는 12비트만 남는다. 이 경우 직접 가리킬 수 있는 공간은 4,096개 위치뿐이다. 메모리가 커질수록 직접 주소 지정은 곧바로 확장성 문제에 부딪히며, 이 한계 때문에 현대 구조에서는 베이스+변위 (Base + [Displacement](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))나 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 더 널리 쓰인다.
+예를 들어 16비트 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)에서 [연산 코드](/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/) ([Opcode](/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))에 4비트를 쓰면, 주소는 12비트만 남는다. 이 경우 직접 가리킬 수 있는 공간은 4,096개 위치뿐이다. 메모리가 커질수록 직접 주소 지정은 곧바로 확장성 문제에 부딪히며, 이 한계 때문에 현대 구조에서는 베이스+변위 (Base + [Displacement](/studynote/01_computer_architecture/04_instruction_set_architecture/179_displacement_addressing/))나 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)이 더 널리 쓰인다.
 
 - **📢 섹션 요약 비유**: 직접 주소 지정은 내비게이션에 목적지를 바로 넣는 대신, 종이에 적힌 주소를 그대로 기사에게 건네주는 방식이라 빠르지만 주소칸이 작으면 멀리 있는 곳은 아예 못 적는다.
 
@@ -82,19 +79,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-직접 주소 지정을 제대로 이해하려면 다른 [주소 지정 방식](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)과 경계를 분명히 해야 한다. 핵심 차이는 "주소를 어디서 얻는가"와 "그 대가로 무엇을 잃는가"에 있다.
+직접 주소 지정을 제대로 이해하려면 다른 [주소 지정 방식](/studynote/01_computer_architecture/04_instruction_set_architecture/173_addressing_modes/)과 경계를 분명히 해야 한다. 핵심 차이는 "주소를 어디서 얻는가"와 "그 대가로 무엇을 잃는가"에 있다.
 
 | 방식 | 유효 주소 계산 | 강점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) | 메모리 주소 계산 없음 | 상수 처리에 가장 빠름 | 메모리 변수 접근 불가 |
+| [즉시 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) | 메모리 주소 계산 없음 | 상수 처리에 가장 빠름 | 메모리 변수 접근 불가 |
 | 직접 주소 지정 (Direct Addressing) | `EA = A` | 단순하고 직관적 | 주소 범위 제한, 재배치 취약 |
-| [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)) | `EA = Memory[A]` | 더 큰 주소 공간 표현 가능 | 메모리 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 1회 추가 |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)) | `EA = R` | 전체 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭 활용 가능 | [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 준비 필요 |
-| [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정 ([PC-Relative](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/) Addressing) | `EA = PC + displacement` | 재배치와 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)에 유리 | 기준 위치가 필요 |
+| [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Indirect Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/)) | `EA = Memory[A]` | 더 큰 주소 공간 표현 가능 | 메모리 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) 1회 추가 |
+| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)) | `EA = R` | 전체 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 폭 활용 가능 | [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 준비 필요 |
+| [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정 ([PC-Relative](/studynote/01_computer_architecture/04_instruction_set_architecture/182_relative_addressing/) Addressing) | `EA = PC + displacement` | 재배치와 [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/)에 유리 | 기준 위치가 필요 |
 
-직접 주소 지정의 가장 큰 약점은 <strong>절대 위치 의존성</strong>이다. 프로그램이 메모리 어디에 적재될지 항상 고정되어 있다면 문제가 없지만, 현대 운영체제는 프로세스를 임의 위치에 배치하고 주소 공간 배치 난수화 (Address Space Layout Randomization, [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/))도 수행한다. 이런 환경에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 절대 주소를 박아 넣는 방식이 유지보수와 보안 모두에 불리하다.
+직접 주소 지정의 가장 큰 약점은 <strong>절대 위치 의존성</strong>이다. 프로그램이 메모리 어디에 적재될지 항상 고정되어 있다면 문제가 없지만, 현대 운영체제는 프로세스를 임의 위치에 배치하고 주소 공간 배치 난수화 (Address Space Layout Randomization, [ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/))도 수행한다. 이런 환경에서는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안에 절대 주소를 박아 넣는 방식이 유지보수와 보안 모두에 불리하다.
 
-반면 직접 주소 지정은 하드웨어와 만나는 경계에서는 여전히 강력하다. 메모리 맵 I/O처럼 `0x4000_1000` 번지가 특정 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 영구적으로 대응된다면, 오히려 절대 주소가 가장 명확하다. 즉 직접 주소 지정은 범용 소프트웨어의 기본 수단은 아니지만, <strong>"주소가 절대 바뀌지 않는 세계"</strong>에서는 여전히 설명력이 크다.
+반면 직접 주소 지정은 하드웨어와 만나는 경계에서는 여전히 강력하다. 메모리 맵 I/O처럼 `0x4000_1000` 번지가 특정 장치 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)에 영구적으로 대응된다면, 오히려 절대 주소가 가장 명확하다. 즉 직접 주소 지정은 범용 소프트웨어의 기본 수단은 아니지만, <strong>"주소가 절대 바뀌지 않는 세계"</strong>에서는 여전히 설명력이 크다.
 
 - **📢 섹션 요약 비유**: 직접 주소 지정은 이사하지 않는 시청 건물 주소를 외우기엔 좋지만, 매번 자리를 옮기는 푸드트럭을 찾는 방식으로는 맞지 않는다.
 
@@ -102,9 +99,9 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 직접 주소 지정은 주로 [임베디드 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 부트스트랩 코드, [인터럽트 벡터](/knowledge-base/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블, 메모리 맵 I/O에서 등장한다. 예를 들어 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU)의 일반 목적 입출력 (General-Purpose Input/Output, GPIO) 제어 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 `0x4002_0014`에 고정되어 있다면, 펌웨어는 그 절대 주소를 기준으로 장치를 제어하는 것이 자연스럽다. 하드웨어 배선 자체가 고정되어 있으므로, 직접 주소 지정의 약점인 재배치 문제도 사실상 발생하지 않는다.
+실무에서 직접 주소 지정은 주로 [임베디드 시스템](/studynote/02_operating_system/01_overview_architecture/010_embedded_system/), 부트스트랩 코드, [인터럽트 벡터](/studynote/02_operating_system/01_overview_architecture/019_interrupt_vector/) 테이블, 메모리 맵 I/O에서 등장한다. 예를 들어 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) ([Microcontroller](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit, MCU)의 일반 목적 입출력 (General-Purpose Input/Output, GPIO) 제어 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)가 `0x4002_0014`에 고정되어 있다면, 펌웨어는 그 절대 주소를 기준으로 장치를 제어하는 것이 자연스럽다. 하드웨어 배선 자체가 고정되어 있으므로, 직접 주소 지정의 약점인 재배치 문제도 사실상 발생하지 않는다.
 
-반대로 사용자 공간 애플리케이션이나 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)에서는 직접 주소 지정을 기본 전략으로 삼으면 안 된다. 실행 파일이 어느 가상 주소에 적재될지 보장되지 않고, 위치 독립 코드가 요구되며, 64비트 주소 공간 전체를 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 필드에 담기도 어렵기 때문이다. 이 영역에서는 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정, 글로벌 오프셋 테이블 (Global Offset Table, GOT), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반 주소 계산이 훨씬 현실적이다.
+반대로 사용자 공간 애플리케이션이나 [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/)에서는 직접 주소 지정을 기본 전략으로 삼으면 안 된다. 실행 파일이 어느 가상 주소에 적재될지 보장되지 않고, 위치 독립 코드가 요구되며, 64비트 주소 공간 전체를 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 한 필드에 담기도 어렵기 때문이다. 이 영역에서는 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 주소 지정, 글로벌 오프셋 테이블 (Global Offset Table, GOT), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 기반 주소 계산이 훨씬 현실적이다.
 
 아래 판단 흐름은 직접 주소 지정을 써도 되는지 빠르게 가르는 기준이다.
 
@@ -122,15 +119,15 @@ tags = ["studynote-computer-architecture"]
 
 ### 실무 판단 기준
 
-1. **대상이 고정 주소인가?** 장치 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 읽기 전용 메모리 (Read-Only Memory, [ROM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)) 벡터, 고정 테이블이면 직접 주소 지정이 유리하다.
+1. **대상이 고정 주소인가?** 장치 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), 읽기 전용 메모리 (Read-Only Memory, [ROM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/255_rom/)) 벡터, 고정 테이블이면 직접 주소 지정이 유리하다.
 2. **프로그램이 재배치되는가?** 그렇다면 직접 주소 지정은 우선 피한다.
-3. **주소 공간이 큰가?** [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 필드로 전체를 표현할 수 없으면 다른 방식이 필요하다.
-4. **보안 기능이 필요한가?** [ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/), PIC, [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/) 환경에서는 절대 주소 의존을 줄여야 한다.
+3. **주소 공간이 큰가?** [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 필드로 전체를 표현할 수 없으면 다른 방식이 필요하다.
+4. **보안 기능이 필요한가?** [ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/), PIC, [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/) 환경에서는 절대 주소 의존을 줄여야 한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 범용 애플리케이션의 전역 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 절대 주소에 고정하는 것
-- [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인코딩 한계를 무시한 채 큰 주소 공간에도 직접 주소 지정이 단순하다고 판단하는 것
+- 범용 애플리케이션의 전역 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근을 절대 주소에 고정하는 것
+- [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인코딩 한계를 무시한 채 큰 주소 공간에도 직접 주소 지정이 단순하다고 판단하는 것
 - 메모리 맵 I/O와 일반 프로세스 메모리 접근을 같은 기준으로 설명하는 것
 
 - **📢 섹션 요약 비유**: 직접 주소 지정은 자리 번호가 영원히 바뀌지 않는 좌석표에는 좋지만, 공연장마다 좌석 배치가 바뀌는 투어 공연에는 맞지 않는 표기법이다.
@@ -139,11 +136,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-직접 주소 지정의 장점은 단순함과 결정성이다. 주소 계산 경로가 짧고 의미가 분명하므로, 작은 시스템이나 고정 메모리 맵에서는 설계와 디버깅이 쉬워진다. 또한 하드웨어 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드처럼 "정확히 이 위치를 건드려야 한다"는 요구에는 여전히 매우 직관적이다.
+직접 주소 지정의 장점은 단순함과 결정성이다. 주소 계산 경로가 짧고 의미가 분명하므로, 작은 시스템이나 고정 메모리 맵에서는 설계와 디버깅이 쉬워진다. 또한 하드웨어 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드처럼 "정확히 이 위치를 건드려야 한다"는 요구에는 여전히 매우 직관적이다.
 
-하지만 현대 컴퓨터 구조의 기본 흐름은 더 이상 직접 주소 지정 중심이 아니다. 주소 공간은 커졌고, 프로그램은 재배치되며, 보안과 공유 메커니즘 때문에 절대 주소를 박아 두는 방식은 유연성이 낮다. 그래서 직접 주소 지정은 주류 실행 모델이라기보다, <strong>고정된 하드웨어 경계와 부트 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구간에서 살아남은 고전적이지만 중요한 방식</strong>으로 기억하는 편이 맞다.
+하지만 현대 컴퓨터 구조의 기본 흐름은 더 이상 직접 주소 지정 중심이 아니다. 주소 공간은 커졌고, 프로그램은 재배치되며, 보안과 공유 메커니즘 때문에 절대 주소를 박아 두는 방식은 유연성이 낮다. 그래서 직접 주소 지정은 주류 실행 모델이라기보다, <strong>고정된 하드웨어 경계와 부트 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 구간에서 살아남은 고전적이지만 중요한 방식</strong>으로 기억하는 편이 맞다.
 
-정리하면 직접 주소 지정은 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 주소가 곧 목적지"인 가장 직선적인 주소 지정 모드다. 기억할 핵심은 분명하다. **단순성과 고정성에는 강하지만, 확장성과 이동성에는 약하다.**
+정리하면 직접 주소 지정은 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 안의 주소가 곧 목적지"인 가장 직선적인 주소 지정 모드다. 기억할 핵심은 분명하다. **단순성과 고정성에는 강하지만, 확장성과 이동성에는 약하다.**
 
 - **📢 섹션 요약 비유**: 직접 주소 지정은 마을의 랜드마크 건물처럼 찾기 쉽지만, 도시 전체가 계속 재개발되는 환경에서는 너무 딱딱한 지도와 같다.
 
@@ -153,12 +150,12 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 유효 주소 (Effective Address, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) | 직접 주소 지정에서는 주소 필드 값 자체가 EA가 된다. |
-| [즉시 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) | 숫자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 주소인지 구분해야 직접 주소 지정의 경계가 선명해진다. |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)) | 직접 주소 지정의 범위 한계를 보완하는 대표 방식이다. |
+| 유효 주소 (Effective Address, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) | 직접 주소 지정에서는 주소 필드 값 자체가 EA가 된다. |
+| [즉시 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/) ([Immediate Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/174_immediate_addressing/)) | 숫자가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)인지 주소인지 구분해야 직접 주소 지정의 경계가 선명해진다. |
+| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) [간접 주소 지정](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ([Register Indirect Addressing](/studynote/01_computer_architecture/04_instruction_set_architecture/178_register_indirect_addressing/)) | 직접 주소 지정의 범위 한계를 보완하는 대표 방식이다. |
 | 재배치 (Relocation) | 직접 주소 지정이 현대 범용 프로그램에서 불리한 핵심 이유다. |
 | 메모리 맵 I/O (Memory-Mapped I/O) | 고정 절대 주소가 오히려 장점이 되는 대표 실무 영역이다. |
-| 위치 독립 코드 (Position-Independent [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC) | 직접 주소 지정 대신 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 방식이 선호되는 배경이다. |
+| 위치 독립 코드 (Position-Independent [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), PIC) | 직접 주소 지정 대신 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 상대 방식이 선호되는 배경이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -193,7 +190,7 @@ MMIO and boot vectors remain as fixed-address use cases
 
 **진행 상황**: 176 / 803
 
-<- **이전**: [175. 레지스터 주소 지정 (Register)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)
-**다음**: [177. 간접 주소 지정 (Indirect)](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ->
+<- **이전**: [175. 레지스터 주소 지정 (Register)](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/)
+**다음**: [177. 간접 주소 지정 (Indirect)](/studynote/01_computer_architecture/04_instruction_set_architecture/177_indirect_addressing/) ->
 
 ---

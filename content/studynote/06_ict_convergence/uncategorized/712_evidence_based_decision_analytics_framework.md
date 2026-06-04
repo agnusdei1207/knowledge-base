@@ -1,13 +1,10 @@
-+++
-title = "712. 증거 기반 의사결정 분석 프레임워크 (Evidence Based Decision Analytics Framework)"
-date = 2026-05-09
+---
+title: "712. 증거 기반 의사결정 분석 프레임워크 (Evidence Based Decision Analytics Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 712. 증거 기반 의사결정 분석 프레임워크 (Evidence-Based Decision Analytics Framework)
 
@@ -199,7 +196,7 @@ n = (Z_{1-α/2} + Z_{1-β})² × (σ₁² + σ₂²) / Δ²
 
 **진행 상황**: 712 / 800
 
-<- **이전**: [711. 데이터 분석 파이프라인 자동화 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/711_data_analytics_pipeline_automation_strategy/)
-**다음**: [713. 인과 추론 반사실 분석 개입 효과](/knowledge-base/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/) ->
+<- **이전**: [711. 데이터 분석 파이프라인 자동화 전략](/studynote/06_ict_convergence/uncategorized/711_data_analytics_pipeline_automation_strategy/)
+**다음**: [713. 인과 추론 반사실 분석 개입 효과](/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/) ->
 
 ---

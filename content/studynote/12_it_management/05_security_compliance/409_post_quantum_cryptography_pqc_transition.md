@@ -1,13 +1,10 @@
-+++
-title = "409. 양자 내성 암호 PQC 전환 계획 (Post Quantum Cryptography PQC Transition)"
-date = 2026-05-09
+---
+title: "409. 양자 내성 암호 PQC 전환 계획 (Post Quantum Cryptography PQC Transition)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -160,7 +157,7 @@ PQC 전환은 단일 알고리즘 교체가 아니라 **암호학적 기반 패�
 
 **진행 상황**: 409 / 800
 
-<- **이전**: [408. AI 보안 적대적 공격 방어 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/408_ai_security_adversarial_attack_defense/)
-**다음**: [410. IT 거버넌스 프레임워크 COBIT 2019](/knowledge-base/studynote/12_it_management/05_security_compliance/410_it_governance_framework_cobit_2019/) ->
+<- **이전**: [408. AI 보안 적대적 공격 방어 전략](/studynote/12_it_management/05_security_compliance/408_ai_security_adversarial_attack_defense/)
+**다음**: [410. IT 거버넌스 프레임워크 COBIT 2019](/studynote/12_it_management/05_security_compliance/410_it_governance_framework_cobit_2019/) ->
 
 ---

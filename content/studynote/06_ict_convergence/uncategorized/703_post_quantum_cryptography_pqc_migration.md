@@ -1,13 +1,10 @@
-+++
-title = "703. 양자 내성 암호 PQC 전환 전략 (Post Quantum Cryptography PQC Migration)"
-date = 2026-05-09
+---
+title: "703. 양자 내성 암호 PQC 전환 전략 (Post Quantum Cryptography PQC Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ PQC 마이그레이션 아키텍처는 크게 **(A) 알고리즘 계층**, **(B)
 
 **진행 상황**: 703 / 800
 
-<- **이전**: [702. 생체 인증 FIDO2 패스키 인증 체계](/knowledge-base/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/)
-**다음**: [704. 뉴로 심볼릭 AI 논리 추론 융합](/knowledge-base/studynote/06_ict_convergence/uncategorized/704_neuro_symbolic_ai_logic_reasoning_integration/) ->
+<- **이전**: [702. 생체 인증 FIDO2 패스키 인증 체계](/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/)
+**다음**: [704. 뉴로 심볼릭 AI 논리 추론 융합](/studynote/06_ict_convergence/uncategorized/704_neuro_symbolic_ai_logic_reasoning_integration/) ->
 
 ---

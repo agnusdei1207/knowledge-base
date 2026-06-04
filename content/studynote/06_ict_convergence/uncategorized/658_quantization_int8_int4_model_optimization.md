@@ -1,13 +1,10 @@
-+++
-title = "658. 양자화 INT8 INT4 모델 최적화 (Quantization INT8 INT4 Model Optimization)"
-date = 2026-05-09
+---
+title: "658. 양자화 INT8 INT4 모델 최적화 (Quantization INT8 INT4 Model Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -212,7 +209,7 @@ Dequantization: r ≈ S × (q - Z)
 
 **진행 상황**: 658 / 800
 
-<- **이전**: [657. 지식 증류 모델 경량화 프루닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/)
-**다음**: [659. AI 추론 최적화 TensorRT ONNX](/knowledge-base/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/) ->
+<- **이전**: [657. 지식 증류 모델 경량화 프루닝](/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/)
+**다음**: [659. AI 추론 최적화 TensorRT ONNX](/studynote/06_ict_convergence/uncategorized/659_ai_inference_optimization_tensorrt_onnx/) ->
 
 ---

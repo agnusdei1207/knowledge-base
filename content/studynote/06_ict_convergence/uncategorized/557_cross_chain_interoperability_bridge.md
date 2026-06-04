@@ -1,13 +1,10 @@
-+++
-title = "557. 크로스 체인 상호 운용성 브릿지 (Cross Chain Interoperability Bridge)"
-date = 2026-05-09
+---
+title: "557. 크로스 체인 상호 운용성 브릿지 (Cross Chain Interoperability Bridge)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Lock -> Proof -> Relay -> Mint -> Redeem
 
 **진행 상황**: 557 / 800
 
-<- **이전**: [556. 토큰 이코노미 인센티브 설계 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/556_token_economy_incentive_design_model/)
-**다음**: [558. Layer2 확장 솔루션 롤업 사이드체인](/knowledge-base/studynote/06_ict_convergence/uncategorized/558_layer2_scaling_solution_rollup_sidechain/) ->
+<- **이전**: [556. 토큰 이코노미 인센티브 설계 모델](/studynote/06_ict_convergence/uncategorized/556_token_economy_incentive_design_model/)
+**다음**: [558. Layer2 확장 솔루션 롤업 사이드체인](/studynote/06_ict_convergence/uncategorized/558_layer2_scaling_solution_rollup_sidechain/) ->
 
 ---

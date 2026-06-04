@@ -1,16 +1,13 @@
-+++
-title = "144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행"
-date = 2026-04-19
+---
+title: "144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 군집주행(Platooning)은 <strong>선두 차량을 따라 후속 차량들이 V2V 통신으로 자동 추종</strong>하며, 차간 거리를 수m로 유지하여 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 줄이고 연비를 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 향상시키는 기술이다.
+> 1. **본질**: 군집주행(Platooning)은 <strong>선두 차량을 따라 후속 차량들이 V2V 통신으로 자동 추종</strong>하며, 차간 거리를 수m로 유지하여 공기 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 줄이고 연비를 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~15% 향상시키는 기술이다.
 > 2. **가치**: 장거리 트럭 운송에서 <strong>연료비 절감·운전자 피로 감소·도로 이용 효율 향상</strong>을 동시에 달성하며, 물류 혁신의 핵심이다.
 > 3. **판단 포인트**: 후속 차량은 L2~L4 수준 자율주행이며, CACC(Cooperative Adaptive Cruise Control)와 V2V 통신이 핵심 기술이다.
 
@@ -25,7 +22,7 @@ Platooning: 선두 -> 후속1 -> 후속2 -> 후속3
   후속 차량: CACC 자동 추종 (L2~L4)
 ```
 
-- **📢 섹션 요약 비유**: 군집주행은 <strong>기러기 V자 비행</strong>이다. 선두가 공기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 받고, 뒤따르는 기러기(트럭)는 에너지를 절약한다.
+- **📢 섹션 요약 비유**: 군집주행은 <strong>기러기 V자 비행</strong>이다. 선두가 공기 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/)을 받고, 뒤따르는 기러기(트럭)는 에너지를 절약한다.
 
 ---
 
@@ -42,7 +39,7 @@ Platooning: 선두 -> 후속1 -> 후속2 -> 후속3
 | **Platooning** | 대열 주행 |
 | **CACC** | 협조적 크루즈 |
 | **V2V** | 차량 간 통신 |
-| <strong>공기 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong> | 연비 핵심 |
+| <strong>공기 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a></strong> | 연비 핵심 |
 | **물류** | 장거리 트럭 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -55,7 +52,7 @@ Platooning: 선두 -> 후속1 -> 후속2 -> 후속3
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 군집주행은 <strong>기러기 V자 비행</strong>이에요. 선두가 바람을 막아줘요.
-2. 뒤따르는 트럭은 <strong>바람 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a>이 적어</strong> 기름을 덜 써요(15%v).
+2. 뒤따르는 트럭은 <strong>바람 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/">저항</a>이 적어</strong> 기름을 덜 써요(15%v).
 3. 무전(V2V)으로 **"나 감속한다!"** 알려서 동시에 움직여요!
 
 ---
@@ -64,7 +61,7 @@ Platooning: 선두 -> 후속1 -> 후속2 -> 후속3
 
 **진행 상황**: 144 / 552
 
-<- **이전**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)
-**다음**: [145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) ->
+<- **이전**: [143. C-V2X (Cellular V2X) - 5G 셀룰러 기반 차량 통신](/studynote/06_ict_convergence/02_iot_mobility/143_c_v2x_cellular_based_communication/)
+**다음**: [145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/) ->
 
 ---

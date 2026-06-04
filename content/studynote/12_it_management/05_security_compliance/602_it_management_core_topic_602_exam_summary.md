@@ -1,13 +1,10 @@
-+++
-title = "602. IT 경영 관리 핵심 토픽 602번 시험 요약 (IT Management Core Topic 602 Exam Summary)"
-date = 2026-05-09
+---
+title: "602. IT 경영 관리 핵심 토픽 602번 시험 요약 (IT Management Core Topic 602 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -195,7 +192,7 @@ $$ELI = \alpha \cdot L1_{effect} + \beta \cdot L2_{effect} + \gamma \cdot L3_{as
 
 **진행 상황**: 602 / 800
 
-<- **이전**: [601. IT 경영 관리 핵심 토픽 601번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/601_it_management_core_topic_601_exam_summary/)
-**다음**: [603. IT 경영 관리 핵심 토픽 603번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/603_it_management_core_topic_603_exam_summary/) ->
+<- **이전**: [601. IT 경영 관리 핵심 토픽 601번 시험 요약](/studynote/12_it_management/05_security_compliance/601_it_management_core_topic_601_exam_summary/)
+**다음**: [603. IT 경영 관리 핵심 토픽 603번 시험 요약](/studynote/12_it_management/05_security_compliance/603_it_management_core_topic_603_exam_summary/) ->
 
 ---

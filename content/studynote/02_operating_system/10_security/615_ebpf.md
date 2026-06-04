@@ -1,26 +1,23 @@
-+++
-title = "615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘"
-date = 2026-05-09
+---
+title: "615. eBPF 네트워크/보안/모니터링 이벤트 커널 안전 훅 매커니즘"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: eBPF 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/knowledge-base/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
-> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단로 이어지는 이유도 자연스럽게 파악된다.
-> 3. **판단 포인트**: 시스템 [DTrace](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘과의 관계를 함께 봐야 eBPF 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
+> 1. **본질**: eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [보호와 보안](/studynote/02_operating_system/01_overview_architecture/043_protection_security/) 메커니즘에서 핵심 흐름을 결정하는 개념으로, 시스템이 무엇을 먼저 관리하고 어떤 순서로 제어할지를 분명하게 만든다.
+> 2. **가치**: 이 개념을 이해하면 자원 효율, [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 안정성 사이의 균형을 더 정확하게 설명할 수 있고, 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단로 이어지는 이유도 자연스럽게 파악된다.
+> 3. **판단 포인트**: 시스템 [DTrace](/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘과의 관계를 함께 봐야 eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘을 단순 정의가 아니라 실제 설계·운영 판단 기준으로 사용할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 ### êë ë ìì
-eBPFë ìë 1992ë BSDìì ëíìí íí ííëì ìí íìí BPFë êëìë, 2014ë ëëì ìë 3.18ìì "Extended" êëì ìêëì ìë íëêëì ìì ë ëì ììì êëíì êììë. eBPF íëêëì ìëì ììëê ìì "êìê(Verifier)"ë íí ìììì êìëê, ìë(native [code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))ë ìíìëì ìë ëìì [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) ìíìëì ìí ìíëë.
+eBPFë ìë 1992ë BSDìì ëíìí íí ííëì ìí íìí BPFë êëìë, 2014ë ëëì ìë 3.18ìì "Extended" êëì ìêëì ìë íëêëì ìì ë ëì ììì êëíì êììë. eBPF íëêëì ìëì ììëê ìì "êìê(Verifier)"ë íí ìììì êìëê, ìë(native [code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))ë ìíìëì ìë ëìì [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/studynote/09_security/11_iam_access_control/568_jit_access/)) ìíìëì ìí ìíëë.
 
 eBPFì íì íìì ëìê êë:
 - **ììì**: êìêê íëêëì ëë ìí êëë ëìíì ëí ëí,ëëëëë ìê ëì ìì ìë
@@ -68,10 +65,10 @@ eBPFì íì íìì ëìê êë:
 |---|---|---|
 | **eBPF íëêë** | ìë ëìì ìíëëìë | Cììë ìì, LLVM/Clangìë ìíì |
 | **êìê(Verifier)** | íëêëì ìììì ìì êì | ëí ëí íì, ëëë ìê ëì êì, íì êì |
-| <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/">JIT</a> ìíìë</strong> | ëìíìëë ëìíë ìëë ëí | x86, ARM ë ê ìííìë ììí ìë ìì |
+| <strong><a href="/studynote/09_security/11_iam_access_control/568_jit_access/">JIT</a> ìíìë</strong> | ëìíìëë ëìíë ìëë ëí | x86, ARM ë ê ìííìë ììí ìë ìì |
 | **ë(Maps)** | ìëê ììì êêì êìíë ëìí ììì | íì ë, ëì, ìí, í ë ëìí ìëêì |
 | **íí íìí(Hook Points)** | íëêëì ììëë ìë ë ìì | ììí ì, ëíìí ìì, íëë ë |
-| <strong> attach/maps <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | ììì êêìì eBPF íëêëì ììíë ìííìì | [bpf](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)() ììí ì, BCC, libbpf ë |
+| <strong> attach/maps <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | ììì êêìì eBPF íëêëì ììíë ìííìì | [bpf](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)() ììí ì, BCC, libbpf ë |
 
 ### eBPF íëêë ìí íë
 
@@ -122,7 +119,7 @@ v
 - ëì ëìí êë -> ììì êêìì ìê
 ```
 
-**[ëììêë íì]** eBPF íëêëì ìëìêë "ìí -> ììêì -> ìì -> ëì -> íë"ìë ëìí ì ìë. Cììë ììë íëêëì êìêëë ìí ìë ìììì êìëê, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ìíìëëë êìêìì êì ëìíë ìëë ìííê ë ë, ììí ììì ëìëìíë. ì êììì êìêê íëêëì êìíë "ìí êì"ì ëê ëìêì íë.
+**[ëììêë íì]** eBPF íëêëì ìëìêë "ìí -> ììêì -> ìì -> ëì -> íë"ìë ëìí ì ìë. Cììë ììë íëêëì êìêëë ìí ìë ìììì êìëê, [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) ìíìëëë êìêìì êì ëìíë ìëë ìííê ë ë, ììí ììì ëìëìíë. ì êììì êìêê íëêëì êìíë "ìí êì"ì ëê ëìêì íë.
 
 ### ìì íí íìí(Hook Points)
 
@@ -134,7 +131,7 @@ v
 | **ììì íì** | `uprobe`, `uretprobe` | ììì êê íì ìì |
 | **íëììíìí** | `tracepoint/*` | ìë ë ììë ìì ì |
 
-### ëíìí [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)([eXpress Data Path](/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/)) ëì êì
+### ëíìí [XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/)([eXpress Data Path](/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/)) ëì êì
 
 XDPë ëíìí ííì ìë ëíìí ìíì ëëíê ìì ìíëë eBPF íëêëë, ìë ìëë ííì ìëí ì ìë.
 
@@ -163,7 +160,7 @@ XDPë ëíìí ííì ìë ëíìí ìíì ëëíê ìì ìíëë eBPF íëêë�
 - ìë ììëë ëì íí ìë êë -> DDoS ëìì íêì
 ```
 
-**[ëììêë íì]** XDPë "êìë íê ìì êì íìêë êìë ê"ê êë. ëìê ìëìì ëí(ìë ëíìí ìí)ì ëëíê ìì, êì íìê([XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) íëêë)ë íêìì ìíí ëê(XDP_DROP)ì ëë êëëë. ìëê íë ëêì ìëìì ëí ììë íêí íë ëêíë êëë íì íìììë.
+**[ëììêë íì]** XDPë "êìë íê ìì êì íìêë êìë ê"ê êë. ëìê ìëìì ëí(ìë ëíìí ìí)ì ëëíê ìì, êì íìê([XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) íëêë)ë íêìì ìíí ëê(XDP_DROP)ì ëë êëëë. ìëê íë ëêì ìëìì ëí ììë íêí íë ëêíë êëë íì íìììë.
 
 - **ìì ëì**: eBPF êìêë "ìí êêì ëëê íë êí ììí"ê êë. êêì ëìêë ëë ëê(íëêë)ì êëì(êìê)ì íêíì íê, êëìì "ì ëêì íëëì ìëê, ëêë ìëê, êê êìë íìë ëêì ìëê"ë êêí íìíë. ìë íêí ëêë êêì ëìê ì ìë.
 
@@ -201,10 +198,10 @@ eBPF:          --------+-------- [êìë + ìì]
 
 | ëê | ëì | ìì |
 |---|---|---|
-| <strong>BCC (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong> | C + Python/Luaë eBPF íëêë ìì | execsnoop, opensnoop, network monitoring |
+| <strong>BCC (<a href="/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong> | C + Python/Luaë eBPF íëêë ìì | execsnoop, opensnoop, network monitoring |
 | **libbpf** | ìì Cëìëëëë eBPF íëêë ëë | ìë ëì eBPF íëêë |
 | **bpftrace** | ëì ìì ììë ëì eBPF ìíëí ìì | `bpftrace -e 'tracepoint:syscalls:sys_enter_open { printf("%s\n", comm); }'` |
-| <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a></strong> | ìëëíì ëíìí ë ëì | L7 ìì ìì, ëíìí ëëíë |
+| <strong><a href="/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a></strong> | ìëëíì ëíìí ë ëì | L7 ìì ìì, ëíìí ëëíë |
 | **Falco** | ìíìë ëì ëëíë | ìì íì íì |
 
 - **ìì ëì**: eBPF ìíêë "ëìí êêë êìë êê ìí"ì êë. BCCë êê êììê ìì Cë ìêí ëêë ëëë íìê, bpftraceë êëìë ìëíë ìììë êëí ëëìë ìììì ëìë ëìíë ëêìë. Ciliumì íëí íê(ìëëíì) ìììë ìêë ëêìê, Falcoë ëì êëì ìíì íë ìë ëêìë.
@@ -215,12 +212,12 @@ eBPF:          --------+-------- [êìë + ìì]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### ìë ìëëì: DDoS ëìë ìí [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) êë íí ííë
+### ìë ìëëì: DDoS ëìë ìí [XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) êë íí ííë
 
 **ìí**:ë ëêë ì ìëìê DDoS êêì ëì ìëìêëìë. êì ëíëìë ìëíêì êê íëíì ëë ìë.
 
-<strong>eBPF/<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> êë ëì</strong>:
-1. [XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) íëêë ìì: ìëì IP ììë êëìë ííì ëë
+<strong>eBPF/<a href="/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> êë ëì</strong>:
+1. [XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) íëêë ìì: ìëì IP ììë êëìë ííì ëë
 2. ìëì êê íí(íì íí, íì íí íê ë)ì XDP_DROPìë ìì íê
 3. ìì íëíì XDP_PASSë ìë ëíìí ìíì ìë
 4. ë(Maps)ì íí ê IPë ìì ìë ììíê, ìì ìêêì ìêíë ìë ìë
@@ -248,7 +245,7 @@ eBPF:          --------+-------- [êìë + ìì]
 
 ### ìë/ìì êëíê
 
-| êë | ìíì iptables ëíë | eBPF/[XDP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) êë ëíë |
+| êë | ìíì iptables ëíë | eBPF/[XDP](/studynote/01_computer_architecture/15_advanced_topics/670_xdp/) êë ëíë |
 |---|---|---|
 | **íí ìëë** | ìë ììë~ìëë íí | ìë ìëë~ììë íí |
 | **CPU ììë** | ìê~ëì | ëì ëì |
@@ -256,18 +253,18 @@ eBPF:          --------+-------- [êìë + ìì]
 | **ëì ëì** | êì ëê ì ìêì íì | ììê êì ìëìí êë |
 
 ### ëë ìë
-eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/)), ìíìë ëì(Falco), ìë ëëíë(bpftrace) ë íë ìíëìì íì êìë ìëìê ìë. ëí íëìì êì(TPASS)ê êííì ëì ëë íí ìëê êëíìê, ëìëëì íìí ìëí ëíìí ììíìë ììì ììë.
+eBPFë ìëëíì ëíìí([Cilium](/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/)), ìíìë ëì(Falco), ìë ëëíë(bpftrace) ë íë ìíëìì íì êìë ìëìê ìë. ëí íëìì êì(TPASS)ê êííì ëì ëë íí ìëê êëíìê, ëìëëì íìí ìëí ëíìí ììíìë ììì ììë.
 
 ### ìê íì
-- **ëëì ìë ëì**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://www.[kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/).org/doc/html/latest/[bpf](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/)/
-- <strong>BCC (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong>: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://github.com/iovisor/bcc
-- **bpftrace**: [https](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://bpftrace.org/
+- **ëëì ìë ëì**: [https](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://www.[kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/).org/doc/html/latest/[bpf](/studynote/02_operating_system/01_overview_architecture/069_ebpf/)/
+- <strong>BCC (<a href="/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong>: [https](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://github.com/iovisor/bcc
+- **bpftrace**: [https](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)://bpftrace.org/
 
-- **ìì ëì**: eBPFë "ìëí ìíì íí êí ììí"ê êë. êí ìí, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), êê ìë ìììë ëì ëë íëì ìì ììíìì êëëëì, eBPFë ëíìí, ëì, ëëíë ëì íëì íí íëììíìì ìëíë.
+- **ìì ëì**: eBPFë "ìëí ìíì íí êí ììí"ê êë. êí ìí, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), êê ìë ìììë ëì ëë íëì ìì ììíìì êëëëì, eBPFë ëíìí, ëì, ëëíë ëì íëì íí íëììíìì ìëíë.
 
 ---
 
-> 1. **ëì**: eBPF(Extended [Berkeley Packet Filter](/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/))ë ëëì ìë ëìì "ììíê ìíëë" íëêëì ììíê ììí ì ìê íë êìë, ëíìí íí ìë, ëì ëëíë, ìë ìì ëì ìë ìììì ììí ììì ìì ëììë ìíí ì ìê íë.
+> 1. **ëì**: eBPF(Extended [Berkeley Packet Filter](/studynote/02_operating_system/01_overview_architecture/069_ebpf/))ë ëëì ìë ëìì "ììíê ìíëë" íëêëì ììíê ììí ì ìê íë êìë, ëíìí íí ìë, ëì ëëíë, ìë ìì ëì ìë ìììì ììí ììì ìì ëììë ìíí ì ìê íë.
 > 2. **êì**: eBPFë êì ìë ëëì ìíì(ìë íë ìë êë)ê ììì êê íëêëì ìëíë(ìíìí ììì ëì)ë ëìì íêíë, ìë ìëë ìëíë ìëí ì ìë êìëì ìêíë.
 > 3. **ìí**: eBPFë ìë êìê(Verifier)ë íí ììì ëì, LLVM/Clang êë Cìì ìíì, ë(Maps)ì íí ìí ìì, íí íìí(Hook Points)ë íí ëíìí/ëì/ìì êë ííìëë 4ë íì ììë êìëë.
 
@@ -275,10 +272,10 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 | êë ëì | êê ë ìëì ìë |
 |---|---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> (<a href="/knowledge-base/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/">eXpress Data Path</a>)</strong> | eBPFë íìí ìêì ëíìí íí ìë íëììíë, ìë ëíìí ìí ììì ííì ìëíë. |
+| <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/670_xdp/">XDP</a> (<a href="/studynote/02_operating_system/10_security/661_ebpf_xdp_express_data_path/">eXpress Data Path</a>)</strong> | eBPFë íìí ìêì ëíìí íí ìë íëììíë, ìë ëíìí ìí ììì ííì ìëíë. |
 | **êìê(Verifier)** | eBPF íëêëì ìììì ìëì ììëê ìì êìíë ëëë, ëí ëíìëëëëë ìêì ìì ìëíë. |
 | **ë(Maps)** | ìëê ììì êêì êìíë ëìí ìììë, eBPF íëêëì ìí ìì ë ììì êêêì íìì ììëë. |
-| <strong>BCC (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong> | Cììë eBPF íëêëì ìê ììí ì ìëë íë íëììíìë. |
+| <strong>BCC (<a href="/studynote/02_operating_system/01_overview_architecture/069_ebpf/">BPF</a> Compiler Collection)</strong> | Cììë eBPF íëêëì ìê ììí ì ìëë íë íëììíìë. |
 
 ---
 
@@ -294,10 +291,10 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) ([Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/)) 도구 Gprof [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 후킹 작동 원리 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 시스템 [DTrace](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [프로파일링](/studynote/02_operating_system/10_security/613_profiling_gprof/) ([Profiling](/studynote/02_operating_system/10_security/613_profiling_gprof/)) 도구 Gprof [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 후킹 작동 원리 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 시스템 [DTrace](/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| I/O [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목 ([Bottleneck](/studynote/02_operating_system/10_security/617_io_bottleneck/)) 탐색법 (iostat, vmstat) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -315,9 +312,9 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. eBPF 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
-2. 먼저 시스템 [DTrace](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘을 이해하면 eBPF 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 eBPF 네트워크/보안/모니터링 이벤트 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘을 잘 알면 나중에 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단도 훨씬 쉽게 배울 수 있어요.
+1. eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘은 컴퓨터가 누가 들어와도 되는지와 무엇을 막아야 하는지 정하는 문지기 규칙이에요.
+2. 먼저 시스템 [DTrace](/studynote/02_operating_system/10_security/614_dtrace/) 선언적 동적 트레이싱 엔진 메커니즘을 이해하면 eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 eBPF 네트워크/보안/모니터링 이벤트 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안전 훅 매커니즘을 잘 알면 나중에 멀티코어 확장성 병목 (Amdahl's Law) 및 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/) 진단도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -325,7 +322,7 @@ eBPFë ìëëíì ëíìí([Cilium](/knowledge-base/studynote/03_network/16_data
 
 **진행 상황**: 615 / 800
 
-<- **이전**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/knowledge-base/studynote/02_operating_system/10_security/614_dtrace/)
-**다음**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/knowledge-base/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/) ->
+<- **이전**: [614. 시스템 DTrace 선언적 동적 트레이싱 엔진 메커니즘](/studynote/02_operating_system/10_security/614_dtrace/)
+**다음**: [616. 멀티코어 확장성 병목 (Amdahl's Law) 및 커널 락 경합 진단](/studynote/02_operating_system/10_security/616_amdahl_law_multicore_scaling/) ->
 
 ---

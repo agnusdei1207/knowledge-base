@@ -1,13 +1,10 @@
-+++
-title = "553. 애자일 전환 조직 문화 변혁 관리 (Agile Transformation Culture Change Management)"
-date = 2026-05-09
+---
+title: "553. 애자일 전환 조직 문화 변혁 관리 (Agile Transformation Culture Change Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 553 / 800
 
-<- **이전**: [552. 디지털 리터러시 조직 역량 강화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/552_digital_literacy_organization_capability/)
-**다음**: [554. DevOps 문화 협업 자동화 피드백](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/554_devops_culture_collaboration_automation_feedb/) ->
+<- **이전**: [552. 디지털 리터러시 조직 역량 강화](/studynote/07_enterprise_systems/06_exam_summary/552_digital_literacy_organization_capability/)
+**다음**: [554. DevOps 문화 협업 자동화 피드백](/studynote/07_enterprise_systems/06_exam_summary/554_devops_culture_collaboration_automation_feedb/) ->
 
 ---

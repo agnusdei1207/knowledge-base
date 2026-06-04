@@ -1,13 +1,10 @@
-+++
-title = "516. PLM 제품 수명주기 관리 디지털 (PLM Product Lifecycle Management Digital)"
-date = 2026-05-09
+---
+title: "516. PLM 제품 수명주기 관리 디지털 (PLM Product Lifecycle Management Digital)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ PLM을 올바르게 적용하면 업무 처리 속도, 통제 수준, 데이터 
 
 **진행 상황**: 516 / 800
 
-<- **이전**: [515. CRM 고객 관계 관리 옴니채널](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/515_crm_customer_relationship_omnichannel/)
-**다음**: [517. MES 제조 실행 시스템 스마트 팩토리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/517_mes_manufacturing_execution_smart_factory/) ->
+<- **이전**: [515. CRM 고객 관계 관리 옴니채널](/studynote/07_enterprise_systems/06_exam_summary/515_crm_customer_relationship_omnichannel/)
+**다음**: [517. MES 제조 실행 시스템 스마트 팩토리](/studynote/07_enterprise_systems/06_exam_summary/517_mes_manufacturing_execution_smart_factory/) ->
 
 ---

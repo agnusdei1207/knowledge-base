@@ -1,13 +1,10 @@
-+++
-title = "456. IT 경영 관리 핵심 토픽 456번 시험 요약 (IT Management Core Topic 456 Exam Summary)"
-date = 2026-05-09
+---
+title: "456. IT 경영 관리 핵심 토픽 456번 시험 요약 (IT Management Core Topic 456 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 456. IT 거버넌스 및 정보화 사업 성과관리 (IT Governance & Informatization Project Performance Management)
 
@@ -132,7 +129,7 @@ COBIT 2019의 **Governance System** 구조는 5개 도메인(EDM·APO·BAI·DSS�
 
 **진행 상황**: 456 / 800
 
-<- **이전**: [455. IT 경영 관리 핵심 토픽 455번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/455_it_management_core_topic_455_exam_summary/)
-**다음**: [457. IT 경영 관리 핵심 토픽 457번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/457_it_management_core_topic_457_exam_summary/) ->
+<- **이전**: [455. IT 경영 관리 핵심 토픽 455번 시험 요약](/studynote/12_it_management/05_security_compliance/455_it_management_core_topic_455_exam_summary/)
+**다음**: [457. IT 경영 관리 핵심 토픽 457번 시험 요약](/studynote/12_it_management/05_security_compliance/457_it_management_core_topic_457_exam_summary/) ->
 
 ---

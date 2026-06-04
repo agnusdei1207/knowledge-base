@@ -1,17 +1,14 @@
-+++
-title = "735. 비인가 AP (Rogue AP 무선망 트래픽 위조 가로채기 이블트윈 공격 / WIPS 방어 적용망)"
-date = 2026-05-08
+---
+title: "735. 비인가 AP (Rogue AP 무선망 트래픽 위조 가로채기 이블트윈 공격 / WIPS 방어 적용망)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 비인가 AP는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 비인가 AP는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 비인가 AP를 이해하면 탐지 가능성과 복구성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,7 +16,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 회사의 보안 관리자나 IT 팀의 허락([인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 받지 않고, <strong>사내 네트워크 또는 공공장소에 몰래 불법으로 설치되어 작동하는 무선 공유기(<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">Access Point</a>)</strong>입니다.
+- **개념**: 회사의 보안 관리자나 IT 팀의 허락([인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/))을 받지 않고, <strong>사내 네트워크 또는 공공장소에 몰래 불법으로 설치되어 작동하는 무선 공유기(<a href="/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">Access Point</a>)</strong>입니다.
 - **발생 원인**:
   1. 직원이 자기 자리에서 편하게 와이파이를 쓰려고 집에서 가져온 싸구려 아이피타임(iPTIME) 공유기를 회사 랜선에 몰래 꽂는 경우. (보안 구멍 뻥 뚫림)
   2. 해커가 악의적인 목적을 가지고 가짜 와이파이를 띄워 사람들을 낚시하는 경우.
@@ -33,16 +30,16 @@ tags = ["studynote-network"]
     +---> [포트 포워딩]
 ```
 
-- **📢 섹션 요약 비유**: 비인가 AP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 비인가 AP는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가장 악랄하고 흔한 Rogue [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 낚시 기법입니다.
-- **동작 원리**: 해커가 공공장소(공항, 카페)에 노트북을 켜고, 원래 설치되어 있는 정상적인 공식 무료 와이파이와 <strong>'완전히 똑같은 이름(SSID)'</strong>을 가진 가짜 와이파이 존을 엽니다. (때론 해커가 자기 기기의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 출력을 비정상적으로 빵빵하게 키웁니다.)
-- **스마트폰의 맹점**: 스마트폰의 와이파이 설정은 똑같은 이름이 두 개 보이면, 묻지도 따지지도 않고 <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 세기(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 칸)가 더 센 쪽을 '진짜'로 믿고 자동으로 확 붙어버리는 멍청한 성질</strong>이 있습니다.
-- **해킹 성공 (MitM)**: 사용자가 가짜 공유기(해커의 노트북)에 붙는 순간, 해커는 그 사용자의 모든 인터넷 트래픽을 중간에서 투명하게 들여다보고(스니핑), 가짜 은행 사이트로 튕겨버리는 [피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/)([DNS](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/))을 마음껏 저지를 수 있습니다. (완벽한 [중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) 성립)
+가장 악랄하고 흔한 Rogue [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 낚시 기법입니다.
+- **동작 원리**: 해커가 공공장소(공항, 카페)에 노트북을 켜고, 원래 설치되어 있는 정상적인 공식 무료 와이파이와 <strong>'완전히 똑같은 이름(SSID)'</strong>을 가진 가짜 와이파이 존을 엽니다. (때론 해커가 자기 기기의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 출력을 비정상적으로 빵빵하게 키웁니다.)
+- **스마트폰의 맹점**: 스마트폰의 와이파이 설정은 똑같은 이름이 두 개 보이면, 묻지도 따지지도 않고 <strong><a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 세기(<a href="/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/">안테나</a> 칸)가 더 센 쪽을 '진짜'로 믿고 자동으로 확 붙어버리는 멍청한 성질</strong>이 있습니다.
+- **해킹 성공 (MitM)**: 사용자가 가짜 공유기(해커의 노트북)에 붙는 순간, 해커는 그 사용자의 모든 인터넷 트래픽을 중간에서 투명하게 들여다보고(스니핑), 가짜 은행 사이트로 튕겨버리는 [피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/)([DNS](/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/) [스푸핑](/studynote/02_operating_system/10_security/598_spoofing/))을 마음껏 저지를 수 있습니다. (완벽한 [중간자 공격](/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/) 성립)
 
 ```text
 [방화벽 우회기법]
@@ -59,42 +56,42 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-이런 끔찍한 사태를 막기 위해 기업이나 관공서는 천장 곳곳에 WIPS 전용 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쫙 깔아둡니다.
-- **WIPS (Wireless Intrusion Prevention System)**: 무선랜(Wi-Fi) 환경에서 발생하는 스니핑, 이블트윈, 불법 [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설치 등 무선 보안 위협을 실시간으로 24시간 스캔하여 탐지하고 '강제로 통신을 끊어버리는(차단)' 전용 무선 보안 솔루션입니다.
+이런 끔찍한 사태를 막기 위해 기업이나 관공서는 천장 곳곳에 WIPS 전용 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 쫙 깔아둡니다.
+- **WIPS (Wireless Intrusion Prevention System)**: 무선랜(Wi-Fi) 환경에서 발생하는 스니핑, 이블트윈, 불법 [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/) 설치 등 무선 보안 위협을 실시간으로 24시간 스캔하여 탐지하고 '강제로 통신을 끊어버리는(차단)' 전용 무선 보안 솔루션입니다.
 
 ### WIPS의 3단계 완벽 방어 매커니즘
-1. **스캔 (정찰)**: WIPS [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 허공에 떠다니는 전파를 24시간 감시하며, 우리 건물 안에 허락되지 않은 이상한 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가진 공유기가 전파를 뿜어내는지 찾아냅니다.
-2. <strong>탐지 (Rogue <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 감지)</strong>: 사내 랜선에 꽂혀있는 듣도 보도 못한 사설 공유기나, 회사 공식 와이파이와 이름이 똑같은 수상한 해커의 공유기(이블트윈)를 귀신같이 잡아냅니다.
+1. **스캔 (정찰)**: WIPS [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)는 허공에 떠다니는 전파를 24시간 감시하며, 우리 건물 안에 허락되지 않은 이상한 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 가진 공유기가 전파를 뿜어내는지 찾아냅니다.
+2. <strong>탐지 (Rogue <a href="/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/">AP</a> 감지)</strong>: 사내 랜선에 꽂혀있는 듣도 보도 못한 사설 공유기나, 회사 공식 와이파이와 이름이 똑같은 수상한 해커의 공유기(이블트윈)를 귀신같이 잡아냅니다.
 3. **차단 (Deauthentication 공격의 역이용) 🌟**:
    - WIPS의 가장 무서운 기능입니다. 가짜 공유기를 발견하면 WIPS가 사내 직원들의 스마트폰에게 공유기인 척 위장해서 <strong>"얘들아, 너네 지금 붙어있는 그 공유기 가짜니까 당장 와이파이 연결 끊어! (Deauth 패킷)"</strong>라고 초당 백 번씩 무차별 방송을 때려버립니다.
    - 직원 폰은 와이파이를 잡으려다 계속 튕겨 나가게 되어, 결국 해커의 이블트윈 공격이 물리적으로 100% 무력화됩니다.
 
-비인가 AP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)이 기반 조건을 만든다면, 비인가 AP는 그 위에서 핵심 메커니즘을 구현하고, [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+비인가 AP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)이 기반 조건을 만든다면, 비인가 AP는 그 위에서 핵심 메커니즘을 구현하고, [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 탐지 가능성과 복구성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)의 기반 정리 | 비인가 AP의 핵심 동작 | [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)의 확장 적용 |
+| 초점 | [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)의 기반 정리 | 비인가 AP의 핵심 동작 | [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 탐지 가능성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 이블 트윈은 공항 택시 승강장에서 겪는 '가짜 콜택시 사기'입니다. 공식 공항 로고를 박은 가짜 택시(Rogue [AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 몰고 온 사기꾼이 진짜 택시들 앞에 새치기해서 차를 댑니다. 승객(스마트폰)은 로고(SSID)가 똑같고 차가 코앞에 있으니(강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 의심 없이 타버리고, 결국 외딴곳으로 납치당해 지갑을 털립니다([중간자 공격](/knowledge-base/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)). 이를 막기 위해 공항 측이 고용한 단속반(WIPS)이 승강장을 순찰하다가 번호판이 미등록된 가짜 택시를 발견하면, 승객들에게 확성기로 "저 택시 가짜니까 당장 내리세요!"라고 소리쳐 승객을 강제로 끌어내리는(Deauth 차단) 철벽 보안 시스템입니다.
+- **📢 섹션 요약 비유**: 이블 트윈은 공항 택시 승강장에서 겪는 '가짜 콜택시 사기'입니다. 공식 공항 로고를 박은 가짜 택시(Rogue [AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/))를 몰고 온 사기꾼이 진짜 택시들 앞에 새치기해서 차를 댑니다. 승객(스마트폰)은 로고(SSID)가 똑같고 차가 코앞에 있으니(강한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)) 의심 없이 타버리고, 결국 외딴곳으로 납치당해 지갑을 털립니다([중간자 공격](/studynote/03_network/14_network_security_threats/706_mitm_man_in_the_middle_hsts/)). 이를 막기 위해 공항 측이 고용한 단속반(WIPS)이 승강장을 순찰하다가 번호판이 미등록된 가짜 택시를 발견하면, 승객들에게 확성기로 "저 택시 가짜니까 당장 내리세요!"라고 소리쳐 승객을 강제로 끌어내리는(Deauth 차단) 철벽 보안 시스템입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 비인가 AP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) 수준의 기본 대책으로 충분한지, 아니면 비인가 AP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 비인가 AP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) 수준의 기본 대책으로 충분한지, 아니면 비인가 AP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 탐지 가능성 부족인지, 복구성 악화인지 먼저 분리한다.
-2. 비인가 AP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와의 연계 방식을 함께 검증한다.
+2. 비인가 AP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 비인가 AP의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 비인가 AP를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -102,7 +99,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-비인가 AP는 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/), 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+비인가 AP는 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 위협과 대응을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 탐지 가능성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/), 예측형 위협 대응, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 예측형 위협 대응 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 비인가 AP는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -112,10 +109,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 공격 표면 (Attack Surface) | 위협이 침투할 수 있는 노출 지점을 뜻한다. |
-| [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
-| [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/)) | 정상 패턴과 다른 징후를 찾아낸다. |
+| [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +126,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 예측형 위협 대응]
 ```
 
-비인가 AP는 [방화벽 우회기법](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+비인가 AP는 [방화벽 우회기법](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/)와 예측형 위협 대응 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +140,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 856 / 1120
 
-<- **이전**: [734. 방화벽 우회기법 (터널링 캡슐화 포트 우회/분산 패킷 망 회피)](/knowledge-base/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)
-**다음**: [736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) ->
+<- **이전**: [734. 방화벽 우회기법 (터널링 캡슐화 포트 우회/분산 패킷 망 회피)](/studynote/03_network/14_network_security_threats/734_firewall_bypass_tunneling_fragmentation/)
+**다음**: [736. 포트 포워딩 (Port Forwarding 역방향 타격 문제 제어 원격 포트/점프 스테이션 보안 규정 체계제안)](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) ->
 
 ---

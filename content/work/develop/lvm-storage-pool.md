@@ -1,9 +1,13 @@
-+++
-title = "🗄️ Ubuntu LVM — 외장 하드 여러 개를 하나의 스토리지 풀로 묶기"
+---
+title: "🗄️ Ubuntu LVM — 외장 하드 여러 개를 하나의 스토리지 풀로 묶기"
+tags:
+  - "work"
+  - "lvm"
+  - "ubuntu"
+  - "storage"
+  - "operations"
+---
 
-[extra]
-tags = ["work", "lvm", "ubuntu", "storage", "operations"]
-+++
 
 > 우분투에서 외장 하드 2~N개를 **LVM(Logical Volume Manager, 논리 볼륨 관리자)**으로 묶어
 > 하나의 거대한 스토리지 풀처럼 쓰고, 나중에 디스크를 더 사서 **무중단 수평 확장**하는 전 과정을 정리한 운영 가이드.
@@ -16,7 +20,7 @@ tags = ["work", "lvm", "ubuntu", "storage", "operations"]
 - 나중에 하드를 더 사면, 데이터 옮기지 않고 용량만 늘리고 싶다.
 - 디스크 한 개가 죽으면 RAID-1처럼 거울로 보호받고 싶진 않은데, **그래도 한 풀로 합쳐서 편하게** 쓰고 싶다.
 
-→ 정답은 **LVM**이다. RAID와는 다른 "공간 추상화" 도구다.
+-> 정답은 **LVM**이다. RAID와는 다른 "공간 추상화" 도구다.
 
 ---
 
@@ -39,20 +43,20 @@ LVM을 한 줄로 요약하면:
 
 ### 0-2. LVM 3계층 구조 — PV / VG / LV
 
-LVM은 **물리 → 그룹 → 논리** 3계층을 거친다. 약어는 외우면 편하다.
+LVM은 **물리 -> 그룹 -> 논리** 3계층을 거친다. 약어는 외우면 편하다.
 
 ```
-┌──────────────────────────────────────────────────────────┐
-│  LV (Logical Volume, 논리 볼륨)                           │  ← 우리가 실제로 포맷·마운트하는 "가상 디스크"
-│      └─ /dev/media_pool/media_disk (4TB)                  │
-├──────────────────────────────────────────────────────────┤
-│  VG (Volume Group, 볼륨 그룹)                              │  ← 여러 PV를 합친 "하나의 거대한 풀"
-│      └─ media_pool (총 4TB)                               │
-├──────────────────────────────────────────────────────────┤
-│  PV (Physical Volume, 물리 볼륨)                           │  ← 실제 디스크(또는 디스크의 파티션)
-│      ├─ /dev/sdb (2TB)                                    │
-│      └─ /dev/sdc (2TB)                                    │
-└──────────────────────────────────────────────────────────┘
++----------------------------------------------------------+
+|  LV (Logical Volume, 논리 볼륨)                           |  <- 우리가 실제로 포맷·마운트하는 "가상 디스크"
+|      +- /dev/media_pool/media_disk (4TB)                  |
++----------------------------------------------------------+
+|  VG (Volume Group, 볼륨 그룹)                              |  <- 여러 PV를 합친 "하나의 거대한 풀"
+|      +- media_pool (총 4TB)                               |
++----------------------------------------------------------+
+|  PV (Physical Volume, 물리 볼륨)                           |  <- 실제 디스크(또는 디스크의 파티션)
+|      +- /dev/sdb (2TB)                                    |
+|      +- /dev/sdc (2TB)                                    |
++----------------------------------------------------------+
 ```
 
 | 약어 | 풀네임 | 비유 | 비고 |
@@ -73,9 +77,9 @@ LVM은 **물리 → 그룹 → 논리** 3계층을 거친다. 약어는 외우�
 
 - 단일 디스크 장애가 VG 전체로 번진다. (RAID 미러링이 아니므로)
 - 다른 OS(Windows 등)에서 바로 읽기 어렵다. (LVM 메타데이터를 모르는 OS)
-- USB로 빼서 다른 리눅스에 꽂으면 VG/LV가 **자동 인식 안 될 수 있다**. `vgscan` → `vgchange -ay` 필요.
+- USB로 빼서 다른 리눅스에 꽂으면 VG/LV가 **자동 인식 안 될 수 있다**. `vgscan` -> `vgchange -ay` 필요.
 
-→ **"여러 디스크를 한 풀처럼 편하게"가 목적**, **"장애 대비"는 별도 백업으로 해결**하는 게 일반적인 워크플로.
+-> **"여러 디스크를 한 풀처럼 편하게"가 목적**, **"장애 대비"는 별도 백업으로 해결**하는 게 일반적인 워크플로.
 
 ---
 
@@ -103,9 +107,9 @@ lsblk
 
 ```
 sda      8:0    0   500G  0 disk
-├─sda1   8:1    0   500G  0 part /
-sdb      8:16   0     2T  0 disk          ← 외장 1 (비어있음)
-sdc      8:32   0     2T  0 disk          ← 외장 2 (비어있음)
++-sda1   8:1    0   500G  0 part /
+sdb      8:16   0     2T  0 disk          <- 외장 1 (비어있음)
+sdc      8:32   0     2T  0 disk          <- 외장 2 (비어있음)
 ```
 
 > ⚠️ `sda`가 본체라면 절대 `pvcreate`하지 말 것. 확인했으면 다음 단계로.
@@ -193,9 +197,9 @@ sudo lvcreate -l 100%FREE -n media_disk media_pool
 ```
 
 옵션 의미:
-- `-l 100%FREE` → VG의 **남은 PE 100%**를 다 쓰겠다.
-- `-n media_disk` → 새로 만들 LV의 이름.
-- `media_pool` → 어떤 VG에서 잘라낼지.
+- `-l 100%FREE` -> VG의 **남은 PE 100%**를 다 쓰겠다.
+- `-n media_disk` -> 새로 만들 LV의 이름.
+- `media_pool` -> 어떤 VG에서 잘라낼지.
 
 **성공 메시지:**
 
@@ -276,10 +280,10 @@ sudo blkid /dev/media_pool/media_disk
 sudo nano /etc/fstab
 ```
 
-파일 맨 아래에 다음 한 줄을 추가하고 저장(`Ctrl+O` → `Enter` → 종료 `Ctrl+X`):
+파일 맨 아래에 다음 한 줄을 추가하고 저장(`Ctrl+O` -> `Enter` -> 종료 `Ctrl+X`):
 
 ```
-# LVM media_pool/media_disk → /media/storage
+# LVM media_pool/media_disk -> /media/storage
 UUID=여기에-복사한-UUID  /media/storage  ext4  defaults  0  2
 ```
 
@@ -322,15 +326,15 @@ sudo resize2fs /dev/media_pool/media_disk
 ```
 
 > **왜 `lvextend` + `resize2fs` 둘 다?**
-> - `lvextend` → LV(LVM 레벨) 의 크기를 키운다.
-> - `resize2fs` → 그 안의 **파일 시스템**(ext4)도 함께 키운다.
+> - `lvextend` -> LV(LVM 레벨) 의 크기를 키운다.
+> - `resize2fs` -> 그 안의 **파일 시스템**(ext4)도 함께 키운다.
 > 둘 다 해야 OS가 "디스크가 커졌다"고 인식한다. `resize2fs`는 **마운트 상태에서**도 동작 — **무중단 확장** 가능.
 
 확인:
 
 ```bash
 df -h /media/storage
-# Size가 3.9T → 5.9T 로 바뀌었을 것
+# Size가 3.9T -> 5.9T 로 바뀌었을 것
 ```
 
 ### 디스크가 여러 개 한꺼번에 추가된다면?
@@ -435,7 +439,7 @@ sudo xfs_growfs /media/storage
 
 ## 🔗 관련 문서
 
-- RAID와 차이: [RAID 0/1/5/6/10 정리](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/331_raid/)
-- NAS / SAN / DAS 구분: [338. NAS](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/338_nas/)
+- RAID와 차이: [RAID 0/1/5/6/10 정리](/studynote/01_computer_architecture/08_io_storage_systems/331_raid/)
+- NAS / SAN / DAS 구분: [338. NAS](/studynote/01_computer_architecture/08_io_storage_systems/338_nas/)
 - 파일 시스템 이해: ext4 · XFS · ZFS (별도 가이드에서 다루는 것을 권장)
 - 운영 자동화 / Ansible로 위 일괄 적용: 별도 가이드

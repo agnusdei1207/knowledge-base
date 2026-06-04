@@ -1,13 +1,10 @@
-+++
-title = "773. 기술 윤리 디지털 권리 책임 있는 혁신 (Tech Ethics Digital Rights Responsible Innovation)"
-date = 2026-05-09
+---
+title: "773. 기술 윤리 디지털 권리 책임 있는 혁신 (Tech Ethics Digital Rights Responsible Innovation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 773 / 800
 
-<- **이전**: [772. 디지털 포용 접근성 정보 격차 해소](/knowledge-base/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/)
-**다음**: [774. 사이버 주권 디지털 자주권 기술 독립](/knowledge-base/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/) ->
+<- **이전**: [772. 디지털 포용 접근성 정보 격차 해소](/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/)
+**다음**: [774. 사이버 주권 디지털 자주권 기술 독립](/studynote/06_ict_convergence/uncategorized/774_cyber_sovereignty_digital_independence/) ->
 
 ---

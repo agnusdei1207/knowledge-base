@@ -1,13 +1,10 @@
-+++
-title = "528. 코드 리뷰 정적 분석 품질 관문 (Code Review Static Analysis Quality Gate)"
-date = 2026-05-09
+---
+title: "528. 코드 리뷰 정적 분석 품질 관문 (Code Review Static Analysis Quality Gate)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -181,7 +178,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 528 / 600
 
-<- **이전**: [527. 기술 부채 관리 리팩터링 전략](/knowledge-base/studynote/11_design_supervision/06_exam_summary/528_technical_debt_management_refactoring_st/)
-**다음**: [529. 테스트 피라미드 단위 통합 E2E](/knowledge-base/studynote/11_design_supervision/06_exam_summary/529_test_pyramid_unit_integration_e2e/) ->
+<- **이전**: [527. 기술 부채 관리 리팩터링 전략](/studynote/11_design_supervision/06_exam_summary/528_technical_debt_management_refactoring_st/)
+**다음**: [529. 테스트 피라미드 단위 통합 E2E](/studynote/11_design_supervision/06_exam_summary/529_test_pyramid_unit_integration_e2e/) ->
 
 ---

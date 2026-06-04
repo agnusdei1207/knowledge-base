@@ -1,19 +1,16 @@
-+++
-title = "229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)"
-date = 2026-05-10
+---
+title: "229. 더블 디스패치와 방문자 패턴 (Double Dispatch / Visitor Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Double Dispatch (더블 디스패치)는 메서드 호출이 **두 객체의 런타임 타입** 모두를 기반으로 결정되는 메커니즘이며, [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 Java의 단일 디스패치(Single Dispatch) 한계를 `accept(visitor) -> visitor.visit(this)` 두 번의 가상 호출(Virtual [Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))로 더블 디스패치를 구현하는 GoF 패턴이다.
-> 2. **가치**: 요소(Element) 클래스 계층을 변경하지 않고 새로운 연산([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 추가할 수 있어, <strong>Open/Closed Principle(<a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/356_process/">개방-폐쇄 원칙</a>)</strong> 을 지키면서 타입별 동작을 확장한다.
-> 3. **판단 포인트**: 요소 타입은 고정적이지만 연산이 자주 추가되는 경우 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) — 반대로 연산은 고정적이지만 타입이 자주 추가되는 경우 Visitor는 부적합 (모든 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스 수정 필요).
+> 1. **본질**: Double Dispatch (더블 디스패치)는 메서드 호출이 **두 객체의 런타임 타입** 모두를 기반으로 결정되는 메커니즘이며, [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 패턴은 Java의 단일 디스패치(Single Dispatch) 한계를 `accept(visitor) -> visitor.visit(this)` 두 번의 가상 호출(Virtual [Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/))로 더블 디스패치를 구현하는 GoF 패턴이다.
+> 2. **가치**: 요소(Element) 클래스 계층을 변경하지 않고 새로운 연산([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))을 추가할 수 있어, <strong>Open/Closed Principle(<a href="/studynote/11_design_supervision/06_exam_summary/356_process/">개방-폐쇄 원칙</a>)</strong> 을 지키면서 타입별 동작을 확장한다.
+> 3. **판단 포인트**: 요소 타입은 고정적이지만 연산이 자주 추가되는 경우 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) — 반대로 연산은 고정적이지만 타입이 자주 추가되는 경우 Visitor는 부적합 (모든 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스 수정 필요).
 
 ---
 
@@ -53,7 +50,7 @@ renderer.render(shape);     // 컴파일 타임 타입: Shape -> render(Shape) �
 +--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: 더블 디스패치는 두 번의 악수로 신원을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "나는 Circle이에요(1번 디스패치: accept)" -> "그럼 Circle용 처리를 할게요(2번 디스패치: visit(Circle))"
+- **📢 섹션 요약 비유**: 더블 디스패치는 두 번의 악수로 신원을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "나는 Circle이에요(1번 디스패치: accept)" -> "그럼 Circle용 처리를 할게요(2번 디스패치: visit(Circle))"
 
 ---
 
@@ -133,35 +130,35 @@ class DrawVisitor implements ShapeVisitor {
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
-- **📢 섹션 요약 비유**: Visitor는 세금 조사관 — 각 건물(Shape)이 "내가 어떤 건물인지(accept -> this)" 을 신고하면, 조사관([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))은 건물 유형에 맞는 세금 계산법(visit(Circle), visit([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)))을 적용한다.
+- **📢 섹션 요약 비유**: Visitor는 세금 조사관 — 각 건물(Shape)이 "내가 어떤 건물인지(accept -> this)" 을 신고하면, 조사관([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))은 건물 유형에 맞는 세금 계산법(visit(Circle), visit([Square](/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)))을 적용한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 관점 | [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적합 | [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 부적합 |
+| 관점 | [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적합 | [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 부적합 |
 |:---|:---|:---|
 | 요소 타입 변화 | 고정 (드물게 추가) | 자주 추가 |
 | 연산 변화 | 자주 추가 | 고정 |
-| [OCP](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 측면 | 연산 추가에 닫힘 | 타입 추가에 열림 필요 |
+| [OCP](/studynote/01_computer_architecture/15_advanced_topics/746_ocp/) 측면 | 연산 추가에 닫힘 | 타입 추가에 열림 필요 |
 | 적용 예시 | AST 연산 (컴파일러) | Plugin 아키텍처 |
 
-| 패턴 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 차이점 |
+| 패턴 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 차이점 |
 |:---|:---|:---|
-| [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 유사 | Strategy는 런타임 교체, Visitor는 Element 계층에 외부 연산 추가 |
-| [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) + [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 조합 | Iterator로 컬렉션 순회, 각 요소에 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
-| [Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) | 조합 | 트리 구조([Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/))에 Visitor로 연산 추가 (AST 처리) |
-| [Command](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 대비 | Command는 요청을 캡슐화, Visitor는 요소 타입별 연산 캡슐화 |
+| [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 유사 | Strategy는 런타임 교체, Visitor는 Element 계층에 외부 연산 추가 |
+| [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) + [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 조합 | Iterator로 컬렉션 순회, 각 요소에 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
+| [Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) | 조합 | 트리 구조([Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/))에 Visitor로 연산 추가 (AST 처리) |
+| [Command](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 대비 | Command는 요청을 캡슐화, Visitor는 요소 타입별 연산 캡슐화 |
 
-| 사례 | [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 역할 |
+| 사례 | [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 역할 |
 |:---|:---|
 | 컴파일러 AST 처리 | TypeCheckVisitor, CodeGenVisitor, OptimizeVisitor |
-| XML/[JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) DOM 처리 | ElementVisitor (노드 타입별 처리) |
-| [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 탐색 | SizeCalculatorVisitor, FileSearchVisitor |
+| XML/[JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) DOM 처리 | ElementVisitor (노드 타입별 처리) |
+| [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 탐색 | SizeCalculatorVisitor, FileSearchVisitor |
 | 세금 계산기 | TaxVisitor (상품 유형별 세율 적용) |
 
-- **📢 섹션 요약 비유**: 컴파일러에서 AST(Abstract Syntax Tree) 노드들은 고정(IntNode, AddNode, FunctionCallNode)되어 있지만, 연산(타입 체크, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 최적화)은 계속 추가됨 -> [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴이 이상적인 이유.
+- **📢 섹션 요약 비유**: 컴파일러에서 AST(Abstract Syntax Tree) 노드들은 고정(IntNode, AddNode, FunctionCallNode)되어 있지만, 연산(타입 체크, 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 최적화)은 계속 추가됨 -> [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴이 이상적인 이유.
 
 ---
 
@@ -201,17 +198,17 @@ class TypeChecker implements AstVisitor {
 }
 ```
 
-| 방법 | 언어 지원 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 안전성 |
+| 방법 | 언어 지원 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 안전성 |
 |:---|:---|:---|:---|
-| [Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 모든 OO 언어 | 가상 호출 2번 | 컴파일 타임 검사 |
+| [Visitor Pattern](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 모든 OO 언어 | 가상 호출 2번 | 컴파일 타임 검사 |
 | `instanceof` + 캐스팅 | 모든 OO 언어 | 낮음 (런타임 체크) | 위험 (캐스팅) |
 | Pattern Matching (Java 21) | Java 21+ | 최적화됨 | 타입 안전 |
 | Multimethods (Groovy, Clojure) | 언어 네이티브 | 높음 | 동적 타이핑 |
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: `instanceof` 체인은 손님 얼굴을 보고 직접 "이 분은 VIP인가요?" 하고 하나씩 물어보는 것, Visitor는 손님이 직접 "저는 VIP예요(accept -> visit(VIP))"라고 신원을 알리는 구조 — 더 안전하고 확장적이다.
@@ -219,44 +216,44 @@ class TypeChecker implements AstVisitor {
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴과 더블 디스패치는 타입 계층이 안정적이고 연산이 다양한 시스템에서 강력한 확장성을 제공한다:
+[Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴과 더블 디스패치는 타입 계층이 안정적이고 연산이 다양한 시스템에서 강력한 확장성을 제공한다:
 
 **기대효과**:
-- **새 연산 추가 용이**: 새 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스만 추가, Element 클래스 불변
-- **관심사 분리**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Element)와 연산([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 완전 분리
+- **새 연산 추가 용이**: 새 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 클래스만 추가, Element 클래스 불변
+- **관심사 분리**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Element)와 연산([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) 완전 분리
 - **컴파일 타임 안전성**: 모든 타입에 대한 처리 구현 여부 컴파일러 검사
 
 **한계**:
-- 새 Element 타입 추가 시 모든 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 구현 수정 필요
+- 새 Element 타입 추가 시 모든 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 구현 수정 필요
 - 캡슐화 약화: Element의 내부 상태를 Visitor에 노출해야 함
 - 보일러플레이트 코드 증가
 
-기술사 시험에서는 **더블 디스패치의 메커니즘(두 번의 가상 호출)**, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 패턴의 구조(Element + <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 인터페이스)</strong>, <strong>적합/부적합 시나리오(연산 추가 ↔ 타입 추가)</strong>를 명확히 서술하는 것이 핵심이다.
+기술사 시험에서는 **더블 디스패치의 메커니즘(두 번의 가상 호출)**, <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 패턴의 구조(Element + <a href="/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/">Visitor</a> 인터페이스)</strong>, <strong>적합/부적합 시나리오(연산 추가 ↔ 타입 추가)</strong>를 명확히 서술하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴은 백화점 VIP [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 각 층(Element)은 "저는 3층이에요(accept)"라고 안내하고, 전담 컨시어지([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))가 층에 맞는 특화 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(visit(3층))를 제공한다. 새 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 추가할 때 각 층을 건드리지 않고 컨시어지([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))만 새로 만들면 된다.
+- **📢 섹션 요약 비유**: [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴은 백화점 VIP [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) — 각 층(Element)은 "저는 3층이에요(accept)"라고 안내하고, 전담 컨시어지([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))가 층에 맞는 특화 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(visit(3층))를 제공한다. 새 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 추가할 때 각 층을 건드리지 않고 컨시어지([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))만 새로 만들면 된다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | GoF 행동 패턴 (Behavioral Pattern) | Visitor가 속하는 패턴 범주 |
-| 핵심 메커니즘 | Double Dispatch | [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴이 구현하는 두 번의 가상 호출 |
-| 연관 패턴 | [Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | 트리 구조 + Visitor로 AST 처리 |
-| 연관 패턴 | [Iterator Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) | 컬렉션 순회 후 각 요소에 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
+| 핵심 메커니즘 | Double Dispatch | [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴이 구현하는 두 번의 가상 호출 |
+| 연관 패턴 | [Composite Pattern](/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | 트리 구조 + Visitor로 AST 처리 |
+| 연관 패턴 | [Iterator Pattern](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) | 컬렉션 순회 후 각 요소에 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
 | 언어 대안 | Java Pattern Matching (sealed class) | Java 21의 native 더블 디스패치 대안 |
-| 실무 사례 | 컴파일러 AST [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 타입 검사, 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 최적화 각각 별도 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) |
+| 실무 사례 | 컴파일러 AST [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | 타입 검사, 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 최적화 각각 별도 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) |
 | 대비 개념 | Single Dispatch | Java의 기본 다형성 — 호출 대상 타입만 고려 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-single dispatch -> 더블 디스패치와 [방문자 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/399_architecture/) -> 다형성 연산 분리
+single dispatch -> 더블 디스패치와 [방문자 패턴](/studynote/11_design_supervision/06_exam_summary/399_architecture/) -> 다형성 연산 분리
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 더블 디스패치는 두 번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "너는 어떤 도형이야?(1번: accept)" -> "그럼 내가 너에게 맞는 방법으로 처리할게(2번: visit(Circle))"처럼 두 번 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 행동해.
-2. [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 덕분에 새로운 행동(연산)을 추가할 때 기존 도형 클래스를 건드리지 않고 새 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)([Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))만 만들면 되니까 기존 코드가 안전해.
-3. 단, 새 도형 종류를 추가하면 모든 [방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)에 그 도형 처리를 추가해야 하니 — 도형 종류는 거의 안 바뀌고 처리 방법이 자주 늘어나는 경우에 Visitor가 최선이야.
+1. 더블 디스패치는 두 번 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것 — "너는 어떤 도형이야?(1번: accept)" -> "그럼 내가 너에게 맞는 방법으로 처리할게(2번: visit(Circle))"처럼 두 번 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 행동해.
+2. [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 패턴 덕분에 새로운 행동(연산)을 추가할 때 기존 도형 클래스를 건드리지 않고 새 [방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)([Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/))만 만들면 되니까 기존 코드가 안전해.
+3. 단, 새 도형 종류를 추가하면 모든 [방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)에 그 도형 처리를 추가해야 하니 — 도형 종류는 거의 안 바뀌고 처리 방법이 자주 늘어나는 경우에 Visitor가 최선이야.
 
 ---
 
@@ -264,7 +261,7 @@ single dispatch -> 더블 디스패치와 [방문자 패턴](/knowledge-base/stu
 
 **진행 상황**: 290 / 530
 
-<- **이전**: [228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/)
-**다음**: [230. 모듈형 모놀리스 (Modular Monolith)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/230_modular_monolith/) ->
+<- **이전**: [228. 컨텍스트 맵과 ACL 패턴 (Context Map / Anti-Corruption Layer Pattern)](/studynote/11_design_supervision/04_gof_behavioral/228_context_map_acl_pattern/)
+**다음**: [230. 모듈형 모놀리스 (Modular Monolith)](/studynote/11_design_supervision/04_gof_behavioral/230_modular_monolith/) ->
 
 ---

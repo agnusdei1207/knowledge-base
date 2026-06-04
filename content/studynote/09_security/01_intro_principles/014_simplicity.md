@@ -1,27 +1,24 @@
-+++
-title = "14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거"
-description = "보안 메커니즘과 시스템 아키텍처를 최대한 단순하고 이해하기 쉽게 설계하여 오류와 취약점의 발생 표면적을 줄이는 경제적 설계 원칙"
-date = 2026-03-25
+---
+title: "14. 단순 보안 원칙 (Simplicity) — 불필요한 복잡성 제거"
+date: "2026-03-25"
+description: "보안 메커니즘과 시스템 아키텍처를 최대한 단순하고 이해하기 쉽게 설계하여 오류와 취약점의 발생 표면적을 줄이는 경제적 설계 원칙"
+tags:
+  - "security"
+---
 
-[taxonomies]
-tags = ["security"]
-
-[extra]
-tags = ["security"]
-+++
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: "복잡성은 보안의 가장 큰 적(Complexity is the worst enemy of [security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이라는 명제 하에, 보안 통제 논리와 코드를 최소화하고 직관적으로 설계하는 아키텍처 철학이다.
-> 2. **가치**: 코드 라인 수와 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 복잡도를 줄임으로써 버그(Bug)가 숨어있을 공간(Attack Surface)을 물리적으로 축소하고, 운영자의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수(Misconfiguration)를 원천 차단한다.
-> 3. **융합**: 솔트저(Saltzer)와 슈로더(Schroeder)의 '경제적 메커니즘(Economy of Mechanism)' 원칙과 맞닿아 있으며, 현대의 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 및 시큐어 코딩의 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 향상/[결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소 원칙과 강하게 결합된다.
+> 1. **본질**: "복잡성은 보안의 가장 큰 적(Complexity is the worst enemy of [security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))"이라는 명제 하에, 보안 통제 논리와 코드를 최소화하고 직관적으로 설계하는 아키텍처 철학이다.
+> 2. **가치**: 코드 라인 수와 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)의 복잡도를 줄임으로써 버그(Bug)가 숨어있을 공간(Attack Surface)을 물리적으로 축소하고, 운영자의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수(Misconfiguration)를 원천 차단한다.
+> 3. **융합**: 솔트저(Saltzer)와 슈로더(Schroeder)의 '경제적 메커니즘(Economy of Mechanism)' 원칙과 맞닿아 있으며, 현대의 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 및 시큐어 코딩의 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 향상/[결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) 감소 원칙과 강하게 결합된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 단순 보안 원칙(Simplicity / Economy of Mechanism)은 보안 시스템이나 프로토콜을 설계할 때 그 구조를 최대한 단순하고 작게 유지해야 한다는 원칙이다. 시스템이 복잡해질수록 개발자는 내부의 모든 상호작용을 완벽하게 이해하기 어려워지며, 결국 예상치 못한 엣지 케이스(Edge Case)에서 보안 취약점이 발생하게 된다.
 
-과거에는 안전한 시스템을 만들기 위해 예외 처리, 다중 암호화, 복잡한 우회 경로 등을 덕지덕지 붙이는 "더 많이 넣을수록 더 안전하다"는 오해가 존재했다. 그러나 코드가 길어지고 규칙이 수만 줄로 늘어나면, 관리자는 룰의 충돌을 파악하지 못해 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 모든 트래픽을 허용해버리는 휴먼 에러([설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)를 범하거나, 해커에게 숨겨진 논리적 버그(Logic Flaw)를 제공하는 결과를 낳는다. 따라서 현대 보안 설계에서는 불필요한 기능(Feature Creep)을 제거하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 수준으로 단순화하는 것이 필수적이다.
+과거에는 안전한 시스템을 만들기 위해 예외 처리, 다중 암호화, 복잡한 우회 경로 등을 덕지덕지 붙이는 "더 많이 넣을수록 더 안전하다"는 오해가 존재했다. 그러나 코드가 길어지고 규칙이 수만 줄로 늘어나면, 관리자는 룰의 충돌을 파악하지 못해 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 모든 트래픽을 허용해버리는 휴먼 에러([설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 오류)를 범하거나, 해커에게 숨겨진 논리적 버그(Logic Flaw)를 제공하는 결과를 낳는다. 따라서 현대 보안 설계에서는 불필요한 기능(Feature Creep)을 제거하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 수준으로 단순화하는 것이 필수적이다.
 
 💡 **비유하자면**, 자물쇠의 기어와 핀이 너무 복잡하게 얽혀 있으면 열쇠가 없어도 특정 부품의 고장을 유발해 문을 열어버릴 수 있지만, 아주 직관적이고 튼튼한 단순한 구조의 빗장은 부수지 않는 이상 우회할 논리적 틈이 없는 것과 같습니다.
 
@@ -40,7 +37,7 @@ tags = ["security"]
        (단순한 구조 유지 구간)
 ```
 
-이 그래프는 시스템에 기능이나 보안 룰이 덧붙여질수록 취약점의 수가 선형(Linear)이 아니라 기하급수적으로 폭발함을 보여준다. 새로운 보안 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 추가할 때마다 기존 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들과의 예기치 않은 상태 충돌이 발생하기 때문이며, 따라서 시스템 전체의 신뢰성을 수학적으로 증명하거나 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))하는 것이 불가능해진다. 실무에서는 복잡한 모놀리식 방어벽 하나보다 단순하고 독립적인 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 방어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 여러 개를 분리하는 것이 훨씬 안전하다.
+이 그래프는 시스템에 기능이나 보안 룰이 덧붙여질수록 취약점의 수가 선형(Linear)이 아니라 기하급수적으로 폭발함을 보여준다. 새로운 보안 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 하나를 추가할 때마다 기존 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들과의 예기치 않은 상태 충돌이 발생하기 때문이며, 따라서 시스템 전체의 신뢰성을 수학적으로 증명하거나 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))하는 것이 불가능해진다. 실무에서는 복잡한 모놀리식 방어벽 하나보다 단순하고 독립적인 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 방어 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 여러 개를 분리하는 것이 훨씬 안전하다.
 
 📢 **섹션 요약 비유**: 너무 복잡한 미로를 만들면 도둑을 막을 수는 있겠지만, 정작 불이 났을 때 집주인도 빠져나가지 못하고 갇혀버리는 것과 같습니다.
 
@@ -48,14 +45,14 @@ tags = ["security"]
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-단순성 원칙을 아키텍처에 적용한다는 것은 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 낮추고, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/인가와 같은 핵심 보안 로직을 한 곳으로 집중시켜 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성(Audibility)을 높이는 과정이다.
+단순성 원칙을 아키텍처에 적용한다는 것은 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/)([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))를 낮추고, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)/인가와 같은 핵심 보안 로직을 한 곳으로 집중시켜 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성(Audibility)을 높이는 과정이다.
 
-| 설계 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (복잡성) | 구조적 문제점 | 단순성 원칙 적용 (개선 아키텍처) | 보안 효과 |
+| 설계 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (복잡성) | 구조적 문제점 | 단순성 원칙 적용 (개선 아키텍처) | 보안 효과 |
 |:---|:---|:---|:---|
-| **분산된 보안 로직** | 각 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트롤러마다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드가 제각각 구현됨 | <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a> 중심 통제</strong> ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 처리를 Gateway로 일원화) | 로직 파편화 방지 및 100% 중재 가능 |
-| <strong>다중 예외 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong> | [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰에 임시 우회(Any-Any) 규칙이 수백 개 혼재 | **Default Deny 기반 백지화** (최소한의 명시적 허용 룰만 재작성) | 룰 충돌 및 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 우회 방지 |
-| **복잡한 상태 유지** | Stateful 기반의 복잡한 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 메커니즘 | <strong><a href="/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 기반 토큰(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>)</strong> 사용 | [메모리 누수](/knowledge-base/studynote/02_operating_system/10_security/612_memory_leak_detection/) 및 [세션 하이재킹](/knowledge-base/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 표면 제거 |
-| **스파게티 코드** | 보안 예외 처리가 수십 뎁스의 if/else 문으로 얽힘 | <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/">전략 패턴</a> / 조기 반환(Early Return)</strong> | [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 극대화 ([감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 용이성) |
+| **분산된 보안 로직** | 각 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 컨트롤러마다 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드가 제각각 구현됨 | <strong><a href="/studynote/04_software_engineering/11_testing_validation/934_api_gateway/">API Gateway</a> 중심 통제</strong> ([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 처리를 Gateway로 일원화) | 로직 파편화 방지 및 100% 중재 가능 |
+| <strong>다중 예외 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a></strong> | [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰에 임시 우회(Any-Any) 규칙이 수백 개 혼재 | **Default Deny 기반 백지화** (최소한의 명시적 허용 룰만 재작성) | 룰 충돌 및 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 우회 방지 |
+| **복잡한 상태 유지** | Stateful 기반의 복잡한 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 및 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 메커니즘 | <strong><a href="/studynote/15_devops_sre/05_devsecops/239_stateless_redis/">Stateless</a> 기반 토큰(<a href="/studynote/03_network/10_application_layer_dns_mgmt/549_jwt_json_web_token/">JWT</a>)</strong> 사용 | [메모리 누수](/studynote/02_operating_system/10_security/612_memory_leak_detection/) 및 [세션 하이재킹](/studynote/03_network/14_network_security_threats/707_session_hijacking_tcp_seq_cookie/) 표면 제거 |
+| **스파게티 코드** | 보안 예외 처리가 수십 뎁스의 if/else 문으로 얽힘 | <strong><a href="/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/">전략 패턴</a> / 조기 반환(Early Return)</strong> | [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/) [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) 극대화 ([감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 용이성) |
 
 ```text
 [스파게티 아키텍처 vs 단순화된 보안 아키텍처 비교]
@@ -77,9 +74,9 @@ tags = ["security"]
 (인증 로직이 각 앱에서 사라지고, 구조가 단순화되어 감사가 100% 가능해짐)
 ```
 
-이 구조도의 핵심은 복잡한 점대점([Point-to-Point](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 연결과 각 애플리케이션에 파편화되어 있던 보안 로직을 과감히 제거하고, 단일 진입점(Gateway)으로 보안 메커니즘을 중앙화(Centralization)했다는 점이다. 이러한 배치는 소스 코드의 양을 극적으로 줄이고 로직의 정합성을 한 곳에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 되기 때문이며, 따라서 외부 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) 시 증명해야 할 공격 표면적(Attack Surface)이 최소화된다. 실무에서는 새로운 기능을 추가할 때마다 "이것이 꼭 필요한가?"를 묻고 기존 구조를 단순화하는 리팩토링이 병행되어야 한다.
+이 구조도의 핵심은 복잡한 점대점([Point-to-Point](/studynote/07_enterprise_systems/03_eai_esb_msa/142_point_to_point_integration_spaghetti/)) 연결과 각 애플리케이션에 파편화되어 있던 보안 로직을 과감히 제거하고, 단일 진입점(Gateway)으로 보안 메커니즘을 중앙화(Centralization)했다는 점이다. 이러한 배치는 소스 코드의 양을 극적으로 줄이고 로직의 정합성을 한 곳에서만 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 되기 때문이며, 따라서 외부 [보안 감사](/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) 시 증명해야 할 공격 표면적(Attack Surface)이 최소화된다. 실무에서는 새로운 기능을 추가할 때마다 "이것이 꼭 필요한가?"를 묻고 기존 구조를 단순화하는 리팩토링이 병행되어야 한다.
 
-단순성의 내부 메커니즘은 '[KISS](/knowledge-base/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) (Keep It Simple, Stupid)' 원칙의 코드 레벨 구현이다. 암호학에서 자체적인 난해한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) through Obscurity)을 짜는 대신 이미 수십 년간 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 간결한 표준 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 라이브러리를 단 한 줄의 함수로 호출하는 것이 가장 완벽한 단순성 메커니즘의 예시다.
+단순성의 내부 메커니즘은 '[KISS](/studynote/04_software_engineering/04_testing_quality/249_kiss_keep_it_simple_stupid/) (Keep It Simple, Stupid)' 원칙의 코드 레벨 구현이다. 암호학에서 자체적인 난해한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) through Obscurity)을 짜는 대신 이미 수십 년간 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 간결한 표준 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 라이브러리를 단 한 줄의 함수로 호출하는 것이 가장 완벽한 단순성 메커니즘의 예시다.
 
 📢 **섹션 요약 비유**: 복잡한 사거리에 신호등과 표지판을 수십 개 세우는 것보다, 단순한 회전교차로(Roundabout) 하나를 만드는 것이 사고율을 훨씬 크게 낮추는 것과 같습니다.
 
@@ -87,14 +84,14 @@ tags = ["security"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-단순성 원칙은 다층 방어 원칙([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/))과 적용 과정에서 빈번하게 철학적 충돌을 일으킨다. 이를 조율하는 것이 기술사의 역량이다.
+단순성 원칙은 다층 방어 원칙([Defense in Depth](/studynote/09_security/01_intro_principles/012_defense_in_depth/))과 적용 과정에서 빈번하게 철학적 충돌을 일으킨다. 이를 조율하는 것이 기술사의 역량이다.
 
-| 비교 항목 | 단순 보안 원칙 (Simplicity) | 심층 방어 원칙 ([Defense in Depth](/knowledge-base/studynote/09_security/01_intro_principles/012_defense_in_depth/)) | 실무 융합 및 트레이드오프 판단 |
+| 비교 항목 | 단순 보안 원칙 (Simplicity) | 심층 방어 원칙 ([Defense in Depth](/studynote/09_security/01_intro_principles/012_defense_in_depth/)) | 실무 융합 및 트레이드오프 판단 |
 |:---|:---|:---|:---|
-| **접근 철학** | "복잡성을 줄여 취약점을 원천 제거하라" | "단일 실패를 대비해 방어벽을 겹겹이 쌓아라" | 극단적 단순화는 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 만듦 |
+| **접근 철학** | "복잡성을 줄여 취약점을 원천 제거하라" | "단일 실패를 대비해 방어벽을 겹겹이 쌓아라" | 극단적 단순화는 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 만듦 |
 | **시스템 구조** | 직관적, 가벼움, 파악하기 쉬움 | 중첩적, 복잡함, 관리 포인트 많음 | 극단적 심층 방어는 관리 불가(사각지대)를 만듦 |
-| **운영 비용** | 유지보수 및 [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) 비용 낮음 | 라이선스 및 통합([SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/)) 비용 높음 | 비용 대비 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소 곡선의 교차점을 찾아야 함 |
-| **해결책 (융합)** | **"단순한 구성 요소를 독립적으로 중첩하라"** | 방어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 의존성([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 차단하여 복잡도 폭발 방지 |
+| **운영 비용** | 유지보수 및 [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/) 비용 낮음 | 라이선스 및 통합([SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/)) 비용 높음 | 비용 대비 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 감소 곡선의 교차점을 찾아야 함 |
+| **해결책 (융합)** | **"단순한 구성 요소를 독립적으로 중첩하라"** | 방어 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 간의 의존성([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))을 차단하여 복잡도 폭발 방지 |
 
 ```text
 [단순성과 심층 방어의 융합 곡선 (의사결정 모델)]
@@ -112,24 +109,24 @@ tags = ["security"]
            (단순함)                      (복잡함)
 ```
 
-이 모델은 보안 계층을 무작정 늘린다고 해서 보안성이 계속 증가하는 것이 아님을 시사한다. 임계점을 넘어서면(위험 구간), 보안 솔루션 간의 충돌과 오탐지(False Positive)로 인해 관리자가 알람을 끄거나 예외를 남발하게 되어 실제 보안성은 추락한다. 따라서 두 원칙을 융합하는 실무적 해법은, "방어 계층은 여러 개([DiD](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))를 두되, 각 방어 계층 내부의 동작 논리와 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 극한으로 단순하게(Simplicity) 유지하는 것"이다.
+이 모델은 보안 계층을 무작정 늘린다고 해서 보안성이 계속 증가하는 것이 아님을 시사한다. 임계점을 넘어서면(위험 구간), 보안 솔루션 간의 충돌과 오탐지(False Positive)로 인해 관리자가 알람을 끄거나 예외를 남발하게 되어 실제 보안성은 추락한다. 따라서 두 원칙을 융합하는 실무적 해법은, "방어 계층은 여러 개([DiD](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))를 두되, 각 방어 계층 내부의 동작 논리와 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 극한으로 단순하게(Simplicity) 유지하는 것"이다.
 
 📢 **섹션 요약 비유**: 두꺼운 갑옷을 입는 것(심층 방어)은 좋지만, 갑옷에 너무 복잡한 끈과 장식을 매달면(복잡성) 오히려 전투 중에 그 끈에 걸려 넘어져 죽게 되는 것과 같습니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실무에서 단순성 원칙은 개발, 운영, 인프라 아키텍처 전반에 걸쳐 '기능의 뺄셈'을 요구하는 가장 실행하기 어려운 원칙 중 하나다.
 
 #### 1. 실무 시나리오 및 의사결정
-- <strong>레거시 코드 청산 (Dead <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Elimination)</strong>: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 업데이트로 인해 더 이상 사용되지 않는 과거의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 엔드포인트나 레거시 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 남아있는 경우. 공격자들은 철저히 관리되는 최신 코드보다 방치된 레거시 코드를 먼저 노린다. 따라서 형상관리(Git)에서 과감하게 데드 코드를 삭제하여 공격 표면적을 물리적으로 지우는 것이 단순화의 첫걸음이다.
-- <strong>클라우드 보안 그룹(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Group) 단순화</strong>: AWS 등에서 "혹시 나중에 필요할지 모르니" [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 1024-65535로 넓게 열어두거나, 필요 이상의 서브넷을 복잡하게 구성하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 이를 폐기하고, 딱 필요한 443([HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 명시적으로 허용하는 단 한 줄의 규칙(Default Deny)으로 인프라를 백지화한다.
-- <strong><a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">SSO</a>(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/">Single Sign-On</a>) 도입</strong>: 부서별, 앱별로 제각각 존재하던 10개의 [사용자 인증](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/) 시스템을 폐기하고, 중앙 집중형 [IAM](/knowledge-base/studynote/09_security/11_iam_access_control/526_iam/)([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))과 [OIDC](/knowledge-base/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)([OpenID Connect](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/)) 연동을 통해 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처를 하나로 통합(단순화)한다. 암호 재사용 공격과 비밀번호 분실로 인한 헬프데스크 비용이 급감한다.
+- <strong>레거시 코드 청산 (Dead <a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Elimination)</strong>: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 업데이트로 인해 더 이상 사용되지 않는 과거의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 엔드포인트나 레거시 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 남아있는 경우. 공격자들은 철저히 관리되는 최신 코드보다 방치된 레거시 코드를 먼저 노린다. 따라서 형상관리(Git)에서 과감하게 데드 코드를 삭제하여 공격 표면적을 물리적으로 지우는 것이 단순화의 첫걸음이다.
+- <strong>클라우드 보안 그룹(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Group) 단순화</strong>: AWS 등에서 "혹시 나중에 필요할지 모르니" [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 1024-65535로 넓게 열어두거나, 필요 이상의 서브넷을 복잡하게 구성하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/). 이를 폐기하고, 딱 필요한 443([HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/)) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)만 명시적으로 허용하는 단 한 줄의 규칙(Default Deny)으로 인프라를 백지화한다.
+- <strong><a href="/studynote/09_security/11_iam_access_control/531_sso/">SSO</a>(<a href="/studynote/09_security/11_iam_access_control/531_sso/">Single Sign-On</a>) 도입</strong>: 부서별, 앱별로 제각각 존재하던 10개의 [사용자 인증](/studynote/02_operating_system/10_security/604_authentication_factors/) 시스템을 폐기하고, 중앙 집중형 [IAM](/studynote/09_security/11_iam_access_control/526_iam/)([Identity Provider](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/))과 [OIDC](/studynote/09_security/11_iam_access_control/537_oidc_openid_connect/)([OpenID Connect](/studynote/03_network/10_application_layer_dns_mgmt/548_openid_connect/)) 연동을 통해 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 아키텍처를 하나로 통합(단순화)한다. 암호 재사용 공격과 비밀번호 분실로 인한 헬프데스크 비용이 급감한다.
 
-#### 2. 도입 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
-- <strong>과도한 <a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">정규 표현식</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/05_string/104_regex/">Regex</a>) 남용</strong>: [WAF](/knowledge-base/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 방화벽](/knowledge-base/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)) 룰이나 입력값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직에 이해할 수 없는 수십 줄의 복잡한 정규식을 우겨넣어 해킹을 막으려는 시도. 이는 [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/)(정규식 [DoS](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 공격의 타겟이 되며, 오탐지 시 다른 엔지니어가 유지보수할 수 없게 된다. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직은 짧고 직관적인 화이트리스트(Allow-list) 기반으로 짜야 한다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (숨김을 통한 보안)</strong>: 시스템 코드를 일부러 [난독화](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))하거나 복잡하게 꼬아서 해커가 분석하지 못하게 만들려는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). 이는 단순성 원칙에 정면으로 위배되며, 해커의 자동화된 리버싱 도구 앞에서는 금방 뚫리는 반면 내부 개발자의 디버깅만 방해하는 최악의 수다.
+#### 2. 도입 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 실패 사례
+- <strong>과도한 <a href="/studynote/08_algorithm_stats/05_string/104_regex/">정규 표현식</a>(<a href="/studynote/08_algorithm_stats/05_string/104_regex/">Regex</a>) 남용</strong>: [WAF](/studynote/03_network/13_network_security_basics/696_waf_web_application_firewall/)([웹 방화벽](/studynote/03_network/19_frequent_topics_terms/993_waf_web_application_firewall/)) 룰이나 입력값 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직에 이해할 수 없는 수십 줄의 복잡한 정규식을 우겨넣어 해킹을 막으려는 시도. 이는 [ReDoS](/studynote/09_security/05_web_app_security/865_redos/)(정규식 [DoS](/studynote/02_operating_system/10_security/599_dos_ddos_attack/)) 공격의 타겟이 되며, 오탐지 시 다른 엔지니어가 유지보수할 수 없게 된다. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 로직은 짧고 직관적인 화이트리스트(Allow-list) 기반으로 짜야 한다.
+- <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (숨김을 통한 보안)</strong>: 시스템 코드를 일부러 [난독화](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/)([Obfuscation](/studynote/04_software_engineering/08_security_compliance_devsecops/528_obfuscation_anti_debugging_mobile/))하거나 복잡하게 꼬아서 해커가 분석하지 못하게 만들려는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/). 이는 단순성 원칙에 정면으로 위배되며, 해커의 자동화된 리버싱 도구 앞에서는 금방 뚫리는 반면 내부 개발자의 디버깅만 방해하는 최악의 수다.
 
 ```text
 [시큐어 코딩에서의 복잡도 축소(Refactoring) 플로우]
@@ -147,7 +144,7 @@ tags = ["security"]
 [Clean Code] : 하나의 함수는 하나의 명확한 보안 검증만 수행. 가독성과 감사 가능성 극대화.
 ```
 
-이 플로우의 핵심은 보안을 코드에 '더하는' 과정이 아니라 기능 간의 의존성을 '빼내는' 과정이라는 점이다. 이런 배치는 복잡도(Cyclomatic Complexity) 수치를 낮추어 모든 분기(Branch)에 대한 100% [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 커버리지를 가능하게 만들기 때문이며, 따라서 배포 전 취약점 스캐닝의 신뢰도가 수직 상승한다. 실무에서는 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 복잡도 임계치를 넘는 코드는 자동으로 병합(Merge)이 거부되도록 통제해야 한다.
+이 플로우의 핵심은 보안을 코드에 '더하는' 과정이 아니라 기능 간의 의존성을 '빼내는' 과정이라는 점이다. 이런 배치는 복잡도(Cyclomatic Complexity) 수치를 낮추어 모든 분기(Branch)에 대한 100% [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)([Unit Test](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)) 커버리지를 가능하게 만들기 때문이며, 따라서 배포 전 취약점 스캐닝의 신뢰도가 수직 상승한다. 실무에서는 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인에서 복잡도 임계치를 넘는 코드는 자동으로 병합(Merge)이 거부되도록 통제해야 한다.
 
 📢 **섹션 요약 비유**: 컴퓨터 선이 복잡하게 꼬여 있으면 어디서 합선이 났는지 찾을 수 없지만, 케이블 타이를 이용해 용도별로 깔끔하게 한 줄씩 정리해두면 문제가 생겼을 때 1초 만에 원인을 찾는 것과 같습니다.
 
@@ -159,22 +156,22 @@ tags = ["security"]
 
 | 도입 전 | 도입 후 (기대 효과) |
 |:---|:---|
-| 코드와 아키텍처의 복잡성으로 인해 [보안 감사](/knowledge-base/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/))가 불가능함 | 논리적 구조가 직관적이어서 취약점 분석 및 제3자 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 명확해짐 |
-| 관리자의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수(Misconfiguration)로 인한 잦은 대형 사고 발생 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 항목 최소화 및 중앙화로 휴먼 에러 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 0에 수렴 |
-| 공격자에게 논리적 버그를 악용할 수많은 엣지 케이스 제공 | 공격 표면적(Attack Surface) 극소화로 [제로데이](/knowledge-base/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 위험 감소 |
+| 코드와 아키텍처의 복잡성으로 인해 [보안 감사](/studynote/04_software_engineering/11_testing_validation/919_security_audit_trail/)([Audit](/studynote/12_it_management/05_security_compliance/363_audit/))가 불가능함 | 논리적 구조가 직관적이어서 취약점 분석 및 제3자 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 명확해짐 |
+| 관리자의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수(Misconfiguration)로 인한 잦은 대형 사고 발생 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 항목 최소화 및 중앙화로 휴먼 에러 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 0에 수렴 |
+| 공격자에게 논리적 버그를 악용할 수많은 엣지 케이스 제공 | 공격 표면적(Attack Surface) 극소화로 [제로데이](/studynote/09_security/15_malware_attack_vectors/761_zero_day/) 공격 위험 감소 |
 
-미래의 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 [IaC](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))를 통한 '선언적 단순성([Declarative](/knowledge-base/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/) Simplicity)'이 대세가 될 것이다. 관리자가 복잡한 콘솔 창에서 수백 개의 스위치를 조작하는 대신, `allow_port: 443`과 같이 직관적이고 단순한 몇 줄의 코드로 인프라 보안 상태를 정의하고, 나머지는 시스템이 자동으로 수렴시키는 방식이 표준 방어 아키텍처로 자리매김할 것이다.
+미래의 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 환경에서는 [IaC](/studynote/04_software_engineering/10_trends_pm_quality/793_iac_idempotency_template/)([Infrastructure as Code](/studynote/15_devops_sre/02_cicd_gitops/062_infrastructure_as_code/))를 통한 '선언적 단순성([Declarative](/studynote/15_devops_sre/05_devsecops/219_declarative_yaml/) Simplicity)'이 대세가 될 것이다. 관리자가 복잡한 콘솔 창에서 수백 개의 스위치를 조작하는 대신, `allow_port: 443`과 같이 직관적이고 단순한 몇 줄의 코드로 인프라 보안 상태를 정의하고, 나머지는 시스템이 자동으로 수렴시키는 방식이 표준 방어 아키텍처로 자리매김할 것이다.
 
 📢 **섹션 요약 비유**: 완벽한 디자인이란 더 이상 보탤 것이 없을 때가 아니라, **더 이상 뺄 것이 없을 때** 완성된다는 생텍쥐페리의 명언이 보안 시스템에 그대로 적용되는 원리입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
 
 - **Economy of Mechanism (경제적 메커니즘)** | 솔트저와 슈로더가 제안한, 설계와 구현이 작고 단순해야 한다는 근본 보안 설계 원칙
 - **Attack Surface (공격 표면)** | 시스템 내에서 취약점이 발생하거나 해커가 진입할 수 있는 모든 포인트의 총합 (단순성은 이를 줄임)
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (은닉을 통한 보안)</strong> | 시스템의 구조를 복잡하게 숨겨서 보안을 달성하려는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (단순성의 반대)
-- <strong>Misconfiguration (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/874_security_misconfiguration/">보안 설정 오류</a>)</strong> | 클라우드 보안 사고의 1위 원인으로, 너무 복잡한 권한 및 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 체계에서 기인함
+- <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> through Obscurity (은닉을 통한 보안)</strong> | 시스템의 구조를 복잡하게 숨겨서 보안을 달성하려는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (단순성의 반대)
+- <strong>Misconfiguration (<a href="/studynote/04_software_engineering/11_testing_validation/874_security_misconfiguration/">보안 설정 오류</a>)</strong> | 클라우드 보안 사고의 1위 원인으로, 너무 복잡한 권한 및 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 체계에서 기인함
 - **Cyclomatic Complexity (순환 복잡도)** | 소스 코드 내부의 분기(if, while 등)의 개수를 측정하는 지표로, 낮을수록 단순하고 안전함
 
 
@@ -196,7 +193,7 @@ tags = ["security"]
 [DevSecOps — 코드 복잡도 측정 자동화, CI/CD 파이프라인 보안 내재화]
 ```
 
-이 흐름은 단순성이 보안 원칙의 핵심 전제로 작동하며, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처로 구체화되고 [DevSecOps](/knowledge-base/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인에서 자동 측정·강제되는 현대 보안 설계의 발전 계보를 보여준다.
+이 흐름은 단순성이 보안 원칙의 핵심 전제로 작동하며, [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 아키텍처로 구체화되고 [DevSecOps](/studynote/04_software_engineering/uncategorized/653_devsecops_shift_left/) 파이프라인에서 자동 측정·강제되는 현대 보안 설계의 발전 계보를 보여준다.
 
 
 ### 👶 어린이를 위한 3줄 비유 설명
@@ -210,7 +207,7 @@ tags = ["security"]
 
 **진행 상황**: 14 / 1108
 
-<- **이전**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/knowledge-base/studynote/09_security/01_intro_principles/013_need_to_know/)
-**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，이비 알고리즘 은닉](/knowledge-base/studynote/09_security/01_intro_principles/015_open_design/) ->
+<- **이전**: [13. 알 필요성 원칙 (Need-to-Know) — 정보 접근 제한](/studynote/09_security/01_intro_principles/013_need_to_know/)
+**다음**: [15. 공개 설계 원칙 (Open Design) — 키 은닉，이비 알고리즘 은닉](/studynote/09_security/01_intro_principles/015_open_design/) ->
 
 ---

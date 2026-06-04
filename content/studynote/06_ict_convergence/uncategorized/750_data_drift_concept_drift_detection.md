@@ -1,13 +1,10 @@
-+++
-title = "750. 데이터 드리프트 개념 드리프트 탐지 (Data Drift Concept Drift Detection)"
-date = 2026-05-09
+---
+title: "750. 데이터 드리프트 개념 드리프트 탐지 (Data Drift Concept Drift Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -179,7 +176,7 @@ $$
 
 **진행 상황**: 750 / 800
 
-<- **이전**: [749. 피처 엔지니어링 자동 특성 생성](/knowledge-base/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/)
-**다음**: [751. 모델 모니터링 성능 저하 알림 재학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/751_model_monitoring_performance_degradation/) ->
+<- **이전**: [749. 피처 엔지니어링 자동 특성 생성](/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/)
+**다음**: [751. 모델 모니터링 성능 저하 알림 재학습](/studynote/06_ict_convergence/uncategorized/751_model_monitoring_performance_degradation/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "580. 컴포저블 아키텍처 모듈화 재사용 (Composable Architecture Modular Reuse)"
-date = 2026-05-09
+---
+title: "580. 컴포저블 아키텍처 모듈화 재사용 (Composable Architecture Modular Reuse)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -170,7 +167,7 @@ Saga Orchestration (주문-결제-재고-배송 예시)
 
 **진행 상황**: 580 / 600
 
-<- **이전**: [579. 하이퍼오토메이션 AI 융합 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/580_hyperautomation_ai_convergence_automatio/)
-**다음**: [581. 제로 트러스트 아키텍처 감리 관점](/knowledge-base/studynote/11_design_supervision/06_exam_summary/581_zero_trust_architecture_audit_perspectiv/) ->
+<- **이전**: [579. 하이퍼오토메이션 AI 융합 자동화](/studynote/11_design_supervision/06_exam_summary/580_hyperautomation_ai_convergence_automatio/)
+**다음**: [581. 제로 트러스트 아키텍처 감리 관점](/studynote/11_design_supervision/06_exam_summary/581_zero_trust_architecture_audit_perspectiv/) ->
 
 ---

@@ -1,26 +1,23 @@
-+++
-title = "822. 컨테이너 네트워킹 인터페이스 (CNI)"
-date = 2026-05-08
+---
+title: "822. 컨테이너 네트워킹 인터페이스 (CNI)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스를 이해하면 확장성과 운영 자동화 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 데이터센터와 클라우드 네트워크에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스를 이해하면 확장성과 운영 자동화 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)나 클라우드 파운드리 같은 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 환경에서, <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)들의 네트워크 환경(IP 할당, 삭제, 가상 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 연결)을 구성하고 제어하기 위한 <a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a>(Third-party) '네트워크 플러그인 표준 명세서(<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 규격)'</strong>입니다. ([CNCF](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 재단 관리)
-- **존재 이유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 오직 "[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우고 죽이는 일"만 잘합니다. 네트워크 연결이라는 복잡한 일은 CNI 규격을 지켜서 만든 외부 소프트웨어([Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/), [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 등)에게 100% 외주(아웃소싱)를 줍니다.
+- **개념**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)나 클라우드 파운드리 같은 [컨테이너 오케스트레이션](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 환경에서, <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a>(<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>)들의 네트워크 환경(IP 할당, 삭제, 가상 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 연결)을 구성하고 제어하기 위한 <a href="/studynote/05_database/06_dw_olap_trends/385_third_party_cookie_deprecation_cdw/">서드파티</a>(Third-party) '네트워크 플러그인 표준 명세서(<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 규격)'</strong>입니다. ([CNCF](/studynote/15_devops_sre/04_iac_cloud_native/190_cncf_landscape_observability/) 재단 관리)
+- **존재 이유**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 오직 "[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 띄우고 죽이는 일"만 잘합니다. 네트워크 연결이라는 복잡한 일은 CNI 규격을 지켜서 만든 외부 소프트웨어([Flannel](/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [Calico](/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/), [Cilium](/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/) 등)에게 100% 외주(아웃소싱)를 줍니다.
 
 ```text
 [클라우드 네이티브 네트워킹 스케일아웃 분산…]
@@ -31,20 +28,20 @@ tags = ["studynote-network"]
     +---> [Flannel]
 ```
 
-- **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-내가 직접 CNI 플러그인을 만들어서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 팔려면, 무조건 아래 3가지 법을 지켜야 합니다.
+내가 직접 CNI 플러그인을 만들어서 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 팔려면, 무조건 아래 3가지 법을 지켜야 합니다.
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a> 간 통신 (<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>-to-<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Communication)</strong>:
-   - 1번 서버(노드)에 떠 있는 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A와, 2번 서버(노드)에 떠 있는 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B는, <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>(네트워크 주소 변환) 꼼수 없이 오리지널 IP 주소 그대로 직접 1:1 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 통신이 가능해야 합니다.</strong>
-2. <strong>노드-<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a> 간 통신 (Node-to-<a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Communication)</strong>:
-   - 클러스터 내의 모든 물리 서버(Node)는, 그 어떤 서버에 떠 있는 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))와도 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 없이 다이렉트로 통신할 수 있어야 합니다.
+1. <strong><a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a> 간 통신 (<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a>-to-<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Communication)</strong>:
+   - 1번 서버(노드)에 떠 있는 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) A와, 2번 서버(노드)에 떠 있는 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) B는, <strong><a href="/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a>(네트워크 주소 변환) 꼼수 없이 오리지널 IP 주소 그대로 직접 1:1 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 통신이 가능해야 합니다.</strong>
+2. <strong>노드-<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">포드</a> 간 통신 (Node-to-<a href="/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/">Pod</a> Communication)</strong>:
+   - 클러스터 내의 모든 물리 서버(Node)는, 그 어떤 서버에 떠 있는 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))와도 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 없이 다이렉트로 통신할 수 있어야 합니다.
 3. **자아 인식 IP 일치 (Self-awareness)**:
-   - [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에서 자기가 자기 IP를 조회해 본 결과(`ip addr`)와, 다른 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 나를 부를 때 쓰는 내 IP가 <strong>100% 똑같은 하나의 진짜 IP</strong>여야 합니다. ([포트 포워딩](/knowledge-base/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) 떡칠 금지)
+   - [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 안에서 자기가 자기 IP를 조회해 본 결과(`ip addr`)와, 다른 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 나를 부를 때 쓰는 내 IP가 <strong>100% 똑같은 하나의 진짜 IP</strong>여야 합니다. ([포트 포워딩](/studynote/03_network/14_network_security_threats/736_port_forwarding_jump_station_bastion_host/) 떡칠 금지)
 
 ```text
 [클라우드 네이티브 네트워킹 스케일아웃 분산…]
@@ -55,51 +52,51 @@ tags = ["studynote-network"]
     +---> [Flannel]
 ```
 
-- **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-개발자가 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 `kubectl apply` 명령어로 "웹서버 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개 띄워!"라고 지시합니다.
-1. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 껍데기 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 공간을 하나 만듭니다.
-2. [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 설치된 <strong>CNI 플러그인(예: <a href="/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a>)을 툭 찌르며 (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 호출) "야! 1번 방 만들어졌으니까 IP 하나 던져주고 가상 랜선 꽂아 놔!"</strong>라고 명령합니다.
-3. CNI 플러그인이 후다닥 달려와서 자기 방식대로 가상 IP를 찍어주고 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)(브릿지)를 연결한 뒤, "완료했습니다!"라고 보고하면 그때부터 [포드](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 인터넷을 시작합니다.
+개발자가 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)에 `kubectl apply` 명령어로 "웹서버 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 1개 띄워!"라고 지시합니다.
+1. [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)는 껍데기 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)) 공간을 하나 만듭니다.
+2. [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)가 설치된 <strong>CNI 플러그인(예: <a href="/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a>)을 툭 찌르며 (<a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a> 호출) "야! 1번 방 만들어졌으니까 IP 하나 던져주고 가상 랜선 꽂아 놔!"</strong>라고 명령합니다.
+3. CNI 플러그인이 후다닥 달려와서 자기 방식대로 가상 IP를 찍어주고 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)(브릿지)를 연결한 뒤, "완료했습니다!"라고 보고하면 그때부터 [포드](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/)가 인터넷을 시작합니다.
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…가 기반 조건을 만든다면, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 그 위에서 핵심 메커니즘을 구현하고, Flannel는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)…가 기반 조건을 만든다면, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 그 위에서 핵심 메커니즘을 구현하고, Flannel는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 확장성과 운영 자동화에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…의 기반 정리 | [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스의 핵심 동작 | Flannel의 확장 적용 |
+| 초점 | [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)…의 기반 정리 | [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스의 핵심 동작 | Flannel의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 확장성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 사용자는 내 회사 인프라 상황에 맞춰 입맛대로 골라 꽂으면 됩니다.
-- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/">Flannel</a> (플라넬)</strong>: 설치가 가장 쉽습니다. 복잡한 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 없이 그냥 모든 서버를 817번에서 배운 <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 가상 터널(오버레이 망)</strong>로 덮어버려 하나로 묶습니다. 보안 제어(네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 기능이 없어 실무보단 테스트용으로 씁니다. (823번)
-- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a> (칼리코) 🌟</strong>: 실무 1대장입니다. 무거운 [VXLAN](/knowledge-base/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널을 안 뚫고, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜을 써서 패킷을 다이렉트로 쏴버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 깡패입니다. 게다가 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)) 기능이 미치도록 강력합니다. (824번)
-- <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a> (실리움)</strong>: 요즘 가장 뜨는 차세대 끝판왕입니다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 마개조하는 [eBPF](/knowledge-base/studynote/02_operating_system/10_security/615_ebpf/) 기술을 써서, 아예 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 속도를 극한으로 끌어올리고 보안 검사를 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 빛의 속도로 해치웁니다. (825번)
+[쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 사용자는 내 회사 인프라 상황에 맞춰 입맛대로 골라 꽂으면 됩니다.
+- <strong><a href="/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/">Flannel</a> (플라넬)</strong>: 설치가 가장 쉽습니다. 복잡한 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 없이 그냥 모든 서버를 817번에서 배운 <strong><a href="/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/">VXLAN</a> 가상 터널(오버레이 망)</strong>로 덮어버려 하나로 묶습니다. 보안 제어(네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)) 기능이 없어 실무보단 테스트용으로 씁니다. (823번)
+- <strong><a href="/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/">Calico</a> (칼리코) 🌟</strong>: 실무 1대장입니다. 무거운 [VXLAN](/studynote/03_network/16_data_center_cloud/817_vxlan_virtual_extensible_lan_mac_in_udp/) 터널을 안 뚫고, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 프로토콜을 써서 패킷을 다이렉트로 쏴버리는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 깡패입니다. 게다가 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)(네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)) 기능이 미치도록 강력합니다. (824번)
+- <strong><a href="/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/">Cilium</a> (실리움)</strong>: 요즘 가장 뜨는 차세대 끝판왕입니다. 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 마개조하는 [eBPF](/studynote/02_operating_system/10_security/615_ebpf/) 기술을 써서, 아예 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 속도를 극한으로 끌어올리고 보안 검사를 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단에서 빛의 속도로 해치웁니다. (825번)
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 건물주는 방([컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 수만 개 짓는 건축의 달인이지만, 수도 배관이나 전기 공사(네트워크)는 할 줄 모릅니다. 그래서 배관공 협회에 "내가 방을 하나 지을 때마다, 이 규격(콘센트 구멍 크기)에 딱 맞는 배관을 와서 설치해 줘!"라고 가이드라인을 반포했는데, 이 문서가 바로 <strong>CNI(표준 명세서)</strong>입니다. 이 문서를 보고 수많은 배관 하청업체([Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [Calico](/knowledge-base/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/), [Cilium](/knowledge-base/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/))들이 서로 "우리 회사 배관([터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 방식, [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 방식)이 더 물이 빨리 통합니다!"라며 경쟁을 벌이고, 건물주(관리자)는 자기 예산과 용도에 맞는 업체를 골라 플러그인처럼 꽂아 쓰는 완벽한 하청(외주) 생태계입니다.
+- **📢 섹션 요약 비유**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 건물주는 방([컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/))을 수만 개 짓는 건축의 달인이지만, 수도 배관이나 전기 공사(네트워크)는 할 줄 모릅니다. 그래서 배관공 협회에 "내가 방을 하나 지을 때마다, 이 규격(콘센트 구멍 크기)에 딱 맞는 배관을 와서 설치해 줘!"라고 가이드라인을 반포했는데, 이 문서가 바로 <strong>CNI(표준 명세서)</strong>입니다. 이 문서를 보고 수많은 배관 하청업체([Flannel](/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [Calico](/studynote/03_network/16_data_center_cloud/824_calico_bgp_routing_cni_network_policy/), [Cilium](/studynote/03_network/16_data_center_cloud/825_cilium_ebpf_kubernetes_networking_security/))들이 서로 "우리 회사 배관([터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 방식, [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/) 방식)이 더 물이 빨리 통합니다!"라며 경쟁을 벌이고, 건물주(관리자)는 자기 예산과 용도에 맞는 업체를 골라 플러그인처럼 꽂아 쓰는 완벽한 하청(외주) 생태계입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 데이터센터와 클라우드 네트워크를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 확장성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [Flannel](/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/), [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -107,10 +104,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [오버레이 네트워크](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([Overlay Network](/knowledge-base/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)) | 가상 환경의 논리적 연결을 만든다. |
+| [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [오버레이 네트워크](/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/) ([Overlay Network](/studynote/03_network/16_data_center_cloud/815_overlay_network_virtualization_l2_extension/)) | 가상 환경의 논리적 연결을 만든다. |
 | 패브릭 (Fabric) | 대규모 데이터센터의 균일한 연결 구조다. |
-| [Flannel](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [Flannel](/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,7 +121,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 클라우드 네이티브 네트워킹]
 ```
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 Flannel와 [클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 네트워킹 인터페이스는 [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 스케일아웃 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)…에서 출발해 현재 메커니즘을 정교화하고, 이후 Flannel와 [클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +135,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 943 / 1120
 
-<- **이전**: [821. 클라우드 네이티브 네트워킹](/knowledge-base/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/)
-**다음**: [823. Flannel (단순 오버레이 CNI)](/knowledge-base/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) ->
+<- **이전**: [821. 클라우드 네이티브 네트워킹](/studynote/03_network/16_data_center_cloud/821_cloud_native_networking_scale_out_msa/)
+**다음**: [823. Flannel (단순 오버레이 CNI)](/studynote/03_network/16_data_center_cloud/823_flannel_overlay_cni_vxlan/) ->
 
 ---

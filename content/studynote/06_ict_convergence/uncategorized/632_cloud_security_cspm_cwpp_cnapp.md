@@ -1,13 +1,10 @@
-+++
-title = "632. 클라우드 보안 CSPM CWPP CNAPP (Cloud Security CSPM CWPP CNAPP)"
-date = 2026-05-09
+---
+title: "632. 클라우드 보안 CSPM CWPP CNAPP (Cloud Security CSPM CWPP CNAPP)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ CNAPP는 일반적으로 다음 **5개 핵심 모듈**과 **공통 데이터 레
 
 **진행 상황**: 632 / 800
 
-<- **이전**: [631. 그린 클라우드 탄소 중립 PUE 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/)
-**다음**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/knowledge-base/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/) ->
+<- **이전**: [631. 그린 클라우드 탄소 중립 PUE 최적화](/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/)
+**다음**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/) ->
 
 ---

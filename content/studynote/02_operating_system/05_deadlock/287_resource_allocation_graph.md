@@ -1,29 +1,26 @@
-+++
-title = "287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)"
-date = 2026-05-09
+---
+title: "287. 자원 할당 그래프 (Resource-Allocation Graph) - 정점(프로세스, 자원)과 간선(요청, 할당)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Resource-Allocation [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/), [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 내 존재하는 프로세스 집합과 가용 자원 집합 간의 요청(Request) 및 점유(Assignment/Allocated) 상태의 얽힘을 명확하게 도식화하고 모델링하는 방향성 유향 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 도구이다.
-> 2. **가치**: [그래프 탐색](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/) Traversal) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 사이클(Cycle)의 유무를 추적함으로써 시스템이 현재 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠졌는지, 혹은 위험 구간에 있는지를 단숨에 수학적으로 증명(탐지, [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))해낼 수 있는 강력한 코어 로직이다.
+> 1. **본질**: [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Resource-Allocation [Graph](/studynote/12_it_management/03_ea_isp/888_graph/), [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 내 존재하는 프로세스 집합과 가용 자원 집합 간의 요청(Request) 및 점유(Assignment/Allocated) 상태의 얽힘을 명확하게 도식화하고 모델링하는 방향성 유향 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)(Directed [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 도구이다.
+> 2. **가치**: [그래프 탐색](/studynote/01_computer_architecture/15_advanced_topics/613_graph_bfs_memory/)([Graph](/studynote/12_it_management/03_ea_isp/888_graph/) Traversal) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 통해 사이클(Cycle)의 유무를 추적함으로써 시스템이 현재 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))에 빠졌는지, 혹은 위험 구간에 있는지를 단숨에 수학적으로 증명(탐지, [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/))해낼 수 있는 강력한 코어 로직이다.
 > 3. **융합**: 단일 인스턴스 자원의 경우 사이클 존재가 곧 데드락을 의미하지만, 다중 인스턴스 자원(동일한 프린터가 3대 있는 자원 등)의 경우 사이클은 '데드락 필요조건 중 하나'일 뿐 충분조건이 아니므로, 상태 공간을 줄인 은행원(Banker's) 대기 모델 등으로 위상 검사 매커니즘을 융합 진화시켰다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-수많은 스레드와 자원이 복잡하게 요청하고 점유하는 상황을 C언어 텍스트나 변수만 보고 즉각 "꼬였다([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))"라고 선언할 수 없다. 우리는 거대한 미로를 조감할 지도가 필요하다.
+수많은 스레드와 자원이 복잡하게 요청하고 점유하는 상황을 C언어 텍스트나 변수만 보고 즉각 "꼬였다([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))"라고 선언할 수 없다. 우리는 거대한 미로를 조감할 지도가 필요하다.
 
-<strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/knowledge-base/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다.
+<strong><a href="/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>는 프로세스를 원(Circle)으로, 자원을 사각형([Square](/studynote/04_software_engineering/06_software_architecture/341_iso_iec_25010/)/Rectangle)으로 그려 요청과 할당이라는 화살표 두 개로 거대한 대기 역학 관계를 한눈에 통찰할 수 있게 만든다.
 
-**💡 비유**: 복잡한 지하철 환승역 노선도에 '사람들이 가려는 방향(요청 간선)'과 '현재 차지한 개찰구(할당 간선)' 화살표를 다 그려보는 것 — 어딘가에서 화살표가 원형으로 빙빙 도는 고리가 생겼다면 막힌([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 지점임을 1초 만에 파악할 수 있다.
+**💡 비유**: 복잡한 지하철 환승역 노선도에 '사람들이 가려는 방향(요청 간선)'과 '현재 차지한 개찰구(할당 간선)' 화살표를 다 그려보는 것 — 어딘가에서 화살표가 원형으로 빙빙 도는 고리가 생겼다면 막힌([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 지점임을 1초 만에 파악할 수 있다.
 
 ```text
 +-----------------------------------------------------------------+
@@ -49,7 +46,7 @@ tags = ["studynote-operating-system"]
 +-----------------------------------------------------------------+
 ```
 
-**📢 섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (자원할당그래프)는 범죄 수사관의 연결망 보드 — 사진(프로세스, 자원)을 핀으로 박고 실(요청, 점유)을 쭉쭉 연결하다가, 실이 육망성 고리를 그리는 순간 "여기서부터 마비됐군!" 범인(데드락)을 가리키는 시스템 탐지 나침반입니다.
+**📢 섹션 요약 비유**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) (자원할당그래프)는 범죄 수사관의 연결망 보드 — 사진(프로세스, 자원)을 핀으로 박고 실(요청, 점유)을 쭉쭉 연결하다가, 실이 육망성 고리를 그리는 순간 "여기서부터 마비됐군!" 범인(데드락)을 가리키는 시스템 탐지 나침반입니다.
 
 ---
 
@@ -88,36 +85,36 @@ tags = ["studynote-operating-system"]
 
 | 모델 종류 | 사용 대상 | 한계와 복잡성 | 현대 OS의 적용 여부 |
 |:---|:---|:---|:---|
-| [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) | 데드락 상태 이론적 기반 모델러 | 다중 인스턴스 교착 확정 판단 힘듦 | Ostrich에 밀려 백그라운드 한시적 지원 |
-| [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)) | RAG에서 자원(R) 노드를 소거한 간소형 | 오직 단일 인스턴스 체제용 (가볍고 고속) | RDBMS 내 데드락 감시기 (Victim 색출시 주로 사용) |
-| 은행원 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상태판 | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 다중 인스턴스의 수학적 안전성 정교화 매트릭스 탐지법 | `O(m*n^2)`라는 묵직한 오버헤드 CPU 누수 작렬 | 사실상 너무 무거워 폐기 판정, 교과서용 |
+| [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)) | 데드락 상태 이론적 기반 모델러 | 다중 인스턴스 교착 확정 판단 힘듦 | Ostrich에 밀려 백그라운드 한시적 지원 |
+| [대기 그래프](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/) ([Wait-for Graph](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)) | RAG에서 자원(R) 노드를 소거한 간소형 | 오직 단일 인스턴스 체제용 (가볍고 고속) | RDBMS 내 데드락 감시기 (Victim 색출시 주로 사용) |
+| 은행원 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 상태판 | [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 다중 인스턴스의 수학적 안전성 정교화 매트릭스 탐지법 | `O(m*n^2)`라는 묵직한 오버헤드 CPU 누수 작렬 | 사실상 너무 무거워 폐기 판정, 교과서용 |
 
-**📢 섹션 요약 비유**: [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델은 체스판을 위에서 보는 것, [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)는 핵심 장기말 2개 신경전만 떼고 보는 것.
+**📢 섹션 요약 비유**: [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 모델은 체스판을 위에서 보는 것, [대기 그래프](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)는 핵심 장기말 2개 신경전만 떼고 보는 것.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 **실무 시나리오**:
-1. <strong>DB <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-For Graph</a> (WFG)</strong>: Oracle이나 MySQL은 자원(테이블 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)이 단일 속성에 가깝기 때문에 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) A가 B를 기다리는 연결선만 이어 버리는 단축된 [대기 그래프](/knowledge-base/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)를 메모리에 구현해둔다. 1초마다 백그라운드 데몬이 이 WFG [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/BFS를 돌려 사이클 꼬리가 잡히는 즉시 에러 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(ORA/ER_LOCK_DEADLOCK) 뱉고 한 트랙잭션을 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 킬한다. (응용 최적화 탑티어 사례)
-2. <strong>Java <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 역추적</strong>: 심야 서버 마비 시 DevOps가 남긴 쓰레드 덤프 텍스트에서 `waiting to lock <0x12ab>`와 `locked <0xfedc>` 상태를 읽고 화이트보드에 동그라미 네모를 손으로 그려보는 행위 자체가 RAG를 인스턴스화하여 데드락 원흉 코드를 짚어내는 일이다.
+1. <strong>DB <a href="/studynote/02_operating_system/05_deadlock/305_wait_for_graph/">Wait-For Graph</a> (WFG)</strong>: Oracle이나 MySQL은 자원(테이블 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 락)이 단일 속성에 가깝기 때문에 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) A가 B를 기다리는 연결선만 이어 버리는 단축된 [대기 그래프](/studynote/02_operating_system/05_deadlock/305_wait_for_graph/)를 메모리에 구현해둔다. 1초마다 백그라운드 데몬이 이 WFG [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/)/BFS를 돌려 사이클 꼬리가 잡히는 즉시 에러 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)(ORA/ER_LOCK_DEADLOCK) 뱉고 한 트랙잭션을 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 킬한다. (응용 최적화 탑티어 사례)
+2. <strong>Java <a href="/studynote/02_operating_system/02_process_thread/092_thread_lwp/">Thread</a> Dump 역추적</strong>: 심야 서버 마비 시 DevOps가 남긴 쓰레드 덤프 텍스트에서 `waiting to lock <0x12ab>`와 `locked <0xfedc>` 상태를 읽고 화이트보드에 동그라미 네모를 손으로 그려보는 행위 자체가 RAG를 인스턴스화하여 데드락 원흉 코드를 짚어내는 일이다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
-- **자원 개수를 맹신한 무방비 개발**: 서버 통신 커넥션 풀을 100개(다중 인스턴스) 심었다고 해서 데드락이 우회될 거라 맹신. 커넥션 고갈 시 결국 이 거대한 다중 인스턴스 RAG가 [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) 함락의 덫이 되어 시스템을 일순간 고체화([Solid](/knowledge-base/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))시킨다.
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a></strong>:
+- **자원 개수를 맹신한 무방비 개발**: 서버 통신 커넥션 풀을 100개(다중 인스턴스) 심었다고 해서 데드락이 우회될 거라 맹신. 커넥션 고갈 시 결국 이 거대한 다중 인스턴스 RAG가 [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) 함락의 덫이 되어 시스템을 일순간 고체화([Solid](/studynote/04_software_engineering/04_testing_quality/242_solid_object_oriented_design_principles/))시킨다.
 
-**📢 섹션 요약 비유**: 쓰레드 덤프를 보며 WFG를 그리는 개발자는 혈흔(텍스트)을 보고 범인의 경로([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 추리해내는 노련한 [CSI](/knowledge-base/studynote/12_it_management/02_itsm_itil/068_csi/) 수사대입니다.
+**📢 섹션 요약 비유**: 쓰레드 덤프를 보며 WFG를 그리는 개발자는 혈흔(텍스트)을 보고 범인의 경로([교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))를 추리해내는 노련한 [CSI](/studynote/12_it_management/02_itsm_itil/068_csi/) 수사대입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-| 기준 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 미사용 추론 | [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/). WFG 모델링 도입 |
+| 기준 | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 미사용 추론 | [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/). WFG 모델링 도입 |
 |:---|:---|:---|
 | 시스템 멈춤 원인 파악 | 추측성 디버깅으로 미제 사건화 | 루프 사이클 코드로 역추적 적발 확정 |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비용 | 코딩 중 예측 불가 패닉 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 증가 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 스캔 시 자산 CPU 비용 N제곱 오버헤드 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비용 | 코딩 중 예측 불가 패닉 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 증가 | [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 스캔 시 자산 CPU 비용 N제곱 오버헤드 |
 | 다중 자원 해결책 | 불확실성에 의존 | 시뮬레이션을 통해 여유 자원으로의 안전 패스 확보 |
 
-[자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 컴퓨터 그래픽이나 GUI 화면을 띄워주는 프로그램 패키지가 아니다. OS나 RDBMS 엔진 코어 코어 로직 한가운데에서 구조체 리스트 포인터 기반으로 `Node`와 `Edge` [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 뭉치로 구현되어 실시간으로 사이클 덫을 사냥([Deadlock Detection](/knowledge-base/studynote/02_operating_system/05_deadlock/304_deadlock_detection/))하는 가장 클래식하고 핵심적인 수학적 무기다.
+[자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/))는 컴퓨터 그래픽이나 GUI 화면을 띄워주는 프로그램 패키지가 아니다. OS나 RDBMS 엔진 코어 코어 로직 한가운데에서 구조체 리스트 포인터 기반으로 `Node`와 `Edge` [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 뭉치로 구현되어 실시간으로 사이클 덫을 사냥([Deadlock Detection](/studynote/02_operating_system/05_deadlock/304_deadlock_detection/))하는 가장 클래식하고 핵심적인 수학적 무기다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -127,8 +124,8 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [순환 대기](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [순환 대기](/studynote/02_operating_system/05_deadlock/286_circular_wait/) ([Circular Wait](/studynote/02_operating_system/05_deadlock/286_circular_wait/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 단일 인스턴스 자원 환경 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 다중 인스턴스 자원 환경 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
@@ -148,9 +145,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 거대한 실뜨기 놀이나 미로 찾기 지도예요!
+1. [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)는 거대한 실뜨기 놀이나 미로 찾기 지도예요!
 2. 길을 따라 연필로 화살표 줄을 그으며 따라갔는데, 어라? 출발했던 자리로 빙글 돌아 원을 그려지며 갇혀 버렸네요.
-3. 이 원(사이클)을 발견하는 순간 "앗! 꼼짝 달싹도 못 하게 길이 꽉 막혔다([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))!"라는 범인을 정확히 찾아내는 명탐정 돋보기가 바로 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)입니다.
+3. 이 원(사이클)을 발견하는 순간 "앗! 꼼짝 달싹도 못 하게 길이 꽉 막혔다([교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))!"라는 범인을 정확히 찾아내는 명탐정 돋보기가 바로 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)입니다.
 
 ---
 
@@ -158,7 +155,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 287 / 800
 
-<- **이전**: [286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성](/knowledge-base/studynote/02_operating_system/05_deadlock/286_circular_wait/)
-**다음**: [288. 단일 인스턴스 자원 환경 (Single Instance Resource)](/knowledge-base/studynote/02_operating_system/05_deadlock/288_single_instance_resource/) ->
+<- **이전**: [286. 순환 대기 (Circular Wait) - 대기 그래프가 사이클(Cycle)을 형성](/studynote/02_operating_system/05_deadlock/286_circular_wait/)
+**다음**: [288. 단일 인스턴스 자원 환경 (Single Instance Resource)](/studynote/02_operating_system/05_deadlock/288_single_instance_resource/) ->
 
 ---

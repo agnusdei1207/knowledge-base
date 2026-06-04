@@ -1,13 +1,10 @@
-+++
-title = "679. 합성 데이터 시뮬레이션 프라이버시 보존 (Synthetic Data Simulation Privacy Preserving)"
-date = 2026-05-09
+---
+title: "679. 합성 데이터 시뮬레이션 프라이버시 보존 (Synthetic Data Simulation Privacy Preserving)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -62,7 +59,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 679 / 800
 
-<- **이전**: [678. 데이터 프라이버시 비식별화 동의 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/678_data_privacy_de_identification_consent/)
-**다음**: [680. A/B 테스팅 인과 추론 실험 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/680_ab_testing_causal_inference_experiment/) ->
+<- **이전**: [678. 데이터 프라이버시 비식별화 동의 관리](/studynote/06_ict_convergence/uncategorized/678_data_privacy_de_identification_consent/)
+**다음**: [680. A/B 테스팅 인과 추론 실험 설계](/studynote/06_ict_convergence/uncategorized/680_ab_testing_causal_inference_experiment/) ->
 
 ---

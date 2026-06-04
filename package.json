@@ -1,15 +1,95 @@
 {
-  "name": "knowledgebase",
+  "name": "knowledge-base",
+  "description": "Quartz knowledge base for study notes and reference documents",
   "private": true,
   "version": "1.0.0",
   "type": "module",
+  "author": "agnusdei1207",
+  "license": "MIT",
+  "homepage": "https://github.com/agnusdei1207/knowledge-base",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/agnusdei1207/knowledge-base.git"
+  },
   "scripts": {
-    "build:data": "python3 scripts/build_zola_data.py",
-    "build": "npm run build:data && zola build && bash scripts/generate-llms-txt.sh && npx pagefind --site public --glob \"**/*.html\" --force-language ko --output-subdir _pagefind",
-    "serve": "npm run build:data && zola serve",
-    "check": "python3 -m py_compile scripts/*.py && npm run build:data"
+    "quartz": "./quartz/bootstrap-cli.mjs",
+    "start": "npm run dev",
+    "dev": "npx quartz build --serve --watch --baseDir /knowledge-base --port 8080 --wsPort 3001",
+    "docs": "npm run dev",
+    "build": "NODE_OPTIONS=--max-old-space-size=8192 npx quartz build",
+    "serve": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
+    "serve:local": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
+    "serve:watch": "npx quartz build --serve --watch --baseDir /knowledge-base --port 8080 --wsPort 3001",
+    "preview": "npx quartz build --serve --baseDir /knowledge-base --port 8080",
+    "check": "NODE_OPTIONS=--max-old-space-size=8192 tsc --noEmit && npx prettier --check package.json quartz.config.default.yaml quartz.ts quartz .github tsconfig.json",
+    "format": "npx prettier . --write",
+    "test": "tsx --test",
+    "profile": "0x -D prof ./quartz/bootstrap-cli.mjs build --concurrency=1",
+    "install-plugins": "npx quartz plugin install --from-config",
+    "prebuild": "npm run install-plugins"
+  },
+  "engines": {
+    "npm": ">=10.9.2",
+    "node": ">=24 <25"
+  },
+  "keywords": [
+    "site generator",
+    "ssg",
+    "digital-garden",
+    "markdown",
+    "quartz",
+    "knowledge-base"
+  ],
+  "bin": {
+    "quartz": "./quartz/bootstrap-cli.mjs"
+  },
+  "dependencies": {
+    "@clack/prompts": "^0.11.0",
+    "@floating-ui/dom": "^1.7.4",
+    "@myriaddreamin/rehype-typst": "^0.6.0",
+    "@napi-rs/simple-git": "0.1.22",
+    "ansi-truncate": "^1.4.0",
+    "async-mutex": "^0.5.0",
+    "chokidar": "^5.0.0",
+    "esbuild-sass-plugin": "^3.6.0",
+    "github-slugger": "^2.0.0",
+    "globby": "^16.1.0",
+    "hast-util-to-jsx-runtime": "^2.3.6",
+    "isomorphic-git": "^1.36.3",
+    "lightningcss": "^1.31.1",
+    "micromorph": "^0.4.5",
+    "minimatch": "^10.1.1",
+    "preact": "^10.28.2",
+    "preact-render-to-string": "^6.6.5",
+    "pretty-bytes": "^7.1.0",
+    "pretty-time": "^1.1.0",
+    "remark-parse": "^11.0.0",
+    "remark-rehype": "^11.1.2",
+    "rfdc": "^1.4.1",
+    "serve-handler": "^6.1.6",
+    "sharp": "^0.34.5",
+    "source-map-support": "^0.5.21",
+    "to-vfile": "^8.0.0",
+    "unified": "^11.0.5",
+    "unist-util-visit": "^5.1.0",
+    "vfile": "^6.0.3",
+    "workerpool": "^10.0.1",
+    "ws": "^8.19.0",
+    "yaml": "^2.8.2",
+    "yargs": "^18.0.0"
   },
   "devDependencies": {
-    "pagefind": "^1.5.2"
+    "@quartz-community/types": "github:quartz-community/types",
+    "@quartz-community/utils": "github:quartz-community/utils",
+    "@types/hast": "^3.0.4",
+    "@types/node": "^25.0.10",
+    "@types/pretty-time": "^1.1.5",
+    "@types/source-map-support": "^0.5.10",
+    "@types/ws": "^8.18.1",
+    "@types/yargs": "^17.0.35",
+    "esbuild": "^0.27.2",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3"
   }
 }

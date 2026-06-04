@@ -1,13 +1,10 @@
-+++
-title = "517. MES 제조 실행 시스템 스마트 팩토리 (MES Manufacturing Execution Smart Factory)"
-date = 2026-05-09
+---
+title: "517. MES 제조 실행 시스템 스마트 팩토리 (MES Manufacturing Execution Smart Factory)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ MES 스마트팩토리을 올바르게 적용하면 업무 처리 속도, 통제
 
 **진행 상황**: 517 / 800
 
-<- **이전**: [516. PLM 제품 수명주기 관리 디지털](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/516_plm_product_lifecycle_management_digital/)
-**다음**: [518. WMS 창고 관리 시스템 물류 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/518_wms_warehouse_management_logistics_automation/) ->
+<- **이전**: [516. PLM 제품 수명주기 관리 디지털](/studynote/07_enterprise_systems/06_exam_summary/516_plm_product_lifecycle_management_digital/)
+**다음**: [518. WMS 창고 관리 시스템 물류 자동화](/studynote/07_enterprise_systems/06_exam_summary/518_wms_warehouse_management_logistics_automation/) ->
 
 ---

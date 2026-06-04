@@ -1,24 +1,21 @@
-+++
-title = "819. PEST 분석 — 거시 환경 분석 프레임워크"
-date = 2026-04-29
+---
+title: "819. PEST 분석 — 거시 환경 분석 프레임워크"
+date: "2026-04-29"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업 외부의 거시 환경을 P (Political, 정치), E (Economic, 경제), S (Social, 사회), T (Technological, 기술)의 4가지 관점으로 체계적으로 분석하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 경영 프레임워크로, IT 프로젝트·신사업 기획·[디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 외부 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 도구다.
-> 2. **가치**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업이 통제할 수 없는 외부 거시 요인을 사전에 파악하여 기회(Opportunity)와 위협(Threat)을 식별한다. 이는 SWOT 분석의 O·T(기회·위협) 인풋 데이터를 제공하고, 포터의 5 Forces 분석의 외부 환경적 맥락을 설정한다.
-> 3. **판단 포인트**: 디지털 시대에는 PEST를 PESTLE로 확장하여 L (Legal, 법률), E (Environmental, 환경)을 추가한다. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제(EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act), ESG(Environmental, Social, Governance) 요건이 IT 기업의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 직접 영향을 주는 L·E 요소가 되었다.
+> 1. **본질**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업 외부의 거시 환경을 P (Political, 정치), E (Economic, 경제), S (Social, 사회), T (Technological, 기술)의 4가지 관점으로 체계적으로 분석하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 경영 프레임워크로, IT 프로젝트·신사업 기획·[디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/)([DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/)) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립의 외부 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 도구다.
+> 2. **가치**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업이 통제할 수 없는 외부 거시 요인을 사전에 파악하여 기회(Opportunity)와 위협(Threat)을 식별한다. 이는 SWOT 분석의 O·T(기회·위협) 인풋 데이터를 제공하고, 포터의 5 Forces 분석의 외부 환경적 맥락을 설정한다.
+> 3. **판단 포인트**: 디지털 시대에는 PEST를 PESTLE로 확장하여 L (Legal, 법률), E (Environmental, 환경)을 추가한다. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 규제(EU [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act), ESG(Environmental, Social, Governance) 요건이 IT 기업의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)에 직접 영향을 주는 L·E 요소가 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-기업은 내부 역량(강점·약점)만큼 외부 환경(기회·위협)에 의해 성패가 좌우된다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 전에 "우리 회사를 둘러싼 세계가 어떻게 변하고 있는가?"를 4가지 렌즈로 체계적으로 검토한다.
+기업은 내부 역량(강점·약점)만큼 외부 환경(기회·위협)에 의해 성패가 좌우된다. [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 수립 전에 "우리 회사를 둘러싼 세계가 어떻게 변하고 있는가?"를 4가지 렌즈로 체계적으로 검토한다.
 
 ```text
 +------------------------------------------------------------+
@@ -31,13 +28,13 @@ tags = ["studynote-it-management"]
 +--------------+---------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업이 항해하는 바다(외부 환경)의 날씨(정치), 조류(경제), 해류 온도(사회), 선박 기술(기술)을 사전에 파악하는 해도 작성이다. 바다를 알아야 올바른 항로를 선택할 수 있다.
+- **📢 섹션 요약 비유**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 기업이 항해하는 바다(외부 환경)의 날씨(정치), 조류(경제), 해류 온도(사회), 선박 기술(기술)을 사전에 파악하는 해도 작성이다. 바다를 알아야 올바른 항로를 선택할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### IT 기업 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석 예시 (클라우드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업)
+### IT 기업 [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석 예시 (클라우드 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기업)
 
 ```text
 P (정치적):
@@ -57,7 +54,7 @@ T (기술적):
   - 양자 컴퓨팅 -> 현재 암호화 위협 (5~10년 후)
 ```
 
-### [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) -> SWOT 연결
+### [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) -> SWOT 연결
 
 ```text
 PEST 분석
@@ -72,7 +69,7 @@ PEST 분석
    전략 도출 (SO, ST, WO, WT 전략)
 ```
 
-- **📢 섹션 요약 비유**: PEST는 레이더이고 SWOT은 지도다. PEST가 외부 환경(날씨, 장애물)을 레이더로 탐지하면, SWOT이 그 정보를 내부 역량과 결합해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 지도를 그린다.
+- **📢 섹션 요약 비유**: PEST는 레이더이고 SWOT은 지도다. PEST가 외부 환경(날씨, 장애물)을 레이더로 탐지하면, SWOT이 그 정보를 내부 역량과 결합해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 지도를 그린다.
 
 ---
 
@@ -80,27 +77,27 @@ PEST 분석
 
 | 프레임워크 | 분석 대상 | 연계 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/">PEST</a></strong> | 거시 외부 환경 4요소 | SWOT의 O·T 인풋 |
-| **PESTLE** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) + 법률(L) + 환경(E) | 규제·ESG 확장 |
+| <strong><a href="/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/">PEST</a></strong> | 거시 외부 환경 4요소 | SWOT의 O·T 인풋 |
+| **PESTLE** | [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) + 법률(L) + 환경(E) | 규제·ESG 확장 |
 | **Porter's 5 Forces** | 산업 내 경쟁 구조 | PEST의 맥락하에 적용 |
-| **SWOT** | 내부 S·W + 외부 O·T | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 결과 통합 |
+| **SWOT** | 내부 S·W + 외부 O·T | [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 결과 통합 |
 
-- **📢 섹션 요약 비유**: [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/), Porter's 5 Forces, SWOT는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 3단계 렌즈다. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)(망원경: 멀리 보기) -> Porter 5 Forces(현미경: 산업 내 보기) -> SWOT(거울: 우리 자신 보기) 순서로 분석한다.
+- **📢 섹션 요약 비유**: [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/), Porter's 5 Forces, SWOT는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석의 3단계 렌즈다. [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)(망원경: 멀리 보기) -> Porter 5 Forces(현미경: 산업 내 보기) -> SWOT(거울: 우리 자신 보기) 순서로 분석한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 신규 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 런칭 전 PESTLE 분석
-1. **Legal(법률)**: EU [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 고위험 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 적합성 평가 의무화 -> 출시 일정 6개월 추가.
-2. **Environmental(환경)**: [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 탄소 발자국 규제 강화 -> 재생에너지 전환 필요.
-3. **Political**: 미-중 기술 규제로 특정 국가 시장 진입 차단 -> 지역별 차별화 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
-4. **Technological**: 엣지 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성숙으로 클라우드 의존도 감소 -> 하이브리드 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처 전환.
+### 실무 시나리오: 신규 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 런칭 전 PESTLE 분석
+1. **Legal(법률)**: EU [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Act 고위험 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시 적합성 평가 의무화 -> 출시 일정 6개월 추가.
+2. **Environmental(환경)**: [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 탄소 발자국 규제 강화 -> 재생에너지 전환 필요.
+3. **Political**: 미-중 기술 규제로 특정 국가 시장 진입 차단 -> 지역별 차별화 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/).
+4. **Technological**: 엣지 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 성숙으로 클라우드 의존도 감소 -> 하이브리드 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 아키텍처 전환.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석을 한 번 수행하고 갱신하지 않는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("정적 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)"). 거시 환경은 지속적으로 변화하므로 연 1회 이상 재검토가 필요하다. ChatGPT 출시 후 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) T 요소가 1년 만에 완전히 바뀐 것처럼, 기술 환경은 특히 빠르게 변한다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석을 한 번 수행하고 갱신하지 않는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)("정적 [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/)"). 거시 환경은 지속적으로 변화하므로 연 1회 이상 재검토가 필요하다. ChatGPT 출시 후 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) T 요소가 1년 만에 완전히 바뀐 것처럼, 기술 환경은 특히 빠르게 변한다.
 
-- **📢 섹션 요약 비유**: 한 번 작성한 PEST를 계속 쓰는 것은 1년 전 지도를 보고 도시를 탐험하는 것이다. 도시(환경)는 계속 변하므로 지도([PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/))도 정기적으로 업데이트해야 한다.
+- **📢 섹션 요약 비유**: 한 번 작성한 PEST를 계속 쓰는 것은 1년 전 지도를 보고 도시를 탐험하는 것이다. 도시(환경)는 계속 변하므로 지도([PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/))도 정기적으로 업데이트해야 한다.
 
 ---
 
@@ -109,12 +106,12 @@ PEST 분석
 | 기대효과 | 내용 |
 |:---|:---|
 | **외부 위험 사전 인지** | 규제·경제·기술 변화 조기 탐지 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 정합성</strong> | SWOT·5 Forces와 연계한 일관된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **의사결정 근거** | 신사업/[DX](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 투자 의사결정 외부 맥락 제공 |
+| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 정합성</strong> | SWOT·5 Forces와 연계한 일관된 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **의사결정 근거** | 신사업/[DX](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) 투자 의사결정 외부 맥락 제공 |
 
-[PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 환경 스캐닝(Environmental Scanning) 도구로 발전하고 있다. 뉴스 기사, SNS, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 자동 분석하여 실시간으로 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 요소의 변화를 감지하고 경영진에게 알림을 제공하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인텔리전스 플랫폼이 등장했다.
+[PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 환경 스캐닝(Environmental Scanning) 도구로 발전하고 있다. 뉴스 기사, SNS, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 문서를 자동 분석하여 실시간으로 [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 요소의 변화를 감지하고 경영진에게 알림을 제공하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 인텔리전스 플랫폼이 등장했다.
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 PEST는 자동 날씨 예보 시스템이다. 수동으로 하늘을 보던(수동 [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석) 대신, 센서([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 실시간으로 기상 데이터를 수집하고 분석하여 자동으로 예보를 업데이트한다.
+- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 PEST는 자동 날씨 예보 시스템이다. 수동으로 하늘을 보던(수동 [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석) 대신, 센서([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))가 실시간으로 기상 데이터를 수집하고 분석하여 자동으로 예보를 업데이트한다.
 
 ---
 
@@ -123,9 +120,9 @@ PEST 분석
 | 개념 | 연결 포인트 |
 |:---|:---|
 | **SWOT 분석** | PEST의 O·T를 입력으로 받는 통합 분석 |
-| **Porter's 5 Forces** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 맥락하의 산업 경쟁 구조 분석 |
-| **PESTLE** | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) + 법률·환경 요소 확장 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 맵 (<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/">Strategy Map</a>)</strong> | [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 결과 반영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| **Porter's 5 Forces** | [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 맥락하의 산업 경쟁 구조 분석 |
+| **PESTLE** | [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) + 법률·환경 요소 확장 |
+| <strong><a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 맵 (<a href="/studynote/12_it_management/01_governance_strategy/815_strategy_map_bsc/">Strategy Map</a>)</strong> | [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 결과 반영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 | **ESG** | PESTLE의 E·S 요소와 직결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -148,8 +145,8 @@ PEST 분석
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [PEST](/knowledge-base/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 여행 전 날씨(P), 환율(E), 현지 문화(S), 교통수단(T)을 조사하는 것이에요!
-2. 이 정보를 알아야 여행 계획(사업 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 올바르게 세울 수 있어요.
+1. [PEST](/studynote/12_it_management/03_ea_isp/886_isp_environmental_analysis_pest_5forces/) 분석은 여행 전 날씨(P), 환율(E), 현지 문화(S), 교통수단(T)을 조사하는 것이에요!
+2. 이 정보를 알아야 여행 계획(사업 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 올바르게 세울 수 있어요.
 3. 현대에는 AI가 실시간으로 이 정보를 분석해서 자동으로 알려주는 시스템도 생겼답니다!
 
 ---
@@ -158,7 +155,7 @@ PEST 분석
 
 **진행 상황**: 44 / 587
 
-<- **이전**: [25. PEST 분석 (거시 환경 분석)](/knowledge-base/studynote/12_it_management/01_governance_strategy/025_pest_analysis/)
-**다음**: [26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석](/knowledge-base/studynote/12_it_management/01_governance_strategy/026_3c_analysis/) ->
+<- **이전**: [25. PEST 분석 (거시 환경 분석)](/studynote/12_it_management/01_governance_strategy/025_pest_analysis/)
+**다음**: [26. 3C 분석 (3C Analysis) — 고객·경쟁자·자사 전략 분석](/studynote/12_it_management/01_governance_strategy/026_3c_analysis/) ->
 
 ---

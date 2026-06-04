@@ -1,13 +1,10 @@
-+++
-title = "692. 엔터프라이즈 시스템 핵심 토픽 692번 시험 요약 (Enterprise System Core Topic 692 Exam Summary)"
-date = 2026-05-09
+---
+title: "692. 엔터프라이즈 시스템 핵심 토픽 692번 시험 요약 (Enterprise System Core Topic 692 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 692 / 800
 
-<- **이전**: [691. 엔터프라이즈 시스템 핵심 토픽 691번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/691_enterprise_system_core_topic_691_exam_summary/)
-**다음**: [693. 엔터프라이즈 시스템 핵심 토픽 693번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/693_enterprise_system_core_topic_693_exam_summary/) ->
+<- **이전**: [691. 엔터프라이즈 시스템 핵심 토픽 691번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/691_enterprise_system_core_topic_691_exam_summary/)
+**다음**: [693. 엔터프라이즈 시스템 핵심 토픽 693번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/693_enterprise_system_core_topic_693_exam_summary/) ->
 
 ---

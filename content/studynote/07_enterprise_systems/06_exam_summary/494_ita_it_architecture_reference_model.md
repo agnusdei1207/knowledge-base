@@ -1,13 +1,10 @@
-+++
-title = "494. ITA 정보기술 아키텍처 참조 모델 (ITA IT Architecture Reference Model)"
-date = 2026-05-09
+---
+title: "494. ITA 정보기술 아키텍처 참조 모델 (ITA IT Architecture Reference Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ ITA 참조모델을 제대로 적용하면 IT 투자가 업무 성과와 연결�
 
 **진행 상황**: 494 / 800
 
-<- **이전**: [493. ISP 정보화 전략 수립 BPR ISP](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/493_isp_information_strategy_planning_bpr/)
-**다음**: [495. 데이터 아키텍처 전사 데이터 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/495_data_architecture_enterprise_data_model/) ->
+<- **이전**: [493. ISP 정보화 전략 수립 BPR ISP](/studynote/07_enterprise_systems/06_exam_summary/493_isp_information_strategy_planning_bpr/)
+**다음**: [495. 데이터 아키텍처 전사 데이터 모델](/studynote/07_enterprise_systems/06_exam_summary/495_data_architecture_enterprise_data_model/) ->
 
 ---

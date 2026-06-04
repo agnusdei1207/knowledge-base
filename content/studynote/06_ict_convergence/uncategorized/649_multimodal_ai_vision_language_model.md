@@ -1,13 +1,10 @@
-+++
-title = "649. 멀티모달 AI 비전 언어 모델 (Multimodal AI Vision Language Model)"
-date = 2026-05-09
+---
+title: "649. 멀티모달 AI 비전 언어 모델 (Multimodal AI Vision Language Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ VLM의 표준 아키텍처는 **3-Stage Encoder-Projection-LLM** 구조이며, �
 
 **진행 상황**: 649 / 800
 
-<- **이전**: [648. AI 에이전트 도구 사용 자율 계획](/knowledge-base/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/)
-**다음**: [650. 디퓨전 모델 이미지 생성 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/) ->
+<- **이전**: [648. AI 에이전트 도구 사용 자율 계획](/studynote/06_ict_convergence/uncategorized/648_ai_agent_tool_use_autonomous_planning/)
+**다음**: [650. 디퓨전 모델 이미지 생성 아키텍처](/studynote/06_ict_convergence/uncategorized/650_diffusion_model_image_generation_architecture/) ->
 
 ---

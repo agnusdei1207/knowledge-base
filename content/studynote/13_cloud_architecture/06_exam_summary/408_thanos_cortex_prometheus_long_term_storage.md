@@ -1,13 +1,10 @@
-+++
-title = "408. Thanos Cortex 프로메테우스 장기 저장 (Thanos Cortex Prometheus Long Term Storage)"
-date = 2026-05-09
+---
+title: "408. Thanos Cortex 프로메테우스 장기 저장 (Thanos Cortex Prometheus Long Term Storage)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 408 / 800
 
-<- **이전**: [407. Fluentd Fluent Bit 로그 전달 파이프라인](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/407_fluentd_fluent_bit_log_pipeline/)
-**다음**: [409. SLO SLI 에러 버짓 신뢰성 목표](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/409_slo_sli_error_budget_reliability_target/) ->
+<- **이전**: [407. Fluentd Fluent Bit 로그 전달 파이프라인](/studynote/13_cloud_architecture/06_exam_summary/407_fluentd_fluent_bit_log_pipeline/)
+**다음**: [409. SLO SLI 에러 버짓 신뢰성 목표](/studynote/13_cloud_architecture/06_exam_summary/409_slo_sli_error_budget_reliability_target/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
-date = 2026-05-03
+---
+title: "148. VDSL (Very high-bit-rate DSL) / ADSL (Asymmetric DSL) / G.fast"
+date: "2026-05-03"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: DSL (Digital Subscriber Line) 기술은 기존에 깔려 있던 구리 전화선의 남는 고주파수 대역을 활용해, 선로 교체 없이 메가비트급 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신을 제공한 혁신적인 주파수 분할 기술이다.
-> 2. **가치**: ADSL (Asymmetric DSL)은 사용자의 다운로드 성향에 맞춰 주파수 대역을 비대칭으로 할당해 2000년대 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷 대중화를 이끌었으며, VDSL과 G.fast는 전송 거리를 줄이는 대신 속도를 극한으로 끌어올렸다.
+> 1. **본질**: DSL (Digital Subscriber Line) 기술은 기존에 깔려 있던 구리 전화선의 남는 고주파수 대역을 활용해, 선로 교체 없이 메가비트급 고속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신을 제공한 혁신적인 주파수 분할 기술이다.
+> 2. **가치**: ADSL (Asymmetric DSL)은 사용자의 다운로드 성향에 맞춰 주파수 대역을 비대칭으로 할당해 2000년대 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷 대중화를 이끌었으며, VDSL과 G.fast는 전송 거리를 줄이는 대신 속도를 극한으로 끌어올렸다.
 > 3. **판단 포인트**: 구리선의 물리적 한계(고주파 감쇠) 때문에 속도가 빠를수록 전화국과의 통신 가능 거리가 극단적으로 짧아진다. 광케이블(FTTH)을 집안까지 끌어오기 힘든 낡은 건물 환경에서 최후의 기가급 틈새 솔루션으로 활용된다.
 
 ---
@@ -20,7 +17,7 @@ tags = ["studynote-network"]
 
 과거 전화선을 이용한 56kbps 다이얼업 모뎀은 사람의 목소리가 다니는 음성 대역(0~4kHz)을 통신에 그대로 썼다. 이 때문에 인터넷을 쓰면 전화를 걸 수 없었고 속도도 절망적으로 느렸다.
 
-DSL (Digital Subscriber Line) 기술은 수백만 가구에 이미 깔려 있는 엄청난 인프라(구리 전화선)를 뜯어내지 않고 인터넷 속도를 높이기 위해 등장했다. 구리선의 잠재적 주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 1MHz 이상인데 사람의 목소리는 고작 4kHz만 쓴다는 점에 착안한 것이다. DSL은 스플리터(Splitter)라는 장비로 저주파(음성)와 고주파([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 쪼개어, <strong>전화와 인터넷을 동시에 사용</strong>할 수 있는 기적을 만들었다. ADSL (Asymmetric DSL)은 이 고주파 대역의 80%를 다운로드에, 20%를 업로드에 비대칭으로 분배하여 웹서핑 환경에 최적화된 고속도로를 뚫어냈다.
+DSL (Digital Subscriber Line) 기술은 수백만 가구에 이미 깔려 있는 엄청난 인프라(구리 전화선)를 뜯어내지 않고 인터넷 속도를 높이기 위해 등장했다. 구리선의 잠재적 주파수 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)은 1MHz 이상인데 사람의 목소리는 고작 4kHz만 쓴다는 점에 착안한 것이다. DSL은 스플리터(Splitter)라는 장비로 저주파(음성)와 고주파([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 쪼개어, <strong>전화와 인터넷을 동시에 사용</strong>할 수 있는 기적을 만들었다. ADSL (Asymmetric DSL)은 이 고주파 대역의 80%를 다운로드에, 20%를 업로드에 비대칭으로 분배하여 웹서핑 환경에 최적화된 고속도로를 뚫어냈다.
 
 - **📢 섹션 요약 비유**: ADSL은 전화선을 '사람이 다니는 좁은 도보(전화)'와 '자동차만 달리는 넓은 고속도로(인터넷 다운로드)'로 칸막이를 쳐서 나눈 신의 한 수입니다. 길을 새로 깔지 않고도 통행량을 엄청나게 늘린 셈이죠.
 
@@ -28,7 +25,7 @@ DSL (Digital Subscriber Line) 기술은 수백만 가구에 이미 깔려 있는
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-DSL의 발전은 '주파수 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 확장'과 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 현상(Attenuation)'과의 싸움이다.
+DSL의 발전은 '주파수 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)의 확장'과 '[신호](/studynote/02_operating_system/02_process_thread/130_signal/) 감쇠 현상(Attenuation)'과의 싸움이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -52,25 +49,25 @@ DSL의 발전은 '주파수 [대역폭](/knowledge-base/studynote/01_computer_ar
 +-------------------------------------------------------------+
 ```
 
-높은 주파수를 쓸수록 더 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 나를 수 있다(샤논의 정리). 하지만 구리선에서 고주파 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)는 거리가 멀어질수록 에너지를 급격히 잃어버리는 치명적인 특성(감쇠)이 있다.
+높은 주파수를 쓸수록 더 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 실어 나를 수 있다(샤논의 정리). 하지만 구리선에서 고주파 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)는 거리가 멀어질수록 에너지를 급격히 잃어버리는 치명적인 특성(감쇠)이 있다.
 그래서 VDSL과 G.fast는 속도를 100Mbps, 1Gbps로 뻥튀기하는 대신 허용 거리가 1km, 100m로 극단적으로 짧아졌다. 통신사들은 이를 해결하기 위해 아파트 지하실이나 전봇대까지는 손실이 없는 광케이블(FTTC/FTTB)을 깔고, 거기서부터 집 안으로 들어가는 마지막 아주 짧은 구간(Last Mile)에만 기존 구리선에 VDSL/G.fast 장비를 물리는 혼합 아키텍처를 구현했다.
 
-- **📢 섹션 요약 비유**: 구리선에 빠른 속도(초고주파)를 태우는 건 스포츠카를 달리는 것과 같습니다. 속도는 미친 듯이 빠르지만 연료([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기)가 금방 바닥나서 멀리 가지 못합니다. 그래서 도착지 바로 코앞까진 광케이블 기차에 태워 오고, 마지막 100m만 스포츠카를 달리게 하는 극한의 튜닝입니다.
+- **📢 섹션 요약 비유**: 구리선에 빠른 속도(초고주파)를 태우는 건 스포츠카를 달리는 것과 같습니다. 속도는 미친 듯이 빠르지만 연료([신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기)가 금방 바닥나서 멀리 가지 못합니다. 그래서 도착지 바로 코앞까진 광케이블 기차에 태워 오고, 마지막 100m만 스포츠카를 달리게 하는 극한의 튜닝입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-통신 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 아키텍처에서 구리선(DSL)은 결국 [동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)(Cable)이나 광케이블(FTTH)과 경쟁하고 대체되는 운명이다.
+통신 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 아키텍처에서 구리선(DSL)은 결국 [동축 케이블](/studynote/03_network/03_physical_layer_media/127_coaxial_cable/)(Cable)이나 광케이블(FTTH)과 경쟁하고 대체되는 운명이다.
 
-| 비교 항목 | ADSL / VDSL (구리선) | HFC ([동축 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 인터넷) | FTTH (광케이블) |
+| 비교 항목 | ADSL / VDSL (구리선) | HFC ([동축 케이블](/studynote/03_network/03_physical_layer_media/127_coaxial_cable/) 인터넷) | FTTH (광케이블) |
 | :--- | :--- | :--- | :--- |
-| <strong>통신 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a></strong> | 전화선 (Twisted Pair) | 케이블 TV 망 | 광섬유 (Optical Fiber) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 분배</strong> | 각 가입자별 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) (안정적) | 이웃 간 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 공유 (병목) | 압도적 무한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) |
+| <strong>통신 <a href="/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/">매체</a></strong> | 전화선 (Twisted Pair) | 케이블 TV 망 | 광섬유 (Optical Fiber) |
+| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 분배</strong> | 각 가입자별 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/) (안정적) | 이웃 간 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 공유 (병목) | 압도적 무한 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) |
 | **속도 한계** | 비대칭, 거리의 제약 심함 | 비대칭, 동시 접속 시 느려짐 | **대칭형 기가인터넷 (최종 승자)** |
 | **설치 편의성** | 기존 전화선 활용 (매우 쉬움) | 기존 TV선 활용 | **새로 선을 깔아야 함 (비용 큼)** |
 
-ADSL은 내 집만의 전용 전화선을 타기 때문에 이웃이 토렌트를 다운받아도 내 속도가 떨어지지 않는 장점이 있었다. 하지만 결국 구리선의 물리적 한계에 도달하여, 빛으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 대칭형 기가인터넷(FTTH, Fiber To The Home)으로 패러다임이 완전 연결 및 진화하게 되었다.
+ADSL은 내 집만의 전용 전화선을 타기 때문에 이웃이 토렌트를 다운받아도 내 속도가 떨어지지 않는 장점이 있었다. 하지만 결국 구리선의 물리적 한계에 도달하여, 빛으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏘는 대칭형 기가인터넷(FTTH, Fiber To The Home)으로 패러다임이 완전 연결 및 진화하게 되었다.
 
 - **📢 섹션 요약 비유**: ADSL이 오솔길을 고속도로로 개조한 '도로 확장 공사'라면, FTTH(광케이블)는 아예 땅을 뚫고 빛의 속도로 쏘아 보내는 '순간이동 포탈'을 새로 설치한 것입니다.
 
@@ -78,14 +75,14 @@ ADSL은 내 집만의 전용 전화선을 타기 때문에 이웃이 토렌트�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현업 네트워크 설계나 통신 인프라 기획에서 구리선 DSL 기술은 더 이상 메인스트림이 아니지만, 틈새를 메우는 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 기술로 판단해야 한다.
+현업 네트워크 설계나 통신 인프라 기획에서 구리선 DSL 기술은 더 이상 메인스트림이 아니지만, 틈새를 메우는 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 기술로 판단해야 한다.
 
 ### 실무 판단 시나리오
-1. <strong>유럽 등 문화재 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구역의 기가 인터넷 망 구축</strong>: 100년 된 유럽의 고건물이나 광케이블을 벽에 매립할 수 없는 오래된 아파트 단지에 1Gbps 인터넷을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)해야 한다면? FTTH 시공은 건물 훼손 문제로 불가능하다. 이때 판단해야 할 기술이 <strong>G.fast</strong>이다. 지하실 배전반까지만 광케이블을 잇고, 벽을 타고 올라가는 기존 낡은 구리 전화선에 G.fast 모뎀을 물려 100m 이내의 짧은 거리를 극복하며 기가급 속도를 제공하는 최적의 우회 솔루션이다.
-2. **벡터링 (Vectoring) 기술 도입의 필수성**: 초고주파수를 쓰는 VDSL/G.fast는 여러 가닥의 구리선이 다발로 묶여 있을 때 서로 전파 간섭([누화](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/), [Crosstalk](/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/))을 심하게 일으킨다. 노이즈 캔슬링 이어폰처럼 서로의 간섭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 수학적으로 계산해 상쇄 파동을 쏴주는 벡터링 기술을 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에 무조건 도입해야만 기가 속도를 보장할 수 있다.
+1. <strong>유럽 등 문화재 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 구역의 기가 인터넷 망 구축</strong>: 100년 된 유럽의 고건물이나 광케이블을 벽에 매립할 수 없는 오래된 아파트 단지에 1Gbps 인터넷을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)해야 한다면? FTTH 시공은 건물 훼손 문제로 불가능하다. 이때 판단해야 할 기술이 <strong>G.fast</strong>이다. 지하실 배전반까지만 광케이블을 잇고, 벽을 타고 올라가는 기존 낡은 구리 전화선에 G.fast 모뎀을 물려 100m 이내의 짧은 거리를 극복하며 기가급 속도를 제공하는 최적의 우회 솔루션이다.
+2. **벡터링 (Vectoring) 기술 도입의 필수성**: 초고주파수를 쓰는 VDSL/G.fast는 여러 가닥의 구리선이 다발로 묶여 있을 때 서로 전파 간섭([누화](/studynote/03_network/01_data_communication/030_누화_크로스토크/), [Crosstalk](/studynote/03_network/01_data_communication/030_누화_크로스토크/))을 심하게 일으킨다. 노이즈 캔슬링 이어폰처럼 서로의 간섭 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 수학적으로 계산해 상쇄 파동을 쏴주는 벡터링 기술을 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비에 무조건 도입해야만 기가 속도를 보장할 수 있다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 장거리(1km 이상) 지역에 VDSL이나 G.fast를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하려고 모뎀을 설치하는 행위. 고주파수 감쇠로 인해 속도는커녕 연결 자체가 계속 끊기는 핑계(Ping Loss) 지옥을 경험하게 된다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 장거리(1km 이상) 지역에 VDSL이나 G.fast를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하려고 모뎀을 설치하는 행위. 고주파수 감쇠로 인해 속도는커녕 연결 자체가 계속 끊기는 핑계(Ping Loss) 지옥을 경험하게 된다.
 
 - **📢 섹션 요약 비유**: G.fast는 건물을 부수고 엘리베이터(광케이블)를 놓을 수 없을 때, 낡은 계단(구리선)에 제트팩(벡터링)을 달아 순식간에 옥상으로 쏘아 올려주는 최고의 응급 처치 도구입니다.
 
@@ -93,9 +90,9 @@ ADSL은 내 집만의 전용 전화선을 타기 때문에 이웃이 토렌트�
 
 ## Ⅴ. 기대효과 및 결론
 
-ADSL, VDSL, G.fast로 이어지는 디지털 가입자 회선 기술은 기존 인프라(구리선)의 매몰 비용을 완벽히 방어하면서도 인류를 메가비트와 기가비트의 정보화 시대로 견인한 위대한 가교([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 기술이다.
+ADSL, VDSL, G.fast로 이어지는 디지털 가입자 회선 기술은 기존 인프라(구리선)의 매몰 비용을 완벽히 방어하면서도 인류를 메가비트와 기가비트의 정보화 시대로 견인한 위대한 가교([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 기술이다.
 
-특히 ADSL의 '다운로드 몰빵(비대칭)'이라는 발상의 전환은 당시 폭발하던 웹서핑 수요와 정확히 맞아떨어져 대한민국을 IT 강국으로 밀어 올렸다. 비록 빛의 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)인 FTTH에게 메인스트림 자리를 넘겨주었지만, 한정된 물리적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에 극한의 변조 기술과 노이즈 캔슬링(벡터링)을 구겨 넣어 한계를 부숴온 DSL의 통신 공학적 접근은 앞으로 다가올 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/), 7G 무선 통신 주파수 튜닝의 거대한 레퍼런스가 되고 있다. 낡은 구리선이 보여준 위대한 마무리는 언제나 기술의 승리가 제약에서 피어남을 증명한다.
+특히 ADSL의 '다운로드 몰빵(비대칭)'이라는 발상의 전환은 당시 폭발하던 웹서핑 수요와 정확히 맞아떨어져 대한민국을 IT 강국으로 밀어 올렸다. 비록 빛의 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)인 FTTH에게 메인스트림 자리를 넘겨주었지만, 한정된 물리적 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에 극한의 변조 기술과 노이즈 캔슬링(벡터링)을 구겨 넣어 한계를 부숴온 DSL의 통신 공학적 접근은 앞으로 다가올 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/), 7G 무선 통신 주파수 튜닝의 거대한 레퍼런스가 되고 있다. 낡은 구리선이 보여준 위대한 마무리는 언제나 기술의 승리가 제약에서 피어남을 증명한다.
 
 - **📢 섹션 요약 비유**: 낡은 자전거(구리선)에 전기 모터(ADSL)를 달아 오토바이로 만들고, 끝내는 로켓 엔진(G.fast)을 달아 날아오르게 만든 기술입니다. 비록 나중엔 진짜 우주선(광케이블)이 나왔지만, 그 로켓 자전거가 없었다면 우리는 우주로 나갈 꿈도 꾸지 못했을 것입니다.
 
@@ -105,10 +102,10 @@ ADSL, VDSL, G.fast로 이어지는 디지털 가입자 회선 기술은 기존 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>FDM (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)</strong> | 하나의 선로를 저주파(음성)와 고주파([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대역으로 쪼개어 동시에 통신하게 해주는 ADSL의 근본 원리. |
-| **감쇠 (Attenuation)** | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 거리에 따라 약해지는 현상. 고주파수를 쓰는 VDSL과 G.fast의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 거리를 극단적으로 줄여버린 주범. |
+| <strong>FDM (<a href="/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/">주파수 분할 다중화</a>)</strong> | 하나의 선로를 저주파(음성)와 고주파([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 대역으로 쪼개어 동시에 통신하게 해주는 ADSL의 근본 원리. |
+| **감쇠 (Attenuation)** | [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 거리에 따라 약해지는 현상. 고주파수를 쓰는 VDSL과 G.fast의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 거리를 극단적으로 줄여버린 주범. |
 | **FTTH (Fiber To The Home)** | 구리선의 시대(DSL)를 종식시키고 무한대의 대칭형 속도를 자랑하는 광케이블 집안 인입 기술의 최종 진화형. |
-| <strong>크로스토크 (<a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a> / <a href="/knowledge-base/studynote/03_network/01_data_communication/030_누화_크로스토크/">누화</a>)</strong> | 선이 뭉쳐있을 때 서로 간섭하는 노이즈. G.fast는 벡터링(Vectoring)이라는 노이즈 캔슬링으로 이를 억제해 기가 속도를 확보함. |
+| <strong>크로스토크 (<a href="/studynote/03_network/01_data_communication/030_누화_크로스토크/">Crosstalk</a> / <a href="/studynote/03_network/01_data_communication/030_누화_크로스토크/">누화</a>)</strong> | 선이 뭉쳐있을 때 서로 간섭하는 노이즈. G.fast는 벡터링(Vectoring)이라는 노이즈 캔슬링으로 이를 억제해 기가 속도를 확보함. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +137,7 @@ FTTH (Fiber To The Home) / 구리선의 한계 극복, 광케이블 매체로 �
 
 **진행 상황**: 269 / 1120
 
-<- **이전**: [147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준](/knowledge-base/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)
-**다음**: [149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) ->
+<- **이전**: [147. 케이블 모뎀 (Cable Modem) / DOCSIS 표준](/studynote/03_network/03_physical_layer_media/147_cable_modem_docsis/)
+**다음**: [149. RS-232C, RS-422, RS-485 시리얼(직렬) 통신 인터페이스](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) ->
 
 ---

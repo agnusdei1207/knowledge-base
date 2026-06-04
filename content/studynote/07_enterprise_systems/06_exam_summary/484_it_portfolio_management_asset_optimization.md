@@ -1,13 +1,10 @@
-+++
-title = "484. IT 포트폴리오 관리 자산 최적화 (IT Portfolio Management Asset Optimization)"
-date = 2026-05-09
+---
+title: "484. IT 포트폴리오 관리 자산 최적화 (IT Portfolio Management Asset Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ IT 포트폴리오 관리을 제대로 적용하면 IT 투자가 업무 성과�
 
 **진행 상황**: 484 / 800
 
-<- **이전**: [483. IT 투자 가치 평가 ROI TCO](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/483_it_investment_value_evaluation_roi_tco/)
-**다음**: [485. 비즈니스 프로세스 리엔지니어링 BPR](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/485_business_process_reengineering_bpr/) ->
+<- **이전**: [483. IT 투자 가치 평가 ROI TCO](/studynote/07_enterprise_systems/06_exam_summary/483_it_investment_value_evaluation_roi_tco/)
+**다음**: [485. 비즈니스 프로세스 리엔지니어링 BPR](/studynote/07_enterprise_systems/06_exam_summary/485_business_process_reengineering_bpr/) ->
 
 ---

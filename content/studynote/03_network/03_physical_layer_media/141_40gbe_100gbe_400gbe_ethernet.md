@@ -1,17 +1,14 @@
-+++
-title = "141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷"
-date = 2026-05-08
+---
+title: "141. 40GbE / 100GbE / 400GbE / 800GbE 이더넷"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 40GbE / 100GbE / 400GbE…는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 40GbE / 100GbE / 400GbE…는 물리 계층과 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 40GbE / 100GbE / 400GbE…를 이해하면 감쇠과 전송 거리 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-스마트폰의 보급, 넷플릭스 등 고화질 스트리밍, 그리고 최근의 거대한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)) 모델 학습을 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내부의 트래픽은 기하급수적으로 증가했습니다.
-이를 감당하기 위해 IEEE 802.3 위원회는 10GbE를 넘어 <strong>40GbE, 100GbE (IEEE 802.3ba, 2010년)</strong>를 거쳐, 현재는 <strong>400GbE (IEEE 802.3bs, 2017년)</strong>와 <strong>800GbE (2024년 발표 예정/<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중)</strong>까지 표준을 확장하고 있습니다.
+스마트폰의 보급, 넷플릭스 등 고화질 스트리밍, 그리고 최근의 거대한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)) 모델 학습을 위해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 센터 내부의 트래픽은 기하급수적으로 증가했습니다.
+이를 감당하기 위해 IEEE 802.3 위원회는 10GbE를 넘어 <strong>40GbE, 100GbE (IEEE 802.3ba, 2010년)</strong>를 거쳐, 현재는 <strong>400GbE (IEEE 802.3bs, 2017년)</strong>와 <strong>800GbE (2024년 발표 예정/<a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> 중)</strong>까지 표준을 확장하고 있습니다.
 
 ```text
 [10GBASE-T / 10GBASE-SR /…]
@@ -31,23 +28,23 @@ tags = ["studynote-network"]
     +---> [MDI/MDI-X]
 ```
 
-- **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-하나의 케이블 가닥(레인)에서 100Gbps, 400Gbps를 한 번에 쏘는 것은 물리적으로 한계가 있습니다. 따라서 고속 이더넷은 <strong>물리적 병렬화(레인 묶기)</strong>와 <strong>전기적 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(변조)</strong>을 동시에 사용합니다.
+하나의 케이블 가닥(레인)에서 100Gbps, 400Gbps를 한 번에 쏘는 것은 물리적으로 한계가 있습니다. 따라서 고속 이더넷은 <strong>물리적 병렬화(레인 묶기)</strong>와 <strong>전기적 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(변조)</strong>을 동시에 사용합니다.
 
 ### 1. 다중 레인 (Multi-Lane) 방식
-- 하나의 물리적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: QSFP [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 안에 여러 개의 광섬유 가닥(또는 파장)을 배치하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 동시에 전송합니다.
+- 하나의 물리적 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: QSFP [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 안에 여러 개의 광섬유 가닥(또는 파장)을 배치하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쪼개서 동시에 전송합니다.
 - **예시 (40GBASE-SR4)**: `SR4`의 숫자 '4'는 레인의 개수를 의미합니다. 10Gbps 속도를 내는 광섬유 4가닥을 병렬로 묶어 40Gbps를 달성합니다.
 - **예시 (100GBASE-SR10)**: 10Gbps 광섬유 10가닥을 묶어 100Gbps 달성.
 
 ### 2. 고차 변조 방식 (PAM-4) 도입
-- 레인 개수를 무작정 늘리면 케이블이 너무 굵어지고 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 커지는 문제가 발생합니다. 따라서 레인 1개당 전송하는 기본 속도를 10Gbps ➔ 25Gbps ➔ 50Gbps ➔ 100Gbps로 계속 끌어올려야 합니다.
-- <strong>NRZ (Non-Return to <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)</strong>: 기존 10GbE나 25GbE까지는 0과 1 두 가지 전압만 사용하는 NRZ 방식을 썼습니다.
-- **PAM-4 (Pulse Amplitude Modulation 4-level)**: 400GbE 등 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 영역에서는 전압을 4단계(00, 01, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))로 쪼개어, <strong>한 번의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>에 2비트씩 전송</strong>합니다. 주파수([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 높이지 않고도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량을 2배로 뻥튀기하는 마법입니다.
+- 레인 개수를 무작정 늘리면 케이블이 너무 굵어지고 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 커지는 문제가 발생합니다. 따라서 레인 1개당 전송하는 기본 속도를 10Gbps -> 25Gbps -> 50Gbps -> 100Gbps로 계속 끌어올려야 합니다.
+- <strong>NRZ (Non-Return to <a href="/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/">Zero</a>)</strong>: 기존 10GbE나 25GbE까지는 0과 1 두 가지 전압만 사용하는 NRZ 방식을 썼습니다.
+- **PAM-4 (Pulse Amplitude Modulation 4-level)**: 400GbE 등 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 영역에서는 전압을 4단계(00, 01, [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/))로 쪼개어, <strong>한 번의 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>에 2비트씩 전송</strong>합니다. 주파수([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))를 높이지 않고도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량을 2배로 뻥튀기하는 마법입니다.
 
 ```text
 [10GBASE-T / 10GBASE-SR /…]
@@ -64,7 +61,7 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-속도가 올라감에 따라 스위치에 꽂는 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(광 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/))의 규격도 발전합니다.
+속도가 올라감에 따라 스위치에 꽂는 [트랜시버](/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(광 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/))의 규격도 발전합니다.
 
 - **SFP+**: 10GbE 용 (1레인)
 - **QSFP+ (Quad SFP)**: 40GbE 용 (10G × 4레인)
@@ -77,7 +74,7 @@ tags = ["studynote-network"]
 |:---|:---|:---|:---|
 | 초점 | 10GBASE-T / 10GBASE-SR /…의 기반 정리 | 40GbE / 100GbE / 400GbE…의 핵심 동작 | MDI/MDI-X의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 감쇠 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: ** 400GbE 이더넷은 400km/h로 달리는 하나의 거대한 로켓을 만드는 것이 아니라, **100km/h로 달리는 자동차 4대(다중 레인)를 나란히 연결하고, 각 자동차의 트렁크를 2층(PAM-4)으로 개조하여 한 번에 엄청난 짐을 나르는 군집 주행 기술**입니다.
 
@@ -87,16 +84,16 @@ tags = ["studynote-network"]
 
 실무에서는 40GbE / 100GbE / 400GbE…를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 10GBASE-T / 10GBASE-SR /… 수준의 기본 대책으로 충분한지, 아니면 40GbE / 100GbE / 400GbE…가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 MDI/MDI-X와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 감쇠 부족인지, 전송 거리 악화인지 먼저 분리한다.
-2. 40GbE / 100GbE / 400GbE…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. 40GbE / 100GbE / 400GbE…가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 MDI/MDI-X와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 40GbE / 100GbE / 400GbE…의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 10GBASE-T / 10GBASE-SR /…와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 10GBASE-T / 10GBASE-SR /…와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -104,7 +101,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-40GbE / 100GbE / 400GbE…는 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 MDI/MDI-X, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+40GbE / 100GbE / 400GbE…는 물리 계층과 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 MDI/MDI-X, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 40GbE / 100GbE / 400GbE…는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -115,8 +112,8 @@ tags = ["studynote-network"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 10GBASE-T / 10GBASE-SR /… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
-| 변조 (Modulation) | [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
+| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
+| 변조 (Modulation) | [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
 | MDI/MDI-X | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -145,7 +142,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 262 / 1120
 
-<- **이전**: [140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR](/knowledge-base/studynote/03_network/03_physical_layer_media/140_10gbase_t_sr_lr_10_gigabit/)
-**다음**: [142. MDI/MDI-X (Medium Dependent Interface)](/knowledge-base/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/) ->
+<- **이전**: [140. 10GBASE-T / 10GBASE-SR / 10GBASE-LR](/studynote/03_network/03_physical_layer_media/140_10gbase_t_sr_lr_10_gigabit/)
+**다음**: [142. MDI/MDI-X (Medium Dependent Interface)](/studynote/03_network/03_physical_layer_media/142_mdi_mdix_interface/) ->
 
 ---

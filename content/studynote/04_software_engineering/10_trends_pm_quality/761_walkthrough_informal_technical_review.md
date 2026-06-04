@@ -1,35 +1,32 @@
-+++
-title = "761. 워크스루 비공식 기술 검토 회의"
-date = 2026-05-08
+---
+title: "761. 워크스루 비공식 기술 검토 회의"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure)</strong> 상태다.
+소프트웨어를 개발할 때 가장 두려운 상황 중 하나는 "이 코드는 김 대리만 아는데, 김 대리가 내일 퇴사하면 어떡하지?"라는 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">단일 장애점</a>(<a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPOF</a>, Single Point of Failure)</strong> 상태다.
 
-이를 막으려면 김 대리가 짠 코드를 다른 팀원들도 알아야 한다. 하지만 남이 짠 수천 줄의 코드를 혼자 읽고 이해하는 것은 불가능에 가깝다. 그렇다고 공식적인 '[인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)' 회의를 열자니 준비 기간이 너무 길고 비용이 비싸다.
+이를 막으려면 김 대리가 짠 코드를 다른 팀원들도 알아야 한다. 하지만 남이 짠 수천 줄의 코드를 혼자 읽고 이해하는 것은 불가능에 가깝다. 그렇다고 공식적인 '[인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)' 회의를 열자니 준비 기간이 너무 길고 비용이 비싸다.
 
-그래서 개발자들은 좀 더 캐주얼한 방법을 찾았다. 피자나 커피를 시켜놓고, 코드를 짠 사람이 빔 프로젝터에 코드를 띄운 뒤 "제가 이 부분은 이렇게 짰고요, 저 부분은 이런 로직입니다"라고 훑어보는(Walk-through) 방식이다. 이것이 바로 실무에서 가장 흔하게 쓰이는 리뷰 기법인 <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/">워크스루</a>(Walkthrough)</strong>의 탄생이다.
+그래서 개발자들은 좀 더 캐주얼한 방법을 찾았다. 피자나 커피를 시켜놓고, 코드를 짠 사람이 빔 프로젝터에 코드를 띄운 뒤 "제가 이 부분은 이렇게 짰고요, 저 부분은 이런 로직입니다"라고 훑어보는(Walk-through) 방식이다. 이것이 바로 실무에서 가장 흔하게 쓰이는 리뷰 기법인 <strong><a href="/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/">워크스루</a>(Walkthrough)</strong>의 탄생이다.
 
-- **📢 섹션 요약 비유**: [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 딱딱한 양복을 입고 발표하는 '졸업 논문 심사'라면, [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 동아리 방에 모여 떡볶이를 먹으며 "내가 어제 짠 코드인데 한 번 볼래?" 하고 보여주는 '스터디 모임'이다.
+- **📢 섹션 요약 비유**: [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)이 딱딱한 양복을 입고 발표하는 '졸업 논문 심사'라면, [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 동아리 방에 모여 떡볶이를 먹으며 "내가 어제 짠 코드인데 한 번 볼래?" 하고 보여주는 '스터디 모임'이다.
 
 ---
 
-다음은 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -44,7 +41,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -54,13 +51,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 공식적인 규칙보다는 유연함(Flexibility)을 추구하지만, 최소한의 뼈대는 존재한다.
+[워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 공식적인 규칙보다는 유연함(Flexibility)을 추구하지만, 최소한의 뼈대는 존재한다.
 
-- **📢 섹션 요약 비유**: [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -72,17 +69,17 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-소프트웨어 품질을 올리는 '정적 리뷰' 3형제([인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/), [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/))의 차이를 정확히 알아야 한다.
+소프트웨어 품질을 올리는 '정적 리뷰' 3형제([인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/), [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/), [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/))의 차이를 정확히 알아야 한다.
 
-| 비교 항목 | [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) (Walkthrough) | [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) |
+| 비교 항목 | [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/) (Inspection) | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) (Walkthrough) | [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/) ([Peer Review](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)) |
 |:---|:---|:---|:---|
 | **회의 형태** | 매우 공식적 (엄격함) | **비공식적 (자유로움)** | 가장 캐주얼함 (1:1 또는 비동기) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>자</strong> | [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) ([Moderator](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | **저자 (Author)** | 없음 (보통 GitHub PR로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) |
-| **주요 목적** | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 100% 색출 및 제거 | <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 색출 + 지식 공유 + 교육</strong> | 오타, 얕은 버그, 컨벤션 검사 |
+| <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>자</strong> | [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/) ([Moderator](/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)) | **저자 (Author)** | 없음 (보통 GitHub PR로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) |
+| **주요 목적** | [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 100% 색출 및 제거 | <strong><a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 색출 + 지식 공유 + 교육</strong> | 오타, 얕은 버그, 컨벤션 검사 |
 | **사전 준비** | 며칠 전부터 코드 분석 필수 | **최소한의 구조만 파악** | 보통 즉석에서 코드를 읽음 |
-| **비용 및 시간**| 매우 비싸고 오래 걸림 | **가성비가 좋음** | 일상적으로 계속 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)됨 |
+| **비용 및 시간**| 매우 비싸고 오래 걸림 | **가성비가 좋음** | 일상적으로 계속 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)됨 |
 
-- **📢 섹션 요약 비유**: [인스펙션](/knowledge-base/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 '종합병원 정밀 건강검진', [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 동네 의사 친구에게 증상을 말하고 조언을 듣는 '상담', [동료 검토](/knowledge-base/studynote/12_it_management/04_sdlc_testing/163_peer_review/)는 체중계에 올라가서 '몸무게 재보기'다.
+- **📢 섹션 요약 비유**: [인스펙션](/studynote/12_it_management/04_sdlc_testing/161_inspection_formal_review/)은 '종합병원 정밀 건강검진', [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 동네 의사 친구에게 증상을 말하고 조언을 듣는 '상담', [동료 검토](/studynote/12_it_management/04_sdlc_testing/163_peer_review/)는 체중계에 올라가서 '몸무게 재보기'다.
 
 ---
 
@@ -94,9 +91,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-최근 실무에서는 깃허브(GitHub)의 풀 리퀘스트([Pull Request](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))가 대세가 되면서 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 회의가 점점 사라지는 추세다. 하지만 이는 치명적인 실수다.
+최근 실무에서는 깃허브(GitHub)의 풀 리퀘스트([Pull Request](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/))가 대세가 되면서 [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 회의가 점점 사라지는 추세다. 하지만 이는 치명적인 실수다.
 
-- **📢 섹션 요약 비유**: [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -106,9 +103,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 조직에 정착시키면 버그가 줄어드는 것은 물론이고, <strong>'조직 전체의 코딩 상향 평준화'</strong>라는 위대한 결실을 얻게 된다. 주니어 개발자는 시니어 개발자의 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 들으며 "아, 저런 엣지 케이스(Edge Case)를 저렇게 처리하는구나"를 배우고, 시니어는 남에게 설명하다가 스스로 로직의 허점을 발견하는 유레카 모멘트(Rubber Duck Debugging)를 경험한다.
+[워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 조직에 정착시키면 버그가 줄어드는 것은 물론이고, <strong>'조직 전체의 코딩 상향 평준화'</strong>라는 위대한 결실을 얻게 된다. 주니어 개발자는 시니어 개발자의 [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)를 들으며 "아, 저런 엣지 케이스(Edge Case)를 저렇게 처리하는구나"를 배우고, 시니어는 남에게 설명하다가 스스로 로직의 허점을 발견하는 유레카 모멘트(Rubber Duck Debugging)를 경험한다.
 
-결론적으로 [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 단순한 테스트 기법이 아니라 <strong>'팀 빌딩(Team Building)'이자 '집단 지성의 훈련장'</strong>이다. 기술사는 개발팀이 바쁘다는 핑계로 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 뒤에 숨어 각자 코딩만 하도록 내버려 두면 안 된다. 피자를 사주면서라도 개발자들을 한 회의실에 끌어모아 코드를 띄우고 토론하게 만들어야 한다.
+결론적으로 [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/)는 단순한 테스트 기법이 아니라 <strong>'팀 빌딩(Team Building)'이자 '집단 지성의 훈련장'</strong>이다. 기술사는 개발팀이 바쁘다는 핑계로 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 뒤에 숨어 각자 코딩만 하도록 내버려 두면 안 된다. 피자를 사주면서라도 개발자들을 한 회의실에 끌어모아 코드를 띄우고 토론하게 만들어야 한다.
 
 - **📢 섹션 요약 비유**: 옛날 선비들이 모여서 자신이 읽은 책의 뜻을 토론하는 '강독회'와 같다. 혼자 방에서 책만 읽으면 자기 생각에 갇히지만, 강독회를 통해 서로의 생각을 나누면 혼자서는 평생 깨닫지 못했을 깊은 진리를 얻게 된다.
 
@@ -124,10 +121,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,13 +144,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [워크스루](/knowledge-base/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [워크스루](/studynote/12_it_management/04_sdlc_testing/162_walkthrough_informal_review/) 비공식 기술 검토 회의은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -161,7 +158,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 934 / 973
 
-<- **이전**: [760. 인스펙션 중재자(Moderator) 주도 공식 검토](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)
-**다음**: [762. 애자일 에픽, 스토리, 테마, 태스크 계층](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/762_agile_epic_story_theme_task/) ->
+<- **이전**: [760. 인스펙션 중재자(Moderator) 주도 공식 검토](/studynote/04_software_engineering/10_trends_pm_quality/760_inspection_moderator_formal_review/)
+**다음**: [762. 애자일 에픽, 스토리, 테마, 태스크 계층](/studynote/04_software_engineering/10_trends_pm_quality/762_agile_epic_story_theme_task/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "749. 피처 엔지니어링 자동 특성 생성 (Feature Engineering Auto Feature Generation)"
-date = 2026-05-09
+---
+title: "749. 피처 엔지니어링 자동 특성 생성 (Feature Engineering Auto Feature Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ AFG 시스템은 **①연산자(Operator) 레지스트리**, **②탐색 컨트�
 
 **진행 상황**: 749 / 800
 
-<- **이전**: [748. 모델 서빙 추론 최적화 A/B 테스트](/knowledge-base/studynote/06_ict_convergence/uncategorized/748_model_serving_inference_optimization_ab_test/)
-**다음**: [750. 데이터 드리프트 개념 드리프트 탐지](/knowledge-base/studynote/06_ict_convergence/uncategorized/750_data_drift_concept_drift_detection/) ->
+<- **이전**: [748. 모델 서빙 추론 최적화 A/B 테스트](/studynote/06_ict_convergence/uncategorized/748_model_serving_inference_optimization_ab_test/)
+**다음**: [750. 데이터 드리프트 개념 드리프트 탐지](/studynote/06_ict_convergence/uncategorized/750_data_drift_concept_drift_detection/) ->
 
 ---

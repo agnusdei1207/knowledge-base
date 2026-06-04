@@ -1,25 +1,22 @@
-+++
-title = "407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)"
-date = 2026-05-10
+---
+title: "407. 백오프 리트라이와 서킷 브레이커 (Backoff Retry and Circuit Breaker)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 일시 장애에는 점진적 재시도로 대응하고, 지속 장애에는 회로 차단으로 빠르게 실패하게 만드는 복원력 패턴 조합이다.
-> 2. **가치**: 장애 전파를 줄이고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
-> 3. **판단 포인트**: 리트라이는 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)과 함께, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 임계값·[폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)과 함께 설명해야 실무 답안이 된다.
+> 1. **본질**: 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 일시 장애에는 점진적 재시도로 대응하고, 지속 장애에는 회로 차단으로 빠르게 실패하게 만드는 복원력 패턴 조합이다.
+> 2. **가치**: 장애 전파를 줄이고 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다.
+> 3. **판단 포인트**: 리트라이는 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)과 함께, [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 임계값·[폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)과 함께 설명해야 실무 답안이 된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 일시 장애에는 점진적 재시도로 대응하고, 지속 장애에는 회로 차단으로 빠르게 실패하게 만드는 복원력 패턴 조합이다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 호출이 많아질수록 순간적인 네트워크 오류와 장기 장애를 같은 방식으로 처리하면 장애가 폭발한다. 이 개념이 필요한 이유는 장애 종류에 따라 재시도와 차단을 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 무한 재시도는 장애를 더 키우고, 차단 없는 호출은 다운스트림을 계속 압박한다.
+백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 일시 장애에는 점진적 재시도로 대응하고, 지속 장애에는 회로 차단으로 빠르게 실패하게 만드는 복원력 패턴 조합이다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 호출이 많아질수록 순간적인 네트워크 오류와 장기 장애를 같은 방식으로 처리하면 장애가 폭발한다. 이 개념이 필요한 이유는 장애 종류에 따라 재시도와 차단을 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 무한 재시도는 장애를 더 키우고, 차단 없는 호출은 다운스트림을 계속 압박한다.
 
 아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -37,13 +34,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))의 핵심 원리는 "장애 종류에 따라 재시도와 차단을 구분하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 지수 백오프, 지터, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다. 동시에 임계값을 잘못 잡으면 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다.
+백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))의 핵심 원리는 "장애 종류에 따라 재시도와 차단을 구분하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 지수 백오프, 지터, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다. 동시에 임계값을 잘못 잡으면 정상 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 문제 | 장애 종류에 따라 재시도와 차단을 구분하는 일 | 이 축이 흔들리면 설계 목적이 사라진다 |
-| 구현 방식 | 지수 백오프, 지터, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
-| 트레이드오프 | 임계값을 잘못 잡으면 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
+| 구현 방식 | 지수 백오프, 지터, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
+| 트레이드오프 | 임계값을 잘못 잡으면 정상 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
@@ -53,23 +50,23 @@ tags = ["studynote-design-supervision"]
 +----------+   +----------+   +----------+   +----------+
 ```
 
-이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
+이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
-- **📢 섹션 요약 비유**: 브레이크와 우회로가 있어야 장애가 전파되지 않고 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시간을 줄일 수 있다.
+- **📢 섹션 요약 비유**: 브레이크와 우회로가 있어야 장애가 전파되지 않고 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시간을 줄일 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **복원력 설계 적용** 와 **장애 전파 구조** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **복원력 설계 적용** 와 **장애 전파 구조** 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 변경 대응 | 복원력 설계 적용는 장애 종류에 따라 재시도와 차단을 구분하는 일에 맞춰 영향 범위를 줄인다 | 장애 전파 구조는 변경이 주변 모듈로 번지기 쉽다 |
-| 구조 안정성 | 복원력 설계 적용는 지수 백오프, 지터, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다 | 장애 전파 구조는 책임과 의존이 섞여 규칙이 흐려진다 |
-| 운영 결과 | 복원력 설계 적용는 장애 전파를 줄이고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다 | 장애 전파 구조는 무한 재시도는 장애를 더 키우고, 차단 없는 호출은 다운스트림을 계속 압박한다 |
+| 구조 안정성 | 복원력 설계 적용는 지수 백오프, 지터, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 실패 임계값, 반개방 상태를 조합해 호출 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 계층을 만든다 | 장애 전파 구조는 책임과 의존이 섞여 규칙이 흐려진다 |
+| 운영 결과 | 복원력 설계 적용는 장애 전파를 줄이고 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다 | 장애 전파 구조는 무한 재시도는 장애를 더 키우고, 차단 없는 호출은 다운스트림을 계속 압박한다 |
 
-연결 개념으로는 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 완충 장치 있는 도로와 없는 도로를 비교하면 복원력 설계의 차이가 선명해진다.
 
@@ -77,23 +74,23 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 무조건 채택하기보다 리트라이는 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)과 함께, [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 임계값·[폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)과 함께 설명해야 실무 답안이 된다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 무조건 채택하기보다 리트라이는 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)과 함께, [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/)는 임계값·[폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)과 함께 설명해야 실무 답안이 된다. 아래 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 재시도 대상이 [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([idempotency](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 보장하는가?
-2. 임계값, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 조건이 수치로 정의되어 있는가?
-3. 장애 감지와 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 이벤트가 모니터링에 연결되는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 재시도 대상이 [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/)([idempotency](/studynote/15_devops_sre/04_iac_cloud_native/194_idempotency/))을 보장하는가?
+2. 임계값, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 조건이 수치로 정의되어 있는가?
+3. 장애 감지와 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 이벤트가 모니터링에 연결되는가?
 4. 정상 경로 성능보다 장애 시 안정성을 우선할 조건을 정했는가?
 
 답안을 마무리할 때는 “어디에 쓰는가”만이 아니라 “언제 과한가”를 함께 적어야 한다. 그래야 설계 원칙, 패턴, 아키텍처가 구호가 아니라 의사결정 기준으로 읽힌다.
 
-- **📢 섹션 요약 비유**: 비상 대응 절차처럼 임계값과 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 조건을 미리 정해야 한다.
+- **📢 섹션 요약 비유**: 비상 대응 절차처럼 임계값과 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) 조건을 미리 정해야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))의 기대효과는 분명하다. 장애 전파를 줄이고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 다만 임계값을 잘못 잡으면 정상 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다. 결국 기억할 관점은 장애 종류에 따라 재시도와 차단을 구분하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
+백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))의 기대효과는 분명하다. 장애 전파를 줄이고 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시점까지 시스템을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)한다. 다만 임계값을 잘못 잡으면 정상 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 차단하거나, 반대로 장애 전파를 막지 못할 수 있다. 결국 기억할 관점은 장애 종류에 따라 재시도와 차단을 구분하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 재난 대응 매뉴얼처럼, 복원력 패턴은 평상시보다 장애 시나리오에서 가치가 드러난다.
 
@@ -103,16 +100,16 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) | 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) | 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) | 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [서비스 메시](/knowledge-base/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) | 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) | 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) | 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/) | 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [서비스 메시](/studynote/12_it_management/05_security_compliance/945_service_mesh_istio/) | 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 [단순 재호출] -> [리트라이+차단] -> [복원력 기반 통신]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 백오프 리트라이와 [서킷 브레이커](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/knowledge-base/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 친구 집 문을 두드리다 안 열리면 잠시 쉬고, 계속 없으면 오늘은 그만두는 것처럼 약속을 먼저 정하는 거예요.
+1. 백오프 리트라이와 [서킷 브레이커](/studynote/04_software_engineering/05_devops_ci_cd/307_circuit_breaker_pattern/) (Backoff Retry and [Circuit Breaker](/studynote/12_it_management/05_security_compliance/304_circuit_breaker/))은 친구 집 문을 두드리다 안 열리면 잠시 쉬고, 계속 없으면 오늘은 그만두는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 장애 종류에 따라 재시도와 차단을 구분하는 일이 더 중요해져요.
 
@@ -122,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 485 / 530
 
-<- **이전**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/)
-**다음**: [408. 디스럽터 패턴 (Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/408_process/) ->
+<- **이전**: [406. MVP·MVVM 패턴 (Model-View-Presenter and Model-View-ViewModel)](/studynote/11_design_supervision/06_exam_summary/406_mvp_mvvm/)
+**다음**: [408. 디스럽터 패턴 (Disruptor Pattern)](/studynote/11_design_supervision/06_exam_summary/408_process/) ->
 
 ---

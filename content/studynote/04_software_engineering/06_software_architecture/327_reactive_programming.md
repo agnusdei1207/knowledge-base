@@ -1,18 +1,15 @@
-+++
-title = "327. 반응형 프로그래밍 (Reactive Programming) - 데이터 스트림과 변화 전파"
-date = 2026-05-08
+---
+title: "327. 반응형 프로그래밍 (Reactive Programming) - 데이터 스트림과 변화 전파"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 반응형 프로그래밍 (Reactive Programming) - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림과 변화 전파은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 반응형 프로그래밍 (Reactive Programming) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림과 변화 전파은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -21,16 +18,16 @@ tags = ["studynote-software-engineering"]
 
 - **개념**: 엑셀(Excel) 프로그램이 반응형 프로그래밍의 가장 완벽한 예시다. A1 셀에 `10`, B1 셀에 `20`을 넣고, C1 셀에 `=A1+B1`이라고 수식을 짰다. 만약 A1의 값을 `50`으로 수정하면? C1은 내가 명령하지 않아도 <strong>스스로 반응(React)</strong>하여 즉각 `70`으로 바뀐다. 이 "변화가 스스로 전파되는 마법"을 코드로 구현한 것이다.
 
-- **필요성**: 기존 서버 아키텍처([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) per Request)는 클라이언트가 DB에 "게시글 1,000개 줘"라고 요청하면, DB가 응답할 때까지(3초) 자바 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 1개가 멍청하게 멈춰서 기다렸다([Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 동시 접속자가 1만 명이 되면 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 멈춰서 기다리다 서버 메모리(RAM)가 펑 터져버렸다(C10K 문제). 멈추지 않고(Non-[blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 비동기로 일하되, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 즉시 반응(React)하여 다음 로직으로 토스해 주는 우아한 스트림 제어 기술이 절실했다.
+- **필요성**: 기존 서버 아키텍처([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) per Request)는 클라이언트가 DB에 "게시글 1,000개 줘"라고 요청하면, DB가 응답할 때까지(3초) 자바 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)([Thread](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)) 1개가 멍청하게 멈춰서 기다렸다([Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)). 동시 접속자가 1만 명이 되면 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개가 멈춰서 기다리다 서버 메모리(RAM)가 펑 터져버렸다(C10K 문제). 멈추지 않고(Non-[blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)) 비동기로 일하되, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 도착하면 즉시 반응(React)하여 다음 로직으로 토스해 주는 우아한 스트림 제어 기술이 절실했다.
 
-- **💡 비유**: 기존 명령형 프로그래밍은 <strong>'은행 창구'</strong>와 같습니다. 손님 1명이 돈을 세는 동안 뒤의 100명은 꼼짝없이 줄 서서 기다려야 합니다(블로킹). <strong>반응형 프로그래밍</strong>은 <strong>'초밥집 회전 컨베이어 벨트'</strong>입니다. 주방장(서버)은 초밥([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 완성되는 족족 벨트(스트림)에 올려놓고 바로 다음 요리를 합니다. 손님(관찰자)들은 자기가 기다리던 연어 초밥이 눈앞에 지나가는 순간 즉각 반응해서 집어먹습니다(논블로킹 변화 전파).
+- **💡 비유**: 기존 명령형 프로그래밍은 <strong>'은행 창구'</strong>와 같습니다. 손님 1명이 돈을 세는 동안 뒤의 100명은 꼼짝없이 줄 서서 기다려야 합니다(블로킹). <strong>반응형 프로그래밍</strong>은 <strong>'초밥집 회전 컨베이어 벨트'</strong>입니다. 주방장(서버)은 초밥([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 완성되는 족족 벨트(스트림)에 올려놓고 바로 다음 요리를 합니다. 손님(관찰자)들은 자기가 기다리던 연어 초밥이 눈앞에 지나가는 순간 즉각 반응해서 집어먹습니다(논블로킹 변화 전파).
 
 - **등장 배경 및 발전 과정**:
-  1. <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">옵저버</a> 패턴의 한계</strong>: 상태 변화를 알려주는 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 훌륭했지만, "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끝났다(Complete)"거나 "에러가 났다(Error)"는 신호를 통제하기 어려웠고 복잡한 콜백 지옥(Callback Hell)을 낳았다.
-  2. **ReactiveX (Rx)의 탄생 (2011)**: 마이크로소프트가 [옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴에 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴과 함수형 파이프라인(map, filter)을 결합하여 Rx.NET을 세상에 내놓았고, 이것이 비동기 처리의 은탄환으로 인정받으며 RxJS, RxJava, RxSwift 등으로 전 세계 모든 언어로 포팅되었다.
-  3. **Reactive Manifesto (반응형 선언문, 2014)**: 응답성, [탄력성](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 유연성, 메시지 구동이라는 4대 원칙을 담은 반응형 선언문이 발표되며, 모던 클라우드 아키텍처의 글로벌 표준 헌장으로 채택되었다.
+  1. <strong><a href="/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/">옵저버</a> 패턴의 한계</strong>: 상태 변화를 알려주는 [옵저버](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴은 훌륭했지만, "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 끝났다(Complete)"거나 "에러가 났다(Error)"는 신호를 통제하기 어려웠고 복잡한 콜백 지옥(Callback Hell)을 낳았다.
+  2. **ReactiveX (Rx)의 탄생 (2011)**: 마이크로소프트가 [옵저버](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) 패턴에 [이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)([Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴과 함수형 파이프라인(map, filter)을 결합하여 Rx.NET을 세상에 내놓았고, 이것이 비동기 처리의 은탄환으로 인정받으며 RxJS, RxJava, RxSwift 등으로 전 세계 모든 언어로 포팅되었다.
+  3. **Reactive Manifesto (반응형 선언문, 2014)**: 응답성, [탄력성](/studynote/04_software_engineering/09_cloud_native_ai_architecture/571_resiliency_fault_tolerance_patterns/), 유연성, 메시지 구동이라는 4대 원칙을 담은 반응형 선언문이 발표되며, 모던 클라우드 아키텍처의 글로벌 표준 헌장으로 채택되었다.
 
-- **📢 섹션 요약 비유**: 반응형은 도미노(Domino) 게임입니다. 첫 번째 블록([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/))을 툭 치면, 내가 일일이 블록을 넘기지 않아도 그 변화의 파동(전파)이 알아서 다음 블록(로직)들을 차르륵 넘기며 마지막까지 환상적으로 도달하는 설계입니다.
+- **📢 섹션 요약 비유**: 반응형은 도미노(Domino) 게임입니다. 첫 번째 블록([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/))을 툭 치면, 내가 일일이 블록을 넘기지 않아도 그 변화의 파동(전파)이 알아서 다음 블록(로직)들을 차르륵 넘기며 마지막까지 환상적으로 도달하는 설계입니다.
 
 ---
 
@@ -59,12 +56,12 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-반응형 프로그래밍 (Reactive Programming) - [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림과 변화 전파의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+반응형 프로그래밍 (Reactive Programming) - [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스트림과 변화 전파의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
@@ -89,7 +86,7 @@ tags = ["studynote-software-engineering"]
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 반응형 프로그래밍 (Reactive Programming)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, 반응형 프로그래밍 (Reactive Programming)은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
 - **📢 섹션 요약 비유**: 반응형 프로그래밍 (Reactive Programming)과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
@@ -111,21 +108,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-반응형 프로그래밍 (Reactive Programming)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+반응형 프로그래밍 (Reactive Programming)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
 반응형 프로그래밍 (Reactive Programming)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 반응형 프로그래밍 (Reactive Programming)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 반응형 프로그래밍 (Reactive Programming)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +134,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 반응형 프로그래밍 (Reactive Programming)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 반응형 프로그래밍 (Reactive Programming)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 반응형 프로그래밍 (Reactive Programming)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 반응형 프로그래밍 (Reactive Programming)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | 반응형 프로그래밍 (Reactive Programming) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 반응형 프로그래밍 (Reactive Programming)에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 반응형 프로그래밍 (Reactive Programming)에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,13 +157,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 반응형 프로그래밍 (Reactive Programming)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -174,7 +171,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 327 / 973
 
-<- **이전**: [326. 지연 평가 (Lazy Evaluation)](/knowledge-base/studynote/04_software_engineering/06_software_architecture/326_lazy_evaluation/)
-**다음**: [328. 코딩 컨벤션 (Coding Convention) 및 스타일 가이드](/knowledge-base/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) ->
+<- **이전**: [326. 지연 평가 (Lazy Evaluation)](/studynote/04_software_engineering/06_software_architecture/326_lazy_evaluation/)
+**다음**: [328. 코딩 컨벤션 (Coding Convention) 및 스타일 가이드](/studynote/04_software_engineering/06_software_architecture/328_coding_convention_style_guide/) ->
 
 ---

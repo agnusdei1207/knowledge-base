@@ -1,29 +1,26 @@
-+++
-title = "9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라"
-date = 2026-04-21
+---
+title: "9. 오류 정정 부호 (ECC, Error Correcting Codes) — 해밍/터보/LDPC/폴라"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting Codes, 오류 정정 부호) 는 *잉여(redundancy) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추가해 전송·저장 중 발생한 오류를 자동 검출/정정*하는 체계다.
-> 2. **가치**: 최소 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) (Minimum [Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)) d_min이 t-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정정 조건 d_min ≥ 2t+1을 결정하며, 코드 설계는 이 트레이드오프(정정 능력 vs 오버헤드)의 최적화다.
-> 3. **판단 포인트**: 메모리 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(해밍·SECDED), 저장 장치 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), 디스크 Reed-Solomon, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폴라·[LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) — 각 적용 영역마다 채택 코드가 다른 이유를 오류 특성과 연결하라.
+> 1. **본질**: [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) (Error Correcting Codes, 오류 정정 부호) 는 *잉여(redundancy) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 추가해 전송·저장 중 발생한 오류를 자동 검출/정정*하는 체계다.
+> 2. **가치**: 최소 [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) (Minimum [Hamming Distance](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)) d_min이 t-[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 정정 조건 d_min ≥ 2t+1을 결정하며, 코드 설계는 이 트레이드오프(정정 능력 vs 오버헤드)의 최적화다.
+> 3. **판단 포인트**: 메모리 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/)(해밍·SECDED), 저장 장치 [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/), 디스크 Reed-Solomon, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 폴라·[LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) — 각 적용 영역마다 채택 코드가 다른 이유를 오류 특성과 연결하라.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-디지털 시스템에서 오류는 피할 수 없다 — 우주 방사선, 열 잡음, 자기 간섭, [노화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/). ECC는 이를 수학적 구조로 극복한다.
+디지털 시스템에서 오류는 피할 수 없다 — 우주 방사선, 열 잡음, 자기 간섭, [노화](/studynote/02_operating_system/03_cpu_scheduling/182_aging/). ECC는 이를 수학적 구조로 극복한다.
 
-### [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))
+### [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ([Hamming Distance](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/))
 
-두 코드워드 u, v 사이의 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수:
+두 코드워드 u, v 사이의 다른 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수:
 
 ```
 d_H(u, v) = 해밍 무게(u XOR v)
@@ -32,17 +29,17 @@ d_H(u, v) = 해밍 무게(u XOR v)
     u XOR v = 0111 -> d_H = 3
 ```
 
-<strong>최소 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> d_min</strong>:
-- d_min ≥ t+1: t-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 **검출** 가능
-- d_min ≥ 2t+1: t-[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 **정정** 가능
+<strong>최소 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a> d_min</strong>:
+- d_min ≥ t+1: t-[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 **검출** 가능
+- d_min ≥ 2t+1: t-[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류 **정정** 가능
 
-📢 **섹션 요약 비유**: [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 "단어 사이 오타 수"와 같다 — "cat"과 "bat"는 1개 다르고(d=1), "cat"과 "dog"는 3개 다르다(d=3). 코드워드 간 거리가 멀수록 오류가 생겨도 원본을 찾기 쉽다.
+📢 **섹션 요약 비유**: [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)는 "단어 사이 오타 수"와 같다 — "cat"과 "bat"는 1개 다르고(d=1), "cat"과 "dog"는 3개 다르다(d=3). 코드워드 간 거리가 멀수록 오류가 생겨도 원본을 찾기 쉽다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) (7, 4) 구조
+### [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) (7, 4) 구조
 
 4비트 정보 + 3비트 패리티 = 7비트 코드워드
 
@@ -64,7 +61,7 @@ d_H(u, v) = 해밍 무게(u XOR v)
 | 4 | 1비트 정정 + 2비트 검출 | SECDED(Hamming + 전체 패리티) |
 | 5+ | 2비트 정정 | Reed-Solomon, BCH |
 
-### 선형 블록 코드 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 선형 블록 코드 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 선형 블록 코드 (Linear Block Code)
@@ -82,45 +79,45 @@ d_H(u, v) = 해밍 무게(u XOR v)
 
 ### Reed-Solomon (RS) 코드 — 버스트 오류 강함
 
-- 심볼([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 단위 코드 — [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류보다 심볼 오류 정정
+- 심볼([바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)) 단위 코드 — [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류보다 심볼 오류 정정
 - RS(255, 223): 32심볼까지 오류 정정 가능 (버스트 오류에 강함)
 - CD/DVD: RS + 인터리빙 -> 스크래치 같은 연속 오류 극복
 - QR 코드: 네 가지 오류 정정 레벨 (L/M/Q/H)
 
-📢 **섹션 요약 비유**: Reed-Solomon 코드는 "낱말 단위 맞춤법 교정기"다 — 알파벳([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))이 아닌 단어(심볼) 단위로 오류를 처리하므로 연속 오류(긁힌 CD)에 더 강하다.
+📢 **섹션 요약 비유**: Reed-Solomon 코드는 "낱말 단위 맞춤법 교정기"다 — 알파벳([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))이 아닌 단어(심볼) 단위로 오류를 처리하므로 연속 오류(긁힌 CD)에 더 강하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 주요 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 비교표
+### 주요 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 비교표
 
 | 코드 | 유형 | 정정 능력 | 디코딩 복잡도 | 주요 응용 |
 |:---|:---|:---|:---|:---|
-| [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) | 선형 블록 | 1비트 | O(n) | 메모리 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) |
+| [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/) | 선형 블록 | 1비트 | O(n) | 메모리 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) |
 | SECDED | 해밍 확장 | 1비트 정정+2비트 검출 | O(n) | DDR 메모리 |
-| BCH | 선형 블록 | t비트 | 중간 | [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) |
-| Reed-Solomon | [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 기반 | t심볼 | 중간 | CD/DVD, QR |
-| [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 코드 | 스트리밍 | 연속 오류 | 비터비 O(2^k·n) | 이전 세대 무선 |
-| [터보 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연접 | 섀넌 한계 근접 | 반복, 높음 | 3G/4G/위성 |
-| [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티 행렬 | 섀넌 한계 근접 | 신뢰 전파, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
-| [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극 | 섀넌 한계 달성 | SCL [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
+| BCH | 선형 블록 | t비트 | 중간 | [NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) |
+| Reed-Solomon | [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 기반 | t심볼 | 중간 | CD/DVD, QR |
+| [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 코드 | 스트리밍 | 연속 오류 | 비터비 O(2^k·n) | 이전 세대 무선 |
+| [터보 코드](/studynote/03_network/04_data_link_layer_error/202_turbo_code_shannon_limit/) | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 연접 | 섀넌 한계 근접 | 반복, 높음 | 3G/4G/위성 |
+| [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티 행렬 | 섀넌 한계 근접 | 신뢰 전파, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), Wi-Fi, [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
+| [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극 | 섀넌 한계 달성 | SCL [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/) | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
 
-### RAID와 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) — 스토리지 오류 정정
+### RAID와 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) — 스토리지 오류 정정
 
-| [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 레벨 | 패리티 방식 | 오류 허용 |
+| [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 레벨 | 패리티 방식 | 오류 허용 |
 |:---:|:---|:---|
-| [RAID 1](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/) | 전체 [미러링](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) | 1개 디스크 완전 고장 |
-| [RAID 5](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) | [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) 1개 | 1개 디스크 고장 |
-| [RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) | [분산 패리티](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) 2개 (Reed-Solomon) | 2개 디스크 고장 |
+| [RAID 1](/studynote/02_operating_system/08_storage_and_io_systems/485_raid_1_mirroring/) | 전체 [미러링](/studynote/01_computer_architecture/08_io_storage_systems/333_raid_1/) | 1개 디스크 완전 고장 |
+| [RAID 5](/studynote/02_operating_system/08_storage_and_io_systems/487_raid_5_distributed_parity/) | [분산 패리티](/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) 1개 | 1개 디스크 고장 |
+| [RAID 6](/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) | [분산 패리티](/studynote/01_computer_architecture/08_io_storage_systems/334_raid_5/) 2개 (Reed-Solomon) | 2개 디스크 고장 |
 
-📢 **섹션 요약 비유**: [RAID](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6가 Reed-Solomon을 사용하는 것은 "두 권의 부록 노트"와 같다 — 본책 2권이 없어져도 부록 2권으로 복원할 수 있는 수학적 구조.
+📢 **섹션 요약 비유**: [RAID](/studynote/02_operating_system/08_storage_and_io_systems/483_raid_overview/) 6가 Reed-Solomon을 사용하는 것은 "두 권의 부록 노트"와 같다 — 본책 2권이 없어져도 부록 2권으로 복원할 수 있는 수학적 구조.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 메모리 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) — SECDED (Single Error Correct, Double Error Detect)
+### 메모리 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) — SECDED (Single Error Correct, Double Error Detect)
 
 서버 메모리에서 거의 표준:
 
@@ -131,22 +128,22 @@ d_H(u, v) = 해밍 무게(u XOR v)
 -> 2비트 오류: 검출 후 패닉 (데이터 변조 방지)
 ```
 
-### [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [NAND Flash](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 요구사항
+### [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) [NAND Flash](/studynote/01_computer_architecture/06_memory_hierarchy_cache/257_nand_flash/) [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 요구사항
 
-| NAND 유형 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 | 필요 정정 강도 |
+| NAND 유형 | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 | 필요 정정 강도 |
 |:---:|:---|:---|
-| [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) (1비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁶ | BCH t=4 |
-| MLC (2비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁴ | BCH t=24 |
-| TLC (3비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻³ | [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 필수 |
-| QLC (4비트/셀) | ~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻^ | 강력한 [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) |
+| [SLC](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) (1비트/셀) | ~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁶ | BCH t=4 |
+| MLC (2비트/셀) | ~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻⁴ | BCH t=24 |
+| TLC (3비트/셀) | ~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻³ | [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) 필수 |
+| QLC (4비트/셀) | ~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)⁻^ | 강력한 [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) |
 
 TLC/QLC는 셀당 오류율이 높아 LDPC가 필수 — BCH로는 부족.
 
 ### 기술사 판단 포인트
 
-1. <strong>"메모리 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 코드는?"</strong> -> 해밍 기반 SECDED (64+8=72비트)
-2. <strong>"CD 표면 긁혔을 때 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복원 코드는?"</strong> -> Reed-Solomon + 인터리빙
-3. <strong>"5G에서 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/제어 채널 부호가 다른 이유는?"</strong> -> 블록 길이와 오류 특성 차이 ([LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) vs 폴라)
+1. <strong>"메모리 <a href="/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a> 코드는?"</strong> -> 해밍 기반 SECDED (64+8=72비트)
+2. <strong>"CD 표면 긁혔을 때 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 복원 코드는?"</strong> -> Reed-Solomon + 인터리빙
+3. <strong>"5G에서 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>/제어 채널 부호가 다른 이유는?"</strong> -> 블록 길이와 오류 특성 차이 ([LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) vs 폴라)
 
 📢 **섹션 요약 비유**: SSD의 TLC가 LDPC를 필수로 쓰는 것은 "더 많이 쓸수록 더 강한 지우개가 필요하다"는 것과 같다 — 셀에 더 많은 정보를 쓸수록 오류가 많아져 더 강력한 ECC가 필요하다.
 
@@ -154,13 +151,13 @@ TLC/QLC는 셀당 오류율이 높아 LDPC가 필수 — BCH로는 부족.
 
 ## Ⅴ. 기대효과 및 결론
 
-ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 디지털 인프라의 보이지 않는 기반</strong>이다. 서버 메모리, [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 네트워크 통신, 위성 — 모든 곳에서 오류를 자동으로 정정하며 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 지킨다.
+ECC는 <strong><a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있는 디지털 인프라의 보이지 않는 기반</strong>이다. 서버 메모리, [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), 네트워크 통신, 위성 — 모든 곳에서 오류를 자동으로 정정하며 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무결성을 지킨다.
 
 코딩 이론의 발전 방향:
-- <strong>양자 오류 정정 코드 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>)</strong>: 양자 컴퓨터의 [큐비트](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 오류 정정 (토릭 코드, 표면 코드)
-- **기계학습 기반 디코딩**: 신경망 [디코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 기존 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 능가 가능성 탐구
+- <strong>양자 오류 정정 코드 (<a href="/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/">Quantum</a> <a href="/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/">ECC</a>)</strong>: 양자 컴퓨터의 [큐비트](/studynote/01_computer_architecture/12_accelerators_ai_hardware/448_qubit/) 오류 정정 (토릭 코드, 표면 코드)
+- **기계학습 기반 디코딩**: 신경망 [디코더](/studynote/01_computer_architecture/01_basic_electronics_logic/039_decoder/)가 기존 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 능가 가능성 탐구
 
-📢 **섹션 요약 비유**: ECC는 "디지털 세계의 보험"이다 — 평소엔 보이지 않지만, 오류가 발생하는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완벽히 복원해주는 수학적 안전망이다.
+📢 **섹션 요약 비유**: ECC는 "디지털 세계의 보험"이다 — 평소엔 보이지 않지만, 오류가 발생하는 순간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 완벽히 복원해주는 수학적 안전망이다.
 
 ---
 
@@ -168,12 +165,12 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 
 | 개념 | 수식/조건 | 응용 |
 |:---|:---|:---|
-| [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) d_H | 다른 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | 정정 능력 기준 |
+| [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) d_H | 다른 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | 정정 능력 기준 |
 | 최소 거리 d_min | ≥ 2t+1 -> t비트 정정 | 코드 설계 |
-| 해밍(7,4) | k=4, n=7, R=4/7 | 메모리 [ECC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 원형 |
-| Reed-Solomon | 심볼 단위, GF 산술 | CD/DVD/[RAID 6](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) |
-| [LDPC](/knowledge-base/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티, 신뢰 전파 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) TLC/QLC |
-| [폴라 코드](/knowledge-base/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극 | [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
+| 해밍(7,4) | k=4, n=7, R=4/7 | 메모리 [ECC](/studynote/01_computer_architecture/15_advanced_topics/554_ecc_circuit/) 원형 |
+| Reed-Solomon | 심볼 단위, GF 산술 | CD/DVD/[RAID 6](/studynote/02_operating_system/08_storage_and_io_systems/488_raid_6_dual_parity/) |
+| [LDPC](/studynote/03_network/04_data_link_layer_error/203_ldpc_low_density_parity_check/) | 희소 패리티, 신뢰 전파 | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/), [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) TLC/QLC |
+| [폴라 코드](/studynote/03_network/04_data_link_layer_error/204_polar_code_5g_control_channel/) | 채널 분극 | [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 제어 채널 |
 
 ---
 
@@ -195,12 +192,12 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 [현대 통신/RAID 응용]
 ```
 
-오류 정정 코드는 패리티에서 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 BCH, Reed-Solomon으로 발전해 통신과 RAID를 지탱한다.
+오류 정정 코드는 패리티에서 [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)와 BCH, Reed-Solomon으로 발전해 통신과 RAID를 지탱한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. **ECC는 "받아쓰기 채점 선생님"**: 틀린 곳을 알아서 고쳐주는 수학적 검사기.
-2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>는 "단어 사이 오타 수"</strong>: cat과 bat는 1개 다르고(거리=1), cat과 dog는 3개 다르다(거리=3).
+2. <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/">해밍 거리</a>는 "단어 사이 오타 수"</strong>: cat과 bat는 1개 다르고(거리=1), cat과 dog는 3개 다르다(거리=3).
 3. **Reed-Solomon은 "QR코드 마법"**: QR코드의 30%가 가려져도 내용을 읽을 수 있는 것이 바로 RS 코드 덕분.
 
 ---
@@ -209,7 +206,7 @@ ECC는 <strong><a href="/knowledge-base/studynote/04_software_engineering/10_tre
 
 **진행 상황**: 158 / 175
 
-<- **이전**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/)
-**다음**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) ->
+<- **이전**: [8. 채널 부호화 정리 (Channel Coding Theorem) — 샤논 한계](/studynote/08_algorithm_stats/09_info_theory/157_channel_coding/)
+**다음**: [10. 데이터 압축 (Compression) — 무손실/손실, 허프만/LZ/웨이블릿](/studynote/08_algorithm_stats/09_info_theory/159_compression/) ->
 
 ---

@@ -1,30 +1,27 @@
-+++
-title = "328. 연합 학습 (Federated Learning)"
-date = 2026-05-09
+---
+title: "328. 연합 학습 (Federated Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 서버로 전송하지 않고, 각 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 디바이스(스마트폰, 병원, 기업)에서 로컬로 모델을 학습한 뒤 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 업데이트(Gradient 또는 모델 파라미터)만 서버로 전송</strong>하여 전역 모델을 집계하는 프라이버시 보존 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ML 기법이다.
-> 2. **가치**: 개인 건강 기록·금융 거래·[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지처럼 중앙 집중화가 불가능하거나 불법인 민감 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하여 AI를 학습할 수 있어, [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)([GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/), PIPA)을 준수하면서도 다수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보하는 핵심 프라이버시 기술이다.
-> 3. **판단 포인트**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심 가정인 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 비IID(Non-IID) 문제</strong> — 각 디바이스의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 서로 달라 국소 학습이 전역 모델을 왜곡하는 현상 — 와 이를 해결하는 FedProx, FedNova 등의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기술사 설계의 핵심이다.
+> 1. **본질**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/))은 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 서버로 전송하지 않고, 각 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 디바이스(스마트폰, 병원, 기업)에서 로컬로 모델을 학습한 뒤 <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 업데이트(Gradient 또는 모델 파라미터)만 서버로 전송</strong>하여 전역 모델을 집계하는 프라이버시 보존 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ML 기법이다.
+> 2. **가치**: 개인 건강 기록·금융 거래·[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지처럼 중앙 집중화가 불가능하거나 불법인 민감 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 활용하여 AI를 학습할 수 있어, [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)([GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/), PIPA)을 준수하면서도 다수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 확보하는 핵심 프라이버시 기술이다.
+> 3. **판단 포인트**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심 가정인 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 비IID(Non-IID) 문제</strong> — 각 디바이스의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포가 서로 달라 국소 학습이 전역 모델을 왜곡하는 현상 — 와 이를 해결하는 FedProx, FedNova 등의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기술사 설계의 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-100개 병원의 환자 X선 이미지로 폐암 진단 AI를 학습하고 싶다. 하지만 각 병원의 환자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)상 다른 병원과 공유 불가능하다. 전통적 ML은 중앙 서버에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아야 하므로 불가능하다.
+100개 병원의 환자 X선 이미지로 폐암 진단 AI를 학습하고 싶다. 하지만 각 병원의 환자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)상 다른 병원과 공유 불가능하다. 전통적 ML은 중앙 서버에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 모아야 하므로 불가능하다.
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a>(<a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong>은 이 문제를 우아하게 해결한다:
-1. 중앙 서버가 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 전역 모델을 각 병원으로 배포
-2. 각 병원은 자체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델을 로컬 학습
-3. 학습된 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Gradient) 업데이트만 서버로 전송 (원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비전송!)
+<strong><a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a>(<a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">Federated Learning</a>)</strong>은 이 문제를 우아하게 해결한다:
+1. 중앙 서버가 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 전역 모델을 각 병원으로 배포
+2. 각 병원은 자체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델을 로컬 학습
+3. 학습된 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(Gradient) 업데이트만 서버로 전송 (원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비전송!)
 4. 서버가 모든 병원의 업데이트를 집계하여 전역 모델 갱신
 5. 1~4 반복
 
@@ -37,7 +34,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 비밀 레시피 공유 없는 요리 대회다. 100명의 요리사가 각자 집에서 자신만의 비밀 재료(개인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 요리를 연습하고, "레시피 발전 방향([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"만 주최사에 보낸다. 주최사가 모든 방향을 평균내서 "다음 연습 방향"을 다시 배포한다. 어떤 요리사도 다른 요리사의 비밀 재료를 알 수 없지만, 전체적으로 요리 수준이 높아진다.
+- **📢 섹션 요약 비유**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 비밀 레시피 공유 없는 요리 대회다. 100명의 요리사가 각자 집에서 자신만의 비밀 재료(개인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 요리를 연습하고, "레시피 발전 방향([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트)"만 주최사에 보낸다. 주최사가 모든 방향을 평균내서 "다음 연습 방향"을 다시 배포한다. 어떤 요리사도 다른 요리사의 비밀 재료를 알 수 없지만, 전체적으로 요리 수준이 높아진다.
 
 ---
 
@@ -71,57 +68,57 @@ tags = ["studynote-ai"]
 
 | 구성 요소 | 역할 | 핵심 기술 |
 |:---|:---|:---|
-| 클라이언트 | 로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델 학습, 업데이트 전송 | SGD, 국소 에폭 |
+| 클라이언트 | 로컬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 모델 학습, 업데이트 전송 | SGD, 국소 에폭 |
 | 집계 서버 | 업데이트 수집 및 전역 모델 갱신 | FedAvg, FedProx |
 | 보안 집계 | 업데이트 중에도 개별 기여 비노출 | 안전한 다자 계산(SMC) |
-| [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) | 노이즈 추가로 역추론 방지 | DP-SGD |
+| [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/) | 노이즈 추가로 역추론 방지 | DP-SGD |
 
-- **📢 섹션 요약 비유**: FedAvg는 국회 투표 평균이다. 100개 선거구(디바이스) 의원들이 각자 지역 민심(로컬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 반영해 투표(로컬 학습)하고, 투표 결과만 국회에 제출([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 전송). 국회가 모든 투표를 인구 비례로 집계(FedAvg)하여 전국 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)(전역 모델)을 결정한다. 의원 지역구 민심(원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 외부에 공개 안 된다.
+- **📢 섹션 요약 비유**: FedAvg는 국회 투표 평균이다. 100개 선거구(디바이스) 의원들이 각자 지역 민심(로컬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 반영해 투표(로컬 학습)하고, 투표 결과만 국회에 제출([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 전송). 국회가 모든 투표를 인구 비례로 집계(FedAvg)하여 전국 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)(전역 모델)을 결정한다. 의원 지역구 민심(원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 외부에 공개 안 된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-<strong>프라이버시 강화 기술 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>:
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>: 원시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버로 전송하지 않음
-2. <strong><a href="/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (DP)</strong>: [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트에 노이즈 추가 -> 역추론([Model Inversion](/knowledge-base/studynote/09_security/19_ai_advanced_security/951_model_inversion/)) 공격 방지
+<strong>프라이버시 강화 기술 <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a></strong>:
+1. <strong><a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>: 원시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 서버로 전송하지 않음
+2. <strong><a href="/studynote/16_bigdata/10_governance/209_differential_privacy/">차등 프라이버시</a> (DP)</strong>: [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 업데이트에 노이즈 추가 -> 역추론([Model Inversion](/studynote/09_security/19_ai_advanced_security/951_model_inversion/)) 공격 방지
 3. **안전한 다자 계산 (SMC)**: 서버가 개별 클라이언트 업데이트를 보지 못하게 암호화 집계
-4. <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/">동형 암호</a> (HE)</strong>: 암호화 상태에서 모델 집계 수행
+4. <strong><a href="/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/">동형 암호</a> (HE)</strong>: 암호화 상태에서 모델 집계 수행
 
 세 가지를 조합하면 강력한 프라이버시 보존 ML 시스템이 된다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
+| [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) ([Federated Learning](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
-- **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) + DP + SMC는 금고 속에서 투표하는 시스템이다. 각 사람이 금고(로컬 디바이스) 안에서 투표하고([연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)), 투표지에 무작위 낙서를 추가해(DP) 특정 표가 누구 것인지 모르게 하고, 금고들이 자동으로 합산해서(SMC) 서버에 결과만 전달한다. 완벽한 익명 선거가 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에 적용된 것이다.
+- **📢 섹션 요약 비유**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) + DP + SMC는 금고 속에서 투표하는 시스템이다. 각 사람이 금고(로컬 디바이스) 안에서 투표하고([연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)), 투표지에 무작위 낙서를 추가해(DP) 특정 표가 누구 것인지 모르게 하고, 금고들이 자동으로 합산해서(SMC) 서버에 결과만 전달한다. 완벽한 익명 선거가 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습에 적용된 것이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong>실제 <a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 배포 사례</strong>:
-- **Google Gboard**: 스마트폰에서 다음 단어 예측 모델을 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/). 타이핑 내용이 Google 서버에 전송되지 않음
-- **Apple iOS**: 이모지 제안, Siri 발음 개선을 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)
-- **의료 분야**: NVIDIA FLARE 플랫폼으로 여러 병원의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습
+<strong>실제 <a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 배포 사례</strong>:
+- **Google Gboard**: 스마트폰에서 다음 단어 예측 모델을 [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/). 타이핑 내용이 Google 서버에 전송되지 않음
+- **Apple iOS**: 이모지 제안, Siri 발음 개선을 [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)
+- **의료 분야**: NVIDIA FLARE 플랫폼으로 여러 병원의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없이 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 한계</strong>:
-- 통신 비용: 다수 라운드의 모델 업데이트 전송 -> 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담
+<strong><a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a> 한계</strong>:
+- 통신 비용: 다수 라운드의 모델 업데이트 전송 -> 네트워크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 부담
 - 계산 비용: 클라이언트 측 학습 연산 필요 -> 배터리 소모
 - 무임승차(Free Rider): 학습에 기여하지 않고 전역 모델만 사용하는 악의적 클라이언트
-- [데이터 포이즈닝](/knowledge-base/studynote/09_security/19_ai_advanced_security/947_data_poisoning/) 공격: 악의적 클라이언트가 모델을 오염시키는 업데이트 전송
+- [데이터 포이즈닝](/studynote/09_security/19_ai_advanced_security/947_data_poisoning/) 공격: 악의적 클라이언트가 모델을 오염시키는 업데이트 전송
 
-- **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 무임승차 문제는 팀 프로젝트의 무임승차 학생과 같다. 다른 학생들이 열심히 기여(로컬 학습)하는 동안, 일부는 기여 없이 결과물(전역 모델)만 가져간다. 인센티브 메커니즘(기여도 기반 보상)과 평판 시스템(기여 이력 추적)으로 이 문제를 완화한다.
+- **📢 섹션 요약 비유**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 무임승차 문제는 팀 프로젝트의 무임승차 학생과 같다. 다른 학생들이 열심히 기여(로컬 학습)하는 동안, 일부는 기여 없이 결과물(전역 모델)만 가져간다. 인센티브 메커니즘(기여도 기반 보상)과 평판 시스템(기여 이력 추적)으로 이 문제를 완화한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 프라이버시 보존 AI의 핵심 패러다임으로, "[데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/knowledge-base/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))"을 지키면서 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 유일한 방법이다. [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)·PIPA([개인정보보호법](/knowledge-base/studynote/09_security/16_data_privacy/783_pipa_korea/)) 강화로 중앙 집중 학습이 어려워지는 세상에서, [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 의료·금융·법률·제조 등 규제 산업 AI의 필수 인프라가 될 것이다. EU의 GAIA-X, 미국의 NIST [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프레임워크, 한국의 [마이데이터](/knowledge-base/studynote/16_bigdata/01_intro/012_mydata/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 모두 [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 같은 프라이버시 보존 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술의 확산을 지원하고 있다.
+[연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 프라이버시 보존 AI의 핵심 패러다임으로, "[데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)([Data Sovereignty](/studynote/06_ict_convergence/05_data_science/410_ai_intellectual_property_data_sovereignty_data_act/))"을 지키면서 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이는 유일한 방법이다. [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)·PIPA([개인정보보호법](/studynote/09_security/16_data_privacy/783_pipa_korea/)) 강화로 중앙 집중 학습이 어려워지는 세상에서, [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 의료·금융·법률·제조 등 규제 산업 AI의 필수 인프라가 될 것이다. EU의 GAIA-X, 미국의 NIST [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프레임워크, 한국의 [마이데이터](/studynote/16_bigdata/01_intro/012_mydata/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 모두 [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)과 같은 프라이버시 보존 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기술의 확산을 지원하고 있다.
 
-- **📢 섹션 요약 비유**: [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 AI의 민주적 참여 모델이다. 중앙 빅테크가 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 독점하는 대신, 각 개인·기업·기관이 자신의 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 지키면서도 집단 지성에 기여한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습이라는 역설을 해결하며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 민주화와 프라이버시를 동시에 달성하는 21세기 핵심 기술이다.
+- **📢 섹션 요약 비유**: [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)은 AI의 민주적 참여 모델이다. 중앙 빅테크가 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 독점하는 대신, 각 개인·기업·기관이 자신의 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)을 지키면서도 집단 지성에 기여한다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 없는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 학습이라는 역설을 해결하며 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 민주화와 프라이버시를 동시에 달성하는 21세기 핵심 기술이다.
 
 ---
 
@@ -129,11 +126,11 @@ tags = ["studynote-ai"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| FedAvg | 가중 평균 집계, 통신 효율 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 기본 집계 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| Non-IID 문제 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 이질성, 드리프트 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심 기술적 도전 |
-| [차등 프라이버시](/knowledge-base/studynote/16_bigdata/10_governance/209_differential_privacy/) (DP) | 노이즈 추가, 역추론 방지 / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 강화용 보안 기술 |
-| [동형 암호](/knowledge-base/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) (HE) | 암호화 상태 연산 / 서버 신뢰 불필요 집계 방법 |
-| [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) / PIPA | [개인정보보호](/knowledge-base/studynote/09_security/16_data_privacy/803_privacy_law_comparison/), [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) / [연합 학습](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 등장의 규제적 배경 |
+| FedAvg | 가중 평균 집계, 통신 효율 / [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 기본 집계 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| Non-IID 문제 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분포 이질성, 드리프트 / [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/)의 핵심 기술적 도전 |
+| [차등 프라이버시](/studynote/16_bigdata/10_governance/209_differential_privacy/) (DP) | 노이즈 추가, 역추론 방지 / [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 강화용 보안 기술 |
+| [동형 암호](/studynote/09_security/20_extra_exam_prep/1098_homomorphic_encryption/) (HE) | 암호화 상태 연산 / 서버 신뢰 불필요 집계 방법 |
+| [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) / PIPA | [개인정보보호](/studynote/09_security/16_data_privacy/803_privacy_law_comparison/), [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) / [연합 학습](/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/) 등장의 규제적 배경 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -143,9 +140,9 @@ tags = ["studynote-ai"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>은 100명의 학생이 각자 집에서 <strong>자기 노트를 바탕으로 공부</strong>하고, "공부 방법의 개선점만" 선생님에게 알려주는 것이에요 — 개인 노트 내용은 절대 공유하지 않아요!
+1. <strong><a href="/studynote/14_data_engineering/05_exam_keywords/256_federated_learning_privacy_model_security/">연합 학습</a></strong>은 100명의 학생이 각자 집에서 <strong>자기 노트를 바탕으로 공부</strong>하고, "공부 방법의 개선점만" 선생님에게 알려주는 것이에요 — 개인 노트 내용은 절대 공유하지 않아요!
 2. 선생님이 모든 학생의 개선점을 합쳐서 **"더 나은 공부법"을 다시 알려주고**, 이 과정을 반복하면 전체 학습 효율이 올라가요.
-3. 덕분에 병원들이 **환자 정보 공유 없이** [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 진단을 함께 학습하거나, 스마트폰이 **타이핑 내용을 서버에 보내지 않고** AI를 개선할 수 있어요!
+3. 덕분에 병원들이 **환자 정보 공유 없이** [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 진단을 함께 학습하거나, 스마트폰이 **타이핑 내용을 서버에 보내지 않고** AI를 개선할 수 있어요!
 
 ---
 
@@ -153,7 +150,7 @@ tags = ["studynote-ai"]
 
 **진행 상황**: 328 / 420
 
-<- **이전**: [327. SHAP (SHapley Additive exPlanations)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/327_shap/)
-**다음**: [329. 온디바이스 AI (On-Device AI)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/) ->
+<- **이전**: [327. SHAP (SHapley Additive exPlanations)](/studynote/10_ai/04_ai_ops_ethics/327_shap/)
+**다음**: [329. 온디바이스 AI (On-Device AI)](/studynote/10_ai/04_ai_ops_ethics/329_on_device_ai/) ->
 
 ---

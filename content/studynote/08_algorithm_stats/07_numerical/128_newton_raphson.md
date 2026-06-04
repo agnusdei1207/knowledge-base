@@ -1,18 +1,15 @@
-+++
-title = "9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근"
-date = 2026-04-21
+---
+title: "9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 뉴턴-랩슨(Newton-Raphson) 방법은 함수의 접선(Tangent Line)을 반복 이용해 근(Root)을 찾는 수치 해석 알고리즘으로, 이차 수렴(Quadratic Convergence) — 매 단계마다 유효 자릿수가 2배 증가 — 이 특징이다.
-> 2. **가치**: 제곱근·역수 계산, 최적화(경사 하강의 2차 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), ML [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)(BFGS, L-BFGS), 방정식 수치 해석에 광범위하게 적용된다.
+> 2. **가치**: 제곱근·역수 계산, 최적화(경사 하강의 2차 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)), ML [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)(BFGS, L-BFGS), 방정식 수치 해석에 광범위하게 적용된다.
 > 3. **판단 포인트**: 이차 수렴은 초기값이 근에 충분히 가까울 때만 보장 — 초기값이 나쁘면 발산하거나 잘못된 근으로 수렴할 수 있어, 초기값 선택과 수렴 조건 확인이 필수다.
 
 ---
@@ -29,7 +26,7 @@ tags = ["studynote-algorithm"]
 - 비교: 이분법(Bisection)은 선형 수렴 (매 단계 오차 절반).
 - 10자리 정확도 -> 이분법: ~33회, 뉴턴-랩슨: ~4회.
 
-📢 **섹션 요약 비유**: 뉴턴-랩슨은 "정답 주변을 점점 좁게 에워싸는 것이 아니라, 매번 더 정밀한 조준기로 단숨에 정중앙을 향해 쏘는 것" — 이차 수렴이 의미하는 지수적 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상이다.
+📢 **섹션 요약 비유**: 뉴턴-랩슨은 "정답 주변을 점점 좁게 에워싸는 것이 아니라, 매번 더 정밀한 조준기로 단숨에 정중앙을 향해 쏘는 것" — 이차 수렴이 의미하는 지수적 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) 향상이다.
 
 ---
 
@@ -149,7 +146,7 @@ L-BFGS(Limited-memory BFGS)는 최근 m개 기울기 정보만 저장 -> 수백�
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
 | 뉴턴-랩슨 | x_{n+1} = x_n - f/f', 이차 수렴 |
 | 이차 수렴 | 오차가 매 단계 제곱으로 감소 |
@@ -190,7 +187,7 @@ L-BFGS(Limited-memory BFGS)는 최근 m개 기울기 정보만 저장 -> 수백�
 
 **진행 상황**: 128 / 175
 
-<- **이전**: [행렬 곱셈 최적화 (Matrix Multiplication Optimization)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/127_matrix_multiplication/)
-**다음**: [10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사](/knowledge-base/studynote/08_algorithm_stats/07_numerical/129_monte_carlo_integration/) ->
+<- **이전**: [행렬 곱셈 최적화 (Matrix Multiplication Optimization)](/studynote/08_algorithm_stats/07_numerical/127_matrix_multiplication/)
+**다음**: [10. 몬테카를로 수치적분 (Monte Carlo Integration) — 확률적 근사](/studynote/08_algorithm_stats/07_numerical/129_monte_carlo_integration/) ->
 
 ---

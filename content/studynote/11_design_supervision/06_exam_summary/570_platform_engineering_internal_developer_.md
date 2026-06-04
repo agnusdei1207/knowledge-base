@@ -1,13 +1,10 @@
-+++
-title = "570. 플랫폼 엔지니어링 내부 개발자 포탈 (Platform Engineering Internal Developer Portal)"
-date = 2026-05-09
+---
+title: "570. 플랫폼 엔지니어링 내부 개발자 포탈 (Platform Engineering Internal Developer Portal)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ spec:
 
 **진행 상황**: 570 / 600
 
-<- **이전**: [569. SRE 에러 버짓 토일 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/570_sre_error_budget_toil_automation/)
-**다음**: [571. FinOps 클라우드 비용 최적화 전략](/knowledge-base/studynote/11_design_supervision/06_exam_summary/571_finops_cloud_cost_optimization_strategy/) ->
+<- **이전**: [569. SRE 에러 버짓 토일 자동화](/studynote/11_design_supervision/06_exam_summary/570_sre_error_budget_toil_automation/)
+**다음**: [571. FinOps 클라우드 비용 최적화 전략](/studynote/11_design_supervision/06_exam_summary/571_finops_cloud_cost_optimization_strategy/) ->
 
 ---

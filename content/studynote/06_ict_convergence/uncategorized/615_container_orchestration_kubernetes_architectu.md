@@ -1,13 +1,10 @@
-+++
-title = "615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처 (Container Orchestration Kubernetes Architecture)"
-date = 2026-05-09
+---
+title: "615. 컨테이너 오케스트레이션 쿠버네티스 아키텍처 (Container Orchestration Kubernetes Architecture)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -160,7 +157,7 @@ Deployment Controller는 이를 확장해 **Rolling Update 전략**(maxSurge, ma
 
 **진행 상황**: 615 / 800
 
-<- **이전**: [614. 클라우드 네이티브 12팩터 설계 원칙](/knowledge-base/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/)
-**다음**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/knowledge-base/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/) ->
+<- **이전**: [614. 클라우드 네이티브 12팩터 설계 원칙](/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/)
+**다음**: [616. 서비스 메시 Istio Envoy 데이터 플레인](/studynote/06_ict_convergence/uncategorized/616_service_mesh_istio_envoy_data_plane/) ->
 
 ---

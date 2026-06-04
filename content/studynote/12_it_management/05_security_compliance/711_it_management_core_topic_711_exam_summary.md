@@ -1,13 +1,10 @@
-+++
-title = "711. IT 경영 관리 핵심 토픽 711번 시험 요약 (IT Management Core Topic 711 Exam Summary)"
-date = 2026-05-09
+---
+title: "711. IT 경영 관리 핵심 토픽 711번 시험 요약 (IT Management Core Topic 711 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -179,7 +176,7 @@ NPV > 0 -> 사업 추진, IRR > Hurdle Rate -> 승인
 
 **진행 상황**: 711 / 800
 
-<- **이전**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/)
-**다음**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/) ->
+<- **이전**: [710. IT 경영 관리 핵심 토픽 710번 시험 요약](/studynote/12_it_management/05_security_compliance/710_it_management_core_topic_710_exam_summary/)
+**다음**: [712. IT 경영 관리 핵심 토픽 712번 시험 요약](/studynote/12_it_management/05_security_compliance/712_it_management_core_topic_712_exam_summary/) ->
 
 ---

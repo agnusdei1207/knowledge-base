@@ -1,17 +1,14 @@
-+++
-title = "136. 자유 공간 광통신 (FSO, Free Space Optics) / 레이저 통신"
-date = 2026-05-08
+---
+title: "136. 자유 공간 광통신 (FSO, Free Space Optics) / 레이저 통신"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 자유 공간 광통신 / 레이저 통신은 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 자유 공간 광통신 / 레이저 통신은 물리 계층과 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 자유 공간 광통신 / 레이저 통신을 이해하면 감쇠과 전송 거리 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,11 +16,11 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-[FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)(Free Space Optics)는 진공 또는 대기(공간)를 통해 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(주로 적외선 대역의 레이저)를 변조하여 데이터를 전송하는 무선 통신 기술입니다. "[무선 광통신](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)"이라고도 불립니다.
+[FSO](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)(Free Space Optics)는 진공 또는 대기(공간)를 통해 광 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(주로 적외선 대역의 레이저)를 변조하여 데이터를 전송하는 무선 통신 기술입니다. "[무선 광통신](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)"이라고도 불립니다.
 
 ### 주요 특징
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 무선임에도 불구하고 광섬유와 유사한 <strong>Gbps 이상의 <a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 통신</strong>이 가능합니다.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 전파와 달리 지향성이 극도로 높아(좁은 빔폭), 중간에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 가로채기([도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)) 매우 어렵습니다.
+1. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">Bandwidth</a>)</strong>: 무선임에도 불구하고 광섬유와 유사한 <strong>Gbps 이상의 <a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a> 통신</strong>이 가능합니다.
+2. <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">보안성</a> (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 전파와 달리 지향성이 극도로 높아(좁은 빔폭), 중간에 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 가로채기([도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/)) 매우 어렵습니다.
 3. **무면허 대역 (License-Free)**: RF(전파) 주파수와 달리, 광파 대역은 주파수 할당이나 라이선스 비용이 필요 없습니다.
 4. **구축 용이성**: 도로를 파헤치고 케이블을 매설할 필요 없이(Trenching 불필요), 옥상 간에 송수신기를 마주 보게 설치하여 즉시 개통이 가능합니다.
 
@@ -36,13 +33,13 @@ tags = ["studynote-network"]
     +---> [이더넷 물리 계층 표준]
 ```
 
-- **📢 섹션 요약 비유**: 자유 공간 광통신 / 레이저 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 자유 공간 광통신 / 레이저 통신은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 시스템은 기본적으로 양방향 통신을 위해 두 건물 사이 등에 송신기(레이저 빔 발생)와 수신기(광 검출기)를 서로 **가시선(LOS, Line of Sight)** 내에 정확히 정렬(Alignment)하여 구성합니다.
+[FSO](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 시스템은 기본적으로 양방향 통신을 위해 두 건물 사이 등에 송신기(레이저 빔 발생)와 수신기(광 검출기)를 서로 **가시선(LOS, Line of Sight)** 내에 정확히 정렬(Alignment)하여 구성합니다.
 
 ```text
   [Building A]                                      [Building B]
@@ -58,9 +55,9 @@ tags = ["studynote-network"]
 +-------------+                                    +-------------+
 ```
 
-1. **전광 변환 (E/O)**: 송신 측에서 전기적 데이터를 레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)(LD)를 이용해 광 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 변환합니다.
+1. **전광 변환 (E/O)**: 송신 측에서 전기적 데이터를 레이저 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)(LD)를 이용해 광 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 변환합니다.
 2. **공간 전송**: 렌즈(Telescope)를 통해 빔을 평행하게 만들어(Collimation) 대기 중으로 쏘아 보냅니다.
-3. **광전 변환 (O/E)**: 수신 측의 렌즈가 빛을 모아 광 검출기(APD 등)로 보내고, 이를 다시 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)로 복원합니다.
+3. **광전 변환 (O/E)**: 수신 측의 렌즈가 빛을 모아 광 검출기(APD 등)로 보내고, 이를 다시 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)로 복원합니다.
 
 - **📢 섹션 요약 비유**: <strong> FSO는 </strong>엄청나게 빠르게 깜빡이는 초강력 손전등으로, 건너편 아파트 친구에게 모스 부호를 보내는 것**과 같습니다. 선을 연결할 필요는 없지만, 눈으로 서로 보여야만 대화가 가능합니다.
 
@@ -72,12 +69,12 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 | 방해 요소 | 영향 (Impact) | 설명 |
 | :--- | :--- | :--- |
-| **안개 (Fog)** | **가장 치명적** | 안개 입자 크기가 적외선 파장과 비슷하여 <strong>미 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">산란</a>(Mie <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a>)</strong>을 일으켜 빔을 흩어지게 함 ([신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 급감). |
-| **비 (Rain)** | 중간 | 빗방울은 파장보다 훨씬 커서 빛을 차단(흡수)하지만, 안개보다는 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과가 적음. |
-| **눈 (Snow)** | 큼 | 굵은 눈송이가 빔을 물리적으로 가려 순간적인 끊김([Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))을 유발할 수 있음. |
-| **아지랑이 (Scintillation)** | 중간 | 지표면 온도차로 인한 공기의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 변화가 빔을 흔들리게 함 (여름철 아스팔트 위 아지랑이와 동일). |
+| **안개 (Fog)** | **가장 치명적** | 안개 입자 크기가 적외선 파장과 비슷하여 <strong>미 <a href="/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">산란</a>(Mie <a href="/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/">Scattering</a>)</strong>을 일으켜 빔을 흩어지게 함 ([신호](/studynote/02_operating_system/02_process_thread/130_signal/) 급감). |
+| **비 (Rain)** | 중간 | 빗방울은 파장보다 훨씬 커서 빛을 차단(흡수)하지만, 안개보다는 [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/) 효과가 적음. |
+| **눈 (Snow)** | 큼 | 굵은 눈송이가 빔을 물리적으로 가려 순간적인 끊김([Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))을 유발할 수 있음. |
+| **아지랑이 (Scintillation)** | 중간 | 지표면 온도차로 인한 공기의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 변화가 빔을 흔들리게 함 (여름철 아스팔트 위 아지랑이와 동일). |
 
-- **📢 섹션 요약 비유**: <strong> 비가 오면 앞 유리가 흐려지듯, </strong>안개가 끼면 손전등 불빛이 [산란](/knowledge-base/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)되어 건너편 친구가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전혀 읽지 못하게 되는 것**이 FSO의 가장 큰 약점입니다.
+- **📢 섹션 요약 비유**: <strong> 비가 오면 앞 유리가 흐려지듯, </strong>안개가 끼면 손전등 불빛이 [산란](/studynote/03_network/03_physical_layer_media/164_scattering_reflection_radio_waves/)되어 건너편 친구가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 전혀 읽지 못하게 되는 것**이 FSO의 가장 큰 약점입니다.
 
 ---
 
@@ -86,26 +83,26 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 기상 영향을 극복하기 위해 FSO는 RF(전파) 통신과 결합하여 신뢰성을 높입니다.
 
 1. **Auto-Tracking (자동 추적)**: 건물의 미세한 흔들림(바람, 지진)에도 빔이 벗어나지 않도록 모터가 송수신기를 미세 조정합니다.
-2. <strong>RF <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> (<a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/">FSO</a>/RF Hybrid)</strong>: 평소에는 Gbps급 FSO를 쓰다가, 안개가 짙어지면 자동으로 저속(수백 Mbps)의 [밀리미터파](/knowledge-base/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)(RF) 통신으로 우회하여 끊김(Downtime)을 방지합니다.
+2. <strong>RF <a href="/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> (<a href="/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/">FSO</a>/RF Hybrid)</strong>: 평소에는 Gbps급 FSO를 쓰다가, 안개가 짙어지면 자동으로 저속(수백 Mbps)의 [밀리미터파](/studynote/03_network/03_physical_layer_media/156_mmwave_millimeter_wave/)(RF) 통신으로 우회하여 끊김(Downtime)을 방지합니다.
 3. **다중 빔 (Multi-Beam)**: 여러 개의 레이저를 동시에 발사하여 새가 날아가거나 국지적인 방해물로 인한 차단을 방지합니다.
 
-- **Last Mile / First Mile 병목 해소**: 도심의 고층 빌딩 간에 광케이블을 깔기 위한 도로 굴착 허가를 받기 어려울 때, 옥상에 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 장비를 설치해 단 하루 만에 기가비트 네트워크를 연결합니다.
-- <strong>재난 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Disaster <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>: 홍수나 지진으로 유선망이 유실되었을 때 긴급하게 대용량 통신망을 임시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)합니다.
-- <strong>위성 간 통신 (<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>, <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/">Inter-Satellite Link</a>)</strong>: 스타링크(Starlink)와 같은 [저궤도 위성](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 간 통신에서는 대기가 없는 진공 상태이므로 [FSO](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)(레이저 통신)가 수천 km에 달하는 완벽한 성능을 발휘합니다.
+- **Last Mile / First Mile 병목 해소**: 도심의 고층 빌딩 간에 광케이블을 깔기 위한 도로 굴착 허가를 받기 어려울 때, 옥상에 [FSO](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/) 장비를 설치해 단 하루 만에 기가비트 네트워크를 연결합니다.
+- <strong>재난 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a> (Disaster <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">Recovery</a>)</strong>: 홍수나 지진으로 유선망이 유실되었을 때 긴급하게 대용량 통신망을 임시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)합니다.
+- <strong>위성 간 통신 (<a href="/studynote/03_network/05_lan_wan_l2_devices/249_isl_inter_switch_link_cisco/">ISL</a>, <a href="/studynote/03_network/11_wireless_mobile_communication/1023_satellite_isl_handover/">Inter-Satellite Link</a>)</strong>: 스타링크(Starlink)와 같은 [저궤도 위성](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) 간 통신에서는 대기가 없는 진공 상태이므로 [FSO](/studynote/03_network/18_optical_nextgen_automation/900_fso_free_space_optics_hybrid_rf_backup/)(레이저 통신)가 수천 km에 달하는 완벽한 성능을 발휘합니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: <strong> FSO는 맑은 날 달리기 좋은 </strong>아우토반([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 레이저)<strong>입니다. 하지만 안개가 짙어지면 사고를 막기 위해 임시로 </strong>국도([백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) RF 전파망)**로 우회하여 목적지까지 안전하게 데이터를 배달합니다.
+- **📢 섹션 요약 비유**: <strong> FSO는 맑은 날 달리기 좋은 </strong>아우토반([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 레이저)<strong>입니다. 하지만 안개가 짙어지면 사고를 막기 위해 임시로 </strong>국도([백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) RF 전파망)**로 우회하여 목적지까지 안전하게 데이터를 배달합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-자유 공간 광통신 / 레이저 통신은 물리 계층과 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+자유 공간 광통신 / 레이저 통신은 물리 계층과 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 감쇠 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준, 고속 광전송 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고속 광전송 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 자유 공간 광통신 / 레이저 통신은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -115,10 +112,10 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
-| 변조 (Modulation) | [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
-| [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [광전송 용어](/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 감쇠 (Attenuation) | 거리 증가에 따라 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 줄어드는 문제다. |
+| 변조 (Modulation) | [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞춰 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 실어 나르는 방법이다. |
+| [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +129,7 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
     +---> [확장 B: 고속 광전송 최적화]
 ```
 
-자유 공간 광통신 / 레이저 통신는 [광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+자유 공간 광통신 / 레이저 통신는 [광전송 용어](/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 물리 계층 표준와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +143,7 @@ FSO는 '공기'를 매질로 하므로, 대기 중의 입자들이 빛의 직진
 
 **진행 상황**: 257 / 1120
 
-<- **이전**: [135. 광전송 용어](/knowledge-base/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)
-**다음**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/knowledge-base/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/) ->
+<- **이전**: [135. 광전송 용어](/studynote/03_network/03_physical_layer_media/135_optical_transmission_components/)
+**다음**: [137. 이더넷 물리 계층 표준 (IEEE 802.3 PHY)](/studynote/03_network/03_physical_layer_media/137_ieee_802_3_phy_ethernet_standard/) ->
 
 ---

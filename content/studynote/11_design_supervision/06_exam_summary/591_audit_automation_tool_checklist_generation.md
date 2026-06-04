@@ -1,13 +1,10 @@
-+++
-title = "591. 감리 자동화 도구 체크리스트 생성 (Audit Automation Tool Checklist Generation)"
-date = 2026-05-09
+---
+title: "591. 감리 자동화 도구 체크리스트 생성 (Audit Automation Tool Checklist Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 591 / 600
 
-<- **이전**: [590. 590. 감리 설계 아키텍처 종합 마스터 정리 (Audit Architecture Comprehensive Master Summary)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/590_audit_architecture_comprehensive_master_/)
-**다음**: [592. AI 기반 코드 리뷰 감리 지원 도구](/knowledge-base/studynote/11_design_supervision/06_exam_summary/592_ai_based_code_review_audit_support_tool/) ->
+<- **이전**: [590. 590. 감리 설계 아키텍처 종합 마스터 정리 (Audit Architecture Comprehensive Master Summary)](/studynote/11_design_supervision/06_exam_summary/590_audit_architecture_comprehensive_master_/)
+**다음**: [592. AI 기반 코드 리뷰 감리 지원 도구](/studynote/11_design_supervision/06_exam_summary/592_ai_based_code_review_audit_support_tool/) ->
 
 ---

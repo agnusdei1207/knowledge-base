@@ -1,13 +1,10 @@
-+++
-title = "630. IT 경영 관리 핵심 토픽 630번 시험 요약 (IT Management Core Topic 630 Exam Summary)"
-date = 2026-05-09
+---
+title: "630. IT 경영 관리 핵심 토픽 630번 시험 요약 (IT Management Core Topic 630 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 630 / 800
 
-<- **이전**: [629. IT 경영 관리 핵심 토픽 629번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/629_it_management_core_topic_629_exam_summary/)
-**다음**: [631. IT 경영 관리 핵심 토픽 631번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/631_it_management_core_topic_631_exam_summary/) ->
+<- **이전**: [629. IT 경영 관리 핵심 토픽 629번 시험 요약](/studynote/12_it_management/05_security_compliance/629_it_management_core_topic_629_exam_summary/)
+**다음**: [631. IT 경영 관리 핵심 토픽 631번 시험 요약](/studynote/12_it_management/05_security_compliance/631_it_management_core_topic_631_exam_summary/) ->
 
 ---

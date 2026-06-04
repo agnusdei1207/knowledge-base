@@ -1,175 +1,137 @@
-+++
-title = "625. 클라우드 아키텍처 핵심 토픽 625번 시험 요약 (Cloud Architecture Core Topic 625 Exam Summary)"
-date = 2026-05-09
+---
+title: "625. 클라우드 아키텍처 핵심 토픽 625번 시험 요약 (Cloud Architecture Core Topic 625 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
 
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
+# 625. 클라우드 아키텍처 핵심 토픽 — 시험 요약
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 "탄력적 자원 풀(Elastic Resource Pool) + 셀프서비스 API + 사용량 기반 과금(Metered Billing) + 추상화된 인프라 레이어"를 통해 CAP 정리·PACELC·12-Factor 원칙 위에서 워크로드의 가용성·확장성·비용 효율성을 동적으로 최적화하는 분산 시스템 설계 패러다임이다.
+> 2. **가치**: AWS·Azure·GCP의 Well-Architected Framework 적용 시 평균 MTTR 65% 단축, Auto-Scaling으로 Peak 시간대 컴퓨팅 비용 40–70% 절감, Multi-AZ·Multi-Region 구성으로 RPO 0~15분 / RTO 15분~1시간 달성, Time-to-Market를 On-Prem 대비 1/3~1/5 수준으로 단축한다.
+> 3. **판단 포인트**: Lift-and-Shift(Rehost) vs Cloud-Native(Refactor/Replatform) 트레이드오프, 단일 클라우드 종속(Vendor Lock-in) 회피를 위한 **추상화 계층(Kubernetes, Terraform, Crossplane)** 도입 여부, 그리고 CAP 정리 관점에서 **일관성(Consistency)을 양보할 수 있는 도메인**(결제·재고 vs SNS 피드)에 대한 AP/CP 선택, 마지막으로 **FinOps·보안 거버넌스·데이터 주권**을 동시에 만족하는 Multi-Cloud/Hybrid 토폴로지 설계가 핵심 결정 사안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 아키텍처는 2006년 AWS S3·EC2 출시로 시작된 컴퓨팅 자원의 **Utility Computing** 모델이 2014년 Kubernetes 1.0, 2017년 Knative/Serverless, 2020년 GitOps·ArgoCD, 2023년 Generative AI·LLMOps로 진화하면서 단순한 "가상 서버 임대"에서 **분산 시스템·이벤트 기반·셀프서비스형 플랫폼 엔지니어링**으로 패러다임이 전환된 결과물이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 625 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 On-Premise 아키텍처는 **수직 확장(Scale-Up)**, **예측 기반 용량 산정(Capacity Planning)**, **수동 배포(Manual Deployment)**, **장기 자산화(CAPEX)** 모델이 지배적이었으나, 디지털 전환 가속·트래픽 폭증(Bursty Traffic)·글로벌 사용자 분산·짧은 시장 출시 기한(Time-to-Market) 요구로 한계에 부딪혔다. 이에 **수평 확장(Scale-Out)**, **선언적 인프라(IaC)**, **불변 인프라(Immutable Infra)**, **사용량 기반 과금(OPEX)**, **API 기반 셀프서비스**를 핵심으로 하는 클라우드 네이티브 아키텍처가 등장했다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 625번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   [Legacy On-Premise 시대의 한계]              [Cloud-Native 아키텍처의 등장]
+   +--------------------------+                +--------------------------------------+
+   |  • Scale-Up 한계 (단일 HW)|                |  • Scale-Out (무한 수평 확장)         |
+   |  • Provisioning 수개월    |   ------->     |  • Self-Service API (분 단위)        |
+   |  • Silo 조직·수동 배포   |                |  • GitOps · CI/CD · Immutable Image  |
+   |  • CAPEX 중심 (고정비)   |                |  • OPEX · Pay-per-Use (가변비)      |
+   |  • DC 단일 장애점(SPOF)  |                |  • Multi-AZ · Multi-Region 이중화    |
+   |  • DR 사이트 별도 투자   |                |  • Cross-Region Replica + Auto-Failover|
+   +--------------------------+                +--------------------------------------+
+              v                                                v
+       TCO 절감 불가 / Time-to-Market ^              TCO 30~50%v / Agility^^ / 탄력성
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+```text
+   [클라우드 아키텍처의 4대 핵심 특성 (NIST SP 800-145 + 클라우드 네이티브 확장)]
+   +-------------------+-------------------+-------------------+-------------------+
+   |  On-Demand Self-  |  Broad Network    |  Resource Pooling |  Rapid Elasticity |
+   |  Service (API)    |  Access (Anywhere)|  (Multi-Tenant)   |  (Auto-Scale)     |
+   +-------------------+-------------------+-------------------+-------------------+
+            |                    |                   |                    |
+            +--------+-----------+---------+---------+                    |
+                     v                     v                              v
+              +-------------------------------------------------------------+
+              |  Measured Service (Metering) + Service Catalog + Marketplace|
+              +-------------------------------------------------------------+
+                                       |
+                                       v
+              +-------------------------------------------------------------+
+              |  ★ 현대 클라우드 아키텍처의 7대 추가 핵심 (Cloud-Native 7P)   |
+              |  ① Microservice  ② Container(OCI)  ③ Orchestrator(K8s)       |
+              |  ④ Service Mesh  ⑤ Serverless(FaaS)  ⑥ GitOps(IaC)          |
+              | ⑦ Observability(OpenTelemetry)                               |
+              +-------------------------------------------------------------+
+```
 
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 클라우드 아키텍처는 **"호텔 체인 프랜차이즈"**와 같다. 각 호텔(Region/AZ)은 동일한 품질 기준(Well-Architected Framework)으로 운영되며, 손님(워크로드)은 체크인 시 Self-Service 키오스크(IAM·API)로 빈 방(EC2·Pod)을 즉시 배정받고, 사용한 미니바·조식(스토리지·네트워크)은 자동 정산(Metering)된다. 호텔 측은 룸 클리닝·메인터넌스(패치·백업·DR)를 책임지며 손님은 비즈니스 로직에만 집중한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 625번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처는 **"제어 평면(Control Plane) + 데이터 평면(Data Plane)"**의 이원화된 구조로 동작하며, 글로벌 트래픽 라우팅부터 워크로드 격리까지 다층 계층(Layered Architecture)으로 구성된다. AWS·Azure·GCP 같은 하이퍼스케일러는 Region -> Availability Zone(1개 이상 DC) -> Edge Location(PoP·CDN) -> Interconnect(Direct Connect·ExpressRoute·Cloud Interconnect) 계층을 제공하며, 컨트롤러 평면은 **분산 합의 알고리즘(Raft/Paxos)** 기반으로 글로벌 상태를 동기화한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 625 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   [글로벌 클라우드 아키텍처 — 4계층 토폴로지 (AWS 기준)]
+   +---------------------------------------------------------------------+
+   | L0: Edge / CDN Layer                                               |
+   |   - CloudFront / Azure Front Door / Cloud CDN (250+ PoP)            |
+   |   - Anycast IP, TLS Termination, WAF, DDoS Shield(L3-L7)           |
+   +---------------------------------------------------------------------+
+   | L1: Global Control Plane (Region 간 복제·라우팅)                    |
+   |   - Route 53 Latency/Geolocation/Weighted Policy                    |
+   |   - Global Accelerator (TCP/UDP Anycast)                            |
+   |   - DynamoDB Global Tables / Cosmos DB Multi-Region (Active-Active)|
+   +---------------------------------------------------------------------+
+   | L2: Regional Services (Region 단위 격리·재해복구)                   |
+   |   +------------+------------+------------+                          |
+   |   | AZ-a (DC-1)| AZ-b (DC-2)| AZ-c (DC-3)|   <- 독립 전력·냉각·네트워크|
+   |   | +--------+ | +--------+ | +--------+ |                          |
+   |   | | NLB/ALB| | | NLB/ALB| | | NLB/ALB| |   L4/L7 Load Balancer     |
+   |   | +--------+ | +--------+ | +--------+ |                          |
+   |   | +--------+ | +--------+ | +--------+ |                          |
+   |   | |EC2/ECS | | |EC2/ECS | | |EC2/ECS | |   Compute Plane          |
+   |   | +--------+ | +--------+ | +--------+ |                          |
+   |   |  EBS·EFS·S3 (AZ-scoped / Cross-AZ)                              |
+   |   +------------+------------+------------+                          |
+   |   - Auto Scaling Group · EKS/ECS Control Plane · RDS Multi-AZ      |
+   +---------------------------------------------------------------------+
+   | L3: Interconnect & Private Network                                 |
+   |   - VPC Peering / Transit Gateway / PrivateLink                      |
+   |   - Direct Connect / ExpressRoute (전용선, 1~100Gbps)               |
+   |   - Site-to-Site VPN (IPsec), MACsec, BGP AS-Path                  |
+   |   - Egress: NAT Gateway · Internet Gateway · Egress-only IGW       |
+   +---------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **전역 제어 평면(Global Control Plane)** | 계정·리소스·라우팅 테이블의 글로벌 일관성 보장 | IAM(STS·OIDC·SAML)·Org Unit·SCP(Service Control Policy)·Route 53 HealthCheck 기반 DNS Failover(TTL 60s)·Global Accelerator(Anycast) |
+| **컴퓨트 추상화(Compute Abstraction)** | 가상화(KVM/Xen/Nitro Hypervisor) -> 컨테이너 -> 함수로의 추상화 스펙트럼 | EC2(Nitro System: 하드웨어 오프로드, 400Gbps) · ECS/EKS(Kubernetes 1.30, eBPF) · Lambda(컨테이너 이미지 10GB·15분 타임아웃) · Fargate(서버리스 K8s) |
+| **스토리지 계층(Storage Tier)** | Hot·Warm·Cold·Glacier 단계별 가격·내구성 트레이드오프 | S3(99.999999999% 11 9s, Object-Lock·Versioning) · EBS(gp3 4,000 IOPS, io2 Block Express 256K IOPS) · EFS/FSx(Lustre·ONTAP, NFS/SMB) · Glacier Instant Retrieval(밀리초) · Deep Archive(12h) |
+| **데이터 평면 네트워킹(Data Plane Network)** | VPC(Virtual Private Cloud) 기반 L3·L4·L7 정책 | VPC CIDR(/16, ENI·EFA·SR-IOV) · Security Group(Stateful) vs NACL(Stateless) · Transit Gateway(Hub-Spoke, 5,000 VPC) · PrivateLink(서비스 단위 ENI, 0 Hot-Potato) · Cloud WAN(Segmentation) |
+| **오케스트레이션·서비스 메시(Orchestration & Service Mesh)** | 선언적 배포·트래픽 관리·관측성 | Kubernetes(etcd Raft, CRD·Operator) · Istio(Envoy xDS, mTLS SPIFFE) · Linkerd(Linkerd2-proxy Rust) · ArgoCD/Flux(GitOps) · Crossplane(Cloud Resource Controller) |
+| **관측 가능성(Observability)** | Metrics·Logs·Traces 3축 + Continuous Profiling | OpenTelemetry(OTLP 프로토콜) · Prometheus + Thanos/Cortex(Multi-Cluster) · Grafana(Loki·Tempo·Mimir) · AWS X-Ray / CloudWatch RUM / GCP Cloud Operations |
+| **보안·컴플라이언스(Security & Compliance)** | Zero Trust·CSPM·CWPP·CIEM | IAM Access Analyzer · AWS GuardDuty(Threat Intel) · Security Hub(CIS·PCI·HIPAA) · KMS/HSM(FIPS 140-2 L3) · Macie(데이터 분류) · VPC Flow Logs·CloudTrail |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 동작 원리 심화
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**(1) 탄력성(Elasticity) 알고리즘**: 클라우드 오토스케일링은 **예측형(Predictive: 머신러닝 기반, Amazon EC2 Auto Scaling Predictive Scaling) + 반응형(Reactive: CloudWatch·Prometheus 메트릭 기반) + 예약형(Scheduled: cron·KEDA CronScaler)** 3가지가 결합된다. HPA(Horizontal Pod Autoscaler) v2는 CPU/Memory/RPS/Custom Metric을 기반으로 `desiredReplicas = ceil[currentReplicas × (currentMetricValue / targetMetricValue)]` 공식을 사용하며, KEDA(Event-Driven Autoscaler)는 Kafka Lag·SQS QueueDepth·Cron 같은 이벤트 소스 60+개를 기반으로 0↔N 스케일링을 수행한다. **Cool-down(Stabilization Window)** 기본 5분은 스케일링 플래핑(Thrashing)을 방지한다.
+
+**(2) 일관성 모델(Consistency Model)**: 글로벌 분산 시스템에서 CAP 정리는 **CP(Consistency + Partition Tolerance: DynamoDB Global Tables는 Multi-Region Strong 옵션, DynamoDB Local에서 `ConsistentRead=true`)** vs **AP(Availability + Partition Tolerance: DynamoDB Global Tables 기본, S3, Aurora Global Database의 Write Forwarding)** 선택으로 귀결된다. PACELC 관점에서는 "분단 시 일관성·가용성, 평시 지연시간·일관성"의 4개 트레이드오프가 존재하며, **금융 결제(Strong) / 카탈로그·SNS(Eventual) / 분석·로그(Read-Your-Writes)** 등 도메인별로 다른 모델을 적용해야 한다.
+
+**(3) 컴퓨트 격리 메커니즘**: 클라우드 컴퓨트는 **하드웨어 가상화(Type-1 Hypervisor: KVM·Xen·Nitro) -> 마이크로 VM(Firecracker, gVisor) -> 컨테이너(runc, containerd) -> 샌드박스(WASM, gVisor runsc, kata-runtime)** 의 스펙트럼을 가지며, 보안·콜드 스타트·성능 간 트레이드오프가 있다. AWS Nitro System은 2017년 도입되어 EC2 인스턴스의 네트워킹·스토리지·관리 기능을 전용 하드웨어·경량 하이퍼바이저로 오프로드, 인스턴스 대역폭을 100Gbps -> 400Gbps로 확대하고 호스트 OS를 제거해 **Attack Surface 87% 감소**를 달성했다.
+
+- **📢 섹션 요약 비유**: **"스마트 그리드 + 공항 관제탑"**의 결합이라 할 수 있다. 스마트 그리드는 사용자 수요에 따라 전기(컴퓨트)를 실시간 배분하고(탄력성), 공항 관제탑은 활주로(Availability Zone)별로 이착륙(트래픽)을 조정하며 모든 비행기(워크로드)는 출발전 매니페스트(IAM 역할)와 탑승권(OAuth 토큰)을 검증받는다. 정전(장애) 시에는 자동으로 다른 활주로로 우회(라우팅)된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 625번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+클라우드 아키텍처는 전통적 아키텍처뿐 아니라 컨테이너·서버리스·엣지 컴퓨팅 등 유사·경쟁 기술과 명확한 구분이 필요하다. 기술사 시험에서는 **"왜 이 기술을 선택했는가"**의 정당화를 요구하므로 비교 기준을 정확히 이해해야 한다.
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 625번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 625번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 625번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 625번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 625번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 625번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 625번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 625번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **On-Premise(전통적 3-Tier)** | **Private Cloud(OpenStack·VMware)** | **Public Cloud(AWS·Azure·GCP)** | **Hybrid / Multi-Cloud** |
+| :--- | :--- | :
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 625 / 800
 
-<- **이전**: [624. 클라우드 아키텍처 핵심 토픽 624번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/624_cloud_architecture_core_topic_624_exam_summar/)
-**다음**: [626. 클라우드 아키텍처 핵심 토픽 626번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/626_cloud_architecture_core_topic_626_exam_summar/) ->
+<- **이전**: [624. 클라우드 아키텍처 핵심 토픽 624번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/624_cloud_architecture_core_topic_624_exam_summar/)
+**다음**: [626. 클라우드 아키텍처 핵심 토픽 626번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/626_cloud_architecture_core_topic_626_exam_summar/) ->
 
 ---

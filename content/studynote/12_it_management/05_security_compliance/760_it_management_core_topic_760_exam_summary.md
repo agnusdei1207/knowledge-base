@@ -1,13 +1,10 @@
-+++
-title = "760. IT 경영 관리 핵심 토픽 760번 시험 요약 (IT Management Core Topic 760 Exam Summary)"
-date = 2026-05-09
+---
+title: "760. IT 경영 관리 핵심 토픽 760번 시험 요약 (IT Management Core Topic 760 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 760. IT 경영 관리 핵심 토픽 760번 시험 요약 (IT Management Core Topic 760 Exam Summary)
 
@@ -183,7 +180,7 @@ Error Budget = (1 - SLO) × Time Window
 
 **진행 상황**: 760 / 800
 
-<- **이전**: [759. IT 경영 관리 핵심 토픽 759번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/759_it_management_core_topic_759_exam_summary/)
-**다음**: [761. IT 경영 관리 핵심 토픽 761번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/761_it_management_core_topic_761_exam_summary/) ->
+<- **이전**: [759. IT 경영 관리 핵심 토픽 759번 시험 요약](/studynote/12_it_management/05_security_compliance/759_it_management_core_topic_759_exam_summary/)
+**다음**: [761. IT 경영 관리 핵심 토픽 761번 시험 요약](/studynote/12_it_management/05_security_compliance/761_it_management_core_topic_761_exam_summary/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "246. ISP (Interface Segregation Principle) - 인터페이스 분리 원칙"
-date = 2026-05-08
+---
+title: "246. ISP (Interface Segregation Principle) - 인터페이스 분리 원칙"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle) - [인터페이스 분리 원칙](/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle) - [인터페이스 분리 원칙](/studynote/11_design_supervision/06_exam_summary/358_architecture/)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -21,13 +18,13 @@ tags = ["studynote-software-engineering"]
 
 - 개발자들이 껍데기 약속(Interface)을 만들 때 귀찮아서 무식하게 몽땅 집어넣습니다.
 - `스마트폰` 인터페이스 안에 `전화걸기()`, `문자하기()`, `카메라찍기()`, `삼성페이결제하기()` 를 다 때려 박았습니다.
-- **문제 발생**: 최새로운 유형의 갤럭시폰(클래스)은 저걸 다 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(구현)받아 씁니다. 아주 좋습니다.
+- **문제 발생**: 최새로운 유형의 갤럭시폰(클래스)은 저걸 다 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(구현)받아 씁니다. 아주 좋습니다.
 - **재앙**: 그런데 시골에 계신 할머니께 드릴 **'효도폰(폴더폰)'** 클래스를 새로 만들려고 저 `스마트폰` 인터페이스를 딱 꽂는 순간! 효도폰은 카메라와 삼성페이 기능이 하드웨어적으로 아예 없는데도, 자바 컴파일러가 강제로 `카메라찍기()`와 `삼성페이결제하기()` 함수를 코딩하라고 쌍욕(에러)을 퍼붓습니다.
-- 어쩔 수 없이 개발자는 폴더폰 코드 안에 빈 껍데기 함수([Dummy](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/))나 `throw new Exception("기능 없음")` 똥 코드를 수백 줄이나 억지로 우겨넣어야 합니다. (245번 [LSP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반까지 연쇄적으로 터집니다.)
+- 어쩔 수 없이 개발자는 폴더폰 코드 안에 빈 껍데기 함수([Dummy](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/))나 `throw new Exception("기능 없음")` 똥 코드를 수백 줄이나 억지로 우겨넣어야 합니다. (245번 [LSP](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/) 위반까지 연쇄적으로 터집니다.)
 
-- **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
-다음은 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segre의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segre의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -42,7 +39,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segre가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segre가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -53,14 +50,14 @@ tags = ["studynote-software-engineering"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 - **Segregation (분리, 격리)**
-- **개념**: <strong>"클라이언트(이 인터페이스를 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>받아 쓰는 객체)는 자신이 실제로 사용하지 않는 메서드(기능)에 강제로 의존(구현)하도록 강요받아서는 안 된다!"</strong>는 아주 명쾌한 규칙입니다.
-- **해결책**: 거대하고 뚱뚱한([Fat](/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/)) 만능 인터페이스 1개를 쓰지 말고, 역할에 따라 쪼개서 **"작고 뾰족하게 특화된 여러 개의 얇은 인터페이스들(Segregated Interfaces)"로 갈기갈기 찢어발겨서** 각자 필요한 놈만 골라 쓸 수 있게 제공하라는 뜻입니다.
+- **개념**: <strong>"클라이언트(이 인터페이스를 <a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a>받아 쓰는 객체)는 자신이 실제로 사용하지 않는 메서드(기능)에 강제로 의존(구현)하도록 강요받아서는 안 된다!"</strong>는 아주 명쾌한 규칙입니다.
+- **해결책**: 거대하고 뚱뚱한([Fat](/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/)) 만능 인터페이스 1개를 쓰지 말고, 역할에 따라 쪼개서 **"작고 뾰족하게 특화된 여러 개의 얇은 인터페이스들(Segregated Interfaces)"로 갈기갈기 찢어발겨서** 각자 필요한 놈만 골라 쓸 수 있게 제공하라는 뜻입니다.
 
-- **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -80,11 +77,11 @@ tags = ["studynote-software-engineering"]
    - `[카메라기기]` 인터페이스 ➜ `카메라찍기()`
    - `[결제기기]` 인터페이스 ➜ `삼성페이결제하기()`
 3. **선택적 레고 조립의 꿀**:
-   - **갤럭시폰 클래스** ➜ `[통신기기]`, `[카메라기기]`, `[결제기기]` 3개의 인터페이스를 다 갖다 꽂아서 다 구현합니다. (다중 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 미학)
+   - **갤럭시폰 클래스** ➜ `[통신기기]`, `[카메라기기]`, `[결제기기]` 3개의 인터페이스를 다 갖다 꽂아서 다 구현합니다. (다중 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)의 미학)
    - **할머니 효도폰 클래스** ➜ 오직 `[통신기기]` 인터페이스 딱 1개만 꽂습니다!
    - **결과**: 할머니 효도폰은 삼성페이나 카메라 똥 코드를 억지로 짤 필요가 0%로 사라졌습니다. 코드가 우주 끝까지 깃털처럼 가벼워집니다.
 
-- **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -95,13 +92,13 @@ tags = ["studynote-software-engineering"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - SRP와 ISP는 동전의 양면과 같습니다.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (243번)</strong>: 뚱뚱한 '클래스(구현체 덩어리)' 자체를 3개로 찢어발기는 것.
-- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> (246번)</strong>: 뚱뚱한 '인터페이스(껍데기 규칙서)' 자체를 3개로 찢어발기는 것.
-- 즉, 클래스([SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))를 잘 찢어놨어도, 걔네들이 쓰는 콘센트 규칙서(인터페이스)가 하나로 뭉쳐있으면 헛수고입니다. ISP로 콘센트 규격까지 얇게 찢어놔야 비로소 진정한 레고 블록 조립 아키텍처가 완성됩니다.
+- <strong><a href="/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/">SRP</a> (243번)</strong>: 뚱뚱한 '클래스(구현체 덩어리)' 자체를 3개로 찢어발기는 것.
+- <strong><a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> (246번)</strong>: 뚱뚱한 '인터페이스(껍데기 규칙서)' 자체를 3개로 찢어발기는 것.
+- 즉, 클래스([SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/))를 잘 찢어놨어도, 걔네들이 쓰는 콘센트 규칙서(인터페이스)가 하나로 뭉쳐있으면 헛수고입니다. ISP로 콘센트 규격까지 얇게 찢어놔야 비로소 진정한 레고 블록 조립 아키텍처가 완성됩니다.
 
-> 📢 **섹션 요약 비유**: <strong><a href="/knowledge-base/studynote/11_design_supervision/06_exam_summary/358_architecture/">인터페이스 분리 원칙</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a>)</strong>은 헬스장에서 <strong>'쓸데없는 강제 결합 요금제 금지법'</strong>입니다. 동네 헬스장 사장님(뚱뚱한 인터페이스)이 수영장, 골프장, 헬스장, 마사지실을 다 지어놓고 <strong>'월 50만 원짜리 VIP 프리미엄 통합 회원권(<a href="/knowledge-base/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> Interface)'</strong> 딱 한 개만 팝니다. 헬스만 하고 싶은 청년(효도폰 클래스)이 등록하러 갔더니, 사장님이 "야! 넌 수영이나 마사지 안 해도 50만 원 내고 이 통합 카드 무조건 목에 걸고 다녀(사용하지 않는 메서드 억지 구현 강요)!!"라며 갑질을 합니다. 청년은 쓰지도 않는 골프장 규칙까지 외워야 하고 돈을 낭비합니다. ISP는 이 미친 헬스장 사장의 회원권을 찢어버립니다. **'수영장 전용권 5만 원', '헬스장 전용권 5만 원', '마사지 전용권 5만 원'으로 권한(인터페이스)을 갈기갈기 얇게 찢어서(Segregation) 발급합니다.** 수영과 헬스만 할 사람은 딱 2개의 얇은 카드(인터페이스 2개 구현)만 사서 꽂으면 되고, 마사지실 근처에는 얼씬도 안 해도 됩니다. 내가 쓰지도 않을 거대한 권한 덩어리(메서드)를 강제로 떠안아 내 코드 파일이 썩어 문드러지고 무거워지는 것을 얇고 날카로운 메스 분할로 막아내는 인터페이스 최적화 다이어트 비법입니다.
+> 📢 **섹션 요약 비유**: <strong><a href="/studynote/11_design_supervision/06_exam_summary/358_architecture/">인터페이스 분리 원칙</a>(<a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a>)</strong>은 헬스장에서 <strong>'쓸데없는 강제 결합 요금제 금지법'</strong>입니다. 동네 헬스장 사장님(뚱뚱한 인터페이스)이 수영장, 골프장, 헬스장, 마사지실을 다 지어놓고 <strong>'월 50만 원짜리 VIP 프리미엄 통합 회원권(<a href="/studynote/02_operating_system/09_file_system/525_fat_file_allocation_table/">Fat</a> Interface)'</strong> 딱 한 개만 팝니다. 헬스만 하고 싶은 청년(효도폰 클래스)이 등록하러 갔더니, 사장님이 "야! 넌 수영이나 마사지 안 해도 50만 원 내고 이 통합 카드 무조건 목에 걸고 다녀(사용하지 않는 메서드 억지 구현 강요)!!"라며 갑질을 합니다. 청년은 쓰지도 않는 골프장 규칙까지 외워야 하고 돈을 낭비합니다. ISP는 이 미친 헬스장 사장의 회원권을 찢어버립니다. **'수영장 전용권 5만 원', '헬스장 전용권 5만 원', '마사지 전용권 5만 원'으로 권한(인터페이스)을 갈기갈기 얇게 찢어서(Segregation) 발급합니다.** 수영과 헬스만 할 사람은 딱 2개의 얇은 카드(인터페이스 2개 구현)만 사서 꽂으면 되고, 마사지실 근처에는 얼씬도 안 해도 됩니다. 내가 쓰지도 않을 거대한 권한 덩어리(메서드)를 강제로 떠안아 내 코드 파일이 썩어 문드러지고 무거워지는 것을 얇고 날카로운 메스 분할로 막아내는 인터페이스 최적화 다이어트 비법입니다.
 
-- **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -111,21 +108,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -137,10 +134,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -160,13 +157,13 @@ ISP (Interface Segregation Principle) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (Interface Segregation Principle)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -174,7 +171,7 @@ ISP (Interface Segregation Principle) 개념 정립
 
 **진행 상황**: 246 / 973
 
-<- **이전**: [245. LSP (Liskov Substitution Principle) - 리스코프 치환 원칙 (자식은 부모를 대체 가능)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)
-**다음**: [247. DIP (Dependency Inversion Principle) - 의존 역전 원칙 (추상화에 의존)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ->
+<- **이전**: [245. LSP (Liskov Substitution Principle) - 리스코프 치환 원칙 (자식은 부모를 대체 가능)](/studynote/04_software_engineering/04_testing_quality/245_lsp_liskov_substitution_principle/)
+**다음**: [247. DIP (Dependency Inversion Principle) - 의존 역전 원칙 (추상화에 의존)](/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/) ->
 
 ---

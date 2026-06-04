@@ -1,21 +1,18 @@
-+++
-title = "434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)"
-date = 2026-05-10
+---
+title: "434. 컴포저블 아키텍처 PBS API 조합 유연 모듈 (Composable Architecture with PBS API)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-1. **본질**: 컴포저블 아키텍처는 패키지드 비즈니스 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Packaged Business [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), PBS)를 작고 의미 있는 업무 단위로 구성하고, 애플리케이션 프로그래밍 인터페이스([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 조합하는 비즈니스 중심 설계 방식이다.
-2. **가치**: 업무 변화가 생겨도 전체 시스템을 재개발하지 않고 필요한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합만 바꿔 민첩성, 벤더 유연성, 기능 확장 속도를 높일 수 있다.
-3. **판단 포인트**: PBS 경계가 업무 역량 단위로 잘 나뉘었는지, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권이 명확한지, 조합 복잡성을 운영할 능력이 있는지가 핵심 판단 기준이다.
+1. **본질**: 컴포저블 아키텍처는 패키지드 비즈니스 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)(Packaged Business [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), PBS)를 작고 의미 있는 업무 단위로 구성하고, 애플리케이션 프로그래밍 인터페이스([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))로 조합하는 비즈니스 중심 설계 방식이다.
+2. **가치**: 업무 변화가 생겨도 전체 시스템을 재개발하지 않고 필요한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 조합만 바꿔 민첩성, 벤더 유연성, 기능 확장 속도를 높일 수 있다.
+3. **판단 포인트**: PBS 경계가 업무 역량 단위로 잘 나뉘었는지, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권이 명확한지, 조합 복잡성을 운영할 능력이 있는지가 핵심 판단 기준이다.
 
 ## Ⅰ. 개요 및 필요성
-컴포저블 아키텍처는 거대한 통합 패키지 하나로 모든 기능을 해결하려는 발상에서 벗어나, 업무 의미가 분명한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 블록을 조립해 전체 시스템을 만드는 방식이다. 실무에서는 패키지드 비즈니스 역량(Packaged Business Capability, PBC)이라는 용어와 유사하게 쓰이기도 하지만, 여기서는 키워드에 맞추어 PBS 중심 조합 구조로 이해하면 된다. 감리 관점에서는 기술 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)보다 “업무 단위가 올바르게 분해되었는가”를 먼저 본다.
+컴포저블 아키텍처는 거대한 통합 패키지 하나로 모든 기능을 해결하려는 발상에서 벗어나, 업무 의미가 분명한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 블록을 조립해 전체 시스템을 만드는 방식이다. 실무에서는 패키지드 비즈니스 역량(Packaged Business Capability, PBC)이라는 용어와 유사하게 쓰이기도 하지만, 여기서는 키워드에 맞추어 PBS 중심 조합 구조로 이해하면 된다. 감리 관점에서는 기술 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)보다 “업무 단위가 올바르게 분해되었는가”를 먼저 본다.
 
 이 구조가 필요한 이유는 시장 변화 속도 때문이다. 상품 조합, 채널 확장, 외부 제휴, 규제 변경이 잦은 환경에서는 모놀리식 패키지의 일괄 개편으로는 대응 속도가 나오지 않는다. 컴포저블 아키텍처는 주문, 결제, 추천, 배송, 정산 같은 업무 블록을 조합해 신속하게 새로운 프로세스를 구성하도록 돕는다.
 
@@ -34,18 +31,18 @@ tags = ["studynote-design-supervision"]
         +-----+ +------+ +------+
 ```
 
-따라서 필요성의 핵심은 “변화 대응력”과 “업무 중심 분해”다. 기술사 답안에서는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선 설계, 조합형 업무 프로세스, 벤더 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 완화를 함께 써야 논리적 완성도가 높다.
+따라서 필요성의 핵심은 “변화 대응력”과 “업무 중심 분해”다. 기술사 답안에서는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선 설계, 조합형 업무 프로세스, 벤더 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 완화를 함께 써야 논리적 완성도가 높다.
 - **📢 섹션 요약 비유**: 도시락을 한 종류만 파는 가게가 아니라, 밥·반찬·국을 따로 고르게 해서 손님마다 다른 도시락을 바로 조합해 주는 식당과 같다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-컴포저블 아키텍처의 핵심 원리는 업무 의미가 있는 PBS를 독립 단위로 설계하고, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First) 계약으로 연결하며, 조합 계층이 채널별 경험을 빠르게 엮도록 만드는 것이다. 이때 조합은 단순 호출 집합이 아니라 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 권한, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))까지 포함하는 운영 구조여야 한다.
+컴포저블 아키텍처의 핵심 원리는 업무 의미가 있는 PBS를 독립 단위로 설계하고, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)-First) 계약으로 연결하며, 조합 계층이 채널별 경험을 빠르게 엮도록 만드는 것이다. 이때 조합은 단순 호출 집합이 아니라 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 권한, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 계약([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/))까지 포함하는 운영 구조여야 한다.
 
 | 구성 요소 | 핵심 원리 | 감리 포인트 |
 | --- | --- | --- |
-| PBS [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 주문·결제·배송처럼 [응집도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높은 업무 단위를 독립 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 캡슐화한다. | 업무 경계의 적정성, 중복 기능, 재사용성 검토 |
-| [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 | 채널과 타 시스템이 PBS를 안정적으로 호출하도록 표준 인터페이스를 제공한다. | [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 오류 규약, 문서화 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| 조합·[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층 | 여러 PBS를 묶어 사용자 여정과 업무 프로세스를 빠르게 구성한다. | 조합 복잡도, 장애 전파, [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보상 설계 검토 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유 구조 | 각 PBS가 자신의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임지고 필요한 정보만 공유한다. | [마스터 데이터](/knowledge-base/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 중복 저장, 정합성 통제 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| PBS [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) | 주문·결제·배송처럼 [응집도](/studynote/04_software_engineering/04_testing_quality/193_cohesion_levels/) 높은 업무 단위를 독립 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 캡슐화한다. | 업무 경계의 적정성, 중복 기능, 재사용성 검토 |
+| [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 계약 | 채널과 타 시스템이 PBS를 안정적으로 호출하도록 표준 인터페이스를 제공한다. | [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/), 오류 규약, 문서화 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 조합·[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 계층 | 여러 PBS를 묶어 사용자 여정과 업무 프로세스를 빠르게 구성한다. | 조합 복잡도, 장애 전파, [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 보상 설계 검토 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유 구조 | 각 PBS가 자신의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 책임지고 필요한 정보만 공유한다. | [마스터 데이터](/studynote/05_database/07_exam_summary/539_mdm_master_data_management/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/), 중복 저장, 정합성 통제 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
 ```text
 +---------------- API Composition Layer ----------------+
@@ -57,46 +54,46 @@ tags = ["studynote-design-supervision"]
 +----------+ +----------+ +----------+ +----------+
 ```
 
-설계 핵심은 “잘게 나누는 것”이 아니라 “비즈니스적으로 다시 조립 가능한 단위로 나누는 것”이다. 기술사 답안에서는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많다는 사실보다 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준화, 조합 계층, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계의 균형을 강조해야 한다.
+설계 핵심은 “잘게 나누는 것”이 아니라 “비즈니스적으로 다시 조립 가능한 단위로 나누는 것”이다. 기술사 답안에서는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수가 많다는 사실보다 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 표준화, 조합 계층, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경계의 균형을 강조해야 한다.
 - **📢 섹션 요약 비유**: 레고 블록이 많다고 좋은 게 아니라, 바퀴·창문·문처럼 의미 있는 부품으로 나뉘어 있어야 자동차든 집이든 다시 조립하기 쉽다.
 
 ## Ⅲ. 비교 및 연결
-컴포저블 아키텍처는 모놀리식 패키지와 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) 사이를 비교해 설명하면 이해가 쉽다. 특히 “업무 조합 가능성”을 기준으로 보면 차이가 분명하다.
+컴포저블 아키텍처는 모놀리식 패키지와 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) 사이를 비교해 설명하면 이해가 쉽다. 특히 “업무 조합 가능성”을 기준으로 보면 차이가 분명하다.
 
-| 비교 항목 | 컴포저블 아키텍처 | 모놀리식 패키지 | [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) |
+| 비교 항목 | 컴포저블 아키텍처 | 모놀리식 패키지 | [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) |
 | --- | --- | --- | --- |
-| 분해 기준 | 업무 역량 단위 PBS | 기능이 한 제품에 결합 | 기술·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 |
-| 조합 방식 | API로 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 블록 재조합 | 패키지 설정과 커스터마이징 중심 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출과 배포 독립성 |
+| 분해 기준 | 업무 역량 단위 PBS | 기능이 한 제품에 결합 | 기술·[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 |
+| 조합 방식 | API로 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 블록 재조합 | 패키지 설정과 커스터마이징 중심 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 호출과 배포 독립성 |
 | 강점 | 비즈니스 민첩성, 채널 확장, 벤더 유연성 | 단순한 도입과 통합 운영 | 독립 배포와 기술 자율성 |
-| 주의점 | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 관리 필요 | 변화 대응 속도 낮음 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 난립과 운영 복잡성 가능 |
+| 주의점 | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 관리 필요 | 변화 대응 속도 낮음 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 난립과 운영 복잡성 가능 |
 
-연결 개념으로는 [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/), [DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/)), [헤드리스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)([Headless](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)) 채널 분리, 저코드·노코드(Low-Code/No-Code, [LCNC](/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)) 조합 플랫폼이 있다. 즉 컴포저블 아키텍처는 단순 기술 구조가 아니라 비즈니스 변화에 대응하는 운영 모델이기도 하다.
-- **📢 섹션 요약 비유**: 통짜 가구는 한 번 사면 모양을 바꾸기 어렵고, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 공방 여러 곳에서 부품을 만드는 방식이며, 컴포저블은 손님이 원하는 모양대로 가구를 조립해 주는 맞춤 가구점에 가깝다.
+연결 개념으로는 [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/)([Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/), [DDD](/studynote/12_it_management/05_security_compliance/310_architecture/)), [헤드리스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)([Headless](/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/)) 채널 분리, 저코드·노코드(Low-Code/No-Code, [LCNC](/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/)) 조합 플랫폼이 있다. 즉 컴포저블 아키텍처는 단순 기술 구조가 아니라 비즈니스 변화에 대응하는 운영 모델이기도 하다.
+- **📢 섹션 요약 비유**: 통짜 가구는 한 번 사면 모양을 바꾸기 어렵고, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 공방 여러 곳에서 부품을 만드는 방식이며, 컴포저블은 손님이 원하는 모양대로 가구를 조립해 주는 맞춤 가구점에 가깝다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서 컴포저블 아키텍처는 변화가 잦은 기업에 특히 유리하다. 다만 업무 경계가 애매하거나 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 관리 역량이 부족하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 잘게 쪼개졌는데 실제 조합은 더 어려워지는 역효과가 난다. 따라서 설계 원칙과 운영 거버넌스를 함께 봐야 한다.
+실무에서 컴포저블 아키텍처는 변화가 잦은 기업에 특히 유리하다. 다만 업무 경계가 애매하거나 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 관리 역량이 부족하면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 잘게 쪼개졌는데 실제 조합은 더 어려워지는 역효과가 난다. 따라서 설계 원칙과 운영 거버넌스를 함께 봐야 한다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- PBS가 기술 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 아니라 실제 업무 역량 단위로 정의되었는가?
-- [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한, 호출 한도에 대한 거버넌스가 있는가?
-- 조합 계층에서 장애 전파와 [분산 트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 보상 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 설계되었는가?
-- 각 PBS의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 [마스터 데이터 관리](/knowledge-base/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) 기준이 명확한가?
-- 외부 벤더 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 포함한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 책임 경계가 계약으로 관리되는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- PBS가 기술 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 아니라 실제 업무 역량 단위로 정의되었는가?
+- [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 권한, 호출 한도에 대한 거버넌스가 있는가?
+- 조합 계층에서 장애 전파와 [분산 트랜잭션](/studynote/05_database/04_transactions_concurrency/248_distributed_transaction_multiple_nodes/) 보상 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 설계되었는가?
+- 각 PBS의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 [마스터 데이터 관리](/studynote/12_it_management/01_governance_strategy/051_mdm_master_data_management/) 기준이 명확한가?
+- 외부 벤더 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)까지 포함한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준과 책임 경계가 계약으로 관리되는가?
 
-기술사 답안에서는 “민첩성 향상”만 쓰지 말고 “API와 [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 없이는 복잡성 폭증”까지 함께 기술해야 균형 잡힌 판단이 된다. 또한 조직이 업무를 조합 단위로 생각하는 역량을 갖추지 못했다면 구조만 도입해도 효과가 제한적이라고 적으면 좋다.
+기술사 답안에서는 “민첩성 향상”만 쓰지 말고 “API와 [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/) 없이는 복잡성 폭증”까지 함께 기술해야 균형 잡힌 판단이 된다. 또한 조직이 업무를 조합 단위로 생각하는 역량을 갖추지 못했다면 구조만 도입해도 효과가 제한적이라고 적으면 좋다.
 - **📢 섹션 요약 비유**: 반찬 가게 재료가 많아도 냉장고 정리와 메뉴판이 없으면 오히려 주문이 꼬이듯, 조합형 구조일수록 규칙이 더 중요하다.
 
 ## Ⅴ. 기대효과 및 결론
-기대효과는 업무 민첩성, 채널 확장 속도, 벤더 유연성, 기능 재사용성 향상이다. 새 상품이나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 등장했을 때 기존 PBS를 다시 엮어 빠르게 시범 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 내놓을 수 있고, 특정 영역만 교체해도 전체를 재구축하지 않아도 된다.
+기대효과는 업무 민첩성, 채널 확장 속도, 벤더 유연성, 기능 재사용성 향상이다. 새 상품이나 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 등장했을 때 기존 PBS를 다시 엮어 빠르게 시범 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 내놓을 수 있고, 특정 영역만 교체해도 전체를 재구축하지 않아도 된다.
 
-결론적으로 컴포저블 아키텍처는 시스템을 기술 기능의 집합이 아니라 재조합 가능한 비즈니스 블록의 집합으로 바라보게 만든다. 시험에서는 PBS 단위, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선, 조합 계층, [데이터 거버넌스](/knowledge-base/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), 조건부 채택 판단을 함께 쓰면 실무형 답안이 완성된다.
-- **📢 섹션 요약 비유**: 같은 재료 상자에서 오늘은 김밥을, 내일은 비빔밥을 만드는 것처럼 블록을 다시 조합해 다른 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 만들 수 있다.
+결론적으로 컴포저블 아키텍처는 시스템을 기술 기능의 집합이 아니라 재조합 가능한 비즈니스 블록의 집합으로 바라보게 만든다. 시험에서는 PBS 단위, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 우선, 조합 계층, [데이터 거버넌스](/studynote/12_it_management/01_governance_strategy/842_data_governance_framework/), 조건부 채택 판단을 함께 쓰면 실무형 답안이 완성된다.
+- **📢 섹션 요약 비유**: 같은 재료 상자에서 오늘은 김밥을, 내일은 비빔밥을 만드는 것처럼 블록을 다시 조합해 다른 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 빠르게 만들 수 있다.
 
 ### 📌 관련 개념 맵
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>-First</strong>: 구현보다 인터페이스 계약을 먼저 설계해 조합 가능성을 높이는 원칙
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">헤드리스</a> 아키텍처(<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>: 화면 채널과 업무 로직을 분리해 다양한 접점을 빠르게 붙이는 구조
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a></strong>: 업무 경계를 명확히 나눠 PBS 단위를 정의하는 데 유용한 분석 방법
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a></strong>: 현업이 조합 계층을 더 빠르게 구성하도록 돕는 실무 도구군
+- <strong><a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a>-First</strong>: 구현보다 인터페이스 계약을 먼저 설계해 조합 가능성을 높이는 원칙
+- <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">헤드리스</a> 아키텍처(<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/597_headless_cms_architecture/">Headless</a> <a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>: 화면 채널과 업무 로직을 분리해 다양한 접점을 빠르게 붙이는 구조
+- <strong><a href="/studynote/12_it_management/05_security_compliance/310_architecture/">DDD</a></strong>: 업무 경계를 명확히 나눠 PBS 단위를 정의하는 데 유용한 분석 방법
+- <strong><a href="/studynote/12_it_management/05_security_compliance/238_lowcode_nocode_citizen_developer/">LCNC</a></strong>: 현업이 조합 계층을 더 빠르게 구성하도록 돕는 실무 도구군
 
 ### 📈 관련 키워드 및 발전 흐름도
 ```text
@@ -122,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 512 / 530
 
-<- **이전**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/433_process/)
-**다음**: [435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/435_dora/) ->
+<- **이전**: [433. 파이프 필터 쉘 데이터 스트리밍 변환 (Pipe-Filter Pattern)](/studynote/11_design_supervision/06_exam_summary/433_process/)
+**다음**: [435. DORA 메트릭스 리드 타임 배포 빈도 지표 (DORA Metrics for Lead Time and Deployment Frequency)](/studynote/11_design_supervision/06_exam_summary/435_dora/) ->
 
 ---

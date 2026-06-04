@@ -1,18 +1,15 @@
-+++
-title = "035. 무결함 사후 검토 (Blameless Postmortem)"
-date = 2026-03-03
+---
+title: "035. 무결함 사후 검토 (Blameless Postmortem)"
+date: "2026-03-03"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 > **핵심 인사이트**
-> 1. [Blameless Postmortem](/knowledge-base/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)(무결함 사후 검토)은 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)/[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화에서 인시던트 이후 개인 처벌 대신 시스템·프로세스 개선에 집중하는 근본 원인 분석(RCA) 방법론이다.
+> 1. [Blameless Postmortem](/studynote/15_devops_sre/03_sre_observability/128_blameless_postmortem/)(무결함 사후 검토)은 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)/[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 문화에서 인시던트 이후 개인 처벌 대신 시스템·프로세스 개선에 집중하는 근본 원인 분석(RCA) 방법론이다.
 > 2. "사람을 탓하면 더 이상 배울 것이 없다" — 사람이 실수한 이유가 된 시스템 조건을 개선하는 것이 Blameless 문화의 핵심이다.
-> 3. Google [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀에 의해 체계화되었으며, 사후 검토를 팀 학습 기회로 전환해 동일 인시던트 반복을 방지하고 엔지니어 [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감을 높인다.
+> 3. Google [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀에 의해 체계화되었으며, 사후 검토를 팀 학습 기회로 전환해 동일 인시던트 반복을 방지하고 엔지니어 [심리적 안전](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)감을 높인다.
 
 ---
 
@@ -29,11 +26,11 @@ Blameless 접근:
   결과: 투명성, 학습, 신뢰
 ```
 
-| 관점       | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)-중심 (Blame)        | Blameless             |
+| 관점       | [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)-중심 (Blame)        | Blameless             |
 |-----------|-------------------------|-----------------------|
 | 원인 귀결  | "누가 실수했나?"          | "어떤 조건이 실수를 만들었나?" |
 | 처리 결과  | 처벌/징계                | 시스템 개선             |
-| 문화 효과  | 은폐, 두려움              | 투명성, [심리적 안전](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)      |
+| 문화 효과  | 은폐, 두려움              | 투명성, [심리적 안전](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/)      |
 | 학습 효과  | 최소                     | 최대                   |
 
 > 📢 **섹션 요약 비유**: 의사가 수술 실수를 보고하면 처벌받는 병원 vs 분석해서 수술 절차를 개선하는 병원 — 어디가 더 안전한 환자 치료를 하겠는가?
@@ -64,7 +61,7 @@ Postmortem 필수 항목:
    +-- 책임자, 기한, 우선순위 명시
 ```
 
-> 📢 **섹션 요약 비유**: 비행기 사고 조사 보고서처럼 — 조종사를 탓하는 게 아니라 기체 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 관제 절차, 훈련 미흡을 찾아 개선한다.
+> 📢 **섹션 요약 비유**: 비행기 사고 조사 보고서처럼 — 조종사를 탓하는 게 아니라 기체 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 관제 절차, 훈련 미흡을 찾아 개선한다.
 
 ---
 
@@ -96,7 +93,7 @@ Why 5: 왜 마이그레이션이 누락됐나?
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). Postmortem 문화 구축
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). Postmortem 문화 구축
 
 ```
 심리적 안전(Psychological Safety) 조건:
@@ -114,14 +111,14 @@ Google SRE 팀 원칙:
 |-----------------|------------------------------|
 | Postmortem 완료율 | 전체 인시던트 대비 검토 완료 비율 |
 | 액션 아이템 완료율 | 합의된 개선 사항 이행 비율     |
-| [MTTR](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)            | 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 평균 시간 감소 추세  |
+| [MTTR](/studynote/01_computer_architecture/13_reliability_power_management/451_mttr/)            | 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 평균 시간 감소 추세  |
 | 반복 인시던트율   | 동일 원인 재발 건수           |
 
 > 📢 **섹션 요약 비유**: 실수한 직원을 자르면 남은 직원은 실수를 숨긴다 — Blameless는 실수를 숨기지 않는 문화를 만든다.
 
 ---
 
-## V. 실무 시나리오 — [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 Postmortem 운영
+## V. 실무 시나리오 — [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 팀 Postmortem 운영
 
 | 단계         | 활동                                      |
 |-------------|-------------------------------------------|
@@ -129,7 +126,7 @@ Google SRE 팀 원칙:
 | 2 (48시간내) | 기여자 인터뷰, 5-Why 분석                  |
 | 3 (1주일내)  | Postmortem 미팅 (비난 없는 회고)            |
 | 4 (미팅 후)  | 액션 아이템 Jira 티켓화, 담당자 배정        |
-| 5 (격주)     | 액션 아이템 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황 리뷰                 |
+| 5 (격주)     | 액션 아이템 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 상황 리뷰                 |
 | 6 (분기)     | Postmortem 트렌드 분석 (빈도, 유형, 패턴)  |
 
 > 📢 **섹션 요약 비유**: 의사가 매 수술 후 차트를 작성하는 것처럼 — 기록이 쌓여야 패턴이 보이고, 패턴이 보여야 예방이 가능하다.
@@ -200,7 +197,7 @@ Incident.io, Blameless.com 등 SaaS 도구
 
 **진행 상황**: 35 / 373
 
-<- **이전**: [DevOps 토폴로지 (DevOps Topology)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)
-**다음**: [036. 심리적 안전 (Psychological Safety)](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/) ->
+<- **이전**: [DevOps 토폴로지 (DevOps Topology)](/studynote/15_devops_sre/01_culture_methodology/034_devops_topology/)
+**다음**: [036. 심리적 안전 (Psychological Safety)](/studynote/15_devops_sre/01_culture_methodology/036_psychological_safety/) ->
 
 ---

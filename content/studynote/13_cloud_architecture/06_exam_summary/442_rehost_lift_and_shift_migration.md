@@ -1,13 +1,10 @@
-+++
-title = "442. 리호스트 리프트 앤 시프트 마이그레이션 (Rehost Lift and Shift Migration)"
-date = 2026-05-09
+---
+title: "442. 리호스트 리프트 앤 시프트 마이그레이션 (Rehost Lift and Shift Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 442 / 800
 
-<- **이전**: [441. 클라우드 마이그레이션 6R 전략 방법론](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/441_cloud_migration_6r_strategy_methodology/)
-**다음**: [443. 리플랫폼 부분 최적화 마이그레이션](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/443_replatform_partial_optimization_migration/) ->
+<- **이전**: [441. 클라우드 마이그레이션 6R 전략 방법론](/studynote/13_cloud_architecture/06_exam_summary/441_cloud_migration_6r_strategy_methodology/)
+**다음**: [443. 리플랫폼 부분 최적화 마이그레이션](/studynote/13_cloud_architecture/06_exam_summary/443_replatform_partial_optimization_migration/) ->
 
 ---

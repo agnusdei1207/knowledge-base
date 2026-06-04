@@ -1,175 +1,149 @@
-+++
-title = "490. AI 시스템 감리 윤리 편향 검증 (AI System Audit Ethics Bias Validation)"
-date = 2026-05-09
+---
+title: "490. AI 시스템 감리 윤리 편향 검증 (AI System Audit Ethics Bias Validation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: AI 시스템 감리 윤리 편향 검증은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: AI 시스템 감리 윤리 편향 검증은 머신러닝 모델의 학습-배포-운영 전 과정에서 통계적·구조적·인간적 편향(Statistical/Structural/Human Bias)을 정량 지표(Demographic Parity, Equalized Odds, Disparate Impact Ratio)와 국제 표준 프레임워크(NIST AI RMF, ISO/IEC 42001, EU AI Act, AI기본법)를 통해 식별·측정·완화하는 MLOps 거버넌스 체계이다.
+> 2. **가치**: 편향 검증 자동화 파이프라인 구축 시 모델 출시 전 편향 결함 검출률 95% 이상, GDPR/AI Act 컴플라이언스 패스율 향상, 모델 카드(Model Card)·데이터시트(Datasheet)·시스템 카드(System Card) 기반의 재현 가능한 감사 추적성(Auditability) 확보로 사회적 신뢰도 및 법적 리스크 70% 이상 절감이 가능하다.
+> 3. **판단 포인트**: 그룹 공정성(Group Fairness) vs 개인 공정성(Individual Fairness)·인과적 공정성(Counterfactual Fairness) 간 트레이드오프, 정확도-공정성 희생(Accuracy-Fairness Trade-off) 조정, 설명가능성(Explainability)·프라이버시(Differential Privacy)·성능 간의 다목적 최적화, 그리고 High-Risk AI 시스템 분류에 따른 신뢰성 등급(신뢰성 1~3등급) 결정이 핵심 의사결정 사안이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-AI 시스템 감리 윤리 편향 검증은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+AI 시스템이 채용·신용평가·의료진단·형사사법 등 사회 인프라 핵심 영역에 도입됨에 따라, 학습 데이터의 역사적 편향(Historical Bias), 표본 추출의 대표성 결여(Sampling Bias), 라벨링 주체의 인지적 편향(Cognitive Bias) 등으로부터 파생되는 **알고리즘 차별**이 새로운 사회적 위험으로 부상하고 있다. 2018년 아마존 채용 AI의 여성 차별 사건, 2020년 COMPAS 재범 예측 AI의 인종 편향 논란, 2019년 Apple Card의 성별 신용한도 차별 등은 단순한 기술적 오류가 아닌 **시스템적·구조적 차별**을 AI가 자동 재생산하는 문제를 드러냈다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, AI System Audit Ethics Bias Validation 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이에 EU는 2024년 8월 발효된 **AI Act**를 통해 위험 등급(금지·고위험·제한적·최소위험)별로 차별적 편향을 식별 가능한 시스템의 배포를 의무화하였고, 한국은 2025년 1월 발효된 **AI 기본법(인공지능 발전과 신뢰 기반 조성 등에 관한 기본법)**과 **AI 신뢰성 평가 가이드라인(NIA, KISA)**을 통해 국가 차원의 AI 감리 체계 구축을 추진 중이다. 기술사 입장에서 AI 시스템 감리는 단순 코드 리뷰를 넘어 **데이터 거버넌스 -> 모델 학습 -> 배포 전 검증(Pre-deployment Audit) -> 운영 중 모니터링(Continuous Monitoring) -> 사후 책임 추적(Accountability Trail)**의 전 생애주기를 아우르는 다층적 검증 체계를 의미한다.
+
+기존 정보시스템 감리가 기능·보안·성능 중심으로 수행되었다면, AI 시스템 감리는 여기에 **공정성(Fairness)·투명성(Transparency)·설명가능성(Explainability)·프라이버시(Privacy)·안전성(Safety)·책임성(Accountability)**의 6대 윤리 원칙(거버넌스 6F 원칙)을 추가 검증한다. 이는 통계적 학습 모델의 **블랙박스 속성(Opacity)**과 **분포 이동(Distribution Shift)**에 기인하는 본질적 불확실성을 관리하기 위한 새로운 패러다임이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    AI 시스템 감리 윤리 편향 검증 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   +--------------------------------------------------------------+
+   |          AI 시스템 감리 윤리 편향 검증 생명주기(Lifecycle)         |
+   +--------------------------------------------------------------+
+
+   +----------+    +----------+    +----------+    +----------+
+   | ① 기획   | ->  | ② 개발   | ->  | ③ 검증   | ->  | ④ 배포   |
+   |  Plan    |    |  Develop |    |  Verify  |    | Deploy   |
+   +----------+    +----------+    +----------+    +----------+
+   |              |              |              |
+   +- 영향평가    +- 데이터 감사   +- 편향 지표   +- 모델 카드
+   |  (AIA/FIA)  |  (DPIA)      |  측정         |  (Model Card)
+   +- 윤리위원회  +- 라벨 검증    +- XAI 평가   +- 데이터시트
+   |  승인        |  (IAA)      |  (SHAP/LIME)|  (Datasheet)
+   +- 위험 분류   +- 사전 검증    +- 적대적 테스트 +- 출시 승인
+      (고위험)      (Pre-checks)   (Red Team)    (Go/No-Go)
+                         |              |              |
+                         v              v              v
+                  +------------------------------------------+
+                  |   ⑤ 운영·모니터링 (Continuous Monitoring)  |
+                  |  - 분포 이동 감지 (Data Drift, Concept Drift) |
+                  |  - 성능 저하 알람 (Performance Degradation)  |
+                  |  - 편향 재발 모니터링 (Bias Re-emergence)   |
+                  +------------------------------------------+
+                                       |
+                                       v
+                  +------------------------------------------+
+                  |  ⑥ 사후 감사 (Post-hoc Audit & Feedback)   |
+                  |  - 인과 분석 (Root Cause Analysis)         |
+                  |  - 책임 추적 (Accountability Log)         |
+                  |  - 재학습 트리거 (Retrain Trigger)         |
+                  +------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 IT 감리 vs AI 시스템 감리의 패러다임 전환**:
+- **기존**: 결정론적 시스템(Deterministic) -> 입력-출력 1:1 매핑, 코드 경로 100% 커버리지 가능
+- **AI**: 확률론적 시스템(Probabilistic) -> 동일 입력에 대한 확률적 출력, 데이터 의존성으로 100% 검증 불가, **통계적 보증(Statistical Guarantee)** 개념 도입 필요
 
-- **📢 섹션 요약 비유**: AI 시스템 감리 윤리 편향 검증은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: AI 시스템 감리 윤리 편향 검증은 마치 **의사의 진단·처방 과정에 '환자 안전성 평가 위원회'를 추가하는 것**과 같습니다. 단순히 "약을 잘 처방했는가"뿐 아니라 "이 약이 특정 성별·연령대에게 부작용은 없는가", "설명 가능한 진단 근거가 있는가", "사후에 부작용 추적이 되는가"까지 총체적으로 검증하는 의료 윤리 시스템이라 할 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AI 시스템 감리 윤리 편향 검증의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+AI 윤리 편향 검증 아키텍처는 크게 **① 편향 측정 엔진(Bias Measurement Engine)**, **② 설명가능성 분석 모듈(XAI Module)**, **③ 프라이버시 보호 계층(Privacy-Preserving Layer)**, **④ 거버넌스 오케스트레이터(Governance Orchestrator)**, **⑤ 감사 추적 저장소(Audit Trail Repository)**의 5계층으로 구성된다.
 
 ```text
-+--------------------------------------------------------------+
-|              AI System Audit Ethics Bias Validation 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+        +--------------------------------------------------------+
+        |        AI 시스템 감리 윤리 편향 검증 참조 아키텍처          |
+        +--------------------------------------------------------+
+
+   +--------------------------------------------------------------+
+   |  Layer 5: 거버넌스 오케스트레이터 (Governance Orchestrator)      |
+   |  - AI 윤리위원회 워크플로우 (Workflow)                           |
+   |  - 위험 등급 분류기 (Risk Classifier: High/Limited/Minimal)     |
+   |  - 정책 엔진 (OPA/Rego Rules)                                  |
+   |  - 컴플라이언스 매핑 (AI Act, AI기본법, NIST AI RMF)            |
+   +--------------------------------------------------------------+
+                                ^           ^
+                                |           |
+   +--------------------------+ |           | +---------------------+
+   | Layer 4: 감사 추적        | |           | | Layer 1: 편향 측정    |
+   | (Audit Trail)            | |           | | (Bias Measurement)   |
+   |                          | |           | |                      |
+   | - WORM 저장소 (불변)      | |           | | - AIF360 (IBM)        |
+   | - 데이터 출처 (Provenance)| |           | | - Fairlearn (MS)      |
+   | - 모델 버전 (DVC, MLflow) | |           | | - What-If Tool        |
+   | - 결정 로그 (Decision Log)| |           | | - FairML              |
+   | - SHA-256 체인 해시      | |           | | - Aequitas             |
+   +--------------------------+ |           | +---------------------+
+                                |           |
+                                |           v
+   +--------------------------+ |   +-----------------------------+
+   | Layer 3: 프라이버시 보호  | |   | Layer 2: 설명가능성 (XAI)     |
+   | (Privacy-Preserving)     | |   |                              |
+   |                          | |   | - SHAP (SHapley Additive)     |
+   | - Differential Privacy   | |   | - LIME (Local Surrogate)      |
+   |   (ε-DP, Laplace/Gaussian)| |  | - Anchors                     |
+   | - Federated Learning     | |   | - Counterfactual (DiCE)       |
+   | - 동형암호 (Homomorphic)  | |   | - Integrated Gradients        |
+   | - Secure Multi-Party Comp| |   | - Attention Visualization      |
+   | - k-익명성, l-다양성,     | |   | - Prototype Networks          |
+   |   t-근접성               | |   |                              |
+   +--------------------------+ |   +-----------------------------+
+                                |
+   +--------------------------+ |   +-----------------------------+
+   | 데이터 계층 (Data Layer)  |<-+   ->|  모델 계층 (Model Layer)      |
+   |                          |       |                              |
+   | - 학습 데이터 (Training)   |       | - 사전 학습 모델 (Foundation)  |
+   | - 검증 데이터 (Validation) |       | - 미세조정 모델 (Fine-tuned)   |
+   | - 테스트 데이터 (Test)     |       | - LLM (GPT, Claude, Llama)   |
+   | - 합성 데이터 (Synthetic)  |       | - 멀티모달 모델 (CLIP, BLIP)  |
+   | - 카운터팩추얼 데이터      |       | - 의사결정 시스템 (DSS)        |
+   +--------------------------+       +-----------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **편향 측정 엔진 (Bias Measurement Engine)** | 학습/검증/운영 데이터 및 모델 예측의 편향 정량 측정 | IBM **AIF360**(`BinaryLabelDatasetMetric`, `ClassificationMetric`) -> **Disparate Impact Ratio(DIR) = min(P(Ŷ=1\|G≠g_ref)/P(Ŷ=1\|G=g_ref))`**, **Statistical Parity Difference(SPD) = P(Ŷ=1\|G=0) - P(Ŷ=1\|G=1)`, **Equal Opportunity Difference(EOD)**, **Average Odds Difference(AOD)**. MS **Fairlearn**의 `MetricFrame`, `selection_rate` 및 `demographic_parity_difference` 함수 활용. 단일 임계값(threshold=0.5) 대신 **임계값 최적화(ThresholdOptimizer)**로 그룹별 ROC 곡선의 교차점에서 임계값 도출하여 Equalized Odds 충족 |
+| **설명가능성 모듈 (XAI Module)** | 모델의 블랙박스 결정 근거를 인간이 이해 가능한 형태로 변환 | **SHAP (SHapley Additive exPlanations)**: 게임 이론의 Shapley Value 기반, `φ_i = Σ_{S⊆F\{i}} \|S\|!(\|F\|-\|S\|-1)!/\|F\|! × [f(S∪{i}) - f(S)]`로 각 피처의 한계 기여도 계산, **TreeSHAP**(트리 모델 O(TLD²)), **KernelSHAP**(모델 무관, Kernel 근사), **DeepSHAP**(딥러닝 DeepLIFT 결합). **LIME (Local Interpretable Model-agnostic Explanations)**: 국소 영역에서 선형 surrogate `f(x) ≈ w·x + b` 학습, **DiCE (Diverse Counterfactual Explanations)**: 최소 변경으로 반대 클래스 도출하는 카운터팩추얼 생성, **Integrated Gradients**: `IG_i(x) = (x_i - x'_i) × ∫₀¹ ∂F(x'+α(x-x'))/∂x_i dα`로 속성 경로 적분 |
+| **프라이버시 보호 계층 (Privacy-Preserving Layer)** | 학습 데이터의 개인정보 노출 위험 제어 | **차등 프라이버시(Differential Privacy, DP)**: `Pr[M(D) ∈ S] ≤ e^ε × Pr[M(D') ∈ S] + δ` where D, D'는 한 레코드 차이. **DP-SGD (Differentially Private Stochastic Gradient Descent)**: 그래디언트 클리핑 `‖g_i‖ ≤ C` 후 가우시안 노이즈 `N(0, σ²C²I)` 추가, **RDP(Rényi DP)**, **Moments Accountant**로 프라이버시 손실(ε, δ) 누적 추적. **연합 학습(Federated Learning)**: FedAvg 알고리즘으로 클라이언트 가중치 평균, **Secure Aggregation**으로 개별 업데이트 암호화 |
+| **거버넌스 오케스트레이터 (Governance Orchestrator)** | 정책-규정-위험 등급 매핑 및 자동화 의사결정 | **OPA(Open Policy Agent) + Rego** 정책 언어로 규칙 코딩, **HashiCorp Vault**로 시크릿 관리, **Camunda/BPMN** 워크플로우 엔진으로 윤리위원회 승인 단계 구현, **Argo Workflows**로 모델 배포 게이트(Gate) 강제. **EU AI Act Article 9**의 위험관리 시스템 -> ISO/IEC 42001 Annex A 통제 항목 -> 내부 통제 매핑 자동화 |
+| **감사 추적 저장소 (Audit Trail Repository)** | 모든 결정/학습/배포 이벤트의 불변(immutable) 기록 | **WORM(Write Once Read Many) 스토리지** (AWS S3 Object Lock, Azure Blob Immutable Blob Policy), **블록체인 앵커링**(Hash 체인을 Hyperledger Fabric에 기록), **데이터 카탈로그**(DataHub, Amundsen, Apache Atlas)로 데이터 계보(Lineage) 추적, **MLflow Model Registry** + **DVC(Data Version Control)**로 모델·데이터·하이퍼파라미터 버전 관리, **Sigstore/Cosign**로 모델 아티팩트 서명 및 검증 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 수학적 지표 (Key Mathematical Metrics)**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Demographic Parity (통계적 균등)**:
+   - `P(Ŷ=1 | A=a) = P(Ŷ=1 | A=b)` for all groups a, b
+   - 위반 시: `SPD = P(Ŷ=1 | A=0) - P(Ŷ=1 | A=1)`, 허용 범위: |SPD| ≤ 0.1 (4/5 룰의 80% 규칙)
 
----
+2. **Equalized Odds (균등화된 확률)**:
+   - `P(Ŷ=1 | A=a, Y=y) = P(Ŷ=1 | A=b, Y=y)` for all groups a, b, y ∈ {0,1}
+   - False Positive Rate, True Positive Rate 모두 그룹 간 동일
 
-## Ⅲ. 비교 및 연결
-
-AI 시스템 감리 윤리 편향 검증을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | AI 시스템 감리 윤리 편향 검증 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. AI 시스템 감리 윤리 편향 검증은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 AI 시스템 감리 윤리 편향 검증은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 AI 시스템 감리 윤리 편향 검증을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-AI 시스템 감리 윤리 편향 검증을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, AI 시스템 감리 윤리 편향 검증 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: AI 시스템 감리 윤리 편향 검증은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | AI 시스템 감리 윤리 편향 검증의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | AI 시스템 감리 윤리 편향 검증의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-AI 시스템 감리 윤리 편향 검증 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. AI 시스템 감리 윤리 편향 검증은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+3. **Disparate Impact Ratio (차별적 영향 비율)**:
+   - `DIR = min_g [P(Ŷ=1 | G=g) / P(Ŷ=1 | G=g_ref)]`
+   - 미국 EEOC(Equal Employment Opportunity Commission) 기준 **DIR ≥ 0.8** (4/5 규
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 490 / 600
 
-<- **이전**: [489. 클라우드 감리 SLA 준수 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/490_cloud_audit_sla_compliance_evaluation/)
-**다음**: [491. 애자일 프로젝트 감리 방법론](/knowledge-base/studynote/11_design_supervision/06_exam_summary/491_agile_project_audit_methodology/) ->
+<- **이전**: [489. 클라우드 감리 SLA 준수 평가](/studynote/11_design_supervision/06_exam_summary/490_cloud_audit_sla_compliance_evaluation/)
+**다음**: [491. 애자일 프로젝트 감리 방법론](/studynote/11_design_supervision/06_exam_summary/491_agile_project_audit_methodology/) ->
 
 ---

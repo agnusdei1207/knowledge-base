@@ -1,13 +1,10 @@
-+++
-title = "464. 데이터베이스 퍼 서비스 독립 저장소 (Database per Service Independent Storage)"
-date = 2026-05-09
+---
+title: "464. 데이터베이스 퍼 서비스 독립 저장소 (Database per Service Independent Storage)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ Database per Service는 MSA 데이터 관리의 3대 대표 패턴 중 하나이
 
 **진행 상황**: 464 / 600
 
-<- **이전**: [463. 아웃박스 패턴 메시지 보장](/knowledge-base/studynote/11_design_supervision/06_exam_summary/464_outbox_pattern/)
-**다음**: [465. 분산 추적 상관 관계 ID 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/465_distributed_tracing/) ->
+<- **이전**: [463. 아웃박스 패턴 메시지 보장](/studynote/11_design_supervision/06_exam_summary/464_outbox_pattern/)
+**다음**: [465. 분산 추적 상관 관계 ID 패턴](/studynote/11_design_supervision/06_exam_summary/465_distributed_tracing/) ->
 
 ---

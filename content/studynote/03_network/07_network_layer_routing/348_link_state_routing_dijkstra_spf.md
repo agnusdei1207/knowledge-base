@@ -1,30 +1,27 @@
-+++
-title = "348. 링크 상태 (Link State) 라우팅 알고리즘"
-date = 2026-05-08
+---
+title: "348. 링크 상태 (Link State) 라우팅 알고리즘"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 각 라우터가 네트워크 전체의 토폴로지(Topology, 연결 상태) 정보를 LSA(Link [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Advertisement) 패킷으로 수집해 독자적인 데이터베이스를 구축하고, [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 최적 경로를 계산하는 [IGP](/knowledge-base/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계열 ([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [IS-IS](/knowledge-base/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)).
-- **필요성**: 구형 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 라우터가 15개만 넘어가도 소문이 전달되는 데 몇 분이 걸려 인터넷이 마비되었고, "내 앞이 끊어졌는데 니 앞이 뚫려있다고 뻥치냐?"라며 무한 루프에 빠져 죽어버렸다. 거대해진 대기업 사내망을 버텨내려면, <strong>"라우터 CPU가 연산하느라 좀 고생하더라도, 차라리 찝찝한 소문을 믿지 말고 모든 라우터가 100% 동일한 전체 지도를 공유하게 만들자!"</strong>라는 발상의 전환이 링크 상태의 위대한 탄생 배경이다.
+- **개념**: 각 라우터가 네트워크 전체의 토폴로지(Topology, 연결 상태) 정보를 LSA(Link [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Advertisement) 패킷으로 수집해 독자적인 데이터베이스를 구축하고, [SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 최적 경로를 계산하는 [IGP](/studynote/03_network/07_network_layer_routing/345_igp_interior_gateway_protocol_rip_ospf/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계열 ([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/), [IS-IS](/studynote/03_network/07_network_layer_routing/363_is_is_intermediate_system_clnp_telecom/)).
+- **필요성**: 구형 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)([RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 라우터가 15개만 넘어가도 소문이 전달되는 데 몇 분이 걸려 인터넷이 마비되었고, "내 앞이 끊어졌는데 니 앞이 뚫려있다고 뻥치냐?"라며 무한 루프에 빠져 죽어버렸다. 거대해진 대기업 사내망을 버텨내려면, <strong>"라우터 CPU가 연산하느라 좀 고생하더라도, 차라리 찝찝한 소문을 믿지 말고 모든 라우터가 100% 동일한 전체 지도를 공유하게 만들자!"</strong>라는 발상의 전환이 링크 상태의 위대한 탄생 배경이다.
 
 - **💡 비유**: 링크 상태는 1,000피스짜리 <strong>"직소 퍼즐 맞추기"</strong>와 같습니다.
-  - [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)가 남이 완성해 놓은 퍼즐 그림을 말로만 전해 듣는 것이라면, 링크 상태는 **동네 사람들 1,000명이 자기가 가진 퍼즐 조각(LSA)을 테이블 중앙에 모조리 쏟아붓습니다(Flooding)**.
-  - 모든 사람이 각자 조각을 맞춰서 똑같은 '동네 전체 풍경 그림(토폴로지 DB)'을 완성한 뒤, 자기 위치에서 부산까지 가는 최적의 펜 선([다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쭉 그어버립니다.
+  - [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)가 남이 완성해 놓은 퍼즐 그림을 말로만 전해 듣는 것이라면, 링크 상태는 **동네 사람들 1,000명이 자기가 가진 퍼즐 조각(LSA)을 테이블 중앙에 모조리 쏟아붓습니다(Flooding)**.
+  - 모든 사람이 각자 조각을 맞춰서 똑같은 '동네 전체 풍경 그림(토폴로지 DB)'을 완성한 뒤, 자기 위치에서 부산까지 가는 최적의 펜 선([다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 쭉 그어버립니다.
 
 ```text
 [거리 벡터 라우팅 알고리즘]
@@ -35,26 +32,26 @@ tags = ["studynote-network"]
     +---> [거리 벡터 라우팅 루프 방지]
 ```
 
-- **📢 섹션 요약 비유**: ** 링크 상태는 내 머리 위에 개인용 **"정찰 드론"**을 띄워 도시 전체의 교통 상황을 CCTV로 한눈에 굽어보면서(토폴로지 공유), 막힌 길을 피해 가장 쾌적한 도로를 내 머리로 직접 계산해 내는([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 완벽한 자율 주행 시스템입니다.
+- **📢 섹션 요약 비유**: ** 링크 상태는 내 머리 위에 개인용 **"정찰 드론"**을 띄워 도시 전체의 교통 상황을 CCTV로 한눈에 굽어보면서(토폴로지 공유), 막힌 길을 피해 가장 쾌적한 도로를 내 머리로 직접 계산해 내는([SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) 완벽한 자율 주행 시스템입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 퍼즐 조각 던지기: LSA Flooding
-- 링크 상태 라우터([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))가 부팅되면 자기 몸에 꽂힌 랜선 상태를 점검한다. "내 1번 팔은 1Gbps 속도고 192.x 망이랑 연결됨."
-- 이 상태 정보가 담긴 엽서를 <strong>LSA (Link <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Advertisement)</strong>라고 부른다.
+- 링크 상태 라우터([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))가 부팅되면 자기 몸에 꽂힌 랜선 상태를 점검한다. "내 1번 팔은 1Gbps 속도고 192.x 망이랑 연결됨."
+- 이 상태 정보가 담긴 엽서를 <strong>LSA (Link <a href="/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/">State</a> Advertisement)</strong>라고 부른다.
 - 라우터는 이 LSA 엽서를 **이웃들에게 무작정 복사해서 뿌려댄다(Flooding)**. 이웃들도 받으면 또 복사해서 넘긴다. 결과적으로 1초 만에 전국의 모든 라우터가 이 LSA 엽서를 똑같이 수집하게 된다.
 
-### 2. 지도 완성: [LSDB](/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/) (Link [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/)) 구축
+### 2. 지도 완성: [LSDB](/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/) (Link [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Database](/studynote/05_database/04_transactions_concurrency/501_database/)) 구축
 - 모든 라우터는 수집한 100개의 LSA 엽서를 모아 커다란 스케치북에 동네 입체 지도를 완성한다.
-- 이것을 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> (토폴로지 테이블)</strong>라고 부르며, 한 지역(Area) 안에 있는 100대의 라우터는 메모리 속에 <strong>100% 토시 하나 안 틀리고 완벽하게 동일한 <a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> 지도</strong>를 가지게 된다.
+- 이것을 <strong><a href="/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> (토폴로지 테이블)</strong>라고 부르며, 한 지역(Area) 안에 있는 100대의 라우터는 메모리 속에 <strong>100% 토시 하나 안 틀리고 완벽하게 동일한 <a href="/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a> 지도</strong>를 가지게 된다.
 
-### 3. 나만의 지름길 파기: [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 가동
+### 3. 나만의 지름길 파기: [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 가동
 지도를 완성했으면 라우터의 두뇌(CPU)가 미친 듯이 회전하기 시작한다.
 - 지도는 똑같지만 라우터마다 자기 서 있는 '위치'가 다르다.
-- 라우터는 자기 자신을 나무의 뿌리(Root)로 삼고, [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식을 팽팽 돌려 <strong>가장 코스트(<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 점수)가 싼 길만 남기고 나머지 잔가지를 다 쳐내 버린다</strong>.
-- 이렇게 예쁘게 깎아낸 소나무 모양의 뼈대를 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> Tree (<a href="/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First Tree)</strong>라고 부른다. 라우터는 이 트리 정보 중 알맹이만 쏙 빼서 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 최종 등재한다.
+- 라우터는 자기 자신을 나무의 뿌리(Root)로 삼고, [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) 수학 공식을 팽팽 돌려 <strong>가장 코스트(<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 점수)가 싼 길만 남기고 나머지 잔가지를 다 쳐내 버린다</strong>.
+- 이렇게 예쁘게 깎아낸 소나무 모양의 뼈대를 <strong><a href="/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/">SPF</a> Tree (<a href="/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/">Shortest Path</a> First Tree)</strong>라고 부른다. 라우터는 이 트리 정보 중 알맹이만 쏙 빼서 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 최종 등재한다.
 
 ```text
  +-------------------------------------------------------------+
@@ -75,52 +72,52 @@ tags = ["studynote-network"]
 ```
 
 ### 4. 이벤트 기반 갱신 (Event-driven Update)의 위력
-- RIP처럼 30초마다 수첩 전체를 복사해서 뿌리는 미친 짓([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비)을 하지 않는다.
+- RIP처럼 30초마다 수첩 전체를 복사해서 뿌리는 미친 짓([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비)을 하지 않는다.
 - 평소엔 조용히 있다가, 포크레인이 2번 선로를 끊어먹는 <strong>이벤트(변화)</strong>가 발생했을 때만, 즉시 해당 라우터가 "삐용! 2번 링크 죽음!"이라는 **딱 한 줄짜리 LSA 변경분만** 빛의 속도로 뿌린다.
-- 이 소식을 들은 100대의 라우터는 즉시 [SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 공식을 0.1초 만에 다시 돌려서 우회로를 뚫어버린다. (수렴 시간이 기가 막히게 빠르다).
+- 이 소식을 들은 100대의 라우터는 즉시 [SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 공식을 0.1초 만에 다시 돌려서 우회로를 뚫어버린다. (수렴 시간이 기가 막히게 빠르다).
 
-- **📢 섹션 요약 비유**: <strong> <a href="/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 거대한 미로(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)에 갇혔을 때, 하늘에서 헬기를 타고 미로 전체 지도를 쫙 내려다본 다음, 형광펜으로 </strong>"가장 코스트가 적게 드는 탈출구까지의 굵은 선([SPF](/knowledge-base/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 트리)"**을 단숨에 그어버리는 천재적인 일필휘지입니다.
+- **📢 섹션 요약 비유**: <strong> <a href="/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/">다익스트라</a> <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 거대한 미로(<a href="/studynote/03_network/19_frequent_topics_terms/961_ospf_link_state_database_dijkstra_spf_routing/">LSDB</a>)에 갇혔을 때, 하늘에서 헬기를 타고 미로 전체 지도를 쫙 내려다본 다음, 형광펜으로 </strong>"가장 코스트가 적게 드는 탈출구까지의 굵은 선([SPF](/studynote/03_network/09_application_layer_web_email/495_spf_sender_policy_framework/) 트리)"**을 단숨에 그어버리는 천재적인 일필휘지입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기반 조건을 만든다면, 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 위에서 핵심 메커니즘을 구현하고, [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 기반 조건을 만든다면, 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 위에서 핵심 메커니즘을 구현하고, [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반 정리 | 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 동작 | [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지의 확장 적용 |
+| 초점 | [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 기반 정리 | 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심 동작 | [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수준의 기본 대책으로 충분한지, 아니면 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 수준의 기본 대책으로 충분한지, 아니면 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와의 연계 방식을 함께 검증한다.
+2. 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
+- [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
-- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
+- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지, 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -128,10 +125,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -145,7 +142,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-링크 상태 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+링크 상태 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)는 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 루프 방지와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -159,7 +156,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 469 / 1120
 
-<- **이전**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)
-**다음**: [349. 거리 벡터 라우팅 루프 방지](/knowledge-base/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/) ->
+<- **이전**: [347. 거리 벡터 (Distance Vector) 라우팅 알고리즘](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)
+**다음**: [349. 거리 벡터 라우팅 루프 방지](/studynote/03_network/07_network_layer_routing/349_distance_vector_loop_prevention_split_horizon_poison_reverse/) ->
 
 ---

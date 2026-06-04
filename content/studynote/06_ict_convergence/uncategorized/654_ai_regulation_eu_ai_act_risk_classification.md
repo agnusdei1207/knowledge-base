@@ -1,13 +1,10 @@
-+++
-title = "654. AI 규제 EU AI Act 위험 등급 (AI Regulation EU AI Act Risk Classification)"
-date = 2026-05-09
+---
+title: "654. AI 규제 EU AI Act 위험 등급 (AI Regulation EU AI Act Risk Classification)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ EU AI Act의 규율 아키텍처는 **위험 등급 분류 -> 의무 부과 -> �
 
 **진행 상황**: 654 / 800
 
-<- **이전**: [653. AI 윤리 편향 공정성 설명 가능성](/knowledge-base/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/)
-**다음**: [655. 연합 학습 프라이버시 보존 분산 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/) ->
+<- **이전**: [653. AI 윤리 편향 공정성 설명 가능성](/studynote/06_ict_convergence/uncategorized/653_ai_ethics_bias_fairness_explainability/)
+**다음**: [655. 연합 학습 프라이버시 보존 분산 학습](/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "432. 프로젝트 관리 PMBOK 원칙 적용 (Project Management PMBOK Application)"
-date = 2026-05-09
+---
+title: "432. 프로젝트 관리 PMBOK 원칙 적용 (Project Management PMBOK Application)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ PMBOK 7th Edition의 핵심 구조는 **12 Principles of Project Management**, *
 
 **진행 상황**: 432 / 800
 
-<- **이전**: [431. IT 인력 관리 역량 모델 교육](/knowledge-base/studynote/12_it_management/05_security_compliance/431_it_human_resource_capability_model/)
-**다음**: [433. 프로그램 관리 포트폴리오 최적화](/knowledge-base/studynote/12_it_management/05_security_compliance/433_program_management_portfolio_optimization/) ->
+<- **이전**: [431. IT 인력 관리 역량 모델 교육](/studynote/12_it_management/05_security_compliance/431_it_human_resource_capability_model/)
+**다음**: [433. 프로그램 관리 포트폴리오 최적화](/studynote/12_it_management/05_security_compliance/433_program_management_portfolio_optimization/) ->
 
 ---

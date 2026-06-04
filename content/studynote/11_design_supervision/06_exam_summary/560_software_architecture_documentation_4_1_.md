@@ -1,13 +1,10 @@
-+++
-title = "560. SW 아키텍처 문서화 4+1 뷰 (Software Architecture Documentation 4+1 View)"
-date = 2026-05-09
+---
+title: "560. SW 아키텍처 문서화 4+1 뷰 (Software Architecture Documentation 4+1 View)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -130,7 +127,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 560 / 600
 
-<- **이전**: [559. 아키텍처 거버넌스 원칙 가이드라인](/knowledge-base/studynote/11_design_supervision/06_exam_summary/560_architecture_governance_principles_guide/)
-**다음**: [561. 아키텍처 평가 ATAM CBAM 트레이드오프](/knowledge-base/studynote/11_design_supervision/06_exam_summary/561_architecture_evaluation_atam_cbam_tradeo/) ->
+<- **이전**: [559. 아키텍처 거버넌스 원칙 가이드라인](/studynote/11_design_supervision/06_exam_summary/560_architecture_governance_principles_guide/)
+**다음**: [561. 아키텍처 평가 ATAM CBAM 트레이드오프](/studynote/11_design_supervision/06_exam_summary/561_architecture_evaluation_atam_cbam_tradeo/) ->
 
 ---

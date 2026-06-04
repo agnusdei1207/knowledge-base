@@ -1,9 +1,9 @@
-+++
-title = "02. IT 서비스 관리 (ITSM) 및 ITIL v4"
+---
+title: "02. IT 서비스 관리 (ITSM) 및 ITIL v4"
+tags:
+  - "it_management"
+---
 
-[extra]
-tags = ["it_management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

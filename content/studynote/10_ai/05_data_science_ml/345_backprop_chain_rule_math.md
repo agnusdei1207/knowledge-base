@@ -1,35 +1,32 @@
-+++
-title = "345. 역전파 편미분 (Backpropagation)"
-date = 2026-05-09
+---
+title: "345. 역전파 편미분 (Backpropagation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 을 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 에 적용해, [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 각 파라미터에 대한 편미분 ∂L/∂w 를 출력층에서 입력층 방향으로 효율적으로 계산하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 없이는 파라미터 수가 수십억 개인 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 의 학습이 불가능하며, 자동 미분 ([Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/)) 엔진 (PyTorch, TensorFlow) 은 모두 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 자동화한 것이다.
-> 3. **판단 포인트**: 수치 미분 (Numerical Gradient) 은 O(d) 번 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/)가 필요해 O(d) 비용이지만, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 단 한 번의 역방향 패스로 모든 편미분을 O(1) 비율로 계산한다는 계산 복잡도 차이를 명시해야 한다.
+> 1. **본질**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) 는 연쇄 법칙 (Chain Rule) 을 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 에 적용해, [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 각 파라미터에 대한 편미분 ∂L/∂w 를 출력층에서 입력층 방향으로 효율적으로 계산하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 없이는 파라미터 수가 수십억 개인 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 의 학습이 불가능하며, 자동 미분 ([Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/)) 엔진 (PyTorch, TensorFlow) 은 모두 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)를 자동화한 것이다.
+> 3. **판단 포인트**: 수치 미분 (Numerical Gradient) 은 O(d) 번 [순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/)가 필요해 O(d) 비용이지만, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 단 한 번의 역방향 패스로 모든 편미분을 O(1) 비율로 계산한다는 계산 복잡도 차이를 명시해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 등장 배경
+### [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 등장 배경
 
-[경사 하강법](/knowledge-base/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)) 으로 신경망을 학습하려면 모든 파라미터에 대한 [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 편미분이 필요하다. 파라미터 수 d 에 대해:
+[경사 하강법](/studynote/10_ai/03_llm_nlp/275_gradient_descent_sgd/) ([Gradient Descent](/studynote/08_algorithm_stats/10_linear_algebra/165_gradient_descent/)) 으로 신경망을 학습하려면 모든 파라미터에 대한 [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)의 편미분이 필요하다. 파라미터 수 d 에 대해:
 
 | 방법 | 계산 방식 | 비용 | 한계 |
 |:---|:---|:---:|:---|
-| 수치 미분 (Numerical Gradient) | (f(w+ε)-f(w-ε))/2ε | O(d) | 파라미터 1개당 2번 [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) |
+| 수치 미분 (Numerical Gradient) | (f(w+ε)-f(w-ε))/2ε | O(d) | 파라미터 1개당 2번 [순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) |
 | 기호 미분 (Symbolic Differentiation) | 수식 표현 | O(d) | 중간 수식 폭발적 증가 |
-| [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 역방향 | O(1)* | 한 번으로 모든 편미분 |
+| [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 역방향 | O(1)* | 한 번으로 모든 편미분 |
 
-*전체 비용은 O([순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용) 의 상수 배
+*전체 비용은 O([순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용) 의 상수 배
 
 ```text
 +----------------------------------------------+
@@ -40,7 +37,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "모든 사원의 성과급을 계산할 때, 각 사원을 하나씩 회의실에 불러 따로 평가하는(수치 미분) 대신, 전체 회의에서 한 번에 책임 분담을 계산하는([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/))" 방법이다.
+- **📢 섹션 요약 비유**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "모든 사원의 성과급을 계산할 때, 각 사원을 하나씩 회의실에 불러 따로 평가하는(수치 미분) 대신, 전체 회의에서 한 번에 책임 분담을 계산하는([역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/))" 방법이다.
 
 ---
 
@@ -64,7 +61,7 @@ tags = ["studynote-ai"]
                 = loss'(a) · σ'(z) · x
 ```
 
-### 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)
+### 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Computational [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 와 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)
 
 ```
   순전파 (Forward Pass): 좌 -> 우
@@ -88,7 +85,7 @@ tags = ["studynote-ai"]
   +---------------------------------------------------+
 ```
 
-### 2층 신경망 전체 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수식 전개
+### 2층 신경망 전체 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 수식 전개
 
 ```
   구조: x -> [Linear 1] -> h -> [ReLU] -> a -> [Linear 2] -> y -> [MSE] -> L
@@ -122,28 +119,28 @@ tags = ["studynote-ai"]
   비용: 역전파 1회 = O(순전파 비용의 ~3배)
 ```
 
-- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 연쇄 법칙은 "공장 라인에서 불량 원인을 역추적할 때, 최종 불량품에서 시작해 각 공정의 기여도를 뒤로 거슬러 계산하는" 불량 원인 분석이다.
+- **📢 섹션 요약 비유**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 연쇄 법칙은 "공장 라인에서 불량 원인을 역추적할 때, 최종 불량품에서 시작해 각 공정의 기여도를 뒤로 거슬러 계산하는" 불량 원인 분석이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode vs Reverse Mode 자동 미분
+### [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode vs Reverse Mode 자동 미분
 
-| 항목 | [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode | Reverse Mode ([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
+| 항목 | [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode | Reverse Mode ([역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
 |:---|:---|:---|
 | 계산 방향 | 입력 -> 출력 | 출력 -> 입력 |
 | 비용 | O(d) — 입력 차원 | O(1) — 출력 차원 |
 | 유리한 경우 | 출력 차원 >> 입력 차원 | 입력 차원 >> 출력 차원 |
 | 딥러닝 적용 | 비적합 (파라미터 수 방대) | 적합 (손실 = 스칼라 1개) |
 
-- **📢 섹션 요약 비유**: [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) vs Reverse Mode 는 "여러 도시에서 한 목적지까지의 최단 경로 계산" 에서 "각 도시에서 출발하는 경우([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/), 비효율)" vs "목적지에서 거꾸로 계산(Reverse, [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/), 효율)" 의 차이다.
+- **📢 섹션 요약 비유**: [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) vs Reverse Mode 는 "여러 도시에서 한 목적지까지의 최단 경로 계산" 에서 "각 도시에서 출발하는 경우([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/), 비효율)" vs "목적지에서 거꾸로 계산(Reverse, [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/), 효율)" 의 차이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### PyTorch [Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 활용 예시
+### PyTorch [Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 활용 예시
 
 ```python
 import torch
@@ -174,25 +171,25 @@ for i in range(w.shape[0]):
 ### 기술사 출제 포인트
 
 - 연쇄 법칙 수식: ∂L/∂w = ∂L/∂z · ∂z/∂w 와 구체적 전개
-- 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 노드별 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 규칙 (덧셈: 분배, 곱셈: 교차 곱)
-- [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 비용 O([순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용의 상수 배) 대 수치 미분 O(d) 비교
-- [Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): 동적 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (PyTorch) vs 정적 (TensorFlow 1.x)
-- Gradient Check 원리: 수치 미분으로 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 구현 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+- 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 노드별 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 규칙 (덧셈: 분배, 곱셈: 교차 곱)
+- [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 비용 O([순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 비용의 상수 배) 대 수치 미분 O(d) 비교
+- [Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 와 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/): 동적 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (PyTorch) vs 정적 (TensorFlow 1.x)
+- Gradient Check 원리: 수치 미분으로 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 구현 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
-- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "수천 명 직원 중 누가 프로젝트 성공에 얼마나 기여했는지, CEO 피드백 한 번으로 전 직원에게 즉시 배분하는" 인사 평가 시스템이다. 각자 따로 평가하면 수천 배 오래 걸린다.
+- **📢 섹션 요약 비유**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "수천 명 직원 중 누가 프로젝트 성공에 얼마나 기여했는지, CEO 피드백 한 번으로 전 직원에게 즉시 배분하는" 인사 평가 시스템이다. 각자 따로 평가하면 수천 배 오래 걸린다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 - **효율성**: 파라미터 수와 무관하게 단 한 번의 역방향 패스로 모든 기울기 계산
-- **자동화**: PyTorch [Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/), TensorFlow GradientTape 로 구현 자동화
+- **자동화**: PyTorch [Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/), TensorFlow GradientTape 로 구현 자동화
 - **범용성**: 어떤 미분 가능한 연산 조합에도 적용 가능
 - **한계**: 미분 불가 연산 (argmax 등) 에는 Straight-Through Estimator 등 근사 필요
 
-[역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 현대 딥러닝 학습의 수학적 엔진이다. 기술사 시험에서는 연쇄 법칙 수식 전개, 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 규칙, 수치 미분과의 복잡도 비교, [Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 체계적으로 서술하면 고득점 가능하다.
+[역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 현대 딥러닝 학습의 수학적 엔진이다. 기술사 시험에서는 연쇄 법칙 수식 전개, 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 규칙, 수치 미분과의 복잡도 비교, [Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) 와의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 체계적으로 서술하면 고득점 가능하다.
 
-- **📢 섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "지구 온난화에서 각 나라·산업의 책임을 추적하는 것처럼, 최종 오차(지구 온도 상승)에서 출발해 각 파라미터(각 배출원)의 기여도를 정확히 역추적"하는 책임 분석 엔진이다.
+- **📢 섹션 요약 비유**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "지구 온난화에서 각 나라·산업의 책임을 추적하는 것처럼, 최종 오차(지구 온도 상승)에서 출발해 각 파라미터(각 배출원)의 기여도를 정확히 역추적"하는 책임 분석 엔진이다.
 
 ---
 
@@ -200,12 +197,12 @@ for i in range(w.shape[0]):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연쇄 법칙 (Chain Rule) | 합성 함수, 편미분 / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 수학적 기반 |
-| 계산 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 노드, 엣지, [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 구조 표현 도구 |
-| 수치 미분 (Numerical Gradient) | ε, Gradient Check / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
-| [Autograd](/knowledge-base/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) | PyTorch, TensorFlow / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 자동화 엔진 |
-| [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 도함수 0.25 / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 시 주의 사항 |
-| [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode AD | Jacobian-Vector Product / [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 대안 (연구용) |
+| 연쇄 법칙 (Chain Rule) | 합성 함수, 편미분 / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 수학적 기반 |
+| 계산 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 노드, 엣지, [순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 구조 표현 도구 |
+| 수치 미분 (Numerical Gradient) | ε, Gradient Check / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방법 |
+| [Autograd](/studynote/06_ict_convergence/05_data_science/381_autograd_chain_rule/) | PyTorch, TensorFlow / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 자동화 엔진 |
+| [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) 도함수 0.25 / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 시 주의 사항 |
+| [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Mode AD | Jacobian-Vector Product / [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 대안 (연구용) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -215,7 +212,7 @@ for i in range(w.shape[0]):
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🎯 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "축구 시합에서 진 이유를 찾을 때, 최종 결과(패배)에서 거꾸로 각 선수(파라미터)의 잘못을 계산하는" 방법이에요.
+1. 🎯 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 "축구 시합에서 진 이유를 찾을 때, 최종 결과(패배)에서 거꾸로 각 선수(파라미터)의 잘못을 계산하는" 방법이에요.
 2. ⛓️ 연쇄 법칙은 "A 가 B 를 움직이고, B 가 C 를 움직이면, A 가 C 에 미치는 영향 = A->B 영향 × B->C 영향" 이에요.
 3. 🤖 PyTorch 는 이걸 자동으로 해줘서, 우리가 직접 계산하지 않아도 돼요!
 
@@ -225,7 +222,7 @@ for i in range(w.shape[0]):
 
 **진행 상황**: 345 / 420
 
-<- **이전**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/knowledge-base/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/)
-**다음**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/knowledge-base/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/) ->
+<- **이전**: [344. 활성화 함수 도함수 (Activation Derivative Sigmoid)](/studynote/10_ai/05_data_science_ml/344_activation_derivative_sigmoid/)
+**다음**: [346. 배치 사이즈 (Batch Size) 와 일반화 성능](/studynote/10_ai/05_data_science_ml/346_batch_size_generalization/) ->
 
 ---

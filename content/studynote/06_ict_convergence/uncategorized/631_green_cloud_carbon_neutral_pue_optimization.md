@@ -1,13 +1,10 @@
-+++
-title = "631. 그린 클라우드 탄소 중립 PUE 최적화 (Green Cloud Carbon Neutral PUE Optimization)"
-date = 2026-05-09
+---
+title: "631. 그린 클라우드 탄소 중립 PUE 최적화 (Green Cloud Carbon Neutral PUE Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Measure -> Attribute -> Optimize -> Shift -> Report
 
 **진행 상황**: 625 / 800
 
-<- **이전**: [624. FinOps 클라우드 비용 최적화 태깅](/knowledge-base/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/)
-**다음**: [632. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/uncategorized/632_edge_cloud_mec_cdn_distributed_computing/) ->
+<- **이전**: [624. FinOps 클라우드 비용 최적화 태깅](/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/)
+**다음**: [632. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/632_edge_cloud_mec_cdn_distributed_computing/) ->
 
 ---

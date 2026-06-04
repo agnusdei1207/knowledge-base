@@ -1,25 +1,22 @@
-+++
-title = "69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만 겹겹이 쌓아올리고 다운로드하여 스토리지 중복 방지 및 빌드 속도 향상 (Copy-on-Write)"
-date = 2026-04-07
+---
+title: "69. 레이어드 파일 시스템 (Layered File System / UnionFS) - 도커 이미지의 핵심. 변경된 레이어(Layer)만 겹겹이 쌓아올리고 다운로드하여 스토리지 중복 방지 및 빌드 속도 향상 (Copy-on-Write)"
+date: "2026-04-07"
+tags:
+  - "studynote-cloud"
+---
 
-[taxonomies]
-tags = ["studynote-cloud"]
-
-[extra]
-tags = ["studynote-cloud"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 여러 읽기 전용 레이어를 쌓고 변경분만 별도로 관리하는 구조다.
-> 2. **가치**: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 크기와 빌드 시간을 줄이고, 재사용성을 높인다.
+> 1. **본질**: 레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 여러 읽기 전용 레이어를 쌓고 변경분만 별도로 관리하는 구조다.
+> 2. **가치**: [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지 크기와 빌드 시간을 줄이고, 재사용성을 높인다.
 > 3. **판단**: Copy-on-Write와 상위 레이어 덮어쓰기 규칙을 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 공통 부분이 많다. 레이어를 나누면 같은 부분을 반복 저장하지 않아도 된다.
+[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 이미지는 공통 부분이 많다. 레이어를 나누면 같은 부분을 반복 저장하지 않아도 된다.
 
 그래서 배포 효율이 좋아진다.
 
@@ -40,10 +37,10 @@ Merged View
 | 개념 | 의미 |
 | :-- | :-- |
 | Layer | 변경 단위 |
-| [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) | 복사 후 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) |
-| Union [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 합쳐진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 |
+| [CoW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) | 복사 후 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) |
+| Union [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) | 합쳐진 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 |
 
-레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 읽기 전용 기본 층 위에 변경분만 덧댄다. 그래서 같은 베이스를 여러 이미지가 공유할 수 있다.
+레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 읽기 전용 기본 층 위에 변경분만 덧댄다. 그래서 같은 베이스를 여러 이미지가 공유할 수 있다.
 
 - **📢 섹션 요약 비유**: 벽지 위에 새 스티커만 붙이는 것과 같다.
 
@@ -61,9 +58,9 @@ Merged View
 | :-- | :-- |
 | UnionFS | 레이어 결합 |
 | OverlayFS | 오버레이 구현 |
-| [CoW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) | 변경만 기록 |
+| [CoW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) | 변경만 기록 |
 
-레이어 구조는 [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지의 핵심이다. 공통 베이스를 공유하고 변경만 기록하므로 효율이 높다.
+레이어 구조는 [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) 이미지의 핵심이다. 공통 베이스를 공유하고 변경만 기록하므로 효율이 높다.
 
 - **📢 섹션 요약 비유**: 같은 바탕 위에 다른 낙서만 얹는 느낌이다.
 
@@ -71,7 +68,7 @@ Merged View
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 레이어 재사용이 되는가?
 2. 변경분만 기록되는가?
@@ -79,14 +76,14 @@ Merged View
 4. 이미지 중복 저장을 줄이는가?
 5. 빌드 속도와 배포 효율을 고려하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 매번 전체를 다시 저장하는 설계
 - 레이어 캐시를 무시하는 설계
 - 불필요하게 많은 레이어를 쌓는 설계
 - 베이스 이미지 재사용을 안 하는 설계
 
-기술사 관점에서는 레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 "공유와 변경을 분리하는 저장 구조"로 설명해야 한다.
+기술사 관점에서는 레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 "공유와 변경을 분리하는 저장 구조"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 같은 밑그림 위에 덧칠만 바꾸면 빨라진다.
 
@@ -94,9 +91,9 @@ Merged View
 
 ## Ⅴ. 기대효과 및 결론
 
-레이어 구조는 저장 효율과 빌드 효율을 높인다. 그래서 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계의 핵심이다.
+레이어 구조는 저장 효율과 빌드 효율을 높인다. 그래서 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 생태계의 핵심이다.
 
-결론적으로 레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 변경분만 쌓는 효율적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.
+결론적으로 레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 변경분만 쌓는 효율적 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.
 
 - **📢 섹션 요약 비유**: 새로 바뀐 부분만 따로 붙여 쓰는 방식이다.
 
@@ -134,7 +131,7 @@ Container Image
 
 종이 여러 장을 겹쳐요.
 바뀐 부분만 새로 그려요.
-레이어드 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 그런 방식이에요.
+레이어드 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 그런 방식이에요.
 
 ---
 
@@ -142,7 +139,7 @@ Container Image
 
 **진행 상황**: 68 / 371
 
-<- **이전**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)
-**다음**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/) ->
+<- **이전**: [68. 도커 이미지 (Docker Image) - 불변(Immutable) 상태의 애플리케이션 실행 패키지 파일](/studynote/13_cloud_architecture/02_iaas_paas_saas/068_docker_image_immutable_package/)
+**다음**: [70. 컨테이너 레지스트리 (Container Registry) - 이미지를 저장, 공유, 배포하는 중앙 저장소 (Docker Hub,](/studynote/13_cloud_architecture/02_iaas_paas_saas/070_container_registry_docker_hub_ecr/) ->
 
 ---

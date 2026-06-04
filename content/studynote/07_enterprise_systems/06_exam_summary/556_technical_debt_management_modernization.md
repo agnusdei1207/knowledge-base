@@ -1,13 +1,10 @@
-+++
-title = "556. 기술 부채 관리 현대화 전략 (Technical Debt Management Modernization)"
-date = 2026-05-09
+---
+title: "556. 기술 부채 관리 현대화 전략 (Technical Debt Management Modernization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 556 / 800
 
-<- **이전**: [555. 디지털 혁신 리더십 CxO 역할](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/555_digital_innovation_leadership_cxo_role/)
-**다음**: [557. IT 인력 양성 리스킬링 업스킬링](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/557_it_workforce_development_reskilling_upskillin/) ->
+<- **이전**: [555. 디지털 혁신 리더십 CxO 역할](/studynote/07_enterprise_systems/06_exam_summary/555_digital_innovation_leadership_cxo_role/)
+**다음**: [557. IT 인력 양성 리스킬링 업스킬링](/studynote/07_enterprise_systems/06_exam_summary/557_it_workforce_development_reskilling_upskillin/) ->
 
 ---

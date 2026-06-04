@@ -1,13 +1,10 @@
-+++
-title = "295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)"
-date = 2026-05-09
+---
+title: "295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -130,7 +127,7 @@ LLMOps 아키텍처는 크게 **① Data & Knowledge Layer, ② Model Layer, ③
 
 **진행 상황**: 295 / 300
 
-<- **이전**: [294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/294_automl_hyperparameter/)
-**다음**: [296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/296_rag_architecture/) ->
+<- **이전**: [294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)](/studynote/14_data_engineering/05_exam_keywords/294_automl_hyperparameter/)
+**다음**: [296. RAG 아키텍처 검색 증강 생성 파이프라인 (RAG Architecture Retrieval Augmented Generation)](/studynote/14_data_engineering/05_exam_keywords/296_rag_architecture/) ->
 
 ---

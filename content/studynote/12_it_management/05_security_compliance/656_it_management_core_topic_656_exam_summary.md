@@ -1,13 +1,10 @@
-+++
-title = "656. IT 경영 관리 핵심 토픽 656번 시험 요약 (IT Management Core Topic 656 Exam Summary)"
-date = 2026-05-09
+---
+title: "656. IT 경영 관리 핵심 토픽 656번 시험 요약 (IT Management Core Topic 656 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -116,7 +113,7 @@ COBIT 2019는 ISO/IEC 38500(IT 거버넌스 국제표준)을 구현 레이어로
 
 **진행 상황**: 656 / 800
 
-<- **이전**: [655. IT 경영 관리 핵심 토픽 655번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/655_it_management_core_topic_655_exam_summary/)
-**다음**: [657. IT 경영 관리 핵심 토픽 657번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/657_it_management_core_topic_657_exam_summary/) ->
+<- **이전**: [655. IT 경영 관리 핵심 토픽 655번 시험 요약](/studynote/12_it_management/05_security_compliance/655_it_management_core_topic_655_exam_summary/)
+**다음**: [657. IT 경영 관리 핵심 토픽 657번 시험 요약](/studynote/12_it_management/05_security_compliance/657_it_management_core_topic_657_exam_summary/) ->
 
 ---

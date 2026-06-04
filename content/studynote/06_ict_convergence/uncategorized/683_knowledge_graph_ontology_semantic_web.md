@@ -1,13 +1,10 @@
-+++
-title = "683. 지식 그래프 온톨로지 시맨틱 웹 (Knowledge Graph Ontology Semantic Web)"
-date = 2026-05-09
+---
+title: "683. 지식 그래프 온톨로지 시맨틱 웹 (Knowledge Graph Ontology Semantic Web)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ SPARQL은 이 트리플을 변수가 포함된 **Triple Pattern**(`?city rdf:typ
 
 **진행 상황**: 683 / 800
 
-<- **이전**: [682. 비정형 데이터 텍스트 마이닝 전처리](/knowledge-base/studynote/06_ict_convergence/uncategorized/682_unstructured_data_text_mining_preprocessing/)
-**다음**: [684. 그래프 분석 소셜 네트워크 중심성](/knowledge-base/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/) ->
+<- **이전**: [682. 비정형 데이터 텍스트 마이닝 전처리](/studynote/06_ict_convergence/uncategorized/682_unstructured_data_text_mining_preprocessing/)
+**다음**: [684. 그래프 분석 소셜 네트워크 중심성](/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/) ->
 
 ---

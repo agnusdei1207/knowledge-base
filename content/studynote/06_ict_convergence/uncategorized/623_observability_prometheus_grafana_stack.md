@@ -1,13 +1,10 @@
-+++
-title = "623. 관측 가능성 프로메테우스 그라파나 스택 (Observability Prometheus Grafana Stack)"
-date = 2026-05-09
+---
+title: "623. 관측 가능성 프로메테우스 그라파나 스택 (Observability Prometheus Grafana Stack)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Instrument -> Collect -> Store -> Visualize -> Alert
 
 **진행 상황**: 619 / 800
 
-<- **이전**: [618. 불변 인프라 Golden Image Packer](/knowledge-base/studynote/06_ict_convergence/uncategorized/622_immutable_infrastructure_golden_image_packer/)
-**다음**: [620. 분산 추적 Jaeger Zipkin OpenTelemetry](/knowledge-base/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/) ->
+<- **이전**: [618. 불변 인프라 Golden Image Packer](/studynote/06_ict_convergence/uncategorized/622_immutable_infrastructure_golden_image_packer/)
+**다음**: [620. 분산 추적 Jaeger Zipkin OpenTelemetry](/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/) ->
 
 ---

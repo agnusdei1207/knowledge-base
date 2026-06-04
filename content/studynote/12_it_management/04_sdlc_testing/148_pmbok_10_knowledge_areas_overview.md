@@ -1,34 +1,31 @@
-+++
-title = "148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)"
-date = 2026-05-03
+---
+title: "148. PMBOK 10대 지식 영역 개요 (PMBOK 10 Knowledge Areas Overview)"
+date: "2026-05-03"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge)의 10대 지식 영역은 일정, 비용, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등 거대한 프로젝트를 성공으로 이끌기 위해 PM(프로젝트 관리자)이 통제해야 할 모든 관리 분야를 논리적으로 분류한 실무 지식 체계 표준이다.
-> 2. **가치**: 10개의 지식 영역은 제각각 노는 것이 아니라 '통합관리(Integration)'를 허브로 삼아 유기적으로 연결되어, 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/)) 하나가 변경되면 일정과 비용이 연쇄적으로 자동 수정되어야 하는 거대한 톱니바퀴 시스템 구조를 갖는다.
-> 3. **판단 포인트**: 감리 및 PMP 기술사 시험의 뼈대로서, 각 지식 영역의 핵심 산출물([프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부 등)이 어느 [프로세스 그룹](/knowledge-base/studynote/02_operating_system/02_process_thread/159_process_group/)(계획, 실행, 통제)에서 튀어나오고 어떻게 상호 연동되는지를 맵핑하여 파악하는 것이 공부의 최우선 타겟이다.
+> 1. **본질**: [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge)의 10대 지식 영역은 일정, 비용, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등 거대한 프로젝트를 성공으로 이끌기 위해 PM(프로젝트 관리자)이 통제해야 할 모든 관리 분야를 논리적으로 분류한 실무 지식 체계 표준이다.
+> 2. **가치**: 10개의 지식 영역은 제각각 노는 것이 아니라 '통합관리(Integration)'를 허브로 삼아 유기적으로 연결되어, 범위([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/)) 하나가 변경되면 일정과 비용이 연쇄적으로 자동 수정되어야 하는 거대한 톱니바퀴 시스템 구조를 갖는다.
+> 3. **판단 포인트**: 감리 및 PMP 기술사 시험의 뼈대로서, 각 지식 영역의 핵심 산출물([프로젝트 헌장](/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/), [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부 등)이 어느 [프로세스 그룹](/studynote/02_operating_system/02_process_thread/159_process_group/)(계획, 실행, 통제)에서 튀어나오고 어떻게 상호 연동되는지를 맵핑하여 파악하는 것이 공부의 최우선 타겟이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge)은 글로벌 PMI ([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Institute) 협회가 전 세계 수많은 프로젝트의 성공과 실패 경험을 집대성하여 만든 프로젝트 관리의 헌법(표준 가이드)이다.
+[PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) ([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Body of Knowledge)은 글로벌 PMI ([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Institute) 협회가 전 세계 수많은 프로젝트의 성공과 실패 경험을 집대성하여 만든 프로젝트 관리의 헌법(표준 가이드)이다.
 
-아무리 뛰어난 천재 코더 100명이 모여도 납기일(일정)을 지키지 못하거나 예산(비용)이 바닥나면 그 프로젝트는 파산한다. 프로젝트 관리는 코딩 스킬이 아니라 "무엇을 만들어야 하는가(범위), 언제까지(일정), 얼마를 들여서(비용), 무슨 사고를 막으면서([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))"를 거시적으로 통제하는 경영학의 영역이다. [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 PM이 프로젝트의 처음(착수)부터 끝(종료)까지 머릿속에 띄워두고 감시해야 할 10개의 대시보드 모니터와 같다. 하나의 영역이라도 빨간불이 켜지면 프로젝트 전체가 침몰하기 때문에, 이를 누락 없이 체계적으로 관리하기 위한 베스트 프랙티스([Best Practice](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 모음집이 바로 이 10대 지식 체계다.
+아무리 뛰어난 천재 코더 100명이 모여도 납기일(일정)을 지키지 못하거나 예산(비용)이 바닥나면 그 프로젝트는 파산한다. 프로젝트 관리는 코딩 스킬이 아니라 "무엇을 만들어야 하는가(범위), 언제까지(일정), 얼마를 들여서(비용), 무슨 사고를 막으면서([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))"를 거시적으로 통제하는 경영학의 영역이다. [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 PM이 프로젝트의 처음(착수)부터 끝(종료)까지 머릿속에 띄워두고 감시해야 할 10개의 대시보드 모니터와 같다. 하나의 영역이라도 빨간불이 켜지면 프로젝트 전체가 침몰하기 때문에, 이를 누락 없이 체계적으로 관리하기 위한 베스트 프랙티스([Best Practice](/studynote/07_enterprise_systems/02_erp_systems/087_erp_package_advantages_best_practice/)) 모음집이 바로 이 10대 지식 체계다.
 
-- **📢 섹션 요약 비유**: [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 비행기 조종석의 '계기판'과 같습니다. 고도계(범위), 속도계(일정), 연료계(비용), 날씨 레이더([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)), 엔진 온도(품질) 등 10개의 모니터를 띄워놓고, 조종사(PM)가 이 수치들을 종합적으로 통제(통합관리)하며 추락하지 않고 목적지까지 안전하게 착륙시키는 비행 매뉴얼입니다.
+- **📢 섹션 요약 비유**: [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역은 비행기 조종석의 '계기판'과 같습니다. 고도계(범위), 속도계(일정), 연료계(비용), 날씨 레이더([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)), 엔진 온도(품질) 등 10개의 모니터를 띄워놓고, 조종사(PM)가 이 수치들을 종합적으로 통제(통합관리)하며 추락하지 않고 목적지까지 안전하게 착륙시키는 비행 매뉴얼입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-10대 지식 영역은 단순히 병렬로 나열된 것이 아니다. <strong>통합관리(Integration)</strong>라는 중앙 대뇌가 나머지 9개 신경망을 완벽하게 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 지휘하는 종속적 구조를 갖는다.
+10대 지식 영역은 단순히 병렬로 나열된 것이 아니다. <strong>통합관리(Integration)</strong>라는 중앙 대뇌가 나머지 9개 신경망을 완벽하게 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 지휘하는 종속적 구조를 갖는다.
 
 ```text
 +---------------------------------------------------------------------+
@@ -53,30 +50,30 @@ tags = ["studynote-it-management"]
 ```
 
 **[핵심 산출물 및 특징 요약]**
-1. **통합관리**: [프로젝트 헌장](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) 승인, 전체 변경 통제([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)), 최종 종료 수행.
-2. **범위관리**: [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)(작업 분할 구조도)를 통해 해야 할 일과 안 할 일을 100% 명확히 선 긋기.
-3. **일정관리**: [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)(주공정법)을 통해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 끝장나는 크리티컬 패스(Critical Path) 락킹.
-4. **원가관리**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득가치관리) 잣대로 돈을 계획대로 쓰고 있는지 수치로 추적 감시.
-5. <strong><a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>관리</strong>: 터질 수 있는 모든 재앙을 엑셀([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부)에 적고 터지기 전 선제 대응 준비.
+1. **통합관리**: [프로젝트 헌장](/studynote/07_enterprise_systems/04_process_consulting/232_project_charter_sponsor/) 승인, 전체 변경 통제([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)), 최종 종료 수행.
+2. **범위관리**: [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)(작업 분할 구조도)를 통해 해야 할 일과 안 할 일을 100% 명확히 선 긋기.
+3. **일정관리**: [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)(주공정법)을 통해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 끝장나는 크리티컬 패스(Critical Path) 락킹.
+4. **원가관리**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/)(획득가치관리) 잣대로 돈을 계획대로 쓰고 있는지 수치로 추적 감시.
+5. <strong><a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a>관리</strong>: 터질 수 있는 모든 재앙을 엑셀([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부)에 적고 터지기 전 선제 대응 준비.
 6. **이해관계자관리**: 사장님, 고객, 진상 부서장들의 불만을 권력/관심 격자로 파악해 구워삶기.
 
-- **📢 섹션 요약 비유**: 10대 지식 영역은 오케스트라 교향악단과 같습니다. 현악기(범위·일정), 관악기(비용·품질), 타악기([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 각 파트가 독립된 악보를 보며 연주하지만, 최종적으로 중앙의 지휘자(통합관리)가 박자를 맞춰 통제해야만 불협화음이 아닌 하나의 완벽 교향곡(프로젝트 성공)이 연주됩니다.
+- **📢 섹션 요약 비유**: 10대 지식 영역은 오케스트라 교향악단과 같습니다. 현악기(범위·일정), 관악기(비용·품질), 타악기([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 각 파트가 독립된 악보를 보며 연주하지만, 최종적으로 중앙의 지휘자(통합관리)가 박자를 맞춰 통제해야만 불협화음이 아닌 하나의 완벽 교향곡(프로젝트 성공)이 연주됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-프로젝트 관리 표준의 삼국지. PMBOK과 유럽의 PRINCE2, 그리고 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(PMI-ACP) 방법론의 차이를 이해해야 현대 관리의 방향이 보인다.
+프로젝트 관리 표준의 삼국지. PMBOK과 유럽의 PRINCE2, 그리고 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(PMI-ACP) 방법론의 차이를 이해해야 현대 관리의 방향이 보인다.
 
-| 비교 항목 | [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) (미국 PMI 표준) | PRINCE2 (영국 정부 표준) | PMI-ACP ([애자일 방법론](/knowledge-base/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/)) |
+| 비교 항목 | [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) (미국 PMI 표준) | PRINCE2 (영국 정부 표준) | PMI-ACP ([애자일 방법론](/studynote/04_software_engineering/01_overview_principles/012_agile_methodology/)) |
 | :--- | :--- | :--- | :--- |
-| **관점 및 철학** | **지식 영역(What) 기반의 백과사전**. 방대한 도구와 기법의 집대성 | <strong>프로세스 및 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>(How) 기반</strong>. 명확한 단계별 책임과 통제 위주 | **가치(Value)와 적응성 중심**. 변화를 환영하며 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 반복 |
-| **적용의 유연성**| 무거워서 테일러링([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) 가위질) 필수 | 철저한 승인 위원회 통제로 유연성 낮음 | 극도의 유연성과 빠른 변화 대응 |
+| **관점 및 철학** | **지식 영역(What) 기반의 백과사전**. 방대한 도구와 기법의 집대성 | <strong>프로세스 및 <a href="/studynote/04_software_engineering/03_design_architecture/184_theme_agile_requirements/">테마</a>(How) 기반</strong>. 명확한 단계별 책임과 통제 위주 | **가치(Value)와 적응성 중심**. 변화를 환영하며 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위 반복 |
+| **적용의 유연성**| 무거워서 테일러링([Tailoring](/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/) 가위질) 필수 | 철저한 승인 위원회 통제로 유연성 낮음 | 극도의 유연성과 빠른 변화 대응 |
 | **주요 활용 분야**| 건설, 대형 SI, 방위산업 등 폭포수(Waterfall) 거대 프로젝트 | 유럽 및 공공기관 등 프로세스 거버넌스 엄격 프로젝트 | 스타트업, 웹/앱 개발, 요구사항이 미친 듯이 변하는 IT 프로젝트 |
 
-현대 IT 생태계에서는 무겁고 빡빡한 [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)(폭포수)만으로는 살아남기 힘들어, [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7판부터는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 철학을 대거 흡수하여 "프로세스를 억지로 다 지키지 말고 가치(Value) 위주로 알아서 덜어 써라([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))"는 방향으로 급선회 융합을 이루어냈다.
+현대 IT 생태계에서는 무겁고 빡빡한 [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)(폭포수)만으로는 살아남기 힘들어, [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 7판부터는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 철학을 대거 흡수하여 "프로세스를 억지로 다 지키지 말고 가치(Value) 위주로 알아서 덜어 써라([Tailoring](/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))"는 방향으로 급선회 융합을 이루어냈다.
 
-- **📢 섹션 요약 비유**: PMBOK은 세상 모든 요리법이 다 적힌 '거대한 백과사전'이라 상황에 맞춰 레시피를 골라 써야 합니다. PRINCE2는 군대 식당처럼 '재료 썰기-끓이기-검사' 순서와 책임이 빡세게 통제되는 '공장 매뉴얼'입니다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(PMI-ACP)은 손님이 국물 맛을 보면서 "짜요! 물 더 넣어주세요" 하면 즉시 간을 맞추는 융통성 넘치는 '오마카세 주방장'입니다.
+- **📢 섹션 요약 비유**: PMBOK은 세상 모든 요리법이 다 적힌 '거대한 백과사전'이라 상황에 맞춰 레시피를 골라 써야 합니다. PRINCE2는 군대 식당처럼 '재료 썰기-끓이기-검사' 순서와 책임이 빡세게 통제되는 '공장 매뉴얼'입니다. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)(PMI-ACP)은 손님이 국물 맛을 보면서 "짜요! 물 더 넣어주세요" 하면 즉시 간을 맞추는 융통성 넘치는 '오마카세 주방장'입니다.
 
 ---
 
@@ -85,28 +82,28 @@ tags = ["studynote-it-management"]
 실무에서 대규모 차세대 SI 프로젝트가 실패하는 가장 큰 이유는 10대 지식 영역 간의 '통합 연결고리'가 끊어지기 때문이다.
 
 ### 실무 판단 시나리오
-1. <strong>범위 확산(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)의 악몽과 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>) 융합 쉴드</strong>: 현업 부서장이 술자리에서 개발자에게 "김 대리, 결제 버튼 색깔 바꾸면서 카카오페이 기능 하나만 몰래 쓱 추가해 줘~"라고 요구했다. 개발자가 무심코 승낙하고 코드를 고쳤다.
-   **파국 발동 💥**: 그 기능 하나 추가하느라 테스트 일정이 3일 밀렸고, 카카오 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동비 1,000만 원 예산이 펑크 났다(범위가 변하자 일정과 비용이 터짐).
-   **아키텍트(PM)의 팩폭 락킹**: "하늘이 두 쪽 나도 요구사항 하나를 추가하려면 무.조.건. **[통합관리 - 통합 변경 통제 수행]** 프로세스 결재를 태워라 쾅!! [CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([변경 통제 위원회](/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/))를 소집해서 그 기능이 일정(Schedule)과 비용(Cost)에 미칠 임팩트를 계산한 뒤, 예산을 더 받든지 일정을 늘려주든지 보상을 확정받아야만 도장을 찍어 통과시킨다!!" 변경을 공식 파이프라인 안으로 멱살 잡아 끌고 들어오는 철저한 방어막이다.
-2. <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>) 기반의 피도 눈물도 없는 원가/일정 감시</strong>: "우리 지금 프로젝트 절반쯤 왔어. 잘 되고 있지?"라는 임원의 질문에 PM이 "느낌상 잘 되고 있습니다"라고 보고하면 기술사가 아니다.
-   - **판단**: 지표로 박아라! 아키텍트는 **[원가 관리]** 지식 영역의 궁극기인 EVM을 켠다. "현재 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(비용 성과 지수)가 0.85로 예산 초과 상태이며, [SPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)(일정 성과 지수)가 0.9로 일정이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중입니다! 당장 야근을 때리거나(크래싱), 자원을 더 투입(패스트 트래킹)하는 **[일정 관리]** 단축 기법을 융합 발동해야 살 수 있습니다!" 느낌이 아닌 숫자로 프로젝트 목숨줄을 진단하는 냉혹한 기법이다.
+1. <strong>범위 확산(<a href="/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/">Scope Creep</a>)의 악몽과 <a href="/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a>(<a href="/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>) 융합 쉴드</strong>: 현업 부서장이 술자리에서 개발자에게 "김 대리, 결제 버튼 색깔 바꾸면서 카카오페이 기능 하나만 몰래 쓱 추가해 줘~"라고 요구했다. 개발자가 무심코 승낙하고 코드를 고쳤다.
+   **파국 발동 💥**: 그 기능 하나 추가하느라 테스트 일정이 3일 밀렸고, 카카오 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연동비 1,000만 원 예산이 펑크 났다(범위가 변하자 일정과 비용이 터짐).
+   **아키텍트(PM)의 팩폭 락킹**: "하늘이 두 쪽 나도 요구사항 하나를 추가하려면 무.조.건. **[통합관리 - 통합 변경 통제 수행]** 프로세스 결재를 태워라 쾅!! [CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/)([변경 통제 위원회](/studynote/12_it_management/02_itsm_itil/080_cab/))를 소집해서 그 기능이 일정(Schedule)과 비용(Cost)에 미칠 임팩트를 계산한 뒤, 예산을 더 받든지 일정을 늘려주든지 보상을 확정받아야만 도장을 찍어 통과시킨다!!" 변경을 공식 파이프라인 안으로 멱살 잡아 끌고 들어오는 철저한 방어막이다.
+2. <strong><a href="/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>) 기반의 피도 눈물도 없는 원가/일정 감시</strong>: "우리 지금 프로젝트 절반쯤 왔어. 잘 되고 있지?"라는 임원의 질문에 PM이 "느낌상 잘 되고 있습니다"라고 보고하면 기술사가 아니다.
+   - **판단**: 지표로 박아라! 아키텍트는 **[원가 관리]** 지식 영역의 궁극기인 EVM을 켠다. "현재 [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/)(비용 성과 지수)가 0.85로 예산 초과 상태이며, [SPI](/studynote/12_it_management/04_sdlc_testing/159_spi_schedule_performance_index/)(일정 성과 지수)가 0.9로 일정이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중입니다! 당장 야근을 때리거나(크래싱), 자원을 더 투입(패스트 트래킹)하는 **[일정 관리]** 단축 기법을 융합 발동해야 살 수 있습니다!" 느낌이 아닌 숫자로 프로젝트 목숨줄을 진단하는 냉혹한 기법이다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **문서화 지상주의 (과도한 템플릿 작성 늪)**: 10대 지식 영역의 49개 프로세스마다 쏟아져 나오는 수백 개의 템플릿(문서)을 10명짜리 소규모 앱 개발 프로젝트에서 기계적으로 싹 다 빈칸 없이 작성하게 강요하는 PM. 코딩할 시간은 없고 매일 밤새 한글 워드로 범위 기술서, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부만 치다가 프로젝트가 진부화되어 질식사한다. 프로젝트 규모와 위험도에 맞춰 가위질([Tailoring](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하여 뺄 건 빼는 결단력이 진짜 PM의 역량이다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **문서화 지상주의 (과도한 템플릿 작성 늪)**: 10대 지식 영역의 49개 프로세스마다 쏟아져 나오는 수백 개의 템플릿(문서)을 10명짜리 소규모 앱 개발 프로젝트에서 기계적으로 싹 다 빈칸 없이 작성하게 강요하는 PM. 코딩할 시간은 없고 매일 밤새 한글 워드로 범위 기술서, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 등록부만 치다가 프로젝트가 진부화되어 질식사한다. 프로젝트 규모와 위험도에 맞춰 가위질([Tailoring](/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/))하여 뺄 건 빼는 결단력이 진짜 PM의 역량이다.
 
-- **📢 섹션 요약 비유**: 10대 영역의 통합관리는 건물을 짓는 것과 같습니다. 고객이 갑자기 "설계 도면에 방 하나 더 추가해 줘(범위 변경)"라고 할 때, 벽돌 쌓는 인부(개발자)가 "네 알겠습니다" 하고 마음대로 지으면 건물이 무너집니다. 무조건 현장 소장(PM)과 건축 위원회([CCB](/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))가 모여서 "방 하나 추가하려면 시멘트(비용) 1,000만 원 더 들고, 완공일(일정) 한 달 밀립니다. 콜?" 하고 합의가 끝나야만 첫 벽돌을 올릴 수 있습니다.
+- **📢 섹션 요약 비유**: 10대 영역의 통합관리는 건물을 짓는 것과 같습니다. 고객이 갑자기 "설계 도면에 방 하나 더 추가해 줘(범위 변경)"라고 할 때, 벽돌 쌓는 인부(개발자)가 "네 알겠습니다" 하고 마음대로 지으면 건물이 무너집니다. 무조건 현장 소장(PM)과 건축 위원회([CCB](/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/))가 모여서 "방 하나 추가하려면 시멘트(비용) 1,000만 원 더 들고, 완공일(일정) 한 달 밀립니다. 콜?" 하고 합의가 끝나야만 첫 벽돌을 올릴 수 있습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역을 체계적으로 뇌에 이식한 PM은 프로젝트가 미쳐 돌아가는 혼돈의 카오스 속에서도 길을 잃지 않는다.
+[PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역을 체계적으로 뇌에 이식한 PM은 프로젝트가 미쳐 돌아가는 혼돈의 카오스 속에서도 길을 잃지 않는다.
 
-무엇을 만들어야 하는지(범위 [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 파국을 맞는 데드라인 선이 어디인지(일정 [CPM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)), 돈은 얼마나 타 들어가는지(비용 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))를 통제하며, 발생할 폭탄([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 미리 엑셀에 적어두고 선제 타격한다. 발주처와 개발팀 간의 용어가 100% 표준화(Communication)되어 핑퐁과 오해로 인한 감정 낭비가 90% 압살 상각된다. 프로젝트가 엎어지고 종료될 때는 [교훈](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) 문서([Lessons Learned](/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/))를 남겨 다음 프로젝트가 똑같은 지뢰를 밟고 폭사하는 것을 막는 영구 불멸의 조직 자산([OPA](/knowledge-base/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))으로 승화시킨다.
+무엇을 만들어야 하는지(범위 [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/)), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면 파국을 맞는 데드라인 선이 어디인지(일정 [CPM](/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/)), 돈은 얼마나 타 들어가는지(비용 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/))를 통제하며, 발생할 폭탄([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 미리 엑셀에 적어두고 선제 타격한다. 발주처와 개발팀 간의 용어가 100% 표준화(Communication)되어 핑퐁과 오해로 인한 감정 낭비가 90% 압살 상각된다. 프로젝트가 엎어지고 종료될 때는 [교훈](/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/) 문서([Lessons Learned](/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/))를 남겨 다음 프로젝트가 똑같은 지뢰를 밟고 폭사하는 것을 막는 영구 불멸의 조직 자산([OPA](/studynote/15_devops_sre/05_devsecops/237_opa_open_policy_agent_gatekeeper/))으로 승화시킨다.
 
-비록 세상이 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 쾌속 질주로 뒤덮이고 구닥다리 폭포수 문서 쪼가리 취급을 받기도 하지만, 우주선과 KTX, 원자력 발전소와 같은 거대하고 절대 무너지면 안 되는 생명 직결 인프라를 빚어낼 때는 이 10대 지식 영역의 깐깐하고 숨 막히는 폭포수 락킹 방패막(Governance) 없이는 단 한 발자국도 앞으로 나아갈 수 없다. 모든 관리의 진리는 기초 체력([PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)) 위에서만 유연한 테일러링([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))으로 꽃피울 수 있는 법이다.
+비록 세상이 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))의 쾌속 질주로 뒤덮이고 구닥다리 폭포수 문서 쪼가리 취급을 받기도 하지만, 우주선과 KTX, 원자력 발전소와 같은 거대하고 절대 무너지면 안 되는 생명 직결 인프라를 빚어낼 때는 이 10대 지식 영역의 깐깐하고 숨 막히는 폭포수 락킹 방패막(Governance) 없이는 단 한 발자국도 앞으로 나아갈 수 없다. 모든 관리의 진리는 기초 체력([PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)) 위에서만 유연한 테일러링([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/))으로 꽃피울 수 있는 법이다.
 
-- **📢 섹션 요약 비유**: [PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역 숙달은 의사들의 해부학 지식 암기와 같습니다. 해부학 뼈대 이름을 달달 외웠다고 당장 훌륭한 수술을 하는 명의가 되는 건 아니지만, 최소한 인체 장기가 어떻게 얽혀 있는지 해부학([PMBOK](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/))을 100% 모르면 환자의 배를 여는 어떤 수술(프로젝트)도 절대로 안전하게 성공시킬 수 없습니다.
+- **📢 섹션 요약 비유**: [PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/) 10대 지식 영역 숙달은 의사들의 해부학 지식 암기와 같습니다. 해부학 뼈대 이름을 달달 외웠다고 당장 훌륭한 수술을 하는 명의가 되는 건 아니지만, 최소한 인체 장기가 어떻게 얽혀 있는지 해부학([PMBOK](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/))을 100% 모르면 환자의 배를 여는 어떤 수술(프로젝트)도 절대로 안전하게 성공시킬 수 없습니다.
 
 ---
 
@@ -114,11 +111,11 @@ tags = ["studynote-it-management"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> | 범위 관리의 꽃. 할 일을 다 쪼개서 트리(Tree)로 만든 도면. 이 WBS에 없는 일은 무조건 안 한다는 100% 락킹 규칙의 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/). |
-| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>)</strong> | 비용과 일정 관리를 동시에 엮어서 프로젝트 성과를 진단하는 궁극의 척도. [PV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/), [EV](/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 세 가지 지표로 돈이 새는지 랙이 걸렸는지 수치로 뽑아냄. |
-| <strong><a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong> | 일정 관리의 핵심 뼈대. 100개 작업 중 이것만은 하루라도 밀리면 프로젝트 전체 일정이 폭파되는 지뢰밭 경로(주공정)를 빨간펜으로 긋는 튜닝 기법. |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>)</strong> | 통합 관리의 대법원. 스펙 변경, 예산 증액을 요구하는 진상 고객들의 폭주를 틀어막고 공식 결재 도장을 받아내는 권력 기구. |
-| <strong>테일러링 (<a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a> 가위질)</strong> | 10대 지식 영역의 수백 개 규칙을 다 쓰면 무거워 죽으니까, 우리 회사 프로젝트 사이즈에 맞게 뺄 건 빼고 다이어트시키는 융통성 스킬. |
+| <strong><a href="/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">WBS</a> (<a href="/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/">Work Breakdown Structure</a>)</strong> | 범위 관리의 꽃. 할 일을 다 쪼개서 트리(Tree)로 만든 도면. 이 WBS에 없는 일은 무조건 안 한다는 100% 락킹 규칙의 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/). |
+| <strong><a href="/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/">EVM</a> (<a href="/studynote/04_software_engineering/01_overview_principles/040_evm/">Earned Value Management</a>)</strong> | 비용과 일정 관리를 동시에 엮어서 프로젝트 성과를 진단하는 궁극의 척도. [PV](/studynote/12_it_management/04_sdlc_testing/153_pv_planned_value/), [EV](/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/), [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/) 세 가지 지표로 돈이 새는지 랙이 걸렸는지 수치로 뽑아냄. |
+| <strong><a href="/studynote/12_it_management/04_sdlc_testing/150_cpm_critical_path_method/">CPM</a> (<a href="/studynote/04_software_engineering/01_overview_principles/037_cpm/">Critical Path Method</a>)</strong> | 일정 관리의 핵심 뼈대. 100개 작업 중 이것만은 하루라도 밀리면 프로젝트 전체 일정이 폭파되는 지뢰밭 경로(주공정)를 빨간펜으로 긋는 튜닝 기법. |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/160_change_control_board_ccb_requirements_review/">CCB</a> (<a href="/studynote/12_it_management/02_itsm_itil/080_cab/">변경 통제 위원회</a>)</strong> | 통합 관리의 대법원. 스펙 변경, 예산 증액을 요구하는 진상 고객들의 폭주를 틀어막고 공식 결재 도장을 받아내는 권력 기구. |
+| <strong>테일러링 (<a href="/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/">Tailoring</a> 가위질)</strong> | 10대 지식 영역의 수백 개 규칙을 다 쓰면 무거워 죽으니까, 우리 회사 프로젝트 사이즈에 맞게 뺄 건 빼고 다이어트시키는 융통성 스킬. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -140,7 +137,7 @@ PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Princ
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 10대 지식 영역은 소풍 갈 때 짐을 싸는 완벽한 매뉴얼 체크리스트예요! 샌드위치 돈 계산(비용), 목적지 지도(범위), 타임테이블(일정), 비 올 때 우산([리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 등을 빠짐없이 챙기는 거죠.
+1. 10대 지식 영역은 소풍 갈 때 짐을 싸는 완벽한 매뉴얼 체크리스트예요! 샌드위치 돈 계산(비용), 목적지 지도(범위), 타임테이블(일정), 비 올 때 우산([리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)) 등을 빠짐없이 챙기는 거죠.
 2. 그중 제일 중요한 반장(통합 관리) 역할이 있어요. 친구들이 각자 맡은 간식이나 지도를 잘 챙겼는지 전체적으로 확인하고 조율해 주는 대장이죠.
 3. 이 10가지를 하나도 안 빼먹고 체크리스트에 동그라미를 다 치면 소풍(프로젝트)이 완벽하게 재밌게 끝나고, 하나라도 대충 넘어가면 소풍 가서 꼭 큰일이 터진답니다!
 
@@ -150,7 +147,7 @@ PMBOK 7판 대혁명 / 프로세스 달달 외우는 거 버리고, 원칙(Princ
 
 **진행 상황**: 262 / 587
 
-<- **이전**: [147. PMBOK (Project Management Body of Knowledge) - PMI 프로젝트 관리 10대 지식 영역](/knowledge-base/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)
-**다음**: [149. WBS (Work Breakdown Structure)](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ->
+<- **이전**: [147. PMBOK (Project Management Body of Knowledge) - PMI 프로젝트 관리 10대 지식 영역](/studynote/12_it_management/04_sdlc_testing/147_pmbok_10_knowledge_areas/)
+**다음**: [149. WBS (Work Breakdown Structure)](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임"
-date = 2026-04-29
+---
+title: "27. 데이터베이스 설계자 (Database Designer) — DB 설계 역할과 책임"
+date: "2026-04-29"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계자([Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Designer)는 업무 요구사항을 분석하여 개념적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(E-R 다이어그램) -> [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 테이블 구조) -> 물리적 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 스토리지 설계)로 단계적으로 변환하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍트 역할을 담당한다.
-> 2. **가치**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) DB 설계 품질이 시스템 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·확장성을 결정한다. 잘못된 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 부적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계, 비효율적 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 운영 중 수정하기 어렵고 대규모 마이그레이션 비용을 초래한다.
-> 3. **판단 포인트**: DB 설계자는 [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)([Database Administrator](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))와 역할이 다르다. 설계자는 "어떻게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구조화할 것인가"를 결정하고, DBA는 "설계된 DB를 어떻게 운영·관리할 것인가"를 담당한다. 대형 프로젝트에서는 분리되지만 소규모에서는 겸직한다.
+> 1. **본질**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계자([Database](/studynote/05_database/04_transactions_concurrency/501_database/) Designer)는 업무 요구사항을 분석하여 개념적 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(E-R 다이어그램) -> [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)된 테이블 구조) -> 물리적 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), 스토리지 설계)로 단계적으로 변환하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 아키텍트 역할을 담당한다.
+> 2. **가치**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) DB 설계 품질이 시스템 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·확장성을 결정한다. 잘못된 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), 부적절한 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계, 비효율적 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은 운영 중 수정하기 어렵고 대규모 마이그레이션 비용을 초래한다.
+> 3. **판단 포인트**: DB 설계자는 [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/)([Database Administrator](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/))와 역할이 다르다. 설계자는 "어떻게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 구조화할 것인가"를 결정하고, DBA는 "설계된 DB를 어떻게 운영·관리할 것인가"를 담당한다. 대형 프로젝트에서는 분리되지만 소규모에서는 겸직한다.
 
 ---
 
@@ -33,7 +30,7 @@ tags = ["studynote-database"]
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: DB 설계는 건물 설계와 같다. 개념 설계는 건물 용도·공간 배치(E-R), [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 건축 도면(테이블 구조), 물리 설계는 실제 재료·시공 방법([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 스토리지)이다.
+- **📢 섹션 요약 비유**: DB 설계는 건물 설계와 같다. 개념 설계는 건물 용도·공간 배치(E-R), [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계는 건축 도면(테이블 구조), 물리 설계는 실제 재료·시공 방법([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 스토리지)이다.
 
 ---
 
@@ -43,13 +40,13 @@ tags = ["studynote-database"]
 
 | 단계 | 활동 | 산출물 |
 |:---|:---|:---|
-| **요구사항 분석** | 업무 인터뷰, 문서 검토 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [요구사항 명세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)서 |
+| **요구사항 분석** | 업무 인터뷰, 문서 검토 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [요구사항 명세](/studynote/04_software_engineering/03_design_architecture/148_requirements_specification_formal_informal/)서 |
 | **개념적 설계** | E-R 다이어그램 작성 | ERD, 엔티티 정의서 |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 설계</strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 도출 | 테이블 정의서, ERD |
-| **물리적 설계** | [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 결정 | 물리 설계서, [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) |
-| **검토** | 설계 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) | 설계 검토 보고서 |
+| <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 설계</strong> | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 도출 | 테이블 정의서, ERD |
+| **물리적 설계** | [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) 결정 | 물리 설계서, [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/) |
+| **검토** | 설계 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [성능 테스트](/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) | 설계 검토 보고서 |
 
-### [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단
+### [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) vs. [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/) 판단
 
 ```text
 정규화 (3NF):      데이터 중복 최소화, 이상 현상 방지
@@ -59,33 +56,33 @@ tags = ["studynote-database"]
                    -> OLAP, 대용량 읽기 환경 적합
 ```
 
-- **📢 섹션 요약 비유**: [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주제별로 완벽히 정리하면 찾기는 쉽지만 여러 책장(테이블)을 돌아다녀야 한다. [역정규화](/knowledge-base/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 자주 보는 책들을 한 책장에 모아두는 것이다.
+- **📢 섹션 요약 비유**: [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)는 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 주제별로 완벽히 정리하면 찾기는 쉽지만 여러 책장(테이블)을 돌아다녀야 한다. [역정규화](/studynote/05_database/02_modeling_normalization/111_denormalization_performance_tradeoff/)는 자주 보는 책들을 한 책장에 모아두는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | DB 설계자 | [DBA](/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) | [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리자) |
+| 비교 | DB 설계자 | [DBA](/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/) | [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리자) |
 |:---|:---|:---|:---|
-| 초점 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 설계 | DB 운영·관리 | 전사 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) |
-| 산출물 | ERD, [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/) | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 튜닝 | [데이터 사전](/knowledge-base/studynote/05_database/07_exam_summary/393_data_dictionary/), 표준 |
-| 시점 | 개발 단계 | 운영 단계 | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·기획 단계 |
+| 초점 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 설계 | DB 운영·관리 | 전사 [데이터 표준화](/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/) |
+| 산출물 | ERD, [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/) | [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 튜닝 | [데이터 사전](/studynote/05_database/07_exam_summary/393_data_dictionary/), 표준 |
+| 시점 | 개발 단계 | 운영 단계 | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)·기획 단계 |
 
-- **📢 섹션 요약 비유**: DB 설계자는 건물 설계사, DBA는 건물 관리인, DA는 도시 계획가다. 설계사가 건물을 설계하고, 관리인이 유지보수하며, 도시 계획가는 전체 도시(전사 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 표준을 정한다.
+- **📢 섹션 요약 비유**: DB 설계자는 건물 설계사, DBA는 건물 관리인, DA는 도시 계획가다. 설계사가 건물을 설계하고, 관리인이 유지보수하며, 도시 계획가는 전체 도시(전사 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 표준을 정한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 물리 설계 핵심 결정사항
-1. <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: WHERE 절 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 높은 컬럼 -> [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/); 낮은 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) -> [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 날짜 범위 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(월별) -> 오래된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빠른 삭제.
-3. **테이블스페이스 분리**: 대형 테이블·[인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 별도 테이블스페이스 -> I/O [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/).
+1. <strong><a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: WHERE 절 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 높은 컬럼 -> [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/); 낮은 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) -> [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵.
+2. <strong><a href="/studynote/02_operating_system/09_file_system/514_partition_slice_volume/">파티션</a> <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 날짜 범위 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(월별) -> 오래된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 빠른 삭제.
+3. **테이블스페이스 분리**: 대형 테이블·[인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 별도 테이블스페이스 -> I/O [분산](/studynote/08_algorithm_stats/08_stats/136_variance/).
 
-### [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 시대의 설계자 역할 확장
-- [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 + [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)(문서·[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)·시계열) 혼용 [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/)) 설계.
+### [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 시대의 설계자 역할 확장
+- [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 + [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)(문서·[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)·시계열) 혼용 [폴리글랏 퍼시스턴스](/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)([Polyglot Persistence](/studynote/13_cloud_architecture/03_msa_serverless/132_polyglot_persistence/)) 설계.
 
-- **📢 섹션 요약 비유**: [폴리글랏 퍼시스턴스](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)는 다국어 회사다. 국내 문서는 한국어(MySQL), 글로벌 이벤트는 영어([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)), 친구 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 스페인어(Neo4j)로 각각 가장 잘 맞는 언어(DB)로 처리한다.
+- **📢 섹션 요약 비유**: [폴리글랏 퍼시스턴스](/studynote/05_database/05_distributed_nosql_newsql/308_pgvector/)는 다국어 회사다. 국내 문서는 한국어(MySQL), 글로벌 이벤트는 영어([MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/)), 친구 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 스페인어(Neo4j)로 각각 가장 잘 맞는 언어(DB)로 처리한다.
 
 ---
 
@@ -93,13 +90,13 @@ tags = ["studynote-database"]
 
 | 기대효과 | 내용 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 적절한 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 최적화 |
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 방지 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a></strong> | 적절한 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 속도 최적화 |
+| <strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a></strong> | [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/) 방지 |
 | **확장성** | 설계 단계부터 수평 확장 고려 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 DB 설계 도구([AutoML](/knowledge-base/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) for [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) Design)는 워크로드 패턴을 분석하여 최적 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 자동 추천하고, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 실시간으로 최적화하는 방향으로 발전하고 있다.
+[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자동 DB 설계 도구([AutoML](/studynote/14_data_engineering/04_mlops/176_automl_hyperparameter_optimization_bayesian/) for [Database](/studynote/05_database/04_transactions_concurrency/501_database/) Design)는 워크로드 패턴을 분석하여 최적 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)·[파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 자동 추천하고, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 실시간으로 최적화하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) DB 설계 도구는 자동 레이아웃 엔진이다. 앱의 사용 패턴([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 분석해서 "이 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추가하면 50% 빨라진다"고 자동으로 추천해준다.
+- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) DB 설계 도구는 자동 레이아웃 엔진이다. 앱의 사용 패턴([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 분석해서 "이 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 추가하면 50% 빨라진다"고 자동으로 추천해준다.
 
 ---
 
@@ -107,11 +104,11 @@ tags = ["studynote-database"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **ERD** | 개념·[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 핵심 산출물 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) 기법 |
-| <strong><a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> | 물리 설계의 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 도구 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | DB 설계자와 역할 분리되는 운영 전문가 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a></strong> | 전사 [데이터 표준화](/knowledge-base/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)를 담당하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 역할 |
+| **ERD** | 개념·[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 핵심 산출물 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/">정규화</a></strong> | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 설계의 [데이터 중복 제거](/studynote/02_operating_system/09_file_system/546_data_deduplication/) 기법 |
+| <strong><a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> | 물리 설계의 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 도구 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/025_dba_database_administrator/">DBA</a></strong> | DB 설계자와 역할 분리되는 운영 전문가 |
+| <strong><a href="/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a></strong> | 전사 [데이터 표준화](/studynote/05_database/02_modeling_normalization/126_data_standardization_word_domain_term/)를 담당하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 역할 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,9 +130,9 @@ tags = ["studynote-database"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. DB 설계자는 도서관 설계사예요! 어떤 책장(테이블)을 만들고, 어떻게 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))하고, 어디에 색인([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))을 달지 결정해요.
+1. DB 설계자는 도서관 설계사예요! 어떤 책장(테이블)을 만들고, 어떻게 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/))하고, 어디에 색인([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))을 달지 결정해요.
 2. 잘 설계된 도서관은 원하는 책을 빠르게 찾을 수 있지만, 설계가 나쁘면 책을 찾는 데 한참 걸려요!
-3. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구는 사람들의 독서 패턴([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 분석해서 어디에 색인을 더 달면 좋을지 자동으로 추천해준답니다!
+3. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 도구는 사람들의 독서 패턴([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))을 분석해서 어디에 색인을 더 달면 좋을지 자동으로 추천해준답니다!
 
 ---
 
@@ -143,7 +140,7 @@ tags = ["studynote-database"]
 
 **진행 상황**: 27 / 600
 
-<- **이전**: [26. DA (Data Administrator) — 데이터 관리자](/knowledge-base/studynote/05_database/01_db_architecture_relational/026_da_data_administrator/)
-**다음**: [28. 데이터베이스 사용자 유형 (Database Users)](/knowledge-base/studynote/05_database/01_db_architecture_relational/028_database_users/) ->
+<- **이전**: [26. DA (Data Administrator) — 데이터 관리자](/studynote/05_database/01_db_architecture_relational/026_da_data_administrator/)
+**다음**: [28. 데이터베이스 사용자 유형 (Database Users)](/studynote/05_database/01_db_architecture_relational/028_database_users/) ->
 
 ---

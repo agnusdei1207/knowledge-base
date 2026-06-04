@@ -1,19 +1,16 @@
-+++
-title = "65. 상태도 (State Diagram)"
-date = 2026-04-19
+---
+title: "65. 상태도 (State Diagram)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상태도([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Diagram)는 시스템의 상태와 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 화살표로 표현한 모델이다.
-> 2. **가치**: 순차 회로, 제어기, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 소프트웨어 FSM을 이해하기 쉽게 만든다.
-> 3. **판단**: 상태도와 [상태표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)([State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/))를 함께 봐야 전이 조건과 출력 조건을 정확히 설명할 수 있다.
+> 1. **본질**: 상태도([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Diagram)는 시스템의 상태와 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/)를 화살표로 표현한 모델이다.
+> 2. **가치**: 순차 회로, 제어기, [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 소프트웨어 FSM을 이해하기 쉽게 만든다.
+> 3. **판단**: 상태도와 [상태표](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)([State Table](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/))를 함께 봐야 전이 조건과 출력 조건을 정확히 설명할 수 있다.
 
 ---
 
@@ -37,12 +34,12 @@ State A --input--> State B
 
 | 요소 | 의미 |
 | :-- | :-- |
-| [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) |
+| [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) |
 | Transition | 상태 변화 |
 | Input | 전이 조건 |
 | Output | 상태/전이 결과 |
 
-상태도는 "어떤 입력이 오면 어디로 가는가"를 보여 준다. 따라서 제어기, 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 디지털 회로의 동작을 설계할 때 핵심 도구가 된다.
+상태도는 "어떤 입력이 오면 어디로 가는가"를 보여 준다. 따라서 제어기, 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 디지털 회로의 동작을 설계할 때 핵심 도구가 된다.
 
 - **📢 섹션 요약 비유**: 신호등이 빨강에서 초록으로 바뀌는 규칙을 그림으로 보는 것과 같다.
 
@@ -50,13 +47,13 @@ State A --input--> State B
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Diagram | [State Table](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) | Flowchart |
+| 구분 | [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Diagram | [State Table](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) | Flowchart |
 | :-- | :-- | :-- | :-- |
-| 표현 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 표 | 순서도 |
-| 강점 | 전이 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 조건 정리 | 절차 흐름 |
+| 표현 | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 표 | 순서도 |
+| 강점 | 전이 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) | 조건 정리 | 절차 흐름 |
 | 용도 | FSM 설계 | 전이 분석 | 프로세스 설명 |
 
-상태도는 직관적이고, [상태표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)는 계산과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 강하다. 둘은 경쟁 관계가 아니라 보완 관계다.
+상태도는 직관적이고, [상태표](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)는 계산과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 강하다. 둘은 경쟁 관계가 아니라 보완 관계다.
 
 - **📢 섹션 요약 비유**: 지도는 길을 보여 주고, 표는 출발지와 도착지를 정리해 준다.
 
@@ -64,22 +61,22 @@ State A --input--> State B
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 조건이 명확한가?
+1. [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 조건이 명확한가?
 2. 출력이 상태 기반인지 전이 기반인지 구분했는가?
 3. 모든 상태가 도달 가능한가?
-4. 비정상 상태의 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 있는가?
-5. [상태표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)와 일치하는가?
+4. 비정상 상태의 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 경로가 있는가?
+5. [상태표](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/)와 일치하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 전이 조건을 생략한 상태도
 - 도달 불가능한 상태를 방치하는 설계
 - 상태와 출력의 관계를 혼동하는 설계
 - 상태도만 그리고 구현과 연결하지 않는 설계
 
-기술사 관점에서는 상태도를 "그림"이 아니라 "동작 명세"로 봐야 한다. 상태도는 구현 전에 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 설계 언어다.
+기술사 관점에서는 상태도를 "그림"이 아니라 "동작 명세"로 봐야 한다. 상태도는 구현 전에 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 설계 언어다.
 
 - **📢 섹션 요약 비유**: 길만 그린 지도가 아니라, 갈림길의 규칙까지 적어 둔 안내서다.
 
@@ -87,7 +84,7 @@ State A --input--> State B
 
 ## Ⅴ. 기대효과 및 결론
 
-상태도를 쓰면 전이 규칙을 명확히 설명할 수 있고, 디버깅과 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/) 작성도 쉬워진다.
+상태도를 쓰면 전이 규칙을 명확히 설명할 수 있고, 디버깅과 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/) 작성도 쉬워진다.
 
 결론적으로 상태도는 상태 기반 시스템의 기본 언어다.
 
@@ -126,7 +123,7 @@ FSM / Control Logic
 ## 어린이를 위한 3줄 비유 설명
 
 게임 맵처럼 어디로 갈지 적어 둔 그림이에요.
-[현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)와 다음 상태를 보여 줘요.
+[현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)와 다음 상태를 보여 줘요.
 상태도는 그런 길 안내 그림이에요.
 
 ---
@@ -135,7 +132,7 @@ FSM / Control Logic
 
 **진행 상황**: 65 / 803
 
-<- **이전**: [64. 존슨 카운터 (Johnson Counter)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/)
-**다음**: [66. 상태표 (State Table)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) ->
+<- **이전**: [64. 존슨 카운터 (Johnson Counter)](/studynote/01_computer_architecture/01_basic_electronics_logic/064_johnson_counter/)
+**다음**: [66. 상태표 (State Table)](/studynote/01_computer_architecture/01_basic_electronics_logic/066_state_table/) ->
 
 ---

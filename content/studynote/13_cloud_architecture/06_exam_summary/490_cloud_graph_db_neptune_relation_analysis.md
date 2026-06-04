@@ -1,13 +1,10 @@
-+++
-title = "490. 클라우드 그래프 DB Neptune 관계 분석 (Cloud Graph DB Neptune Relation Analysis)"
-date = 2026-05-09
+---
+title: "490. 클라우드 그래프 DB Neptune 관계 분석 (Cloud Graph DB Neptune Relation Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 490 / 800
 
-<- **이전**: [489. 클라우드 NoSQL DynamoDB CosmosDB](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/489_cloud_nosql_dynamodb_cosmosdb/)
-**다음**: [491. 클라우드 시계열 DB Timestream IoT](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/491_cloud_timeseries_db_timestream_iot/) ->
+<- **이전**: [489. 클라우드 NoSQL DynamoDB CosmosDB](/studynote/13_cloud_architecture/06_exam_summary/489_cloud_nosql_dynamodb_cosmosdb/)
+**다음**: [491. 클라우드 시계열 DB Timestream IoT](/studynote/13_cloud_architecture/06_exam_summary/491_cloud_timeseries_db_timestream_iot/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "731. 스마트 헬스 원격 모니터링 바이오센서 (Smart Health Remote Monitoring Biosensor)"
-date = 2026-05-09
+---
+title: "731. 스마트 헬스 원격 모니터링 바이오센서 (Smart Health Remote Monitoring Biosensor)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -86,7 +83,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 731 / 800
 
-<- **이전**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/)
-**다음**: [732. 스마트 그리드 수요 반응 DR 가상발전](/knowledge-base/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/) ->
+<- **이전**: [730. 스마트 빌딩 에너지 관리 BEMS 자동화](/studynote/06_ict_convergence/uncategorized/730_smart_building_energy_management_bems/)
+**다음**: [732. 스마트 그리드 수요 반응 DR 가상발전](/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/) ->
 
 ---

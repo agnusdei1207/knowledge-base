@@ -1,13 +1,10 @@
-+++
-title = "395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)"
-date = 2026-05-09
+---
+title: "395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 395 / 400
 
-<- **이전**: [394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/394_api_security_oauth_jwt/)
-**다음**: [396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)](/knowledge-base/studynote/15_devops_sre/05_devsecops/396_infra_security_scanning/) ->
+<- **이전**: [394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)](/studynote/15_devops_sre/05_devsecops/394_api_security_oauth_jwt/)
+**다음**: [396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)](/studynote/15_devops_sre/05_devsecops/396_infra_security_scanning/) ->
 
 ---

@@ -1,37 +1,34 @@
-+++
-title = "468. 정적 전력 (Static Power / 누설 전력)"
-date = 2026-03-22
+---
+title: "468. 정적 전력 (Static Power / 누설 전력)"
+date: "2026-03-22"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정적 전력 (Static [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 회로가 스위칭하지 않아도 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 내부의 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르며 발생하는 전력으로, 본질은 "멈춰 있어도 드는 기본요금"이다.
-> 2. **가치**: 공정이 미세해질수록 게이트 산화막은 얇아지고 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 낮아져 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 커지므로, 정적 전력은 저전력 설계의 부차적 문제가 아니라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·배터리·발열을 동시에 제약하는 핵심 변수다.
-> 3. **판단 포인트**: 정적 전력은 단일 기법으로 해결되지 않으며, 공정 차원의 고-k (High-k) 유전체·[FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)), 회로 차원의 멀티-Vt (Multi-Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)), 시스템 차원의 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))을 함께 써야 실질적으로 억제된다.
+> 1. **본질**: 정적 전력 (Static [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 회로가 스위칭하지 않아도 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) 내부의 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 계속 흐르며 발생하는 전력으로, 본질은 "멈춰 있어도 드는 기본요금"이다.
+> 2. **가치**: 공정이 미세해질수록 게이트 산화막은 얇아지고 임계 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)은 낮아져 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 커지므로, 정적 전력은 저전력 설계의 부차적 문제가 아니라 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·배터리·발열을 동시에 제약하는 핵심 변수다.
+> 3. **판단 포인트**: 정적 전력은 단일 기법으로 해결되지 않으며, 공정 차원의 고-k (High-k) 유전체·[FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)), 회로 차원의 멀티-Vt (Multi-Threshold [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)), 시스템 차원의 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/))을 함께 써야 실질적으로 억제된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정적 전력 (Static [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 **회로가 일을 하지 않는 순간에도** 소비되는 전력이다. 디지털 회로를 처음 배울 때는 전력이 스위칭 순간에만 든다고 생각하기 쉽지만, 실제 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))은 완벽한 스위치가 아니다. 게이트가 꺼져 있어도 채널 아래로 미세 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르고, 산화막과 접합부에서도 전자가 조금씩 새어 나간다.
+정적 전력 (Static [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/))은 **회로가 일을 하지 않는 순간에도** 소비되는 전력이다. 디지털 회로를 처음 배울 때는 전력이 스위칭 순간에만 든다고 생각하기 쉽지만, 실제 [MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))은 완벽한 스위치가 아니다. 게이트가 꺼져 있어도 채널 아래로 미세 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 흐르고, 산화막과 접합부에서도 전자가 조금씩 새어 나간다.
 
-과거에는 이 전력이 전체 소비 전력에서 차지하는 비중이 작아 큰 문제가 아니었다. 그러나 공정이 수십 나노미터 이하로 줄어들면서 상황이 달라졌다. 더 높은 집적도와 더 낮은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 얻기 위해 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 작게 만들수록, 오히려 "꺼져 있어야 할 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)"가 더 쉽게 새게 되었기 때문이다.
+과거에는 이 전력이 전체 소비 전력에서 차지하는 비중이 작아 큰 문제가 아니었다. 그러나 공정이 수십 나노미터 이하로 줄어들면서 상황이 달라졌다. 더 높은 집적도와 더 낮은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 얻기 위해 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)를 작게 만들수록, 오히려 "꺼져 있어야 할 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)"가 더 쉽게 새게 되었기 때문이다.
 
-이 문제가 중요한 이유는 정적 전력이 **유휴 상태의 전력**, **배터리 대기 시간**, **데이터센터의 기본 전기료**, <strong>열 설계 여유</strong>를 동시에 갉아먹기 때문이다. 즉 사용량이 적을 때조차 전력이 계속 빠져나가므로, 클럭만 멈추는 정도로는 충분하지 않다. 그래서 현대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 설계에서 정적 전력은 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))과 동등한 관리 대상이 되었다.
+이 문제가 중요한 이유는 정적 전력이 **유휴 상태의 전력**, **배터리 대기 시간**, **데이터센터의 기본 전기료**, <strong>열 설계 여유</strong>를 동시에 갉아먹기 때문이다. 즉 사용량이 적을 때조차 전력이 계속 빠져나가므로, 클럭만 멈추는 정도로는 충분하지 않다. 그래서 현대 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 설계에서 정적 전력은 [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))과 동등한 관리 대상이 되었다.
 
 정적 전력의 가장 단순한 표현은 아래와 같다.
 
 \[
-P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/)} \times I_{leak}
+P_{static} = V_{[DD](/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/)} \times I_{leak}
 \]
 
-여기서 VDD (Supply [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))는 공급 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이고, \(I_{leak}\)은 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 총합이다. [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 같더라도 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 커지면 유휴 상태 전력은 그대로 증가한다.
+여기서 VDD (Supply [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/))는 공급 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이고, \(I_{leak}\)은 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)의 총합이다. [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 같더라도 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 커지면 유휴 상태 전력은 그대로 증가한다.
 
 - **📢 섹션 요약 비유**: 정적 전력은 가게 문을 닫았는데도 냉장 쇼케이스 문틈으로 전기가 계속 새는 상황과 같다. 손님이 없다고 요금이 0이 되는 것이 아니라, 새는 부분이 많을수록 기본요금이 계속 쌓인다.
 
@@ -45,8 +42,8 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 | 누설 경로 | 발생 위치 | 커지는 이유 | 설계 영향 |
 | :-- | :-- | :-- | :-- |
-| 서브스레숄드 누설 (Subthreshold Leakage) | 게이트가 꺼져 있어도 소스-드레인 사이 채널 | Vt (Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) 하향, 온도 상승 | 유휴 전력 급증, 저전압 설계 어려움 |
-| 게이트 누설 (Gate Leakage) | 게이트 산화막 | 산화막 박막화, [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 증가 | 미세 공정에서 절연 한계 노출 |
+| 서브스레숄드 누설 (Subthreshold Leakage) | 게이트가 꺼져 있어도 소스-드레인 사이 채널 | Vt (Threshold [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/), 임계 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) 하향, 온도 상승 | 유휴 전력 급증, 저전압 설계 어려움 |
+| 게이트 누설 (Gate Leakage) | 게이트 산화막 | 산화막 박막화, [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 증가 | 미세 공정에서 절연 한계 노출 |
 | 접합 누설 (Junction Leakage) | 역바이어스된 PN 접합 | 온도 상승, 도핑/전계 영향 | 대기 전력과 열 악순환 유발 |
 
 아래 그림은 정적 전력이 어디에서 새는지 한눈에 보여준다.
@@ -68,11 +65,11 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 +--------------------------------------------------------------------+
 ```
 
-이 그림의 핵심은 "정적 전력은 회로가 멈춰도 0이 되지 않는다"는 점이다. 클럭이 없더라도 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 인가된 이상, 각 누설 통로가 아주 작은 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 계속 만든다. 칩 전체에 수십억 개의 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 있으면 이 미세 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 합쳐져 무시 못 할 전력이 된다.
+이 그림의 핵심은 "정적 전력은 회로가 멈춰도 0이 되지 않는다"는 점이다. 클럭이 없더라도 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이 인가된 이상, 각 누설 통로가 아주 작은 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)를 계속 만든다. 칩 전체에 수십억 개의 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)가 있으면 이 미세 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)가 합쳐져 무시 못 할 전력이 된다.
 
 ### 2) 왜 미세 공정에서 더 심해지는가
 
-공정이 미세화되면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 집적도는 좋아지지만, 전기적 제어는 더 까다로워진다. 채널 길이가 짧아질수록 게이트가 채널을 완전히 잠그기 어려워지고, 산화막이 얇아질수록 전자는 양자 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 절연층을 통과하기 쉬워진다. 또한 고성능을 위해 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추면 스위칭은 빨라지지만, 꺼졌을 때의 누설은 지수적으로 증가한다.
+공정이 미세화되면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 집적도는 좋아지지만, 전기적 제어는 더 까다로워진다. 채널 길이가 짧아질수록 게이트가 채널을 완전히 잠그기 어려워지고, 산화막이 얇아질수록 전자는 양자 [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/)으로 절연층을 통과하기 쉬워진다. 또한 고성능을 위해 임계 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 낮추면 스위칭은 빨라지지만, 꺼졌을 때의 누설은 지수적으로 증가한다.
 
 즉 미세 공정은 "빠르게 켜기 쉬운 구조"를 만드는 동시에 "완전히 끄기 어려운 구조"도 만든다. 정적 전력이 공정 미세화의 부작용처럼 보이는 이유가 여기에 있다.
 
@@ -80,9 +77,9 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 정적 전력을 줄이기 위한 대표 해법은 다음 세 층위에서 등장한다.
 
-1. **소자 구조 개선**: 고-k (High-k) 유전체, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), GAAFET ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))로 누설 자체를 줄인다.
-2. <strong>회로 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 최적화</strong>: 멀티-Vt 셀을 써서 빠를 곳만 낮은 Vt를 쓰고, 나머지는 높은 Vt로 누설을 줄인다.
-3. **시스템 전원 제어**: 유휴 블록은 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)으로 아예 전원 공급을 차단한다.
+1. **소자 구조 개선**: 고-k (High-k) 유전체, [FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), GAAFET ([Gate-All-Around](/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/))로 누설 자체를 줄인다.
+2. <strong>회로 <a href="/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/">라이브러리</a> 최적화</strong>: 멀티-Vt 셀을 써서 빠를 곳만 낮은 Vt를 쓰고, 나머지는 높은 Vt로 누설을 줄인다.
+3. **시스템 전원 제어**: 유휴 블록은 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)으로 아예 전원 공급을 차단한다.
 
 - **📢 섹션 요약 비유**: 정적 전력을 줄이는 일은 비 오는 날 창문 새는 집을 고치는 것과 같다. 틈새 자체를 좋은 자재로 바꾸고, 방마다 단열 수준을 다르게 적용하고, 안 쓰는 방은 문까지 닫아야 비로소 새는 양이 크게 줄어든다.
 
@@ -90,29 +87,29 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 ## Ⅲ. 비교 및 연결
 
-정적 전력을 제대로 이해하려면 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))과 반드시 같이 봐야 한다. [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 회로가 <strong>움직일 때 드는 비용</strong>이고, 정적 전력은 회로가 <strong>가만히 있을 때도 드는 비용</strong>이다. 이 둘은 원인도 다르고 줄이는 방식도 다르다.
+정적 전력을 제대로 이해하려면 [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/))과 반드시 같이 봐야 한다. [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 회로가 <strong>움직일 때 드는 비용</strong>이고, 정적 전력은 회로가 <strong>가만히 있을 때도 드는 비용</strong>이다. 이 둘은 원인도 다르고 줄이는 방식도 다르다.
 
-| 항목 | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)) | 정적 전력 (Static [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) |
+| 항목 | [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)) | 정적 전력 (Static [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) |
 | :-- | :-- | :-- |
-| 발생 시점 | 스위칭할 때 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 인가돼도 지속 |
-| 지배 식 | \(P \approx \[alpha](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) C V^2 f\) | \(P = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/)} \times I_{leak}\) |
+| 발생 시점 | 스위칭할 때 | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)만 인가돼도 지속 |
+| 지배 식 | \(P \approx \[alpha](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) C V^2 f\) | \(P = V_{[DD](/studynote/04_software_engineering/10_trends_pm_quality/769_architecture/)} \times I_{leak}\) |
 | 핵심 원인 | 충전/방전, 토글 | 서브스레숄드·게이트·접합 누설 |
-| 주요 절감법 | [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), [DVFS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) | 멀티-Vt, 고-k, [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) |
+| 주요 절감법 | [클럭 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/), [DVFS](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) (Dynamic [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) and Frequency Scaling) | 멀티-Vt, 고-k, [FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/), [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) |
 | 유휴 상태 영향 | 작아질 수 있음 | 계속 남음 |
 
-이 차이 때문에 <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/">클럭 게이팅</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/">Clock Gating</a>)</strong>만으로는 정적 전력을 해결할 수 없다. 클럭을 멈추면 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 토글은 사라져 [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 줄지만, 전원은 여전히 연결되어 있으므로 누설 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 계속 흐른다. 그래서 유휴 시간이 길다면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)이 필요하고, 반대로 아주 짧은 유휴라면 상태 복원 비용 때문에 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)보다 [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)이 유리할 수 있다.
+이 차이 때문에 <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/">클럭 게이팅</a> (<a href="/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/">Clock Gating</a>)</strong>만으로는 정적 전력을 해결할 수 없다. 클럭을 멈추면 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 토글은 사라져 [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 줄지만, 전원은 여전히 연결되어 있으므로 누설 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)는 계속 흐른다. 그래서 유휴 시간이 길다면 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)이 필요하고, 반대로 아주 짧은 유휴라면 상태 복원 비용 때문에 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)보다 [클럭 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)이 유리할 수 있다.
 
-또 다른 연결점은 임계 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이다. Vt를 낮추면 회로가 빨라져 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에는 유리하지만, 서브스레숄드 누설이 커져 정적 전력에는 불리하다. 이 때문에 현대 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 "전부 고속"이나 "전부 저전력"이 아니라, 경로별로 Vt를 다르게 쓰는 멀티-Vt 설계를 기본 전략으로 택한다.
+또 다른 연결점은 임계 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)이다. Vt를 낮추면 회로가 빨라져 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에는 유리하지만, 서브스레숄드 누설이 커져 정적 전력에는 불리하다. 이 때문에 현대 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)는 "전부 고속"이나 "전부 저전력"이 아니라, 경로별로 Vt를 다르게 쓰는 멀티-Vt 설계를 기본 전략으로 택한다.
 
-정적 전력은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 과목 내부 개념에만 머물지 않는다. 운영체제의 C-state 전환, 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))의 대기전력 최적화, 데이터센터의 에너지 비례 컴퓨팅까지 모두 이 문제와 연결된다. 결국 정적 전력은 소자 물리와 시스템 정책을 이어 주는 중간 고리다.
+정적 전력은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 과목 내부 개념에만 머물지 않는다. 운영체제의 C-state 전환, 모바일 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) ([System on Chip](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/))의 대기전력 최적화, 데이터센터의 에너지 비례 컴퓨팅까지 모두 이 문제와 연결된다. 결국 정적 전력은 소자 물리와 시스템 정책을 이어 주는 중간 고리다.
 
-- **📢 섹션 요약 비유**: [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 자동차를 달릴 때 드는 기름값이고, 정적 전력은 시동만 켜 놓아도 계속 소모되는 공회전 연료다. 그래서 잠깐 정차면 브레이크를 밟으면 되지만, 오래 멈출 때는 엔진을 꺼야 한다.
+- **📢 섹션 요약 비유**: [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 자동차를 달릴 때 드는 기름값이고, 정적 전력은 시동만 켜 놓아도 계속 소모되는 공회전 연료다. 그래서 잠깐 정차면 브레이크를 밟으면 되지만, 오래 멈출 때는 엔진을 꺼야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 정적 전력 문제는 "누설이 존재하는가"보다 "어떤 수준의 비용을 감수하고 얼마나 줄일 것인가"로 나타난다. 설계자는 항상 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 복귀 시간, 면적, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도, 열 특성을 함께 봐야 한다.
+실무에서 정적 전력 문제는 "누설이 존재하는가"보다 "어떤 수준의 비용을 감수하고 얼마나 줄일 것인가"로 나타난다. 설계자는 항상 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 복귀 시간, 면적, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도, 열 특성을 함께 봐야 한다.
 
 ### 1) 유휴 시간에 따른 선택
 
@@ -133,13 +130,13 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 +--------------------------------------------------------------------+
 ```
 
-핵심은 <strong>유휴 시간이 길수록 더 공격적인 기법을 써야 한다</strong>는 점이다. 수 마이크로초 안에 다시 깨어날 블록이라면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)은 오히려 손해일 수 있다. 상태 저장과 복원, 웨이크업 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 있기 때문이다. 반대로 수 밀리초 이상 쉬는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 블록이라면 [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)으로 누설 자체를 끊는 편이 이득이다.
+핵심은 <strong>유휴 시간이 길수록 더 공격적인 기법을 써야 한다</strong>는 점이다. 수 마이크로초 안에 다시 깨어날 블록이라면 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)은 오히려 손해일 수 있다. 상태 저장과 복원, 웨이크업 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 있기 때문이다. 반대로 수 밀리초 이상 쉬는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 클러스터나 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 블록이라면 [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)으로 누설 자체를 끊는 편이 이득이다.
 
 ### 2) 자주 등장하는 설계 포인트
 
 - **멀티-Vt 적용**: 크리티컬 경로는 저-Vt, 비크리티컬 경로는 고-Vt를 배치한다.
 - **Always-on 영역 최소화**: 전원 관리 컨트롤러나 보안 감시 로직만 남기고, 나머지는 가능한 한 꺼지게 설계한다.
-- <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a> 설계</strong>: [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) 후에도 꼭 남겨야 할 상태는 보존 레지스터로 분리한다.
+- <strong><a href="/studynote/05_database/04_transactions_concurrency/515_mvcc/">Retention</a> 설계</strong>: [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) 후에도 꼭 남겨야 할 상태는 보존 레지스터로 분리한다.
 - **열과 누설의 악순환 차단**: 온도가 오르면 누설이 증가하고, 누설 증가는 다시 발열을 키우므로 패키지·냉각 정책과 함께 봐야 한다.
 
 ### 3) 기술사 관점의 답안 포인트
@@ -148,8 +145,8 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 1. **원인**: 공정 미세화로 서브스레숄드/게이트 누설 증가
 2. **영향**: 유휴 전력 증가, 배터리 저하, 발열·냉각 비용 상승
-3. **대응**: 고-k·[FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)·멀티-Vt·[전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)의 계층적 적용
-4. **선택 기준**: [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구, 유휴 시간, 상태 보존 필요성, 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 범위
+3. **대응**: 고-k·[FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/)·멀티-Vt·[전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)의 계층적 적용
+4. **선택 기준**: [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구, 유휴 시간, 상태 보존 필요성, 복귀 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 범위
 
 즉 "무엇인지"보다 "언제 어떤 대책을 선택하는가"까지 말해야 완성도 있는 설명이 된다.
 
@@ -161,9 +158,9 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 정적 전력을 잘 관리하면 칩은 단순히 전기를 덜 쓰는 수준을 넘어, 더 높은 집적도와 더 긴 배터리 시간, 더 안정적인 열 설계를 얻는다. 모바일 기기에서는 대기 시간이 늘어나고, 서버에서는 유휴 전력과 냉각 비용이 줄며, 고성능 칩에서는 전력 예산을 더 가치 있는 연산 영역에 배분할 수 있다.
 
-하지만 정적 전력 억제에는 항상 전제가 따른다. 고-Vt를 많이 쓰면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있고, [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)을 과하게 나누면 제어 회로와 복원 비용이 커진다. 또한 미세 공정이 더 진화할수록 누설 메커니즘도 함께 복잡해지므로, 소자 구조 개선만으로 문제를 끝낼 수는 없다.
+하지만 정적 전력 억제에는 항상 전제가 따른다. 고-Vt를 많이 쓰면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어질 수 있고, [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)을 과하게 나누면 제어 회로와 복원 비용이 커진다. 또한 미세 공정이 더 진화할수록 누설 메커니즘도 함께 복잡해지므로, 소자 구조 개선만으로 문제를 끝낼 수는 없다.
 
-그래서 정적 전력은 "꺼진 상태의 낭비"가 아니라 <strong>공정, 회로, 시스템 정책을 관통하는 기본 설계 제약</strong>으로 기억하는 것이 좋다. 앞으로도 GAAFET, 백사이드 전력 공급, 더 정교한 전원 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할 같은 기술은 결국 이 기본 문제를 얼마나 정밀하게 통제하느냐의 경쟁으로 이어질 가능성이 크다.
+그래서 정적 전력은 "꺼진 상태의 낭비"가 아니라 <strong>공정, 회로, 시스템 정책을 관통하는 기본 설계 제약</strong>으로 기억하는 것이 좋다. 앞으로도 GAAFET, 백사이드 전력 공급, 더 정교한 전원 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 분할 같은 기술은 결국 이 기본 문제를 얼마나 정밀하게 통제하느냐의 경쟁으로 이어질 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 정적 전력을 잘 다루는 설계자는 물이 새는 배를 더 세게 젓는 사람이 아니라, 새는 틈을 먼저 막고 필요한 칸만 열어 두는 선장과 같다.
 
@@ -173,12 +170,12 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)) | 총 전력의 다른 축이며, 정적 전력과 절감 전략이 다르다 |
-| [클럭 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)) | [동적 전력](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 줄이지만 정적 전력은 남긴다 |
-| [전력 게이팅](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) | 누설 자체를 차단하는 대표 시스템 기법이다 |
-| 멀티-Vt (Multi-Threshold [Voltage](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경로와 비성능 경로의 누설을 구분 최적화한다 |
-| [FinFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) | 채널 제어력을 높여 서브스레숄드 누설을 완화한다 |
-| GAAFET ([Gate-All-Around](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) Field-Effect [Transistor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) | 더 강한 게이트 제어로 차세대 누설 억제를 노린다 |
+| [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/) ([Dynamic Power](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)) | 총 전력의 다른 축이며, 정적 전력과 절감 전략이 다르다 |
+| [클럭 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/) ([Clock Gating](/studynote/01_computer_architecture/13_reliability_power_management/470_clock_gating/)) | [동적 전력](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)은 줄이지만 정적 전력은 남긴다 |
+| [전력 게이팅](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/) ([Power Gating](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)) | 누설 자체를 차단하는 대표 시스템 기법이다 |
+| 멀티-Vt (Multi-Threshold [Voltage](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 경로와 비성능 경로의 누설을 구분 최적화한다 |
+| [FinFET](/studynote/01_computer_architecture/01_basic_electronics_logic/019_finfet/) (Fin Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) | 채널 제어력을 높여 서브스레숄드 누설을 완화한다 |
+| GAAFET ([Gate-All-Around](/studynote/01_computer_architecture/01_basic_electronics_logic/020_gaa/) Field-Effect [Transistor](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)) | 더 강한 게이트 제어로 차세대 누설 억제를 노린다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -209,7 +206,7 @@ P_{static} = V_{[DD](/knowledge-base/studynote/04_software_engineering/10_trends
 
 **진행 상황**: 469 / 803
 
-<- **이전**: [467. 동적 전력 (Dynamic Power)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)
-**다음**: [469. DVFS (동적 전압 및 주파수 스케일링)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) ->
+<- **이전**: [467. 동적 전력 (Dynamic Power)](/studynote/01_computer_architecture/13_reliability_power_management/467_dynamic_power/)
+**다음**: [469. DVFS (동적 전압 및 주파수 스케일링)](/studynote/01_computer_architecture/13_reliability_power_management/469_dvfs/) ->
 
 ---

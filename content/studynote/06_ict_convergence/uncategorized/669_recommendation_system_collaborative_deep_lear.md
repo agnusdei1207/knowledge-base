@@ -1,13 +1,10 @@
-+++
-title = "669. 추천 시스템 협업 필터링 딥러닝 (Recommendation System Collaborative Deep Learning)"
-date = 2026-05-09
+---
+title: "669. 추천 시스템 협업 필터링 딥러닝 (Recommendation System Collaborative Deep Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -174,7 +171,7 @@ $$
 
 **진행 상황**: 669 / 800
 
-<- **이전**: [668. 음성 인식 TTS ASR 음성 합성](/knowledge-base/studynote/06_ict_convergence/uncategorized/668_speech_recognition_tts_asr_voice_synthesis/)
-**다음**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/knowledge-base/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/) ->
+<- **이전**: [668. 음성 인식 TTS ASR 음성 합성](/studynote/06_ict_convergence/uncategorized/668_speech_recognition_tts_asr_voice_synthesis/)
+**다음**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/) ->
 
 ---

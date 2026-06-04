@@ -1,13 +1,10 @@
-+++
-title = "501. IT 경영 관리 핵심 토픽 501번 시험 요약 (IT Management Core Topic 501 Exam Summary)"
-date = 2026-05-09
+---
+title: "501. IT 경영 관리 핵심 토픽 501번 시험 요약 (IT Management Core Topic 501 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -207,7 +204,7 @@ IT 경영관리 501번을 학습할 때 가장 혼동하기 쉬운 개념들을 
 
 **진행 상황**: 501 / 800
 
-<- **이전**: [500. IT 경영 관리 핵심 토픽 500번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/500_it_management_core_topic_500_exam_summary/)
-**다음**: [502. IT 경영 관리 핵심 토픽 502번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/502_it_management_core_topic_502_exam_summary/) ->
+<- **이전**: [500. IT 경영 관리 핵심 토픽 500번 시험 요약](/studynote/12_it_management/05_security_compliance/500_it_management_core_topic_500_exam_summary/)
+**다음**: [502. IT 경영 관리 핵심 토픽 502번 시험 요약](/studynote/12_it_management/05_security_compliance/502_it_management_core_topic_502_exam_summary/) ->
 
 ---

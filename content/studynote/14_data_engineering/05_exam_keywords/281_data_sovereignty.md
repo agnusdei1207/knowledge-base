@@ -1,13 +1,10 @@
-+++
-title = "281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)"
-date = 2026-05-09
+---
+title: "281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -158,7 +155,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 281 / 300
 
-<- **이전**: [280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/280_homomorphic_encryption/)
-**다음**: [282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/282_open_data_portal/) ->
+<- **이전**: [280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)](/studynote/14_data_engineering/05_exam_keywords/280_homomorphic_encryption/)
+**다음**: [282. 오픈 데이터 공공데이터 포털 표준 API (Open Data Public Data Portal Standard API)](/studynote/14_data_engineering/05_exam_keywords/282_open_data_portal/) ->
 
 ---

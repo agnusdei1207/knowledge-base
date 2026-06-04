@@ -1,13 +1,10 @@
-+++
-title = "797. IT 경영 관리 핵심 토픽 797번 시험 요약 (IT Management Core Topic 797 Exam Summary)"
-date = 2026-05-09
+---
+title: "797. IT 경영 관리 핵심 토픽 797번 시험 요약 (IT Management Core Topic 797 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ Topic 797의 핵심 메커니즘은 **3 Layer Governance Model**(Strategy -> Dec
 
 **진행 상황**: 797 / 800
 
-<- **이전**: [796. IT 경영 관리 핵심 토픽 796번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/796_it_management_core_topic_796_exam_summary/)
-**다음**: [798. IT 경영 관리 핵심 토픽 798번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/798_it_management_core_topic_798_exam_summary/) ->
+<- **이전**: [796. IT 경영 관리 핵심 토픽 796번 시험 요약](/studynote/12_it_management/05_security_compliance/796_it_management_core_topic_796_exam_summary/)
+**다음**: [798. IT 경영 관리 핵심 토픽 798번 시험 요약](/studynote/12_it_management/05_security_compliance/798_it_management_core_topic_798_exam_summary/) ->
 
 ---

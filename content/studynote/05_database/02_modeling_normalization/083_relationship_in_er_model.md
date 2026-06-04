@@ -1,24 +1,21 @@
-+++
-title = "83. 관계 (Relationship) - 마름모, 개체 간 연관성"
+---
+title: "83. 관계 (Relationship) - 마름모, 개체 간 연관성"
+tags:
+  - "database"
+---
 
-[taxonomies]
-tags = ["database"]
-
-[extra]
-tags = ["database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 - **본질**: ER (Entity-Relationship) 모델의 관계(Relationship)는 개체 사이의 의미 있는 연결이며, 단순 선이 아니라 업무 규칙이다.
-- **가치**: 카디낼리티 비율([Cardinality Ratio](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/))과 참여 제약([Participation Constraint](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/))을 함께 잡아야 관계형 DB로 옮길 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 유지된다.
-- **판단 포인트**: N:M 관계는 반드시 교차 테이블로 분리하고, 관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계 자체에 두어야 설계가 흐트러지지 않는다.
+- **가치**: 카디낼리티 비율([Cardinality Ratio](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/))과 참여 제약([Participation Constraint](/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/))을 함께 잡아야 관계형 DB로 옮길 때 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)이 유지된다.
+- **판단 포인트**: N:M 관계는 반드시 교차 테이블로 분리하고, 관계 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계 자체에 두어야 설계가 흐트러지지 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체와 관계를 함께 보여 주는 개념적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델이다. 개체만 나열하면 "무엇이 있는가"만 보이고, 관계를 함께 그려야 "누가 누구와 어떤 규칙으로 연결되는가"가 드러난다. [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 관계가 빠지면 업무 규칙이 사라지고, 규칙이 사라지면 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)도 지켜지지 않는다.
+ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체와 관계를 함께 보여 주는 개념적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델이다. 개체만 나열하면 "무엇이 있는가"만 보이고, 관계를 함께 그려야 "누가 누구와 어떤 규칙으로 연결되는가"가 드러난다. [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 설계에서 관계가 빠지면 업무 규칙이 사라지고, 규칙이 사라지면 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)도 지켜지지 않는다.
 
 관계는 단순한 화살표가 아니다. 예를 들어 학생과 과목 사이의 수강은 "학생이 과목을 듣는다"는 의미를 담고, 주문과 상품 사이의 포함은 "주문이 여러 상품을 가진다"는 의미를 담는다. 이 의미를 정확히 적지 않으면 관계형 테이블에서는 나중에 해석이 꼬인다.
 
@@ -29,7 +26,7 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
    N                          M
 ```
 
-관계를 모델링하는 이유는 업무 규칙을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 녹이기 위해서다. 그래서 관계는 설계도에서 보이는 선이 아니라, 시스템이 허용하는 연결 방식 자체라고 보는 것이 맞다.
+관계를 모델링하는 이유는 업무 규칙을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 녹이기 위해서다. 그래서 관계는 설계도에서 보이는 선이 아니라, 시스템이 허용하는 연결 방식 자체라고 보는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 사람과 사람을 이어 주는 줄이 단순 장식이 아니고, 가족인지 친구인지 동료인지 뜻을 가지는 것과 같다. 줄의 의미가 달라지면 관계의 규칙도 달라진다.
 
@@ -45,7 +42,7 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 | 전체 참여 | 모든 개체가 반드시 관계 참여 | 주문은 반드시 주문항목을 가짐 |
 | 부분 참여 | 일부 개체만 관계 참여 | 직원 중 일부만 프로젝트 참여 |
 
-관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계 자체에 붙는 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 예를 들어 수강일자, 주문수량, 배정시간은 학생이나 과목, 주문이나 상품 하나에 속하는 값이 아니라 관계가 성립할 때만 의미가 있다. 따라서 이런 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계선이 아니라 마름모에 붙어야 한다.
+관계 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계 자체에 붙는 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이다. 예를 들어 수강일자, 주문수량, 배정시간은 학생이나 과목, 주문이나 상품 하나에 속하는 값이 아니라 관계가 성립할 때만 의미가 있다. 따라서 이런 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 관계선이 아니라 마름모에 붙어야 한다.
 
 ```text
           수강일자
@@ -55,7 +52,7 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
 +------+           +------+
 ```
 
-[재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계(Recursive Relationship)는 같은 개체 집합 안에서 관계가 맺어지는 경우다. 직원이 직원을 관리하거나, 문서가 다른 문서를 참조하는 형태가 대표적이다.
+[재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계(Recursive Relationship)는 같은 개체 집합 안에서 관계가 맺어지는 경우다. 직원이 직원을 관리하거나, 문서가 다른 문서를 참조하는 형태가 대표적이다.
 
 ```text
 +------+
@@ -67,15 +64,15 @@ ER (Entity-Relationship) 모델과 ERD (Entity-Relationship Diagram)는 개체�
              +------+
 ```
 
-관계는 개체의 존재 자체보다 개체 간 규칙을 표현하는 데 초점이 있다. 그래서 개체와 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 다 그린 뒤에도 관계가 빠지면 모델은 아직 완성되지 않은 것이다.
+관계는 개체의 존재 자체보다 개체 간 규칙을 표현하는 데 초점이 있다. 그래서 개체와 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 다 그린 뒤에도 관계가 빠지면 모델은 아직 완성되지 않은 것이다.
 
 - **📢 섹션 요약 비유**: 반 친구들 명단만 적어 두고 누가 같은 조인지 안 적어 두면, 팀 과제를 어떻게 나눴는지 알 수 없다. 조 편성이 바로 관계다.
 
 ## Ⅲ. 비교 및 연결
 
-관계와 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 자주 헷갈리지만 역할이 다르다. [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 개체나 관계의 값을 나타내고, 관계는 개체 간 연결과 제약을 나타낸다. 또한 카디낼리티 비율은 "몇 개와 몇 개가 연결되는가"를, 참여 제약은 "반드시 연결되어야 하는가"를 설명한다.
+관계와 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 자주 헷갈리지만 역할이 다르다. [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 개체나 관계의 값을 나타내고, 관계는 개체 간 연결과 제약을 나타낸다. 또한 카디낼리티 비율은 "몇 개와 몇 개가 연결되는가"를, 참여 제약은 "반드시 연결되어야 하는가"를 설명한다.
 
-| 비교축 | 관계 | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| 비교축 | 관계 | [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
 | :--- | :--- | :--- |
 | 의미 | 개체 간 연결 | 개체나 관계의 값 |
 | 표현 | 마름모 | 타원/필드 |
@@ -93,44 +90,44 @@ ER 모델은 개념 모델이고, 관계형 스키마는 구현 모델이다. ER
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-관계형 DB로 변환할 때는 먼저 PK (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 FK (Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 어디에 둘지 결정해야 한다. 1:N 관계는 보통 N 쪽에 FK를 두고, 1:1 관계는 참여 제약이 강한 쪽이나 조회가 잦은 쪽에 FK를 둔 뒤 UNIQUE 제약으로 1:1을 보장한다. N:M 관계는 반드시 교차 테이블을 만들어 두 개의 FK와 관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 넣는다.
+관계형 DB로 변환할 때는 먼저 PK (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))와 FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))를 어디에 둘지 결정해야 한다. 1:N 관계는 보통 N 쪽에 FK를 두고, 1:1 관계는 참여 제약이 강한 쪽이나 조회가 잦은 쪽에 FK를 둔 뒤 UNIQUE 제약으로 1:1을 보장한다. N:M 관계는 반드시 교차 테이블을 만들어 두 개의 FK와 관계 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 넣는다.
 
 ### 변환 규칙
 
 1. 1:N 관계: N 쪽에 FK를 둔다.
 2. 1:1 관계: 한쪽에 FK + UNIQUE를 둔다.
 3. N:M 관계: 교차 테이블을 만든다.
-4. [재귀](/knowledge-base/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계: 자기 자신을 참조하는 FK를 둔다.
-5. 관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/): 교차 테이블 또는 관계 테이블에 넣는다.
+4. [재귀](/studynote/08_algorithm_stats/01_basics/014_recursion/) 관계: 자기 자신을 참조하는 FK를 둔다.
+5. 관계 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/): 교차 테이블 또는 관계 테이블에 넣는다.
 
-예를 들면 `수강(학생ID, 과목ID, 수강일자)` 같은 교차 테이블이 필요하다. 여기서 학생ID와 과목ID는 FK (Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))이고, 둘을 묶은 복합 PK (Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 또는 대체 키를 사용해 중복 수강을 막을 수 있다.
+예를 들면 `수강(학생ID, 과목ID, 수강일자)` 같은 교차 테이블이 필요하다. 여기서 학생ID와 과목ID는 FK (Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/))이고, 둘을 묶은 복합 PK (Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) 또는 대체 키를 사용해 중복 수강을 막을 수 있다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - N:M을 한 테이블 한 칸에 쉼표 목록으로 저장하기
-- 관계 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 개체 테이블에 잘못 넣기
+- 관계 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 개체 테이블에 잘못 넣기
 - 전체 참여 관계를 NULL 허용으로 풀어 버리기
 - 1:1인데 UNIQUE 제약을 빼고 구현하기
 
-기술사 답안에서는 "관계는 업무 규칙을 담고, 변환은 물리적 구현을 정한다"는 구분을 분명히 해 주면 좋다. 그래야 ERD를 단순 그림이 아니라 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 설계 도구로 설명할 수 있다.
+기술사 답안에서는 "관계는 업무 규칙을 담고, 변환은 물리적 구현을 정한다"는 구분을 분명히 해 주면 좋다. 그래야 ERD를 단순 그림이 아니라 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 설계 도구로 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: 자물쇠와 열쇠를 같이 설계해야 문이 잘 열린다. 자물쇠 규칙이 관계이고, 실제 철문에 다는 방식이 테이블 변환이다.
 
 ## Ⅴ. 기대효과 및 결론
 
-관계를 제대로 모델링하면 중복 저장, 이상 삽입, [삭제 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 같은 문제를 줄일 수 있다. 또한 개체만으로는 보이지 않던 업무 규칙이 드러나므로, 설계 검토와 유지보수가 쉬워진다. 결국 관계는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 "연결 구조"가 아니라 "업무 구조"를 표현하는 핵심 요소다.
+관계를 제대로 모델링하면 중복 저장, 이상 삽입, [삭제 이상](/studynote/05_database/02_modeling_normalization/092_deletion_anomaly/) 같은 문제를 줄일 수 있다. 또한 개체만으로는 보이지 않던 업무 규칙이 드러나므로, 설계 검토와 유지보수가 쉬워진다. 결국 관계는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 "연결 구조"가 아니라 "업무 구조"를 표현하는 핵심 요소다.
 
-관계를 ERD에서 명확히 표현한 뒤 관계형 스키마로 옮기면, 설계 의도와 구현 사이의 간극이 줄어든다. 이 간극을 줄이는 것이 좋은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 핵심이다.
+관계를 ERD에서 명확히 표현한 뒤 관계형 스키마로 옮기면, 설계 의도와 구현 사이의 간극이 줄어든다. 이 간극을 줄이는 것이 좋은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델링의 핵심이다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Entity | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델의 주 대상 |
+| Entity | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 모델의 주 대상 |
 | Relationship | 개체 간 의미 있는 연결 |
-| [Cardinality Ratio](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) | 연결 개수 규칙 |
-| [Participation Constraint](/knowledge-base/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) | 필수 참여 여부 |
-| Relationship [Attribute](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 관계 자체의 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
+| [Cardinality Ratio](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) | 연결 개수 규칙 |
+| [Participation Constraint](/studynote/05_database/02_modeling_normalization/085_participation_constraint_total_partial/) | 필수 참여 여부 |
+| Relationship [Attribute](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) | 관계 자체의 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) |
 | Recursive Relationship | 자기 자신과의 관계 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -165,7 +162,7 @@ ER 모델은 개념 모델이고, 관계형 스키마는 구현 모델이다. ER
 
 **진행 상황**: 83 / 600
 
-<- **이전**: [82. 속성 (Attribute)](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
-**다음**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/knowledge-base/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) ->
+<- **이전**: [82. 속성 (Attribute)](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)
+**다음**: [84. 카디널리티 비율 (Cardinality Ratio) - 1:1, 1:N, M:N](/studynote/05_database/02_modeling_normalization/084_cardinality_ratio_1_to_n/) ->
 
 ---

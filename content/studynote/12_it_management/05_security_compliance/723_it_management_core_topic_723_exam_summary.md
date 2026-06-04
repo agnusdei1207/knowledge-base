@@ -1,13 +1,10 @@
-+++
-title = "723. IT 경영 관리 핵심 토픽 723번 시험 요약 (IT Management Core Topic 723 Exam Summary)"
-date = 2026-05-09
+---
+title: "723. IT 경영 관리 핵심 토픽 723번 시험 요약 (IT Management Core Topic 723 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -189,7 +186,7 @@ IT 경영관리의 실무 도입은 **거버넌스 성숙도 진단 -> 비전 �
 
 **진행 상황**: 723 / 800
 
-<- **이전**: [722. IT 경영 관리 핵심 토픽 722번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/722_it_management_core_topic_722_exam_summary/)
-**다음**: [724. IT 경영 관리 핵심 토픽 724번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/724_it_management_core_topic_724_exam_summary/) ->
+<- **이전**: [722. IT 경영 관리 핵심 토픽 722번 시험 요약](/studynote/12_it_management/05_security_compliance/722_it_management_core_topic_722_exam_summary/)
+**다음**: [724. IT 경영 관리 핵심 토픽 724번 시험 요약](/studynote/12_it_management/05_security_compliance/724_it_management_core_topic_724_exam_summary/) ->
 
 ---

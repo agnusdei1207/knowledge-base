@@ -1,13 +1,10 @@
-+++
-title = "280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)"
-date = 2026-05-09
+---
+title: "280. 동형 암호 연산 데이터 프라이버시 보존 (Homomorphic Encryption Computation Privacy)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ $$\mathrm{Dec}_k(\mathrm{Enc}_k(m_1) \odot \mathrm{Enc}_k(m_2)) = m_1 \boxdot m_
 
 **진행 상황**: 280 / 300
 
-<- **이전**: [279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/279_differential_privacy/)
-**다음**: [281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/281_data_sovereignty/) ->
+<- **이전**: [279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)](/studynote/14_data_engineering/05_exam_keywords/279_differential_privacy/)
+**다음**: [281. 데이터 주권 국경간 이전 규제 (Data Sovereignty Cross-border Transfer Regulation)](/studynote/14_data_engineering/05_exam_keywords/281_data_sovereignty/) ->
 
 ---

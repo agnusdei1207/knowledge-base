@@ -1,13 +1,10 @@
-+++
-title = "481. 감리 프로세스 자산 관리 체계 (Audit Process Asset Management)"
-date = 2026-05-09
+---
+title: "481. 감리 프로세스 자산 관리 체계 (Audit Process Asset Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -139,7 +136,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 481 / 600
 
-<- **이전**: [480. CQRS 명령 조회 분리 패턴 심화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/481_cqrs_advanced/)
-**다음**: [482. 정보시스템 감리 점검표 설계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/482_is_audit_checklist_design/) ->
+<- **이전**: [480. CQRS 명령 조회 분리 패턴 심화](/studynote/11_design_supervision/06_exam_summary/481_cqrs_advanced/)
+**다음**: [482. 정보시스템 감리 점검표 설계](/studynote/11_design_supervision/06_exam_summary/482_is_audit_checklist_design/) ->
 
 ---

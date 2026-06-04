@@ -1,13 +1,10 @@
-+++
-title = "422. IT 재무 관리 FinOps 비용 최적화 (IT Financial Management FinOps Cost)"
-date = 2026-05-09
+---
+title: "422. IT 재무 관리 FinOps 비용 최적화 (IT Financial Management FinOps Cost)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -182,7 +179,7 @@ TCS = Tagged Resource Count / Total Resource Count
 
 **진행 상황**: 422 / 800
 
-<- **이전**: [421. 연속성 관리 BCP DRP 사이트 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/421_continuity_management_bcp_drp_site/)
-**다음**: [423. IT 자산 관리 ITAM 라이프사이클](/knowledge-base/studynote/12_it_management/05_security_compliance/423_it_asset_management_itam_lifecycle/) ->
+<- **이전**: [421. 연속성 관리 BCP DRP 사이트 전략](/studynote/12_it_management/05_security_compliance/421_continuity_management_bcp_drp_site/)
+**다음**: [423. IT 자산 관리 ITAM 라이프사이클](/studynote/12_it_management/05_security_compliance/423_it_asset_management_itam_lifecycle/) ->
 
 ---

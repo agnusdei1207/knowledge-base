@@ -1,13 +1,10 @@
-+++
-title = "278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)"
-date = 2026-05-09
+---
+title: "278. 개인정보 비식별화 가명처리 k-익명성 (De-identification Pseudonymization k-Anonymity)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -113,7 +110,7 @@ k-익명성 기반 비식별화 시스템은 크게 **① 준식별자 탐지 �
 
 **진행 상황**: 278 / 300
 
-<- **이전**: [277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/277_data_ethics_bias/)
-**다음**: [279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/279_differential_privacy/) ->
+<- **이전**: [277. 데이터 윤리 편향 감지 공정성 평가 (Data Ethics Bias Detection Fairness Evaluation)](/studynote/14_data_engineering/05_exam_keywords/277_data_ethics_bias/)
+**다음**: [279. 차등 프라이버시 노이즈 주입 엡실론 보장 (Differential Privacy Noise Injection Epsilon)](/studynote/14_data_engineering/05_exam_keywords/279_differential_privacy/) ->
 
 ---

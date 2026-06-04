@@ -1,27 +1,24 @@
-+++
-title = "598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)"
-date = 2026-05-08
+---
+title: "598. VM (Virtual Machine) 마이그레이션 NIC (Network Interface Card)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: VM 마이그레이션 NIC은 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/))에서 가장 무거운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면, 즉 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 읽기·전송·[체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)·암호화·직접 쓰기를 네트워크 인터페이스 카드와 SmartNIC·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))로 넘겨, 중앙처리장치 (Central Processing Unit, CPU)가 제어만 맡도록 만드는 구조다.
+> 1. **본질**: VM 마이그레이션 NIC은 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/))에서 가장 무거운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면, 즉 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 읽기·전송·[체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)·암호화·직접 쓰기를 네트워크 인터페이스 카드와 SmartNIC·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/))로 넘겨, 중앙처리장치 (Central Processing Unit, CPU)가 제어만 맡도록 만드는 구조다.
 > 2. **가치**: 큰 메모리를 가진 VM을 여러 대 동시에 옮겨도 호스트 CPU 소모와 정지 시간을 줄여, 유지보수·장애 회피·부하 재배치를 더 자주, 더 안전하게 할 수 있다.
-> 3. **판단 포인트**: 진짜 병목은 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 속도 하나가 아니라 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율, 네트워크 격리, 장치 상태 이동 가능성의 조합이므로, VM이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바꾸는 속도가 링크보다 빠르면 하드웨어 가속만으로는 수렴하지 않는다.
+> 3. **판단 포인트**: 진짜 병목은 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 속도 하나가 아니라 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율, 네트워크 격리, 장치 상태 이동 가능성의 조합이므로, VM이 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바꾸는 속도가 링크보다 빠르면 하드웨어 가속만으로는 수렴하지 않는다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)은 실행 중인 VM을 한 물리 서버에서 다른 서버로 옮기되, 사용자는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단을 거의 느끼지 않게 만드는 기술이다. 보통 먼저 VM이 계속 실행되는 동안 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 여러 번 복사하고, 마지막에 아주 짧게 멈춰 남은 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 CPU 상태, 장치 상태를 넘긴 뒤 실행 주체를 바꾼다. 따라서 관건은 총 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량보다 마지막 전환 시점에 남아 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량을 얼마나 줄이느냐다.
+[라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)은 실행 중인 VM을 한 물리 서버에서 다른 서버로 옮기되, 사용자는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단을 거의 느끼지 않게 만드는 기술이다. 보통 먼저 VM이 계속 실행되는 동안 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 여러 번 복사하고, 마지막에 아주 짧게 멈춰 남은 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 CPU 상태, 장치 상태를 넘긴 뒤 실행 주체를 바꾼다. 따라서 관건은 총 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량보다 마지막 전환 시점에 남아 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)량을 얼마나 줄이느냐다.
 
-문제는 이 과정이 생각보다 CPU 집약적이라는 점이다. 소프트웨어만으로 마이그레이션하면 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 목록을 관리하고, 호스트 메모리에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 네트워크 패킷으로 만들고, [체크섬](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 암호화까지 수행해야 한다. 메모리가 수백 기가바이트인 VM을 여러 대 동시에 옮기면, 평소에는 애플리케이션에 써야 할 코어가 복사 작업과 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 잠식된다.
+문제는 이 과정이 생각보다 CPU 집약적이라는 점이다. 소프트웨어만으로 마이그레이션하면 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 목록을 관리하고, 호스트 메모리에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽어 네트워크 패킷으로 만들고, [체크섬](/studynote/01_computer_architecture/02_data_representation_arithmetic/112_checksum/)과 암호화까지 수행해야 한다. 메모리가 수백 기가바이트인 VM을 여러 대 동시에 옮기면, 평소에는 애플리케이션에 써야 할 코어가 복사 작업과 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)에 잠식된다.
 
 이 그림은 마이그레이션이 왜 한 번 복사가 아니라 반복 복사와 짧은 정지 전환의 문제인지 보여 준다.
 
@@ -39,7 +36,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-그래서 VM 마이그레이션 NIC의 가치는 단순한 빠른 NIC가 아니라, 이 반복 복사의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 더 효율적으로 처리하는 데 있다. CPU는 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 판단과 전환 제어에 집중하고, 실제 대량 전송은 NIC가 맡는 방향으로 역할을 분리하는 것이다.
+그래서 VM 마이그레이션 NIC의 가치는 단순한 빠른 NIC가 아니라, 이 반복 복사의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 더 효율적으로 처리하는 데 있다. CPU는 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 판단과 전환 제어에 집중하고, 실제 대량 전송은 NIC가 맡는 방향으로 역할을 분리하는 것이다.
 
 - **📢 섹션 요약 비유**: 이사는 짐을 트럭에 싣는 속도보다, 마지막에 침대와 냉장고를 언제 끊김 없이 옮기느냐가 핵심이다. 마이그레이션 NIC은 집주인이 짐을 들지 않게 하고 전문 이삿짐 차량이 반복 운반을 맡게 만드는 장치다.
 
@@ -47,17 +44,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-VM 마이그레이션 NIC이 직접 해결하는 핵심은 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면이다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 바뀌었는지 추적하고 전환 시점을 결정한다. 그다음 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 또는 SmartNIC/DPU는 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))으로 소스 메모리를 읽고, 필요하면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화·세그먼트 처리를 한 뒤 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/))으로 대상 호스트 메모리에 바로 써 넣는다. 즉 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가, 대량 복사는 NIC가 담당한다.
+VM 마이그레이션 NIC이 직접 해결하는 핵심은 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면이다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 어떤 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 바뀌었는지 추적하고 전환 시점을 결정한다. 그다음 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 또는 SmartNIC/DPU는 [직접 메모리 접근](/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/))으로 소스 메모리를 읽고, 필요하면 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화·세그먼트 처리를 한 뒤 원격 [직접 메모리 접근](/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/))으로 대상 호스트 메모리에 바로 써 넣는다. 즉 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)가, 대량 복사는 NIC가 담당한다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 추적기 | [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 메모리 관리 장치가 변경 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 기록한다 | 추적 정확도와 bitmap 갱신 비용이 수렴성을 좌우한다 |
-| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) / [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 엔진 | 소스 메모리를 읽고 대상 메모리로 직접 전송한다 | CPU 복사와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 개입을 얼마나 줄이느냐가 핵심이다 |
-| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화 파이프라인 | 전송량과 보안 부담을 하드웨어로 분산한다 | 이미 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 효과가 낮을 수 있다 |
-| 큐 관리 / [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) | 여러 VM 마이그레이션을 동시에 스케줄링한다 | 혼잡 시 migration이 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽을 잠식하지 않게 해야 한다 |
-| 전환 제어 인터페이스 | 마지막 stop-and-copy와 재시작 타이밍을 맞춘다 | CPU 상태, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 장치 상태 정합성이 중요하다 |
+| 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 추적기 | [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)와 메모리 관리 장치가 변경 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 기록한다 | 추적 정확도와 bitmap 갱신 비용이 수렴성을 좌우한다 |
+| [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) / [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 엔진 | 소스 메모리를 읽고 대상 메모리로 직접 전송한다 | CPU 복사와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 개입을 얼마나 줄이느냐가 핵심이다 |
+| [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화 파이프라인 | 전송량과 보안 부담을 하드웨어로 분산한다 | 이미 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 효과가 낮을 수 있다 |
+| 큐 관리 / [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/) | 여러 VM 마이그레이션을 동시에 스케줄링한다 | 혼잡 시 migration이 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽을 잠식하지 않게 해야 한다 |
+| 전환 제어 인터페이스 | 마지막 stop-and-copy와 재시작 타이밍을 맞춘다 | CPU 상태, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 장치 상태 정합성이 중요하다 |
 
-아래 그림은 제어 경로와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로가 어떻게 나뉘는지 보여 준다.
+아래 그림은 제어 경로와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로가 어떻게 나뉘는지 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -75,25 +72,25 @@ VM 마이그레이션 NIC이 직접 해결하는 핵심은 메모리 [페이지]
 +----------------------------------------------------------------------------+
 ```
 
-여기서 중요한 점은 NIC이 마이그레이션 전체를 대체하지 않는다는 사실이다. VM 실행을 언제 멈추고 재개할지, 가상 CPU 레지스터와 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상태를 어떻게 넘길지, 저장장치와 장치 모델을 어떻게 일치시킬지는 여전히 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 책임이다. [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 가속은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 싸게 만들지, [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제를 없애지는 않는다.
+여기서 중요한 점은 NIC이 마이그레이션 전체를 대체하지 않는다는 사실이다. VM 실행을 언제 멈추고 재개할지, 가상 CPU 레지스터와 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 상태를 어떻게 넘길지, 저장장치와 장치 모델을 어떻게 일치시킬지는 여전히 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 책임이다. [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 가속은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동을 싸게 만들지, [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 문제를 없애지는 않는다.
 
-- **📢 섹션 요약 비유**: 감독이 경기 작전을 짜는 일까지 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운전기사에게 맡기지는 않는다. 감독은 교체 타이밍을 정하고, 운전기사는 선수들을 가장 빠르고 안전하게 이동시키는 역할을 맡는 셈이다.
+- **📢 섹션 요약 비유**: 감독이 경기 작전을 짜는 일까지 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 운전기사에게 맡기지는 않는다. 감독은 교체 타이밍을 정하고, 운전기사는 선수들을 가장 빠르고 안전하게 이동시키는 역할을 맡는 셈이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-VM 마이그레이션 가속은 일반 소프트웨어 복사, [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 지원 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), SmartNIC/[DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 심화 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 나눠 보면 경계가 선명해진다. 세 방식 모두 같은 목적을 향하지만, CPU가 계속 개입하는 정도와 관측성, 운영 난도가 다르다.
+VM 마이그레이션 가속은 일반 소프트웨어 복사, [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 지원 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/), SmartNIC/[DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 심화 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/)으로 나눠 보면 경계가 선명해진다. 세 방식 모두 같은 목적을 향하지만, CPU가 계속 개입하는 정도와 관측성, 운영 난도가 다르다.
 
-| 방식 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 | 장점 | 한계 |
+| 방식 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 소프트웨어 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반 마이그레이션 | CPU 복사 + [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 범용성이 높고 도입이 쉽다 | CPU 사용률과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차가 크다 |
-| [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 지원 [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 기반 마이그레이션 | 메모리-메모리 직접 전송 | CPU 개입과 복사 횟수를 크게 줄인다 | 전용 설정과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 관리가 필요하다 |
-| SmartNIC / [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 마이그레이션 | [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화·큐 격리 + 일부 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 [오프로딩](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | 동시 마이그레이션 수와 예측 가능성이 좋아진다 | 벤더 종속성과 운영 복잡도가 커진다 |
+| 소프트웨어 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 기반 마이그레이션 | CPU 복사 + [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) | 범용성이 높고 도입이 쉽다 | CPU 사용률과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 편차가 크다 |
+| [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) 지원 [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 기반 마이그레이션 | 메모리-메모리 직접 전송 | CPU 개입과 복사 횟수를 크게 줄인다 | 전용 설정과 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 관리가 필요하다 |
+| SmartNIC / [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/) 기반 마이그레이션 | [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) + [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)·암호화·큐 격리 + 일부 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 [오프로딩](/studynote/01_computer_architecture/12_accelerators_ai_hardware/440_offloading/) | 동시 마이그레이션 수와 예측 가능성이 좋아진다 | 벤더 종속성과 운영 복잡도가 커진다 |
 
-또 하나의 중요한 비교축은 pre-copy와 post-copy다. pre-copy는 VM이 계속 실행되는 동안 여러 번 메모리를 미리 보내므로 안전하지만, 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율이 높으면 수렴이 늦다. post-copy는 VM을 먼저 옮기고 필요한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 뒤늦게 당겨오므로 총 복사량은 줄 수 있지만, 네트워크 문제에 더 민감하다. [NIC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 가속은 두 방식 모두에 도움이 되지만, pre-copy의 수렴성 문제 자체를 마법처럼 없애지는 못한다.
+또 하나의 중요한 비교축은 pre-copy와 post-copy다. pre-copy는 VM이 계속 실행되는 동안 여러 번 메모리를 미리 보내므로 안전하지만, 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율이 높으면 수렴이 늦다. post-copy는 VM을 먼저 옮기고 필요한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 뒤늦게 당겨오므로 총 복사량은 줄 수 있지만, 네트워크 문제에 더 민감하다. [NIC](/studynote/01_computer_architecture/15_advanced_topics/587_nic_offloading/) 가속은 두 방식 모두에 도움이 되지만, pre-copy의 수렴성 문제 자체를 마법처럼 없애지는 못한다.
 
-가상 장치 모델과의 연결도 중요하다. 단일 루트 입출력 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/), [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))로 장치를 직접 패스스루한 VM은 장치 상태가 물리 하드웨어에 더 깊게 묶여 있어 마이그레이션이 까다롭다. 따라서 migration NIC을 도입해도, 장치 측이 migratable state를 제공하지 않으면 범용 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)처럼 부드럽게 동작하지 않을 수 있다.
+가상 장치 모델과의 연결도 중요하다. 단일 루트 입출력 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Single Root I/O [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/), [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/))로 장치를 직접 패스스루한 VM은 장치 상태가 물리 하드웨어에 더 깊게 묶여 있어 마이그레이션이 까다롭다. 따라서 migration NIC을 도입해도, 장치 측이 migratable state를 제공하지 않으면 범용 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)처럼 부드럽게 동작하지 않을 수 있다.
 
 - **📢 섹션 요약 비유**: 일반 택배, 퀵서비스, 전용 이삿짐 열차는 모두 물건을 옮기지만 효율과 준비 비용이 다르다. 또 짐이 계속 만들어지는 공장이라면, 아무리 빠른 열차가 와도 생산 속도가 더 빠르면 적재가 끝나지 않는다.
 
@@ -101,26 +98,26 @@ VM 마이그레이션 가속은 일반 소프트웨어 복사, [RDMA](/knowledge
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 migration NIC은 대규모 클라우드의 유지보수 창구를 넓혀 준다. 물리 서버 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 열 집중 회피, 장애 징후 서버 비우기, 테넌트 재배치 같은 작업을 더 자주 수행할 수 있기 때문이다. 그러나 이득이 크려면 VM 메모리의 dirty rate, 네트워크 품질, 저장장치 공유 구조가 함께 맞아야 한다. 예를 들어 메모리 변경량이 매우 큰 [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/) VM은 100GbE 이상 링크에서도 pre-copy가 쉽게 끝나지 않을 수 있다.
+실무에서 migration NIC은 대규모 클라우드의 유지보수 창구를 넓혀 준다. 물리 서버 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 업데이트, 열 집중 회피, 장애 징후 서버 비우기, 테넌트 재배치 같은 작업을 더 자주 수행할 수 있기 때문이다. 그러나 이득이 크려면 VM 메모리의 dirty rate, 네트워크 품질, 저장장치 공유 구조가 함께 맞아야 한다. 예를 들어 메모리 변경량이 매우 큰 [인메모리 데이터베이스](/studynote/16_bigdata/06_nosql/139_inmemory_db/) VM은 100GbE 이상 링크에서도 pre-copy가 쉽게 끝나지 않을 수 있다.
 
-또한 마이그레이션 트래픽은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽과 분리하는 것이 좋다. 하드웨어 가속이 있더라도 같은 uplink를 함께 쓰면 고객 패킷과 migration [page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) stream이 서로 꼬인다. 실무에서는 전용 migration 네트워크, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 암호화 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼 설계를 같이 보는 편이 안전하다.
+또한 마이그레이션 트래픽은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽과 분리하는 것이 좋다. 하드웨어 가속이 있더라도 같은 uplink를 함께 쓰면 고객 패킷과 migration [page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) stream이 서로 꼬인다. 실무에서는 전용 migration 네트워크, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 암호화 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼 설계를 같이 보는 편이 안전하다.
 
-### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. VM의 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도가 실제 migration [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)보다 충분히 낮은가?
-2. 소스와 타깃이 같은 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기능 집합을 지원하는가?
-3. [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽과 마이그레이션 트래픽이 네트워크상에서 격리되어 있는가?
-4. [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), 가속기 패스스루, 로컬 디스크 같은 비이동성 자원이 전환을 방해하지 않는가?
-5. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 암호화, CPU [fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 경로를 켰을 때도 다운타임 목표를 만족하는가?
+1. VM의 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도가 실제 migration [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)보다 충분히 낮은가?
+2. 소스와 타깃이 같은 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/), [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 기능 집합을 지원하는가?
+3. [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 트래픽과 마이그레이션 트래픽이 네트워크상에서 격리되어 있는가?
+4. [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/), 가속기 패스스루, 로컬 디스크 같은 비이동성 자원이 전환을 방해하지 않는가?
+5. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 암호화, CPU [fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/) 경로를 켰을 때도 다운타임 목표를 만족하는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 링크 속도만 올리면 마이그레이션이 자동으로 빨라질 것이라 믿고 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율을 측정하지 않는 설계
-- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 네트워크와 migration 네트워크를 구분하지 않아 고객 트래픽과 메모리 복사가 서로 간섭하는 운영
-- [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 장치나 패스스루 가속기를 단 VM에 대해 장치 상태 이전 절차 없이 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)을 기대하는 판단
-- 여러 VM을 동시에 옮기면서 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼, 대상 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 공유 스토리지 부하를 고려하지 않는 배치
+- 링크 속도만 올리면 마이그레이션이 자동으로 빨라질 것이라 믿고 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)율을 측정하지 않는 설계
+- [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 네트워크와 migration 네트워크를 구분하지 않아 고객 트래픽과 메모리 복사가 서로 간섭하는 운영
+- [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) 장치나 패스스루 가속기를 단 VM에 대해 장치 상태 이전 절차 없이 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)을 기대하는 판단
+- 여러 VM을 동시에 옮기면서 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 버퍼, 대상 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 공유 스토리지 부하를 고려하지 않는 배치
 
-기술사 답안에서는 RDMA라서 빠르다보다 한 단계 더 나아가, 수렴성, 장치 상태, 네트워크 격리를 함께 써야 설계 관점이 살아난다. VM 마이그레이션은 네트워크 문제이면서 동시에 메모리 추적, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 장치 모델의 종합 문제이기 때문이다.
+기술사 답안에서는 RDMA라서 빠르다보다 한 단계 더 나아가, 수렴성, 장치 상태, 네트워크 격리를 함께 써야 설계 관점이 살아난다. VM 마이그레이션은 네트워크 문제이면서 동시에 메모리 추적, [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 장치 모델의 종합 문제이기 때문이다.
 
 - **📢 섹션 요약 비유**: 이삿짐 고속도로를 깔아도, 출발지에서 짐이 계속 쏟아지고 도착지 창고가 준비되지 않으면 이사는 끝나지 않는다. 좋은 트럭만큼이나 짐 분류표와 도착지 정리가 중요하다.
 
@@ -128,11 +125,11 @@ VM 마이그레이션 가속은 일반 소프트웨어 복사, [RDMA](/knowledge
 
 ## Ⅴ. 기대효과 및 결론
 
-VM 마이그레이션 NIC을 잘 적용하면 정지 시간을 줄이고, CPU 코어를 애플리케이션에 더 남겨 두며, 한 번에 처리할 수 있는 마이그레이션 건수를 늘릴 수 있다. 이는 단순 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 운영 민첩성 향상으로 이어진다. 서버를 미리 비우고 고치고 다시 채우는 작업이 쉬워지면, 클라우드와 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라는 장애 대응과 유지보수에서 훨씬 유연해진다.
+VM 마이그레이션 NIC을 잘 적용하면 정지 시간을 줄이고, CPU 코어를 애플리케이션에 더 남겨 두며, 한 번에 처리할 수 있는 마이그레이션 건수를 늘릴 수 있다. 이는 단순 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상보다 운영 민첩성 향상으로 이어진다. 서버를 미리 비우고 고치고 다시 채우는 작업이 쉬워지면, 클라우드와 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라는 장애 대응과 유지보수에서 훨씬 유연해진다.
 
-하지만 한계도 뚜렷하다. 마지막 switchover는 완전히 0이 되기 어렵고, device passthrough와 저장장치 이동성, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 같은 문제가 여전히 남는다. 앞으로는 DPU가 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 보안, 마이그레이션 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 함께 맡고, 메모리 확장 기술과 결합해 이동 가능한 컴퓨팅 단위를 더 정교하게 만드는 방향으로 발전할 가능성이 크다.
+하지만 한계도 뚜렷하다. 마지막 switchover는 완전히 0이 되기 어렵고, device passthrough와 저장장치 이동성, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 같은 문제가 여전히 남는다. 앞으로는 DPU가 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/), 보안, 마이그레이션 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 함께 맡고, 메모리 확장 기술과 결합해 이동 가능한 컴퓨팅 단위를 더 정교하게 만드는 방향으로 발전할 가능성이 크다.
 
-결론적으로 VM 마이그레이션 NIC은 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)에서 가장 비싼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로를 하드웨어화해 다운타임을 작게 만드는 현실적 가속기로 기억하는 것이 정확하다. 결국 핵심은 더 빠른 선 하나가 아니라, 더 적은 마지막 남은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 만드는 전체 설계다.
+결론적으로 VM 마이그레이션 NIC은 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)에서 가장 비싼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 경로를 하드웨어화해 다운타임을 작게 만드는 현실적 가속기로 기억하는 것이 정확하다. 결국 핵심은 더 빠른 선 하나가 아니라, 더 적은 마지막 남은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 만드는 전체 설계다.
 
 - **📢 섹션 요약 비유**: 잘 설계된 이삿짐 시스템은 사람이 꼭 해야 할 확인과 열쇠 전달만 남기고, 무거운 짐 나르기만 기계에 맡긴다. 마이그레이션 NIC도 바로 그 역할을 한다.
 
@@ -142,12 +139,12 @@ VM 마이그레이션 NIC을 잘 적용하면 정지 시간을 줄이고, CPU �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)) | VM을 거의 멈추지 않고 옮기려는 상위 목적이다. |
+| [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)) | VM을 거의 멈추지 않고 옮기려는 상위 목적이다. |
 | Pre-copy / Post-copy | migration NIC이 가속하는 대표적인 메모리 이동 전략이다. |
-| 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 추적 (Dirty [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tracking) | 남은 메모리 집합을 얼마나 빨리 줄일 수 있는지 결정하는 기반 정보다. |
-| 원격 [직접 메모리 접근](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)) | CPU와 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 개입을 줄여 대량 메모리 복사를 빠르게 만든다. |
-| SmartNIC / [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) | 단순 전송을 넘어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 암호화, [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 제어까지 함께 맡는 진화형 형태다. |
-| 단일 루트 입출력 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/), [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/)) | 높은 I/O [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 주지만 장치 상태 이전을 어렵게 만들어 마이그레이션과 긴장 관계를 만든다. |
+| 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 추적 (Dirty [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tracking) | 남은 메모리 집합을 얼마나 빨리 줄일 수 있는지 결정하는 기반 정보다. |
+| 원격 [직접 메모리 접근](/studynote/02_operating_system/08_storage_and_io_systems/450_dma_direct_memory_access/) (Remote [Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/), [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)) | CPU와 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 개입을 줄여 대량 메모리 복사를 빠르게 만든다. |
+| SmartNIC / [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 장치 ([Data Processing Unit](/studynote/06_ict_convergence/03_cloud_infrastructure/229_dpu_ipu_infrastructure_accelerator_offloading/), [DPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/436_dpu/)) | 단순 전송을 넘어 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 암호화, [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 제어까지 함께 맡는 진화형 형태다. |
+| 단일 루트 입출력 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) (Single Root I/O [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/), [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/)) | 높은 I/O [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 주지만 장치 상태 이전을 어렵게 만들어 마이그레이션과 긴장 관계를 만든다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -167,7 +164,7 @@ SmartNIC / DPU 압축 · 암호화 · 큐 오프로딩
 장치 상태 이전을 포함한 migratable virtual infrastructure
 ```
 
-이 흐름은 마이그레이션 기술이 단순 메모리 복사에서 출발해, 이제는 네트워크·보안·장치 상태를 함께 다루는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면으로 확장되고 있음을 보여 준다.
+이 흐름은 마이그레이션 기술이 단순 메모리 복사에서 출발해, 이제는 네트워크·보안·장치 상태를 함께 다루는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면으로 확장되고 있음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,7 +178,7 @@ SmartNIC / DPU 압축 · 암호화 · 큐 오프로딩
 
 **진행 상황**: 598 / 803
 
-<- **이전**: [597. SLC (Single-Level Cell) 캐싱](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)
-**다음**: [599. 데이터 중심 패브릭 (Data-Centric Fabric)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/599_data_centric_fabric/) ->
+<- **이전**: [597. SLC (Single-Level Cell) 캐싱](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)
+**다음**: [599. 데이터 중심 패브릭 (Data-Centric Fabric)](/studynote/01_computer_architecture/15_advanced_topics/599_data_centric_fabric/) ->
 
 ---

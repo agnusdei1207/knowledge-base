@@ -1,13 +1,10 @@
-+++
-title = "503. 클라우드 정책 관리 OPA 거버넌스 (Cloud Policy Management OPA Governance)"
-date = 2026-05-09
+---
+title: "503. 클라우드 정책 관리 OPA 거버넌스 (Cloud Policy Management OPA Governance)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 503 / 800
 
-<- **이전**: [502. IaC Ansible 구성 관리 자동화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/502_iac_ansible_configuration_management_automati/)
-**다음**: [504. 클라우드 태그 관리 리소스 분류 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/504_cloud_tag_management_resource_classification/) ->
+<- **이전**: [502. IaC Ansible 구성 관리 자동화](/studynote/13_cloud_architecture/06_exam_summary/502_iac_ansible_configuration_management_automati/)
+**다음**: [504. 클라우드 태그 관리 리소스 분류 전략](/studynote/13_cloud_architecture/06_exam_summary/504_cloud_tag_management_resource_classification/) ->
 
 ---

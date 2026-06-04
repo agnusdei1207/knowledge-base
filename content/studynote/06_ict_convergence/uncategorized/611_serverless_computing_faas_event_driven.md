@@ -1,13 +1,10 @@
-+++
-title = "611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐 (Serverless Computing FaaS Event Driven)"
-date = 2026-05-09
+---
+title: "611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐 (Serverless Computing FaaS Event Driven)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -174,7 +171,7 @@ FaaS의 핵심은 **이벤트 소스(Event Source)** -> **호출 매개체(Invoc
 
 **진행 상황**: 611 / 800
 
-<- **이전**: [610. 스마트 물류 자동화 라스트마일 배송](/knowledge-base/studynote/06_ict_convergence/uncategorized/610_smart_logistics_automation_last_mile_delivery/)
-**다음**: [612. 멀티클라우드 전략 벤더 독립 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/612_multi_cloud_strategy_vendor_independent/) ->
+<- **이전**: [610. 스마트 물류 자동화 라스트마일 배송](/studynote/06_ict_convergence/uncategorized/610_smart_logistics_automation_last_mile_delivery/)
+**다음**: [612. 멀티클라우드 전략 벤더 독립 아키텍처](/studynote/06_ict_convergence/uncategorized/612_multi_cloud_strategy_vendor_independent/) ->
 
 ---

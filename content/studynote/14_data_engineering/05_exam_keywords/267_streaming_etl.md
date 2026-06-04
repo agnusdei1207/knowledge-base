@@ -1,13 +1,10 @@
-+++
-title = "267. 스트리밍 ETL 실시간 파이프라인 설계 (Streaming ETL Real-time Pipeline Design)"
-date = 2026-05-09
+---
+title: "267. 스트리밍 ETL 실시간 파이프라인 설계 (Streaming ETL Real-time Pipeline Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -166,7 +163,7 @@ Flink의 `Keyed State`는 RocksDB에 LSM-Tree로 저장되며, Checkpoint 시 `s
 
 **진행 상황**: 267 / 300
 
-<- **이전**: [266. 데이터 사일로 해소 통합 전략 (Data Silo Breaking Integration Strategy)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/266_data_silo_integration/)
-**다음**: [268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/268_vector_database/) ->
+<- **이전**: [266. 데이터 사일로 해소 통합 전략 (Data Silo Breaking Integration Strategy)](/studynote/14_data_engineering/05_exam_keywords/266_data_silo_integration/)
+**다음**: [268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)](/studynote/14_data_engineering/05_exam_keywords/268_vector_database/) ->
 
 ---

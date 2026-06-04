@@ -1,12 +1,9 @@
-+++
-title = "73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)"
+---
+title: "73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -40,7 +37,7 @@ Batch Transfer
 | :-- | :-- |
 | Multi Token | 다중 토큰 |
 | Batch Transfer | 묶음 전송 |
-| URI | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) |
+| URI | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) |
 
 ERC-1155는 여러 토큰을 하나의 스마트 컨트랙트로 관리해 운영 효율을 높인다.
 
@@ -52,7 +49,7 @@ ERC-1155는 여러 토큰을 하나의 스마트 컨트랙트로 관리해 운�
 
 | 표준 | 특징 |
 | :-- | :-- |
-| [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) | 대체 가능 |
+| [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) | 대체 가능 |
 | ERC-721 | 대체 불가 |
 | ERC-1155 | 다중 토큰 |
 
@@ -69,17 +66,17 @@ ERC-1155는 게임 아이템, 배지, 토큰 묶음 등에 유리하다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 다중 토큰이 필요한가?
 2. 배치 전송이 유리한가?
 3. FT/NFT를 같이 쓰는가?
-4. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 있는가?
+4. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리가 있는가?
 5. 게임/아이템에 맞는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- ERC-1155를 [ERC-20](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 대체로만 보는 설계
+- ERC-1155를 [ERC-20](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/) 대체로만 보는 설계
 - NFT와 FT를 분리해야 할 때 무조건 합치는 설계
 - 배치 전송 이점을 무시하는 설계
 - 자산 유형을 혼동하는 설계
@@ -136,7 +133,7 @@ ERC-1155는 그런 규칙이에요.
 
 **진행 상황**: 73 / 552
 
-<- **이전**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)
-**다음**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/) ->
+<- **이전**: [72. ERC-20 (이더리움 대체 가능 토큰 표준)](/studynote/06_ict_convergence/01_blockchain/072_erc_20_fungible_token_standard/)
+**다음**: [74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)](/studynote/06_ict_convergence/01_blockchain/074_zkevm_zero_knowledge_ethereum_virtual_machine/) ->
 
 ---

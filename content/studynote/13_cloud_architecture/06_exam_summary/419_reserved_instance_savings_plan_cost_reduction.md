@@ -1,13 +1,10 @@
-+++
-title = "419. 예약 인스턴스 세이빙 플랜 비용 절감 (Reserved Instance Savings Plan Cost Reduction)"
-date = 2026-05-09
+---
+title: "419. 예약 인스턴스 세이빙 플랜 비용 절감 (Reserved Instance Savings Plan Cost Reduction)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 419 / 800
 
-<- **이전**: [418. 리소스 최적화 라이트사이징 스팟](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/418_resource_optimization_rightsizing_spot_instan/)
-**다음**: [420. 클라우드 비용 거버넌스 예산 알림](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/420_cloud_cost_governance_budget_alerting/) ->
+<- **이전**: [418. 리소스 최적화 라이트사이징 스팟](/studynote/13_cloud_architecture/06_exam_summary/418_resource_optimization_rightsizing_spot_instan/)
+**다음**: [420. 클라우드 비용 거버넌스 예산 알림](/studynote/13_cloud_architecture/06_exam_summary/420_cloud_cost_governance_budget_alerting/) ->
 
 ---

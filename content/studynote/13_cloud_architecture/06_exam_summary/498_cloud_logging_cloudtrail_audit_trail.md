@@ -1,175 +1,179 @@
-+++
-title = "498. 클라우드 로깅 CloudTrail 감사 추적 (Cloud Logging CloudTrail Audit Trail)"
-date = 2026-05-09
-
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
-
+---
+title: "498. 클라우드 로깅 CloudTrail 감사 추적 (Cloud Logging CloudTrail Audit Trail)"
+date: 2026-05-09
+tags:
+  - "studynote-cloud-architecture"
+---
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 로깅 CloudTrail 감사 추적은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: AWS CloudTrail은 AWS 계정 내 모든 API 호출 이벤트(management/data/insights)를 S3로 영구 저장하고 CloudTrail Lake로 SQL 기반 분석을 지원하는 거버넌스·컴플라이언스·보안 포렌식의 단일 진실 공급원(SoT) 감사 추적 서비스
+> 2. **가치**: SOC 2, PCI-DSS, HIPAA, ISO 27001 등 규제 인증심사 시 자동 증거 수집, 평균 탐지 시간(MTTD)을 EventBridge+Lambda 패턴으로 30초 내 단축, CloudTrail Insights로 비정상 API 호출 패턴 자동 식별하여 내부자 위협 및 계정 침해 탐지 자동화 실현
+> 3. **판단 포인트**: 단일 리전 vs 다중 리전 트레일, Organization 단위 중앙 집중형 vs 계정별 분산형, S3+WORM(객체 잠금) vs CloudTrail Lake 보관 정책, 관리 이벤트(Data 이벤트 미포함 시 비용 90% 절감) vs 데이터 이벤트(S3/Lambda 전체 호출, 비용 폭증), KMS-CMK 자체 키 관리 vs AWS 관리형 키의 책임 분배 모델 선택이 TCO·보안성·컴플라이언스에 직결
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 로깅 CloudTrail 감사 추적은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+엔터프라이즈의 클라우드 전환이 가속화되면서, 2017년 이후 수십~수천 개의 AWS 계정에서 하루 평균 수억 건의 API 호출이 발생한다. 이런 환경에서 "누가, 언제, 어떤 리소스를, 어디서, 어떻게 변경했는가"를 100% 가시화하지 못하면, 다음과 같은 기술적·법적 문제가 폭발한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Logging CloudTrail Audit Trail 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+- **규제 컴플라이언스 실패**: PCI-DSS 10.x, HIPAA §164.312(b), ISO 27001 A.12.4.1, K-ISMS 2.10.3은 모두 최소 1년간 감사 로그 보관 및 무결성 증명을 요구
+- **내부자 위협 탐지 불가**: 퇴직 직전 권한 상승(IAM AssumeRole), 평소와 다른 리전 호출, 대량 S3 GetObject는 로그가 없으면 사후 분석 불가
+- **사고 대응(IR) 공백**: 랜섬웨어 감염 후 EC2 인스턴스 변조, EBS 볼륨 삭제 시 원인 IP, IAM User, User-Agent, Source VPC 엔드포인트 미보존 시 0%
+- **법적 보존 의무**: 금융감독원 전자금융감독규정 시행세칙 §16(5년 보관), 통신망법 제52조의2(1년 이상)
+
+기존 온프레미스 SIEM(Splunk, QRadar)은 syslog/syslog-ng로 수집했지만, 클라우드 네이티브 API 기반 서비스(IAM, KMS, Lambda, DynamoDB, EKS)의 모든 제어 평면(Control Plane) 이벤트를 캡처할 수 없다. AWS CloudTrail은 2013년 출시 이후 240개 이상의 서비스 이벤트를 자동 캡처하며, 이를 통해 "제로 트러스트 감사(Zero Trust Audit)" 모델을 구현한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 로깅 CloudTrail 감사 추적 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[Legacy On-Prem SIEM]                       [Cloud-Native Audit Trail - CloudTrail]
+┌──────────────┐                             ┌──────────────────────────────────────┐
+│ Firewall     │── syslog ──┐                 │      AWS CloudTrail Event Sources    │
+│ Server       │            │                 │ ┌──────┐ ┌──────┐ ┌──────┐ ┌──────┐ │
+│ (syslog)     │            ├── Splunk        │ │IAM  │ │EC2   │ │S3    │ │Lambda│ │
+└──────────────┘            │   (중앙 SIEM)   │ │KMS  │ │RDS   │ │EKS   │ │Dynamo│ │
+┌──────────────┐            │                 │ │+236  │ │      │ │      │ │DB    │ │
+│ OS/Windows   │── WinEvt ──┤                 │ └──────┘ └──────┘ └──────┘ └──────┘ │
+│ Event Log    │            │                 │            │  (Control Plane API)    │
+└──────────────┘            │                 │            ▼                        │
+┌──────────────┐            │                 │ ┌────────────────────────────────┐  │
+│ App Log      │── file ────┘                 │ │   AWS CloudTrail Service      │  │
+└──────────────┘                              │ │  (Event History, Trails, Lake)│  │
+                                             │ └────────────────────────────────┘  │
+⚠ 클라우드 API 미수집                          │            │                        │
+⚠ 무결성 위변조 검증 불가                       │            ▼                        │
+⚠ 클라우드 컨텍스트(IAM Role) 부재              │ ┌────────┐ ┌────────┐ ┌────────┐   │
+                                             │ │  S3    │ │CloudWatch│ │Event  │   │
+                                             │ │(WORM)  │ │ Logs     │ │Bridge │   │
+                                             │ └────────┘ └────────┘ └────────┘   │
+                                             │     ▲        ▲           ▲         │
+                                             │     │        │           │         │
+                                             │   KMS-CMK  Lambda    Security Hub │
+                                             │  (암호화)  (자동 대응) (위협 통합)  │
+                                             └──────────────────────────────────────┘
+                                             ✅ 모든 API 자동 캡처
+                                             ✅ SHA-256 + SHA-256 디지털 서명
+                                             ✅ 클라우드 컨텍스트 자동 포함
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+- **기존 패러다임(EDR/SIEM 기반)**: 로그를 애플리케이션이 직접 전송, 포맷 비표준, 클라우드 API 미지원
+- **신 패러다임(CloudTrail 기반)**: AWS 인프라가 API 게이트웨이에서 이벤트 자동 생성·전송, JSON 표준 스키마, 관리 콘솔/SDK/CLI 3개 채널 통합 캡처
 
-- **📢 섹션 요약 비유**: 클라우드 로깅 CloudTrail 감사 추적은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 회계 감사에서 종이 장부 원본을 "분산된 사본"으로 보관하면 위변조가 가능하지만, **회계법인이 모든 거래의 원본 전표를 봉인된 금고에 5년간 보관**하고 감사인이 매 분기 해시로 무결성을 검증하는 시스템이 AWS CloudTrail
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 로깅 CloudTrail 감사 추적의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+CloudTrail의 핵심은 **"API 호출이 발생할 때마다 1개의 이벤트 레코드(EventRecord)를 생성 → 5~20분 단위 배치로 gzip 압축 JSON 파일 작성 → S3 버킷에 적재 → 동시에 CloudWatch Logs/EventBridge로 스트리밍"**의 3단계 파이프라인이다. 각 단계의 메커니즘을 분해한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Logging CloudTrail Audit Trail 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[Step 1: 이벤트 캡처 - Push/비동기]
+┌────────────────────────────────────────────────────────────────────────┐
+│  User/IAM Role/Service                                                  │
+│      │                                                                  │
+│      │ AWS API Call (e.g., ec2:TerminateInstances)                      │
+│      ▼                                                                  │
+│  AWS Service Endpoint (Regional/Global)                                │
+│      │                                                                  │
+│      ├─[1] EventSelector 매칭 확인 (S3/Lambda Data Event)              │
+│      │                                                                  │
+│      ▼                                                                  │
+│  CloudTrail Event Pipeline (us-east-1 중앙 + 리전별)                   │
+│      │                                                                  │
+│      │ EventRecord 생성 (JSON, 약 1~5KB)                                │
+│      │   { eventTime, eventName, userIdentity, sourceIPAddress,        │
+│      │     userAgent, requestParameters, responseElements, ... }        │
+│      ▼                                                                  │
+│  CloudTrail 내부 버퍼 (5분 또는 최대 100KB 누적 시 flush)              │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+[Step 2: 파일 작성 + 무결성 서명]
+┌────────────────────────────────────────────────────────────────────────┐
+│  CloudTrail Internal                                                    │
+│      │                                                                  │
+│      ├─[2] gzip 압축 → JSON Lines 형식                                  │
+│      │                                                                  │
+│      ├─[3] 파일명 규칙:                                                 │
+│      │       aws_cloudtrail_logs_<AccountID>_<TrailName>_               │
+│      │       <YYYYMMDD>T<HHMMSS>Z_<UniqueID>.json.gz                   │
+│      │                                                                  │
+│      ├─[4] SHA-256 해시 계산 (디지털 핑거프린트)                       │
+│      │                                                                  │
+│      └─[5] RSA 디지털 서명 (AWS 관리형 키 또는 자체 키)                │
+│             → 매시간 digest 파일 작성:                                  │
+│               aws_cloudtrail_logs_<AccountID>_<Region>_                │
+│               <YYYYMMDD>T<HHMMSS>Z.json.gz.sig                          │
+│               (이전 digest + 현재 digest들의 해시를 다시 서명)          │
+└────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    ▼
+[Step 3: 배포 - S3 / CloudWatch Logs / EventBridge / CloudTrail Lake]
+┌────────────────────────────────────────────────────────────────────────┐
+│  ┌────────────┐  ┌──────────────┐  ┌────────────┐  ┌──────────────┐   │
+│  │ S3 버킷    │  │CloudWatch    │  │EventBridge │  │CloudTrail    │   │
+│  │ (gzip/JSON)│  │Logs          │  │ (실시간)   │  │Lake (SQL)    │   │
+│  │ 5분~20분   │  │ (실시간)     │  │            │  │ (1~수십분)   │   │
+│  └────────────┘  └──────────────┘  └────────────┘  └──────────────┘   │
+│       │                 │                  │                │           │
+│       ▼                 ▼                  ▼                ▼           │
+│   KMS-CMK            Lambda           Security Hub     Athena/         │
+│   암호화            자동 대응          자동 격리        QuickSight      │
+│   S3 Object Lock     (보안 자동화)     GuardDuty 연동   분석/리포팅     │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Event History** | 무료 제공, 최근 90일 보존 | 콘솔/CLI에서 `lookup-events` API로 조회, 트레일 설정 불필요, 단일 계정·리전 한정, KMS-CMK 미지원(SSE-S3만) |
+| **Trail** | 장기 보존·멀티 리전·조직 통합 | 1개 Trail = 1개 설정(CloudFormation/CDK IaC 관리); 5개까지 무료, 다중 리전 활성화 시 모든 리전 이벤트 통합 수집; S3 SSE-KMS 암호화·객체 잠금·이벤트 선택자(EventSelector/AdvancedEventSelectors) 정의 가능 |
+| **CloudTrail Lake** | SQL 기반 이벤트 분석 | Apache Iceberg 오픈 테이블 포맷의 관리형 데이터 레이크; 7~30년 보존 정책 설정, Glue Data Catalog 통합, Athena Federated Query로 직접 SQL(`SELECT * FROM cloudtrail_logs.<event_data_store> WHERE eventname='ConsoleLogin' AND errorcode='Failure'`); Parquet 압축으로 S3 대비 80% 비용 절감 |
+| **Event Selectors** | 데이터 이벤트 필터링 | `IncludeManagementEvents`, `DataResources`(S3 ARN prefix, Lambda ARN list), `ExcludeManagementEventSources`(KMS/CloudTrail 자체 이벤트 제외로 노이즈 감소); 2022년 이후 AdvancedEventSelectors로 $context.principal.tag, $context.awsRegion, $context.resource.type 등 18개 필드 세밀 필터링 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**CloudTrail 이벤트의 3가지 유형과 비용 모델**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+| 이벤트 타입 | 예시 | 기본 포함 여부 | 가격 (us-east-1, 2024 기준) |
+| :--- | :--- | :--- | :--- |
+| **Management Events** | `ec2:RunInstances`, `iam:CreateUser`, `s3:CreateBucket` | ✅ 첫 1건/리전 무료 (Control Plane 전체) | $0.00/100,000건 (첫 건) → 이후 $2.00/100,000건 |
+| **Data Events** | `s3:GetObject`, `s3:PutObject`, `lambda:InvokeFunction` | ❌ 명시적 활성화 필요 | $0.10/100,000건 (상위 1개), 추가 시 $0.025/100,000건 |
+| **Insights Events** | 비정상 API 호출률, API 오류율 자동 탐지 | ❌ 별도 활성화 ($0.35/100,000 이벤트 분석 비용) | CloudTrail ML 모델이 60일 베이스라인 대비 이상 탐지 |
+
+**무결성 검증(Integrity Validation)의 수학적 원리**
+
+CloudTrail은 **이중 해시 체인(Merkle-tree-like) 서명**을 사용한다.
+
+```
+1) 각 로그 파일 Fi에 대해 SHA-256 해시 hi = SHA256(Fi) 계산
+2) 시간 윈도우 T (기본 1시간) 내 모든 h1, h2, ..., hn을 모아서
+3) digest 파일 D_T 생성: D_T = { startTime, endTime, accountID, [h1..hn] }
+4) 디지털 서명: Sig_T = RSA-Sign(privateKey, SHA256(D_T ∥ Sig_{T-1}))
+   → 즉, 매시간의 digest는 *이전 digest의 서명값*을 입력에 포함 (체인)
+5) 클라이언트는 aws cloudtrail validate-logs 명령으로:
+   - 공개키로 Sig_T 검증 (서명 위변조 불가)
+   - 각 hi 재계산 (파일 위변조 불가)
+   - Sig_{T-1} 체인 추적 (digest 누락/순서변경 탐지)
+```
+
+이 메커니즘은 **제3자 감사인(TÜV, EY 등)이 5년치 로그를 1% 샘플링 검증**할 때 위변조 증거를 확정적으로 제공한다. S3 자체의 Object Lock(WORM)이 *물리적 삭제*를 막고, CloudTrail 무결성 검증이 *논리적 위변조*를 막는 **이중 방어 체계**가 핵심 가치다.
+
+- **📢 섹션 요약 비유**: CloudTrail의 무결성 체인은 **"매시간 우체국 직인이 찍힌 봉인된 서류철이 매 시각 해시로 연결된 증거 사슬"**과 같다. 봉인(디지털 서명)을 뜯지 않고는 서류 1장도 바꿔치기할 수 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 로깅 CloudTrail 감사 추적을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 로깅 CloudTrail 감사 추적 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 로깅 CloudTrail 감사 추적은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 로깅 CloudTrail 감사 추적은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 로깅 CloudTrail 감사 추적을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 로깅 CloudTrail 감사 추적을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 로깅 CloudTrail 감사 추적 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 로깅 CloudTrail 감사 추적은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 로깅 CloudTrail 감사 추적의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 로깅 CloudTrail 감사 추적의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 로깅 CloudTrail 감사 추적 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 로깅 CloudTrail 감사 추적은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | AWS CloudTrail | Azure Activity Log / Monitor | GCP Cloud Audit Logs | CloudWatch Logs (AWS) |
+| :--- | :--- | :--- | :--- | :--- |
+| **수집 대상** | AWS API 제어·데이터 평면 (240+ 서비스) | Azure ARM 제어 평면, AAD, 리소스 로그 | GCP Admin API, Data Access, System Event, Policy Denied | 모든 AWS 서비스/애플리케이션 로그 (Lambda, ECS, VPC Flow, Custom) |
+| **저장소** | S3 (gzip JSON) + CloudTrail Lake (Parquet/Iceberg) | Log Analytics Workspace (KQL) | BigQuery (선택), GCS (JSON) | CloudWatch Logs (전용) |
+| **쿼리** | Athena SQL, CloudTrail Lake SQL, CloudWatch Logs Insights | KQL (Log Analytics Workspace) | BigQuery SQL, Logs Explorer | Logs Insights, Contributor Insights |
+| **실시간 알림** | EventBridge (1~5초 지연) | Azure Event Grid (1초 미만) | Pub/Sub (sub-second) | CloudWatch Alarms, EventBridge |
+| **무결성 검증** | ✅ SHA-256 + RSA 디지털 서명 체인 (검증 명령어 내장) | ❌ 없음 (Azure Storage Immutable Blob 별도) | ❌ 없음 (BigQuery Time Travel, GCS Bucket Lock 별도) | ❌ 없음 (KMS-CMK 암호화만) |
+| **데이터 이벤트 수집** | ✅ S3/Lambda ARN별 선택, S3_LAMBDA ARN prefix 단위 과금 | ⚠ Storage Account 진단 설정 별도 (과금
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 498 / 800
 
-<- **이전**: [497. 클라우드 모니터링 CloudWatch Azure Monitor](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/497_cloud_monitoring_cloudwatch_azure_monitor/)
-**다음**: [499. 클라우드 알림 SNS PagerDuty 통합](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/499_cloud_alerting_sns_pagerduty_integration/) ->
+<- **이전**: [497. 클라우드 모니터링 CloudWatch Azure Monitor](/studynote/13_cloud_architecture/06_exam_summary/497_cloud_monitoring_cloudwatch_azure_monitor/)
+**다음**: [499. 클라우드 알림 SNS PagerDuty 통합](/studynote/13_cloud_architecture/06_exam_summary/499_cloud_alerting_sns_pagerduty_integration/) ->
 
 ---

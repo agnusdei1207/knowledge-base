@@ -1,13 +1,10 @@
-+++
-title = "521. IT 경영 관리 핵심 토픽 521번 시험 요약 (IT Management Core Topic 521 Exam Summary)"
-date = 2026-05-09
+---
+title: "521. IT 경영 관리 핵심 토픽 521번 시험 요약 (IT Management Core Topic 521 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ SMART 검증:
 
 **진행 상황**: 521 / 800
 
-<- **이전**: [520. IT 경영 관리 핵심 토픽 520번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/520_it_management_core_topic_520_exam_summary/)
-**다음**: [522. IT 경영 관리 핵심 토픽 522번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/522_it_management_core_topic_522_exam_summary/) ->
+<- **이전**: [520. IT 경영 관리 핵심 토픽 520번 시험 요약](/studynote/12_it_management/05_security_compliance/520_it_management_core_topic_520_exam_summary/)
+**다음**: [522. IT 경영 관리 핵심 토픽 522번 시험 요약](/studynote/12_it_management/05_security_compliance/522_it_management_core_topic_522_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)"
-date = 2026-05-09
+---
+title: "394. API 보안 OAuth JWT 게이트웨이 위협 방어 (API Security OAuth2 JWT Gateway OWASP)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 394 / 400
 
-<- **이전**: [393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)](/knowledge-base/studynote/15_devops_sre/05_devsecops/393_data_protection_encryption/)
-**다음**: [395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)](/knowledge-base/studynote/15_devops_sre/05_devsecops/395_gitops_security/) ->
+<- **이전**: [393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)](/studynote/15_devops_sre/05_devsecops/393_data_protection_encryption/)
+**다음**: [395. GitOps 보안 Git 기반 배포 보안 강화 (GitOps Security Sealed Secrets SOPS)](/studynote/15_devops_sre/05_devsecops/395_gitops_security/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "565. 스마트 시티 데이터 플랫폼 거버넌스 (Smart City Data Platform Governance)"
-date = 2026-05-09
+---
+title: "565. 스마트 시티 데이터 플랫폼 거버넌스 (Smart City Data Platform Governance)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 565 / 800
 
-<- **이전**: [564. 전자정부 GovTech 디지털 공공 서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/564_e_government_govtech_digital_public_service/)
-**다음**: [566. 핀테크 디지털 금융 혁신 레그테크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/566_fintech_digital_finance_innovation_regtech/) ->
+<- **이전**: [564. 전자정부 GovTech 디지털 공공 서비스](/studynote/07_enterprise_systems/06_exam_summary/564_e_government_govtech_digital_public_service/)
+**다음**: [566. 핀테크 디지털 금융 혁신 레그테크](/studynote/07_enterprise_systems/06_exam_summary/566_fintech_digital_finance_innovation_regtech/) ->
 
 ---

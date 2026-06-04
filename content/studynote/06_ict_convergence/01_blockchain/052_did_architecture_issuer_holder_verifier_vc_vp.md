@@ -1,27 +1,24 @@
-+++
-title = "52. 탈중앙화 신원증명 (DID, Decentralized Identity)"
-date = 2026-05-01
+---
+title: "52. 탈중앙화 신원증명 (DID, Decentralized Identity)"
+date: "2026-05-01"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized Identity)는 신원 정보를 중앙 서버가 아니라 사용자 지갑과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))로 관리하는 자기주권형 신원 모델이다.
-> 2. **가치**: Issuer (발행자), Holder (소유자), Verifier ([검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자)가 분리되어 있어, 사용자는 필요한 정보만 VP (Verifiable Presentation)로 선택적으로 제출할 수 있다.
-> 3. **판단 포인트**: DID의 핵심은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 아니라 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 신뢰 구조다. [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/), 공개키, 키 회전, revocation [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 없으면 실용성이 떨어진다.
+> 1. **본질**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) (Decentralized Identity)는 신원 정보를 중앙 서버가 아니라 사용자 지갑과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) ([DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/))로 관리하는 자기주권형 신원 모델이다.
+> 2. **가치**: Issuer (발행자), Holder (소유자), Verifier ([검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자)가 분리되어 있어, 사용자는 필요한 정보만 VP (Verifiable Presentation)로 선택적으로 제출할 수 있다.
+> 3. **판단 포인트**: DID의 핵심은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 아니라 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능한 신뢰 구조다. [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/studynote/14_data_engineering/01_infrastructure/037_document/), 공개키, 키 회전, revocation [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 없으면 실용성이 떨어진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것이다. 기존 중앙집중형 로그인은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 계정을 만들고 비밀번호를 반복 저장해야 했지만, DID는 하나의 지갑에서 여러 증명서를 관리하고 필요한 순간에만 내보낼 수 있다.
+DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것이다. 기존 중앙집중형 로그인은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 계정을 만들고 비밀번호를 반복 저장해야 했지만, DID는 하나의 지갑에서 여러 증명서를 관리하고 필요한 순간에만 내보낼 수 있다.
 
-이 구조가 필요한 이유는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출과 계정 종속 때문이다. 중앙 저장소가 뚫리면 대량 유출이 일어나고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 바뀌면 계정 이주가 어렵다. DID는 이런 문제를 줄이면서도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성을 유지한다.
+이 구조가 필요한 이유는 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 유출과 계정 종속 때문이다. 중앙 저장소가 뚫리면 대량 유출이 일어나고, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 바뀌면 계정 이주가 어렵다. DID는 이런 문제를 줄이면서도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능성을 유지한다.
 
 - **📢 섹션 요약 비유**: DID는 주민센터에 원본을 맡기는 대신, 내 지갑에 여러 자격증을 넣어 다니며 필요한 것만 보여주는 방식과 같다.
 
@@ -29,7 +26,7 @@ DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계는 Issuer, Holder, Verifier의 삼각형으로 이해하면 쉽다. Issuer는 VC (Verifiable Credential)를 발급하고, Holder는 이를 지갑에 저장한다. Verifier는 Holder가 제출한 VP를 보고 서명과 신뢰 근거를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+[DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 생태계는 Issuer, Holder, Verifier의 삼각형으로 이해하면 쉽다. Issuer는 VC (Verifiable Credential)를 발급하고, Holder는 이를 지갑에 저장한다. Verifier는 Holder가 제출한 VP를 보고 서명과 신뢰 근거를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -46,13 +43,13 @@ DID는 "내 신원은 내가 들고 다닌다"는 철학을 기술로 만든 것
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
-| [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 중앙 계정 대신 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 사용 |
-| [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/) | 공개키/[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트 저장 | 해석 (resolution)의 기준 |
+| [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) | 중앙 계정 대신 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)를 사용 |
+| [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) [Document](/studynote/14_data_engineering/01_infrastructure/037_document/) | 공개키/[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 엔드포인트 저장 | 해석 (resolution)의 기준 |
 | VC | 발급된 증명서 | Issuer가 서명한 원본 자격 |
 | VP | 제출용 프레젠테이션 | 필요한 정보만 골라 제출 |
-| Wallet | Holder의 보관소 | 사용자 통제와 키 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| Wallet | Holder의 보관소 | 사용자 통제와 키 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
-DID는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 쓸 수도 있지만 필수는 아니다. 중요한 것은 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Document를 통해 공개키와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정보를 찾고, VC의 서명이 유효한지 검사하는 구조다. 또한 실무에서는 선택적 공개 (Selective Disclosure)와 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([ZKP](/knowledge-base/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), [Zero-Knowledge Proof](/knowledge-base/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))을 통해 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 노출을 최소화한다.
+DID는 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 쓸 수도 있지만 필수는 아니다. 중요한 것은 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)자가 [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Document를 통해 공개키와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 정보를 찾고, VC의 서명이 유효한지 검사하는 구조다. 또한 실무에서는 선택적 공개 (Selective Disclosure)와 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) ([ZKP](/studynote/12_it_management/05_security_compliance/354_did_decentralized_identity_zkp/), [Zero-Knowledge Proof](/studynote/06_ict_convergence/01_blockchain/037_zero_knowledge_proof_zkp/))을 통해 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 노출을 최소화한다.
 
 - **📢 섹션 요약 비유**: DID는 여권 검사를 받을 때 여권 전체를 복사해 주는 대신, 필요한 정보만 보여 주는 스마트 지갑과 같다.
 
@@ -60,16 +57,16 @@ DID는 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain
 
 ## Ⅲ. 비교 및 연결
 
-DID는 중앙집중형 ID와 연합형 [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) ([Single Sign-On](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/))와 다르다. 중앙집중형은 편하지만 한 곳이 위험하고, SSO는 편의성이 높지만 신뢰 연계에 의존한다. DID는 사용자 통제를 높이고 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 종속을 줄인다.
+DID는 중앙집중형 ID와 연합형 [SSO](/studynote/09_security/11_iam_access_control/531_sso/) ([Single Sign-On](/studynote/09_security/11_iam_access_control/531_sso/))와 다르다. 중앙집중형은 편하지만 한 곳이 위험하고, SSO는 편의성이 높지만 신뢰 연계에 의존한다. DID는 사용자 통제를 높이고 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 간 종속을 줄인다.
 
-| 항목 | 중앙집중형 ID | 연합형 [SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/) | [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) |
+| 항목 | 중앙집중형 ID | 연합형 [SSO](/studynote/09_security/11_iam_access_control/531_sso/) | [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) |
 | :--- | :--- | :--- | :--- |
-| 신뢰 중심 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사업자 | [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Identity Provider](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)) | 사용자 지갑 + Issuer |
-| [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 통제 | 낮음 | 중간 | 높음 |
-| [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다름 | 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필요 | [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method/VC 표준 |
-| 장애 영향 | 중앙 장애 취약 | [IdP](/knowledge-base/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 장애 영향 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 구조로 완화 |
+| 신뢰 중심 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 사업자 | [IdP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) ([Identity Provider](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/)) | 사용자 지갑 + Issuer |
+| [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 통제 | 낮음 | 중간 | 높음 |
+| [상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 다름 | 표준 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 필요 | [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method/VC 표준 |
+| 장애 영향 | 중앙 장애 취약 | [IdP](/studynote/09_security/11_iam_access_control/536_idp_identity_provider/) 장애 영향 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 구조로 완화 |
 
-DID는 SSI (Self-Sovereign Identity)와 맞닿아 있다. SSI는 사용자가 신원의 보관·제출·철회를 스스로 통제하는 철학이고, DID는 그 철학을 구현하는 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)/증명 프레임이다.
+DID는 SSI (Self-Sovereign Identity)와 맞닿아 있다. SSI는 사용자가 신원의 보관·제출·철회를 스스로 통제하는 철학이고, DID는 그 철학을 구현하는 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)/증명 프레임이다.
 
 - **📢 섹션 요약 비유**: 중앙 ID는 한 은행 계좌에 모든 돈을 넣는 것, SSO는 한 카드로 여러 가게를 쓰는 것, DID는 필요한 자격증만 들고 다니는 지갑이다.
 
@@ -77,32 +74,32 @@ DID는 SSI (Self-Sovereign Identity)와 맞닿아 있다. SSI는 사용자가 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-DID를 실무에 넣을 때는 "멋진 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)"보다 "[검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 운영 가능성"을 먼저 봐야 한다. 키 분실, revocation, [상호운용성](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 표준 준수, 지갑 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 빠지면 실서비스에서 버티기 어렵다.
+DID를 실무에 넣을 때는 "멋진 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)"보다 "[검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 운영 가능성"을 먼저 봐야 한다. 키 분실, revocation, [상호운용성](/studynote/04_software_engineering/05_devops_ci_cd/287_interoperability_tactics/), 표준 준수, 지갑 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)가 빠지면 실서비스에서 버티기 어렵다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method가 상호운용 가능한가?
-2. VC revocation과 [key rotation](/knowledge-base/studynote/09_security/03_network_security/156_key_rotation/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
+1. [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) Method가 상호운용 가능한가?
+2. VC revocation과 [key rotation](/studynote/09_security/03_network_security/156_key_rotation/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 있는가?
 3. VP에서 선택적 공개가 실제로 가능한가?
-4. 지갑 분실 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 정의되어 있는가?
+4. 지갑 분실 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차가 정의되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 개인식별정보를 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 올리는 설계
-- DID를 "[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) = 신뢰"로 단순화하는 설계
-- 발급, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 철회 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 지갑만 만드는 설계
+- 개인식별정보를 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)에 직접 올리는 설계
+- DID를 "[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) = 신뢰"로 단순화하는 설계
+- 발급, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 철회 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 지갑만 만드는 설계
 
-기술사 관점에서는 DID가 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 최소화, 책임 분리, 상호검증 가능성에 어떻게 기여하는지를 설명할 수 있어야 한다. 특히 금융, 교육, 헬스케어처럼 증명서 위조와 과공개가 문제인 영역에서 가치가 크다.
+기술사 관점에서는 DID가 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 최소화, 책임 분리, 상호검증 가능성에 어떻게 기여하는지를 설명할 수 있어야 한다. 특히 금융, 교육, 헬스케어처럼 증명서 위조와 과공개가 문제인 영역에서 가치가 크다.
 
-- **📢 섹션 요약 비유**: [DID](/knowledge-base/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 운영은 도장 찍는 사람, 지갑에 넣는 사람, 확인하는 사람을 분리해 두는 회사 문서 체계와 같다.
+- **📢 섹션 요약 비유**: [DID](/studynote/12_it_management/05_security_compliance/231_did_decentralized_identity/) 운영은 도장 찍는 사람, 지갑에 넣는 사람, 확인하는 사람을 분리해 두는 회사 문서 체계와 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-DID의 가장 큰 효과는 사용자 중심의 신원 통제다. 사용자는 필요한 증명만 내고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 진위를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 발급자는 책임 있는 서명을 남긴다. 이 분리는 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) 유출과 계정 종속을 줄이는 데 유리하다.
+DID의 가장 큰 효과는 사용자 중심의 신원 통제다. 사용자는 필요한 증명만 내고, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 그 진위를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하며, 발급자는 책임 있는 서명을 남긴다. 이 분리는 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) 유출과 계정 종속을 줄이는 데 유리하다.
 
-다만 키 관리와 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 까다롭다. 그래서 DID는 중앙 ID를 완전히 대체하기보다, 선택적 공개와 고신뢰 증명 영역에서 강점을 발휘하는 구조로 기억하는 것이 좋다.
+다만 키 관리와 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 까다롭다. 그래서 DID는 중앙 ID를 완전히 대체하기보다, 선택적 공개와 고신뢰 증명 영역에서 강점을 발휘하는 구조로 기억하는 것이 좋다.
 
 - **📢 섹션 요약 비유**: DID는 내 신원을 주머니 속 카드 지갑으로 바꾸는 일이다. 필요한 카드만 꺼내 보여 줄 수 있지만, 지갑을 잃어버리지 않도록 관리가 중요하다.
 
@@ -114,7 +111,7 @@ DID의 가장 큰 효과는 사용자 중심의 신원 통제다. 사용자는 �
 | :--- | :--- |
 | Issuer | VC를 발급하는 주체 |
 | Holder | VC를 지갑에 보관하는 사용자 |
-| Verifier | VP와 서명을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 주체 |
+| Verifier | VP와 서명을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 주체 |
 | VC | 발급된 자격 증명 |
 | VP | 선택적으로 제출하는 증명 묶음 |
 
@@ -136,7 +133,7 @@ VC (Verifiable Credential)
 VP (Verifiable Presentation)
 ```
 
-이 흐름은 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심 신원"이 "사용자 중심 신원"으로 이동한 과정을 보여준다.
+이 흐름은 "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중심 신원"이 "사용자 중심 신원"으로 이동한 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -150,7 +147,7 @@ VP (Verifiable Presentation)
 
 **진행 상황**: 52 / 552
 
-<- **이전**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/)
-**다음**: [53. DID 문서와 공개키 (DID Document Public Key)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/) ->
+<- **이전**: [051. DID와 SSI (Decentralized Identity & Self-Sovereign Identity)](/studynote/06_ict_convergence/01_blockchain/051_did_decentralized_identity_ssi/)
+**다음**: [53. DID 문서와 공개키 (DID Document Public Key)](/studynote/06_ict_convergence/01_blockchain/053_did_document_public_key/) ->
 
 ---

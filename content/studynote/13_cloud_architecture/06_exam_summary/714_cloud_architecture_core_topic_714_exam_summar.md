@@ -1,175 +1,161 @@
-+++
-title = "714. 클라우드 아키텍처 핵심 토픽 714번 시험 요약 (Cloud Architecture Core Topic 714 Exam Summary)"
-date = 2026-05-09
+---
+title: "714. 클라우드 아키텍처 핵심 토픽 714번 시험 요약 (Cloud Architecture Core Topic 714 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 탄력성(Elasticity), 온디맨드 셀프서비스(On-Demand Self-Service), 측정 가능한 서비스(Measured Service)의 NIST 5대 필수 특성을 충족하면서, AWS Well-Architected Framework의 6대 필러(운영 우수성, 보안, 안정성, 성능 효율성, 비용 최적화, 지속가능성) 위에서 워크로드를 설계하는 통합 엔지니어링 discipline이다.
+> 2. **가치**: Capital Expenditure(CapEx)를 Operational Expenditure(OpEx)로 전환하여 약 30~40%의 인프라 비용 절감을 달성하고, Auto Scaling Group을 통해 트래픽 변동에 대응하여 가용성 99.99%(Four Nines) 이상을 SLA로 보장하며, Global Edge Network(CloudFront, Azure CDN)를 통해 P99 레이턴시를 100ms 이하로 유지 가능하다.
+> 3. **판단 포인트**: Lift-and-Shift(IaaS) vs Cloud-Native Refactoring(PaaS/Serverless) 사이의 TCO 5년 분석, 단일 리전 단일 AZ 구성의 단일 장애점(SPOF) 제거 여부, 그리고 Egress Data Transfer 비용이 전체 TCO의 20%를 초과하는지 여부로 Multi-Cloud 전략의 정당성을 판단한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 온프레미스(On-Premise) 환경은 3-tier 모놀리식 아키텍처(Web-Tier, App-Tier, DB-Tier)에서 수직적 확장(Scale-Up) 방식으로 트래픽 피크에 대비해 평균 60~70%의 유휴 자원을 상시 보유해야 했다. 이는 `소프트웨어 라이선스 + 하드웨어 + 운영 인건비 + 데이터센터 전력·냉각비`의 4중 비용 구조로 이어졌으며, 비즈니스 출시 시간(Mean Time to Market, MTM)이 평균 6개월 이상 소요되는 병목 현상을 야기했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 714 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+2006년 AWS S3와 EC2 출시 이후, 클라우드 아키텍처는 인프라 추상화(Infrastructure Abstraction)를 통해 컴퓨팅·스토리지·네트워크를 API로 호출 가능한 프로그래머블 자원(Programmable Resource)으로 전환했다. 이를 통해 `Infrastructure as Code(IaC) - Terraform, AWS CloudFormation, Pulumi` 기반으로 선언적(Declarative) 인프라 정의가 가능해졌으며, GitOps(ArgoCD, Flux)와 CI/CD 파이프라인의 결합으로 배포 주기를 6개월 -> 1일 단위로 단축하는 DevOps-to-NoOps 전환이 가능해졌다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 714번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|        On-Premise vs Cloud Architecture Paradigm Shift          |
++------------------------------------------------------------------+
+|                                                                  |
+|   [On-Premise 3-Tier Monolith]     [Cloud-Native Distributed]    |
+|                                                                  |
+|   +---------------------+         +---------------------+       |
+|   |  Web Server (Nginx) |         |   CDN/Edge (CF)     |       |
+|   |  1 ~ N instances    |         |  Static + Dynamic   |       |
+|   +----------+----------+         +----------+----------+       |
+|              |                              |                   |
+|   +----------v----------+         +----------v----------+       |
+|   |  App Server (WAS)   |         |   ALB / API Gateway |       |
+|   |  1 ~ N instances    |         |   + WAF + Shield    |       |
+|   |  (Vertical Scale)  |         +----------+----------+       |
+|   +----------+----------+                    |                   |
+|              |                +--------------+--------------+    |
+|   +----------v----------+     |              |              |    |
+|   |  Oracle/MySQL HA    |     v              v              v    |
+|   |  (Active/Standby)   |  +-----+      +-----+      +-----+    |
+|   +---------------------+  | EKS |      | EKS |      | EKS |    |
+|                            | Pod |      | Pod |      | Pod |    |
+|   Lead Time: 6 Months      +--+--+      +--+--+      +--+--+     |
+|   CapEx: 100% 선투자          |            |            |        |
+|   Utilization: 30~40%     +---v------------v------------v--+     |
+|                          |  Aurora Global + DynamoDB        |    |
+|                          |  (Multi-Region, Multi-Master)    |    |
+|                          +----------------------------------+    |
+|                                                                  |
+|                          Lead Time: 1 Day                       |
+|                          OpEx: Pay-per-Use                      |
+|                          Utilization: 70~85% (Auto-Scaling)     |
++------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 온프레미스는 "물리적 정수기"를 사무실에 직접 들여놓는 것이고, 클라우드는 "정수기 앱을 호출해서 필요한 만큼 물을 받는" 것과 같다. 전자는 공간·전력·관리가 직접 필요하지만, 후자는 사용량만큼만 요금을 내고 유지보수는 공급자가 맡는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 714번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처의 핵심은 **가상화(Hypervisor Type 1: KVM, Xen / Type 2: VMware Workstation) -> 컨테이너화(Docker, containerd, CRI-O) -> 오케스트레이션(Kubernetes, ECS, EKS, AKS, GKE)** 의 3단계 추상화 스택 위에 위치한다. 각 계층은 API Contract를 통해 상위 계층에 자원을 노출하며, 이는 곧 `Compute -> Network -> Storage -> Identity` 4대 자원 도메인의 분리와 재결합을 의미한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 714 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|         Cloud Architecture 4-Layer Stack (Bottom-Up)              |
++--------------------------------------------------------------------+
+|                                                                    |
+|  +--------------------------------------------------------------+  |
+|  | Layer 4: Application & Workload (SaaS / FaaS / Microsvc)   |  |
+|  |  - Lambda / Cloud Functions / Azure Functions                |  |
+|  |  - Spring Boot, Node.js, Go Services                        |  |
+|  |  - EventBridge, SQS/SNS, Pub/Sub, Kafka (MSK/Confluent)     |  |
+|  +--------------------------------------------------------------+  |
+|                              ^                                     |
+|  +--------------------------------------------------------------+  |
+|  | Layer 3: Platform & Orchestration (PaaS / CaaS)              |  |
+|  |  - Kubernetes Control Plane (API Server, etcd, Scheduler)    |  |
+|  |  - Helm Chart, Kustomize, ArgoCD                            |  |
+|  |  - Service Mesh: Istio, Linkerd (mTLS, Traffic Mgmt)         |  |
+|  +--------------------------------------------------------------+  |
+|                              ^                                     |
+|  +--------------------------------------------------------------+  |
+|  | Layer 2: Infrastructure as a Service (IaaS)                  |  |
+|  |  - EC2, Compute Engine, Azure VM (M5/C5/D3/G4 family)       |  |
+|  |  - EBS/PD/Managed Disks, S3/GCS/Blob, EFS/FSx               |  |
+|  |  - VPC/VNet (Subnet, Route Table, NAT/IGW, SG/NACL)         |  |
+|  +--------------------------------------------------------------+  |
+|                              ^                                     |
+|  +--------------------------------------------------------------+  |
+|  | Layer 1: Physical & Virtualization Foundation                |  |
+|  |  - Nitro System (AWS), Hyper-V, Nitro Enclaves               |  |
+|  |  - Nitro Card: VPC, EBS, Instance Storage Offload            |  |
+|  |  - Bare Metal: i3.metal, m5.metal, Oracle BM.Standard      |  |
+|  +--------------------------------------------------------------+  |
+|                                                                    |
+|  Cross-Cutting Concerns:                                           |
+|  [IAM/OIDC] [KMS/HSM] [CloudWatch/Stackdriver/Monitor]            |
+|  [CloudTrail/Audit Log] [VPC Flow Log] [AWS Config]               |
++--------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **컴퓨트 계층 (Compute)** | 워크로드 실행 | 인스턴스 타입(범용 M, 컴퓨트 최적화 C, 메모리 최적화 R, GPU P/G, 스토리지 최적화 D/I, 가속 컴퓨팅 F/Trn), Auto Scaling Group(Desired/Min/Max), Spot Fleet(미사용 용량 70% 할인) |
+| **스토리지 계층 (Storage)** | 데이터 영속화 | Object(S3/GCS/Blob, 11 9s 내구성, Lifecycle Policy -> IA/Glacier), Block(EBS gp3/io2, NVMe SSD, 16K IOPS ~ 256K IOPS), File(EFS, FSx for Lustre/ONTAP, NFS/SMB 프로토콜) |
+| **네트워크 계층 (Network)** | 트래픽 라우팅 | VPC Peering, Transit Gateway(50+ VPC 허브), PrivateLink(서비스별 사설 연결), Cloud WAN(Segmentation), DX/VPN(전용선), VPC Endpoint(Gateway/Interface) |
+| **오케스트레이션 (Orchestration)** | 컨테이너 라이프사이클 | Kubernetes Control Plane: kube-apiserver(YAML 파싱) -> etcd(클러스터 상태) -> scheduler(PDB 고려) -> kubelet(CRI 호출) -> kube-proxy(CNI). HPA(CPU/Mem)·VPA·Cluster Autoscaler 3단계 스케일링 |
+| **관리·거버넌스 (Governance)** | 정책/비용/감사 | AWS Organizations(SCP), Azure Policy/GCP Org Policy, Config Rules(보안 컴플라이언스), Cost Explorer + CUR(FinOps), Tagging Strategy(Env/Owner/CostCenter) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 메커니즘**:
+- **Consistent Hashing**: DynamoDB/Cassandra의 파티션 키 분산 (vnode 256개, 90% 부하 시 rebalance)
+- **Raft Consensus**: etcd, Kafka KRaft, CockroachDB (Leader Election + Log Replication)
+- **Two-Phase Commit (2PC)**: 분산 트랜잭션 (Prepare -> Commit, 단 코디네이터 장애 시 Blocking 가능)
+- **Saga Pattern**: 보상 트랜잭션(Compensating Tx)으로 Long-Running Business Transaction 처리 (Orchestration vs Choreography)
+- **Quorum (W+R>N)**: DynamoDB 튜닝 가능 일관성 (`W=2, R=2, N=3` -> Strong; `W=1, R=1, N=3` -> Eventual)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **📢 섹션 요약 비유**: 클라우드 4계층 스택은 "고층 아파트"와 같다. 1층은 토대(물리 하드웨어), 2층은 뼈대(EC2·VPC), 3층은 엘리베이터 시스템(K8s), 4층은 실제 거주자(앱·Lambda)다. 4층의 입주민이 늘어나면 3층의 엘리베이터가 자동으로 더 많은 캐빈(Pod)을 배치하고, 2층의 뼈대는 유연하게 확장된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 714번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+| 구분 | IaaS (EC2, Compute Engine) | PaaS (Beanstalk, App Engine, Heroku) | Serverless (Lambda, Cloud Functions) | On-Premise (VMware) |
+| :--- | :--- | :--- | :--- | :--- |
+| **추상화 수준** | VM·OS·미들웨어 직접 제어 | 런타임·미들웨어 자동 관리 | 함수 코드만 작성, 인프라 0관리 | 하드웨어부터 직접 운영 |
+| **Cold Start 지연** | 30초~수 분 (인스턴스 기동) | 30초~2분 (컨테이너 풀) | **100ms~1초** (Init 단계, SnapStart로 10ms) | 0ms (이미 가동 중) |
+| **최소 과금 단위** | 1시간 (또는 초 단위, Linux만) | 1시간 ~ 1일 | **100ms 단위, 1M 요청 무료** | CapEx (감가상각 5년) |
+| **확장성 패턴** | 수동/예약 기반, 최대 ~10K 인스턴스 | 자동(5~50 인스턴스), Quota 제한 | 자동 0~수천 동시 (Concurrency Limit) | 수동, HW 조달 리드타임 |
+| **적합 워크로드** | 레거시 Lift-Shift, GPU/CUDA, Stateful | 12-Factor App, 일반 웹/API | Event-Driven, Spike 워크로드, Batch | 규제/데이터 주권, 극저지연 |
+| **이전 비용 vs 운영 비용** | 중간 전환, 운영 부담 큼 | 높은 전환, 운영 경감 | 매우 높은 전환(리팩터링), 운영 최소 | CapEx 최대 |
+| **네트워크 통제력** | 완전 통제 (SG, NACL, Routing) | 부분 통제 | VPC Connector로만 제한적 | 완전 통제 |
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 714번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**Multi-Cloud vs Hybrid Cloud 연결 아키텍처**:
+- **Multi-Cloud**: AWS + GCP + Azure를 동시 사용. 클라우드 간 트래픽은 **Egress 비용** ($0.02~$0.09/GB)이 발생하며, 일반적으로 `Cloud Interconnect (AWS DX, GCP Partner Interconnect, Azure ER)` 같은 전용선으로 TCO를 절감한다. 데이터 중복성 확보, 벤더 종속(Vendor Lock-in) 회피, 지역별 컴플라이언스 대응이 목적이다.
+- **Hybrid Cloud**: On-Prem + Public Cloud (예: AWS Outposts, Azure Stack, Google Anthos). 일반적으로 `Outposts는 리전 API와 동일 IAM 사용`, 데이터 주권이 필요한 워크로드(DB, PII)만 온프레미스에 유지하고, 나머지는 클라우드로 Burst Out한다.
+- **Cloud-to-Ground Integration**: Direct Connect(MACsec 지원) + Transit Gateway + Site-to-Site VPN(Redundant Tunnels) 조합으로 99.9% 연결성 보장.
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **📢 섹션 요약 비유**: IaaS는 "렌터카", PaaS는 "대리운전", Serverless는 "택시 호출"과 같다. 렌터카는 운전대를 잡지만 주유·정비를 내가 하고, 대리운전은 차는 제공되지만 경로만 알려주면 되고, 택시는 목적지만 말하면 모든 것이 자동이다. 대신 택시 요금이 미터기로 누적되듯 Serverless는 호출 횟수·실행 시간에 따라 과금된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 클라우드 아키텍처 핵심 토픽 714번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 714번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 714번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 714번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 714번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 714번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 714번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **워크로드 특성 분류 (Stateful vs Stateless, Latency-Sensitive vs Batch)**: RDBMS(Aurora, RDS, Cloud SQL)는 Stateful·Latency-Sensitive이므로 단일 AZ가 아닌 Multi-AZ(Master + Standby, Sync Replication, RPO=0) 구성 필수. Stateless API(ALB + ECS)는 Multi-AZ Auto Scaling으로 가용성 확보. Lambda는 Stateless 한정, 상태는 DynamoDB/ElastiCache에 위임.
+2. **단일 장애점(SPOF) 식별 및 제거**: NAT Gateway 단일 -> NAT Gateway × 2 + 각 AZ 배치. ALB 단일 리전 -> Global Accelerator + 리전별 ALB. Aurora 단일 인스턴스 -> Aurora Multi-Master 또는 Global Database(리전 간 복제, RPO < 1초, RTO < 1분).
+3. **데이터 거버넌스 및 컴플라이언스**: PII/금융/의료 데이터는 KMS-CMK(Customer Managed Key) + BYOK(Bring Your Own Key) + CloudHSM(FIPS 140-2 Level 3) 적용. 로그/감사 데이터는 Object Lock(WORM) + Cross-Account + Glacier Deep Archive로 변조 방지. 한국 개인정보보호법·전자금융거래법·의료법의 국내 리전(Seoul/Tokyo) 강제.
+4. **비용 최적화 (FinOps)**: Reserved Instance(1/3년, 40~60% 할인) + Savings Plans(Compute/Flex, EC2·Fargate·Lambda 통합)
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 714 / 800
 
-<- **이전**: [713. 클라우드 아키텍처 핵심 토픽 713번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/713_cloud_architecture_core_topic_713_exam_summar/)
-**다음**: [715. 클라우드 아키텍처 핵심 토픽 715번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/715_cloud_architecture_core_topic_715_exam_summar/) ->
+<- **이전**: [713. 클라우드 아키텍처 핵심 토픽 713번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/713_cloud_architecture_core_topic_713_exam_summar/)
+**다음**: [715. 클라우드 아키텍처 핵심 토픽 715번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/715_cloud_architecture_core_topic_715_exam_summar/) ->
 
 ---

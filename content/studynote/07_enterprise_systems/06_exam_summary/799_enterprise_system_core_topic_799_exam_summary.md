@@ -1,13 +1,10 @@
-+++
-title = "799. 엔터프라이즈 시스템 핵심 토픽 799번 시험 요약 (Enterprise System Core Topic 799 Exam Summary)"
-date = 2026-05-09
+---
+title: "799. 엔터프라이즈 시스템 핵심 토픽 799번 시험 요약 (Enterprise System Core Topic 799 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 799 / 800
 
-<- **이전**: [798. 엔터프라이즈 시스템 핵심 토픽 798번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/798_enterprise_system_core_topic_798_exam_summary/)
-**다음**: [800. 800. 차세대 전사 비즈니스 디지털 혁신(DT/DX) 및 IT 전략 총론 포괄 구조 프레임워크 맵](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/800_dt_dx_it/) ->
+<- **이전**: [798. 엔터프라이즈 시스템 핵심 토픽 798번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/798_enterprise_system_core_topic_798_exam_summary/)
+**다음**: [800. 800. 차세대 전사 비즈니스 디지털 혁신(DT/DX) 및 IT 전략 총론 포괄 구조 프레임워크 맵](/studynote/07_enterprise_systems/06_exam_summary/800_dt_dx_it/) ->
 
 ---

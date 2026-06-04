@@ -1,12 +1,9 @@
-+++
-title = "58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화"
+---
+title: "58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -128,7 +125,7 @@ tags = ["software_engineering"]
 
 **진행 상황**: 58 / 973
 
-<- **이전**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/knowledge-base/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)
-**다음**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ->
+<- **이전**: [57. 모델 주도 아키텍처 (MDA, Model Driven Architecture) - PIM, PSM 매핑](/studynote/04_software_engineering/01_overview_principles/057_mda_model_driven_architecture/)
+**다음**: [59. PMO (Project Management Office) - 전사 프로젝트 관리 조직](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) ->
 
 ---

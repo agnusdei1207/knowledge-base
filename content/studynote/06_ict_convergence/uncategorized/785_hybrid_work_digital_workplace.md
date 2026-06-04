@@ -1,13 +1,10 @@
-+++
-title = "785. 하이브리드 업무 디지털 워크플레이스 (Hybrid Work Digital Workplace)"
-date = 2026-05-09
+---
+title: "785. 하이브리드 업무 디지털 워크플레이스 (Hybrid Work Digital Workplace)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -182,7 +179,7 @@ HWDW는 4개의 논리적 평면(Plane)과 7개의 핵심 기술 축으로 구�
 
 **진행 상황**: 785 / 800
 
-<- **이전**: [784. 벤더 독립 오픈 표준 이식성 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/784_vendor_independence_open_standard_portability/)
-**다음**: [786. 사이버 물리 시스템 CPS 융합 보안](/knowledge-base/studynote/06_ict_convergence/uncategorized/786_cyber_physical_system_cps_convergence_securit/) ->
+<- **이전**: [784. 벤더 독립 오픈 표준 이식성 전략](/studynote/06_ict_convergence/uncategorized/784_vendor_independence_open_standard_portability/)
+**다음**: [786. 사이버 물리 시스템 CPS 융합 보안](/studynote/06_ict_convergence/uncategorized/786_cyber_physical_system_cps_convergence_securit/) ->
 
 ---

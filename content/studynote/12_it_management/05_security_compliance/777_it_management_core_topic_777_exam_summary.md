@@ -1,13 +1,10 @@
-+++
-title = "777. IT 경영 관리 핵심 토픽 777번 시험 요약 (IT Management Core Topic 777 Exam Summary)"
-date = 2026-05-09
+---
+title: "777. IT 경영 관리 핵심 토픽 777번 시험 요약 (IT Management Core Topic 777 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -198,7 +195,7 @@ ISO 38500은 이사회 수준의 IT 거버넌스 국제표준으로, **3개 작�
 
 **진행 상황**: 777 / 800
 
-<- **이전**: [776. IT 경영 관리 핵심 토픽 776번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/776_it_management_core_topic_776_exam_summary/)
-**다음**: [778. IT 경영 관리 핵심 토픽 778번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/778_it_management_core_topic_778_exam_summary/) ->
+<- **이전**: [776. IT 경영 관리 핵심 토픽 776번 시험 요약](/studynote/12_it_management/05_security_compliance/776_it_management_core_topic_776_exam_summary/)
+**다음**: [778. IT 경영 관리 핵심 토픽 778번 시험 요약](/studynote/12_it_management/05_security_compliance/778_it_management_core_topic_778_exam_summary/) ->
 
 ---

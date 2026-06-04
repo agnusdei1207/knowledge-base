@@ -1,34 +1,31 @@
-+++
-title = "2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화"
-date = 2026-03-21
+---
+title: "2. 다중 프로그래밍 (Multiprogramming) - CPU 활용도 극대화"
+date: "2026-03-21"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
 
-[extra]
-tags = ["studynote-operating-system"]
-+++
-
-# [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))
+# [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 I/O 작업으로 인해 CPU가 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))가 될 때 다른 작업으로 전환하여 CPU 활용률 (Utilization)을 극대화하는 자원 효율화 기법이다.
-> 2. **가치**: 단일 작업 처리 (Uni-programming)의 한계인 자원 낭비를 극복하고, 메모리에 여러 프로세스를 상주시켜 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 비약적으로 향상시킨다.
-> 3. **융합**: 현대의 [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing)과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술의 근간이 되었으며, 프로세스 스케줄링 및 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)) 기술 발전을 견인했다.
+> 1. **본질**: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 I/O 작업으로 인해 CPU가 유휴 상태 ([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))가 될 때 다른 작업으로 전환하여 CPU 활용률 (Utilization)을 극대화하는 자원 효율화 기법이다.
+> 2. **가치**: 단일 작업 처리 (Uni-programming)의 한계인 자원 낭비를 극복하고, 메모리에 여러 프로세스를 상주시켜 시스템 전체의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 비약적으로 향상시킨다.
+> 3. **융합**: 현대의 [시분할 시스템](/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing)과 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 기술의 근간이 되었으며, 프로세스 스케줄링 및 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/)) 기술 발전을 견인했다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-- **개념**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 여러 개의 프로그램 (Job)을 동시에 메모리에 적재해 두고, 현재 실행 중인 프로그램이 I/O (Input/Output) 요청 등으로 인해 대기 상태에 빠지면 CPU (Central Processing Unit)를 즉시 다른 프로그램에게 할당하여 실행을 지속하는 방식이다. 이는 'CPU는 한순간도 쉬지 않아야 한다'는 효율성 중심의 운영 철학을 대변한다.
+- **개념**: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 여러 개의 프로그램 (Job)을 동시에 메모리에 적재해 두고, 현재 실행 중인 프로그램이 I/O (Input/Output) 요청 등으로 인해 대기 상태에 빠지면 CPU (Central Processing Unit)를 즉시 다른 프로그램에게 할당하여 실행을 지속하는 방식이다. 이는 'CPU는 한순간도 쉬지 않아야 한다'는 효율성 중심의 운영 철학을 대변한다.
 
-- **필요성**: 컴퓨터 시스템에서 CPU의 연산 속도는 I/O 장치의 처리 속도에 비해 압도적으로 빠르다. 단일 프로그래밍 환경에서는 프로그램이 키보드 입력을 기다리거나 디스크 읽기를 수행하는 동안 CPU가 아무런 작업도 하지 못하고 기다려야 한다. 이러한 비효율을 제거하고 값비싼 자원인 CPU의 사용 시간을 100%에 가깝게 끌어올리기 위해 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이 고안되었다.
+- **필요성**: 컴퓨터 시스템에서 CPU의 연산 속도는 I/O 장치의 처리 속도에 비해 압도적으로 빠르다. 단일 프로그래밍 환경에서는 프로그램이 키보드 입력을 기다리거나 디스크 읽기를 수행하는 동안 CPU가 아무런 작업도 하지 못하고 기다려야 한다. 이러한 비효율을 제거하고 값비싼 자원인 CPU의 사용 시간을 100%에 가깝게 끌어올리기 위해 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이 고안되었다.
 
-- **💡 비유**: [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)은 "숙련된 요리사"와 같다. 요리사가 냄비에 물을 올려두고 끓을 때까지 가만히 기다리는 것이 아니라, 물이 끓는 동안 재료를 손질하거나 다른 요리를 시작하여 주방의 생산성을 높이는 것과 같은 원리다.
+- **💡 비유**: [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)은 "숙련된 요리사"와 같다. 요리사가 냄비에 물을 올려두고 끓을 때까지 가만히 기다리는 것이 아니라, 물이 끓는 동안 재료를 손질하거나 다른 요리를 시작하여 주방의 생산성을 높이는 것과 같은 원리다.
 
-- <strong>기존 한계와 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 등장</strong>: 초기의 [일괄 처리 시스템](/knowledge-base/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/) ([Batch Processing](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))은 한 번에 하나의 작업만 메모리에 올려 처리했다. 이는 I/O 바운드 작업에서 극심한 자원 낭비를 초래했다. 이를 해결하기 위해 메모리 관리와 작업 스케줄링 (Job Scheduling) 개념이 도입되며 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이 시작되었다.
+- <strong>기존 한계와 <a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 등장</strong>: 초기의 [일괄 처리 시스템](/studynote/02_operating_system/11_exam_summary/672_batch_processing_system_metrics/) ([Batch Processing](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/))은 한 번에 하나의 작업만 메모리에 올려 처리했다. 이는 I/O 바운드 작업에서 극심한 자원 낭비를 초래했다. 이를 해결하기 위해 메모리 관리와 작업 스케줄링 (Job Scheduling) 개념이 도입되며 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)이 시작되었다.
 
-이 그래프는 단일 프로그래밍과 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 CPU의 유휴 시간 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time) 차이를 시각적으로 보여준다.
+이 그래프는 단일 프로그래밍과 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 환경에서 CPU의 유휴 시간 ([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time) 차이를 시각적으로 보여준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -46,7 +43,7 @@ tags = ["studynote-operating-system"]
 +--------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 단일 프로그래밍 (Uni-programming) 방식에서는 Job A가 I/O 작업을 수행하는 동안 CPU는 아무런 연산을 하지 못하고 유휴 상태 ([Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))로 대기하게 된다. 이는 시스템 전체 처리 효율을 급격히 떨어뜨리는 원인이 된다. 반면 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 Job A가 I/O 대기에 들어가는 즉시 준비 상태에 있는 Job B나 Job C로 CPU 제어권을 넘긴다. 결과적으로 CPU는 연속적으로 작업을 처리할 수 있게 되며, 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다. 이러한 작업 전환 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 메커니즘은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 의해 관리되며, 메모리에 여러 작업을 동시에 유지할 수 있는 기술적 전제가 필요하다.
+**[다이어그램 해설]** 단일 프로그래밍 (Uni-programming) 방식에서는 Job A가 I/O 작업을 수행하는 동안 CPU는 아무런 연산을 하지 못하고 유휴 상태 ([Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/))로 대기하게 된다. 이는 시스템 전체 처리 효율을 급격히 떨어뜨리는 원인이 된다. 반면 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))은 Job A가 I/O 대기에 들어가는 즉시 준비 상태에 있는 Job B나 Job C로 CPU 제어권을 넘긴다. 결과적으로 CPU는 연속적으로 작업을 처리할 수 있게 되며, 시스템 전체의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))이 비약적으로 향상된다. 이러한 작업 전환 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 메커니즘은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)에 의해 관리되며, 메모리에 여러 작업을 동시에 유지할 수 있는 기술적 전제가 필요하다.
 
 - **📢 섹션 요약 비유**: 손님이 주문한 음식이 나오길 기다리는 동안 다른 테이블의 서빙을 병행하여 회전율을 높이는 식당 운영 방식과 같습니다.
 
@@ -58,17 +55,17 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 내부 동작 | 비유 |
 |:---|:---|:---|:---|
-| <strong>작업 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (Job Scheduler)</strong> | 어떤 프로그램을 메모리에 올릴지 결정 | 보조기억장치에서 메모리로 프로세스 선택 | 입구 대기표 관리자 |
-| <strong>CPU <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 메모리 상의 어떤 프로세스에 CPU를 줄지 결정 | [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 실행 대상 선정 | 서빙 우선순위 [결정자](/knowledge-base/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
-| **메모리 관리자** | 여러 프로그램의 메모리 공간 할당 및 격리 | 베이스/리미트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통한 영역 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) | 테이블 좌석 배정 |
-| <strong>I/O <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a></strong> | I/O 완료 시 CPU에 알림 | [인터럽트 서비스 루틴](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/)) 실행 및 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | "주문 완료" 벨소리 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/">준비 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/">Ready Queue</a>)</strong> | 실행 대기 중인 프로세스 목록 관리 | PCB ([Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/) Control Block)의 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 구조 | 줄 서서 기다리는 손님 |
+| <strong>작업 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a> (Job Scheduler)</strong> | 어떤 프로그램을 메모리에 올릴지 결정 | 보조기억장치에서 메모리로 프로세스 선택 | 입구 대기표 관리자 |
+| <strong>CPU <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 메모리 상의 어떤 프로세스에 CPU를 줄지 결정 | [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 실행 대상 선정 | 서빙 우선순위 [결정자](/studynote/05_database/02_modeling_normalization/095_determinant_dependent/) |
+| **메모리 관리자** | 여러 프로그램의 메모리 공간 할당 및 격리 | 베이스/리미트 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 통한 영역 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) | 테이블 좌석 배정 |
+| <strong>I/O <a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a></strong> | I/O 완료 시 CPU에 알림 | [인터럽트 서비스 루틴](/studynote/02_operating_system/01_overview_architecture/020_isr/) ([ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/)) 실행 및 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) | "주문 완료" 벨소리 |
+| <strong><a href="/studynote/02_operating_system/02_process_thread/088_ready_queue/">준비 큐</a> (<a href="/studynote/02_operating_system/02_process_thread/088_ready_queue/">Ready Queue</a>)</strong> | 실행 대기 중인 프로세스 목록 관리 | PCB ([Process](/studynote/12_it_management/05_security_compliance/943_process/) Control Block)의 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/) 구조 | 줄 서서 기다리는 손님 |
 
 ---
 
-### [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 메모리 레이아웃
+### [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 메모리 레이아웃
 
-[다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)을 지원하기 위해서는 메모리가 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역과 여러 사용자의 프로그램 영역으로 분할되어야 한다. 각 프로그램은 서로의 영역을 침범하지 않도록 엄격하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)되어야 한다.
+[다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)을 지원하기 위해서는 메모리가 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역과 여러 사용자의 프로그램 영역으로 분할되어야 한다. 각 프로그램은 서로의 영역을 침범하지 않도록 엄격하게 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)되어야 한다.
 
 ```text
 +-----------------------------------------------------------------+
@@ -91,13 +88,13 @@ tags = ["studynote-operating-system"]
 +-----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 가장 큰 기술적 도전은 메모리에 여러 작업을 안전하게 상주시키는 것이다. 이 도식은 메모리가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역과 다수의 사용자 작업 영역으로 나뉘어 있음을 보여준다. 각 작업은 고정 분할 (Fixed [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 또는 가변 분할 (Variable [Partitioning](/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 방식으로 할당된다. 이때 가장 중요한 것은 보안과 안정성이다. 특정 작업이 오류를 일으켜 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역이나 다른 작업의 메모리를 덮어쓰지 못하도록 [베이스 레지스터](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/) ([Base Register](/knowledge-base/studynote/02_operating_system/06_memory_management/329_base_register/))와 리미트 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Limit Register](/knowledge-base/studynote/02_operating_system/06_memory_management/330_limit_register/))를 사용하여 접근 범위를 제한한다. 만약 허용 범위를 벗어난 접근이 발생하면 CPU는 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 발생시켜 해당 프로세스를 강제 종료한다. 이러한 메모리 관리 체계는 후대의 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))과 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술로 진화하는 토대가 되었다.
+**[다이어그램 해설]** [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 가장 큰 기술적 도전은 메모리에 여러 작업을 안전하게 상주시키는 것이다. 이 도식은 메모리가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 영역과 다수의 사용자 작업 영역으로 나뉘어 있음을 보여준다. 각 작업은 고정 분할 (Fixed [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 또는 가변 분할 (Variable [Partitioning](/studynote/05_database/03_relational_model/179_table_partitioning_concept/)) 방식으로 할당된다. 이때 가장 중요한 것은 보안과 안정성이다. 특정 작업이 오류를 일으켜 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 영역이나 다른 작업의 메모리를 덮어쓰지 못하도록 [베이스 레지스터](/studynote/02_operating_system/06_memory_management/329_base_register/) ([Base Register](/studynote/02_operating_system/06_memory_management/329_base_register/))와 리미트 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) ([Limit Register](/studynote/02_operating_system/06_memory_management/330_limit_register/))를 사용하여 접근 범위를 제한한다. 만약 허용 범위를 벗어난 접근이 발생하면 CPU는 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) ([Trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/))을 발생시켜 해당 프로세스를 강제 종료한다. 이러한 메모리 관리 체계는 후대의 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/studynote/02_operating_system/04_synchronization/259_paging/))과 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 기술로 진화하는 토대가 되었다.
 
 ---
 
-### [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 전이
+### [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 [프로세스 상태](/studynote/02_operating_system/02_process_thread/086_process_state/) 전이
 
-프로세스는 CPU 사용 여부와 I/O 대기 여부에 따라 여러 상태를 오가며 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 사이클을 완성한다.
+프로세스는 CPU 사용 여부와 I/O 대기 여부에 따라 여러 상태를 오가며 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 사이클을 완성한다.
 
 ```text
        [생성]
@@ -113,7 +110,7 @@ tags = ["studynote-operating-system"]
   +--- [대기] (Wait / Block)
 ```
 
-**[다이어그램 해설]** [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 동적 메커니즘은 [프로세스 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/086_process_state/) 전이로 설명된다. 프로그램이 메모리에 적재되면 '준비 (Ready)' 상태가 되어 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 대기한다. CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 중 하나를 선택하면 '실행 (Running)' 상태가 된다. [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 핵심 포인트는 실행 중인 프로세스가 I/O 요청을 하면 즉시 '대기 (Wait)' 상태로 빠지고, CPU 제어권을 다른 '준비' 상태 프로세스에게 넘겨준다는 점이다. I/O 작업이 완료되면 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 다시 '준비' 상태로 돌아와 차례를 기다린다. 이 과정이 반복됨으로써 CPU는 유휴 시간 없이 계속해서 유효한 연산을 수행할 수 있게 된다.
+**[다이어그램 해설]** [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 동적 메커니즘은 [프로세스 상태](/studynote/02_operating_system/02_process_thread/086_process_state/) 전이로 설명된다. 프로그램이 메모리에 적재되면 '준비 (Ready)' 상태가 되어 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))에서 대기한다. CPU [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 이 중 하나를 선택하면 '실행 (Running)' 상태가 된다. [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 핵심 포인트는 실행 중인 프로세스가 I/O 요청을 하면 즉시 '대기 (Wait)' 상태로 빠지고, CPU 제어권을 다른 '준비' 상태 프로세스에게 넘겨준다는 점이다. I/O 작업이 완료되면 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) ([Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/))를 통해 다시 '준비' 상태로 돌아와 차례를 기다린다. 이 과정이 반복됨으로써 CPU는 유휴 시간 없이 계속해서 유효한 연산을 수행할 수 있게 된다.
 
 - **📢 섹션 요약 비유**: 여러 개의 체스판을 동시에 두고, 상대방이 수를 두는 동안(I/O) 다른 판으로 이동하여 대국을 진행하는 체스 고수의 모습과 같습니다.
 
@@ -123,39 +120,39 @@ tags = ["studynote-operating-system"]
 
 ### 다중 작업 처리 방식 비교
 
-| 비교 항목 | [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) | [시분할 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing) | 다중 처리 (Multiprocessing) |
+| 비교 항목 | [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) | [시분할 시스템](/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) (Time-sharing) | 다중 처리 (Multiprocessing) |
 |:---|:---|:---|:---|
-| **핵심 목표** | CPU 활용률 극대화 | 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 및 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상 |
-| **전환 기준** | I/O 발생 시 전환 | 타임 [슬라이스](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (Time [Slice](/knowledge-base/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)) 소진 시 전환 | 하드웨어적 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
-| **구현 단위** | 작업 (Job) 단위 | 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 단위 | CPU 코어 단위 |
+| **핵심 목표** | CPU 활용률 극대화 | 사용자 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 단축 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 및 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 향상 |
+| **전환 기준** | I/O 발생 시 전환 | 타임 [슬라이스](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/) (Time [Slice](/studynote/05_database/06_dw_olap_trends/331_neuromorphic_ai_db/)) 소진 시 전환 | 하드웨어적 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 |
+| **구현 단위** | 작업 (Job) 단위 | 프로세스/[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 단위 | CPU 코어 단위 |
 | **사용자 수** | 주로 단일 사용자 (Batch) | 다중 사용자 (Interactive) | 시스템 구조적 특성 |
 
-### [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표: [Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
+### [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표: [Degree of Multiprogramming](/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
 
-메모리에 올라와 있는 프로세스의 수([Degree of Multiprogramming](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))와 CPU 활용률 사이에는 밀접한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 있다.
+메모리에 올라와 있는 프로세스의 수([Degree of Multiprogramming](/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/))와 CPU 활용률 사이에는 밀접한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 있다.
 - **CPU 활용률 (U) 공식**: $U = 1 - p^n$ (여기서 $p$는 프로세스가 I/O에 머무는 시간 비율, $n$은 프로세스 수)
-- **한계점**: $n$이 너무 커지면 각 프로세스에 할당되는 메모리가 부족해져 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 빈번해지고, 결과적으로 CPU가 작업 처리보다 교체 작업에 더 많은 시간을 쓰는 [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 현상이 발생한다.
+- **한계점**: $n$이 너무 커지면 각 프로세스에 할당되는 메모리가 부족해져 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 빈번해지고, 결과적으로 CPU가 작업 처리보다 교체 작업에 더 많은 시간을 쓰는 [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) ([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/)) 현상이 발생한다.
 
-- **📢 섹션 요약 비유**: 공부하는 과목 수를 늘리면 노는 시간은 줄어들지만(효율성), 너무 많은 과목을 동시에 펴놓으면 책장 넘기느라 정작 공부는 못 하게 되는([스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 것과 같습니다.
+- **📢 섹션 요약 비유**: 공부하는 과목 수를 늘리면 노는 시간은 줄어들지만(효율성), 너무 많은 과목을 동시에 펴놓으면 책장 넘기느라 정작 공부는 못 하게 되는([스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/)) 것과 같습니다.
 
 ---
 
-## Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+## Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-### 실무 적용 시나리오 및 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 실무 적용 시나리오 및 운영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-1. <strong>시나리오 — 서버 자원 고갈 및 응답 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 해결</strong>: 웹 서버에 접속자가 몰려 응답이 느려질 때, 무조건 동시 처리 수 ([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))를 늘리는 것이 답은 아니다. Degree of Multiprogramming이 과도하게 높아지면 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 오버헤드가 CPU 연산 시간을 압도하게 된다. 이때는 적절한 큐잉 (Queuing) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 로드 밸런싱을 통해 시스템이 감당 가능한 최적의 프로세스 수를 유지해야 한다.
+1. <strong>시나리오 — 서버 자원 고갈 및 응답 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 해결</strong>: 웹 서버에 접속자가 몰려 응답이 느려질 때, 무조건 동시 처리 수 ([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/))를 늘리는 것이 답은 아니다. Degree of Multiprogramming이 과도하게 높아지면 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching) 오버헤드가 CPU 연산 시간을 압도하게 된다. 이때는 적절한 큐잉 (Queuing) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 로드 밸런싱을 통해 시스템이 감당 가능한 최적의 프로세스 수를 유지해야 한다.
 
-2. **시나리오 — I/O 바운드와 CPU 바운드 작업의 혼합**: 시스템의 효율을 극대화하기 위해서는 I/O 바운드 작업(DB 조회 등)과 CPU 바운드 작업([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 등)을 적절히 섞어서 실행해야 한다. OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이러한 작업 특성을 파악하여 CPU를 점유하고 있는 작업이 I/O 대기에 들어갔을 때 빠르게 다른 작업을 투입함으로써 전체 자원 밸런스를 맞춘다.
+2. **시나리오 — I/O 바운드와 CPU 바운드 작업의 혼합**: 시스템의 효율을 극대화하기 위해서는 I/O 바운드 작업(DB 조회 등)과 CPU 바운드 작업([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 등)을 적절히 섞어서 실행해야 한다. OS [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이러한 작업 특성을 파악하여 CPU를 점유하고 있는 작업이 I/O 대기에 들어갔을 때 빠르게 다른 작업을 투입함으로써 전체 자원 밸런스를 맞춘다.
 
-### 도입 시 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a></strong>: 각 프로세스가 실행에 필요한 최소 메모리 ([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))를 보장받고 있는가?
-- **공정성**: 특정 프로세스가 자원을 독점하지 않도록 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법이나 우선순위 조정이 적용되었는가?
-- **안정성**: [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전파되지 않는가?
+### 도입 시 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- <strong><a href="/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a></strong>: 각 프로세스가 실행에 필요한 최소 메모리 ([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/))를 보장받고 있는가?
+- **공정성**: 특정 프로세스가 자원을 독점하지 않도록 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법이나 우선순위 조정이 적용되었는가?
+- **안정성**: [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) 메커니즘이 활성화되어 한 프로세스의 결함이 다른 프로세스나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 전파되지 않는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 방치</strong>: CPU 이용률이 떨어진다고 해서 프로세스 수를 계속 늘리면, 시스템은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 교체 작업에만 몰두하여 결국 멈추게 된다.
-- **부적절한 작업 선택**: CPU 바운드 작업들만 메모리에 가득 차 있으면 I/O 장치는 놀게 되고, 반대의 경우 CPU가 놀게 되어 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 목적이 상실된다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- <strong><a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>) 방치</strong>: CPU 이용률이 떨어진다고 해서 프로세스 수를 계속 늘리면, 시스템은 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 교체 작업에만 몰두하여 결국 멈추게 된다.
+- **부적절한 작업 선택**: CPU 바운드 작업들만 메모리에 가득 차 있으면 I/O 장치는 놀게 되고, 반대의 경우 CPU가 놀게 되어 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 목적이 상실된다.
 
 - **📢 섹션 요약 비유**: 버스에 손님을 많이 태우면 효율적이지만, 발 디딜 틈 없이 태우면 아무도 내리고 타지 못해 버스가 출발하지 못하는 상황을 경계해야 합니다.
 
@@ -163,33 +160,33 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-### [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 도입의 정량/정성적 효과
+### [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 도입의 정량/정성적 효과
 
-| 구분 | 도입 전 (Single-tasking) | 도입 후 ([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) | 기대 효과 |
+| 구분 | 도입 전 (Single-tasking) | 도입 후 ([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)) | 기대 효과 |
 |:---|:---|:---|:---|
-| **CPU 이용률** | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% (I/O 대기 시 낭비) | 70~90% 이상 유지 가능 | 하드웨어 투자 대비 효용 극대화 |
-| <strong>시스템 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 단위 시간당 낮은 작업 완료 | 단위 시간당 많은 작업 완료 | 비즈니스 처리 능력 향상 |
-| **운영 유연성** | 한 작업 끝날 때까지 대기 | 여러 작업 병행 처리 및 우선순위 부여 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 관리 가능 |
+| **CPU 이용률** | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)~30% (I/O 대기 시 낭비) | 70~90% 이상 유지 가능 | 하드웨어 투자 대비 효용 극대화 |
+| <strong>시스템 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a></strong> | 단위 시간당 낮은 작업 완료 | 단위 시간당 많은 작업 완료 | 비즈니스 처리 능력 향상 |
+| **운영 유연성** | 한 작업 끝날 때까지 대기 | 여러 작업 병행 처리 및 우선순위 부여 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 품질 ([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)) 관리 가능 |
 
 ### 미래 전망
-현대의 가상화와 클라우드 컴퓨팅은 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 개념을 머신 단위로 확장한 것이다. [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술은 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하며 수천 개의 격리된 실행 환경(프로세스)을 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 방식으로 구동한다. 향후에는 AI가 실시간으로 워크로드의 특성을 분석하여 CPU 코어 할당과 메모리 배치를 자동화하는 <strong>지능형 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a></strong>으로 진화할 것이다.
+현대의 가상화와 클라우드 컴퓨팅은 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)의 개념을 머신 단위로 확장한 것이다. [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술은 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유하며 수천 개의 격리된 실행 환경(프로세스)을 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 방식으로 구동한다. 향후에는 AI가 실시간으로 워크로드의 특성을 분석하여 CPU 코어 할당과 메모리 배치를 자동화하는 <strong>지능형 <a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a></strong>으로 진화할 것이다.
 
 ### 참고 표준
-- **IEEE 1003.1 (POSIX)**: [프로세스 생성](/knowledge-base/studynote/02_operating_system/02_process_thread/104_process_creation/) 및 관리, 스케줄링 인터페이스 표준.
+- **IEEE 1003.1 (POSIX)**: [프로세스 생성](/studynote/02_operating_system/02_process_thread/104_process_creation/) 및 관리, 스케줄링 인터페이스 표준.
 - **ISO/IEC 9899**: C 언어 표준 내의 병행성 및 메모리 모델 정의.
 
 - **📢 섹션 요약 비유**: 텅 빈 고속도로에 차 한 대만 달리는 낭비를 막고, 여러 차선에 차를 가득 채워 도로의 가치를 높이는 효율적인 교통 시스템의 완성입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-| 개념 명칭 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+| 개념 명칭 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 및 시너지 설명 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/">컨텍스트 스위칭</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | 실행 중인 작업을 전환하기 위해 상태를 저장하고 복구하는 핵심 메커니즘 |
-| **스케줄링 (Scheduling)** | 어떤 프로세스에게 CPU를 줄지 결정하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> | 과도한 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)으로 인해 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하되는 현상 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | I/O 완료 등 외부 이벤트를 OS에 알려 작업 전환을 유도하는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">Memory Protection</a>)</strong> | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/034_context_switch/">컨텍스트 스위칭</a> (<a href="/studynote/02_operating_system/01_overview_architecture/033_context/">Context</a> Switching)</strong> | 실행 중인 작업을 전환하기 위해 상태를 저장하고 복구하는 핵심 메커니즘 |
+| **스케줄링 (Scheduling)** | 어떤 프로세스에게 CPU를 줄지 결정하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">스래싱</a> (<a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> | 과도한 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)으로 인해 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 저하되는 현상 |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> (<a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">Interrupt</a>)</strong> | I/O 완료 등 외부 이벤트를 OS에 알려 작업 전환을 유도하는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) |
+| <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">메모리 보호</a> (<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/">Memory Protection</a>)</strong> | 여러 작업이 공존할 때 서로의 영역을 침범하지 못하게 하는 안전장치 |
 
 ---
 
@@ -211,10 +208,10 @@ tags = ["studynote-operating-system"]
 [메모리 보호 (Memory Protection)]
 ```
 
-이 흐름도는 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)에서 출발해 [메모리 보호](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Switching)에서 출발해 [메모리 보호](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/) ([Memory Protection](/studynote/01_computer_architecture/07_virtual_memory_os_integration/803_memory_protection/))까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)은 컴퓨터가 <strong>"여러 가지 일을 한꺼번에 하는 법"</strong>을 배운 거예요.
+1. [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)은 컴퓨터가 <strong>"여러 가지 일을 한꺼번에 하는 법"</strong>을 배운 거예요.
 2. 예전에는 동영상이 다운로드될 때까지 아무것도 못 하고 기다렸다면, 이제는 다운로드되는 동안 게임도 하고 숙제도 할 수 있게 된 거랍니다.
 3. 컴퓨터 부품들이 놀지 않고 쉬지 않고 일하게 해서, 우리가 컴퓨터를 더 빠르게 쓸 수 있게 해주는 아주 고마운 기술이에요!
 
@@ -224,7 +221,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 2 / 800
 
-<- **이전**: [1. 운영체제 (Operating System)의 목적 - 자원 관리, 편의성, 성능 향상](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)
-**다음**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/knowledge-base/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) ->
+<- **이전**: [1. 운영체제 (Operating System)의 목적 - 자원 관리, 편의성, 성능 향상](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)
+**다음**: [3. 시분할 시스템 (Time-sharing System) - 응답 시간 최소화, 인터랙티브](/studynote/02_operating_system/01_overview_architecture/003_time_sharing_system/) ->
 
 ---

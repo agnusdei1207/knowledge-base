@@ -1,13 +1,10 @@
-+++
-title = "675. 데이터 오케스트레이션 Airflow Dagster (Data Orchestration Airflow Dagster)"
-date = 2026-05-09
+---
+title: "675. 데이터 오케스트레이션 Airflow Dagster (Data Orchestration Airflow Dagster)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -168,7 +165,7 @@ Dagster는 ①**User Code(Definitions / Assets / Ops)** ②**Dagster Webserver**
 
 **진행 상황**: 675 / 800
 
-<- **이전**: [674. 실시간 스트리밍 분석 Kafka Flink](/knowledge-base/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/)
-**다음**: [676. 피처 스토어 ML 특성 관리 재사용](/knowledge-base/studynote/06_ict_convergence/uncategorized/676_feature_store_ml_feature_management_reuse/) ->
+<- **이전**: [674. 실시간 스트리밍 분석 Kafka Flink](/studynote/06_ict_convergence/uncategorized/674_real_time_streaming_analytics_kafka_flink/)
+**다음**: [676. 피처 스토어 ML 특성 관리 재사용](/studynote/06_ict_convergence/uncategorized/676_feature_store_ml_feature_management_reuse/) ->
 
 ---

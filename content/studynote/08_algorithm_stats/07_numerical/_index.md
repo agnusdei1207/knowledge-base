@@ -1,9 +1,9 @@
-+++
-title = "07. 수치 해석 및 최적화 공학"
+---
+title: "07. 수치 해석 및 최적화 공학"
+tags:
+  - "algorithm_stats"
+---
 
-[extra]
-tags = ["algorithm_stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

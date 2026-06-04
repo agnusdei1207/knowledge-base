@@ -1,27 +1,24 @@
-+++
-title = "87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계"
-date = 2026-04-10
+---
+title: "87. 구현 뷰 (Implementation View) - 소프트웨어 모듈 컴포넌트 설계"
+date: "2026-04-10"
+tags:
+  - "studynote-design"
+---
 
-[taxonomies]
-tags = ["studynote-design"]
-
-[extra]
-tags = ["studynote-design"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-    > 1. **본질**: 구현 뷰 (Implementation [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 소프트웨어를 어떤 패키지·[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)·[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나눠 빌드하고 관리할지를 보여주는 구조다.
-    > 2. **가치**: [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램은 의존성과 제공/요구 인터페이스를 드러내어, 코드 조직이 아니라 컴파일·재사용 경계를 설계하게 만든다.
-    > 3. **판단 포인트**: [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조만 보면 기능은 보여도 유지보수 경계가 흐려지고, 구현 뷰를 쓰면 빌드·배포·팀 책임까지 함께 정렬할 수 있다.
+    > 1. **본질**: 구현 뷰 (Implementation [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 소프트웨어를 어떤 패키지·[모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)·[컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)로 나눠 빌드하고 관리할지를 보여주는 구조다.
+    > 2. **가치**: [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램은 의존성과 제공/요구 인터페이스를 드러내어, 코드 조직이 아니라 컴파일·재사용 경계를 설계하게 만든다.
+    > 3. **판단 포인트**: [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조만 보면 기능은 보여도 유지보수 경계가 흐려지고, 구현 뷰를 쓰면 빌드·배포·팀 책임까지 함께 정렬할 수 있다.
 
     ---
 
     ## Ⅰ. 개요 및 필요성
 
-    구현 뷰 (Implementation [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 4+1 뷰 모델에서 코드가 실제로 어떤 단위로 묶이고 빌드되는지 보여준다. [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 기준으로는 패키지 다이어그램과 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램이 주로 쓰이며, 이는 클래스 관계보다 더 높은 수준에서 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 설명한다.
+    구현 뷰 (Implementation [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 4+1 뷰 모델에서 코드가 실제로 어떤 단위로 묶이고 빌드되는지 보여준다. [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) 기준으로는 패키지 다이어그램과 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 다이어그램이 주로 쓰이며, 이는 클래스 관계보다 더 높은 수준에서 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 설명한다.
 
-대규모 시스템은 기능 목록만으로는 유지되지 않는다. 어떤 패키지가 어떤 API를 공개하고, 어떤 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 팀의 책임인지가 명확해야 변경이 한 곳에서 끝난다. 구현 뷰는 바로 그 경계를 설계 문서로 고정하는 역할을 한다.
+대규모 시스템은 기능 목록만으로는 유지되지 않는다. 어떤 패키지가 어떤 API를 공개하고, 어떤 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 어떤 팀의 책임인지가 명확해야 변경이 한 곳에서 끝난다. 구현 뷰는 바로 그 경계를 설계 문서로 고정하는 역할을 한다.
 
     - **📢 섹션 요약 비유**: 큰 장난감을 종류별 상자에 나눠 넣는 것처럼, 코드는 역할별 구역에 들어가야 찾기 쉽다.
 
@@ -29,14 +26,14 @@ tags = ["studynote-design"]
 
     ## Ⅱ. 아키텍처 및 핵심 원리
 
-    구현 뷰의 핵심은 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 서로를 직접 참조하는 것이 아니라, 제공 인터페이스와 요구 인터페이스로 연결된다는 점이다. 패키지 (Package)는 소스 코드 묶음이고, [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) ([Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))는 독립 배포 또는 교체 가능한 기능 단위다.
+    구현 뷰의 핵심은 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/)가 서로를 직접 참조하는 것이 아니라, 제공 인터페이스와 요구 인터페이스로 연결된다는 점이다. 패키지 (Package)는 소스 코드 묶음이고, [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) ([Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/))는 독립 배포 또는 교체 가능한 기능 단위다.
 
 | 요소 | 역할 | 패키징 포인트 |
 | :-- | :-- | :-- |
-| Package | 소스와 타입을 묶는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위 | 순환 의존 금지, 공개 범위 최소화 |
-| [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 교체 가능한 기능 블록 | 명확한 인터페이스와 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| Package | 소스와 타입을 묶는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 단위 | 순환 의존 금지, 공개 범위 최소화 |
+| [Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 교체 가능한 기능 블록 | 명확한 인터페이스와 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 | Interface | 호출 규약 | 구현 세부를 숨기고 계약만 노출 |
-| [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물 | JAR, DLL, 이미지 등 배포 단위 |
+| [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물 | JAR, DLL, 이미지 등 배포 단위 |
 
 ```text
 [ui package] --► [application package] --► [domain package]
@@ -45,7 +42,7 @@ tags = ["studynote-design"]
        +--------------► [interface contract] [infra package]
 ```
 
-이 구조가 중요한 이유는 코드가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 존재하는 방식과, 설계자가 책임을 나눈 방식이 같아야 변경 비용이 줄어들기 때문이다.
+이 구조가 중요한 이유는 코드가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템에 존재하는 방식과, 설계자가 책임을 나눈 방식이 같아야 변경 비용이 줄어들기 때문이다.
 
     - **📢 섹션 요약 비유**: 연결선이 많은 로봇 조립도에서 부품 역할과 호환 규칙을 먼저 정하는 것과 같다.
 
@@ -53,14 +50,14 @@ tags = ["studynote-design"]
 
     ## Ⅲ. 비교 및 연결
 
-    구현 뷰는 [논리 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/), [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/), 배포 뷰와 역할이 다르다.
+    구현 뷰는 [논리 뷰](/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/), [프로세스 뷰](/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/), 배포 뷰와 역할이 다르다.
 
 | 뷰 | 질문 | 초점 |
 | :-- | :-- | :-- |
-| [논리 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | 무엇을 하는가? | 객체, 책임, 기능 |
-| 구현 뷰 | 어떻게 코드로 묶는가? | 패키지, [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
-| [프로세스 뷰](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) | 런타임에 어떻게 흐르는가? | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/), [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) |
-| 배포 뷰 | 어디에 올라가는가? | 서버, [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 네트워크 |
+| [논리 뷰](/studynote/11_design_supervision/02_architecture_principles/085_logical_view_class_diagram_functional_requirements/) | 무엇을 하는가? | 객체, 책임, 기능 |
+| 구현 뷰 | 어떻게 코드로 묶는가? | 패키지, [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/), [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
+| [프로세스 뷰](/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/) | 런타임에 어떻게 흐르는가? | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/), [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/), [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) |
+| 배포 뷰 | 어디에 올라가는가? | 서버, [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/), 네트워크 |
 
 패키지 기준이 기능이 아니라 계층이면, 작은 변경도 여러 계층을 따라 퍼질 수 있다. 반대로 feature-based packaging은 기능 단위 응집도를 높이지만, 공유 코어가 약하면 중복이 늘 수 있다. 따라서 구현 뷰는 계층과 기능의 균형을 맞추는 협상 도구로 봐야 한다.
 
@@ -72,15 +69,15 @@ tags = ["studynote-design"]
 
     실무에서는 다음 순서로 판단하면 좋다. 핵심 변경이 자주 일어나는 제품이면 기능 기준 패키징을 우선하고, 안정적인 라이브러리나 공통 인프라면 계층 기준으로 명확히 분리한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 패키지 간 순환 의존이 없는가?
 2. 공개 API가 최소화되어 있는가?
-3. [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 경계가 팀 책임 경계와 맞는가?
-4. 빌드 도구가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 강제하는가?
+3. [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 경계가 팀 책임 경계와 맞는가?
+4. 빌드 도구가 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계를 강제하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - util 패키지 하나에 모든 코드가 몰리는 구조
-- 화면·[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)·DB 코드가 서로를 직접 호출하는 구조
+- 화면·[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)·DB 코드가 서로를 직접 호출하는 구조
 - 다이어그램은 멀쩡한데 실제 폴더 구조는 완전히 다른 구조
 
     - **📢 섹션 요약 비유**: 한 상자에 다 넣는 대신, 같은 부품끼리만 이어지는 레고 블록 설계가 필요하다.
@@ -89,7 +86,7 @@ tags = ["studynote-design"]
 
     ## Ⅴ. 기대효과 및 결론
 
-    구현 뷰가 잘 잡히면 리팩터링, 테스트, 배포가 모두 쉬워진다. 특히 [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 경계를 통해 변경 영향 범위를 줄이면, 새 기능을 넣어도 회귀 위험이 낮아진다.
+    구현 뷰가 잘 잡히면 리팩터링, 테스트, 배포가 모두 쉬워진다. 특히 [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 경계를 통해 변경 영향 범위를 줄이면, 새 기능을 넣어도 회귀 위험이 낮아진다.
 
 반대로 패키징을 지나치게 잘게 쪼개면 오히려 네비게이션 비용이 커진다. 따라서 구현 뷰는 "코드를 나누는 그림"이 아니라 "변경 비용을 최소화하는 책임 지도"로 기억하는 것이 정확하다.
 
@@ -101,21 +98,21 @@ tags = ["studynote-design"]
 
     | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) | 구조를 시각화하는 표기 체계 |
+| [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/)) | 구조를 시각화하는 표기 체계 |
 | Package | 소스 코드 조직 단위 |
-| [Component](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 재사용·교체 가능한 기능 단위 |
+| [Component](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) | 재사용·교체 가능한 기능 단위 |
 | Interface | 의존성을 계약으로 바꾸는 경계 |
-| [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물과 배포 단위 |
+| [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/) | 빌드 산출물과 배포 단위 |
 
     ### 📈 관련 키워드 및 발전 흐름도
 
     클래스 설계
     |
     v
-패키지/[모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리
+패키지/[모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 분리
     |
     v
-[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 인터페이스 정의
+[컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 인터페이스 정의
     |
     v
 빌드 산출물과 배포 단위 정렬
@@ -132,7 +129,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 130 / 530
 
-<- **이전**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)
-**다음**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/) ->
+<- **이전**: [86. 프로세스 뷰 (Process View) - 시스템의 동시성 및 동적 성능 설계](/studynote/11_design_supervision/02_architecture_principles/086_process_view_sequence_diagram_concurrency/)
+**다음**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/) ->
 
 ---

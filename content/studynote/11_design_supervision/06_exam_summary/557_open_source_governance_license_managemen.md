@@ -1,13 +1,10 @@
-+++
-title = "557. 오픈소스 거버넌스 라이선스 관리 (Open Source Governance License Management)"
-date = 2026-05-09
+---
+title: "557. 오픈소스 거버넌스 라이선스 관리 (Open Source Governance License Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -139,7 +136,7 @@ SBOM은 **NTIA Minimum Field**(Supplier, Component, Version, Author of SBOM, Tim
 
 **진행 상황**: 557 / 600
 
-<- **이전**: [556. 클라우드 거버넌스 멀티 클라우드 정책](/knowledge-base/studynote/11_design_supervision/06_exam_summary/557_cloud_governance_multi_cloud_policy/)
-**다음**: [558. 디지털 전환 전략 로드맵 수립](/knowledge-base/studynote/11_design_supervision/06_exam_summary/558_digital_transformation_strategy_roadmap/) ->
+<- **이전**: [556. 클라우드 거버넌스 멀티 클라우드 정책](/studynote/11_design_supervision/06_exam_summary/557_cloud_governance_multi_cloud_policy/)
+**다음**: [558. 디지털 전환 전략 로드맵 수립](/studynote/11_design_supervision/06_exam_summary/558_digital_transformation_strategy_roadmap/) ->
 
 ---

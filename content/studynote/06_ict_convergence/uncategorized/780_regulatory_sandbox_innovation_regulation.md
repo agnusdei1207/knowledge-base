@@ -1,13 +1,10 @@
-+++
-title = "780. 규제 샌드박스 혁신 규제 완화 전략 (Regulatory Sandbox Innovation Regulation)"
-date = 2026-05-09
+---
+title: "780. 규제 샌드박스 혁신 규제 완화 전략 (Regulatory Sandbox Innovation Regulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Clayton Christensen의 **파괴적 혁신(Disruptive Innovation)** 이론이 예
 
 **진행 상황**: 780 / 800
 
-<- **이전**: [779. IP 지식 재산권 특허 전략 라이선스](/knowledge-base/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/)
-**다음**: [781. 디지털 리터러시 데이터 리터러시 교육](/knowledge-base/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/) ->
+<- **이전**: [779. IP 지식 재산권 특허 전략 라이선스](/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/)
+**다음**: [781. 디지털 리터러시 데이터 리터러시 교육](/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/) ->
 
 ---

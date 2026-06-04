@@ -1,13 +1,10 @@
-+++
-title = "067. Attack Surface Analysis — 공격 표면 관리"
-date = 2026-04-05
+---
+title: "067. Attack Surface Analysis — 공격 표면 관리"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -21,7 +18,7 @@ tags = ["studynote-security"]
 
 시스템이 복잡할수록 공격자가 들어갈 수 있는 길도 많아진다. 그래서 공격 표면을 먼저 보는 것이 중요하다.
 
-불필요한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 권한, 입력 지점이 많을수록 위험은 커진다.
+불필요한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 권한, 입력 지점이 많을수록 위험은 커진다.
 
 - **📢 섹션 요약 비유**: 집의 문과 창문이 많을수록 잠가야 할 곳도 많아진다.
 
@@ -54,13 +51,13 @@ Reduction / Hardening
 | 개념 | 초점 | 차이 |
 | :-- | :-- | :-- |
 | Attack Surface | 노출 면적 | 공격 가능 접점 |
-| [Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) | 공격 시나리오 | 공격 방식 |
-| Hardening | 방어 강화 | [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)/축소 |
+| [Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/) | 공격 시나리오 | 공격 방식 |
+| Hardening | 방어 강화 | [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)/축소 |
 
 | 영역 | 예 |
 | :-- | :-- |
-| Network | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| Application | [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 입력값 |
+| Network | [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| Application | [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), 입력값 |
 | Identity | 권한, 토큰 |
 
 표면을 줄이는 것은 공격자에게 줄 수 있는 기회를 줄이는 것과 같다.
@@ -71,18 +68,18 @@ Reduction / Hardening
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 외부 노출 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 API를 줄였는가?
+1. 외부 노출 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 API를 줄였는가?
 2. 불필요한 권한과 기능을 닫았는가?
 3. 신뢰 경계를 확인했는가?
-4. 입력/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표면을 점검했는가?
+4. 입력/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)/[프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 표면을 점검했는가?
 5. 주기적으로 재분석하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 기능을 외부에 노출하는 설계
-- 사용하지 않는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 방치하는 설계
+- 사용하지 않는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 방치하는 설계
 - 권한을 과도하게 주는 설계
 - 표면 축소 없이 탐지만 하는 설계
 
@@ -142,7 +139,7 @@ Reduction
 
 **진행 상황**: 67 / 1108
 
-<- **이전**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/knowledge-base/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/)
-**다음**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/knowledge-base/studynote/09_security/02_crypto/068_cryptography/) ->
+<- **이전**: [066. PASTA (Process for Attack Simulation and Threat Analysis) — 7단계 위협 모델링](/studynote/09_security/01_intro_principles/066_pasta_threat_modeling/)
+**다음**: [068. 암호학 (Cryptography) — 기밀성·무결성·인증·부인방지 제공](/studynote/09_security/02_crypto/068_cryptography/) ->
 
 ---

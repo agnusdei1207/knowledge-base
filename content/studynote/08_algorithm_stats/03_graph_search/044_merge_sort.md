@@ -1,25 +1,22 @@
-+++
-title = "19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간"
+---
+title: "19. 합병 정렬 (Merge Sort) — O(n log n), 안정, O(n) 공간"
+tags:
+  - "algorithm_stats"
+---
 
-[taxonomies]
-tags = ["algorithm_stats"]
-
-[extra]
-tags = ["algorithm_stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 합병 정렬(Merge Sort)은 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임을 따르는 안정 정렬로, [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 반으로 나눈 뒤 각 절반을 재귀적으로 정렬하고, 마지막에 두 정렬된 절반을 합병(Merge)하여 전체를 정렬하는 O(N log N) 알고리즘이다.
+> 1. **본질**: 합병 정렬(Merge Sort)은 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 패러다임을 따르는 안정 정렬로, [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 반으로 나눈 뒤 각 절반을 재귀적으로 정렬하고, 마지막에 두 정렬된 절반을 합병(Merge)하여 전체를 정렬하는 O(N log N) 알고리즘이다.
 > 2. **가치**: 최악의 경우에도 O(N log N)을 보장하며, 안정 정렬이므로 동일 값 사이의 순서가 보존된다. 그러나 O(N)의 추가 공간이 필요하다는 단점이 있다.
-> 3. **융합**: 합병 정렬은 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)), [Timsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/), [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬, 그리고련표([Linked List](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 정렬에 특히 효과적이며, 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 안정성이 중요한 정렬에서 필수적으로 활용된다.
+> 3. **융합**: 합병 정렬은 [외부 정렬](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)([External Sort](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)), [Timsort](/studynote/08_algorithm_stats/02_sorting/019_timsort/), [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 합병 정렬, 그리고련표([Linked List](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)) 정렬에 특히 효과적이며, 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리와 안정성이 중요한 정렬에서 필수적으로 활용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-합병 정렬(Merge Sort)은 1945년 John von Neumann이 개발한 것으로, [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 알고리즘의 대표적 사례이다. 합병 정렬의 핵심 아이디어는 "리스트를 더 이상 나눌 수 없을 때까지(크기 1이 될 때까지) 반으로 분할하고, 분할된 각 부분을 정렬한 후, 이들을 합병하여 최종 정렬된 리스트를 만드는 것"이다.
+합병 정렬(Merge Sort)은 1945년 John von Neumann이 개발한 것으로, [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)([Divide and Conquer](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)) 알고리즘의 대표적 사례이다. 합병 정렬의 핵심 아이디어는 "리스트를 더 이상 나눌 수 없을 때까지(크기 1이 될 때까지) 반으로 분할하고, 분할된 각 부분을 정렬한 후, 이들을 합병하여 최종 정렬된 리스트를 만드는 것"이다.
 
-합병 정렬이 중요한 이유는 <strong>안정성과 최악 O(N log N) 보장</strong>이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N^)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
+합병 정렬이 중요한 이유는 <strong>안정성과 최악 O(N log N) 보장</strong>이라는 두 가지 핵심 특성 때문이다. [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)이 평균적으로 O(N log N)이지만 최악 O(N^)인 반면, 합병 정렬은 최악의 경우에도 O(N log N)이 보장된다. 또한 안정 정렬이므로 동일 값 사이의 순서가 보존되어, 다중 키 정렬이나 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 정렬 등에서 필수적으로 사용된다.
 
 > 이 도식은 합병 정렬의 분할-정복-결합 과정을 보여준다.
 
@@ -57,10 +54,10 @@ tags = ["algorithm_stats"]
 +------------------------------------------------------+
 ```
 
-- **관찰**: 합병 정렬의 핵심은 "두 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 합병할 때 정렬된 상태가 유지된다"는 것이다.
-- **원인**: 각 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 현재 포인터가 가리키는 원소 중 더 작은 쪽을 선택하기 때문이다.
+- **관찰**: 합병 정렬의 핵심은 "두 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 합병할 때 정렬된 상태가 유지된다"는 것이다.
+- **원인**: 각 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 현재 포인터가 가리키는 원소 중 더 작은 쪽을 선택하기 때문이다.
 - **결과**: 이 특성 덕분에 재귀적 분할 후 결합만 하면 전체가 정렬된다.
-- **판단**: O(N) 추가 공간이 필요하므로 메모리 제약이 있는 환경에서는 주의해야 하지만, 안정성이 중요하거나 대용량 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)에서는 필수적으로 사용된다.
+- **판단**: O(N) 추가 공간이 필요하므로 메모리 제약이 있는 환경에서는 주의해야 하지만, 안정성이 중요하거나 대용량 [외부 정렬](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)에서는 필수적으로 사용된다.
 
 📢 **섹션 요약 비유**: 합병 정렬은 그림의パズル완성과 같습니다. 먼저 퍼즐 조각을 반반 나누고(분할), 각 조각을 완성하고(재귀적 정렬), 마지막으로 두 완성된 그림을 맞춰붙이면(합병) 전체 그림이 완성됩니다.
 
@@ -68,9 +65,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-합병 정렬의 핵심 원리는 <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a></strong>과 <strong>합병(Merge) 과정</strong>이다. 분할 단계에서는 리스트를 항상 반으로 나눈다. 정복 단계에서는 각 절반을 재귀적으로 합병 정렬한다. 결합 단계에서는 두 정렬된 절반을 합병하여 하나의 정렬된 리스트를 만든다.
+합병 정렬의 핵심 원리는 <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a></strong>과 <strong>합병(Merge) 과정</strong>이다. 분할 단계에서는 리스트를 항상 반으로 나눈다. 정복 단계에서는 각 절반을 재귀적으로 합병 정렬한다. 결합 단계에서는 두 정렬된 절반을 합병하여 하나의 정렬된 리스트를 만든다.
 
-**합병(Merge) 과정**: 두 정렬된 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) A와 B가 있을 때, 각각의 현재 원소를 비교하여 더 작은 원소를 결과 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고 포인터를 이동시키는 것을 반복한다. 한쪽 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)이 모두 소진되면 나머지 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 모든 원소를 결과에 추가한다.
+**합병(Merge) 과정**: 두 정렬된 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) A와 B가 있을 때, 각각의 현재 원소를 비교하여 더 작은 원소를 결과 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 넣고 포인터를 이동시키는 것을 반복한다. 한쪽 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)이 모두 소진되면 나머지 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 모든 원소를 결과에 추가한다.
 
 ```text
 [합병 (Merge) 과정 상세]
@@ -105,8 +102,8 @@ tags = ["algorithm_stats"]
 
 - **관찰**: 합병 정렬의 시간 복잡도는 O(N log N)으로, 입력과 무관하게 동일하다.
 - **원인**: 매 단계에서 문제를 정확히 반으로 나누고, 결합 비용이 O(N)이기 때문이다.
-- **결과**: 최악의 경우에도 O(N log N)이 보장되어 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)과 달리 예측 가능한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
-- **판단**: 안정성이 중요하거나 최악 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장이 필요한 경우에는 합병 정렬이 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 선호된다.
+- **결과**: 최악의 경우에도 O(N log N)이 보장되어 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)과 달리 예측 가능한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 제공한다.
+- **판단**: 안정성이 중요하거나 최악 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 보장이 필요한 경우에는 합병 정렬이 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)보다 선호된다.
 
 📢 **섹션 요약 비유**: 합병 정렬의합병 과정은 두 줄을 세운 학생회 합과 같습니다. 두 줄 맨 앞에서 더 작은 학생을 새로운 줄에 세우고, 한 줄이 모두 소진되면 나머지 줄의 학생들을 모두 새 줄에 이어서 세우면, 자연스럽게 전체가 정렬됩니다.
 
@@ -114,7 +111,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. <strong>대용량 <a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/">외부 정렬</a>(<a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/">External Sort</a>)</strong>: 디스크에 저장된 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후합병한다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 정렬</strong>: [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong>: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
+합병 정렬의 실무 적용은 광범위하다. **안정 정렬이 필수인 경우**: 다중 키 정렬, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 안정성이 보장되어야 하므로 필수적으로 사용된다. <strong>대용량 <a href="/studynote/08_algorithm_stats/02_sorting/023_external_sort/">외부 정렬</a>(<a href="/studynote/08_algorithm_stats/02_sorting/023_external_sort/">External Sort</a>)</strong>: 디스크에 저장된 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정렬할 때 메모리에 맞게 chunk로 나누어 정렬한 후합병한다. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/056_linked_list/">연결 리스트</a> 정렬</strong>: [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)에서 합병 정렬은 O(N log N) 시간에 O(1) 추가 공간으로 구현할 수 있다. <strong><a href="/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong>: Python과 Java의 표준 정렬로, 합병 정렬과 삽입 정렬의 hybrid이다.
 
 ```text
 [합병 정렬 의사코드]
@@ -160,7 +157,7 @@ tags = ["algorithm_stats"]
 
 합병 정렬의 품질 관리에서 가장 중요한 것은 <strong>안정성 확보</strong>와 <strong>추가 공간 관리</strong>이다.
 
-<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는외부정렬([External Sort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
+<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>: 안정 정렬이므로 동일 값 사이의 순서가 보장된다. O(N) 추가 공간이 필요하므로 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서는외부정렬([External Sort](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)) 전략을 고려해야 한다.
 
 📢 **섹션 요약 비유**: 합병 정렬의품질 관리는 합장과정의 품질관리와 같습니다. 두 묶음의 꽃을 합병할 때화의순서를 보존하면(안정성) 전체 꽃다발의미적감촉이손なわれません.
 
@@ -168,7 +165,7 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-합병 정렬의 최신 동향은 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 합병 정렬</strong>과 <strong>Timsort의 발전</strong>이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서탁월한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
+합병 정렬의 최신 동향은 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 합병 정렬</strong>과 <strong>Timsort의 발전</strong>이다. 멀티코어 CPU를 활용하면 합병 단계를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화하여 O(N log N) 시간에 O(N/P) 공간으로 구현할 수 있다. Timsort는 Python과 Java에서 표준 정렬로 채택되어, 실제 세계의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서탁월한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다.
 
 합병 정렬은 안정 정렬과 최악 O(N log N) 보장이라는 두 가지 핵심 특성으로 인해, 실무에서 필수적인 정렬 알고리즘이다.
 
@@ -181,9 +178,9 @@ tags = ["algorithm_stats"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> | 합병 정렬의 핵심 패러다임으로, 문제를 반씩 나눠 재귀적으로 해결한 뒤 합병하는 설계 원칙 |
-| **안정 정렬 (Stable Sort)** | 동일 값 간 원래 순서가 보존되어, 다중 키 정렬과 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 필수적으로 활용 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong> | 합병 정렬과 삽입 정렬을 혼합한 Python·Java 표준 정렬로, 실세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부분 정렬 패턴을 이용해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화 |
+| <strong><a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">분할 정복</a> (<a href="/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/">Divide and Conquer</a>)</strong> | 합병 정렬의 핵심 패러다임으로, 문제를 반씩 나눠 재귀적으로 해결한 뒤 합병하는 설계 원칙 |
+| **안정 정렬 (Stable Sort)** | 동일 값 간 원래 순서가 보존되어, 다중 키 정렬과 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ORDER BY에서 필수적으로 활용 |
+| <strong><a href="/studynote/08_algorithm_stats/02_sorting/019_timsort/">Timsort</a></strong> | 합병 정렬과 삽입 정렬을 혼합한 Python·Java 표준 정렬로, 실세계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 부분 정렬 패턴을 이용해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 극대화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -199,13 +196,13 @@ tags = ["algorithm_stats"]
     v
 [병렬 합병 정렬 (Parallel Merge Sort) — 멀티코어 분산 정렬]
 ```
-합병 정렬은 최악에도 O(N log N)을 보장하는 안정 정렬로, Timsort의 기반이 되고 [외부 정렬](/knowledge-base/studynote/08_algorithm_stats/02_sorting/023_external_sort/)과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 진화했다.
+합병 정렬은 최악에도 O(N log N)을 보장하는 안정 정렬로, Timsort의 기반이 되고 [외부 정렬](/studynote/08_algorithm_stats/02_sorting/023_external_sort/)과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리로 진화했다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 합병 정렬은 카드 한 뭉치를 계속 반으로 나눠 혼자 풀 수 있을 만큼 작게 쪼개고, 다시 두 장씩 짝지어 작은 순서로 합치는 <strong>놀이</strong>예요!
 2. 두 줄로 서있는 친구들 중 키가 더 작은 친구를 번갈아 새 줄에 세우면, 어느새 전체가 키 순서대로 예쁘게 정렬돼요!
-3. [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 친구와 달리 어떤 경우에도 항상 같은 빠르기(O(N log N))가 보장되어서, 안정성이 중요한 학교 성적표 정렬에 딱 맞는답니다!
+3. [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) 친구와 달리 어떤 경우에도 항상 같은 빠르기(O(N log N))가 보장되어서, 안정성이 중요한 학교 성적표 정렬에 딱 맞는답니다!
 
 ## 참고
 
@@ -215,7 +212,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 44 / 175
 
-<- **이전**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)
-**다음**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) ->
+<- **이전**: [16. 최대 유량 (Max Flow) — Ford-Fulkerson / Edmonds-Karp](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)
+**다음**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/studynote/08_algorithm_stats/03_graph_search/045_min_cut/) ->
 
 ---

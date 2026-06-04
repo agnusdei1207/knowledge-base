@@ -1,18 +1,15 @@
-+++
-title = "75. 공동 코드 소유 (Collective Code Ownership)"
+---
+title: "75. 공동 코드 소유 (Collective Code Ownership)"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 공동 코드 소유 (Collective [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Ownership)는 특정 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 한 사람의 성역으로 두지 않고 팀 누구나 수정·리팩터링할 수 있게 하는 협업 원칙이다.
+> 1. **본질**: 공동 코드 소유 (Collective [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Ownership)는 특정 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 한 사람의 성역으로 두지 않고 팀 누구나 수정·리팩터링할 수 있게 하는 협업 원칙이다.
 > 2. **가치**: 지식이 한 사람에 묶이지 않으므로 장애 대응과 개선 속도가 빨라지지만, 테스트와 리뷰가 약하면 대신 불안정성이 커진다.
-> 3. **판단 포인트**: 소유를 나누기 전에 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 공통 규칙이 먼저 있어야 "자유"가 "혼돈"으로 변하지 않는다.
+> 3. **판단 포인트**: 소유를 나누기 전에 자동화 테스트, [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/), 공통 규칙이 먼저 있어야 "자유"가 "혼돈"으로 변하지 않는다.
 
 ---
 
@@ -20,7 +17,7 @@ tags = ["software_engineering"]
 
 팀이 빠르게 움직이려면 특정 파일을 특정 사람만 수정할 수 있는 구조를 줄여야 한다. 공동 코드 소유는 병목을 줄이고, 코드베이스를 팀 자산으로 만드는 방식이다.
 
-다만 이 원칙은 테스트와 가이드 없이 작동하지 않는다. 누가 고쳐도 안전해야 하므로, 구조와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 먼저 있어야 한다. 그렇지 않으면 공유가 아니라 방치가 된다.
+다만 이 원칙은 테스트와 가이드 없이 작동하지 않는다. 누가 고쳐도 안전해야 하므로, 구조와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 먼저 있어야 한다. 그렇지 않으면 공유가 아니라 방치가 된다.
 
 ```text
 issue -> any dev -> tests / review -> merge -> shared knowledge
@@ -34,15 +31,15 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-공동 소유를 받쳐 주는 것은 자동화 테스트, [코드 리뷰](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/), 일관된 스타일, 작은 [PR](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), 빠른 피드백이다. 여기에 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))와 feature flag가 더해지면 변경 위험이 크게 줄어든다.
+공동 소유를 받쳐 주는 것은 자동화 테스트, [코드 리뷰](/studynote/04_software_engineering/06_software_architecture/330_code_review/), 일관된 스타일, 작은 [PR](/studynote/15_devops_sre/02_cicd_gitops/067_pull_request_pr_merge_request_code_review/), 빠른 피드백이다. 여기에 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/))와 feature flag가 더해지면 변경 위험이 크게 줄어든다.
 
 | 구성 요소 | 역할 | 왜 필요한가 |
 | :--- | :--- | :--- |
 | Automated Tests | 회귀 방지 | 누구나 고쳐도 안전 |
-| [Code Review](/knowledge-base/studynote/04_software_engineering/06_software_architecture/330_code_review/) | 품질 점검 | 숨은 영향 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 통합 실패 조기 발견 |
-| Style / Convention | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보 | 문맥 비용 감소 |
-| [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 안전한 출시 | 점진적 노출 |
+| [Code Review](/studynote/04_software_engineering/06_software_architecture/330_code_review/) | 품질 점검 | 숨은 영향 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 통합 실패 조기 발견 |
+| Style / Convention | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 확보 | 문맥 비용 감소 |
+| [Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 안전한 출시 | 점진적 노출 |
 
 이 구조가 있으면 코드가 사람에게 묶이지 않고, 팀의 학습 속도가 곧 품질이 된다.
 
@@ -56,10 +53,10 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 | 비교 축 | Collective Ownership | Individual Ownership |
 | :--- | :--- | :--- |
-| 장점 | 유연성, [bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) factor 감소 | 소유 책임 명확 |
+| 장점 | 유연성, [bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) factor 감소 | 소유 책임 명확 |
 | 약점 | 규칙 없으면 혼란 | 병목, 지식 독점 |
 
-연결 관점에서는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계보다 테스트 경계가 더 중요하다. 경계를 잘 나눈 팀일수록 소유 공유가 쉬워진다.
+연결 관점에서는 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 경계보다 테스트 경계가 더 중요하다. 경계를 잘 나눈 팀일수록 소유 공유가 쉬워진다.
 
 - **📢 섹션 요약 비유**: 같이 쓰는 장난감은 규칙이 있을 때만 오래 간다.
 
@@ -82,7 +79,7 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 ## Ⅴ. 기대효과 및 결론
 
-공동 코드 소유는 지식의 회전을 빠르게 해 팀을 강하게 만든다. 특정 사람의 부재가 곧 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위험이 되지 않기 때문이다.
+공동 코드 소유는 지식의 회전을 빠르게 해 팀을 강하게 만든다. 특정 사람의 부재가 곧 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 위험이 되지 않기 때문이다.
 
 기억할 결론은 명확하다. 소유를 분산하려면 먼저 안전을 분산해야 한다. 테스트, 리뷰, 배포 자동화가 그 기반이다.
 
@@ -94,11 +91,11 @@ issue -> any dev -> tests / review -> merge -> shared knowledge
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| Shared [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 팀 자산 |
+| Shared [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) | 팀 자산 |
 | Tests | 안전망 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 품질 필터 |
-| [Feature Flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 점진적 출시 |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | 품질 필터 |
+| [Feature Flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 점진적 출시 |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -130,7 +127,7 @@ shared responsibility
 
 **진행 상황**: 75 / 973
 
-<- **이전**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)
-**다음**: [76. 지속적 통합 (CI, Continuous Integration)](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ->
+<- **이전**: [74. 페어 프로그래밍 (Pair Programming) - Driver / Navigator](/studynote/04_software_engineering/02_requirements_analysis/074_pair_programming_driver_navigator/)
+**다음**: [76. 지속적 통합 (CI, Continuous Integration)](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/) ->
 
 ---

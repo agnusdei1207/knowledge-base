@@ -1,13 +1,10 @@
-+++
-title = "444. IT 경영 관리 핵심 토픽 444번 시험 요약 (IT Management Core Topic 444 Exam Summary)"
-date = 2026-05-09
+---
+title: "444. IT 경영 관리 핵심 토픽 444번 시험 요약 (IT Management Core Topic 444 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -196,7 +193,7 @@ ITIL 4는 **Opportunity/Demand -> Value**로 연결하는 7개 컴포넌트 체�
 
 **진행 상황**: 444 / 800
 
-<- **이전**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/)
-**다음**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/) ->
+<- **이전**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/)
+**다음**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/) ->
 
 ---

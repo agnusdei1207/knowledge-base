@@ -1,25 +1,22 @@
-+++
-title = "721. 패키지 C-States"
-date = 2026-05-08
+---
+title: "721. 패키지 C-States"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 패키지 C-State는 개별 코어가 아니라 CPU (Central Processing Unit) 패키지 전체가 유휴 상태일 때, 코어 바깥의 언코어(Uncore) 영역까지 함께 절전시키는 칩 단위 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태다.
-> 2. **가치**: 코어만 재우는 것으로는 줄지 않는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache), 인터커넥트, 메모리 컨트롤러의 유휴 전력을 낮춰, 노트북 배터리 시간과 서버 저부하 효율을 동시에 개선한다.
-> 3. **판단 포인트**: 깊은 패키지 C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 진입 여부는 코어 사용률만으로 결정되지 않으며, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도, 입출력(I/O) 활동, 메모리 트래픽, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 요구까지 포함한 플랫폼 전체의 "조용함"이 핵심 조건이다.
+> 1. **본질**: 패키지 C-State는 개별 코어가 아니라 CPU (Central Processing Unit) 패키지 전체가 유휴 상태일 때, 코어 바깥의 언코어(Uncore) 영역까지 함께 절전시키는 칩 단위 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태다.
+> 2. **가치**: 코어만 재우는 것으로는 줄지 않는 [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache), 인터커넥트, 메모리 컨트롤러의 유휴 전력을 낮춰, 노트북 배터리 시간과 서버 저부하 효율을 동시에 개선한다.
+> 3. **판단 포인트**: 깊은 패키지 C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 진입 여부는 코어 사용률만으로 결정되지 않으며, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 빈도, 입출력(I/O) 활동, 메모리 트래픽, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 요구까지 포함한 플랫폼 전체의 "조용함"이 핵심 조건이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-패키지 C-State는 [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) 관점에서 프로세서 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태를 칩 전체 범위로 확장한 개념이다. 개별 코어가 C6나 C7 같은 깊은 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태에 들어가더라도, 공유 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), 링/[메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 인터커넥트, 메모리 컨트롤러, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 루트 복합체가 계속 깨어 있으면 패키지 전체 소비전력은 생각보다 크게 남는다.
+패키지 C-State는 [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) (Advanced Configuration and [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Interface) 관점에서 프로세서 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태를 칩 전체 범위로 확장한 개념이다. 개별 코어가 C6나 C7 같은 깊은 코어 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태에 들어가더라도, 공유 [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/), 링/[메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/) 인터커넥트, 메모리 컨트롤러, [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 루트 복합체가 계속 깨어 있으면 패키지 전체 소비전력은 생각보다 크게 남는다.
 
 이 때문에 멀티코어 시대의 유휴 전력 문제는 "코어를 얼마나 재웠는가"보다 "코어 밖의 공유 자원이 얼마나 조용한가"로 바뀌었다. 특히 모바일 기기에서는 화면이 꺼진 뒤의 대기 전력, 서버에서는 낮은 CPU 사용률 구간의 랙 전력 비용이 이 언코어 잔류 활동에 크게 좌우된다. 패키지 C-State는 바로 이 남은 전력 누수를 줄이기 위해 등장한 칩 단위 깊은 수면 전략이다.
 
@@ -29,17 +26,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-패키지 C-State는 보통 각 코어의 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 요청을 PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))나 전력 관리 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 모아 판단한다. 핵심 조건은 세 가지다. 첫째, 모든 코어가 일정 수준 이상 깊은 코어 C-State에 들어가 있어야 한다. 둘째, [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 접근, 메모리 트래픽, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 주기적 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)처럼 언코어를 깨우는 활동이 거의 없어야 한다. 셋째, 플랫폼이 요구하는 wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 안에서 다시 깨어날 수 있어야 한다.
+패키지 C-State는 보통 각 코어의 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 요청을 PCU ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/))나 전력 관리 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)가 모아 판단한다. 핵심 조건은 세 가지다. 첫째, 모든 코어가 일정 수준 이상 깊은 코어 C-State에 들어가 있어야 한다. 둘째, [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 접근, 메모리 트래픽, [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)), 주기적 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)처럼 언코어를 깨우는 활동이 거의 없어야 한다. 셋째, 플랫폼이 요구하는 wake [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 안에서 다시 깨어날 수 있어야 한다.
 
-상태가 깊어질수록 절전 대상은 코어 바깥으로 넓어진다. 얕은 패키지 상태에서는 인터커넥트 클럭을 낮추는 정도에 그치지만, 더 깊은 상태에서는 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 일부를 retention으로 두거나 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 더 낮추고, 최신 클라이언트 플랫폼에서는 패키지 외부 메모리를 self-refresh 상태로 둔 채 패키지 전원 레일을 거의 꺼 버리기도 한다. 다만 PC2, PC6, PC8, PC10 같은 이름과 내부 동작은 세대와 제조사에 따라 조금씩 달라진다.
+상태가 깊어질수록 절전 대상은 코어 바깥으로 넓어진다. 얕은 패키지 상태에서는 인터커넥트 클럭을 낮추는 정도에 그치지만, 더 깊은 상태에서는 [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 일부를 retention으로 두거나 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)을 더 낮추고, 최신 클라이언트 플랫폼에서는 패키지 외부 메모리를 self-refresh 상태로 둔 채 패키지 전원 레일을 거의 꺼 버리기도 한다. 다만 PC2, PC6, PC8, PC10 같은 이름과 내부 동작은 세대와 제조사에 따라 조금씩 달라진다.
 
 | 대표 상태 | 패키지 차원 조치 | 얻는 효과 | 대가 |
 | :-- | :-- | :-- | :-- |
-| 얕은 Package C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 인터커넥트/언코어 클럭 감속 | 즉시성 유지, 소폭 절전 | 절감 폭 제한 |
-| 중간 Package C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 일부 정지, 언코어 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 | 유휴 전력 의미 있게 감소 | 복귀 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 |
-| 깊은 Package C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 메모리 self-refresh 연계, 패키지 전원 레일 대폭 차단 | 대기 전력 최소화 | 가장 긴 exit [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) |
+| 얕은 Package C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 인터커넥트/언코어 클럭 감속 | 즉시성 유지, 소폭 절전 | 절감 폭 제한 |
+| 중간 Package C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) 일부 정지, 언코어 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하 | 유휴 전력 의미 있게 감소 | 복귀 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 증가 |
+| 깊은 Package C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 메모리 self-refresh 연계, 패키지 전원 레일 대폭 차단 | 대기 전력 최소화 | 가장 긴 exit [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) |
 
-아래 그림은 패키지 C-State가 단순히 "모든 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)"만으로 끝나지 않고, 언코어와 플랫폼 제약까지 확인한 뒤에야 진입한다는 점을 보여준다.
+아래 그림은 패키지 C-State가 단순히 "모든 코어 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/)"만으로 끝나지 않고, 언코어와 플랫폼 제약까지 확인한 뒤에야 진입한다는 점을 보여준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -68,16 +65,16 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-패키지 C-State는 코어 C-State보다 범위가 넓고, 시스템 S-State보다 범위가 좁다. 코어 C-State는 한 코어 단위의 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 절전이고, 패키지 C-State는 칩 전체 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 절전이며, [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State는 메모리·칩셋·장치 전반을 포함한 시스템 수준 수면 상태다. 이 경계를 구분해야 "코어는 쉬는데 왜 배터리가 빨리 닳는가" 같은 질문에 답할 수 있다.
+패키지 C-State는 코어 C-State보다 범위가 넓고, 시스템 S-State보다 범위가 좁다. 코어 C-State는 한 코어 단위의 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 절전이고, 패키지 C-State는 칩 전체 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 절전이며, [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-State는 메모리·칩셋·장치 전반을 포함한 시스템 수준 수면 상태다. 이 경계를 구분해야 "코어는 쉬는데 왜 배터리가 빨리 닳는가" 같은 질문에 답할 수 있다.
 
-| 항목 | 코어 C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 패키지 C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [ACPI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
+| 항목 | 코어 C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 패키지 C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | [ACPI](/studynote/02_operating_system/01_overview_architecture/075_acpi/) S-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) |
 | :-- | :-- | :-- | :-- |
 | 적용 범위 | 개별 코어 | CPU 패키지 전체 | 시스템 전체 |
-| 전제 조건 | 해당 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) | 모든 코어와 언코어가 충분히 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시스템 수면 요청 |
+| 전제 조건 | 해당 코어 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) | 모든 코어와 언코어가 충분히 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 시스템 수면 요청 |
 | 주된 효과 | 코어 동적/누설 전력 절감 | 공유 언코어 유휴 전력 절감 | 플랫폼 전체 대기 전력 절감 |
-| 체감 영향 | 코어별 wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 칩 전체 wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 화면/장치 상태 변화 |
+| 체감 영향 | 코어별 wake [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 칩 전체 wake [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | 화면/장치 상태 변화 |
 
-또한 최신 노트북의 S0ix 같은 현대 저전력 유휴 상태는 실제로 깊은 패키지 C-State를 반복적으로 활용해 구현되는 경우가 많다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 여전히 S0(working)로 인식하지만, 하드웨어는 내부적으로 패키지를 깊게 재웠다가 필요한 순간만 짧게 깨우는 식이다. 따라서 패키지 C-State는 단독 개념이면서 동시에 현대 플랫폼 대기 전력 설계의 기반이기도 하다.
+또한 최신 노트북의 S0ix 같은 현대 저전력 유휴 상태는 실제로 깊은 패키지 C-State를 반복적으로 활용해 구현되는 경우가 많다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 여전히 S0(working)로 인식하지만, 하드웨어는 내부적으로 패키지를 깊게 재웠다가 필요한 순간만 짧게 깨우는 식이다. 따라서 패키지 C-State는 단독 개념이면서 동시에 현대 플랫폼 대기 전력 설계의 기반이기도 하다.
 
 - **📢 섹션 요약 비유**: 코어 C-State가 각 방의 스탠드 조명을 끄는 일이라면, 패키지 C-State는 집 전체 차단기를 절전 모드로 내리는 일이고, S-State는 아예 건물 운영 모드를 주간에서 야간으로 바꾸는 일에 가깝다.
 
@@ -85,22 +82,22 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 깊은 패키지 C-State는 자동으로 얻어지는 보너스가 아니다. 타이머가 너무 자주 깨우거나, [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장치가 계속 폴링하거나, 오디오·네트워크 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 끊임없이 들어오거나, [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Management가 꺼져 있으면 패키지는 얕은 상태에 머무른다. 그래서 "CPU 사용률은 1%인데 배터리가 빨리 닳는다"는 문제는 종종 코어가 아니라 플랫폼 장치와 드라이버의 깨우기 패턴에서 원인을 찾게 된다.
+실무에서 깊은 패키지 C-State는 자동으로 얻어지는 보너스가 아니다. 타이머가 너무 자주 깨우거나, [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) 장치가 계속 폴링하거나, 오디오·네트워크 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)가 끊임없이 들어오거나, [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) [Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Management가 꺼져 있으면 패키지는 얕은 상태에 머무른다. 그래서 "CPU 사용률은 1%인데 배터리가 빨리 닳는다"는 문제는 종종 코어가 아니라 플랫폼 장치와 드라이버의 깨우기 패턴에서 원인을 찾게 된다.
 
-반대로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 가장 중요한 시스템은 깊은 패키지 C-State를 의도적으로 제한하기도 한다. 초저지연 거래 시스템, 실시간 제어, 고성능 오디오처럼 수십 마이크로초의 wake penalty도 민감한 환경에서는 더 깊은 절전보다 예측 가능한 응답시간이 중요하다. 기술사 답안에서는 "절전이 크다"보다 "서비스의 [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) budget이 이를 허용하는가"를 함께 판단해야 점수가 올라간다.
+반대로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 가장 중요한 시스템은 깊은 패키지 C-State를 의도적으로 제한하기도 한다. 초저지연 거래 시스템, 실시간 제어, 고성능 오디오처럼 수십 마이크로초의 wake penalty도 민감한 환경에서는 더 깊은 절전보다 예측 가능한 응답시간이 중요하다. 기술사 답안에서는 "절전이 크다"보다 "서비스의 [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) budget이 이를 허용하는가"를 함께 판단해야 점수가 올라간다.
 
-### 점검 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 점검 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 모든 코어가 깊은 코어 C-State에 들어갈 만큼 idle이 정리되어 있는가?
-2. 주기적 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 타이머, [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 장치 폴링이 패키지 진입을 방해하지 않는가?
-3. [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 절전, 메모리 self-refresh, [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) 저전력 옵션이 활성화되어 있는가?
-4. 절감 전력보다 wake [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 손해가 큰 서비스는 아닌가?
+2. 주기적 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 타이머, [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/), 장치 폴링이 패키지 진입을 방해하지 않는가?
+3. [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) 절전, 메모리 self-refresh, [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) 저전력 옵션이 활성화되어 있는가?
+4. 절감 전력보다 wake [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 손해가 큰 서비스는 아닌가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 코어 사용률만 보고 패키지 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 품질을 좋다고 착각하는 진단
-- [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주를 방치한 채 OS 전원 정책만 계속 바꾸는 튜닝
-- 초저지연 워크로드에 깊은 패키지 C-State를 강제해 tail latency를 악화시키는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+- 코어 사용률만 보고 패키지 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 품질을 좋다고 착각하는 진단
+- [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주를 방치한 채 OS 전원 정책만 계속 바꾸는 튜닝
+- 초저지연 워크로드에 깊은 패키지 C-State를 강제해 tail latency를 악화시키는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
 - **📢 섹션 요약 비유**: 도서관을 밤 모드로 운영하려면 학생이 없는 것만으로는 부족하다. 청소기, 자동문, 안내 방송까지 멈춰야 진짜 조용해지듯, 패키지 C-State도 주변 장치의 소음을 함께 줄여야 깊어진다.
 
@@ -110,7 +107,7 @@ tags = ["studynote-computer-architecture"]
 
 패키지 C-State의 가장 큰 효과는 "코어를 쉬게 했는데도 남던 전력"을 줄인다는 데 있다. 이 덕분에 모바일 기기는 화면이 꺼진 동안 더 오래 버티고, 서버는 낮은 평균 부하 구간에서 랙 단위 전력비를 줄일 수 있다. 또한 유휴 전력이 줄어들수록 같은 전력 예산 안에서 순간 부스트나 열 여유를 확보하기도 쉬워진다.
 
-하지만 한계도 분명하다. 상태가 깊어질수록 진입 조건은 까다로워지고, exit latency와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도는 커진다. 특히 [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/), [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/), [운영체제 타이머](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/) 정책이 서로 맞물리지 않으면 문서상 가능한 깊은 상태가 실제 현장에서는 거의 나오지 않는다. 따라서 패키지 C-State는 "코어 절전의 보너스"가 아니라, 플랫폼 전체를 조용하게 설계했을 때 비로소 얻는 칩 단위 깊은 수면으로 기억하는 것이 정확하다.
+하지만 한계도 분명하다. 상태가 깊어질수록 진입 조건은 까다로워지고, exit latency와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도는 커진다. 특히 [장치 드라이버](/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/), [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/), [운영체제 타이머](/studynote/02_operating_system/01_overview_architecture/071_os_timer/) 정책이 서로 맞물리지 않으면 문서상 가능한 깊은 상태가 실제 현장에서는 거의 나오지 않는다. 따라서 패키지 C-State는 "코어 절전의 보너스"가 아니라, 플랫폼 전체를 조용하게 설계했을 때 비로소 얻는 칩 단위 깊은 수면으로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 공연장이 완전히 암전되려면 배우만 무대 뒤로 들어가서는 안 되고, 조명·음향·관객 출입까지 모두 정리되어야 한다. 패키지 C-State도 전체 무대가 함께 멈출 때 비로소 가장 큰 절전 효과를 낸다.
 
@@ -120,11 +117,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| 코어 C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 패키지 C-[State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 진입을 위한 선행 조건인 개별 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태 |
-| [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache) | 깊은 패키지 상태에서 [retention](/knowledge-base/studynote/05_database/04_transactions_concurrency/515_mvcc/) 또는 전원 차단 대상이 되는 공유 캐시 |
-| PCU ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | 코어 [idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 요청과 언코어 조건을 모아 패키지 상태를 결정하는 제어기 |
-| [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ASPM ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 외부 장치 링크가 조용해져야 깊은 패키지 idle로 가기 쉬워짐 |
-| S0ix | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 활성 상태로 보지만, 내부적으로 깊은 패키지 idle을 반복 활용하는 현대 대기 모드 |
+| 코어 C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) | 패키지 C-[State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) 진입을 위한 선행 조건인 개별 코어 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 상태 |
+| [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last Level Cache) | 깊은 패키지 상태에서 [retention](/studynote/05_database/04_transactions_concurrency/515_mvcc/) 또는 전원 차단 대상이 되는 공유 캐시 |
+| PCU ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Control Unit](/studynote/01_computer_architecture/05_control_unit_pipelining/206_control_unit/)) | 코어 [idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) 요청과 언코어 조건을 모아 패키지 상태를 결정하는 제어기 |
+| [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ASPM ([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) | 외부 장치 링크가 조용해져야 깊은 패키지 idle로 가기 쉬워짐 |
+| S0ix | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 활성 상태로 보지만, 내부적으로 깊은 패키지 idle을 반복 활용하는 현대 대기 모드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,7 +155,7 @@ S0ix 기반 플랫폼 저전력 유휴 최적화
 
 **진행 상황**: 722 / 803
 
-<- **이전**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/)
-**다음**: [722. 코어 C-States](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/) ->
+<- **이전**: [720. PROCHOT# 핀 (프로세서 핫 시그널)](/studynote/01_computer_architecture/15_advanced_topics/720_prochot_pin/)
+**다음**: [722. 코어 C-States](/studynote/01_computer_architecture/15_advanced_topics/722_core_c_states/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "557. IT 인력 양성 리스킬링 업스킬링 (IT Workforce Development Reskilling Upskilling)"
-date = 2026-05-09
+---
+title: "557. IT 인력 양성 리스킬링 업스킬링 (IT Workforce Development Reskilling Upskilling)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 557 / 800
 
-<- **이전**: [556. 기술 부채 관리 현대화 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/556_technical_debt_management_modernization/)
-**다음**: [558. 디지털 윤리 AI 책임 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/558_digital_ethics_ai_responsibility_framework/) ->
+<- **이전**: [556. 기술 부채 관리 현대화 전략](/studynote/07_enterprise_systems/06_exam_summary/556_technical_debt_management_modernization/)
+**다음**: [558. 디지털 윤리 AI 책임 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/558_digital_ethics_ai_responsibility_framework/) ->
 
 ---

@@ -1,175 +1,153 @@
-+++
-title = "588. 불변 인프라 골든 이미지 패턴 (Immutable Infrastructure Golden Image)"
-date = 2026-05-09
+---
+title: "588. 불변 인프라 골든 이미지 패턴 (Immutable Infrastructure Golden Image)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 불변 인프라 골든 이미지 패턴은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 런타임 환경(OS, 미들웨어, 설정, 시크릿 외 모든 의존성)을 Hash 기반으로 식별 가능한 단일 불변 아티팩트(예: AWS AMI, GCP Image, OCI Image, VMDK)로 패키징하여, 배포 시점에는 `replace(교체)`만 허용하고 `modify(수정)`를 원천 차단하는 인프라 운영 패턴.
+> 2. **가치**: Configuration Drift(Snowflake Server) 제거, MTTR(평균 복구 시간) 70% 이상 단축, 배포 실패율 90% 감소, CVE 패치 시 이미지 재빌드-롤링 업데이트로 결정론적(Deterministic) 보안 적용, 인프라 변경의 auditability 100% 확보.
+> 3. **판단 포인트**: VM 기반(AMI/VHD) vs 컨테이너 기반(OCI) 이미지 선택, Golden Image 빌드 시점의 CVE 스캔/하드닝 임베드(CIS Benchmark) 전략, Application Layer(AMI 내 App) 분리에 따른 빌드 파이프라인 복잡도 트레이드오프, Image Registry 가용성(SLA 99.99%) 및 이미지 버전 정책(Semantic Versioning + Git SHA) 설계.
 
 ---
 
-## Ⅰ. 개요 및 필요성
+## Ⅰ. 개요 및 필요기
 
-불변 인프라 골든 이미지 패턴은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 인프라 운영에서는 동일한 OS 템플릿으로 프로비저닝된 서버라도 시간이 지남에 따라 `yum update`, 수동 패치, Ansible Playbook 누적 실행, Ad-hoc SSH 접속 등으로 각 서버의 상태가 제각기 달라지는 **Snowflake Server(눈송이 서버)** 현상이 발생한다. 2012년 마틴 파울러(Martin Fowler)는 이를 "Pets vs Cattle" 비유로 비판하며, 서버를 고유한 이름으로 관리하지 말고 동일한 이미지로 대량 교체 가능하게 만들어야 한다고 역설했다. 이후 Chad Fowler의 "Trash Your Servers and Burn Your Code" (2013) 기고문을 기점으로 **Immutable Infrastructure(불변 인프라)** 개념이 공식화되었으며, 이를 실현하는 핵심 실체로서 **Golden Image(골든 이미지)** 가 등장했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Immutable Infrastructure Golden Image 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 Mutable(가변) 인프라 패러다임은 `프로비저닝 -> 설정 변경 -> 패치 -> 재시작`의 사이클을 무한 반복하며 상태를 누적시킨다. 반면 불변 인프라 골든 이미지는 `이미지 빌드 -> 배포 -> (필요 시) 폐기 -> 신규 이미지로 교체`의 사이클만을 허용한다. 이는 마치 화학 실험에서 매번 신선한 시약으로 실험하는 것과 같아, 환경 변수에 따른 재현 불가 문제를 원천 차단한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    불변 인프라 골든 이미지 패턴 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------+
+|        [ Mutable Infrastructure (전통) ]                         |
+|                                                                  |
+|   Base AMI --+-- yum update  ---> Server A (libc-2.17)            |
+|              +-- 수동 패치    ---> Server B (libc-2.23, 설정 다름)|
+|              +-- Ansible 실행 ---> Server C (libc-2.17 + 임의 pkg)|
+|                                                                  |
+|   ⚠ Configuration Drift -> "각 서버는 더 이상 동일하지 않다"      |
++------------------------------------------------------------------+
+
+                            v  패러다임 전환  v
+
++------------------------------------------------------------------+
+|        [ Immutable Infrastructure (불변) ]                        |
+|                                                                  |
+|   Build Pipeline (Packer + Ansible)                              |
+|        |                                                         |
+|        +---> Golden Image v1.0 (SHA256: a1b2...) ---> Server 1..N  |
+|        |   (libc-2.23, App v1.2, Config frozen)                 |
+|        |                                                         |
+|        +---> Golden Image v1.1 (SHA256: c3d4...) ---> 교체(Replace)|
+|            (libc-2.31, App v1.3, Config frozen)                  |
+|                                                                  |
+|   ✅ 모든 서버는 동일 Hash -> "Cattle(가축)처럼 취급"              |
++------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+한국 IT 환경에서는 2017년경 게임/핀테크 업계(예: 카카오게임즈, 토스)에서 대규모 트래픽 대응을 위해 AMI 기반 Auto Scaling Group과 Golden Image를 본격 도입했고, 금융권 ISMS-P 인증(2021~)에서 "인프라 변경 통제 및 무결성 검증" 요구사항을 충족하기 위한 표준 패턴으로 자리잡았다.
 
-- **📢 섹션 요약 비유**: 불변 인프라 골든 이미지 패턴은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 가변 인프라는 한 사람이 키우는 반려동물(감기 걸리면 약 주고, 다치면 병원 데려가고)처럼 개별로 관리해야 하지만, 불변 인프라는 축산업에서 다루는 소(번호만 붙여 동일 사료·환경으로 사육)처럼 동일한 사양으로 대량 출하하는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-불변 인프라 골든 이미지 패턴의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Golden Image 기반 불변 인프라의 아키텍처는 크게 **(1) 빌드 레이어**, **(2) 레지스트리 레이어**, **(3) 배포/오케스트레이션 레이어**, **(4) 런타임 레이어**로 구성된다. 빌드는 결정론적(Deterministic)이어야 하므로, 동일 입력 시 동일 Hash의 이미지가 생성되어야 하며 이를 위해 Packer의 `manifest` 파일이나 BuildKit 캐시 키 정규화가 활용된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Immutable Infrastructure Golden Image 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------+
+|                Golden Image 빌드-배포 파이프라인                     |
+|                                                                    |
+|  +---------+    +----------+    +----------+    +------------+    |
+|  | Git Repo |---->| Packer   |---->| Image    |---->| Provisioner|    |
+|  | (Code)   |    | Template |    | Builder  |    | (Ansible/  |    |
+|  |          |    | (.pkrvars)|    | (aws-    |    |  Chef/     |    |
+|  +---------+    +----------+    |  ebs/    |    |  cloud-    |    |
+|                                  |  google) |    |  init)     |    |
+|                                  +----------+    +-----+------+    |
+|                                                           |         |
+|                                                           v         |
+|  +--------------+    +-------------+    +----------------------+  |
+|  | CVE Scanner  |<----| Golden Image |---->| Container Registry   |  |
+|  | (Trivy,      |    | (AMI / OCI)  |    | (ECR / GCR / Harbor) |  |
+|  |  Grype)      |    |             |    |                      |  |
+|  +------+-------+    +------+------+    +----------+-----------+  |
+|         | Hash 검증        | Signing               |              |
+|         v                  v                        v              |
+|  +-------------------------------------------------------------+  |
+|  |   Orchestrator: K8s (Deployment RollingUpdate maxUnavailable)|  |
+|  |              / AWS ASG (Instance Refresh + Lifecycle Hook)  |  |
+|  +--------------------------+----------------------------------+  |
+|                              v                                     |
+|                  +--------------------------+                       |
+|                  | Runtime: Ephemeral Node  |                       |
+|                  | (Any in-place SSH 변경  |                       |
+|                  |  -> 금지로 무결성 보장)   |                       |
+|                  +--------------------------+                       |
++--------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Image Builder (Packer)** | 결정론적 이미지 빌드 엔진 | HCL2 기반 템플릿, 병렬 멀티 클라우드 빌드(aws-ebs, googlecompute, qemu, docker), `manifest_uuid`로 동일 입력 식별, `packer plugins install`로 플러그인 버전 고정 |
+| **Provisioner (Ansible local)** | OS 내부 설정·App 임베드 | `ansible.builtin.yum` 패키지 핀(Pin), `CIS Level 1` 하드닝 롤(role-cis-amazon-linux-2), `/etc/cloud/cloud.cfg`로 sshd_config 잠금 |
+| **Image Signer (Cosign / GPG)** | 이미지 무결성·공급망 검증 | SLSA L3 수준 Sigstore Cosign 서명, Rekor 투명성 로그(TLog)에 공개키/해시 기록, Admission Controller(Connaisseur/kyverno)에서 `verify-image` 정책 강제 |
+| **Image Registry** | 버전 관리·배포·캐싱 | ECR(리전별 Pull-through cache), Harbor(vuln DB + Replication Rule), OCI Distribution Spec v1.1 호환, 불변 태그 정책(`immutable_tags: true`) |
+| **Orchestrator** | 선언적 배포·롤백 | K8s `imagePullPolicy: Always` + SHA 다이제스트(`@sha256:...`) 참조, AWS ASG `InstanceRefresh` 전략(`MinHealthyPercentage: 90`, `MaxHealthyPercentage: 120`) |
+| **Runtime Telemetry (Drift Detector)** | 변조 감시 | AWS Systems Manager State Manager의 `AWS-RunPatchBaselineAssociation` 주기 보고, Falco eBPF 런타임 무결성 탐지, OpenTelemetry `host.image.id` 메타데이터 상시 노출 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+핵심 메커니즘을 더 깊이 들여다보자. Packer는 `Build` 단계에서 `Source AMI`를 임시 EC2 인스턴스로 부팅한 뒤, SSH/WinRM으로 프로비저너를 실행하고 최종 스냅샷을 생성한다. 이때 `pause_before_connect`, `ssh_timeout` 등 튜닝 포인트가 있으며, 빌드 시간 최적화를 위해 Packer Cache(`PACKER_CACHE_DIR`)와 BuildKit 레이어 캐싱을 활용한다. 이미지 식별자는 **AMI ID(예: `ami-0abcd1234`)** 와 **해시 태그(`hash: a1b2c3...`)** 의 이중 추적이 표준이며, IaC(Terraform `data "aws_ami" "golden"`)에서 `filter { name = "tag:Hash"; values = [var.image_hash] }`로 결정론적 참조를 한다.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+이미지 갱신의 트리거는 크게 3가지다: ① **Base OS 패치** (Amazon Linux 2 -> AL2023 마이너 버전 릴리스), ② **CVE 신규 공개** (NVD CVE feed -> Renovate/Dependabot -> GitHub Action 자동 PR), ③ **App 릴리스** (Git Tag -> CI 파이프라인). 이 세 가지를 단일 `Makefile` 또는 GitHub Actions 매트릭스로 통합 관리하며, 빌드 매니페스트(JSON)에 `build_at`, `commit_sha`, `builder_version`, `vulnerabilities_scan_id`를 기록해 ISO 27001·SOC2 감사 대응을 한다.
+
+- **📢 섹션 요약 비유**: Golden Image는 마치 제과점에서 매일 아침 같은 레시피로 굽는 "사전 구운 빵"과 같다. 손님(사용자)이 와도 이미 구워진 빵을 진열대에서 꺼내 주는 것이지, 진열대에서 설탕을 더 뿌리는(가변 변경) 행위는 절대 허용하지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-불변 인프라 골든 이미지 패턴을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+동일한 "표준화" 목표를 달성하면서도 서로 다른 트레이드오프를 갖는 Mutable IaC, 컨테이너 이미지, VM 템플릿, Blue/Green 배포와의 비교는 기술사 답안에서 빈번히 출제된다.
 
-| 구분 | 전통적 접근 | 불변 인프라 골든 이미지 패턴 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | Mutable Infrastructure + IaC | Immutable Infra + Golden Image (VM) | Container Image (OCI) | Container Image (MCR) | Ephemeral Host (Bottlerocket/Talos) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **변경 단위** | 실행 중 명령/스크립트 누적 | 이미지 교체(Replace) | Pod 재생성 | VM 재생성 | 노드 폐기·재조달 |
+| **Drift 위험** | 매우 높음(누적) | 거의 없음 | 없음 | 없음 | 없음 |
+| **부팅 시간** | 30초~수분 | 30초~수분(AMI 캐시) | 1~5초 | 수십 초~수분 | 1분 내외 |
+| **이미지 크기** | OS + App 전체 | OS + App 전체(수 GB) | 100MB~1GB | 수 GB | OS+런타임 결합형 |
+| **격리 수준** | 프로세스 | 커널 공유 | 커널 공유 | 하드웨어 격리 | 하드웨어 격리 |
+| **주요 도구** | Ansible, Chef, Puppet | Packer, AWS Image Builder | Docker, Buildah, ko | Docker, Packer | Bottlerocket Update API |
+| **적합 워크로드** | Legacy Stateful DB | Stateful, Game Server, HPC | Stateless MSA | Multi-tenant SaaS | K8s Worker Node |
+| **롤백 시간** | 느림(수동 복원) | 빠름(이전 AMI로 ASG 교체) | 매우 빠름 | 빠름 | 빠름(API 롤아웃) |
+| **CVE 패치 비용** | N대 개별 패치(선형) | 1회 빌드 -> N대 동시 적용 | 1회 빌드 -> N Pod | 1회 빌드 -> N VM | 1회 빌드 -> N 노드 |
+| **Audit/Compliance** | 어려움(상태 비결정론) | 쉬움(이미지 ID = 감사 단위) | 매우 쉬움(Digest) | 매우 쉬움 | 매우 쉬움 |
 
-관련 기술 영역과의 연결점도 중요하다. 불변 인프라 골든 이미지 패턴은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+**연계 통합 포인트**:
+- **CI/CD**: GitHub Actions / GitLab CI가 빌드 트리거 -> Jenkins는 `build-pipeline-job`에서 Packer 호출 -> ArgoCD가 K8s 환경의 다이제스트 업데이트를 자동 감지.
+- **IaC**: Terraform의 `aws_ami` 데이터 소스 -> Packer 빌드 산출물(`manifest.json`)을 `local-exec` 프로비저너로 읽어 모듈에 주입. OpenTofu 1.6+의 `OCI Registry Backend`를 사용하면 State를 OCI Image로 저장해 Supply Chain 무결성 강화.
+- **Security**: SBOM(SBOM CycloneDX) 생성 -> 이미지 메타데이터 임베드 -> Grype로 런타임 스캔 -> Slack/Teams로 CVE 알림. Open Policy Agent(OPA) Rego 정책으로 "HIGH 이상 CVE가 1개라도 있으면 배포 차단" 선언.
+- **Observability**: Prometheus의 `kube_pod_container_image_id` 메트릭, Datadog의 `Container Image` 패싯, Elastic Agent의 `image.name`/`image.tag` 필드 인덱싱으로 "어떤 이미지 버전이 현재 몇 % 배포 중인지" 가시화.
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 불변 인프라 골든 이미지 패턴은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
+- **📢 섹션 요약 비유**: Mutable은 직접 수채화로 그림을 그려가며 수정하는 것이고, Golden Image는 디지털 사진처럼 매번 같은 원본에서 복사하는 것이며, 컨테이너는 사진의 일부 영역만 잘라낸 PNG 스프라이트, Ephemeral Host는 종이 한 장에 인쇄한 후 폐기하는 점심 메뉴와 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 불변 인프라 골든 이미지 패턴을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
 ### 기술사형 판단 체크리스트
 
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-불변 인프라 골든 이미지 패턴을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 불변 인프라 골든 이미지 패턴 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 불변 인프라 골든 이미지 패턴은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 불변 인프라 골든 이미지 패턴의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 불변 인프라 골든 이미지 패턴의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-불변 인프라 골든 이미지 패턴 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 불변 인프라 골든 이미지 패턴은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+1. **빌드 결정론(Determinism) 확보 여부**: Packer `source_ami_filter`의 정렬 옵션(`most_recent: true` 대신 `owner-alias`+`name` 고정), `tmpfs` 활용, `packer build -timestamp-ui`로 빌드 시각 주입 -> 동일 코드 + 동일 시각 -> 동일 SHA256 검증. `packer build -force`가 아닌 `only` 플래그로 변경 블록만 재빌드해 캐시 히트율 80%+ 유지.
+2. **CVE 임계치 기반 자동 게이트 설정**: Trivy `--exit-code 1 --severity HIGH,CRITICAL`을 CI 파이프라인 마지막 단계에 강제. Snyk Container의 `--fail-on` 정책, GitHub Dependabot security updates와 Renovate의 `vulnerabilityAlerts` 룰을 결합해 "CVE Fix PR이 머지되면 자동으로 이미지 재빌드 -> ASG Rolling Update" 워크플로우 구성.
+3. **이미지 버전 정책(Semantic + Immutable)**: `tag = "${var.app_version}-${formatdate("YYYYMMDD", timestamp())}-${var.git_sha}"` 형태의 버전 명명 규칙. `latest` 태그 사용을 금지하고, Registry에 `immutable_tags = true`를 활성화. K8s 매니페스트는 반드시 `@sha256:...` 다이제스트로 핀(Pin).
+4. **Application/Base 레이어 분리 전략**: Base AMI는 OS + 런타임(Node
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 588 / 600
 
-<- **이전**: [587. 인프라 코드화 IaC 선언적 관리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/588_infrastructure_as_code_iac_declarative/)
-**다음**: [589. 정보시스템 감리 종합 정리 기술사 요약](/knowledge-base/studynote/11_design_supervision/06_exam_summary/589_is_audit_comprehensive_summary_pe_overvi/) ->
+<- **이전**: [587. 인프라 코드화 IaC 선언적 관리](/studynote/11_design_supervision/06_exam_summary/588_infrastructure_as_code_iac_declarative/)
+**다음**: [589. 정보시스템 감리 종합 정리 기술사 요약](/studynote/11_design_supervision/06_exam_summary/589_is_audit_comprehensive_summary_pe_overvi/) ->
 
 ---

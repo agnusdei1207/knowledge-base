@@ -1,13 +1,10 @@
-+++
-title = "563. 모놀리스 분해 전략 도메인 경계 (Monolith Decomposition Domain Boundary)"
-date = 2026-05-09
+---
+title: "563. 모놀리스 분해 전략 도메인 경계 (Monolith Decomposition Domain Boundary)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 563 / 600
 
-<- **이전**: [562. 아키텍처 패턴 레이어드 이벤트 파이프](/knowledge-base/studynote/11_design_supervision/06_exam_summary/563_architecture_pattern_layered_event_pipe/)
-**다음**: [564. API 설계 RESTful GraphQL gRPC](/knowledge-base/studynote/11_design_supervision/06_exam_summary/564_api_design_restful_graphql_grpc/) ->
+<- **이전**: [562. 아키텍처 패턴 레이어드 이벤트 파이프](/studynote/11_design_supervision/06_exam_summary/563_architecture_pattern_layered_event_pipe/)
+**다음**: [564. API 설계 RESTful GraphQL gRPC](/studynote/11_design_supervision/06_exam_summary/564_api_design_restful_graphql_grpc/) ->
 
 ---

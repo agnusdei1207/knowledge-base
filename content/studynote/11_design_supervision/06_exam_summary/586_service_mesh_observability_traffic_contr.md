@@ -1,13 +1,10 @@
-+++
-title = "586. 서비스 메시 관측성 트래픽 제어 (Service Mesh Observability Traffic Control)"
-date = 2026-05-09
+---
+title: "586. 서비스 메시 관측성 트래픽 제어 (Service Mesh Observability Traffic Control)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 586 / 600
 
-<- **이전**: [585. GitOps 선언적 인프라 관리 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/586_gitops_declarative_infrastructure_patter/)
-**다음**: [587. 인프라 코드화 IaC 선언적 관리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/587_infrastructure_as_code_iac_declarative/) ->
+<- **이전**: [585. GitOps 선언적 인프라 관리 패턴](/studynote/11_design_supervision/06_exam_summary/586_gitops_declarative_infrastructure_patter/)
+**다음**: [587. 인프라 코드화 IaC 선언적 관리](/studynote/11_design_supervision/06_exam_summary/587_infrastructure_as_code_iac_declarative/) ->
 
 ---

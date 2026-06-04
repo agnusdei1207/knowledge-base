@@ -1,13 +1,10 @@
-+++
-title = "420. 가용성 관리 MTBF MTTR 고가용성 (Availability Management MTBF MTTR HA)"
-date = 2026-05-09
+---
+title: "420. 가용성 관리 MTBF MTTR 고가용성 (Availability Management MTBF MTTR HA)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -93,7 +90,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 420 / 800
 
-<- **이전**: [419. 용량 계획 수요 예측 확장 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/)
-**다음**: [421. 연속성 관리 BCP DRP 사이트 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/421_continuity_management_bcp_drp_site/) ->
+<- **이전**: [419. 용량 계획 수요 예측 확장 전략](/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/)
+**다음**: [421. 연속성 관리 BCP DRP 사이트 전략](/studynote/12_it_management/05_security_compliance/421_continuity_management_bcp_drp_site/) ->
 
 ---

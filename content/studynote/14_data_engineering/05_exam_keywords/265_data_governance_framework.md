@@ -1,13 +1,10 @@
-+++
-title = "265. 데이터 거버넌스 프레임워크 정책 표준 (Data Governance Framework DAMA DMBOK)"
-date = 2026-05-09
+---
+title: "265. 데이터 거버넌스 프레임워크 정책 표준 (Data Governance Framework DAMA DMBOK)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -171,7 +168,7 @@ DAMA DMBOK2의 데이터 거버넌스 프레임워크는 **5계층 레이어(Str
 
 **진행 상황**: 265 / 300
 
-<- **이전**: [264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/264_mdm_master_data/)
-**다음**: [266. 데이터 사일로 해소 통합 전략 (Data Silo Breaking Integration Strategy)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/266_data_silo_integration/) ->
+<- **이전**: [264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)](/studynote/14_data_engineering/05_exam_keywords/264_mdm_master_data/)
+**다음**: [266. 데이터 사일로 해소 통합 전략 (Data Silo Breaking Integration Strategy)](/studynote/14_data_engineering/05_exam_keywords/266_data_silo_integration/) ->
 
 ---

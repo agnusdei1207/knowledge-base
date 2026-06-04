@@ -1,13 +1,10 @@
-+++
-title = "455. IT 경영 관리 핵심 토픽 455번 시험 요약 (IT Management Core Topic 455 Exam Summary)"
-date = 2026-05-09
+---
+title: "455. IT 경영 관리 핵심 토픽 455번 시험 요약 (IT Management Core Topic 455 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ ISO 27001:2022는 Annex A 통제를 **14개 영역 93개 통제**(2013년 114개
 
 **진행 상황**: 455 / 800
 
-<- **이전**: [454. IT 경영 관리 핵심 토픽 454번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/454_it_management_core_topic_454_exam_summary/)
-**다음**: [456. IT 경영 관리 핵심 토픽 456번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/456_it_management_core_topic_456_exam_summary/) ->
+<- **이전**: [454. IT 경영 관리 핵심 토픽 454번 시험 요약](/studynote/12_it_management/05_security_compliance/454_it_management_core_topic_454_exam_summary/)
+**다음**: [456. IT 경영 관리 핵심 토픽 456번 시험 요약](/studynote/12_it_management/05_security_compliance/456_it_management_core_topic_456_exam_summary/) ->
 
 ---

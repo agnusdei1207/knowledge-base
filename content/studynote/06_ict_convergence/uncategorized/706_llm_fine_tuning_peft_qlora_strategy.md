@@ -1,13 +1,10 @@
-+++
-title = "706. LLM 미세 조정 PEFT QLoRA 전략 (LLM Fine Tuning PEFT QLoRA Strategy)"
-date = 2026-05-09
+---
+title: "706. LLM 미세 조정 PEFT QLoRA 전략 (LLM Fine Tuning PEFT QLoRA Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -190,7 +187,7 @@ QLoRA 메모리 사용량 분해 (65B 모델 기준, batch=1, seq=512):
 
 **진행 상황**: 706 / 800
 
-<- **이전**: [705. 자율 에이전트 멀티에이전트 시스템](/knowledge-base/studynote/06_ict_convergence/uncategorized/705_autonomous_agent_multi_agent_system/)
-**다음**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/) ->
+<- **이전**: [705. 자율 에이전트 멀티에이전트 시스템](/studynote/06_ict_convergence/uncategorized/705_autonomous_agent_multi_agent_system/)
+**다음**: [707. 모델 서빙 인프라 vLLM TGI 최적화](/studynote/06_ict_convergence/uncategorized/707_model_serving_infrastructure_vllm_tgi/) ->
 
 ---

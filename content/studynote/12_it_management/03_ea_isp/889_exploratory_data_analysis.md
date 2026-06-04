@@ -1,41 +1,38 @@
-+++
-title = "889. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
-date = 2026-04-05
+---
+title: "889. 감성 분석 (Sentiment Analysis) — 긍/부정/중립, BERT 기반 심화"
+date: "2026-04-05"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-1. **본질**: [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) ([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/), Exploratory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis)은 본격적인 가설 검정이나 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용에 앞서, 통계 수치와 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 구조와 결측치, 패턴을 직관적으로 관찰하는 첫 단추다.
-2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속에 몰래 숨겨진 치명적 오류(극단적 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 편향)를 조기에 탐지하고 변수 간의 숨은 관계를 도출함으로써, 잘못된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 엉터리 모델을 훈련시키는 GIGO(Garbage In Garbage Out)의 대참사를 원천 방어한다.
-3. **판단 포인트**: 정해진 모델의 틀에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 억지로 구겨 넣으려 하지 말고, 히스토그램이나 산점도 같은 유연한 탐색 도구를 활용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 스스로 뿜어내는 고유한 목소리(분포 특성)를 먼저 듣고 전처리 방향을 결정해야 한다.
+1. **본질**: [탐색적 데이터 분석](/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) ([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/), Exploratory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis)은 본격적인 가설 검정이나 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 적용에 앞서, 통계 수치와 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 자체의 구조와 결측치, 패턴을 직관적으로 관찰하는 첫 단추다.
+2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속에 몰래 숨겨진 치명적 오류(극단적 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 편향)를 조기에 탐지하고 변수 간의 숨은 관계를 도출함으로써, 잘못된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 엉터리 모델을 훈련시키는 GIGO(Garbage In Garbage Out)의 대참사를 원천 방어한다.
+3. **판단 포인트**: 정해진 모델의 틀에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 억지로 구겨 넣으려 하지 말고, 히스토그램이나 산점도 같은 유연한 탐색 도구를 활용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 스스로 뿜어내는 고유한 목소리(분포 특성)를 먼저 듣고 전처리 방향을 결정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 전통적 통계학은 미리 수립한 가설과 수학적 모델(예: 정규분포, 선형회귀)을 확고히 정해두고, 주어진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 과연 이에 부합하는지만 엄격하게 채점하는 '확인적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 (Confirmatory [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis, CDA)'에 치중했다. 그러나 1970년대 통계학자 존 튜키(John Tukey)가 창시한 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))은 이 낡은 패러다임을 통째로 뒤집었다. "어떤 편견이나 통계적 가정 없이, 순수하게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 먼저 탐험하고 관찰하자"는 것이다.
+과거의 전통적 통계학은 미리 수립한 가설과 수학적 모델(예: 정규분포, 선형회귀)을 확고히 정해두고, 주어진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 과연 이에 부합하는지만 엄격하게 채점하는 '확인적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 (Confirmatory [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Analysis, CDA)'에 치중했다. 그러나 1970년대 통계학자 존 튜키(John Tukey)가 창시한 [탐색적 데이터 분석](/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/)([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))은 이 낡은 패러다임을 통째로 뒤집었다. "어떤 편견이나 통계적 가정 없이, 순수하게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)부터 먼저 탐험하고 관찰하자"는 것이다.
 
-현대 빅데이터와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트에서 EDA는 전체 공수와 성공의 80%를 좌우하는 가장 치명적인 기초 공사다. 수백만 건의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사람이 엑셀로 한눈에 볼 수는 없기 때문에, 결측치가 무작위로 빠졌는지 편향되었는지, 극단적인 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 하나가 회귀선을 완전히 왜곡하고 있지는 않은지 시각적으로 확인하지 않고 모델링에 진입하면 필연적으로 참담한 예측 실패를 겪게 된다. EDA가 없으면 분석 방향은 눈먼 뱃사공과 다를 바 없다.
+현대 빅데이터와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트에서 EDA는 전체 공수와 성공의 80%를 좌우하는 가장 치명적인 기초 공사다. 수백만 건의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사람이 엑셀로 한눈에 볼 수는 없기 때문에, 결측치가 무작위로 빠졌는지 편향되었는지, 극단적인 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)([Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)) 하나가 회귀선을 완전히 왜곡하고 있지는 않은지 시각적으로 확인하지 않고 모델링에 진입하면 필연적으로 참담한 예측 실패를 겪게 된다. EDA가 없으면 분석 방향은 눈먼 뱃사공과 다를 바 없다.
 
-- **📢 섹션 요약 비유**: EDA는 낯선 험지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 원정을 떠날 때 무작정 직진(모델링)부터 하기 전에, 나침반과 망원경을 꺼내 지형지물, 늪지대 유무, 맹수의 발자국을 미리 꼼꼼하게 살피고 지도를 그리는 베테랑 정찰병의 역할과 같다.
+- **📢 섹션 요약 비유**: EDA는 낯선 험지([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 원정을 떠날 때 무작정 직진(모델링)부터 하기 전에, 나침반과 망원경을 꺼내 지형지물, 늪지대 유무, 맹수의 발자국을 미리 꼼꼼하게 살피고 지도를 그리는 베테랑 정찰병의 역할과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EDA의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 과정은 큰 숲을 보고 점차 나무를 세밀하게 들여다보는 '전체에서 세부로의 관찰' 아키텍처를 따른다. 핵심 원리는 독립된 한 변수의 모양을 보는 단변량 분석에서 출발해, 변수들이 어떻게 얽혀 있는지 파악하는 다변량 분석으로 시야를 넓히는 것이다.
+EDA의 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 과정은 큰 숲을 보고 점차 나무를 세밀하게 들여다보는 '전체에서 세부로의 관찰' 아키텍처를 따른다. 핵심 원리는 독립된 한 변수의 모양을 보는 단변량 분석에서 출발해, 변수들이 어떻게 얽혀 있는지 파악하는 다변량 분석으로 시야를 넓히는 것이다.
 
 | 분석 단계 | 핵심 목표 | 주요 도구 및 기법 | 파악 가능한 정보 |
 | :--- | :--- | :--- | :--- |
-| **단변량 분석 (Univariate)** | 개별 변수의 모양, 대칭성, 흩어진 정도 파악 | 히스토그램 (연속형), 막대 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (범주형), 요약 통계량 (평균/[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 쏠림([왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)), [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 분포 한계선 |
-| **이변량 분석 (Bivariate)** | 두 변수 간의 상호작용, [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 뚜렷한 차이 탐색 | 산점도 (선형/비선형 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)), 박스플롯 (그룹 간 수치 차이) | A가 증가할 때 B도 증가하는지, 집단별 차이 여부 |
-| **다변량 분석 (Multivariate)** | 세 개 이상의 변수 간 복합적/동시다발적 상호작용 | 상관행렬 히트맵 (Correlation Heatmap), 평행 좌표 플롯 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 간 [다중 공선성](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) 위험, 숨겨진 3차원 패턴 |
+| **단변량 분석 (Univariate)** | 개별 변수의 모양, 대칭성, 흩어진 정도 파악 | 히스토그램 (연속형), 막대 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (범주형), 요약 통계량 (평균/[분산](/studynote/08_algorithm_stats/08_stats/136_variance/)) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 쏠림([왜도](/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)), [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 분포 한계선 |
+| **이변량 분석 (Bivariate)** | 두 변수 간의 상호작용, [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 뚜렷한 차이 탐색 | 산점도 (선형/비선형 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)), 박스플롯 (그룹 간 수치 차이) | A가 증가할 때 B도 증가하는지, 집단별 차이 여부 |
+| **다변량 분석 (Multivariate)** | 세 개 이상의 변수 간 복합적/동시다발적 상호작용 | 상관행렬 히트맵 (Correlation Heatmap), 평행 좌표 플롯 | [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 간 [다중 공선성](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) 위험, 숨겨진 3차원 패턴 |
 
 ```text
 +--------------------------------------------------------------+
@@ -54,9 +51,9 @@ EDA의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 +--------------------------------------------------------------+
 ```
 
-특히 히스토그램은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리가 긴 형태인지 종 모양인지를 단 1초 만에 직관적으로 보여주며, 상관행렬은 피어슨 상관계수를 통해 수십 개의 변수들이 서로를 얼마나 끈끈하게 끌어당기는지 수치( -1 ~ +1 )로 차갑게 입증해 내는 강력한 도구다.
+특히 히스토그램은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 꼬리가 긴 형태인지 종 모양인지를 단 1초 만에 직관적으로 보여주며, 상관행렬은 피어슨 상관계수를 통해 수십 개의 변수들이 서로를 얼마나 끈끈하게 끌어당기는지 수치( -1 ~ +1 )로 차갑게 입증해 내는 강력한 도구다.
 
-- **📢 섹션 요약 비유**: 유능한 의사가 환자에게 처방전을 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전, 체온과 혈압을 재고(단변량), 청진기로 심호흡 소리를 듣고, 엑스레이와 혈액검사(다변량/상관관계)를 총동원하여 몸속 상태를 샅샅이 스캔하는 종합 건강검진 과정과 완벽히 일치한다.
+- **📢 섹션 요약 비유**: 유능한 의사가 환자에게 처방전을 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 전, 체온과 혈압을 재고(단변량), 청진기로 심호흡 소리를 듣고, 엑스레이와 혈액검사(다변량/상관관계)를 총동원하여 몸속 상태를 샅샅이 스캔하는 종합 건강검진 과정과 완벽히 일치한다.
 
 ---
 
@@ -64,14 +61,14 @@ EDA의 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/
 
 EDA의 진정한 가치를 이해하려면, 통계학의 전통적인 방법론이나 최근 유행하는 자동화 도구와 명확하게 그 경계와 장단점을 비교할 수 있어야 한다.
 
-| 비교 항목 | 확인적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 (CDA) | 수동 [탐색적 데이터 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) (Manual [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/)) | 자동화 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) (Auto [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 도구) |
+| 비교 항목 | 확인적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석 (CDA) | 수동 [탐색적 데이터 분석](/studynote/14_data_engineering/02_math_mining/062_eda_exploratory_data_analysis/) (Manual [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/)) | 자동화 [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/) (Auto [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/) 도구) |
 | :--- | :--- | :--- | :--- |
-| **접근 철학** | 가설(Hypothesis) 연역적 입증 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 귀납적 자유 탐색 | 정형화된 [프로파일링](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/) 리포트 일괄 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| **주요 목적** | 통계적 유의성([p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))의 엄격한 최종 검정 | 숨겨진 패턴, 튀는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 등 인사이트 우연 발견 | 초기의 단순 반복적인 탐색 작업(단변량 위주) 시간 단축 |
-| **핵심 도구** | [t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/), [ANOVA](/knowledge-base/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/), 엄격한 회귀분석 모델 | Python Seaborn, Matplotlib, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 결합 | Pandas [Profiling](/knowledge-base/studynote/02_operating_system/10_security/613_profiling_gprof/), Sweetviz, D-Tale |
+| **접근 철학** | 가설(Hypothesis) 연역적 입증 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 귀납적 자유 탐색 | 정형화된 [프로파일링](/studynote/02_operating_system/10_security/613_profiling_gprof/) 리포트 일괄 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| **주요 목적** | 통계적 유의성([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))의 엄격한 최종 검정 | 숨겨진 패턴, 튀는 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 등 인사이트 우연 발견 | 초기의 단순 반복적인 탐색 작업(단변량 위주) 시간 단축 |
+| **핵심 도구** | [t-test](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/), [ANOVA](/studynote/14_data_engineering/02_math_mining/071_anova_analysis_of_variance_f_value_post_hoc/), 엄격한 회귀분석 모델 | Python Seaborn, Matplotlib, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 지식 결합 | Pandas [Profiling](/studynote/02_operating_system/10_security/613_profiling_gprof/), Sweetviz, D-Tale |
 | **유연성 한계** | 정규성 등 엄격한 통계적 가정을 충족해야만 유효 | 어떠한 가정 없이 무한한 상상력과 코딩으로 탐색 | 빠르지만 정해진 템플릿의 깊이를 넘어설 수 없음 |
 
-EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)는 절대 거기서 끝나지 않고, 곧바로 이어지는 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/)) 단계에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Standardization), [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, 또는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 클리핑([Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))을 수행하게 만드는 가장 확실하고 과학적인 근거로 연결된다.
+EDA를 통해 파악된 분포와 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)는 절대 거기서 끝나지 않고, 곧바로 이어지는 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링([Feature 엔진ering](/studynote/12_it_management/02_itsm_itil/865_feature_engineering/)) 단계에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)(Standardization), [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 변환, 또는 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 클리핑([Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/))을 수행하게 만드는 가장 확실하고 과학적인 근거로 연결된다.
 
 - **📢 섹션 요약 비유**: CDA가 범인을 미리 지목해 놓고 법정에서 증거 규정대로 심문하는 '검사'라면, EDA는 아무 선입견 없이 돋보기를 들고 현장의 발자국과 담배꽁초를 꼼꼼히 수집하여 의외의 용의자를 찾아내는 '베테랑 탐정'이다.
 
@@ -79,27 +76,27 @@ EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인이나 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트를 리딩할 때, EDA는 막연하게 예쁜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 코딩 작업이 아니라 리스크를 회피하는 중대한 의사결정의 연속이다.
+실무 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 파이프라인이나 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 프로젝트를 리딩할 때, EDA는 막연하게 예쁜 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 그리는 코딩 작업이 아니라 리스크를 회피하는 중대한 의사결정의 연속이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong>과잉 <a href="/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Overplotting) 방지</strong>: 산점도에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점이 수십만 개 겹쳐서 그냥 까만 덩어리로 보여 인사이트를 잃지 않았는가? (이 경우 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 샘플링이나 헥스빈(Hexbin) 밀도 플롯, 투명도 조절로 회피해야 한다)
-2. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">다중 공선성</a> (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>) 경고</strong>: 타겟(정답) 변수가 아닌 독립 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들끼리 너무 강력한 상관관계(상관계수 0.9 이상)를 띄어 다중 회귀 모델의 회귀계수를 붕괴시킬 위험은 없는가?
-3. **결측치 발생 기전의 비즈니스적 해석**: 비어있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([NaN](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))가 센서 고장 등으로 무작위(MCAR)로 발생했는지, 아니면 특정 비즈니스 상황(예: 신용불량자의 소득 미기재)에 의해 의도적으로 편향되게 빠졌는지 점검했는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. <strong>과잉 <a href="/studynote/16_bigdata/01_intro/003_bigdata_7v/">시각화</a> (Overplotting) 방지</strong>: 산점도에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 점이 수십만 개 겹쳐서 그냥 까만 덩어리로 보여 인사이트를 잃지 않았는가? (이 경우 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 샘플링이나 헥스빈(Hexbin) 밀도 플롯, 투명도 조절로 회피해야 한다)
+2. <strong><a href="/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">다중 공선성</a> (<a href="/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>) 경고</strong>: 타겟(정답) 변수가 아닌 독립 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들끼리 너무 강력한 상관관계(상관계수 0.9 이상)를 띄어 다중 회귀 모델의 회귀계수를 붕괴시킬 위험은 없는가?
+3. **결측치 발생 기전의 비즈니스적 해석**: 비어있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([NaN](/studynote/01_computer_architecture/02_data_representation_arithmetic/097_nan/))가 센서 고장 등으로 무작위(MCAR)로 발생했는지, 아니면 특정 비즈니스 상황(예: 신용불량자의 소득 미기재)에 의해 의도적으로 편향되게 빠졌는지 점검했는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 단 한 번도 해보지 않은 채 결측치를 무조건 '전체 평균'으로 쉽게 때워 넣거나, 튀는 [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(실제로는 해커의 공격 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)일 수 있음)를 일괄 삭제하여 프로젝트의 핵심 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 날려버리는 맹목적 전처리 설계.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)를 단 한 번도 해보지 않은 채 결측치를 무조건 '전체 평균'으로 쉽게 때워 넣거나, 튀는 [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)(실제로는 해커의 공격 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)일 수 있음)를 일괄 삭제하여 프로젝트의 핵심 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 자체를 날려버리는 맹목적 전처리 설계.
 
-- **📢 섹션 요약 비유**: 실무에서 [EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/) 도표를 꼼꼼히 읽는 것은 전투기 조종사가 계기판을 확인하는 것과 같다. 고도가 너무 낮거나 한쪽 엔진 온도가 비정상이라는 경고등([이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 결측치 패턴)을 무시하고 눈감은 채 비행하면 프로젝트는 반드시 산에 부딪혀 추락한다.
+- **📢 섹션 요약 비유**: 실무에서 [EDA](/studynote/12_it_management/02_itsm_itil/064_eda/) 도표를 꼼꼼히 읽는 것은 전투기 조종사가 계기판을 확인하는 것과 같다. 고도가 너무 낮거나 한쪽 엔진 온도가 비정상이라는 경고등([이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 결측치 패턴)을 무시하고 눈감은 채 비행하면 프로젝트는 반드시 산에 부딪혀 추락한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-충실하고 끈질긴 EDA는 분석 프로젝트의 실패 확률을 제로에 가깝게 낮춰주는 최고의 보험이다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 질감과 성격을 초기에 정확히 파악해 내면, 단순하고 빠른 선형 모델을 쓸지 무겁지만 정교한 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 비선형 모델을 쓸지 빠르게 결단할 수 있어 전체 프로젝트의 낭비되는 리드 타임을 극적으로 단축시킨다.
+충실하고 끈질긴 EDA는 분석 프로젝트의 실패 확률을 제로에 가깝게 낮춰주는 최고의 보험이다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 질감과 성격을 초기에 정확히 파악해 내면, 단순하고 빠른 선형 모델을 쓸지 무겁지만 정교한 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 비선형 모델을 쓸지 빠르게 결단할 수 있어 전체 프로젝트의 낭비되는 리드 타임을 극적으로 단축시킨다.
 
-미래의 EDA는 수백 기가바이트의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 Spark 클러스터 환경이나, [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)이 방대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴을 사람 대신 요약해 주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조형 EDA로 무섭게 진화하고 있다. 하지만 아무리 화려한 자동화 도구가 발전하더라도, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 거짓말을 의심하고 비즈니스 이면의 진짜 스토리를 찾아내는 '분석가의 탐구적 시각과 끈기'이야말로 EDA의 절대 변치 않는 본질이다.
+미래의 EDA는 수백 기가바이트의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 Spark 클러스터 환경이나, [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)이 방대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴을 사람 대신 요약해 주는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조형 EDA로 무섭게 진화하고 있다. 하지만 아무리 화려한 자동화 도구가 발전하더라도, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 거짓말을 의심하고 비즈니스 이면의 진짜 스토리를 찾아내는 '분석가의 탐구적 시각과 끈기'이야말로 EDA의 절대 변치 않는 본질이다.
 
-- **📢 섹션 요약 비유**: 미슐랭 3스타의 훌륭한 요리([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)는 비싼 오븐 장비가 아니라, 매일 아침 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 신선도와 질감을 깐깐하게 손끝으로 만져보고 냄새를 맡아본 주방장의 집요한 밑작업([EDA](/knowledge-base/studynote/12_it_management/02_itsm_itil/064_eda/))에서 결국 탄생한다.
+- **📢 섹션 요약 비유**: 미슐랭 3스타의 훌륭한 요리([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델)는 비싼 오븐 장비가 아니라, 매일 아침 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))의 신선도와 질감을 깐깐하게 손끝으로 만져보고 냄새를 맡아본 주방장의 집요한 밑작업([EDA](/studynote/12_it_management/02_itsm_itil/064_eda/))에서 결국 탄생한다.
 
 ---
 
@@ -107,10 +104,10 @@ EDA를 통해 파악된 분포와 [이상치](/knowledge-base/studynote/14_data_
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>CDA (확인적 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석)</strong> | EDA로 세운 가설과 직관이 통계적으로 유의미한지 최종적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([t-test](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 등)하는 후속 단계 |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/865_feature_engineering/">Feature 엔진ering</a>)</strong> | EDA에서 발견된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비선형성이나 극단적 [왜도](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)를 교정하여, 모델이 학습하기 좋은 파생 변수를 창조하는 기술 |
-| **상관행렬 (Correlation Matrix)** | 다변량 분석에서 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들 간 선형 관계의 강도를 한눈에 파악할 수 있도록 히트맵 색상과 수치로 보여주는 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
-| <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a> (<a href="/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>)</strong> | Boxplot(IQR 기반) 등을 통해 EDA에서 목격된 비정상적인 튀는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적으로 분리하고 격리하는 기법 |
+| <strong>CDA (확인적 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 분석)</strong> | EDA로 세운 가설과 직관이 통계적으로 유의미한지 최종적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)([t-test](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) 등)하는 후속 단계 |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/247_feature_label_variables/">피처</a> 엔지니어링 (<a href="/studynote/12_it_management/02_itsm_itil/865_feature_engineering/">Feature 엔진ering</a>)</strong> | EDA에서 발견된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비선형성이나 극단적 [왜도](/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)를 교정하여, 모델이 학습하기 좋은 파생 변수를 창조하는 기술 |
+| **상관행렬 (Correlation Matrix)** | 다변량 분석에서 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)들 간 선형 관계의 강도를 한눈에 파악할 수 있도록 히트맵 색상과 수치로 보여주는 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| <strong><a href="/studynote/10_ai/05_data_science_ml/397_outlier_mahalanobis/">이상치 탐지</a> (<a href="/studynote/16_bigdata/05_analysis/111_anomaly_detection/">Anomaly Detection</a>)</strong> | Boxplot(IQR 기반) 등을 통해 EDA에서 목격된 비정상적인 튀는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)적으로 분리하고 격리하는 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,7 +131,7 @@ Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공�
 
 1. 모르는 친구의 방에 처음 놀러 갔을 때, 친구가 뭘 좋아하는지 알기 위해 방 안을 이리저리 두리번거리는 것과 같아요.
 2. 책상에 만화책이 더 많은지, 구멍 난 양말이 굴러다니는지 요리조리 자세히 살펴야 친구의 진짜 성격을 알 수 있잖아요?
-3. 컴퓨터도 복잡한 수학 계산을 무작정 시작하기 전에 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 예쁘게 그려서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 성격과 흠집을 미리 살펴보는데, 이걸 EDA라고 부른답니다!
+3. 컴퓨터도 복잡한 수학 계산을 무작정 시작하기 전에 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)를 예쁘게 그려서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 진짜 성격과 흠집을 미리 살펴보는데, 이걸 EDA라고 부른답니다!
 
 ---
 
@@ -142,7 +139,7 @@ Tukey의 EDA 철학 제안 (숫자를 믿지 말고 시각화 중심의 비공�
 
 **진행 상황**: 194 / 587
 
-<- **이전**: [105. 애플리케이션 아키텍처 (AA) 현황 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)
-**다음**: [106. 외판원 문제 (TSP) — NP-hard](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ->
+<- **이전**: [105. 애플리케이션 아키텍처 (AA) 현황 분석](/studynote/12_it_management/03_ea_isp/105_aa_as_is_analysis/)
+**다음**: [106. 외판원 문제 (TSP) — NP-hard](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/) ->
 
 ---

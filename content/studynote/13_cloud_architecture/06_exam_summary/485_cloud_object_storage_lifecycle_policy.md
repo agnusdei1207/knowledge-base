@@ -1,175 +1,191 @@
-+++
-title = "485. 클라우드 객체 스토리지 수명주기 정책 (Cloud Object Storage Lifecycle Policy)"
-date = 2026-05-09
+---
+title: "485. 클라우드 객체 스토리지 수명주기 정책 (Cloud Object Storage Lifecycle Policy)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 객체 스토리지 수명주기 정책은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 객체 스토리지(Amazon S3, Azure Blob, GCS, NCP Object Storage)에서 객체(Object) 단위로 생성 시점·마지막 접근 시점·버전 상태를 트리거 조건으로 삼아 스토리지 클래스를 자동 전이(Transition)·만료(Expiration)·미완료 멀티파트 청소(AbortIncompleteMultipartUpload)하는 **선언적 규칙 엔진(Declarative Rule Engine)** 이며, XML/JSON 기반 Lifecycle Configuration으로 표현된다.
+> 2. **가치**: 액세스 빈도가 시간에 따라 급격히 변하는 워크로드(로그, 백업, 미디어, AI 학습 데이터셋)에서 **월 스토리지 비용을 평균 60~85% 절감**하며, 수동 데이터 마이그레이션 운영 부담을 0에 수렴시키고 GDPR/PCI-DSS 등 데이터 보존 및 삭제 의무를 코드로 자동 이행 가능하게 한다.
+> 3. **판단 포인트**: (a) 액세스 패턴 분석의 정확도 vs 정책 복잡도 트레이드오프, (b) 버저닝·Replication·Object Lock과의 상호작용 규칙 숙지, (c) 최소 스토리지 기간(Minimum Storage Duration) 및 최소 청구 가능 객체 크기(Minimum Billable Object Size)로 인한 조기 전이 역효과, (d) 마지막 접근 시간(Last Access Time) 추적의 모니터링 비용까지 종합한 TCO 산정.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 객체 스토리지 수명주기 정책은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 객체 스토리지는 페타바이트~엑사바이트급 비정형 데이터를 무제한 확장 가능한 단일 네임스페이스(Bucket/Container)에 보관한다. 그러나 모든 객체가 동일한 성능·내구성·비용을 요구하지는 않는다. 로그 파일은 7~30일간 빈번히 조회되지만 1년 후에는 법적 보존 목적 외에는 거의 접근되지 않고, AI 학습용 원시 데이터는 학습 1회 후 수년간 콜드 상태로 머문다. 이러한 **시간-의존적 액세스 패턴(Temporal Access Pattern)** 을 무시하고 단일 스토리지 클래스에 두는 것은 클라우드 비용 최적화의 가장 큰 손실 요인이다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Object Storage Lifecycle Policy 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 온프레미스 환경의 **계층적 스토리지 관리(HSM, Hierarchical Storage Management)** 는 Tivoli Storage Manager, NetApp DataFabric, EMC Data Domain 등이 파일 단위로 LTO 테이프 라이브러리·디스크 간 자동 마이그레이션을 수행했지만, 정책이 워크로드와 결합되어 있고 적용 범위(수 TB~수십 TB)와 라이선스 비용이 한계였다. 클라우드 객체 스토리지는 **정책을 데이터 자체의 메타데이터(태그, 프리픽스)와 분리**하여, 버킷 단위·프리픽스 단위·태그 단위로 수백만 객체에 대해 일관되게 적용할 수 있는 **데이터-정책-인프라 분리(Decoupling)** 모델을 제공한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 객체 스토리지 수명주기 정책 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|         클라우드 객체 스토리지 수명주기 정책 (Lifecycle Policy)        |
+|                  +--------------------------+                       |
+|                  |   Bucket / Container      |                       |
+|                  |   "log-archive-2026"      |                       |
+|                  +--------------------------+                       |
+|                                 |                                    |
+|    +----------------+-----------+--------------+-----------------+  |
+|    v                v           v              v                 v  |
+|  /raw/          /processed/   /tmp/        /backup/          /dl/  |
+|  (원본 로그)     (ETL 결과)   (임시)        (DB 덤프)     (딥러닝) |
+|    |                |           |              |                 |  |
+|    v                v           v              v                 v  |
+| +--------+    +--------+   +--------+    +--------+       +--------+|
+| | Day 0  |    | Day 0  |   | Day 0  |    | Day 0  |       | Day 0  ||
+| |S3 Std  |---->|S3 Std  |   |S3 Std  |    |S3 Std  |       |S3 Std  ||
+| +----+---+    +----+---+   +---+----+    +----+---+       +----+---+|
+|      | D+30        | D+30     | D+1          | D+7           | D+30|
+|      v             v          v              v                v   |
+| +--------+    +--------+   +--------+    +--------+       +--------+
+| |S3 IA   |    |S3 IA   |   |  Expire |    |Glacier |       |Glacier |
+| | (1Z-IA |    |        |   |  즉시   |    |Instant |       | Deep   |
+| | 가능)  |    |        |   |  삭제   |    |Retriev.|       |Archive |
+| +----+---+    +----+---+   +--------+    +----+---+       +----+---+
+|      | D+90        | D+180                    | D+90           | 1Y
+|      v             v                          v                v
+| +--------+    +--------+                 +---------+      +--------+
+| |Glacier |    |Glacier |                 |Glacier  |      |  만료  |
+| |Flexible|    | Deep   |                 |  Deep   |      | (정책) |
+| |Retriev.|    |Archive |                 | Archive |      +--------+
+| +--------+    +--------+                 +---------+
+|
+| Legend:  S3 Standard (고가·고성능) -> IA (저가·빈도낮음)
+|          -> Glacier (초저가·아카이브) -> Expiration (소멸)
++----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 필요한가? — Before vs After**
 
-- **📢 섹션 요약 비유**: 클라우드 객체 스토리지 수명주기 정책은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 항목 | Before (단일 클래스) | After (Lifecycle 적용) |
+|---|---|---|
+| 1PB 로그 5년 보관 비용 (예시) | $23K/월 (S3 Standard) | $3.1K/월 (D+30 IA, D+90 Glacier) — **86% 절감** |
+| 데이터 삭제 누락 리스크 | 수동 스크립트·사람 의존 | Expiration 규칙으로 자동 삭제·감사 로그 자동 생성 |
+| 컴플라이언스 증적 | 별도 거버넌스 시스템 필요 | Object Lock·Lifecycle 결합으로 WORM 자동화 |
+| 운영 부담 | 야간 배치로 수동 마이그레이션 | 이벤트 기반·서버리스 자동 처리 |
+
+- **📢 섹션 요약 비유**: 수명주기 정책은 **도서관의 사서(司書)** 와 같다. 신간은 대출대에, 1년 지난 책은 지하 서고로, 10년 지난 학술지는 자동 폐기하거나 마이크로필름으로 보내듯, **데이터의 ‘나이’** 와 ‘이용 빈도’를 기준으로 보관 위치를 자동 재배치하는 시스템이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 객체 스토리지 수명주기 정책의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+수명주기 정책은 **평가 엔진(Policy Evaluation Engine)** 이 객체의 메타데이터(생성일, Last-Modified, Last-Accessed, Version ID, 태그, 크기)와 사전 정의된 규칙을 매시간(또는 S3의 경우 하루 1회) 비교하여 액션을 실행하는 구조다. 정책은 **Bucket 단위**로 부착되며, **최대 1,000개 규칙** 까지 등록 가능하다(AWS S3 기준, GCP/Naver는 유사).
+
+### 정책 구조 (AWS S3 Lifecycle Configuration)
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Object Storage Lifecycle Policy 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+LifecycleConfiguration
+|
++-- Rule[1]  (ID="log-tiering", Status=Enabled)
+|    +-- Filter
+|    |    +-- Prefix  = "raw/"
+|    |    +-- Tag     = {Key=Project, Value=ecommerce}
+|    +-- Transition[1]   Days=30  -> StorageClass=STANDARD_IA
+|    +-- Transition[2]   Days=90  -> StorageClass=GLACIER_IR
+|    +-- Transition[3]   Days=365 -> StorageClass=DEEP_ARCHIVE
+|    +-- Expiration                Days=2555 (≈7년)
+|    +-- AbortIncompleteMultipartUpload  DaysAfterInitiation=7
+|
++-- Rule[2]  (ID="temp-cleanup", Status=Enabled)
+|    +-- Filter  Prefix="tmp/"
+|    +-- Expiration  Days=1
+|
++-- Rule[3]  (ID="noncurrent-cleanup", Status=Enabled)
+|    +-- Filter  Prefix=""
+|    +-- NoncurrentVersionExpiration        NoncurrentDays=30
+|    +-- NoncurrentVersionTransition[1]     NoncurrentDays=15 -> IA
+|    +-- NoncurrentVersionTransition[2]     NoncurrentDays=60 -> Glacier
+|    +-- ExpiredObjectDeleteMarker          true
+|
++-- Rule[4]  (ID="size-based-rule", Status=Enabled)
+     +-- Filter
+     |    +-- ObjectSizeGreaterThan = 131072   (128KB)
+     |    +-- ObjectSizeLessThan    = 5368709120 (5GB)
+     +-- Transition  Days=0 -> INTELLIGENT_TIERING
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-클라우드 객체 스토리지 수명주기 정책을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 객체 스토리지 수명주기 정책 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 객체 스토리지 수명주기 정책은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 객체 스토리지 수명주기 정책은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 객체 스토리지 수명주기 정책을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 객체 스토리지 수명주기 정책을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 객체 스토리지 수명주기 정책 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 객체 스토리지 수명주기 정책은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 객체 스토리지 수명주기 정책의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 객체 스토리지 수명주기 정책의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 데이터 흐름 및 평가 알고리즘
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 객체 스토리지 수명주기 정책 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[ Object Upload / Last-Access Event ]
+              |
+              v
+   +----------------------+
+   |  Metadata Ingestion  |  (Prefix, Tags, LastModified, Size, VersionId)
+   +----------+-----------+
+              |
+              v
+   +----------------------------------------------+
+   |  Policy Evaluation Engine  (주기: S3=24h,    |
+   |  Azure=24h, S3 Intelligent-Tiering=실시간)   |
+   +----------+-----------------------------------+
+              |
+              |  for each rule R:
+              |    if (object satisfies R.Filter):
+              |      evaluate Age-based conditions
+              |      (Days from LastModified, NoncurrentDays)
+              |      -----------------------+
+              |                             v
+              |       +--------------------------------------+
+              |       | Action Execution (비동기, 분산 처리)   |
+              |       |  • Transition: storage class 변경     |
+              |       |  • Expiration: 객체 영구 삭제         |
+              |       |  • AbortMultipart: 미완료 업로드 취소 |
+              |       +----------------+---------------------+
+              |                        v
+              |       +--------------------------------------+
+              |       | S3 Storage Lens / Cost Explorer       |
+              |       | -> 메트릭 발행·비용 집계              |
+              |       +--------------------------------------+
+              v
+   +----------------------------------------------+
+   | CloudTrail / Audit Log  (정책 변경·적용 이력)|
+   +----------------------------------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Policy Document (XML/JSON)** | 선언적 규칙 저장소 | `LifecycleConfiguration` 리소스; AWS는 S3 API `PutBucketLifecycleConfiguration`, Azure는 `Management Policy` (REST PUT), GCP는 `Lifecycle Rule` (`gcloud storage buckets update`) |
+| **Filter (필터)** | 적용 대상 객체 식별 | `Prefix` (경로) / `Tag` (Key-Value) / `ObjectSizeGreater/LessThan` / `And` 연산자 조합. 빈 Prefix는 버킷 전체. |
+| **Transition Action** | 스토리지 클래스 이동 | `Days` 또는 `Date` 트리거. 최소 보관 기간(S3 IA=30일, Glacier IR=90일, Deep Archive=180일) 미달 시 미리 전이 불가. |
+| **Expiration Action** | 객체 영구 삭제 | `Days=0` 가능. 버전 관리 시 `DeleteMarker` 생성 또는 `ExpiredObjectDeleteMarker=true`로 비관리 마커 정리. |
+| **NoncurrentVersion** | 비현재 버전 처리 | 버저닝 활성화 시에만 동작. `NoncurrentDays`로 이전 버전의 별도 수명 관리. |
+| **AbortIncompleteMultipartUpload** | 미완료 멀티파트 정리 | `DaysAfterInitiation` (권장 7일). 미종료 시 스토리지 과금·데이터 누수 방지. |
 
-1. 클라우드 객체 스토리지 수명주기 정책은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+### 핵심 파라미터 및 알고리즘
 
----
+**1. 트리거 시점 결정 알고리즘**
+- **Time-based (Days)**: `TriggerDate = ObjectCreationDate + Days`. S3는 UTC 자정 기준 평가.
+- **Date-based**: `YYYY-MM-DD` 형식 절대 시점. 1회성 일괄 마이그레이션에 유리.
 
+**2. 최소 보관 기간(Minimum Storage Duration) — 비용 역효과 방지 핵심**
+| 스토리지 클래스 | 최소 보관 기간 | 최소 청구 가능 객체 크기 | 비고 |
+|---|---|---|---|
+| S3 Standard-IA | 30일 | 128KB | 30일 이전 전이/삭제 시 잔여 일수 요금 |
+| S3 One Zone-IA | 30일 | 128KB | 단일 AZ, AZ 장애 시 데이터 손실 |
+| S3 Glacier Instant Retrieval | 90일 | 128KB | 밀리초 단위 검색 |
+| S3 Glacier Flexible Retrieval | 90일 | 40KB | 1분~12시간 검색 |
+| S3 Glacier Deep Archive | 180일 | 40KB | 12~48시간 검색 |
+| Azure Cool | 30일 | — | LRS/GRS 모두 동일 |
+| Azure Archive | 180일 | — | 온라인 검색 불가, 우선 순위 해제 가능 |
+
+**3. Last Access Time (LAT) 추적**
+S3 Standard-IA·IA·One Zone-IA는 **Last Access Time** 기반으로 과금 모델이 진화했다(2024년 기준). 모니터링 자동화를 위한 LAT 추적 옵션은 **추적 활성화 시 IA 클래스 과금 약 2~3% 상승**하며, Lifecycle 자체와는 별개로 운영된다.
+
+**4. 동시성·일관성 보장**
+- 평가 엔진은 **Eventually Consistent** 모델: 정책 변경 후 최대 48시간(S3 기준) 이내 모든 객체에 반영.
+- Transition 중 객체는 **두 클래스 모두에 일시적 과금** 발생 가능 (S3 기준 transition 작업이 24시간 미만일 때도 1일 요금 이중 청구).
+
+- **📢 섹션 요약 비유**: 수명
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 485 / 800
 
-<- **이전**: [484. DNS 기반 글로벌 로드 밸런싱 GSLB](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/484_dns_based_global_load_balancing_gslb/)
-**다음**: [486. 클라우드 블록 스토리지 EBS 디스크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/486_cloud_block_storage_ebs_disk/) ->
+<- **이전**: [484. DNS 기반 글로벌 로드 밸런싱 GSLB](/studynote/13_cloud_architecture/06_exam_summary/484_dns_based_global_load_balancing_gslb/)
+**다음**: [486. 클라우드 블록 스토리지 EBS 디스크](/studynote/13_cloud_architecture/06_exam_summary/486_cloud_block_storage_ebs_disk/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화"
-date = 2026-04-10
+---
+title: "69. 커밋 메시지 컨벤션 - feat, fix, docs 등 접두어 표준화"
+date: "2026-04-10"
+tags:
+  - "studynote-devops"
+---
 
-[taxonomies]
-tags = ["studynote-devops"]
-
-[extra]
-tags = ["studynote-devops"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션은 변경 의도를 짧고 일관되게 표현하는 규칙이다.
+> 1. **본질**: 커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션은 변경 의도를 짧고 일관되게 표현하는 규칙이다.
 > 2. **가치**: feat, fix, docs 같은 접두어는 히스토리 탐색과 자동화에 유용하다.
 > 3. **판단**: 팀이 합의한 규칙을 지속적으로 지키는 것이 가장 중요하다.
 
@@ -19,7 +16,7 @@ tags = ["studynote-devops"]
 
 ## Ⅰ. 개요 및 필요성
 
-커밋 히스토리는 나중에 읽는 문서다. [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 일관되면 나중에 추적하기 쉽다.
+커밋 히스토리는 나중에 읽는 문서다. [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지가 일관되면 나중에 추적하기 쉽다.
 
 그래서 접두어 규칙이 중요하다.
 
@@ -38,9 +35,9 @@ type(scope): subject
 | feat | 기능 추가 |
 | fix | 버그 수정 |
 | docs | 문서 변경 |
-| [refactor](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | 구조 개선 |
+| [refactor](/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/) | 구조 개선 |
 
-커밋 컨벤션은 변경 목적을 한눈에 보이게 해 주는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)다. 그래서 릴리스 노트와 자동화 도구에 유리하다.
+커밋 컨벤션은 변경 목적을 한눈에 보이게 해 주는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)다. 그래서 릴리스 노트와 자동화 도구에 유리하다.
 
 - **📢 섹션 요약 비유**: 택배 박스에 라벨을 붙여 두는 것이다.
 
@@ -51,25 +48,25 @@ type(scope): subject
 | 타입 | 용도 |
 | :-- | :-- |
 | feat | 새 기능 |
-| fix | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 |
+| fix | [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 |
 | docs | 문서 |
 | chore | 작업성 변경 |
 
 | 효과 | 의미 |
 | :-- | :-- |
-| [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 히스토리 이해 쉬움 |
+| [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 히스토리 이해 쉬움 |
 | 자동화 | 릴리스/체인지로그 |
 | 협업 | 변경 의도 공유 |
 
 컨벤션은 강제보다 합의가 중요하다. 하지만 합의된 규칙을 일관되게 유지해야 진짜 효과가 난다.
 
-- **📢 섹션 요약 비유**: 모두가 같은 색 스티커를 써야 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 쉽다.
+- **📢 섹션 요약 비유**: 모두가 같은 색 스티커를 써야 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 쉽다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 팀 공통 규칙이 있는가?
 2. type이 일관적인가?
@@ -77,24 +74,24 @@ type(scope): subject
 4. 릴리스 노트와 연결되는가?
 5. 예외 처리 규칙이 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 사람마다 제멋대로 쓰는 설계
 - 의미 없는 제목을 쓰는 설계
 - 접두어 없이 커밋하는 설계
 - 규칙은 있으나 지키지 않는 설계
 
-기술사 관점에서는 커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션을 "협업 히스토리의 표준화"로 설명해야 한다.
+기술사 관점에서는 커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션을 "협업 히스토리의 표준화"로 설명해야 한다.
 
-- **📢 섹션 요약 비유**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 있어야 나중에 찾기 쉽다.
+- **📢 섹션 요약 비유**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)표가 있어야 나중에 찾기 쉽다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 규칙을 지키면 히스토리가 읽기 쉬워지고, 자동화도 쉬워진다.
+커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 규칙을 지키면 히스토리가 읽기 쉬워지고, 자동화도 쉬워진다.
 
-결론적으로 커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션은 변경 의도 표준화 규칙이다.
+결론적으로 커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지 컨벤션은 변경 의도 표준화 규칙이다.
 
 - **📢 섹션 요약 비유**: 이름표를 잘 붙여야 물건이 헷갈리지 않는다.
 
@@ -132,7 +129,7 @@ Automation
 
 상자에 이름을 써야 해요.
 그래야 나중에 찾기 쉬워요.
-커밋 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지도 그런 이름표예요.
+커밋 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지도 그런 이름표예요.
 
 ---
 
@@ -140,7 +137,7 @@ Automation
 
 **진행 상황**: 69 / 373
 
-<- **이전**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/)
-**다음**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/) ->
+<- **이전**: [68. 병합 충돌 (Merge Conflict) 및 해결 방안 (Rebase vs Merge)](/studynote/15_devops_sre/02_cicd_gitops/068_git_merge_conflict_resolution_rebase/)
+**다음**: [70. 빌드 도구 (Build Tools) - Maven, Gradle (Java), npm (Node.js)](/studynote/15_devops_sre/02_cicd_gitops/070_build_tools_maven_gradle_npm/) ->
 
 ---

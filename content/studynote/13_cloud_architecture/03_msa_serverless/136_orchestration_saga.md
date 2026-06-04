@@ -1,17 +1,14 @@
-+++
-title = "136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션"
-date = 2026-04-19
+---
+title: "136. Orchestration Saga - 중앙 오케스트레이터 기반 분산 트랜잭션"
+date: "2026-04-19"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Saga는 <strong>중앙 오케스트레이터(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)가 각 서비스에 명령을 보내고 응답을 받아 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 흐름을 제어</strong>하며, 실패 시 보상 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 순차적으로 호출한다.
-> 2. **가치**: Choreography 대비 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 흐름이 한 곳(오케스트레이터)에 집중</strong>되어 복잡한 비즈니스 로직의 이해·디버깅·모니터링이 쉽다.
+> 1. **본질**: [Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Saga는 <strong>중앙 오케스트레이터(<a href="/studynote/05_database/04_transactions_concurrency/250_coordinator_participant_2pc_roles/">Coordinator</a>)가 각 서비스에 명령을 보내고 응답을 받아 <a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 흐름을 제어</strong>하며, 실패 시 보상 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 순차적으로 호출한다.
+> 2. **가치**: Choreography 대비 <strong><a href="/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/">트랜잭션</a> 흐름이 한 곳(오케스트레이터)에 집중</strong>되어 복잡한 비즈니스 로직의 이해·디버깅·모니터링이 쉽다.
 > 3. **판단 포인트**: Temporal(구 Cadence)·Camunda·Step Functions가 대표 프레임워크이며, <strong>Durable Execution(내구성 실행)</strong>이 핵심 특성으로 프로세스 상태가 장애에도 보존된다.
 
 ---
@@ -24,13 +21,13 @@ tags = ["studynote-cloud-architecture"]
 오케스트레이터 -> 주문 서비스: "주문 취소" (보상)
 ```
 
-- **📢 섹션 요약 비유**: Orchestration은 <strong>교향곡 지휘자</strong>이다. 지휘자가 각 악기에 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 연주를 조율한다.
+- **📢 섹션 요약 비유**: Orchestration은 <strong>교향곡 지휘자</strong>이다. 지휘자가 각 악기에 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 보내 연주를 조율한다.
 
 ---
 
 ## Ⅱ~Ⅴ. 결론
 
-[Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Saga는 <strong>복잡한 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 비즈니스 흐름의 표준</strong>이며, Temporal의 Durable Execution이 핵심 기술이다.
+[Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) Saga는 <strong>복잡한 <a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a> 비즈니스 흐름의 표준</strong>이며, Temporal의 Durable Execution이 핵심 기술이다.
 
 ---
 
@@ -38,11 +35,11 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a></strong> | 중앙 제어 [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/) |
+| <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a></strong> | 중앙 제어 [Saga](/studynote/12_it_management/05_security_compliance/305_saga/) |
 | **Temporal** | Durable Execution 프레임워크 |
 | **Choreography** | 대안 (이벤트 기반) |
 | **Durable Execution** | 장애에도 상태 보존 |
-| **Step Functions** | AWS [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) |
+| **Step Functions** | AWS [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/) [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -53,7 +50,7 @@ tags = ["studynote-cloud-architecture"]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Orchestration은 <strong>교향곡 지휘자</strong>예요. 지휘자가 <strong>각 악기에 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>를 보내요.
+1. Orchestration은 <strong>교향곡 지휘자</strong>예요. 지휘자가 <strong>각 악기에 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>를 보내요.
 2. 한 악기가 틀리면 지휘자가 **"다시!"** 하고 보상(되돌리기)해요.
 3. 재즈(Choreography)보다 <strong>복잡한 곡(비즈니스)</strong>에 적합해요!
 
@@ -63,7 +60,7 @@ tags = ["studynote-cloud-architecture"]
 
 **진행 상황**: 135 / 371
 
-<- **이전**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/)
-**다음**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/) ->
+<- **이전**: [135. Choreography Saga - 이벤트 기반 분산 트랜잭션](/studynote/13_cloud_architecture/03_msa_serverless/135_choreography_saga/)
+**다음**: [137. Transactional Outbox 패턴 - 이벤트 발행의 원자성 보장](/studynote/13_cloud_architecture/03_msa_serverless/137_transactional_outbox_pattern/) ->
 
 ---

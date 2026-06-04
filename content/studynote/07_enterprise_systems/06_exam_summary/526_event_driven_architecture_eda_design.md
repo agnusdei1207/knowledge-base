@@ -1,13 +1,10 @@
-+++
-title = "526. 이벤트 드리븐 아키텍처 EDA 설계 (Event Driven Architecture EDA Design)"
-date = 2026-05-09
+---
+title: "526. 이벤트 드리븐 아키텍처 EDA 설계 (Event Driven Architecture EDA Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 526 / 800
 
-<- **이전**: [525. 마이크로서비스 전환 레거시 현대화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/525_microservice_migration_legacy_modernization/)
-**다음**: [527. EAI 엔터프라이즈 통합 미들웨어](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/527_eai_enterprise_application_integration/) ->
+<- **이전**: [525. 마이크로서비스 전환 레거시 현대화](/studynote/07_enterprise_systems/06_exam_summary/525_microservice_migration_legacy_modernization/)
+**다음**: [527. EAI 엔터프라이즈 통합 미들웨어](/studynote/07_enterprise_systems/06_exam_summary/527_eai_enterprise_application_integration/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "609. IT 경영 관리 핵심 토픽 609번 시험 요약 (IT Management Core Topic 609 Exam Summary)"
-date = 2026-05-09
+---
+title: "609. IT 경영 관리 핵심 토픽 609번 시험 요약 (IT Management Core Topic 609 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -159,7 +156,7 @@ IT 경영 관리의 **3-Layer 아키텍처**는 **① Governance Layer(거버넌
 
 **진행 상황**: 609 / 800
 
-<- **이전**: [608. IT 경영 관리 핵심 토픽 608번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/608_it_management_core_topic_608_exam_summary/)
-**다음**: [610. IT 경영 관리 핵심 토픽 610번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/610_it_management_core_topic_610_exam_summary/) ->
+<- **이전**: [608. IT 경영 관리 핵심 토픽 608번 시험 요약](/studynote/12_it_management/05_security_compliance/608_it_management_core_topic_608_exam_summary/)
+**다음**: [610. IT 경영 관리 핵심 토픽 610번 시험 요약](/studynote/12_it_management/05_security_compliance/610_it_management_core_topic_610_exam_summary/) ->
 
 ---

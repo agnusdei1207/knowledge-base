@@ -1,27 +1,24 @@
-+++
-title = "187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)"
-date = 2026-05-10
+---
+title: "187. LMAX 디스럽터 아키텍처 (LMAX Disruptor Architecture)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: LMAX 디스럽터 (LMAX Disruptor)는 LMAX 외환 거래소가 개발한 고성능 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/) 라이브러리로, 전통적인 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 기반의 잠금([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 경쟁 없이 링 버퍼(Ring Buffer)와 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))를 활용하여 초당 수백만 건의 이벤트를 처리하는 아키텍처다.
-> 2. **가치**: 전통적 BlockingQueue 대비 수십 배 높은 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 예측 가능한 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성한다. [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)·[CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 기반 동시성으로 CPU 캐시 친화적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 실현한다.
-> 3. **판단 포인트**: 디스럽터는 일반적인 메시지 큐의 대안이 아니라, 초저지연·초고처리량이 요구되는 특수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)(HFT 거래, 이벤트 스트리밍, 실시간 게임 서버)에 최적화된 도구다. 복잡한 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 학습 곡선으로 인해 일반 시스템에서는 과도한 적용이다.
+> 1. **본질**: LMAX 디스럽터 (LMAX Disruptor)는 LMAX 외환 거래소가 개발한 고성능 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 간 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/) 라이브러리로, 전통적인 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) 기반의 잠금([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 경쟁 없이 링 버퍼(Ring Buffer)와 [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/))를 활용하여 초당 수백만 건의 이벤트를 처리하는 아키텍처다.
+> 2. **가치**: 전통적 BlockingQueue 대비 수십 배 높은 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 예측 가능한 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 달성한다. [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)·[CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)([Compare-And-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) 기반 동시성으로 CPU 캐시 친화적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 접근 패턴을 실현한다.
+> 3. **판단 포인트**: 디스럽터는 일반적인 메시지 큐의 대안이 아니라, 초저지연·초고처리량이 요구되는 특수 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)(HFT 거래, 이벤트 스트리밍, 실시간 게임 서버)에 최적화된 도구다. 복잡한 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 학습 곡선으로 인해 일반 시스템에서는 과도한 적용이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 공개한 초고성능 아키텍처 논문에서 디스럽터를 소개했다. 전통적인 큐 기반 [메시지 전달](/knowledge-base/studynote/02_operating_system/02_process_thread/119_message_passing/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목은 잠금 경쟁([Lock Contention](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))과 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC), CPU 캐시 미스(Cache Miss)다.
+LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 공개한 초고성능 아키텍처 논문에서 디스럽터를 소개했다. 전통적인 큐 기반 [메시지 전달](/studynote/02_operating_system/02_process_thread/119_message_passing/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목은 잠금 경쟁([Lock Contention](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/))과 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC), CPU 캐시 미스(Cache Miss)다.
 
-디스럽터는 이 세 가지 문제를 근본적으로 해결한다: ① 고정 크기 링 버퍼로 GC 부담 제거, ② [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스로 잠금 경쟁 제거, ③ [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)로 CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장.
+디스럽터는 이 세 가지 문제를 근본적으로 해결한다: ① 고정 크기 링 버퍼로 GC 부담 제거, ② [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) 기반 [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스로 잠금 경쟁 제거, ③ [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)로 CPU [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장.
 
 ```text
 +-------------------------------------------------------------+
@@ -41,20 +38,20 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 전통 큐([Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 병원 대기 번호표(잠금+순서 보장)라면, 디스럽터의 링 버퍼는 회전 초밥 벨트(미리 준비된 슬롯에 직접 접근)처럼 대기 없이 빠르게 처리한다.
+- **📢 섹션 요약 비유**: 전통 큐([Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))가 병원 대기 번호표(잠금+순서 보장)라면, 디스럽터의 링 버퍼는 회전 초밥 벨트(미리 준비된 슬롯에 직접 접근)처럼 대기 없이 빠르게 처리한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-디스럽터의 핵심 설계 원칙: ① 링 버퍼(Ring Buffer): 고정 크기의 순환 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 메모리 재사용·GC 제거, ② 시퀀서(Sequencer): 단일 생산자(SPSC) 또는 다중 생산자(MPSC) 시퀀스를 CAS로 원자적 업데이트, ③ 이벤트 프로세서(Event Processor): 소비자 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이벤트를 순서대로 처리, ④ 장벽(Barrier): 생산자·소비자 간 의존성 정의.
+디스럽터의 핵심 설계 원칙: ① 링 버퍼(Ring Buffer): 고정 크기의 순환 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 메모리 재사용·GC 제거, ② 시퀀서(Sequencer): 단일 생산자(SPSC) 또는 다중 생산자(MPSC) 시퀀스를 CAS로 원자적 업데이트, ③ 이벤트 프로세서(Event Processor): 소비자 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 이벤트를 순서대로 처리, ④ 장벽(Barrier): 생산자·소비자 간 의존성 정의.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| Ring Buffer | 이벤트 저장 순환 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | GC 없음, 캐시 친화 |
-| Sequencer | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스 관리 | [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/), [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) |
-| Event Processor | 소비자 이벤트 처리 | [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), LMAX 핵심 |
-| Wait [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 소비자 대기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | BusySpin(저지연) vs [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(CPU 절약) |
+| Ring Buffer | 이벤트 저장 순환 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) | GC 없음, 캐시 친화 |
+| Sequencer | [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스 관리 | [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/), [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) |
+| Event Processor | 소비자 이벤트 처리 | [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), LMAX 핵심 |
+| Wait [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 소비자 대기 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | BusySpin(저지연) vs [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/)(CPU 절약) |
 
 ```text
 +-------------------------------------------------------------+
@@ -77,64 +74,64 @@ LMAX(London Multi-Asset Exchange)는 2011년 마틴 파울러·마틴 톰슨이 
 ---
 ## Ⅲ. 비교 및 연결
 
-디스럽터와 BlockingQueue의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 벤치마크에서 수십 배에 달한다. 주요 차이는 잠금 경쟁 제거, GC 부담 감소, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))다.
+디스럽터와 BlockingQueue의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이는 벤치마크에서 수십 배에 달한다. 주요 차이는 잠금 경쟁 제거, GC 부담 감소, [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)([Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | synchronized/[Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/) | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) |
+| [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | synchronized/[Lock](/studynote/05_database/04_transactions_concurrency/510_lock/) | [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) |
 | 메모리 | 동적 할당 (GC 부담) | 고정 링 버퍼 (GC 없음) |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 수백만 TPS 이하 | 수천만 TPS |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 | 수십 μs | 수 μs (낮고 예측 가능) |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 수백만 TPS 이하 | 수천만 TPS |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 | 수십 μs | 수 μs (낮고 예측 가능) |
 | 복잡성 | 낮음 | 높음 |
 
-- **📢 섹션 요약 비유**: BlockingQueue는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등(잠금)이 있는 교차로이고, 디스럽터는 회전교차로(Roundabout)처럼 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 없이 흐름이 지속된다.
+- **📢 섹션 요약 비유**: BlockingQueue는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등(잠금)이 있는 교차로이고, 디스럽터는 회전교차로(Roundabout)처럼 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 없이 흐름이 지속된다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-디스럽터의 적합한 사용 사례: ① HFT(High-Frequency Trading) 시스템, ② 게임 서버 실시간 이벤트 처리, ③ [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 시스템(Log4j2가 비동기 로깅에 디스럽터 사용), ④ 금융 거래 이벤트 스트리밍.
+디스럽터의 적합한 사용 사례: ① HFT(High-Frequency Trading) 시스템, ② 게임 서버 실시간 이벤트 처리, ③ [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 집계 시스템(Log4j2가 비동기 로깅에 디스럽터 사용), ④ 금융 거래 이벤트 스트리밍.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 시스템이 초저지연·초고처리량 요구사항을 갖는가? (일반 시스템이면 [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등으로 충분)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 시스템이 초저지연·초고처리량 요구사항을 갖는가? (일반 시스템이면 [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) 등으로 충분)
 2. 생산자-소비자 수와 의존성 관계가 명확히 정의되어 있는가?
-3. Wait Strategy가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구사항에 맞게 선택되었는가? (BusySpin vs BlockingWait)
-4. 링 버퍼 크기가 최대 이벤트 생산 속도와 소비 처리 속도를 고려하여 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)되었는가?
+3. Wait Strategy가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구사항에 맞게 선택되었는가? (BusySpin vs BlockingWait)
+4. 링 버퍼 크기가 최대 이벤트 생산 속도와 소비 처리 속도를 고려하여 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)되었는가?
 5. 디스럽터의 복잡성이 비즈니스 가치 대비 정당화되는가?
 
-- **📢 섹션 요약 비유**: F1 레이싱카(디스럽터)는 서킷에서 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이지만, 시내 출퇴근(일반 메시지 처리)에는 일반 승용차(BlockingQueue)로 충분하다.
+- **📢 섹션 요약 비유**: F1 레이싱카(디스럽터)는 서킷에서 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이지만, 시내 출퇴근(일반 메시지 처리)에는 일반 승용차(BlockingQueue)로 충분하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측 가능한 초저지연을 달성한다. GC 부담이 없어 Java의 대표적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인을 제거하며, [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)로 CPU 효율도 높아진다.
+LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측 가능한 초저지연을 달성한다. GC 부담이 없어 Java의 대표적인 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인을 제거하며, [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)로 CPU 효율도 높아진다.
 
-한계는 고정 링 버퍼 크기로 인한 메모리 낭비 가능성, 높은 학습 곡선, 잘못된 소비자 의존성 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 위험이다. Log4j2 비동기 로거가 디스럽터를 내부적으로 사용하는 것처럼, 직접 사용보다 이미 디스럽터를 활용하는 라이브러리를 사용하는 것이 실용적이다.
+한계는 고정 링 버퍼 크기로 인한 메모리 낭비 가능성, 높은 학습 곡선, 잘못된 소비자 의존성 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 위험이다. Log4j2 비동기 로거가 디스럽터를 내부적으로 사용하는 것처럼, 직접 사용보다 이미 디스럽터를 활용하는 라이브러리를 사용하는 것이 실용적이다.
 
-- **📢 섹션 요약 비유**: 디스럽터는 초정밀 시계 메커니즘처럼, 일반 용도에는 과도하지만 마이크로초(μs) 단위 정밀도가 필요한 곳에서 독보적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
+- **📢 섹션 요약 비유**: 디스럽터는 초정밀 시계 메커니즘처럼, 일반 용도에는 과도하지만 마이크로초(μs) 단위 정밀도가 필요한 곳에서 독보적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-[전통 [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX 디스럽터] -> [링 버퍼·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)] -> [Log4j2 비동기 로거] -> [HFT 시스템 적용]
+[전통 [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX 디스럽터] -> [링 버퍼·[Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)] -> [Log4j2 비동기 로거] -> [HFT 시스템 적용]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
 | Ring Buffer | 디스럽터의 핵심 고정 크기 순환 저장소 |
-| [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) | [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스 업데이트 원자적 연산 |
-| [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) | CPU [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장 메커니즘 |
+| [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) ([Compare-And-Swap](/studynote/01_computer_architecture/11_multicore_synchronization/415_compare_and_swap/)) | [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 시퀀스 업데이트 원자적 연산 |
+| [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) | CPU [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 보장 메커니즘 |
 | Log4j2 AsyncLogger | 디스럽터를 활용한 비동기 로거 구현 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[BlockingQueue [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX Disruptor 공개(2011)] -> [Ring Buffer·[Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)] -> [Log4j2 통합] -> [HFT·[실시간 시스템](/knowledge-base/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 표준] -> [Aeron 메시지 시스템]
+[BlockingQueue [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계] -> [LMAX Disruptor 공개(2011)] -> [Ring Buffer·[Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)] -> [Log4j2 통합] -> [HFT·[실시간 시스템](/studynote/02_operating_system/01_overview_architecture/009_real_time_system/) 표준] -> [Aeron 메시지 시스템]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 디스럽터는 회전 초밥 벨트처럼, 음식(이벤트)이 미리 준비된 자리(링 버퍼)를 순환해요.
 2. 손님(소비자)이 원하는 초밥(이벤트)을 직접 가져가서 대기(잠금) 없이 빠르게 처리해요.
-3. 주식 거래처럼 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리가 필요할 때 최적이에요!
+3. 주식 거래처럼 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리가 필요할 때 최적이에요!
 
 ---
 
@@ -142,7 +139,7 @@ LMAX 디스럽터를 적용하면 잠금 경쟁 없는 초고처리량과 예측
 
 **진행 상황**: 244 / 530
 
-<- **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/657_space_based_tuple_mapping/)
-**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/knowledge-base/studynote/11_design_supervision/10_patterns_antipatterns/658_lmax_disruptor_pattern/) ->
+<- **이전**: [186. 스페이스 기반 아키텍처 투플 맵핑 구조 (Space-Based Tuple Mapping)](/studynote/11_design_supervision/10_patterns_antipatterns/657_space_based_tuple_mapping/)
+**다음**: [187. LMAX 디스럽터 패턴 (LMAX Disruptor Pattern)](/studynote/11_design_supervision/10_patterns_antipatterns/658_lmax_disruptor_pattern/) ->
 
 ---

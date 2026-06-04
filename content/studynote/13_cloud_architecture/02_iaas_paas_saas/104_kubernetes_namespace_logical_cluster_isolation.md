@@ -1,35 +1,32 @@
-+++
-title = "104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리"
-date = 2026-04-10
+---
+title: "104. K8s 네임스페이스 (Namespace) - 논리적 분할과 격리"
+date: "2026-04-10"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 단일 물리 클러스터 내에서 자원과 오브젝트를 논리적으로 분할하여 가상의 경계를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 격리 메커니즘이다.
-> 2. **가치**: 다수의 팀이나 애플리케이션이 동일한 클러스터를 공유할 때 발생하는 이름 충돌 (Naming [Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 방지하고, 하드웨어 중복 투자를 막아 비용 효율성을 극대화한다.
-> 3. **판단 포인트**: 완전한 보안 격리가 필요한 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) ([Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)만으로는 부족하며, [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) 및 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))과 결합해야 실질적인 테넌트 격리가 완성된다.
+> 1. **본질**: [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 단일 물리 클러스터 내에서 자원과 오브젝트를 논리적으로 분할하여 가상의 경계를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 격리 메커니즘이다.
+> 2. **가치**: 다수의 팀이나 애플리케이션이 동일한 클러스터를 공유할 때 발생하는 이름 충돌 (Naming [Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))을 방지하고, 하드웨어 중복 투자를 막아 비용 효율성을 극대화한다.
+> 3. **판단 포인트**: 완전한 보안 격리가 필요한 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) ([Multi-Tenancy](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서는 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)만으로는 부족하며, [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/)) 및 네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Network [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))과 결합해야 실질적인 테넌트 격리가 완성된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 거대한 [컨테이너 오케스트레이션](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 내부를 논리적으로 쪼개는 '가상 클러스터' 단위다. 기본적으로 K8s는 모든 자원을 `default` [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 할당하지만, 조직 규모가 커지고 다양한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 올라가면 단일 공간 관리에 한계가 발생한다.
+[네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/))는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)라는 거대한 [컨테이너 오케스트레이션](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) 플랫폼 내부를 논리적으로 쪼개는 '가상 클러스터' 단위다. 기본적으로 K8s는 모든 자원을 `default` [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 할당하지만, 조직 규모가 커지고 다양한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 올라가면 단일 공간 관리에 한계가 발생한다.
 
-이 개념이 없다면 서로 다른 부서가 동일한 이름의 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))나 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 배포할 때 충돌이 발생하거나 덮어쓰기되는 대참사가 일어난다. 또한, 특정 팀의 애플리케이션이 클러스터의 전체 CPU와 메모리를 독식하여 다른 핵심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽어버리는 자원 탈취 문제가 발생한다. 따라서 논리적 공간을 분리하여 각자의 샌드박스를 제공하는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 필수적이다.
+이 개념이 없다면 서로 다른 부서가 동일한 이름의 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) ([Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/))나 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) ([Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 배포할 때 충돌이 발생하거나 덮어쓰기되는 대참사가 일어난다. 또한, 특정 팀의 애플리케이션이 클러스터의 전체 CPU와 메모리를 독식하여 다른 핵심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/))으로 죽어버리는 자원 탈취 문제가 발생한다. 따라서 논리적 공간을 분리하여 각자의 샌드박스를 제공하는 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 필수적이다.
 
-- **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 1,000평짜리 텅 빈 원룸 층에 가상의 방음 유리벽을 세우는 것과 같다. 벽이 없으면 서로 소음과 물건 배치가 엉키지만, 유리벽을 세우면 한 지붕 아래에서도 각 부서가 독립적인 사무실을 가진 것처럼 평화로워진다.
+- **📢 섹션 요약 비유**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 1,000평짜리 텅 빈 원룸 층에 가상의 방음 유리벽을 세우는 것과 같다. 벽이 없으면 서로 소음과 물건 배치가 엉키지만, 유리벽을 세우면 한 지붕 아래에서도 각 부서가 독립적인 사무실을 가진 것처럼 평화로워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 단순한 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 역할을 넘어, K8s 자원 관리의 강력한 바운더리로 작동한다. [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)별로 자원 한도 (Resource [Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))를 설정하여 특정 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 클러스터 전체 자원을 고갈시키지 않도록 방어한다.
+[네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 단순한 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 역할을 넘어, K8s 자원 관리의 강력한 바운더리로 작동한다. [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)별로 자원 한도 (Resource [Quota](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/))를 설정하여 특정 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 클러스터 전체 자원을 고갈시키지 않도록 방어한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -46,55 +43,55 @@ tags = ["studynote-cloud-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 다이어그램은 물리적 서버 노드들이 하나의 거대한 자원 풀로 묶여 있지만, 그 위에 씌워진 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 논리적인 칸막이와 자원 한계선을 긋고 있음을 보여준다.
+이 다이어그램은 물리적 서버 노드들이 하나의 거대한 자원 풀로 묶여 있지만, 그 위에 씌워진 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 논리적인 칸막이와 자원 한계선을 긋고 있음을 보여준다.
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 핵심 제어 기능은 두 가지다. 첫째, 자원 [할당량](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) (ResourceQuota)을 통해 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 내에서 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 수 있는 총 CPU, 메모리, 볼륨 크기를 제한한다. 둘째, 리밋 레인지 (LimitRange)를 통해 [파드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 하나당 요구할 수 있는 기본 자원 요청량과 최대 제한을 강제한다. 이 두 가지가 결합되어야 진정한 '통제된 가상 클러스터'가 된다.
+[네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)의 핵심 제어 기능은 두 가지다. 첫째, 자원 [할당량](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/) (ResourceQuota)을 통해 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 내에서 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)될 수 있는 총 CPU, 메모리, 볼륨 크기를 제한한다. 둘째, 리밋 레인지 (LimitRange)를 통해 [파드](/studynote/13_cloud_architecture/02_iaas_paas_saas/085_pod_kubernetes_container_unit/) 하나당 요구할 수 있는 기본 자원 요청량과 최대 제한을 강제한다. 이 두 가지가 결합되어야 진정한 '통제된 가상 클러스터'가 된다.
 
-- **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 사무실 공간을 나누는 것을 넘어, 각 방에 들어가는 전기와 수도의 '두꺼비집 한도'를 정해두는 것과 같다. 한 방에서 에어컨을 10대 틀어도 전체 건물 전기가 나가는 대신 그 방의 차단기만 내려간다.
+- **📢 섹션 요약 비유**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 사무실 공간을 나누는 것을 넘어, 각 방에 들어가는 전기와 수도의 '두꺼비집 한도'를 정해두는 것과 같다. 한 방에서 에어컨을 10대 틀어도 전체 건물 전기가 나가는 대신 그 방의 차단기만 내려간다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 격리 체계는 논리적 격리인 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 물리적 격리인 다중 클러스터 (Multi-Cluster) 접근법으로 나뉜다.
+[쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 격리 체계는 논리적 격리인 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)와 물리적 격리인 다중 클러스터 (Multi-Cluster) 접근법으로 나뉜다.
 
-| 항목 | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 | 다중 클러스터 (Multi-Cluster) 격리 |
+| 항목 | [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) ([Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 격리 | 다중 클러스터 (Multi-Cluster) 격리 |
 | :--- | :--- | :--- |
-| **격리 수준** | 논리적 (소프트 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) | 물리적 (하드 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) |
+| **격리 수준** | 논리적 (소프트 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) | 물리적 (하드 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) |
 | **비용 및 자원** | 리소스 효율성 높음 (단일 컨트롤 플레인) | 자원 중복 및 인프라 비용 큼 |
-| **관리 복잡도** | [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)/네트워크 통제 설정이 복잡함 | 클러스터가 많아져 운영 부담 증가 |
+| **관리 복잡도** | [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/)/네트워크 통제 설정이 복잡함 | 클러스터가 많아져 운영 부담 증가 |
 | **보안 경계** | 커널이나 호스트 탈취 시 전체 위험 노출 | 완벽히 분리되어 연쇄 피해 차단 |
 
-소프트 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) (Soft [Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경인 사내 개발/운영 분리에는 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 적합하다. 반면, 완전히 신뢰할 수 없는 외부 고객들에게 KaaS ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 제공하는 하드 [멀티 테넌시](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) (Hard [Multi-Tenancy](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서는 클러스터 자체를 물리적으로 분리하거나 샌드박스 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술을 도입해야 한다.
+소프트 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) (Soft [Multi-Tenancy](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경인 사내 개발/운영 분리에는 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 적합하다. 반면, 완전히 신뢰할 수 없는 외부 고객들에게 KaaS ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))를 제공하는 하드 [멀티 테넌시](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/) (Hard [Multi-Tenancy](/studynote/13_cloud_architecture/01_virtualization/014_multi_tenancy/)) 환경에서는 클러스터 자체를 물리적으로 분리하거나 샌드박스 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 기술을 도입해야 한다.
 
-- **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 아파트 한 채의 방을 나누어 쓰는 '셰어하우스'라면, 다중 클러스터는 아예 '옆 건물'을 따로 지어서 입주시키는 것과 같다. 프라이버시 수준과 월세(비용)의 트레이드오프다.
+- **📢 섹션 요약 비유**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)가 아파트 한 채의 방을 나누어 쓰는 '셰어하우스'라면, 다중 클러스터는 아예 '옆 건물'을 따로 지어서 입주시키는 것과 같다. 프라이버시 수준과 월세(비용)의 트레이드오프다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 단일 K8s 클러스터를 설계할 때, "어디까지 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 분리할 것인가?"가 핵심 의사결정 포인트다.
+실무에서 단일 K8s 클러스터를 설계할 때, "어디까지 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 분리할 것인가?"가 핵심 의사결정 포인트다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **자원 통제**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 `ResourceQuota`와 `LimitRange`가 필수로 매핑되었는가? (미설정 시 Noisy Neighbor 문제 발생)
-2. **권한 구속**: RBAC의 `RoleBinding`을 통해 특정 팀의 접근 권한이 해당 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 안으로만 제한되었는가? (`ClusterRoleBinding` 남발 금지)
-3. **네트워크 격리**: 네트워크 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) (Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 적용하여 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 간의 무분별한 트래픽(예: dev망에서 prod망 DB 접근)을 차단했는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **자원 통제**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시 `ResourceQuota`와 `LimitRange`가 필수로 매핑되었는가? (미설정 시 Noisy Neighbor 문제 발생)
+2. **권한 구속**: RBAC의 `RoleBinding`을 통해 특정 팀의 접근 권한이 해당 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 안으로만 제한되었는가? (`ClusterRoleBinding` 남발 금지)
+3. **네트워크 격리**: 네트워크 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) (Network [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 적용하여 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 간의 무분별한 트래픽(예: dev망에서 prod망 DB 접근)을 차단했는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 리소스를 `default` [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 무분별하게 배포하여 얽히게 만드는 설계.
-- [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 격리했다면서 Network Policy를 열어두어 서로 마음껏 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 가능하게 방치하는 보안 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/).
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 리소스를 `default` [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)에 무분별하게 배포하여 얽히게 만드는 설계.
+- [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)로 격리했다면서 Network Policy를 열어두어 서로 마음껏 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출이 가능하게 방치하는 보안 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/).
 
-- **📢 섹션 요약 비유**: [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 방을 쪼개는 것일 뿐, 자물쇠 역할을 하지 않는다. 방을 나눈 뒤 자물쇠([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/))를 달고, 문틈(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))을 막지 않으면 여전히 하나의 통원룸이나 다름없다.
+- **📢 섹션 요약 비유**: [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 방을 쪼개는 것일 뿐, 자물쇠 역할을 하지 않는다. 방을 나눈 뒤 자물쇠([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/))를 달고, 문틈(Network [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))을 막지 않으면 여전히 하나의 통원룸이나 다름없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 철저하게 설계하고 적용하면, 비싼 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 인프라를 수십 개의 팀이 안전하게 공유할 수 있어 클라우드 운영 비용이 극적으로 절감된다. 또한, 논리적 경계를 기반으로 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인의 배포 타겟을 명확히 할 수 있어 자동화의 안정성을 보장한다.
+[네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)를 철저하게 설계하고 적용하면, 비싼 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) 인프라를 수십 개의 팀이 안전하게 공유할 수 있어 클라우드 운영 비용이 극적으로 절감된다. 또한, 논리적 경계를 기반으로 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/)) 파이프라인의 배포 타겟을 명확히 할 수 있어 자동화의 안정성을 보장한다.
 
-다만, [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 완벽한 보안 격리벽이 아니라는 한계가 있다. 따라서 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 "가장 효율적인 논리적 분할의 시작점"으로 활용하되, 진정한 테넌시 격리를 위해서는 [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/), 쿼터, 네트워크 제어를 층층이 결합하는 아키텍처적 완성도가 반드시 수반되어야 한다.
+다만, [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 완벽한 보안 격리벽이 아니라는 한계가 있다. 따라서 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)는 "가장 효율적인 논리적 분할의 시작점"으로 활용하되, 진정한 테넌시 격리를 위해서는 [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/), 쿼터, 네트워크 제어를 층층이 결합하는 아키텍처적 완성도가 반드시 수반되어야 한다.
 
-- **📢 섹션 요약 비유**: 훌륭한 건축가는 단순히 벽만 세우지 않는다. 각 방의 전력 한도를 정하고([Quota](/knowledge-base/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)), 출입증을 제한하며([RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)), 환기구(Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/))까지 통제해야 진정한 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 빌딩이 완성된다.
+- **📢 섹션 요약 비유**: 훌륭한 건축가는 단순히 벽만 세우지 않는다. 각 방의 전력 한도를 정하고([Quota](/studynote/02_operating_system/09_file_system/551_quota_disk_limit/)), 출입증을 제한하며([RBAC](/studynote/09_security/11_iam_access_control/569_rbac/)), 환기구(Network [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/))까지 통제해야 진정한 [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) 빌딩이 완성된다.
 
 ---
 
@@ -102,10 +99,10 @@ tags = ["studynote-cloud-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [RBAC](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/knowledge-base/studynote/09_security/11_iam_access_control/569_rbac/)) | 특정 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 내에서만 권한을 유효하게 만드는 통제 시스템 |
-| ResourceQuota | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 단위의 컴퓨팅 자원 및 오브젝트 개수 상한선 |
-| Network [Policy](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 간(Inter-[Namespace](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 트래픽 흐름을 허용/차단하는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) |
-| CaaS ([Container](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 퍼블릭 클라우드가 고객에게 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/) 기반으로 가상 클러스터를 분양하는 모델 |
+| [RBAC](/studynote/09_security/11_iam_access_control/569_rbac/) ([Role-Based Access Control](/studynote/09_security/11_iam_access_control/569_rbac/)) | 특정 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 내에서만 권한을 유효하게 만드는 통제 시스템 |
+| ResourceQuota | [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 단위의 컴퓨팅 자원 및 오브젝트 개수 상한선 |
+| Network [Policy](/studynote/10_ai/02_dl_architecture_new/164_policy/) | [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 간(Inter-[Namespace](/studynote/02_operating_system/01_overview_architecture/061_namespace/)) 트래픽 흐름을 허용/차단하는 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) |
+| CaaS ([Container](/studynote/06_ict_convergence/03_cloud_infrastructure/194_container_virtualization_docker_namespace/) [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) | 퍼블릭 클라우드가 고객에게 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/) 기반으로 가상 클러스터를 분양하는 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -125,11 +122,11 @@ Default Namespace 혼재 (자원 독식, 충돌)
 클러스터 플릿 관리: Multi-Cluster, vCluster (가상 클러스터)
 ```
 
-이 흐름도는 단순한 논리적 폴더 구분에서 시작해, 자원, 권한, 네트워크 제어를 거쳐 완전한 가상 클러스터 기술로 진화하는 [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 테넌트 격리 과정을 보여준다.
+이 흐름도는 단순한 논리적 폴더 구분에서 시작해, 자원, 권한, 네트워크 제어를 거쳐 완전한 가상 클러스터 기술로 진화하는 [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/)의 테넌트 격리 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 넓은 운동장에 [네임스페이스](/knowledge-base/studynote/02_operating_system/01_overview_architecture/061_namespace/)라는 투명한 '유리벽'을 세워서 1반과 2반의 체육 시간을 나눠주는 거예요.
+1. 넓은 운동장에 [네임스페이스](/studynote/02_operating_system/01_overview_architecture/061_namespace/)라는 투명한 '유리벽'을 세워서 1반과 2반의 체육 시간을 나눠주는 거예요.
 2. 유리벽이 있으니까 1반 친구가 던진 공이 2반 친구 머리에 맞는 일(이름 충돌)이 없어져요.
 3. 선생님이 각 반마다 쓸 수 있는 줄넘기 개수(ResourceQuota)도 딱 정해주니까 누구 하나가 다 독차지할 수 없답니다!
 
@@ -139,7 +136,7 @@ Default Namespace 혼재 (자원 독식, 충돌)
 
 **진행 상황**: 103 / 371
 
-<- **이전**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/)
-**다음**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/) ->
+<- **이전**: [103. 헬름 (Helm) - 쿠버네티스 패키지 매니저 및 템플릿 엔진](/studynote/13_cloud_architecture/02_iaas_paas_saas/103_helm_kubernetes_package_manager_chart_template/)
+**다음**: [105. 오퍼레이터 패턴 (Operator Pattern) - K8s 봇 자동화](/studynote/13_cloud_architecture/02_iaas_paas_saas/105_operator_pattern_crd_custom_controller_kubernetes/) ->
 
 ---

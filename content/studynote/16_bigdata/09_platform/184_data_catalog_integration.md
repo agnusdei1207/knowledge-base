@@ -1,45 +1,42 @@
-+++
-title = "184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata"
-date = 2026-04-21
+---
+title: "184. 데이터 카탈로그 통합 (Data Catalog Integration) - Glue · DataHub · OpenMetadata"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 흩어진 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 하나의 검색·계보·책임 체계로 묶어, 조직이 "무슨 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있고 얼마나 믿을 만한지"를 공통 언어로 이해하게 만드는 플랫폼 작업이다.
-> 2. **가치**: 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 모아서는 셀프서비스 분석이 완성되지 않으며, 소유자·용어·품질·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 같은 비즈니스 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 결합될 때 비로소 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견성과 거버넌스가 살아난다.
-> 3. **판단 포인트**: Amazon Web Services (AWS) 중심의 관리형 메타스토어가 필요한지, 멀티플랫폼 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한지, 그리고 자동 수집과 사람의 큐레이션을 어떤 비율로 섞을지가 도입 성패를 가른다.
+> 1. **본질**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 흩어진 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 하나의 검색·계보·책임 체계로 묶어, 조직이 "무슨 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디에 있고 얼마나 믿을 만한지"를 공통 언어로 이해하게 만드는 플랫폼 작업이다.
+> 2. **가치**: 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)만 모아서는 셀프서비스 분석이 완성되지 않으며, 소유자·용어·품질·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 같은 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)가 결합될 때 비로소 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발견성과 거버넌스가 살아난다.
+> 3. **판단 포인트**: Amazon Web Services (AWS) 중심의 관리형 메타스토어가 필요한지, 멀티플랫폼 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)가 필요한지, 그리고 자동 수집과 사람의 큐레이션을 어떤 비율로 섞을지가 도입 성패를 가른다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 커질수록 문제는 저장 공간 부족보다 "찾지 못하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"에서 먼저 발생한다. [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/), 웨어하우스, 대시보드, 기계학습 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장소, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 보고서가 늘어나면 같은 매출 지표도 팀마다 정의가 달라지고, 어느 테이블이 원본인지, 누가 책임자인지, [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/)가 들어 있는지 파악하기 어려워진다. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 이 혼란을 줄이기 위해 등장한 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 제어 평면이다.
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 플랫폼이 커질수록 문제는 저장 공간 부족보다 "찾지 못하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"에서 먼저 발생한다. [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/), 웨어하우스, 대시보드, 기계학습 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 저장소, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 기반 보고서가 늘어나면 같은 매출 지표도 팀마다 정의가 달라지고, 어느 테이블이 원본인지, 누가 책임자인지, [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/)가 들어 있는지 파악하기 어려워진다. [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 이 혼란을 줄이기 위해 등장한 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 제어 평면이다.
 
-핵심은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)의 종류가 하나가 아니라는 점이다. [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 컬럼 정보만 있어서는 실제 사용 맥락을 알 수 없고, 반대로 용어집만 있어서는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 어디서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들었는지 알 수 없다. 그래서 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 비즈니스 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 운영 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 엮는 작업으로 이해해야 한다.
+핵심은 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)의 종류가 하나가 아니라는 점이다. [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 컬럼 정보만 있어서는 실제 사용 맥락을 알 수 없고, 반대로 용어집만 있어서는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 어디서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 만들었는지 알 수 없다. 그래서 [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 운영 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 함께 엮는 작업으로 이해해야 한다.
 
-| [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 유형 | 대표 내용 | 주 수집 방식 | 왜 중요한가 |
+| [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 유형 | 대표 내용 | 주 수집 방식 | 왜 중요한가 |
 | :--- | :--- | :--- | :--- |
-| 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 테이블, 컬럼, [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 저장 위치 | 크롤러, 커넥터, 스캔 | "무엇이 어디에 있는가"를 보여 줌 |
-| 비즈니스 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 용어집, 소유자, 설명, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그 | 사람 입력, 승인 워크플로 | "무슨 의미이며 누가 책임지는가"를 보여 줌 |
-| 운영 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 갱신 시각, 품질 점수, 계보, 사용량 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·품질 도구 연동 | "지금 믿고 써도 되는가"를 보여 줌 |
+| 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 테이블, 컬럼, [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/), 저장 위치 | 크롤러, 커넥터, 스캔 | "무엇이 어디에 있는가"를 보여 줌 |
+| 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 용어집, 소유자, 설명, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그 | 사람 입력, 승인 워크플로 | "무슨 의미이며 누가 책임지는가"를 보여 줌 |
+| 운영 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 갱신 시각, 품질 점수, 계보, 사용량 | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·품질 도구 연동 | "지금 믿고 써도 되는가"를 보여 줌 |
 
-즉 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 단순 목록이 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산처럼 다루기 위한 주소록이자 이력서다. 이 통합이 없으면 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 팀이 다시 만들고, 잘못된 지표를 반복 사용하며, 보안과 규제 대응도 사람 기억에 의존하게 된다.
+즉 [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 단순 목록이 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 자산처럼 다루기 위한 주소록이자 이력서다. 이 통합이 없으면 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 팀이 다시 만들고, 잘못된 지표를 반복 사용하며, 보안과 규제 대응도 사람 기억에 의존하게 된다.
 
-- **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 책장에 붙은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)표만이 아니라, 책 설명 카드, 담당 사서 이름, 대출 기록까지 함께 묶어 둔 중앙 색인 시스템과 같다.
+- **📢 섹션 요약 비유**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관 책장에 붙은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)표만이 아니라, 책 설명 카드, 담당 사서 이름, 대출 기록까지 함께 묶어 둔 중앙 색인 시스템과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합의 핵심 원리는 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 생산하는 도구는 다양해도, 소비하는 경험은 한곳에서 제공한다"는 것이다. 이를 위해 보통 수집 계층, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계층, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 코어, 소비 계층으로 나눈다. 수집 계층은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 추출·변환·적재 (Extract, Transform, Load, [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) 도구, 오케스트레이터, [비즈니스 인텔리전스](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/) (Business Intelligence, BI) 도구에서 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 가져온다. [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계층은 서로 다른 형식을 공통 엔터티 모델로 바꾸고, [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 코어는 검색·계보·태그·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)·소유권을 저장한다.
+[데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합의 핵심 원리는 "[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 생산하는 도구는 다양해도, 소비하는 경험은 한곳에서 제공한다"는 것이다. 이를 위해 보통 수집 계층, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계층, [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 코어, 소비 계층으로 나눈다. 수집 계층은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 추출·변환·적재 (Extract, Transform, Load, [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)) 도구, 오케스트레이터, [비즈니스 인텔리전스](/studynote/07_enterprise_systems/05_data_bi/282_business_intelligence_bi_technology_framework/) (Business Intelligence, BI) 도구에서 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 가져온다. [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 계층은 서로 다른 형식을 공통 엔터티 모델로 바꾸고, [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 코어는 검색·계보·태그·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)·소유권을 저장한다.
 
-이 그림은 통합 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 기본 구조를 보여 준다.
+이 그림은 통합 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)의 기본 구조를 보여 준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -67,32 +64,32 @@ tags = ["studynote-bigdata"]
 
 | 핵심 구성 | 역할 | 실무 포인트 |
 | :--- | :--- | :--- |
-| 커넥터·크롤러 | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)와 자산 목록 자동 수집 | 자동화율은 높지만 의미 정보는 부족함 |
-| 엔터티 모델 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋, 대시보드, 작업, 사용자 등을 공통 모델로 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 도구별 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 충돌을 잘 다뤄야 함 |
-| 계보 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 어떤 자산이 어떤 자산에서 만들어졌는지 연결 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Structured Query Language (SQL), OpenLineage 연동이 중요 |
-| 용어집·태그 | 공통 지표 정의와 보안 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 제공 | [데이터 스튜어드](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)의 검토 흐름이 필요 |
-| 품질·신선도 | 최신성, 실패 이력, 테스트 결과 표시 | "검색은 되지만 못 믿는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 줄여 줌 |
+| 커넥터·크롤러 | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)와 자산 목록 자동 수집 | 자동화율은 높지만 의미 정보는 부족함 |
+| 엔터티 모델 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋, 대시보드, 작업, 사용자 등을 공통 모델로 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) | 도구별 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/) 충돌을 잘 다뤄야 함 |
+| 계보 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 어떤 자산이 어떤 자산에서 만들어졌는지 연결 | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/), Structured Query Language (SQL), OpenLineage 연동이 중요 |
+| 용어집·태그 | 공통 지표 정의와 보안 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 제공 | [데이터 스튜어드](/studynote/07_enterprise_systems/01_strategy_governance/067_data_steward_data_quality/)의 검토 흐름이 필요 |
+| 품질·신선도 | 최신성, 실패 이력, 테스트 결과 표시 | "검색은 되지만 못 믿는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)"를 줄여 줌 |
 
-도구 관점에서 보면 AWS Glue [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Catalog는 관리형 메타스토어에 강하다. AWS Athena, AWS Glue, Amazon EMR 같은 생태계와 자연스럽게 붙고, 하이브 메타스토어 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 장점이다. 반면 DataHub는 엔터티 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 이벤트 기반 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 처리에 강해 여러 플랫폼을 한데 묶기 좋고, OpenMetadata는 응용 프로그래밍 인터페이스 ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 워크플로 중심 통합, 품질·용어집 결합에 강점이 있다.
+도구 관점에서 보면 AWS Glue [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Catalog는 관리형 메타스토어에 강하다. AWS Athena, AWS Glue, Amazon EMR 같은 생태계와 자연스럽게 붙고, 하이브 메타스토어 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 장점이다. 반면 DataHub는 엔터티 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 이벤트 기반 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 처리에 강해 여러 플랫폼을 한데 묶기 좋고, OpenMetadata는 응용 프로그래밍 인터페이스 ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))와 워크플로 중심 통합, 품질·용어집 결합에 강점이 있다.
 
-- **📢 섹션 요약 비유**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통합은 택배 회사가 창고마다 다른 전산 체계를 쓰더라도, 고객에게는 하나의 송장 조회 화면으로 보이게 만드는 일과 같다. 내부는 복잡해도 바깥에서는 같은 언어로 검색되어야 한다.
+- **📢 섹션 요약 비유**: [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 통합은 택배 회사가 창고마다 다른 전산 체계를 쓰더라도, 고객에게는 하나의 송장 조회 화면으로 보이게 만드는 일과 같다. 내부는 복잡해도 바깥에서는 같은 언어로 검색되어야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-세 도구는 모두 "[메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙에서 관리한다"는 공통점이 있지만, 출발 철학은 다르다. Glue는 저장소 중심 메타스토어, DataHub는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), OpenMetadata는 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영 플랫폼에 가깝다. 따라서 단순 기능 목록보다 조직의 운영 맥락에 맞춰 비교해야 한다.
+세 도구는 모두 "[메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙에서 관리한다"는 공통점이 있지만, 출발 철학은 다르다. Glue는 저장소 중심 메타스토어, DataHub는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/), OpenMetadata는 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영 플랫폼에 가깝다. 따라서 단순 기능 목록보다 조직의 운영 맥락에 맞춰 비교해야 한다.
 
-| 비교 항목 | AWS Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | DataHub | OpenMetadata |
+| 비교 항목 | AWS Glue [Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | DataHub | OpenMetadata |
 | :--- | :--- | :--- | :--- |
-| 강한 영역 | AWS 기반 테이블 메타스토어 | 멀티플랫폼 통합, 계보 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) + 품질 + 용어집 운영 |
-| 배포 방식 | 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 또는 관리형 선택 | [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 또는 관리형 선택 |
-| 잘 맞는 조직 | AWS 중심 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) | 여러 엔진과 도구를 함께 쓰는 대기업 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영과 사용자 인터페이스를 함께 강화하려는 조직 |
-| 주의점 | 비즈니스 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스는 추가 체계 필요 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델링과 운영 부담이 있음 | 커넥터 성숙도와 운영 표준화가 중요 |
+| 강한 영역 | AWS 기반 테이블 메타스토어 | 멀티플랫폼 통합, 계보 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) + 품질 + 용어집 운영 |
+| 배포 방식 | 관리형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 또는 관리형 선택 | [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 또는 관리형 선택 |
+| 잘 맞는 조직 | AWS 중심 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/) | 여러 엔진과 도구를 함께 쓰는 대기업 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 운영과 사용자 인터페이스를 함께 강화하려는 조직 |
+| 주의점 | 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)와 거버넌스는 추가 체계 필요 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델링과 운영 부담이 있음 | 커넥터 성숙도와 운영 표준화가 중요 |
 
-[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 용어집, 계보, 품질 도구와도 경계가 있다. 용어집은 의미를 정의하고, 계보는 흐름을 보여 주며, 품질 도구는 신뢰 점수를 준다. [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 이 셋을 한 화면에서 연결해 주는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다. 따라서 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)만 도입하고 계보·품질·소유권을 붙이지 않으면 "검색 가능한 메타스토어" 수준에서 멈추기 쉽다.
+[데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 용어집, 계보, 품질 도구와도 경계가 있다. 용어집은 의미를 정의하고, 계보는 흐름을 보여 주며, 품질 도구는 신뢰 점수를 준다. [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 이 셋을 한 화면에서 연결해 주는 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/)다. 따라서 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)만 도입하고 계보·품질·소유권을 붙이지 않으면 "검색 가능한 메타스토어" 수준에서 멈추기 쉽다.
 
-또한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메쉬와도 연결된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 자율적으로 운영하려면, 각 팀이 만든 자산이 중앙 검색과 공통 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 아래 드러나야 한다. 즉 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 중앙집중 통제만을 뜻하지 않고, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터 제품](/knowledge-base/studynote/16_bigdata/07_data_lake/154_data_product/)을 <strong>공유 가능한 계약 형태로 노출하는 <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> 역할도 한다.
+또한 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 메쉬와도 연결된다. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)별 [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)을 자율적으로 운영하려면, 각 팀이 만든 자산이 중앙 검색과 공통 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 아래 드러나야 한다. 즉 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 중앙집중 통제만을 뜻하지 않고, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 [데이터 제품](/studynote/16_bigdata/07_data_lake/154_data_product/)을 <strong>공유 가능한 계약 형태로 노출하는 <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">인덱스</a></strong> 역할도 한다.
 
 - **📢 섹션 요약 비유**: Glue, DataHub, OpenMetadata의 차이는 동네 창고 관리표, 도시 교통 지도, 종합 물류 관제실의 차이와 비슷하다. 모두 물건 위치를 알려 주지만, 다루는 범위와 연결 수준이 다르다.
 
@@ -100,38 +97,38 @@ tags = ["studynote-bigdata"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 "모든 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 한 번에 완성하겠다"는 욕심이 가장 위험하다. 성공하는 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 보통 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 자동 수집으로 시작하고, 이후 소유자·용어집·품질 규칙을 단계적으로 덧붙인다. 처음부터 모든 팀에게 수동 입력을 강제하면 금세 최신성이 무너지고 참여도도 떨어진다.
+실무에서는 "모든 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 한 번에 완성하겠다"는 욕심이 가장 위험하다. 성공하는 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 보통 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 자동 수집으로 시작하고, 이후 소유자·용어집·품질 규칙을 단계적으로 덧붙인다. 처음부터 모든 팀에게 수동 입력을 강제하면 금세 최신성이 무너지고 참여도도 떨어진다.
 
 | 조직 상황 | 권장 선택 | 이유 |
 | :--- | :--- | :--- |
-| AWS 기반 [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진이 중심 | Glue 우선 + 필요한 부분만 보강 | 메타스토어 통합 비용이 가장 낮음 |
-| 여러 클라우드·여러 엔진·다수 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통합 | DataHub 우선 검토 | 엔터티 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 이벤트 기반 수집이 유리 |
-| [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 기반으로 품질·용어집·[카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 함께 운영 | OpenMetadata 우선 검토 | 사용자 경험과 운영 기능이 균형적 |
-| 규제 대응과 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태깅이 시급 | 어떤 도구든 소유권·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 워크플로를 먼저 붙임 | 도구보다 운영 책임 체계가 중요 |
+| AWS 기반 [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)와 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 엔진이 중심 | Glue 우선 + 필요한 부분만 보강 | 메타스토어 통합 비용이 가장 낮음 |
+| 여러 클라우드·여러 엔진·다수 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 통합 | DataHub 우선 검토 | 엔터티 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)와 이벤트 기반 수집이 유리 |
+| [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 기반으로 품질·용어집·[카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 함께 운영 | OpenMetadata 우선 검토 | 사용자 경험과 운영 기능이 균형적 |
+| 규제 대응과 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 태깅이 시급 | 어떤 도구든 소유권·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 워크플로를 먼저 붙임 | 도구보다 운영 책임 체계가 중요 |
 
-기술사 관점의 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 다음과 같다.
+기술사 관점의 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 다음과 같다.
 
-1. **자동 수집 범위**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 대시보드, 변환 작업까지 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)가 이어지는가?
-2. **소유권 체계**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋마다 비즈니스 소유자와 기술 소유자가 분리되어 있는가?
-3. **계보 연결**: [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 변환, [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 결과가 계보 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 이어지는가?
-4. <strong><a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 태깅</strong>: [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) (Personally Identifiable Information, PII), 기밀 등급, 보존 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 컬럼 수준까지 반영되는가?
-5. **사용자 경험**: 검색, 추천, 설명, 예제 질의가 있어 실제 사용자가 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 찾는가?
+1. **자동 수집 범위**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/), [오브젝트 스토리지](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), 대시보드, 변환 작업까지 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)가 이어지는가?
+2. **소유권 체계**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋마다 비즈니스 소유자와 기술 소유자가 분리되어 있는가?
+3. **계보 연결**: [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/), 변환, [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 결과가 계보 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 이어지는가?
+4. <strong><a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 태깅</strong>: [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) (Personally Identifiable Information, PII), 기밀 등급, 보존 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 컬럼 수준까지 반영되는가?
+5. **사용자 경험**: 검색, 추천, 설명, 예제 질의가 있어 실제 사용자가 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 찾는가?
 
-[안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 첫째, 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)만 잔뜩 모아 놓고 설명과 책임자를 비워 두는 경우다. 둘째, 도구는 도입했지만 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·품질·대시보드와 연동하지 않아 계보가 끊기는 경우다. 셋째, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그만 강조하고 검색성과 사용 편의성을 무시해 현업이 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 외면하는 경우다. 넷째, 사람의 큐레이션이 전혀 없어 잘못된 용어와 낡은 설명이 누적되는 경우다.
+[안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)도 분명하다. 첫째, 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)만 잔뜩 모아 놓고 설명과 책임자를 비워 두는 경우다. 둘째, 도구는 도입했지만 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)·품질·대시보드와 연동하지 않아 계보가 끊기는 경우다. 셋째, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그만 강조하고 검색성과 사용 편의성을 무시해 현업이 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 외면하는 경우다. 넷째, 사람의 큐레이션이 전혀 없어 잘못된 용어와 낡은 설명이 누적되는 경우다.
 
-- **📢 섹션 요약 비유**: [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 구축은 대형마트 진열장에 바코드만 붙이는 일이 아니라, 상품 설명, 유통기한, 담당 부서, 할인 규칙까지 함께 맞춰 두는 일과 같다. 하나라도 빠지면 손님은 결국 직원에게 다시 물어봐야 한다.
+- **📢 섹션 요약 비유**: [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 구축은 대형마트 진열장에 바코드만 붙이는 일이 아니라, 상품 설명, 유통기한, 담당 부서, 할인 규칙까지 함께 맞춰 두는 일과 같다. 하나라도 빠지면 손님은 결국 직원에게 다시 물어봐야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합이 잘 되면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 줄고, 중복 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 감소하며, 잘못된 지표 정의로 인한 조직 내 혼선도 줄어든다. 분석가는 믿을 수 있는 테이블을 빠르게 찾고, 엔지니어는 계보로 장애 원인을 좁히며, 거버넌스 팀은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그와 [접근 통제](/knowledge-base/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)를 일관되게 적용할 수 있다. 결국 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 검색 편의뿐 아니라, 플랫폼 신뢰와 규제 대응 속도까지 함께 끌어올린다.
+[데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합이 잘 되면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/)이 줄고, 중복 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 감소하며, 잘못된 지표 정의로 인한 조직 내 혼선도 줄어든다. 분석가는 믿을 수 있는 테이블을 빠르게 찾고, 엔지니어는 계보로 장애 원인을 좁히며, 거버넌스 팀은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 태그와 [접근 통제](/studynote/04_software_engineering/06_software_architecture/387_access_control_pattern/)를 일관되게 적용할 수 있다. 결국 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 검색 편의뿐 아니라, 플랫폼 신뢰와 규제 대응 속도까지 함께 끌어올린다.
 
-하지만 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 설치만으로 완성되지 않는다. 자동 수집은 넓게 퍼질수록 좋지만, 비즈니스 의미와 책임 체계는 사람의 승인과 관리가 필요하다. 따라서 성공한 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 운영은 "자동 수집 100퍼센트"가 아니라 **자동화로 최신성을 확보하고, 큐레이션으로 의미를 보강하는 균형** 위에서 만들어진다.
+하지만 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)는 설치만으로 완성되지 않는다. 자동 수집은 넓게 퍼질수록 좋지만, 비즈니스 의미와 책임 체계는 사람의 승인과 관리가 필요하다. 따라서 성공한 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 운영은 "자동 수집 100퍼센트"가 아니라 **자동화로 최신성을 확보하고, 큐레이션으로 의미를 보강하는 균형** 위에서 만들어진다.
 
-결론적으로 [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장하는 일이 아니라, 조직이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발견하고 신뢰하고 책임질 수 있게 만드는 운영 기반이다. 기억해야 할 핵심은 단순하다. <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a>는 검색창이 아니라 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자산의 주소, 의미, 계보, 신뢰를 묶는 플랫폼 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>다.</strong>
+결론적으로 [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) 통합은 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 저장하는 일이 아니라, 조직이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 발견하고 신뢰하고 책임질 수 있게 만드는 운영 기반이다. 기억해야 할 핵심은 단순하다. <strong><a href="/studynote/05_database/07_exam_summary/394_catalog_metadata/">카탈로그</a>는 검색창이 아니라 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 자산의 주소, 의미, 계보, 신뢰를 묶는 플랫폼 <a href="/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/">허브</a>다.</strong>
 
-- **📢 섹션 요약 비유**: [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 색인 없는 백과사전에 목차와 검색, 출처 표시, 책임 편집자를 모두 붙여 주는 일과 같다. 그래야 정보가 많을수록 더 빨리 찾을 수 있다.
+- **📢 섹션 요약 비유**: [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 색인 없는 백과사전에 목차와 검색, 출처 표시, 책임 편집자를 모두 붙여 주는 일과 같다. 그래야 정보가 많을수록 더 빨리 찾을 수 있다.
 
 ---
 
@@ -139,14 +136,14 @@ tags = ["studynote-bigdata"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 기술 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/), 컬럼, 저장 위치를 자동 수집하는 기본 정보 |
-| 비즈니스 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 용어집, 소유자, 설명을 통해 의미와 책임을 부여 |
-| 운영 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) | 신선도, 품질 점수, 사용량으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰를 표현 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 ([Data Lineage](/knowledge-base/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) | 자산 간 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·변환 흐름을 연결하는 핵심 축 |
-| OpenLineage | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)과 처리 작업의 계보 이벤트를 표준화 |
-| DataHub | 멀티플랫폼 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 접근 |
-| OpenMetadata | [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 품질·용어집 운영을 함께 다루는 플랫폼 |
-| AWS Glue [Data Catalog](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | AWS 중심 [레이크하우스](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 관리형 메타스토어 |
+| 기술 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/), 컬럼, 저장 위치를 자동 수집하는 기본 정보 |
+| 비즈니스 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 용어집, 소유자, 설명을 통해 의미와 책임을 부여 |
+| 운영 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) | 신선도, 품질 점수, 사용량으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신뢰를 표현 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계보 ([Data Lineage](/studynote/12_it_management/05_security_compliance/214_data_lineage_tracking/)) | 자산 간 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·변환 흐름을 연결하는 핵심 축 |
+| OpenLineage | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/)과 처리 작업의 계보 이벤트를 표준화 |
+| DataHub | 멀티플랫폼 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)형 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 접근 |
+| OpenMetadata | [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)와 품질·용어집 운영을 함께 다루는 플랫폼 |
+| AWS Glue [Data Catalog](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/) | AWS 중심 [레이크하우스](/studynote/16_bigdata/07_data_lake/146_lakehouse/)의 관리형 메타스토어 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -171,7 +168,7 @@ tags = ["studynote-bigdata"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터 카탈로그](/knowledge-base/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관에서 어떤 책이 어디 있고 누가 쓴 책인지 알려 주는 큰 검색대 같아요.
+1. [데이터 카탈로그](/studynote/12_it_management/05_security_compliance/213_data_catalog_metadata/)는 도서관에서 어떤 책이 어디 있고 누가 쓴 책인지 알려 주는 큰 검색대 같아요.
 2. 여기에 책이 언제 들어왔는지, 믿을 만한 책인지, 누가 관리하는지도 같이 적혀 있어요.
 3. 그래서 많은 책이 있어도 헤매지 않고 바로 필요한 책을 찾을 수 있어요.
 
@@ -181,7 +178,7 @@ tags = ["studynote-bigdata"]
 
 **진행 상황**: 184 / 262
 
-<- **이전**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/knowledge-base/studynote/16_bigdata/09_platform/183_data_orchestration/)
-**다음**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/knowledge-base/studynote/16_bigdata/09_platform/185_scalability_design/) ->
+<- **이전**: [183. 데이터 오케스트레이션 (Data Orchestration) - Apache Airflow / Dagster / Prefect](/studynote/16_bigdata/09_platform/183_data_orchestration/)
+**다음**: [185. 확장성 설계 (Scalability Design) — 수평 확장/샤딩/파티셔닝/자동 확장](/studynote/16_bigdata/09_platform/185_scalability_design/) ->
 
 ---

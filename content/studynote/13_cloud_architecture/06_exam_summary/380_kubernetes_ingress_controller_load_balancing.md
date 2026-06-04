@@ -1,13 +1,10 @@
-+++
-title = "380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱 (Kubernetes Ingress Controller Load Balancing)"
-date = 2026-05-09
+---
+title: "380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱 (Kubernetes Ingress Controller Load Balancing)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 380 / 800
 
-<- **이전**: [379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/379_kubernetes_storage_csi_persistent_volume/)
-**다음**: [381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/381_kubernetes_service_discovery_dns_coredns/) ->
+<- **이전**: [379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨](/studynote/13_cloud_architecture/06_exam_summary/379_kubernetes_storage_csi_persistent_volume/)
+**다음**: [381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS](/studynote/13_cloud_architecture/06_exam_summary/381_kubernetes_service_discovery_dns_coredns/) ->
 
 ---

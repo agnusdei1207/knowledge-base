@@ -1,13 +1,10 @@
-+++
-title = "620. 카나리 배포 Flagger 프로그레시브 딜리버리 (Canary Deploy Flagger Progressive Delivery)"
-date = 2026-05-09
+---
+title: "620. 카나리 배포 Flagger 프로그레시브 딜리버리 (Canary Deploy Flagger Progressive Delivery)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -180,7 +177,7 @@ metrics:
 
 **진행 상황**: 620 / 800
 
-<- **이전**: [619. GitOps ArgoCD Flux 선언적 배포](/knowledge-base/studynote/06_ict_convergence/uncategorized/619_gitops_argocd_flux_declarative_deployment/)
-**다음**: [621. 인프라 코드화 테라폼 풀루미 CDK](/knowledge-base/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/) ->
+<- **이전**: [619. GitOps ArgoCD Flux 선언적 배포](/studynote/06_ict_convergence/uncategorized/619_gitops_argocd_flux_declarative_deployment/)
+**다음**: [621. 인프라 코드화 테라폼 풀루미 CDK](/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/) ->
 
 ---

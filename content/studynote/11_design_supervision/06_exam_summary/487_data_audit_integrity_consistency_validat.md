@@ -1,13 +1,10 @@
-+++
-title = "487. 데이터 감리 무결성 정합성 검증 (Data Audit Integrity Consistency Validation)"
-date = 2026-05-09
+---
+title: "487. 데이터 감리 무결성 정합성 검증 (Data Audit Integrity Consistency Validation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 487 / 600
 
-<- **이전**: [486. 사용성 감리 UX 인터페이스 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/487_usability_audit_ux_interface_validation/)
-**다음**: [488. 네트워크 감리 트래픽 분석 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/488_network_audit_traffic_analysis_diagnosis/) ->
+<- **이전**: [486. 사용성 감리 UX 인터페이스 검증](/studynote/11_design_supervision/06_exam_summary/487_usability_audit_ux_interface_validation/)
+**다음**: [488. 네트워크 감리 트래픽 분석 진단](/studynote/11_design_supervision/06_exam_summary/488_network_audit_traffic_analysis_diagnosis/) ->
 
 ---

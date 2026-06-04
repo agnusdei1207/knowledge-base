@@ -1,13 +1,10 @@
-+++
-title = "430. 클라우드 캐시 Redis ElastiCache MemoryStore (Cloud Cache Redis ElastiCache MemoryStore)"
-date = 2026-05-09
+---
+title: "430. 클라우드 캐시 Redis ElastiCache MemoryStore (Cloud Cache Redis ElastiCache MemoryStore)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 430 / 800
 
-<- **이전**: [429. 클라우드 벡터 DB 유사도 검색 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/429_cloud_vector_db_similarity_search_service/)
-**다음**: [431. 클라우드 메시지 큐 RabbitMQ ActiveMQ](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/431_cloud_message_queue_rabbitmq_activemq/) ->
+<- **이전**: [429. 클라우드 벡터 DB 유사도 검색 서비스](/studynote/13_cloud_architecture/06_exam_summary/429_cloud_vector_db_similarity_search_service/)
+**다음**: [431. 클라우드 메시지 큐 RabbitMQ ActiveMQ](/studynote/13_cloud_architecture/06_exam_summary/431_cloud_message_queue_rabbitmq_activemq/) ->
 
 ---

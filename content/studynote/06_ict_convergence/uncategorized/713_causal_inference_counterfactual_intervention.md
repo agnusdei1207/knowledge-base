@@ -1,13 +1,10 @@
-+++
-title = "713. 인과 추론 반사실 분석 개입 효과 (Causal Inference Counterfactual Intervention)"
-date = 2026-05-09
+---
+title: "713. 인과 추론 반사실 분석 개입 효과 (Causal Inference Counterfactual Intervention)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ $$\widehat{ATE}_{AIPW} = \frac{1}{n} \sum_{i=1}^{n} \left[ \hat{\mu}_1(X_i) - \h
 
 **진행 상황**: 713 / 800
 
-<- **이전**: [712. 증거 기반 의사결정 분석 프레임워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/)
-**다음**: [714. 시계열 분석 ARIMA Prophet 예측](/knowledge-base/studynote/06_ict_convergence/uncategorized/714_time_series_analysis_arima_prophet_forecast/) ->
+<- **이전**: [712. 증거 기반 의사결정 분석 프레임워크](/studynote/06_ict_convergence/uncategorized/712_evidence_based_decision_analytics_framework/)
+**다음**: [714. 시계열 분석 ARIMA Prophet 예측](/studynote/06_ict_convergence/uncategorized/714_time_series_analysis_arima_prophet_forecast/) ->
 
 ---

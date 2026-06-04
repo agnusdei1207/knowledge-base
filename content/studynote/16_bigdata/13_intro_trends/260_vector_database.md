@@ -1,22 +1,19 @@
-+++
-title = "048. 벡터 데이터베이스 — Vector Database"
-date = 2026-04-05
+---
+title: "048. 벡터 데이터베이스 — Vector Database"
+date: "2026-04-05"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 > **핵심 인사이트**
-> 1. [벡터 데이터베이스](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector Database](/knowledge-base/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))는 고차원 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 저장하고 근사 최근접 이웃([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색을 수행하도록 특화된 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) — [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)·이미지 인식·[추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.
-> 2. [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)([Approximate Nearest Neighbor](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 벡터 DB의 심장 — 정확한 최근접 이웃 탐색(Exact NN)은 고차원에서 O(N) 이상이지만, [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)(계층적 탐색 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))·IVF·[PQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) 같은 [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 99%+ 리콜로 O(log N) 수준 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
-> 3. [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([Retrieval-Augmented Generation](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 아키텍처에서 벡터 DB가 필수 구성 요소 — LLM의 지식 한계를 극복하기 위해 문서를 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)하여 벡터 DB에 저장하고, 질의(Query) 벡터와 유사한 문서를 검색하여 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/)로 제공하는 패턴이 표준화됐다.
+> 1. [벡터 데이터베이스](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/)([Vector Database](/studynote/12_it_management/05_security_compliance/223_vector_database_embedding/))는 고차원 벡터 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)을 저장하고 근사 최근접 이웃([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색을 수행하도록 특화된 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) — [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)·이미지 인식·[추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)에서 "의미적으로 유사한 항목을 빠르게 찾는" 핵심 인프라가 되었다.
+> 2. [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)([Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 벡터 DB의 심장 — 정확한 최근접 이웃 탐색(Exact NN)은 고차원에서 O(N) 이상이지만, [HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/)(계층적 탐색 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/))·IVF·[PQ](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) 같은 [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 99%+ 리콜로 O(log N) 수준 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 달성한다.
+> 3. [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)([Retrieval-Augmented Generation](/studynote/04_software_engineering/09_cloud_native_ai_architecture/585_rag_retrieval_augmented_generation/)) 아키텍처에서 벡터 DB가 필수 구성 요소 — LLM의 지식 한계를 극복하기 위해 문서를 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)하여 벡터 DB에 저장하고, 질의(Query) 벡터와 유사한 문서를 검색하여 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/)로 제공하는 패턴이 표준화됐다.
 
 ---
 
-## Ⅰ. 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)과 유사도
+## Ⅰ. 벡터 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)과 유사도
 
 ```
 벡터 임베딩 (Vector Embedding):
@@ -58,11 +55,11 @@ tags = ["studynote-bigdata"]
   -> ANN 알고리즘으로 극복
 ```
 
-> 📢 **섹션 요약 비유**: 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. [코사인 유사도](/knowledge-base/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 좌표가 같은 방향을 가리키는 정도!
+> 📢 **섹션 요약 비유**: 벡터 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. [코사인 유사도](/studynote/06_ict_convergence/05_data_science/359_cosine_similarity/)는 두 좌표가 같은 방향을 가리키는 정도!
 
 ---
 
-## Ⅱ. [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅱ. [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 ANN (Approximate Nearest Neighbor):
@@ -120,7 +117,7 @@ ANN (Approximate Nearest Neighbor):
   알고리즘 선택 유연: IVF, HNSW, PQ 등
 ```
 
-> 📢 **섹션 요약 비유**: [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) = 도서관 검색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 모든 책(벡터) 다 보기(Exact NN: 느림) vs 주제별 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(IVF), 가까운 서가 먼저([HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)). 완벽하진 않지만 99% 정확도로 100배 빠름!
+> 📢 **섹션 요약 비유**: [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) = 도서관 검색 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 모든 책(벡터) 다 보기(Exact NN: 느림) vs 주제별 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(IVF), 가까운 서가 먼저([HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/)). 완벽하진 않지만 99% 정확도로 100배 빠름!
 
 ---
 
@@ -185,11 +182,11 @@ pgvector (PostgreSQL 확장):
   적합: 기존 Postgres 환경
 ```
 
-> 📢 **섹션 요약 비유**: 벡터 DB 선택 = 용도별 도구 — Pinecone(배달 음식: 빠르게 시작), Weaviate(레스토랑: 맞춤 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/)(대형 식당: 대규모), ChromaDB(집에서 요리: 로컬 개발)!
+> 📢 **섹션 요약 비유**: 벡터 DB 선택 = 용도별 도구 — Pinecone(배달 음식: 빠르게 시작), Weaviate(레스토랑: 맞춤 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)), [Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/)(대형 식당: 대규모), ChromaDB(집에서 요리: 로컬 개발)!
 
 ---
 
-## Ⅳ. [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처
+## Ⅳ. [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) 아키텍처
 
 ```
 RAG (Retrieval-Augmented Generation):
@@ -247,11 +244,11 @@ HyDE (Hypothetical Document Embeddings):
   -> 검색 정확도 향상
 ```
 
-> 📢 **섹션 요약 비유**: [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = 오픈북 시험 — LLM이 암기(학습)만으로 답하면 오류. RAG는 관련 책 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(검색)를 펼쳐보고 답변. 사내 문서, 최신 정보도 LLM이 활용!
+> 📢 **섹션 요약 비유**: [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = 오픈북 시험 — LLM이 암기(학습)만으로 답하면 오류. RAG는 관련 책 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(검색)를 펼쳐보고 답변. 사내 문서, 최신 정보도 LLM이 활용!
 
 ---
 
-## Ⅴ. 실무 시나리오 — 기업 지식 검색 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)
+## Ⅴ. 실무 시나리오 — 기업 지식 검색 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/)
 
 ```
 대기업 사내 지식 관리 RAG 구축:
@@ -297,7 +294,7 @@ HyDE (Hypothetical Document Embeddings):
   긍정 피드백: 92%
 ```
 
-> 📢 **섹션 요약 비유**: 기업 [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사내 도서관 사서 — 50만 문서를 의미 지도([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))에 배치. 질문하면 관련 문서 5개 즉시 찾아 LLM이 요약 답변. 정보 [탐색 시간](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 83% 감소!
+> 📢 **섹션 요약 비유**: 기업 [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 사내 도서관 사서 — 50만 문서를 의미 지도([임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))에 배치. 질문하면 관련 문서 5개 즉시 찾아 LLM이 요약 답변. 정보 [탐색 시간](/studynote/01_computer_architecture/08_io_storage_systems/324_seek_time/) 83% 감소!
 
 ---
 
@@ -355,9 +352,9 @@ LLM 지식 한계 극복
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 벡터 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 비슷한 의미 = 가까운 위치!
-2. [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/) = 계층적 지름길 — 먼 곳 먼저 빠르게 이동(상위 레이어), 가까이서 정밀 탐색(하위 레이어). 99% 정확도로 100배 빠름!
-3. [RAG](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 오픈북 시험 — LLM이 암기만으로 답하면 오류. 관련 문서(벡터 DB 검색)를 펼쳐보고 답변. 최신 정보도 OK!
+1. 벡터 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) = 의미 지도 좌표 — "고양이"와 "강아지"는 지도에서 가까운 좌표. "자동차"는 멀리. 비슷한 의미 = 가까운 위치!
+2. [HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/) = 계층적 지름길 — 먼 곳 먼저 빠르게 이동(상위 레이어), 가까이서 정밀 탐색(하위 레이어). 99% 정확도로 100배 빠름!
+3. [RAG](/studynote/06_ict_convergence/04_ai_llm/276_fine_tuning/) = [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 오픈북 시험 — LLM이 암기만으로 답하면 오류. 관련 문서(벡터 DB 검색)를 펼쳐보고 답변. 최신 정보도 OK!
 
 ---
 
@@ -365,7 +362,7 @@ LLM 지식 한계 극복
 
 **진행 상황**: 260 / 262
 
-<- **이전**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/knowledge-base/studynote/16_bigdata/13_intro_trends/259_realtime_olap/)
-**다음**: [049. 지식 그래프 — Knowledge Graph](/knowledge-base/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/) ->
+<- **이전**: [047. 실시간 OLAP — ClickHouse·Druid·Pinot·StarRocks](/studynote/16_bigdata/13_intro_trends/259_realtime_olap/)
+**다음**: [049. 지식 그래프 — Knowledge Graph](/studynote/16_bigdata/13_intro_trends/261_knowledge_graph/) ->
 
 ---

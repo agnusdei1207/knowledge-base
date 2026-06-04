@@ -1,13 +1,10 @@
-+++
-title = "693. IT 경영 관리 핵심 토픽 693번 시험 요약 (IT Management Core Topic 693 Exam Summary)"
-date = 2026-05-09
+---
+title: "693. IT 경영 관리 핵심 토픽 693번 시험 요약 (IT Management Core Topic 693 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 693. IT 경영 관리 핵심 토픽 693번 시험 요약
 ## — IT 거버넌스 × 전략기획 × 디지털 전환 통합 프레임워크 —
@@ -146,7 +143,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 693 / 800
 
-<- **이전**: [692. IT 경영 관리 핵심 토픽 692번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/692_it_management_core_topic_692_exam_summary/)
-**다음**: [694. IT 경영 관리 핵심 토픽 694번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/694_it_management_core_topic_694_exam_summary/) ->
+<- **이전**: [692. IT 경영 관리 핵심 토픽 692번 시험 요약](/studynote/12_it_management/05_security_compliance/692_it_management_core_topic_692_exam_summary/)
+**다음**: [694. IT 경영 관리 핵심 토픽 694번 시험 요약](/studynote/12_it_management/05_security_compliance/694_it_management_core_topic_694_exam_summary/) ->
 
 ---

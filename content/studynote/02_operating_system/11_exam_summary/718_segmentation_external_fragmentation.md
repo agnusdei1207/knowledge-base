@@ -1,54 +1,51 @@
-+++
-title = "718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)"
-date = 2026-05-09
+---
+title: "718. 세그멘테이션 외부 단편화 재발 (Segmentation External Fragmentation)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 세마포어나 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))이 물리적 관점(4KB로 맹목적으로 자름)의 메모리 관리라면, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))은 <strong>코드, <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 등 의미(Semantic)와 <a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 블록 단위로 메모리를 자르는 사용자 친화적 메모리 관리 기법</strong>이다.
-> 2. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>의 부활</strong>: 세그먼트는 "함수 크기", "[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기"에 따라 각각 크기가 다르게 잘리므로, 본질적으로 과거의 <strong>가변 분할(Variable <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>과 똑같은 구조가 된다. 이로 인해 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)에서 멸종되었던 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>라는 치명적 단점이 다시 부활하게 된다.
-> 3. <strong>현대의 타협 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a>)</strong>: 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 램을 조각내어 쓸 수 없기 때문에, 현대 x86 OS(리눅스)는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 세그먼트를 쓰되, 그 세그먼트를 다시 4KB 단위의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 썰어서 물리 램에 꽂아 넣는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>된 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a>)</strong> 융합 모델을 사용하여 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 최종적으로 박멸했다.
+> 1. **본질**: 세마포어나 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/))이 물리적 관점(4KB로 맹목적으로 자름)의 메모리 관리라면, [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))은 <strong>코드, <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>, <a href="/studynote/08_algorithm_stats/04_datastructure/057_stack/">스택</a> 등 의미(Semantic)와 <a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 블록 단위로 메모리를 자르는 사용자 친화적 메모리 관리 기법</strong>이다.
+> 2. <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>의 부활</strong>: 세그먼트는 "함수 크기", "[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 크기"에 따라 각각 크기가 다르게 잘리므로, 본질적으로 과거의 <strong>가변 분할(Variable <a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>과 똑같은 구조가 된다. 이로 인해 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)에서 멸종되었던 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>라는 치명적 단점이 다시 부활하게 된다.
+> 3. <strong>현대의 타협 (<a href="/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a>)</strong>: 순수 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 램을 조각내어 쓸 수 없기 때문에, 현대 x86 OS(리눅스)는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 세그먼트를 쓰되, 그 세그먼트를 다시 4KB 단위의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 썰어서 물리 램에 꽂아 넣는 <strong><a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>된 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(<a href="/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a>)</strong> 융합 모델을 사용하여 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 최종적으로 박멸했다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>: 프로그램을 구성하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 단위([Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 등)별로 메모리를 나누어 할당하는 기법.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong>: 각 세그먼트의 물리 메모리 시작 주소(Base)와 길이(Limit)를 기록한 표.
+  - <strong><a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a> (<a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>: 프로그램을 구성하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 단위([Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/), [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/), [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/) 등)별로 메모리를 나누어 할당하는 기법.
+  - <strong><a href="/studynote/02_operating_system/06_memory_management/365_segment_table/">세그먼트 테이블</a> (<a href="/studynote/02_operating_system/06_memory_management/365_segment_table/">Segment Table</a>)</strong>: 각 세그먼트의 물리 메모리 시작 주소(Base)와 길이(Limit)를 기록한 표.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 '눈치 없는 칼질' 극복)</strong>:
-  - [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 메모리를 무조건 4KB 단위로 무식하게 썰어버린다.
-  - 만약 `if(a > 0)` 이라는 중요한 코드 블록이 4KB 경계선에 걸쳐서 반으로 잘렸다고 치자. 앞부분은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1에, 뒷부분은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2에 들어간다.
-  - 해커의 침입을 막기 위해 "이 코드는 읽기 전용(Read-Only)이야!"라고 권한을 주고 싶은데, [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2의 나머지 공간에는 수정이 가능한 변수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 들어왔다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 권한을 부여하려니 보안 룰이 완전히 꼬여버린다.
-  - **해결책**: "사용자(프로그래머)가 생각하는 의미 단위, 즉 '함수', '[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)', '전역변수' 단위로 예쁘게 자르자! 그래야 보안 권한(R/W/X)을 부여하기도 쉽고, 남들과 코드를 공유([Shared Library](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/))하기도 깔끔하다!"
+- <strong>필요성 (<a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>의 '눈치 없는 칼질' 극복)</strong>:
+  - [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)은 메모리를 무조건 4KB 단위로 무식하게 썰어버린다.
+  - 만약 `if(a > 0)` 이라는 중요한 코드 블록이 4KB 경계선에 걸쳐서 반으로 잘렸다고 치자. 앞부분은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1에, 뒷부분은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2에 들어간다.
+  - 해커의 침입을 막기 위해 "이 코드는 읽기 전용(Read-Only)이야!"라고 권한을 주고 싶은데, [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2의 나머지 공간에는 수정이 가능한 변수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 들어왔다. [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 권한을 부여하려니 보안 룰이 완전히 꼬여버린다.
+  - **해결책**: "사용자(프로그래머)가 생각하는 의미 단위, 즉 '함수', '[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)', '전역변수' 단위로 예쁘게 자르자! 그래야 보안 권한(R/W/X)을 부여하기도 쉽고, 남들과 코드를 공유([Shared Library](/studynote/02_operating_system/06_memory_management/333_shared_library/))하기도 깔끔하다!"
 
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 돼지를 도축할 때, 부위(안심, 등심)를 신경 쓰지 않고 무조건 1kg짜리 큐브 모양으로 깍둑썰기를 한다. 포장하고 냉동고에 쌓기(할당)는 편하지만, 큐브 하나에 삼겹살과 목살이 섞여 있어 요리하기(권한 관리)가 나쁘다.
-  - <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong>: 정육점 사장님이 안심, 등심, 갈비 등 <strong>부위별(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 의미)</strong>로 예쁘게 잘라서 포장한다. 요리하기는 최고지만, 덩어리의 크기가 제각각이라 냉동고(RAM)에 테트리스 하듯 집어넣기가 너무 힘들고 틈새([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 발생한다.
+  - <strong><a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: 돼지를 도축할 때, 부위(안심, 등심)를 신경 쓰지 않고 무조건 1kg짜리 큐브 모양으로 깍둑썰기를 한다. 포장하고 냉동고에 쌓기(할당)는 편하지만, 큐브 하나에 삼겹살과 목살이 섞여 있어 요리하기(권한 관리)가 나쁘다.
+  - <strong><a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong>: 정육점 사장님이 안심, 등심, 갈비 등 <strong>부위별(<a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 의미)</strong>로 예쁘게 잘라서 포장한다. 요리하기는 최고지만, 덩어리의 크기가 제각각이라 냉동고(RAM)에 테트리스 하듯 집어넣기가 너무 힘들고 틈새([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))가 발생한다.
 
 - **발전 과정**:
-  1. **가변 분할**: [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 할아버지. 크기가 제각각.
-  2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애려고 도입. (보안과 공유에 취약)
-  3. <strong>순수 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong>: 인텔 80286에서 적극 채용. ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 실패)
-  4. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a></strong>: 두 가지를 합침. 현대 OS의 궁극적 도달점.
+  1. **가변 분할**: [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)의 할아버지. 크기가 제각각.
+  2. <strong><a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a></strong>: [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)를 없애려고 도입. (보안과 공유에 취약)
+  3. <strong>순수 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong>: 인텔 80286에서 적극 채용. ([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)로 실패)
+  4. <strong><a href="/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a></strong>: 두 가지를 합침. 현대 OS의 궁극적 도달점.
 
-- **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 하드웨어(RAM)를 편하게 해주기 위한 '기계 중심'의 칼질이라면, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 프로그래머의 코드 구조를 지켜주기 위한 '인간 중심'의 칼질입니다.
+- **📢 섹션 요약 비유**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)이 하드웨어(RAM)를 편하게 해주기 위한 '기계 중심'의 칼질이라면, [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 프로그래머의 코드 구조를 지켜주기 위한 '인간 중심'의 칼질입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 주소 변환 (Address Translation) 메커니즘
+### [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 주소 변환 (Address Translation) 메커니즘
 
-CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 불렀을 때 MMU가 [세그먼트 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/365_segment_table/)을 뒤지는 과정이다.
+CPU가 [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 불렀을 때 MMU가 [세그먼트 테이블](/studynote/02_operating_system/06_memory_management/365_segment_table/)을 뒤지는 과정이다.
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a> 분할</strong>: `<Segment Number (s), Offset (d)>`
+- <strong><a href="/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/">논리 주소</a> 분할</strong>: `<Segment Number (s), Offset (d)>`
 
 ```text
   +-------------------------------------------------------------------+
@@ -73,41 +70,41 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)과 달리, [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에서는 테이블에 반드시 **Limit(길이)** 값이 들어가야 한다. [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 무조건 4KB로 크기가 고정되어 있지만, 세그먼트는 100바이트짜리 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)일 수도, 10MB짜리 메인 함수일 수도 있기 때문이다. 범위를 넘어서는 불법 메모리 접근을 쳐내는 이 위대한 하드웨어 인터럽트의 이름이, 오늘날 C 프로그래머들을 공포에 떨게 하는 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault (세그폴트)</strong>의 어원이다.
+**[다이어그램 해설]** [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)과 달리, [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)에서는 테이블에 반드시 **Limit(길이)** 값이 들어가야 한다. [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 무조건 4KB로 크기가 고정되어 있지만, 세그먼트는 100바이트짜리 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)일 수도, 10MB짜리 메인 함수일 수도 있기 때문이다. 범위를 넘어서는 불법 메모리 접근을 쳐내는 이 위대한 하드웨어 인터럽트의 이름이, 오늘날 C 프로그래머들을 공포에 떨게 하는 <strong><a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a> Fault (세그폴트)</strong>의 어원이다.
 
 ---
 
-### [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)의 재발 (The Return of [External Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))
+### [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)의 재발 (The Return of [External Fragmentation](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))
 
-세그먼트는 본질적으로 프로세스의 요구 크기에 맞춰 메모리를 할당하는 <strong>가변 분할(Variable <a href="/knowledge-base/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>이다.
+세그먼트는 본질적으로 프로세스의 요구 크기에 맞춰 메모리를 할당하는 <strong>가변 분할(Variable <a href="/studynote/05_database/03_relational_model/179_table_partitioning_concept/">Partitioning</a>)</strong>이다.
 
-1. **상황**: 메인 함수(10MB), [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(5MB), [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(2MB)을 램에 올렸다.
-2. **해제**: [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(5MB)를 다 쓰고 메모리에서 해제(free)했다. 램의 중간에 5MB짜리 구멍(Hole)이 생겼다.
-3. **재발**: 새로운 동영상 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(7MB)를 로드하려고 한다. 전체 램 공간은 수십 MB가 남았지만, 방금 뚫린 5MB 구멍에는 7MB짜리가 들어갈 수 없다.
-4. **결론**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 완치했던 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 암세포가 시스템에 다시 퍼져버렸다</strong>.
+1. **상황**: 메인 함수(10MB), [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(5MB), [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(2MB)을 램에 올렸다.
+2. **해제**: [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(5MB)를 다 쓰고 메모리에서 해제(free)했다. 램의 중간에 5MB짜리 구멍(Hole)이 생겼다.
+3. **재발**: 새로운 동영상 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(7MB)를 로드하려고 한다. 전체 램 공간은 수십 MB가 남았지만, 방금 뚫린 5MB 구멍에는 7MB짜리가 들어갈 수 없다.
+4. **결론**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)으로 완치했던 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 암세포가 시스템에 다시 퍼져버렸다</strong>.
 
-- **📢 섹션 요약 비유**: [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 이삿짐을 쌀 때 '주방용품 박스', '침구류 박스' 등 용도별로 박스 크기를 다르게 맞춤 제작하는 것입니다. 짐을 찾긴 편하지만, 이사 갈 트럭(RAM)에 실을 때 크기가 다 제각각이라 테트리스가 안 돼서 결국 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))만 낭비하고 트럭을 다 채우지 못하게 됩니다.
+- **📢 섹션 요약 비유**: [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 이삿짐을 쌀 때 '주방용품 박스', '침구류 박스' 등 용도별로 박스 크기를 다르게 맞춤 제작하는 것입니다. 짐을 찾긴 편하지만, 이사 갈 트럭(RAM)에 실을 때 크기가 다 제각각이라 테트리스가 안 돼서 결국 빈 공간([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))만 낭비하고 트럭을 다 채우지 못하게 됩니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) vs [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) 실무 비교
+### [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) vs [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) 실무 비교
 
-| 비교 항목 | [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) | [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
+| 비교 항목 | [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) | [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
 |:---|:---|:---|
-| **할당 단위** | 고정 크기 (4KB) | 가변 크기 ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 덩어리) |
-| **장점** | 구현 쉬움, <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 없음</strong> | 공유(Sharing) 및 보안([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)) 관리 탁월 |
-| **단점** | 의미 단위 공유가 어려움, [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 존재 | <strong>치명적인 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 발생</strong> |
+| **할당 단위** | 고정 크기 (4KB) | 가변 크기 ([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 덩어리) |
+| **장점** | 구현 쉬움, <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 없음</strong> | 공유(Sharing) 및 보안([Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/)) 관리 탁월 |
+| **단점** | 의미 단위 공유가 어려움, [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) 존재 | <strong>치명적인 <a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 발생</strong> |
 | **테이블 구조** | `[프레임 번호]` | `[Base 주소] + [Limit 길이]` |
-| **에러 명칭** | [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) 시 주로 발생) | [Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault (보안/영역 침범 시 발생) |
+| **에러 명칭** | [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/) 시 주로 발생) | [Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/) Fault (보안/영역 침범 시 발생) |
 
 ### 과목 융합 관점
 
-- <strong>컴퓨터구조 (<a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 인텔(Intel) x86 아키텍처는 과거 16비트 주소 한계를 넘기 위해 `CS, DS, SS, ES` 같은 세그먼트 레지스터를 도입하여 메모리를 강제로 쪼개 썼다. 이 원죄 때문에 인텔 칩은 하드웨어적으로 무조건 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)을 거치도록 설계되어 버렸다.
-- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [공유 라이브러리](/knowledge-base/studynote/02_operating_system/06_memory_management/333_shared_library/)(`.so`)나 Windows의 `.dll`은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 철학의 승리다. `libc.so` 같은 코드는 "이 코드는 오직 읽기/실행(R-X)만 가능해!"라고 통째로 세그먼트 권한을 묶어 물리 램에 딱 1번만 올려놓고, 모든 프로세스가 이 세그먼트를 맵핑해서 안전하게 같이 쓴다.
+- <strong>컴퓨터구조 (<a href="/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/">CA</a>)</strong>: 인텔(Intel) x86 아키텍처는 과거 16비트 주소 한계를 넘기 위해 `CS, DS, SS, ES` 같은 세그먼트 레지스터를 도입하여 메모리를 강제로 쪼개 썼다. 이 원죄 때문에 인텔 칩은 하드웨어적으로 무조건 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)을 거치도록 설계되어 버렸다.
+- <strong>보안 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong>: 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [공유 라이브러리](/studynote/02_operating_system/06_memory_management/333_shared_library/)(`.so`)나 Windows의 `.dll`은 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 철학의 승리다. `libc.so` 같은 코드는 "이 코드는 오직 읽기/실행(R-X)만 가능해!"라고 통째로 세그먼트 권한을 묶어 물리 램에 딱 1번만 올려놓고, 모든 프로세스가 이 세그먼트를 맵핑해서 안전하게 같이 쓴다.
 
-- **📢 섹션 요약 비유**: [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 아파트(획일적 규격)라면 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 주택 단지(크기 제각각)입니다. 아파트는 빈 땅 없이 빽빽하게 지을 수 있지만 집집마다 모양이 똑같고, 주택 단지는 개성에 맞게 지을 수 있지만 땅의 자투리 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 심하게 남습니다.
+- **📢 섹션 요약 비유**: [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)이 아파트(획일적 규격)라면 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 주택 단지(크기 제각각)입니다. 아파트는 빈 땅 없이 빽빽하게 지을 수 있지만 집집마다 모양이 똑같고, 주택 단지는 개성에 맞게 지을 수 있지만 땅의 자투리 공간([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 심하게 남습니다.
 
 ---
 
@@ -115,17 +112,17 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — 인텔 CPU의 고집과 리눅스 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 우회술 (Flat Memory Model)</strong>: 리눅스를 x86 CPU에 포팅하려는 리누스 토발즈. 인텔 CPU는 무조건 주소 변환 시 [세그멘테이션 $\rightarrow$ 페이징]의 2단계를 거치도록 하드웨어가 박혀 있었다. [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 싫었던 토발즈의 선택은?
-   - **아키텍처 적용 (Flat Memory Model)**: 리눅스는 인텔의 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 하드웨어를 '바보'로 만들어 버리는 천재적인 꼼수를 쓴다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 세그먼트, 유저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트 등 모든 세그먼트의 <strong>Base를 <code>0x0</code>으로, Limit을 <code>4GB (0xFFFFFFFF)</code>로 똑같이 줘버렸다.</strong>
-   - **결과**: CPU가 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 검사를 하긴 하는데, "어차피 0번지부터 4GB 전체가 내 땅이네?" 하고 아무런 주소 변환 없이 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 그대로 통과시킨다. [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 0%가 되었고, 실제 메모리 관리는 100% <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>에게 떠넘겨 현대 리눅스의 압도적 성능을 만들어 냈다. (현대 64비트 아키텍처에서는 아예 하드웨어적으로 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 기능 자체가 거의 삭제되었다.)
+1. <strong>시나리오 — 인텔 CPU의 고집과 리눅스 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>의 우회술 (Flat Memory Model)</strong>: 리눅스를 x86 CPU에 포팅하려는 리누스 토발즈. 인텔 CPU는 무조건 주소 변환 시 [세그멘테이션 $\rightarrow$ 페이징]의 2단계를 거치도록 하드웨어가 박혀 있었다. [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)의 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 싫었던 토발즈의 선택은?
+   - **아키텍처 적용 (Flat Memory Model)**: 리눅스는 인텔의 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 하드웨어를 '바보'로 만들어 버리는 천재적인 꼼수를 쓴다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드 세그먼트, 유저 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 세그먼트 등 모든 세그먼트의 <strong>Base를 <code>0x0</code>으로, Limit을 <code>4GB (0xFFFFFFFF)</code>로 똑같이 줘버렸다.</strong>
+   - **결과**: CPU가 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 검사를 하긴 하는데, "어차피 0번지부터 4GB 전체가 내 땅이네?" 하고 아무런 주소 변환 없이 [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 그대로 통과시킨다. [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 0%가 되었고, 실제 메모리 관리는 100% <strong><a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/studynote/02_operating_system/04_synchronization/259_paging/">Paging</a>)</strong>에게 떠넘겨 현대 리눅스의 압도적 성능을 만들어 냈다. (현대 64비트 아키텍처에서는 아예 하드웨어적으로 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 기능 자체가 거의 삭제되었다.)
 
-2. <strong>시나리오 — <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>된 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>)</strong>: 옛날 MULTICS나 OS/2 같은 거대 운영체제는 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 장점(보안, 공유)과 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)의 장점([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제거)을 모두 쓰고 싶었다.
+2. <strong>시나리오 — <a href="/studynote/02_operating_system/06_memory_management/367_paged_segmentation/">Paged Segmentation</a> (<a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>된 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>)</strong>: 옛날 MULTICS나 OS/2 같은 거대 운영체제는 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)의 장점(보안, 공유)과 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)의 장점([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 제거)을 모두 쓰고 싶었다.
    - **아키텍처 적용**:
-     1. [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 먼저 세그먼트 단위로 쪼갠다. (예: 메인 함수 덩어리)
+     1. [논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/)를 먼저 세그먼트 단위로 쪼갠다. (예: 메인 함수 덩어리)
      2. 그런데 이 덩어리를 램의 빈 공간에 구겨 넣는(가변 분할) 짓을 하지 않는다.
-     3. 이 세그먼트 덩어리를 다시 4KB짜리 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위로 무참히 썰어버린다!</strong>
-     4. 썰어낸 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 물리 램(프레임) 빈 곳 아무 데나 흩뿌려 꽂아 넣는다.
-   - **결과**: 유저와 컴파일러 입장에서는 세그먼트 단위로 보안 관리가 되어서 좋고, OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입장에서는 램에 꽂을 때 4KB 고정 크기로 꽂기 때문에 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 전혀 생기지 않는다. (단, 주소 번역을 두 번이나 해야 해서 MMU와 TLB에 극심한 오버헤드가 발생하는 트레이드오프를 낳았다.)
+     3. 이 세그먼트 덩어리를 다시 4KB짜리 <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 단위로 무참히 썰어버린다!</strong>
+     4. 썰어낸 4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 물리 램(프레임) 빈 곳 아무 데나 흩뿌려 꽂아 넣는다.
+   - **결과**: 유저와 컴파일러 입장에서는 세그먼트 단위로 보안 관리가 되어서 좋고, OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 입장에서는 램에 꽂을 때 4KB 고정 크기로 꽂기 때문에 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)가 전혀 생기지 않는다. (단, 주소 번역을 두 번이나 해야 해서 MMU와 TLB에 극심한 오버헤드가 발생하는 트레이드오프를 낳았다.)
 
 ### 의사결정 및 튜닝 플로우
 
@@ -152,12 +149,12 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** "[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 망해서 지금은 안 쓰잖아요?"라는 답변은 절반만 맞다. 하드웨어 레벨의 물리적 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)은 망했지만, 소프트웨어 레벨의 <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(Logical <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>은 ELF 바이너리 포맷(리눅스 실행파일) 내부에 텍스트, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [BSS](/knowledge-base/studynote/02_operating_system/02_process_thread/083_bss_segment/) 섹션으로 나뉘어 현대 프로그래밍의 뼈대로 시퍼렇게 살아 숨 쉬고 있다.
+**[다이어그램 해설]** "[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 망해서 지금은 안 쓰잖아요?"라는 답변은 절반만 맞다. 하드웨어 레벨의 물리적 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)은 망했지만, 소프트웨어 레벨의 <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(Logical <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">Segmentation</a>)</strong>은 ELF 바이너리 포맷(리눅스 실행파일) 내부에 텍스트, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), [BSS](/studynote/02_operating_system/02_process_thread/083_bss_segment/) 섹션으로 나뉘어 현대 프로그래밍의 뼈대로 시퍼렇게 살아 숨 쉬고 있다.
 
-### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/">VMA</a> (<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/">Virtual Memory Area</a>)</strong>: 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 까보면 `task_struct` 안에 `mm_struct`가 있고, 그 안에 힙, [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 맵핑된 파일들의 구역(시작과 끝 주소)을 링크드 리스트로 관리하는 `vm_area_struct` 객체들이 있다. 이것이 바로 리눅스가 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) 하드웨어를 버린 대신, <strong>순수 소프트웨어로 구현해 낸 완벽한 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(메모리 덩어리 관리) 객체</strong>임을 이해하고 시스템 콜([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))을 쓰고 있는가?
+### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- <strong><a href="/studynote/02_operating_system/07_virtual_memory/428_vma_struct/">VMA</a> (<a href="/studynote/02_operating_system/07_virtual_memory/428_vma_struct/">Virtual Memory Area</a>)</strong>: 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스를 까보면 `task_struct` 안에 `mm_struct`가 있고, 그 안에 힙, [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 맵핑된 파일들의 구역(시작과 끝 주소)을 링크드 리스트로 관리하는 `vm_area_struct` 객체들이 있다. 이것이 바로 리눅스가 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) 하드웨어를 버린 대신, <strong>순수 소프트웨어로 구현해 낸 완벽한 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a>(메모리 덩어리 관리) 객체</strong>임을 이해하고 시스템 콜([mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))을 쓰고 있는가?
 
-- **📢 섹션 요약 비유**: 이삿짐을 쌀 때 '[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)' 철학에 따라 옷, 식기, 책을 완벽히 분류해서 쌌습니다. 하지만 트럭에 실을 때는 '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)' 철학을 써서 이 분류된 짐들을 모조리 똑같은 우체국 5호 박스에 규격화해 담았습니다. 찾기도 쉽고 트럭에 빈 공간도 안 남는 궁극의 조화입니다.
+- **📢 섹션 요약 비유**: 이삿짐을 쌀 때 '[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)' 철학에 따라 옷, 식기, 책을 완벽히 분류해서 쌌습니다. 하지만 트럭에 실을 때는 '[페이징](/studynote/02_operating_system/04_synchronization/259_paging/)' 철학을 써서 이 분류된 짐들을 모조리 똑같은 우체국 5호 박스에 규격화해 담았습니다. 찾기도 쉽고 트럭에 빈 공간도 안 남는 궁극의 조화입니다.
 
 ---
 
@@ -165,19 +162,19 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ### 정량/정성 기대효과
 
-| 구분 | 순수 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) | 순수 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) | [Paged Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) (현대 융합) |
+| 구분 | 순수 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) ([Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) | 순수 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) | [Paged Segmentation](/studynote/02_operating_system/06_memory_management/367_paged_segmentation/) (현대 융합) |
 |:---|:---|:---|:---|
-| **물리 메모리 낭비** | 없음 ([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0%) | <strong>매우 심함 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 폭발)</strong> | 없음 ([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)이 커버) |
-| **권한 및 공유 관리**| 어려움 (함수가 반으로 잘림)| **매우 직관적이고 쉬움** | 매우 쉬움 ([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 세그먼트) |
-| **주소 변환 속도** | 빠름 ([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 1회 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | 보통 (테이블 1회 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) + Limit 검사) | **조금 느림 (세그먼트 $\rightarrow$ [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2번 번역)**|
+| **물리 메모리 낭비** | 없음 ([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 0%) | <strong>매우 심함 (<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a> 폭발)</strong> | 없음 ([페이징](/studynote/02_operating_system/04_synchronization/259_paging/)이 커버) |
+| **권한 및 공유 관리**| 어려움 (함수가 반으로 잘림)| **매우 직관적이고 쉬움** | 매우 쉬움 ([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로는 세그먼트) |
+| **주소 변환 속도** | 빠름 ([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 1회 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)) | 보통 (테이블 1회 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) + Limit 검사) | **조금 느림 (세그먼트 $\rightarrow$ [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 2번 번역)**|
 
 ### 미래 전망
-- **보안 주도형 하드웨어 아키텍처 (CHERI)**: C언어의 고질병인 버퍼 오버플로우를 막기 위해, 최신 ARM 아키텍처는 CHERI(Capability Hardware Enhanced [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Instructions) 기술을 도입했다. 포인터 자체에 메모리의 시작과 끝(Limit), 접근 권한을 하드웨어적으로 박아버리는 기술이다. 이는 과거 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 버려졌던 '[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 정밀한 바운더리 체크' 철학이 현대 보안의 위기 앞에서 포인터 수준으로 부활한 짜릿한 사례다.
+- **보안 주도형 하드웨어 아키텍처 (CHERI)**: C언어의 고질병인 버퍼 오버플로우를 막기 위해, 최신 ARM 아키텍처는 CHERI(Capability Hardware Enhanced [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) Instructions) 기술을 도입했다. 포인터 자체에 메모리의 시작과 끝(Limit), 접근 권한을 하드웨어적으로 박아버리는 기술이다. 이는 과거 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 때문에 버려졌던 '[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)의 정밀한 바운더리 체크' 철학이 현대 보안의 위기 앞에서 포인터 수준으로 부활한 짜릿한 사례다.
 
 ### 결론
-[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)의 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 재발 사태는, "인간의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(함수와 객체)를 기계(물리 RAM)에 그대로 1:1로 욱여넣으려 하면 필연적으로 물리적 모순(파편화)이 발생한다"는 컴퓨터 구조학의 뼈아픈 교훈이다. 이 딜레마를 해결하기 위해 공학자들은 인간의 눈에 보이는 껍데기([논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))는 세그먼트로 아름답게 유지하되, 기계에 박히는 알맹이([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))는 무자비한 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)으로 썰어버리는 '[페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)된 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)'이라는 위대한 속임수([Abstraction](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))를 완성했다.
+[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)의 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/) 재발 사태는, "인간의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)(함수와 객체)를 기계(물리 RAM)에 그대로 1:1로 욱여넣으려 하면 필연적으로 물리적 모순(파편화)이 발생한다"는 컴퓨터 구조학의 뼈아픈 교훈이다. 이 딜레마를 해결하기 위해 공학자들은 인간의 눈에 보이는 껍데기([논리 주소](/studynote/02_operating_system/06_memory_management/322_logical_virtual_address/))는 세그먼트로 아름답게 유지하되, 기계에 박히는 알맹이([물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/))는 무자비한 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)으로 썰어버리는 '[페이징](/studynote/02_operating_system/04_synchronization/259_paging/)된 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)'이라는 위대한 속임수([Abstraction](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/))를 완성했다.
 
-- **📢 섹션 요약 비유**: 아름다운 조각상([세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))을 상자에 담아 배송하려니 상자 안에 남는 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 너무 많았습니다. 그래서 조각상을 레고 블록([페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/))으로 조립하게 만들어, 배송할 때는 블록을 다 부숴서 상자에 꽉꽉 채워 보내고, 도착하면 다시 예쁜 조각상으로 조립하게 만든 물류 혁명입니다.
+- **📢 섹션 요약 비유**: 아름다운 조각상([세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/))을 상자에 담아 배송하려니 상자 안에 남는 빈 공간([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 너무 많았습니다. 그래서 조각상을 레고 블록([페이징](/studynote/02_operating_system/04_synchronization/259_paging/))으로 조립하게 만들어, 배송할 때는 블록을 다 부숴서 상자에 꽉꽉 채워 보내고, 도착하면 다시 예쁜 조각상으로 조립하게 만든 물류 혁명입니다.
 
 ---
 
@@ -185,10 +182,10 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 캐시 속도 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [다단계 페이지 테이블](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/) 사이즈 줄이기 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) [ISR](/knowledge-base/studynote/02_operating_system/01_overview_architecture/020_isr/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/) 캐시 속도 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [다단계 페이지 테이블](/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/) 사이즈 줄이기 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) [ISR](/studynote/02_operating_system/01_overview_architecture/020_isr/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -206,9 +203,9 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 공책(메모리)에 일기를 쓸 때, [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)은 무조건 '네모난 깍두기 공책'을 써서 글씨가 잘리든 말든 한 칸에 한 글자씩 꽉 채워 쓰는 방식이에요 (낭비 없음).
-2. '[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)'은 스티커 사진을 오려 붙이는 거예요. 내 얼굴 모양, 별 모양대로 예쁘게 오리니까([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분할) 보기엔 정말 좋아요!
-3. 그런데 스티커들을 공책에 막 붙이다 보면, 스티커들 사이에 애매한 빈틈([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 잔뜩 남아서 나중엔 큰 스티커를 붙일 자리가 없어져 버리는 게 가장 큰 문제랍니다!
+1. 공책(메모리)에 일기를 쓸 때, [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)은 무조건 '네모난 깍두기 공책'을 써서 글씨가 잘리든 말든 한 칸에 한 글자씩 꽉 채워 쓰는 방식이에요 (낭비 없음).
+2. '[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)'은 스티커 사진을 오려 붙이는 거예요. 내 얼굴 모양, 별 모양대로 예쁘게 오리니까([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 분할) 보기엔 정말 좋아요!
+3. 그런데 스티커들을 공책에 막 붙이다 보면, 스티커들 사이에 애매한 빈틈([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 잔뜩 남아서 나중엔 큰 스티커를 붙일 자리가 없어져 버리는 게 가장 큰 문제랍니다!
 
 ---
 
@@ -216,7 +213,7 @@ CPU가 [논리 주소](/knowledge-base/studynote/02_operating_system/06_memory_m
 
 **진행 상황**: 718 / 800
 
-<- **이전**: [717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)](/knowledge-base/studynote/02_operating_system/11_exam_summary/717_hierarchical_paging_multi_level/)
-**다음**: [719. 요구 페이징 (Demand Paging)](/knowledge-base/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/) ->
+<- **이전**: [717. 다단계 페이지 테이블 사이즈 줄이기 (Hierarchical Paging Multi Level)](/studynote/02_operating_system/11_exam_summary/717_hierarchical_paging_multi_level/)
+**다음**: [719. 요구 페이징 (Demand Paging)](/studynote/02_operating_system/11_exam_summary/719_demand_paging_lazy_loading/) ->
 
 ---

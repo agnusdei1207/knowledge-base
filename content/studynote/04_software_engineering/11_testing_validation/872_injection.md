@@ -1,18 +1,15 @@
-+++
-title = "872. Injection (인젝션)"
-date = 2026-05-08
+---
+title: "872. Injection (인젝션)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Injection (인젝션)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: Injection (인젝션)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -21,7 +18,7 @@ tags = ["studynote-software-engineering"]
 
 인젝션 (Injection)은 가장 오래됐지만 여전히 강력한 취약점이다. 입력값이 코드나 질의의 일부가 되면 공격자가 동작을 바꿀 수 있다.
 
-[SQL Injection](/knowledge-base/studynote/09_security/uncategorized/1036_sql_injection/) (SQLi), [OS Command Injection](/knowledge-base/studynote/09_security/05_web_app_security/435_os_command_injection/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) Injection이 대표적이다.
+[SQL Injection](/studynote/09_security/uncategorized/1036_sql_injection/) (SQLi), [OS Command Injection](/studynote/09_security/05_web_app_security/435_os_command_injection/), [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) Injection이 대표적이다.
 
 - **📢 섹션 요약 비유**: 레시피에 재료 대신 주문서를 넣어 요리법 자체를 바꾸는 것이다.
 
@@ -42,7 +39,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 Injection (인젝션)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 Injection (인젝션)가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -62,7 +59,7 @@ tags = ["studynote-software-engineering"]
 | 방어 | 설명 |
 |:---|:---|
 | Parameterized Query | 질의와 데이터를 분리 |
-| Allowlist [Validation](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 허용 목록 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| Allowlist [Validation](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 허용 목록 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | Escaping | 문맥에 맞는 이스케이프 |
 
 - **📢 섹션 요약 비유**: 봉투 주소와 편지 내용을 따로 써야 우편물이 헷갈리지 않는다.
@@ -77,13 +74,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-인젝션은 [입력 검증](/knowledge-base/studynote/09_security/uncategorized/1034_input_validation/) 실패의 결과이기도 하다. 하지만 단순한 길이 검사만으로는 막히지 않는다.
+인젝션은 [입력 검증](/studynote/09_security/uncategorized/1034_input_validation/) 실패의 결과이기도 하다. 하지만 단순한 길이 검사만으로는 막히지 않는다.
 
 | 구분 | 안전한 방식 | 위험한 방식 |
 |:---|:---|:---|
 | SQL | 바인딩 변수 | 문자열 합성 |
 | 명령 실행 | 고정된 인자 | 쉘 문자열 |
-| [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) | 객체 분리 | 사용자 값 직접 삽입 |
+| [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) | 객체 분리 | 사용자 값 직접 삽입 |
 
 OWASP Top 10에서 반복적으로 강조되는 이유가 바로 범용성과 피해 규모다.
 
@@ -99,7 +96,7 @@ OWASP Top 10에서 반복적으로 강조되는 이유가 바로 범용성과 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 ORM (Object-Relational [Mapping](/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 사용 여부보다, 그 ORM을 안전하게 쓰는지가 중요하다.
+실무에서는 ORM (Object-Relational [Mapping](/studynote/05_database/01_db_architecture_relational/010_schema_mapping/)) 사용 여부보다, 그 ORM을 안전하게 쓰는지가 중요하다.
 
 점검 순서는 다음과 같다.
 1. 입력이 어디서 들어오는지 확인한다.
@@ -134,10 +131,10 @@ OWASP Top 10에서 반복적으로 강조되는 이유가 바로 범용성과 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | Injection (인젝션)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | Injection (인젝션)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | Injection (인젝션) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | Injection (인젝션)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | Injection (인젝션)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | Injection (인젝션)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | Injection (인젝션) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | Injection (인젝션)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,13 +154,13 @@ Injection (인젝션) 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Injection (인젝션)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -171,7 +168,7 @@ Injection (인젝션) 개념 정립
 
 **진행 상황**: 551 / 973
 
-<- **이전**: [479. Cryptographic Failures (암호화 실패 / 민감 데이터 노출)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/871_cryptographic_failures/)
-**다음**: [480. Injection (인젝션 / SQLi, OS Command, NoSQL 등)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/872_injection/) ->
+<- **이전**: [479. Cryptographic Failures (암호화 실패 / 민감 데이터 노출)](/studynote/04_software_engineering/11_testing_validation/871_cryptographic_failures/)
+**다음**: [480. Injection (인젝션 / SQLi, OS Command, NoSQL 등)](/studynote/04_software_engineering/11_testing_validation/872_injection/) ->
 
 ---

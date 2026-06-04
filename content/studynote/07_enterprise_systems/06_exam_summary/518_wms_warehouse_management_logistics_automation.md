@@ -1,13 +1,10 @@
-+++
-title = "518. WMS 창고 관리 시스템 물류 자동화 (WMS Warehouse Management Logistics Automation)"
-date = 2026-05-09
+---
+title: "518. WMS 창고 관리 시스템 물류 자동화 (WMS Warehouse Management Logistics Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ WMS 물류 자동화을 올바르게 적용하면 업무 처리 속도, 통제 �
 
 **진행 상황**: 518 / 800
 
-<- **이전**: [517. MES 제조 실행 시스템 스마트 팩토리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/517_mes_manufacturing_execution_smart_factory/)
-**다음**: [519. HRM 인적 자원 관리 HR 테크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/519_hrm_human_resource_management_hr_tech/) ->
+<- **이전**: [517. MES 제조 실행 시스템 스마트 팩토리](/studynote/07_enterprise_systems/06_exam_summary/517_mes_manufacturing_execution_smart_factory/)
+**다음**: [519. HRM 인적 자원 관리 HR 테크](/studynote/07_enterprise_systems/06_exam_summary/519_hrm_human_resource_management_hr_tech/) ->
 
 ---

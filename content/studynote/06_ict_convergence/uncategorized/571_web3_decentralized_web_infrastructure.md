@@ -1,13 +1,10 @@
-+++
-title = "571. Web3 탈중앙화 웹 인프라 아키텍처 (Web3 Decentralized Web Infrastructure)"
-date = 2026-05-09
+---
+title: "571. Web3 탈중앙화 웹 인프라 아키텍처 (Web3 Decentralized Web Infrastructure)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Web3 탈중앙 웹 인프라은(는) 현장의 상태를 데이터로 가시화�
 
 **진행 상황**: 571 / 800
 
-<- **이전**: [570. 탈중앙 거래소 DEX AMM 유동성](/knowledge-base/studynote/06_ict_convergence/uncategorized/570_decentralized_exchange_dex_amm_liquidity/)
-**다음**: [572. 메타 트랜잭션 가스리스 사용자 경험](/knowledge-base/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/) ->
+<- **이전**: [570. 탈중앙 거래소 DEX AMM 유동성](/studynote/06_ict_convergence/uncategorized/570_decentralized_exchange_dex_amm_liquidity/)
+**다음**: [572. 메타 트랜잭션 가스리스 사용자 경험](/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/) ->
 
 ---

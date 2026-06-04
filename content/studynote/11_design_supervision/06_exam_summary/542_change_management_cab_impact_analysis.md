@@ -1,13 +1,10 @@
-+++
-title = "542. 변경 관리 CAB 영향 분석 승인 (Change Management CAB Impact Analysis)"
-date = 2026-05-09
+---
+title: "542. 변경 관리 CAB 영향 분석 승인 (Change Management CAB Impact Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ RiskScore = (C × Wc) + (I × Wi) + (A × Wa) + (D × Wd) + (T × Wt) + (N × Wn
 
 **진행 상황**: 542 / 600
 
-<- **이전**: [541. 문제 관리 근본 원인 분석 RCA](/knowledge-base/studynote/11_design_supervision/06_exam_summary/542_problem_management_root_cause_analysis/)
-**다음**: [543. 서비스 수준 관리 SLA SLO SLI](/knowledge-base/studynote/11_design_supervision/06_exam_summary/543_service_level_management_sla_slo_sli/) ->
+<- **이전**: [541. 문제 관리 근본 원인 분석 RCA](/studynote/11_design_supervision/06_exam_summary/542_problem_management_root_cause_analysis/)
+**다음**: [543. 서비스 수준 관리 SLA SLO SLI](/studynote/11_design_supervision/06_exam_summary/543_service_level_management_sla_slo_sli/) ->
 
 ---

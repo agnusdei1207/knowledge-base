@@ -1,9 +1,9 @@
-+++
-title = "02. 데이터 수학 및 마이닝 공학"
+---
+title: "02. 데이터 수학 및 마이닝 공학"
+tags:
+  - "data_engineering"
+---
 
-[extra]
-tags = ["data_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -196,4 +196,3 @@ tags = ["data_engineering"]
     v
 딥러닝 임베딩 -> 벡터 검색 -> LLM 시대 (미래)
 ```
-

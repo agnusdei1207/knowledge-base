@@ -1,13 +1,10 @@
-+++
-title = "719. IT 경영 관리 핵심 토픽 719번 시험 요약 (IT Management Core Topic 719 Exam Summary)"
-date = 2026-05-09
+---
+title: "719. IT 경영 관리 핵심 토픽 719번 시험 요약 (IT Management Core Topic 719 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -117,7 +114,7 @@ COBIT 2019의 핵심은 **Governance System**과 **Management System**의 분리
 
 **진행 상황**: 719 / 800
 
-<- **이전**: [718. IT 경영 관리 핵심 토픽 718번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/718_it_management_core_topic_718_exam_summary/)
-**다음**: [720. IT 경영 관리 핵심 토픽 720번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/720_it_management_core_topic_720_exam_summary/) ->
+<- **이전**: [718. IT 경영 관리 핵심 토픽 718번 시험 요약](/studynote/12_it_management/05_security_compliance/718_it_management_core_topic_718_exam_summary/)
+**다음**: [720. IT 경영 관리 핵심 토픽 720번 시험 요약](/studynote/12_it_management/05_security_compliance/720_it_management_core_topic_720_exam_summary/) ->
 
 ---

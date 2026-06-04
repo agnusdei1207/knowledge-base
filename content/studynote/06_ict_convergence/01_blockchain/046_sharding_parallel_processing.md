@@ -1,22 +1,19 @@
-+++
-title = "046. 블록체인 샤딩 — Blockchain Sharding"
-date = 2026-04-05
+---
+title: "046. 블록체인 샤딩 — Blockchain Sharding"
+date: "2026-04-05"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 > **핵심 인사이트**
-> 1. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 네트워크를 여러 샤드(Shard)로 분할해 각 샤드가 독립적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하는 수평 확장 기법 — 비트코인/이더리움이 모든 노드가 모든 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조의 TPS 한계를 돌파하기 위해 도입한다.
-> 2. [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(Trilemma)와 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) — [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·보안·확장성 세 가지를 동시에 완벽히 달성하기 어렵다는 Vitalik의 트릴레마에서, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 확장성을 높이지만 단일 샤드 공격(1% 공격)·크로스샤드 통신 비용이라는 새 도전을 만든다.
-> 3. Ethereum의 Danksharding(2024~)은 실행 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) — [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 실행은 L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)이 담당하고, 이더리움은 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어" 역할에 집중하는 설계 방향이다.
+> 1. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)([Sharding](/studynote/13_cloud_architecture/05_data_engineering/243_sharding_horizontal_scaling_database/))은 네트워크를 여러 샤드(Shard)로 분할해 각 샤드가 독립적으로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 처리하는 수평 확장 기법 — 비트코인/이더리움이 모든 노드가 모든 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 구조의 TPS 한계를 돌파하기 위해 도입한다.
+> 2. [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(Trilemma)와 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) — [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)·보안·확장성 세 가지를 동시에 완벽히 달성하기 어렵다는 Vitalik의 트릴레마에서, [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 확장성을 높이지만 단일 샤드 공격(1% 공격)·크로스샤드 통신 비용이라는 새 도전을 만든다.
+> 3. Ethereum의 Danksharding(2024~)은 실행 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) — [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 실행은 L2 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)이 담당하고, 이더리움은 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이어" 역할에 집중하는 설계 방향이다.
 
 ---
 
-## Ⅰ. [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제
+## Ⅰ. [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제
 
 ```
 블록체인 TPS 한계:
@@ -53,11 +50,11 @@ VISA: 24,000 TPS (평균)
   - 사이드체인 (Polygon)
 ```
 
-> 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제는 단일 계산원 — 슈퍼마켓에 계산원 1명(모든 노드 동일 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 줄이 길어도 더 빠른 계산원을 쓸 수 없어요. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 열기!
+> 📢 **섹션 요약 비유**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성 문제는 단일 계산원 — 슈퍼마켓에 계산원 1명(모든 노드 동일 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)), 줄이 길어도 더 빠른 계산원을 쓸 수 없어요. [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 열기!
 
 ---
 
-## Ⅱ. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 메커니즘
+## Ⅱ. [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 메커니즘
 
 ```
 블록체인 샤딩 구조:
@@ -103,7 +100,7 @@ VISA: 24,000 TPS (평균)
      -> Ethereum 초기 샤딩 계획
 ```
 
-> 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 은행 지점 분리 — 전국 거래를 본점(단일 체인) 하나에서 처리하다가, 지역별 지점(샤드)이 독립적으로 처리. 지점 간 송금(크로스샤드)만 복잡!
+> 📢 **섹션 요약 비유**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 은행 지점 분리 — 전국 거래를 본점(단일 체인) 하나에서 처리하다가, 지역별 지점(샤드)이 독립적으로 처리. 지점 간 송금(크로스샤드)만 복잡!
 
 ---
 
@@ -194,11 +191,11 @@ KZG 약속 (KZG Commitments):
   일부 샘플링으로 가용성 확인 (DAS)
 ```
 
-> 📢 **섹션 요약 비유**: Danksharding은 창고(이더리움)->배송 네트워크 전환 — 이더리움이 직접 배달(실행) 대신, 배달부(L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 위탁 + 창고([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)만 집중. 효율 폭발!
+> 📢 **섹션 요약 비유**: Danksharding은 창고(이더리움)->배송 네트워크 전환 — 이더리움이 직접 배달(실행) 대신, 배달부(L2 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)) 위탁 + 창고([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장)만 집중. 효율 폭발!
 
 ---
 
-## Ⅴ. 실무 시나리오 — Zilliqa [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)
+## Ⅴ. 실무 시나리오 — Zilliqa [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)
 
 ```
 Zilliqa — 퍼블릭 블록체인 샤딩 구현:
@@ -240,7 +237,7 @@ Zilliqa — 퍼블릭 블록체인 샤딩 구현:
   Ethereum L2 롤업 + Danksharding이 주류 흐름
 ```
 
-> 📢 **섹션 요약 비유**: Zilliqa [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 최초 실험실 — 이론을 실제로 구현한 선구자. [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)으로 TPS 향상. Ethereum은 이 실험을 참고해 더 실용적인 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)+DAS로 진화!
+> 📢 **섹션 요약 비유**: Zilliqa [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 최초 실험실 — 이론을 실제로 구현한 선구자. [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)으로 TPS 향상. Ethereum은 이 실험을 참고해 더 실용적인 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)+DAS로 진화!
 
 ---
 
@@ -298,9 +295,9 @@ PeerDAS, 1,600만 TPS (L2 포함)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 — 슈퍼마켓에 계산원 1명(단일 체인) -> 계산대 10개(10개 샤드)로 동시에 계산. TPS 10배!
+1. [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 계산대 여러 개 — 슈퍼마켓에 계산원 1명(단일 체인) -> 계산대 10개(10개 샤드)로 동시에 계산. TPS 10배!
 2. 1% 공격 위험 — 소규모 그룹(샤드)은 더 쉽게 공격당해요. 주기적 랜덤 배치(셔플)로 공격자가 누구와 한 팀인지 모르게!
-3. Ethereum의 선택 — 직접 실행 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신, L2 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)이 실행하고 이더리움은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장만. Blob [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 수수료 100배 절감!
+3. Ethereum의 선택 — 직접 실행 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) 대신, L2 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)이 실행하고 이더리움은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장만. Blob [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 수수료 100배 절감!
 
 ---
 
@@ -308,7 +305,7 @@ PeerDAS, 1,600만 TPS (L2 포함)
 
 **진행 상황**: 46 / 552
 
-<- **이전**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)
-**다음**: [047. 하드 포크 — Hard Fork & Chain Split](/knowledge-base/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/) ->
+<- **이전**: [045. 사이드체인과 브릿지 — Sidechain & Bridge (Polygon)](/studynote/06_ict_convergence/01_blockchain/045_sidechain_bridge_polygon/)
+**다음**: [047. 하드 포크 — Hard Fork & Chain Split](/studynote/06_ict_convergence/01_blockchain/047_hard_fork_chain_split/) ->
 
 ---

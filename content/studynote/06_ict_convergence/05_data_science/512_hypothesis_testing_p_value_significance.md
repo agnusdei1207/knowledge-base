@@ -1,35 +1,32 @@
-+++
-title = "512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)"
-date = 2026-05-09
+---
+title: "512. 가설 검정과 유의 수준 P-Value (Hypothesis Testing P-Value Significance Level)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)([Hypothesis Testing](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/))은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 "우연히 이런 결과가 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 얼마나 되는가"를 계산해 귀무가설(H₀)을 기각할지 판단하는 절차다.
-> 2. **가치**: p-값([p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))은 효과 크기가 아니라 "우연 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이므로, p < 0.05라도 실무 적으로 무의미한 효과일 수 있다 — 효과 크기(Effect Size)를 반드시 함께 보고해야 한다.
-> 3. **판단 포인트**: 1종 오류(α, 거짓 긍정)는 [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)으로 통제하고, 2종 오류(β, 거짓 부정)는 검정력([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1−β)으로 관리 — 표본 크기 설계의 핵심.
+> 1. **본질**: [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)([Hypothesis Testing](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/))은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 근거로 "우연히 이런 결과가 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 얼마나 되는가"를 계산해 귀무가설(H₀)을 기각할지 판단하는 절차다.
+> 2. **가치**: p-값([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/))은 효과 크기가 아니라 "우연 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이므로, p < 0.05라도 실무 적으로 무의미한 효과일 수 있다 — 효과 크기(Effect Size)를 반드시 함께 보고해야 한다.
+> 3. **판단 포인트**: 1종 오류(α, 거짓 긍정)는 [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)으로 통제하고, 2종 오류(β, 거짓 부정)는 검정력([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) = 1−β)으로 관리 — 표본 크기 설계의 핵심.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-"신약이 효과가 있다", "신규 UI가 전환율을 높인다"는 주장을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 검증하는 공식 절차가 [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)이다. 직관적 결론 대신 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 근거로 의사 결정을 내린다.
+"신약이 효과가 있다", "신규 UI가 전환율을 높인다"는 주장을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 검증하는 공식 절차가 [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)이다. 직관적 결론 대신 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 근거로 의사 결정을 내린다.
 
-### [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 5단계 절차
+### [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/) 5단계 절차
 
-1. **H₀(귀무가설, Null Hypothesis)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): "효과 없음"이 기본 가정.
-2. **H₁(대립가설, Alternative Hypothesis)** [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/): 증명하고자 하는 주장.
-3. <strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/">유의 수준</a>(α, Significance Level)</strong> 결정: 통상 α=0.05 (5%).
+1. **H₀(귀무가설, Null Hypothesis)** [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/): "효과 없음"이 기본 가정.
+2. **H₁(대립가설, Alternative Hypothesis)** [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/): 증명하고자 하는 주장.
+3. <strong><a href="/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/">유의 수준</a>(α, Significance Level)</strong> 결정: 통상 α=0.05 (5%).
 4. **검정 통계량** 계산 및 **p-값** 산출.
 5. **판정**: p < α이면 H₀ 기각, p ≥ α이면 H₀ 채택 불충분한 증거.
 
-- **📢 섹션 요약 비유**: 법정 재판과 같아. 피의자는 "무죄(H₀)"로 시작하고, 검사(연구자)가 증거([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 제시해 합리적 의심을 넘는 수준이 돼야 유죄(H₁ 채택)로 판결한다.
+- **📢 섹션 요약 비유**: 법정 재판과 같아. 피의자는 "무죄(H₀)"로 시작하고, 검사(연구자)가 증거([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 제시해 합리적 의심을 넘는 수준이 돼야 유죄(H₁ 채택)로 판결한다.
 
 ---
 
@@ -49,17 +46,17 @@ tags = ["studynote-ict-convergence"]
   Power = 1 - β            <- 통계적 검정력
 ```
 
-### p-값 vs [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) 구분
+### p-값 vs [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) 구분
 
 | 항목 | 정의 | 혼동 주의 |
 |:---|:---|:---|
-| p-값 ([p-value](/knowledge-base/studynote/06_ict_convergence/05_data_science/337_p_value_significance/)) | H₀ 가정 하에 관측치 이상 극단값이 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | "H₀가 맞을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아님 |
-| α ([유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)) | 1종 오류를 허용하는 상한 임계값 | 연구 전 미리 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| p-값 ([p-value](/studynote/06_ict_convergence/05_data_science/337_p_value_significance/)) | H₀ 가정 하에 관측치 이상 극단값이 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | "H₀가 맞을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아님 |
+| α ([유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)) | 1종 오류를 허용하는 상한 임계값 | 연구 전 미리 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) |
 | 효과 크기 (Cohen's d) | (μ₁−μ₂) / σ_pooled | 실질적 의미 판단 |
 
 **Cohen's d 해석**: d=0.2(소), d=0.5(중), d=0.8(대) — p가 작아도 d가 작으면 실무 의미 없음.
 
-- **📢 섹션 요약 비유**: p-값은 "범인이 아닌데 이런 증거가 우연히 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이야. 이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 5%보다 낮으면 "우연치고는 너무 이상해 — 유죄(H₁)!"라고 결론 내리는 거야.
+- **📢 섹션 요약 비유**: p-값은 "범인이 아닌데 이런 증거가 우연히 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이야. 이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 5%보다 낮으면 "우연치고는 너무 이상해 — 유죄(H₁)!"라고 결론 내리는 거야.
 
 ---
 
@@ -88,13 +85,13 @@ tags = ["studynote-ict-convergence"]
 - n=200, t-통계량 = −3.2, p-값 = 0.0008 < 0.01 -> H₀ 기각
 - Cohen's d = 0.65 (중간 효과 크기) -> 임상적으로도 의미 있음
 
-<strong>검정력 분석 (<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Analysis)</strong>:
+<strong>검정력 분석 (<a href="/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/">Power</a> Analysis)</strong>:
 - 목표 검정력 0.80, α=0.05, Cohen's d=0.5 -> 필요 표본 크기 n≈64 (per group).
 - 표본이 작으면 실제 효과가 있어도 놓칠 수 있음(2종 오류 위험^).
 
 **기술사 판단 포인트**:
 - p-값만 보고 결론 내리는 "p-값 숭배(p-hacking)" 경계.
-- [신뢰 구간](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)([Confidence Interval](/knowledge-base/studynote/08_algorithm_stats/08_stats/146_confidence_interval/), [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/))을 함께 보고해 효과 범위 명시.
+- [신뢰 구간](/studynote/08_algorithm_stats/08_stats/146_confidence_interval/)([Confidence Interval](/studynote/08_algorithm_stats/08_stats/146_confidence_interval/), [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/))을 함께 보고해 효과 범위 명시.
 - 다중 검정 시 FDR(False Discovery Rate) 보정(Benjamini-Hochberg 방법) 적용.
 
 - **📢 섹션 요약 비유**: p-값이 낮다고 해서 효과가 크다는 의미는 아니야. 키가 1mm 차이 나도 표본이 백만 명이면 p < 0.001이 나와. 실제로 그 1mm 차이가 중요한지는 별개의 문제야.
@@ -103,13 +100,13 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)의 올바른 이해는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사 결정의 신뢰성을 높이고 잘못된 결론으로 인한 자원 낭비를 방지한다.
+[가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)의 올바른 이해는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사 결정의 신뢰성을 높이고 잘못된 결론으로 인한 자원 낭비를 방지한다.
 
-- **오류 통제**: α와 β를 명시적으로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)해 의사 결정 위험을 정량화.
+- **오류 통제**: α와 β를 명시적으로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)해 의사 결정 위험을 정량화.
 - **표본 크기 최적화**: 검정력 분석으로 불필요한 과표본 수집 방지.
 - **재현 가능한 연구**: 사전 등록(Pre-Registration)과 함께 p-hacking 방지.
 
-- **📢 섹션 요약 비유**: [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)은 품질 검사 공정이야. 불량품이 없는데 불량이라고 판정(1종 오류)하거나, 불량품이 있는데 통과(2종 오류)시키는 실수의 비율을 미리 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 관리하는 거야.
+- **📢 섹션 요약 비유**: [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)은 품질 검사 공정이야. 불량품이 없는데 불량이라고 판정(1종 오류)하거나, 불량품이 있는데 통과(2종 오류)시키는 실수의 비율을 미리 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하고 관리하는 거야.
 
 ---
 
@@ -117,9 +114,9 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 귀무가설 H₀ | p-값, [유의 수준](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) · 검정 기준 |
+| 귀무가설 H₀ | p-값, [유의 수준](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/) · 검정 기준 |
 | p-값 | 1종 오류, 기각역 · 검정 결과 해석 |
-| 검정력 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 2종 오류, 표본 크기 · 연구 설계 |
+| 검정력 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/)) | 2종 오류, 표본 크기 · 연구 설계 |
 | Cohen's d | 효과 크기, 실무 판단 · 임상·마케팅 |
 | Bonferroni 보정 | 다중 비교 문제 · A/B 테스트 |
 
@@ -131,8 +128,8 @@ tags = ["studynote-ict-convergence"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [가설 검정](/knowledge-base/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)은 "이 약이 진짜 효과가 있나 없나"를 수학으로 확인하는 방법이야.
-2. p-값은 "약 효과가 전혀 없다고 가정했을 때, 이런 결과가 우연히 나올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이야 — 이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 5%보다 낮으면 "우연이 아니다!"라고 판단해.
+1. [가설 검정](/studynote/08_algorithm_stats/08_stats/145_hypothesis_testing/)은 "이 약이 진짜 효과가 있나 없나"를 수학으로 확인하는 방법이야.
+2. p-값은 "약 효과가 전혀 없다고 가정했을 때, 이런 결과가 우연히 나올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이야 — 이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 5%보다 낮으면 "우연이 아니다!"라고 판단해.
 3. 하지만 수학적으로 의미 있다고 해서 실제로도 중요한 게 아닐 수 있으니, 효과 크기도 꼭 확인해야 해!
 
 ---
@@ -141,7 +138,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 512 / 552
 
-<- **이전**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/knowledge-base/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/)
-**다음**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/knowledge-base/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/) ->
+<- **이전**: [511. 정규 분포, 중심 극한 정리, 대수의 법칙 (Normal Distribution CLT Law of Large Numbers)](/studynote/06_ict_convergence/05_data_science/511_normal_distribution_clt_law_of_large_numbers/)
+**다음**: [513. t-검정, ANOVA, 카이제곱 검정 비교 (t-Test ANOVA Chi-Square Test Comparison)](/studynote/06_ict_convergence/05_data_science/513_t_test_anova_chi_square_comparison/) ->
 
 ---

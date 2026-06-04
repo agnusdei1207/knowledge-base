@@ -1,13 +1,10 @@
-+++
-title = "564. API 설계 RESTful GraphQL gRPC (API Design RESTful GraphQL gRPC)"
-date = 2026-05-09
+---
+title: "564. API 설계 RESTful GraphQL gRPC (API Design RESTful GraphQL gRPC)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -210,7 +207,7 @@ gRPC는 Google의 **Stubby**(2001년~ 내부 RPC 시스템)에서 파생된 **�
 
 **진행 상황**: 564 / 600
 
-<- **이전**: [563. 모놀리스 분해 전략 도메인 경계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/564_monolith_decomposition_domain_boundary/)
-**다음**: [565. 메시지 큐 비동기 통신 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/565_message_queue_async_communication_patter/) ->
+<- **이전**: [563. 모놀리스 분해 전략 도메인 경계](/studynote/11_design_supervision/06_exam_summary/564_monolith_decomposition_domain_boundary/)
+**다음**: [565. 메시지 큐 비동기 통신 패턴](/studynote/11_design_supervision/06_exam_summary/565_message_queue_async_communication_patter/) ->
 
 ---

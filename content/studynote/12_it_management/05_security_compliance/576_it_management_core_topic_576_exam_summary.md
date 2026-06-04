@@ -1,13 +1,10 @@
-+++
-title = "576. IT 경영 관리 핵심 토픽 576번 시험 요약 (IT Management Core Topic 576 Exam Summary)"
-date = 2026-05-09
+---
+title: "576. IT 경영 관리 핵심 토픽 576번 시험 요약 (IT Management Core Topic 576 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -153,7 +150,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 576 / 800
 
-<- **이전**: [575. IT 경영 관리 핵심 토픽 575번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/575_it_management_core_topic_575_exam_summary/)
-**다음**: [577. IT 경영 관리 핵심 토픽 577번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/577_it_management_core_topic_577_exam_summary/) ->
+<- **이전**: [575. IT 경영 관리 핵심 토픽 575번 시험 요약](/studynote/12_it_management/05_security_compliance/575_it_management_core_topic_575_exam_summary/)
+**다음**: [577. IT 경영 관리 핵심 토픽 577번 시험 요약](/studynote/12_it_management/05_security_compliance/577_it_management_core_topic_577_exam_summary/) ->
 
 ---

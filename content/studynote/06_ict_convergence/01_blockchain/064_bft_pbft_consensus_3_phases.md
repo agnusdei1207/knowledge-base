@@ -1,16 +1,13 @@
-+++
-title = "64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit"
+---
+title: "64. BFT 합의의 3단계 - Pre-prepare, Prepare, Commit"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)(Practical Byzantine [Fault Tolerance](/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))는 Byzantine fault가 있어도 3단계 투표로 합의를 빠르게 확정하는 합의 알고리즘이다.
+> 1. **본질**: [PBFT](/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/)(Practical Byzantine [Fault Tolerance](/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/))는 Byzantine fault가 있어도 3단계 투표로 합의를 빠르게 확정하는 합의 알고리즘이다.
 > 2. **가치**: Pre-prepare, Prepare, Commit의 다중 서명 구조를 통해 신뢰할 수 없는 노드가 섞여 있어도 장부 일관성을 유지한다.
 > 3. **판단**: PBFT는 노드 수와 통신량이 많아질수록 무거워지므로, 허가형 네트워크에 적합하다.
 
@@ -43,7 +40,7 @@ Ledger Update
 | 단계 | 역할 |
 | :-- | :-- |
 | Pre-prepare | 리더가 제안문을 배포 |
-| Prepare | 노드들이 제안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 예비 동의 |
+| Prepare | 노드들이 제안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 후 예비 동의 |
 | Commit | 최종 동의 후 장부 반영 |
 
 PBFT는 일반적으로 3f+1개의 노드로 f개의 Byzantine fault를 견딘다. 핵심은 2f+1 이상의 quorum을 모아야만 다음 단계로 넘어간다는 점이다.
@@ -56,15 +53,15 @@ PBFT는 일반적으로 3f+1개의 노드로 f개의 Byzantine fault를 견딘�
 
 | 합의 | 특징 | 장점 | 한계 |
 | :-- | :-- | :-- | :-- |
-| PoW | 연산 경쟁 | 단순, 공개형에 강함 | [전력 소모](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 큼 |
+| PoW | 연산 경쟁 | 단순, 공개형에 강함 | [전력 소모](/studynote/01_computer_architecture/13_reliability_power_management/466_power_consumption/) 큼 |
 | PoS | 지분 기반 | 에너지 효율 | 설계 복잡 |
-| [PBFT](/knowledge-base/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) | 다중 투표 | 빠른 최종성 | 메시지 비용 큼 |
+| [PBFT](/studynote/06_ict_convergence/01_blockchain/013_pbft_practical_bft/) | 다중 투표 | 빠른 최종성 | 메시지 비용 큼 |
 
 | 단계 | 의미 |
 | :-- | :-- |
-| Prepare | 제안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 확산 |
+| Prepare | 제안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 확산 |
 | Commit | 최종 확정 |
-| [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Change | 리더 교체 |
+| [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) Change | 리더 교체 |
 
 PBFT는 허가형 네트워크와 컨소시엄 체인에 잘 맞는다. 참여자 수가 너무 많으면 통신 비용이 급격히 올라간다.
 
@@ -74,15 +71,15 @@ PBFT는 허가형 네트워크와 컨소시엄 체인에 잘 맞는다. 참여�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 노드 수와 fault tolerance가 맞는가?
 2. quorum 조건을 정확히 설명할 수 있는가?
-3. 리더 실패 시 [view](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) change가 있는가?
+3. 리더 실패 시 [view](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) change가 있는가?
 4. 합의 지연과 통신 비용을 이해하는가?
 5. 허가형 네트워크에 적합한가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 공개형 대규모 네트워크에 PBFT를 그대로 쓰는 설계
 - 2f+1 quorum 의미를 놓치는 설계
@@ -145,7 +142,7 @@ PBFT는 그런 식으로 합의하는 방법이에요.
 
 **진행 상황**: 64 / 552
 
-<- **이전**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/knowledge-base/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/)
-**다음**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/) ->
+<- **이전**: [63. 트랜잭션 풀 (Mempool / Memory Pool) - 블록에 포함되지 않은 대기 중인 트랜잭션 저장소](/studynote/06_ict_convergence/01_blockchain/063_mempool_transaction_queue/)
+**다음**: [65. 합의 완결성 (Finality) - 블록이 체인에 기록되어 뒤집히지 않음이 보장되는 상태 (PoW는 확률적 완결성, BFT는 즉각적](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/) ->
 
 ---

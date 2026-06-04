@@ -1,13 +1,10 @@
-+++
-title = "735. IT 경영 관리 핵심 토픽 735번 시험 요약 (IT Management Core Topic 735 Exam Summary)"
-date = 2026-05-09
+---
+title: "735. IT 경영 관리 핵심 토픽 735번 시험 요약 (IT Management Core Topic 735 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 735. IT 경영 관리 핵심 토픽 735번 시험 요약 (IT Governance & Strategic Alignment)
 
@@ -168,7 +165,7 @@ IT 거버넌스 아키텍처는 국제표준 **ISO/IEC 38500:2015 (IT Corporate 
 
 **진행 상황**: 735 / 800
 
-<- **이전**: [734. IT 경영 관리 핵심 토픽 734번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/734_it_management_core_topic_734_exam_summary/)
-**다음**: [736. IT 경영 관리 핵심 토픽 736번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/736_it_management_core_topic_736_exam_summary/) ->
+<- **이전**: [734. IT 경영 관리 핵심 토픽 734번 시험 요약](/studynote/12_it_management/05_security_compliance/734_it_management_core_topic_734_exam_summary/)
+**다음**: [736. IT 경영 관리 핵심 토픽 736번 시험 요약](/studynote/12_it_management/05_security_compliance/736_it_management_core_topic_736_exam_summary/) ->
 
 ---

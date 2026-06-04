@@ -1,13 +1,10 @@
-+++
-title = "523. IT 경영 관리 핵심 토픽 523번 시험 요약 (IT Management Core Topic 523 Exam Summary)"
-date = 2026-05-09
+---
+title: "523. IT 경영 관리 핵심 토픽 523번 시험 요약 (IT Management Core Topic 523 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ McKinsey & Gartner가 제시하는 **70-20-10 모델**(70% 운영, 20% 성장, 1
 
 **진행 상황**: 523 / 800
 
-<- **이전**: [522. IT 경영 관리 핵심 토픽 522번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/522_it_management_core_topic_522_exam_summary/)
-**다음**: [524. IT 경영 관리 핵심 토픽 524번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/524_it_management_core_topic_524_exam_summary/) ->
+<- **이전**: [522. IT 경영 관리 핵심 토픽 522번 시험 요약](/studynote/12_it_management/05_security_compliance/522_it_management_core_topic_522_exam_summary/)
+**다음**: [524. IT 경영 관리 핵심 토픽 524번 시험 요약](/studynote/12_it_management/05_security_compliance/524_it_management_core_topic_524_exam_summary/) ->
 
 ---

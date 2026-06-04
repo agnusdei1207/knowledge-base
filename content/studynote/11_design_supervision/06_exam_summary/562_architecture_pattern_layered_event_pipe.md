@@ -1,13 +1,10 @@
-+++
-title = "562. 아키텍처 패턴 레이어드 이벤트 파이프 (Architecture Pattern Layered Event Pipe)"
-date = 2026-05-09
+---
+title: "562. 아키텍처 패턴 레이어드 이벤트 파이프 (Architecture Pattern Layered Event Pipe)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 # 562. 아키텍처 패턴 레이어드 이벤트 파이프 (Layered Event Pipe)
 
@@ -173,7 +170,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 562 / 600
 
-<- **이전**: [561. 아키텍처 평가 ATAM CBAM 트레이드오프](/knowledge-base/studynote/11_design_supervision/06_exam_summary/562_architecture_evaluation_atam_cbam_tradeo/)
-**다음**: [563. 모놀리스 분해 전략 도메인 경계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/563_monolith_decomposition_domain_boundary/) ->
+<- **이전**: [561. 아키텍처 평가 ATAM CBAM 트레이드오프](/studynote/11_design_supervision/06_exam_summary/562_architecture_evaluation_atam_cbam_tradeo/)
+**다음**: [563. 모놀리스 분해 전략 도메인 경계](/studynote/11_design_supervision/06_exam_summary/563_monolith_decomposition_domain_boundary/) ->
 
 ---

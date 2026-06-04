@@ -1,12 +1,9 @@
-+++
-title = "73. 골드바흐 추측 (Goldbach's Conjecture)"
+---
+title: "73. 골드바흐 추측 (Goldbach's Conjecture)"
+tags:
+  - "it_management"
+---
 
-[taxonomies]
-tags = ["it_management"]
-
-[extra]
-tags = ["it_management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -66,7 +63,7 @@ Prime + Prime ?
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 명제와 추측을 구분하는가?
 2. 짝수와 소수 개념을 아는가?
@@ -74,7 +71,7 @@ Prime + Prime ?
 4. 미해결 문제임을 아는가?
 5. 수론과 연결하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 증명된 명제처럼 말하는 설계
 - 약한/강한 형태를 혼동하는 설계
@@ -133,7 +130,7 @@ Number Theory
 
 **진행 상황**: 129 / 587
 
-<- **이전**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/knowledge-base/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)
-**다음**: [73. SPOC (Single Point of Contact)](/knowledge-base/studynote/12_it_management/02_itsm_itil/857_spoc/) ->
+<- **이전**: [72. 에라토스테네스의 체 (Sieve of Eratosthenes)](/studynote/12_it_management/02_itsm_itil/856_sieve_of_eratosthenes/)
+**다음**: [73. SPOC (Single Point of Contact)](/studynote/12_it_management/02_itsm_itil/857_spoc/) ->
 
 ---

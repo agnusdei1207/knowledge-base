@@ -1,13 +1,10 @@
-+++
-title = "748. 모델 서빙 추론 최적화 A/B 테스트 (Model Serving Inference Optimization AB Test)"
-date = 2026-05-09
+---
+title: "748. 모델 서빙 추론 최적화 A/B 테스트 (Model Serving Inference Optimization AB Test)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -130,7 +127,7 @@ LLM 기반 서비스(ChatGPT 스타일의 멀티턴 대화, RAG 기반 Q&A, Code
 
 **진행 상황**: 748 / 800
 
-<- **이전**: [747. LLMOps 대규모 언어 모델 운영 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/)
-**다음**: [749. 피처 엔지니어링 자동 특성 생성](/knowledge-base/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/) ->
+<- **이전**: [747. LLMOps 대규모 언어 모델 운영 관리](/studynote/06_ict_convergence/uncategorized/747_llmops_large_language_model_operations/)
+**다음**: [749. 피처 엔지니어링 자동 특성 생성](/studynote/06_ict_convergence/uncategorized/749_feature_engineering_auto_feature_generation/) ->
 
 ---

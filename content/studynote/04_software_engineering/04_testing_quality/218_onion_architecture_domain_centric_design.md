@@ -1,18 +1,15 @@
-+++
-title = "218. 어니언 아키텍처 (Onion Architecture)"
-date = 2026-05-08
+---
+title: "218. 어니언 아키텍처 (Onion Architecture)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -20,9 +17,9 @@ tags = ["studynote-software-engineering"]
 ## Ⅰ. 개요 및 필요성
 
 - 고전적인 3계층(UI ➜ 비즈니스 ➜ DB)의 가장 큰 문제는, 시스템의 뇌(비즈니스)가 가장 바닥에 깔린 <strong>인프라(DB)에 의존</strong>한다는 것입니다.
-- 결국 뇌(비즈니스)는 엑셀 칸(테이블 구조)에 맞춰서 코드를 짜게 되는 수동적인 바보가 되어버립니다 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 설계의 폐해).
+- 결국 뇌(비즈니스)는 엑셀 칸(테이블 구조)에 맞춰서 코드를 짜게 되는 수동적인 바보가 되어버립니다 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 설계의 폐해).
 
-- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 어니언 아키텍처 (Onion Arch의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
@@ -47,13 +44,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 시스템을 여러 겹의 동심원(양파) 껍질로 구조화하여, 인프라나 UI 같은 껍데기 요소들을 가장 바깥 껍질로 몰아내고, <strong>애플리케이션의 핵심인 '<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델(비즈니스 로직)'을 가장 안쪽 심지에 두어 외부의 변화로부터 100% 격리시키는 아키텍처 패턴</strong>입니다.
+- **개념**: 시스템을 여러 겹의 동심원(양파) 껍질로 구조화하여, 인프라나 UI 같은 껍데기 요소들을 가장 바깥 껍질로 몰아내고, <strong>애플리케이션의 핵심인 '<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델(비즈니스 로직)'을 가장 안쪽 심지에 두어 외부의 변화로부터 100% 격리시키는 아키텍처 패턴</strong>입니다.
 
-- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -63,9 +60,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)(217번)의 '의존성 규칙'과 소름 돋게 똑같습니다.
+[클린 아키텍처](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)(217번)의 '의존성 규칙'과 소름 돋게 똑같습니다.
 
-- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -73,14 +70,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-*(주의: 217번 [클린 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)와 계층 이름만 살짝 다르고 본질은 같습니다.)*
+*(주의: 217번 [클린 아키텍처](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)와 계층 이름만 살짝 다르고 본질은 같습니다.)*
 
-1. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model - 양파 심지)</strong>: 기업의 핵심 업무 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태와 행위 (예: 은행의 `Account` 객체). 순수 언어(Java, C#)로만 짜여져 아무런 의존성이 없습니다.
-2. <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Services)</strong>: 두 개 이상의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 엮여야 하는 흐름 (예: `A계좌에서 B계좌로 이체하기()`).
-3. <strong>애플리케이션 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Application Services)</strong>: 외부에서 들어온 요청(사용자 클릭)을 받아 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 일을 시키는 코디네이터 역할입니다.
-4. **인프라스트럭처 / UI / 테스트 (가장 바깥 껍질)**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(JPA/Hibernate), 웹 화면(React/Spring MVC), 외부 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등 <strong>실제 기계와 맞닿는 가장 더러운 기술 껍데기</strong>들입니다.
+1. <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> 모델 (<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Model - 양파 심지)</strong>: 기업의 핵심 업무 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태와 행위 (예: 은행의 `Account` 객체). 순수 언어(Java, C#)로만 짜여져 아무런 의존성이 없습니다.
+2. <strong><a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">도메인</a> <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (<a href="/studynote/05_database/02_modeling_normalization/064_relation_domain/">Domain</a> Services)</strong>: 두 개 이상의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델이 엮여야 하는 흐름 (예: `A계좌에서 B계좌로 이체하기()`).
+3. <strong>애플리케이션 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> (Application Services)</strong>: 외부에서 들어온 요청(사용자 클릭)을 받아 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 일을 시키는 코디네이터 역할입니다.
+4. **인프라스트럭처 / UI / 테스트 (가장 바깥 껍질)**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(JPA/Hibernate), 웹 화면(React/Spring MVC), 외부 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통신 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 등 <strong>실제 기계와 맞닿는 가장 더러운 기술 껍데기</strong>들입니다.
 
-- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -88,13 +85,13 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-안쪽 심지([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 바깥 껍질(DB)에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "저장해!"라고 명령해야 하는데, 안쪽에서는 바깥쪽 놈의 이름을 부를 수 없습니다(의존성 방향 위배). 어떻게 해결할까요?
-- <strong>해결책 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)</strong>: 안쪽 심지에 `저장소_인터페이스(Interface)`라는 빈 구멍(명세서)만 뚫어놓습니다. 그리고 바깥 껍질(인프라)에 있는 놈이 이 구멍 규격에 맞춰서 구현체(구현 코드)를 만든 뒤 꽂아줍니다!
-- 안쪽 심지는 바깥놈 이름을 부른 게 아니라, 그냥 자기 방에 뚫린 빈 구멍(인터페이스)에 대고 소리쳤을 뿐인데, 밖에서 구현체가 알아서 작동해 주는 기적(의존성 역전)이 완성됩니다. (216번 헥사고날의 '포트와 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)'와 완벽히 동일한 원리)
+안쪽 심지([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/))에서 바깥 껍질(DB)에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 "저장해!"라고 명령해야 하는데, 안쪽에서는 바깥쪽 놈의 이름을 부를 수 없습니다(의존성 방향 위배). 어떻게 해결할까요?
+- <strong>해결책 (<a href="/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)</strong>: 안쪽 심지에 `저장소_인터페이스(Interface)`라는 빈 구멍(명세서)만 뚫어놓습니다. 그리고 바깥 껍질(인프라)에 있는 놈이 이 구멍 규격에 맞춰서 구현체(구현 코드)를 만든 뒤 꽂아줍니다!
+- 안쪽 심지는 바깥놈 이름을 부른 게 아니라, 그냥 자기 방에 뚫린 빈 구멍(인터페이스)에 대고 소리쳤을 뿐인데, 밖에서 구현체가 알아서 작동해 주는 기적(의존성 역전)이 완성됩니다. (216번 헥사고날의 '포트와 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)'와 완벽히 동일한 원리)
 
-> 📢 **섹션 요약 비유**: <strong>어니언 아키텍처(Onion <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>는 회사를 <strong>'양파 껍질 모양의 보안 등급 구역'</strong>으로 나눈 것과 같습니다. 양파의 가장 안쪽 노란 심지([도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)는 회사의 <strong>'극비 레시피 연구소'</strong>입니다. 이 연구소 안에는 순수한 연구원(자바 코드)들만 있고, 인터넷이나 전화기(프레임워크)조차 없습니다. 한 꺼풀 바깥 껍질(애플리케이션 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에는 비서들이 있고, 가장 바깥 빨간 껍질(인프라/UI)에는 택배 기사와 홍보팀이 있습니다. 어니언의 절대 법칙은 <strong>'밖에서 안으로 들어가는 <a href="/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 통행'</strong>입니다. 바깥 껍질의 비서나 택배 기사는 안쪽 껍질의 연구소에 서류를 밀어 넣을 수 있지만(의존성 향함), 안쪽 심지의 연구원들은 바깥 껍질에 누가 있는지 이름도 모르고 밖을 내다볼 수도 없습니다. 만약 연구원이 밖으로 우편물을 보내야 한다면 바깥놈 이름을 부르지 않고, 그냥 벽에 뚫린 <strong>'우체통 구멍(인터페이스, <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)'</strong>에 우편물을 휙 던져놓고 쿨하게 뒤돌아섭니다. 그럼 바깥 껍질의 누군가(인프라 구현체)가 그걸 주워서 알아서 처리해 주는, 핵심 뇌(연구소)를 외부의 더러운 기술로부터 100% 밀봉해버린 아름다운 동심원 아키텍처입니다.
+> 📢 **섹션 요약 비유**: <strong>어니언 아키텍처(Onion <a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a>)</strong>는 회사를 <strong>'양파 껍질 모양의 보안 등급 구역'</strong>으로 나눈 것과 같습니다. 양파의 가장 안쪽 노란 심지([도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 모델)는 회사의 <strong>'극비 레시피 연구소'</strong>입니다. 이 연구소 안에는 순수한 연구원(자바 코드)들만 있고, 인터넷이나 전화기(프레임워크)조차 없습니다. 한 꺼풀 바깥 껍질(애플리케이션 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))에는 비서들이 있고, 가장 바깥 빨간 껍질(인프라/UI)에는 택배 기사와 홍보팀이 있습니다. 어니언의 절대 법칙은 <strong>'밖에서 안으로 들어가는 <a href="/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/">단방향</a> 통행'</strong>입니다. 바깥 껍질의 비서나 택배 기사는 안쪽 껍질의 연구소에 서류를 밀어 넣을 수 있지만(의존성 향함), 안쪽 심지의 연구원들은 바깥 껍질에 누가 있는지 이름도 모르고 밖을 내다볼 수도 없습니다. 만약 연구원이 밖으로 우편물을 보내야 한다면 바깥놈 이름을 부르지 않고, 그냥 벽에 뚫린 <strong>'우체통 구멍(인터페이스, <a href="/studynote/04_software_engineering/04_testing_quality/247_dip_dependency_inversion_principle/">DIP</a>)'</strong>에 우편물을 휙 던져놓고 쿨하게 뒤돌아섭니다. 그럼 바깥 껍질의 누군가(인프라 구현체)가 그걸 주워서 알아서 처리해 주는, 핵심 뇌(연구소)를 외부의 더러운 기술로부터 100% 밀봉해버린 아름다운 동심원 아키텍처입니다.
 
-- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -104,10 +101,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,13 +124,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 어니언 아키텍처 (Onion [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 어니언 아키텍처 (Onion [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -141,7 +138,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 218 / 973
 
-<- **이전**: [217. 클린 아키텍처 (Clean Architecture) - Robert C. Martin (Uncle Bob)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)
-**다음**: [219. 도메인 주도 설계 (DDD, Domain-Driven Design) - 에릭 에반스](/knowledge-base/studynote/04_software_engineering/04_testing_quality/219_ddd_domain_driven_design_eric_evans/) ->
+<- **이전**: [217. 클린 아키텍처 (Clean Architecture) - Robert C. Martin (Uncle Bob)](/studynote/04_software_engineering/04_testing_quality/217_clean_architecture_dependency_rule/)
+**다음**: [219. 도메인 주도 설계 (DDD, Domain-Driven Design) - 에릭 에반스](/studynote/04_software_engineering/04_testing_quality/219_ddd_domain_driven_design_eric_evans/) ->
 
 ---

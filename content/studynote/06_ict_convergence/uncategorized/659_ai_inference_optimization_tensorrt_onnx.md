@@ -1,13 +1,10 @@
-+++
-title = "659. AI 추론 최적화 TensorRT ONNX (AI Inference Optimization TensorRT ONNX)"
-date = 2026-05-09
+---
+title: "659. AI 추론 최적화 TensorRT ONNX (AI Inference Optimization TensorRT ONNX)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ config.set_flag(trt.BuilderFlag.FP
 
 **진행 상황**: 659 / 800
 
-<- **이전**: [658. 양자화 INT8 INT4 모델 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/658_quantization_int8_int4_model_optimization/)
-**다음**: [660. MLOps 모델 서빙 A/B 테스트](/knowledge-base/studynote/06_ict_convergence/uncategorized/660_mlops_model_serving_ab_test/) ->
+<- **이전**: [658. 양자화 INT8 INT4 모델 최적화](/studynote/06_ict_convergence/uncategorized/658_quantization_int8_int4_model_optimization/)
+**다음**: [660. MLOps 모델 서빙 A/B 테스트](/studynote/06_ict_convergence/uncategorized/660_mlops_model_serving_ab_test/) ->
 
 ---

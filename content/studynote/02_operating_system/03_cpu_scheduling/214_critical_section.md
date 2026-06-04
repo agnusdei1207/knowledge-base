@@ -1,28 +1,25 @@
-+++
-title = "214. 임계 구역 (Critical Section)"
-date = 2026-05-09
+---
+title: "214. 임계 구역 (Critical Section)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 임계 구역 (Critical Section)은 다중 프로세스/[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서 둘 이상의 실행 흐름이 <strong>'공유 자원(Shared Resource)'에 접근하여 그 값을 변경하려 하는 치명적인 소스 코드의 특정 블록(구간)</strong>을 뜻한다.
-> 2. **가치**: 이 구간을 식별하고 방어막([동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법)을 치는 것이 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막고 시스템의 무결성을 지키는 유일한 방법이므로, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이론의 가장 기본 단위이자 핵심 타깃이 된다.
-> 3. **융합**: 임계 구역 문제를 해결하려면 반드시 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>라는 3대 조건을 모두 100% 충족하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(뮤텍스, 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)을 설계하고 적용해야만 한다.
+> 1. **본질**: 임계 구역 (Critical Section)은 다중 프로세스/[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 환경에서 둘 이상의 실행 흐름이 <strong>'공유 자원(Shared Resource)'에 접근하여 그 값을 변경하려 하는 치명적인 소스 코드의 특정 블록(구간)</strong>을 뜻한다.
+> 2. **가치**: 이 구간을 식별하고 방어막([동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 기법)을 치는 것이 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막고 시스템의 무결성을 지키는 유일한 방법이므로, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 이론의 가장 기본 단위이자 핵심 타깃이 된다.
+> 3. **융합**: 임계 구역 문제를 해결하려면 반드시 <strong><a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>, <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>, <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>라는 3대 조건을 모두 100% 충족하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(뮤텍스, 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)을 설계하고 적용해야만 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 프로그램의 전체 소스 코드 중에서 전역 변수, [공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 레코드 등 "남들도 같이 볼 수 있는 자원"을 읽고(Read) 쓰는(Write) 아주 짧고 위험한 코드의 덩어리를 말한다.
-- **필요성**: 만약 두 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 공유 변수를 동시에 덮어쓰면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살난다([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)). 그렇다고 프로그램 처음부터 끝까지 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어버리면 멀티코어를 샀는데도 싱글코어처럼 느리게 동작한다. 따라서 개발자는 "정확히 어디서부터 어디까지가 위험한가?"를 칼같이 정의(Bounding)하여 그 구간에만 최소한의 방어막을 치는 정밀 타격이 필요했다.
+- **개념**: 프로그램의 전체 소스 코드 중에서 전역 변수, [공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 레코드 등 "남들도 같이 볼 수 있는 자원"을 읽고(Read) 쓰는(Write) 아주 짧고 위험한 코드의 덩어리를 말한다.
+- **필요성**: 만약 두 개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 공유 변수를 동시에 덮어쓰면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 박살난다([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)). 그렇다고 프로그램 처음부터 끝까지 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어버리면 멀티코어를 샀는데도 싱글코어처럼 느리게 동작한다. 따라서 개발자는 "정확히 어디서부터 어디까지가 위험한가?"를 칼같이 정의(Bounding)하여 그 구간에만 최소한의 방어막을 치는 정밀 타격이 필요했다.
 
-- **등장 배경**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시분할(Time-Sharing) [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 프린터 출력 스풀러나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 작업 큐를 여러 프로세스가 동시에 건드리다 시스템이 죽는 일이 잦았다. 학자들은 이 파괴가 일어나는 공통된 코드 영역을 '임계 구역(Critical Section)'이라 명명하고, 이 구역을 안전하게 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 소프트웨어/하드웨어적 해결책(데커, 피터슨, TAS)을 연구하기 시작했다.
+- **등장 배경**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시분할(Time-Sharing) [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 프린터 출력 스풀러나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 내의 작업 큐를 여러 프로세스가 동시에 건드리다 시스템이 죽는 일이 잦았다. 학자들은 이 파괴가 일어나는 공통된 코드 영역을 '임계 구역(Critical Section)'이라 명명하고, 이 구역을 안전하게 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하기 위한 소프트웨어/하드웨어적 해결책(데커, 피터슨, TAS)을 연구하기 시작했다.
 
 ```text
   [프로세스의 일반적 생명 주기 속 임계 구역의 위치]
@@ -37,7 +34,7 @@ tags = ["studynote-operating-system"]
       [ 나머지 구역 (Remainder Section) ]<-- 혼자 쓰는 변수 계산 등 안전하고 자유로운 구역
   } while (true);
 ```
-**[다이어그램 해설]** 코드를 작성할 때 이 4가지 구역을 명확히 구분하는 것이 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍의 기초다. 진입 구역에서 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고, 퇴장 구역에서 락을 푼다. 나머지 구역(Remainder)은 락 없이 수천 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 100% 성능으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행되는 곳이므로, 아키텍트는 <strong>임계 구역(Critical)의 길이를 최대한 짧게 만들고, 나머지 구역(Remainder)을 최대한 길게 뽑아내는 것</strong>이 튜닝의 핵심 역량이다.
+**[다이어그램 해설]** 코드를 작성할 때 이 4가지 구역을 명확히 구분하는 것이 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그래밍의 기초다. 진입 구역에서 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸고, 퇴장 구역에서 락을 푼다. 나머지 구역(Remainder)은 락 없이 수천 개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 100% 성능으로 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행되는 곳이므로, 아키텍트는 <strong>임계 구역(Critical)의 길이를 최대한 짧게 만들고, 나머지 구역(Remainder)을 최대한 길게 뽑아내는 것</strong>이 튜닝의 핵심 역량이다.
 
 - **📢 섹션 요약 비유**: 회사에서 직원들이 각자 자기 자리(나머지 구역)에서 일할 때는 터치가 없지만, 하나뿐인 복사기(임계 구역)를 쓸 때는 반드시 번호표(진입 구역)를 뽑고 한 명씩만 쓰고 비켜주는(퇴장 구역) 질서를 지켜야 합니다.
 
@@ -47,24 +44,24 @@ tags = ["studynote-operating-system"]
 
 ### 임계 구역 문제 해결을 위한 3대 절대 조건
 
-어떤 천재 개발자가 "내가 임계 구역을 지키는 짱짱맨 코드를 짰어!"라고 들고 와도, 아래 3가지 수학적 조건을 1개라도 어기면 그 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 논문에서 바로 쓰레기통으로 직행한다.
+어떤 천재 개발자가 "내가 임계 구역을 지키는 짱짱맨 코드를 짰어!"라고 들고 와도, 아래 3가지 수학적 조건을 1개라도 어기면 그 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 논문에서 바로 쓰레기통으로 직행한다.
 
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>:
+1. <strong><a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>:
    - **정의**: 프로세스 P1이 임계 구역에서 실행 중이라면, 다른 어떤 프로세스도 임계 구역에 들어갈 수 없다. (Only One)
-   - **가치**: [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막는 가장 근본적이고 절대적인 차단벽.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>:
+   - **가치**: [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막는 가장 근본적이고 절대적인 차단벽.
+2. <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> (<a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>:
    - **정의**: 임계 구역이 비어있고, 들어가고 싶어 하는 프로세스들이 있다면 **그중 하나는 무조건 들어가야 한다**.
-   - **가치**: 문은 열려있는데 서로 눈치만 보거나, 들어가고 싶지도 않은 놈 때문에 정작 들어가야 할 놈이 못 들어가는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 상태를 금지한다.
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>:
+   - **가치**: 문은 열려있는데 서로 눈치만 보거나, 들어가고 싶지도 않은 놈 때문에 정작 들어가야 할 놈이 못 들어가는 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 상태를 금지한다.
+3. <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a> (<a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>:
    - **정의**: 프로세스 P1이 진입을 요청한 후부터 허락될 때까지, 다른 프로세스들이 내 앞에 새치기해서 들어갈 수 있는 횟수에 <strong>'한계(Bound)'</strong>가 있어야 한다.
-   - **가치**: 나보다 힘센 놈(우선순위)이 무한정 들어가는 바람에 내가 영원히 들어가지 못하고 굶어 죽는 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 원천 차단한다.
+   - **가치**: 나보다 힘센 놈(우선순위)이 무한정 들어가는 바람에 내가 영원히 들어가지 못하고 굶어 죽는 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))를 원천 차단한다.
 
-### 소프트웨어적 해결의 역사 (데커 & 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
+### 소프트웨어적 해결의 역사 (데커 & 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 과거 CPU 하드웨어 지원이 없던 시절, 천재 학자들은 오직 변수(`turn`, `flag`)만으로 저 3조건을 만족하려 피 터지게 싸웠다.
 
-- <strong>데커의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Dekker's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 깃발(`flag`)과 차례(`turn`) 변수를 교묘하게 조합해 3조건을 모두 만족한 최초의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 하지만 코드가 너무 길고 복잡했다.
-- <strong>피터슨의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Peterson's <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 데커를 아주 우아하게 압축한 교과서의 바이블.
+- <strong>데커의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Dekker's <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 깃발(`flag`)과 차례(`turn`) 변수를 교묘하게 조합해 3조건을 모두 만족한 최초의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). 하지만 코드가 너무 길고 복잡했다.
+- <strong>피터슨의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a> (Peterson's <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">Algorithm</a>)</strong>: 데커를 아주 우아하게 압축한 교과서의 바이블.
 
 ```text
   +---------------------------------------------------------------------+
@@ -89,39 +86,39 @@ tags = ["studynote-operating-system"]
   |   flag[0] = false;  // 4. 나 다 썼어! 깃발 내림 (퇴장)              |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 `turn`이라는 '양보의 미덕'에 있다. 서로 먼저 들어가겠다고 `flag`를 들어도, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 결국 상대방을 먼저 들여보내 주게 된다. 즉, 핑퐁을 치더라도 절대 데드락에 빠지지 않으며([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 만족), 서로 한 번씩 번갈아 들어가므로 기아([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))도 발생하지 않는 완벽한 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
+**[다이어그램 해설]** 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 위대함은 `turn`이라는 '양보의 미덕'에 있다. 서로 먼저 들어가겠다고 `flag`를 들어도, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 결국 상대방을 먼저 들여보내 주게 된다. 즉, 핑퐁을 치더라도 절대 데드락에 빠지지 않으며([진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 만족), 서로 한 번씩 번갈아 들어가므로 기아([한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))도 발생하지 않는 완벽한 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 구조다.
 
-- **📢 섹션 요약 비유**: 외나무다리에서 두 운전자가 만났습니다. 둘 다 "나 지나갈래([flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))!" 하고 빵빵대다가 사고(상호배제 실패)가 날 뻔합니다. 피터슨 규칙은 무조건 창문을 열고 "먼저 가시죠(turn)"라고 말하는 것입니다. 동시에 "먼저 가시죠"를 외치더라도 마지막에 말한 사람이 결국 상대방을 보내주게 되어 사고 없이 완벽히 다리를 건넙니다.
+- **📢 섹션 요약 비유**: 외나무다리에서 두 운전자가 만났습니다. 둘 다 "나 지나갈래([flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))!" 하고 빵빵대다가 사고(상호배제 실패)가 날 뻔합니다. 피터슨 규칙은 무조건 창문을 열고 "먼저 가시죠(turn)"라고 말하는 것입니다. 동시에 "먼저 가시죠"를 외치더라도 마지막에 말한 사람이 결국 상대방을 보내주게 되어 사고 없이 완벽히 다리를 건넙니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(피터슨) vs 하드웨어 지원(TAS)
+### 소프트웨어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(피터슨) vs 하드웨어 지원(TAS)
 
-피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완벽하지만, 현대 멀티코어 환경에서는 사실상 <strong>사망 선고</strong>를 받았다.
+피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 완벽하지만, 현대 멀티코어 환경에서는 사실상 <strong>사망 선고</strong>를 받았다.
 
 | 특성 | 소프트웨어 방식 (피터슨) | 하드웨어 방식 (Test-And-Set 등) |
 |:---|:---|:---|
-| **성공 조건** | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 순서대로(In-order) 실행된다는 보장 | 하드웨어 레벨의 절대적 [원자성](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/knowledge-base/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 보장 |
-| **현대 CPU 적용** | ❌ **실패**. Out-of-Order 실행과 캐시 때문에 변수 꼬임 | ✅ **성공**. CPU 실리콘 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 락을 통해 물리적 차단 |
-| **적용 프로세스 수**| N개 확장 시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(제과점 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)이 극도로 무거워짐 | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개도 단순 While 문 하나로 통제 가능 |
-| **실무 사용** | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전공 시험 문제용 | 현대의 모든 [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), [Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/), Atomic 객체의 내부 엔진 |
+| **성공 조건** | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 순서대로(In-order) 실행된다는 보장 | 하드웨어 레벨의 절대적 [원자성](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/) ([Atomicity](/studynote/05_database/04_transactions_concurrency/193_atomicity_all_or_nothing/)) 보장 |
+| **현대 CPU 적용** | ❌ **실패**. Out-of-Order 실행과 캐시 때문에 변수 꼬임 | ✅ **성공**. CPU 실리콘 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 락을 통해 물리적 차단 |
+| **적용 프로세스 수**| N개 확장 시 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(제과점 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 등)이 극도로 무거워짐 | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개도 단순 While 문 하나로 통제 가능 |
+| **실무 사용** | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 전공 시험 문제용 | 현대의 모든 [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/), [Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/), Atomic 객체의 내부 엔진 |
 
-현대 컴파일러와 CPU는 성능을 높이기 위해 코드의 실행 순서를 마음대로 뒤섞는다(Out-of-Order Execution). 내가 분명히 `flag = true`를 `turn = 1`보다 먼저 썼는데, CPU가 지 맘대로 `turn`부터 바꿔버리면 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 즉시 붕괴하여 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 임계 구역에서 쾅 부딪힌다. 따라서 현대 OS는 무조건 하드웨어가 1타 3피로 묶어주는 `TAS(Test-And-Set)`나 `CAS(Compare-And-Swap)` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 믿고 임계 구역을 수호한다.
+현대 컴파일러와 CPU는 성능을 높이기 위해 코드의 실행 순서를 마음대로 뒤섞는다(Out-of-Order Execution). 내가 분명히 `flag = true`를 `turn = 1`보다 먼저 썼는데, CPU가 지 맘대로 `turn`부터 바꿔버리면 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 즉시 붕괴하여 두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 임계 구역에서 쾅 부딪힌다. 따라서 현대 OS는 무조건 하드웨어가 1타 3피로 묶어주는 `TAS(Test-And-Set)`나 `CAS(Compare-And-Swap)` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)만 믿고 임계 구역을 수호한다.
 
-- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 종이에 쓴 "도덕 규범"입니다. 사람들이 착하게 순서대로 움직이면 잘 돌아가지만, 성격 급한 현대인(최신 CPU)들은 규범을 무시하고 막 뛰어다닙니다. 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 꼼수를 부릴 수 없게 아예 육중한 "철문과 자물쇠(TAS)"를 물리적으로 박아버린 것입니다.
+- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 종이에 쓴 "도덕 규범"입니다. 사람들이 착하게 순서대로 움직이면 잘 돌아가지만, 성격 급한 현대인(최신 CPU)들은 규범을 무시하고 막 뛰어다닙니다. 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 꼼수를 부릴 수 없게 아예 육중한 "철문과 자물쇠(TAS)"를 물리적으로 박아버린 것입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **임계 구역 (Critical Section)의 크기 조절의 미학**: 주니어 개발자가 `Vector(리스트)`에서 아이템을 빼고 가공하여 DB에 넣는 로직을 짰다. `synchronized` (자바 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 락)를 메서드 전체에 걸어버렸다.
-   - **참사**: 메서드 진입부터 끝날 때까지 100ms가 걸렸다. [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 몰리자, 임계 구역이 너무 거대해서 한 놈이 DB에 쓰는 100ms 동안 나머지 99명이 파업(Sleep)하며 서버 처리량이 1 TPS로 곤두박질쳤다.
-   - **아키텍트 조치**: 임계 구역은 반드시 <strong>"공유 자원(Vector)을 건드리는 단 1줄의 코드"</strong>로 압축해야 한다. `Vector`에서 아이템을 빼는 `pop()` 1ms 구간에만 락을 걸고 잽싸게 빠져나온다(퇴장 구역). 그리고 빼낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(지역 변수화됨)를 가공해 DB에 넣는 긴 작업은 락이 없는 자유로운 '나머지 구역(Remainder)'에서 100개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 실행하게 만들어 병목을 100배 개선한다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/280_read_write_lock/">Read-Write Lock</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/">독자-저자 문제</a> 해결)</strong>: 게시판 글 조회수. 글을 읽는(Read) 사람은 1만 명, 글을 수정(Write)하는 사람은 1명이다. 무식하게 임계 구역에 일반 Mutex를 걸면 읽는 사람 1만 명이 한 명씩 줄을 서야 한다 (읽는 것끼린 충돌도 안 나는데!).
-   - **실무 조치**: 읽기와 쓰기의 성격을 분리한 `ReadWriteLock`을 도입한다. 임계 구역에 진입할 때 `Read Lock`은 1만 명이 동시에 들어갈 수 있게 허용(공유)하고, `Write Lock`이 진입할 때만 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 걸어 모두를 쫓아낸다. 임계 구역의 성질을 파악한 극강의 튜닝이다.
+1. **임계 구역 (Critical Section)의 크기 조절의 미학**: 주니어 개발자가 `Vector(리스트)`에서 아이템을 빼고 가공하여 DB에 넣는 로직을 짰다. `synchronized` (자바 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 락)를 메서드 전체에 걸어버렸다.
+   - **참사**: 메서드 진입부터 끝날 때까지 100ms가 걸렸다. [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 100개가 몰리자, 임계 구역이 너무 거대해서 한 놈이 DB에 쓰는 100ms 동안 나머지 99명이 파업(Sleep)하며 서버 처리량이 1 TPS로 곤두박질쳤다.
+   - **아키텍트 조치**: 임계 구역은 반드시 <strong>"공유 자원(Vector)을 건드리는 단 1줄의 코드"</strong>로 압축해야 한다. `Vector`에서 아이템을 빼는 `pop()` 1ms 구간에만 락을 걸고 잽싸게 빠져나온다(퇴장 구역). 그리고 빼낸 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(지역 변수화됨)를 가공해 DB에 넣는 긴 작업은 락이 없는 자유로운 '나머지 구역(Remainder)'에서 100개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 동시에 실행하게 만들어 병목을 100배 개선한다.
+2. <strong><a href="/studynote/02_operating_system/04_synchronization/280_read_write_lock/">Read-Write Lock</a> (<a href="/studynote/02_operating_system/04_synchronization/247_readers_writers_problem/">독자-저자 문제</a> 해결)</strong>: 게시판 글 조회수. 글을 읽는(Read) 사람은 1만 명, 글을 수정(Write)하는 사람은 1명이다. 무식하게 임계 구역에 일반 Mutex를 걸면 읽는 사람 1만 명이 한 명씩 줄을 서야 한다 (읽는 것끼린 충돌도 안 나는데!).
+   - **실무 조치**: 읽기와 쓰기의 성격을 분리한 `ReadWriteLock`을 도입한다. 임계 구역에 진입할 때 `Read Lock`은 1만 명이 동시에 들어갈 수 있게 허용(공유)하고, `Write Lock`이 진입할 때만 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)를 걸어 모두를 쫓아낸다. 임계 구역의 성질을 파악한 극강의 튜닝이다.
 
 ```text
   +--------------------------------------------------------------------+
@@ -146,7 +143,7 @@ tags = ["studynote-operating-system"]
   |   API_Network_Send(val);                                           |
   +--------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** "어디에 락을 걸 것인가?" 이것이 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 실력을 가르는 가장 결정적 잣대다. 코딩의 편의성을 위해 임계 구역을 무식하게 넓게 잡으면([Coarse-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)), 시스템은 싱글 코어 시절로 회귀한다. 반대로 너무 잘게 쪼개면([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) 데드락의 함정에 빠진다. 공유 자원의 수명([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))을 정확히 인지하고 그 부분만 메스로 도려내는 외과 수술이 필요하다.
+**[다이어그램 해설]** "어디에 락을 걸 것인가?" 이것이 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 실력을 가르는 가장 결정적 잣대다. 코딩의 편의성을 위해 임계 구역을 무식하게 넓게 잡으면([Coarse-grained](/studynote/01_computer_architecture/11_multicore_synchronization/398_coarse_grained_multithreading/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)), 시스템은 싱글 코어 시절로 회귀한다. 반대로 너무 잘게 쪼개면([Fine-grained](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) 데드락의 함정에 빠진다. 공유 자원의 수명([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/))을 정확히 인지하고 그 부분만 메스로 도려내는 외과 수술이 필요하다.
 
 - **📢 섹션 요약 비유**: 화장실(임계 구역) 안에서 똥만 싸고 빨리 나와야지, 화장실 안에서 휴대폰 게임하고 웹툰까지 다 보고 나오면(나머지 구역의 남용) 밖에 줄 서 있는 사람들 폭동이 일어납니다. 화장실에선 볼일만 보고 휴대폰은 나와서 소파에서 해야 시스템이 부드럽습니다.
 
@@ -155,13 +152,13 @@ tags = ["studynote-operating-system"]
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-임계 구역을 엄격하게 식별하고 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 원칙을 통해 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하면, 수만 개의 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 미친 듯이 섞여 도는 고부하(High-Load) 클라우드 환경에서도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 0%의 무결점 뱅킹 시스템, 주식 거래소 등을 안전하게 운용할 수 있다.
+임계 구역을 엄격하게 식별하고 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 원칙을 통해 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하면, 수만 개의 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 미친 듯이 섞여 도는 고부하(High-Load) 클라우드 환경에서도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오염([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) 0%의 무결점 뱅킹 시스템, 주식 거래소 등을 안전하게 운용할 수 있다.
 
 ### 결론 및 미래 전망
-임계 구역 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 소프트웨어 락([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/))을 남발하던 시대는 멀티코어의 극단적 발달(128코어+)과 함께 한계를 맞이했다. 락을 얻기 위한 [컨텍스트 스위칭](/knowledge-base/studynote/02_operating_system/01_overview_architecture/034_context_switch/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 CPU 연산 시간보다 비싸졌기 때문이다.
-미래의 패러다임은 이 끔찍한 '임계 구역'이라는 존재 자체를 코드에서 지워버리는 방향으로 가고 있다. [함수형 프로그래밍](/knowledge-base/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)(Scala, Clojure)이 강조하는 상태 불변성(Immutability), 혹은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 하드웨어 TAS [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나로 해결되는 <strong>락 프리(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>) 자료구조</strong>의 대중화, 그리고 인텔의 TSX([HTM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/513_htm/)) 기술처럼 충돌 나면 롤백하는 하드웨어 지원이 만나면서, 전통적인 '문 걸어 잠그기 식' 임계 구역 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법은 레거시(Legacy)로 점차 물러날 전망이다.
+임계 구역 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 위해 소프트웨어 락([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/), [Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/))을 남발하던 시대는 멀티코어의 극단적 발달(128코어+)과 함께 한계를 맞이했다. 락을 얻기 위한 [컨텍스트 스위칭](/studynote/02_operating_system/01_overview_architecture/034_context_switch/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 CPU 연산 시간보다 비싸졌기 때문이다.
+미래의 패러다임은 이 끔찍한 '임계 구역'이라는 존재 자체를 코드에서 지워버리는 방향으로 가고 있다. [함수형 프로그래밍](/studynote/04_software_engineering/06_software_architecture/324_functional_programming_core/)(Scala, Clojure)이 강조하는 상태 불변성(Immutability), 혹은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 자체가 하드웨어 TAS [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나로 해결되는 <strong>락 프리(<a href="/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-free</a>) 자료구조</strong>의 대중화, 그리고 인텔의 TSX([HTM](/studynote/01_computer_architecture/15_advanced_topics/513_htm/)) 기술처럼 충돌 나면 롤백하는 하드웨어 지원이 만나면서, 전통적인 '문 걸어 잠그기 식' 임계 구역 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기법은 레거시(Legacy)로 점차 물러날 전망이다.
 
-- **📢 섹션 요약 비유**: 과거에는 도둑([경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막기 위해 금고(임계 구역)를 튼튼하게 만들고 열쇠([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))를 채우는 데 집중했다면, 현대의 프로그래밍은 아예 금고를 없애고 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해서 각자(Thread-Local) 쓰게 하거나, 훔칠 수 없는 마법의 투명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Immutability)를 만드는 차원으로 도둑질의 개념 자체를 파괴하고 있습니다.
+- **📢 섹션 요약 비유**: 과거에는 도둑([경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))을 막기 위해 금고(임계 구역)를 튼튼하게 만들고 열쇠([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))를 채우는 데 집중했다면, 현대의 프로그래밍은 아예 금고를 없애고 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사해서 각자(Thread-Local) 쓰게 하거나, 훔칠 수 없는 마법의 투명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Immutability)를 만드는 차원으로 도둑질의 개념 자체를 파괴하고 있습니다.
 
 ---
 
@@ -169,9 +166,9 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 대상 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) (Target [Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) / 최소 입자 (Minimum Granularity) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 대상 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) (Target [Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) / 최소 입자 (Minimum Granularity) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
 | 윈도우 스케줄링 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
 | 에너지 인지 스케줄링 (Energy-Aware Scheduling, EAS) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -192,7 +189,7 @@ tags = ["studynote-operating-system"]
 
 1. 임계 구역 (Critical Section)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
 2. 먼저 윈도우 스케줄링을 이해하면 임계 구역 (Critical Section)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 임계 구역 (Critical Section)을 잘 알면 나중에 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제도 훨씬 쉽게 배울 수 있어요.
+3. 그래서 임계 구역 (Critical Section)을 잘 알면 나중에 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -200,7 +197,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 214 / 800
 
-<- **이전**: [213. 경쟁 조건 (Race Condition)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)
-**다음**: [215. 상호 배제 (Mutual Exclusion, Mutex)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/215_mutual_exclusion/) ->
+<- **이전**: [213. 경쟁 조건 (Race Condition)](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)
+**다음**: [215. 상호 배제 (Mutual Exclusion, Mutex)](/studynote/02_operating_system/03_cpu_scheduling/215_mutual_exclusion/) ->
 
 ---

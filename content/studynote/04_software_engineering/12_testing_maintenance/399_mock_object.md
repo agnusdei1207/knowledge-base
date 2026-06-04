@@ -1,18 +1,15 @@
-+++
-title = "399. 목 객체 (Mock Object) 기반 격리 테스트"
-date = 2026-05-08
+---
+title: "399. 목 객체 (Mock Object) 기반 격리 테스트"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -28,19 +25,19 @@ public void 결제_진행(Order order) {
     }
 }
 ```
-개발자가 이 코드를 테스트하려고 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 버튼을 누른다.
+개발자가 이 코드를 테스트하려고 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/) 버튼을 누른다.
 - **비극 1**: 테스트를 돌릴 때마다 진짜 내 통장에서 5만 원씩 빠져나간다! (돈 낭비)
-- **비극 2**: 국민은행 서버가 1시간 동안 점검 중이면 내 코드의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 전부 뻘건 불(실패)을 띄운다. (내 코드 로직은 완벽한데도 외부 요인에 의해 실패함 = Non-deterministic Test)
+- **비극 2**: 국민은행 서버가 1시간 동안 점검 중이면 내 코드의 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)는 전부 뻘건 불(실패)을 띄운다. (내 코드 로직은 완벽한데도 외부 요인에 의해 실패함 = Non-deterministic Test)
 - **비극 3**: 속도가 미친 듯이 느리다. DB와 네트워크를 탔다 오므로 1번 테스트에 수십 초가 걸린다.
 
 **"내 로직(`금액 > 0`)이 맞는지 확인하고 싶은 거지, 진짜 은행 서버가 잘 돌아가는지 테스트하려는 게 아니잖아!"**
-이 문제를 해결하기 위해, 진짜 은행 서버 대신 메모리 안에서만 0.001초 만에 "결제 성공!" 이라고 대답해 주는 <strong>가짜 은행 인형(<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/">Mock</a> Object)</strong>을 꽂아 넣는 '격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))' 기술이 등장했다.
+이 문제를 해결하기 위해, 진짜 은행 서버 대신 메모리 안에서만 0.001초 만에 "결제 성공!" 이라고 대답해 주는 <strong>가짜 은행 인형(<a href="/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/">Mock</a> Object)</strong>을 꽂아 넣는 '격리([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))' 기술이 등장했다.
 
-> 📢 **섹션 요약 비유**: 우주 비행사가 화성 착륙 훈련([단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))을 하려고 진짜 화성(실제 DB)까지 날아갈 수는 없습니다. 대신 지구에 화성과 중력이 100% 똑같은 수조 세트장([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 객체)을 만들어 놓고, 안전하고 싸고 빠르게 내 우주복(내 코드)의 성능만 떼어서 검사하는 완벽한 훈련 기법입니다.
+> 📢 **섹션 요약 비유**: 우주 비행사가 화성 착륙 훈련([단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/))을 하려고 진짜 화성(실제 DB)까지 날아갈 수는 없습니다. 대신 지구에 화성과 중력이 100% 똑같은 수조 세트장([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 객체)을 만들어 놓고, 안전하고 싸고 빠르게 내 우주복(내 코드)의 성능만 떼어서 검사하는 완벽한 훈련 기법입니다.
 
 ---
 
-- **📢 섹션 요약 비유**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -52,11 +49,11 @@ public void 결제_진행(Order order) {
 
 목 객체 프레임워크(Java의 `Mockito`, Python의 `unittest.mock` 등)를 쓰면 가짜 인형을 조종하는 마법사가 될 수 있다.
 
-- **📢 섹션 요약 비유**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -70,14 +67,14 @@ public void 결제_진행(Order order) {
 
 Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지만, 학문적으로는 역할에 따라 세밀하게 나뉜다.
 
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">Dummy</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a>)</strong>: 로직에 아무 영향도 안 주는데, 깡통 객체가 하나 필요할 때 빈 껍데기만 만들어 던져주는 것.
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>)</strong>: 무조건 미리 정해둔 긍정/부정의 하드코딩된 결괏값만 수동적으로 리턴하는 바보 인형 (상태 검증용).
-3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">Spy</a> (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a>)</strong>: 기본적으로 진짜 서버/객체를 호출하되, 호출된 횟수나 파라미터를 몰래 옆에서 감시해서 기록해 두는 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/).
-4. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/">Mock</a> (목)</strong>: [스텁](/knowledge-base/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)의 기능에 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)의 감시 기능까지 합쳐져, "행위(Behavior)가 올바르게 일어났는가?"를 직접 Assertion(단언)할 수 있는 완성형 지능 인형.
+1. <strong><a href="/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">Dummy</a> (<a href="/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/">더미</a>)</strong>: 로직에 아무 영향도 안 주는데, 깡통 객체가 하나 필요할 때 빈 껍데기만 만들어 던져주는 것.
+2. <strong><a href="/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">Stub</a> (<a href="/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/">스텁</a>)</strong>: 무조건 미리 정해둔 긍정/부정의 하드코딩된 결괏값만 수동적으로 리턴하는 바보 인형 (상태 검증용).
+3. <strong><a href="/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">Spy</a> (<a href="/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/">스파이</a>)</strong>: 기본적으로 진짜 서버/객체를 호출하되, 호출된 횟수나 파라미터를 몰래 옆에서 감시해서 기록해 두는 [스파이](/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/).
+4. <strong><a href="/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/">Mock</a> (목)</strong>: [스텁](/studynote/04_software_engineering/11_testing_validation/852_stub_test_double/)의 기능에 [스파이](/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/)의 감시 기능까지 합쳐져, "행위(Behavior)가 올바르게 일어났는가?"를 직접 Assertion(단언)할 수 있는 완성형 지능 인형.
 
 ---
 
-- **📢 섹션 요약 비유**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -87,12 +84,12 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-"완벽한 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))만이 순수한 내 로직의 무결성을 증명한다."
-현대의 소프트웨어는 결코 혼자 돌아가지 않는다. [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 하에서는 함수 하나가 외부 API를 수십 개씩 찌르는 것이 기본이다. 이런 얽히고설킨 의존성 사슬을 칼로 끊어내고, 오직 내가 짠 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 본연의 책임만을 발가벗겨 시험대에 올리는 기술이 바로 Mocking이다. 물론 너무 Mock을 남용하면 "가짜 세상에서는 완벽했는데 진짜 세상에 합치니까 다 터지더라"는 딜레마(Mockist의 함정)에 빠질 수 있으므로, [Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 기반의 [단위 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 진짜 객체를 엮는 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))의 균형 잡힌 투 트랙(Two-track) 전략이 반드시 필요하다.
+"완벽한 격리([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))만이 순수한 내 로직의 무결성을 증명한다."
+현대의 소프트웨어는 결코 혼자 돌아가지 않는다. [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 하에서는 함수 하나가 외부 API를 수십 개씩 찌르는 것이 기본이다. 이런 얽히고설킨 의존성 사슬을 칼로 끊어내고, 오직 내가 짠 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 본연의 책임만을 발가벗겨 시험대에 올리는 기술이 바로 Mocking이다. 물론 너무 Mock을 남용하면 "가짜 세상에서는 완벽했는데 진짜 세상에 합치니까 다 터지더라"는 딜레마(Mockist의 함정)에 빠질 수 있으므로, [Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) 기반의 [단위 테스트](/studynote/04_software_engineering/12_testing_maintenance/397_unit_test/)와 진짜 객체를 엮는 [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/))의 균형 잡힌 투 트랙(Two-track) 전략이 반드시 필요하다.
 
 ---
 
-- **📢 섹션 요약 비유**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -102,21 +99,21 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 ## Ⅴ. 기대효과 및 결론
 
-목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -128,10 +125,10 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,13 +148,13 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 목 객체 ([Mock](/knowledge-base/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 목 객체 ([Mock](/studynote/04_software_engineering/11_testing_validation/854_mock_test_double/) Object) 기반 격리 테스트은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -165,7 +162,7 @@ Mock은 가짜 객체(테스트 대역)를 부르는 대명사처럼 쓰이지�
 
 **진행 상황**: 399 / 973
 
-<- **이전**: [398. 단위 테스트 프레임워크 (JUnit, pytest, NUnit 등)](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/)
-**다음**: [400. 통합 테스트 (Integration Test) - 모듈 간 인터페이스 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) ->
+<- **이전**: [398. 단위 테스트 프레임워크 (JUnit, pytest, NUnit 등)](/studynote/04_software_engineering/12_testing_maintenance/398_unit_test_framework_xunit/)
+**다음**: [400. 통합 테스트 (Integration Test) - 모듈 간 인터페이스 검증](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/) ->
 
 ---

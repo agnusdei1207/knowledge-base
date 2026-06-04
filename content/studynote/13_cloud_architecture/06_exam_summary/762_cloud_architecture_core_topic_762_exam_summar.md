@@ -1,13 +1,10 @@
-+++
-title = "762. 클라우드 아키텍처 핵심 토픽 762번 시험 요약 (Cloud Architecture Core Topic 762 Exam Summary)"
-date = 2026-05-09
+---
+title: "762. 클라우드 아키텍처 핵심 토픽 762번 시험 요약 (Cloud Architecture Core Topic 762 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 762 / 800
 
-<- **이전**: [761. 클라우드 아키텍처 핵심 토픽 761번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/761_cloud_architecture_core_topic_761_exam_summar/)
-**다음**: [763. 클라우드 아키텍처 핵심 토픽 763번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/763_cloud_architecture_core_topic_763_exam_summar/) ->
+<- **이전**: [761. 클라우드 아키텍처 핵심 토픽 761번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/761_cloud_architecture_core_topic_761_exam_summar/)
+**다음**: [763. 클라우드 아키텍처 핵심 토픽 763번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/763_cloud_architecture_core_topic_763_exam_summar/) ->
 
 ---

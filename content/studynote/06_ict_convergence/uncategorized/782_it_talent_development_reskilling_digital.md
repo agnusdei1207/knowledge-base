@@ -1,13 +1,10 @@
-+++
-title = "782. IT 인재 양성 리스킬링 디지털 전환 (IT Talent Development Reskilling Digital)"
-date = 2026-05-09
+---
+title: "782. IT 인재 양성 리스킬링 디지털 전환 (IT Talent Development Reskilling Digital)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ Kirkpatrick 4단계 + Phillips 5단계 ROI 모델은 다음과 같이 정량화�
 
 **진행 상황**: 782 / 800
 
-<- **이전**: [781. 디지털 리터러시 데이터 리터러시 교육](/knowledge-base/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/)
-**다음**: [783. 기술 부채 관리 현대화 전략 우선순위](/knowledge-base/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/) ->
+<- **이전**: [781. 디지털 리터러시 데이터 리터러시 교육](/studynote/06_ict_convergence/uncategorized/781_digital_literacy_data_literacy_education/)
+**다음**: [783. 기술 부채 관리 현대화 전략 우선순위](/studynote/06_ict_convergence/uncategorized/783_tech_debt_management_modernization_priority/) ->
 
 ---

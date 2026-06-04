@@ -1,9 +1,9 @@
-+++
-title = "03. 엔터프라이즈 통합: EAI, ESB 및 MSA"
+---
+title: "03. 엔터프라이즈 통합: EAI, ESB 및 MSA"
+tags:
+  - "enterprise_systems"
+---
 
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

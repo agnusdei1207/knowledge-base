@@ -1,13 +1,10 @@
-+++
-title = "622. 불변 인프라 골든 이미지 패커 (Immutable Infrastructure Golden Image Packer)"
-date = 2026-05-09
+---
+title: "622. 불변 인프라 골든 이미지 패커 (Immutable Infrastructure Golden Image Packer)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Build -> Scan -> Version -> Deploy -> Replace
 
 **진행 상황**: 618 / 800
 
-<- **이전**: [617. IaC Terraform Pulumi CDK](/knowledge-base/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/)
-**다음**: [619. 관측가능성 Prometheus Grafana 스택](/knowledge-base/studynote/06_ict_convergence/uncategorized/623_observability_prometheus_grafana_stack/) ->
+<- **이전**: [617. IaC Terraform Pulumi CDK](/studynote/06_ict_convergence/uncategorized/621_iac_terraform_pulumi_cdk/)
+**다음**: [619. 관측가능성 Prometheus Grafana 스택](/studynote/06_ict_convergence/uncategorized/623_observability_prometheus_grafana_stack/) ->
 
 ---

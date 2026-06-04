@@ -1,13 +1,10 @@
-+++
-title = "768. 공유 경제 P2P 마켓플레이스 신뢰 (Sharing Economy P2P Marketplace Trust)"
-date = 2026-05-09
+---
+title: "768. 공유 경제 P2P 마켓플레이스 신뢰 (Sharing Economy P2P Marketplace Trust)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -170,7 +167,7 @@ P2P 신뢰 시스템은 독립 컴포
 
 **진행 상황**: 768 / 800
 
-<- **이전**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/)
-**다음**: [769. 순환 경제 자원 재활용 디지털 추적](/knowledge-base/studynote/06_ict_convergence/uncategorized/769_circular_economy_resource_recycling_digital/) ->
+<- **이전**: [767. 크리에이터 경제 디지털 콘텐츠 플랫폼](/studynote/06_ict_convergence/uncategorized/767_creator_economy_digital_content_platform/)
+**다음**: [769. 순환 경제 자원 재활용 디지털 추적](/studynote/06_ict_convergence/uncategorized/769_circular_economy_resource_recycling_digital/) ->
 
 ---

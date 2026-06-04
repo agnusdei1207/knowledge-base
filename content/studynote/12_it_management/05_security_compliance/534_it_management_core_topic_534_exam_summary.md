@@ -1,13 +1,10 @@
-+++
-title = "534. IT 경영 관리 핵심 토픽 534번 시험 요약 (IT Management Core Topic 534 Exam Summary)"
-date = 2026-05-09
+---
+title: "534. IT 경영 관리 핵심 토픽 534번 시험 요약 (IT Management Core Topic 534 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -181,7 +178,7 @@ COBIT 2019의 실무 적용에서 가장 중요한 것은 **6가지 설계 인�
 
 **진행 상황**: 534 / 800
 
-<- **이전**: [533. IT 경영 관리 핵심 토픽 533번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/533_it_management_core_topic_533_exam_summary/)
-**다음**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/) ->
+<- **이전**: [533. IT 경영 관리 핵심 토픽 533번 시험 요약](/studynote/12_it_management/05_security_compliance/533_it_management_core_topic_533_exam_summary/)
+**다음**: [535. IT 경영 관리 핵심 토픽 535번 시험 요약](/studynote/12_it_management/05_security_compliance/535_it_management_core_topic_535_exam_summary/) ->
 
 ---

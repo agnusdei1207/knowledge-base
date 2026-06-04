@@ -1,13 +1,10 @@
-+++
-title = "584. 스마트 시티 도시 데이터 플랫폼 (Smart City Urban Data Platform)"
-date = 2026-05-09
+---
+title: "584. 스마트 시티 도시 데이터 플랫폼 (Smart City Urban Data Platform)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Collect -> Integrate -> Analyze -> Service -> Govern
 
 **진행 상황**: 584 / 800
 
-<- **이전**: [583. V2X 차량 통신 C-V2X DSRC](/knowledge-base/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/)
-**다음**: [585. 스마트팩토리 산업 IoT IIoT 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/585_smart_factory_industrial_iot_iiot_architectur/) ->
+<- **이전**: [583. V2X 차량 통신 C-V2X DSRC](/studynote/06_ict_convergence/uncategorized/583_v2x_vehicle_communication_c_v2x_dsrc/)
+**다음**: [585. 스마트팩토리 산업 IoT IIoT 아키텍처](/studynote/06_ict_convergence/uncategorized/585_smart_factory_industrial_iot_iiot_architectur/) ->
 
 ---

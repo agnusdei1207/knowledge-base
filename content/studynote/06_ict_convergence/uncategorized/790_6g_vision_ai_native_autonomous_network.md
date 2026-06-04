@@ -1,13 +1,10 @@
-+++
-title = "790. 6G 비전 AI 네이티브 자율 네트워크 (6G Vision AI Native Autonomous Network)"
-date = 2026-05-09
+---
+title: "790. 6G 비전 AI 네이티브 자율 네트워크 (6G Vision AI Native Autonomous Network)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -166,7 +163,7 @@ Google의 자율주행 단계 구분(SAE Level 0~5)을 통신에 매핑한 **TM 
 
 **진행 상황**: 790 / 800
 
-<- **이전**: [789. 생물학적 컴퓨팅 DNA 저장 분자 기계](/knowledge-base/studynote/06_ict_convergence/uncategorized/789_biological_computing_dna_storage_molecular/)
-**다음**: [791. ICT 융합 기술 최신 동향 기술사 마스터](/knowledge-base/studynote/06_ict_convergence/uncategorized/791_ict_convergence_latest_trends_pe_master/) ->
+<- **이전**: [789. 생물학적 컴퓨팅 DNA 저장 분자 기계](/studynote/06_ict_convergence/uncategorized/789_biological_computing_dna_storage_molecular/)
+**다음**: [791. ICT 융합 기술 최신 동향 기술사 마스터](/studynote/06_ict_convergence/uncategorized/791_ict_convergence_latest_trends_pe_master/) ->
 
 ---

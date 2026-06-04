@@ -1,13 +1,10 @@
-+++
-title = "590. IT 경영 관리 핵심 토픽 590번 시험 요약 (IT Management Core Topic 590 Exam Summary)"
-date = 2026-05-09
+---
+title: "590. IT 경영 관리 핵심 토픽 590번 시험 요약 (IT Management Core Topic 590 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ IT 경영 관리의 핵심 개념들은 서로 경쟁·보완 관계에 있다. 
 
 **진행 상황**: 590 / 800
 
-<- **이전**: [589. IT 경영 관리 핵심 토픽 589번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/589_it_management_core_topic_589_exam_summary/)
-**다음**: [591. IT 경영 관리 핵심 토픽 591번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/591_it_management_core_topic_591_exam_summary/) ->
+<- **이전**: [589. IT 경영 관리 핵심 토픽 589번 시험 요약](/studynote/12_it_management/05_security_compliance/589_it_management_core_topic_589_exam_summary/)
+**다음**: [591. IT 경영 관리 핵심 토픽 591번 시험 요약](/studynote/12_it_management/05_security_compliance/591_it_management_core_topic_591_exam_summary/) ->
 
 ---

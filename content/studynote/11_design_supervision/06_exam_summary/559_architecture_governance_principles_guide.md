@@ -1,13 +1,10 @@
-+++
-title = "559. 아키텍처 거버넌스 원칙 가이드라인 (Architecture Governance Principles Guidelines)"
-date = 2026-05-09
+---
+title: "559. 아키텍처 거버넌스 원칙 가이드라인 (Architecture Governance Principles Guidelines)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -172,7 +169,7 @@ COBIT 2019의 **RACI(Responsible, Accountable, Consulted, Informed)** 모델을 
 
 **진행 상황**: 559 / 600
 
-<- **이전**: [558. 디지털 전환 전략 로드맵 수립](/knowledge-base/studynote/11_design_supervision/06_exam_summary/559_digital_transformation_strategy_roadmap/)
-**다음**: [560. SW 아키텍처 문서화 4+1 뷰](/knowledge-base/studynote/11_design_supervision/06_exam_summary/560_software_architecture_documentation_4_1_/) ->
+<- **이전**: [558. 디지털 전환 전략 로드맵 수립](/studynote/11_design_supervision/06_exam_summary/559_digital_transformation_strategy_roadmap/)
+**다음**: [560. SW 아키텍처 문서화 4+1 뷰](/studynote/11_design_supervision/06_exam_summary/560_software_architecture_documentation_4_1_/) ->
 
 ---

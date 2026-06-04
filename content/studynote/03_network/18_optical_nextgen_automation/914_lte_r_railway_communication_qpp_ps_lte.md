@@ -1,13 +1,10 @@
-+++
-title = "914. 철도 통신망 (LTE-R)"
-date = 2026-05-08
+---
+title: "914. 철도 통신망 (LTE-R)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -20,7 +17,7 @@ tags = ["studynote-network"]
 ## Ⅰ. 개요 및 필요성
 
 - 2000년대까지 철도 기관사들은 '치직-칙' 거리는 구형 무전기(VHF)나 주파수 공용 통신(TRS)을 썼습니다.
-- **문제점**: 오직 '목소리'만 겨우 전달될 뿐, 고속철도의 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이나 기관차 고장 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터)를 관제실로 보낼 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 0이었습니다. 게다가 시속 300km로 달리면 무전 파동이 찌그러져 뚝뚝 끊겼습니다.
+- **문제점**: 오직 '목소리'만 겨우 전달될 뿐, 고속철도의 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 영상이나 기관차 고장 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(빅데이터)를 관제실로 보낼 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 0이었습니다. 게다가 시속 300km로 달리면 무전 파동이 찌그러져 뚝뚝 끊겼습니다.
 
 ```text
 [V2I 노변 기지국 RSU 교통 관제 시스템…]
@@ -31,14 +28,14 @@ tags = ["studynote-network"]
     +---> [해상 통신망 LTE-M / e-Navigat…]
 ```
 
-- **📢 섹션 요약 비유**: 철도 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 철도 통신망은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 우리 스마트폰이 쓰는 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 기술을 뼈대로 삼되, <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 달리는 철도 환경(시속 350km 이상)에서도 끊기지 않고 대용량 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(영상, 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)를 전송할 수 있도록 특화시킨 '철도 전용 차세대 국가 무선 통신망'</strong>입니다. (세계 최초로 한국이 국가망으로 상용화했습니다.)
-- **근간 기술**: 재난이 터졌을 때 경찰/소방관들이 쓰는 <strong><a href="/knowledge-base/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/">PS-LTE</a>(재난안전통신망)</strong> 기술을 그대로 가져와 철도에 맞게 개조한 것입니다.
+- **개념**: 우리 스마트폰이 쓰는 4G [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) 통신 기술을 뼈대로 삼되, <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/">초고속</a>으로 달리는 철도 환경(시속 350km 이상)에서도 끊기지 않고 대용량 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(영상, 제어 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a>)를 전송할 수 있도록 특화시킨 '철도 전용 차세대 국가 무선 통신망'</strong>입니다. (세계 최초로 한국이 국가망으로 상용화했습니다.)
+- **근간 기술**: 재난이 터졌을 때 경찰/소방관들이 쓰는 <strong><a href="/studynote/03_network/18_optical_nextgen_automation/930_ps_lte_public_safety_mcptt_d2d_survival/">PS-LTE</a>(재난안전통신망)</strong> 기술을 그대로 가져와 철도에 맞게 개조한 것입니다.
 
 ```text
 [V2I 노변 기지국 RSU 교통 관제 시스템…]
@@ -55,29 +52,29 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-### 1. QPP ([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), Priority, Pre-emption) - "절대 우선순위 강탈" 🌟
-[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 승객용망이 아니라 관제 전용망이지만, 긴급 상황 시 이 망의 트래픽에도 서열이 존재합니다.
+### 1. QPP ([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), Priority, Pre-emption) - "절대 우선순위 강탈" 🌟
+[LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 승객용망이 아니라 관제 전용망이지만, 긴급 상황 시 이 망의 트래픽에도 서열이 존재합니다.
 - **Priority(우선순위)와 Pre-emption(선점/강탈)**:
   - KTX가 불타고 있습니다. 기관사가 "비상 정지!" 버튼을 누릅니다.
-  - 이때 철도망 안에서 다른 역무원들이 일상 통화(일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하느라 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 꽉 차 있습니다.
-  - 시스템은 0.01초 만에 <strong>역무원들의 일반 통화를 강제로 끊어버리고(Pre-emption 강탈), 기관사의 비상 제어 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 패킷에 'QCI 1번(최고 등급 하이패스)' 꼬리표를 딱 붙여 빛의 속도로 관제실로 꽂아 넣습니다.</strong> 이것이 QPP 기술입니다.
+  - 이때 철도망 안에서 다른 역무원들이 일상 통화(일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 하느라 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 꽉 차 있습니다.
+  - 시스템은 0.01초 만에 <strong>역무원들의 일반 통화를 강제로 끊어버리고(Pre-emption 강탈), 기관사의 비상 제어 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 패킷에 'QCI 1번(최고 등급 하이패스)' 꼬리표를 딱 붙여 빛의 속도로 관제실로 꽂아 넣습니다.</strong> 이것이 QPP 기술입니다.
 
-### 2. 고속 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))와 [터널링](/knowledge-base/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 오버랩
+### 2. 고속 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/) ([Handover](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))와 [터널링](/studynote/03_network/07_network_layer_routing/377_tunneling_mechanism_overview/) 오버랩
 - 차가 300km/h로 달리면, 1초마다 철로 옆 기지국(RU) 1번 안테나에서 2번 안테나로 통신권이 넘어갑니다.
 - 일반 스마트폰은 이때 0.1초씩 전화가 틱틱 끊깁니다.
-- [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 <strong>'핑퐁 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>'</strong>를 막기 위해, 기지국 A와 B의 전파가 겹치는 겹침 구간(Overlap Zone)을 아주 길게 설계하고, 코어망([EPC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))에서 미리 다음 기지국으로 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 터널을 뚫어놓아(Make-before-break) 300km 속도에서도 패킷 단 1개도 드랍되지 않는 100% 무결점 심리스(Seamless) 통신을 달성합니다.
+- [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)-R은 <strong>'핑퐁 <a href="/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/">핸드오버</a>'</strong>를 막기 위해, 기지국 A와 B의 전파가 겹치는 겹침 구간(Overlap Zone)을 아주 길게 설계하고, 코어망([EPC](/studynote/03_network/15_nextgen_communication_architecture/753_epc_evolved_packet_core_sgw_pgw/))에서 미리 다음 기지국으로 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 터널을 뚫어놓아(Make-before-break) 300km 속도에서도 패킷 단 1개도 드랍되지 않는 100% 무결점 심리스(Seamless) 통신을 달성합니다.
 
 ### 3. 이중 링(Ring) 토폴로지 생존망 구축
 - 철로를 따라 깔린 광케이블(백본망)이 지진으로 뚝 끊어지면?
-- 896번에서 배운 [SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 기반의 <strong>이중 링(Ring) 네트워크 구조</strong>로 국사를 엮어둡니다. 케이블이 끊어지면 반대편 철길로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뺑 돌아서 50ms 만에 복구되어 관제실과 절대 끊기지 않습니다.
+- 896번에서 배운 [SONET](/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/) 기반의 <strong>이중 링(Ring) 네트워크 구조</strong>로 국사를 엮어둡니다. 케이블이 끊어지면 반대편 철길로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 뺑 돌아서 50ms 만에 복구되어 관제실과 절대 끊기지 않습니다.
 
-철도 통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…가 기반 조건을 만든다면, 철도 통신망은 그 위에서 핵심 메커니즘을 구현하고, [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+철도 통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. V2I 노변 기지국 [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…가 기반 조건을 만든다면, 철도 통신망은 그 위에서 핵심 메커니즘을 구현하고, [해상 통신망](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…의 기반 정리 | 철도 통신망의 핵심 동작 | [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…의 확장 적용 |
+| 초점 | V2I 노변 기지국 [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…의 기반 정리 | 철도 통신망의 핵심 동작 | [해상 통신망](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 철도 통신망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -85,21 +82,21 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 이 빵빵한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 덕분에, 기관사가 앞을 보지 않아도 기차 앞머리에 달린 고화질 CCTV가 관제실로 4K 영상을 실시간 전송합니다. 궁극적으로는 기관사가 아예 타지 않는 <strong>무인 완전 자율주행 철도 시스템(CBTC)</strong>을 완성하는 핵심 뇌신경망입니다.
+- 이 빵빵한 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/[5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)) 덕분에, 기관사가 앞을 보지 않아도 기차 앞머리에 달린 고화질 CCTV가 관제실로 4K 영상을 실시간 전송합니다. 궁극적으로는 기관사가 아예 타지 않는 <strong>무인 완전 자율주행 철도 시스템(CBTC)</strong>을 완성하는 핵심 뇌신경망입니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 철도 통신(무전기)은 기관사가 창문 밖으로 '종이비행기(음성)'를 던져 역장에게 소식을 알리는 원시적인 방식이었습니다. 비행기는 느리고 영상도 못 보냅니다. <strong><a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-R(철도 전용 LTE망)</strong>은 기찻길 옆에 기관사 전용 '10차선 하이패스 고속도로'를 새로 뚫어준 혁명입니다. 이 고속도로는 차가 아무리 빨리 달려도 절대 타이어가 미끄러지지 않게 특수 설계(고속 [핸드오버](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))되어 있습니다. 게다가 불이 나는 비상 상황이 터지면, 사이렌이 울리며 <strong>QPP(우선순위 강탈) 시스템</strong>이 발동합니다. 고속도로를 달리던 모든 일반 트럭(일반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 강제로 갓길로 밀어내어 처박아 버리고, 앰뷸런스(기관사의 비상 정지 명령) 딱 한 대만 모세의 기적처럼 텅 빈 10차선 도로 한가운데를 광속으로 뚫고 지나가게 만드는 절대 무결점 생명줄 시스템입니다.
+- **📢 섹션 요약 비유**: 기존 철도 통신(무전기)은 기관사가 창문 밖으로 '종이비행기(음성)'를 던져 역장에게 소식을 알리는 원시적인 방식이었습니다. 비행기는 느리고 영상도 못 보냅니다. <strong><a href="/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a>-R(철도 전용 LTE망)</strong>은 기찻길 옆에 기관사 전용 '10차선 하이패스 고속도로'를 새로 뚫어준 혁명입니다. 이 고속도로는 차가 아무리 빨리 달려도 절대 타이어가 미끄러지지 않게 특수 설계(고속 [핸드오버](/studynote/03_network/11_wireless_mobile_communication/556_handover_handoff_types_concept/))되어 있습니다. 게다가 불이 나는 비상 상황이 터지면, 사이렌이 울리며 <strong>QPP(우선순위 강탈) 시스템</strong>이 발동합니다. 고속도로를 달리던 모든 일반 트럭(일반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))들을 강제로 갓길로 밀어내어 처박아 버리고, 앰뷸런스(기관사의 비상 정지 명령) 딱 한 대만 모세의 기적처럼 텅 빈 10차선 도로 한가운데를 광속으로 뚫고 지나가게 만드는 절대 무결점 생명줄 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-철도 통신망은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+철도 통신망은 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [해상 통신망](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…, 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 철도 통신망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -109,10 +106,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
+| V2I 노변 기지국 [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [해상 통신망](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat… | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,7 +123,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
-철도 통신망는 V2I 노변 기지국 [RSU](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해상 통신망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/knowledge-base/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+철도 통신망는 V2I 노변 기지국 [RSU](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/) 교통 관제 시스템…에서 출발해 현재 메커니즘을 정교화하고, 이후 [해상 통신망](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) [LTE-M](/studynote/03_network/12_iot_wpan_edge/621_ltem_emtc_iot_mobility_voice/) / e-Navigat…와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -140,7 +137,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 1035 / 1120
 
-<- **이전**: [913. V2I 노변 기지국 (RSU)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)
-**다음**: [915. 해상 통신망 (LTE-M)](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) ->
+<- **이전**: [913. V2I 노변 기지국 (RSU)](/studynote/03_network/18_optical_nextgen_automation/913_v2i_rsu_road_side_unit_mec_autonomous_driving/)
+**다음**: [915. 해상 통신망 (LTE-M)](/studynote/03_network/18_optical_nextgen_automation/915_lte_m_maritime_communication_e_navigation/) ->
 
 ---

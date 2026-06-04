@@ -1,13 +1,10 @@
-+++
-title = "739. 레드팀 블루팀 퍼플팀 보안 훈련 (Red Team Blue Team Purple Team Security)"
-date = 2026-05-09
+---
+title: "739. 레드팀 블루팀 퍼플팀 보안 훈련 (Red Team Blue Team Purple Team Security)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -116,7 +113,7 @@ Red/Blue/Purple Team 운영의 기술적 핵심은 **공격자 관점의 TTP 인
 
 **진행 상황**: 739 / 800
 
-<- **이전**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/knowledge-base/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/)
-**다음**: [740. 버그 바운티 책임 있는 공개 정책](/knowledge-base/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/) ->
+<- **이전**: [738. 사이버 위협 인텔리전스 CTI TTP IOC](/studynote/06_ict_convergence/uncategorized/738_cyber_threat_intelligence_cti_ttp_ioc/)
+**다음**: [740. 버그 바운티 책임 있는 공개 정책](/studynote/06_ict_convergence/uncategorized/740_bug_bounty_responsible_disclosure_policy/) ->
 
 ---

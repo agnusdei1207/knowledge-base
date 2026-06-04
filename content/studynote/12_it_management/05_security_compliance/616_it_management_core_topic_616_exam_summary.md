@@ -1,13 +1,10 @@
-+++
-title = "616. IT 경영 관리 핵심 토픽 616번 시험 요약 (IT Management Core Topic 616 Exam Summary)"
-date = 2026-05-09
+---
+title: "616. IT 경영 관리 핵심 토픽 616번 시험 요약 (IT Management Core Topic 616 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ IT 경영 관리의 핵심 아키텍처는 크게 **5개 계층**으로 구성�
 
 **진행 상황**: 616 / 800
 
-<- **이전**: [615. IT 경영 관리 핵심 토픽 615번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/615_it_management_core_topic_615_exam_summary/)
-**다음**: [617. IT 경영 관리 핵심 토픽 617번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/617_it_management_core_topic_617_exam_summary/) ->
+<- **이전**: [615. IT 경영 관리 핵심 토픽 615번 시험 요약](/studynote/12_it_management/05_security_compliance/615_it_management_core_topic_615_exam_summary/)
+**다음**: [617. IT 경영 관리 핵심 토픽 617번 시험 요약](/studynote/12_it_management/05_security_compliance/617_it_management_core_topic_617_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "399. 사고 대응 IR 포렌식 분석 절차 (Incident Response IR Forensics Analysis)"
-date = 2026-05-09
+---
+title: "399. 사고 대응 IR 포렌식 분석 절차 (Incident Response IR Forensics Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 399. 사고 대응 IR 포렌식 분석 절차 (Incident Response IR Forensics Analysis)
 
@@ -141,7 +138,7 @@ IR 포렌식의 핵심 원리는 **휘발성 순서(Order of Volatility, RFC 322
 
 **진행 상황**: 399 / 800
 
-<- **이전**: [398. 랜섬웨어 대응 전략 백업 복구](/knowledge-base/studynote/12_it_management/05_security_compliance/398_ransomware_response_strategy_backup_recovery/)
-**다음**: [400. 보안 아키텍처 디자인 원칙 심층 방어](/knowledge-base/studynote/12_it_management/05_security_compliance/400_security_architecture_defense_in_depth/) ->
+<- **이전**: [398. 랜섬웨어 대응 전략 백업 복구](/studynote/12_it_management/05_security_compliance/398_ransomware_response_strategy_backup_recovery/)
+**다음**: [400. 보안 아키텍처 디자인 원칙 심층 방어](/studynote/12_it_management/05_security_compliance/400_security_architecture_defense_in_depth/) ->
 
 ---

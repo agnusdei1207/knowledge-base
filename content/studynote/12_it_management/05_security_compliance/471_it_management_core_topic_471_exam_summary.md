@@ -1,13 +1,10 @@
-+++
-title = "471. IT 경영 관리 핵심 토픽 471번 시험 요약 (IT Management Core Topic 471 Exam Summary)"
-date = 2026-05-09
+---
+title: "471. IT 경영 관리 핵심 토픽 471번 시험 요약 (IT Management Core Topic 471 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 471. IT 경영 관리 핵심 토픽 (IT Management Core Topic)
 
@@ -154,7 +151,7 @@ IT 경영관리 관련 프레임워크는 **역할·관점·성숙도** 가 다�
 
 **진행 상황**: 471 / 800
 
-<- **이전**: [470. IT 경영 관리 핵심 토픽 470번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/470_it_management_core_topic_470_exam_summary/)
-**다음**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/) ->
+<- **이전**: [470. IT 경영 관리 핵심 토픽 470번 시험 요약](/studynote/12_it_management/05_security_compliance/470_it_management_core_topic_470_exam_summary/)
+**다음**: [472. IT 경영 관리 핵심 토픽 472번 시험 요약](/studynote/12_it_management/05_security_compliance/472_it_management_core_topic_472_exam_summary/) ->
 
 ---

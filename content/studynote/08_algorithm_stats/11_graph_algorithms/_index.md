@@ -1,9 +1,9 @@
-+++
-title = "11. 고급 그래프 알고리즘 (Advanced Graph Algorithms)"
+---
+title: "11. 고급 그래프 알고리즘 (Advanced Graph Algorithms)"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 고급 그래프 알고리즘은 최단 경로·최소 신장 트리를 넘어 **최대 유량(Max Flow)·이분 매칭(Bipartite Matching)·강연결 요소(SCC)·위상 정렬** 등 복잡한 실세계 문제를 그래프 모델로 해결하는 알고리즘 체계다.

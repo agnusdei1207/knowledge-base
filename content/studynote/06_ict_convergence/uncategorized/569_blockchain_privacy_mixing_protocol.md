@@ -1,13 +1,10 @@
-+++
-title = "569. 블록체인 프라이버시 믹싱 프로토콜 (Blockchain Privacy Mixing Protocol)"
-date = 2026-05-09
+---
+title: "569. 블록체인 프라이버시 믹싱 프로토콜 (Blockchain Privacy Mixing Protocol)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Deposit -> Anonymity Set -> Proof -> Withdraw -> Compliance
 
 **진행 상황**: 569 / 800
 
-<- **이전**: [568. 토큰 표준 ERC-20 ERC-721 ERC-1155](/knowledge-base/studynote/06_ict_convergence/uncategorized/568_token_standard_erc_20_erc_721_erc_1155/)
-**다음**: [570. 탈중앙 거래소 DEX AMM 유동성](/knowledge-base/studynote/06_ict_convergence/uncategorized/570_decentralized_exchange_dex_amm_liquidity/) ->
+<- **이전**: [568. 토큰 표준 ERC-20 ERC-721 ERC-1155](/studynote/06_ict_convergence/uncategorized/568_token_standard_erc_20_erc_721_erc_1155/)
+**다음**: [570. 탈중앙 거래소 DEX AMM 유동성](/studynote/06_ict_convergence/uncategorized/570_decentralized_exchange_dex_amm_liquidity/) ->
 
 ---

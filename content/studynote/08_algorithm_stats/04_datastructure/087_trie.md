@@ -1,18 +1,15 @@
-+++
-title = "30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조"
-date = 2026-04-29
+---
+title: "30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조"
+date: "2026-04-29"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 트라이([Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/), Prefix Tree)는 문자열 집합을 저장하고 검색하는 트리 자료 구조다. 루트에서 리프까지의 경로가 하나의 문자열을 나타내며, 공통 접두사(Prefix)를 공유하는 문자열들이 같은 노드를 공유한다.
-> 2. **가치**: 트라이에서 문자열 검색 시간은 O(L) (L = 문자열 길이)로, 비교 기반 검색(O(N log N))이나 해시맵(충돌 시 O(N))보다 최악 성능이 보장된다. 자동 완성·사전 검색·IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 핵심 자료 구조다.
-> 3. **판단 포인트**: 트라이의 단점은 메모리다. 각 노드가 26개(알파벳) 또는 N개의 자식 포인터를 가져야 해서 희소(Sparse) 데이터에선 메모리 낭비가 크다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이(Patricia [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/), [Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)가 이를 해결한다.
+> 1. **본질**: 트라이([Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/), Prefix Tree)는 문자열 집합을 저장하고 검색하는 트리 자료 구조다. 루트에서 리프까지의 경로가 하나의 문자열을 나타내며, 공통 접두사(Prefix)를 공유하는 문자열들이 같은 노드를 공유한다.
+> 2. **가치**: 트라이에서 문자열 검색 시간은 O(L) (L = 문자열 길이)로, 비교 기반 검색(O(N log N))이나 해시맵(충돌 시 O(N))보다 최악 성능이 보장된다. 자동 완성·사전 검색·IP [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)에서 핵심 자료 구조다.
+> 3. **판단 포인트**: 트라이의 단점은 메모리다. 각 노드가 26개(알파벳) 또는 N개의 자식 포인터를 가져야 해서 희소(Sparse) 데이터에선 메모리 낭비가 크다. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이(Patricia [Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/), [Radix](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)가 이를 해결한다.
 
 ---
 
@@ -33,7 +30,7 @@ tags = ["studynote-algorithm-stats"]
 검색 "CAR": C->A->R 이동, O(3) = O(L)
 ```
 
-- **📢 섹션 요약 비유**: 트라이는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. "컴퓨터과학" 서가 안에 "컴퓨터과학-알고리즘", "컴퓨터과학-네트워크"가 함께 있어서 "컴퓨터과학"이라는 공통 접두사를 공유한다.
+- **📢 섹션 요약 비유**: 트라이는 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이다. "컴퓨터과학" 서가 안에 "컴퓨터과학-알고리즘", "컴퓨터과학-네트워크"가 함께 있어서 "컴퓨터과학"이라는 공통 접두사를 공유한다.
 
 ---
 
@@ -122,7 +119,7 @@ def autocomplete(trie, prefix, max_results=5):
     return results
 ```
 
-### [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)
+### [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이 ([Radix](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree)
 
 ```text
 일반 트라이:
@@ -137,7 +134,7 @@ def autocomplete(trie, prefix, max_results=5):
             +-- "N" (CAN)
 ```
 
-- **📢 섹션 요약 비유**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이는 주소 약어 시스템이다. "서울특별시 강남구"를 매번 쓰는 대신 공통 부분을 하나로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하여 "서울강남-역삼", "서울강남-삼성"으로 저장하는 것과 같다.
+- **📢 섹션 요약 비유**: [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 트라이는 주소 약어 시스템이다. "서울특별시 강남구"를 매번 쓰는 대신 공통 부분을 하나로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하여 "서울강남-역삼", "서울강남-삼성"으로 저장하는 것과 같다.
 
 ---
 
@@ -147,11 +144,11 @@ def autocomplete(trie, prefix, max_results=5):
 |:---|:---|
 | **자동 완성** | 접두사 기반 O(L) 검색 |
 | **사전 구현** | 효율적 단어 저장·검색 |
-| <strong>IP <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | CIDR 접두사 매칭 (Longest Prefix Match) |
+| <strong>IP <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a></strong> | CIDR 접두사 매칭 (Longest Prefix Match) |
 
-[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)에서 트라이는 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)([Tokenization](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)) 단계에서 활용된다. BPE([Byte Pair Encoding](/knowledge-base/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/))·WordPiece 같은 서브워드 [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)에서 어휘 사전 탐색에 트라이 기반 빠른 매칭이 사용된다. 수백만 토큰의 어휘에서 O(L) 검색이 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 추론 속도를 지킨다.
+[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)(대형 언어 모델)에서 트라이는 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)([Tokenization](/studynote/09_security/16_data_privacy/820_tokenization/)) 단계에서 활용된다. BPE([Byte Pair Encoding](/studynote/06_ict_convergence/05_data_science/378_bpe_byte_pair_encoding/))·WordPiece 같은 서브워드 [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)에서 어휘 사전 탐색에 트라이 기반 빠른 매칭이 사용된다. 수백만 토큰의 어휘에서 O(L) 검색이 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 추론 속도를 지킨다.
 
-- **📢 섹션 요약 비유**: [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [토큰화](/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/)의 트라이는 사전 빠른 검색이다. 문장 "Hello World"를 단어로 분리할 때, 수백만 단어 사전에서 "Hell", "Hello", "HelloW"... 를 빠르게 매칭하는 것이 트라이의 역할이다.
+- **📢 섹션 요약 비유**: [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) [토큰화](/studynote/09_security/16_data_privacy/820_tokenization/)의 트라이는 사전 빠른 검색이다. 문장 "Hello World"를 단어로 분리할 때, 수백만 단어 사전에서 "Hell", "Hello", "HelloW"... 를 빠르게 매칭하는 것이 트라이의 역할이다.
 
 ---
 
@@ -159,11 +156,11 @@ def autocomplete(trie, prefix, max_results=5):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 트라이</strong> | 메모리 효율화 ([Radix](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree) |
+| <strong><a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 트라이</strong> | 메모리 효율화 ([Radix](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/) Tree) |
 | **자동 완성** | 트라이의 핵심 응용 |
-| **Longest Prefix Match** | IP [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 트라이 활용 |
-| <strong>BPE <a href="/knowledge-base/studynote/09_security/16_data_privacy/820_tokenization/">토큰화</a></strong> | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 어휘 트라이 매칭 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/05_string/098_aho_corasick/">Aho-Corasick</a></strong> | 다중 패턴 매칭 트라이 확장 |
+| **Longest Prefix Match** | IP [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 트라이 활용 |
+| <strong>BPE <a href="/studynote/09_security/16_data_privacy/820_tokenization/">토큰화</a></strong> | [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 어휘 트라이 매칭 |
+| <strong><a href="/studynote/08_algorithm_stats/05_string/098_aho_corasick/">Aho-Corasick</a></strong> | 다중 패턴 매칭 트라이 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -185,8 +182,8 @@ def autocomplete(trie, prefix, max_results=5):
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 트라이는 도서관 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이에요 — 공통 시작 글자끼리 모여서 찾기 쉬워요!
-2. "[CA](/knowledge-base/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)"로 시작하는 단어 모두 찾기(자동 완성)가 O(L)로 매우 빠르게 동작해요!
+1. 트라이는 도서관 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 시스템이에요 — 공통 시작 글자끼리 모여서 찾기 쉬워요!
+2. "[CA](/studynote/06_ict_convergence/01_blockchain/089_contract_account_smart_contract/)"로 시작하는 단어 모두 찾기(자동 완성)가 O(L)로 매우 빠르게 동작해요!
 3. 구글 검색창 자동 완성, 사전 앱, 네트워크 라우터가 모두 트라이를 사용해요!
 
 ---
@@ -195,7 +192,7 @@ def autocomplete(trie, prefix, max_results=5):
 
 **진행 상황**: 87 / 175
 
-<- **이전**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)
-**다음**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/) ->
+<- **이전**: [30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)
+**다음**: [31. AVL 트리 — 자가 균형 이진 탐색 트리](/studynote/08_algorithm_stats/04_datastructure/088_avl_tree/) ->
 
 ---

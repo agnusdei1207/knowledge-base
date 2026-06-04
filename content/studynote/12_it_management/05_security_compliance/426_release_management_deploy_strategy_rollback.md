@@ -1,13 +1,10 @@
-+++
-title = "426. 릴리스 관리 배포 전략 롤백 (Release Management Deploy Strategy Rollback)"
-date = 2026-05-09
+---
+title: "426. 릴리스 관리 배포 전략 롤백 (Release Management Deploy Strategy Rollback)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -166,7 +163,7 @@ Kubernetes Deployment는 **ReplicaSet 기반의 선언적 롤아웃**과 **Revis
 
 **진행 상황**: 426 / 800
 
-<- **이전**: [425. 변경 관리 CAB 영향 분석 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/425_change_management_cab_impact_approval/)
-**다음**: [427. 인시던트 관리 에스컬레이션 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/427_incident_management_escalation_response/) ->
+<- **이전**: [425. 변경 관리 CAB 영향 분석 승인](/studynote/12_it_management/05_security_compliance/425_change_management_cab_impact_approval/)
+**다음**: [427. 인시던트 관리 에스컬레이션 대응](/studynote/12_it_management/05_security_compliance/427_incident_management_escalation_response/) ->
 
 ---

@@ -1,43 +1,40 @@
-+++
-title = "088. 블록 암호 모드 — ECB/CBC/CFB/OFB/CTR"
-date = 2026-04-05
+---
+title: "088. 블록 암호 모드 — ECB/CBC/CFB/OFB/CTR"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드([Block Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) Modes of [Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))는 고정된 길이(예: 128비트)만 암호화할 수 있는 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 긴 평문 데이터에 반복적으로 적용하기 위한 '연결 절차'다.
-> 2. **가치**: 모드를 어떻게 선택하느냐에 따라 같은 `AES (Advanced Encryption Standard)` [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓰더라도, 암호문의 패턴 노출 여부, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 속도, 그리고 통신 오류의 전파 범위가 완전히 달라진다.
-> 3. **판단 포인트**: 보안성과 성능을 동시에 요구하는 현대 실무 환경에서는 패턴이 노출되는 `ECB (Electronic Codebook)` 모드를 철저히 배제하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능하며 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 활용하는 `CTR (Counter)` 기반의 모드를 최우선으로 채택해야 한다.
+> 1. **본질**: [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드([Block Cipher](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) Modes of [Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))는 고정된 길이(예: 128비트)만 암호화할 수 있는 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 긴 평문 데이터에 반복적으로 적용하기 위한 '연결 절차'다.
+> 2. **가치**: 모드를 어떻게 선택하느냐에 따라 같은 `AES (Advanced Encryption Standard)` [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓰더라도, 암호문의 패턴 노출 여부, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 속도, 그리고 통신 오류의 전파 범위가 완전히 달라진다.
+> 3. **판단 포인트**: 보안성과 성능을 동시에 요구하는 현대 실무 환경에서는 패턴이 노출되는 `ECB (Electronic Codebook)` 모드를 철저히 배제하고, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능하며 난수([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 활용하는 `CTR (Counter)` 기반의 모드를 최우선으로 채택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-`AES`나 `SEED` 같은 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 본질적으로 한 번에 1블록(예: 128비트)의 데이터만 암호화하는 정적인 수학 함수일 뿐이다. 그러나 실제 네트워크 통신이나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장에서 다루는 데이터는 이보다 훨씬 길다.
+`AES`나 `SEED` 같은 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 본질적으로 한 번에 1블록(예: 128비트)의 데이터만 암호화하는 정적인 수학 함수일 뿐이다. 그러나 실제 네트워크 통신이나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 저장에서 다루는 데이터는 이보다 훨씬 길다.
 
-긴 평문을 여러 블록으로 쪼갠 뒤, 이를 단순히 독립적으로 암호화하면 심각한 문제가 생긴다. 평문의 패턴(예: 픽셀이 반복되는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 이미지)이 암호문에서도 동일한 패턴으로 드러나기 때문이다. 이를 방지하기 위해 이전 블록의 암호화 결과를 다음 블록에 섞어주거나([Chaining](/knowledge-base/studynote/12_it_management/03_ea_isp/887_chaining/)), 지속적으로 변하는 난수([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 조합하여 "매번 다른 결과"를 만들어내는 운영 모드가 필수적으로 요구된다.
+긴 평문을 여러 블록으로 쪼갠 뒤, 이를 단순히 독립적으로 암호화하면 심각한 문제가 생긴다. 평문의 패턴(예: 픽셀이 반복되는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)맵 이미지)이 암호문에서도 동일한 패턴으로 드러나기 때문이다. 이를 방지하기 위해 이전 블록의 암호화 결과를 다음 블록에 섞어주거나([Chaining](/studynote/12_it_management/03_ea_isp/887_chaining/)), 지속적으로 변하는 난수([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 조합하여 "매번 다른 결과"를 만들어내는 운영 모드가 필수적으로 요구된다.
 
-- **📢 섹션 요약 비유**: [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 '도장'이라면, 운영 모드는 여러 장의 종이에 '도장을 찍는 순서와 요령'이다. 똑같이 잉크를 묻혀서 같은 자리에만 찍으면(ECB) 그림이 다 들통나지만, 매번 종이를 비틀고 잉크색을 섞어가며 찍으면([CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/), [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)) 어떤 그림인지 추론할 수 없게 된다.
+- **📢 섹션 요약 비유**: [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 '도장'이라면, 운영 모드는 여러 장의 종이에 '도장을 찍는 순서와 요령'이다. 똑같이 잉크를 묻혀서 같은 자리에만 찍으면(ECB) 그림이 다 들통나지만, 매번 종이를 비틀고 잉크색을 섞어가며 찍으면([CBC](/studynote/09_security/02_crypto/089_cbc_mode/), [CTR](/studynote/09_security/02_crypto/090_ctr_mode/)) 어떤 그림인지 추론할 수 없게 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-운영 모드는 크게 <strong>'평문을 섞는 방식(<a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a>, CFB)'</strong>과 <strong>'키 스트림을 먼저 만들어 평문과 XOR 하는 방식(OFB, <a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>)'</strong>으로 나뉜다.
+운영 모드는 크게 <strong>'평문을 섞는 방식(<a href="/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a>, CFB)'</strong>과 <strong>'키 스트림을 먼저 만들어 평문과 XOR 하는 방식(OFB, <a href="/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a>)'</strong>으로 나뉜다.
 
-| 운영 모드 | 원리 (암호화 구조) | 핵심 특징 | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) |
+| 운영 모드 | 원리 (암호화 구조) | 핵심 특징 | [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) |
 | :--- | :--- | :--- | :--- |
 | **ECB** (Electronic Codebook) | $C_i = E_K(P_i)$ | 각 블록 독립 처리. 패턴 노출 (보안 취약). | 필요함 |
-| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a></strong> ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) | $C_i = E_K(P_i \oplus C_{i-1})$ | 앞 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)문을 현재 평문과 XOR 후 암호화. ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 블록은 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 사용) | 필요함 |
-| **CFB** (Cipher Feedback) | $C_i = P_i \oplus E_K(C_{i-1})$ | 암호문을 다시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 입력(피드백)으로 사용해 키 스트림 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). | 불필요 |
-| **OFB** (Output Feedback) | $S_i = E_K(S_{i-1})$<br>$C_i = P_i \oplus S_i$ | 독립적인 키 스트림($S_i$)을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤 평문과 XOR. | 불필요 |
-| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a></strong> ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) | $C_i = P_i \oplus E_K([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) \Vert [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))$ | 1씩 증가하는 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 암호화해 키 스트림 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 암호화 가능. | 불필요 |
+| <strong><a href="/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a></strong> ([Cipher Block Chaining](/studynote/09_security/02_crypto/089_cbc_mode/)) | $C_i = E_K(P_i \oplus C_{i-1})$ | 앞 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)문을 현재 평문과 XOR 후 암호화. ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 블록은 [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 사용) | 필요함 |
+| **CFB** (Cipher Feedback) | $C_i = P_i \oplus E_K(C_{i-1})$ | 암호문을 다시 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 입력(피드백)으로 사용해 키 스트림 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/). | 불필요 |
+| **OFB** (Output Feedback) | $S_i = E_K(S_{i-1})$<br>$C_i = P_i \oplus S_i$ | 독립적인 키 스트림($S_i$)을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)한 뒤 평문과 XOR. | 불필요 |
+| <strong><a href="/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a></strong> ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) | $C_i = P_i \oplus E_K([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) \Vert [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))$ | 1씩 증가하는 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)를 암호화해 키 스트림 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/). [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 암호화 가능. | 불필요 |
 
 *(※ $P_i$: 평문 블록, $C_i$: 암호문 블록, $E_K$: 키 K로 암호화, $\oplus$: 배타적 논리합(XOR))*
 
@@ -65,24 +62,24 @@ tags = ["studynote-security"]
 | 평문(P1)                   평문(P2)                          |
 +--------------------------------------------------------------+
 ```
-위 다이어그램에서 보듯, CBC는 앞 블록의 결과($C_1$)가 나와야만 다음 블록($P_2$)의 암호화를 시작할 수 있어 <strong>속도 병목(<a href="/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong>이 발생 단점이 있다. 반면 CTR은 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값만 알면 모든 블록을 <strong>동시(<a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>)</strong>에 암호화할 수 있다.
+위 다이어그램에서 보듯, CBC는 앞 블록의 결과($C_1$)가 나와야만 다음 블록($P_2$)의 암호화를 시작할 수 있어 <strong>속도 병목(<a href="/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/">직렬</a> 병목)</strong>이 발생 단점이 있다. 반면 CTR은 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값만 알면 모든 블록을 <strong>동시(<a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>)</strong>에 암호화할 수 있다.
 
-- **📢 섹션 요약 비유**: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 앞사람이 바통을 넘겨줘야 뛸 수 있는 '이어달리기'이고, [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 각자 자기 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 동시에 출발하는 '100m 달리기'다.
+- **📢 섹션 요약 비유**: [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 모드는 앞사람이 바통을 넘겨줘야 뛸 수 있는 '이어달리기'이고, [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 각자 자기 번호표([카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 들고 동시에 출발하는 '100m 달리기'다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-각 모드는 통신 중 발생하는 '[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)'에 대해 서로 다른 전파(Propagation) 특성을 보인다.
+각 모드는 통신 중 발생하는 '[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)'에 대해 서로 다른 전파(Propagation) 특성을 보인다.
 
-| 비교 축 | [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) | CFB (Cipher Feedback) | OFB (Output Feedback) | [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) |
+| 비교 축 | [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/studynote/09_security/02_crypto/089_cbc_mode/)) | CFB (Cipher Feedback) | OFB (Output Feedback) | [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) |
 | :--- | :--- | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 오류 전파</strong> | **1개 블록 전체 파괴 + 다음 블록 1비트 오류** | 1비트 오류 + 다음 1개 블록 파괴 | **오류 난 1비트만 손상 (전파 안 됨)** | **오류 난 1비트만 손상 (전파 안 됨)** |
-| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (암호화)</strong>| 불가능 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)만 가능) | 불가능 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)만 가능) | 키 스트림 사전 계산 가능 | <strong>완전 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong> |
-| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a> 변환</strong> | X (블록 단위 처리) | O ([바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/[비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 처리) | O | O |
-| <strong>주요 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | [Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack 취약 | | [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용 시 키 스트림 노출 취약 | [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용 시 키 스트림 노출 취약 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a> 오류 전파</strong> | **1개 블록 전체 파괴 + 다음 블록 1비트 오류** | 1비트 오류 + 다음 1개 블록 파괴 | **오류 난 1비트만 손상 (전파 안 됨)** | **오류 난 1비트만 손상 (전파 안 됨)** |
+| <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (암호화)</strong>| 불가능 ([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)만 가능) | 불가능 ([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)만 가능) | 키 스트림 사전 계산 가능 | <strong>완전 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong> |
+| <strong><a href="/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a> 변환</strong> | X (블록 단위 처리) | O ([바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)/[비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 단위 처리) | O | O |
+| <strong>주요 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | [Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/) Attack 취약 | | [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 재사용 시 키 스트림 노출 취약 | [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용 시 키 스트림 노출 취약 |
 
-최근의 네트워크 환경에서는 패킷 단위의 유실이 잦고 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리가 필요하므로, [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리에 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 취약점까지 있는 CBC보다는, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리가 가능하고 오류 전파가 없는 <a href="/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 계열</strong>이 절대적인 우위를 점하고 있다.
+최근의 네트워크 환경에서는 패킷 단위의 유실이 잦고 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 처리가 필요하므로, [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리에 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 취약점까지 있는 CBC보다는, <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리가 가능하고 오류 전파가 없는 <a href="/studynote/09_security/02_crypto/090_ctr_mode/">CTR</a> 계열</strong>이 절대적인 우위를 점하고 있다.
 
 - **📢 섹션 요약 비유**: 통신망을 우편 배달이라고 할 때, CBC는 중간에 편지 하나가 젖으면 그 뒤에 오는 편지 내용까지 줄줄이 번역이 안 되는 방식이다. 반면 OFB나 CTR은 딱 젖은 글자 한 개만 못 읽고 나머지는 멀쩡하게 읽을 수 있는 방식이다.
 
@@ -90,30 +87,30 @@ tags = ["studynote-security"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 시스템을 설계할 때 암호 모드를 잘못 선택하는 것은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 잘못 고르는 것만큼 치명적이다.
+실무 시스템을 설계할 때 암호 모드를 잘못 선택하는 것은 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 잘못 고르는 것만큼 치명적이다.
 
-### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. **레거시 암호화 API의 기본값이 ECB로 되어 있지 않은가?**
    - **판단**: Java나 Python의 구형 라이브러리에서 모드를 생략하고 `AES`만 호출하면 디폴트로 `AES-ECB`가 적용되는 경우가 많다. 펭귄 이미지(Tux)가 윤곽선 그대로 암호화되는 'ECB 펭귄' 문제가 발생하므로, 반드시 명시적으로 `CBC`나 `CTR`을 지정해야 한다.
-2. <strong><a href="/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a> 모드 사용 시 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>(<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터)를 고정된 값으로 쓰는가?</strong>
-   - **판단**: 회피. IV가 고정되면 첫 블록의 평문이 같을 때 암호문도 항상 같게 나와 사전 공격(Dictionary Attack)에 노출된다. IV는 매 암호화마다 <strong><a href="/knowledge-base/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/">CSPRNG</a> (암호학적으로 안전한 의사난수 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>기)</strong> 로 새로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 암호문과 함께 전송해야 한다.
-3. <strong>데이터의 기밀성뿐 아니라 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(변조 방지)도 필요한가?</strong>
-   - **판단**: `AES-CBC`나 `AES-CTR`은 암호문이 중간에 변조되었는지 스스로 확인하지 못한다. 이 경우 실무에서는 `GCM (Galois/Counter Mode)` 같은 <strong><a href="/knowledge-base/studynote/09_security/02_crypto/092_aead/">AEAD</a> (Authenticated Encryption with Associated <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong> 모드를 채택하여 암호화와 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)을 동시에 수행해야 한다. [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 표준도 이를 강제한다.
+2. <strong><a href="/studynote/09_security/02_crypto/089_cbc_mode/">CBC</a> 모드 사용 시 <a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a>(<a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터)를 고정된 값으로 쓰는가?</strong>
+   - **판단**: 회피. IV가 고정되면 첫 블록의 평문이 같을 때 암호문도 항상 같게 나와 사전 공격(Dictionary Attack)에 노출된다. IV는 매 암호화마다 <strong><a href="/studynote/09_security/20_extra_exam_prep/1001_csprng_random_generator/">CSPRNG</a> (암호학적으로 안전한 의사난수 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>기)</strong> 로 새로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하여 암호문과 함께 전송해야 한다.
+3. <strong>데이터의 기밀성뿐 아니라 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a>(변조 방지)도 필요한가?</strong>
+   - **판단**: `AES-CBC`나 `AES-CTR`은 암호문이 중간에 변조되었는지 스스로 확인하지 못한다. 이 경우 실무에서는 `GCM (Galois/Counter Mode)` 같은 <strong><a href="/studynote/09_security/02_crypto/092_aead/">AEAD</a> (Authenticated Encryption with Associated <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a>)</strong> 모드를 채택하여 암호화와 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)(메시지 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 코드)을 동시에 수행해야 한다. [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3 표준도 이를 강제한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - `CTR` 모드를 쓸 때 `Nonce(Number used once)`를 데이터베이스의 `AUTO_INCREMENT`나 고정된 타임스탬프로 대충 관리하여 재사용하는 행위. Nonce가 겹치면 두 암호문을 XOR하여 평문을 복원해 낼 수 있는 재앙(Keystream reuse attack)이 벌어진다.
 
-- **📢 섹션 요약 비유**: 아무리 튼튼한 금고([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))라도, 비밀번호([IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)/[Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 '1234'로 고정해 놓고 쓰거나 문이 제대로 닫혔는지 확인하는 센서([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 안 달면 도둑을 막을 수 없다.
+- **📢 섹션 요약 비유**: 아무리 튼튼한 금고([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))라도, 비밀번호([IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)/[Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 '1234'로 고정해 놓고 쓰거나 문이 제대로 닫혔는지 확인하는 센서([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))를 안 달면 도둑을 막을 수 없다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드는 암호 엔진([블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 거친 현실 세계의 데이터를 안전하고 효율적으로 소화하게 만들어주는 필수적인 래퍼(Wrapper)다. `IV`나 `Nonce`를 통한 무작위성 부여는 패턴을 숨기고, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 구조의 도입은 하드웨어 가속과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 가능하게 만들었다.
+[블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 운영 모드는 암호 엔진([블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 거친 현실 세계의 데이터를 안전하고 효율적으로 소화하게 만들어주는 필수적인 래퍼(Wrapper)다. `IV`나 `Nonce`를 통한 무작위성 부여는 패턴을 숨기고, [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 구조의 도입은 하드웨어 가속과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리를 가능하게 만들었다.
 
-과거에는 `CBC`가 사실상의 표준이었으나, 현재는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 요구에 따라 `CTR` 계열, 그중에서도 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)까지 한 번에 보장하는 `GCM` 모드로 글로벌 표준이 이동했다. 결론적으로 "어떤 암호를 쓰는가?" 만큼이나 <strong>"어떤 모드로 연결했는가?"</strong>를 반드시 함께 검증해야 시스템의 진짜 보안 강도를 증명할 수 있다.
+과거에는 `CBC`가 사실상의 표준이었으나, 현재는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 통신과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리의 요구에 따라 `CTR` 계열, 그중에서도 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)까지 한 번에 보장하는 `GCM` 모드로 글로벌 표준이 이동했다. 결론적으로 "어떤 암호를 쓰는가?" 만큼이나 <strong>"어떤 모드로 연결했는가?"</strong>를 반드시 함께 검증해야 시스템의 진짜 보안 강도를 증명할 수 있다.
 
-- **📢 섹션 요약 비유**: 엔진([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 아무리 마력이 높아도, 바퀴에 힘을 전달하는 변속기(모드)가 구식이면 차는 빨리 달릴 수 없다. 현대의 암호학은 엔진 못지않게 변속기 기술([CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/), [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))의 발전을 통해 완성되었다.
+- **📢 섹션 요약 비유**: 엔진([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 아무리 마력이 높아도, 바퀴에 힘을 전달하는 변속기(모드)가 구식이면 차는 빨리 달릴 수 없다. 현대의 암호학은 엔진 못지않게 변속기 기술([CTR](/studynote/09_security/02_crypto/090_ctr_mode/), [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))의 발전을 통해 완성되었다.
 
 ---
 
@@ -121,10 +118,10 @@ tags = ["studynote-security"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">Block Cipher</a>)</strong> | 고정된 크기의 블록 단위로 데이터를 암호화하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체 (예: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/), SEED) |
-| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터)</strong> | 첫 번째 블록을 암호화할 때 평문을 섞기 위해 주입하는 일회성 난수 값 |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 블록 크기(예: 16바이트)의 배수가 되지 않는 마지막 평문 블록의 빈 공간을 채워 넣는 규칙 (예: PKCS#7) |
-| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">Stream Cipher</a>)</strong> | 블록 단위가 아닌 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 키 스트림을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 암호화하는 방식. CFB, OFB, [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드가 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)처럼 동작하게 만듦. |
+| <strong><a href="/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">블록 암호</a> (<a href="/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/">Block Cipher</a>)</strong> | 고정된 크기의 블록 단위로 데이터를 암호화하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체 (예: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/), [DES](/studynote/09_security/02_crypto/086_des_data_encryption_standard/), SEED) |
+| <strong><a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">IV</a> (<a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>화 벡터)</strong> | 첫 번째 블록을 암호화할 때 평문을 섞기 위해 주입하는 일회성 난수 값 |
+| <strong><a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a> (<a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 블록 크기(예: 16바이트)의 배수가 되지 않는 마지막 평문 블록의 빈 공간을 채워 넣는 규칙 (예: PKCS#7) |
+| <strong><a href="/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">스트림 암호</a> (<a href="/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/">Stream Cipher</a>)</strong> | 블록 단위가 아닌 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)/[바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 키 스트림을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)해 암호화하는 방식. CFB, OFB, [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드가 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)처럼 동작하게 만듦. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -165,7 +162,7 @@ AEAD (Authenticated Encryption with Associated Data) --> GCM, CCM 모드로 발�
 
 **진행 상황**: 88 / 1108
 
-<- **이전**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/knowledge-base/studynote/09_security/02_crypto/087_3des/)
-**다음**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ->
+<- **이전**: [087. 3DES (Triple DES) — 168비트 (112비트 실효 강도)](/studynote/09_security/02_crypto/087_3des/)
+**다음**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/studynote/09_security/02_crypto/089_cbc_mode/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "043. 비교기 (Comparator)"
-date = 2026-04-05
+---
+title: "043. 비교기 (Comparator)"
+date: "2026-04-05"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. 비교기(Comparator)는 두 이진수 A와 B를 비교하여 A>B, A=B, A<B 세 가지 출력을 만드는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)(산술논리연산장치)의 조건 분기 판단과 [정렬 네트워크](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)의 기본 구성 요소이다.
-> 2. 1비트 비교기는 XNOR(동치), AND/NOT 조합으로 구현하지만, 다비트 비교기는 [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)([Most Significant Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))부터 우선 비교하는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교(Iterative) 방식과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교(Parallel) 방식의 속도-비용 트레이드오프가 존재한다.
-> 3. 현대 CPU의 비교 연산은 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(ZF, CF, SF, OF)를 통해 구현되며, [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 두 값을 빼고 결과를 버리되 [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)만 설정하는 방식 — 이것이 조건 점프(JE, JNE, JG, JL)와 연동되는 원리이다.
+> 1. 비교기(Comparator)는 두 이진수 A와 B를 비교하여 A>B, A=B, A<B 세 가지 출력을 만드는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)(산술논리연산장치)의 조건 분기 판단과 [정렬 네트워크](/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)의 기본 구성 요소이다.
+> 2. 1비트 비교기는 XNOR(동치), AND/NOT 조합으로 구현하지만, 다비트 비교기는 [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/)([Most Significant Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/))부터 우선 비교하는 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교(Iterative) 방식과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교(Parallel) 방식의 속도-비용 트레이드오프가 존재한다.
+> 3. 현대 CPU의 비교 연산은 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)(ZF, CF, SF, OF)를 통해 구현되며, [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 두 값을 빼고 결과를 버리되 [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)만 설정하는 방식 — 이것이 조건 점프(JE, JNE, JG, JL)와 연동되는 원리이다.
 
 ---
 
@@ -53,7 +50,7 @@ B-+ NOT +-+
 
 ---
 
-## Ⅱ. 4비트 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기
+## Ⅱ. 4비트 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기
 
 ```
 4비트 직렬 비교기 (Iterative Comparator):
@@ -85,11 +82,11 @@ B-+ NOT +-+
 단점: n비트 비교에 n개 단계 = 지연 누적
 ```
 
-> 📢 **섹션 요약 비유**: [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기는 릴레이 경주 — [MSB](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) 선수가 먼저 뛰고, 비겼으면 다음 주자에게 배턴 전달. 한 주자가 이기면 경주 종료.
+> 📢 **섹션 요약 비유**: [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 비교기는 릴레이 경주 — [MSB](/studynote/01_computer_architecture/02_data_representation_arithmetic/080_msb/) 선수가 먼저 뛰고, 비겼으면 다음 주자에게 배턴 전달. 한 주자가 이기면 경주 종료.
 
 ---
 
-## Ⅲ. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기와 74HC85
+## Ⅲ. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기와 74HC85
 
 ```
 병렬 비교기 (Parallel Comparator):
@@ -126,11 +123,11 @@ B-+ NOT +-+
   실제: 계층적 비교기로 균형
 ```
 
-> 📢 **섹션 요약 비유**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기는 여러 심판이 동시 판정 — 1번 심판은 100점 자리, 2번은 10점 자리 동시 채점, 한 번에 결론. 빠르지만 심판이 많이 필요.
+> 📢 **섹션 요약 비유**: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교기는 여러 심판이 동시 판정 — 1번 심판은 100점 자리, 2번은 10점 자리 동시 채점, 한 번에 결론. 빠르지만 심판이 많이 필요.
 
 ---
 
-## Ⅳ. CPU [플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
+## Ⅳ. CPU [플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)와 [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)
 
 ```
 CPU 비교 연산 구현 (x86):
@@ -163,11 +160,11 @@ ARM Cond:
   BEQ  label        ; CPSR Z=1이면 분기
 ```
 
-> 📢 **섹션 요약 비유**: [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 저울 0점 보정 — 두 무게를 비교할 때 실제로 빼보고 결과만 버리되 "어느 쪽이 무거웠는지" 기록만 남기는 것.
+> 📢 **섹션 요약 비유**: [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 저울 0점 보정 — 두 무게를 비교할 때 실제로 빼보고 결과만 버리되 "어느 쪽이 무거웠는지" 기록만 남기는 것.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [정렬 네트워크](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)
+## Ⅴ. 실무 시나리오 — [정렬 네트워크](/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)
 
 ```
 정렬 네트워크 (Sorting Network):
@@ -202,7 +199,7 @@ FPGA/GPU 활용:
   SIMD 명령어: AVX2의 _mm256_cmp_ps 비교 명령
 ```
 
-> 📢 **섹션 요약 비유**: [정렬 네트워크](/knowledge-base/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)는 여러 체중계로 동시 측정 — 모든 사람이 동시에 서로 비교해서 한 번에 키 순서로 줄 세우기.
+> 📢 **섹션 요약 비유**: [정렬 네트워크](/studynote/08_algorithm_stats/02_sorting/027_sorting_network/)는 여러 체중계로 동시 측정 — 모든 사람이 동시에 서로 비교해서 한 번에 키 순서로 줄 세우기.
 
 ---
 
@@ -257,7 +254,7 @@ TPU/GPU: 행렬 원소 비교 병렬화
 
 1. 비교기는 "둘 중 누가 더 크나?" 판단하는 심판 회로 — 두 숫자를 보고 "크다/같다/작다" 세 가지 신호를 보내줘요!
 2. 1비트 비교기는 간단한 메모 — 1과 0만 비교, 4비트는 4단계 릴레이 경주로 결정해요.
-3. CPU의 [CMP](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 저울 역할 — 두 값을 빼보고 결과는 버리되 "어느 쪽이 컸는지" 기록([플래그](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 남겨요!
+3. CPU의 [CMP](/studynote/01_computer_architecture/11_multicore_synchronization/394_cmp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 저울 역할 — 두 값을 빼보고 결과는 버리되 "어느 쪽이 컸는지" 기록([플래그](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/))만 남겨요!
 
 ---
 
@@ -265,7 +262,7 @@ TPU/GPU: 행렬 원소 비교 병렬화
 
 **진행 상황**: 43 / 803
 
-<- **이전**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)
-**다음**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/) ->
+<- **이전**: [042. 디멀티플렉서 (Demultiplexer, DEMUX)](/studynote/01_computer_architecture/01_basic_electronics_logic/042_demultiplexer/)
+**다음**: [044. 순서 논리 회로 — Sequential Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/) ->
 
 ---

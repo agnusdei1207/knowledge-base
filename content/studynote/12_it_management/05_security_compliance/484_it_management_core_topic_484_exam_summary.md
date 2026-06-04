@@ -1,13 +1,10 @@
-+++
-title = "484. IT 경영 관리 핵심 토픽 484번 시험 요약 (IT Management Core Topic 484 Exam Summary)"
-date = 2026-05-09
+---
+title: "484. IT 경영 관리 핵심 토픽 484번 시험 요약 (IT Management Core Topic 484 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ IT 경영 관리의 핵심은 **COBIT 2019의 5 Domains × 7 Components × 11 Fo
 
 **진행 상황**: 484 / 800
 
-<- **이전**: [483. IT 경영 관리 핵심 토픽 483번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/483_it_management_core_topic_483_exam_summary/)
-**다음**: [485. IT 경영 관리 핵심 토픽 485번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/485_it_management_core_topic_485_exam_summary/) ->
+<- **이전**: [483. IT 경영 관리 핵심 토픽 483번 시험 요약](/studynote/12_it_management/05_security_compliance/483_it_management_core_topic_483_exam_summary/)
+**다음**: [485. IT 경영 관리 핵심 토픽 485번 시험 요약](/studynote/12_it_management/05_security_compliance/485_it_management_core_topic_485_exam_summary/) ->
 
 ---

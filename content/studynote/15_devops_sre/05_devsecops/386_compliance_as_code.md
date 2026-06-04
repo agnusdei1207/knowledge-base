@@ -1,13 +1,10 @@
-+++
-title = "386. 컴플라이언스 코드화 규제 준수 자동화 (Compliance as Code Regulatory Automation)"
-date = 2026-05-09
+---
+title: "386. 컴플라이언스 코드화 규제 준수 자동화 (Compliance as Code Regulatory Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 386 / 400
 
-<- **이전**: [385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)](/knowledge-base/studynote/15_devops_sre/05_devsecops/385_security_gate_cicd/)
-**다음**: [387. 취약점 관리 CVE CVSS 우선순위 기반 패치 (Vulnerability Management CVE CVSS Prioritization)](/knowledge-base/studynote/15_devops_sre/05_devsecops/387_vulnerability_management_cve/) ->
+<- **이전**: [385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)](/studynote/15_devops_sre/05_devsecops/385_security_gate_cicd/)
+**다음**: [387. 취약점 관리 CVE CVSS 우선순위 기반 패치 (Vulnerability Management CVE CVSS Prioritization)](/studynote/15_devops_sre/05_devsecops/387_vulnerability_management_cve/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조"
-date = 2026-04-29
+---
+title: "30. 펜윅 트리 (BIT) — 범위 합 쿼리의 효율적 구조"
+date: "2026-04-29"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 펜윅 트리([Fenwick Tree](/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) 또는 BIT(Binary [Indexed](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) Tree)는 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 접두사 합(Prefix Sum)을 O(log N)에 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하고 O(log N)에 업데이트하는 자료 구조다. 단순 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(1) 업데이트/O(N) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 누적 합 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(N) 업데이트/O(1) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 사이의 최적 균형이다.
-> 2. **가치**: [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산(lowbit = n & (-n))으로 트리 구조를 1D [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 압축하여 구현한다. [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)보다 코드가 간결하고 캐시 효율이 좋다. 구현 단순성과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모두 뛰어나다.
-> 3. **판단 포인트**: 펜윅 트리는 점 업데이트 + 범위 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 최적이다. 범위 업데이트 + 범위 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 필요하다면 2개의 BIT를 조합하거나 [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)를 사용한다.
+> 1. **본질**: 펜윅 트리([Fenwick Tree](/studynote/12_it_management/03_ea_isp/106_fenwick_tree/)) 또는 BIT(Binary [Indexed](/studynote/01_computer_architecture/04_instruction_set_architecture/181_indexed_addressing/) Tree)는 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 접두사 합(Prefix Sum)을 O(log N)에 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)하고 O(log N)에 업데이트하는 자료 구조다. 단순 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(1) 업데이트/O(N) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)와 누적 합 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)의 O(N) 업데이트/O(1) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 사이의 최적 균형이다.
+> 2. **가치**: [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산(lowbit = n & (-n))으로 트리 구조를 1D [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 압축하여 구현한다. [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)보다 코드가 간결하고 캐시 효율이 좋다. 구현 단순성과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 모두 뛰어나다.
+> 3. **판단 포인트**: 펜윅 트리는 점 업데이트 + 범위 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에 최적이다. 범위 업데이트 + 범위 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 필요하다면 2개의 BIT를 조합하거나 [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)를 사용한다.
 
 ---
 
@@ -31,13 +28,13 @@ tags = ["studynote-algorithm-stats"]
   세그먼트:     업데이트 O(logN) / 쿼리 O(logN) (더 범용)
 ```
 
-- **📢 섹션 요약 비유**: 펜윅 트리는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 회계 시스템이다. 각 지점이 일부 지역 합계를 담당하여, 업데이트 시 관련 지점만 갱신하고 전체 합산 시 필요한 지점만 합산해서 O(log N)의 균형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
+- **📢 섹션 요약 비유**: 펜윅 트리는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 회계 시스템이다. 각 지점이 일부 지역 합계를 담당하여, 업데이트 시 관련 지점만 갱신하고 전체 합산 시 필요한 지점만 합산해서 O(log N)의 균형 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 낸다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### lowbit과 BIT [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)
+### lowbit과 BIT [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)
 
 ```text
 핵심: lowbit(i) = i & (-i) = i의 최하위 비트
@@ -84,21 +81,21 @@ class FenwickTree:
         return self.query(r) - self.query(l - 1)
 ```
 
-- **📢 섹션 요약 비유**: lowbit [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산은 이진수 계단 탐색이다. 숫자의 마지막 1비트 위치가 담당 범위를 결정하고, 올라가거나 내려가며 필요한 블록만 정확하게 합산한다.
+- **📢 섹션 요약 비유**: lowbit [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 연산은 이진수 계단 탐색이다. 숫자의 마지막 1비트 위치가 담당 범위를 결정하고, 올라가거나 내려가며 필요한 블록만 정확하게 합산한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | BIT | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) | 누적 합 |
+| 비교 | BIT | [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/) | 누적 합 |
 |:---|:---|:---|:---|
 | 업데이트 | O(log N) | O(log N) | O(N) |
-| [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | O(log N) | O(log N) | O(1) |
+| [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) | O(log N) | O(log N) | O(1) |
 | 범위 업데이트 | 2BIT 조합 | ✅ 기본 지원 | O(N) |
 | 코드 복잡도 | 매우 낮음 | 중간 | 매우 낮음 |
 | 메모리 | O(N) | O(4N) | O(N) |
 
-- **📢 섹션 요약 비유**: BIT·[세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)·누적 합은 세 가지 계산기다. 누적 합(암산 후 기록), BIT(영리한 중간 결과 기록), [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/)(완전한 메모장) 순으로 기능은 강해지지만 복잡해진다.
+- **📢 섹션 요약 비유**: BIT·[세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)·누적 합은 세 가지 계산기다. 누적 합(암산 후 기록), BIT(영리한 중간 결과 기록), [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/)(완전한 메모장) 순으로 기능은 강해지지만 복잡해진다.
 
 ---
 
@@ -137,13 +134,13 @@ class FenwickTree:
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **범위 합 O(log N)** | 업데이트·[쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 균형 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
-| **코드 단순성** | [세그먼트 트리](/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/) 대비 4~5줄 구현 |
-| **캐시 효율** | 1D [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 좋은 캐시 지역성 |
+| **범위 합 O(log N)** | 업데이트·[쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 균형 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| **코드 단순성** | [세그먼트 트리](/studynote/12_it_management/02_itsm_itil/075_combinatorics/) 대비 4~5줄 구현 |
+| **캐시 효율** | 1D [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 기반 좋은 캐시 지역성 |
 
-BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산에서 Prefix Sum([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스캔 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))으로 확장된다. [CUDA](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Thrust·cuDNN 내부에서 N개 스레드가 동시에 부분 합을 계산하는 Parallel Prefix Sum은 딥러닝 [배치 정규화](/knowledge-base/studynote/10_ai/03_llm_nlp/282_batch_normalization/)·[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) 계산의 기반이 된다.
+BIT 개념은 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 계산에서 Prefix Sum([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 스캔 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))으로 확장된다. [CUDA](/studynote/01_computer_architecture/12_accelerators_ai_hardware/420_cuda/) Thrust·cuDNN 내부에서 N개 스레드가 동시에 부분 합을 계산하는 Parallel Prefix Sum은 딥러닝 [배치 정규화](/studynote/10_ai/03_llm_nlp/282_batch_normalization/)·[소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) 계산의 기반이 된다.
 
-- **📢 섹션 요약 비유**: [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) Parallel Prefix Sum은 BIT의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 버전이다. BIT가 직렬로 O(log N) 단계로 합산하는 것을 GPU가 N개 스레드로 동시에 수행하여 O(log N) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시간으로 처리한다.
+- **📢 섹션 요약 비유**: [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) Parallel Prefix Sum은 BIT의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 버전이다. BIT가 직렬로 O(log N) 단계로 합산하는 것을 GPU가 N개 스레드로 동시에 수행하여 O(log N) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시간으로 처리한다.
 
 ---
 
@@ -151,10 +148,10 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | BIT보다 범용적인 범위 자료 구조 |
-| **누적 합** | 정적 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 범위 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기초 |
+| <strong><a href="/studynote/12_it_management/02_itsm_itil/075_combinatorics/">세그먼트 트리</a></strong> | BIT보다 범용적인 범위 자료 구조 |
+| **누적 합** | 정적 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 범위 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 기초 |
 | **역전 수** | BIT 대표 응용 문제 |
-| **Parallel Prefix Sum** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) BIT |
+| **Parallel Prefix Sum** | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) BIT |
 | **2D BIT** | 행렬 범위 합 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -177,9 +174,9 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 펜윅 트리는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 회계 시스템이에요 — 각 담당자가 일부 합계를 미리 기록해서 빠르게 합산해요!
-2. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마법(lowbit)으로 어떤 담당자를 찾아가야 할지 O(log N) 만에 알 수 있어요!
-3. 구간 합 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 많은 코딩 테스트와 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계에서 가장 많이 쓰이는 도구예요!
+1. 펜윅 트리는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 회계 시스템이에요 — 각 담당자가 일부 합계를 미리 기록해서 빠르게 합산해요!
+2. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 마법(lowbit)으로 어떤 담당자를 찾아가야 할지 O(log N) 만에 알 수 있어요!
+3. 구간 합 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)가 많은 코딩 테스트와 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 집계에서 가장 많이 쓰이는 도구예요!
 
 ---
 
@@ -187,7 +184,7 @@ BIT 개념은 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accele
 
 **진행 상황**: 86 / 175
 
-<- **이전**: [29. 세그먼트 트리 (Segment Tree)](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/)
-**다음**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/087_trie/) ->
+<- **이전**: [29. 세그먼트 트리 (Segment Tree)](/studynote/08_algorithm_stats/04_datastructure/085_segment_tree/)
+**다음**: [30. 트라이 (Trie) — 문자열 검색의 효율적 자료 구조](/studynote/08_algorithm_stats/04_datastructure/087_trie/) ->
 
 ---

@@ -1,32 +1,29 @@
-+++
-title = "968. CI/CD 지속적 통합, 배포 파이프라인"
-date = 2026-05-08
+---
+title: "968. CI/CD 지속적 통합, 배포 파이프라인"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> (<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>)</strong>는 다수의 개발자가 작성한 코드를 중앙 저장소(Main Branch)에 하루에도 여러 번 빈번하게 병합(Merge)하고, 이 과정에서 자동화된 빌드와 단위 테스트를 수행하여 통합 버그를 조기에 발견하는 실천법이다. <strong>CD (<a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>/<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>, <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>)</strong>는 CI를 통과한 코드([Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 스테이징 환경을 거쳐 프로덕션 환경까지 안정적으로 릴리스하는 일련의 파이프라인 자동화 체계를 의미한다.
+- **개념**: <strong><a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a> (<a href="/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/">Continuous Integration</a>, <a href="/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>)</strong>는 다수의 개발자가 작성한 코드를 중앙 저장소(Main Branch)에 하루에도 여러 번 빈번하게 병합(Merge)하고, 이 과정에서 자동화된 빌드와 단위 테스트를 수행하여 통합 버그를 조기에 발견하는 실천법이다. <strong>CD (<a href="/studynote/13_cloud_architecture/04_devops_observability/164_continuous_delivery/">Continuous Delivery</a>/<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a>, <a href="/studynote/04_software_engineering/02_requirements_analysis/099_continuous_deployment_cd/">지속적 배포</a>)</strong>는 CI를 통과한 코드([Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))를 스테이징 환경을 거쳐 프로덕션 환경까지 안정적으로 릴리스하는 일련의 파이프라인 자동화 체계를 의미한다.
 
 - **필요성**: 전통적인 개발 환경에서는 '통합의 지옥(Integration Hell)'이 존재했다. 수개월간 각자 개발한 코드를 배포 직전에 합칠 때, 수많은 의존성 충돌과 미처 발견하지 못한 사이드 이펙트가 폭발하여 밤샘 수작업 배포가 일상이었다. 소프트웨어 릴리스가 '두려운 이벤트'가 아닌 '일상적인 숨쉬기'처럼 자연스러워지려면, 사람의 수동 개입을 배제한 완벽한 자동화 파이프라인이 필수적이다.
 
-- **💡 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 자동차 공장의 '컨베이어 벨트(조립 라인)'와 같습니다. 부품(코드)이 벨트에 올려지면, 로봇 팔들이 자동으로 조립(빌드)하고 엑스레이로 결함을 검사(테스트)한 뒤, 완성된 자동차를 대리점(프로덕션 서버)까지 탁송(배포)하는 전체 과정이 사람의 개입 없이 물 흐르듯 진행됩니다.
+- **💡 비유**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 자동차 공장의 '컨베이어 벨트(조립 라인)'와 같습니다. 부품(코드)이 벨트에 올려지면, 로봇 팔들이 자동으로 조립(빌드)하고 엑스레이로 결함을 검사(테스트)한 뒤, 완성된 자동차를 대리점(프로덕션 서버)까지 탁송(배포)하는 전체 과정이 사람의 개입 없이 물 흐르듯 진행됩니다.
 
 - **등장 배경 및 발전 과정**:
-  1. <strong>수동 배포의 병목 현상 (Manual <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 과거에는 FTP를 이용해 소스 파일을 운영 서버에 직접 덮어쓰거나, 관리자가 두꺼운 '배포 매뉴얼'을 보며 수십 개의 명령어를 직접 타이핑했다. 한 단계라도 순서를 틀리면 서버가 다운되었다.
+  1. <strong>수동 배포의 병목 현상 (Manual <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/087_deployment_kubernetes_workload_rolling_update/">Deployment</a> <a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>)</strong>: 과거에는 FTP를 이용해 소스 파일을 운영 서버에 직접 덮어쓰거나, 관리자가 두꺼운 '배포 매뉴얼'을 보며 수십 개의 명령어를 직접 타이핑했다. 한 단계라도 순서를 틀리면 서버가 다운되었다.
 
   수동 릴리스 환경에서 발생하는 병목과 커뮤니케이션 오버헤드를 시각화하면, 왜 자동화가 선택이 아닌 생존의 문제인지 명확해진다.
 
@@ -53,12 +50,12 @@ tags = ["studynote-software-engineering"]
   +-------------------------------------------------------------+
 ```
 
-  **[다이어그램 해설]** 이 도식은 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언 이전의 전통적인 개발 팀이 겪던 치명적 안티패턴을 보여준다. 개발 주기가 길어 코드를 모아서 한 번에 병합하려다 보니 '통합 지옥'에 빠지게 된다. 간신히 통합에 성공해도, 개발 환경과 운영 환경의 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이([Configuration Drift](/knowledge-base/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))로 인해 운영팀이 수동 배포를 진행하다가 장애를 유발한다. 개발자는 "내 로컬에선 되는데 운영팀이 잘못 배포했다"고 비난하고, 운영팀은 "개발자가 엉터리 코드를 던졌다"고 맞서는 [사일로](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 팽배했다. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 이 두 조직 사이의 '벽'을 허물어 자동화된 다리([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/))를 놓는 철학적, 기술적 해결책이다.
+  **[다이어그램 해설]** 이 도식은 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 선언 이전의 전통적인 개발 팀이 겪던 치명적 안티패턴을 보여준다. 개발 주기가 길어 코드를 모아서 한 번에 병합하려다 보니 '통합 지옥'에 빠지게 된다. 간신히 통합에 성공해도, 개발 환경과 운영 환경의 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 차이([Configuration Drift](/studynote/15_devops_sre/04_iac_cloud_native/193_configuration_drift/))로 인해 운영팀이 수동 배포를 진행하다가 장애를 유발한다. 개발자는 "내 로컬에선 되는데 운영팀이 잘못 배포했다"고 비난하고, 운영팀은 "개발자가 엉터리 코드를 던졌다"고 맞서는 [사일로](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)([Silo](/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/)) 현상이 팽배했다. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD는 이 두 조직 사이의 '벽'을 허물어 자동화된 다리([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/))를 놓는 철학적, 기술적 해결책이다.
 
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>)의 탄생</strong>: 익스트림 프로그래밍([XP](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))에서 제안된 "하루에 여러 번 묻지 말고 병합하라"는 원칙을 [젠킨스](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Hudson) 같은 도구가 자동화하면서 CI가 확립되었다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 혁명과 CD의 완성</strong>: Docker와 같이 어플리케이션과 실행 환경을 통째로 묶는 불변 [아티팩트](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([Immutable](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Artifact](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))가 등장하면서, 테스트를 통과한 이미지를 프로덕션까지 오차 없이 전달(Delivery)하는 CD가 보편화되었다.
+  2. <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/">지속적 통합</a>(<a href="/studynote/12_it_management/02_itsm_itil/874_configuration_item/">CI</a>)의 탄생</strong>: 익스트림 프로그래밍([XP](/studynote/04_software_engineering/02_requirements_analysis/073_xp_extreme_programming/))에서 제안된 "하루에 여러 번 묻지 말고 병합하라"는 원칙을 [젠킨스](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/)([Jenkins](/studynote/15_devops_sre/02_cicd_gitops/071_jenkins_ci_cd_pipeline_automation/), Hudson) 같은 도구가 자동화하면서 CI가 확립되었다.
+  3. <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/">컨테이너</a> 혁명과 CD의 완성</strong>: Docker와 같이 어플리케이션과 실행 환경을 통째로 묶는 불변 [아티팩트](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/)([Immutable](/studynote/13_cloud_architecture/05_data_engineering/298_immutable/) [Artifact](/studynote/15_devops_sre/02_cicd_gitops/075_artifact_management_nexus_docker_registry/))가 등장하면서, 테스트를 통과한 이미지를 프로덕션까지 오차 없이 전달(Delivery)하는 CD가 보편화되었다.
 
-- **📢 섹션 요약 비유**: 복잡한 요리 레시피를 매번 사람 손으로 만들며 실수를 반복하다가, 재료만 넣으면 항상 똑같은 맛을 내는 '완전 자동화된 요리 로봇([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)'을 주방에 들여놓은 것과 같습니다.
+- **📢 섹션 요약 비유**: 복잡한 요리 레시피를 매번 사람 손으로 만들며 실수를 반복하다가, 재료만 넣으면 항상 똑같은 맛을 내는 '완전 자동화된 요리 로봇([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)'을 주방에 들여놓은 것과 같습니다.
 
 ---
 
@@ -70,18 +67,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -91,18 +88,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인 | 유사 대안 |
+| 비교 항목 | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인 | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -112,9 +109,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -122,21 +119,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -148,10 +145,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -171,13 +168,13 @@ CI/CD 지속적 통합, 배포 파이프라인 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD [지속적 통합](/studynote/04_software_engineering/02_requirements_analysis/076_ci_continuous_integration/), 배포 파이프라인은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -185,7 +182,7 @@ CI/CD 지속적 통합, 배포 파이프라인 개념 정립
 
 **진행 상황**: 817 / 973
 
-<- **이전**: [649. 기준선 (Baseline) 수립 변경 통제](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/649_baseline_configuration_control/)
-**다음**: [650. CI/CD 지속적 통합, 배포 파이프라인](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/650_continuous_integration_build_automation/) ->
+<- **이전**: [649. 기준선 (Baseline) 수립 변경 통제](/studynote/04_software_engineering/10_trends_pm_quality/649_baseline_configuration_control/)
+**다음**: [650. CI/CD 지속적 통합, 배포 파이프라인](/studynote/04_software_engineering/10_trends_pm_quality/650_continuous_integration_build_automation/) ->
 
 ---

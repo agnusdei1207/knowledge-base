@@ -1,13 +1,10 @@
-+++
-title = "542. IT 경영 관리 핵심 토픽 542번 시험 요약 (IT Management Core Topic 542 Exam Summary)"
-date = 2026-05-09
+---
+title: "542. IT 경영 관리 핵심 토픽 542번 시험 요약 (IT Management Core Topic 542 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 542. IT 경영 관리 핵심 토픽 — IT 거버넌스 및 IT 전략 관리
 
@@ -138,7 +135,7 @@ Kaplan & Norton의 4관점(재무·고객·내부프로세스·학습성장)을 
 
 **진행 상황**: 542 / 800
 
-<- **이전**: [541. IT 경영 관리 핵심 토픽 541번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/541_it_management_core_topic_541_exam_summary/)
-**다음**: [543. IT 경영 관리 핵심 토픽 543번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/543_it_management_core_topic_543_exam_summary/) ->
+<- **이전**: [541. IT 경영 관리 핵심 토픽 541번 시험 요약](/studynote/12_it_management/05_security_compliance/541_it_management_core_topic_541_exam_summary/)
+**다음**: [543. IT 경영 관리 핵심 토픽 543번 시험 요약](/studynote/12_it_management/05_security_compliance/543_it_management_core_topic_543_exam_summary/) ->
 
 ---

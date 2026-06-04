@@ -1,39 +1,36 @@
-+++
-title = "259. 배깅 (Bagging)"
-date = 2026-05-09
+---
+title: "259. 배깅 (Bagging)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 배깅(Bagging, Bootstrap Aggregating)은 복원 추출(Bootstrap [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))로 다양한 훈련 서브셋을 만들고, 독립적으로 학습한 모델들을 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 집계하여 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄이는 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.
-> 2. **가치**: [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 배깅에 특성 무작위 선택(Random Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))을 추가하여 상관관계를 더욱 낮춰 가장 강력한 배깅 구현체가 되었다.
-> 3. **판단 포인트**: OOB(Out-Of-Bag) 오차를 활용하면 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 없이도 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추정할 수 있는 것이 배깅만의 장점이다.
+> 1. **본질**: 배깅(Bagging, Bootstrap Aggregating)은 복원 추출(Bootstrap [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))로 다양한 훈련 서브셋을 만들고, 독립적으로 학습한 모델들을 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 집계하여 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/))을 줄이는 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) 기법이다.
+> 2. **가치**: [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))는 배깅에 특성 무작위 선택(Random Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))을 추가하여 상관관계를 더욱 낮춰 가장 강력한 배깅 구현체가 되었다.
+> 3. **판단 포인트**: OOB(Out-Of-Bag) 오차를 활용하면 별도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 없이도 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 추정할 수 있는 것이 배깅만의 장점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-단일 결정 트리([Decision Tree](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 <strong>고분산(High <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 모델이다. 훈련 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라져도 완전히 다른 트리가 만들어질 수 있다. 이 불안정성을 극복하기 위해 [Leo](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) Breiman([1996](/knowledge-base/studynote/09_security/02_crypto/098_md5/))이 배깅을 제안했다.
+단일 결정 트리([Decision Tree](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/))는 <strong>고분산(High <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">Variance</a>)</strong> 모델이다. 훈련 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 조금만 달라져도 완전히 다른 트리가 만들어질 수 있다. 이 불안정성을 극복하기 위해 [Leo](/studynote/03_network/11_wireless_mobile_communication/595_leo_low_earth_orbit_starlink_6g/) Breiman([1996](/studynote/09_security/02_crypto/098_md5/))이 배깅을 제안했다.
 
 **배깅의 핵심 아이디어**:
-> "같은 모집단에서 독립 표본을 N개 뽑아 평균을 내면 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/N로 감소한다"
+> "같은 모집단에서 독립 표본을 N개 뽑아 평균을 내면 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/N로 감소한다"
 
-- 현실에서는 모집단이 하나뿐이므로, <strong>복원 추출(Bootstrap)</strong>로 N개의 가상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 만든다.
-- 각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 독립적으로 모델을 훈련 -> 결과를 평균/다수결로 집계
+- 현실에서는 모집단이 하나뿐이므로, <strong>복원 추출(Bootstrap)</strong>로 N개의 가상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋을 만든다.
+- 각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)셋으로 독립적으로 모델을 훈련 -> 결과를 평균/다수결로 집계
 
-| 특성 | 단일 결정 트리 | 배깅 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
+| 특성 | 단일 결정 트리 | 배깅 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
 |:---|:---|:---|
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 높음 (불안정) | 낮음 (안정적) |
+| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 높음 (불안정) | 낮음 (안정적) |
 | 편향 | 낮음 | 낮음 (유지) |
 | 해석 가능성 | 높음 | 낮음 |
-| 계산 비용 | 낮음 | 높음 ([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능) |
-| 과적합 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 낮음 | 높음 |
+| 계산 비용 | 낮음 | 높음 ([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 가능) |
+| 과적합 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) | 낮음 | 높음 |
 
 ```text
 +----------------------------------------------+
@@ -77,12 +74,12 @@ tags = ["studynote-ai"]
 ### 부트스트랩 샘플링의 특성
 
 n개 샘플에서 복원 추출로 n개를 뽑으면:
-- 특정 샘플이 선택될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/): 1 - (1-1/n)^n -> n->∞ 시 **1 - 1/e ≈ 63.2%**
-- 나머지 <strong>36.8%는 OOB(Out-Of-Bag) 샘플</strong>로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용 가능
+- 특정 샘플이 선택될 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/): 1 - (1-1/n)^n -> n->∞ 시 **1 - 1/e ≈ 63.2%**
+- 나머지 <strong>36.8%는 OOB(Out-Of-Bag) 샘플</strong>로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)에 사용 가능
 
-### [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/))
+### [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/))
 
-[랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 배깅에 <strong>특성 무작위 선택(Random Feature Subspace)</strong>을 추가한다.
+[랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 배깅에 <strong>특성 무작위 선택(Random Feature Subspace)</strong>을 추가한다.
 
 ```
   각 트리의 노드 분할 시:
@@ -101,33 +98,33 @@ n개 샘플에서 복원 추출로 n개를 뽑으면:
 | 하이퍼파라미터 | 설명 | 기본값 |
 |:---|:---|:---|
 | n_estimators | 트리 수 | 100 |
-| max_features | 노드당 고려 특성 수 | 'sqrt' ([분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)), 'auto' |
+| max_features | 노드당 고려 특성 수 | 'sqrt' ([분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)), 'auto' |
 | max_depth | 트리 최대 깊이 | None (무제한) |
 | min_samples_split | 분할 최소 샘플 수 | 2 |
 | oob_score | OOB 오차 계산 여부 | False |
 
 ### OOB 오차 추정
 
-각 샘플은 전체 B개 트리 중 약 36.8%(1/e)의 트리에서 OOB 샘플로 남는다. 이 트리들의 예측을 집계하여 <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> 없이 일반화 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 추정</strong>할 수 있다.
+각 샘플은 전체 B개 트리 중 약 36.8%(1/e)의 트리에서 OOB 샘플로 남는다. 이 트리들의 예측을 집계하여 <strong><a href="/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/">교차 검증</a> 없이 일반화 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 추정</strong>할 수 있다.
 
-- **📢 섹션 요약 비유**: [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 특성 무작위 선택은 "각 직원이 회사 전체 정보가 아닌 자기 분야 정보만 보고 판단"하는 것이다. 덕분에 모든 직원이 같은 결론을 내리는(과적합) 것을 방지한다.
+- **📢 섹션 요약 비유**: [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)의 특성 무작위 선택은 "각 직원이 회사 전체 정보가 아닌 자기 분야 정보만 보고 판단"하는 것이다. 덕분에 모든 직원이 같은 결론을 내리는(과적합) 것을 방지한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### Bagging vs [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)
+### Bagging vs [Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/)
 
-| 특성 | 순수 Bagging | [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) |
+| 특성 | 순수 Bagging | [Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/) |
 |:---|:---|:---|
 | 특성 선택 | 모든 특성 사용 | 무작위 서브셋 |
 | 트리 상관관계 | 상대적으로 높음 | 낮음 |
-| [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과 | 중간 | 더 높음 |
-| 특성 중요도 | 미제공 | 제공 ([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) |
+| [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 효과 | 중간 | 더 높음 |
+| 특성 중요도 | 미제공 | 제공 ([Feature Importance](/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) |
 
-### 특성 중요도 ([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))
+### 특성 중요도 ([Feature Importance](/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/))
 
-Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 감소에 기여한 평균 양을 특성 중요도로 제공한다. 이는 특성 선택(Feature [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용된다.
+Random Forest는 각 특성이 불순도(Gini, [Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)) 감소에 기여한 평균 양을 특성 중요도로 제공한다. 이는 특성 선택(Feature [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/))에 활용된다.
 
 ```
   특성 중요도 예시 (신용 평가):
@@ -146,23 +143,23 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) 튜닝 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### [Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/) 튜닝 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 1. **n_estimators**: 많을수록 좋지만 계산 비용 증가. 보통 100~500으로 시작
 2. **max_features**: 'sqrt'가 기본이지만 특성이 많으면 'log2'도 고려
-3. **max_depth**: None으로 두면 과적합 위험, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 따라 조정
-4. **class_weight**: 불균형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 'balanced' [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)
+3. **max_depth**: None으로 두면 과적합 위험, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기에 따라 조정
+4. **class_weight**: 불균형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 'balanced' [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)
 
-### [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 이점
+### [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 이점
 
-배깅은 각 트리가 독립적이므로 `n_jobs=-1`로 모든 CPU 코어를 활용한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 훈련이 가능하다. XGBoost([부스팅](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))보다 훈련 속도가 빠른 주요 이유다.
+배깅은 각 트리가 독립적이므로 `n_jobs=-1`로 모든 CPU 코어를 활용한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 훈련이 가능하다. XGBoost([부스팅](/studynote/14_data_engineering/03_ml_dl_llm/127_boosting/))보다 훈련 속도가 빠른 주요 이유다.
 
 ### 기술사 답안 포인트
 
-- <strong>"배깅이 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 줄이는 이유"</strong>: 독립 예측기들의 평균 -> [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
-- **"OOB 오차의 활용"**: 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 불필요 -> 소규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리
-- <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> vs 단일 결정 트리"</strong>: 비선형성·상호작용 포착은 유사하나 RF가 훨씬 안정적
-- <strong>"<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> 한계"</strong>: 해석 불가, 메모리 과다, 연속적 외삽(Extrapolation) 불가
+- <strong>"배깅이 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>을 줄이는 이유"</strong>: 독립 예측기들의 평균 -> [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이 1/n로 감소 (단, 예측기들이 독립일 때)
+- **"OOB 오차의 활용"**: 별도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 불필요 -> 소규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 유리
+- <strong>"<a href="/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> vs 단일 결정 트리"</strong>: 비선형성·상호작용 포착은 유사하나 RF가 훨씬 안정적
+- <strong>"<a href="/studynote/06_ict_convergence/05_data_science/353_random_forest/">Random Forest</a> 한계"</strong>: 해석 불가, 메모리 과다, 연속적 외삽(Extrapolation) 불가
 
 - **📢 섹션 요약 비유**: Random Forest는 "각자 다른 문제지를 받아서 시험 본 학생들의 평균 점수"다. 모두 같은 시험지를 받으면(단순 배깅) 서로 비슷한 실수를 하지만, 다른 문제지(랜덤 특성)는 각자 독립적인 오류를 범해 평균이 더 정확해진다.
 
@@ -170,16 +167,16 @@ Random Forest는 각 특성이 불순도(Gini, [Entropy](/knowledge-base/studyno
 
 ## Ⅴ. 기대효과 및 결론
 
-배깅 및 [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)를 적용하면:
+배깅 및 [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)를 적용하면:
 
-1. **안정성**: 단일 결정 트리 대비 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대폭 감소 -> [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 강건
+1. **안정성**: 단일 결정 트리 대비 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 대폭 감소 -> [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변화에 강건
 2. **특성 중요도**: 모델 해석 및 특성 선택에 활용 가능한 정보 제공
-3. <strong>OOB <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [교차 검증](/knowledge-base/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대비 적은 계산 비용으로 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정
+3. <strong>OOB <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: [교차 검증](/studynote/10_ai/03_llm_nlp/250_cross_validation_kfold/) 대비 적은 계산 비용으로 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 추정
 4. **결측값 처리**: 일부 구현체에서 결측값을 직접 처리 가능
 
-Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며, 과적합에 강한** 특성 덕분에 실무에서 첫 번째로 시도하는 기준 모델([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))로 자주 선택된다.
+Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며, 과적합에 강한** 특성 덕분에 실무에서 첫 번째로 시도하는 기준 모델([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))로 자주 선택된다.
 
-- **📢 섹션 요약 비유**: Random Forest는 "편식 없이 무엇이든 잘 소화하는 만능 선수"다. 특별히 뛰어난 점은 없지만 약점도 없어서 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 안정적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
+- **📢 섹션 요약 비유**: Random Forest는 "편식 없이 무엇이든 잘 소화하는 만능 선수"다. 특별히 뛰어난 점은 없지만 약점도 없어서 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에도 안정적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 발휘한다.
 
 ---
 
@@ -187,12 +184,12 @@ Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며,
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 배깅 (Bagging) | Bootstrap Aggregating, 복원 추출 / [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
-| 복원 추출 (Bootstrap [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | 63.2%, OOB / 배깅의 핵심 메커니즘 |
-| OOB 오차 (Out-Of-Bag Error) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추정, 36.8% / 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 대체 |
-| [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | Random Feature Subspace, Gini / 배깅의 강화 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
+| 배깅 (Bagging) | Bootstrap Aggregating, 복원 추출 / [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 감소 [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) |
+| 복원 추출 (Bootstrap [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/)) | 63.2%, OOB / 배깅의 핵심 메커니즘 |
+| OOB 오차 (Out-Of-Bag Error) | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 추정, 36.8% / 별도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 세트 대체 |
+| [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/) ([Random Forest](/studynote/06_ict_convergence/05_data_science/353_random_forest/)) | Random Feature Subspace, Gini / 배깅의 강화 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) |
 | 특성 무작위 선택 (Random Feature) | √p, p/3 / 트리 간 상관관계 감소 |
-| 특성 중요도 ([Feature Importance](/knowledge-base/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) | Gini 감소, 평균 불순도 / 해석 가능성 지원 |
+| 특성 중요도 ([Feature Importance](/studynote/10_ai/05_data_science_ml/355_random_forest_feature_importance/)) | Gini 감소, 평균 불순도 / 해석 가능성 지원 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -203,7 +200,7 @@ Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며,
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 배깅은 같은 반 학생들한테 여러 번 다른 시험 문제를 줘서 각자 공부시키고, 나중에 다수결로 답을 정하는 거야.
-2. [랜덤 포레스트](/knowledge-base/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 거기에 "각 학생이 교과서의 랜덤한 부분만 공부할 수 있어"라는 규칙을 추가한 것!
+2. [랜덤 포레스트](/studynote/06_ict_convergence/05_data_science/353_random_forest/)는 거기에 "각 학생이 교과서의 랜덤한 부분만 공부할 수 있어"라는 규칙을 추가한 것!
 3. 덕분에 모든 학생이 같은 내용만 공부해서 같은 실수를 하는 것(과적합)을 막을 수 있어.
 
 ---
@@ -212,7 +209,7 @@ Random Forest는 **전처리 부담이 적고, 특성 중요도를 제공하며,
 
 **진행 상황**: 259 / 420
 
-<- **이전**: [258. 보팅 (Voting)](/knowledge-base/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
-**다음**: [260. 부스팅 (Boosting)](/knowledge-base/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) ->
+<- **이전**: [258. 보팅 (Voting)](/studynote/10_ai/03_llm_nlp/258_voting_ensemble/)
+**다음**: [260. 부스팅 (Boosting)](/studynote/10_ai/03_llm_nlp/260_boosting_xgboost/) ->
 
 ---

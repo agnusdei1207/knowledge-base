@@ -1,17 +1,14 @@
-+++
-title = "353. RIPng (IPv6 용)"
-date = 2026-05-08
+---
+title: "353. RIPng (IPv6 용)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RIPng는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: RIPng는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: RIPng를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 네트워크 환경에서 동작하도록 설계된 RIP의 확장판(RFC 2080). 이름의 ng는 Next Generation의 약자다.
-- **필요성**: 세상이 IPv6로 넘어가기 시작했다. OSPF도 IPv6용([OSPFv3](/knowledge-base/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/))을 만들고, BGP도 IPv6용(MP-BGP)을 만들었다. RIP도 질 수 없었다. 비록 똑똑한 OSPF에 밀려 거의 안 쓰이는 신세가 되었지만, 그래도 소규모 동네 네트워크나 학생들 교육용으로는 설정이 워낙 쉬우니 "우리도 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷은 나를 수 있게 코드를 살짝만 손보자!" 해서 등장한 생명 연장의 결과물이다.
+- **개념**: [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 네트워크 환경에서 동작하도록 설계된 RIP의 확장판(RFC 2080). 이름의 ng는 Next Generation의 약자다.
+- **필요성**: 세상이 IPv6로 넘어가기 시작했다. OSPF도 IPv6용([OSPFv3](/studynote/03_network/07_network_layer_routing/362_ospfv3_ipv6_support/))을 만들고, BGP도 IPv6용(MP-BGP)을 만들었다. RIP도 질 수 없었다. 비록 똑똑한 OSPF에 밀려 거의 안 쓰이는 신세가 되었지만, 그래도 소규모 동네 네트워크나 학생들 교육용으로는 설정이 워낙 쉬우니 "우리도 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 패킷은 나를 수 있게 코드를 살짝만 손보자!" 해서 등장한 생명 연장의 결과물이다.
 
-- **💡 비유**: RIPv2가 <strong>"가솔린차 엔진(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 처리)"</strong>이라면, RIPng는 엔진 원리나 미션(15 홉 제한, 30초 룰)은 똑같은데 연료통만 <strong>"전기 배터리(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 처리)"</strong>로 쓱 교체해서 구형 차대(프레임)에 얹은 <strong>"레트로 전기차(<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>) 개조 모델"</strong>과 같습니다.
+- **💡 비유**: RIPv2가 <strong>"가솔린차 엔진(<a href="/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/">IPv4</a> 처리)"</strong>이라면, RIPng는 엔진 원리나 미션(15 홉 제한, 30초 룰)은 똑같은데 연료통만 <strong>"전기 배터리(<a href="/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> 처리)"</strong>로 쓱 교체해서 구형 차대(프레임)에 얹은 <strong>"레트로 전기차(<a href="/studynote/12_it_management/04_sdlc_testing/154_ev_earned_value/">EV</a>) 개조 모델"</strong>과 같습니다.
 
 ```text
 [RIPv1 vs RIPv2]
@@ -33,24 +30,24 @@ tags = ["studynote-network"]
     +---> [IGRP]
 ```
 
-- **📢 섹션 요약 비유**: ** RIPng는 할아버지([RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/))가 입던 낡은 양복을 손자(RIPng)가 물려받아 입은 격입니다. 옷감의 재질은 최신 나일론([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))으로 싹 다 바꿨지만, 바지통이나 재킷 디자인([라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 80년대 스타일 그대로인 묘한 하이브리드 옷입니다.
+- **📢 섹션 요약 비유**: ** RIPng는 할아버지([RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/))가 입던 낡은 양복을 손자(RIPng)가 물려받아 입은 격입니다. 옷감의 재질은 최신 나일론([IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))으로 싹 다 바꿨지만, 바지통이나 재킷 디자인([라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 80년대 스타일 그대로인 묘한 하이브리드 옷입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 RIPng를 공부할 땐 "무엇이 바뀌었나?" 보다 <strong>"무엇을 그대로 썼나?"</strong>를 아는 게 더 빠르다.
-수렴 속도가 느린 거, [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) 공식 쓰는 거, 스플릿 호라이즌과 포이즌 리버스로 루프 막는 거 전부 100% 동일하다.
+수렴 속도가 느린 거, [벨만-포드](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) 공식 쓰는 거, 스플릿 호라이즌과 포이즌 리버스로 루프 막는 거 전부 100% 동일하다.
 
-### 1. 바뀐 것 3대장 ([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))
-- <strong>전송 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 구형 RIP는 `UDP 520` ---> RIPng는 <strong><code>UDP 521</code></strong>을 쓴다.
-- **업데이트 수신처**: `224.0.0.9` ---> <strong><code>FF02::9</code></strong> (링크 로컬 [멀티캐스트](/knowledge-base/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 오직 내 옆에 꽂힌 라우터들만 들을 수 있게 한정함).
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)의 삭제</strong>: 엥? RIPv2는 기껏 [MD5](/knowledge-base/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 비밀번호 기능을 넣었는데 ng에선 뺐다고? 맞다. <strong>왜냐하면 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 자체에 이미 IPsec이라는 막강한 국가대표급 암호화 통신 기능이 기본 탑재</strong>되어 있기 때문에, RIPng가 굳이 찌질하게 자체 비밀번호를 챙길 필요가 없어 헤더에서 쿨하게 삭제해 버렸다.
+### 1. 바뀐 것 3대장 ([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/), [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))
+- <strong>전송 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>: 구형 RIP는 `UDP 520` ---> RIPng는 <strong><code>UDP 521</code></strong>을 쓴다.
+- **업데이트 수신처**: `224.0.0.9` ---> <strong><code>FF02::9</code></strong> (링크 로컬 [멀티캐스트](/studynote/03_network/06_network_layer_ip/298_ip_classes_a_b_c_d_multicast_e_experimental/)로 오직 내 옆에 꽂힌 라우터들만 들을 수 있게 한정함).
+- <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>(<a href="/studynote/02_operating_system/10_security/604_authentication_factors/">Authentication</a>)의 삭제</strong>: 엥? RIPv2는 기껏 [MD5](/studynote/03_network/13_network_security_basics/668_md5_hash_collision_vulnerability/) 비밀번호 기능을 넣었는데 ng에선 뺐다고? 맞다. <strong>왜냐하면 <a href="/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/">IPv6</a> <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 자체에 이미 IPsec이라는 막강한 국가대표급 암호화 통신 기능이 기본 탑재</strong>되어 있기 때문에, RIPng가 굳이 찌질하게 자체 비밀번호를 챙길 필요가 없어 헤더에서 쿨하게 삭제해 버렸다.
 
 ### 2. 주소 처리 방식 (링크 로컬의 활용)
 RIPng가 엽서를 보낼 때, 출발지 IP 주소로 자기의 어마어마하게 긴 글로벌 유니캐스트(`2001:...`) 주소를 쓰지 않는다.
-- 대신 IPv6의 특권인 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/">링크 로컬 주소</a>(<code>FE80::xxxx</code>)</strong>를 출발지로 박아서 보낸다.
-- 이유: 어차피 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 "내 바로 옆 라우터"랑만 대화하면 된다. 굳이 인터넷으로 나갈 진짜 공인 IP를 들먹일 필요 없이, 랜선 꽂자마자 자동 생성되는 `FE80` 내선 번호끼리만 지도를 쑥덕쑥덕 교환하는 게 가장 빠르고 안정적이기 때문이다.
+- 대신 IPv6의 특권인 <strong><a href="/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/">링크 로컬 주소</a>(<code>FE80::xxxx</code>)</strong>를 출발지로 박아서 보낸다.
+- 이유: 어차피 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)은 "내 바로 옆 라우터"랑만 대화하면 된다. 굳이 인터넷으로 나갈 진짜 공인 IP를 들먹일 필요 없이, 랜선 꽂자마자 자동 생성되는 `FE80` 내선 번호끼리만 지도를 쑥덕쑥덕 교환하는 게 가장 빠르고 안정적이기 때문이다.
 
 ```text
  +-------------------------------------------------------------+
@@ -76,13 +73,13 @@ RIPng가 엽서를 보낼 때, 출발지 IP 주소로 자기의 어마어마하�
 
 ## Ⅲ. 비교 및 연결
 
-RIPng를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2가 기반 조건을 만든다면, RIPng는 그 위에서 핵심 메커니즘을 구현하고, IGRP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+RIPng를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2가 기반 조건을 만든다면, RIPng는 그 위에서 핵심 메커니즘을 구현하고, IGRP는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2의 기반 정리 | RIPng의 핵심 동작 | IGRP의 확장 적용 |
+| 초점 | [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2의 기반 정리 | RIPng의 핵심 동작 | IGRP의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: RIPng는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -90,21 +87,21 @@ RIPng를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-대기업 실무나 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 현장에서 RIPng를 볼 확률은 **0%에 수렴한다**. OSPFv3나 BGP가 꽉 잡고 있기 때문이다. CCNA 같은 자격증 시험을 칠 때 "IPv6용 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 무엇이냐?"라는 단답형 1점짜리 문제로만 생명을 유지하고 있다.
+대기업 실무나 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 현장에서 RIPng를 볼 확률은 **0%에 수렴한다**. OSPFv3나 BGP가 꽉 잡고 있기 때문이다. CCNA 같은 자격증 시험을 칠 때 "IPv6용 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)이 무엇이냐?"라는 단답형 1점짜리 문제로만 생명을 유지하고 있다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** RIPng는 동사무소에 서류를 낼 때, 양식 포맷([알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1980년대 낡은 종이 서식 그대로 쓰면서, 겉봉투만 최새로운 유형의 친환경 봉투([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))로 갈아 끼워 제출하는 약간은 우스꽝스러운 행정 서류입니다.
+- **📢 섹션 요약 비유**: ** RIPng는 동사무소에 서류를 낼 때, 양식 포맷([알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 1980년대 낡은 종이 서식 그대로 쓰면서, 겉봉투만 최새로운 유형의 친환경 봉투([IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/))로 갈아 끼워 제출하는 약간은 우스꽝스러운 행정 서류입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-RIPng는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/), 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+RIPng는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IGRP](/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/), 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: RIPng는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -114,10 +111,10 @@ RIPng는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [IGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [IGRP](/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +128,7 @@ RIPng는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routi
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-RIPng는 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2에서 출발해 현재 메커니즘을 정교화하고, 이후 IGRP와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+RIPng는 [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2에서 출발해 현재 메커니즘을 정교화하고, 이후 IGRP와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -145,7 +142,7 @@ RIPng는 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/3
 
 **진행 상황**: 474 / 1120
 
-<- **이전**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/)
-**다음**: [354. IGRP](/knowledge-base/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/) ->
+<- **이전**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/)
+**다음**: [354. IGRP](/studynote/03_network/07_network_layer_routing/354_igrp_cisco_legacy_composite_metric/) ->
 
 ---

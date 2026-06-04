@@ -1,31 +1,28 @@
-+++
-title = "398. 거친 멀티스레딩 (Coarse-grained)"
-date = 2026-03-20
+---
+title: "398. 거친 멀티스레딩 (Coarse-grained)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Coarse-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 빠질 때만 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 넘어가, 코어가 통째로 멈추는 시간을 줄이는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 구조다.
-> 2. **가치**: 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에는 개입하지 않으므로 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교적 보존하면서도, 주기억장치 접근처럼 수십~수백 사이클의 큰 공백을 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행으로 메울 수 있다.
-> 3. **판단 포인트**: 핵심은 "언제 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)할 만큼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 충분히 큰가"이며, 스위칭 오버헤드가 큰 구조라면 결국 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))이나 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))으로 진화한다.
+> 1. **본질**: 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Coarse-grained [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에 빠질 때만 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)로 넘어가, 코어가 통째로 멈추는 시간을 줄이는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 은닉 구조다.
+> 2. **가치**: 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)에는 개입하지 않으므로 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 비교적 보존하면서도, 주기억장치 접근처럼 수십~수백 사이클의 큰 공백을 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 실행으로 메울 수 있다.
+> 3. **판단 포인트**: 핵심은 "언제 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)할 만큼 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 충분히 큰가"이며, 스위칭 오버헤드가 큰 구조라면 결국 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ([Fine-grained](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))이나 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))으로 진화한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Coarse-grained [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 하나의 프로세서 코어가 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 보유하다가, 현재 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 긴 정지 구간에 들어섰을 때만 실행 주체를 바꾸는 하드웨어 기법이다. 목적은 단순하다. 파이프라인이 놀고 있는 시간을 줄여 전체 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이되, 매 사이클마다 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸는 극단적 방식은 피하겠다는 것이다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) (Coarse-grained [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/))은 하나의 프로세서 코어가 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 문맥을 보유하다가, 현재 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 긴 정지 구간에 들어섰을 때만 실행 주체를 바꾸는 하드웨어 기법이다. 목적은 단순하다. 파이프라인이 놀고 있는 시간을 줄여 전체 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이되, 매 사이클마다 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 바꾸는 극단적 방식은 피하겠다는 것이다.
 
-이 기법이 등장한 배경에는 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))이 있다. 산술 연산은 몇 사이클 안에 끝나도, 캐시 미스 (Cache Miss)로 주기억장치인 디램 ([DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory)까지 내려가면 수십~수백 사이클이 순식간에 소모된다. 이때 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 코어는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 내보내지 못하고 사실상 멈추며, 비싼 실행 유닛이 전력만 소비한 채 쉬게 된다.
+이 기법이 등장한 배경에는 메모리 벽 ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/))이 있다. 산술 연산은 몇 사이클 안에 끝나도, 캐시 미스 (Cache Miss)로 주기억장치인 디램 ([DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/), Dynamic Random Access Memory)까지 내려가면 수십~수백 사이클이 순식간에 소모된다. 이때 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 코어는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 더 내보내지 못하고 사실상 멈추며, 비싼 실행 유닛이 전력만 소비한 채 쉬게 된다.
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 바로 이 "긴 기다림"에만 반응한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성처럼 1~2사이클짜리 짧은 버블은 그냥 감수하고, 정말 오래 멈추는 상황에서만 대기 중인 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 투입한다. 즉, 모든 빈칸을 메우려는 기술이 아니라, 가장 큰 낭비 구간만 골라서 메우는 절충형 구조다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 바로 이 "긴 기다림"에만 반응한다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존성처럼 1~2사이클짜리 짧은 버블은 그냥 감수하고, 정말 오래 멈추는 상황에서만 대기 중인 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 투입한다. 즉, 모든 빈칸을 메우려는 기술이 아니라, 가장 큰 낭비 구간만 골라서 메우는 절충형 구조다.
 
-이 그림은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 어떻게 다르게 처리하는지 보여준다.
+이 그림은 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)와 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 어떻게 다르게 처리하는지 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -38,27 +35,27 @@ tags = ["studynote-computer-architecture"]
 +----------------------------+---------------------------------+
 ```
 
-핵심은 코어가 "항상 동시에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 실행"하는 것이 아니라, 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 터졌을 때만 실행 대상을 바꾸는 점이다. 따라서 멀티코어의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행과도 다르고, 매 클럭 교대 방식과도 다르다.
+핵심은 코어가 "항상 동시에 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 실행"하는 것이 아니라, 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 터졌을 때만 실행 대상을 바꾸는 점이다. 따라서 멀티코어의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행과도 다르고, 매 클럭 교대 방식과도 다르다.
 
-- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 세탁기가 3초 멈췄다고 다른 빨래를 넣는 게 아니라, 물이 끊겨 10분 이상 멈췄을 때만 옆 세탁기로 다른 빨래를 돌리는 방식이다.
+- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 세탁기가 3초 멈췄다고 다른 빨래를 넣는 게 아니라, 물이 끊겨 10분 이상 멈췄을 때만 옆 세탁기로 다른 빨래를 돌리는 방식이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 구현하려면 코어 안에 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 건축학적 상태 (Architectural [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 함께 들고 있어야 한다. [프로그램 카운터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [범용 레지스터](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), 상태 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 따로 보관해 두고, 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트가 발생하면 하드웨어가 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 선택한다. 덕분에 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준의 무거운 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이 코어 내부에서 훨씬 빠르게 전환할 수 있다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 구현하려면 코어 안에 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 건축학적 상태 (Architectural [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))를 함께 들고 있어야 한다. [프로그램 카운터](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) (Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)), [범용 레지스터](/studynote/01_computer_architecture/04_instruction_set_architecture/162_gpr/), 상태 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)를 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별로 따로 보관해 두고, 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 이벤트가 발생하면 하드웨어가 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태를 선택한다. 덕분에 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준의 무거운 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 없이 코어 내부에서 훨씬 빠르게 전환할 수 있다.
 
-하지만 실행 파이프라인 자체는 대개 한 세트이므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 순간에는 파이프라인 정리 비용이 발생한다. 이미 들어와 있던 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 비우고 새 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름을 채워야 하기 때문이다. 그래서 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "스위칭 자체가 손해가 아닐 만큼 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"에서만 유리하다.
+하지만 실행 파이프라인 자체는 대개 한 세트이므로, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 순간에는 파이프라인 정리 비용이 발생한다. 이미 들어와 있던 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 비우고 새 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 흐름을 채워야 하기 때문이다. 그래서 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "스위칭 자체가 손해가 아닐 만큼 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)"에서만 유리하다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합 | 각 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태 보관 | 메모리 저장 없이 빠른 전환 |
-| 단일 실행 파이프라인 | 한 번에 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 실행 | 자원 면적 증가를 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감지 로직 | 캐시 미스, 긴 메모리 접근 감지 | 짧은 버블에는 반응하지 않음 |
-| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 선택기 | 대기 중 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 다음 실행 대상을 고름 | 우선순위, 공정성, 준비 상태 고려 |
-| 파이프라인 플러시 | 이전 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 흔적 정리 | 전환 비용이 크면 효과 감소 |
+| [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)별 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 집합 | 각 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 상태 보관 | 메모리 저장 없이 빠른 전환 |
+| 단일 실행 파이프라인 | 한 번에 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)만 실행 | 자원 면적 증가를 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감지 로직 | 캐시 미스, 긴 메모리 접근 감지 | 짧은 버블에는 반응하지 않음 |
+| [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 선택기 | 대기 중 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 다음 실행 대상을 고름 | 우선순위, 공정성, 준비 상태 고려 |
+| 파이프라인 플러시 | 이전 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 흔적 정리 | 전환 비용이 크면 효과 감소 |
 
-아래 그림은 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 내부 결정 흐름을 요약한다.
+아래 그림은 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 내부 결정 흐름을 요약한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -77,9 +74,9 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 구조의 장점은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 정상적으로 잘 돌 때는 자원을 거의 독점하게 해 준다는 점이다. 반대로 약점은 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기지 못한다는 데 있다. 예를 들어 2사이클짜리 의존성 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려고 4사이클짜리 전환 비용을 지불하면 오히려 더 손해이므로, 이런 경우 코어는 그냥 잠깐 쉬는 쪽을 택한다.
+이 구조의 장점은 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 정상적으로 잘 돌 때는 자원을 거의 독점하게 해 준다는 점이다. 반대로 약점은 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기지 못한다는 데 있다. 예를 들어 2사이클짜리 의존성 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 숨기려고 4사이클짜리 전환 비용을 지불하면 오히려 더 손해이므로, 이런 경우 코어는 그냥 잠깐 쉬는 쪽을 택한다.
 
-즉, 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 핵심 공식은 "긴 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) > 스위칭 비용"이다. 이 불등식이 성립할 때만 구조적 이득이 발생한다.
+즉, 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 핵심 공식은 "긴 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) > 스위칭 비용"이다. 이 불등식이 성립할 때만 구조적 이득이 발생한다.
 
 - **📢 섹션 요약 비유**: 이 방식은 택시 기사가 손님이 5초 동안 카드 찾는다고 바로 다음 손님을 태우는 게 아니라, 공항에서 20분 입국 심사를 기다릴 때만 다른 손님 호출을 먼저 잡는 것과 같다.
 
@@ -87,57 +84,57 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 이해하려면 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)과 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)을 함께 비교해야 경계가 선명해진다. 세 기술 모두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/), Thread-Level Parallelism)을 활용하지만, "어느 정도로 자주 바꿀 것인가"와 "한 번에 몇 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 태울 것인가"가 다르다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 이해하려면 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)과 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)을 함께 비교해야 경계가 선명해진다. 세 기술 모두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([TLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/), Thread-Level Parallelism)을 활용하지만, "어느 정도로 자주 바꿀 것인가"와 "한 번에 몇 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 태울 것인가"가 다르다.
 
-| 항목 | 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) | [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) | [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) |
+| 항목 | 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) | [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) | [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) |
 | :--- | :--- | :--- | :--- |
-| 전환 시점 | 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 시 | 거의 매 사이클 | 같은 사이클에 동시 발급 |
+| 전환 시점 | 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 시 | 거의 매 사이클 | 같은 사이클에 동시 발급 |
 | 전환 비용 | 파이프라인 플러시 존재 | 매우 작거나 거의 없음 | 전환보다 자원 혼합이 핵심 |
-| 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 비교적 잘 보존 | 낮아지기 쉬움 | 공유 자원 경합에 따라 변동 |
-| 숨길 수 있는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중심 | 짧은 버블까지 광범위 | 가로·세로 유휴를 모두 완화 |
-| 적합한 목표 | 긴 정지 회피 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 | 유닛 활용률 극대화 |
+| 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 비교적 잘 보존 | 낮아지기 쉬움 | 공유 자원 경합에 따라 변동 |
+| 숨길 수 있는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중심 | 짧은 버블까지 광범위 | 가로·세로 유휴를 모두 완화 |
+| 적합한 목표 | 긴 정지 회피 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 극대화 | 유닛 활용률 극대화 |
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "긴 세로 공백"을 메우는 기술이다. [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 매번 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 번갈아 넣어 짧은 공백까지 숨기고, [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 아예 같은 사이클 안에서 서로 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 동시에 발급해 실행 유닛의 빈칸까지 채운다. 따라서 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 진화의 중간 단계로 보는 편이 이해하기 쉽다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "긴 세로 공백"을 메우는 기술이다. [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 매번 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 번갈아 넣어 짧은 공백까지 숨기고, [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 아예 같은 사이클 안에서 서로 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 동시에 발급해 실행 유닛의 빈칸까지 채운다. 따라서 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 진화의 중간 단계로 보는 편이 이해하기 쉽다.
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점으로 연결하면, 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "오랫동안 막힌 작업만 옆으로 제쳐 두고 다른 일을 한다"는 비동기 실행 철학과 닮았다. 반면 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 라운드로빈 스케줄링에 가깝고, [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 한 코어 내부에서 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어를 분할해 동시에 일을 섞는 구조와 맞닿아 있다. 즉 하드웨어의 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 방식은 소프트웨어 스케줄링 철학과도 평행선을 이룬다.
+[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점으로 연결하면, 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "오랫동안 막힌 작업만 옆으로 제쳐 두고 다른 일을 한다"는 비동기 실행 철학과 닮았다. 반면 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 라운드로빈 스케줄링에 가깝고, [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 한 코어 내부에서 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 코어를 분할해 동시에 일을 섞는 구조와 맞닿아 있다. 즉 하드웨어의 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 방식은 소프트웨어 스케줄링 철학과도 평행선을 이룬다.
 
-정리하면, 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 훼손하지 않으면서 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 완화하고 싶을 때 유용하다. 그러나 파이프라인 버블을 더 촘촘히 숨기고 싶어질수록 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)이나 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)이 더 설득력 있는 대안이 된다.
+정리하면, 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 훼손하지 않으면서 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 완화하고 싶을 때 유용하다. 그러나 파이프라인 버블을 더 촘촘히 숨기고 싶어질수록 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)이나 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)이 더 설득력 있는 대안이 된다.
 
-- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 버스가 큰 정체를 만났을 때만 우회로를 쓰는 전략이고, [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 교차로마다 차선을 바꾸는 전략이며, [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 애초에 여러 차선을 동시에 활용하는 전략이다.
+- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 버스가 큰 정체를 만났을 때만 우회로를 쓰는 전략이고, [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)은 교차로마다 차선을 바꾸는 전략이며, [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)은 애초에 여러 차선을 동시에 활용하는 전략이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 범용 데스크톱 중앙처리장치 (CPU, Central Processing Unit)의 주류가 되지는 못했지만, 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고 독립 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충분한 워크로드에서는 여전히 설명력이 있다. 대표적으로 네트워크 처리, 서버형 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 오래된 대형 시스템용 프로세서처럼 "대기 시간이 길고 다른 일감이 항상 준비된" 환경에서 효과를 볼 수 있다.
+실무에서 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 범용 데스크톱 중앙처리장치 (CPU, Central Processing Unit)의 주류가 되지는 못했지만, 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고 독립 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충분한 워크로드에서는 여전히 설명력이 있다. 대표적으로 네트워크 처리, 서버형 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 오래된 대형 시스템용 프로세서처럼 "대기 시간이 길고 다른 일감이 항상 준비된" 환경에서 효과를 볼 수 있다.
 
-반대로 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 응답성이 중요한 워크로드에는 부적합하다. 게임 메인 루프, 사용자 인터페이스, 실시간 제어처럼 한 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 끊기지 않고 빨리 끝나는 것이 중요한 경우에는, 스위칭 시점 자체가 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 흔들림으로 느껴질 수 있다. 또한 대기 중 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충분하지 않다면 숨길 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도, 대신 실행할 일도 없으므로 구조적 이득이 사라진다.
+반대로 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 응답성이 중요한 워크로드에는 부적합하다. 게임 메인 루프, 사용자 인터페이스, 실시간 제어처럼 한 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 끊기지 않고 빨리 끝나는 것이 중요한 경우에는, 스위칭 시점 자체가 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 흔들림으로 느껴질 수 있다. 또한 대기 중 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충분하지 않다면 숨길 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)도, 대신 실행할 일도 없으므로 구조적 이득이 사라진다.
 
 ### 기술사 답안형 판단 기준
 
-1. **채택 유리**: 메모리 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고, 서로 독립적인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 준비되어 있는 경우
-2. **채택 불리**: 짧은 의존성 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 대부분이거나, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 핵심 품질인 경우
-3. **대안 검토**: 실행 유닛 활용까지 높여야 하면 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), 짧은 버블까지 숨겨야 하면 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) 검토
+1. **채택 유리**: 메모리 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길고, 서로 독립적인 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 항상 준비되어 있는 경우
+2. **채택 불리**: 짧은 의존성 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 대부분이거나, 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간이 핵심 품질인 경우
+3. **대안 검토**: 실행 유닛 활용까지 높여야 하면 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), 짧은 버블까지 숨겨야 하면 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) 검토
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 거의 없는 계산형 코어에 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 억지로 넣는 설계
-- 준비 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 적은데도 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)만으로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 기대하는 판단
-- 스위칭 오버헤드와 캐시 교란 비용을 무시하고 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수만 늘리면 해결"이라고 보는 접근
+- 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 거의 없는 계산형 코어에 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)을 억지로 넣는 설계
+- 준비 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수가 적은데도 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)만으로 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 향상을 기대하는 판단
+- 스위칭 오버헤드와 캐시 교란 비용을 무시하고 "[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수만 늘리면 해결"이라고 보는 접근
 
-실무 판단의 핵심은 구조를 외우는 것이 아니라, 병목의 길이와 스위칭 비용의 크기를 비교하는 것이다. [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 충분히 길고 대기 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 풍부하면 가치가 있지만, 그렇지 않으면 복잡성만 늘어난다.
+실무 판단의 핵심은 구조를 외우는 것이 아니라, 병목의 길이와 스위칭 비용의 크기를 비교하는 것이다. [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 충분히 길고 대기 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 풍부하면 가치가 있지만, 그렇지 않으면 복잡성만 늘어난다.
 
-- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 병원 응급실에서 의사가 환자 한 명을 30초 기다리는 상황엔 그대로 붙어 있지만, 검사 결과가 20분 뒤 나올 환자라면 그동안 다른 환자를 먼저 보는 운영 방식과 같다.
+- **📢 섹션 요약 비유**: 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 병원 응급실에서 의사가 환자 한 명을 30초 기다리는 상황엔 그대로 붙어 있지만, 검사 결과가 20분 뒤 나올 환자라면 그동안 다른 환자를 먼저 보는 운영 방식과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 가장 큰 효과는 긴 메모리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문에 코어 전체가 멈추는 비효율을 줄이는 데 있다. 같은 하드웨어 자원으로 더 많은 일을 처리할 수 있으므로 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 자원 활용률이 개선된다. 동시에 매 순간 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 섞지는 않기 때문에, 정상 구간에서는 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 연속 실행성이 비교적 잘 유지된다.
+거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 가장 큰 효과는 긴 메모리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 때문에 코어 전체가 멈추는 비효율을 줄이는 데 있다. 같은 하드웨어 자원으로 더 많은 일을 처리할 수 있으므로 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 자원 활용률이 개선된다. 동시에 매 순간 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 섞지는 않기 때문에, 정상 구간에서는 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)의 연속 실행성이 비교적 잘 유지된다.
 
-하지만 한계도 분명하다. 짧은 버블은 숨기지 못하고, 파이프라인 플러시와 캐시 지역성 저하 같은 전환 비용이 존재한다. 결국 더 적극적으로 유휴 자원을 없애려는 요구가 커지면 [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)이나 [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)으로 넘어가게 된다.
+하지만 한계도 분명하다. 짧은 버블은 숨기지 못하고, 파이프라인 플러시와 캐시 지역성 저하 같은 전환 비용이 존재한다. 결국 더 적극적으로 유휴 자원을 없애려는 요구가 커지면 [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/)이나 [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/)으로 넘어가게 된다.
 
-따라서 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "[멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 완성형"이라기보다, 메모리 벽 시대에 나온 현실적 절충안으로 기억하는 것이 좋다. 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만나면 다른 일을 시키고, 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 감수한다는 선택적 대응 철학이 이 구조의 핵심이다.
+따라서 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 "[멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)의 완성형"이라기보다, 메모리 벽 시대에 나온 현실적 절충안으로 기억하는 것이 좋다. 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 만나면 다른 일을 시키고, 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 감수한다는 선택적 대응 철학이 이 구조의 핵심이다.
 
 - **📢 섹션 요약 비유**: 이 기술은 모든 공백을 없애는 만능 접착제가 아니라, 크게 벌어진 틈만 메워 전체 구조가 무너지지 않게 하는 실용적인 틈새 보수재에 가깝다.
 
@@ -147,11 +144,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([TLP](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/), Thread-Level Parallelism) | 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 준비된 작업을 골라 코어 유휴 시간을 줄이는 상위 개념 |
-| 캐시 미스 (Cache Miss) | 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 주로 반응하는 대표적 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인 |
-| [세밀한 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ([Fine-grained](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) | 짧은 버블까지 숨기기 위해 더 자주 전환하는 다음 단계 |
-| [동시 멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) | 한 사이클 안에서 여러 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 함께 발급해 자원 활용을 더 끌어올리는 구조 |
-| 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 프로세서 속도와 주기억장치 속도 차이가 커지며 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 필요성을 키운 배경 |
+| [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 ([TLP](/studynote/01_computer_architecture/10_parallel_processing_architecture/385_tlp/), Thread-Level Parallelism) | 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 준비된 작업을 골라 코어 유휴 시간을 줄이는 상위 개념 |
+| 캐시 미스 (Cache Miss) | 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 주로 반응하는 대표적 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 원인 |
+| [세밀한 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ([Fine-grained](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) | 짧은 버블까지 숨기기 위해 더 자주 전환하는 다음 단계 |
+| [동시 멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/) ([SMT](/studynote/01_computer_architecture/11_multicore_synchronization/400_smt/), Simultaneous [Multithreading](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/)) | 한 사이클 안에서 여러 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 함께 발급해 자원 활용을 더 끌어올리는 구조 |
+| 메모리 벽 ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 프로세서 속도와 주기억장치 속도 차이가 커지며 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) 필요성을 키운 배경 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -169,11 +166,11 @@ tags = ["studynote-computer-architecture"]
     +---------> 동시 멀티스레딩 (같은 사이클 동시 발급)
 ```
 
-이 흐름은 "긴 정지 회피"에서 출발해 "짧은 공백 은닉"과 "실행 유닛 빈칸 활용"으로 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 확장되는 과정을 보여준다.
+이 흐름은 "긴 정지 회피"에서 출발해 "짧은 공백 은닉"과 "실행 유닛 빈칸 활용"으로 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)이 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 거친 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 한 아이가 블록을 찾으러 창고에 오래 간 동안, 선생님이 다른 아이 숙제를 먼저 봐주는 방법이에요.
+1. 거친 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)은 한 아이가 블록을 찾으러 창고에 오래 간 동안, 선생님이 다른 아이 숙제를 먼저 봐주는 방법이에요.
 2. 잠깐 연필 줍는 정도라면 그냥 기다리지만, 오래 자리를 비우면 다른 아이 차례로 바꿔요.
 3. 그래서 선생님은 멍하니 서 있지 않고, 긴 기다림 시간만 골라서 다른 일을 하게 된답니다.
 
@@ -183,7 +180,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 399 / 803
 
-<- **이전**: [397. 멀티스레딩 (Multithreading)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)
-**다음**: [399. 세밀한 멀티스레딩 (Fine-grained)](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ->
+<- **이전**: [397. 멀티스레딩 (Multithreading)](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)
+**다음**: [399. 세밀한 멀티스레딩 (Fine-grained)](/studynote/01_computer_architecture/11_multicore_synchronization/399_fine_grained_multithreading/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "627. 카오스 엔지니어링 리트머스 그렘린 (Chaos Engineering Litmus Gremlin)"
-date = 2026-05-09
+---
+title: "627. 카오스 엔지니어링 리트머스 그렘린 (Chaos Engineering Litmus Gremlin)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Hypothesize -> Inject -> Observe -> Abort -> Improve
 
 **진행 상황**: 622 / 800
 
-<- **이전**: [621. eBPF 커널 관측 네트워크 보안](/knowledge-base/studynote/06_ict_convergence/uncategorized/626_ebpf_kernel_observability_network_security/)
-**다음**: [623. SRE 에러버짓 신뢰성 목표 설정](/knowledge-base/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/) ->
+<- **이전**: [621. eBPF 커널 관측 네트워크 보안](/studynote/06_ict_convergence/uncategorized/626_ebpf_kernel_observability_network_security/)
+**다음**: [623. SRE 에러버짓 신뢰성 목표 설정](/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/) ->
 
 ---

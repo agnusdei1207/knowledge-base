@@ -1,27 +1,24 @@
-+++
-title = "171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)"
-date = 2026-03-22
+---
+title: "171. CPU 이용률 (CPU Utilization) / 처리량 (Throughput)"
+date: "2026-03-22"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CPU 이용률 (CPU Utilization)은 관측 시간 중 CPU (Central Processing Unit)가 idle이 아니었던 비율이고, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 단위 시간당 완료된 작업 수다.
-> 2. **가치**: 두 지표는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 하드웨어를 얼마나 효율적으로 쓰는지 보여 주지만, 하나만 보면 오버헤드나 병목을 잘못 해석할 수 있다.
-> 3. **판단 포인트**: 좋은 시스템은 무조건 이용률 100%를 향하는 시스템이 아니라, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 안정적으로 높고 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 붕괴하지 않는 포화 직전 구간을 유지하는 시스템이다.
+> 1. **본질**: CPU 이용률 (CPU Utilization)은 관측 시간 중 CPU (Central Processing Unit)가 idle이 아니었던 비율이고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 단위 시간당 완료된 작업 수다.
+> 2. **가치**: 두 지표는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) ([Operating System](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/), OS)가 하드웨어를 얼마나 효율적으로 쓰는지 보여 주지만, 하나만 보면 오버헤드나 병목을 잘못 해석할 수 있다.
+> 3. **판단 포인트**: 좋은 시스템은 무조건 이용률 100%를 향하는 시스템이 아니라, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 안정적으로 높고 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 붕괴하지 않는 포화 직전 구간을 유지하는 시스템이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "그 시간 동안 실제로 몇 개의 일을 끝냈는가"다. 둘 다 시스템 중심 지표라서, 사용자 체감보다 자원 활용 효율을 먼저 본다. [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), 대규모 서버 운영, 용량 계획에서는 여전히 가장 기본적인 숫자다.
+CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "그 시간 동안 실제로 몇 개의 일을 끝냈는가"다. 둘 다 시스템 중심 지표라서, 사용자 체감보다 자원 활용 효율을 먼저 본다. [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/), 대규모 서버 운영, 용량 계획에서는 여전히 가장 기본적인 숫자다.
 
-이 지표들이 중요한 이유는 시스템이 바쁘다는 사실과 생산적이라는 사실이 항상 같지 않기 때문이다. CPU가 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 락 경쟁, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)으로 95% 바쁘게 돌아가도 완료된 작업 수가 늘지 않으면 효율은 떨어진다. 따라서 이용률은 "일하고 있는가"를, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "성과가 나오는가"를 함께 확인하는 짝 지표로 봐야 한다.
+이 지표들이 중요한 이유는 시스템이 바쁘다는 사실과 생산적이라는 사실이 항상 같지 않기 때문이다. CPU가 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 락 경쟁, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)으로 95% 바쁘게 돌아가도 완료된 작업 수가 늘지 않으면 효율은 떨어진다. 따라서 이용률은 "일하고 있는가"를, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "성과가 나오는가"를 함께 확인하는 짝 지표로 봐야 한다.
 
 아래 시간축은 두 지표가 같은 관측 구간을 서로 다르게 해석한다는 점을 보여준다.
 
@@ -39,25 +36,25 @@ CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, 
 +--------------------------------------------------------------+
 ```
 
-이 그림에서 [kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) work도 이용률에는 포함되지만, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 늘려 주는 것은 완료된 작업 수뿐이다. 그래서 이용률이 높은데 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 기대만큼 안 나오면, CPU가 "유용한 계산"보다 "관리 비용"에 시간을 쓰는지 의심해야 한다.
+이 그림에서 [kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) work도 이용률에는 포함되지만, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 늘려 주는 것은 완료된 작업 수뿐이다. 그래서 이용률이 높은데 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 기대만큼 안 나오면, CPU가 "유용한 계산"보다 "관리 비용"에 시간을 쓰는지 의심해야 한다.
 
-- **📢 섹션 요약 비유**: 주방에서 불이 계속 켜져 있다고 음식이 많이 나온 것은 아니다. 불이 켜진 시간은 이용률이고, 실제로 손님상에 올라간 접시 수가 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이다.
+- **📢 섹션 요약 비유**: 주방에서 불이 계속 켜져 있다고 음식이 많이 나온 것은 아니다. 불이 켜진 시간은 이용률이고, 실제로 손님상에 올라간 접시 수가 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-두 지표는 계산은 단순하지만 해석은 맥락이 필요하다. CPU 이용률은 보통 `busy time / total time`으로 보고, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 `completed jobs / unit time`으로 본다. 여기서 busy time에는 사용자 코드, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 시간이 포함될 수 있으므로, user/system/iowait 구분이 함께 필요하다.
+두 지표는 계산은 단순하지만 해석은 맥락이 필요하다. CPU 이용률은 보통 `busy time / total time`으로 보고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 `completed jobs / unit time`으로 본다. 여기서 busy time에는 사용자 코드, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 처리 시간이 포함될 수 있으므로, user/system/iowait 구분이 함께 필요하다.
 
-| 요소 | CPU 이용률에 미치는 영향 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)에 미치는 영향 |
+| 요소 | CPU 이용률에 미치는 영향 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)에 미치는 영향 |
 | :--- | :--- | :--- |
 | I/O 대기 (Input/Output Wait) 감소 | 이용률 상승 가능 | 완료 속도도 함께 개선 가능 |
-| [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 증가 | 이용률은 유지 또는 상승 가능 | 오버헤드 때문에 감소 가능 |
+| [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 증가 | 이용률은 유지 또는 상승 가능 | 오버헤드 때문에 감소 가능 |
 | CPU 바운드 작업 증가 | 이용률 상승 | 적절한 구간에서는 상승 |
-| [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)·스핀 | 이용률은 높게 보일 수 있음 | 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 정체 또는 하락 |
-| [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)·[스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/) | 이용률 해석 왜곡 | 급격한 하락 가능 |
+| [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/)·스핀 | 이용률은 높게 보일 수 있음 | 실제 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 정체 또는 하락 |
+| [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)·[스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/) | 이용률 해석 왜곡 | 급격한 하락 가능 |
 
-시스템 부하가 늘면 처음에는 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 함께 올라간다. 준비 큐에 작업이 어느 정도 있어야 CPU가 빈 시간을 줄이고, 파이프라인과 캐시도 더 잘 활용할 수 있기 때문이다. 하지만 어느 시점을 넘으면 대기열, 락, 캐시 미스, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 급증해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 먼저 꺾이기 시작한다.
+시스템 부하가 늘면 처음에는 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 함께 올라간다. 준비 큐에 작업이 어느 정도 있어야 CPU가 빈 시간을 줄이고, 파이프라인과 캐시도 더 잘 활용할 수 있기 때문이다. 하지만 어느 시점을 넘으면 대기열, 락, 캐시 미스, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 급증해 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 먼저 꺾이기 시작한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -71,7 +68,7 @@ CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, 
 +--------------------------------------------------------------+
 ```
 
-따라서 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 튜닝에서 핵심은 단순한 최대 이용률이 아니라 포화점 (Saturation Point) 찾기다. 이 지점 이전까지는 작업을 더 넣을수록 성과가 커지지만, 이후에는 시스템이 바쁘기만 하고 생산성은 떨어진다.
+따라서 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 튜닝에서 핵심은 단순한 최대 이용률이 아니라 포화점 (Saturation Point) 찾기다. 이 지점 이전까지는 작업을 더 넣을수록 성과가 커지지만, 이후에는 시스템이 바쁘기만 하고 생산성은 떨어진다.
 
 - **📢 섹션 요약 비유**: 고속도로에 차가 너무 적으면 도로가 비고, 적당히 많으면 통행량이 최고가 된다. 하지만 차를 계속 밀어 넣으면 모두가 천천히 움직여 도로는 꽉 찼는데 도착 차량 수는 오히려 줄어든다.
 
@@ -79,26 +76,26 @@ CPU 이용률은 "프로세서가 쉬지 않고 일한 시간의 비율"이고, 
 
 ## Ⅲ. 비교 및 연결
 
-CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 서로 가깝지만 다른 질문에 답한다. 이용률은 자원이 놀고 있는지 아닌지를 말해 주고, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 그 자원으로 얼마나 많은 결과를 냈는지를 말해 준다. 그래서 같은 80% 이용률이라도 워크로드와 오버헤드 구조에 따라 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 크게 다를 수 있다.
+CPU 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 서로 가깝지만 다른 질문에 답한다. 이용률은 자원이 놀고 있는지 아닌지를 말해 주고, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 그 자원으로 얼마나 많은 결과를 냈는지를 말해 준다. 그래서 같은 80% 이용률이라도 워크로드와 오버헤드 구조에 따라 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 크게 다를 수 있다.
 
-| 비교 축 | CPU 이용률 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 같이 봐야 하는 이유 |
+| 비교 축 | CPU 이용률 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 같이 봐야 하는 이유 |
 | :--- | :--- | :--- | :--- |
 | 측정 대상 | CPU 시간 비율 | 완료된 작업 수 | "바쁨"과 "성과"를 분리 |
-| 강한 환경 | 배치, 자원 효율 분석 | [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시스템, 생산성 분석 | 시스템 성격에 따라 해석이 달라짐 |
-| 왜곡 요인 | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), steal time | 작업 크기 차이, 완료 정의 차이 | 단일 숫자로는 오판 가능 |
-| 사용자 체감과의 거리 | 멀 수 있음 | 상대적으로 가깝지만 충분치 않음 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 함께 봐야 함 |
+| 강한 환경 | 배치, 자원 효율 분석 | [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 시스템, 생산성 분석 | 시스템 성격에 따라 해석이 달라짐 |
+| 왜곡 요인 | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), steal time | 작업 크기 차이, 완료 정의 차이 | 단일 숫자로는 오판 가능 |
+| 사용자 체감과의 거리 | 멀 수 있음 | 상대적으로 가깝지만 충분치 않음 | [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 함께 봐야 함 |
 
-또한 이 둘은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)과 긴장 관계를 가진다. 예를 들어 타임 퀀텀 (Time [Quantum](/knowledge-base/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))을 짧게 하면 대화형 작업의 첫 반응은 빨라질 수 있지만, [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 늘어 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 떨어질 수 있다. 반대로 CPU 바운드 작업에 길게 할당하면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 좋아져도 인터랙티브 작업의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 커질 수 있다.
+또한 이 둘은 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [반환 시간](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/)과 긴장 관계를 가진다. 예를 들어 타임 퀀텀 (Time [Quantum](/studynote/02_operating_system/11_exam_summary/690_round_robin_time_quantum/))을 짧게 하면 대화형 작업의 첫 반응은 빨라질 수 있지만, [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)이 늘어 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 떨어질 수 있다. 반대로 CPU 바운드 작업에 길게 할당하면 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 좋아져도 인터랙티브 작업의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 커질 수 있다.
 
-운영 현장에서는 "이용률은 높은데 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 낮다"는 조합이 특히 중요하다. 이 경우는 보통 [락 경합](/knowledge-base/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/), 스핀 대기, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주, [스래싱](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/), 잘못 잡은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수처럼 구조적 병목을 의미한다. 숫자가 좋게 보인다고 상태가 좋은 것이 아님을 보여 주는 대표 사례다.
+운영 현장에서는 "이용률은 높은데 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 낮다"는 조합이 특히 중요하다. 이 경우는 보통 [락 경합](/studynote/02_operating_system/04_synchronization/275_lock_contention_monitoring/), 스핀 대기, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭주, [스래싱](/studynote/02_operating_system/04_synchronization/257_thrashing/), 잘못 잡은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수처럼 구조적 병목을 의미한다. 숫자가 좋게 보인다고 상태가 좋은 것이 아님을 보여 주는 대표 사례다.
 
-- **📢 섹션 요약 비유**: 놀이공원 놀이기구가 쉬지 않고 돌아가도 손님을 제대로 태우지 못하면 운영이 잘되는 게 아니다. 계속 움직였는지는 이용률이고, 실제로 몇 명이 타고 내렸는지가 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이다.
+- **📢 섹션 요약 비유**: 놀이공원 놀이기구가 쉬지 않고 돌아가도 손님을 제대로 태우지 못하면 운영이 잘되는 게 아니다. 계속 움직였는지는 이용률이고, 실제로 몇 명이 타고 내렸는지가 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 CPU 이용률을 한 줄 숫자로만 보지 말고, 무엇이 그 시간을 채우는지 분해해서 봐야 한다. Linux 계열 시스템이라면 user, system, iowait, steal 같은 세부 항목이 필수다. 높은 CPU 사용률 경보가 떴을 때도 "계산이 많아서 높은지", "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드 때문에 높은지", "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 호스트에서 빼앗겨서 느린지"를 구분해야 대책이 달라진다.
+실무에서는 CPU 이용률을 한 줄 숫자로만 보지 말고, 무엇이 그 시간을 채우는지 분해해서 봐야 한다. Linux 계열 시스템이라면 user, system, iowait, steal 같은 세부 항목이 필수다. 높은 CPU 사용률 경보가 떴을 때도 "계산이 많아서 높은지", "[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드 때문에 높은지", "[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)된 호스트에서 빼앗겨서 느린지"를 구분해야 대책이 달라진다.
 
 ```text
 +--------------------------------------------------------------+
@@ -114,19 +111,19 @@ CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/
 
 ### 실무 판단 기준
 
-1. 배치 시스템이면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 총 완료 시간이 우선이므로, 어느 정도 높은 이용률을 허용해도 된다.
-2. 사용자 요청 처리 시스템이면 평균 이용률보다 p95 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)의 동시 변화를 같이 봐야 한다.
-3. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 증가하지 않는데 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수만 늘고 있다면, 이미 포화 구간을 넘어섰을 가능성이 높다.
+1. 배치 시스템이면 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 총 완료 시간이 우선이므로, 어느 정도 높은 이용률을 허용해도 된다.
+2. 사용자 요청 처리 시스템이면 평균 이용률보다 p95 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)의 동시 변화를 같이 봐야 한다.
+3. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 증가하지 않는데 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수만 늘고 있다면, 이미 포화 구간을 넘어섰을 가능성이 높다.
 4. 코어별 편차가 큰 경우 전체 평균 이용률보다 특정 코어의 병목이 더 중요할 수 있다.
 
-### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 나오는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - CPU 100%에 가까우면 무조건 "잘 쓰고 있다"고 해석하는 것
-- [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 단위를 명확히 정의하지 않고 단순 요청 수만 세는 것
+- [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 단위를 명확히 정의하지 않고 단순 요청 수만 세는 것
 - I/O 병목 시스템을 CPU 증설로 해결하려는 것
-- 평균값만 보고 포화 직전의 tail [latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 붕괴를 놓치는 것
+- 평균값만 보고 포화 직전의 tail [latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 붕괴를 놓치는 것
 
-기술사 답안에서는 "이용률 극대화"보다 "목표 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 해치지 않는 효율 구간 유지"라고 설명하는 편이 정확하다. 서버는 항상 여유를 버리는 것이 아니라, 급증하는 부하를 견딜 headroom을 남기기 위해 일부 여유를 전략적으로 유지하기도 한다.
+기술사 답안에서는 "이용률 극대화"보다 "목표 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 해치지 않는 효율 구간 유지"라고 설명하는 편이 정확하다. 서버는 항상 여유를 버리는 것이 아니라, 급증하는 부하를 견딜 headroom을 남기기 위해 일부 여유를 전략적으로 유지하기도 한다.
 
 - **📢 섹션 요약 비유**: 식당이 모든 테이블을 늘 100% 꽉 채우는 것이 최선은 아니다. 계산대가 막히고 주문이 밀리면 손님은 더 느리게 빠져나가고, 결국 시간당 처리 손님 수도 줄어든다.
 
@@ -134,11 +131,11 @@ CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/
 
 ## Ⅴ. 기대효과 및 결론
 
-CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 함께 보면 자원 활용도와 생산성을 동시에 읽을 수 있다. 이를 통해 [스레드 풀](/knowledge-base/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기, 동시 실행 수, 스케줄링 파라미터, 오토스케일링 임계값을 훨씬 현실적으로 조정할 수 있다. 특히 "CPU는 바쁜데 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 느린" 상황을 수치로 설명할 수 있다는 점이 크다.
+CPU 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 함께 보면 자원 활용도와 생산성을 동시에 읽을 수 있다. 이를 통해 [스레드 풀](/studynote/02_operating_system/02_process_thread/103_thread_pool/) 크기, 동시 실행 수, 스케줄링 파라미터, 오토스케일링 임계값을 훨씬 현실적으로 조정할 수 있다. 특히 "CPU는 바쁜데 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 느린" 상황을 수치로 설명할 수 있다는 점이 크다.
 
-물론 한계도 있다. 두 지표 모두 시스템 중심이라 사용자가 느끼는 첫 반응, 긴 꼬리 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 공정성 문제까지는 충분히 설명하지 못한다. 따라서 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [반환 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/), 실패율과 함께 묶어서 해석해야 한다.
+물론 한계도 있다. 두 지표 모두 시스템 중심이라 사용자가 느끼는 첫 반응, 긴 꼬리 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 공정성 문제까지는 충분히 설명하지 못한다. 따라서 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [반환 시간](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/), 실패율과 함께 묶어서 해석해야 한다.
 
-결국 CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "얼마나 열심히 일했는가"와 "그래서 얼마나 끝냈는가"를 구분해 보여 주는 기본 좌표축이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 한 숫자의 극대화가 아니라, 워크로드와 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 맞는 안정 구간을 찾는 작업으로 기억하는 것이 맞다.
+결국 CPU 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 "얼마나 열심히 일했는가"와 "그래서 얼마나 끝냈는가"를 구분해 보여 주는 기본 좌표축이다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 한 숫자의 극대화가 아니라, 워크로드와 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 목표에 맞는 안정 구간을 찾는 작업으로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 좋은 운전은 엔진 회전수만 높이는 것이 아니라, 같은 연료로 사람과 짐을 얼마나 안정적으로 목적지에 보내는지를 보는 일과 같다.
 
@@ -148,13 +145,13 @@ CPU 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| [Idle](/knowledge-base/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time | CPU 이용률의 직접적인 반대 개념 |
-| [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | 이용률을 높여 보이게 하면서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 깎을 수 있는 대표 오버헤드 |
-| CPU 바운드 작업 | 이용률과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 함께 끌어올리기 쉬운 워크로드 |
-| I/O 바운드 작업 | CPU 이용률이 낮아질 수 있어 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 효과와 함께 해석해야 함 |
-| [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 자주 충돌하는 사용자 중심 지표 |
-| 포화점 (Saturation Point) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 더 이상 늘지 않기 시작하는 운영 한계 |
-| Steal Time | [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 이용률 해석을 왜곡하는 외부 경쟁 요인 |
+| [Idle](/studynote/02_operating_system/10_security/611_cpu_idle_wait_optimization/) Time | CPU 이용률의 직접적인 반대 개념 |
+| [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) ([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)) | 이용률을 높여 보이게 하면서 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 깎을 수 있는 대표 오버헤드 |
+| CPU 바운드 작업 | 이용률과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 함께 끌어올리기 쉬운 워크로드 |
+| I/O 바운드 작업 | CPU 이용률이 낮아질 수 있어 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/) 효과와 함께 해석해야 함 |
+| [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) ([Response Time](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)) | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 자주 충돌하는 사용자 중심 지표 |
+| 포화점 (Saturation Point) | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 더 이상 늘지 않기 시작하는 운영 한계 |
+| Steal Time | [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 환경에서 이용률 해석을 왜곡하는 외부 경쟁 요인 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -178,7 +175,7 @@ busy time · idle time 측정
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. CPU 이용률은 컴퓨터가 쉬지 않고 일한 시간이 얼마나 되는지 보는 숫자예요.
-2. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 그 시간 동안 숙제를 몇 개 끝냈는지 세는 숫자예요.
+2. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 그 시간 동안 숙제를 몇 개 끝냈는지 세는 숫자예요.
 3. 오래 앉아만 있고 숙제를 많이 못 끝내면 열심히 한 것처럼 보여도 진짜 효율은 낮을 수 있어요.
 
 ---
@@ -187,7 +184,7 @@ busy time · idle time 측정
 
 **진행 상황**: 171 / 800
 
-<- **이전**: [170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/)
-**다음**: [172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) ->
+<- **이전**: [170. 스케줄링 기준 (Scheduling Criteria) - CPU 이용률, 처리량, 반환시간, 대기시간, 응답시간](/studynote/02_operating_system/03_cpu_scheduling/170_scheduling_criteria/)
+**다음**: [172. 반환 시간 (Turnaround Time) / 대기 시간 (Waiting Time) / 응답 시간 (Response Time)](/studynote/02_operating_system/03_cpu_scheduling/172_turnaround_waiting_response_time/) ->
 
 ---

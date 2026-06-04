@@ -1,13 +1,10 @@
-+++
-title = "490. IT 경영 관리 핵심 토픽 490번 시험 요약 (IT Management Core Topic 490 Exam Summary)"
-date = 2026-05-09
+---
+title: "490. IT 경영 관리 핵심 토픽 490번 시험 요약 (IT Management Core Topic 490 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ IT 경영관리의 핵심 표준들은 **상호보완적 관계**에 있다. COB
 
 **진행 상황**: 490 / 800
 
-<- **이전**: [489. IT 경영 관리 핵심 토픽 489번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/489_it_management_core_topic_489_exam_summary/)
-**다음**: [491. IT 경영 관리 핵심 토픽 491번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/491_it_management_core_topic_491_exam_summary/) ->
+<- **이전**: [489. IT 경영 관리 핵심 토픽 489번 시험 요약](/studynote/12_it_management/05_security_compliance/489_it_management_core_topic_489_exam_summary/)
+**다음**: [491. IT 경영 관리 핵심 토픽 491번 시험 요약](/studynote/12_it_management/05_security_compliance/491_it_management_core_topic_491_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "613. 하이브리드 클라우드 온프레미스 연동 (Hybrid Cloud On-premise Integration)"
-date = 2026-05-09
+---
+title: "613. 하이브리드 클라우드 온프레미스 연동 (Hybrid Cloud On-premise Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Connect -> Authenticate -> Replicate -> Monitor -> Govern
 
 **진행 상황**: 613 / 800
 
-<- **이전**: [612. 멀티클라우드 전략 벤더 독립성](/knowledge-base/studynote/06_ict_convergence/uncategorized/612_multi_cloud_strategy_vendor_independent/)
-**다음**: [614. 클라우드 네이티브 12-Factor 설계 원칙](/knowledge-base/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/) ->
+<- **이전**: [612. 멀티클라우드 전략 벤더 독립성](/studynote/06_ict_convergence/uncategorized/612_multi_cloud_strategy_vendor_independent/)
+**다음**: [614. 클라우드 네이티브 12-Factor 설계 원칙](/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/) ->
 
 ---

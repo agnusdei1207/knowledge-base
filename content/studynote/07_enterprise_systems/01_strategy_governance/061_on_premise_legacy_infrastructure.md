@@ -1,25 +1,22 @@
-+++
-title = "61. 온프레미스 (On-Premise) 프라이빗 IT 인프라"
-date = 2026-04-07
+---
+title: "61. 온프레미스 (On-Premise) 프라이빗 IT 인프라"
+date: "2026-04-07"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 온프레미스(On-Premise)는 서버, 네트워크, 스토리지, 전원, 보안까지 기업이 직접 소유하고 운영하는 IT 인프라다.
-> 2. **가치**: [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/), 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 강한 물리 통제는 여전히 온프레미스의 핵심 경쟁력이다.
-> 3. **판단**: CAPEX (Capital Expenditure)와 OPEX (Operating Expenditure), 그리고 [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 한다.
+> 2. **가치**: [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/), 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 강한 물리 통제는 여전히 온프레미스의 핵심 경쟁력이다.
+> 3. **판단**: CAPEX (Capital Expenditure)와 OPEX (Operating Expenditure), 그리고 [하이브리드 클라우드](/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-온프레미스는 말 그대로 "내 건물 안에 내 서버를 두는 방식"이다. 전산실, 랙, 네트워크, 냉각, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)까지 모두 기업이 책임진다.
+온프레미스는 말 그대로 "내 건물 안에 내 서버를 두는 방식"이다. 전산실, 랙, 네트워크, 냉각, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/)까지 모두 기업이 책임진다.
 
 클라우드가 널리 쓰여도 온프레미스가 사라지지 않는 이유는 분명하다. 규제, 주권, 초저지연, 그리고 물리적 통제는 여전히 중요한 요구이기 때문이다.
 
@@ -43,9 +40,9 @@ tags = ["studynote-enterprise"]
 | :-- | :-- |
 | Server | 애플리케이션과 DB 실행 |
 | Network | 내부/외부 연결과 분리 |
-| Storage | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
-| [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) / Cooling | 안정적 운영 환경 유지 |
-| Physical [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 출입 통제와 장비 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| Storage | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장과 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) |
+| [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) / Cooling | 안정적 운영 환경 유지 |
+| Physical [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) | 출입 통제와 장비 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 온프레미스의 핵심은 소유와 책임이 함께 간다는 점이다. 직접 통제할 수 있는 만큼, 장애와 확장도 직접 설계해야 한다.
 
@@ -55,14 +52,14 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 온프레미스 | [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) | [하이브리드 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) |
+| 항목 | 온프레미스 | [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) | [하이브리드 클라우드](/studynote/13_cloud_architecture/01_virtualization/009_hybrid_cloud/) |
 | :-- | :-- | :-- | :-- |
-| 비용 구조 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CAPEX 큼 | 사용량 기반 OPEX | 혼합 |
+| 비용 구조 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) CAPEX 큼 | 사용량 기반 OPEX | 혼합 |
 | 확장성 | 느림 | 빠름 | 역할 분담 |
 | 통제성 | 매우 높음 | 공급자 의존 | 중요 자원은 온프레미스 |
-| 적합 분야 | 규제/기밀/초저지연 | 유연한 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현실적 타협 |
+| 적합 분야 | 규제/기밀/초저지연 | 유연한 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현실적 타협 |
 
-온프레미스는 구식이 아니라, 적합한 문제에 계속 유효한 선택지다. 특히 [전용선](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/knowledge-base/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))이나 전용 회선으로 클라우드와 묶으면, 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안에 두고 외부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 유연하게 쓸 수 있다.
+온프레미스는 구식이 아니라, 적합한 문제에 계속 유효한 선택지다. 특히 [전용선](/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/)([Direct Connect](/studynote/03_network/16_data_center_cloud/838_direct_connect_expressroute_cloud_leased_line/))이나 전용 회선으로 클라우드와 묶으면, 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안에 두고 외부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)만 유연하게 쓸 수 있다.
 
 - **📢 섹션 요약 비유**: 큰 창고는 직접 두고, 바쁘게 움직이는 물건만 택배로 보내는 운영이다.
 
@@ -70,22 +67,22 @@ tags = ["studynote-enterprise"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/)이나 규제 요구가 강한가?
-2. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 물리 통제가 중요한가?
+1. [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/)이나 규제 요구가 강한가?
+2. [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)과 물리 통제가 중요한가?
 3. CAPEX와 운영 인력을 감당할 수 있는가?
-4. [재해 복구](/knowledge-base/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)와 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 준비되어 있는가?
+4. [재해 복구](/studynote/04_software_engineering/06_software_architecture/379_dr_architecture/)와 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 준비되어 있는가?
 5. 클라우드와의 역할 분담이 명확한가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - "클라우드가 유행이니 전부 버리자"는 설계
 - 운영 역량 없이 전산실만 유지하는 설계
 - 감당 못 할 규모로 온프레미스를 과잉 구축하는 설계
 - 클라우드와 온프레미스를 싸우게만 두는 설계
 
-기술사 관점에서는 온프레미스를 "옛 기술"로 보지 않고, 통제와 책임을 원하는 경우의 합리적 선택으로 봐야 한다. 문제는 사용 여부가 아니라, 운영 체계와 이행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+기술사 관점에서는 온프레미스를 "옛 기술"로 보지 않고, 통제와 책임을 원하는 경우의 합리적 선택으로 봐야 한다. 문제는 사용 여부가 아니라, 운영 체계와 이행 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 
 - **📢 섹션 요약 비유**: 내 차를 직접 몰면 편한 길은 적어도, 어디로 가는지는 완전히 내가 정할 수 있다.
 
@@ -145,7 +142,7 @@ Shared Architecture
 
 **진행 상황**: 61 / 482
 
-<- **이전**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/)
-**다음**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/) ->
+<- **이전**: [60. 클라우드 MSP (Managed Service Provider) - 클라우드 운영 대행 아웃소싱](/studynote/07_enterprise_systems/01_strategy_governance/060_cloud_msp_managed_service_provider/)
+**다음**: [62. 코로케이션 (Colocation) - 데이터센터 공간 임대 서비스](/studynote/07_enterprise_systems/01_strategy_governance/062_colocation_data_center_leasing/) ->
 
 ---

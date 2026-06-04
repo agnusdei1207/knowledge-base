@@ -1,13 +1,10 @@
-+++
-title = "379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨 (Kubernetes Storage CSI Persistent Volume)"
-date = 2026-05-09
+---
+title: "379. 쿠버네티스 스토리지 CSI 퍼시스턴트 볼륨 (Kubernetes Storage CSI Persistent Volume)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 379 / 800
 
-<- **이전**: [378. 쿠버네티스 오토스케일링 HPA VPA CA](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/378_kubernetes_autoscaling_hpa_vpa_cluster/)
-**다음**: [380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/380_kubernetes_ingress_controller_load_balancing/) ->
+<- **이전**: [378. 쿠버네티스 오토스케일링 HPA VPA CA](/studynote/13_cloud_architecture/06_exam_summary/378_kubernetes_autoscaling_hpa_vpa_cluster/)
+**다음**: [380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱](/studynote/13_cloud_architecture/06_exam_summary/380_kubernetes_ingress_controller_load_balancing/) ->
 
 ---

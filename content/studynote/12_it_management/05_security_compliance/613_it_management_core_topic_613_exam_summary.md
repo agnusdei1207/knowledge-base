@@ -1,13 +1,10 @@
-+++
-title = "613. IT 경영 관리 핵심 토픽 613번 시험 요약 (IT Management Core Topic 613 Exam Summary)"
-date = 2026-05-09
+---
+title: "613. IT 경영 관리 핵심 토픽 613번 시험 요약 (IT Management Core Topic 613 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 613. IT 경영 관리 핵심 토픽 613번 시험 요약 (IT Management Core Topic 613 Exam Summary)
 
@@ -86,7 +83,7 @@ IT 경영 관리의 5대 핵심 축은 **EA(설계도)**, **거버넌스(규칙)
 
 **진행 상황**: 613 / 800
 
-<- **이전**: [612. IT 경영 관리 핵심 토픽 612번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/612_it_management_core_topic_612_exam_summary/)
-**다음**: [614. IT 경영 관리 핵심 토픽 614번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/614_it_management_core_topic_614_exam_summary/) ->
+<- **이전**: [612. IT 경영 관리 핵심 토픽 612번 시험 요약](/studynote/12_it_management/05_security_compliance/612_it_management_core_topic_612_exam_summary/)
+**다음**: [614. IT 경영 관리 핵심 토픽 614번 시험 요약](/studynote/12_it_management/05_security_compliance/614_it_management_core_topic_614_exam_summary/) ->
 
 ---

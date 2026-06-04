@@ -1,13 +1,10 @@
-+++
-title = "783. IT 경영 관리 핵심 토픽 783번 시험 요약 (IT Management Core Topic 783 Exam Summary)"
-date = 2026-05-09
+---
+title: "783. IT 경영 관리 핵심 토픽 783번 시험 요약 (IT Management Core Topic 783 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ IT 경영관리의 핵심은 **COBIT 2019의 40 Governance/Management Objectives
 
 **진행 상황**: 783 / 800
 
-<- **이전**: [782. IT 경영 관리 핵심 토픽 782번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/782_it_management_core_topic_782_exam_summary/)
-**다음**: [784. IT 경영 관리 핵심 토픽 784번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/784_it_management_core_topic_784_exam_summary/) ->
+<- **이전**: [782. IT 경영 관리 핵심 토픽 782번 시험 요약](/studynote/12_it_management/05_security_compliance/782_it_management_core_topic_782_exam_summary/)
+**다음**: [784. IT 경영 관리 핵심 토픽 784번 시험 요약](/studynote/12_it_management/05_security_compliance/784_it_management_core_topic_784_exam_summary/) ->
 
 ---

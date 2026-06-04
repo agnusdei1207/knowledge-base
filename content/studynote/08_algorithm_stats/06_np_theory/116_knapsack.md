@@ -1,18 +1,15 @@
-+++
-title = "011. 배낭 문제 — Knapsack Problem"
-date = 2026-04-05
+---
+title: "011. 배낭 문제 — Knapsack Problem"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
 > 1. 배낭 문제(Knapsack Problem)는 NP-완전 문제의 대표적 최적화 문제 — 무게 제한이 있는 배낭에 가치 합계를 최대화하는 물건을 고르는 문제로, 0/1 배낭(물건 전체 또는 선택 안 함)과 분수 배낭(일부 가능)으로 나뉜다.
-> 2. 0/1 배낭 문제는 DP([동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))로 의사다항 시간(Pseudo-Polynomial) 해결 — O(nW) 시간·공간 복잡도이며, 이는 엄밀히 다항 시간이 아니지만 실용적으로 많은 경우에 효율적이다.
-> 3. 분수 배낭(Fractional Knapsack)은 그리디로 최적해 — 단위 무게당 가치(value/[weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 높은 순으로 탐욕적으로 선택하면 최적해를 보장하며, O(n log n) 시간에 해결된다.
+> 2. 0/1 배낭 문제는 DP([동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))로 의사다항 시간(Pseudo-Polynomial) 해결 — O(nW) 시간·공간 복잡도이며, 이는 엄밀히 다항 시간이 아니지만 실용적으로 많은 경우에 효율적이다.
+> 3. 분수 배낭(Fractional Knapsack)은 그리디로 최적해 — 단위 무게당 가치(value/[weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 높은 순으로 탐욕적으로 선택하면 최적해를 보장하며, O(n log n) 시간에 해결된다.
 
 ---
 
@@ -53,7 +50,7 @@ tags = ["studynote-algorithm-stats"]
   최적: 물건2 + 물건3 -> 가치=220, 무게=50
 ```
 
-> 📢 **섹션 요약 비유**: 0/1 배낭은 여행 가방 싸기 — 무게 제한(용량)에 가장 소중한 물건(가치)을 선택. 물건은 반만 넣을 수 없어요! 분수 배낭은 주스를 반 병 넣을 수 있는 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/).
+> 📢 **섹션 요약 비유**: 0/1 배낭은 여행 가방 싸기 — 무게 제한(용량)에 가장 소중한 물건(가치)을 선택. 물건은 반만 넣을 수 없어요! 분수 배낭은 주스를 반 병 넣을 수 있는 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/).
 
 ---
 
@@ -145,7 +142,7 @@ tags = ["studynote-algorithm-stats"]
   (분수는 더 유연한 선택 가능)
 ```
 
-> 📢 **섹션 요약 비유**: 분수 배낭 그리디는 뷔페 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 가격 대비 맛(단위 가치)이 높은 음식부터 먹기. 배(용량)가 꽉 차면 남은 음식 조금만 담기!
+> 📢 **섹션 요약 비유**: 분수 배낭 그리디는 뷔페 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 가격 대비 맛(단위 가치)이 높은 음식부터 먹기. 배(용량)가 꽉 차면 남은 음식 조금만 담기!
 
 ---
 
@@ -191,7 +188,7 @@ FPT (Fixed-Parameter Tractable):
 
 ---
 
-## Ⅴ. 실무 시나리오 — 클라우드 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)
+## Ⅴ. 실무 시나리오 — 클라우드 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/)
 
 ```
 클라우드 VM 자원 최적 배치 (배낭 변형):
@@ -230,7 +227,7 @@ FPT (Fixed-Parameter Tractable):
   LRU는 그리디 근사
 ```
 
-> 📢 **섹션 요약 비유**: 클라우드 배낭 = [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) — 서버(배낭)에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(물건)를 CPU/메모리(무게) 제한 안에서 최대한 효율적으로 배치!
+> 📢 **섹션 요약 비유**: 클라우드 배낭 = [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) — 서버(배낭)에 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)(물건)를 CPU/메모리(무게) 제한 안에서 최대한 효율적으로 배치!
 
 ---
 
@@ -296,7 +293,7 @@ AI 하이퍼파라미터 탐색
 
 **진행 상황**: 116 / 175
 
-<- **이전**: [010. TSP NP — 외판원 문제](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/115_tsp_np/)
-**다음**: [012. NP 근사 알고리즘 — Approximation Algorithms for NP](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/117_approximation_np/) ->
+<- **이전**: [010. TSP NP — 외판원 문제](/studynote/08_algorithm_stats/06_np_theory/115_tsp_np/)
+**다음**: [012. NP 근사 알고리즘 — Approximation Algorithms for NP](/studynote/08_algorithm_stats/06_np_theory/117_approximation_np/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "664. 엔터프라이즈 시스템 핵심 토픽 664번 시험 요약 (Enterprise System Core Topic 664 Exam Summary)"
-date = 2026-05-09
+---
+title: "664. 엔터프라이즈 시스템 핵심 토픽 664번 시험 요약 (Enterprise System Core Topic 664 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 664 / 800
 
-<- **이전**: [663. 엔터프라이즈 시스템 핵심 토픽 663번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/663_enterprise_system_core_topic_663_exam_summary/)
-**다음**: [665. 엔터프라이즈 시스템 핵심 토픽 665번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/665_enterprise_system_core_topic_665_exam_summary/) ->
+<- **이전**: [663. 엔터프라이즈 시스템 핵심 토픽 663번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/663_enterprise_system_core_topic_663_exam_summary/)
+**다음**: [665. 엔터프라이즈 시스템 핵심 토픽 665번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/665_enterprise_system_core_topic_665_exam_summary/) ->
 
 ---

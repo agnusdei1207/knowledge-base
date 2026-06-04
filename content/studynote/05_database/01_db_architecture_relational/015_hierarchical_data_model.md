@@ -1,31 +1,28 @@
-+++
-title = "15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)"
-description = "최초의 데이터베이스 관리 시스템 아키텍처이자 트리 구조 기반의 1:N 데이터 모델의 한계와 실무 적용"
-date = 2024-05-18
+---
+title: "15. 계층형 데이터 모델 (Hierarchical Model) - 트리 구조 (1:N)"
+date: "2024-05-18"
+description: "최초의 데이터베이스 관리 시스템 아키텍처이자 트리 구조 기반의 1:N 데이터 모델의 한계와 실무 적용"
+tags:
+  - "database"
+---
 
-[taxonomies]
-tags = ["database"]
 
-[extra]
-tags = ["database"]
-+++
-
-# 15. 계층형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) (Hierarchical Model) - 트리 구조
+# 15. 계층형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) (Hierarchical Model) - 트리 구조
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나무(Tree) 형태의 계층적 부모-자식(Parent-Child) 구조로 조직화하여, 최상위 루트 노드에서 하위로 내려가는 1:N [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정의한 초창기 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 경로가 고정(Pointer Navigation)되어 있어 특정 하향식 질의에 대해서는 검색 속도가 극도로 빠르고 예측 가능하다는 장점이 있다.
-> 3. **융합**: RDB의 등장으로 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) 주류에서는 밀려났으나, XML, [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서 구조, 윈도우 [레지스트리](/knowledge-base/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 현대의 트리 기반 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷의 근간이 되었다.
+> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나무(Tree) 형태의 계층적 부모-자식(Parent-Child) 구조로 조직화하여, 최상위 루트 노드에서 하위로 내려가는 1:N [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 정의한 초창기 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)이다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 검색 경로가 고정(Pointer Navigation)되어 있어 특정 하향식 질의에 대해서는 검색 속도가 극도로 빠르고 예측 가능하다는 장점이 있다.
+> 3. **융합**: RDB의 등장으로 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) 주류에서는 밀려났으나, XML, [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 문서 구조, 윈도우 [레지스트리](/studynote/15_devops_sre/05_devsecops/235_registry_immutable_tag/), [LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등 현대의 트리 기반 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포맷의 근간이 되었다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-1960년대, 아폴로 우주 계획과 같은 거대 프로젝트를 수행하기 위해 폭발적으로 증가하는 부품([BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 관리할 시스템이 필요해졌다. 당시 천공 카드나 플랫 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로는 연관된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들을 빠르게 찾고 연결하는 데 한계가 뚜렷했다.
+1960년대, 아폴로 우주 계획과 같은 거대 프로젝트를 수행하기 위해 폭발적으로 증가하는 부품([BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), [Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 효율적으로 관리할 시스템이 필요해졌다. 당시 천공 카드나 플랫 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로는 연관된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조각들을 빠르게 찾고 연결하는 데 한계가 뚜렷했다.
 
-이러한 배경에서 IBM은 북미항공우주국(Rockwell)과 협력하여 최초의 상용 DBMS인 IMS(Information [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)를 개발했다. 이때 도입된 구조가 바로 계층형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(Hierarchical [Data Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/))이다. 조직도나 가계도처럼 현실 세계의 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '조직-부서-팀원'과 같이 하향식 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 가지는 것에 착안하여, 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1:N(일대다) 부모-자식 트리 형태로 모델링한 것이다.
+이러한 배경에서 IBM은 북미항공우주국(Rockwell)과 협력하여 최초의 상용 DBMS인 IMS(Information [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)를 개발했다. 이때 도입된 구조가 바로 계층형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(Hierarchical [Data Model](/studynote/05_database/01_db_architecture_relational/014_data_model_components/))이다. 조직도나 가계도처럼 현실 세계의 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 '조직-부서-팀원'과 같이 하향식 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)을 가지는 것에 착안하여, 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1:N(일대다) 부모-자식 트리 형태로 모델링한 것이다.
 
-그러나 비즈니스가 고도화되면서 학생이 여러 과목을 듣고(M), 과목도 여러 학생을 받는(N) [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(N:M) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 빈번해졌고, 하나의 자식이 무조건 단 하나의 부모만 가져야 한다는 계층형 모델의 엄격한 구조적 한계는 치명적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복과 모델링의 복잡성을 초래하게 되었다.
+그러나 비즈니스가 고도화되면서 학생이 여러 과목을 듣고(M), 과목도 여러 학생을 받는(N) [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/)(N:M) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 빈번해졌고, 하나의 자식이 무조건 단 하나의 부모만 가져야 한다는 계층형 모델의 엄격한 구조적 한계는 치명적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중복과 모델링의 복잡성을 초래하게 되었다.
 
 ```text
 [그림 1: 계층형 데이터 모델의 트리 아키텍처 (1:N 부모-자식 관계)]
@@ -42,23 +39,23 @@ tags = ["database"]
   (Leaf)      (Leaf)       (중복 발생) (Leaf)
 ```
 
-이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 상단 루트에서 하위 리프 노드로 뻗어나가는 계층 모델의 본질을 보여준다. 부서 하위에 사원이 종속되고, 사원 하위에 프로젝트가 종속된다. 여기서 핵심적인 문제는 구조의 경직성이다. 만약 다수의 사원이 동일한 [프로젝트1]을 수행할 경우, 계층 구조에서는 해당 프로젝트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사원 A 밑에도, 사원 B 밑에도 각각 중복 저장되어야만 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 위협과 공간 낭비 병목이 드러난다.
+이 도식은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 상단 루트에서 하위 리프 노드로 뻗어나가는 계층 모델의 본질을 보여준다. 부서 하위에 사원이 종속되고, 사원 하위에 프로젝트가 종속된다. 여기서 핵심적인 문제는 구조의 경직성이다. 만약 다수의 사원이 동일한 [프로젝트1]을 수행할 경우, 계층 구조에서는 해당 프로젝트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 사원 A 밑에도, 사원 B 밑에도 각각 중복 저장되어야만 하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 위협과 공간 낭비 병목이 드러난다.
 
 📢 **섹션 요약 비유**: 회사의 결재 서류가 무조건 사장 -> 부장 -> 사원의 단일 수직 계통으로만 움직여야 하고, 타 부서와는 직접 협업할 수 없는 꽉 막힌 군대식 조직도와 같습니다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-계층형 모델은 내부적으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드들을 물리적인 포인터(Pointer) [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 관리한다. 따라서 '연산([Operation](/knowledge-base/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))' 방식이 SQL처럼 선언적이지 않고, 개발자가 레코드를 하나씩 따라 내려가는 네비게이션 방식(절차적 질의)을 띤다.
+계층형 모델은 내부적으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레코드들을 물리적인 포인터(Pointer) [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 관리한다. 따라서 '연산([Operation](/studynote/05_database/06_dw_olap_trends/329_delta_encoding/))' 방식이 SQL처럼 선언적이지 않고, 개발자가 레코드를 하나씩 따라 내려가는 네비게이션 방식(절차적 질의)을 띤다.
 
 | 핵심 구성 요소 | 설명 | 내부 동작 및 특징 | 비유 |
 |:---|:---|:---|:---|
 | **루트 개체 (Root Record)** | 트리 구조의 최상위 진입점 | 모든 검색은 반드시 루트 노드에서 출발하여 하위 포인터를 따라 내려가야 함 | 나무의 굵은 기둥 밑동 |
-| <strong>부모-자식 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> (Parent-Child)</strong> | 노드 간의 1:N [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 링크 | 자식 노드는 단 1개의 부모만 가질 수 있으며, 부모 삭제 시 자식도 연쇄 삭제(Cascade)됨 | 생물학적 단일 유전 가계도 |
+| <strong>부모-자식 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> (Parent-Child)</strong> | 노드 간의 1:N [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/) 링크 | 자식 노드는 단 1개의 부모만 가질 수 있으며, 부모 삭제 시 자식도 연쇄 삭제(Cascade)됨 | 생물학적 단일 유전 가계도 |
 | **순회 포인터 (Navigation Pointer)** | 물리적 주소의 연결선 | Next-Child, Next-Sibling 포인터를 사용하여 인접 레코드를 절차적으로 탐색 | 건물 내 일방통행 복도와 계단 |
-| **삽입/삭제 제약조건** | 구조 유지를 위한 엄격한 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 제약 | 부모 레코드가 존재하지 않으면 자식 레코드를 아예 삽입할 수 없는 [삽입 이상](/knowledge-base/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/) 발생 | 기초 공사 없이 지붕을 올릴 수 없음 |
+| **삽입/삭제 제약조건** | 구조 유지를 위한 엄격한 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 제약 | 부모 레코드가 존재하지 않으면 자식 레코드를 아예 삽입할 수 없는 [삽입 이상](/studynote/05_database/02_modeling_normalization/091_functional_dependency_fd/) 발생 | 기초 공사 없이 지붕을 올릴 수 없음 |
 
 **탐색 메커니즘 (전위 순회 - Pre-order Traversal)**
-계층형 모델에서 시스템이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스캔할 때는 트리 자료구조의 전위 순회 방식을 따른다. 루트부터 시작해 왼쪽 자식 노드를 최하단까지 먼저 쭉 훑고, 그다음 형제(Sibling) 노드로 넘어가는 식이다. 이 때문에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적으로 디스크에 연속해서 저장되는 군집([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 효과가 발생하여, 동일 부모 아래의 자식들을 일괄 조회할 때 엄청난 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 이점을 누린다.
+계층형 모델에서 시스템이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 스캔할 때는 트리 자료구조의 전위 순회 방식을 따른다. 루트부터 시작해 왼쪽 자식 노드를 최하단까지 먼저 쭉 훑고, 그다음 형제(Sibling) 노드로 넘어가는 식이다. 이 때문에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 물리적으로 디스크에 연속해서 저장되는 군집([Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/)) 효과가 발생하여, 동일 부모 아래의 자식들을 일괄 조회할 때 엄청난 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)적 이점을 누린다.
 
 ```text
 [그림 2: 물리적 포인터 기반의 데이터 탐색 흐름 (Navigation)]
@@ -76,23 +73,23 @@ tags = ["database"]
 * 개발자 질의(Code) : "GET 영업부" -> "GET FIRST 사원 UNDER 영업부" -> "GET NEXT 사원" ...
 ```
 
-이 흐름도는 계층형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제로 어떻게 물리적으로 연결되고 프로그래머가 이를 어떻게 호출하는지를 묘사한다. 이 구조의 맹점은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 물리적 연결(Pointer) 구조를 응용 프로그래머가 전부 완벽히 알고 있어야만 코드를 작성할 수 있다는 점이다. 즉, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 독립성이 완전히 결여되어 있어, DB 구조가 약간만 변경되어도 모든 프로그램의 네비게이션 로직 코드를 전부 재작성해야 하는 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 재앙을 낳게 된다.
+이 흐름도는 계층형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 실제로 어떻게 물리적으로 연결되고 프로그래머가 이를 어떻게 호출하는지를 묘사한다. 이 구조의 맹점은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 간의 물리적 연결(Pointer) 구조를 응용 프로그래머가 전부 완벽히 알고 있어야만 코드를 작성할 수 있다는 점이다. 즉, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 물리적 독립성이 완전히 결여되어 있어, DB 구조가 약간만 변경되어도 모든 프로그램의 네비게이션 로직 코드를 전부 재작성해야 하는 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)의 재앙을 낳게 된다.
 
 📢 **섹션 요약 비유**: 목적지 주소를 검색하면 알아서 경로를 찾아주는 요즘 내비게이션(SQL)과 달리, "앞으로 10보, 왼쪽으로 5보, 계단 한층 내려가기"라는 지시서를 개발자가 직접 한 땀 한 땀 코딩해야 하는 구식 로봇 조종과 같습니다.
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델인 계층형 모델과 그 한계를 극복하려 등장한 망형 모델(Network), 그리고 최종 승자가 된 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델(RDBMS)을 비교하면 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) 진화의 역사를 알 수 있다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 모델인 계층형 모델과 그 한계를 극복하려 등장한 망형 모델(Network), 그리고 최종 승자가 된 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델(RDBMS)을 비교하면 [데이터 독립성](/studynote/05_database/01_db_architecture_relational/004_data_independence/) 진화의 역사를 알 수 있다.
 
-| 비교 항목 | 계층형 모델 (Hierarchical) | 망형 모델 (Network) | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 (Relational) |
+| 비교 항목 | 계층형 모델 (Hierarchical) | 망형 모델 (Network) | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델 (Relational) |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 구조</strong> | 트리 (Tree) - 상하 종속 | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) - 거미줄 연결 | 2차원 표 (Table) - 독립적 집합 |
-| <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 지원</strong> | 1:1, 1:N (단일 부모) | 1:N, N:M (다중 부모 허용) | 1:1, 1:N, M:N (교차 테이블을 통한 구현) |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a></strong> | 매우 낮음 (물리적 포인터 종속) | 낮음 (여전히 포인터 네비게이션) | 매우 높음 (포인터 은닉, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 조인) |
-| **질의 언어 형태** | 절차적 탐색 (GET NEXT) | 절차적 탐색 (Find Owner) | 비절차적 선언 (SQL [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (특정 경로)</strong>| 최고 (포인터 직접 접근 I/O) | 우수 | 상대적 저하 ([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) 연산 오버헤드 존재) |
+| <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a>적 구조</strong> | 트리 (Tree) - 상하 종속 | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) ([Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) - 거미줄 연결 | 2차원 표 (Table) - 독립적 집합 |
+| <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 지원</strong> | 1:1, 1:N (단일 부모) | 1:N, N:M (다중 부모 허용) | 1:1, 1:N, M:N (교차 테이블을 통한 구현) |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/004_data_independence/">데이터 독립성</a></strong> | 매우 낮음 (물리적 포인터 종속) | 낮음 (여전히 포인터 네비게이션) | 매우 높음 (포인터 은닉, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 조인) |
+| **질의 언어 형태** | 절차적 탐색 (GET NEXT) | 절차적 탐색 (Find Owner) | 비절차적 선언 (SQL [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)) |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (특정 경로)</strong>| 최고 (포인터 직접 접근 I/O) | 우수 | 상대적 저하 ([Join](/studynote/05_database/04_transactions_concurrency/521_join/) 연산 오버헤드 존재) |
 
-[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 왕좌는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델에 내주었지만, 계층형 모델의 '트리 기반 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)' 패러다임은 IT 생태계 다른 곳에서 화려하게 부활하여 융합되었다. XML(eXtensible Markup Language)과 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)(JavaScript Object Notation)이 그 대표적인 예이다. 웹에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환할 때, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 자체적으로 태그 중첩(Nested) 구조를 갖는 트리 형태가 네트워크 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 및 파싱에 훨씬 직관적이고 빠르기 때문이다.
+[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 왕좌는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델에 내주었지만, 계층형 모델의 '트리 기반 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/)' 패러다임은 IT 생태계 다른 곳에서 화려하게 부활하여 융합되었다. XML(eXtensible Markup Language)과 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)(JavaScript Object Notation)이 그 대표적인 예이다. 웹에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 교환할 때, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 자체적으로 태그 중첩(Nested) 구조를 갖는 트리 형태가 네트워크 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 및 파싱에 훨씬 직관적이고 빠르기 때문이다.
 
 ```text
 [그림 3: 계층형 모델의 구조적 제약(삽입/삭제 이상) 발생 시뮬레이션]
@@ -108,21 +105,21 @@ tags = ["database"]
 => 해결책 억지 구현: 가상의 더미 부서(Dummy Dept)를 만들어 강제로 연결해야 하는 쓰레기 데이터 양산 문제 발생.
 ```
 
-이 매트릭스 도해는 계층 모델이 갖는 최악의 병목인 '[이상 현상](/knowledge-base/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/knowledge-base/studynote/05_database/04_transactions_concurrency/530_anomaly/))'을 적나라하게 보여준다. 트리의 구조적 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 규칙(부모 없는 자식은 존재할 수 없다)이 너무 엄격하여 유연한 비즈니스 상황(부서 미배정 사원)을 수용하지 못한다. 반대로 부서를 삭제하면 멀쩡한 사원 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 연쇄 삭제되는 현상은 현대 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링에서 가장 경계하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
+이 매트릭스 도해는 계층 모델이 갖는 최악의 병목인 '[이상 현상](/studynote/05_database/02_modeling_normalization/090_anomaly_insertion_deletion_update/)([Anomaly](/studynote/05_database/04_transactions_concurrency/530_anomaly/))'을 적나라하게 보여준다. 트리의 구조적 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 규칙(부모 없는 자식은 존재할 수 없다)이 너무 엄격하여 유연한 비즈니스 상황(부서 미배정 사원)을 수용하지 못한다. 반대로 부서를 삭제하면 멀쩡한 사원 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)까지 연쇄 삭제되는 현상은 현대 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)링에서 가장 경계하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다.
 
-📢 **섹션 요약 비유**: 서류를 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더(부모) 안에 종이(자식)로 끼워 넣는 방식입니다. 새 문서를 샀는데 아직 넣을 폴더를 안 정했다고 해서 서랍에 보관조차 할 수 없는 황당한 상황과 같습니다.
+📢 **섹션 요약 비유**: 서류를 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 폴더(부모) 안에 종이(자식)로 끼워 넣는 방식입니다. 새 문서를 샀는데 아직 넣을 폴더를 안 정했다고 해서 서랍에 보관조차 할 수 없는 황당한 상황과 같습니다.
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-오늘날 새로운 정보 시스템을 구축할 때 계층형 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)(IMS 등)를 채택하는 경우는 메인프레임 레거시 시스템 유지를 제외하고는 전무하다. 그러나 시스템 아키텍트와 개발자는 계층형 구조가 갖는 '압도적인 부분 검색 속도'의 이점을 살려 특정 실무 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 트리 구조 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 적극 차용(Decision)한다.
+오늘날 새로운 정보 시스템을 구축할 때 계층형 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/)(IMS 등)를 채택하는 경우는 메인프레임 레거시 시스템 유지를 제외하고는 전무하다. 그러나 시스템 아키텍트와 개발자는 계층형 구조가 갖는 '압도적인 부분 검색 속도'의 이점을 살려 특정 실무 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)에 트리 구조 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)을 적극 차용(Decision)한다.
 
-<strong>1. 실무 시나리오: 조직도 및 권한 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 인프라 구축 (<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">LDAP</a>)</strong>
-- **상황**: 사내 5만 명 직원의 조직 정보(본부-실-팀-사원)와 접근 권한을 초당 수천 번씩 조회하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시스템([SSO](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/)) 설계. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB 조인 시 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 우려.
-- **판단**: 이런 하향식 읽기 전용(Read-heavy) 및 트리 탐색 요건에는 RDB보다 계층형 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조를 띄는 <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">LDAP</a>(<a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">Lightweight Directory Access Protocol</a>) 서버(<a href="/knowledge-base/studynote/09_security/11_iam_access_control/548_active_directory/">Active Directory</a> 등)</strong>를 도입하는 것이 정답이다. 최상위(DC)부터 단위 조직(OU)을 거쳐 사용자(CN)로 이어지는 계층적 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(DN) 구조가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 레이턴시를 최소화한다.
+<strong>1. 실무 시나리오: 조직도 및 권한 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a> 인프라 구축 (<a href="/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">LDAP</a>)</strong>
+- **상황**: 사내 5만 명 직원의 조직 정보(본부-실-팀-사원)와 접근 권한을 초당 수천 번씩 조회하는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 시스템([SSO](/studynote/09_security/11_iam_access_control/531_sso/)) 설계. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB 조인 시 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하 우려.
+- **판단**: 이런 하향식 읽기 전용(Read-heavy) 및 트리 탐색 요건에는 RDB보다 계층형 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조를 띄는 <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">LDAP</a>(<a href="/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/">Lightweight Directory Access Protocol</a>) 서버(<a href="/studynote/09_security/11_iam_access_control/548_active_directory/">Active Directory</a> 등)</strong>를 도입하는 것이 정답이다. 최상위(DC)부터 단위 조직(OU)을 거쳐 사용자(CN)로 이어지는 계층적 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(DN) 구조가 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 레이턴시를 최소화한다.
 
-<strong>2. 실무 시나리오: <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> <a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> 설계의 중첩(Embedded) 구조 판단</strong>
-- **상황**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 환경에서 '블로그 게시글'과 '댓글' [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 모델링할 것인가?
-- **판단**: 댓글이 다른 게시물에 공유될 일(N:M)이 전혀 없고 오직 해당 게시글(1)에만 강하게 종속(N)된다면, [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형의 분리된 테이블 설계 대신, 하나의 도큐먼트 안에 댓글 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 통째로 밀어넣는 계층적 임베디드(Embedded) 패턴을 사용하는 것이 디스크 읽기 I/O 횟수를 1회로 줄이는 최적의 모델링이다.
+<strong>2. 실무 시나리오: <a href="/studynote/14_data_engineering/01_infrastructure/035_nosql/">NoSQL</a> <a href="/studynote/14_data_engineering/01_infrastructure/037_document/">Document</a> 설계의 중첩(Embedded) 구조 판단</strong>
+- **상황**: [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/) 환경에서 '블로그 게시글'과 '댓글' [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 모델링할 것인가?
+- **판단**: 댓글이 다른 게시물에 공유될 일(N:M)이 전혀 없고 오직 해당 게시글(1)에만 강하게 종속(N)된다면, [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형의 분리된 테이블 설계 대신, 하나의 도큐먼트 안에 댓글 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 통째로 밀어넣는 계층적 임베디드(Embedded) 패턴을 사용하는 것이 디스크 읽기 I/O 횟수를 1회로 줄이는 최적의 모델링이다.
 
 ```text
 [그림 4: 현대 시스템에 계승된 계층형 구조의 실무 적용 흐름도]
@@ -141,25 +138,25 @@ tags = ["database"]
      +- NoSQL 데이터 --> [MongoDB 중첩 모델] (부모 도큐먼트 내 자식 배열 포함)
 ```
 
-이 [의사결정 트리](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 계층형 모델의 한계 때문에 RDB가 표준이 되었지만, 특정 조건(1:N 종속, 하향 탐색, 읽기 집중)이 완벽히 맞아떨어질 때는 트리형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) 등)를 부분적으로 혼용하는 것이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 유리하다는 아키텍처 판단 기준을 제시한다.
+이 [의사결정 트리](/studynote/14_data_engineering/03_ml_dl_llm/124_decision_tree/)는 계층형 모델의 한계 때문에 RDB가 표준이 되었지만, 특정 조건(1:N 종속, 하향 탐색, 읽기 집중)이 완벽히 맞아떨어질 때는 트리형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 중첩, [LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) 등)를 부분적으로 혼용하는 것이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)상 유리하다는 아키텍처 판단 기준을 제시한다.
 
-📢 **섹션 요약 비유**: 단일 레일로만 움직이는 구형 기차(계층형)는 복잡한 도심 교차로([관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형)에서는 쓸모없지만, 공항 터미널 간 직통 셔틀(1:N 고정 검색)로 쓸 때는 그 어떤 교통수단보다 빠르고 효율적입니다.
+📢 **섹션 요약 비유**: 단일 레일로만 움직이는 구형 기차(계층형)는 복잡한 도심 교차로([관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형)에서는 쓸모없지만, 공항 터미널 간 직통 셔틀(1:N 고정 검색)로 쓸 때는 그 어떤 교통수단보다 빠르고 효율적입니다.
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)의 부재, [다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 표현의 불가, 프로그래밍의 복잡성이라는 세 가지 치명적 단점으로 인해, 범용 DBMS로서의 계층형 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 시대는 1980년대 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 등장과 함께 종말을 고했다.
+[데이터 독립성](/studynote/05_database/01_db_architecture_relational/004_data_independence/)의 부재, [다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 표현의 불가, 프로그래밍의 복잡성이라는 세 가지 치명적 단점으로 인해, 범용 DBMS로서의 계층형 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 시대는 1980년대 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 모델의 등장과 함께 종말을 고했다.
 
-하지만 컴퓨터 과학의 역사에서 사라진 기술은 없다. 계층형 모델이 제시했던 "부모로부터 자식으로 이어지는 물리적 인접 배치([Clustering](/knowledge-base/studynote/16_bigdata/05_analysis/105_clustering_analysis/))"와 "루트-리프를 잇는 고속 경로 탐색(Navigation)" 철학은, 오늘날 NoSQL의 도큐먼트 지향 모델과 객체 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지(S3 등)의 폴더-[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조에 그대로 계승되어 살아 숨 쉬고 있다. 기술사적 관점에서 우리는 과거 실패한 모델을 무조건 배척할 것이 아니라, 그 아키텍처가 어떤 환경적 요건([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하향 탐색)에서 빛을 발하는지 이해하고 현대 시스템 설계의 '무기' 중 하나로 다용(多用)할 줄 알아야 한다.
+하지만 컴퓨터 과학의 역사에서 사라진 기술은 없다. 계층형 모델이 제시했던 "부모로부터 자식으로 이어지는 물리적 인접 배치([Clustering](/studynote/16_bigdata/05_analysis/105_clustering_analysis/))"와 "루트-리프를 잇는 고속 경로 탐색(Navigation)" 철학은, 오늘날 NoSQL의 도큐먼트 지향 모델과 객체 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 스토리지(S3 등)의 폴더-[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 구조에 그대로 계승되어 살아 숨 쉬고 있다. 기술사적 관점에서 우리는 과거 실패한 모델을 무조건 배척할 것이 아니라, 그 아키텍처가 어떤 환경적 요건([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 하향 탐색)에서 빛을 발하는지 이해하고 현대 시스템 설계의 '무기' 중 하나로 다용(多用)할 줄 알아야 한다.
 
-📢 **섹션 요약 비유**: 구형 진공관 라디오(계층형 [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/))는 스마트폰(RDBMS)에 밀려 사라졌지만, 그 속에 쓰이던 증폭 기술(트리 탐색)의 원리는 오늘날 최고급 하이엔드 오디오([LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/), [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/))의 핵심 부품으로 화려하게 부활한 것과 같습니다.
+📢 **섹션 요약 비유**: 구형 진공관 라디오(계층형 [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/))는 스마트폰(RDBMS)에 밀려 사라졌지만, 그 속에 쓰이던 증폭 기술(트리 탐색)의 원리는 오늘날 최고급 하이엔드 오디오([LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/), [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/))의 핵심 부품으로 화려하게 부활한 것과 같습니다.
 
 ---
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-- [망형 데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/016_network_data_model/) ([Network Model](/knowledge-base/studynote/05_database/01_db_architecture_relational/016_network_data_model/)) | 계층형의 단일 부모 제약을 허물고 다중 부모(N:M)를 허용하도록 진화한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 형태의 후속 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
-- [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/) ([Data Independence](/knowledge-base/studynote/05_database/04_transactions_concurrency/504_data_independence/)) | 계층형 모델이 확보하지 못했던, 물리적 포인터 구조가 변해도 프로그램 코드를 수정하지 않아도 되는 특성
-- [임베디드 도큐먼트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/) ([Embedded Document](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/)) | 현대 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/)([MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/))에서 부모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안에 자식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)로 중첩시키는, 계층형 모델의 직접적 후예 패턴
-- [LDAP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) ([Lightweight Directory Access Protocol](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)) | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 사용자 및 자원 정보를 계층적 트리 구조로 관리하고 고속으로 검색하기 위한 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
-- [B-Tree](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) | DBMS의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 자료구조로, 계층형 모델과 유사한 트리 구조를 이용하여 노드 단위의 검색을 최적화하는 물리적 기술
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+- [망형 데이터 모델](/studynote/05_database/01_db_architecture_relational/016_network_data_model/) ([Network Model](/studynote/05_database/01_db_architecture_relational/016_network_data_model/)) | 계층형의 단일 부모 제약을 허물고 다중 부모(N:M)를 허용하도록 진화한 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 형태의 후속 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
+- [데이터 독립성](/studynote/05_database/01_db_architecture_relational/004_data_independence/) ([Data Independence](/studynote/05_database/04_transactions_concurrency/504_data_independence/)) | 계층형 모델이 확보하지 못했던, 물리적 포인터 구조가 변해도 프로그램 코드를 수정하지 않아도 되는 특성
+- [임베디드 도큐먼트](/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/) ([Embedded Document](/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/)) | 현대 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/)([MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/))에서 부모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안에 자식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)로 중첩시키는, 계층형 모델의 직접적 후예 패턴
+- [LDAP](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/) ([Lightweight Directory Access Protocol](/studynote/03_network/10_application_layer_dns_mgmt/543_ldap_lightweight_directory_access_protocol/)) | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 사용자 및 자원 정보를 계층적 트리 구조로 관리하고 고속으로 검색하기 위한 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)
+- [B-Tree](/studynote/08_algorithm_stats/04_datastructure/064_b_tree/) | DBMS의 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 자료구조로, 계층형 모델과 유사한 트리 구조를 이용하여 노드 단위의 검색을 최적화하는 물리적 기술
 
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -180,12 +177,12 @@ tags = ["database"]
 [NoSQL 도큐먼트 DB (MongoDB) — 임베디드 문서로 계층 구조를 재현, 수평 확장]
 ```
 
-이 흐름은 포인터 기반 계층형 모델에서 시작하여 망형->[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형으로 [데이터 독립성](/knowledge-base/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 확보하는 역사적 진화를 거치고, 비정형·대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요구 속에서 [임베디드 도큐먼트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/)로 계층 구조를 재현하는 NoSQL로 회귀하는 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 패러다임의 발전 계보를 보여준다.
+이 흐름은 포인터 기반 계층형 모델에서 시작하여 망형->[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형으로 [데이터 독립성](/studynote/05_database/01_db_architecture_relational/004_data_independence/)을 확보하는 역사적 진화를 거치고, 비정형·대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 요구 속에서 [임베디드 도큐먼트](/studynote/05_database/05_distributed_nosql_newsql/315_embedded_document_pattern_nosql/)로 계층 구조를 재현하는 NoSQL로 회귀하는 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/) 패러다임의 발전 계보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 계층형 모델은 할아버지 밑에 아빠, 아빠 밑에 나만 올 수 있는 엄격한 족보(가계도) 방식이에요.
 2. 위에서 아래로 순서대로 찾아가니까, 아빠를 알면 내 정보를 1초 만에 아주 빨리 찾을 수 있어요.
-3. 하지만 치명적인 단점이 있는데, 엄마 쪽 가족([다대다](/knowledge-base/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 연결)은 이 족보에 같이 그릴 수가 없어서 시대가 지나며 사라지게 되었답니다.
+3. 하지만 치명적인 단점이 있는데, 엄마 쪽 가족([다대다](/studynote/02_operating_system/02_process_thread/100_many_to_many_model/) 연결)은 이 족보에 같이 그릴 수가 없어서 시대가 지나며 사라지게 되었답니다.
 
 ---
 
@@ -193,7 +190,7 @@ tags = ["database"]
 
 **진행 상황**: 15 / 600
 
-<- **이전**: [14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
-**다음**: [16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)](/knowledge-base/studynote/05_database/01_db_architecture_relational/016_network_data_model/) ->
+<- **이전**: [14. 데이터 모델 (Data Model) 구성 요소 - 구조(Structure), 연산(Operation), 제약조건(Constraint)](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)
+**다음**: [16. 망형 데이터 모델 (Network Model) - 그래프 구조 (N:M 허용)](/studynote/05_database/01_db_architecture_relational/016_network_data_model/) ->
 
 ---

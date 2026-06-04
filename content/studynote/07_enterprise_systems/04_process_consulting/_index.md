@@ -1,9 +1,9 @@
-+++
-title = "04. 비즈니스 프로세스 및 컨설팅"
+---
+title: "04. 비즈니스 프로세스 및 컨설팅"
+tags:
+  - "enterprise_systems"
+---
 
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

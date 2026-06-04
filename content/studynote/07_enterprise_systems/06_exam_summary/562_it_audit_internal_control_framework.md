@@ -1,13 +1,10 @@
-+++
-title = "562. IT 감사 내부 통제 프레임워크 (IT Audit Internal Control Framework)"
-date = 2026-05-09
+---
+title: "562. IT 감사 내부 통제 프레임워크 (IT Audit Internal Control Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 562 / 800
 
-<- **이전**: [561. 개인정보 보호 GDPR PIPA 컴플라이언스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/561_privacy_protection_gdpr_pipa_compliance/)
-**다음**: [563. IT 법규 컴플라이언스 규제 대응](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/563_it_legal_compliance_regulatory_response/) ->
+<- **이전**: [561. 개인정보 보호 GDPR PIPA 컴플라이언스](/studynote/07_enterprise_systems/06_exam_summary/561_privacy_protection_gdpr_pipa_compliance/)
+**다음**: [563. IT 법규 컴플라이언스 규제 대응](/studynote/07_enterprise_systems/06_exam_summary/563_it_legal_compliance_regulatory_response/) ->
 
 ---

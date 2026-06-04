@@ -1,13 +1,10 @@
-+++
-title = "772. IT 경영 관리 핵심 토픽 772번 시험 요약 (IT Management Core Topic 772 Exam Summary)"
-date = 2026-05-09
+---
+title: "772. IT 경영 관리 핵심 토픽 772번 시험 요약 (IT Management Core Topic 772 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -171,7 +168,7 @@ ISO 38500의 **6원칙(Evaluate, Direct, Monitor)**과 COBIT 2019의 **40개 관
 
 **진행 상황**: 772 / 800
 
-<- **이전**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/)
-**다음**: [773. IT 경영 관리 핵심 토픽 773번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/773_it_management_core_topic_773_exam_summary/) ->
+<- **이전**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/)
+**다음**: [773. IT 경영 관리 핵심 토픽 773번 시험 요약](/studynote/12_it_management/05_security_compliance/773_it_management_core_topic_773_exam_summary/) ->
 
 ---

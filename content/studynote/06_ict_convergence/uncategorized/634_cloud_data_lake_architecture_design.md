@@ -1,13 +1,10 @@
-+++
-title = "634. 클라우드 데이터 레이크 아키텍처 설계 (Cloud Data Lake Architecture Design)"
-date = 2026-05-09
+---
+title: "634. 클라우드 데이터 레이크 아키텍처 설계 (Cloud Data Lake Architecture Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ```markdown
 # 634. 클라우드 데이터 레이크 아키텍처 설계 (Cloud Data Lake Architecture Design)
@@ -173,7 +170,7 @@ Databricks가 2019년 제안한 **Medallion Architecture**는 데이터 품질·
 
 **진행 상황**: 634 / 800
 
-<- **이전**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/knowledge-base/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/)
-**다음**: [635. GPU 클라우드 AI 인프라 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/635_gpu_cloud_ai_infrastructure_optimization/) ->
+<- **이전**: [633. 제로 트러스트 네트워크 마이크로세그먼트](/studynote/06_ict_convergence/uncategorized/633_zero_trust_network_microsegmentation/)
+**다음**: [635. GPU 클라우드 AI 인프라 최적화](/studynote/06_ict_convergence/uncategorized/635_gpu_cloud_ai_infrastructure_optimization/) ->
 
 ---

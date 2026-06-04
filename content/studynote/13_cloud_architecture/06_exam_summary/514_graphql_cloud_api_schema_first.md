@@ -1,13 +1,10 @@
-+++
-title = "514. GraphQL 클라우드 API 스키마 퍼스트 (GraphQL Cloud API Schema First)"
-date = 2026-05-09
+---
+title: "514. GraphQL 클라우드 API 스키마 퍼스트 (GraphQL Cloud API Schema First)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 514 / 800
 
-<- **이전**: [513. 클라우드 API 버전 관리 호환성 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/513_cloud_api_versioning_compatibility_strategy/)
-**다음**: [515. gRPC 프로토콜 버퍼 고성능 API](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/515_grpc_protocol_buffer_high_performance_api/) ->
+<- **이전**: [513. 클라우드 API 버전 관리 호환성 전략](/studynote/13_cloud_architecture/06_exam_summary/513_cloud_api_versioning_compatibility_strategy/)
+**다음**: [515. gRPC 프로토콜 버퍼 고성능 API](/studynote/13_cloud_architecture/06_exam_summary/515_grpc_protocol_buffer_high_performance_api/) ->
 
 ---

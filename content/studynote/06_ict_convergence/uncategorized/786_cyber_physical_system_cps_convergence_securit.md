@@ -1,13 +1,10 @@
-+++
-title = "786. 사이버 물리 시스템 CPS 융합 보안 (Cyber Physical System CPS Convergence Security)"
-date = 2026-05-09
+---
+title: "786. 사이버 물리 시스템 CPS 융합 보안 (Cyber Physical System CPS Convergence Security)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 786. 사이버 물리 시스템 CPS 융합 보안 (Cyber-Physical System CPS Convergence Security)
 
@@ -127,7 +124,7 @@ CPS 융합 보안 아키텍처의 출발점은 **Purdue Reference Model(ANSI/ISA
 
 **진행 상황**: 786 / 800
 
-<- **이전**: [785. 하이브리드 업무 디지털 워크플레이스](/knowledge-base/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/)
-**다음**: [787. 양자 인터넷 양자 네트워크 양자 센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/) ->
+<- **이전**: [785. 하이브리드 업무 디지털 워크플레이스](/studynote/06_ict_convergence/uncategorized/785_hybrid_work_digital_workplace/)
+**다음**: [787. 양자 인터넷 양자 네트워크 양자 센서](/studynote/06_ict_convergence/uncategorized/787_quantum_internet_quantum_network_sensor/) ->
 
 ---

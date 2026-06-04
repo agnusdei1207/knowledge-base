@@ -1,25 +1,22 @@
-+++
-title = "172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)"
-date = 2026-04-21
+---
+title: "172. GPU 인프라 분산 학습 (Data Parallelism vs Model Parallelism)"
+date: "2026-04-21"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallelism)는 모델을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 방식이며, 모델 병렬화 (Model Parallelism)는 모델 자체를 나누어 단일 [Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 메모리 한계를 넘는 방식이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장에 가장 단순하고 강력하지만 모델 크기를 줄여 주지 않으며, 모델 병렬화는 초대형 모델 학습을 가능하게 하지만 통신과 스케줄링 복잡도를 크게 높인다.
-> 3. **판단 포인트**: 모델이 한 GPU에 들어가면 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 Fully Sharded [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel (FSDP)를 검토하고, 한 레이어조차 한 장비에 담기지 않을 때 Tensor Parallelism과 [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism까지 조합하는 것이 실무적 순서다.
+> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallelism)는 모델을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나누는 방식이며, 모델 병렬화 (Model Parallelism)는 모델 자체를 나누어 단일 [Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 메모리 한계를 넘는 방식이다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장에 가장 단순하고 강력하지만 모델 크기를 줄여 주지 않으며, 모델 병렬화는 초대형 모델 학습을 가능하게 하지만 통신과 스케줄링 복잡도를 크게 높인다.
+> 3. **판단 포인트**: 모델이 한 GPU에 들어가면 먼저 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 Fully Sharded [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel (FSDP)를 검토하고, 한 레이어조차 한 장비에 담기지 않을 때 Tensor Parallelism과 [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism까지 조합하는 것이 실무적 순서다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 (Distributed [Training](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))은 "GPU가 느리다"보다 먼저 "[GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장에 모델이 안 들어간다"는 문제에서 출발한다. 예를 들어 70B 파라미터 모델을 [Brain Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) 16-bit ([BFloat16](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/)) 기준 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 2바이트, 그래디언트 2바이트, [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 8바이트로만 계산해도 파라미터당 약 12바이트가 필요하다. 활성값과 [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) 오버헤드를 빼고도 대략 840GB 수준이어서 80GB [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장으로는 물리적으로 불가능하다.
+[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 (Distributed [Training](/studynote/04_software_engineering/09_cloud_native_ai_architecture/588_mlops_pipeline_automation/))은 "GPU가 느리다"보다 먼저 "[GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장에 모델이 안 들어간다"는 문제에서 출발한다. 예를 들어 70B 파라미터 모델을 [Brain Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/) 16-bit ([BFloat16](/studynote/01_computer_architecture/02_data_representation_arithmetic/092_bfloat16/)) 기준 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 2바이트, 그래디언트 2바이트, [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 8바이트로만 계산해도 파라미터당 약 12바이트가 필요하다. 활성값과 [체크포인팅](/studynote/16_bigdata/03_spark/071_checkpointing/) 오버헤드를 빼고도 대략 840GB 수준이어서 80GB [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 한 장으로는 물리적으로 불가능하다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -34,17 +31,17 @@ tags = ["studynote-data-engineering"]
 +--------------------------------------------------------------------+
 ```
 
-여기서 두 가지 다른 병목이 갈린다. 첫째는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 병목</strong>이다. 모델은 한 GPU에 들어가지만 학습이 너무 오래 걸리는 경우다. 둘째는 <strong>용량 병목</strong>이다. 모델 자체가 한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 담기지 않는 경우다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 전자에, 모델 병렬화는 후자에 먼저 대응한다.
+여기서 두 가지 다른 병목이 갈린다. 첫째는 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> 병목</strong>이다. 모델은 한 GPU에 들어가지만 학습이 너무 오래 걸리는 경우다. 둘째는 <strong>용량 병목</strong>이다. 모델 자체가 한 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리에 담기지 않는 경우다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 전자에, 모델 병렬화는 후자에 먼저 대응한다.
 
-따라서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 설계의 핵심 질문은 단순히 "GPU를 몇 장 쓸 것인가"가 아니다. "무엇을 나눌 것인가", "어디서 통신할 것인가", "어느 병목이 먼저 오는가"를 구분해야 한다. 이 구분이 없으면 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수는 늘었는데 속도도, 학습 가능 모델 크기도 기대만큼 오르지 않는다.
+따라서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습 설계의 핵심 질문은 단순히 "GPU를 몇 장 쓸 것인가"가 아니다. "무엇을 나눌 것인가", "어디서 통신할 것인가", "어느 병목이 먼저 오는가"를 구분해야 한다. 이 구분이 없으면 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수는 늘었는데 속도도, 학습 가능 모델 크기도 기대만큼 오르지 않는다.
 
-- **📢 섹션 요약 비유**: 숙제가 너무 많을 때는 같은 문제집을 여러 친구가 나눠 푸는 방법이 있고, 문제집이 너무 두꺼워 한 명 가방에 안 들어갈 때는 앞장과 뒷장을 서로 나눠 드는 방법이 있다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 이 두 상황을 구분하는 일이다.
+- **📢 섹션 요약 비유**: 숙제가 너무 많을 때는 같은 문제집을 여러 친구가 나눠 푸는 방법이 있고, 문제집이 너무 두꺼워 한 명 가방에 안 들어갈 때는 앞장과 뒷장을 서로 나눠 드는 방법이 있다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 이 두 상황을 구분하는 일이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 모델 병렬화의 차이는 "분할 대상"이 어디냐에 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 모델 복사본을 여러 GPU에 두고 미니배치를 나누어 계산한 뒤, 각 GPU가 만든 그래디언트를 합친다. 모델 병렬화는 한 번의 순전파와 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 자체가 여러 GPU를 지나가도록 모델 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 레이어를 나눈다.
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 모델 병렬화의 차이는 "분할 대상"이 어디냐에 있다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 모델 복사본을 여러 GPU에 두고 미니배치를 나누어 계산한 뒤, 각 GPU가 만든 그래디언트를 합친다. 모델 병렬화는 한 번의 순전파와 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 자체가 여러 GPU를 지나가도록 모델 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)나 레이어를 나눈다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -61,35 +58,35 @@ tags = ["studynote-data-engineering"]
 +-------------------------------+------------------------------------+
 ```
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 무엇을 나누나 | 대표 통신 | 가장 잘 해결하는 문제 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 무엇을 나누나 | 대표 통신 | 가장 잘 해결하는 문제 |
 | :--- | :--- | :--- | :--- |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 (DP) | 미니배치 | Gradient All-Reduce | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 (DP) | 미니배치 | Gradient All-Reduce | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장 |
 | 텐서 병렬화 (Tensor Parallelism, TP) | 한 레이어의 행렬 | All-Gather, All-Reduce | 거대한 레이어 메모리 |
-| [파이프라인 병렬화](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/) ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism, [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/)) | 레이어 스테이지 | Activation hop | 깊은 모델 분할 |
-| FSDP / [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) | 파라미터·그래디언트·[옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 | Shard gather / reduce-scatter | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 메모리 중복 완화 |
+| [파이프라인 병렬화](/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/) ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism, [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/)) | 레이어 스테이지 | Activation hop | 깊은 모델 분할 |
+| FSDP / [ZeRO](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) | 파라미터·그래디언트·[옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 | Shard gather / reduce-scatter | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 메모리 중복 완화 |
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 핵심 공식은 단순하다. `Global Batch = Local Batch × Replica 수 × Gradient Accumulation`. 이 방식은 구현이 비교적 쉽고, PyTorch Distributed [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel (DDP)처럼 표준 프레임워크 지원도 강하다. 대신 모델은 각 GPU에 그대로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되므로, 모델이 한 GPU에 들어가지 않는 순간 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화만으로는 해결되지 않는다.
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 핵심 공식은 단순하다. `Global Batch = Local Batch × Replica 수 × Gradient Accumulation`. 이 방식은 구현이 비교적 쉽고, PyTorch Distributed [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel (DDP)처럼 표준 프레임워크 지원도 강하다. 대신 모델은 각 GPU에 그대로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)되므로, 모델이 한 GPU에 들어가지 않는 순간 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화만으로는 해결되지 않는다.
 
-모델 병렬화는 다시 두 갈래로 나뉜다. 텐서 병렬화는 한 레이어의 큰 행렬 곱을 여러 GPU로 분할하고, [파이프라인 병렬화](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)는 레이어 묶음을 스테이지로 나누어 순차적으로 통과시킨다. 텐서 병렬화는 고속 상호연결이 필수이고, [파이프라인 병렬화](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)는 마이크로배치를 사용해 버블을 줄여야 효율이 난다.
+모델 병렬화는 다시 두 갈래로 나뉜다. 텐서 병렬화는 한 레이어의 큰 행렬 곱을 여러 GPU로 분할하고, [파이프라인 병렬화](/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)는 레이어 묶음을 스테이지로 나누어 순차적으로 통과시킨다. 텐서 병렬화는 고속 상호연결이 필수이고, [파이프라인 병렬화](/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)는 마이크로배치를 사용해 버블을 줄여야 효율이 난다.
 
-- **📢 섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 여러 주방이 같은 레시피로 동시에 요리하는 것이고, 모델 병렬화는 한 접시가 너무 커서 재료 손질, 굽기, 플레이팅을 서로 다른 주방에 맡기는 것이다.
+- **📢 섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 여러 주방이 같은 레시피로 동시에 요리하는 것이고, 모델 병렬화는 한 접시가 너무 커서 재료 손질, 굽기, 플레이팅을 서로 다른 주방에 맡기는 것이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 모델 병렬화를 대립 개념으로만 보면 부족하다. 둘은 경쟁 관계라기보다 병목에 따라 이어지는 단계다. 모델이 한 GPU에 들어가고 배치 크기를 키우고 싶다면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화가 먼저다. 모델은 들어가지만 [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 때문에 메모리가 빠듯하면 FSDP나 ZeRO가 그다음이다. 그마저 부족해 한 레이어 자체가 너무 크면 텐서 병렬화, 레이어 깊이가 너무 커지면 [파이프라인 병렬화](/knowledge-base/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)가 들어온다.
+실무에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화와 모델 병렬화를 대립 개념으로만 보면 부족하다. 둘은 경쟁 관계라기보다 병목에 따라 이어지는 단계다. 모델이 한 GPU에 들어가고 배치 크기를 키우고 싶다면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화가 먼저다. 모델은 들어가지만 [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태 때문에 메모리가 빠듯하면 FSDP나 ZeRO가 그다음이다. 그마저 부족해 한 레이어 자체가 너무 크면 텐서 병렬화, 레이어 깊이가 너무 커지면 [파이프라인 병렬화](/studynote/10_ai/05_data_science_ml/405_gpipe_pipeline_parallelism/)가 들어온다.
 
-| 비교 축 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 | 모델 병렬화 |
+| 비교 축 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 | 모델 병렬화 |
 | :--- | :--- | :--- |
-| 모델 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 있음 | 없음 또는 부분만 유지 |
+| 모델 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 있음 | 없음 또는 부분만 유지 |
 | 메모리 절감 | 거의 없음 | 큼 |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장 | 매우 좋음 | 상황에 따라 제한 |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확장 | 매우 좋음 | 상황에 따라 제한 |
 | 구현 난이도 | 낮음 | 중간~높음 |
-| 통신 위치 | 스텝 끝 그래디언트 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 레이어 내부 또는 스테이지 경계 |
+| 통신 위치 | 스텝 끝 그래디언트 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 레이어 내부 또는 스테이지 경계 |
 | 네트워크 민감도 | 상대적으로 낮음 | 매우 높음 |
 
-하드웨어 토폴로지도 선택을 바꾼다. 텐서 병렬화는 레이어마다 통신이 자주 발생하므로 NVLink 같은 고대역폭 링크 안쪽에 배치하는 편이 좋다. 반면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 스텝 끝에서만 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하므로 노드 간 InfiniBand를 타도 상대적으로 견디기 쉽다. 그래서 대형 학습 클러스터는 보통 <strong>노드 내부는 TP/<a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/">PP</a>, 노드 간은 DP</strong>라는 층위 구조를 갖는다.
+하드웨어 토폴로지도 선택을 바꾼다. 텐서 병렬화는 레이어마다 통신이 자주 발생하므로 NVLink 같은 고대역폭 링크 안쪽에 배치하는 편이 좋다. 반면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 스텝 끝에서만 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하므로 노드 간 InfiniBand를 타도 상대적으로 견디기 쉽다. 그래서 대형 학습 클러스터는 보통 <strong>노드 내부는 TP/<a href="/studynote/12_it_management/01_governance_strategy/015_payback_period/">PP</a>, 노드 간은 DP</strong>라는 층위 구조를 갖는다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -102,15 +99,15 @@ tags = ["studynote-data-engineering"]
 +--------------------------------------------------------------------+
 ```
 
-여기서 FSDP는 중요한 연결 고리다. 이름 때문에 모델 병렬화처럼 보이기 쉽지만, 철학적으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 계열이다. 모델을 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하되 파라미터와 상태를 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)해 메모리 낭비를 줄이기 때문이다. 즉 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 DP와 MP의 이분법보다, <strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>-<a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>-분할을 어디까지 섞을 것인가</strong>의 스펙트럼으로 이해하는 편이 정확하다.
+여기서 FSDP는 중요한 연결 고리다. 이름 때문에 모델 병렬화처럼 보이기 쉽지만, 철학적으로는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화 계열이다. 모델을 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)하되 파라미터와 상태를 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)해 메모리 낭비를 줄이기 때문이다. 즉 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 DP와 MP의 이분법보다, <strong><a href="/studynote/14_data_engineering/01_infrastructure/016_replication_factor/">복제</a>-<a href="/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a>-분할을 어디까지 섞을 것인가</strong>의 스펙트럼으로 이해하는 편이 정확하다.
 
-- **📢 섹션 요약 비유**: 같은 이삿짐을 여러 트럭이 나눠 싣는 것이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화라면, 너무 큰 가구를 분해해서 트럭 여러 대에 실어야 하는 것이 모델 병렬화다. 실제 이사는 보통 두 방법을 함께 쓴다.
+- **📢 섹션 요약 비유**: 같은 이삿짐을 여러 트럭이 나눠 싣는 것이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화라면, 너무 큰 가구를 분해해서 트럭 여러 대에 실어야 하는 것이 모델 병렬화다. 실제 이사는 보통 두 방법을 함께 쓴다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 가장 먼저 해야 할 일은 병렬화 기법 선택이 아니라 메모리와 통신 프로파일링이다. 파라미터, 그래디언트, [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태, 활성값 중 무엇이 먼저 한계에 닿는지 알아야 하기 때문이다. 그 다음 원칙은 "가장 단순한 방법부터 시작해, 정말 필요할 때만 더 복잡한 병렬화로 간다"이다.
+실무에서 가장 먼저 해야 할 일은 병렬화 기법 선택이 아니라 메모리와 통신 프로파일링이다. 파라미터, 그래디언트, [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 상태, 활성값 중 무엇이 먼저 한계에 닿는지 알아야 하기 때문이다. 그 다음 원칙은 "가장 단순한 방법부터 시작해, 정말 필요할 때만 더 복잡한 병렬화로 간다"이다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -132,33 +129,33 @@ tags = ["studynote-data-engineering"]
 | 상황 | 권장 선택 | 이유 |
 | :--- | :--- | :--- |
 | 모델이 한 GPU에 충분히 들어감 | DDP | 가장 단순하고 디버깅이 쉬움 |
-| 모델은 들어가지만 메모리 여유가 적음 | FSDP / [ZeRO](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) | [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 상태를 줄여 더 큰 배치 가능 |
+| 모델은 들어가지만 메모리 여유가 적음 | FSDP / [ZeRO](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) | [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 상태를 줄여 더 큰 배치 가능 |
 | Attention / MLP 한 층이 너무 큼 | TP | 레이어 내부 행렬을 쪼개야 함 |
-| 레이어 수가 많고 장비가 많음 | [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) + 마이크로배치 | 여러 스테이지를 동시에 활용 |
-| 다중 노드 대규모 [Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 학습 | DP + TP + [PP](/knowledge-base/studynote/12_it_management/01_governance_strategy/015_payback_period/) 하이브리드 | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 메모리, 토폴로지 균형 |
+| 레이어 수가 많고 장비가 많음 | [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/) + 마이크로배치 | 여러 스테이지를 동시에 활용 |
+| 다중 노드 대규모 [Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 학습 | DP + TP + [PP](/studynote/12_it_management/01_governance_strategy/015_payback_period/) 하이브리드 | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 메모리, 토폴로지 균형 |
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 1. 고속 링크가 없는 노드 간에 세밀한 텐서 병렬화를 강제로 확장하는 것
 2. 배치 크기만 키우다 최적화 안정성과 수렴 품질을 잃는 것
-3. 통신 병목을 무시하고 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수만 늘려 선형 확장을 기대하는 것
-4. [체크포인팅](/knowledge-base/studynote/16_bigdata/03_spark/071_checkpointing/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 복잡한 병렬화만 추가해 장애 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 키우는 것
+3. 통신 병목을 무시하고 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수만 늘려 선형 확장을 기대하는 것
+4. [체크포인팅](/studynote/16_bigdata/03_spark/071_checkpointing/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 없이 복잡한 병렬화만 추가해 장애 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 시간을 키우는 것
 
 기술사 답안에서는 "DP는 속도, MP는 용량"이라는 1차 구분 위에, FSDP/ZeRO와 TP/PP의 경계를 덧붙이면 답안 깊이가 살아난다. 특히 <strong>토폴로지에 따라 병렬화 계층을 배치한다</strong>는 점을 넣으면 실무성이 높아진다.
 
-- **📢 섹션 요약 비유**: 회사를 옮길 때 작은 짐은 사람 수를 늘려 나르면 되고, 너무 큰 냉장고는 분해하거나 특수 장비를 써야 한다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병렬화도 먼저 어떤 짐이 문제인지 봐야 한다.
+- **📢 섹션 요약 비유**: 회사를 옮길 때 작은 짐은 사람 수를 늘려 나르면 되고, 너무 큰 냉장고는 분해하거나 특수 장비를 써야 한다. [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 병렬화도 먼저 어떤 짐이 문제인지 봐야 한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습을 올바르게 설계하면 학습 시간 단축과 모델 규모 확장을 동시에 달성할 수 있다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 실험 회전 속도를 높여 주고, 모델 병렬화는 단일 장비 한계를 넘어 대형 모델 연구를 가능하게 만든다. 여기에 FSDP, TP, PP를 적절히 섞으면 수십억~수백억 파라미터 모델도 실용적인 시간 안에 학습할 수 있다.
+[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습을 올바르게 설계하면 학습 시간 단축과 모델 규모 확장을 동시에 달성할 수 있다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 실험 회전 속도를 높여 주고, 모델 병렬화는 단일 장비 한계를 넘어 대형 모델 연구를 가능하게 만든다. 여기에 FSDP, TP, PP를 적절히 섞으면 수십억~수백억 파라미터 모델도 실용적인 시간 안에 학습할 수 있다.
 
-하지만 병렬화가 곧바로 효율을 의미하지는 않는다. 통신 오버헤드, 버블, 체크포인트 복잡도, 디버깅 난이도는 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수와 함께 커진다. 특히 네트워크가 약한 환경에서는 모델 병렬화가 계산 이득보다 통신 손해를 더 크게 만들 수 있다.
+하지만 병렬화가 곧바로 효율을 의미하지는 않는다. 통신 오버헤드, 버블, 체크포인트 복잡도, 디버깅 난이도는 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 수와 함께 커진다. 특히 네트워크가 약한 환경에서는 모델 병렬화가 계산 이득보다 통신 손해를 더 크게 만들 수 있다.
 
-따라서 이 주제는 "GPU를 많이 쓰는 법"보다 "병목에 맞게 분할 축을 고르는 법"으로 기억하는 것이 정확하다. [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 문제는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화, 메모리 문제는 모델 병렬화, 그리고 초대형 모델은 하이브리드 병렬화라는 계단식 판단이 핵심이다.
+따라서 이 주제는 "GPU를 많이 쓰는 법"보다 "병목에 맞게 분할 축을 고르는 법"으로 기억하는 것이 정확하다. [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 문제는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화, 메모리 문제는 모델 병렬화, 그리고 초대형 모델은 하이브리드 병렬화라는 계단식 판단이 핵심이다.
 
-- **📢 섹션 요약 비유**: 큰 공연을 준비할 때 같은 악보를 여러 연주자가 나눠 연습하는 것과, 한 사람이 들 수 없을 만큼 큰 악기를 여러 명이 함께 다루는 것은 다른 문제다. [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 이 둘을 구분하고 조합하는 지휘 기술이다.
+- **📢 섹션 요약 비유**: 큰 공연을 준비할 때 같은 악보를 여러 연주자가 나눠 연습하는 것과, 한 사람이 들 수 없을 만큼 큰 악기를 여러 명이 함께 다루는 것은 다른 문제다. [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습은 이 둘을 구분하고 조합하는 지휘 기술이다.
 
 ---
 
@@ -166,12 +163,12 @@ tags = ["studynote-data-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| DDP (Distributed [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel) | 모델 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) + 배치 분할의 표준 구현 |
-| All-Reduce | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화에서 그래디언트를 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 핵심 통신 |
-| FSDP (Fully Sharded [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 메모리 중복을 줄이는 [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| DDP (Distributed [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel) | 모델 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) + 배치 분할의 표준 구현 |
+| All-Reduce | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화에서 그래디언트를 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)하는 핵심 통신 |
+| FSDP (Fully Sharded [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Parallel) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화의 메모리 중복을 줄이는 [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 | Tensor Parallelism | 한 레이어의 거대한 행렬을 여러 GPU로 분할 |
-| [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 레이어 묶음을 스테이지로 나눠 순차 처리 |
-| NVLink / [InfiniBand](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) | 병렬화 계층 배치에 직접적인 영향을 주는 상호연결 |
+| [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 레이어 묶음을 스테이지로 나눠 순차 처리 |
+| NVLink / [InfiniBand](/studynote/01_computer_architecture/09_system_bus_interconnects/361_infiniband/) | 병렬화 계층 배치에 직접적인 영향을 주는 상호연결 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -188,11 +185,11 @@ Hybrid 3D parallelism (DP + TP + PP)
 Large-scale foundation model training
 ```
 
-이 흐름은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이 단순한 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추가가 아니라, 병목 유형에 따라 병렬화 축을 단계적으로 확장하는 과정임을 보여준다.
+이 흐름은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 학습이 단순한 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추가가 아니라, 병목 유형에 따라 병렬화 축을 단계적으로 확장하는 과정임을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 같은 문제집을 여러 친구가 나눠 풀고 마지막에 답을 모아 보는 거예요.
+1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 병렬화는 같은 문제집을 여러 친구가 나눠 풀고 마지막에 답을 모아 보는 거예요.
 2. 모델 병렬화는 문제집이 너무 두꺼워서 앞장은 한 친구, 뒷장은 다른 친구가 맡는 거예요.
 3. 아주 큰 숙제는 두 방법을 같이 써서 빨리도 하고, 한 사람 가방이 터지지 않게 해요.
 
@@ -202,7 +199,7 @@ Large-scale foundation model training
 
 **진행 상황**: 172 / 258
 
-<- **이전**: [171. 설명 가능한 AI (XAI)](/knowledge-base/studynote/14_data_engineering/04_mlops/171_xai_lime_shap_explainable_ai/)
-**다음**: [173. Tensor Core·HBM 기반 혼합 정밀도 학습 (Mixed Precision Training)](/knowledge-base/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/) ->
+<- **이전**: [171. 설명 가능한 AI (XAI)](/studynote/14_data_engineering/04_mlops/171_xai_lime_shap_explainable_ai/)
+**다음**: [173. Tensor Core·HBM 기반 혼합 정밀도 학습 (Mixed Precision Training)](/studynote/14_data_engineering/04_mlops/173_tensor_core_hbm_mixed_precision_training/) ->
 
 ---

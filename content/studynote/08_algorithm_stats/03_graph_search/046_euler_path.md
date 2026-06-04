@@ -1,23 +1,20 @@
-+++
-title = "20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer"
-date = 2026-04-21
+---
+title: "20. 오일러 경로/회로 (Euler Path/Circuit) — Fleury / Hierholzer"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오일러 경로 (Euler Path)는 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 간선을 정확히 한 번씩 방문하는 경로이며, 오일러 회로 (Euler Circuit)는 시작 정점으로 돌아오는 오일러 경로다.
-> 2. **가치**: 오일러 회로의 존재 조건(모든 정점 짝수 차수)은 판별이 O(V)이고, Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E)에 실제 경로를 구성하여 한붓그리기, 우편 배달 문제, 회로 설계 등에 활용된다.
-> 3. **판단 포인트**: 오일러(간선 모두 방문)와 해밀턴(정점 모두 방문)을 혼동하지 말 것 — 오일러는 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간, 해밀턴은 NP-완전이다.
+> 1. **본질**: 오일러 경로 (Euler Path)는 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 간선을 정확히 한 번씩 방문하는 경로이며, 오일러 회로 (Euler Circuit)는 시작 정점으로 돌아오는 오일러 경로다.
+> 2. **가치**: 오일러 회로의 존재 조건(모든 정점 짝수 차수)은 판별이 O(V)이고, Hierholzer [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E)에 실제 경로를 구성하여 한붓그리기, 우편 배달 문제, 회로 설계 등에 활용된다.
+> 3. **판단 포인트**: 오일러(간선 모두 방문)와 해밀턴(정점 모두 방문)을 혼동하지 말 것 — 오일러는 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 시간, 해밀턴은 NP-완전이다.
 
 ## Ⅰ. 개요 및 필요성
 
-오일러 경로/회로 문제는 1736년 쾨니히스베르크 다리 문제로 시작된 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론의 기원이다. "7개의 다리를 각각 한 번씩만 건너서 모두 건널 수 있는가?"라는 문제를 오일러가 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 모델링하여 해결했다.
+오일러 경로/회로 문제는 1736년 쾨니히스베르크 다리 문제로 시작된 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론의 기원이다. "7개의 다리를 각각 한 번씩만 건너서 모두 건널 수 있는가?"라는 문제를 오일러가 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)로 모델링하여 해결했다.
 
 | 특성 | 내용 |
 |:---|:---|
@@ -28,11 +25,11 @@ tags = ["studynote-algorithm"]
 
 ### 존재 조건
 
-<strong>무방향 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
-- Euler Circuit: 모든 정점의 차수가 짝수 + 연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
+<strong>무방향 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
+- Euler Circuit: 모든 정점의 차수가 짝수 + 연결 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)
 - Euler Path: 홀수 차수 정점이 정확히 2개 (시작, 종료) + 연결
 
-<strong>방향 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
+<strong>방향 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a></strong>:
 - Euler Circuit: 모든 정점에서 in-degree = out-degree
 - Euler Path: 정확히 1개 정점에서 out-degree = in-degree + 1 (시작), 1개에서 in-degree = out-degree + 1 (종료)
 
@@ -51,7 +48,7 @@ A-B-C-D               A-B-C
 -> Euler Circuit 가능   -> Euler Path만 가능 (B->C 또는 C->B)
 ```
 
-### Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(E))
+### Hierholzer [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (O(E))
 
 ```
 1. 임의 정점에서 DFS (막다른 곳까지)
@@ -60,7 +57,7 @@ A-B-C-D               A-B-C
 4. 스택 역순 = Euler Circuit/Path
 ```
 
-### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Hierholzer 동작
+### [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Hierholzer 동작
 
 ```
 +----------------------------------------------------------+
@@ -78,17 +75,17 @@ A-B-C-D               A-B-C
 +----------------------------------------------------------+
 ```
 
-### Fleury [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs Hierholzer
+### Fleury [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs Hierholzer
 
 | 항목 | Fleury | Hierholzer |
 |:---|:---|:---|
-| [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E^) | O(E) |
+| [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(E^) | O(E) |
 | 구현 복잡도 | 단순 (교량 우선 회피) | 약간 복잡 |
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 교량([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 간선 최대한 회피 | [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) + [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 교량([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 간선 최대한 회피 | [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) + [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) |
 | 실용성 | 교육용 | 실무용 |
 
 Fleury는 간선 방문 시 "이 간선이 교량인가?"를 O(E) 검사하므로 전체 O(E^).
-Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 O(E)에 처리.
+Hierholzer는 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 기반으로 O(E)에 처리.
 
 📢 **섹션 요약 비유**: Hierholzer는 미로에서 막힌 곳에 도달할 때마다 표시해두고, 나중에 표시된 순서를 뒤집으면 경로가 완성되는 방식이다.
 
@@ -96,19 +93,19 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 
 ### 오일러 vs 해밀턴
 
-| 항목 | 오일러 경로 | [해밀턴 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) |
+| 항목 | 오일러 경로 | [해밀턴 경로](/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) |
 |:---|:---|:---|
 | 방문 대상 | 모든 간선 | 모든 정점 |
 | 존재 판별 | O(V) (차수 조건) | NP-완전 |
 | 경로 구성 | O(E) | NP-완전 |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Hierholzer, Fleury | [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/) |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Hierholzer, Fleury | [백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/) |
 | 복잡도 클래스 | P | NP-완전 |
 
 ### 중국 우편 배달부 문제 (Chinese Postman Problem)
 
 모든 간선을 적어도 한 번 방문하는 최단 경로:
-- [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 Euler Circuit이 있으면 그것이 최적
-- 없으면 홀수 차수 정점 간 최단 경로 추가로 Euler Circuit [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+- [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 Euler Circuit이 있으면 그것이 최적
+- 없으면 홀수 차수 정점 간 최단 경로 추가로 Euler Circuit [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 📢 **섹션 요약 비유**: 오일러 경로는 우편배달부가 모든 골목을 한 번씩만 지나가는 최적 배달 루트 문제다. 모든 골목이 짝수 방향으로 연결되어 있으면 최적 루트가 존재한다.
 
@@ -126,40 +123,40 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 - Euler Path로 테스트 탐침 이동 최소화
 
 **시나리오 3**: DNA 서열 재조합 (생물정보학)
-- De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/): k-mer 시퀀스를 간선으로 표현
+- De Bruijn [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/): k-mer 시퀀스를 간선으로 표현
 - Euler Path = DNA 서열 재구성
-- 차세대 시퀀싱 (NGS) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심
+- 차세대 시퀀싱 (NGS) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심
 
 ### 기술사 판단 포인트
 
 | 상황 | 판단 |
 |:---|:---|
 | 모든 간선 방문 | 오일러 경로/회로 (O(E)) |
-| 모든 정점 방문 | [해밀턴 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) (NP-완전) |
+| 모든 정점 방문 | [해밀턴 경로](/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) (NP-완전) |
 | 홀수 차수 정점 수 | 0개->회로, 2개->경로, 나머지->불가 |
-| 비연결 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Euler 경로 불가능 |
-| DNA 재조합 | De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) Euler Path |
+| 비연결 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | Euler 경로 불가능 |
+| DNA 재조합 | De Bruijn [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) Euler Path |
 
 📢 **섹션 요약 비유**: 오일러 경로는 지도의 모든 도로를 정확히 한 번씩 주행하는 택배 루트와 같다. 교차로(정점)는 여러 번 지나도 되지만, 도로(간선)는 딱 한 번씩만 사용한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-오일러 경로/회로는 간선 방문 완전성을 O(V) 판별 + O(E) 구성으로 효율적으로 해결한다. Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 O(E) 시간으로 Fleury보다 월등히 빠르며, DNA 서열 재구성, 우편 배달, 회로 테스트 등 실세계 문제에 직접 적용된다.
+오일러 경로/회로는 간선 방문 완전성을 O(V) 판별 + O(E) 구성으로 효율적으로 해결한다. Hierholzer [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 O(E) 시간으로 Fleury보다 월등히 빠르며, DNA 서열 재구성, 우편 배달, 회로 테스트 등 실세계 문제에 직접 적용된다.
 
-**핵심 결론**: "모든 간선을 한 번씩"이라는 조건은 차수 하나만 확인하면 O(V)에 판별된다. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론이 복잡한 현실 문제를 단순한 수학적 조건으로 환원하는 대표 사례다.
+**핵심 결론**: "모든 간선을 한 번씩"이라는 조건은 차수 하나만 확인하면 O(V)에 판별된다. [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 이론이 복잡한 현실 문제를 단순한 수학적 조건으로 환원하는 대표 사례다.
 
 📢 **섹션 요약 비유**: 오일러 경로는 손을 떼지 않고 그림 그리기의 수학적 버전이다. 가능 여부는 교차점마다 선의 수를 세는 것만으로 즉시 알 수 있다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [해밀턴 경로](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) | 대비 개념 | 정점 방문, NP-완전 |
-| Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 구현 방법 | O(E) 오일러 경로 구성 |
-| De Bruijn [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 응용 | DNA 서열 Euler Path |
+| [해밀턴 경로](/studynote/08_algorithm_stats/03_graph_search/049_hamiltonian_path/) | 대비 개념 | 정점 방문, NP-완전 |
+| Hierholzer [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 구현 방법 | O(E) 오일러 경로 구성 |
+| De Bruijn [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) | 응용 | DNA 서열 Euler Path |
 | 중국 우편배달부 문제 | 응용 | 모든 간선 최소 비용 방문 |
 | 차수 (Degree) | 판별 조건 | 홀수 차수 정점 수 |
-| 교량 ([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) | Fleury 핵심 | 제거 시 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분리 |
+| 교량 ([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) | Fleury 핵심 | 제거 시 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 분리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -178,7 +175,7 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
     v
 [해밀턴 경로 — 오일러 경로와 대비, 모든 정점을 1회 방문 (NP-완전)]
 ```
-오일러 경로는 간선을 기준으로 홀수 차수 조건을 검사하며, 플뢰리/Hierholzer [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E) 내에 탐색이 가능하다.
+오일러 경로는 간선을 기준으로 홀수 차수 조건을 검사하며, 플뢰리/Hierholzer [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 O(E) 내에 탐색이 가능하다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +189,7 @@ Hierholzer는 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastruc
 
 **진행 상황**: 46 / 175
 
-<- **이전**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)
-**다음**: [20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n^), 불안정](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ->
+<- **이전**: [19. 최소 컷 (Min Cut) — Max-Flow Min-Cut 정리](/studynote/08_algorithm_stats/03_graph_search/045_min_cut/)
+**다음**: [20. 퀵 정렬 (Quick Sort) — 평균 O(n log n), 최악 O(n^), 불안정](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) ->
 
 ---

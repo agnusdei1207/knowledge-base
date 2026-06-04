@@ -1,13 +1,10 @@
-+++
-title = "555. CBDC 중앙은행 디지털 화폐 설계 (CBDC Central Bank Digital Currency Design)"
-date = 2026-05-09
+---
+title: "555. CBDC 중앙은행 디지털 화폐 설계 (CBDC Central Bank Digital Currency Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ CBDC 중앙은행 디지털 화폐 설계은(는) 디지털 권리, 금융, 조�
 
 **진행 상황**: 555 / 800
 
-<- **이전**: [554. DAO 탈중앙화 자율 조직](/knowledge-base/studynote/06_ict_convergence/uncategorized/554_dao_decentralized_autonomous_organization/)
-**다음**: [556. 토큰 이코노미 인센티브 설계 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/556_token_economy_incentive_design_model/) ->
+<- **이전**: [554. DAO 탈중앙화 자율 조직](/studynote/06_ict_convergence/uncategorized/554_dao_decentralized_autonomous_organization/)
+**다음**: [556. 토큰 이코노미 인센티브 설계 모델](/studynote/06_ict_convergence/uncategorized/556_token_economy_incentive_design_model/) ->
 
 ---

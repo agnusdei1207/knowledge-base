@@ -1,13 +1,10 @@
-+++
-title = "532. 모델 기반 테스팅 MBT 자동화 (Model Based Testing MBT Automation)"
-date = 2026-05-09
+---
+title: "532. 모델 기반 테스팅 MBT 자동화 (Model Based Testing MBT Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -218,7 +215,7 @@ ISO/IEC/IEEE 29119-4와 ISTQB CT-MBT Sylllabus v1.0의 MBT Process는 다음 6�
 
 **진행 상황**: 532 / 600
 
-<- **이전**: [531. 뮤테이션 테스팅 결함 주입 효과](/knowledge-base/studynote/11_design_supervision/06_exam_summary/532_mutation_testing_fault_injection_effecti/)
-**다음**: [533. 퍼포먼스 테스팅 부하 스트레스 엔듀런스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/533_performance_testing_load_stress_enduranc/) ->
+<- **이전**: [531. 뮤테이션 테스팅 결함 주입 효과](/studynote/11_design_supervision/06_exam_summary/532_mutation_testing_fault_injection_effecti/)
+**다음**: [533. 퍼포먼스 테스팅 부하 스트레스 엔듀런스](/studynote/11_design_supervision/06_exam_summary/533_performance_testing_load_stress_enduranc/) ->
 
 ---

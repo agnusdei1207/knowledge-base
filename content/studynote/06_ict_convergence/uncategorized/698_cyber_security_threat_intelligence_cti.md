@@ -1,13 +1,10 @@
-+++
-title = "698. 사이버 보안 위협 인텔리전스 CTI (Cyber Security Threat Intelligence CTI)"
-date = 2026-05-09
+---
+title: "698. 사이버 보안 위협 인텔리전스 CTI (Cyber Security Threat Intelligence CTI)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -159,7 +156,7 @@ CTI 라이프사이클은 Gartner의 6단계 모델(Direction -> Collection -> P
 
 **진행 상황**: 698 / 800
 
-<- **이전**: [697. ESG 디지털 전환 지속가능 경영](/knowledge-base/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/)
-**다음**: [699. 프라이버시 강화 기술 PETs 연합 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/) ->
+<- **이전**: [697. ESG 디지털 전환 지속가능 경영](/studynote/06_ict_convergence/uncategorized/697_esg_digital_transformation_sustainability/)
+**다음**: [699. 프라이버시 강화 기술 PETs 연합 분석](/studynote/06_ict_convergence/uncategorized/699_privacy_enhancing_technology_pets/) ->
 
 ---

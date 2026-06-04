@@ -1,13 +1,10 @@
-+++
-title = "433. 클라우드 CDN 엣지 캐싱 콘텐츠 전송 (Cloud CDN Edge Caching Content Delivery)"
-date = 2026-05-09
+---
+title: "433. 클라우드 CDN 엣지 캐싱 콘텐츠 전송 (Cloud CDN Edge Caching Content Delivery)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 433 / 800
 
-<- **이전**: [432. 클라우드 API 게이트웨이 관리 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/432_cloud_api_gateway_managed_service/)
-**다음**: [434. 클라우드 DNS Route53 Cloud DNS 관리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/434_cloud_dns_route53_cloud_dns_management/) ->
+<- **이전**: [432. 클라우드 API 게이트웨이 관리 서비스](/studynote/13_cloud_architecture/06_exam_summary/432_cloud_api_gateway_managed_service/)
+**다음**: [434. 클라우드 DNS Route53 Cloud DNS 관리](/studynote/13_cloud_architecture/06_exam_summary/434_cloud_dns_route53_cloud_dns_management/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "497. 블록체인 감리 스마트 계약 검증 (Blockchain Audit Smart Contract Verification)"
-date = 2026-05-09
+---
+title: "497. 블록체인 감리 스마트 계약 검증 (Blockchain Audit Smart Contract Verification)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -200,7 +197,7 @@ KEVM은 이 모든 것을 **K의 정의(≡_K)** 안에서 명시적으로 다�
 
 **진행 상황**: 497 / 600
 
-<- **이전**: [496. IoT 시스템 감리 연결성 보안 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/497_iot_system_audit_connectivity_security/)
-**다음**: [498. 빅데이터 감리 파이프라인 품질 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/498_big_data_audit_pipeline_quality/) ->
+<- **이전**: [496. IoT 시스템 감리 연결성 보안 평가](/studynote/11_design_supervision/06_exam_summary/497_iot_system_audit_connectivity_security/)
+**다음**: [498. 빅데이터 감리 파이프라인 품질 검증](/studynote/11_design_supervision/06_exam_summary/498_big_data_audit_pipeline_quality/) ->
 
 ---

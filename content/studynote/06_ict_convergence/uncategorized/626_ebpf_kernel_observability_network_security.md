@@ -1,13 +1,10 @@
-+++
-title = "626. eBPF 커널 관측성 네트워크 보안 (eBPF Kernel Observability Network Security)"
-date = 2026-05-09
+---
+title: "626. eBPF 커널 관측성 네트워크 보안 (eBPF Kernel Observability Network Security)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ eBPF 커널 관측 네트워크 보안은(는) 클라우드 네이티브 환경�
 
 **진행 상황**: 621 / 800
 
-<- **이전**: [620. 분산 추적 Jaeger Zipkin OpenTelemetry](/knowledge-base/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/)
-**다음**: [622. 카오스 엔지니어링 Litmus](/knowledge-base/studynote/06_ict_convergence/uncategorized/627_chaos_engineering_litmus_gremlin/) ->
+<- **이전**: [620. 분산 추적 Jaeger Zipkin OpenTelemetry](/studynote/06_ict_convergence/uncategorized/624_distributed_tracing_jaeger_zipkin_opentelemet/)
+**다음**: [622. 카오스 엔지니어링 Litmus](/studynote/06_ict_convergence/uncategorized/627_chaos_engineering_litmus_gremlin/) ->
 
 ---

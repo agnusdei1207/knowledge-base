@@ -1,13 +1,10 @@
-+++
-title = "509. SLA SLO SLI 서비스 수준 관리 (SLA SLO SLI Service Level Management)"
-date = 2026-05-09
+---
+title: "509. SLA SLO SLI 서비스 수준 관리 (SLA SLO SLI Service Level Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ SLA/SLO/SLI을 올바르게 적용하면 업무 처리 속도, 통제 수준, �
 
 **진행 상황**: 509 / 800
 
-<- **이전**: [508. 서비스 데스크 자동화 AI 챗봇](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/508_service_desk_automation_ai_chatbot/)
-**다음**: [510. IT 자산 관리 CMDB 구성 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/510_it_asset_management_cmdb_configuration/) ->
+<- **이전**: [508. 서비스 데스크 자동화 AI 챗봇](/studynote/07_enterprise_systems/06_exam_summary/508_service_desk_automation_ai_chatbot/)
+**다음**: [510. IT 자산 관리 CMDB 구성 관리](/studynote/07_enterprise_systems/06_exam_summary/510_it_asset_management_cmdb_configuration/) ->
 
 ---

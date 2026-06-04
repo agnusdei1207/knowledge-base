@@ -1,13 +1,10 @@
-+++
-title = "465. 분산 추적 상관 관계 ID 패턴 (Distributed Tracing Correlation ID Pattern)"
-date = 2026-05-09
+---
+title: "465. 분산 추적 상관 관계 ID 패턴 (Distributed Tracing Correlation ID Pattern)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -131,7 +128,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 465 / 600
 
-<- **이전**: [464. 데이터베이스 퍼 서비스 독립 저장소](/knowledge-base/studynote/11_design_supervision/06_exam_summary/465_database_per_service/)
-**다음**: [466. 컨슈머 주도 계약 테스트](/knowledge-base/studynote/11_design_supervision/06_exam_summary/466_consumer_driven_contract/) ->
+<- **이전**: [464. 데이터베이스 퍼 서비스 독립 저장소](/studynote/11_design_supervision/06_exam_summary/465_database_per_service/)
+**다음**: [466. 컨슈머 주도 계약 테스트](/studynote/11_design_supervision/06_exam_summary/466_consumer_driven_contract/) ->
 
 ---

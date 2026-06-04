@@ -1,9 +1,9 @@
-+++
-title = "03. ML/DL 모델 및 LLM 서빙 공학"
+---
+title: "03. ML/DL 모델 및 LLM 서빙 공학"
+tags:
+  - "data_engineering"
+---
 
-[extra]
-tags = ["data_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

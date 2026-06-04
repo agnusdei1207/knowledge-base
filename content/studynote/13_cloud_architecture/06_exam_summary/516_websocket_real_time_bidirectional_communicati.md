@@ -1,13 +1,10 @@
-+++
-title = "516. WebSocket 실시간 양방향 통신 (WebSocket Real-time Bidirectional Communication)"
-date = 2026-05-09
+---
+title: "516. WebSocket 실시간 양방향 통신 (WebSocket Real-time Bidirectional Communication)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 516 / 800
 
-<- **이전**: [515. gRPC 프로토콜 버퍼 고성능 API](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/515_grpc_protocol_buffer_high_performance_api/)
-**다음**: [517. 서버 전송 이벤트 SSE 실시간 스트림](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/517_server_sent_events_sse_real_time_stream/) ->
+<- **이전**: [515. gRPC 프로토콜 버퍼 고성능 API](/studynote/13_cloud_architecture/06_exam_summary/515_grpc_protocol_buffer_high_performance_api/)
+**다음**: [517. 서버 전송 이벤트 SSE 실시간 스트림](/studynote/13_cloud_architecture/06_exam_summary/517_server_sent_events_sse_real_time_stream/) ->
 
 ---

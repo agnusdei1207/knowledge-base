@@ -1,13 +1,10 @@
-+++
-title = "589. 정보시스템 감리 종합 정리 기술사 요약 (IS Audit Comprehensive Summary PE Overview)"
-date = 2026-05-09
+---
+title: "589. 정보시스템 감리 종합 정리 기술사 요약 (IS Audit Comprehensive Summary PE Overview)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 589 / 600
 
-<- **이전**: [588. 불변 인프라 골든 이미지 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/589_immutable_infrastructure_golden_image/)
-**다음**: [590. 감리 설계 아키텍처 종합 마스터 정리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/590_audit_architecture_comprehensive_master_/) ->
+<- **이전**: [588. 불변 인프라 골든 이미지 패턴](/studynote/11_design_supervision/06_exam_summary/589_immutable_infrastructure_golden_image/)
+**다음**: [590. 감리 설계 아키텍처 종합 마스터 정리](/studynote/11_design_supervision/06_exam_summary/590_audit_architecture_comprehensive_master_/) ->
 
 ---

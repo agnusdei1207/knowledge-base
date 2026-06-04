@@ -1,29 +1,26 @@
-+++
-title = "183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)"
-date = 2026-05-06
+---
+title: "183. 다단계 큐 스케줄링 (Multilevel Queue Scheduling)"
+date: "2026-05-06"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다단계 큐 스케줄링 (Multilevel [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/) Scheduling)은 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 하나로 두지 않고, 시스템·대화형·배치 작업처럼 <strong>성격이 다른 프로세스를 서로 다른 큐로 고정 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>해 관리하는 기법이다.
-> 2. **가치**: 큐마다 다른 스케줄링 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용할 수 있어, 응답성이 중요한 작업과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 중요한 작업을 같은 규칙으로 억지로 다루지 않아도 된다.
-> 3. **판단 포인트**: [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 고정되어 있어 유연성은 낮고, 상위 큐가 과도하게 바쁘면 하위 큐가 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠질 수 있으므로 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/))와의 경계를 분명히 이해해야 한다.
+> 1. **본질**: 다단계 큐 스케줄링 (Multilevel [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/) Scheduling)은 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))를 하나로 두지 않고, 시스템·대화형·배치 작업처럼 <strong>성격이 다른 프로세스를 서로 다른 큐로 고정 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong>해 관리하는 기법이다.
+> 2. **가치**: 큐마다 다른 스케줄링 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용할 수 있어, 응답성이 중요한 작업과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 중요한 작업을 같은 규칙으로 억지로 다루지 않아도 된다.
+> 3. **판단 포인트**: [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 고정되어 있어 유연성은 낮고, 상위 큐가 과도하게 바쁘면 하위 큐가 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠질 수 있으므로 [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/))와의 경계를 분명히 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-다단계 큐 스케줄링은 <strong>프로세스의 종류별로 줄을 따로 세우는 스케줄링 방식</strong>이다. 하나의 [Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) 안에 [시스템 데몬](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/), 사용자 인터랙티브 작업, 백그라운드 배치 작업을 모두 넣고 동일한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 처리하면, 어느 한쪽의 요구를 만족시키는 순간 다른 한쪽이 손해를 본다. 짧은 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 중요한 작업과 긴 처리 시간이 중요한 작업은 요구 조건이 다르기 때문이다.
+다단계 큐 스케줄링은 <strong>프로세스의 종류별로 줄을 따로 세우는 스케줄링 방식</strong>이다. 하나의 [Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/) 안에 [시스템 데몬](/studynote/02_operating_system/01_overview_architecture/037_system_daemon/), 사용자 인터랙티브 작업, 백그라운드 배치 작업을 모두 넣고 동일한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 처리하면, 어느 한쪽의 요구를 만족시키는 순간 다른 한쪽이 손해를 본다. 짧은 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 중요한 작업과 긴 처리 시간이 중요한 작업은 요구 조건이 다르기 때문이다.
 
-이 방식이 필요한 이유는 CPU (Central Processing Unit) 스케줄링의 목표가 하나가 아니기 때문이다. 대화형 작업은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong> 이 중요하고, 배치 작업은 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> 과 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/">문맥 교환 비용</a> 절감</strong>이 중요하다. 시스템 프로세스는 어떤 경우에는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 폭이 더 작을 수도 있다. 하나의 규칙으로 모두를 만족시키기 어렵기 때문에, 먼저 성격별로 분리한 뒤 각 큐마다 최적의 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하는 발상이 나왔다.
+이 방식이 필요한 이유는 CPU (Central Processing Unit) 스케줄링의 목표가 하나가 아니기 때문이다. 대화형 작업은 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">응답 시간</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/">Response Time</a>)</strong> 이 중요하고, 배치 작업은 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">처리량</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/">Throughput</a>)</strong> 과 <strong><a href="/studynote/02_operating_system/11_exam_summary/754_context_switch_cost/">문맥 교환 비용</a> 절감</strong>이 중요하다. 시스템 프로세스는 어떤 경우에는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 허용 폭이 더 작을 수도 있다. 하나의 규칙으로 모두를 만족시키기 어렵기 때문에, 먼저 성격별로 분리한 뒤 각 큐마다 최적의 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용하는 발상이 나왔다.
 
-즉 다단계 큐는 "누가 먼저 실행될까?"를 넘어서, **"애초에 누구와 누구를 같은 줄에 세워야 하는가?"** 에 답하는 기법이다. 공정성만이 아니라 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층화([service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) differentiation)를 위한 스케줄링 구조라고 볼 수 있다.
+즉 다단계 큐는 "누가 먼저 실행될까?"를 넘어서, **"애초에 누구와 누구를 같은 줄에 세워야 하는가?"** 에 답하는 기법이다. 공정성만이 아니라 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 계층화([service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) differentiation)를 위한 스케줄링 구조라고 볼 수 있다.
 
 ```text
 +-------------------------------------------------------------------+
@@ -41,13 +38,13 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다단계 큐 스케줄링의 핵심은 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/">classification</a>), 큐 간 선택, 큐 내부 선택</strong>의 3단계다. 먼저 프로세스를 성격에 따라 특정 큐에 배정하고, 그다음 어느 큐에 CPU를 줄지 정한 뒤, 마지막으로 선택된 큐 안에서 실제 프로세스를 뽑는다. 중요한 점은 전통적인 다단계 큐에서는 <strong>한 번 배정된 프로세스가 다른 큐로 이동하지 않는 경우가 많다</strong>는 것이다.
+다단계 큐 스케줄링의 핵심은 <strong><a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>(<a href="/studynote/12_it_management/03_ea_isp/107_classification/">classification</a>), 큐 간 선택, 큐 내부 선택</strong>의 3단계다. 먼저 프로세스를 성격에 따라 특정 큐에 배정하고, 그다음 어느 큐에 CPU를 줄지 정한 뒤, 마지막으로 선택된 큐 안에서 실제 프로세스를 뽑는다. 중요한 점은 전통적인 다단계 큐에서는 <strong>한 번 배정된 프로세스가 다른 큐로 이동하지 않는 경우가 많다</strong>는 것이다.
 
 | 단계 | 질문 | 대표 방식 | 설계 의미 |
 | :--- | :--- | :--- | :--- |
-| [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 어느 큐에 넣을 것인가? | 시스템/대화형/배치 구분 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급을 고정 |
-| [큐 간 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/) | 어느 큐가 CPU를 받을 것인가? | 고정 우선순위, 큐별 시간 할당 | 큐 간 권한 배분 |
-| 큐 내부 스케줄링 | 선택된 큐 안에서 누가 실행될 것인가? | [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin), [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served) 등 | 큐 성격별 최적화 |
+| [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 어느 큐에 넣을 것인가? | 시스템/대화형/배치 구분 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 등급을 고정 |
+| [큐 간 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/) | 어느 큐가 CPU를 받을 것인가? | 고정 우선순위, 큐별 시간 할당 | 큐 간 권한 배분 |
+| 큐 내부 스케줄링 | 선택된 큐 안에서 누가 실행될 것인가? | [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin), [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served) 등 | 큐 성격별 최적화 |
 
 아래 그림은 다단계 큐의 전형적인 동작 흐름을 보여 준다.
 
@@ -69,7 +66,7 @@ tags = ["studynote-operating-system"]
 +-------------------------------------------------------------------+
 ```
 
-이 그림에서 핵심은 <strong>큐 내부 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>과 큐 간 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 분리되어 있다</strong>는 점이다. 예를 들어 대화형 큐는 RR로 짧게 돌리고, 배치 큐는 FCFS로 길게 돌릴 수 있다. 하지만 상위 큐에 절대 우선권을 주면 하위 큐는 오래 기다릴 수 있다. 그래서 다단계 큐는 구조적으로 강력하지만, 동시에 <strong>경직된 신분제</strong>가 되기 쉽다.
+이 그림에서 핵심은 <strong>큐 내부 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>과 큐 간 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 분리되어 있다</strong>는 점이다. 예를 들어 대화형 큐는 RR로 짧게 돌리고, 배치 큐는 FCFS로 길게 돌릴 수 있다. 하지만 상위 큐에 절대 우선권을 주면 하위 큐는 오래 기다릴 수 있다. 그래서 다단계 큐는 구조적으로 강력하지만, 동시에 <strong>경직된 신분제</strong>가 되기 쉽다.
 
 특히 프로세스의 행동 특성이 실행 중에 바뀌는 경우 문제가 생긴다. 처음에는 인터랙티브처럼 보이던 작업이 대규모 계산으로 변해도, 큐가 고정이면 계속 높은 대우를 받을 수 있다. 반대로 처음에 배치 큐에 들어간 작업은 나중에 짧은 대화형 패턴을 보여도 쉽게 승급되지 않는다.
 
@@ -79,48 +76,48 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-다단계 큐를 제대로 이해하려면 <strong>단일 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong>와 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">다단계 피드백 큐</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">MLFQ</a>)</strong> 를 함께 비교해야 한다. 셋 다 우선순위를 다루지만, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방식과 이동 가능성이 다르다.
+다단계 큐를 제대로 이해하려면 <strong>단일 <a href="/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/">우선순위 큐</a></strong>와 <strong><a href="/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">다단계 피드백 큐</a> (<a href="/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/">MLFQ</a>)</strong> 를 함께 비교해야 한다. 셋 다 우선순위를 다루지만, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 방식과 이동 가능성이 다르다.
 
-| 항목 | 단일 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) | 다단계 큐 | [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) |
+| 항목 | 단일 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) | 다단계 큐 | [다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) |
 | :--- | :--- | :--- | :--- |
-| 자료 구조 | 하나의 [Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) | 여러 개의 독립 큐 | 여러 개의 독립 큐 |
-| [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준 | 우선순위 값 | 작업 클래스 | 실행 행동 + 피드백 |
+| 자료 구조 | 하나의 [Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/) | 여러 개의 독립 큐 | 여러 개의 독립 큐 |
+| [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준 | 우선순위 값 | 작업 클래스 | 실행 행동 + 피드백 |
 | 큐 이동 | 우선순위 값만 변동 가능 | 보통 없음 | 적극적 이동 |
-| 강점 | 단순함 | 클래스별 맞춤 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 응답성 + 적응성 |
-| 약점 | 기아 위험, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 단일성 | 경직성, 기아 위험 | 구현과 튜닝 복잡 |
+| 강점 | 단순함 | 클래스별 맞춤 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 응답성 + 적응성 |
+| 약점 | 기아 위험, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 단일성 | 경직성, 기아 위험 | 구현과 튜닝 복잡 |
 
-단일 우선순위 스케줄링은 한 줄 안에서 순위를 매기는 방식이라 구현은 단순하지만, 서로 다른 워크로드 특성에 맞는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 개별 적용하기 어렵다. 반면 다단계 큐는 큐별 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 다르게 둘 수 있어 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 차등화에는 강하다. 그러나 <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>가 고정되면 실행 중 행동 변화를 반영하지 못한다.</strong> 그래서 현대 운영체제는 다단계 큐의 틀을 유지하되, MLFQ처럼 이동을 허용하거나 CFS (Completely Fair Scheduler)처럼 연속적인 공정성 모델을 채택한다.
+단일 우선순위 스케줄링은 한 줄 안에서 순위를 매기는 방식이라 구현은 단순하지만, 서로 다른 워크로드 특성에 맞는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 개별 적용하기 어렵다. 반면 다단계 큐는 큐별 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 다르게 둘 수 있어 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 차등화에는 강하다. 그러나 <strong><a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a>가 고정되면 실행 중 행동 변화를 반영하지 못한다.</strong> 그래서 현대 운영체제는 다단계 큐의 틀을 유지하되, MLFQ처럼 이동을 허용하거나 CFS (Completely Fair Scheduler)처럼 연속적인 공정성 모델을 채택한다.
 
-또한 다단계 큐는 네트워크 [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 프린터 [스풀링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), 실시간 작업 분리 같은 분야와도 연결된다. 즉 이 개념은 CPU 스케줄링 하나에만 갇힌 것이 아니라, <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층별 자원 분리</strong>라는 더 넓은 설계 패턴으로 확장된다.
+또한 다단계 큐는 네트워크 [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/) ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), 프린터 [스풀링](/studynote/02_operating_system/08_storage_and_io_systems/457_spooling/), 실시간 작업 분리 같은 분야와도 연결된다. 즉 이 개념은 CPU 스케줄링 하나에만 갇힌 것이 아니라, <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 계층별 자원 분리</strong>라는 더 넓은 설계 패턴으로 확장된다.
 
-- **📢 섹션 요약 비유**: 단일 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)가 한 운동장에서 학생을 줄 세우는 방식이라면, 다단계 큐는 아예 학년별 운동장을 따로 두는 방식이고, MLFQ는 경기력에 따라 다른 운동장으로 옮겨 다니게 하는 방식과 같다.
+- **📢 섹션 요약 비유**: 단일 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)가 한 운동장에서 학생을 줄 세우는 방식이라면, 다단계 큐는 아예 학년별 운동장을 따로 두는 방식이고, MLFQ는 경기력에 따라 다른 운동장으로 옮겨 다니게 하는 방식과 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 다단계 큐 스케줄링은 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 등급이 분명하고, 작업 성격이 비교적 안정적일 때</strong> 유용하다. 예를 들어 실시간 태스크와 일반 태스크를 섞어 두면 안 되는 환경, 백그라운드 배치와 사용자 인터랙션을 분리해야 하는 환경에서는 큐를 아예 분리하는 편이 낫다. 운영체제나 런타임은 이를 통해 중요한 클래스에 더 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 명확한 우선권을 줄 수 있다.
+실무에서 다단계 큐 스케줄링은 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 등급이 분명하고, 작업 성격이 비교적 안정적일 때</strong> 유용하다. 예를 들어 실시간 태스크와 일반 태스크를 섞어 두면 안 되는 환경, 백그라운드 배치와 사용자 인터랙션을 분리해야 하는 환경에서는 큐를 아예 분리하는 편이 낫다. 운영체제나 런타임은 이를 통해 중요한 클래스에 더 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 명확한 우선권을 줄 수 있다.
 
 ### 실무 판단 기준
 
-1. **작업 클래스가 오래 유지되는가?** 성격이 자주 바뀌면 고정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 부적합하다.
+1. **작업 클래스가 오래 유지되는가?** 성격이 자주 바뀌면 고정 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 부적합하다.
 2. **최상위 큐에 절대 우선권이 필요한가?** 실시간 성격이면 고정 우선순위가 필요할 수 있다.
 3. **하위 큐 기아를 허용할 수 있는가?** 불가능하다면 큐 간 시간 할당이나 MLFQ가 더 적합하다.
-4. <strong>큐마다 다른 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 실질적 이득을 주는가?</strong> 모두 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이면 굳이 여러 큐로 나눌 이유가 약하다.
+4. <strong>큐마다 다른 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>이 실질적 이득을 주는가?</strong> 모두 같은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이면 굳이 여러 큐로 나눌 이유가 약하다.
 
 ### 대표적 적용 맥락
 
-- **실시간 클래스와 일반 클래스 분리**: 실시간 태스크를 일반 태스크보다 상위 큐에 둬 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제한한다.
+- **실시간 클래스와 일반 클래스 분리**: 실시간 태스크를 일반 태스크보다 상위 큐에 둬 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 제한한다.
 - **포그라운드/백그라운드 분리**: 사용자 입력 반응 작업과 대량 일괄 작업을 다른 큐에서 처리한다.
-- <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 등급별 자원 배분</strong>: 중요 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 저우선 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 CPU 가시성을 분리한다.
+- <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 등급별 자원 배분</strong>: 중요 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 저우선 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)의 CPU 가시성을 분리한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 인터랙티브 작업이 배치 작업으로 변해도 같은 큐에 고정해 두는 설계
-- 상위 큐가 항상 바쁜데도 하위 큐 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 고정 우선순위만 고집하는 구성
-- 큐를 여러 개 만들어 놓고 실제로는 모든 큐에 동일 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해 복잡도만 높이는 설계
+- 상위 큐가 항상 바쁜데도 하위 큐 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 고정 우선순위만 고집하는 구성
+- 큐를 여러 개 만들어 놓고 실제로는 모든 큐에 동일 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 적용해 복잡도만 높이는 설계
 
-기술사 관점에서는 "여러 큐로 나눈다"는 정의에서 멈추지 말고, <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/">큐 간 스케줄링</a> 방식, 이동 불가의 한계, MLFQ로의 진화</strong>까지 답해야 한다. 그래야 다단계 큐를 정적 분리 모델로 정확히 설명할 수 있다.
+기술사 관점에서는 "여러 큐로 나눈다"는 정의에서 멈추지 말고, <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/">큐 간 스케줄링</a> 방식, 이동 불가의 한계, MLFQ로의 진화</strong>까지 답해야 한다. 그래야 다단계 큐를 정적 분리 모델로 정확히 설명할 수 있다.
 
 - **📢 섹션 요약 비유**: VIP 창구를 따로 만드는 것은 효율적이지만, VIP 줄이 하루 종일 비지 않으면 일반 줄 사람이 영영 못 들어갈 수도 있다. 그래서 창구 분리에는 반드시 운영 원칙이 따라야 한다.
 
@@ -128,11 +125,11 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-다단계 큐 스케줄링의 가장 큰 효과는 <strong>서로 다른 작업군을 하나의 평균값으로 뭉개지 않고, 클래스별로 다른 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 줄 수 있다</strong>는 점이다. 이를 통해 응답성, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 우선권 보장 같은 목표를 계층별로 분리해 설계할 수 있다. 즉 이 기법은 공정성 하나만 보는 방식이 아니라, 시스템이 제공해야 할 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 구조에 반영하는 방법이다.
+다단계 큐 스케줄링의 가장 큰 효과는 <strong>서로 다른 작업군을 하나의 평균값으로 뭉개지 않고, 클래스별로 다른 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>을 줄 수 있다</strong>는 점이다. 이를 통해 응답성, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 우선권 보장 같은 목표를 계층별로 분리해 설계할 수 있다. 즉 이 기법은 공정성 하나만 보는 방식이 아니라, 시스템이 제공해야 할 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준을 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 구조에 반영하는 방법이다.
 
-하지만 고정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 분명한 한계를 가진다. 현대 워크로드는 실행 중 특성이 바뀌고, 사용자는 상호작용성과 장기 공정성을 동시에 기대한다. 그래서 다단계 큐는 오늘날 단독 완성형이라기보다, MLFQ나 현대 공정 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 이해하기 위한 <strong>중간 단계의 핵심 개념</strong>으로 보는 편이 정확하다.
+하지만 고정 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 분명한 한계를 가진다. 현대 워크로드는 실행 중 특성이 바뀌고, 사용자는 상호작용성과 장기 공정성을 동시에 기대한다. 그래서 다단계 큐는 오늘날 단독 완성형이라기보다, MLFQ나 현대 공정 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 이해하기 위한 <strong>중간 단계의 핵심 개념</strong>으로 보는 편이 정확하다.
 
-정리하면 다단계 큐 스케줄링은 **"작업 성격별로 줄을 분리해 다른 규칙을 적용하는 정적 계층화 모델"** 로 기억하면 된다. 강한 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 차등화에는 좋지만, 적응성은 제한적이다.
+정리하면 다단계 큐 스케줄링은 **"작업 성격별로 줄을 분리해 다른 규칙을 적용하는 정적 계층화 모델"** 로 기억하면 된다. 강한 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 차등화에는 좋지만, 적응성은 제한적이다.
 
 - **📢 섹션 요약 비유**: 다단계 큐는 학교에서 학년별 교실을 나눠 다른 시간표를 적용하는 제도와 같다. 수업 운영은 쉬워지지만, 학생의 상태가 바뀌어도 반 이동이 어렵다면 한계가 분명해진다.
 
@@ -142,12 +139,12 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) | 다단계 큐가 분할하는 기본 대상이다 |
-| [RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 인터랙티브 큐 내부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 자주 쓰인다 |
-| [FCFS](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served) | 배치 큐 내부 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 자주 쓰인다 |
-| [Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) | 상위 큐 우선 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 강할 때 하위 큐에 생기는 대표 문제다 |
-| [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) | 하위 큐 장기 대기를 완화하는 보정 철학과 연결된다 |
-| [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 다단계 큐의 고정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 한계를 보완한 진화형이다 |
+| [Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/) | 다단계 큐가 분할하는 기본 대상이다 |
+| [RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/) (Round Robin) | 인터랙티브 큐 내부 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 자주 쓰인다 |
+| [FCFS](/studynote/02_operating_system/03_cpu_scheduling/173_fcfs_scheduling/) (First Come First Served) | 배치 큐 내부 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 자주 쓰인다 |
+| [Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/) | 상위 큐 우선 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 강할 때 하위 큐에 생기는 대표 문제다 |
+| [Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/) | 하위 큐 장기 대기를 완화하는 보정 철학과 연결된다 |
+| [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/)) | 다단계 큐의 고정 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 한계를 보완한 진화형이다 |
 | CFS (Completely Fair Scheduler) | 현대 범용 시스템의 대안적 공정성 모델이다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -167,7 +164,7 @@ tags = ["studynote-operating-system"]
         +---------------> MLFQ · Aging · 공정 스케줄링으로 발전
 ```
 
-이 흐름도는 다단계 큐가 단일 큐의 한계를 해결하기 위해 등장했지만, 다시 경직성과 기아 문제를 낳아 더 적응적인 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 발전해 가는 과정을 보여 준다.
+이 흐름도는 다단계 큐가 단일 큐의 한계를 해결하기 위해 등장했지만, 다시 경직성과 기아 문제를 낳아 더 적응적인 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)로 발전해 가는 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -181,7 +178,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 183 / 800
 
-<- **이전**: [182. 노화 (Aging) - 기아 상태 해결책 (우선순위 점진적 상승)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)
-**다음**: [184. 큐 간 스케줄링 (고정 우선순위 vs 시간 할당)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/) ->
+<- **이전**: [182. 노화 (Aging) - 기아 상태 해결책 (우선순위 점진적 상승)](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)
+**다음**: [184. 큐 간 스케줄링 (고정 우선순위 vs 시간 할당)](/studynote/02_operating_system/03_cpu_scheduling/184_scheduling_between_queues/) ->
 
 ---

@@ -1,37 +1,34 @@
-+++
-title = "212. HDFS (Hadoop Distributed File System)"
-date = 2026-04-21
+---
+title: "212. HDFS (Hadoop Distributed File System)"
+date: "2026-04-21"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HDFS는 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 기본 128MB 블록 단위로 쪼개어 수천 대의 [DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) 디스크에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고, NameNode가 "어떤 블록이 어디에 있는지" [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙 관리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.
-> 2. **가치**: 각 블록을 기본 3개 DataNode에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication Factor](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)함으로써, 하드웨어 고장을 소프트웨어 레벨에서 투명하게 처리하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 페타바이트급 스토리지를 실현한다.
-> 3. **판단 포인트**: NameNode는 HDFS의 단일 장애 지점([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이었으나, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 Standby NameNode와 JournalNode를 통한 HA(고가용성) 구성으로 해결됐다. [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리가 HDFS의 실질적 용량 한계를 결정한다.
+> 1. **본질**: HDFS는 거대한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 기본 128MB 블록 단위로 쪼개어 수천 대의 [DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/) 디스크에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 저장하고, NameNode가 "어떤 블록이 어디에 있는지" [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 중앙 관리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템이다.
+> 2. **가치**: 각 블록을 기본 3개 DataNode에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)([Replication Factor](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)=3)함으로써, 하드웨어 고장을 소프트웨어 레벨에서 투명하게 처리하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 손실 없이 페타바이트급 스토리지를 실현한다.
+> 3. **판단 포인트**: NameNode는 HDFS의 단일 장애 지점([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))이었으나, [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 Standby NameNode와 JournalNode를 통한 HA(고가용성) 구성으로 해결됐다. [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리가 HDFS의 실질적 용량 한계를 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-HDFS는 구글의 GFS(Google [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System) 논문(2003)을 기반으로 설계됐다. 전통적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 단일 서버의 디스크 용량에 제한되지만, HDFS는 수천 대 서버의 디스크를 하나의 거대한 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 추상화한다.
+HDFS는 구글의 GFS(Google [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) System) 논문(2003)을 기반으로 설계됐다. 전통적 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템은 단일 서버의 디스크 용량에 제한되지만, HDFS는 수천 대 서버의 디스크를 하나의 거대한 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템으로 추상화한다.
 
-[HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 설계의 핵심 전제: **하드웨어 고장은 정상이다(Hardware Failure is the Norm).** 수천 대 서버로 구성된 클러스터에서는 매일 몇 대가 고장 난다. HDFS는 이를 예외 상황이 아닌 정상 운영의 일부로 처리한다. 각 블록의 3벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 이 전제 하에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호하는 메커니즘이다.
+[HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 설계의 핵심 전제: **하드웨어 고장은 정상이다(Hardware Failure is the Norm).** 수천 대 서버로 구성된 클러스터에서는 매일 몇 대가 고장 난다. HDFS는 이를 예외 상황이 아닌 정상 운영의 일부로 처리한다. 각 블록의 3벌 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)는 이 전제 하에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보호하는 메커니즘이다.
 
-HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러 번 읽기).** 대용량 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 이미지 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 크롤링 결과를 한 번 저장하고 반복적으로 분석하는 패턴에 최적화됐다. 반대로 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다수 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에는 적합하지 않다.
+HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러 번 읽기).** 대용량 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 이미지 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 크롤링 결과를 한 번 저장하고 반복적으로 분석하는 패턴에 최적화됐다. 반대로 작은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 다수 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/), 랜덤 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)에는 적합하지 않다.
 
-📢 **섹션 요약 비유**: HDFS는 대형 도서관의 서가 시스템과 같다. 사서([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))는 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 몇 번 서가([DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 있는지 목록([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/))을 관리하고, 실제 책은 여러 서가에 복사본과 함께 저장된다.
+📢 **섹션 요약 비유**: HDFS는 대형 도서관의 서가 시스템과 같다. 사서([NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/))는 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 몇 번 서가([DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/))에 있는지 목록([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/))을 관리하고, 실제 책은 여러 서가에 복사본과 함께 저장된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 아키텍처
+### [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 아키텍처
 
 ```
   +-------------------------------------------------------------+
@@ -59,17 +56,17 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
   +-------------------------------------------------------------+
 ```
 
-### 블록 분할 및 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
+### 블록 분할 및 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 메커니즘
 
 | 항목 | 값 | 설명 |
 |:---|:---:|:---|
-| 기본 블록 크기 | 128MB | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 기본값 ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x+) |
-| [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 팩터 | 3 | 기본 3개 DataNode에 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
-| [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Rack-awareness | 한 노드, 같은 Rack, 다른 Rack에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| 기본 블록 크기 | 128MB | [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 기본값 ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x+) |
+| [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 팩터 | 3 | 기본 3개 DataNode에 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) |
+| [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 배치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | Rack-awareness | 한 노드, 같은 Rack, 다른 Rack에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
 | 하트비트 주기 | 3초 | DataNode가 NameNode에 상태 보고 |
 | 블록 보고 주기 | 6시간 | DataNode가 보유 블록 목록 보고 |
 
-### Rack-Awareness [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### Rack-Awareness [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 파일 블록 A를 3벌 복제 시:
@@ -83,19 +80,19 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
   - 네트워크 최적화: 같은 랙 복제로 대역폭 절약
 ```
 
-📢 **섹션 요약 비유**: Rack-Awareness는 중요한 문서를 3벌 복사해서, 1부는 내 책상, 1부는 다른 사무실, 1부는 다른 건물에 보관하는 것과 같다. 내 책상이 불타도(노드 고장), 내 건물이 무너져도(랙 고장) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안전하다.
+📢 **섹션 요약 비유**: Rack-Awareness는 중요한 문서를 3벌 복사해서, 1부는 내 책상, 1부는 다른 사무실, 1부는 다른 건물에 보관하는 것과 같다. 내 책상이 불타도(노드 고장), 내 건물이 무너져도(랙 고장) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안전하다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) vs 클라우드 스토리지 (Amazon S3)
+### [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) vs 클라우드 스토리지 (Amazon S3)
 
-| 항목 | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) | Amazon S3 |
+| 항목 | [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) | Amazon S3 |
 |:---|:---|:---|
-| 운영 방식 | 자체 운영 클러스터 | 완전 관리형 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
-| [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) | ✅ (처리 노드에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치) | ❌ (컴퓨팅과 스토리지 분리) |
-| [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 관리 | 수동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 | S3가 자동 관리 ([11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 9's 내구성) |
+| 운영 방식 | 자체 운영 클러스터 | 완전 관리형 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) |
+| [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/) | ✅ (처리 노드에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치) | ❌ (컴퓨팅과 스토리지 분리) |
+| [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 관리 | 수동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 필요 | S3가 자동 관리 ([11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 9's 내구성) |
 | 비용 구조 | 고정 비용 (클러스터 상시 운영) | 사용량 비례 |
 | 확장성 | 수동 노드 추가 | 무한 자동 확장 |
 | 현대 추세 | S3로 대체 중 | 클라우드 빅데이터 표준 |
@@ -104,18 +101,18 @@ HDFS가 최적화된 워크로드: **Write Once, Read Many(한 번 쓰고 여러
 
 | 제약 | 설명 |
 |:---|:---|
-| 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제 | 수백만 개의 작은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 부족 |
-| 랜덤 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 | Append-only 모델, 랜덤 수정 불가 |
-| 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | Batch 처리 최적화, 실시간 처리 부적합 |
-| [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) | HA 구성 필수 ([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 해결) |
+| 작은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 문제 | 수백만 개의 작은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) -> [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 부족 |
+| 랜덤 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 불가 | Append-only 모델, 랜덤 수정 불가 |
+| 낮은 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) | Batch 처리 최적화, 실시간 처리 부적합 |
+| [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) | HA 구성 필수 ([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 2.x에서 해결) |
 
-📢 **섹션 요약 비유**: HDFS와 S3의 차이는 자체 창고 운영과 창고 임대의 차이다. 자체 창고는 빠른 접근과 완전한 제어가 가능하지만 관리가 복잡하고 고정 비용이 크다. 창고 임대는 관리가 없어 편리하지만 이동 시간([네트워크 지연](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/))이 있다.
+📢 **섹션 요약 비유**: HDFS와 S3의 차이는 자체 창고 운영과 창고 임대의 차이다. 자체 창고는 빠른 접근과 완전한 제어가 가능하지만 관리가 복잡하고 고정 비용이 크다. 창고 임대는 관리가 없어 편리하지만 이동 시간([네트워크 지연](/studynote/03_network/20_performance_evaluation_advanced/1002_network_delay_rtt_oneway_delay_components/))이 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> 기본 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>:
+<strong><a href="/studynote/14_data_engineering/01_infrastructure/013_hdfs/">HDFS</a> 기본 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a></strong>:
 ```bash
 # 디렉토리 목록 보기
 hdfs dfs -ls /user/hadoop/
@@ -133,7 +130,7 @@ hdfs fsck /user/hadoop/data/ -files -blocks
 hdfs dfsadmin -report
 ```
 
-<strong><a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/">Small File Problem</a> 해결 방법</strong>:
+<strong><a href="/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/">Small File Problem</a> 해결 방법</strong>:
 ```
 문제: 1MB 파일 1000개 -> NameNode에 1000개 메타데이터 항목
      1GB 파일 1개 -> NameNode에 8개 메타데이터 항목 (128MB 블록 8개)
@@ -145,11 +142,11 @@ hdfs dfsadmin -report
 ```
 
 **기술사 판단 포인트**:
-- NameNode의 JVM 힙 메모리가 HDFS의 실질적 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 한계를 결정한다. 1GB 힙 ≈ 약 100만 개 블록 관리 가능.
-- 클라우드 환경(AWS EMR)에서는 [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 대신 S3를 스토리지로 사용하고, EMR 클러스터는 처리할 때만 실행하는 방식이 비용 최적이다.
-- [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x의 Erasure Coding은 3벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(200% 오버헤드) 대신 EC(50% 오버헤드)로 저장 효율을 크게 개선한다.
+- NameNode의 JVM 힙 메모리가 HDFS의 실질적 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 수 한계를 결정한다. 1GB 힙 ≈ 약 100만 개 블록 관리 가능.
+- 클라우드 환경(AWS EMR)에서는 [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 대신 S3를 스토리지로 사용하고, EMR 클러스터는 처리할 때만 실행하는 방식이 비용 최적이다.
+- [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/) 3.x의 Erasure Coding은 3벌 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)(200% 오버헤드) 대신 EC(50% 오버헤드)로 저장 효율을 크게 개선한다.
 
-📢 **섹션 요약 비유**: [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 한계는 사서([NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 기억할 수 있는 도서 목록의 한계다. 책이 수천만 권이 되면 사서가 모두 기억할 수 없어서 목록 검색이 느려지거나 불가능해진다.
+📢 **섹션 요약 비유**: [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) 메모리 한계는 사서([NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/))가 기억할 수 있는 도서 목록의 한계다. 책이 수천만 권이 되면 사서가 모두 기억할 수 없어서 목록 검색이 느려지거나 불가능해진다.
 
 ---
 
@@ -158,13 +155,13 @@ hdfs dfsadmin -report
 | 기대효과 | 설명 |
 |:---|:---|
 | 페타바이트 확장성 | 노드 추가만으로 선형 용량 확장 |
-| 내결함성 | 3벌 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 노드/랙 고장 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
-| [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) | [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/Spark가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치에서 처리 (네트워크 절약) |
+| 내결함성 | 3벌 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)로 노드/랙 고장 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/) | [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/)/Spark가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치에서 처리 (네트워크 절약) |
 | 비용 효율 | 고가 스토리지 대신 범용 하드디스크 사용 |
 
-HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클라우드 시대에는 S3·GCS·ADLS 같은 객체 스토리지로 점차 대체되고 있지만, HDFS의 설계 철학([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·블록 분할·[데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))은 현대 모든 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지의 기초가 됐다.
+HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클라우드 시대에는 S3·GCS·ADLS 같은 객체 스토리지로 점차 대체되고 있지만, HDFS의 설계 철학([복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·블록 분할·[데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/))은 현대 모든 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지의 기초가 됐다.
 
-📢 **섹션 요약 비유**: HDFS는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지의 어머니다. S3가 더 편리하고 강력하지만, S3의 설계 원칙들은 HDFS에서 배웠다. 부모를 모르면 자식의 철학을 이해하기 어렵다.
+📢 **섹션 요약 비유**: HDFS는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 스토리지의 어머니다. S3가 더 편리하고 강력하지만, S3의 설계 원칙들은 HDFS에서 배웠다. 부모를 모르면 자식의 철학을 이해하기 어렵다.
 
 ---
 
@@ -172,16 +169,16 @@ HDFS는 현대 빅데이터 처리의 토대를 마련한 혁신이었다. 클�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [NameNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/014_namenode/) | HDFS의 [마스터 노드](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/), [메타데이터 관리](/knowledge-base/studynote/16_bigdata/10_governance/203_metadata_management/), HA 구성 필수 |
-| [DataNode](/knowledge-base/studynote/14_data_engineering/01_infrastructure/015_datanode/) | 실제 블록을 저장하는 워커 노드 |
-| Rack-Awareness | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 배치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 랙 단위 장애 내성 |
-| [MapReduce](/knowledge-base/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Spark | [HDFS](/knowledge-base/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에서 실행되는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진 |
+| [NameNode](/studynote/14_data_engineering/01_infrastructure/014_namenode/) | HDFS의 [마스터 노드](/studynote/13_cloud_architecture/02_iaas_paas_saas/075_kubernetes_k8s_cluster_architecture/), [메타데이터 관리](/studynote/16_bigdata/10_governance/203_metadata_management/), HA 구성 필수 |
+| [DataNode](/studynote/14_data_engineering/01_infrastructure/015_datanode/) | 실제 블록을 저장하는 워커 노드 |
+| Rack-Awareness | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 배치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 랙 단위 장애 내성 |
+| [MapReduce](/studynote/14_data_engineering/01_infrastructure/018_mapreduce/) / Spark | [HDFS](/studynote/14_data_engineering/01_infrastructure/013_hdfs/) 위에서 실행되는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리 엔진 |
 | Amazon S3 | 클라우드에서 HDFS를 대체하는 객체 스토리지 |
-| [Small File Problem](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/) | HDFS의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 해결책 필요 |
+| [Small File Problem](/studynote/13_cloud_architecture/05_data_engineering/269_small_file_problem_data_lakehouse/) | HDFS의 핵심 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목, 해결책 필요 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. HDFS는 큰 퍼즐을 여러 조각으로 나누어 여러 상자에 보관하는 것처럼, 큰 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 128MB 블록으로 쪼개어 여러 서버에 저장해.
+1. HDFS는 큰 퍼즐을 여러 조각으로 나누어 여러 상자에 보관하는 것처럼, 큰 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 128MB 블록으로 쪼개어 여러 서버에 저장해.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -202,7 +199,7 @@ HDFS: NameNode (메타데이터) + DataNode (블록 저장)
 
 **진행 상황**: 211 / 371
 
-<- **이전**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/)
-**다음**: [213. 맵리듀스 (MapReduce)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/) ->
+<- **이전**: [211. 하둡 에코시스템 (Hadoop Ecosystem)](/studynote/13_cloud_architecture/04_devops_observability/211_hadoop_ecosystem_mapreduce/)
+**다음**: [213. 맵리듀스 (MapReduce)](/studynote/13_cloud_architecture/04_devops_observability/213_mapreduce_distributed_computation/) ->
 
 ---

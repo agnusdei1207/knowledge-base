@@ -1,9 +1,9 @@
-+++
-title = "02. 소프트웨어 아키텍처 원칙 및 품질 속성"
+---
+title: "02. 소프트웨어 아키텍처 원칙 및 품질 속성"
+tags:
+  - "design_supervision"
+---
 
-[extra]
-tags = ["design_supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

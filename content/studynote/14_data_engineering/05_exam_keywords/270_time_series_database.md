@@ -1,13 +1,10 @@
-+++
-title = "270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)"
-date = 2026-05-09
+---
+title: "270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -131,7 +128,7 @@ InfluxDB와 Prometheus는 **사용자 인터랙션 모델**이 가장 큰 차이
 
 **진행 상황**: 270 / 300
 
-<- **이전**: [269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/269_graph_database/)
-**다음**: [271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/271_feature_store/) ->
+<- **이전**: [269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)](/studynote/14_data_engineering/05_exam_keywords/269_graph_database/)
+**다음**: [271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)](/studynote/14_data_engineering/05_exam_keywords/271_feature_store/) ->
 
 ---

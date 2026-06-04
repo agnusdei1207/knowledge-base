@@ -1,13 +1,10 @@
-+++
-title = "579. 영지식 롤업 zk-Rollup 프로토콜 (Zero Knowledge Rollup zk-Rollup Protocol)"
-date = 2026-05-09
+---
+title: "579. 영지식 롤업 zk-Rollup 프로토콜 (Zero Knowledge Rollup zk-Rollup Protocol)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ ZK Rollup 영지식 롤업 프로토콜은(는) 현장의 상태를 데이터로
 
 **진행 상황**: 579 / 800
 
-<- **이전**: [578. 인터체인 Cosmos Polkadot 블록체인](/knowledge-base/studynote/06_ict_convergence/uncategorized/578_blockchain_interchain_cosmos_polkadot/)
-**다음**: [580. DeSci 탈중앙 과학 연구 공유](/knowledge-base/studynote/06_ict_convergence/uncategorized/580_decentralized_science_desci_research_sharing/) ->
+<- **이전**: [578. 인터체인 Cosmos Polkadot 블록체인](/studynote/06_ict_convergence/uncategorized/578_blockchain_interchain_cosmos_polkadot/)
+**다음**: [580. DeSci 탈중앙 과학 연구 공유](/studynote/06_ict_convergence/uncategorized/580_decentralized_science_desci_research_sharing/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "548. SaaS 전환 전략 구독 경제 모델 (SaaS Transformation Subscription Economy)"
-date = 2026-05-09
+---
+title: "548. SaaS 전환 전략 구독 경제 모델 (SaaS Transformation Subscription Economy)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 548 / 800
 
-<- **이전**: [547. 클라우드 퍼스트 전략 마이그레이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/547_cloud_first_strategy_migration/)
-**다음**: [549. API 퍼스트 설계 개발자 경험](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/549_api_first_design_developer_experience/) ->
+<- **이전**: [547. 클라우드 퍼스트 전략 마이그레이션](/studynote/07_enterprise_systems/06_exam_summary/547_cloud_first_strategy_migration/)
+**다음**: [549. API 퍼스트 설계 개발자 경험](/studynote/07_enterprise_systems/06_exam_summary/549_api_first_design_developer_experience/) ->
 
 ---

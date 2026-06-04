@@ -1,13 +1,10 @@
-+++
-title = "466. 클라우드 데이터 주권 지역 규제 대응 (Cloud Data Sovereignty Regional Regulation)"
-date = 2026-05-09
+---
+title: "466. 클라우드 데이터 주권 지역 규제 대응 (Cloud Data Sovereignty Regional Regulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 466 / 800
 
-<- **이전**: [465. SASE 보안 접근 서비스 엣지 통합](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/465_sase_secure_access_service_edge_integration/)
-**다음**: [467. 클라우드 재해 복구 DR 다중 리전](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/467_cloud_disaster_recovery_dr_multi_region/) ->
+<- **이전**: [465. SASE 보안 접근 서비스 엣지 통합](/studynote/13_cloud_architecture/06_exam_summary/465_sase_secure_access_service_edge_integration/)
+**다음**: [467. 클라우드 재해 복구 DR 다중 리전](/studynote/13_cloud_architecture/06_exam_summary/467_cloud_disaster_recovery_dr_multi_region/) ->
 
 ---

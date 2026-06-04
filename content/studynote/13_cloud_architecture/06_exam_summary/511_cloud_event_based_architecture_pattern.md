@@ -1,13 +1,10 @@
-+++
-title = "511. 클라우드 이벤트 기반 아키텍처 패턴 (Cloud Event Based Architecture Pattern)"
-date = 2026-05-09
+---
+title: "511. 클라우드 이벤트 기반 아키텍처 패턴 (Cloud Event Based Architecture Pattern)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 511 / 800
 
-<- **이전**: [510. 클라우드 리소스 자동화 람다 트리거](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/510_cloud_resource_automation_lambda_trigger/)
-**다음**: [512. 클라우드 메시지 라우팅 토픽 큐 팬아웃](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/512_cloud_message_routing_topic_queue_fan_out/) ->
+<- **이전**: [510. 클라우드 리소스 자동화 람다 트리거](/studynote/13_cloud_architecture/06_exam_summary/510_cloud_resource_automation_lambda_trigger/)
+**다음**: [512. 클라우드 메시지 라우팅 토픽 큐 팬아웃](/studynote/13_cloud_architecture/06_exam_summary/512_cloud_message_routing_topic_queue_fan_out/) ->
 
 ---

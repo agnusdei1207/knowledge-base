@@ -1,13 +1,10 @@
-+++
-title = "664. IT 경영 관리 핵심 토픽 664번 시험 요약 (IT Management Core Topic 664 Exam Summary)"
-date = 2026-05-09
+---
+title: "664. IT 경영 관리 핵심 토픽 664번 시험 요약 (IT Management Core Topic 664 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ COBIT 2019는 단독으로 운영되기보다 다른 거버넌스·관리 프레
 
 **진행 상황**: 664 / 800
 
-<- **이전**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/)
-**다음**: [665. IT 경영 관리 핵심 토픽 665번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/665_it_management_core_topic_665_exam_summary/) ->
+<- **이전**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/)
+**다음**: [665. IT 경영 관리 핵심 토픽 665번 시험 요약](/studynote/12_it_management/05_security_compliance/665_it_management_core_topic_665_exam_summary/) ->
 
 ---

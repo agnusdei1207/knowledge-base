@@ -1,13 +1,10 @@
-+++
-title = "510. IT 자산 관리 CMDB 구성 관리 (IT Asset Management CMDB Configuration)"
-date = 2026-05-09
+---
+title: "510. IT 자산 관리 CMDB 구성 관리 (IT Asset Management CMDB Configuration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ IT 자산관리/CMDB을 올바르게 적용하면 업무 처리 속도, 통제 �
 
 **진행 상황**: 510 / 800
 
-<- **이전**: [509. SLA SLO SLI 서비스 수준 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/509_sla_slo_sli_service_level_management/)
-**다음**: [511. 지식 관리 KMS 조직 학습 혁신](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/511_knowledge_management_kms_organizational_learn/) ->
+<- **이전**: [509. SLA SLO SLI 서비스 수준 관리](/studynote/07_enterprise_systems/06_exam_summary/509_sla_slo_sli_service_level_management/)
+**다음**: [511. 지식 관리 KMS 조직 학습 혁신](/studynote/07_enterprise_systems/06_exam_summary/511_knowledge_management_kms_organizational_learn/) ->
 
 ---

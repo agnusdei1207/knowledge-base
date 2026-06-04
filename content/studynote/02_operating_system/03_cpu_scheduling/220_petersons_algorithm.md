@@ -1,28 +1,25 @@
-+++
-title = "220. 피터슨 알고리즘 (Peterson's Algorithm)"
-date = 2026-05-09
+---
+title: "220. 피터슨 알고리즘 (Peterson's Algorithm)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 진입을 두 개의 공유 변수인 깃발 (`flag`)과 차례 (`turn`)만을 사용하여 소프트웨어적으로만 제어하는 가장 우아한 2-프로세스 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)), [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ([Bounded Waiting](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))의 세 가지 필요조건을 동시에 100% 충족하는 최초의 최소화 증명 가능 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 이후 하드웨어 기반 락의 이론적 토대가 되었다.
-> 3. **융합**: 현대 CPU의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)과 컴파일러 최적화로 인해 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 순서가 재배치될 수 있으므로, [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 하드웨어 원자 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (TAS, [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))가 반드시 병행되어야 한다.
+> 1. **본질**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 진입을 두 개의 공유 변수인 깃발 (`flag`)과 차례 (`turn`)만을 사용하여 소프트웨어적으로만 제어하는 가장 우아한 2-프로세스 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)), [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ([Progress](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)), [한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ([Bounded Waiting](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))의 세 가지 필요조건을 동시에 100% 충족하는 최초의 최소화 증명 가능 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 이후 하드웨어 기반 락의 이론적 토대가 되었다.
+> 3. **융합**: 현대 CPU의 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)과 컴파일러 최적화로 인해 이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 순서가 재배치될 수 있으므로, [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 또는 하드웨어 원자 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) (TAS, [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/))가 반드시 병행되어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 1981년 게리 피터슨 (Gary L. Peterson)이공개발표한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 없이 오직 공유 변수 두 개 (`flag`, `turn`)만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제를 완벽히 해결한다. ($N$개 프로세스로 확장 가능한 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 2프로세스 단순화 버전이다.)
+- **개념**: 1981년 게리 피터슨 (Gary L. Peterson)이공개발표한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 없이 오직 공유 변수 두 개 (`flag`, `turn`)만으로 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제를 완벽히 해결한다. ($N$개 프로세스로 확장 가능한 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 2프로세스 단순화 버전이다.)
 - **필요성**: 하드웨어의 도움 없이 "누가 먼저 들어갈 것인가?"를 결정하는 문제는, 단순히 `if`문과 `while`문으로 짜면 "자기가 확인하는 찰나에 다른 놈이 들어와서 꼬이는 타이밍"이 존재한다. 이 미세한 타이밍을 이론적으로 완벽히 차단하는 최소한의 논리적 구조가 필요했다.
 
-- **등장 배경**: 1965년 데이크스트라의 [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 해결책은 수학적이나 복잡했다. 피터슨은 "기권(yield)이라는 한 줄의 코드"로 이를 압축하여, 1981년 ACM Transactions에서 정식 발표한 뒤로 전 세계OS 학부 수업의 바이블이 되었다.
+- **등장 배경**: 1965년 데이크스트라의 [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) 해결책은 수학적이나 복잡했다. 피터슨은 "기권(yield)이라는 한 줄의 코드"로 이를 압축하여, 1981년 ACM Transactions에서 정식 발표한 뒤로 전 세계OS 학부 수업의 바이블이 되었다.
 
 ```text
   [피터슨 알고리즘의 "你先走(turn)" 양보 메커니즘]
@@ -43,7 +40,7 @@ tags = ["studynote-operating-system"]
                둘 다 동시에 진입하는 것을 구조적으로 원천 차단!
 ```
 
-**[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 `turn`이라는 양보 변수에 있다. 둘 다 먼저겠다면서 깃발을 세울 때, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 항상 양보자가 된다. 둘 다 동시에 `turn`을 덮어쓸 때, 마지막 쓰기가 이기는 것이 아니라 turn의 최종값이 "누가 양보했는지"를 결정하는 핵심 비트다. 이 두 단계의 협상과정이야말로 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 없이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 통과하는 SOFTWAREONLY의 최종 해법이다.
+**[다이어그램 해설]** 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심은 `turn`이라는 양보 변수에 있다. 둘 다 먼저겠다면서 깃발을 세울 때, 마지막에 `turn = 상대방`으로 덮어쓴 프로세스가 항상 양보자가 된다. 둘 다 동시에 `turn`을 덮어쓸 때, 마지막 쓰기가 이기는 것이 아니라 turn의 최종값이 "누가 양보했는지"를 결정하는 핵심 비트다. 이 두 단계의 협상과정이야말로 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) 없이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 통과하는 SOFTWAREONLY의 최종 해법이다.
 
 - **📢 섹션 요약 비유**: 서로 먼저 들어가겠다고 난투하는 세관에서, 마지막에 "네가 먼저どうぞ(turn)"라고 말한 사람이 양보하는 형평성 규칙입니다. 동시에 "どうぞ"를 외치더라도 상대방의 "니선주"에 이끌려 안전하게 순서가 결정됩니다.
 
@@ -51,9 +48,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 C 코드와 3가지 조건 증명
+### [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 C 코드와 3가지 조건 증명
 
-피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 2개의 공유 변수(`flag[2]`, `turn`)만으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 진입을 통제한다.
+피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 2개의 공유 변수(`flag[2]`, `turn`)만으로 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 진입을 통제한다.
 
 ```c
 // 공유 변수 (Shared Variables)
@@ -81,21 +78,21 @@ void leave_critical_section(int i) {
 }
 ```
 
-#### [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 100% 증명 (Proof of [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
-1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 두 프로세스가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 동시에 진입하려면, `while` 루프를 동시에 빠져나와야 한다.
+#### [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 100% 증명 (Proof of [Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
+1. <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 상태</strong>: 두 프로세스가 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 동시에 진입하려면, `while` 루프를 동시에 빠져나와야 한다.
 2. `while` 루프를 빠져나오려면 `flag[j] == false` (상대가 나갔음) 또는 `turn != j` (양보자가 내가 아니게 됨)이어야 한다.
 3. `flag[0]`과 `flag[1]`이 동시에 `true`일 때, `turn`의 값은 마지막으로 덮어쓴 프로세스만 결정한다.
-4. 따라서 두 프로세스가 동시에 `while`을 빠져나올 수 없으며, 오직 하나만 진입한다. ([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 만족)
+4. 따라서 두 프로세스가 동시에 `while`을 빠져나올 수 없으며, 오직 하나만 진입한다. ([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 만족)
 
-#### [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ([Progress](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 증명
-1. P1이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 나가고자 `flag[1] = false`를 실행하면,
+#### [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) ([Progress](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)) 증명
+1. P1이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 나가고자 `flag[1] = false`를 실행하면,
 2. P0의 `while(flag[1] && turn == 1)` 조건에서 `flag[1] == false`이 되어 `while(false && ...)`이 되어 즉시 탈출한다.
-3. 따라서 빈 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가려는 프로세스는 즉시 진입할 수 있다. ([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 만족)
+3. 따라서 빈 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가려는 프로세스는 즉시 진입할 수 있다. ([진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 만족)
 
-#### [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ([Bounded Waiting](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)) 증명
-1. P0가 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 진입한 뒤 P1이 진입을 시도하면, P1은 `flag[1] = true; turn = 0`로 설정하고 대기한다.
+#### [한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ([Bounded Waiting](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)) 증명
+1. P0가 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 진입한 뒤 P1이 진입을 시도하면, P1은 `flag[1] = true; turn = 0`로 설정하고 대기한다.
 2. P0가 퇴장하며 `flag[0] = false`를 실행하면, P1은 대기 중이던 `while`을 빠져나와 진입한다.
-3. P1 진입 후 P0가 다시 시도하면, P1의 `flag[1] = true` 때문에 P0은 대기해야 한다. 이는 P0의 대기 횟수가 1회로 제한됨을 의미한다. ([한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 만족)
+3. P1 진입 후 P0가 다시 시도하면, P1의 `flag[1] = true` 때문에 P0은 대기해야 한다. 이는 P0의 대기 횟수가 1회로 제한됨을 의미한다. ([한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) 만족)
 
 ```text
   +---------------------------------------------------------------------+
@@ -112,7 +109,7 @@ void leave_critical_section(int i) {
   +---------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** P0이 먼저 깃발을 세우고 turn=1로 양보하면, P1이 뒤에 와서 turn=0으로 덮어쓴다. 이때 P1의 while 조건은 `flag[0]=T && turn=0`이 되어 `T`가 되어 P1이 대기하고, P0이 먼저 진입한다. P0이 퇴장하면 P1이 진입하는 완벽한 교대 시퀀스가 형성된다. 이 교대(Alternation)가 바로 [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)의 핵심 증거다.
+**[다이어그램 해설]** P0이 먼저 깃발을 세우고 turn=1로 양보하면, P1이 뒤에 와서 turn=0으로 덮어쓴다. 이때 P1의 while 조건은 `flag[0]=T && turn=0`이 되어 `T`가 되어 P1이 대기하고, P0이 먼저 진입한다. P0이 퇴장하면 P1이 진입하는 완벽한 교대 시퀀스가 형성된다. 이 교대(Alternation)가 바로 [한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)의 핵심 증거다.
 
 - **📢 섹션 요약 비유**: 교차로에서 두 차가 동시에 진입하려 할 때, 마지막에 "니선주(네가 먼저)"를 외친 차가 멈추고 양보하는 형평성 게임입니다. 동시에 외치더라도 서로의 목소리를 듣는 순간 양보가 성립하여 충돌이 발생하지 않습니다.
 
@@ -120,20 +117,20 @@ void leave_critical_section(int i) {
 
 ## Ⅲ. 비교 및 연결
 
-### 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs 하드웨어 TAS (Test-And-Set)
+### 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) vs 하드웨어 TAS (Test-And-Set)
 
-현대 멀티코어 환경에서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 운명은 완전히 달라졌다.
+현대 멀티코어 환경에서 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 운명은 완전히 달라졌다.
 
-| 비교 항목 | 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (소프트웨어) | Test-And-Set (하드웨어) |
+| 비교 항목 | 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (소프트웨어) | Test-And-Set (하드웨어) |
 |:---|:---|:---|
 | **자원** | 변수 2개(`flag`, `turn`)만 사용 | CPU 1개 원자적Latch 명령 |
-| **확장성** | 2개 프로세스만 가능 (N 확장 시 데커 등 무거움) | [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개도 while 1줄로 통제 가능 |
-| **현대 CPU 적용** | ❌ 실패 (Out-of-Order에 순서 뒤틀림) | ✅ 성공 ([버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 락으로 물리적 차단) |
-| **CPU 낭비** | 대기 중 [Busy Wait](/knowledge-base/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/) (무한 루프) | 대기 중 Sleep 또는 Spin |
+| **확장성** | 2개 프로세스만 가능 (N 확장 시 데커 등 무거움) | [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 1만 개도 while 1줄로 통제 가능 |
+| **현대 CPU 적용** | ❌ 실패 (Out-of-Order에 순서 뒤틀림) | ✅ 성공 ([버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 락으로 물리적 차단) |
+| **CPU 낭비** | 대기 중 [Busy Wait](/studynote/02_operating_system/11_exam_summary/700_spinlock_busy_waiting/) (무한 루프) | 대기 중 Sleep 또는 Spin |
 
 ### Out-of-Order Execution의 살인적 위협
 
-현대 CPU의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)은 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 논리적 증명을 무너뜨린다.
+현대 CPU의 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)은 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 논리적 증명을 무너뜨린다.
 
 1. **문제**: 컴파일러 또는 CPU가 코드의 실행 순서를 최적화한다.
 2. **시나리오**: P0이 `flag[0]=true`보다 `turn=1`을 먼저 실행하도록 재배치하면?
@@ -160,7 +157,7 @@ void leave_critical_section(int i) {
   +---------------------------------------------------------------------+
 ```
 
-### [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 의한 구원
+### [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/) ([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 의한 구원
 
 이 문제를 해결하려면 컴파일러에게 "이 두 줄은 순서를 바꾸지 마라!"고 명령해야 한다.
 
@@ -175,15 +172,15 @@ void enter_critical_section(int i) {
 }
 ```
 
-- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 종이 위의 도덕 규범이고, Out-of-Order CPU는 순서를 마음대로 바꾸는 성격 급한 사람입니다. [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)는 "네가 먼저 말한 것부터 해라, 순서 바꾸지 마라!"고 강제하는 엄격한 선생님의 지시입니다.
+- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 종이 위의 도덕 규범이고, Out-of-Order CPU는 순서를 마음대로 바꾸는 성격 급한 사람입니다. [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)는 "네가 먼저 말한 것부터 해라, 순서 바꾸지 마라!"고 강제하는 엄격한 선생님의 지시입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **임베디드/RTOS 환경에서의 활용**: 하드웨어 TAS 명령이 없거나 비싸게 매기는 소형 임베디드 시스템에서는, [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)를 추가한 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 여전히 유효하다. 특히 단일 코어에서 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 활용된다.
-2. **교육적 가치**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제의 세 가지 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))을 어떻게 하면 최소화한 변수로 충족할 수 있는지를 보여주는 가장우아한 교과서 예제다. 실무에서 직접 쓰는 것은 드물지만, [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어의 기본기로서 필수다.
+1. **임베디드/RTOS 환경에서의 활용**: 하드웨어 TAS 명령이 없거나 비싸게 매기는 소형 임베디드 시스템에서는, [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)를 추가한 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 여전히 유효하다. 특히 단일 코어에서 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 기반 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)에 활용된다.
+2. **교육적 가치**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제의 세 가지 조건([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/), [한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/))을 어떻게 하면 최소화한 변수로 충족할 수 있는지를 보여주는 가장우아한 교과서 예제다. 실무에서 직접 쓰는 것은 드물지만, [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어의 기본기로서 필수다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -209,21 +206,21 @@ void enter_critical_section(int i) {
   +---------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어가 약하거나 특수한 환경(교육, 임베디드, 단일 코어)에서만 빛을 발한다. 최신 멀티코어 서버 환경에서는 std::mutex나 std::atomic이 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 안전하고고성능이다. 실무 엔지니어는 "언제 하드웨어 도움 없이 소프트웨어만으로동보를 해야 하는가?"를 구분할 줄 알아야 한다.
+**[다이어그램 해설]** 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어가 약하거나 특수한 환경(교육, 임베디드, 단일 코어)에서만 빛을 발한다. 최신 멀티코어 서버 환경에서는 std::mutex나 std::atomic이 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 안전하고고성능이다. 실무 엔지니어는 "언제 하드웨어 도움 없이 소프트웨어만으로동보를 해야 하는가?"를 구분할 줄 알아야 한다.
 
-- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 기본기가 탄탄한 유학 파이팅입니다. 시험 준비(교육)나 도구(TAS)가 부족한 환경(임베디드)에서는 최고입니다. 하지만 대규모 회사(멀티코어 서버)에서는 관리 시스템(std::[mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))이 구조적으로 더 안전합니다.
+- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 기본기가 탄탄한 유학 파이팅입니다. 시험 준비(교육)나 도구(TAS)가 부족한 환경(임베디드)에서는 최고입니다. 하지만 대규모 회사(멀티코어 서버)에서는 관리 시스템(std::[mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))이 구조적으로 더 안전합니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 도움 없이도 공유 자원의 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)을 완전히 제거할 수 있음을 수학적으로정명했다. 이최소화의 정신은 이후 [lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조와 비교-교환([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이론적 토대가 되었으며, [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제 해결의 모든 가능성을 탐구한력사적리정비다.
+피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 도움 없이도 공유 자원의 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)을 완전히 제거할 수 있음을 수학적으로정명했다. 이최소화의 정신은 이후 [lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) 자료구조와 비교-교환([CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 이론적 토대가 되었으며, [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제 해결의 모든 가능성을 탐구한력사적리정비다.
 
 ### 결론 및 미래 전망
-피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1981년 당시에는혁명적이었으나, 현대 CPU의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)과 다중 코어 환경에서는 하드웨어 도움 없이는 안전하게 동작하지 않는다. 그러나 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 제출한 "[flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) + turn"이라는 2변수 제어 메커니즘의 아이디어는, 이후Compare-And-Swap ([CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) 같은 하드웨어 원자 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 설계 철학으로 직결된다. 궁극적으로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제는 하드웨어와 소프트웨어가 협력할 때 가장 아름답게 해결되며, 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 협력의 출발점이었다.
+피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1981년 당시에는혁명적이었으나, 현대 CPU의 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)과 다중 코어 환경에서는 하드웨어 도움 없이는 안전하게 동작하지 않는다. 그러나 이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 제출한 "[flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/) + turn"이라는 2변수 제어 메커니즘의 아이디어는, 이후Compare-And-Swap ([CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/)) 같은 하드웨어 원자 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 설계 철학으로 직결된다. 궁극적으로 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제는 하드웨어와 소프트웨어가 협력할 때 가장 아름답게 해결되며, 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 그 협력의 출발점이었다.
 
-- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자전차 발명 시절의 두 발로 발을 굴러전진하는 방식입니다. 간단하고우아하지만, 현대의 고속 도로(멀티코어)에서는 자동차(하드웨어 락)가 필수적입니다. 하지만 자전차의 기본 원리는 현대 자동차 변속기의 핵심 설계 철학으로 살아 있습니다.
+- **📢 섹션 요약 비유**: 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 자전차 발명 시절의 두 발로 발을 굴러전진하는 방식입니다. 간단하고우아하지만, 현대의 고속 도로(멀티코어)에서는 자동차(하드웨어 락)가 필수적입니다. 하지만 자전차의 기본 원리는 현대 자동차 변속기의 핵심 설계 철학으로 살아 있습니다.
 
 ---
 
@@ -231,10 +228,10 @@ void enter_critical_section(int i) {
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 실시간 리눅스 ([PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 실시간 리눅스 ([PREEMPT_RT](/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -252,9 +249,9 @@ void enter_critical_section(int i) {
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
-2. 먼저 실시간 리눅스 ([PREEMPT_RT](/knowledge-base/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치)을 이해하면 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 잘 알면 나중에 [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))도 훨씬 쉽게 배울 수 있어요.
+1. 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
+2. 먼저 실시간 리눅스 ([PREEMPT_RT](/studynote/02_operating_system/10_security/654_preempt_rt_linux_spinlock_mutex/) 패치)을 이해하면 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 잘 알면 나중에 [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -262,7 +259,7 @@ void enter_critical_section(int i) {
 
 **진행 상황**: 220 / 800
 
-<- **이전**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/)
-**다음**: [221. 하드웨어적 동기화 (TAS, CAS)](/knowledge-base/studynote/02_operating_system/04_synchronization/221_hardware_synchronization_tas_cas/) ->
+<- **이전**: [219. 데커의 알고리즘 (Dekker's Algorithm)](/studynote/02_operating_system/03_cpu_scheduling/219_dekkers_algorithm/)
+**다음**: [221. 하드웨어적 동기화 (TAS, CAS)](/studynote/02_operating_system/04_synchronization/221_hardware_synchronization_tas_cas/) ->
 
 ---

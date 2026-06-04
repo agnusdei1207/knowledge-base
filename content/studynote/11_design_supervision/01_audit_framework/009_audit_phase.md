@@ -1,33 +1,30 @@
-+++
-title = "9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구사항 정의, 설계, 종료/구현)"
-description = "요구정의, 설계, 종료의 3단계로 구성된 정보시스템 감리 단계의 체계와 실무 적용"
-date = 2026-04-05
+---
+title: "9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구사항 정의, 설계, 종료/구현)"
+date: "2026-04-05"
+description: "요구정의, 설계, 종료의 3단계로 구성된 정보시스템 감리 단계의 체계와 실무 적용"
+tags:
+  - "design_supervision"
+---
 
-[taxonomies]
-tags = ["design_supervision"]
-
-[extra]
-tags = ["design_supervision"]
-+++
 
 # 09. 감리 단계
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 감리 단계([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Phase)는 정보시스템의생명주력정(Requirements Definition -> Design -> Implementation)에 대응하여 배치된 요구사항 정의 감리, 설계 감리, 종료 감리의 3단계를 의미한다.
+> 1. **본질**: 감리 단계([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Phase)는 정보시스템의생명주력정(Requirements Definition -> Design -> Implementation)에 대응하여 배치된 요구사항 정의 감리, 설계 감리, 종료 감리의 3단계를 의미한다.
 > 2. **가치**: 각 단계에서 발견된 문제는 다음 단계로 전파되어 증폭되는 특성이 있으므로,초기 단계에서의발현문제 및 조치야 말로 프로젝트 성공을 위한 가장 비용 효과적인 전략이다.
 > 3. **융합**: 각 감리 단계는 서로 다른검사항목과 방법론을 요구하며, 전단계 감리 결과를 다음단계 감리의.inputs으로 활용하는 연속적 피드백 구조를 형성한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보시스템 감리](/knowledge-base/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 단계는 정보시스템이 만들어지는 물리적 과정에 대응하여 배치된 시간적프레임워크이다. 정보시스템은まず요구을 정의하고(Requirements), 다음い에서それ을/를실장하기 위한 설계(Design)를 수행하며, 마지막으로 실제 구현(Implementation)을 통해 완성된다. 감리 단계는 이 세 가지 시점에 각각Corresponding하게 배치되어, 각 시점에서 적절한 점검을 수행하도록 설계되었다.
+[정보시스템 감리](/studynote/12_it_management/05_security_compliance/187_information_system_audit/) 단계는 정보시스템이 만들어지는 물리적 과정에 대응하여 배치된 시간적프레임워크이다. 정보시스템은まず요구을 정의하고(Requirements), 다음い에서それ을/를실장하기 위한 설계(Design)를 수행하며, 마지막으로 실제 구현(Implementation)을 통해 완성된다. 감리 단계는 이 세 가지 시점에 각각Corresponding하게 배치되어, 각 시점에서 적절한 점검을 수행하도록 설계되었다.
 
 이 세 단계가 중요한 이유는 각 단계에서 발생하는 문제가 subsequent 단계로 전파되어 증폭된다는 점이다. 예컨대, 요구사항 정의 단계에서 요구사항 중복이나 누락이 발생하면, 설계 단계에서는 중복된 요구을 중복수 설계하게 되고, 구현 단계에서는 그 설계 그대로 구현되어 재작업과 일정 지연이 발생한다. 이러한 연쇄적 영향를 방지하기 위해서는 각 단계에서 체계적으로 문제를 발견하고 조치하는 선제적 대응이 필수적이다.
 
-또한 감리 단계를 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하는もう일つ의 중요한 이유는 책임 소재의명확화이다. 요구사항 정의 단계 감리에서 지적된사항은 요구사항 정의 담당자의책임이고, 설계 단계 감리에서 발견된 문제는 설계 담당자의책임이다. 만약 단계별 감리가 없었다면, 프로젝트가 완성된 후다종다양적 문제의책임소재를 찾기 어려울 것이다.
+또한 감리 단계를 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하는もう일つ의 중요한 이유는 책임 소재의명확화이다. 요구사항 정의 단계 감리에서 지적된사항은 요구사항 정의 담당자의책임이고, 설계 단계 감리에서 발견된 문제는 설계 담당자의책임이다. 만약 단계별 감리가 없었다면, 프로젝트가 완성된 후다종다양적 문제의책임소재를 찾기 어려울 것이다.
 
-다음 다이어그램은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 구조와 각 단계의 주요 업무 내용을 보여준다.
+다음 다이어그램은 [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/)의 구조와 각 단계의 주요 업무 내용을 보여준다.
 
 ```text
 +---------------------------------------------------------+
@@ -54,21 +51,21 @@ tags = ["design_supervision"]
 
 이 도식의 핵심은 각 단계 감리가 독립적으로 존재하는 것이 아니라, 전단계 감리의 결과가 다음단계에 Feed-Forward(전진 전달)되고, 다음단계에서 발견된 문제가 전단계로 Feedback(피드백)되는 연속적 피드백 구조를형성한다는 점이다. 이 구조를 통해 문제의 조기 발견과 재발 방지가 가능해진다.
 
-📢 **섹션 요약 비유**: [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 <strong>'건물 건축의 3단계 검사'</strong>와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(요구사항 정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 완성 후 문제발생을 방지합니다.
+📢 **섹션 요약 비유**: [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) 체제는 <strong>'건물 건축의 3단계 검사'</strong>와 같습니다. 기초 때cement 강도와 철근 배치를 확인하고(요구사항 정의 감리), 벽체와 골조 시공 시 공법과 자재를 확인하며(설계 감리), 준공 시 전체 안전성과 기능을 점검하는(종료 감리) 것처럼, 각 단계에서 해당 시점의 적절한 검증을 실시하여 완성 후 문제발생을 방지합니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)각자적 주요 업무내용, 검사 항목, 그리고 주의점을 표로 정리하면 다음과 같다.
+[3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/)각자적 주요 업무내용, 검사 항목, 그리고 주의점을 표로 정리하면 다음과 같다.
 
 **[3단계 감리별 주요 업무 및 검사 항목]**
 
 | 단계 | 시기 | 주요 업무 | 핵심 검사 항목 | 지적 유형 |
 |:---|:---|:---|:---|:---|
-| **요구사항 정의 감리** | 사업 추진 기본방향 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 | 요구사항 분석 적절성, 과업대비표 충실성, 사업 범위 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 적절성 | 요구사항 누락/중복, 과업대비표 미흡, 법령 요건 충족 여부 | Major (방향성 문제) |
-| **설계 감리** | 상세 설계 완료 후 | 아키텍처 적절성, 산출물 완결성, 테스트 계획 적절성 | 아키텍처 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 화면/DB 설계 미흡, [시큐어 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 미준수 | Major ~ Minor |
-| **종료 감리** | 사업 완료 직전 | 최종 산출물 적합성, 시스템 통합/인수, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행/[복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 구현 미흡, 테스트 부실, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 미달, 보안 취약 | 상황 따라 다양 |
+| **요구사항 정의 감리** | 사업 추진 기본방향 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 시 | 요구사항 분석 적절성, 과업대비표 충실성, 사업 범위 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 적절성 | 요구사항 누락/중복, 과업대비표 미흡, 법령 요건 충족 여부 | Major (방향성 문제) |
+| **설계 감리** | 상세 설계 완료 후 | 아키텍처 적절성, 산출물 완결성, 테스트 계획 적절성 | 아키텍처 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/), 화면/DB 설계 미흡, [시큐어 코딩](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) 미준수 | Major ~ Minor |
+| **종료 감리** | 사업 완료 직전 | 최종 산출물 적합성, 시스템 통합/인수, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이행/[복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 구현 미흡, 테스트 부실, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 미달, 보안 취약 | 상황 따라 다양 |
 
 감리 단계별 발현문제가 subsequent 단계에 미치는 영향도를 분석한 도식이다.
 
@@ -103,7 +100,7 @@ tags = ["design_supervision"]
    [수정 비용: 1x (가장 低)]
 ```
 
-이 분석의 핵심은 상류 단계에서 발견된 문제일수록 영향 범위가광범위이고 수정 비용이 큼다는 점이다. 요구사항 정의 단계의 작은 누락이 종료 단계에서는 엄청난 수정 비용으로 이어질 수 있으므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 감리의중요성이극め고고い.
+이 분석의 핵심은 상류 단계에서 발견된 문제일수록 영향 범위가광범위이고 수정 비용이 큼다는 점이다. 요구사항 정의 단계의 작은 누락이 종료 단계에서는 엄청난 수정 비용으로 이어질 수 있으므로, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 단계 감리의중요성이극め고고い.
 
 📢 **섹션 요약 비유**: 단계별 문제의 증폭 효과는 <strong>'종이접기 실수'</strong>와 같습니다. 첫 번째 접을 잘못 접으면 그 오차가 열 번 접었을 때 엄청나게커지고,최후에는성품이 완전히 망가집니다. 가장 작은 실수를 earliest 단계에서 잡아내는 것이 핵심입니다.
 
@@ -111,15 +108,15 @@ tags = ["design_supervision"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계와 다른 형태의 감리([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리, 상주 감리 등)와의 관계를 분석해보자.
+[3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계와 다른 형태의 감리([애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리, 상주 감리 등)와의 관계를 분석해보자.
 
-<strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">3단계 감리 vs [애자일</a>/상주 감리 비교]</strong>
+<strong><a href="/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">3단계 감리 vs [애자일</a>/상주 감리 비교]</strong>
 
-| 구분 | [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) (전통적) | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리 ([애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | 상주 감리 |
+| 구분 | [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) (전통적) | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리 ([애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) | 상주 감리 |
 |:---|:---|:---|:---|
-| **적용 대상** | 폭포수(Waterfall) 모델 | [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 모델 | 대규모/복잡 사업 |
-| **감리 시점** | 요구사항 정의/설계/종료 3회 | 각 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시 (수십 회) | 전기간 상시 |
-| **검사 깊이** | 각 단계 심층 점검 | [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과물 즉석 점검 | 점진적 깊이 있는 점검 |
+| **적용 대상** | 폭포수(Waterfall) 모델 | [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 모델 | 대규모/복잡 사업 |
+| **감리 시점** | 요구사항 정의/설계/종료 3회 | 각 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 종료 시 (수십 회) | 전기간 상시 |
+| **검사 깊이** | 각 단계 심층 점검 | [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 결과물 즉석 점검 | 점진적 깊이 있는 점검 |
 | **장점** | 체계적, 단계별문제 집중 발견 | 빠른 피드백, 변화 대응 용이 | 문제 조기 발견, 즉시 해결 |
 | **단점** | 피드백 느림, 변경 대응 어려움 | 체계성 부족, 종합적 평가 어려움 | 비용 고, 감리 인력 소진 |
 
@@ -141,21 +138,21 @@ tags = ["design_supervision"]
        +---------+-- 피드백 채널 ---+----------+
 ```
 
-이 Hybrid 모델의 핵심은 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의 체계성과 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리의민첩성을 모두 확보하는 것이다. 대규모 요구사항 정의와 설계에는 충분한 시간과 인력을 투입하여 심층 감리를 실시하고, 구현 단계에서는 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위로 잦은 감리를 통해 문제을 즉시 발견하고 조치한다.
+이 Hybrid 모델의 핵심은 [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/)의 체계성과 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리의민첩성을 모두 확보하는 것이다. 대규모 요구사항 정의와 설계에는 충분한 시간과 인력을 투입하여 심층 감리를 실시하고, 구현 단계에서는 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 단위로 잦은 감리를 통해 문제을 즉시 발견하고 조치한다.
 
-📢 **섹션 요약 비유**: Hybrid 감리 모델은 <strong>'자동차 제조의 품질 관리'</strong>와 같습니다. 엔진 개발 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다신속하게검사하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 완성 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 각 단계에 적절한 검증을 적용합니다.
+📢 **섹션 요약 비유**: Hybrid 감리 모델은 <strong>'자동차 제조의 품질 관리'</strong>와 같습니다. 엔진 개발 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)에는 설계도를 철저히 검토하고(3단계), 양산 라인에서는 매 차체마다신속하게검사하고([스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), 완성 차는 완전 검사장에서 종합 점검하는(종료 감리) 것처럼, 각 단계에 적절한 검증을 적용합니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실제 감리 현장에서 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)를 적용할 때의 판단 사례를 살펴보자.
+실제 감리 현장에서 [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/)를 적용할 때의 판단 사례를 살펴보자.
 
 **1. 단계 건너뛰기 판단: "일정이 빠듯해서 요구사항 정의 감리를 건너뛰어도 될까요?"**
 *   **상황**: 사업자가 "이미 충분한 사전조연를 거쳤고, 요구사항이 명확하다"고 주장하며 요구사항 정의 감리를 생략하자고 한다.
-*   **기술사적 판단**: 요구사항 정의 감리의 생략은 바람직하지 않다. 요구사항 정의 감리에서 발견되는 문제(요구사항 누락, 중복, 모호함 등)는 이후 모든 단계에 전파되어 프로젝트 전체의실패 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 높인다. 특히 계약 체결 전인 요구사항 정의 단계에서 문제를 발견하면 사업자에게수정을 요구할 수 있지만,일단 계약이 체결된 후에는 변경 비용이 발생한다. 인차, 요구사항 정의 감리는 프로젝트가 본격화되기 전에 필수적으로 수행되어야 하며, 이를 생략하면 프로젝트overall의 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 크게 증가한다.
+*   **기술사적 판단**: 요구사항 정의 감리의 생략은 바람직하지 않다. 요구사항 정의 감리에서 발견되는 문제(요구사항 누락, 중복, 모호함 등)는 이후 모든 단계에 전파되어 프로젝트 전체의실패 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 높인다. 특히 계약 체결 전인 요구사항 정의 단계에서 문제를 발견하면 사업자에게수정을 요구할 수 있지만,일단 계약이 체결된 후에는 변경 비용이 발생한다. 인차, 요구사항 정의 감리는 프로젝트가 본격화되기 전에 필수적으로 수행되어야 하며, 이를 생략하면 프로젝트overall의 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 크게 증가한다.
 
-<strong>2. 단계별 지적등급 판단: "같은 종류의 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>이 여러 단계에서 반복됩니다"</strong>
+<strong>2. 단계별 지적등급 판단: "같은 종류의 <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a>이 여러 단계에서 반복됩니다"</strong>
 *   **상황**: 요구사항 정의 단계에서 "요구사항 추적 미흡"을 지적받았는데, 설계 감리에서도 같은 항목을 다시 지적받았다.
 *   **기술사적 판단**: 이것은 전단계 감리 지적 사항이 제대로 조치되지 않았음을시す. 감리인은 2단계 감리에서 전단계 지적 사항의 조치 여부를 반드시 확인해야 한다. 여과 전단계 지적이 제대로 조치되지 않았다면, 그것 자체가 Major 지적 대상이 된다. 또한 동일한 문제가 여러 단계에서 반복되는 것은 해당 사업자의 프로세스 자체에 체계적문제가 있을 가능성이 높으므로, 제도적 개선을 권고해야 한다.
 
@@ -183,26 +180,26 @@ tags = ["design_supervision"]
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계의 효과적 활용을 통해 기대할 수 있는 효과는 다음과 같다.
+[3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계의 효과적 활용을 통해 기대할 수 있는 효과는 다음과 같다.
 
 | 기대 효과 | 세부 내용 | 측정 지표 |
 |:---|:---|:---|
 | **단계별문제 조기 발견** |상류 단계에서 문제를 발견하여 증폭방지 | 요구사항 정의 단계 발견솔 30% 이상 |
-| <strong>프로젝트 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 감소</strong> | 단계별 감리로 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 누적되기 전에 조치 | 프로젝트 실패율 20% 이상 감소 |
+| <strong>프로젝트 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 감소</strong> | 단계별 감리로 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 누적되기 전에 조치 | 프로젝트 실패율 20% 이상 감소 |
 | **책임 소재 명확화** | 단계별 감리로 문제 책임시기/담당자 명확 | 분쟁 건수 40% 이상 감소 |
 | **프로젝트 성숙도 향상** | 단계별 피드백으로 사업자 프로세스 개선 | 사업자 자체 품질 관리 수준 향상 |
 
 **미래 전망:**
-미래에는 [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계가 더욱 유연하게 진화할 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 확산에 따라 3단계(요구사항 정의/설계/종료)의 구절り이 희석되고, [Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)에 기반한지속적 감리(Continuous [Auditing](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))로의 전환이가속되고 있다. 그러나 여전히 요구사항 정의와 설계의 기본프레임워크는 유지되므로, [3단계 감리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/322_audit/)의핵심정신(단계별 평가, 피드백순배)은재미래에도유지될 것으로 예상된다.
+미래에는 [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/) 체계가 더욱 유연하게 진화할 전망이다. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 방법론의 확산에 따라 3단계(요구사항 정의/설계/종료)의 구절り이 희석되고, [Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)/[Continuous Deployment](/studynote/13_cloud_architecture/04_devops_observability/165_continuous_deployment/) ([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD)에 기반한지속적 감리(Continuous [Auditing](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/))로의 전환이가속되고 있다. 그러나 여전히 요구사항 정의와 설계의 기본프레임워크는 유지되므로, [3단계 감리](/studynote/11_design_supervision/06_exam_summary/322_audit/)의핵심정신(단계별 평가, 피드백순배)은재미래에도유지될 것으로 예상된다.
 
-📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 <strong>'음식 조리법의 변화'</strong>와 같습니다. 예전에는 recipe대로 재료를 준비하고(요구사항 정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리과정에서수시 재료를추가하고([스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 기본정신은 유지하되 방법이고도화될 것입니다.
+📢 **섹션 요약 비유**: 미래의 감리 단계 진화는 <strong>'음식 조리법의 변화'</strong>와 같습니다. 예전에는 recipe대로 재료를 준비하고(요구사항 정의), 소스을 만들고(설계), finally 요리를 완성하는(종료) 3단계로 명확했으나, 이제는 조리과정에서수시 재료를추가하고([스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 감리), Oven의sensor가 자동으로 완성도를 판단하는([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 감리) 것처럼, 기본정신은 유지하되 방법이고도화될 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-*   요구사항 정의 감리 (Requirements Definition [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 사업의 기본방향과 요구사항의 적절성을 점검하는 초기 감리
-*   설계 감리 (Design [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 아키텍처 및 상세 설계의 적절성을 점검하는 중간 감리
-*   종료 감리 (Final [Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)) | 최종 산출물과 시스템 전체의 적합성을 점검하는 완성 후 감리
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+*   요구사항 정의 감리 (Requirements Definition [Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) | 사업의 기본방향과 요구사항의 적절성을 점검하는 초기 감리
+*   설계 감리 (Design [Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) | 아키텍처 및 상세 설계의 적절성을 점검하는 중간 감리
+*   종료 감리 (Final [Audit](/studynote/12_it_management/05_security_compliance/363_audit/)) | 최종 산출물과 시스템 전체의 적합성을 점검하는 완성 후 감리
 *   Feed-Forward | 전단계 감리 결과를 다음단계에 전달하여문제사전방지하는 방식
 *   Feedback | 다음단계에서 발견된 문제를 전단계에 반영하여プロセス개선에계げる 방식
 
@@ -237,7 +234,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 9 / 530
 
-<- **이전**: [8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)
-**다음**: [10. 예방 감리 (Preventive Audit) / 상주 감리 (Resident Audit) - 사업 진행 중 상주하며 상시 조언](/knowledge-base/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/) ->
+<- **이전**: [8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance)](/studynote/11_design_supervision/01_audit_framework/008_audit_perspective/)
+**다음**: [10. 예방 감리 (Preventive Audit) / 상주 감리 (Resident Audit) - 사업 진행 중 상주하며 상시 조언](/studynote/11_design_supervision/01_audit_framework/010_preventive_resident_audit/) ->
 
 ---

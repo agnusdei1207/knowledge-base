@@ -1,9 +1,9 @@
-+++
-title = "02. 전사적 자원 관리 (ERP) 시스템"
+---
+title: "02. 전사적 자원 관리 (ERP) 시스템"
+tags:
+  - "enterprise_systems"
+---
 
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

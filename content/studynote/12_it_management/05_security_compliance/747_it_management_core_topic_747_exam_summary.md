@@ -1,13 +1,10 @@
-+++
-title = "747. IT 경영 관리 핵심 토픽 747번 시험 요약 (IT Management Core Topic 747 Exam Summary)"
-date = 2026-05-09
+---
+title: "747. IT 경영 관리 핵심 토픽 747번 시험 요약 (IT Management Core Topic 747 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -187,7 +184,7 @@ ROI 계산 (IT 투자 가치 입증):
 
 **진행 상황**: 747 / 800
 
-<- **이전**: [746. IT 경영 관리 핵심 토픽 746번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/746_it_management_core_topic_746_exam_summary/)
-**다음**: [748. IT 경영 관리 핵심 토픽 748번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/748_it_management_core_topic_748_exam_summary/) ->
+<- **이전**: [746. IT 경영 관리 핵심 토픽 746번 시험 요약](/studynote/12_it_management/05_security_compliance/746_it_management_core_topic_746_exam_summary/)
+**다음**: [748. IT 경영 관리 핵심 토픽 748번 시험 요약](/studynote/12_it_management/05_security_compliance/748_it_management_core_topic_748_exam_summary/) ->
 
 ---

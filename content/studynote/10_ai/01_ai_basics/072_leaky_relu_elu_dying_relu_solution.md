@@ -1,16 +1,13 @@
-+++
-title = "72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에 미세한 기울기 부여)"
+---
+title: "72. Leaky ReLU / ELU - ReLU의 죽은 뉴런(Dying ReLU, 음수 입력 시 가중치 미갱신) 문제 해결 (음수 구간에 미세한 기울기 부여)"
+tags:
+  - "ai"
+---
 
-[taxonomies]
-tags = ["ai"]
-
-[extra]
-tags = ["ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Leaky ReLU와 ELU는 ReLU의 음수 구간 0 고정 문제를 완화한 변형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)다.
+> 1. **본질**: Leaky ReLU와 ELU는 ReLU의 음수 구간 0 고정 문제를 완화한 변형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)다.
 > 2. **가치**: 음수에서도 작은 기울기를 유지해 죽은 뉴런 문제를 줄인다.
 > 3. **판단**: 완전한 대체가 아니라 상황에 맞는 개선 옵션으로 봐야 한다.
 
@@ -36,7 +33,7 @@ Leaky ReLU / ELU
 
 | 함수 | 특징 |
 | :-- | :-- |
-| Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 음수에 작은 기울기 |
+| Leaky [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 음수에 작은 기울기 |
 | ELU | 음수에 부드러운 곡선 |
 
 두 함수 모두 음수 구간을 완전히 0으로 만들지 않아 뉴런이 죽는 것을 줄인다.
@@ -49,13 +46,13 @@ Leaky ReLU / ELU
 
 | 함수 | 장점 | 단점 |
 | :-- | :-- | :-- |
-| [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 빠름 | Dying [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) |
-| Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 죽은 뉴런 완화 | 하이퍼파라미터 |
+| [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 빠름 | Dying [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) |
+| Leaky [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 죽은 뉴런 완화 | 하이퍼파라미터 |
 | ELU | 부드러움 | 계산 약간 복잡 |
 
 | 연결 | 의미 |
 | :-- | :-- |
-| Dying [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 문제 |
+| Dying [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | 문제 |
 | Variant | 해결책 |
 
 Leaky ReLU와 ELU는 ReLU의 약점을 보완하지만, 상황에 따라 선택해야 한다.
@@ -66,22 +63,22 @@ Leaky ReLU와 ELU는 ReLU의 약점을 보완하지만, 상황에 따라 선택�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. Dying [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 문제를 아는가?
+1. Dying [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 문제를 아는가?
 2. Leaky ReLU와 ELU 차이를 아는가?
 3. 음수 구간의 기울기를 이해하는가?
-4. [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 대체 옵션으로 보는가?
+4. [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 대체 옵션으로 보는가?
 5. 모델 특성에 맞게 고르는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 모델에 무조건 쓰는 설계
 - ReLU의 단순성을 완전히 포기하는 설계
 - Dying ReLU를 모르는 설계
-- [하이퍼파라미터 튜닝](/knowledge-base/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 없이 적용하는 설계
+- [하이퍼파라미터 튜닝](/studynote/10_ai/01_ai_basics/041_bagging_boosting/) 없이 적용하는 설계
 
-기술사 관점에서는 이 둘을 "[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 변형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)"로 설명해야 한다.
+기술사 관점에서는 이 둘을 "[ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 변형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 꺼지기 쉬운 불에 작은 바람막이를 둔다.
 
@@ -135,7 +132,7 @@ Activation Variants
 
 **진행 상황**: 72 / 420
 
-<- **이전**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/knowledge-base/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/)
-**다음**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) ->
+<- **이전**: [71. ReLU (Rectified Linear Unit) 함수 - x>0이면 x, x<0 이면 0 (기울기 소실 해결, 연산 빠름,](/studynote/10_ai/01_ai_basics/071_relu_rectified_linear_unit_activation/)
+**다음**: [73. 소프트맥스 함수 (Softmax) - 다중 클래스 분류 시 출 력층 적용, 결과값 총합을 1로 만들어 확률화](/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) ->
 
 ---

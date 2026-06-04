@@ -1,13 +1,10 @@
-+++
-title = "778. 엔터프라이즈 시스템 핵심 토픽 778번 시험 요약 (Enterprise System Core Topic 778 Exam Summary)"
-date = 2026-05-09
+---
+title: "778. 엔터프라이즈 시스템 핵심 토픽 778번 시험 요약 (Enterprise System Core Topic 778 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 778 / 800
 
-<- **이전**: [777. 엔터프라이즈 시스템 핵심 토픽 777번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/777_enterprise_system_core_topic_777_exam_summary/)
-**다음**: [779. 엔터프라이즈 시스템 핵심 토픽 779번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/779_enterprise_system_core_topic_779_exam_summary/) ->
+<- **이전**: [777. 엔터프라이즈 시스템 핵심 토픽 777번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/777_enterprise_system_core_topic_777_exam_summary/)
+**다음**: [779. 엔터프라이즈 시스템 핵심 토픽 779번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/779_enterprise_system_core_topic_779_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "462. 리트라이 패턴 지수 백오프 (Retry Pattern Exponential Backoff)"
-date = 2026-05-09
+---
+title: "462. 리트라이 패턴 지수 백오프 (Retry Pattern Exponential Backoff)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -174,7 +171,7 @@ MSA(마이크로서비스 아키텍처)와 클라우드 네이티브 환경에�
 
 **진행 상황**: 462 / 600
 
-<- **이전**: [461. 벌크헤드 패턴 자원 격리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/462_bulkhead_pattern/)
-**다음**: [463. 아웃박스 패턴 메시지 보장](/knowledge-base/studynote/11_design_supervision/06_exam_summary/463_outbox_pattern/) ->
+<- **이전**: [461. 벌크헤드 패턴 자원 격리](/studynote/11_design_supervision/06_exam_summary/462_bulkhead_pattern/)
+**다음**: [463. 아웃박스 패턴 메시지 보장](/studynote/11_design_supervision/06_exam_summary/463_outbox_pattern/) ->
 
 ---

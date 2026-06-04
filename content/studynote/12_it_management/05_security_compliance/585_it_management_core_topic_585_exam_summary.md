@@ -1,13 +1,10 @@
-+++
-title = "585. IT 경영 관리 핵심 토픽 585번 시험 요약 (IT Management Core Topic 585 Exam Summary)"
-date = 2026-05-09
+---
+title: "585. IT 경영 관리 핵심 토픽 585번 시험 요약 (IT Management Core Topic 585 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ IT 경영 관리에서 자주 혼동되는 **ISP vs EA vs BPR**, 그리고 **COB
 
 **진행 상황**: 585 / 800
 
-<- **이전**: [584. IT 경영 관리 핵심 토픽 584번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/584_it_management_core_topic_584_exam_summary/)
-**다음**: [586. IT 경영 관리 핵심 토픽 586번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/586_it_management_core_topic_586_exam_summary/) ->
+<- **이전**: [584. IT 경영 관리 핵심 토픽 584번 시험 요약](/studynote/12_it_management/05_security_compliance/584_it_management_core_topic_584_exam_summary/)
+**다음**: [586. IT 경영 관리 핵심 토픽 586번 시험 요약](/studynote/12_it_management/05_security_compliance/586_it_management_core_topic_586_exam_summary/) ->
 
 ---

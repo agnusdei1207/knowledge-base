@@ -1,175 +1,171 @@
-+++
-title = "690. 클라우드 아키텍처 핵심 토픽 690번 시험 요약 (Cloud Architecture Core Topic 690 Exam Summary)"
-date = 2026-05-09
+---
+title: "690. 클라우드 아키텍처 핵심 토픽 690번 시험 요약 (Cloud Architecture Core Topic 690 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 IaaS/PaaS/SaaS/FaaS의 책임 분담 모델, Multi-AZ·Multi-Region 가용성 설계, 12-Factor·Cloud-Native 원칙, MSA·Service Mesh·서버리스 기반의 탄력적 분산 시스템을 통해 "필요한 만큼, 필요한 때, 필요한 곳" 컴퓨팅 자원을 동적 프로비저닝하는 Stateless·API 중심 인프라 패러다임이다.
+> 2. **가치**: Auto Scaling으로 트래픽 10배 급증에도 가용성 99.99%(Four Nine) 유지, Pay-per-Use로 TCO 30~60% 절감, Global Edge로 사용자 레이턴시 200ms->20ms 단축, MTTR을 기존 대비 70% 이상 단축하여 비즈니스 연속성과 민첩성을 동시에 확보한다.
+> 3. **판단 포인트**: Shared Responsibility Model 경계(고객/OS미들웨어/데이터·IAM), 단일 클라우드 종속(Vendor Lock-in) vs Multi-Cloud·Interoperability, CAP 정리를 기반으로 한 Consistency vs Availability 트레이드오프, 비용 최적화(FinOps)와 SLA 등급(SLA 99.9/99.95/99.99) 간 균형을 설계자의 핵심 판단기준으로 삼아야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 On-Premise 아키텍처는 CAPEX 중심의 수직적 확장(Scale-Up)·모놀리식 애플리케이션·정적 용량 계획(Static Capacity Planning)에 머물러 트래픽 변동성과 글로벌 사용자 요구에 즉응하지 못하는 한계를 보였다. 2006년 AWS S3·EC2 출시 이후 클라우드 컴퓨팅은 인프라의 **추상화(Abstraction)**·**자동화(Orchestration)**·**탄력성(Elasticity)**을 통해 IT 자산을 "코드처럼" 선언적으로 다루는 패러다임(IDC 2023, Gartner Magic Quadrant for Cloud 2024)으로 전환되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 690 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+클라우드 아키텍처의 본질적 도전 과제는 (1) **탄력적 자원 공급**(Elasticity), (2) **무중단 서비스**(High Availability), (3) **글로벌 확장성**(Geo-Distribution), (4) **운영 자동화**(DevOps/GitOps), (5) **비용-성능 최적화**(FinOps), (6) **제로 트러스트 보안**(BeyondCorp)이다. 이를 위해 Well-Architected Framework(AWS 5대 pillar: Operational Excellence, Security, Reliability, Performance Efficiency, Cost Optimization)와 Cloud Center of Excellence(CCoE) 거버넌스가 요구된다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 690번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[클라우드 아키텍처 진화 흐름]
+
+  1980~2000        2000~2010         2010~2015         2015~2020         2020~현재
+   +------+         +------+         +------+         +------+         +------+
+   |메인프레임| --->   |클라이언트| --->   |  IaaS | --->   |PaaS/ | --->   |Server|
+   |모놀리식 |     |서버    |     | (EC2) |     |컨테이너|     |less/ |
+   |Scale-Up|     |  3-Tier|     |Hyperv |     |K8s/Istio|    |Mesh |
+   +------+         +------+         +------+         +------+         +------+
+      CAPEX            CAPEX+            OPEX            OPEX            Usage-
+     중심              가상화           시작            MSA+DevOps        based
+   IDC 자가운영      IDC(VMware)     AWS/Azure       Docker/K8s       Lambda/Cloud Run
+                                                                      FinOps/AI옵스
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**왜 클라우드 아키텍처인가?**
+- **비즈니스 민첩성**: 인프라 프로비저닝 시간 4~8주 -> 5분(CloudFormation/Terraform IaC)
+- **글로벌 도달성**: 1개 Region -> 30+ Region, 600+ Edge Location으로 단시간 내 글로벌 서비스 출시
+- **TCO 전환**: CAPEX(전액 선투자) -> OPEX(사용량 과금), 유휴 자원 제로화
+- **내장 거버넌스**: KMS, IAM, WAF, GuardDuty 등 컴플라이언스 자동화
+- **이중화 자동화**: Multi-AZ, Multi-Region Failover를 매니지드 서비스로 제공
 
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 클라우드 아키텍처는 마치 **"전기 그리드"**와 같다. 과거에는 각 가정·공장이 자가발전기를 돌렸지만(전용发电机), 지금은 전력회사(공급자)가 송배전망과 안정성을 책임지고, 우리는 콘센트(API)에 꽂기만 하면 된다. 사용량(kWh)에 따라 요금이 자동 정산되고, 정전이 생기면 예비 회선으로 자동 전환된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 690번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 아키텍처는 크게 **(1) 서비스 모델 계층, (2) 글로벌 인프라 토폴로지, (3) 분산 시스템 패턴, (4) Cloud-Native 컴퓨트 런타임, (5) 관측·보안·비용 통제 평면**의 5개 레이어로 구성된다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 690 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[클라우드 아키텍처 5-Layer 참조 모델]
+
+  +--------------------------------------------------------------------------+
+  |  L5. 거버넌스 평면 (Governance & FinOps)                                  |
+  |  - AWS Organizations / Azure Policy / GCP Org Policy                     |
+  |  - Cost Explorer, Budgets, RI/SP, Savings Plan, CUR, CUDOS               |
+  +--------------------------------------------------------------------------+
+  |  L4. 관측·보안 평면 (Observability & Security)                            |
+  |  - Observability: Prometheus/Grafana/ELK/CloudWatch/X-Ray/CloudTrace    |
+  |  - Security: IAM, KMS, WAF, GuardDuty, Security Hub, CSPM, SIEM         |
+  +--------------------------------------------------------------------------+
+  |  L3. 분산 시스템 패턴 (Distributed Patterns)                              |
+  |  - L4/L7 LB, Service Mesh(Istio/Linkerd), API Gateway, Circuit Breaker  |
+  |  - CQRS, Event Sourcing, Saga, Bulkhead, Sidecar, Ambassador             |
+  +--------------------------------------------------------------------------+
+  |  L2. 컴퓨트 런타임 (Compute Runtime)                                      |
+  |  - IaaS: EC2/VM, PaaS: App Service/Cloud Run                            |
+  |  - CaaS: EKS/AKS/GKE(Managed K8s), ECS/Container Apps                   |
+  |  - FaaS: Lambda/Azure Functions/Cloud Functions                          |
+  +--------------------------------------------------------------------------+
+  |  L1. 글로벌 인프라 (Global Infrastructure)                               |
+  |  - Region(리전) -> AZ(가용영역 3개+) -> Edge Location/PoP                  |
+  |  - 글로벌 백본 네트워크: AWS Global Accelerator, Azure Front Door         |
+  |  - 저장: S3 Multi-Region, GCS Multi-Region, Cosmos DB Multi-Region Write |
+  +--------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 서비스 모델별 책임 분담 (Shared Responsibility Model)
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+| 계층 | On-Premise | IaaS | PaaS | SaaS | FaaS |
+|:---|:---:|:---:|:---:|:---:|:---:|
+| Application | 고객 | 고객 | 고객 | 공급자 | 고객 |
+| Data | 고객 | 고객 | 고객 | 공급자 | 고객 |
+| Runtime / Middleware | 고객 | 고객 | 공급자 | 공급자 | 공급자 |
+| OS | 고객 | 고객 | 공급자 | 공급자 | 공급자 |
+| Virtualization | 고객 | 공급자 | 공급자 | 공급자 | 공급자 |
+| Server / Storage / Network HW | 고객 | 공급자 | 공급자 | 공급자 | 공급자 |
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+### 배포 모델 및 토폴로지
+
+```text
+[클라우드 배포 모델 아키텍처]
+
+   (a) Public Cloud              (b) Private Cloud
+   +--------------+              +--------------+
+   |  CSP 계정    |              |  자가/호스팅 |
+   | +----------+ |              | +----------+ |
+   | | VPC/VNet | |              | |OpenStack | |
+   | | Public  | |              | | VMware   | |
+   | |Subnet   | |              | |  Tanzu   | |
+   | +----------+ |              | +----------+ |
+   +--------------+              +--------------+
+
+   (c) Hybrid Cloud              (d) Multi-Cloud
+   +--------------+              +--------------+
+   | On-Premise   |<--VPN/DEX---->| Public       |
+   | + Burst to   |              | AWS + Azure  |
+   | Public       |              | (Interconnect|
+   +--------------+              |  + Cross-Cloud|
+                                 |  K8s Federation)|
+                                 +--------------+
+```
+
+### 핵심 컴포넌트 상세
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Region / AZ** | 지리적 격리·동기 복제 단위 | Region 내 AZ 3개 이상 독립 DC(수 km 분리), 99.99% SLA. AWS 32+ Region, Azure 60+ Region, GCP 38+ Region 운영 |
+| **가상 네트워크(VPC/VNet)** | 논리적 사설망, 서브넷 라우팅 | 10.0.0.0/16 CIDR, Public/Private/Isolated Subnet, Route Table, NAT GW, IGW, Transit GW, VPC Peering, PrivateLink |
+| **컴퓨트(Compute)** | 워크로드 실행 런타임 | (1) VM: M7i·C7g·D-Series (Intel/AMD/ARM Graviton) (2) Container: ECS·EKS·AKS·GKE·Container Apps (3) Serverless: Lambda(15분), Fargate, Cloud Run(60분), Azure Functions(무제한 Durable) |
+| **스토리지** | 데이터 영속성 | (1) Object: S3(11 9s 내구성, 99.99 가용성), GCS, Blob (2) Block: EBS io2(64TB, 256K IOPS) (3) File: EFS, FSx(Lustre/NetApp) (4) Cold: S3 IA, Glacier(분~12hr 회수) |
+| **데이터베이스** | 트랜잭션·분석·벡터 | RDB: Aurora MySQL/PostgreSQL 5x, Cosmos DB(글로벌 분산 Multi-Master, 5가지 Consistency), Spanner. NoSQL: DynamoDB(싱글 Digit ms, 40K+ TPS/Partition), Cassandra. 분석: Redshift·Snowflake·BigQuery(Separation of Storage/Compute), Vector: Pinecone·pgvector·Vertex AI Vector Search |
+| **로드밸런서** | 트래픽 분산·헬스체크 | L4: NLB(UDP·TCP, 100만+ TPS), L7: ALB(라우팅, WAF 통합), 글로벌: GLB/CloudFront/Front Door. 알고리즘: RR, LC, LRT(Least Response Time), IP-hash, Consistent Hash |
+| **메시지/이벤트 버스** | 비동기 결합·이벤트 스트림 | Kafka(Multi-Producer·Partitioned Log, ISR), Kinesis·Pub/Sub(At-Least-Once), SQS(Standard/FIFO), EventBridge(Schema Registry, Event Bus), NATS JetStream |
+| **캐시/인메모리** | 핫 데이터 가속 | Redis(Cluster Mode, AOF), Memcached, ElastiCache·Memorystore·Azure Cache. 80% Read 워크로드에서 DB 부하 90%v |
+| **API Gateway / Service Mesh** | 인증·라우팅·관측 | API GW: Kong·Apigee·AWS API Gateway(Usage Plan, Throttle). Service Mesh: Istio(Envoy Sidecar, mTLS, Traffic Mgmt), Linkerd, App Mesh |
+| **IaC/오케스트레이션** | 선언적 자원 관리 | Terraform(HCL, State Lock), Pulumi, CloudFormation, Ansible, ArgoCD(GitOps), Crossplane(K8s-native) |
+| **관측(Observability)** | 3대 신호 측정 | Metrics: Prometheus·CloudWatch. Logs: ELK·OpenSearch·Loki. Traces: Jaeger·Zipkin·X-Ray·OpenTelemetry(OTLP). RED(요청률·에러·지속시간), USE(활용·포화·에러) |
+| **보안/IAM** | Zero Trust 통제 | IAM(RBAC·ABAC), KMS/HSM(Envelope Encryption), Secrets Manager(Vault), WAF(OWASP Top10), GuardDuty/Defender, MFA·FIDO2, CSPM·CWPP·CIEM |
+| **FinOps** | 비용 가시화·최적화 | Cost Allocation Tag, RI/SP 1·3년 약정 30~60%v, Spot/Preemptible 70~90%v, Auto Scaling, Right-Sizing, Graviton ARM 40%v TCO, CUR(FOCUS) |
+
+### 핵심 알고리즘·파라미터
+
+**(1) Auto Scaling 정책**
+- **Target Tracking**: CPU 60% 유지 등 목표 기반
+- **Step Scaling**: 임계치 기반 단계적 증감 (예: 70%->+2, 85%->+4)
+- **Predictive Scaling**: 시계열(예: 14일) 기반 사전 확장
+- **Scheduled**: cron(예: 매주 월 09:00 KST)
+
+**(2) CAP 정리 (Brewer, 2000) — 분산 트레이저드오프**
+- **CA**: 전통 RDBMS(PostgreSQL with 동기 복제) — 단일 Region 한정
+- **CP**: HBase, etcd, MongoDB(WriteConcern=majority) — 정합성 우선, 분할 시 가용성v
+- **AP**: Cassandra, DynamoDB, Cosmos DB(Eventual/LWW) — 가용성 우선
+
+**(3) Consistency 모델 5단계 (Cosmos DB 기준)**
+Strong -> Bounded Staleness(임계 시간) -> Session(클라 모노톤) -> Consistent Prefix -> Eventual
+
+**(4) Sharding 전략**
+- Hash Sharding(균등, 리샤딩 비용 大)
+- Range Sharding(범위 질의 유리, 핫스팟)
+- Lookup/Entity Group(tenant_id 기반, SaaS 멀티테넌시)
+- Consistent Hashing(Memcached·DynamoDB Partition Key 256 hash slot)
+
+- **📢 섹션 요약 비유**: 클라우드 아키텍처는 **"국제 항공 허브 공항"**과 같다. 각 공항(Region) 안에 활주로(AZ)가 3개 이상 있어 한 활주로가 폐쇄돼도 이륙·착륙이 멈추지 않고, 관제탑(Control Plane)이 실시간으로 비행기(트래픽)를 분산 배정한다. 게이트(API Gateway)·라운지(Service Mesh)·화물 시스템(Storage)·연료(FinOps)·보안검색(Security) 모두가 자동화되어 한 비행기의 결항이 전체 시스템 정지로 이어지지 않는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 690번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 690번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 690번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 690번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 690번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 690번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 690번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 690번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 690번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+###
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 690 / 800
 
-<- **이전**: [689. 클라우드 아키텍처 핵심 토픽 689번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/689_cloud_architecture_core_topic_689_exam_summar/)
-**다음**: [691. 클라우드 아키텍처 핵심 토픽 691번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/691_cloud_architecture_core_topic_691_exam_summar/) ->
+<- **이전**: [689. 클라우드 아키텍처 핵심 토픽 689번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/689_cloud_architecture_core_topic_689_exam_summar/)
+**다음**: [691. 클라우드 아키텍처 핵심 토픽 691번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/691_cloud_architecture_core_topic_691_exam_summar/) ->
 
 ---

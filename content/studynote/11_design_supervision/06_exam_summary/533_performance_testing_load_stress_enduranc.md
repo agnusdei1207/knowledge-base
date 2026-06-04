@@ -1,13 +1,10 @@
-+++
-title = "533. 퍼포먼스 테스팅 부하 스트레스 엔듀런스 (Performance Testing Load Stress Endurance)"
-date = 2026-05-09
+---
+title: "533. 퍼포먼스 테스팅 부하 스트레스 엔듀런스 (Performance Testing Load Stress Endurance)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -45,7 +42,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 533 / 600
 
-<- **이전**: [532. 모델 기반 테스팅 MBT 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/533_model_based_testing_mbt_automation/)
-**다음**: [534. 보안 테스팅 OWASP 취약점 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/534_security_testing_owasp_vulnerability/) ->
+<- **이전**: [532. 모델 기반 테스팅 MBT 자동화](/studynote/11_design_supervision/06_exam_summary/533_model_based_testing_mbt_automation/)
+**다음**: [534. 보안 테스팅 OWASP 취약점 진단](/studynote/11_design_supervision/06_exam_summary/534_security_testing_owasp_vulnerability/) ->
 
 ---

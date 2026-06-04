@@ -1,13 +1,10 @@
-+++
-title = "564. 탈중앙화 스토리지 IPFS 필코인 (Decentralized Storage IPFS Filecoin)"
-date = 2026-05-09
+---
+title: "564. 탈중앙화 스토리지 IPFS 필코인 (Decentralized Storage IPFS Filecoin)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Hash -> Pin -> Replicate -> Retrieve -> Prove
 
 **진행 상황**: 564 / 800
 
-<- **이전**: [563. 탈중앙 신원 DID 자기주권 신원](/knowledge-base/studynote/06_ict_convergence/uncategorized/563_decentralized_identity_did_self_sovereign/)
-**다음**: [565. 블록체인 오라클 오프체인 데이터 통합](/knowledge-base/studynote/06_ict_convergence/uncategorized/565_blockchain_oracle_off_chain_data_integration/) ->
+<- **이전**: [563. 탈중앙 신원 DID 자기주권 신원](/studynote/06_ict_convergence/uncategorized/563_decentralized_identity_did_self_sovereign/)
+**다음**: [565. 블록체인 오라클 오프체인 데이터 통합](/studynote/06_ict_convergence/uncategorized/565_blockchain_oracle_off_chain_data_integration/) ->
 
 ---

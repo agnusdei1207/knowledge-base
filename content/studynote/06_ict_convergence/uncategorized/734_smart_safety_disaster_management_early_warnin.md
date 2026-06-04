@@ -1,13 +1,10 @@
-+++
-title = "734. 스마트 안전 재난 관리 조기 경보 (Smart Safety Disaster Management Early Warning)"
-date = 2026-05-09
+---
+title: "734. 스마트 안전 재난 관리 조기 경보 (Smart Safety Disaster Management Early Warning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -111,7 +108,7 @@ Sensor/CCTV/Weather/Report
 
 **진행 상황**: 734 / 800
 
-<- **이전**: [733. 스마트 물관리 IoT 누수 탐지 수질](/knowledge-base/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/)
-**다음**: [735. 드론 군집 비행 무인 물류 배송](/knowledge-base/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/) ->
+<- **이전**: [733. 스마트 물관리 IoT 누수 탐지 수질](/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/)
+**다음**: [735. 드론 군집 비행 무인 물류 배송](/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "037. 문서 저장소 (Document Store)"
-date = 2026-03-03
+---
+title: "037. 문서 저장소 (Document Store)"
+date: "2026-03-03"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 > **핵심 인사이트**
-> 1. 문서 저장소(Document Store)는 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/)·BSON·XML 형태의 반정형 문서를 고유 ID와 함께 저장하는 [NoSQL](/knowledge-base/studynote/14_data_engineering/01_infrastructure/035_nosql/) 데이터베이스로, 스키마를 사전에 정의하지 않아도 다양한 구조의 문서를 유연하게 저장할 수 있다.
-> 2. 문서 저장소의 핵심 장점은 관련 데이터를 하나의 문서로 내포([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))해 단일 읽기 연산으로 완전한 객체를 가져올 수 있다는 것 — [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 조인([JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 없이 O(1)에 가까운 조회가 가능하다.
-> 3. [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/)(도큐먼트)와 Firestore([서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))가 시장을 주도하며, 복잡한 중첩 구조·[배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)·다양한 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 엔티티(상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/), 사용자 프로필, 콘텐츠 관리)에 최적이다.
+> 1. 문서 저장소(Document Store)는 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/)·BSON·XML 형태의 반정형 문서를 고유 ID와 함께 저장하는 [NoSQL](/studynote/14_data_engineering/01_infrastructure/035_nosql/) 데이터베이스로, 스키마를 사전에 정의하지 않아도 다양한 구조의 문서를 유연하게 저장할 수 있다.
+> 2. 문서 저장소의 핵심 장점은 관련 데이터를 하나의 문서로 내포([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))해 단일 읽기 연산으로 완전한 객체를 가져올 수 있다는 것 — [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB의 조인([JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)) 없이 O(1)에 가까운 조회가 가능하다.
+> 3. [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/)(도큐먼트)와 Firestore([서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/))가 시장을 주도하며, 복잡한 중첩 구조·[배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)·다양한 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)의 엔티티(상품 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/), 사용자 프로필, 콘텐츠 관리)에 최적이다.
 
 ---
 
@@ -41,11 +38,11 @@ tags = ["studynote-data-engineering"]
 필드 (Field) = 관계형 DB의 열 (동적)
 ```
 
-> 📢 **섹션 요약 비유**: 서랍장(컬렉션)에 봉투(문서)를 넣는데, 봉투마다 내용물 형식이 달라도 된다 — [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 모든 봉투에 동일 양식을 요구한다.
+> 📢 **섹션 요약 비유**: 서랍장(컬렉션)에 봉투(문서)를 넣는데, 봉투마다 내용물 형식이 달라도 된다 — [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 모든 봉투에 동일 양식을 요구한다.
 
 ---
 
-## II. 내포([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) vs [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)([Reference](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
+## II. 내포([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) vs [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)([Reference](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))
 
 ```
 데이터 모델링 핵심 선택:
@@ -78,16 +75,16 @@ tags = ["studynote-data-engineering"]
   적합: 독립적으로 업데이트되는 데이터
 ```
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)    | 장점               | 단점            | 사용 경우          |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)    | 장점               | 단점            | 사용 경우          |
 |-------|------------------|--------------|--------------------|
-| 내포   | 단일 읽기, 빠름    | 중복, 크기     | 함께 조회하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)  |
-| [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)   | 중복 없음, [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)  | 여러 번 조회   | 독립 엔티티         |
+| 내포   | 단일 읽기, 빠름    | 중복, 크기     | 함께 조회하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)  |
+| [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)   | 중복 없음, [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)  | 여러 번 조회   | 독립 엔티티         |
 
-> 📢 **섹션 요약 비유**: 내포는 주문서에 고객 이름·주소를 직접 쓰는 것, [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)는 고객 번호만 쓰고 고객 파일에서 찾아보는 것.
+> 📢 **섹션 요약 비유**: 내포는 주문서에 고객 이름·주소를 직접 쓰는 것, [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/)는 고객 번호만 쓰고 고객 파일에서 찾아보는 것.
 
 ---
 
-## III. [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 주요 연산
+## III. [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/) 주요 연산
 
 ```python
 from pymongo import MongoClient
@@ -127,11 +124,11 @@ pipeline = [
 result = list(orders.aggregate(pipeline))
 ```
 
-> 📢 **섹션 요약 비유**: [MongoDB](/knowledge-base/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인은 컨베이어 벨트 — 데이터가 필터링(match)->[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(group)->변환 단계를 거쳐 최종 결과로 나온다.
+> 📢 **섹션 요약 비유**: [MongoDB](/studynote/05_database/04_transactions_concurrency/540_mongodb/) 집계 파이프라인은 컨베이어 벨트 — 데이터가 필터링(match)->[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(group)->변환 단계를 거쳐 최종 결과로 나온다.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). RDBMS vs 문서 저장소 비교
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). RDBMS vs 문서 저장소 비교
 
 ```
 상품 카탈로그 예시:
@@ -159,11 +156,11 @@ RDBMS 방식:
   -> 각 상품마다 다른 속성을 유연하게 저장!
 ```
 
-> 📢 **섹션 요약 비유**: [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 모든 고객 양식이 동일한 공공기관, 문서 저장소는 각자 원하는 항목을 자유롭게 적을 수 있는 메모장.
+> 📢 **섹션 요약 비유**: [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB는 모든 고객 양식이 동일한 공공기관, 문서 저장소는 각자 원하는 항목을 자유롭게 적을 수 있는 메모장.
 
 ---
 
-## V. 실무 시나리오 — 이커머스 상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)
+## V. 실무 시나리오 — 이커머스 상품 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)
 
 ```
 문제 상황:
@@ -187,7 +184,7 @@ MongoDB 솔루션:
     스키마 변경 없이 새 카테고리 즉시 추가
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 상품 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 수천만 개, 카테고리마다 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) — 문서 저장소가 유일한 현실적 해결책.
+> 📢 **섹션 요약 비유**: 이커머스 상품 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)가 수천만 개, 카테고리마다 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) — 문서 저장소가 유일한 현실적 해결책.
 
 ---
 
@@ -238,8 +235,8 @@ Vector Search 추가 (AI 임베딩 저장)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 문서 저장소는 각기 다른 형식의 봉투([JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 문서)를 서랍(컬렉션)에 보관하는 데이터베이스예요.
-2. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB처럼 모든 데이터가 같은 형식일 필요가 없어서, 전자제품과 의류처럼 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 다른 것도 쉽게 저장할 수 있어요.
+1. 문서 저장소는 각기 다른 형식의 봉투([JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 문서)를 서랍(컬렉션)에 보관하는 데이터베이스예요.
+2. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 DB처럼 모든 데이터가 같은 형식일 필요가 없어서, 전자제품과 의류처럼 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 다른 것도 쉽게 저장할 수 있어요.
 3. 주문 정보를 한 문서에 모두 담을 수 있어서 조회 시 여러 테이블을 합치는 복잡한 작업 없이 빠르게 가져와요!
 
 ---
@@ -248,7 +245,7 @@ Vector Search 추가 (AI 임베딩 저장)
 
 **진행 상황**: 37 / 258
 
-<- **이전**: [036. 키-값 저장소 (Key-Value Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/036_key_value/)
-**다음**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/knowledge-base/studynote/14_data_engineering/01_infrastructure/038_wide_column/) ->
+<- **이전**: [036. 키-값 저장소 (Key-Value Store)](/studynote/14_data_engineering/01_infrastructure/036_key_value/)
+**다음**: [038. 와이드 컬럼 저장소 (Wide Column Store)](/studynote/14_data_engineering/01_infrastructure/038_wide_column/) ->
 
 ---

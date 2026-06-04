@@ -1,13 +1,10 @@
-+++
-title = "543. 서비스 수준 관리 SLA SLO SLI (Service Level Management SLA SLO SLI)"
-date = 2026-05-09
+---
+title: "543. 서비스 수준 관리 SLA SLO SLI (Service Level Management SLA SLO SLI)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ SLO는 "목표"이므로 그것을 위반한 정도를 정량화한 것이 **에
 
 **진행 상황**: 543 / 600
 
-<- **이전**: [542. 변경 관리 CAB 영향 분석 승인](/knowledge-base/studynote/11_design_supervision/06_exam_summary/543_change_management_cab_impact_analysis/)
-**다음**: [544. 연속성 관리 BCP DRP 재해 복구](/knowledge-base/studynote/11_design_supervision/06_exam_summary/544_continuity_management_bcp_drp_recovery/) ->
+<- **이전**: [542. 변경 관리 CAB 영향 분석 승인](/studynote/11_design_supervision/06_exam_summary/543_change_management_cab_impact_analysis/)
+**다음**: [544. 연속성 관리 BCP DRP 재해 복구](/studynote/11_design_supervision/06_exam_summary/544_continuity_management_bcp_drp_recovery/) ->
 
 ---

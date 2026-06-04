@@ -1,25 +1,22 @@
-+++
-title = "853. 사우스바운드 인터페이스 (SBI)"
-date = 2026-05-08
+---
+title: "853. 사우스바운드 인터페이스 (SBI)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 사우스바운드 인터페이스는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 사우스바운드 인터페이스를 이해하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 사우스바운드 인터페이스는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 사우스바운드 인터페이스를 이해하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 <strong>제어 계층(컨트롤러)</strong>과 맨 밑바닥의 <strong>인프라 계층(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>/라우터 장비)</strong> 사이를 연결하여 제어 신호와 상태 정보를 주고받는 통신 규약([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
+- **개념**: [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 아키텍처에서 중간의 <strong>제어 계층(컨트롤러)</strong>과 맨 밑바닥의 <strong>인프라 계층(<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 평면 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>/라우터 장비)</strong> 사이를 연결하여 제어 신호와 상태 정보를 주고받는 통신 규약([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))입니다.
 - 아키텍처 다이어그램을 그릴 때 컨트롤러를 기준으로 <strong>남쪽(아래쪽, South)</strong>으로 향하는 선이라 하여 붙여진 직관적인 이름입니다.
 
 ```text
@@ -31,17 +28,17 @@ tags = ["studynote-network"]
     +---> [노스바운드 인터페이스]
 ```
 
-- **📢 섹션 요약 비유**: 사우스바운드 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 사우스바운드 인터페이스는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 하향 통신 (명령 하달: Controller ➜ [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))
-- **플로우 테이블(Flow Table) 배포**: 컨트롤러가 짠 완벽한 길 찾기 장부(룰)를 밑에 있는 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 "이대로 1번 구멍에서 2번 구멍으로 패킷 던져라!" 라며 강제로 주입시킵니다. ([프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))
+### 1. 하향 통신 (명령 하달: Controller ➜ [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))
+- **플로우 테이블(Flow Table) 배포**: 컨트롤러가 짠 완벽한 길 찾기 장부(룰)를 밑에 있는 깡통 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들에게 "이대로 1번 구멍에서 2번 구멍으로 패킷 던져라!" 라며 강제로 주입시킵니다. ([프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/))
 
-### 2. 상향 통신 (상태 보고: [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ Controller)
-- **장비 상태 보고**: 바닥에 있는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 "저기요, 지금 트래픽이 너무 몰려서 제 구멍이 터질 것 같아요!"라거나 "방금 3번 랜선이 뽑혔습니다!"라는 긴급 물리적 장애 상태(Telemetry)를 위의 컨트롤러에게 실시간으로 꼰지릅니다(보고합니다). 컨트롤러는 이 보고를 듣고 지도를 다시 짭니다.
+### 2. 상향 통신 (상태 보고: [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ➜ Controller)
+- **장비 상태 보고**: 바닥에 있는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 "저기요, 지금 트래픽이 너무 몰려서 제 구멍이 터질 것 같아요!"라거나 "방금 3번 랜선이 뽑혔습니다!"라는 긴급 물리적 장애 상태(Telemetry)를 위의 컨트롤러에게 실시간으로 꼰지릅니다(보고합니다). 컨트롤러는 이 보고를 듣고 지도를 다시 짭니다.
 
 ```text
 [SDN 제어 평면 두뇌 격 구조]
@@ -58,22 +55,22 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-뇌와 기계가 대화하는 언어([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에는 여러 종류가 있습니다.
+뇌와 기계가 대화하는 언어([프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))에는 여러 종류가 있습니다.
 
-### 1. [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) (오픈플로우) - 절대적 1대장
-- 가장 유명하고 상징적인 사우스바운드 표준 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
-- 컨트롤러가 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 플로우 테이블을 찰흙 주무르듯 아주 미세하고 정밀하게 마음대로 뜯어고칠 수 있게 해주는 마법의 척수 신경 언어입니다. (다음 855번 문서에서 심층 분석)
+### 1. [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) (오픈플로우) - 절대적 1대장
+- 가장 유명하고 상징적인 사우스바운드 표준 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)입니다.
+- 컨트롤러가 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 플로우 테이블을 찰흙 주무르듯 아주 미세하고 정밀하게 마음대로 뜯어고칠 수 있게 해주는 마법의 척수 신경 언어입니다. (다음 855번 문서에서 심층 분석)
 
-### 2. OVSDB ([Open vSwitch](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
-- 860번에서 배울 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/knowledge-base/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))를 제어할 때 씁니다. OpenFlow가 길을 찾는 룰을 던져준다면, OVSDB는 "[스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개 새로 파라, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 껐다 켜라" 같은 [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 기계 자체의 생성을 조작하는 언어입니다.
+### 2. OVSDB ([Open vSwitch](/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/) [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))
+- 860번에서 배울 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)([OVS](/studynote/03_network/17_sdn_nfv/860_ovs_open_vswitch_sdn_openflow/))를 제어할 때 씁니다. OpenFlow가 길을 찾는 룰을 던져준다면, OVSDB는 "[스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개 새로 파라, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 껐다 켜라" 같은 [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) 기계 자체의 생성을 조작하는 언어입니다.
 
-사우스바운드 인터페이스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조가 기반 조건을 만든다면, 사우스바운드 인터페이스는 그 위에서 핵심 메커니즘을 구현하고, [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+사우스바운드 인터페이스를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조가 기반 조건을 만든다면, 사우스바운드 인터페이스는 그 위에서 핵심 메커니즘을 구현하고, [노스바운드 인터페이스](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조의 기반 정리 | 사우스바운드 인터페이스의 핵심 동작 | [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조의 기반 정리 | 사우스바운드 인터페이스의 핵심 동작 | [노스바운드 인터페이스](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 사우스바운드 인터페이스는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -81,21 +78,21 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 쇳덩어리([ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 칩셋을 직접 조종하는 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 대신, 요즘은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 그냥 XML이나 [JSON](/knowledge-base/studynote/11_design_supervision/06_exam_summary/343_json/) 형식으로 "IP 주소 이거 써라, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 켜라" 하고 텍스트 문서(환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))를 던져서 세팅을 바꾸는 **NETCONF(875번)** 규약을 사우스바운드 용도로 엄청나게 많이 씁니다. 인간에게 익숙한 웹 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 느낌이라 확장이 미치도록 편합니다.
+- [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)의 쇳덩어리([ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/)) 칩셋을 직접 조종하는 [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 대신, 요즘은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 그냥 XML이나 [JSON](/studynote/11_design_supervision/06_exam_summary/343_json/) 형식으로 "IP 주소 이거 써라, [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 켜라" 하고 텍스트 문서(환경 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/))를 던져서 세팅을 바꾸는 **NETCONF(875번)** 규약을 사우스바운드 용도로 엄청나게 많이 씁니다. 인간에게 익숙한 웹 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 느낌이라 확장이 미치도록 편합니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 인체를 비유해 봅시다. 우리의 머리([SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)에서 "다리를 굽혀라!"라는 생각을 합니다. 이 생각이 실제 다리 근육([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)까지 도달하려면 목을 타고 내려가는 <strong>'척수 신경망(사우스바운드 인터페이스)'</strong>이 필요합니다. 사우스바운드 신경망은 위에서 아래로 뇌의 명령을 근육에 전달하여 발을 차게 만들고(명령 하달), 반대로 발바닥 근육이 "돌부리에 찔려 아프다!"라는 감각을 신경망을 타고 위로(뇌로) 올려보내(상태 보고) 뇌가 발을 피하게 만듭니다. <strong>오픈플로우(<a href="/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>)</strong>는 이 수많은 인체 척수 신경 언어 중에서도 가장 빠르고 정밀하게 100% 근육을 내 마음대로 꺾고 조종할 수 있는 최고의 특수 신경 물질입니다.
+- **📢 섹션 요약 비유**: 인체를 비유해 봅시다. 우리의 머리([SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 컨트롤러)에서 "다리를 굽혀라!"라는 생각을 합니다. 이 생각이 실제 다리 근육([스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 장비)까지 도달하려면 목을 타고 내려가는 <strong>'척수 신경망(사우스바운드 인터페이스)'</strong>이 필요합니다. 사우스바운드 신경망은 위에서 아래로 뇌의 명령을 근육에 전달하여 발을 차게 만들고(명령 하달), 반대로 발바닥 근육이 "돌부리에 찔려 아프다!"라는 감각을 신경망을 타고 위로(뇌로) 올려보내(상태 보고) 뇌가 발을 피하게 만듭니다. <strong>오픈플로우(<a href="/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/">OpenFlow</a>)</strong>는 이 수많은 인체 척수 신경 언어 중에서도 가장 빠르고 정밀하게 100% 근육을 내 마음대로 꺾고 조종할 수 있는 최고의 특수 신경 물질입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-사우스바운드 인터페이스는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/), 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+사우스바운드 인터페이스는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [노스바운드 인터페이스](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/), 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 사우스바운드 인터페이스는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -105,10 +102,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 제어 평면 (Control Plane) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 경로 결정을 담당한다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) | 실제 패킷 전달을 수행한다. |
-| [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 제어 평면 (Control Plane) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 경로 결정을 담당한다. |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) | 실제 패킷 전달을 수행한다. |
+| [노스바운드 인터페이스](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -122,7 +119,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 프로그래머블 네트워크]
 ```
 
-사우스바운드 인터페이스는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [노스바운드 인터페이스](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+사우스바운드 인터페이스는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/) 제어 평면 두뇌 격 구조에서 출발해 현재 메커니즘을 정교화하고, 이후 [노스바운드 인터페이스](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -136,7 +133,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 974 / 1120
 
-<- **이전**: [852. SDN 제어 평면](/knowledge-base/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/)
-**다음**: [854. 노스바운드 인터페이스 (NBI)](/knowledge-base/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/) ->
+<- **이전**: [852. SDN 제어 평면](/studynote/03_network/17_sdn_nfv/852_sdn_control_plane_centralized_logic_global_view/)
+**다음**: [854. 노스바운드 인터페이스 (NBI)](/studynote/03_network/17_sdn_nfv/854_northbound_interface_api_controller_application/) ->
 
 ---

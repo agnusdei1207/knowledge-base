@@ -1,13 +1,10 @@
-+++
-title = "378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)"
-date = 2026-05-09
+---
+title: "378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 378 / 400
 
-<- **이전**: [377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)](/knowledge-base/studynote/15_devops_sre/05_devsecops/377_container_image_signing/)
-**다음**: [379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)](/knowledge-base/studynote/15_devops_sre/05_devsecops/379_policy_as_code_opa/) ->
+<- **이전**: [377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)](/studynote/15_devops_sre/05_devsecops/377_container_image_signing/)
+**다음**: [379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)](/studynote/15_devops_sre/05_devsecops/379_policy_as_code_opa/) ->
 
 ---

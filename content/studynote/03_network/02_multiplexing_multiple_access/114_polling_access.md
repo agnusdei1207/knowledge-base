@@ -1,29 +1,26 @@
-+++
-title = "114. 폴링 접속 (Polling Access)"
-date = 2026-05-08
+---
+title: "114. 폴링 접속 (Polling Access)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 내에 하나의 강력한 주국(Primary/Master)을 두고, 이 중앙 관리자가 각 종국(Secondary/Slave)들에게 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 권한이 있는지 순차적으로 묻는 중앙 집중형 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 방식이다.
-> 2. **가치**: 경쟁이 원천 차단되므로 ALOHA처럼 트래픽 혼잡 시 노드들이 서로 부딪혀 망이 붕괴되는 충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 사고가 전혀 없으며, 트래픽에 대한 결정론적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Bounded Delay)을 완벽히 보장한다.
-> 3. **판단 포인트**: 고신뢰성이 요구되는 산업용 제어망(Modbus, [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)), [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 마스터-슬레이브 피코넷, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임-터미널 다중 연결 구조 등 무결성과 순서 제어가 필수적인 폐쇄적 환경에 응용된다.
+> 1. **본질**: 네트워크 내에 하나의 강력한 주국(Primary/Master)을 두고, 이 중앙 관리자가 각 종국(Secondary/Slave)들에게 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 권한이 있는지 순차적으로 묻는 중앙 집중형 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 제어 방식이다.
+> 2. **가치**: 경쟁이 원천 차단되므로 ALOHA처럼 트래픽 혼잡 시 노드들이 서로 부딪혀 망이 붕괴되는 충돌([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/)) 사고가 전혀 없으며, 트래픽에 대한 결정론적 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Bounded Delay)을 완벽히 보장한다.
+> 3. **판단 포인트**: 고신뢰성이 요구되는 산업용 제어망(Modbus, [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)), [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 마스터-슬레이브 피코넷, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 메인프레임-터미널 다중 연결 구조 등 무결성과 순서 제어가 필수적인 폐쇄적 환경에 응용된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어에 있어 다중 노드가 하나의 채널을 공유할 때 가장 골치 아픈 문제는 통신이 동시에 겹치는 패킷 '충돌([Collision](/knowledge-base/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이다. 무작위 접근 방식([ALOHA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/), [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 등)은 노드가 자율적으로 트래픽을 송출하므로 구현이 유연하고 가벼우나, 부하가 높아질수록 충돌 회복에 시간을 허비하여 치명적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 끝을 알 수 없는 전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다.
-이러한 불확실성을 완전히 배제하고자 설계된 것이 중앙 통제 철학을 가진 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속 ([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Access) 방식이다. 이 모델에서는 단 하나의 주국(Primary [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))만이 채널 통제권을 독점한다. 수많은 종국(Secondary [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))들은 절대 스스로 입을 열 수 없으며, 오직 주국이 "보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있느냐"고 물어보는 제어 메시지(Poll)를 받았을 때만 대답할 수 있다. 이 권위적인 토폴로지는 경쟁으로 인한 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파괴를 물리적으로 불가능하게 만들어 공장 자동화나 실시간 모니터링 환경에서 시스템의 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Reliability](/knowledge-base/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))와 시간 결정성(Determinism)을 100% 보장하는 독보적 가치를 낳았다.
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 제어에 있어 다중 노드가 하나의 채널을 공유할 때 가장 골치 아픈 문제는 통신이 동시에 겹치는 패킷 '충돌([Collision](/studynote/05_database/04_transactions_concurrency/563_hash_collision_chaining_linear_probing/))'이다. 무작위 접근 방식([ALOHA](/studynote/03_network/02_multiplexing_multiple_access/111_aloha_protocol/), [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD 등)은 노드가 자율적으로 트래픽을 송출하므로 구현이 유연하고 가벼우나, 부하가 높아질수록 충돌 회복에 시간을 허비하여 치명적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하와 끝을 알 수 없는 전송 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 발생한다.
+이러한 불확실성을 완전히 배제하고자 설계된 것이 중앙 통제 철학을 가진 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속 ([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Access) 방식이다. 이 모델에서는 단 하나의 주국(Primary [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))만이 채널 통제권을 독점한다. 수많은 종국(Secondary [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))들은 절대 스스로 입을 열 수 없으며, 오직 주국이 "보낼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있느냐"고 물어보는 제어 메시지(Poll)를 받았을 때만 대답할 수 있다. 이 권위적인 토폴로지는 경쟁으로 인한 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 파괴를 물리적으로 불가능하게 만들어 공장 자동화나 실시간 모니터링 환경에서 시스템의 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Reliability](/studynote/04_software_engineering/06_software_architecture/345_reliability_security/))와 시간 결정성(Determinism)을 100% 보장하는 독보적 가치를 낳았다.
 
-*경쟁 기반망의 혼돈과 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 기반망의 질서 정연함 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)*
-이 도식은 [다중 접속](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 망에서 자율 경쟁 모델이 겪는 충돌 혼란과 중앙 관리형 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모델이 갖는 권한 통제 메커니즘을 극명하게 대조한다.
+*경쟁 기반망의 혼돈과 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 기반망의 질서 정연함 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)*
+이 도식은 [다중 접속](/studynote/03_network/02_multiplexing_multiple_access/087_다중접속_Multiple_Access/) 망에서 자율 경쟁 모델이 겪는 충돌 혼란과 중앙 관리형 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 모델이 갖는 권한 통제 메커니즘을 극명하게 대조한다.
 
 ```text
 +--------------------------------------------------------+
@@ -41,25 +38,25 @@ tags = ["studynote-network"]
 |       <-- "데이터 전송합니다!" (Data)                 |
 +--------------------------------------------------------+
 ```
-*해설*: 이 그림의 핵심은 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 시스템의 절대적 권력 집중형 통제 구조를 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 경쟁 망에서는 A와 B가 동시에 판단하여 채널로 튀어나오다 자멸할 위험이 항상 내재되어 있다. 반면, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 망에서는 지휘관(Primary)이 발언권을 호명하는 순서를 철저히 지키기 때문에 A와 B가 서로 충돌할 가능성이 수학적으로 제로(0)에 수렴한다. 이런 배치는 안정성을 극한으로 끌어올리지만, 지휘관이 묻기 전까지는 긴급한 재난 상황이라도 종국이 마음대로 입을 열 수 없다는 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 명확한 트레이드오프를 가져온다.
+*해설*: 이 그림의 핵심은 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 시스템의 절대적 권력 집중형 통제 구조를 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한 것이다. 경쟁 망에서는 A와 B가 동시에 판단하여 채널로 튀어나오다 자멸할 위험이 항상 내재되어 있다. 반면, [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 망에서는 지휘관(Primary)이 발언권을 호명하는 순서를 철저히 지키기 때문에 A와 B가 서로 충돌할 가능성이 수학적으로 제로(0)에 수렴한다. 이런 배치는 안정성을 극한으로 끌어올리지만, 지휘관이 묻기 전까지는 긴급한 재난 상황이라도 종국이 마음대로 입을 열 수 없다는 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이라는 명확한 트레이드오프를 가져온다.
 
-- **📢 섹션 요약 비유**: 선생님이 교실에 없고 아이들끼리 소리치는 것이 경쟁 방식이라면, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 선생님(Primary)이 교탁에 서서 출석부를 보며 1번부터 차례대로 "질문 있는 사람?"이라고 묻고 대답하는 아주 조용하고 질서 있는 수업 시간과 같습니다.
+- **📢 섹션 요약 비유**: 선생님이 교실에 없고 아이들끼리 소리치는 것이 경쟁 방식이라면, [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 선생님(Primary)이 교탁에 서서 출석부를 보며 1번부터 차례대로 "질문 있는 사람?"이라고 묻고 대답하는 아주 조용하고 질서 있는 수업 시간과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속 아키텍처는 주국(Primary)과 종국(Secondary) 간의 마스터-슬레이브 상태 전이와 두 가지 핵심 논리적 함수인 Select와 Poll 기능으로 굴러간다.
+[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속 아키텍처는 주국(Primary)과 종국(Secondary) 간의 마스터-슬레이브 상태 전이와 두 가지 핵심 논리적 함수인 Select와 Poll 기능으로 굴러간다.
 
 | 핵심 요소 | 역할 | 내부 동작 메커니즘 | 관련 프레임 |
 |:---|:---|:---|:---|
-| 주국 (Primary) | 전체 채널 중앙 통제 | 종국들에 대한 순차적 리스트 유지, 제어 프레임 발송 및 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 감시 | Poll, [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 프레임 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| 종국 (Secondary) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 수동 송신 | 스스로 발송 불가, 주국의 명시적 요청 시 로컬 버퍼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 | [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), ACK/[NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 송출 |
-| Poll 기능 | 종국 $\rightarrow$ 주국 전송 유도 | 주국이 종국에게 "너에게서 받을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는지" 송신 권한을 묻는 행위 | `Poll` 명령 수행 |
-| [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 기능 | 주국 $\rightarrow$ 종국 전송 수행 | 주국이 특정 종국에게 "내가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼테니 받을 준비해라" 명령 | `SEL` 명령 수행 |
+| 주국 (Primary) | 전체 채널 중앙 통제 | 종국들에 대한 순차적 리스트 유지, 제어 프레임 발송 및 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/) 감시 | Poll, [Select](/studynote/05_database/04_transactions_concurrency/520_select/) 프레임 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| 종국 (Secondary) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 및 수동 송신 | 스스로 발송 불가, 주국의 명시적 요청 시 로컬 버퍼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 송출 | [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), ACK/[NAK](/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 송출 |
+| Poll 기능 | 종국 $\rightarrow$ 주국 전송 유도 | 주국이 종국에게 "너에게서 받을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는지" 송신 권한을 묻는 행위 | `Poll` 명령 수행 |
+| [Select](/studynote/05_database/04_transactions_concurrency/520_select/) 기능 | 주국 $\rightarrow$ 종국 전송 수행 | 주국이 특정 종국에게 "내가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보낼테니 받을 준비해라" 명령 | `SEL` 명령 수행 |
 
-*[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 메커니즘의 Poll & [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 제어 평면 상태 흐름도*
-이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 방향성에 따라 주국이 취하는 서로 다른 두 가지 제어 시퀀스의 타이밍과 응답 방식을 깊이 있게 보여준다.
+*[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 메커니즘의 Poll & [Select](/studynote/05_database/04_transactions_concurrency/520_select/) 제어 평면 상태 흐름도*
+이 도식은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 방향성에 따라 주국이 취하는 서로 다른 두 가지 제어 시퀀스의 타이밍과 응답 방식을 깊이 있게 보여준다.
 
 ```text
 [상황 1: 주국이 종국의 데이터를 수집할 때 - Poll 동작]
@@ -77,11 +74,11 @@ Primary        [Select(주소A)] --->   Secondary A
                [Data] -------->       (주국의 데이터 전송)
                <-- [ACK(잘받음)] --
 ```
-*해설*: 이 도식의 핵심은 모든 통신의 시작점이 무조건 주국(Primary)의 제어 프레임 발송에 의존한다는 점이다. 상황 1의 Poll은 슬레이브가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어올리는 과정이며, 상황 3의 Select는 마스터가 가진 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려꽂는 과정이다. 이런 배치는 전체 토폴로지 상의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 원천 통제하지만, 최악의 약점을 유발한다. 바로 상황 2처럼 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 노드(C)에게도 일일이 찾아가서 물어봐야 하는 '[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Overhead)'다. NAK를 받기 위해 보내는 질문 프레임과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체가 채널 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 심각하게 낭비하는 잉여 작업이 된다.
+*해설*: 이 도식의 핵심은 모든 통신의 시작점이 무조건 주국(Primary)의 제어 프레임 발송에 의존한다는 점이다. 상황 1의 Poll은 슬레이브가 가진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 끌어올리는 과정이며, 상황 3의 Select는 마스터가 가진 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 내려꽂는 과정이다. 이런 배치는 전체 토폴로지 상의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 충돌을 원천 통제하지만, 최악의 약점을 유발한다. 바로 상황 2처럼 보낼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 노드(C)에게도 일일이 찾아가서 물어봐야 하는 '[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 오버헤드([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/) Overhead)'다. NAK를 받기 위해 보내는 질문 프레임과 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 자체가 채널 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 심각하게 낭비하는 잉여 작업이 된다.
 
 심층 동작 제어:
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 감시</strong>: 주국이 Poll을 던진 후 일정 시간(타이머) 종국의 응답이 없으면, 해당 종국이 죽은 것으로 간주(단선/고장)하고 즉각 다음 차례 노드로 스킵한다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 리스트 (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> List)</strong>: 단순 라운드-로빈 방식 외에도, 우선순위가 높은 종국을 리스트에 여러 번 배치하여 더 자주 기회를 부여하는 '[가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 우선순위 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(Weighted [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))' 구성이 가능하다.
+1. <strong><a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a> 감시</strong>: 주국이 Poll을 던진 후 일정 시간(타이머) 종국의 응답이 없으면, 해당 종국이 죽은 것으로 간주(단선/고장)하고 즉각 다음 차례 노드로 스킵한다.
+2. <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/">폴링</a> 리스트 (<a href="/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/">Polling</a> List)</strong>: 단순 라운드-로빈 방식 외에도, 우선순위가 높은 종국을 리스트에 여러 번 배치하여 더 자주 기회를 부여하는 '[가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 우선순위 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)(Weighted [Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))' 구성이 가능하다.
 
 - **📢 섹션 요약 비유**: 물류 창고 관리자(Primary)가 지게차(Poll)를 몰고 모든 작업자(Secondary)의 자리를 한 바퀴 돌며 수거할 택배가 있는지 일일이 물어보는 것과 같습니다. 택배가 없는 빈자리까지 꼭 방문해서 헛걸음해야 하는 낭비가 가장 큰 골칫거리입니다.
 
@@ -89,10 +86,10 @@ Primary        [Select(주소A)] --->   Secondary A
 
 ## Ⅲ. 비교 및 연결
 
-중앙 집권형 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식은 [토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)([Token Passing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)) 방식이나 경쟁 기반 ALOHA와 뚜렷한 대비를 이룬다.
+중앙 집권형 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/)) 방식은 [토큰 패싱](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)([Token Passing](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)) 방식이나 경쟁 기반 ALOHA와 뚜렷한 대비를 이룬다.
 
-*[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 통제 철학 및 병목 요소 비교 매트릭스*
-이 도식은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 채널 제어 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성 측면에서 어떠한 극단적 양상을 보이는지 비교한다.
+*[MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 계층 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 통제 철학 및 병목 요소 비교 매트릭스*
+이 도식은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 채널 제어 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)들이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성 측면에서 어떠한 극단적 양상을 보이는지 비교한다.
 
 ```text
 +----------+-----------------+-----------------+-----------------+
@@ -106,18 +103,18 @@ Primary        [Select(주소A)] --->   Secondary A
 | 채널 낭비| 잉여 Poll/NAK 질의비용| 토큰 자체 순회 비용| 충돌 후 백오프 시간|
 +----------+-----------------+-----------------+-----------------+
 ```
-*해설*: 이 표의 핵심은 신뢰성을 얻기 위해 무엇을 희생했는가를 드러낸다. [CSMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 빠른 응답성을 취하고 충돌을 허용했다. 반면 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 마스터의 명령이라는 절대적 질서를 채택해 충돌을 삭제했지만, [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)라는 구조적 시한폭탄을 안았다. 주국 라우터가 죽는 순간 그 아래 종속된 모든 통신망은 일순간에 고철로 변한다. 또한 아무도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지 않을 때 주국 혼자서 빈 허공에 질문(Poll)을 던지는 오버헤드가 전체 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹는다. 실무에서는 이 오버헤드와 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험을 비용으로 지불하고서라도 '확정된 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)'이 필요한가에 따라 도입 여부를 결정한다.
+*해설*: 이 표의 핵심은 신뢰성을 얻기 위해 무엇을 희생했는가를 드러낸다. [CSMA](/studynote/03_network/02_multiplexing_multiple_access/104_csma/)/CD는 빠른 응답성을 취하고 충돌을 허용했다. 반면 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)은 마스터의 명령이라는 절대적 질서를 채택해 충돌을 삭제했지만, [SPoF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) (Single Point of Failure)라는 구조적 시한폭탄을 안았다. 주국 라우터가 죽는 순간 그 아래 종속된 모든 통신망은 일순간에 고철로 변한다. 또한 아무도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내지 않을 때 주국 혼자서 빈 허공에 질문(Poll)을 던지는 오버헤드가 전체 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 갉아먹는다. 실무에서는 이 오버헤드와 [SPoF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 위험을 비용으로 지불하고서라도 '확정된 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)'이 필요한가에 따라 도입 여부를 결정한다.
 
-- **📢 섹션 요약 비유**: 경쟁 방식은 고장 나면 그 차만 사고가 나지만, [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 도로의 유일한 신호등(마스터)이 고장 나면 교차로의 모든 차가 꼼짝도 못 하고 마비되는 치명적인 중앙 의존성을 가집니다.
+- **📢 섹션 요약 비유**: 경쟁 방식은 고장 나면 그 차만 사고가 나지만, [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 도로의 유일한 신호등(마스터)이 고장 나면 교차로의 모든 차가 꼼짝도 못 하고 마비되는 치명적인 중앙 의존성을 가집니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 현대의 보편적인 인터넷 트래픽 전송에서는 퇴출당했으나, 공장 제어, 센서망, [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 같은 폐쇄형 로컬 네트워크에서는 절대 권력을 유지하고 있다.
+[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 현대의 보편적인 인터넷 트래픽 전송에서는 퇴출당했으나, 공장 제어, 센서망, [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 같은 폐쇄형 로컬 네트워크에서는 절대 권력을 유지하고 있다.
 
-*[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 아키텍처 기반 실무망 도입 판단 트리 및 장애 격리*
-이 도식은 실무 네트워크 설계자가 산업 현장이나 로컬 통신 구축 시 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 장단점을 평가하는 의사결정 과정을 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
+*[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 아키텍처 기반 실무망 도입 판단 트리 및 장애 격리*
+이 도식은 실무 네트워크 설계자가 산업 현장이나 로컬 통신 구축 시 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 장단점을 평가하는 의사결정 과정을 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/)한다.
 
 ```text
 [요구사항: 여러 기기들의 센싱 및 데이터 통신 인프라 설계]
@@ -132,35 +129,35 @@ Primary        [Select(주소A)] --->   Secondary A
          |                 |    +- (No)  -> 중앙 PLC가 밸브들을 관리하는 마스터-슬레이브
          |                 |                구조이므로 Polling Access(Modbus) 전격 도입!
 ```
-*해설*: 이 흐름의 핵심은 '모든 기기가 동일한 지위를 갖느냐'는 비즈니스적 통제 논리다. 용광로의 온도를 감시하는 센서 100개가 있다고 치자. 이 센서들이 마음대로 본부(주국)에 알람을 쏘다 충돌해서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 것보다, 메인 제어기(Primary [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))가 1번부터 100번 센서까지 정확히 10ms 단위로 순회([Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하며 물어보는 방식이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 시간의 예측 가능성(Determinism) 측면에서 압도적으로 우수하다. 실무 공장 자동화나 스카다([SCADA](/knowledge-base/studynote/09_security/18_iot_ot_physical/894_scada/)) 통신망에서 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 표준으로 군림하는 이유가 바로 이 결정론적 안정성에 있다.
+*해설*: 이 흐름의 핵심은 '모든 기기가 동일한 지위를 갖느냐'는 비즈니스적 통제 논리다. 용광로의 온도를 감시하는 센서 100개가 있다고 치자. 이 센서들이 마음대로 본부(주국)에 알람을 쏘다 충돌해서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되는 것보다, 메인 제어기(Primary [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/))가 1번부터 100번 센서까지 정확히 10ms 단위로 순회([Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하며 물어보는 방식이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 시간의 예측 가능성(Determinism) 측면에서 압도적으로 우수하다. 실무 공장 자동화나 스카다([SCADA](/studynote/09_security/18_iot_ot_physical/894_scada/)) 통신망에서 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 표준으로 군림하는 이유가 바로 이 결정론적 안정성에 있다.
 
-<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 최악의 아키텍처</strong>:
-1. **스케일-아웃 폭망 (Scalability Issue)**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 종국의 개수가 늘어날수록 한 바퀴 순회하는 라운드 트립(Round-trip) 시간이 기하급수적으로 길어진다. 수만 개의 기기가 연결된 망에 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 도입하면, 내 차례가 올 때까지 하루 종일 기다려야 하는 막장 대기열이 형성된다. [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 노드 수는 제한된 로컬 스코프 이내로 묶어야 한다.
-2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPoF</a> <a href="/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 미설계</strong>: 마스터 고장에 대한 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))이나 [핫 스탠바이](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)([이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) PLC를 설계해두지 않으면, 낙뢰나 전원 불량으로 주국이 정지하는 순간 전체 공정 라인이 무기한 멈춰버리는 재앙을 초래한다.
+<strong>실무 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 및 최악의 아키텍처</strong>:
+1. **스케일-아웃 폭망 (Scalability Issue)**: [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식은 종국의 개수가 늘어날수록 한 바퀴 순회하는 라운드 트립(Round-trip) 시간이 기하급수적으로 길어진다. 수만 개의 기기가 연결된 망에 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)을 도입하면, 내 차례가 올 때까지 하루 종일 기다려야 하는 막장 대기열이 형성된다. [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 노드 수는 제한된 로컬 스코프 이내로 묶어야 한다.
+2. <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/454_spof/">SPoF</a> <a href="/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/">백업</a> 미설계</strong>: 마스터 고장에 대한 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)([Fallback](/studynote/13_cloud_architecture/03_msa_serverless/129_fallback/))이나 [핫 스탠바이](/studynote/01_computer_architecture/13_reliability_power_management/457_hot_standby/)([이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)) PLC를 설계해두지 않으면, 낙뢰나 전원 불량으로 주국이 정지하는 순간 전체 공정 라인이 무기한 멈춰버리는 재앙을 초래한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 수만 명의 콘서트장에서는 일일이 마이크를 돌리는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 최악의 선택이지만, 10명이 모인 임원 회의에서는 회장님이 한 명씩 지목하여 발언시키는 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 겹치지 않고 가장 빠르고 정확하게 의견을 취합하는 무기입니다.
+- **📢 섹션 요약 비유**: 수만 명의 콘서트장에서는 일일이 마이크를 돌리는 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 최악의 선택이지만, 10명이 모인 임원 회의에서는 회장님이 한 명씩 지목하여 발언시키는 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 겹치지 않고 가장 빠르고 정확하게 의견을 취합하는 무기입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속은 가장 고전적이지만 가장 확실한 통제력을 제공하는 통신 권력형 모델이다.
+[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속은 가장 고전적이지만 가장 확실한 통제력을 제공하는 통신 권력형 모델이다.
 
 | 기대효과 | 정성적 시스템 가치 | 정량적 및 운영적 지표 |
 |:---|:---|:---|
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장 (Bounded Delay) | 패킷이 언제 전송될지 수학적 예측 가능 | 최대 순회 시간 = N(노드수) × 처리시간 보장 |
-| 차등 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원 | 중요 센서에 발언권을 2~3배 편중 할당 가능 | 큐잉 [우선순위 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) 완벽 제어 |
-| 단순한 종단 장비 | 슬레이브는 묻는 말에 대답만 하는 단순 로직 | [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 노드의 하드웨어/메모리 비용 90% 극소화 |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 보장 (Bounded Delay) | 패킷이 언제 전송될지 수학적 예측 가능 | 최대 순회 시간 = N(노드수) × 처리시간 보장 |
+| 차등 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 지원 | 중요 센서에 발언권을 2~3배 편중 할당 가능 | 큐잉 [우선순위 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/180_priority_scheduling/) 완벽 제어 |
+| 단순한 종단 장비 | 슬레이브는 묻는 말에 대답만 하는 단순 로직 | [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 엣지 노드의 하드웨어/메모리 비용 90% 극소화 |
 
-미래에는 이 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 [uRLLC](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) (초고신뢰 초저지연 통신) 및 산업용 TSCH([Time-Sensitive Networking](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) 스케줄링과 결합하여, 단순한 순차적 질의가 아니라 딥러닝이 각 기기의 트래픽 패턴을 예측하여 가장 최적의 타이밍에 호명(Dynamic Smart [Polling](/knowledge-base/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하는 지능형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 형태로 고도화될 것이다.
+미래에는 이 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 방식이 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/6G의 [uRLLC](/studynote/03_network/15_nextgen_communication_architecture/761_urllc_ultra_reliable_low_latency/) (초고신뢰 초저지연 통신) 및 산업용 TSCH([Time-Sensitive Networking](/studynote/06_ict_convergence/02_iot_mobility/168_industrial_ethernet_tsn/)) 스케줄링과 결합하여, 단순한 순차적 질의가 아니라 딥러닝이 각 기기의 트래픽 패턴을 예측하여 가장 최적의 타이밍에 호명(Dynamic Smart [Polling](/studynote/02_operating_system/11_exam_summary/747_io_polling_overhead/))하는 지능형 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 형태로 고도화될 것이다.
 
-- **📢 섹션 요약 비유**: [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속은 아주 보수적이고 답답한 상명하복 조직과 같지만, 한 치의 오차나 사고도 용납될 수 없는 군대나 수술실 같은 극도의 실시간 환경에서는 가장 믿음직스럽고 단단한 방패가 되어줍니다.
+- **📢 섹션 요약 비유**: [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속은 아주 보수적이고 답답한 상명하복 조직과 같지만, 한 치의 오차나 사고도 용납될 수 없는 군대나 수술실 같은 극도의 실시간 환경에서는 가장 믿음직스럽고 단단한 방패가 되어줍니다.
 
 ---
 
@@ -169,9 +166,9 @@ Primary        [Select(주소A)] --->   Secondary A
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 마스터-슬레이브 아키텍처 (Master-Slave) | 주국이 모든 통제권을 쥐고 종국은 지시에만 따르는 종속적 토폴로지 모델 |
-| [토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ([Token Passing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)) | [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 중앙 [SPoF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제를 해결하기 위해 노드끼리 분산하여 권한을 순환시키는 [매체 접근 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식 |
-| 결정론적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Bounded Delay / Determinism) | 패킷 충돌 없이 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 전송 완료될 것인지 수식으로 확정 보장할 수 있는 네트워크 특성 |
-| 피코넷 (Piconet) | [블루투스](/knowledge-base/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 통신에서 1대의 마스터가 최대 7대의 슬레이브를 [폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하여 제어하는 근거리 소규모 네트워크 |
+| [토큰 패싱](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ([Token Passing](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)) | [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)의 중앙 [SPoF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 문제를 해결하기 위해 노드끼리 분산하여 권한을 순환시키는 [매체 접근 제어](/studynote/03_network/04_data_link_layer_error/183_mac_media_access_control/) 방식 |
+| 결정론적 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) (Bounded Delay / Determinism) | 패킷 충돌 없이 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 언제 전송 완료될 것인지 수식으로 확정 보장할 수 있는 네트워크 특성 |
+| 피코넷 (Piconet) | [블루투스](/studynote/03_network/12_iot_wpan_edge/605_bluetooth_ieee_802_15_1_piconet_scatternet/) 통신에서 1대의 마스터가 최대 7대의 슬레이브를 [폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/)하여 제어하는 근거리 소규모 네트워크 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -185,7 +182,7 @@ Primary        [Select(주소A)] --->   Secondary A
     +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
-[폴링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속는 예약 방식 접속에서 출발해 현재 메커니즘을 정교화하고, 이후 [토큰 패싱](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[폴링](/studynote/02_operating_system/08_storage_and_io_systems/448_polling_programmed_io/) 접속는 예약 방식 접속에서 출발해 현재 메커니즘을 정교화하고, 이후 [토큰 패싱](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/)와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -199,7 +196,7 @@ Primary        [Select(주소A)] --->   Secondary A
 
 **진행 상황**: 235 / 1120
 
-<- **이전**: [113. 예약 방식 접속 (Reservation Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/)
-**다음**: [115. 토큰 패싱 (Token Passing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ->
+<- **이전**: [113. 예약 방식 접속 (Reservation Access)](/studynote/03_network/02_multiplexing_multiple_access/113_reservation_access/)
+**다음**: [115. 토큰 패싱 (Token Passing)](/studynote/03_network/02_multiplexing_multiple_access/115_token_passing/) ->
 
 ---

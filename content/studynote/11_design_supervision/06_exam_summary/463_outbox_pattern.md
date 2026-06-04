@@ -1,13 +1,10 @@
-+++
-title = "463. 아웃박스 패턴 메시지 보장 (Outbox Pattern Message Guarantee)"
-date = 2026-05-09
+---
+title: "463. 아웃박스 패턴 메시지 보장 (Outbox Pattern Message Guarantee)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -246,7 +243,7 @@ public Order createOrder(OrderRequest req) {
 
 **진행 상황**: 463 / 600
 
-<- **이전**: [462. 리트라이 패턴 지수 백오프](/knowledge-base/studynote/11_design_supervision/06_exam_summary/463_retry_pattern/)
-**다음**: [464. 데이터베이스 퍼 서비스 독립 저장소](/knowledge-base/studynote/11_design_supervision/06_exam_summary/464_database_per_service/) ->
+<- **이전**: [462. 리트라이 패턴 지수 백오프](/studynote/11_design_supervision/06_exam_summary/463_retry_pattern/)
+**다음**: [464. 데이터베이스 퍼 서비스 독립 저장소](/studynote/11_design_supervision/06_exam_summary/464_database_per_service/) ->
 
 ---

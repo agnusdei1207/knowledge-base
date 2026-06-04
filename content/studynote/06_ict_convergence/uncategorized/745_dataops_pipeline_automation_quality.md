@@ -1,13 +1,10 @@
-+++
-title = "745. 데이터옵스 파이프라인 자동화 품질 (DataOps Pipeline Automation Quality)"
-date = 2026-05-09
+---
+title: "745. 데이터옵스 파이프라인 자동화 품질 (DataOps Pipeline Automation Quality)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -132,7 +129,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 745 / 800
 
-<- **이전**: [744. AIOps IT 운영 지능화 이상 탐지](/knowledge-base/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/)
-**다음**: [746. MLOps 머신러닝 생명주기 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/) ->
+<- **이전**: [744. AIOps IT 운영 지능화 이상 탐지](/studynote/06_ict_convergence/uncategorized/744_aiops_it_operations_intelligence_anomaly/)
+**다음**: [746. MLOps 머신러닝 생명주기 관리](/studynote/06_ict_convergence/uncategorized/746_mlops_machine_learning_lifecycle_management/) ->
 
 ---

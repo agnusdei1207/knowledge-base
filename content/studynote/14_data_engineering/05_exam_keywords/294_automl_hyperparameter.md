@@ -1,13 +1,10 @@
-+++
-title = "294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)"
-date = 2026-05-09
+---
+title: "294. 자동 ML 하이퍼파라미터 NAS 탐색 (AutoML Hyperparameter NAS Search)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -186,7 +183,7 @@ $c_i = \sum_{m=1}^{M} \frac{|f_m^{(i+1)} - f_m^{(i-1)}|}{f_m^{max} - f_m^{min}}$
 
 **진행 상황**: 294 / 300
 
-<- **이전**: [293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/293_data_observability/)
-**다음**: [295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/295_llmops/) ->
+<- **이전**: [293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)](/studynote/14_data_engineering/05_exam_keywords/293_data_observability/)
+**다음**: [295. LLMOps 대규모 언어 모델 운영 관리 (LLMOps Large Language Model Operations)](/studynote/14_data_engineering/05_exam_keywords/295_llmops/) ->
 
 ---

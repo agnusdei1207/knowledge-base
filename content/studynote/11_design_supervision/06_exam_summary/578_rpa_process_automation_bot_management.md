@@ -1,13 +1,10 @@
-+++
-title = "578. RPA 프로세스 자동화 봇 관리 (RPA Process Automation Bot Management)"
-date = 2026-05-09
+---
+title: "578. RPA 프로세스 자동화 봇 관리 (RPA Process Automation Bot Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -186,7 +183,7 @@ Orchestrator는 RPA의 **두뇌**이며, 다음 6가지 핵심 기능을 제공�
 
 **진행 상황**: 578 / 600
 
-<- **이전**: [577. 로우코드 노코드 시민 개발자 거버넌스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/578_low_code_no_code_citizen_developer_gover/)
-**다음**: [579. 하이퍼오토메이션 AI 융합 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/579_hyperautomation_ai_convergence_automatio/) ->
+<- **이전**: [577. 로우코드 노코드 시민 개발자 거버넌스](/studynote/11_design_supervision/06_exam_summary/578_low_code_no_code_citizen_developer_gover/)
+**다음**: [579. 하이퍼오토메이션 AI 융합 자동화](/studynote/11_design_supervision/06_exam_summary/579_hyperautomation_ai_convergence_automatio/) ->
 
 ---

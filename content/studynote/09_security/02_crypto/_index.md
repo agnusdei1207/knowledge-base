@@ -1,9 +1,9 @@
-+++
-title = "02. 암호학 (Cryptography)"
+---
+title: "02. 암호학 (Cryptography)"
+tags:
+  - "security"
+---
 
-[extra]
-tags = ["security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

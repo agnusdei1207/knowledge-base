@@ -1,6 +1,5 @@
-+++
-title = "13. Intro Trends"
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
+---
+title: "13. Intro Trends"
+tags:
+  - "studynote-bigdata"
+---

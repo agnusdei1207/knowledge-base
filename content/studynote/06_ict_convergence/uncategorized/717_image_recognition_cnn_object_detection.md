@@ -1,13 +1,10 @@
-+++
-title = "717. 이미지 인식 CNN 객체 탐지 분할 (Image Recognition CNN Object Detection)"
-date = 2026-05-09
+---
+title: "717. 이미지 인식 CNN 객체 탐지 분할 (Image Recognition CNN Object Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -179,7 +176,7 @@ $$\mathcal{L}_{total} = \lambda_{cls}\mathcal{L}_{cls} + \lambda_{box}\mathcal{L
 
 **진행 상황**: 717 / 800
 
-<- **이전**: [716. 추천 시스템 협업 필터링 콘텐츠 기반](/knowledge-base/studynote/06_ict_convergence/uncategorized/716_recommendation_collaborative_content_based/)
-**다음**: [718. 음성 인식 ASR 화자 분리 합성](/knowledge-base/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/) ->
+<- **이전**: [716. 추천 시스템 협업 필터링 콘텐츠 기반](/studynote/06_ict_convergence/uncategorized/716_recommendation_collaborative_content_based/)
+**다음**: [718. 음성 인식 ASR 화자 분리 합성](/studynote/06_ict_convergence/uncategorized/718_speech_recognition_asr_speaker_diarization/) ->
 
 ---

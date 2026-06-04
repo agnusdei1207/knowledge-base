@@ -1,13 +1,10 @@
-+++
-title = "268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)"
-date = 2026-05-09
+---
+title: "268. 벡터 데이터베이스 임베딩 유사도 검색 (Vector Database Embedding Similarity Search)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -196,7 +193,7 @@ Vector Index에 저장 (id -> vector, metadata, payload)
 
 **진행 상황**: 268 / 300
 
-<- **이전**: [267. 스트리밍 ETL 실시간 파이프라인 설계 (Streaming ETL Real-time Pipeline Design)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/267_streaming_etl/)
-**다음**: [269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/269_graph_database/) ->
+<- **이전**: [267. 스트리밍 ETL 실시간 파이프라인 설계 (Streaming ETL Real-time Pipeline Design)](/studynote/14_data_engineering/05_exam_keywords/267_streaming_etl/)
+**다음**: [269. 그래프 데이터베이스 관계 모델링 지식 그래프 (Graph Database Knowledge Graph Neo4j)](/studynote/14_data_engineering/05_exam_keywords/269_graph_database/) ->
 
 ---

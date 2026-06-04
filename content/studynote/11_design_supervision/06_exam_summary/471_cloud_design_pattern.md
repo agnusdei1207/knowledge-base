@@ -1,13 +1,10 @@
-+++
-title = "471. 클라우드 디자인 패턴 분류 체계 (Cloud Design Pattern Classification)"
-date = 2026-05-09
+---
+title: "471. 클라우드 디자인 패턴 분류 체계 (Cloud Design Pattern Classification)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ Microsoft Azure의 정식 분류 체계(8개 카테고리, 24개 핵심 패턴)�
 
 **진행 상황**: 471 / 600
 
-<- **이전**: [470. 카오스 엔지니어링 복원력 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/471_chaos_engineering_resilience/)
-**다음**: [472. 반응형 시스템 리액티브 매니페스토](/knowledge-base/studynote/11_design_supervision/06_exam_summary/472_reactive_system/) ->
+<- **이전**: [470. 카오스 엔지니어링 복원력 검증](/studynote/11_design_supervision/06_exam_summary/471_chaos_engineering_resilience/)
+**다음**: [472. 반응형 시스템 리액티브 매니페스토](/studynote/11_design_supervision/06_exam_summary/472_reactive_system/) ->
 
 ---

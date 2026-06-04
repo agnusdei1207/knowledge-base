@@ -1,13 +1,10 @@
-+++
-title = "600. IT 경영 관리 핵심 토픽 600번 시험 요약 (IT Management Core Topic 600 Exam Summary)"
-date = 2026-05-09
+---
+title: "600. IT 경영 관리 핵심 토픽 600번 시험 요약 (IT Management Core Topic 600 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 600. IT 경영 관리 핵심 토픽 600번 시험 요약 (IT Management Core Topic 600 Exam Summary)
 
@@ -148,7 +145,7 @@ IT 경영관리의 근간이 되는 **COBIT 2019 Governance & Management Objecti
 
 **진행 상황**: 600 / 800
 
-<- **이전**: [599. IT 경영 관리 핵심 토픽 599번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/599_it_management_core_topic_599_exam_summary/)
-**다음**: [601. IT 경영 관리 핵심 토픽 601번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/601_it_management_core_topic_601_exam_summary/) ->
+<- **이전**: [599. IT 경영 관리 핵심 토픽 599번 시험 요약](/studynote/12_it_management/05_security_compliance/599_it_management_core_topic_599_exam_summary/)
+**다음**: [601. IT 경영 관리 핵심 토픽 601번 시험 요약](/studynote/12_it_management/05_security_compliance/601_it_management_core_topic_601_exam_summary/) ->
 
 ---

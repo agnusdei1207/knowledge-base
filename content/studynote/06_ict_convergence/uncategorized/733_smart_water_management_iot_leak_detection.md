@@ -1,13 +1,10 @@
-+++
-title = "733. 스마트 물관리 IoT 누수 탐지 수질 (Smart Water Management IoT Leak Detection)"
-date = 2026-05-09
+---
+title: "733. 스마트 물관리 IoT 누수 탐지 수질 (Smart Water Management IoT Leak Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 733. 스마트 물관리 IoT 누수 탐지 수질 (Smart Water Management IoT Leak Detection)
 
@@ -205,7 +202,7 @@ MNF_index = (Q_night / Q_avg) × 100
 
 **진행 상황**: 733 / 800
 
-<- **이전**: [732. 스마트 그리드 수요 반응 DR 가상발전](/knowledge-base/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/)
-**다음**: [734. 스마트 안전 재난 관리 조기 경보](/knowledge-base/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/) ->
+<- **이전**: [732. 스마트 그리드 수요 반응 DR 가상발전](/studynote/06_ict_convergence/uncategorized/732_smart_grid_demand_response_dr_vpp/)
+**다음**: [734. 스마트 안전 재난 관리 조기 경보](/studynote/06_ict_convergence/uncategorized/734_smart_safety_disaster_management_early_warnin/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "437. 비용 산정 FP COCOMO COSMIC (Cost Estimation FP COCOMO COSMIC)"
-date = 2026-05-09
+---
+title: "437. 비용 산정 FP COCOMO COSMIC (Cost Estimation FP COCOMO COSMIC)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ COSMIC은 FUR을 4가지 **Functional User (FUR Type)**으로 분해하고, 각 
 
 **진행 상황**: 437 / 800
 
-<- **이전**: [436. 테스트 관리 품질 보증 자동화](/knowledge-base/studynote/12_it_management/05_security_compliance/436_test_management_quality_assurance_automation/)
-**다음**: [438. 품질 관리 ISO 25010 품질 특성](/knowledge-base/studynote/12_it_management/05_security_compliance/438_quality_management_iso_25010_characteristics/) ->
+<- **이전**: [436. 테스트 관리 품질 보증 자동화](/studynote/12_it_management/05_security_compliance/436_test_management_quality_assurance_automation/)
+**다음**: [438. 품질 관리 ISO 25010 품질 특성](/studynote/12_it_management/05_security_compliance/438_quality_management_iso_25010_characteristics/) ->
 
 ---

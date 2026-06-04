@@ -1,13 +1,10 @@
-+++
-title = "291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)"
-date = 2026-05-09
+---
+title: "291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -256,7 +253,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 291 / 300
 
-<- **이전**: [290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/290_parquet_orc_columnar/)
-**다음**: [292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/292_lakehouse_medallion/) ->
+<- **이전**: [290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)](/studynote/14_data_engineering/05_exam_keywords/290_parquet_orc_columnar/)
+**다음**: [292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)](/studynote/14_data_engineering/05_exam_keywords/292_lakehouse_medallion/) ->
 
 ---

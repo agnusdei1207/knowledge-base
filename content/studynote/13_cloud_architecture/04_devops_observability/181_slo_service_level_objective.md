@@ -1,29 +1,26 @@
-+++
-title = "181. SLO (Service Level Objective, 서비스 수준 목표)"
-date = 2026-04-21
+---
+title: "181. SLO (Service Level Objective, 서비스 수준 목표)"
+date: "2026-04-21"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SLO ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))에 목표치와 평가 창을 얹어, "어느 수준까지 품질을 유지할 것인가"를 수치로 고정한 내부 운영 기준이다.
-> 2. **가치**: SLO가 있어야 배포 속도, 장애 대응, 투자 우선순위가 감정이 아니라 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 기반 의사결정으로 연결된다.
+> 1. **본질**: SLO ([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))에 목표치와 평가 창을 얹어, "어느 수준까지 품질을 유지할 것인가"를 수치로 고정한 내부 운영 기준이다.
+> 2. **가치**: SLO가 있어야 배포 속도, 장애 대응, 투자 우선순위가 감정이 아니라 [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 기반 의사결정으로 연결된다.
 > 3. **판단 포인트**: 좋은 SLO는 높아 보이는 숫자가 아니라 사용자 체감과 운영 비용을 함께 감당할 수 있는 목표이며, 숫자 하나를 올릴 때마다 허용 실패량은 급격히 줄어든다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-SLO ([Service Level Objective](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 "충분히 좋다"고 말할 수 있는 내부 목표선이다. SLI가 현재 품질을 재는 계기판이라면, SLO는 그 계기판을 보고 어느 구간까지 허용할지를 정한 운영 기준이다. 예를 들어 로그인 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 성공률을 30일 동안 99.95% 이상 유지하겠다고 정하면, 그 순간부터 팀은 품질을 숫자로 논의할 수 있다.
+SLO ([Service Level Objective](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/))는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 "충분히 좋다"고 말할 수 있는 내부 목표선이다. SLI가 현재 품질을 재는 계기판이라면, SLO는 그 계기판을 보고 어느 구간까지 허용할지를 정한 운영 기준이다. 예를 들어 로그인 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 성공률을 30일 동안 99.95% 이상 유지하겠다고 정하면, 그 순간부터 팀은 품질을 숫자로 논의할 수 있다.
 
-SLO가 필요한 이유는 메트릭만 많다고 운영이 명확해지지 않기 때문이다. CPU (Central Processing Unit) 사용률, p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 오류율이 동시에 보이더라도 "지금 배포해도 되는가"라는 질문에는 여전히 팀마다 다른 답을 낼 수 있다. 제품팀은 더 빨리 출시하고 싶고, 운영팀은 장애를 줄이고 싶어 하므로, 둘 사이에 공통된 기준선이 없으면 속도와 안정성은 늘 충돌한다.
+SLO가 필요한 이유는 메트릭만 많다고 운영이 명확해지지 않기 때문이다. CPU (Central Processing Unit) 사용률, p95 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, 오류율이 동시에 보이더라도 "지금 배포해도 되는가"라는 질문에는 여전히 팀마다 다른 답을 낼 수 있다. 제품팀은 더 빨리 출시하고 싶고, 운영팀은 장애를 줄이고 싶어 하므로, 둘 사이에 공통된 기준선이 없으면 속도와 안정성은 늘 충돌한다.
 
-또한 SLO는 100% [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 목표로 삼지 않는다는 점에서 중요하다. 100%는 기술적으로도 비싸고, 조직적으로도 혁신을 멈추게 만든다. 결국 SLO는 "얼마나 완벽해야 하는가"가 아니라, "사용자가 불편을 느끼지 않는 수준을 어떤 비용으로 유지할 것인가"를 정하는 경제적 의사결정이다.
+또한 SLO는 100% [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 목표로 삼지 않는다는 점에서 중요하다. 100%는 기술적으로도 비싸고, 조직적으로도 혁신을 멈추게 만든다. 결국 SLO는 "얼마나 완벽해야 하는가"가 아니라, "사용자가 불편을 느끼지 않는 수준을 어떤 비용으로 유지할 것인가"를 정하는 경제적 의사결정이다.
 
 아래 그림은 목표 없는 관측과 SLO 기반 운영의 차이를 보여 준다.
 
@@ -40,7 +37,7 @@ SLO가 필요한 이유는 메트릭만 많다고 운영이 명확해지지 않�
 +--------------------------------------------------------------+
 ```
 
-이 그림의 핵심은 SLO가 단순 보고서 숫자가 아니라, 변경 관리와 장애 대응의 기준점이라는 사실이다. 즉 SLO가 정의되는 순간부터 관측성은 모니터링을 넘어 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 된다.
+이 그림의 핵심은 SLO가 단순 보고서 숫자가 아니라, 변경 관리와 장애 대응의 기준점이라는 사실이다. 즉 SLO가 정의되는 순간부터 관측성은 모니터링을 넘어 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 된다.
 
 - **📢 섹션 요약 비유**: SLO는 시험 점수 자체가 아니라 "이 점수 이상이면 합격"이라고 정한 기준선과 같다. 점수만 보면 해석이 갈리지만, 합격선이 있으면 다음 행동이 분명해진다.
 
@@ -48,19 +45,19 @@ SLO가 필요한 이유는 메트릭만 많다고 운영이 명확해지지 않�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-SLO는 보통 네 가지 요소로 설계된다. 첫째, 어떤 사용자 여정을 볼지 정한다. 둘째, 그 여정을 수치화하는 SLI를 고른다. 셋째, 28일 또는 30일 같은 롤링 윈도우에서 목표치를 선언한다. 넷째, 목표를 벗어날 때 어떤 운영 조치를 취할지 [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 연결한다.
+SLO는 보통 네 가지 요소로 설계된다. 첫째, 어떤 사용자 여정을 볼지 정한다. 둘째, 그 여정을 수치화하는 SLI를 고른다. 셋째, 28일 또는 30일 같은 롤링 윈도우에서 목표치를 선언한다. 넷째, 목표를 벗어날 때 어떤 운영 조치를 취할지 [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 연결한다.
 
 | 구성 요소 | 질문 | 예시 | 설계 포인트 |
 | :--- | :--- | :--- | :--- |
-| 사용자 여정 | 무엇을 보호할 것인가 | 로그인, 결제, 조회, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 | 내부 자원보다 사용자 경험 우선 |
-| [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 무엇을 측정할 것인가 | 성공률, p99 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 | good/total 정의를 분명히 해야 함 |
+| 사용자 여정 | 무엇을 보호할 것인가 | 로그인, 결제, 조회, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 | 내부 자원보다 사용자 경험 우선 |
+| [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 무엇을 측정할 것인가 | 성공률, p99 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 | good/total 정의를 분명히 해야 함 |
 | 목표치 | 어느 수준을 유지할 것인가 | 99.9%, 99.95%, 300ms 이내 99% | 숫자 하나가 비용 구조를 바꿈 |
 | 평가 창 | 얼마나 긴 기간으로 볼 것인가 | 5분 경보 + 30일 목표 | 단기 경보와 장기 약속을 분리 |
-| [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) | 미달 시 무엇을 할 것인가 | 배포 제한, 원인 분석, 안정화 투자 | 운영 행동과 바로 연결되어야 함 |
+| [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) | 미달 시 무엇을 할 것인가 | 배포 제한, 원인 분석, 안정화 투자 | 운영 행동과 바로 연결되어야 함 |
 
-가장 많이 쓰는 계산은 단순하다. [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLO라면 `Error Budget = 1 - SLO`다. 예를 들어 30일 기준 99.9% [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLO는 전체 43,200분 중 0.1%인 43.2분의 실패 시간을 허용한다. 여기서 중요한 것은 이 43.2분이 "장애를 허용한다"는 뜻이 아니라, 그 범위를 넘기기 전에 어떤 변경을 멈추고 어떤 개선을 우선할지 판단하는 운영 자산이라는 점이다.
+가장 많이 쓰는 계산은 단순하다. [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLO라면 `Error Budget = 1 - SLO`다. 예를 들어 30일 기준 99.9% [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) SLO는 전체 43,200분 중 0.1%인 43.2분의 실패 시간을 허용한다. 여기서 중요한 것은 이 43.2분이 "장애를 허용한다"는 뜻이 아니라, 그 범위를 넘기기 전에 어떤 변경을 멈추고 어떤 개선을 우선할지 판단하는 운영 자산이라는 점이다.
 
-아래 흐름은 SLO가 측정값에서 운영 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 변하는 과정을 보여 준다.
+아래 흐름은 SLO가 측정값에서 운영 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 변하는 과정을 보여 준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -88,24 +85,24 @@ SLO는 보통 네 가지 요소로 설계된다. 첫째, 어떤 사용자 여정
 
 ## Ⅲ. 비교 및 연결
 
-SLO를 정확히 이해하려면 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))와의 경계를 먼저 나눠야 한다. SLI는 실측값이고, SLO는 내부 목표이며, SLA는 외부 계약이다. 따라서 SLO는 SLI보다 추상적이어서는 안 되고, SLA보다 느슨해서도 안 된다.
+SLO를 정확히 이해하려면 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/), [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))와의 경계를 먼저 나눠야 한다. SLI는 실측값이고, SLO는 내부 목표이며, SLA는 외부 계약이다. 따라서 SLO는 SLI보다 추상적이어서는 안 되고, SLA보다 느슨해서도 안 된다.
 
 | 구분 | 핵심 질문 | 예시 | 사용 목적 |
 | :--- | :--- | :--- | :--- |
-| [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 지금 실제 품질은 얼마인가 | 성공률 99.93%, p99 410ms | 관측 |
+| [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 지금 실제 품질은 얼마인가 | 성공률 99.93%, p99 410ms | 관측 |
 | SLO | 내부적으로 어느 수준을 유지할 것인가 | 성공률 99.9% 이상, p99 300ms | 운영 목표 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 고객에게 어디까지 약속할 것인가 | 월 99.5% 미만이면 크레딧 지급 | 계약·보상 |
+| [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) | 고객에게 어디까지 약속할 것인가 | 월 99.5% 미만이면 크레딧 지급 | 계약·보상 |
 
-SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 크다. 99.9%에서 99.99%로 한 자리만 올려도 허용 가능한 월간 실패 시간은 10분의 1로 줄어든다. 그래서 "한 자릿수 더 올리자"는 말은 대개 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), 테스트, 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 관측성 투자까지 함께 요구하는 아키텍처 변화다.
+SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 크다. 99.9%에서 99.99%로 한 자리만 올려도 허용 가능한 월간 실패 시간은 10분의 1로 줄어든다. 그래서 "한 자릿수 더 올리자"는 말은 대개 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), 테스트, 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/), 관측성 투자까지 함께 요구하는 아키텍처 변화다.
 
 | 목표치 | 30일 기준 허용 실패 시간 | 일반적 의미 | 필요한 운영 성숙도 |
 | :--- | :--- | :--- | :--- |
 | 99.5% | 3시간 36분 | 내부 업무 도구 | 기본 모니터링 |
-| 99.9% | 43분 12초 | 일반 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 표준 온콜·자동화 |
-| 99.95% | 21분 36초 | 핵심 비즈니스 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)·빠른 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
-| 99.99% | 4분 19초 | 결제·[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 핵심 경로 | 고급 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·강한 변경 통제 |
+| 99.9% | 43분 12초 | 일반 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) (Software [as](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) a [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 표준 온콜·자동화 |
+| 99.95% | 21분 36초 | 핵심 비즈니스 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)·빠른 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| 99.99% | 4분 19초 | 결제·[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 핵심 경로 | 고급 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)·강한 변경 통제 |
 
-또한 모든 SLO가 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)일 필요는 없다. 사용자 화면은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 SLO가 더 중요할 수 있고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인은 신선도나 완결성 SLO가 더 중요할 수 있다. 결국 SLO는 "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 무엇이 실패인가"를 정의하는 작업이며, 같은 99.9%라도 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 종류에 따라 의미가 달라진다.
+또한 모든 SLO가 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)일 필요는 없다. 사용자 화면은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 SLO가 더 중요할 수 있고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인은 신선도나 완결성 SLO가 더 중요할 수 있다. 결국 SLO는 "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)마다 무엇이 실패인가"를 정의하는 작업이며, 같은 99.9%라도 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 종류에 따라 의미가 달라진다.
 
 - **📢 섹션 요약 비유**: 99.9와 99.99의 차이는 키가 1cm 커지는 차이가 아니라, 시험에서 틀려도 되는 문제 수가 10문제에서 1문제로 줄어드는 차이와 같다. 숫자는 비슷해 보여도 부담은 전혀 다르다.
 
@@ -113,24 +110,24 @@ SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 좋은 SLO는 "측정 가능함"과 "행동 가능함"을 동시에 만족해야 한다. 사용자가 실제로 체감하는 핵심 여정을 고르고, 목표를 벗어날 때 배포 속도·장애 대응·개선 우선순위가 어떻게 바뀌는지 미리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 정해 두어야 한다. 숫자만 있고 조치가 없으면 SLO는 화려한 대시보드에 그친다.
+실무에서 좋은 SLO는 "측정 가능함"과 "행동 가능함"을 동시에 만족해야 한다. 사용자가 실제로 체감하는 핵심 여정을 고르고, 목표를 벗어날 때 배포 속도·장애 대응·개선 우선순위가 어떻게 바뀌는지 미리 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 정해 두어야 한다. 숫자만 있고 조치가 없으면 SLO는 화려한 대시보드에 그친다.
 
-| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유형 | 권장 SLO 예시 | 판단 이유 | 흔한 실수 |
+| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 유형 | 권장 SLO 예시 | 판단 이유 | 흔한 실수 |
 | :--- | :--- | :--- | :--- |
-| 결제 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 성공률 99.95%, p99 700ms | 실패 비용이 매우 큼 | 내부 CPU 지표만 보고 품질을 착각 |
-| 일반 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 성공률 99.9%, p95 300ms | 속도와 안정성 균형 | 모든 화면에 동일 기준 적용 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 파이프라인 | 15분 내 반영 비율 99%, 유실 0% | 신선도와 완결성이 핵심 | [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)만 보고 실제 적재 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 놓침 |
-| 내부 플랫폼 | 배포 성공률 99%, 환경 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 10분 이내 95% | 내부 개발자 경험이 중요 | 외부 고객용 SLO를 그대로 복사 |
+| 결제 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | 성공률 99.95%, p99 700ms | 실패 비용이 매우 큼 | 내부 CPU 지표만 보고 품질을 착각 |
+| 일반 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 성공률 99.9%, p95 300ms | 속도와 안정성 균형 | 모든 화면에 동일 기준 적용 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적재 파이프라인 | 15분 내 반영 비율 99%, 유실 0% | 신선도와 완결성이 핵심 | [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)만 보고 실제 적재 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 놓침 |
+| 내부 플랫폼 | 배포 성공률 99%, 환경 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 10분 이내 95% | 내부 개발자 경험이 중요 | 외부 고객용 SLO를 그대로 복사 |
 
 실무 체크리스트는 다음과 같다.
 
 1. 사용자 여정이 명확한가, 아니면 단순 인프라 지표를 목표로 삼고 있는가?
 2. `good`, `bad`, `eligible` 요청의 분모와 분자가 논쟁 없이 정의되는가?
 3. 5분·1시간 같은 빠른 경보 창과 30일 같은 장기 목표 창을 분리했는가?
-4. Error Budget이 50%, 25%, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이하일 때 배포 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)이 어떻게 달라지는가?
-5. 목표치가 과거 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 사용자 기대를 모두 반영하는가?
+4. Error Budget이 50%, 25%, [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)% 이하일 때 배포 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)이 어떻게 달라지는가?
+5. 목표치가 과거 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 사용자 기대를 모두 반영하는가?
 
-안티패턴도 분명하다. 첫째, 모든 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 99.99%를 일괄 적용하는 방식이다. 둘째, SLO를 한 번 정한 뒤 분기별 재평가 없이 영구 기준으로 두는 방식이다. 셋째, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 SLO를 평균값으로만 두어 tail latency를 숨기는 방식이다. 기술사 답안에서는 "SLO를 정한다"보다 <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> 선정 -> 목표치 결정 -> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 연결</strong>까지 설명해야 판단력이 드러난다.
+안티패턴도 분명하다. 첫째, 모든 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 99.99%를 일괄 적용하는 방식이다. 둘째, SLO를 한 번 정한 뒤 분기별 재평가 없이 영구 기준으로 두는 방식이다. 셋째, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 SLO를 평균값으로만 두어 tail latency를 숨기는 방식이다. 기술사 답안에서는 "SLO를 정한다"보다 <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a>별 <a href="/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a> 선정 -> 목표치 결정 -> <a href="/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a> <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 연결</strong>까지 설명해야 판단력이 드러난다.
 
 - **📢 섹션 요약 비유**: SLO 운영은 자동차 속도 제한과 같다. 제한 속도만 적어 두면 끝이 아니라, 과속 경고가 울릴 때 감속할지, 휴게소에 들를지, 차를 점검할지까지 함께 정해 두어야 안전하게 달릴 수 있다.
 
@@ -138,11 +135,11 @@ SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 �
 
 ## Ⅴ. 기대효과 및 결론
 
-좋은 SLO는 조직 안에서 "충분히 안정적이다"를 같은 숫자로 말하게 만든다. 개발팀은 새 기능 배포가 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 미치는 영향을 이해하고, [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 운영팀은 어느 문제를 먼저 고쳐야 하는지 우선순위를 세울 수 있다. 경영진 입장에서도 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 투자가 단순 비용이 아니라 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 방어와 고객 경험 보호라는 점을 설명하기 쉬워진다.
+좋은 SLO는 조직 안에서 "충분히 안정적이다"를 같은 숫자로 말하게 만든다. 개발팀은 새 기능 배포가 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)에 미치는 영향을 이해하고, [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/))와 운영팀은 어느 문제를 먼저 고쳐야 하는지 우선순위를 세울 수 있다. 경영진 입장에서도 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 투자가 단순 비용이 아니라 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 방어와 고객 경험 보호라는 점을 설명하기 쉬워진다.
 
-물론 SLO가 만능은 아니다. 잘못 정의된 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 위에 세운 SLO는 오히려 팀을 엉뚱한 숫자에 집착하게 만들 수 있고, 너무 많은 SLO는 관측 피로만 키운다. 그래서 핵심 사용자 여정을 대표하는 소수의 SLO와, 원인 분석을 위한 풍부한 진단 메트릭을 분리해서 가져가는 것이 중요하다.
+물론 SLO가 만능은 아니다. 잘못 정의된 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 위에 세운 SLO는 오히려 팀을 엉뚱한 숫자에 집착하게 만들 수 있고, 너무 많은 SLO는 관측 피로만 키운다. 그래서 핵심 사용자 여정을 대표하는 소수의 SLO와, 원인 분석을 위한 풍부한 진단 메트릭을 분리해서 가져가는 것이 중요하다.
 
-결론적으로 SLO는 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 숫자로 표현한 운영 언어다. 핵심은 높은 숫자를 자랑하는 것이 아니라, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 감당할 수 있는 품질 목표를 정하고 그 범위 안에서 가장 빠르게 개선과 배포를 반복하는 데 있다. 기억해야 할 포인트는 하나다. <strong>SLO는 완벽함의 선언이 아니라, <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 혁신의 균형점이다.</strong>
+결론적으로 SLO는 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/)을 숫자로 표현한 운영 언어다. 핵심은 높은 숫자를 자랑하는 것이 아니라, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 감당할 수 있는 품질 목표를 정하고 그 범위 안에서 가장 빠르게 개선과 배포를 반복하는 데 있다. 기억해야 할 포인트는 하나다. <strong>SLO는 완벽함의 선언이 아니라, <a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a>과 혁신의 균형점이다.</strong>
 
 - **📢 섹션 요약 비유**: 좋은 SLO는 무조건 최고 점수를 강요하는 담임이 아니라, 학생이 무너지지 않으면서도 꾸준히 성장하도록 현실적인 목표와 공부 계획을 함께 잡아 주는 코치와 같다.
 
@@ -152,13 +149,13 @@ SLO 숫자는 보기엔 비슷해 보여도 허용 실패량 차이는 매우 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)) | SLO를 계산하는 기초 측정값 |
-| [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) | `1 - SLO`로 계산되는 허용 실패량 |
-| Burn Rate | [Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 속도를 보여 주는 운영 지표 |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)) | 내부 SLO를 바탕으로 외부 계약으로 확장한 약속 |
-| [Synthetic Monitoring](/knowledge-base/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) | 외부 사용자 관점 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 수집 수단 |
-| RED (Rate, Errors, Duration) Method | 요청량, 오류, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 설계 프레임 |
-| [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | SLO와 배포 속도를 함께 조정하는 운영 모델 |
+| [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) ([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)) | SLO를 계산하는 기초 측정값 |
+| [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) | `1 - SLO`로 계산되는 허용 실패량 |
+| Burn Rate | [Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/) 소진 속도를 보여 주는 운영 지표 |
+| [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) ([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/)) | 내부 SLO를 바탕으로 외부 계약으로 확장한 약속 |
+| [Synthetic Monitoring](/studynote/15_devops_sre/03_sre_observability/164_synthetic_monitoring_dummy_client/) | 외부 사용자 관점 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 수집 수단 |
+| RED (Rate, Errors, Duration) Method | 요청량, 오류, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 중심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 설계 프레임 |
+| [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) ([Site Reliability 엔진ering](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/)) | SLO와 배포 속도를 함께 조정하는 운영 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -195,7 +192,7 @@ SLA (Service Level Agreement) 및 고객 신뢰 관리
 
 **진행 상황**: 180 / 371
 
-<- **이전**: [180. SLI (Service Level Indicator, 서비스 수준 지표)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/180_sli_service_level_indicator/)
-**다음**: [182. SLA (Service Level Agreement, 서비스 수준 협약)](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/182_sla_service_level_agreement/) ->
+<- **이전**: [180. SLI (Service Level Indicator, 서비스 수준 지표)](/studynote/13_cloud_architecture/04_devops_observability/180_sli_service_level_indicator/)
+**다음**: [182. SLA (Service Level Agreement, 서비스 수준 협약)](/studynote/13_cloud_architecture/04_devops_observability/182_sla_service_level_agreement/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "595. 6G 비전 테라헤르츠 지능형 네트워크 (6G Vision Terahertz Intelligent Network)"
-date = 2026-05-09
+---
+title: "595. 6G 비전 테라헤르츠 지능형 네트워크 (6G Vision Terahertz Intelligent Network)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sense -> Connect -> Compute -> Optimize -> Adapt
 
 **진행 상황**: 595 / 800
 
-<- **이전**: [594. 5G 네트워크 슬라이싱 초저지연](/knowledge-base/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/)
-**다음**: [596. 저궤도 위성 인터넷 LEO](/knowledge-base/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/) ->
+<- **이전**: [594. 5G 네트워크 슬라이싱 초저지연](/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/)
+**다음**: [596. 저궤도 위성 인터넷 LEO](/studynote/06_ict_convergence/uncategorized/596_satellite_internet_leo_low_earth_orbit/) ->
 
 ---

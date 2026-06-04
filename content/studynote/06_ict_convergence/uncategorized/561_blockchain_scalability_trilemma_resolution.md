@@ -1,13 +1,10 @@
-+++
-title = "561. 블록체인 확장성 트릴레마 해결 접근 (Blockchain Scalability Trilemma Resolution)"
-date = 2026-05-09
+---
+title: "561. 블록체인 확장성 트릴레마 해결 접근 (Blockchain Scalability Trilemma Resolution)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Shard -> Rollup -> DA -> Light Client -> Settlement
 
 **진행 상황**: 561 / 800
 
-<- **이전**: [560. 합의 알고리즘 PoS PoA BFT 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/560_consensus_algorithm_pos_poa_bft_comparison/)
-**다음**: [562. 스마트 계약 보안 감사 취약점](/knowledge-base/studynote/06_ict_convergence/uncategorized/562_smart_contract_security_audit_vulnerability/) ->
+<- **이전**: [560. 합의 알고리즘 PoS PoA BFT 비교](/studynote/06_ict_convergence/uncategorized/560_consensus_algorithm_pos_poa_bft_comparison/)
+**다음**: [562. 스마트 계약 보안 감사 취약점](/studynote/06_ict_convergence/uncategorized/562_smart_contract_security_audit_vulnerability/) ->
 
 ---

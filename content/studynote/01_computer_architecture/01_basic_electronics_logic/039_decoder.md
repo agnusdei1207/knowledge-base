@@ -1,18 +1,15 @@
-+++
-title = "039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로"
-date = 2026-03-04
+---
+title: "039. 디코더 (Decoder) — n-to-2^n 조합 논리 회로"
+date: "2026-03-04"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. 디코더(Decoder)는 n비트 이진 입력을 최대 2^n개의 출력 중 정확히 하나만 활성화하는 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [인코더](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))의 역함수이며 메모리 주소 디코딩과 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독의 핵심 요소다.
+> 1. 디코더(Decoder)는 n비트 이진 입력을 최대 2^n개의 출력 중 정확히 하나만 활성화하는 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로로, [인코더](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/)([Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/))의 역함수이며 메모리 주소 디코딩과 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독의 핵심 요소다.
 > 2. n-to-2^n 디코더의 출력 Yi는 각 입력 조합의 민터름(Minterm)에 해당 — 모든 조합 회로는 이론상 디코더 + OR 게이트 조합으로 구현 가능하며, 이것이 "디코더는 완전 조합 회로의 기반"이라는 의미다.
-> 3. 실제 CPU에서 디코더는 두 가지 핵심 역할 — [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decoder: 연산코드 -> 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/))과 메모리 어드레스 디코딩(Address Decoder: 주소 -> 메모리 셀 선택) — 으로 디지털 시스템의 '결정' 회로를 담당한다.
+> 3. 실제 CPU에서 디코더는 두 가지 핵심 역할 — [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 해독([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decoder: 연산코드 -> 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/))과 메모리 어드레스 디코딩(Address Decoder: 주소 -> 메모리 셀 선택) — 으로 디지털 시스템의 '결정' 회로를 담당한다.
 
 ---
 
@@ -99,11 +96,11 @@ Active-Low 출력:
   (디코더와 같은 하드웨어, 다른 용도)
 ```
 
-> 📢 **섹션 요약 비유**: 디코더는 스위치판 같아서, 원하는 민터름 조합에 전선 연결하면 어떤 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수든 구현 가능 — FPGA의 LUT(Look-Up Table) 원리.
+> 📢 **섹션 요약 비유**: 디코더는 스위치판 같아서, 원하는 민터름 조합에 전선 연결하면 어떤 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 함수든 구현 가능 — FPGA의 LUT(Look-Up Table) 원리.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더
 
 ```
 CPU 명령어 사이클에서 디코더:
@@ -130,11 +127,11 @@ RISC vs CISC 디코더:
   CISC: 가변 길이 명령어 -> 복잡한 디코더
 ```
 
-> 📢 **섹션 요약 비유**: CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더는 악보 해독기 — 음표([opcode](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))를 읽어 어떤 악기([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))를 어떻게 연주할지(제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)) 결정.
+> 📢 **섹션 요약 비유**: CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더는 악보 해독기 — 음표([opcode](/studynote/01_computer_architecture/04_instruction_set_architecture/159_opcode/))를 읽어 어떤 악기([ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/))를 어떻게 연주할지(제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)) 결정.
 
 ---
 
-## V. 실무 시나리오 — [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 설계
+## V. 실무 시나리오 — [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 설계
 
 ```
 FPGA에서 디코더 활용:
@@ -164,7 +161,7 @@ Verilog 구현:
   지연: ~1ns (7nm 공정)
 ```
 
-> 📢 **섹션 요약 비유**: FPGA의 주소 디코더는 사무실 교환기 — 전화번호(주소) 앞자리로 어느 부서([모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 연결할지 자동으로 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/).
+> 📢 **섹션 요약 비유**: FPGA의 주소 디코더는 사무실 교환기 — 전화번호(주소) 앞자리로 어느 부서([모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)) 연결할지 자동으로 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/).
 
 ---
 
@@ -218,7 +215,7 @@ NPU 내부 명령어 스케줄링
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 디코더는 엘리베이터 버튼처럼 숫자(입력)를 누르면 그 층(출력)에만 불이 켜지고 나머지는 꺼지는 회로예요.
-2. CPU가 덧셈 명령을 받으면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더가 "덧셈 회로를 켜고 나머지는 꺼라"는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 자동으로 만들어요.
+2. CPU가 덧셈 명령을 받으면 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 디코더가 "덧셈 회로를 켜고 나머지는 꺼라"는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 자동으로 만들어요.
 3. 컴퓨터 메모리에서 특정 주소를 찾을 때도 디코더가 수십억 개 칸 중에서 정확히 원하는 한 칸만 선택해요!
 
 ---
@@ -227,7 +224,7 @@ NPU 내부 명령어 스케줄링
 
 **진행 상황**: 39 / 803
 
-<- **이전**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/)
-**다음**: [040. 인코더 (Encoder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ->
+<- **이전**: [038. 병렬 가감산기 (Parallel Adder-Subtractor)](/studynote/01_computer_architecture/01_basic_electronics_logic/038_parallel_adder_subtractor/)
+**다음**: [040. 인코더 (Encoder)](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) ->
 
 ---

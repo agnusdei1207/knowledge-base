@@ -1,13 +1,10 @@
-+++
-title = "621. 인프라 코드화 테라폼 풀루미 CDK (IaC Terraform Pulumi CDK)"
-date = 2026-05-09
+---
+title: "621. 인프라 코드화 테라폼 풀루미 CDK (IaC Terraform Pulumi CDK)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ IaC Terraform Pulumi CDK은(는) 클라우드 네이티브 환경의 복잡도�
 
 **진행 상황**: 617 / 800
 
-<- **이전**: [616. Helm 차트 패키지 관리 배포](/knowledge-base/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/)
-**다음**: [618. 불변 인프라 Golden Image Packer](/knowledge-base/studynote/06_ict_convergence/uncategorized/622_immutable_infrastructure_golden_image_packer/) ->
+<- **이전**: [616. Helm 차트 패키지 관리 배포](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/)
+**다음**: [618. 불변 인프라 Golden Image Packer](/studynote/06_ict_convergence/uncategorized/622_immutable_infrastructure_golden_image_packer/) ->
 
 ---

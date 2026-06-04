@@ -1,13 +1,10 @@
-+++
-title = "412. EA 엔터프라이즈 아키텍처 프레임워크 (EA Enterprise Architecture Framework)"
-date = 2026-05-09
+---
+title: "412. EA 엔터프라이즈 아키텍처 프레임워크 (EA Enterprise Architecture Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ EA는 단독으로 작동하지 않으며, 다음 discipline과 **나란히(para
 
 **진행 상황**: 412 / 800
 
-<- **이전**: [411. IT 전략 수립 ISP BPR ISP 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/411_it_strategy_planning_isp_bpr_methodology/)
-**다음**: [413. TOGAF ADM 아키텍처 개발 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/413_togaf_adm_architecture_development_method/) ->
+<- **이전**: [411. IT 전략 수립 ISP BPR ISP 방법론](/studynote/12_it_management/05_security_compliance/411_it_strategy_planning_isp_bpr_methodology/)
+**다음**: [413. TOGAF ADM 아키텍처 개발 방법론](/studynote/12_it_management/05_security_compliance/413_togaf_adm_architecture_development_method/) ->
 
 ---

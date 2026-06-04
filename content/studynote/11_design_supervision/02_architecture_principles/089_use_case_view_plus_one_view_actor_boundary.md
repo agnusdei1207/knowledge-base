@@ -1,25 +1,22 @@
-+++
-title = "89. 유스케이스 뷰 (Use Case View / +1 View)"
-date = 2026-04-10
+---
+title: "89. 유스케이스 뷰 (Use Case View / +1 View)"
+date: "2026-04-10"
+tags:
+  - "studynote-design"
+---
 
-[taxonomies]
-tags = ["studynote-design"]
-
-[extra]
-tags = ["studynote-design"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 유스케이스 뷰 (Use Case [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)를 설계하는 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 중앙에 위치하는 '+1' 뷰로, 시스템이 사용자(Actor)에게 제공하는 핵심 기능과 시나리오를 명세한 것이다.
-> 2. **가치**: 아무리 뛰어난 기술과 설계([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 구현, 프로세스, 물리 뷰)라도 결국 이 유스케이스를 만족시키지 못하면 무용지물이며, 모든 아키텍처 설계와 검증의 절대적인 기준점이 된다.
+> 1. **본질**: 유스케이스 뷰 (Use Case [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/)를 설계하는 4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 중앙에 위치하는 '+1' 뷰로, 시스템이 사용자(Actor)에게 제공하는 핵심 기능과 시나리오를 명세한 것이다.
+> 2. **가치**: 아무리 뛰어난 기술과 설계([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/), 구현, 프로세스, 물리 뷰)라도 결국 이 유스케이스를 만족시키지 못하면 무용지물이며, 모든 아키텍처 설계와 검증의 절대적인 기준점이 된다.
 > 3. **판단 포인트**: 복잡한 내부 기술 구현은 철저히 배제하고, 외부 사용자 관점의 요구사항을 액터 (Actor), 유스케이스 (Use Case), 시스템 경계 (System Boundary)만으로 직관적이고 명확하게 포착해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-유스케이스 뷰 (Use Case [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [필립 크루첸](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/)([Philippe Kruchten](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/))이 제안한 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) [소프트웨어 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 모델의 핵심이다. 나머지 4개의 뷰([논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포)가 엔지니어의 시각에서 시스템이 '어떻게' 구성되고 동작하는지를 다룬다면, 유스케이스 뷰는 외부 사용자의 시각에서 시스템이 '무엇을' 해야 하는지에 집중한다.
+유스케이스 뷰 (Use Case [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/))는 [필립 크루첸](/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/)([Philippe Kruchten](/studynote/11_design_supervision/02_architecture_principles/084_philippe_kruchten_4_1_view_architecture_model/))이 제안한 4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) [소프트웨어 아키텍처](/studynote/04_software_engineering/04_testing_quality/201_software_architecture_definition/) 모델의 핵심이다. 나머지 4개의 뷰([논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포)가 엔지니어의 시각에서 시스템이 '어떻게' 구성되고 동작하는지를 다룬다면, 유스케이스 뷰는 외부 사용자의 시각에서 시스템이 '무엇을' 해야 하는지에 집중한다.
 
 시스템 개발 시 흔히 범하는 오류는 비즈니스 목표를 망각하고 기술 자체에 매몰되는 오버엔지니어링(Over-engineering)이다. 이를 방지하기 위해 유스케이스 뷰는 프로젝트 초기에 요구사항을 시나리오 형태로 고정시킨다. 시스템의 존재 목적인 기능적 요구사항을 정의하지 않으면, 개발된 시스템이 정작 고객이 원하는 기능을 수행하지 못하는 치명적인 실패로 이어진다.
 
@@ -29,7 +26,7 @@ tags = ["studynote-design"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-유스케이스 뷰는 주로 [UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/">Use Case Diagram</a>)</strong>을 통해 시각화된다. 이 다이어그램은 시스템 내부의 복잡성을 숨기고 오직 상호작용에만 초점을 맞춘다.
+유스케이스 뷰는 주로 [UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/) ([Unified Modeling Language](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))의 <strong><a href="/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/">유스케이스 다이어그램</a> (<a href="/studynote/04_software_engineering/03_design_architecture/147_use_case_diagram/">Use Case Diagram</a>)</strong>을 통해 시각화된다. 이 다이어그램은 시스템 내부의 복잡성을 숨기고 오직 상호작용에만 초점을 맞춘다.
 
 핵심 구성 요소는 다음과 같다.
 - **액터 (Actor)**: 시스템 외부에서 상호작용하는 모든 주체(사람, 타 시스템, 타이머 등)로, 졸라맨(Stickman) 형태로 그린다.
@@ -53,7 +50,7 @@ tags = ["studynote-design"]
 +--------------------------------------------------------------+
 ```
 
-이처럼 선(Association) 하나로 고객이 상품을 검색하고 결제하는 상호작용을 직관적으로 드러낸다. 코드나 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블 구조는 이 도면에 들어오지 못한다.
+이처럼 선(Association) 하나로 고객이 상품을 검색하고 결제하는 상호작용을 직관적으로 드러낸다. 코드나 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블 구조는 이 도면에 들어오지 못한다.
 
 - **📢 섹션 요약 비유**: 식당 건물을 네모 박스로 치고, 안에 '요리하기', '계산하기'라는 동그라미를 둡니다. 건물 밖에 '손님' 졸라맨과 '배달원' 졸라맨을 그려 선으로 연결하면, 식당이 누구에게 무슨 서비스를 제공하는지 10초 만에 이해되는 기적의 도면입니다.
 
@@ -61,30 +58,30 @@ tags = ["studynote-design"]
 
 ## Ⅲ. 비교 및 연결
 
-유스케이스 뷰 내에서 복잡한 시나리오를 설계할 때, 기능 간의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명확히 찢어발기기 위해 두 가지 핵심 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)선이 사용된다.
+유스케이스 뷰 내에서 복잡한 시나리오를 설계할 때, 기능 간의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 명확히 찢어발기기 위해 두 가지 핵심 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)선이 사용된다.
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 의미 | 화살표 방향 | 적용 시나리오 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 유형 | 의미 | 화살표 방향 | 적용 시나리오 |
 | :--- | :--- | :--- | :--- |
-| **포함 (<<[include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)>>)** | 필수적, 무조건 선행/호출되어야 하는 공통 기능 | 기준 --> 포함되는 기능 | `[결제하기]` --> `[본인 인증하기]` |
+| **포함 (<<[include](/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/)>>)** | 필수적, 무조건 선행/호출되어야 하는 공통 기능 | 기준 --> 포함되는 기능 | `[결제하기]` --> `[본인 인증하기]` |
 | **확장 (<<extend>>)** | 선택적, 특정 조건 만족 시 추가되는 부가 기능 | 확장 기능 --> 기준 | `[포인트 적립]` --> `[결제하기]` |
 
-이러한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 시스템의 공통 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))과 예외/부가 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Extend)을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하게 해준다. 이후 이 유스케이스 뷰를 바탕으로, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 클래스를 뽑아내고, 프로세스 뷰는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 상호작용을 설계하며, 배포 뷰는 물리적 서버 배치를 결정하게 된다. 즉, 4개의 뷰를 묶는 강력한 접착제 역할을 한다.
+이러한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)는 시스템의 공통 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([Include](/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))과 예외/부가 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)(Extend)을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하게 해준다. 이후 이 유스케이스 뷰를 바탕으로, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰는 클래스를 뽑아내고, 프로세스 뷰는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 상호작용을 설계하며, 배포 뷰는 물리적 서버 배치를 결정하게 된다. 즉, 4개의 뷰를 묶는 강력한 접착제 역할을 한다.
 
-- **📢 섹션 요약 비유**: 마트 카운터에서 물건을 계산할 때, 카드 승인은 무조건 거쳐야 하는 필수 절차([Include](/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))지만, 직원이 물어보고 고객이 포인트 카드를 낼 때만 포인트가 적립되는 것은 선택적 곁다리(Extend) 절차입니다.
+- **📢 섹션 요약 비유**: 마트 카운터에서 물건을 계산할 때, 카드 승인은 무조건 거쳐야 하는 필수 절차([Include](/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/))지만, 직원이 물어보고 고객이 포인트 카드를 낼 때만 포인트가 적립되는 것은 선택적 곁다리(Extend) 절차입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 유스케이스 뷰는 요구사항 정의서이자 동시에 [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) ([Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))의 근거 자료가 된다. 아키텍트는 아키텍처 평가 시 "이 아키텍처가 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 모든 유스케이스를 무리 없이 지원하는가?"를 반드시 검증해야 검증해야 한다.
+실무에서 유스케이스 뷰는 요구사항 정의서이자 동시에 [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) ([Acceptance Test](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/))의 근거 자료가 된다. 아키텍트는 아키텍처 평가 시 "이 아키텍처가 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)된 모든 유스케이스를 무리 없이 지원하는가?"를 반드시 검증해야 검증해야 한다.
 
-### 판단 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 및 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong>액터의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 오류</strong>: 액터를 사람으로만 한정 짓지 않았는가? 외부 연동 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버나 배치 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 같은 '비인간 액터'도 반드시 도출해야 한다.
+1. <strong>액터의 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> 오류</strong>: 액터를 사람으로만 한정 짓지 않았는가? 외부 연동 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 서버나 배치 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 같은 '비인간 액터'도 반드시 도출해야 한다.
 2. **기능의 세분화 수준**: 유스케이스가 너무 개발자 관점의 CRUD(`DB 저장하기`, `세션 생성하기`)로 쪼개져 있지 않은가? 사용자 관점의 가치 있는 비즈니스 행위(`회원가입하기`)로 통합되어야 한다.
-3. <strong>추적성 (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>) 확보</strong>: 도출된 유스케이스가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰의 [시퀀스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이나 클래스 다이어그램과 1:1 이상으로 매핑되고 증명되는가?
+3. <strong>추적성 (<a href="/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/">Traceability</a>) 확보</strong>: 도출된 유스케이스가 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 뷰의 [시퀀스 다이어그램](/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/)이나 클래스 다이어그램과 1:1 이상으로 매핑되고 증명되는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 기술적 구현 방식(예: 'React로 화면 렌더링하기', 'Redis에 캐싱하기')을 유스케이스 내에 기술하는 행위
 - 시스템 경계를 명확히 짓지 않아, 우리가 개발할 시스템과 연동해야 할 외부 시스템을 혼동하는 행위
@@ -95,9 +92,9 @@ tags = ["studynote-design"]
 
 ## Ⅴ. 기대효과 및 결론
 
-유스케이스 뷰를 통해 개발자와 고객 간의 소통 장벽이 무너지며, 개발 초기부터 프로젝트의 비즈니스 목적이 명확하게 조준된다. 또한 향후 시스템 변경 시나 [테스트 시나리오](/knowledge-base/studynote/04_software_engineering/11_testing_validation/834_test_scenario/) 도출 시 가장 훌륭한 길잡이 역할을 수행한다.
+유스케이스 뷰를 통해 개발자와 고객 간의 소통 장벽이 무너지며, 개발 초기부터 프로젝트의 비즈니스 목적이 명확하게 조준된다. 또한 향후 시스템 변경 시나 [테스트 시나리오](/studynote/04_software_engineering/11_testing_validation/834_test_scenario/) 도출 시 가장 훌륭한 길잡이 역할을 수행한다.
 
-결론적으로, 4+1 [View](/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 유스케이스 뷰가 정중앙(+1)에 위치하는 이유는 분명하다. 아무리 화려한 기술 스택과 서버 아키텍처를 자랑하더라도, 결국 "고객이 원하는 그 기능이 정상 작동하는가?"라는 단 하나의 질문에 답하지 못하면 그 시스템은 실패작이기 때문이다.
+결론적으로, 4+1 [View](/studynote/05_database/03_relational_model/151_sql_view_virtual_table/) 모델에서 유스케이스 뷰가 정중앙(+1)에 위치하는 이유는 분명하다. 아무리 화려한 기술 스택과 서버 아키텍처를 자랑하더라도, 결국 "고객이 원하는 그 기능이 정상 작동하는가?"라는 단 하나의 질문에 답하지 못하면 그 시스템은 실패작이기 때문이다.
 
 - **📢 섹션 요약 비유**: 나침반과 같습니다. 배의 모터가 아무리 좋고 선원들의 기술이 뛰어나도, 나침반(유스케이스 뷰)이 가리키는 목적지를 향하지 않으면 바다 한가운데서 표류하는 고철 덩어리가 될 뿐입니다.
 
@@ -107,10 +104,10 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong>4+1 <a href="/knowledge-base/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a> 모델</strong> | [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포 뷰를 유스케이스 뷰가 통합 검증하는 아키텍처 프레임워크 |
+| <strong>4+1 <a href="/studynote/05_database/03_relational_model/151_sql_view_virtual_table/">View</a> 모델</strong> | [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/), 프로세스, 구현, 배포 뷰를 유스케이스 뷰가 통합 검증하는 아키텍처 프레임워크 |
 | **액터 (Actor)** | 시스템 경계 외부에 존재하며 상호작용하는 모든 인간/비인간 주체 |
-| <strong>인클루드/익스텐드 (<a href="/knowledge-base/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">Include</a>/Extend)</strong> | [유스케이스 다이어그램](/knowledge-base/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)에서 필수 공통 기능과 선택적 부가 기능을 분리하는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a> (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">Sequence Diagram</a>)</strong> | 유스케이스(무엇을)를 바탕으로 객체 간의 시간적 메시지 흐름(어떻게)을 검증하는 동적 모델링 |
+| <strong>인클루드/익스텐드 (<a href="/studynote/04_software_engineering/uncategorized/670_use_case_include_extend/">Include</a>/Extend)</strong> | [유스케이스 다이어그램](/studynote/04_software_engineering/04_testing_quality/238_use_case_diagram_functional_modeling/)에서 필수 공통 기능과 선택적 부가 기능을 분리하는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 선 |
+| <strong><a href="/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">시퀀스 다이어그램</a> (<a href="/studynote/04_software_engineering/04_testing_quality/235_sequence_diagram_dynamic_interaction_uml/">Sequence Diagram</a>)</strong> | 유스케이스(무엇을)를 바탕으로 객체 간의 시간적 메시지 흐름(어떻게)을 검증하는 동적 모델링 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -142,7 +139,7 @@ Include / Extend 관계를 통한 시나리오 정교화
 
 **진행 상황**: 132 / 530
 
-<- **이전**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/)
-**다음**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/) ->
+<- **이전**: [88. 물리/배포 뷰 (Physical/Deployment View) - 시스템 하드웨어 매핑](/studynote/11_design_supervision/02_architecture_principles/088_physical_deployment_view_infrastructure_mapping/)
+**다음**: [90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항](/studynote/11_design_supervision/02_architecture_principles/090_architecture_drivers_quality_attributes_constraints/) ->
 
 ---

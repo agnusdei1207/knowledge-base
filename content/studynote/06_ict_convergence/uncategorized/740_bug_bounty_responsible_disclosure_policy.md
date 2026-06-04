@@ -1,13 +1,10 @@
-+++
-title = "740. 버그 바운티 책임 있는 공개 정책 (Bug Bounty Responsible Disclosure Policy)"
-date = 2026-05-09
+---
+title: "740. 버그 바운티 책임 있는 공개 정책 (Bug Bounty Responsible Disclosure Policy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 740 / 800
 
-<- **이전**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/knowledge-base/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/)
-**다음**: [741. 소프트웨어 정의 모든것 SDx 추상화](/knowledge-base/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/) ->
+<- **이전**: [739. 레드팀 블루팀 퍼플팀 보안 훈련](/studynote/06_ict_convergence/uncategorized/739_red_team_blue_team_purple_team_security/)
+**다음**: [741. 소프트웨어 정의 모든것 SDx 추상화](/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/) ->
 
 ---

@@ -1,42 +1,39 @@
-+++
-title = "552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어"
-date = 2026-05-08
+---
+title: "552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) - 중앙 통제기가 흐름 제어은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) - 중앙 통제기가 흐름 제어은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 550장의 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 구현하는 2가지 뇌 구조 중 하나다.
-  - **코레오그래피(Choreography, 무정부 자율 춤)**: 중앙 대빵 없이 허공([Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 이벤트 던지고 지들끼리 눈치껏 주워 먹는 릴레이 핑퐁 구조. (553장에서 다룸)
-  - <strong><a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(<a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, 지휘자 통제)</strong>: 교향악단(Orchestra) 지휘자처럼 중앙에 통제기 1대를 세운다. "1번 결제팀 찔러! ➡ 완료? ➡ 오케이 2번 배송팀 찔러!" 지휘자가 큐시트(도면)를 들고 직접 트래픽의 모가지를 잡아끌며 지휘한다.
+- **개념**: 550장의 [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)([Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) 패턴을 구현하는 2가지 뇌 구조 중 하나다.
+  - **코레오그래피(Choreography, 무정부 자율 춤)**: 중앙 대빵 없이 허공([Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/))에 이벤트 던지고 지들끼리 눈치껏 주워 먹는 릴레이 핑퐁 구조. (553장에서 다룸)
+  - <strong><a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">오케스트레이션</a>(<a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/">Orchestration</a>, 지휘자 통제)</strong>: 교향악단(Orchestra) 지휘자처럼 중앙에 통제기 1대를 세운다. "1번 결제팀 찔러! ➡ 완료? ➡ 오케이 2번 배송팀 찔러!" 지휘자가 큐시트(도면)를 들고 직접 트래픽의 모가지를 잡아끌며 지휘한다.
 
-- **필요성(코레오그래피의 스파게티 지옥 파괴)**: 처음에 스타트업이 멋모르고 코레오그래피로 비동기 핑퐁 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)를 짰다. 서비스가 10개로 늘어났다. [가입 ➡ 쿠폰 ➡ 포인트 ➡ 메일 ➡ 푸시 ➡ 환불 ➡ 재발급] 메시지가 우주로 날아다니는데 엉켜서 터졌다. **"대체 이 거대한 비즈니스 플로우가 어떻게 도는 건지 전체를 파악할 수 있는 코드가 우리 회사 소스코드 100만 줄 중에 단 한 곳도 없네?"** 개발팀 전체가 1달 동안 물어물어 디버깅하다 미쳐버렸다. "아 젠장, 무정부주의 다 때려치우고 걍 가운데 대빵 서버 하나 파서 걔가 다 컨트롤하게 중앙 집권화시켜!!"라는 피 맺힌 절규가 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세화를 불렀다.
+- **필요성(코레오그래피의 스파게티 지옥 파괴)**: 처음에 스타트업이 멋모르고 코레오그래피로 비동기 핑퐁 [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)를 짰다. 서비스가 10개로 늘어났다. [가입 ➡ 쿠폰 ➡ 포인트 ➡ 메일 ➡ 푸시 ➡ 환불 ➡ 재발급] 메시지가 우주로 날아다니는데 엉켜서 터졌다. **"대체 이 거대한 비즈니스 플로우가 어떻게 도는 건지 전체를 파악할 수 있는 코드가 우리 회사 소스코드 100만 줄 중에 단 한 곳도 없네?"** 개발팀 전체가 1달 동안 물어물어 디버깅하다 미쳐버렸다. "아 젠장, 무정부주의 다 때려치우고 걍 가운데 대빵 서버 하나 파서 걔가 다 컨트롤하게 중앙 집권화시켜!!"라는 피 맺힌 절규가 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세화를 불렀다.
 
-- **💡 비유**: 코레오그래피는 <strong>'길거리 비보이 댄스 배틀(무정부 자율)'</strong>입니다. 랩(이벤트)이 나오면 1번 선수가 춤추고 2번 선수가 눈치껏 튀어나와 춥니다. 3명이면 멋지지만 100명이면 개판 1분 전이 됩니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'세종문화회관 100인 교향악단(중앙 통제)'</strong>입니다. 100명의 연주자([마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))는 절대 옆 사람 눈치를 보지 않습니다. 오직 무대 중앙에 서 있는 1명의 지휘자(Orchestrator)의 지휘봉(명령)만 바라보고 바이올린(결제)을 켜고 북(배송)을 칩니다. 지휘자가 틀린 놈을 1초 만에 콕 집어내어 수습할 수 있는 절대 통제술입니다.
+- **💡 비유**: 코레오그래피는 <strong>'길거리 비보이 댄스 배틀(무정부 자율)'</strong>입니다. 랩(이벤트)이 나오면 1번 선수가 춤추고 2번 선수가 눈치껏 튀어나와 춥니다. 3명이면 멋지지만 100명이면 개판 1분 전이 됩니다. [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'세종문화회관 100인 교향악단(중앙 통제)'</strong>입니다. 100명의 연주자([마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/))는 절대 옆 사람 눈치를 보지 않습니다. 오직 무대 중앙에 서 있는 1명의 지휘자(Orchestrator)의 지휘봉(명령)만 바라보고 바이올린(결제)을 켜고 북(배송)을 칩니다. 지휘자가 틀린 놈을 1초 만에 콕 집어내어 수습할 수 있는 절대 통제술입니다.
 
 - **등장 배경 및 발전 과정**:
-  1. **ESB의 흑역사 (2000s)**: 옛날 소아([SOA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 시절 똑같이 중앙 집중 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))를 뒀다가 무거워서 개망했다. 그래서 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대 초반엔 다들 중앙 놈들을 혐오하고 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(코레오그래피)만 외쳤다.
-  2. <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a> 복잡성 폭발 (2010s 중반)</strong>: 우버(Uber), 넷플릭스 등 글로벌 IT 거인들이 수천 개 서비스로 코레오그래피를 핑퐁 치다 우주적 디버깅 지옥을 맛보았다. "중앙 통제가 어느 정도는 무조건 필요하다!"
-  3. <strong>Workflow 엔진의 <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 이식 (현재)</strong>: 아키텍트들이 넷플릭스 [Conductor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/), AWS Step Functions, Uber Cadence(현 Temporal) 같은 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 워크플로우 통제 인프라를 들이마시며 100% [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세의 시대로 회귀(나선형 발전)하고 있다.
+  1. **ESB의 흑역사 (2000s)**: 옛날 소아([SOA](/studynote/01_computer_architecture/15_advanced_topics/618_soa_hardware/)) 시절 똑같이 중앙 집중 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([ESB](/studynote/07_enterprise_systems/03_eai_esb_msa/146_esb_enterprise_service_bus_architecture/))를 뒀다가 무거워서 개망했다. 그래서 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 시대 초반엔 다들 중앙 놈들을 혐오하고 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)(코레오그래피)만 외쳤다.
+  2. <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">Microservices</a> 복잡성 폭발 (2010s 중반)</strong>: 우버(Uber), 넷플릭스 등 글로벌 IT 거인들이 수천 개 서비스로 코레오그래피를 핑퐁 치다 우주적 디버깅 지옥을 맛보았다. "중앙 통제가 어느 정도는 무조건 필요하다!"
+  3. <strong>Workflow 엔진의 <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/">마이크로서비스</a> 이식 (현재)</strong>: 아키텍트들이 넷플릭스 [Conductor](/studynote/01_computer_architecture/01_basic_electronics_logic/008_conductor/), AWS Step Functions, Uber Cadence(현 Temporal) 같은 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 워크플로우 통제 인프라를 들이마시며 100% [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) 대세의 시대로 회귀(나선형 발전)하고 있다.
 
-- **📢 섹션 요약 비유**: 코레오그래피 [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'릴레이 이어달리기'</strong>입니다. 바통(이벤트)을 떨어뜨리면 뛴 놈들끼리 멱살 잡고 싸우며 1시간 동안 원인을 찾습니다. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'공장 컨베이어 벨트 작업 반장(Orchestrator)'</strong>입니다. 작업 반장이 조이스틱을 쥐고 1번 라인, 2번 라인 스위치를 탁탁 켭니다. 3번 라인 기계가 뻗으면 작업 반장 계기판에 빨간불이 1초 만에 들어오고, 반장이 바로 "전 라인 역회전([보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))해!" 1초 컷으로 조이스틱을 꺾어버리는 극강의 가시성(Visibility)입니다.
+- **📢 섹션 요약 비유**: 코레오그래피 [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'릴레이 이어달리기'</strong>입니다. 바통(이벤트)을 떨어뜨리면 뛴 놈들끼리 멱살 잡고 싸우며 1시간 동안 원인을 찾습니다. [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/)는 <strong>'공장 컨베이어 벨트 작업 반장(Orchestrator)'</strong>입니다. 작업 반장이 조이스틱을 쥐고 1번 라인, 2번 라인 스위치를 탁탁 켭니다. 3번 라인 기계가 뻗으면 작업 반장 계기판에 빨간불이 1초 만에 들어오고, 반장이 바로 "전 라인 역회전([보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/))해!" 1초 컷으로 조이스틱을 꺾어버리는 극강의 가시성(Visibility)입니다.
 
 ---
 
-다음은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr의 핵심 구조와 흐름을 보여주는 다이어그램이다.
+다음은 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
 ```text
 +-------------------------------------------------------------+
@@ -51,7 +48,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) (Orchestr가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 검증된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -61,18 +58,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) - 중앙 통제기가 흐름 제어의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) - 중앙 통제기가 흐름 제어의 핵심 원리와 구성 요소를 이해하기 위해 다음 구조를 살펴본다.
 
 | 구성 요소 | 역할 | 적용 기준 |
 | :--- | :--- | :--- |
-| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
-| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
+| 개념 정의 | 핵심 용어와 범위를 명확히 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 용어 혼용·오해 방지 |
+| 원칙 및 규칙 | 적용 시 따라야 할 기본 방향 | [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)·품질 기준 |
 | 기법 및 도구 | 실질적 구현 방법과 지원 도구 | 생산성·자동화 |
 | 측정 지표 | 결과물의 품질을 정량화하는 지표 | 의사결정 근거 |
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))의 핵심 원리는 **복잡성 분해**, **역할 분리**, <strong>품질 측정</strong>의 세 축으로 이해할 수 있다. 복잡한 문제를 관리 가능한 단위로 나누고, 각 역할의 책임을 명확히 하며, 결과를 정량적 지표로 평가하는 과정이 반복된다.
 
-- **📢 섹션 요약 비유**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
+- **📢 섹션 요약 비유**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))의 아키텍처는 공장의 생산 라인과 같다. 각 공정(구성 요소)이 명확한 역할을 가지고 정해진 순서대로 움직여야 최종 제품의 품질이 보장된다. 어느 한 공정이 부실하면 전체 제품이 불량이 된다.
 
 ---
 
@@ -82,18 +79,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 유사 개념과 비교하면 경계와 특성이 더 명확해진다.
 
-| 비교 항목 | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) | 유사 대안 |
+| 비교 항목 | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) | 유사 대안 |
 | :--- | :--- | :--- |
 | 핵심 목적 | 체계적 품질·생산성 향상 | 임시 방편적 해결 |
 | 적용 규모 | 중·대규모 프로젝트에서 효과적 | 소규모에서는 오버헤드 발생 가능 |
 | 조직 요건 | 팀 전체의 공통 이해와 훈련 필요 | 개인 역량 의존 |
 | 측정 가능성 | 정량적 지표로 성과 측정 가능 | 주관적 판단에 의존 |
 
-다른 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
+다른 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) 개념과의 연결을 보면, [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))은(는) 요구공학·설계·테스트·형상관리 전반에 걸쳐 영향을 미친다. 특히 품질 보증(QA, Quality Assurance)과 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/))와 긴밀하게 연계된다.
 
-- **📢 섹션 요약 비유**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
+- **📢 섹션 요약 비유**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))과 유사 대안의 차이는 지도를 가지고 산에 오르는 것과 감으로만 오르는 차이와 같다. 지도(체계적 방법)가 있으면 정상까지 최단 경로를 찾을 수 있지만, 없으면 같은 곳을 맴돌거나 낭떠러지에 빠질 수 있다.
 
 ---
 
@@ -103,9 +100,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 실무에 적용할 때는 다음 판단 기준을 참고한다.
 
-- **📢 섹션 요약 비유**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -113,21 +110,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-[오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+[오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -139,10 +136,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/)) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -162,13 +159,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [오케스트레이션](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/knowledge-base/studynote/12_it_management/05_security_compliance/305_saga/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. [오케스트레이션](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) ([Orchestration](/studynote/13_cloud_architecture/02_iaas_paas_saas/073_container_orchestration_tools/) [Saga](/studynote/12_it_management/05_security_compliance/305_saga/))은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -176,7 +173,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 696 / 973
 
-<- **이전**: [552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어](/knowledge-base/studynote/04_software_engineering/11_testing_validation/944_orchestration_saga/)
-**다음**: [553. 코레오그래피 사가 (Choreography Saga) - 이벤트 구독 기반의 자율적 흐름](/knowledge-base/studynote/04_software_engineering/11_testing_validation/945_choreography_saga/) ->
+<- **이전**: [552. 오케스트레이션 사가 (Orchestration Saga) - 중앙 통제기가 흐름 제어](/studynote/04_software_engineering/11_testing_validation/944_orchestration_saga/)
+**다음**: [553. 코레오그래피 사가 (Choreography Saga) - 이벤트 구독 기반의 자율적 흐름](/studynote/04_software_engineering/11_testing_validation/945_choreography_saga/) ->
 
 ---

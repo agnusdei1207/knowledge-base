@@ -1,13 +1,10 @@
-+++
-title = "399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)"
-date = 2026-05-09
+---
+title: "399. DevSecOps 기술사 핵심 통합 요약 마스터 맵 (DevSecOps PE Master Summary Integration Map)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 399 / 400
 
-<- **이전**: [398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)](/knowledge-base/studynote/15_devops_sre/05_devsecops/398_devsecops_maturity_model/)
-**다음**: [400. 400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering Master Map)](/knowledge-base/studynote/15_devops_sre/05_devsecops/400_devops/) ->
+<- **이전**: [398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)](/studynote/15_devops_sre/05_devsecops/398_devsecops_maturity_model/)
+**다음**: [400. 400. 클라우드·DevOps·데이터·보안 차세대 통합 플랫폼 엔지니어링 최종 마스터 맵 (Integrated Platform 엔진ering Master Map)](/studynote/15_devops_sre/05_devsecops/400_devops/) ->
 
 ---

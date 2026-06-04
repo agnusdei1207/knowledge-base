@@ -1,17 +1,14 @@
-+++
-title = "220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)"
-date = 2026-05-08
+---
+title: "220. 정보 프레임(I-Frame), 감독/제어(S-Frame / RR, RNR, REJ, SREJ), 비번호(U-Frame)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 정보 프레임, 감독/제어, 비번호는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 정보 프레임, 감독/제어, 비번호는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 정보 프레임, 감독/제어, 비번호를 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-사용자의 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 웹페이지 패킷 등)를 가득 싣고 달리는 메인 화물 트럭입니다.
+사용자의 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(사진, 웹페이지 패킷 등)를 가득 싣고 달리는 메인 화물 트럭입니다.
 
-- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>0</code></strong>으로 시작합니다. 수신기는 첫 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 "오, 진짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)구나!" 하고 정보부(Information Field)를 깝니다.
-- <strong>핵심 무기 (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">피기배킹</a>)</strong>: 이 트럭은 짐만 나르는 게 아닙니다. 제어부 안에 슬라이딩 윈도우를 위한 <strong><code>내 전송 순서 번호 N(S)</code></strong>와, <strong><code>내가 다음번에 너한테 받아야 할 번호 N(R)</code></strong>을 같이 적어서 보냅니다. 즉, 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면서 상대방이 아까 보낸 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>수신 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(ACK)을 업어 태우는(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong> 기적의 가성비 프레임입니다.
+- <strong>제어부 첫 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>0</code></strong>으로 시작합니다. 수신기는 첫 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 "오, 진짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)구나!" 하고 정보부(Information Field)를 깝니다.
+- <strong>핵심 무기 (<a href="/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">피기배킹</a>)</strong>: 이 트럭은 짐만 나르는 게 아닙니다. 제어부 안에 슬라이딩 윈도우를 위한 <strong><code>내 전송 순서 번호 N(S)</code></strong>와, <strong><code>내가 다음번에 너한테 받아야 할 번호 N(R)</code></strong>을 같이 적어서 보냅니다. 즉, 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내면서 상대방이 아까 보낸 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 <strong>수신 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(ACK)을 업어 태우는(<a href="/studynote/03_network/04_data_link_layer_error/212_piggybacking_ack_merging/">Piggybacking</a>)</strong> 기적의 가성비 프레임입니다.
 
 ```text
 [NRM / ARM / ABM]
@@ -33,20 +30,20 @@ tags = ["studynote-network"]
     +---> [SDLC]
 ```
 
-- **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-사용자의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Information)는 단 1바이트도 싣고 있지 않은, 순수한 통신 통제용 깡통 프레임입니다.
+사용자의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Information)는 단 1바이트도 싣고 있지 않은, 순수한 통신 통제용 깡통 프레임입니다.
 
-- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>10</code></strong>으로 시작합니다.
-- **역할**: 내가 보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(I-프레임)가 없을 때, 상대방에게 <strong>ACK(잘 받았어)나 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a>(에러 났어)만 따로 던져주고 싶거나, 흐름 제어를 할 때</strong> 씁니다.
+- <strong>제어부 첫 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>10</code></strong>으로 시작합니다.
+- **역할**: 내가 보낼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(I-프레임)가 없을 때, 상대방에게 <strong>ACK(잘 받았어)나 <a href="/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/">NAK</a>(에러 났어)만 따로 던져주고 싶거나, 흐름 제어를 할 때</strong> 씁니다.
 
 **[ S-프레임의 4가지 종류 (시험 단골) ]**
-1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a> (Receive Ready)</strong>: `ACK`입니다. "지금까지 잘 받았고, 다음 N번 내놔! 내 버퍼도 널널해!"
-2. **RNR (Receive Not Ready)**: `흐름 제어용 ACK`입니다. "지금까지 받은 건 정답이야(ACK). 근데 내 메모리 버퍼 터질 것 같으니까 **제발 다음 거 당분간 쏘지 마(Not Ready)! 기다려!**" (속도 조절 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)).
+1. <strong><a href="/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/">RR</a> (Receive Ready)</strong>: `ACK`입니다. "지금까지 잘 받았고, 다음 N번 내놔! 내 버퍼도 널널해!"
+2. **RNR (Receive Not Ready)**: `흐름 제어용 ACK`입니다. "지금까지 받은 건 정답이야(ACK). 근데 내 메모리 버퍼 터질 것 같으니까 **제발 다음 거 당분간 쏘지 마(Not Ready)! 기다려!**" (속도 조절 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)).
 3. **REJ (Reject)**: `NAK (Go-Back-N 용)`입니다. "방금 N번 프레임 깨졌어! **N번부터 싹 다 다시 보내!**"
 4. **SREJ (Selective Reject)**: `NAK (Selective Repeat 용)`입니다. "딴 건 됐고, **딱 N번 프레임 하나만 다시 보내봐.**"
 
@@ -68,39 +65,39 @@ tags = ["studynote-network"]
 통신을 시작하기 전에 "선 좀 꼽자", "이제 끊자" 등 연결 셋업을 담당하는 관리자입니다.
 순서 번호(Sequence Number)가 전혀 안 적혀 있어서 Unnumbered(비번호)라고 부릅니다.
 
-- <strong>제어부 첫 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>11</code></strong>로 시작합니다.
+- <strong>제어부 첫 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/">비트</a></strong>: 무조건 <strong><code>11</code></strong>로 시작합니다.
 - **역할**: 에러 검출 이런 게 아니라, 링크를 처음 열 때(SABM: 비동기 균형 모드로 연결하자!), 에러 나서 링크를 리셋할 때, 접속을 끊고 집에 갈 때(DISC: Disconnect) 던지는 최상위 시스템 제어 명령어들입니다.
 
 > <strong>I-프레임(0)</strong>은 과자를 싣고 배달 가는 듬직한 <strong>'택배 트럭'</strong>입니다.
-> <strong>S-프레임(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong>은 짐칸은 텅 비어있고 스피커만 달린 <strong>'경찰차'</strong>로, 도로 위에서 "잘 오고 있다([RR](/knowledge-base/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다.
-> <strong>U-프레임(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)</strong>은 아예 도로의 차단기를 올리거나 내리는 <strong>'톨게이트 관리 요원'</strong>입니다.
+> <strong>S-프레임(<a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>)</strong>은 짐칸은 텅 비어있고 스피커만 달린 <strong>'경찰차'</strong>로, 도로 위에서 "잘 오고 있다([RR](/studynote/03_network/16_data_center_cloud/834_load_balancing_algorithm_round_robin_least_connection/))", "잠깐 차 세워라(RNR)", "3번 트럭 뒤로 빽해라!(REJ)"라고 호루라기를 부는 교통정리 요원입니다.
+> <strong>U-프레임(<a href="/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/">11</a>)</strong>은 아예 도로의 차단기를 올리거나 내리는 <strong>'톨게이트 관리 요원'</strong>입니다.
 
-정보 프레임, 감독/제어, 비번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM가 기반 조건을 만든다면, 정보 프레임, 감독/제어, 비번호는 그 위에서 핵심 메커니즘을 구현하고, SDLC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+정보 프레임, 감독/제어, 비번호를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM가 기반 조건을 만든다면, 정보 프레임, 감독/제어, 비번호는 그 위에서 핵심 메커니즘을 구현하고, SDLC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM의 기반 정리 | 정보 프레임, 감독/제어, 비번호의 핵심 동작 | SDLC의 확장 적용 |
+| 초점 | [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM의 기반 정리 | 정보 프레임, 감독/제어, 비번호의 핵심 동작 | SDLC의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: ** [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 통신망은 도로망입니다.
+- **📢 섹션 요약 비유**: ** [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) 통신망은 도로망입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 정보 프레임, 감독/제어, 비번호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM 수준의 기본 대책으로 충분한지, 아니면 정보 프레임, 감독/제어, 비번호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SDLC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 정보 프레임, 감독/제어, 비번호를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM 수준의 기본 대책으로 충분한지, 아니면 정보 프레임, 감독/제어, 비번호가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SDLC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 오류율 부족인지, 재전송 비용 악화인지 먼저 분리한다.
-2. 정보 프레임, 감독/제어, 비번호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. 정보 프레임, 감독/제어, 비번호가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 SDLC와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 정보 프레임, 감독/제어, 비번호의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -108,7 +105,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-정보 프레임, 감독/제어, 비번호는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+정보 프레임, 감독/제어, 비번호는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 정보 프레임, 감독/제어, 비번호는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -118,10 +115,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 의미 있는 전송 단위로 구분한다. |
-| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
-| [SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
+| [SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,11 +132,11 @@ tags = ["studynote-network"]
     +---> [확장 B: 고신뢰 저지연 링크 제어]
 ```
 
-정보 프레임, 감독/제어, 비번호는 [NRM](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM에서 출발해 현재 메커니즘을 정교화하고, 이후 SDLC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+정보 프레임, 감독/제어, 비번호는 [NRM](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/) / ARM / ABM에서 출발해 현재 메커니즘을 정교화하고, 이후 SDLC와 고신뢰 저지연 링크 제어 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -149,7 +146,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 341 / 1120
 
-<- **이전**: [219. NRM (정규 응답 모드) / ARM (비동기 응답 모드) / ABM (비동기 균형 모드)](/knowledge-base/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/)
-**다음**: [221. SDLC (Synchronous Data Link Control)](/knowledge-base/studynote/03_network/04_data_link_layer_error/221_sdlc_ibm_synchronous_data_link_control/) ->
+<- **이전**: [219. NRM (정규 응답 모드) / ARM (비동기 응답 모드) / ABM (비동기 균형 모드)](/studynote/03_network/04_data_link_layer_error/219_nrm_arm_abm_hdlc_modes/)
+**다음**: [221. SDLC (Synchronous Data Link Control)](/studynote/03_network/04_data_link_layer_error/221_sdlc_ibm_synchronous_data_link_control/) ->
 
 ---

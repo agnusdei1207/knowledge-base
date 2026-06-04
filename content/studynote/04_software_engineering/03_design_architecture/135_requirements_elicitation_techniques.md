@@ -1,18 +1,15 @@
-+++
-title = "135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍"
-date = 2026-04-19
+---
+title: "135. 요구사항 도출 기법 - 인터뷰·JAD·프로토타이핑·브레인스토밍"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 요구 도출(Elicitation)은 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>로부터 요구사항을 끌어내는 활동</strong>이며, 인터뷰·JAD·브레인스토밍·프로토타이핑·관찰·설문·[벤치마킹](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 등 다양한 기법을 상황에 맞게 조합한다.
+> 1. **본질**: 요구 도출(Elicitation)은 <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a>로부터 요구사항을 끌어내는 활동</strong>이며, 인터뷰·JAD·브레인스토밍·프로토타이핑·관찰·설문·[벤치마킹](/studynote/07_enterprise_systems/04_process_consulting/219_benchmarking_best_practice/) 등 다양한 기법을 상황에 맞게 조합한다.
 > 2. **가치**: 사용자는 **자신이 원하는 것을 정확히 말하지 못하므로**, 다양한 도출 기법으로 <strong>숨겨진 요구(Hidden Requirements)</strong>를 발견해야 한다.
-> 3. **판단 포인트**: 프로토타이핑은 <strong>시각적 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>->피드백</strong>이 빠르고, JAD는 <strong>다부서 합의</strong>에 강하며, 관찰(Ethnography)은 <strong>실제 업무 흐름</strong>을 파악하는 데 최적이다.
+> 3. **판단 포인트**: 프로토타이핑은 <strong>시각적 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>->피드백</strong>이 빠르고, JAD는 <strong>다부서 합의</strong>에 강하며, 관찰(Ethnography)은 <strong>실제 업무 흐름</strong>을 파악하는 데 최적이다.
 
 ---
 
@@ -20,9 +17,9 @@ tags = ["studynote-software-engineering"]
 
 | 기법 | 강점 | 적합 상황 |
 |:---|:---|:---|
-| **인터뷰** | 심층 파악 | 핵심 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) |
+| **인터뷰** | 심층 파악 | 핵심 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) |
 | **JAD** | 다부서 합의 | 이해관계 충돌 |
-| **프로토타이핑** | 시각적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | UI/UX 요구 |
+| **프로토타이핑** | 시각적 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | UI/UX 요구 |
 | **관찰** | 실제 업무 발견 | 현장 프로세스 |
 
 - **📢 섹션 요약 비유**: 도출 기법은 의사의 <strong>문진 도구(청진기·X-ray·혈액 검사)</strong>이다. 증상마다 다른 도구를 쓴다.
@@ -64,7 +61,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 135 / 973
 
-<- **이전**: [134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세](/knowledge-base/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/)
-**다음**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/) ->
+<- **이전**: [134. 요구사항 공학 프로세스 - 도출->분석->명세->검증->관리 상세](/studynote/04_software_engineering/03_design_architecture/134_requirements_engineering_process/)
+**다음**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/) ->
 
 ---

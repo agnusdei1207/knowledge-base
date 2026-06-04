@@ -1,0 +1,82 @@
+@use "./variables.scss" as *;
+
+body {
+  letter-spacing: 0;
+}
+
+.page {
+  background:
+    linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--lightgray) 18%, transparent),
+      transparent 260px
+    ),
+    var(--light);
+}
+
+a {
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.18em;
+}
+
+pre,
+code {
+  border-radius: 6px;
+}
+
+pre {
+  border: 1px solid var(--lightgray);
+  position: relative;
+
+  &:hover .skill-copy-button,
+  &:focus-within .skill-copy-button {
+    opacity: 1;
+  }
+}
+
+.skill-copy-button {
+  align-items: center;
+  background: color-mix(in srgb, var(--light) 88%, var(--darkgray));
+  border: 1px solid var(--lightgray);
+  border-radius: 6px;
+  color: var(--dark);
+  cursor: pointer;
+  display: inline-flex;
+  font: 600 0.72rem/1.2 var(--bodyFont);
+  inset: 0.55rem 0.55rem auto auto;
+  opacity: 0;
+  padding: 0.32rem 0.5rem;
+  position: absolute;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    opacity 0.15s ease;
+  z-index: 1;
+
+  &:hover,
+  &:focus-visible {
+    background: var(--secondary);
+    border-color: var(--secondary);
+    color: var(--light);
+    opacity: 1;
+  }
+}
+
+blockquote {
+  border-left: 3px solid var(--secondary);
+  background: color-mix(in srgb, var(--secondary) 7%, transparent);
+  border-radius: 0 6px 6px 0;
+}
+
+.explorer,
+.graph,
+.backlinks,
+.toc {
+  --card-bg: color-mix(in srgb, var(--light) 92%, var(--lightgray));
+}
+
+.search,
+button,
+input {
+  border-radius: 6px;
+}

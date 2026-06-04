@@ -1,13 +1,10 @@
-+++
-title = "504. FEAF 연방 EA 프레임워크 (FEAF Federal EA Framework)"
-date = 2026-05-09
+---
+title: "504. FEAF 연방 EA 프레임워크 (FEAF Federal EA Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 # 504. FEAF 연방 EA 프레임워크 (FEAF Federal EA Framework)
 
@@ -169,7 +166,7 @@ FEAF는 **"연방정부라는 거대 아파트 단지(24개 부처)의 통합 �
 
 **진행 상황**: 504 / 600
 
-<- **이전**: [503. Zachman 프레임워크 분류 체계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/504_zachman_framework_classification/)
-**다음**: [505. COBIT 거버넌스 관리 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/505_cobit_governance_management_framework/) ->
+<- **이전**: [503. Zachman 프레임워크 분류 체계](/studynote/11_design_supervision/06_exam_summary/504_zachman_framework_classification/)
+**다음**: [505. COBIT 거버넌스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/505_cobit_governance_management_framework/) ->
 
 ---

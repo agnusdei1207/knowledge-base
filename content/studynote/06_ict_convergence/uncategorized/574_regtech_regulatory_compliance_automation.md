@@ -1,13 +1,10 @@
-+++
-title = "574. 규제 기술 레그텍 컴플라이언스 자동화 (RegTech Regulatory Compliance Automation)"
-date = 2026-05-09
+---
+title: "574. 규제 기술 레그텍 컴플라이언스 자동화 (RegTech Regulatory Compliance Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ RegTech 규제 준수 자동화은(는) 현장의 상태를 데이터로 가시�
 
 **진행 상황**: 574 / 800
 
-<- **이전**: [573. 블록체인 포렌식 거래 추적](/knowledge-base/studynote/06_ict_convergence/uncategorized/573_blockchain_forensics_transaction_tracing/)
-**다음**: [575. STO 증권형 토큰 디지털 증권](/knowledge-base/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/) ->
+<- **이전**: [573. 블록체인 포렌식 거래 추적](/studynote/06_ict_convergence/uncategorized/573_blockchain_forensics_transaction_tracing/)
+**다음**: [575. STO 증권형 토큰 디지털 증권](/studynote/06_ict_convergence/uncategorized/575_security_token_offering_sto_digital_securitie/) ->
 
 ---

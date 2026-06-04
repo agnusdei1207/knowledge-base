@@ -1,13 +1,10 @@
-+++
-title = "402. DevSecOps 보안 내재화 파이프라인 (DevSecOps Security Integration Pipeline)"
-date = 2026-05-09
+---
+title: "402. DevSecOps 보안 내재화 파이프라인 (DevSecOps Security Integration Pipeline)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -117,7 +114,7 @@ DevSecOps 보안 내재화 파이프라인은 **7-Stage Reference Model**(Plan /
 
 **진행 상황**: 402 / 800
 
-<- **이전**: [401. 보안 개발 생명주기 SDL 보안 코딩](/knowledge-base/studynote/12_it_management/05_security_compliance/401_security_development_lifecycle_sdl_coding/)
-**다음**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/knowledge-base/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/) ->
+<- **이전**: [401. 보안 개발 생명주기 SDL 보안 코딩](/studynote/12_it_management/05_security_compliance/401_security_development_lifecycle_sdl_coding/)
+**다음**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/) ->
 
 ---

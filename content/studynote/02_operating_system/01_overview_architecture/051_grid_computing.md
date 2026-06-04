@@ -1,25 +1,22 @@
-+++
-title = "51. 그리드 컴퓨팅 (Grid Computing)"
-date = 2026-04-30
+---
+title: "51. 그리드 컴퓨팅 (Grid Computing)"
+date: "2026-04-30"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 그리드 컴퓨팅 (Grid Computing)은 서로 다른 조직이 보유한 이기종 자원을 네트워크로 묶어, 하나의 거대한 가상 연산 자원처럼 쓰게 하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 모델이다.
-> 2. **가치**: 단일 슈퍼컴퓨터를 새로 사지 않아도, 여러 기관의 유휴 CPU·스토리지·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유해 대규모 배치 계산과 협업 연구를 수행할 수 있다.
-> 3. **판단 포인트**: 그리드는 자원 연합과 [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 유지에 강하지만, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 짧아야 하는 실시간 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 단일 사업자형 탄력 자원 모델은 클라우드가 더 적합하다.
+> 1. **본질**: 그리드 컴퓨팅 (Grid Computing)은 서로 다른 조직이 보유한 이기종 자원을 네트워크로 묶어, 하나의 거대한 가상 연산 자원처럼 쓰게 하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 컴퓨팅 모델이다.
+> 2. **가치**: 단일 슈퍼컴퓨터를 새로 사지 않아도, 여러 기관의 유휴 CPU·스토리지·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 공유해 대규모 배치 계산과 협업 연구를 수행할 수 있다.
+> 3. **판단 포인트**: 그리드는 자원 연합과 [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 유지에 강하지만, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이 짧아야 하는 실시간 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 단일 사업자형 탄력 자원 모델은 클라우드가 더 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-그리드 컴퓨팅은 전력망처럼 필요한 순간에 연산 자원을 끌어다 쓰는 개념에서 출발했다. 핵심은 한 조직의 단일 클러스터가 아니라, 여러 기관이 각자 보유한 서버·스토리지·애플리케이션을 가상 조직 (VO, Virtual Organization) 단위로 공유한다는 점이다. 사용자는 실제 작업이 어느 연구소, 어느 국가, 어느 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 실행되는지 몰라도 된다.
+그리드 컴퓨팅은 전력망처럼 필요한 순간에 연산 자원을 끌어다 쓰는 개념에서 출발했다. 핵심은 한 조직의 단일 클러스터가 아니라, 여러 기관이 각자 보유한 서버·스토리지·애플리케이션을 가상 조직 (VO, Virtual Organization) 단위로 공유한다는 점이다. 사용자는 실제 작업이 어느 연구소, 어느 국가, 어느 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)에서 실행되는지 몰라도 된다.
 
 이 모델이 필요해진 이유는 명확하다. 과학 계산, 유전체 분석, 기상 시뮬레이션, 입자 물리처럼 특정 시점에만 대규모 연산이 필요한 업무는 상시 전용 슈퍼컴퓨터를 보유하기에 비용이 크다. 반대로 기관별 서버는 놀고 있는 시간이 많다. 그리드는 이 유휴 자원을 묶어 비용 효율과 공동 연구 생산성을 동시에 높인다.
 
@@ -29,7 +26,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-그리드의 핵심은 이기종 자원을 표준 인터페이스로 감싸는 미들웨어 (Middleware)다. 미들웨어가 자원 검색, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 작업 스케줄링, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 중재해 주기 때문에, 사용자 입장에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)된 자원이 하나의 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 보인다.
+그리드의 핵심은 이기종 자원을 표준 인터페이스로 감싸는 미들웨어 (Middleware)다. 미들웨어가 자원 검색, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 작업 스케줄링, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 중재해 주기 때문에, 사용자 입장에서는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)된 자원이 하나의 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)처럼 보인다.
 
 ```text
 +--------------------------------------------------------------+
@@ -51,12 +48,12 @@ tags = ["studynote-operating-system"]
 | 구성 요소 | 역할 | 대표 포인트 |
 | :--- | :--- | :--- |
 | 미들웨어 (Middleware) | 이기종 자원을 공통 방식으로 노출 | Globus, gLite 계열 |
-| 자원 브로커 (Resource Broker) | 작업 요구사항에 맞는 자원 선택 | CPU, 메모리, 위치, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 고려 |
-| [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (Scheduler) | 큐 기반 배치 실행과 공정 분배 | Throughput과 Fairness 균형 |
-| 보안 인프라 | 조직 간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 위임 | [PKI](/knowledge-base/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Single Sign-On](/knowledge-base/studynote/09_security/11_iam_access_control/531_sso/), Delegation |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·이동 | GridFTP, [데이터 지역성](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 고려 |
+| 자원 브로커 (Resource Broker) | 작업 요구사항에 맞는 자원 선택 | CPU, 메모리, 위치, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 고려 |
+| [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) (Scheduler) | 큐 기반 배치 실행과 공정 분배 | Throughput과 Fairness 균형 |
+| 보안 인프라 | 조직 간 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 위임 | [PKI](/studynote/09_security/03_network_security/159_pki_public_key_infrastructure/), [Single Sign-On](/studynote/09_security/11_iam_access_control/531_sso/), Delegation |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 | 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)·이동 | GridFTP, [데이터 지역성](/studynote/14_data_engineering/01_infrastructure/019_data_locality/) 고려 |
 
-그리드는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서도 중요하다. 단일 OS [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 로컬 CPU를 배분한다면, 그리드 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 네트워크 너머의 다중 행정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자원을 배분한다. 즉 스케줄링 범위가 프로세스 수준에서 기관 연합 수준으로 확장된 것이다.
+그리드는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 관점에서도 중요하다. 단일 OS [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 로컬 CPU를 배분한다면, 그리드 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 네트워크 너머의 다중 행정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 자원을 배분한다. 즉 스케줄링 범위가 프로세스 수준에서 기관 연합 수준으로 확장된 것이다.
 
 - **📢 섹션 요약 비유**: 그리드 미들웨어는 국제 공항의 관제탑과 같다. 나라와 항공사가 달라도 하나의 규칙으로 이착륙 순서를 조정해 전체 흐름을 맞춘다.
 
@@ -64,37 +61,37 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-그리드를 이해하려면 [클러스터 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/383_cluster_computing/)과 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)을 함께 봐야 한다. 클러스터는 한 조직 안의 비교적 동질적인 자원을 묶는 반면, 그리드는 여러 조직의 이기종 자원을 연합한다. 클라우드는 사업자가 표준화된 자원을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제공하는 모델이라, 소유권과 운영 책임이 더 중앙집중적이다.
+그리드를 이해하려면 [클러스터 컴퓨팅](/studynote/01_computer_architecture/10_parallel_processing_architecture/383_cluster_computing/)과 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/)을 함께 봐야 한다. 클러스터는 한 조직 안의 비교적 동질적인 자원을 묶는 반면, 그리드는 여러 조직의 이기종 자원을 연합한다. 클라우드는 사업자가 표준화된 자원을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 제공하는 모델이라, 소유권과 운영 책임이 더 중앙집중적이다.
 
 | 항목 | 클러스터 | 그리드 | 클라우드 |
 | :--- | :--- | :--- | :--- |
 | 자원 소유권 | 단일 조직 | 다중 조직 | 사업자 중심 |
 | 이기종성 | 낮음 | 높음 | 낮음~중간 |
-| 대표 워크로드 | [HPC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), 로컬 배치 | 기관 연합 배치, 공동 연구 | 탄력 웹 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 범용 IT |
-| [프로비저닝](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/) | 내부 운영팀 | 협약 기반 공유 | 온디맨드 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
-| 강점 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 연합·공유 | 편의성·자동화 |
+| 대표 워크로드 | [HPC](/studynote/01_computer_architecture/15_advanced_topics/548_automotive_hpc/), 로컬 배치 | 기관 연합 배치, 공동 연구 | 탄력 웹 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/), 범용 IT |
+| [프로비저닝](/studynote/09_security/11_iam_access_control/528_provisioning/) | 내부 운영팀 | 협약 기반 공유 | 온디맨드 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) |
+| 강점 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) | 연합·공유 | 편의성·자동화 |
 
-그리드는 현대 클라우드의 직접적 전신은 아니지만, "자원을 추상화해 네트워크 너머에서 쓴다"는 사고방식에 큰 영향을 줬다. 최근에는 연합 클라우드 (Federated Cloud), 에지 그리드 (Edge Grid), 연구 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스 등으로 그 정신이 다시 확장되고 있다.
+그리드는 현대 클라우드의 직접적 전신은 아니지만, "자원을 추상화해 네트워크 너머에서 쓴다"는 사고방식에 큰 영향을 줬다. 최근에는 연합 클라우드 (Federated Cloud), 에지 그리드 (Edge Grid), 연구 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스페이스 등으로 그 정신이 다시 확장되고 있다.
 
-- **📢 섹션 요약 비유**: 클러스터가 한 회사의 전용 셔틀버스라면, 그리드는 여러 기관이 함께 쓰는 광역 환승망이고, 클라우드는 호출하면 바로 오는 상용 택시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 가깝다.
+- **📢 섹션 요약 비유**: 클러스터가 한 회사의 전용 셔틀버스라면, 그리드는 여러 기관이 함께 쓰는 광역 환승망이고, 클라우드는 호출하면 바로 오는 상용 택시 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 가깝다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-그리드는 특히 대규모 배치형 과학 계산에서 강하다. CERN의 WLCG (Worldwide LHC Computing Grid)는 입자 실험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 국가 연구기관에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하고, 생명과학 분야는 유전체 분석 파이프라인을 기관 간에 나눠 돌린다. 이런 환경에서는 단순 연산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 네트워크 병목 제어가 더 중요하다.
+그리드는 특히 대규모 배치형 과학 계산에서 강하다. CERN의 WLCG (Worldwide LHC Computing Grid)는 입자 실험 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 여러 국가 연구기관에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리하고, 생명과학 분야는 유전체 분석 파이프라인을 기관 간에 나눠 돌린다. 이런 환경에서는 단순 연산 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 네트워크 병목 제어가 더 중요하다.
 
 ### 도입 판단 기준
 
 1. 여러 기관이 자원을 공유해야 하는가?
 2. 워크로드가 실시간 API보다 배치 잡 (Batch Job)에 가까운가?
-3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동보다 연산을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치로 보내는 방식이 가능한가?
+3. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동보다 연산을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위치로 보내는 방식이 가능한가?
 4. 조직 간 신뢰·정산·권한 모델을 합의할 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 페타바이트 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 WAN으로 매번 끌어와 계산하는 설계
-- 자원 공유만 생각하고 조직 간 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 뒤로 미루는 설계
+- 페타바이트 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 WAN으로 매번 끌어와 계산하는 설계
+- 자원 공유만 생각하고 조직 간 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)·권한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 뒤로 미루는 설계
 - 실시간 사용자 요청 시스템을 그리드 큐 모델에 억지로 태우는 설계
 
 그리드는 "운영을 쉽게 만드는 플랫폼"이 아니라 "연합 자원을 다루는 협력 모델"에 가깝다. 그래서 기술보다 거버넌스와 표준 합의가 실패 원인이 되는 경우가 많다.
@@ -107,7 +104,7 @@ tags = ["studynote-operating-system"]
 
 그리드 컴퓨팅의 가장 큰 효과는 유휴 자원 활용률과 공동 연구 생산성을 동시에 끌어올린다는 점이다. 각 기관이 장비를 독립적으로 증설하는 대신, 필요한 시점에 자원을 공동 활용하면 투자 효율이 높아지고 대형 프로젝트를 더 빨리 수행할 수 있다.
 
-반면 운영 복잡성, 보안 위임, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용은 항상 남는 한계다. 따라서 그리드는 "모든 시스템의 기본 답"이 아니라, 다기관 협업과 대규모 배치형 계산에 최적화된 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 연합 모델로 기억하는 것이 맞다.
+반면 운영 복잡성, 보안 위임, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용은 항상 남는 한계다. 따라서 그리드는 "모든 시스템의 기본 답"이 아니라, 다기관 협업과 대규모 배치형 계산에 최적화된 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 연합 모델로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 그리드는 각자 집에 있는 사다리를 모아 큰 무대 설치를 끝내는 방식이다. 혼자서는 못 하지만, 함께 쓰면 큰일을 해낸다.
 
@@ -120,8 +117,8 @@ tags = ["studynote-operating-system"]
 | 가상 조직 (VO) | 서로 다른 조직의 자원을 논리적으로 묶는 단위 |
 | 미들웨어 (Middleware) | 자원 검색·보안·전송을 통합하는 핵심 층 |
 | 배치 스케줄링 (Batch Scheduling) | 그리드 작업 분배의 기본 운영 방식 |
-| [클러스터 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/383_cluster_computing/) | 그리드와 비교되는 단일 조직형 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 |
-| [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) | 자원 추상화를 상용 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 발전시킨 모델 |
+| [클러스터 컴퓨팅](/studynote/01_computer_architecture/10_parallel_processing_architecture/383_cluster_computing/) | 그리드와 비교되는 단일 조직형 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 자원 |
+| [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) | 자원 추상화를 상용 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)로 발전시킨 모델 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,7 +138,7 @@ tags = ["studynote-operating-system"]
 에지 그리드 · 연구 데이터 스페이스
 ```
 
-이 흐름은 "묶어서 쓴다"는 개념이 로컬 자원에서 전 지구적 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델로 확장된 과정을 보여준다.
+이 흐름은 "묶어서 쓴다"는 개념이 로컬 자원에서 전 지구적 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 모델로 확장된 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -155,7 +152,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 51 / 800
 
-<- **이전**: [P2P 시스템 (Peer-to-Peer System)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/050_p2p_system/)
-**다음**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) ->
+<- **이전**: [P2P 시스템 (Peer-to-Peer System)](/studynote/02_operating_system/01_overview_architecture/050_p2p_system/)
+**다음**: [52. 클라우드 컴퓨팅 (Cloud Computing) - OS 관점](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) ->
 
 ---

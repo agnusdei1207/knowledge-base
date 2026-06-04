@@ -1,17 +1,14 @@
-+++
-title = "55. Trunk-Based Development"
-date = 2026-05-01
+---
+title: "55. Trunk-Based Development"
+date: "2026-05-01"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Trunk-Based Development는 메인 트렁크에 자주 통합하는 브랜치 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 1. **본질**: Trunk-Based Development는 메인 트렁크에 자주 통합하는 브랜치 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
 > 2. **가치**: 짧은 브랜치와 작은 변경으로 충돌과 통합 비용을 줄인다.
 > 3. **판단 포인트**: feature flag와 자동화된 CI가 없으면 운영하기 어렵다.
 
@@ -41,10 +38,10 @@ trunk/main -●-●-●-●-●
 | :--- | :--- | :--- |
 | Trunk | 메인 라인 | 항상 안정 |
 | Short-lived branch | 짧은 작업 | 빠른 merge |
-| [Feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 기능 분리 | 미완성 숨김 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 빠른 피드백 |
+| [Feature flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 기능 분리 | 미완성 숨김 |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 빠른 피드백 |
 
-핵심은 통합을 미루지 않는 것이다. 미루면 충돌과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 커진다.
+핵심은 통합을 미루지 않는 것이다. 미루면 충돌과 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 커진다.
 
 - **📢 섹션 요약 비유**: Trunk-Based는 매일 책상 위를 정리하는 습관이다.
 
@@ -54,11 +51,11 @@ trunk/main -●-●-●-●-●
 
 GitFlow보다 가볍고, GitHub Flow보다 더 엄격한 trunk 중심 운영이라고 볼 수 있다. DevOps와 빠른 배포에 잘 맞는다.
 
-| 항목 | [GitFlow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/053_gitflow/) | [GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) | Trunk-Based |
+| 항목 | [GitFlow](/studynote/15_devops_sre/01_culture_methodology/053_gitflow/) | [GitHub Flow](/studynote/15_devops_sre/01_culture_methodology/054_github_flow/) | Trunk-Based |
 | :--- | :--- | :--- | :--- |
 | 브랜치 수명 | 길다 | 짧다 | 매우 짧다 |
 | 통합 빈도 | 낮음 | 높음 | 매우 높음 |
-| [feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 선택적 | 권장 | 사실상 필수 |
+| [feature flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 선택적 | 권장 | 사실상 필수 |
 
 Trunk-Based는 테스트 자동화와 배포 자동화가 성숙할수록 효과가 커진다.
 
@@ -68,16 +65,16 @@ Trunk-Based는 테스트 자동화와 배포 자동화가 성숙할수록 효과
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 변경 크기를 작게 유지하고, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패 시 빠르게 되돌린다. feature flag를 통해 배포와 공개를 분리하는 것이 중요하다.
+실무에서는 변경 크기를 작게 유지하고, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) 실패 시 빠르게 되돌린다. feature flag를 통해 배포와 공개를 분리하는 것이 중요하다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. trunk가 항상 배포 가능한가?
 2. 변경이 작고 짧은가?
 3. feature flag를 쓰는가?
 4. CI가 빠르게 피드백하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 긴 feature branch를 오래 유지하는 경우
 - trunk가 깨진 채 방치되는 경우
@@ -105,8 +102,8 @@ Trunk-Based Development는 빠른 통합, 낮은 충돌, 지속 배포에 유리
 | :--- | :--- |
 | trunk | 메인 브랜치 |
 | short-lived branch | 짧은 작업 |
-| [feature flag](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 미완성 숨김 |
-| [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| [feature flag](/studynote/04_software_engineering/09_cloud_native_ai_architecture/576_feature_flag_ab_testing_rollout/) | 미완성 숨김 |
+| [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) | 자동 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
 | merge | 잦은 통합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -138,7 +135,7 @@ Trunk-Based + Feature Flag
 
 **진행 상황**: 55 / 373
 
-<- **이전**: [54. GitHub Flow](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/054_github_flow/)
-**다음**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/) ->
+<- **이전**: [54. GitHub Flow](/studynote/15_devops_sre/01_culture_methodology/054_github_flow/)
+**다음**: [56. CI/CD 파이프라인 (Continuous Integration / Continuous Delivery) - 배포 자동화](/studynote/15_devops_sre/01_culture_methodology/056_cicd_pipeline/) ->
 
 ---

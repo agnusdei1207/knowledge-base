@@ -1,13 +1,10 @@
-+++
-title = "517. 서버 전송 이벤트 SSE 실시간 스트림 (Server Sent Events SSE Real-time Stream)"
-date = 2026-05-09
+---
+title: "517. 서버 전송 이벤트 SSE 실시간 스트림 (Server Sent Events SSE Real-time Stream)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 517 / 800
 
-<- **이전**: [516. WebSocket 실시간 양방향 통신](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/516_websocket_real_time_bidirectional_communicati/)
-**다음**: [518. 클라우드 테스팅 통합 부하 보안 테스트](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/518_cloud_testing_integration_load_security_test/) ->
+<- **이전**: [516. WebSocket 실시간 양방향 통신](/studynote/13_cloud_architecture/06_exam_summary/516_websocket_real_time_bidirectional_communicati/)
+**다음**: [518. 클라우드 테스팅 통합 부하 보안 테스트](/studynote/13_cloud_architecture/06_exam_summary/518_cloud_testing_integration_load_security_test/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘"
-date = 2026-05-08
+---
+title: "591. TCAM (Ternary Content Addressable Memory) 기반 패킷 분류 알고리즘"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 0, 1, X의 ternary 패턴을 저장한 규칙들을 입력 헤더와 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교해, 어떤 규칙이 맞는지와 어느 규칙이 더 우선인지까지 한 번의 lookup 안에서 결정하는 하드웨어 방식이다.
-> 2. **가치**: 라우터의 최장 접두사 일치 (Longest Prefix Match, LPM)와 [접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))처럼 wildcard와 우선순위가 섞인 규칙도 일정한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간으로 처리할 수 있어, line rate 네트워크 장비의 핵심 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 엔진이 된다.
-> 3. **판단 포인트**: 속도는 매우 강력하지만, 규칙 수가 늘수록 전력·면적·발열 비용이 커지고 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위 같은 조건은 엔트리 폭발을 만들 수 있으므로 "모든 규칙을 TCAM에 넣는 것"이 항상 정답은 아니다.
+> 1. **본질**: TCAM 기반 패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 0, 1, X의 ternary 패턴을 저장한 규칙들을 입력 헤더와 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교해, 어떤 규칙이 맞는지와 어느 규칙이 더 우선인지까지 한 번의 lookup 안에서 결정하는 하드웨어 방식이다.
+> 2. **가치**: 라우터의 최장 접두사 일치 (Longest Prefix Match, LPM)와 [접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))처럼 wildcard와 우선순위가 섞인 규칙도 일정한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간으로 처리할 수 있어, line rate 네트워크 장비의 핵심 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 엔진이 된다.
+> 3. **판단 포인트**: 속도는 매우 강력하지만, 규칙 수가 늘수록 전력·면적·발열 비용이 커지고 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위 같은 조건은 엔트리 폭발을 만들 수 있으므로 "모든 규칙을 TCAM에 넣는 것"이 항상 정답은 아니다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 들어온 패킷을 보고 "어디로 보낼지", "허용할지 차단할지", "어떤 큐에 실을지"를 결정하는 과정이다. 문제는 현대 네트워크 규칙이 단순 exact match가 아니라는 점이다. 목적지 접두사, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위, [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 우선순위가 함께 섞이면 일반적인 소프트웨어 탐색은 규칙 수가 커질수록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 증가한다.
+패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)는 들어온 패킷을 보고 "어디로 보낼지", "허용할지 차단할지", "어떤 큐에 실을지"를 결정하는 과정이다. 문제는 현대 네트워크 규칙이 단순 exact match가 아니라는 점이다. 목적지 접두사, [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위, [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 우선순위가 함께 섞이면 일반적인 소프트웨어 탐색은 규칙 수가 커질수록 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 증가한다.
 
-TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리가 주소를 넣으면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 돌려주는 저장 장치라면, TCAM은 헤더 값을 넣었을 때 "나와 맞는 규칙이 몇 번째 줄인가"를 바로 돌려주는 비교 장치다. 여기에 X, 즉 don't care 상태를 추가함으로써 `192.168.*.*` 같은 wildcard 규칙과 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위 표현이 가능해진다.
+TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리가 주소를 넣으면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 돌려주는 저장 장치라면, TCAM은 헤더 값을 넣었을 때 "나와 맞는 규칙이 몇 번째 줄인가"를 바로 돌려주는 비교 장치다. 여기에 X, 즉 don't care 상태를 추가함으로써 `192.168.*.*` 같은 wildcard 규칙과 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위 표현이 가능해진다.
 
 이 그림은 패킷 헤더가 TCAM에 들어갈 때 어떤 식으로 규칙과 맞물리는지 보여 준다.
 
@@ -40,7 +37,7 @@ TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리�
 +----------------------------------------------------------------------------+
 ```
 
-결국 TCAM의 필요성은 "빠른 검색"보다 더 구체적이다. <strong>wildcard가 있는 규칙을 우선순위까지 포함해 결정적 시간 안에 고르는 것</strong>이 핵심이며, 이 특성 때문에 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 보안 장비에서 여전히 중요한 위치를 차지한다.
+결국 TCAM의 필요성은 "빠른 검색"보다 더 구체적이다. <strong>wildcard가 있는 규칙을 우선순위까지 포함해 결정적 시간 안에 고르는 것</strong>이 핵심이며, 이 특성 때문에 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 보안 장비에서 여전히 중요한 위치를 차지한다.
 
 - **📢 섹션 요약 비유**: 반 친구 이름표를 한 명씩 읽는 대신, 선생님이 특징을 말하면 조건에 맞는 학생들이 동시에 손을 들고 그중 반장부터 먼저 앞으로 나오는 것과 같다. TCAM은 "동시 비교"와 "우선순위 선택"을 한 번에 하는 구조다.
 
@@ -48,16 +45,16 @@ TCAM은 이 문제를 메모리 구조 자체로 해결한다. 일반 메모리�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-TCAM 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 보통 네 단계로 동작한다. 먼저 parser가 패킷에서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 키를 뽑고, 이어서 TCAM이 값과 마스크를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교한다. 그다음 priority encoder가 여러 match 중 승자를 고르고, 마지막으로 action memory가 drop, [forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/), mirror 같은 동작을 읽어 실행한다. 계산량은 소프트웨어보다 훨씬 비싸지만, lookup [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 매우 짧고 예측 가능하다.
+TCAM 기반 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기는 보통 네 단계로 동작한다. 먼저 parser가 패킷에서 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 키를 뽑고, 이어서 TCAM이 값과 마스크를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교한다. 그다음 priority encoder가 여러 match 중 승자를 고르고, 마지막으로 action memory가 drop, [forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/), mirror 같은 동작을 읽어 실행한다. 계산량은 소프트웨어보다 훨씬 비싸지만, lookup [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 매우 짧고 예측 가능하다.
 
 | 단계 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Extraction | 헤더에서 목적지, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 필드를 추출한다. | 파서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 lookup 속도를 잡아먹지 않아야 한다. |
-| TCAM Compare | 0/1/X 패턴과 입력 키를 모든 행에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교한다. | wildcard 폭이 넓을수록 유연하지만 셀 비용이 커진다. |
+| [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) Extraction | 헤더에서 목적지, [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 등 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 필드를 추출한다. | 파서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 전체 lookup 속도를 잡아먹지 않아야 한다. |
+| TCAM Compare | 0/1/X 패턴과 입력 키를 모든 행에서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 비교한다. | wildcard 폭이 넓을수록 유연하지만 셀 비용이 커진다. |
 | Priority Encode | 동시에 맞은 규칙 중 승자를 고른다. | ACL과 LPM의 우선순위 의미가 정확히 반영되어야 한다. |
-| Action Memory | 선택된 규칙의 포워딩·차단·계수 동작을 읽는다. | 보통 정적 램 (Static Random Access Memory, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))과 결합된다. |
+| Action Memory | 선택된 규칙의 포워딩·차단·계수 동작을 읽는다. | 보통 정적 램 (Static Random Access Memory, [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/))과 결합된다. |
 
-이 그림은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 내부의 흐름을 요약한 것이다.
+이 그림은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기 내부의 흐름을 요약한 것이다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -76,7 +73,7 @@ TCAM 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classi
 +----------------------------------------------------------------------------+
 ```
 
-TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이다. 반대로 비싼 이유도 바로 여기에 있다. 셀 수가 많고 폭이 넓을수록 전력과 발열이 커지므로, 실제 장비는 bank 분할, entry [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), exact match의 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 분리 같은 절전 기법을 함께 쓴다. 즉 TCAM의 진짜 설계 포인트는 속도 자체보다 <strong>속도를 얼마의 전력과 용량으로 살 것인가</strong>다.
+TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이다. 반대로 비싼 이유도 바로 여기에 있다. 셀 수가 많고 폭이 넓을수록 전력과 발열이 커지므로, 실제 장비는 bank 분할, entry [compaction](/studynote/02_operating_system/06_memory_management/347_compaction/), exact match의 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 분리 같은 절전 기법을 함께 쓴다. 즉 TCAM의 진짜 설계 포인트는 속도 자체보다 <strong>속도를 얼마의 전력과 용량으로 살 것인가</strong>다.
 
 - **📢 섹션 요약 비유**: 시험지를 한 명이 순서대로 채점하면 느리지만 싸고, 모든 학생에게 동시에 자기 답을 확인하라고 시키면 엄청 빠르지만 교실 에너지가 한꺼번에 많이 든다. TCAM은 속도를 위해 전력을 미리 크게 쓰는 방식이다.
 
@@ -84,17 +81,17 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 ## Ⅲ. 비교 및 연결
 
-패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기술은 크게 exact match, 계층적 탐색, TCAM 세 부류로 나눠 볼 수 있다. exact match는 빠르고 저렴하지만 wildcard와 범위 조건에 약하고, trie나 bit-vector 기반 탐색은 유연하지만 규칙 수와 업데이트 패턴에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 흔들릴 수 있다. TCAM은 비싸지만 wildcard와 우선순위를 가장 직접적으로 표현한다.
+패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기술은 크게 exact match, 계층적 탐색, TCAM 세 부류로 나눠 볼 수 있다. exact match는 빠르고 저렴하지만 wildcard와 범위 조건에 약하고, trie나 bit-vector 기반 탐색은 유연하지만 규칙 수와 업데이트 패턴에 따라 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 흔들릴 수 있다. TCAM은 비싸지만 wildcard와 우선순위를 가장 직접적으로 표현한다.
 
 | 방식 | 강점 | 약점 | 대표 용도 |
 | :--- | :--- | :--- | :--- |
 | Exact Match Hash | 평균 속도가 빠르고 전력 효율이 좋다 | wildcard, 범위, 우선순위 표현이 약하다 | flow cache, 연결 추적 |
-| [Trie](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/066_trie/) / Algorithmic LPM | 접두사 탐색에 효율적이다 | 규칙 구조와 깊이에 따라 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 달라진다 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 |
-| TCAM Classifier | wildcard·우선순위를 일정 시간에 처리한다 | 전력·면적·용량 비용이 크다 | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), 품질 보장 ([Quality of Service](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) match |
+| [Trie](/studynote/08_algorithm_stats/04_datastructure/066_trie/) / Algorithmic LPM | 접두사 탐색에 효율적이다 | 규칙 구조와 깊이에 따라 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 달라진다 | [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 |
+| TCAM Classifier | wildcard·우선순위를 일정 시간에 처리한다 | 전력·면적·용량 비용이 크다 | [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), 품질 보장 ([Quality of Service](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/), [QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/)), [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) match |
 
-이 때문에 현대 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [주문형 반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit, [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))는 하나의 기법만 쓰지 않는다. exact match는 SRAM이나 hash로 처리하고, wildcard와 우선순위가 필요한 구간만 TCAM에 맡기는 hybrid pipeline이 일반적이다. [소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) (Software-Defined Networking, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))의 [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 매치 테이블도 이런 하드웨어 현실을 배경으로 이해해야 한다.
+이 때문에 현대 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [주문형 반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) (Application-Specific Integrated Circuit, [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/))는 하나의 기법만 쓰지 않는다. exact match는 SRAM이나 hash로 처리하고, wildcard와 우선순위가 필요한 구간만 TCAM에 맡기는 hybrid pipeline이 일반적이다. [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) (Software-Defined Networking, [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/))의 [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 매치 테이블도 이런 하드웨어 현실을 배경으로 이해해야 한다.
 
-또한 LPM과 ACL은 모두 "룰이 겹칠 수 있다"는 공통점이 있다. 그래서 TCAM은 단순히 match 여부만 보는 장치가 아니라, <strong>겹치는 규칙 중 무엇이 승자인지까지 정하는 <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 기계</strong>로 봐야 한다. 이것이 일반 내용 주소 지정 메모리 (Content Addressable Memory, CAM)보다 TCAM이 더 가치 있는 이유다.
+또한 LPM과 ACL은 모두 "룰이 겹칠 수 있다"는 공통점이 있다. 그래서 TCAM은 단순히 match 여부만 보는 장치가 아니라, <strong>겹치는 규칙 중 무엇이 승자인지까지 정하는 <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a> 기계</strong>로 봐야 한다. 이것이 일반 내용 주소 지정 메모리 (Content Addressable Memory, CAM)보다 TCAM이 더 가치 있는 이유다.
 
 - **📢 섹션 요약 비유**: exact match는 주민등록번호처럼 딱 떨어지는 신분 확인에 강하고, trie는 사전 찾기처럼 단계적으로 좁혀가는 방식이며, TCAM은 "빨간 옷을 입고 3학년이면서 달리기 반인 사람"을 한 번에 찾는 조건 검색에 강하다.
 
@@ -102,11 +99,11 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 TCAM은 "언제나 최고"가 아니라 "언제 꼭 필요한가"를 가려 써야 하는 자원이다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 라우터, [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 wildcard와 우선순위가 섞인 규칙을 line rate로 처리해야 한다면 TCAM이 매우 유리하다. 반대로 대부분이 exact match인 대규모 flow cache를 모두 TCAM에 넣으면, 비싼 자원을 가장 비효율적으로 쓰게 된다.
+실무에서 TCAM은 "언제나 최고"가 아니라 "언제 꼭 필요한가"를 가려 써야 하는 자원이다. [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/), 라우터, [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에서 wildcard와 우선순위가 섞인 규칙을 line rate로 처리해야 한다면 TCAM이 매우 유리하다. 반대로 대부분이 exact match인 대규모 flow cache를 모두 TCAM에 넣으면, 비싼 자원을 가장 비효율적으로 쓰게 된다.
 
-또 하나의 현실적인 문제는 rule expansion이다. 접두사 규칙은 비교적 잘 들어가지만, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 여러 조건 조합은 ternary entry 여러 개로 분해되어 테이블을 빠르게 소모할 수 있다. 따라서 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도만 보지 말고 <strong>엔트리 수, update rate, thermal budget</strong>까지 함께 봐야 진짜 설계 판단이 된다.
+또 하나의 현실적인 문제는 rule expansion이다. 접두사 규칙은 비교적 잘 들어가지만, [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 여러 조건 조합은 ternary entry 여러 개로 분해되어 테이블을 빠르게 소모할 수 있다. 따라서 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 정확도만 보지 말고 <strong>엔트리 수, update rate, thermal budget</strong>까지 함께 봐야 진짜 설계 판단이 된다.
 
-### 적용 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 규칙이 wildcard, prefix, range를 얼마나 많이 포함하는가?
 2. 겹치는 규칙의 우선순위를 결정적 시간 안에 처리해야 하는가?
@@ -114,10 +111,10 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 4. rule update가 매우 잦은 환경에서 테이블 재정렬 비용을 감당할 수 있는가?
 5. 장비의 전력·발열 예산이 넓은 TCAM 폭과 깊이를 감당하는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 모든 흐름을 무조건 TCAM에 넣어 값비싼 자원을 exact match 저장소처럼 쓰는 설계
-- [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 다중 조건을 무비판적으로 확장해 테이블이 순식간에 고갈되는 구성
+- [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위와 다중 조건을 무비판적으로 확장해 테이블이 순식간에 고갈되는 구성
 - 우선순위 shadow rule을 검증하지 않아, 더 구체적인 규칙이 있어도 먼저 막히는 운영
 - TCAM 열과 전력 문제를 무시한 채 최대 용량만 보고 장비를 선택하는 판단
 
@@ -127,11 +124,11 @@ TCAM이 빠른 이유는 모든 행을 동시에 깨워 비교하기 때문이�
 
 ## Ⅴ. 기대효과 및 결론
 
-TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가장 큰 장점은 결정적 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이다. 규칙이 많아도 lookup 시간이 크게 흔들리지 않으므로, 고속 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/) 적용을 line rate에 가깝게 유지하기 쉽다. 또한 wildcard와 우선순위가 많은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 단순한 하드웨어 인터페이스로 표현할 수 있어, 상위 제어 소프트웨어가 예측 가능한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 설계하기 좋다.
+TCAM 기반 패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 가장 큰 장점은 결정적 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 시간이다. 규칙이 많아도 lookup 시간이 크게 흔들리지 않으므로, 고속 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/) 적용을 line rate에 가깝게 유지하기 쉽다. 또한 wildcard와 우선순위가 많은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 단순한 하드웨어 인터페이스로 표현할 수 있어, 상위 제어 소프트웨어가 예측 가능한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면을 설계하기 좋다.
 
-그러나 이 성능은 높은 전력과 제한된 용량 위에 서 있다. 그래서 앞으로의 방향은 TCAM을 더 크게 만드는 것보다, exact match·prefix·wildcard 규칙을 계층적으로 나누고, 자주 쓰는 hot rule만 TCAM에 두는 hybrid [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 가고 있다. 즉 미래의 핵심은 TCAM 자체의 절대적 확대가 아니라 <strong>TCAM을 가장 비싼 자원으로 보고 영리하게 쓰는 것</strong>이다.
+그러나 이 성능은 높은 전력과 제한된 용량 위에 서 있다. 그래서 앞으로의 방향은 TCAM을 더 크게 만드는 것보다, exact match·prefix·wildcard 규칙을 계층적으로 나누고, 자주 쓰는 hot rule만 TCAM에 두는 hybrid [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 가고 있다. 즉 미래의 핵심은 TCAM 자체의 절대적 확대가 아니라 <strong>TCAM을 가장 비싼 자원으로 보고 영리하게 쓰는 것</strong>이다.
 
-결론적으로 TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알고리즘은 "wildcard와 우선순위가 있는 규칙을 일정 시간에 고르는 하드웨어 검색기"로 기억하면 된다. 일반 메모리보다 빠른 것이 아니라, 일반 메모리로는 비싸게 흉내 내야 할 비교 작업을 물리 회로로 직접 구현한 구조다.
+결론적으로 TCAM 기반 패킷 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 알고리즘은 "wildcard와 우선순위가 있는 규칙을 일정 시간에 고르는 하드웨어 검색기"로 기억하면 된다. 일반 메모리보다 빠른 것이 아니라, 일반 메모리로는 비싸게 흉내 내야 할 비교 작업을 물리 회로로 직접 구현한 구조다.
 
 - **📢 섹션 요약 비유**: TCAM은 모든 문제를 풀어 주는 만능 연필이 아니라, 아주 비싸지만 답을 즉시 찾게 해 주는 특수 계산기다. 꼭 필요한 문제에만 꺼내 써야 그 값어치를 한다.
 
@@ -141,12 +138,12 @@ TCAM 기반 패킷 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [접근 제어 목록](/knowledge-base/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | TCAM이 가장 대표적으로 가속하는 보안 규칙 집합이다. |
-| 최장 접두사 일치 (Longest Prefix Match, LPM) | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 충돌을 해결하는 대표 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, TCAM 우선순위와 밀접하다. |
-| 정적 램 (Static Random Access Memory, [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)) | exact match와 action 저장을 맡아 TCAM과 하이브리드 구조를 이룬다. |
+| [접근 제어 목록](/studynote/02_operating_system/11_exam_summary/739_access_control_list_acl/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/), [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) | TCAM이 가장 대표적으로 가속하는 보안 규칙 집합이다. |
+| 최장 접두사 일치 (Longest Prefix Match, LPM) | [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙 충돌을 해결하는 대표 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로, TCAM 우선순위와 밀접하다. |
+| 정적 램 (Static Random Access Memory, [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/)) | exact match와 action 저장을 맡아 TCAM과 하이브리드 구조를 이룬다. |
 | 내용 주소 지정 메모리 (Content Addressable Memory, CAM) | TCAM의 전신으로, wildcard 없이 값 일치만 수행한다. |
-| [소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) (Software-Defined Networking, [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) | [OpenFlow](/knowledge-base/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 같은 제어 모델이 TCAM 기반 match-action 파이프라인과 연결된다. |
-| Hybrid Classifier | exact match는 [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/), wildcard는 TCAM으로 나누어 전력과 용량을 절충하는 현대적 설계다. |
+| [소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/) (Software-Defined Networking, [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)) | [OpenFlow](/studynote/03_network/17_sdn_nfv/855_openflow_standard_protocol_sdn_southbound/) 같은 제어 모델이 TCAM 기반 match-action 파이프라인과 연결된다. |
+| Hybrid Classifier | exact match는 [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/), wildcard는 TCAM으로 나누어 전력과 용량을 절충하는 현대적 설계다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -166,7 +163,7 @@ ASIC Match-Action Pipeline
 SRAM + TCAM Hybrid 분류기
 ```
 
-이 흐름은 네트워크 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 "규칙을 코드로 도는 단계"에서 출발해, 이제는 규칙 성격에 따라 메모리 구조 자체를 달리 쓰는 하드웨어 파이프라인으로 진화했음을 보여 준다.
+이 흐름은 네트워크 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)가 "규칙을 코드로 도는 단계"에서 출발해, 이제는 규칙 성격에 따라 메모리 구조 자체를 달리 쓰는 하드웨어 파이프라인으로 진화했음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -180,7 +177,7 @@ SRAM + TCAM Hybrid 분류기
 
 **진행 상황**: 591 / 803
 
-<- **이전**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/)
-**다음**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/) ->
+<- **이전**: [590. 가상 스위치 오프로드 (vSwitch Offload)](/studynote/01_computer_architecture/15_advanced_topics/590_vswitch_offload/)
+**다음**: [592. 오픈 채널 SSD (Solid-State Drive) 구조](/studynote/01_computer_architecture/15_advanced_topics/592_open_channel_ssd/) ->
 
 ---

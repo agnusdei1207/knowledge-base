@@ -1,22 +1,19 @@
-+++
-title = "041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)"
-date = 2026-03-19
+---
+title: "041. 레이어 2 스케일링 솔루션 (Layer 2 Scaling Solution)"
+date: "2026-03-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 > **핵심 인사이트**
-> 1. 레이어 2(L2) 솔루션은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.
-> 2. Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(낙관적 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 ZK-[Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(영지식 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))이 L2의 양대 주류로, Optimistic은 구현이 간단하지만 7일 분쟁 기간이 있고, ZK-Rollup은 즉시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하지만 [영지식 증명](/knowledge-base/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 높아 복잡한 연산에는 한계가 있다.
-> 3. 2024년 기준 Arbitrum·Optimism(Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 zkSync·StarkNet(ZK-[Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))이 이더리움 L2 TVL(Total Value Locked)의 90% 이상을 차지하며, L2가 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 생태계의 새로운 전장이 됐다.
+> 1. 레이어 2(L2) 솔루션은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 트릴레마를 우회하는 핵심 전략으로, 메인체인(L1) 밖에서 트랜잭션을 처리하고 최종 결과만 L1에 기록하여 L1의 보안성을 상속하면서 확장성을 수십~수천 배 향상시킨다.
+> 2. Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(낙관적 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)(영지식 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))이 L2의 양대 주류로, Optimistic은 구현이 간단하지만 7일 분쟁 기간이 있고, ZK-Rollup은 즉시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 가능하지만 [영지식 증명](/studynote/12_it_management/05_security_compliance/229_zkp_data_clean_room/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 비용이 높아 복잡한 연산에는 한계가 있다.
+> 3. 2024년 기준 Arbitrum·Optimism(Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))과 zkSync·StarkNet(ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/))이 이더리움 L2 TVL(Total Value Locked)의 90% 이상을 차지하며, L2가 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 생태계의 새로운 전장이 됐다.
 
 ---
 
-## Ⅰ. L2 솔루션 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+## Ⅰ. L2 솔루션 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 레이어 2 스케일링 전략:
@@ -50,7 +47,7 @@ tags = ["studynote-ict-convergence"]
 
 ---
 
-## Ⅱ. Optimistic [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+## Ⅱ. Optimistic [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
 
 ```
 Optimistic Rollup 동작:
@@ -79,11 +76,11 @@ Optimistic Rollup 동작:
   Optimism (OP Stack, Coinbase Base 기반)
 ```
 
-> 📢 **섹션 요약 비유**: Optimistic Rollup은 온라인 경매 7일 환불 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) — 판매자는 즉시 결제 수령, 구매자는 7일 내 사기 신고 가능.
+> 📢 **섹션 요약 비유**: Optimistic Rollup은 온라인 경매 7일 환불 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) — 판매자는 즉시 결제 수령, 구매자는 7일 내 사기 신고 가능.
 
 ---
 
-## Ⅲ. ZK-[Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
+## Ⅲ. ZK-[Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/)
 
 ```
 ZK-Rollup (Zero-Knowledge Rollup):
@@ -117,11 +114,11 @@ ZK 증명 유형:
   Linea (Consensys)
 ```
 
-> 📢 **섹션 요약 비유**: ZK-Rollup은 수학 시험 답안지 + 채점 기준표 동시 제출 — 선생님이 즉시 맞는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능, 7일 기다림 없음.
+> 📢 **섹션 요약 비유**: ZK-Rollup은 수학 시험 답안지 + 채점 기준표 동시 제출 — 선생님이 즉시 맞는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 가능, 7일 기다림 없음.
 
 ---
 
-## Ⅳ. [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Channel
+## Ⅳ. [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Channel
 
 ```
 State Channel (상태 채널):
@@ -148,11 +145,11 @@ Lightning Network (비트코인):
   IoT 기기 간 마이크로 결제
 ```
 
-> 📢 **섹션 요약 비유**: [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Channel은 친구와 술집 외상 — 매번 카드 긁지 않고 나갈 때 총 한 번 계산.
+> 📢 **섹션 요약 비유**: [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/) Channel은 친구와 술집 외상 — 매번 카드 긁지 않고 나갈 때 총 한 번 계산.
 
 ---
 
-## Ⅴ. 실무 시나리오 — [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 선택
+## Ⅴ. 실무 시나리오 — [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 선택
 
 ```
 DeFi 프로토콜 L2 선택 기준 (2024):
@@ -184,7 +181,7 @@ L2 상호운용성 문제:
   더 높은 처리량, 더 낮은 비용
 ```
 
-> 📢 **섹션 요약 비유**: [DeFi](/knowledge-base/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 선택은 물류 창고 위치 결정 — 비용(가스비), 속도([처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), 안전(보안) 중 무엇이 가장 중요한지에 따라 결정.
+> 📢 **섹션 요약 비유**: [DeFi](/studynote/06_ict_convergence/01_blockchain/033_defi_decentralized_finance/) L2 선택은 물류 창고 위치 결정 — 비용(가스비), 속도([처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)), 안전(보안) 중 무엇이 가장 중요한지에 따라 결정.
 
 ---
 
@@ -244,7 +241,7 @@ L3 (앱 체인) 등장
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. L2는 바쁜 고속도로(이더리움) 옆에 하이패스 전용 차선을 만드는 것 — 빠르고 저렴하게 통과하고, 최종 결과만 고속도로에 기록해요.
-2. Optimistic Rollup은 "일단 OK, 7일 내 이의 제기 가능"이고, ZK-Rollup은 "수학 증명으로 즉시 OK [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"이에요.
+2. Optimistic Rollup은 "일단 OK, 7일 내 이의 제기 가능"이고, ZK-Rollup은 "수학 증명으로 즉시 OK [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)"이에요.
 3. 덕분에 이더리움에서 1달러 거래 수수료가 0.01달러로 줄어들어서 소액 결제도 가능해졌어요!
 
 ---
@@ -253,7 +250,7 @@ L3 (앱 체인) 등장
 
 **진행 상황**: 41 / 552
 
-<- **이전**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)
-**다음**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ->
+<- **이전**: [040. 블록체인 트릴레마 (Blockchain Trilemma)](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)
+**다음**: [042. 롤업 (Rollup) — Layer 2 트랜잭션 압축 기술](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "493. ISP 정보화 전략 수립 BPR ISP (ISP Information Strategy Planning BPR)"
-date = 2026-05-09
+---
+title: "493. ISP 정보화 전략 수립 BPR ISP (ISP Information Strategy Planning BPR)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ ISP을 제대로 적용하면 IT 투자가 업무 성과와 연결되고, 중복
 
 **진행 상황**: 493 / 800
 
-<- **이전**: [492. 기업 아키텍처 EA TOGAF 적용](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/492_enterprise_architecture_ea_togaf_application/)
-**다음**: [494. ITA 정보기술 아키텍처 참조 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/494_ita_it_architecture_reference_model/) ->
+<- **이전**: [492. 기업 아키텍처 EA TOGAF 적용](/studynote/07_enterprise_systems/06_exam_summary/492_enterprise_architecture_ea_togaf_application/)
+**다음**: [494. ITA 정보기술 아키텍처 참조 모델](/studynote/07_enterprise_systems/06_exam_summary/494_ita_it_architecture_reference_model/) ->
 
 ---

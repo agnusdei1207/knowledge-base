@@ -1,18 +1,15 @@
-+++
-title = "004. 빠른 거듭제곱 — Fast Exponentiation"
-date = 2026-04-05
+---
+title: "004. 빠른 거듭제곱 — Fast Exponentiation"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
 > 1. 빠른 거듭제곱(Fast Exponentiation)은 a^b를 O(log b) 번의 곱셈으로 계산 — a^b를 나이브하게 계산하면 O(b) 번 곱셈이 필요하지만, 반복 제곱법(Repeated Squaring)을 사용하면 지수를 이진수로 표현하여 O(log b)로 줄인다.
-> 2. 모듈러 거듭제곱(Modular Exponentiation)이 암호학의 핵심 연산 — [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호화·복호화, 디피-헬만 키 교환, 밀러-라빈 소수 판별 모두 a^b mod m 계산에 의존하며, 모듈러 연산을 각 단계에 적용해야 수의 크기가 관리 가능하다.
-> 3. 행렬 빠른 거듭제곱으로 피보나치를 O(log N)에 계산 — 스칼라 거듭제곱과 동일한 원리를 행렬에 적용하여 피보나치·선형 점화식을 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시간에 계산하는 강력한 기법이다.
+> 2. 모듈러 거듭제곱(Modular Exponentiation)이 암호학의 핵심 연산 — [RSA](/studynote/09_security/03_network_security/110_rsa/) 암호화·복호화, 디피-헬만 키 교환, 밀러-라빈 소수 판별 모두 a^b mod m 계산에 의존하며, 모듈러 연산을 각 단계에 적용해야 수의 크기가 관리 가능하다.
+> 3. 행렬 빠른 거듭제곱으로 피보나치를 O(log N)에 계산 — 스칼라 거듭제곱과 동일한 원리를 행렬에 적용하여 피보나치·선형 점화식을 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 시간에 계산하는 강력한 기법이다.
 
 ---
 
@@ -125,7 +122,7 @@ RSA 암호화:
   nCr = (n! * pow(factorial(r) * factorial(n-r), p-2, p)) % p
 ```
 
-> 📢 **섹션 요약 비유**: 모듈러 거듭제곱 = 시계 덧셈 — 2^1000을 직접 계산하면 300자리 수. 시계(mod)로 계산하면 항상 0~[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 사이. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/), 소수 판별 모두 "시계 덧셈"!
+> 📢 **섹션 요약 비유**: 모듈러 거듭제곱 = 시계 덧셈 — 2^1000을 직접 계산하면 300자리 수. 시계(mod)로 계산하면 항상 0~[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/) 사이. [RSA](/studynote/09_security/03_network_security/110_rsa/), 소수 판별 모두 "시계 덧셈"!
 
 ---
 
@@ -186,7 +183,7 @@ RSA 암호화:
   타일링 문제, 계단 오르기, 경로 수 계산...
 ```
 
-> 📢 **섹션 요약 비유**: 행렬 거듭제곱 = 변환 반복 빠른 계산 — 피보나치를 100억 번 더하는 대신 행렬 변환을 33번 적용(log₂ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ≈ 33). F([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18)도 60번 행렬 곱으로!
+> 📢 **섹션 요약 비유**: 행렬 거듭제곱 = 변환 반복 빠른 계산 — 피보나치를 100억 번 더하는 대신 행렬 변환을 33번 적용(log₂ [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) ≈ 33). F([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18)도 60번 행렬 곱으로!
 
 ---
 
@@ -230,7 +227,7 @@ RSA 암호화:
 
 ---
 
-## Ⅴ. 실무 시나리오 — [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
+## Ⅴ. 실무 시나리오 — [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)
 
 ```
 ECDSA 서명 검증에서의 모듈러 거듭제곱:
@@ -271,7 +268,7 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
   RSA 암호화, ECDSA, ECC 모두 빠른 거듭제곱 필수
 ```
 
-> 📢 **섹션 요약 비유**: [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 타원 곡선 도장 찍기 — 개인키(k)로 공개키(k×G) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 역산 불가(이산 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 문제). [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 빠른 거듭제곱 덕에 수 ms. 수학이 [블록체인 보안](/knowledge-base/studynote/09_security/19_ai_advanced_security/989_blockchain_security/)!
+> 📢 **섹션 요약 비유**: [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) = 타원 곡선 도장 찍기 — 개인키(k)로 공개키(k×G) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/). 역산 불가(이산 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 문제). [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)은 빠른 거듭제곱 덕에 수 ms. 수학이 [블록체인 보안](/studynote/09_security/19_ai_advanced_security/989_blockchain_security/)!
 
 ---
 
@@ -328,9 +325,9 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 반복 제곱법 = 종이 접기 — 10번 접으면 1024배 두께. a^1024도 10번 제곱(×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))으로! 1000번 곱하기 대신 10번!
-2. 모듈러 거듭제곱 = 시계 계산 — 큰 수를 12시간 시계로 계산. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 암호화도 시계(mod) 안에서 거듭제곱!
-3. 행렬 거듭제곱 = 피보나치 마법 — F([10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18)을 60번 행렬 곱으로 계산. [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18번 더하기 대신 60번으로!
+1. 반복 제곱법 = 종이 접기 — 10번 접으면 1024배 두께. a^1024도 10번 제곱(×[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))으로! 1000번 곱하기 대신 10번!
+2. 모듈러 거듭제곱 = 시계 계산 — 큰 수를 12시간 시계로 계산. [RSA](/studynote/09_security/03_network_security/110_rsa/) 암호화도 시계(mod) 안에서 거듭제곱!
+3. 행렬 거듭제곱 = 피보나치 마법 — F([10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18)을 60번 행렬 곱으로 계산. [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^18번 더하기 대신 60번으로!
 
 ---
 
@@ -338,7 +335,7 @@ ECDSA 서명 검증에서의 모듈러 거듭제곱:
 
 **진행 상황**: 123 / 175
 
-<- **이전**: [003. 소수 판별 — Primality Test](/knowledge-base/studynote/08_algorithm_stats/07_numerical/122_primality_test/)
-**다음**: [005. 중국인의 나머지 정리 — CRT](/knowledge-base/studynote/08_algorithm_stats/07_numerical/124_crt/) ->
+<- **이전**: [003. 소수 판별 — Primality Test](/studynote/08_algorithm_stats/07_numerical/122_primality_test/)
+**다음**: [005. 중국인의 나머지 정리 — CRT](/studynote/08_algorithm_stats/07_numerical/124_crt/) ->
 
 ---

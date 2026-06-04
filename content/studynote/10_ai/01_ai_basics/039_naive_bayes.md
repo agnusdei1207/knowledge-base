@@ -1,18 +1,15 @@
-+++
-title = "039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기"
-date = 2026-03-04
+---
+title: "039. 나이브 베이즈 (Naive Bayes) — 확률 기반 분류기"
+date: "2026-03-04"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 > **핵심 인사이트**
-> 1. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)([Naive Bayes](/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 베이즈 정리와 "모든 특성이 조건부 독립"이라는 단순(Naive) 가정을 결합한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 이 가정은 현실에서는 거짓이지만 놀랍도록 잘 동작한다 — 특히 고차원·소량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강점을 보인다.
-> 2. 핵심 공식: P(클래스|특성들) ∝ P(클래스) × ∏P(특성i|클래스) — 사전 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Prior)에 각 특성의 우도(Likelihood)를 곱하여 사후 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior)이 가장 큰 클래스를 선택한다.
-> 3. 스팸 필터링의 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 학습이 O(n)으로 매우 빠르고 스트리밍 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 온라인 학습이 가능하며, 텍스트 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 SVM과 함께 가장 효과적인 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 모델이다.
+> 1. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)([Naive Bayes](/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/))는 베이즈 정리와 "모든 특성이 조건부 독립"이라는 단순(Naive) 가정을 결합한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로, 이 가정은 현실에서는 거짓이지만 놀랍도록 잘 동작한다 — 특히 고차원·소량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 강점을 보인다.
+> 2. 핵심 공식: P(클래스|특성들) ∝ P(클래스) × ∏P(특성i|클래스) — 사전 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Prior)에 각 특성의 우도(Likelihood)를 곱하여 사후 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Posterior)이 가장 큰 클래스를 선택한다.
+> 3. 스팸 필터링의 표준 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 학습이 O(n)으로 매우 빠르고 스트리밍 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 온라인 학습이 가능하며, 텍스트 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 SVM과 함께 가장 효과적인 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)) 모델이다.
 
 ---
 
@@ -43,7 +40,7 @@ tags = ["studynote-ai"]
   (가장 높은 사후 확률의 클래스 선택)
 ```
 
-> 📢 **섹션 요약 비유**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 단어들을 개별 탐정으로 보고 각자 투표 — "비아그라", "당첨" 같은 단어가 각자 "스팸 의심" 투표하면 합산으로 결정.
+> 📢 **섹션 요약 비유**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 단어들을 개별 탐정으로 보고 각자 투표 — "비아그라", "당첨" 같은 단어가 각자 "스팸 의심" 투표하면 합산으로 결정.
 
 ---
 
@@ -76,11 +73,11 @@ tags = ["studynote-ai"]
   (각 단어 초기값을 1로 설정해 0 확률 방지)
 ```
 
-> 📢 **섹션 요약 비유**: [라플라스 스무딩](/knowledge-base/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)은 신입 직원 평가처럼 — 아직 평가 이력 없어도 최소 1점을 주어 "완전 불가능"이 되지 않게 조정.
+> 📢 **섹션 요약 비유**: [라플라스 스무딩](/studynote/10_ai/05_data_science_ml/350_laplace_smoothing/)은 신입 직원 평가처럼 — 아직 평가 이력 없어도 최소 1점을 주어 "완전 불가능"이 되지 않게 조정.
 
 ---
 
-## III. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 유형
+## III. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) 유형
 
 ```
 3가지 주요 변형:
@@ -106,11 +103,11 @@ tags = ["studynote-ai"]
   텍스트 (단어 존재 여부) -> Bernoulli
 ```
 
-> 📢 **섹션 요약 비유**: 가우시안은 성적 분포 분석, 다항은 단어 횟수 세기, 베르누이는 출석 O/X 체크 — [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격에 맞는 도구 선택.
+> 📢 **섹션 요약 비유**: 가우시안은 성적 분포 분석, 다항은 단어 횟수 세기, 베르누이는 출석 O/X 체크 — [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성격에 맞는 도구 선택.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 장단점
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 장단점
 
 ```
 장점:
@@ -139,7 +136,7 @@ vs 복잡한 모델:
   레이블 데이터 적을 때: NB 종종 BERT와 비슷
 ```
 
-> 📢 **섹션 요약 비유**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 레거시 자전거 — [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Tesla)보다 느리지만 연료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/비용) 없이도 잘 달리고 수리도 쉬움.
+> 📢 **섹션 요약 비유**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 레거시 자전거 — [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/)(Tesla)보다 느리지만 연료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)/비용) 없이도 잘 달리고 수리도 쉬움.
 
 ---
 
@@ -232,9 +229,9 @@ SVM, 랜덤 포레스트와 경쟁
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 스팸 메일에서 "비아그라", "당첨" 같은 단어들이 각각 투표해서 스팸인지 아닌지를 다수결로 결정하는 방법이에요.
+1. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 스팸 메일에서 "비아그라", "당첨" 같은 단어들이 각각 투표해서 스팸인지 아닌지를 다수결로 결정하는 방법이에요.
 2. 각 단어가 서로 완전히 독립적이라는 단순한 가정(나이브) 덕분에 엄청나게 빠르게 계산할 수 있어요 — 현실에서는 틀린 가정이지만 신기하게도 잘 동작해요.
-3. 스팸 필터의 역사적 표준 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적어도 잘 동작하고 실시간 학습도 가능해서 지금도 많이 쓰여요!
+3. 스팸 필터의 역사적 표준 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 적어도 잘 동작하고 실시간 학습도 가능해서 지금도 많이 쓰여요!
 
 ---
 
@@ -242,7 +239,7 @@ SVM, 랜덤 포레스트와 경쟁
 
 **진행 상황**: 39 / 420
 
-<- **이전**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/knowledge-base/studynote/10_ai/01_ai_basics/038_knn/)
-**다음**: [040. 앙상블 학습 (Ensemble Learning)](/knowledge-base/studynote/10_ai/01_ai_basics/040_ensemble_learning/) ->
+<- **이전**: [038. k-최근접 이웃 (k-NN, k-Nearest Neighbors)](/studynote/10_ai/01_ai_basics/038_knn/)
+**다음**: [040. 앙상블 학습 (Ensemble Learning)](/studynote/10_ai/01_ai_basics/040_ensemble_learning/) ->
 
 ---

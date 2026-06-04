@@ -1,175 +1,139 @@
-+++
-title = "699. 클라우드 아키텍처 핵심 토픽 699번 시험 요약 (Cloud Architecture Core Topic 699 Exam Summary)"
-date = 2026-05-09
+---
+title: "699. 클라우드 아키텍처 핵심 토픽 699번 시험 요약 (Cloud Architecture Core Topic 699 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 클라우드 아키텍처는 컨테이너 오케스트레이션(Kubernetes), 선언형 API, 서비스 메시(Istio/Linkerd), IaC(Terraform/Pulumi)를 기반으로 **불변 인프라(Immutable Infrastructure)** 위에 **Cloud Native 12-Factor + Beyond 12-Factor** 원칙을 적용해 **탄력성(Elasticity)**, **관측 가능성(Observability)**, **자동 회복(Self-Healing)** 을 코드로 구현하는 엔지니어링 패러다임이다.
+> 2. **가치**: 적절한 클라우드 아키텍처 적용 시 인프라 프로비저닝 시간 **주 단위 -> 수 분**, Auto-Scaling으로 평균 CPU 사용률 20~30% 유지, MTTR(Mean Time To Recovery) **수 시간 -> 수 분**(카오스 엔지니어링 + GitOps 기반 롤백), TCO는 3년 기준 CapEx 대비 OpEx 전환으로 약 30~50% 절감이 가능하다(워크로드 성격에 따라 차이).
+> 3. **판단 포인트**: ① 단일 클라우드 종속(Vendor Lock-in) vs 멀티/하이브리드 ② 서버리스 우선(FaaS+API Gateway) vs 컨테이너 우선(EKS/GKE/AKS) ③ 동기 REST vs 비동기 이벤트 드리븐(EventBridge/Kafka) ④ 영구 스토리지 단일 리전 vs 액티브-액티브 멀티 리전 ⑤ IaC는 Terraform(멀티 클라우드) vs CDK/Pulumi(언어 친화) vs Crossplane(K8s 네이티브) — **워크로드 특성(상태/지연시간/규제)과 팀 역량(GitOps 친숙도)에 따라 정량적 비교 후 결정**해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Architecture Core Topic 699 Exam Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+전통적인 모놀리식 온프레미스 아키텍처는 수직 확장(Scale-Up) 한계, 프로비저닝 장기화(서버 도입 6~12주), 용량 계획의 불확실성(트래픽 피크 대비 과다 설계), 그리고 **Snowflake Server(수작업으로 운영되며 재현 불가한 서버)** 의 누적이라는 구조적 문제를 안고 있었다. 2006년 AWS S3/EC2 출시 이후 IaaS가, 2010년대 PaaS(Heroku, Cloud Foundry), 2014년 Kubernetes 1.0 출시, 2014년 AWS Lambda 출시로 FaaS/서버리스가 등장하며 **"인프라는 코드로 정의하고, 애플리케이션은 비즈니스 로직에만 집중"** 하는 클라우드 네이티브 패러다임이 정착했다. 기술사 시험에서는 단순히 "클라우드를 쓴다"가 아니라, **어떤 아키텍처 패턴을 어떤 근거로 선택하는지**, **장애·보안·비용·거버넌스를 어떻게 동시에 만족시키는지**를 묻는다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 아키텍처 핵심 토픽 699번 시험 요약 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|        Monolith On-Premise  vs  Cloud-Native Architecture            |
++----------------------------------------------------------------------+
+|                                                                      |
+|  [Legacy]                              [Cloud-Native]                |
+|  +-----------------+                   +-----------------------+     |
+|  |  Monolithic     |                   |  Microservices (40+)  |     |
+|  |  WAR / EAR      |     ------►       |  Container (OCI)      |     |
+|  |  + RDBMS        |    Cloud-Native   |  + Sidecar (Service   |     |
+|  |  + WebSphere    |     Transform     |    Mesh / Dapr)       |     |
+|  |  + 수작업 OS    |                   |  + API Gateway        |     |
+|  |  + 수작업 HA    |                   |  + Event Bus (Kafka)  |     |
+|  +-----------------+                   +-----------------------+     |
+|  Scale-Up (수직)                       Scale-Out (수평, HPA/VPA/CA)  |
+|  CapEx 중심                            OpEx 중심 (Pay-per-use)       |
+|  변경 단위: 월/분기                    변경 단위: 분 (GitOps)        |
+|  장애 전파: 폭포식(Cascading)          장애 격리: Bulkhead/Resilience4j|
+|  배포: 수동/FTP/주말 작업             배포: ArgoCD/Argo Rollouts    |
+|                                                                      |
++----------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+클라우드 아키텍처의 본질적 필요성은 세 가지다. ① **Business Agility**: 시장 변화에 따라 수 분 단위로 용량을 늘리고 줄일 수 있어야 한다(예: 블랙프라이데이 트래픽 평소 대비 10배). ② **Operability at Scale**: 수백~수천 개의 마이크로서비스를 사람이 직접 관리할 수 없으므로, **Self-Healing + Observability + Automation**이 필수다. ③ **Global Reach + Compliance**: GDPR(데이터 주권), PCI-DSS, K-ISMS-P 등 규제 준수와 동시에 전 세계 저지연 서비스를 위해 리전/엣지 분산이 필요하다.
 
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 모놀리식 온프레미스는 **한 채의 아파트에 수도·전기·난방을 각 세대가 따로 관리**하는 것이고, 클라우드 네이티브는 **모든 인프라가 미리 갖춰진 스마트 오피스텔에 입주해서 핵심 업무(앱 개발)만 하는 것**이다. 입주·퇴거·확장이 컨테이너 단위로 즉시 가능하다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 아키텍처 핵심 토픽 699번 시험 요약의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+클라우드 네이티브 아키텍처는 크게 **① 인프라 계층(Foundation)**, **② 런타임/오케스트레이션 계층**, **③ 애플리케이션/플랫폼 계층**, **④ 운영/관측 계층**의 4계층으로 구성된다. CNCF(Cloud Native Computing Foundation)의 Cloud Native Trail Map이 이를 가장 잘 표현한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Architecture Core Topic 699 Exam Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                          +-------------------------------------+
+                          |   10. Observability & Analysis      |
+                          |   (Prometheus + Grafana + Loki +    |
+                          |    Tempo + OpenTelemetry)           |
+                          +--------------+----------------------+
+                                         |
+  +------------------+    +--------------v----------------------+
+  | 7. Service Mesh  |◄---+  9. Database / Stateful Service    |
+  |  (Istio/Linkerd) |    |  (CloudNativePG, Cassandra,         |
+  +------+-----------+    |   ScyllaDB, Rook-Ceph, Redis)        |
+         |                +--------------^----------------------+
+  +------v-----------+                   |
+  | 6. API Gateway   |    +--------------+----------------------+
+  | (Kong/Apigee/    |    |  8. Storage / Distributed Lock      |
+  |  AWS API GW)     |    |  (S3 / MinIO / etcd / ZooKeeper)     |
+  +------+-----------+    +-------------------------------------+
+         |
+  +------v-----------+    +-------------------------------------+
+  | 5. App Definition |---►|  4. CI / CD (GitOps)                |
+  |  (Helm/Kustomize |    |  (Tekton / ArgoCD / FluxCD /       |
+  |   / Carvel)      |    |   Spinnaker)                         |
+  +------+-----------+    +--------------+----------------------+
+         |                               |
+  +------v-------------------------------v----------------------+
+  |  3. Orchestration & Scheduling: Kubernetes (EKS/AKS/GKE/   |
+  |     Self-managed) — Control Plane + Worker Node + CRI/CNI/CSI|
+  +-------------------------------+------------------------------+
+                                  |
+  +-------------------------------v------------------------------+
+  |  2. Container Runtime: containerd / CRI-O + OCI Image      |
+  |     (BuildKit, Buildpacks, Ko, Jib)                         |
+  +-------------------------------+------------------------------+
+                                  |
+  +-------------------------------v------------------------------+
+  |  1. Provisioning: IaC (Terraform / Pulumi / Crossplane) +   |
+  |     Image (Packer / Golden AMI) + Secrets (Vault / ESO)     |
+  +-------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| 계층 | 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- | :--- |
+| **① IaC / Provisioning** | Terraform, Pulumi, Crossplane, AWS CDK | 클라우드 리소스를 선언적으로 정의·버전관리·재현 | HCL/TypeScript 기반 선언형, `plan -> apply` 2단계로 변경 사항 사전 검토, **State Lock**(DynamoDB/S3 Backend)으로 동시성 제어, OPA/Conftest로 정책 검증(Policy as Code) |
+| **② Container Runtime** | containerd, CRI-O, BuildKit, Kaniko | 컨테이너 이미지 빌드·실행·OCI 표준 준수 | OCI Image Spec v1.1, Multi-arch Build(amd64/arm64), Distroless/Chainguard Image로 공격면(Attack Surface) 축소, SBOM(CycloneDX/SPDX) 생성 |
+| **③ Orchestration** | Kubernetes 1.30+ (EKS/AKS/GKE/OpenShift/Rancher) | 컨테이너 스케줄링·자가 치유·롤링 업데이트 | 선언형 YAML + Reconciliation Loop(현재 상태->원하는 상태), HPA(CPU/Mem/Custom Metric), VPA(리소스 권장), KEDA(이벤트 기반 스케일링 0->N), Karpenter(노드 자동 프로비저닝, Spot 인스턴스 혼합) |
+| **④ App Definition & Delivery** | Helm 3, Kustomize, ArgoCD, FluxCD, Argo Rollouts, Keptn | K8s 리소스 패키징 + GitOps 지속 배포 | Git을 Single Source of Truth로 사용, **ArgoCD Application Controller**가 Git과 클러스터 상태를 주기적(3분) Sync, **Progressive Delivery**(Canary/Blue-Green) via Argo Rollouts + Istio 트래픽 분기(2%->10%->50%->100%) + Prometheus 지표 기반 자동 승격/롤백(Flagger) |
+| **⑤ API Gateway & Service Mesh** | Kong, Apigee, AWS API Gateway, Istio, Linkerd, Cilium Service Mesh | L7 라우팅·인증·RateLimit·mTLS·트래픽 관리 | Istio Control Plane(Istiod) + Data Plane(Envoy Sidecar), **SMI(Specification Mesh Interface)**, eBPF 기반 Cilium은 Sidecar 없이 커널 레벨에서 처리(Overhead 0.5ms 이하), Ambient Mesh(ztunnel + Waypoint) |
+| **⑥ Observability** | Prometheus + Grafana + Loki + Tempo + OpenTelemetry + Datadog/New Relic | 메트릭·로그·트레이스 통합 수집 및 SLO 관측 | **3 Pillars**: Metrics(PromQL, Prom 2.0 TSDB), Logs(Loki, LogQL, 라벨 인덱싱), Traces(OpenTelemetry SDK -> Tempo/Jaeger), **USE Method**(Utilization/Saturation/Errors), **RED Method**(Rate/Errors/Duration), SRE의 SLI/SLO/Error Budget |
+| **⑦ Security** | Trivy, Snyk, OPA/Gatekeeper, Kyverno, Falco, cert-manager, Vault | 이미지 스캔·정책 준수·런타임 위협 탐지 | SBOM + CVE 매칭, **Admission Controller**로 K8s API 호출 시 정책 강제(예: `privileged: false` 강제), eBPF 기반 Falco로 비정상 syscall 탐지, SPIFFE/SPIRE로 워크로드 ID 발급, **Zero Trust**(mTLS 기본) |
+| **⑧ 데이터/Stateful** | CloudNativePG, Rook-Ceph, Cassandra, ScyllaDB, Redis Cluster, Kafka (Strimzi) | K8s 네이티브 운영으로 Stateful 워크로드 통합 | Operator Pattern으로 CRD(Custom Resource Definition) 기반 도메인 지식 내장, **PetSet -> StatefulSet**, PVC 동적 프로비저닝(CSI Driver), Kafka는 KRaft 모드(ZooKeeper 의존 제거, 3.3+) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### Cloud Native 핵심 원리 3가지
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **선언형(Declarative) + Reconciliation Loop**: "어떻게(How)" 가 아니라 "무엇을(What)" 정의하면 컨트롤러가 끊임없이 현재 상태를 관찰하고 원하는 상태로 수렴시킨다. K8s Controller-Runtime 패턴이 모든 Operator의 근간이다.
+2. **불변 인프라(Immutable Infrastructure)**: 운영 중 패치·수정하지 않고, **새 이미지를 빌드 -> 기존 인스턴스 교체**한다. 이로써 Snowflake Server가 사라지고, 모든 서버가 Git Commit과 1:1 매핑되어 롤백/감사가 가능해진다. **Borg/Immutable Server -> Phoenix Server -> Cattle vs Pets** 진화 흐름.
+3. **12-Factor + Beyond 12-Factor**: Codebase(1), Dependencies(2), Config(3), Backing Services(4), Build/Release/Run(5), Processes(6), Port Binding(7), Concurrency(8), Disposability(9), Dev/Prod Parity(10), Logs(11), Admin Processes(12). Beyond 12-Factor는 **Telemetry, Security, Resilience(회로차단기·Fallback), API First**를 추가한다.
+
+- **📢 섹션 요약 비유**: 클라우드 네이티브는 **레고 블록**과 같다. 컨테이너(블록) + K8s(블록 결합 규칙) + GitOps(블록 배치 도면) + Observability(블록 상태 모니터)를 조합하면 어떤 모양(아키텍처)도 만들 수 있고, 한 블록이 부서져도 다른 블록으로 즉시 교체된다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 아키텍처 핵심 토픽 699번 시험 요약을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 1. 컴퓨트 실행 모델 비교
 
-| 구분 | 전통적 접근 | 클라우드 아키텍처 핵심 토픽 699번 시험 요약 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | IaaS (EC2/Compute Engine) | PaaS (Beanstalk/Cloud Run/App Engine) | CaaS (EKS/AKS/GKE) | FaaS (Lambda/Cloud Functions) |
+| :--- | :--- | :--- | :--- | :--- |
+| **관리 범위** | App + Runtime + OS + Middleware + VM | App + Config | App + Container Image | 함수 코드(Handler)만 |
+| **Cold Start** | 없음(상시) | 1~5초 | 수 초(Karpenter 시 30초 이내) | 100ms~수 초(Provisioned Concurrency로 0에 수렴) |
+| **실행 단위 최대 시간** | 무제한 | 제한적(웹 요청 60초 등) | 무제한 | **15분(Lambda) 한도** |
+| **비용 단위** | 인스턴스 시간(秒) | 인스턴스 시간 | Pod 시간 | **GB-초 + 호출 수**(0일 때 0원) |
+| **확장 모델** | 수동/Auto Scaling Group | 트래픽 기반 자동 | HPA/VPA/KEDA(0->1000) | **Concurrency 1~1000 자동** |
+| **적합 워크로드** | 레거시, 커스텀 커널, GPU 특수 | 웹앱, API 단순 배포 | MSA, Stateful, 복잡한 오케스트레이션 | **이벤트 드리븐, 간헐적, ETL, Webhook, Cron** |
+| **Vendor Lock-in** | 중간(AMI/이미지) | 높음(플랫폼 종속) | 낮음(K8s API 표준) | 매우 높음(벤더별 트리거·런타임 종속) |
 
-관련 기술 영역과의 연결점도 중요하다. 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### 2. 배포 전략(Deployment Strategy) 비교
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 아키텍처 핵심 토픽 699번 시험 요약을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 아키텍처 핵심 토픽 699번 시험 요약을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 아키텍처 핵심 토픽 699번 시험 요약 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 아키텍처 핵심 토픽 699번 시험 요약의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 아키텍처 핵심 토픽 699번 시험 요약의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 아키텍처 핵심 토픽 699번 시험 요약 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 아키텍처 핵심 토픽 699번 시험 요약은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 전략 | 가용성 영향 |
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 699 / 800
 
-<- **이전**: [698. 클라우드 아키텍처 핵심 토픽 698번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/698_cloud_architecture_core_topic_698_exam_summar/)
-**다음**: [700. 클라우드 아키텍처 핵심 토픽 700번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/700_cloud_architecture_core_topic_700_exam_summar/) ->
+<- **이전**: [698. 클라우드 아키텍처 핵심 토픽 698번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/698_cloud_architecture_core_topic_698_exam_summar/)
+**다음**: [700. 클라우드 아키텍처 핵심 토픽 700번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/700_cloud_architecture_core_topic_700_exam_summar/) ->
 
 ---

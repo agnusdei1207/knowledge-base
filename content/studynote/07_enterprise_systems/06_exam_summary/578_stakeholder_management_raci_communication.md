@@ -1,13 +1,10 @@
-+++
-title = "578. 이해관계자 관리 RACI 커뮤니케이션 (Stakeholder Management RACI Communication)"
-date = 2026-05-09
+---
+title: "578. 이해관계자 관리 RACI 커뮤니케이션 (Stakeholder Management RACI Communication)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 578 / 800
 
-<- **이전**: [577. 범위 관리 WBS 요구사항 추적 매트릭스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/577_scope_management_wbs_requirements_traceabilit/)
-**다음**: [579. 조달 관리 계약 유형 RFP RFI](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/579_procurement_management_contract_rfp_rfi/) ->
+<- **이전**: [577. 범위 관리 WBS 요구사항 추적 매트릭스](/studynote/07_enterprise_systems/06_exam_summary/577_scope_management_wbs_requirements_traceabilit/)
+**다음**: [579. 조달 관리 계약 유형 RFP RFI](/studynote/07_enterprise_systems/06_exam_summary/579_procurement_management_contract_rfp_rfi/) ->
 
 ---

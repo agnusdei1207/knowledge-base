@@ -1,25 +1,22 @@
-+++
-title = "352. 퍼셉트론 (Perceptron)"
-date = 2026-05-09
+---
+title: "352. 퍼셉트론 (Perceptron)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력 벡터 x와 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 w의 내적(w·x + b)으로 결정 경계(Decision Boundary) w·x + b = 0을 학습하는 최초의 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기이며, 뉴런(Neuron) 수학 모델의 원형이다.
-> 2. **가치**: [퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/)([Perceptron Convergence Theorem](/knowledge-base/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))에 의해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 분리(Linearly Separable) 가능하면 유한 번 업데이트로 반드시 완벽한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 찾을 수 있음이 수학적으로 보장된다.
-> 3. **판단 포인트**: XOR 문제처럼 선형 분리 불가능한 경우 [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 영원히 실패하며, 이 한계가 [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))과 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 필요성을 낳았다.
+> 1. **본질**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))은 입력 벡터 x와 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 벡터 w의 내적(w·x + b)으로 결정 경계(Decision Boundary) w·x + b = 0을 학습하는 최초의 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기이며, 뉴런(Neuron) 수학 모델의 원형이다.
+> 2. **가치**: [퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/)([Perceptron Convergence Theorem](/studynote/06_ict_convergence/05_data_science/377_perceptron_convergence_theorem/))에 의해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 선형 분리(Linearly Separable) 가능하면 유한 번 업데이트로 반드시 완벽한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기를 찾을 수 있음이 수학적으로 보장된다.
+> 3. **판단 포인트**: XOR 문제처럼 선형 분리 불가능한 경우 [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 영원히 실패하며, 이 한계가 [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))과 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)의 필요성을 낳았다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1957년 Rosenblatt이 제안한 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 뇌의 뉴런을 수학적으로 모델링한 최초의 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. "입력 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 가중합이 임계값을 넘으면 발화(1), 아니면 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(0)"라는 단순한 규칙이 학습 가능한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 구현된다. AND, OR 같은 선형 분리 가능 문제는 완벽히 해결했지만, 1969년 Minsky와 Papert가 XOR 문제의 한계를 지적하며 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울이 시작됐다. 이 한계 극복이 딥러닝 탄생의 직접적 동기다.
+1957년 Rosenblatt이 제안한 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 뇌의 뉴런을 수학적으로 모델링한 최초의 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. "입력 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 가중합이 임계값을 넘으면 발화(1), 아니면 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)(0)"라는 단순한 규칙이 학습 가능한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기로 구현된다. AND, OR 같은 선형 분리 가능 문제는 완벽히 해결했지만, 1969년 Minsky와 Papert가 XOR 문제의 한계를 지적하며 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 겨울이 시작됐다. 이 한계 극복이 딥러닝 탄생의 직접적 동기다.
 
 ```text
 +----------------------------------------------+
@@ -30,7 +27,7 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 사탕과 초콜릿을 나누는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기"다. 테이블 위에 사탕과 초콜릿이 섞여있을 때, 직선 한 줄로 왼쪽엔 사탕, 오른쪽엔 초콜릿이 완벽히 갈리면 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 해결한다. 하지만 체커보드 패턴처럼 섞여있으면(XOR) 직선 하나론 절대 불가능하다.
+- **📢 섹션 요약 비유**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 사탕과 초콜릿을 나누는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기"다. 테이블 위에 사탕과 초콜릿이 섞여있을 때, 직선 한 줄로 왼쪽엔 사탕, 오른쪽엔 초콜릿이 완벽히 갈리면 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)이 해결한다. 하지만 체커보드 패턴처럼 섞여있으면(XOR) 직선 하나론 절대 불가능하다.
 
 ---
 
@@ -56,44 +53,44 @@ tags = ["studynote-ai"]
 +------------------------------------------------------+
 ```
 
-| 문제 유형 | 선형 분리 가능 | [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 해결 |
+| 문제 유형 | 선형 분리 가능 | [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 해결 |
 |:---|:---|:---|
 | AND | ✅ 가능 | ✅ 수렴 보장 |
 | OR | ✅ 가능 | ✅ 수렴 보장 |
 | NAND | ✅ 가능 | ✅ 수렴 보장 |
 | XOR | ❌ 불가능 | ❌ 영원히 발산 |
 
-- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙은 "틀리면 방향을 수정하는 조향 장치"다. 차가 왼쪽으로 치우치면(오차δ>0) 핸들을 오른쪽으로([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 증가), 오른쪽으로 치우치면 왼쪽으로([가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감소) 조정한다. 선형 분리 가능 도로에서는 언젠가 반드시 바른 길을 찾는다.
+- **📢 섹션 요약 비유**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙은 "틀리면 방향을 수정하는 조향 장치"다. 차가 왼쪽으로 치우치면(오차δ>0) 핸들을 오른쪽으로([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 증가), 오른쪽으로 치우치면 왼쪽으로([가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 감소) 조정한다. 선형 분리 가능 도로에서는 언젠가 반드시 바른 길을 찾는다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer [Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))이 등장했다. MLP는 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/), [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/))와 결합하여 임의의 복잡한 결정 경계(비선형 경계)를 학습할 수 있다. 보편 근사 정리(Universal Approximation Theorem)에 의해 충분히 넓은 은닉층을 가진 MLP는 어떤 연속 함수든 근사할 수 있다. 이것이 딥러닝의 이론적 토대다.
+XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer [Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/))이 등장했다. MLP는 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)([ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/), [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), [Tanh](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/))와 결합하여 임의의 복잡한 결정 경계(비선형 경계)를 학습할 수 있다. 보편 근사 정리(Universal Approximation Theorem)에 의해 충분히 넓은 은닉층을 가진 MLP는 어떤 연속 함수든 근사할 수 있다. 이것이 딥러닝의 이론적 토대다.
 
 | 구분 | 핵심 초점 | 적용 상황 |
 |:---|:---|:---|
-| 기초 접근 | 원리 이해와 기준 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
-| [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) ([Perceptron](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
-| 확장 접근 | 자동화·대규모 최적화 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
+| 기초 접근 | 원리 이해와 기준 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 작은 규모, 개념 학습 |
+| [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) ([Perceptron](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)) | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 실용성의 균형 | 대표적인 실무 적용 |
+| 확장 접근 | 자동화·대규모 최적화 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 고도화 단계 |
 
-- **📢 섹션 요약 비유**: MLP의 비선형 활성화는 "직선을 구부리는 마법"이다. [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 직선을 비선형 함수로 구부리면 원, 나선, 복잡한 경계도 그릴 수 있다. 층이 깊어질수록 더 복잡한 도형을 그릴 수 있는 것이 딥러닝의 표현력이다.
+- **📢 섹션 요약 비유**: MLP의 비선형 활성화는 "직선을 구부리는 마법"이다. [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 직선을 비선형 함수로 구부리면 원, 나선, 복잡한 경계도 그릴 수 있다. 층이 깊어질수록 더 복잡한 도형을 그릴 수 있는 것이 딥러닝의 표현력이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 신경망의 뉴런 하나는 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 직계 후손이다. 선형 변환(w·x + b) 후 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 적용하는 구조는 동일하다. 차이는 Step 함수 대신 [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/ReLU를 사용해 미분 가능([역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 가능)하게 만든 것이다. [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 진화형으로, 결정 경계를 찾을 때 마진(Margin)을 최대화하는 최적 초평면을 찾는다.
+현대 신경망의 뉴런 하나는 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 직계 후손이다. 선형 변환(w·x + b) 후 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 적용하는 구조는 동일하다. 차이는 Step 함수 대신 [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/ReLU를 사용해 미분 가능([역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 가능)하게 만든 것이다. [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/))은 [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)의 진화형으로, 결정 경계를 찾을 때 마진(Margin)을 최대화하는 최적 초평면을 찾는다.
 
-- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)에서 딥러닝까지의 진화는 "자전거 -> 자동차 -> 비행기"다. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(자전거)은 단순하지만 경사면(비선형 문제)을 못 오른다. MLP(자동차)는 엔진(비선형 활성화)을 달아 어디든 간다. [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(비행기)는 하늘(고차원 언어 공간)을 날아 다닌다.
+- **📢 섹션 요약 비유**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)에서 딥러닝까지의 진화는 "자전거 -> 자동차 -> 비행기"다. [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)(자전거)은 단순하지만 경사면(비선형 문제)을 못 오른다. MLP(자동차)는 엔진(비선형 활성화)을 달아 어디든 간다. [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)(비행기)는 하늘(고차원 언어 공간)을 날아 다닌다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순하지만 딥러닝의 철학적 원점이다. 학습 규칙(w <- w + η·δ·x)은 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 전신이며, 선형 결정 경계의 한계가 비선형 활성화와 다층 구조를 필연적으로 요구했다. 기술사 시험에서 [퍼셉트론 수렴 정리](/knowledge-base/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) 조건(선형 분리 가능), XOR 한계, MLP로의 확장 경로를 설명하면 딥러닝 이해의 깊이를 보여줄 수 있다.
+[퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 단순하지만 딥러닝의 철학적 원점이다. 학습 규칙(w <- w + η·δ·x)은 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)의 전신이며, 선형 결정 경계의 한계가 비선형 활성화와 다층 구조를 필연적으로 요구했다. 기술사 시험에서 [퍼셉트론 수렴 정리](/studynote/10_ai/05_data_science_ml/392_perceptron_convergence/) 조건(선형 분리 가능), XOR 한계, MLP로의 확장 경로를 설명하면 딥러닝 이해의 깊이를 보여줄 수 있다.
 
-- **📢 섹션 요약 비유**: [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 AI의 "씨앗"이다. 이 작은 씨앗이 XOR 실패라는 시련을 겪으며 은닉층과 비선형성이라는 가지를 뻗어 GPT라는 거대한 나무로 자랐다. 씨앗의 구조를 이해해야 나무 전체가 보인다.
+- **📢 섹션 요약 비유**: [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 AI의 "씨앗"이다. 이 작은 씨앗이 XOR 실패라는 시련을 겪으며 은닉층과 비선형성이라는 가지를 뻗어 GPT라는 거대한 나무로 자랐다. 씨앗의 구조를 이해해야 나무 전체가 보인다.
 
 ---
 
@@ -101,9 +98,9 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) | 은닉층, 비선형 / XOR 한계 극복 |
-| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) | 마진 최대화 / 최적 결정 경계 탐색 |
-| [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 그래디언트 / [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙의 일반화 |
+| [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP) | 은닉층, 비선형 / XOR 한계 극복 |
+| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)) | 마진 최대화 / 최적 결정 경계 탐색 |
+| [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 그래디언트 / [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/) 학습 규칙의 일반화 |
 | 보편 근사 정리 | MLP 이론 / 충분한 뉴런으로 임의 함수 근사 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -114,7 +111,7 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [퍼셉트론](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 빨간 공과 파란 공을 나누는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"예요.
+1. [퍼셉트론](/studynote/14_data_engineering/05_exam_keywords/239_perceptron_mlp_hidden_layer_weight_activation_sigmoid/)은 "직선 한 줄로 빨간 공과 파란 공을 나누는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)"예요.
 2. 공들이 섞이지 않고 잘 구분되면(선형 분리 가능) 직선을 찾을 때까지 반복 학습해요.
 3. 하지만 체커보드처럼 뒤섞인 공은 직선 하나론 절대 못 나누어서, 여러 층을 쌓은 딥러닝이 탄생했어요!
 
@@ -124,7 +121,7 @@ XOR 한계를 극복하기 위해 은닉층(Hidden Layer)을 추가한 [다층 �
 
 **진행 상황**: 352 / 420
 
-<- **이전**: [351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)](/knowledge-base/studynote/10_ai/05_data_science_ml/351_gini_entropy_information_gain/)
-**다음**: [353. 로지스틱 회귀 (Logistic Regression)](/knowledge-base/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/) ->
+<- **이전**: [351. 지니 불순도 (Gini Impurity) 와 정보 획득량 (Information Gain)](/studynote/10_ai/05_data_science_ml/351_gini_entropy_information_gain/)
+**다음**: [353. 로지스틱 회귀 (Logistic Regression)](/studynote/10_ai/05_data_science_ml/353_logistic_regression_odds/) ->
 
 ---

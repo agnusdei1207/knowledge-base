@@ -1,18 +1,15 @@
-+++
-title = "4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)"
-date = 2026-04-21
+---
+title: "4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
-> 독립 (Independence) 과 상호 배타 (Mutual Exclusivity) 는 혼동하기 쉽지만 정반대 개념이다 — 상호 배타 사건은 하나가 일어나면 다른 하나의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 되므로 오히려 강하게 종속적이다.
-> 조건부 독립 (Conditional Independence) 은 [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)·베이즈 네트워크·마르코프 모델의 핵심 가정으로, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 설계에서 계산 복잡도를 지수적으로 줄여준다.
+> 독립 (Independence) 과 상호 배타 (Mutual Exclusivity) 는 혼동하기 쉽지만 정반대 개념이다 — 상호 배타 사건은 하나가 일어나면 다른 하나의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이 되므로 오히려 강하게 종속적이다.
+> 조건부 독립 (Conditional Independence) 은 [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)·베이즈 네트워크·마르코프 모델의 핵심 가정으로, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 모델 설계에서 계산 복잡도를 지수적으로 줄여준다.
 > 베르누이 시행 (Bernoulli Trial) 의 반복에서 독립성 가정이 이항 분포를 비롯한 여러 분포의 수학적 기반을 형성한다.
 
 ---
@@ -31,7 +28,7 @@ P(A∩B) = P(A) · P(B)
   P(B|A) = P(B)   (A를 알아도 B의 확률이 변하지 않음)
 ```
 
-**직관**: B가 발생했다는 정보가 A의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 전혀 바꾸지 않을 때, 두 사건은 독립이다.
+**직관**: B가 발생했다는 정보가 A의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 전혀 바꾸지 않을 때, 두 사건은 독립이다.
 
 **예시**:
 - 동전 두 번 던지기: 첫 번째 앞면 여부는 두 번째 결과와 독립
@@ -88,7 +85,7 @@ P(A∩B) = 0   ->   A와 B는 동시에 발생 불가
 |:---:|:---:|:---:|
 | P(A∩B) | = P(A)·P(B) > 0 | = 0 |
 | P(A\|B) | = P(A) (무관) | = 0 (종속!) |
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 영향 없음 | 강하게 종속 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 영향 없음 | 강하게 종속 |
 | 예시 | 동전 두 개 던지기 | 주사위 한 번에 홀수/짝수 |
 
 **왜 상호 배타 사건은 종속인가?**
@@ -101,7 +98,7 @@ B가 발생했을 때 A의 확률:
   P(A|B) = 0 ≠ P(A) -> 종속!
 ```
 
-비복원 추출 ([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) Without Replacement) 에서 각 단계의 사건들은 이전 결과에 종속된다.
+비복원 추출 ([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) Without Replacement) 에서 각 단계의 사건들은 이전 결과에 종속된다.
 
 📢 **섹션 요약 비유**: 상호 배타는 "결혼식과 장례식을 같은 날 같은 장소에서 동시에 열 수 없는 것"이다 — 완전히 서로를 배제하므로, 하나가 일어나면 다른 하나는 절대 불가능하다.
 
@@ -109,7 +106,7 @@ B가 발생했을 때 A의 확률:
 
 ## Ⅲ. 독립의 확장 개념
 
-### 쌍별 독립 ([Pairwise](/knowledge-base/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Independence)
+### 쌍별 독립 ([Pairwise](/studynote/04_software_engineering/03_design_architecture/174_pairwise_comparison_priority_matrix/) Independence)
 
 모든 쌍 (i,j) 에 대해 P(Aᵢ∩Aⱼ) = P(Aᵢ)·P(Aⱼ) 이지만, 전체 상호 독립은 보장 안 됨.
 
@@ -157,9 +154,9 @@ P(A∩B|C) = P(A|C) · P(B|C)
 
 ---
 
-## Ⅳ. [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)에서의 독립 가정
+## Ⅳ. [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)에서의 독립 가정
 
-<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/">나이브 베이즈</a> (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/">Naive Bayes</a>)</strong> 분류기는 "모든 특징(Feature)이 클래스 레이블 Y에 대해 조건부 독립"이라는 강한 가정을 사용한다.
+<strong><a href="/studynote/10_ai/03_llm_nlp/264_naive_bayes/">나이브 베이즈</a> (<a href="/studynote/12_it_management/02_itsm_itil/078_Naive_Bayes/">Naive Bayes</a>)</strong> 분류기는 "모든 특징(Feature)이 클래스 레이블 Y에 대해 조건부 독립"이라는 강한 가정을 사용한다.
 
 ```
 P(X₁,X₂,...,Xₙ|Y) = Π P(Xᵢ|Y)   (조건부 독립 가정)
@@ -169,12 +166,12 @@ P(X₁,X₂,...,Xₙ|Y) = Π P(Xᵢ|Y)   (조건부 독립 가정)
   가정 후 필요한 파라미터 수: O(n)   (각 특징 개별)
 ```
 
-**실제로 독립이 아니어도** [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)가 잘 동작하는 이유:
-- 분류에 필요한 것은 정확한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)값이 아니라 **최대 클래스의 순서 (Ranking)**
+**실제로 독립이 아니어도** [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)가 잘 동작하는 이유:
+- 분류에 필요한 것은 정확한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)값이 아니라 **최대 클래스의 순서 (Ranking)**
 - 과대추정/과소추정이 상쇄되는 경우 많음
-- 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적을 때 과적합 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 방지 효과
+- 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 적을 때 과적합 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/)) 방지 효과
 
-📢 **섹션 요약 비유**: [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "요리사의 재료 목록만 보고 맛을 예측하는 것"이다 — 재료들이 실제로 서로 영향을 주지 않는다(독립)고 가정하지만, 실전에서는 놀라울 만큼 잘 맞는다.
+📢 **섹션 요약 비유**: [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/)는 "요리사의 재료 목록만 보고 맛을 예측하는 것"이다 — 재료들이 실제로 서로 영향을 주지 않는다(독립)고 가정하지만, 실전에서는 놀라울 만큼 잘 맞는다.
 
 ---
 
@@ -183,7 +180,7 @@ P(X₁,X₂,...,Xₙ|Y) = Π P(Xᵢ|Y)   (조건부 독립 가정)
 ### 베르누이 시행 (Bernoulli Trial)
 
 - 결과가 성공(1) 또는 실패(0)인 단일 실험
-- 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) p, 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 1-p 로 고정
+- 성공 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) p, 실패 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 1-p 로 고정
 - 각 시행은 <strong>독립</strong>이어야 함
 
 ```
@@ -196,10 +193,10 @@ n번 독립 베르누이 시행에서 k번 성공:
 
 | 상황 | 독립 가정 위반 | 결과 |
 |:---|:---:|:---|
-| 주식 수익률 — 금융 위기 | 상관이 1에 수렴 | 포트폴리오 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 효과 소멸 |
-| 스팸 단어들 | 공동 출현 패턴 | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 과소추정 |
+| 주식 수익률 — 금융 위기 | 상관이 1에 수렴 | 포트폴리오 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 효과 소멸 |
+| 스팸 단어들 | 공동 출현 패턴 | [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 과소추정 |
 | A/B 테스트 사용자 | 사회적 전염 (viral) | 검정 결과 오염 |
-| 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 시계열 자기상관 | 이항 분포 모델 부적합 |
+| 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 시계열 자기상관 | 이항 분포 모델 부적합 |
 
 📢 **섹션 요약 비유**: 독립 가정은 "이번 주 로또 번호가 지난 주 번호와 무관하다"는 것처럼, 각 시행이 서로를 기억하지 않는다는 약속이다 — 이 약속이 깨지면 모든 이항 분포 계산이 틀려진다.
 
@@ -207,11 +204,11 @@ n번 독립 베르누이 시행에서 k번 성공:
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| 독립 | [조건부 확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 변화 없음 | 정의 |
+| 독립 | [조건부 확률](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/) 변화 없음 | 정의 |
 | 상호 배타 | 교집합 = ∅ | 정의 |
-| 조건부 독립 | [나이브 베이즈](/knowledge-base/studynote/10_ai/03_llm_nlp/264_naive_bayes/), 베이즈 네트워크 | 계산 단순화 핵심 |
+| 조건부 독립 | [나이브 베이즈](/studynote/10_ai/03_llm_nlp/264_naive_bayes/), 베이즈 네트워크 | 계산 단순화 핵심 |
 | 베르누이 시행 | 이항 분포, 기하 분포 | 수학적 기반 |
 | 쌍별 독립 | 상호 독립 | 약한/강한 독립의 차이 |
 | 비복원 추출 | 초기하 분포 (Hypergeometric) | 종속 추출의 분포 |
@@ -256,7 +253,7 @@ n번 독립 베르누이 시행에서 k번 성공:
 
 **진행 상황**: 133 / 175
 
-<- **이전**: [3. 조건부 확률 (Conditional Probability) — P(A|B)](/knowledge-base/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)
-**다음**: [5. 확률 변수 (Random Variable) — 이산/연속](/knowledge-base/studynote/08_algorithm_stats/08_stats/134_random_variable/) ->
+<- **이전**: [3. 조건부 확률 (Conditional Probability) — P(A|B)](/studynote/08_algorithm_stats/08_stats/132_conditional_probability/)
+**다음**: [5. 확률 변수 (Random Variable) — 이산/연속](/studynote/08_algorithm_stats/08_stats/134_random_variable/) ->
 
 ---

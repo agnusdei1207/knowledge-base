@@ -1,13 +1,10 @@
-+++
-title = "483. IT 투자 가치 평가 ROI TCO (IT Investment Value Evaluation ROI TCO)"
-date = 2026-05-09
+---
+title: "483. IT 투자 가치 평가 ROI TCO (IT Investment Value Evaluation ROI TCO)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ IT 투자 가치 평가을 제대로 적용하면 IT 투자가 업무 성과와 
 
 **진행 상황**: 483 / 800
 
-<- **이전**: [482. 디지털 전환 전략 수립 방법론](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/482_digital_transformation_strategy_methodology/)
-**다음**: [484. IT 포트폴리오 관리 자산 최적화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/484_it_portfolio_management_asset_optimization/) ->
+<- **이전**: [482. 디지털 전환 전략 수립 방법론](/studynote/07_enterprise_systems/06_exam_summary/482_digital_transformation_strategy_methodology/)
+**다음**: [484. IT 포트폴리오 관리 자산 최적화](/studynote/07_enterprise_systems/06_exam_summary/484_it_portfolio_management_asset_optimization/) ->
 
 ---

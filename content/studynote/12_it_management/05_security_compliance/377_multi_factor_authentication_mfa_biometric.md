@@ -1,13 +1,10 @@
-+++
-title = "377. 다중 인증 MFA 생체 인증 패스키 (Multi-Factor Authentication MFA Biometric)"
-date = 2026-05-09
+---
+title: "377. 다중 인증 MFA 생체 인증 패스키 (Multi-Factor Authentication MFA Biometric)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -255,7 +252,7 @@ publicKey (COSE_Key):
 
 **진행 상황**: 377 / 800
 
-<- **이전**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/)
-**다음**: [378. 암호화 기술 대칭 비대칭 하이브리드](/knowledge-base/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/) ->
+<- **이전**: [376. 신원 관리 IAM 통합 인증 SSO](/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/)
+**다음**: [378. 암호화 기술 대칭 비대칭 하이브리드](/studynote/12_it_management/05_security_compliance/378_encryption_symmetric_asymmetric_hybrid/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "164. I/O 바운드 프로세스 (I/O Bound Process)"
-date = 2026-03-22
+---
+title: "164. I/O 바운드 프로세스 (I/O Bound Process)"
+date: "2026-03-22"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: I/O 바운드 프로세스 (Input/Output Bound [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 CPU 연산보다 디스크·네트워크·사용자 입력을 기다리는 시간이 더 긴 작업이다.
-> 2. **가치**: 이런 프로세스는 CPU를 오래 붙잡지 않으므로, 준비가 끝난 순간 빨리 실행시켜 다시 I/O를 걸어 주는 편이 전체 시스템 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 함께 높인다.
+> 1. **본질**: I/O 바운드 프로세스 (Input/Output Bound [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 CPU 연산보다 디스크·네트워크·사용자 입력을 기다리는 시간이 더 긴 작업이다.
+> 2. **가치**: 이런 프로세스는 CPU를 오래 붙잡지 않으므로, 준비가 끝난 순간 빨리 실행시켜 다시 I/O를 걸어 주는 편이 전체 시스템 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 함께 높인다.
 > 3. **판단 포인트**: 스케줄링은 단순 우선순위 싸움이 아니라, 짧은 CPU 버스트 (CPU Burst)를 빨리 끝내 장치 병렬성을 살릴지, 과도한 우대 때문에 CPU 바운드 작업이 굶지 않게 균형을 잡을지의 문제다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-I/O 바운드 프로세스는 실행 시간 대부분을 입출력 완료 대기 상태에서 보내는 프로세스다. 몇 ms 정도 CPU를 사용해 요청을 만들고, 그 뒤에는 디스크 응답·네트워크 패킷·사용자 입력을 기다리며 수 ms에서 수백 ms까지 멈춰 있는 경우가 많다. 웹 서버의 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출, [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의, 채팅 앱의 메시지 수신 같은 작업이 대표적이다.
+I/O 바운드 프로세스는 실행 시간 대부분을 입출력 완료 대기 상태에서 보내는 프로세스다. 몇 ms 정도 CPU를 사용해 요청을 만들고, 그 뒤에는 디스크 응답·네트워크 패킷·사용자 입력을 기다리며 수 ms에서 수백 ms까지 멈춰 있는 경우가 많다. 웹 서버의 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 호출, [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 질의, 채팅 앱의 메시지 수신 같은 작업이 대표적이다.
 
-이 개념이 중요한 이유는 운영체제의 목표가 CPU만 바쁘게 만드는 것이 아니기 때문이다. CPU가 계산하는 동안 디스크와 네트워크 장치도 동시에 일해야 전체 시스템 이용률이 높아진다. 만약 I/O 바운드 프로세스가 준비 완료 후에도 오래 기다리면, 다음 I/O를 발행하지 못해 장치가 쉬게 되고 사용자는 "버튼은 눌렸는데 화면이 늦게 반응한다"는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 체감한다.
+이 개념이 중요한 이유는 운영체제의 목표가 CPU만 바쁘게 만드는 것이 아니기 때문이다. CPU가 계산하는 동안 디스크와 네트워크 장치도 동시에 일해야 전체 시스템 이용률이 높아진다. 만약 I/O 바운드 프로세스가 준비 완료 후에도 오래 기다리면, 다음 I/O를 발행하지 못해 장치가 쉬게 되고 사용자는 "버튼은 눌렸는데 화면이 늦게 반응한다"는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 체감한다.
 
 이 그림은 CPU 바운드와 I/O 바운드의 시간 사용 패턴 차이를 보여준다.
 
@@ -44,14 +41,14 @@ I/O 바운드 프로세스는 실행 시간 대부분을 입출력 완료 대기
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-I/O 바운드 프로세스는 보통 `Running -> Blocked -> Ready -> Running` 사이를 자주 왕복한다. 프로세스가 `read()`, `recv()`, `accept()` 같은 [시스템 호출](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/knowledge-base/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 수행하면 커널은 장치 작업을 등록하고 해당 프로세스를 대기 큐로 보낸다. 이후 디스크 인터럽트나 네트워크 인터럽트가 오면 다시 [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/))로 올리고, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 짧은 CPU 버스트를 빨리 처리하도록 우선 배치한다.
+I/O 바운드 프로세스는 보통 `Running -> Blocked -> Ready -> Running` 사이를 자주 왕복한다. 프로세스가 `read()`, `recv()`, `accept()` 같은 [시스템 호출](/studynote/02_operating_system/01_overview_architecture/013_system_call/) ([System Call](/studynote/02_operating_system/01_overview_architecture/013_system_call/))을 수행하면 커널은 장치 작업을 등록하고 해당 프로세스를 대기 큐로 보낸다. 이후 디스크 인터럽트나 네트워크 인터럽트가 오면 다시 [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/))로 올리고, [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 짧은 CPU 버스트를 빨리 처리하도록 우선 배치한다.
 
-| 상태/특성 | I/O 바운드 프로세스의 모습 | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 보는 의미 |
+| 상태/특성 | I/O 바운드 프로세스의 모습 | [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 보는 의미 |
 | :-- | :-- | :-- |
 | CPU 사용 | 짧고 빈번함 | 응답성 우대 후보 |
 | Blocked 상태 | 길고 자주 발생 | 장치 대기 중심 workload |
 | 타임 퀀텀 소진 여부 | 끝까지 못 쓰는 경우 많음 | CPU 독점 위험 낮음 |
-| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 대기 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 빠른 재스케줄 필요 |
+| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 | [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 대기 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 빠른 재스케줄 필요 |
 
 이 그림은 I/O 요청이 있을 때 상태가 어떻게 이동하는지 보여준다.
 
@@ -67,7 +64,7 @@ I/O 바운드 프로세스는 보통 `Running -> Blocked -> Ready -> Running` �
 +--------------------------------------------------------------+
 ```
 
-[다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 같은 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이런 패턴을 이용해 상위 큐에 머무르게 하며, [완전 공정 스케줄러](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) (Completely Fair Scheduler, CFS)는 [가상 실행 시간](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (virtual runtime)을 통해 과도한 독점을 막는다. 핵심은 "I/O 완료 직후 짧은 CPU 사용권을 빨리 주자"이지, 무조건 영원히 우대하자는 것이 아니다. 그래서 현대 시스템은 우선 반응성을 확보하되, 장기적으로는 공정성을 되찾는 보정 장치를 함께 둔다.
+[다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) (Multilevel Feedback [Queue](/studynote/08_algorithm_stats/04_datastructure/058_queue/), [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) 같은 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 이런 패턴을 이용해 상위 큐에 머무르게 하며, [완전 공정 스케줄러](/studynote/02_operating_system/03_cpu_scheduling/202_cfs_completely_fair_scheduler/) (Completely Fair Scheduler, CFS)는 [가상 실행 시간](/studynote/02_operating_system/03_cpu_scheduling/203_virtual_runtime_vruntime/) (virtual runtime)을 통해 과도한 독점을 막는다. 핵심은 "I/O 완료 직후 짧은 CPU 사용권을 빨리 주자"이지, 무조건 영원히 우대하자는 것이 아니다. 그래서 현대 시스템은 우선 반응성을 확보하되, 장기적으로는 공정성을 되찾는 보정 장치를 함께 둔다.
 
 - **📢 섹션 요약 비유**: I/O 바운드 프로세스는 엘리베이터 버튼만 누르고 다시 기다리는 사람과 같다. 버튼 누르는 순간만 잠깐 길을 열어 주면, 그 뒤에는 엘리베이터가 오는 동안 다른 사람이 복도를 쓸 수 있다.
 
@@ -75,18 +72,18 @@ I/O 바운드 프로세스는 보통 `Running -> Blocked -> Ready -> Running` �
 
 ## Ⅲ. 비교 및 연결
 
-I/O 바운드와 CPU 바운드는 서로 반대 성향처럼 보이지만, 실제 시스템 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 두 종류를 얼마나 잘 겹쳐 놓느냐에 달려 있다. CPU 바운드는 긴 계산을 통해 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이고, I/O 바운드는 장치 병렬성을 높여 응답성을 만든다. 따라서 둘 중 하나만 최적화하면 시스템 전체 관점에서는 반쪽짜리 설계가 된다.
+I/O 바운드와 CPU 바운드는 서로 반대 성향처럼 보이지만, 실제 시스템 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 두 종류를 얼마나 잘 겹쳐 놓느냐에 달려 있다. CPU 바운드는 긴 계산을 통해 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이고, I/O 바운드는 장치 병렬성을 높여 응답성을 만든다. 따라서 둘 중 하나만 최적화하면 시스템 전체 관점에서는 반쪽짜리 설계가 된다.
 
 | 항목 | I/O 바운드 프로세스 | CPU 바운드 프로세스 |
 | :-- | :-- | :-- |
-| 주 병목 | 장치 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 연산 자원 부족 |
+| 주 병목 | 장치 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 연산 자원 부족 |
 | CPU 사용 패턴 | 짧고 자주 양보 | 길고 연속적 |
-| 중요한 지표 | [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 총 실행 시간 |
-| 적합한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 빠른 재스케줄, 비동기 I/O | 긴 계산 최적화, 캐시 친화성 |
+| 중요한 지표 | [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 총 실행 시간 |
+| 적합한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 빠른 재스케줄, 비동기 I/O | 긴 계산 최적화, 캐시 친화성 |
 
-이 차이는 애플리케이션 구조 선택으로도 이어진다. 전통적인 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-당-요청 모델은 I/O 대기 동안 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잠들기 때문에 동시 연결 수가 많아질수록 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 커진다. 반면 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/))와 논블로킹 I/O (Non-blocking I/O)는 I/O 대기를 커널에 맡기고 CPU를 다른 요청 처리에 재활용하므로, 대표적인 I/O 바운드 워크로드에 유리하다.
+이 차이는 애플리케이션 구조 선택으로도 이어진다. 전통적인 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)-당-요청 모델은 I/O 대기 동안 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 잠들기 때문에 동시 연결 수가 많아질수록 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/) 비용이 커진다. 반면 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/) ([Event Loop](/studynote/02_operating_system/02_process_thread/142_event_loop/))와 논블로킹 I/O (Non-blocking I/O)는 I/O 대기를 커널에 맡기고 CPU를 다른 요청 처리에 재활용하므로, 대표적인 I/O 바운드 워크로드에 유리하다.
 
-하지만 모든 I/O 바운드 시스템이 곧바로 비동기 구조를 써야 하는 것은 아니다. 요청 수가 적고 코드 복잡도를 낮추는 것이 더 중요하면 블로킹 모델이 관리 측면에서 낫다. 즉, 연결 수·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표·개발 복잡도를 함께 보고 결정해야 한다.
+하지만 모든 I/O 바운드 시스템이 곧바로 비동기 구조를 써야 하는 것은 아니다. 요청 수가 적고 코드 복잡도를 낮추는 것이 더 중요하면 블로킹 모델이 관리 측면에서 낫다. 즉, 연결 수·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표·개발 복잡도를 함께 보고 결정해야 한다.
 
 - **📢 섹션 요약 비유**: I/O 바운드는 주문 넣고 조리 완료를 기다리는 배달 앱이고, CPU 바운드는 주방에서 계속 볶고 끓이는 요리사와 같다. 둘이 잘 맞물려야 식당 전체가 빨라진다.
 
@@ -94,21 +91,21 @@ I/O 바운드와 CPU 바운드는 서로 반대 성향처럼 보이지만, 실�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 I/O 바운드 특성은 웹 서버, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기, 채팅 서버처럼 외부 응답을 많이 기다리는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 두드러진다. 예를 들어 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 [백엔드 서비스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) 5개에 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 호출을 보내고 각각 20~80ms 응답을 기다린다면, CPU는 실제 직렬화와 검증에 1~3ms만 쓰고 대부분의 시간을 네트워크 대기로 보낸다. 이런 환경에서는 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 무작정 늘리기보다 비동기 호출, 연결 풀, [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 백프레셔를 설계하는 편이 더 효과적이다.
+실무에서 I/O 바운드 특성은 웹 서버, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 수집기, 채팅 서버처럼 외부 응답을 많이 기다리는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 두드러진다. 예를 들어 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 게이트웨이가 [백엔드 서비스](/studynote/15_devops_sre/01_culture_methodology/010_backend_services/) 5개에 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 호출을 보내고 각각 20~80ms 응답을 기다린다면, CPU는 실제 직렬화와 검증에 1~3ms만 쓰고 대부분의 시간을 네트워크 대기로 보낸다. 이런 환경에서는 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 수를 무작정 늘리기보다 비동기 호출, 연결 풀, [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), 백프레셔를 설계하는 편이 더 효과적이다.
 
-반대로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 영상 인코딩, 대규모 수치 계산처럼 CPU를 오래 잡는 작업은 I/O 바운드가 아니므로 응답성 위주 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 그대로 적용하면 오히려 손해다. 따라서 관찰 지표를 먼저 잡아야 한다. CPU 사용률이 낮은데 평균 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길다면 I/O 병목 가능성이 높고, 디스크 대기 큐나 네트워크 [RTT](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) ([Round Trip Time](/knowledge-base/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))가 커지면 스케줄링만으로는 해결되지 않는다.
+반대로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 영상 인코딩, 대규모 수치 계산처럼 CPU를 오래 잡는 작업은 I/O 바운드가 아니므로 응답성 위주 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 그대로 적용하면 오히려 손해다. 따라서 관찰 지표를 먼저 잡아야 한다. CPU 사용률이 낮은데 평균 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 길다면 I/O 병목 가능성이 높고, 디스크 대기 큐나 네트워크 [RTT](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/) ([Round Trip Time](/studynote/03_network/08_transport_layer/441_rtt_round_trip_time_srtt_smoothed/))가 커지면 스케줄링만으로는 해결되지 않는다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 평균 CPU Burst가 타임 퀀텀보다 훨씬 짧은가?
 2. 병목이 CPU가 아니라 디스크·네트워크·락 대기인가?
-3. 연결 수가 많아 블로킹 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델의 메모리 비용이 커지는가?
-4. I/O 우대 때문에 CPU 바운드 작업이 기아 ([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠지지 않게 보정하는가?
+3. 연결 수가 많아 블로킹 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 모델의 메모리 비용이 커지는가?
+4. I/O 우대 때문에 CPU 바운드 작업이 기아 ([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))에 빠지지 않게 보정하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 모든 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제를 "[스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 더 늘리기"로 해결하려는 접근
-- I/O 바운드 workload에 긴 동기식 연산을 섞어 [이벤트 루프](/knowledge-base/studynote/02_operating_system/02_process_thread/142_event_loop/)를 막아 버리는 설계
+- 모든 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 문제를 "[스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 더 늘리기"로 해결하려는 접근
+- I/O 바운드 workload에 긴 동기식 연산을 섞어 [이벤트 루프](/studynote/02_operating_system/02_process_thread/142_event_loop/)를 막아 버리는 설계
 
 - **📢 섹션 요약 비유**: I/O 바운드 시스템 운영은 택배 분류장과 비슷하다. 박스를 오래 들고 서 있기보다, 도착한 박스를 빨리 다음 라인으로 보내야 전체 물류가 막히지 않는다.
 
@@ -118,7 +115,7 @@ I/O 바운드와 CPU 바운드는 서로 반대 성향처럼 보이지만, 실�
 
 I/O 바운드 프로세스를 정확히 이해하면 스케줄링 문제를 단순 우선순위 조정이 아니라 "CPU와 장치를 어떻게 겹쳐 쓸 것인가"의 문제로 볼 수 있다. 그 결과 사용자 입장에서는 반응성이 좋아지고, 운영자 입장에서는 CPU·디스크·네트워크의 유휴 시간이 줄어든다. 또한 논블로킹 I/O, 이벤트 기반 서버, `io_uring` 같은 최신 기술이 왜 등장했는지도 자연스럽게 설명된다.
 
-다만 I/O 바운드라는 분류는 절대적 딱지가 아니다. 같은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라도 시간대·트래픽 패턴·캐시 적중률에 따라 CPU 바운드 구간이 섞일 수 있다. 따라서 중요한 것은 라벨 자체보다, 현재 병목이 어디 있는지 측정하고 그에 맞는 스케줄링·[동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델을 선택하는 태도다.
+다만 I/O 바운드라는 분류는 절대적 딱지가 아니다. 같은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)라도 시간대·트래픽 패턴·캐시 적중률에 따라 CPU 바운드 구간이 섞일 수 있다. 따라서 중요한 것은 라벨 자체보다, 현재 병목이 어디 있는지 측정하고 그에 맞는 스케줄링·[동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 모델을 선택하는 태도다.
 
 - **📢 섹션 요약 비유**: I/O 바운드 최적화는 빨리 달리는 것보다 신호등 타이밍을 잘 맞추는 운전과 같다. 잠깐씩 움직일 기회를 놓치지 않을 때 전체 이동 시간이 줄어든다.
 
@@ -129,9 +126,9 @@ I/O 바운드 프로세스를 정확히 이해하면 스케줄링 문제를 단�
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | CPU Burst / I/O Burst | 프로세스 성향을 구분하는 기본 시간 패턴 |
-| [준비 큐](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/knowledge-base/studynote/02_operating_system/02_process_thread/088_ready_queue/)) | I/O 완료 후 다시 CPU를 기다리는 위치 |
+| [준비 큐](/studynote/02_operating_system/02_process_thread/088_ready_queue/) ([Ready Queue](/studynote/02_operating_system/02_process_thread/088_ready_queue/)) | I/O 완료 후 다시 CPU를 기다리는 위치 |
 | 논블로킹 I/O (Non-blocking I/O) | 대기 시간을 CPU 재활용 기회로 바꾸는 기법 |
-| [다단계 피드백 큐](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) | 짧은 CPU 사용 패턴을 우선순위 정책에 반영 |
+| [다단계 피드백 큐](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/) ([MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)) | 짧은 CPU 사용 패턴을 우선순위 정책에 반영 |
 | CFS (Completely Fair Scheduler) | 응답성과 공정성을 함께 맞추는 현대 스케줄링 축 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -149,7 +146,7 @@ I/O 바운드 프로세스 식별
     +--> io_uring / 고성능 네트워크 처리
 ```
 
-이 흐름도는 프로세스 성향 분석이 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 정책을 거쳐, 애플리케이션 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조와 최신 I/O 인터페이스로 확장되는 과정을 보여준다.
+이 흐름도는 프로세스 성향 분석이 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 정책을 거쳐, 애플리케이션 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 구조와 최신 I/O 인터페이스로 확장되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -163,7 +160,7 @@ I/O 바운드 프로세스 식별
 
 **진행 상황**: 164 / 800
 
-<- **이전**: [163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)
-**다음**: [165. CPU 바운드 프로세스 (CPU Bound Process)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/165_cpu_bound_process/) ->
+<- **이전**: [163. 장기 스케줄러 (Long-term Scheduler) - 다중 프로그래밍 정도 조절](/studynote/02_operating_system/03_cpu_scheduling/163_long_term_scheduler/)
+**다음**: [165. CPU 바운드 프로세스 (CPU Bound Process)](/studynote/02_operating_system/03_cpu_scheduling/165_cpu_bound_process/) ->
 
 ---

@@ -1,19 +1,16 @@
-+++
-title = "78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점"
-date = 2026-04-10
+---
+title: "78. 데이터 스케일링 - 정규화(Min-Max)와 표준화(Z-Score) 차이점"
+date: "2026-04-10"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 스케일링은 서로 다른 크기의 수치를 비교 가능하게 만드는 전처리다.
 > 2. **가치**: Min-Max Scaling은 범위를 맞추고, Z-Score Standardization은 평균과 표준편차 기준으로 분포를 맞춘다.
-> 3. **판단 포인트**: 모델 종류, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 그리고 학습/배포 파이프라인을 기준으로 스케일러를 고른다.
+> 3. **판단 포인트**: 모델 종류, [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/), 그리고 학습/배포 파이프라인을 기준으로 스케일러를 고른다.
 
 ---
 
@@ -35,11 +32,11 @@ tags = ["studynote-data-engineering"]
 
 Min-Max Scaling은 x′ = (x - min) / (max - min)처럼 최솟값과 최댓값을 이용해 범위를 압축한다. 보통 0~1 구간으로 맞추지만 필요하면 다른 구간도 가능하다.
 Z-Score Standardization은 x′ = (x - μ) / σ처럼 평균과 표준편차를 이용한다. 분포 중심이 0이 되고, 퍼짐은 1이 된다.
-| 방법 | 공식 | [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감도 | 주요 사용처 |
+| 방법 | 공식 | [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 민감도 | 주요 사용처 |
 | --- | --- | --- | --- |
 | Min-Max Scaling | (x-min)/(max-min) | 높다 | 신경망 입력, 범위 제한이 필요할 때 |
-| Z-Score Standardization | (x-μ)/σ | 중간 | 회귀, [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)), [k-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([k-Nearest Neighbors](/knowledge-base/studynote/10_ai/03_llm_nlp/262_knn/)) |
-| [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(구분용) | 여기서는 Min-Max 의미 | 의미 혼동 주의 | 문서마다 용어를 확인해야 한다 |
+| Z-Score Standardization | (x-μ)/σ | 중간 | 회귀, [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) ([Support Vector Machine](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)), [k-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) ([k-Nearest Neighbors](/studynote/10_ai/03_llm_nlp/262_knn/)) |
+| [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)(구분용) | 여기서는 Min-Max 의미 | 의미 혼동 주의 | 문서마다 용어를 확인해야 한다 |
 
 - **📢 섹션 요약 비유**: Min-Max는 범위, Z-Score는 중심과 퍼짐을 맞춘다.
 
@@ -52,7 +49,7 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 | 비교축 | Min-Max | Z-Score |
 | --- | --- | --- |
 | 범위 | 고정 구간으로 맞춘다 | 이론적 범위는 제한되지 않는다 |
-| [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 | 크다 | 상대적으로 덜하다 |
+| [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 | 크다 | 상대적으로 덜하다 |
 | 해석성 | 직관적이다 | 평균 대비 편차로 읽는다 |
 
 - **📢 섹션 요약 비유**: 모델마다 필요한 스케일이 다르므로 전처리도 다르게 고른다.
@@ -61,17 +58,17 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 fit하고 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 transform만 적용해야 한다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) leakage)가 생기면 성능이 과장된다.
-또한 파이프라인에 스케일러를 묶어 두고, [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 많은 경우에는 robust한 전처리도 검토한다. 입력 분포가 바뀌면 재학습이나 재스케일링도 필요하다.
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+실무에서는 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 fit하고 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)·운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 transform만 적용해야 한다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 누수([data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) leakage)가 생기면 성능이 과장된다.
+또한 파이프라인에 스케일러를 묶어 두고, [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 많은 경우에는 robust한 전처리도 검토한다. 입력 분포가 바뀌면 재학습이나 재스케일링도 필요하다.
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 fit 했는가?
-2. [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 결과를 왜곡하지 않는가?
+1. 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에만 fit 했는가?
+2. [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 결과를 왜곡하지 않는가?
 3. 운영 환경에서 같은 스케일러를 재사용하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 전체 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 fit 해서 누수를 만드는 것
+- 전체 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 fit 해서 누수를 만드는 것
 - 범주형 ID나 라벨까지 무리하게 스케일링하는 것
 
 - **📢 섹션 요약 비유**: fit과 transform을 구분해야 누수 없이 운영할 수 있다.
@@ -94,10 +91,10 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 | --- | --- |
 | Min-Max Scaling | 값을 정해진 범위로 압축한다 |
 | Z-Score | 평균과 표준편차로 표준화한다 |
-| [Outlier](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) | 스케일러 선택에 큰 영향을 준다 |
-| [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 전처리와 모델을 일관되게 묶는다 |
-| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 스케일에 민감한 대표 모델이다 |
-| [k-NN](/knowledge-base/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) | 거리 계산 때문에 스케일 영향이 크다 |
+| [Outlier](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) | 스케일러 선택에 큰 영향을 준다 |
+| [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) | 전처리와 모델을 일관되게 묶는다 |
+| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) | 스케일에 민감한 대표 모델이다 |
+| [k-NN](/studynote/06_ict_convergence/05_data_science/352_knn_distance_metrics/) | 거리 계산 때문에 스케일 영향이 크다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +126,7 @@ Min-Max는 값의 상대 위치를 보존하면서 고정 범위로 압축하는
 
 **진행 상황**: 78 / 258
 
-<- **이전**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/knowledge-base/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/)
-**다음**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) ->
+<- **이전**: [77. 결측치 처리 - MICE 다중 대치법과 KNN 대치 보간](/studynote/14_data_engineering/02_math_mining/077_missing_value_imputation_mice_knn_dropna/)
+**다음**: [79. 원-핫 인코딩 (One-hot Encoding) - 범주형 변수의 더미 변수화](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) ->
 
 ---

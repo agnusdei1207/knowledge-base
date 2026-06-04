@@ -1,13 +1,10 @@
-+++
-title = "434. 클라우드 DNS Route53 Cloud DNS 관리 (Cloud DNS Route53 Cloud DNS Management)"
-date = 2026-05-09
+---
+title: "434. 클라우드 DNS Route53 Cloud DNS 관리 (Cloud DNS Route53 Cloud DNS Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 434 / 800
 
-<- **이전**: [433. 클라우드 CDN 엣지 캐싱 콘텐츠 전송](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/433_cloud_cdn_edge_caching_content_delivery/)
-**다음**: [435. 클라우드 IAM 역할 정책 최소 권한](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/435_cloud_iam_role_policy_least_privilege/) ->
+<- **이전**: [433. 클라우드 CDN 엣지 캐싱 콘텐츠 전송](/studynote/13_cloud_architecture/06_exam_summary/433_cloud_cdn_edge_caching_content_delivery/)
+**다음**: [435. 클라우드 IAM 역할 정책 최소 권한](/studynote/13_cloud_architecture/06_exam_summary/435_cloud_iam_role_policy_least_privilege/) ->
 
 ---

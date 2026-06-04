@@ -1,25 +1,22 @@
-+++
-title = "186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트"
-date = 2026-04-21
+---
+title: "186. 그래프 DB 추천 알고리즘 협업 필터링 (Collaborative Filtering) 콜드 스타트"
+date: "2026-04-21"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천은 사용자-아이템-[속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 <strong><a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 구조 자체를 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>로 표현</strong>하여, 매트릭스 분해보다 복잡한 다홉(Multi-hop) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴을 실시간으로 탐색하는 추천 패러다임이다.
-> 2. **가치**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)(CF)은 "나와 비슷한 취향의 사람들이 좋아하는 것"을 추천하는 강력한 방법이지만, 신규 사용자/아이템에 상호작용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))는 근본적 약점으로, <strong><a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>와 <a href="/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">GNN</a> 기반 해결책</strong>이 현대 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 핵심이다.
-> 3. **판단 포인트**: 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계 시 배치 업데이트(Batch Update)와 온라인 업데이트(Online Update)의 균형을 결정하는 것이 핵심 아키텍처 선택—[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 vs 인프라 복잡도의 트레이드오프를 명확히 해야 한다.
+> 1. **본질**: [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천은 사용자-아이템-[속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 간의 <strong><a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a> 구조 자체를 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a>로 표현</strong>하여, 매트릭스 분해보다 복잡한 다홉(Multi-hop) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 패턴을 실시간으로 탐색하는 추천 패러다임이다.
+> 2. **가치**: [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)(CF)은 "나와 비슷한 취향의 사람들이 좋아하는 것"을 추천하는 강력한 방법이지만, 신규 사용자/아이템에 상호작용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 없는 [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/)([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/))는 근본적 약점으로, <strong><a href="/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/">지식 그래프</a>와 <a href="/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/">GNN</a> 기반 해결책</strong>이 현대 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 핵심이다.
+> 3. **판단 포인트**: 실시간 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 설계 시 배치 업데이트(Batch Update)와 온라인 업데이트(Online Update)의 균형을 결정하는 것이 핵심 아키텍처 선택—[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 신선도 vs 인프라 복잡도의 트레이드오프를 명확히 해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 비즈니스 가치
+### 1.1 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 비즈니스 가치
 
 ```
 추천 시스템의 비즈니스 임팩트:
@@ -29,23 +26,23 @@ tags = ["studynote-data-engineering"]
   Spotify: Discover Weekly - 주간 4,000만 명 활성 사용자
 ```
 
-### 1.2 추천 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+### 1.2 추천 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 | 유형 | 방법 | 특징 |
 |:---|:---|:---|
-| [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 사용자-아이템 상호작용 기반 | [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 취약 |
-| 콘텐츠 기반 (CBF) | 아이템 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 유사도 기반 | 다양성 낮음 |
+| [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 사용자-아이템 상호작용 기반 | [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 취약 |
+| 콘텐츠 기반 (CBF) | 아이템 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 유사도 기반 | 다양성 낮음 |
 | 하이브리드 | CF + CBF 결합 | 약점 보완 |
-| [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 | 외부 지식 활용 | 설명 가능성 높음 |
-| 딥러닝 기반 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) + 신경망 | 복잡한 패턴 학습 |
+| [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) 기반 | 외부 지식 활용 | 설명 가능성 높음 |
+| 딥러닝 기반 | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) + 신경망 | 복잡한 패턴 학습 |
 
-📢 **섹션 요약 비유**: [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 마치 영화 추천에서 "당신과 같은 영화를 좋아한 사람들이 이 영화도 좋아했어요"라는 구전(口傳) 방식이다. 처음 온 손님(신규 사용자)에게는 구전 정보가 없으니 추천이 어렵다.
+📢 **섹션 요약 비유**: [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/)은 마치 영화 추천에서 "당신과 같은 영화를 좋아한 사람들이 이 영화도 좋아했어요"라는 구전(口傳) 방식이다. 처음 온 손님(신규 사용자)에게는 구전 정보가 없으니 추천이 어렵다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) 매트릭스 분해
+### 2.1 [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) 매트릭스 분해
 
 ```
 사용자-아이템 평점 행렬 (User-Item Matrix):
@@ -70,7 +67,7 @@ tags = ["studynote-data-engineering"]
   -> SGD 또는 ALS (교대 최소 제곱)로 최적화
 ```
 
-### 2.2 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천 아키텍처 (Neo4j)
+### 2.2 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) DB 기반 추천 아키텍처 (Neo4j)
 
 ```
 +----------------------------------------------------------+
@@ -94,7 +91,7 @@ tags = ["studynote-data-engineering"]
 +----------------------------------------------------------+
 ```
 
-### 2.3 [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([그래프 신경망](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/), [Graph Neural Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) 기반 추천
+### 2.3 [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([그래프 신경망](/studynote/06_ict_convergence/04_ai_llm/306_graph_neural_network_gnn/), [Graph Neural Network](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) 기반 추천
 
 ```
 GraphSAGE (Graph SAmple and aggreGatE) 추천:
@@ -114,20 +111,20 @@ LightGCN 아키텍처:
   - 경량화로 대규모 e-커머스 적용 용이
 ```
 
-| [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델 | 특징 | 적용 사례 |
+| [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델 | 특징 | 적용 사례 |
 |:---|:---|:---|
 | GraphSAGE | 인덕티브 학습 (미지 노드 추론) | Pinterest 추천 |
-| LightGCN | 경량 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 컨볼루션 | 알리바바 추천 |
+| LightGCN | 경량 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 컨볼루션 | 알리바바 추천 |
 | PinSage | GraphSAGE + 랜덤워크 | Pinterest (20억 개 노드) |
-| NGCF | 고차원 협업 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 추출 | 학술 연구 표준 |
+| NGCF | 고차원 협업 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 추출 | 학술 연구 표준 |
 
-📢 **섹션 요약 비유**: [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 기반 추천은 마치 친구 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)과 같다. "내 친구의 친구의 친구가 좋아하는 음식점"까지 탐색해서, 직접 연결된 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아닌 멀리 퍼진 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 전체를 통해 더 정확한 취향을 파악한다.
+📢 **섹션 요약 비유**: [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 기반 추천은 마치 친구 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)과 같다. "내 친구의 친구의 친구가 좋아하는 음식점"까지 탐색해서, 직접 연결된 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)가 아닌 멀리 퍼진 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망 전체를 통해 더 정확한 취향을 파악한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 3.1 [콜드 스타트 문제](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)와 해결책
+### 3.1 [콜드 스타트 문제](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)와 해결책
 
 ```
 콜드 스타트 유형:
@@ -152,12 +149,12 @@ LightGCN 아키텍처:
 +--------------------------------------------------------+
 ```
 
-### 3.2 [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) vs 콘텐츠 기반 비교
+### 3.2 [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) vs 콘텐츠 기반 비교
 
-| 항목 | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 콘텐츠 기반 (CBF) |
+| 항목 | [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 콘텐츠 기반 (CBF) |
 |:---|:---|:---|
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 | 사용자-아이템 상호작용 | 아이템 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)) |
-| [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) | 취약 | 강함 ([속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 있으면 즉시) |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 필요 | 사용자-아이템 상호작용 | 아이템 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)([메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)) |
+| [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) | 취약 | 강함 ([속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 있으면 즉시) |
 | 다양성 | 높음 (예상 외 추천) | 낮음 (유사 아이템만) |
 | 설명 가능성 | 낮음 | 높음 ("같은 장르이기 때문에") |
 | 확장성 | 중간 (행렬 크기 문제) | 높음 |
@@ -191,7 +188,7 @@ LightGCN 아키텍처:
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 4.1 실시간 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 아키텍처
+### 4.1 실시간 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 아키텍처
 
 ```
 +----------------------------------------------------------+
@@ -216,14 +213,14 @@ LightGCN 아키텍처:
 +----------------------------------------------------------+
 ```
 
-### 4.2 근사 최근접 이웃 ([ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색
+### 4.2 근사 최근접 이웃 ([ANN](/studynote/05_database/06_dw_olap_trends/350_ann/)) 검색
 
-| 도구 | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 |
+| 도구 | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 특징 |
 |:---|:---|:---|
-| FAISS (Facebook) | IVF, [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/), [PQ](/knowledge-base/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) | 10억 개 벡터도 수ms 검색 |
-| ScaNN (Google) | 비등방성 [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | Google 검색·YouTube 사용 |
-| Annoy (Spotify) | 랜덤 프로젝션 트리 | 정적 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 빠른 로드 |
-| [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [HNSW](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/), IVF | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 벡터 DB, [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
+| FAISS (Facebook) | IVF, [HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/), [PQ](/studynote/03_network/07_network_layer_routing/391_qos_queuing_pq_cq_wfq_cbwfq_llq/) | 10억 개 벡터도 수ms 검색 |
+| ScaNN (Google) | 비등방성 [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | Google 검색·YouTube 사용 |
+| Annoy (Spotify) | 랜덤 프로젝션 트리 | 정적 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/), 빠른 로드 |
+| [Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) | [HNSW](/studynote/05_database/06_dw_olap_trends/351_hnsw/), IVF | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 벡터 DB, [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) |
 
 ### 4.3 기술사 답안 핵심 포인트
 
@@ -247,16 +244,16 @@ LightGCN 아키텍처:
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 추천 도입 효과
+### 5.1 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 추천 도입 효과
 
 | 효과 | 정량 지표 |
 |:---|:---|
-| [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) (클릭률) 향상 | CF 대비 5~15% 향상 ([그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반) |
-| [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 해결 | 신규 사용자 추천 품질 30~50% 개선 |
+| [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) (클릭률) 향상 | CF 대비 5~15% 향상 ([그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반) |
+| [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 해결 | 신규 사용자 추천 품질 30~50% 개선 |
 | 설명 가능성 | "당신의 친구 X도 좋아했기 때문에" 경로 제공 |
-| 다홉 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | 직접 연결 없는 아이템도 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망으로 발견 |
+| 다홉 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 탐색 | 직접 연결 없는 아이템도 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망으로 발견 |
 
-### 5.2 [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 평가 지표
+### 5.2 [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) 평가 지표
 
 ```
 오프라인 평가:
@@ -271,28 +268,28 @@ LightGCN 아키텍처:
   GMV  = Gross Merchandise Volume (추천 기인 거래액)
 ```
 
-📢 **섹션 요약 비유**: [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 NDCG는 마치 보물찾기 게임에서 단순히 보물을 찾았냐 못 찾았냐가 아니라, 몇 번 시도만에 찾았냐를 점수로 매기는 것이다. 첫 번째 시도에 찾으면 최고 점수, 열 번째 시도에 찾으면 낮은 점수를 준다.
+📢 **섹션 요약 비유**: [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/)의 NDCG는 마치 보물찾기 게임에서 단순히 보물을 찾았냐 못 찾았냐가 아니라, 몇 번 시도만에 찾았냐를 점수로 매기는 것이다. 첫 번째 시도에 찾으면 최고 점수, 열 번째 시도에 찾으면 낮은 점수를 준다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 핵심 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [협업 필터링](/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 사용자-아이템 상호작용 기반 추천 |
+| 핵심 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [협업 필터링](/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/) (CF) | 사용자-아이템 상호작용 기반 추천 |
 | CF 구현 | 매트릭스 분해 (MF) | 사용자·아이템 잠재 벡터 학습 |
-| [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 | [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([Graph Neural Network](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) | [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조 신경망 추천 |
-| [GNN](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델 | LightGCN / GraphSAGE | 경량 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 컨볼루션 추천 모델 |
-| 핵심 문제 | [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Cold Start](/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) | 신규 사용자/아이템 추천 어려움 |
-| [콜드 스타트](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 해결 | 콘텐츠 기반 / [지식 그래프](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) | [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추천 |
-| 탐색-활용 | Multi-Armed Bandit | ε-greedy, UCB, Thompson [Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/) |
-| 고속 검색 | [ANN](/knowledge-base/studynote/05_database/06_dw_olap_trends/350_ann/) ([Approximate Nearest Neighbor](/knowledge-base/studynote/05_database/06_dw_olap_trends/351_hnsw/)) | FAISS, ScaNN, [Milvus](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) |
+| [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 | [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) ([Graph Neural Network](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/)) | [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 구조 신경망 추천 |
+| [GNN](/studynote/14_data_engineering/03_ml_dl_llm/159_gnn_graph_neural_network_message_passing/) 모델 | LightGCN / GraphSAGE | 경량 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 컨볼루션 추천 모델 |
+| 핵심 문제 | [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) ([Cold Start](/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/)) | 신규 사용자/아이템 추천 어려움 |
+| [콜드 스타트](/studynote/04_software_engineering/09_cloud_native_ai_architecture/559_serverless_cold_start_mitigation/) 해결 | 콘텐츠 기반 / [지식 그래프](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/) | [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) 기반 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 추천 |
+| 탐색-활용 | Multi-Armed Bandit | ε-greedy, UCB, Thompson [Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/) |
+| 고속 검색 | [ANN](/studynote/05_database/06_dw_olap_trends/350_ann/) ([Approximate Nearest Neighbor](/studynote/05_database/06_dw_olap_trends/351_hnsw/)) | FAISS, ScaNN, [Milvus](/studynote/07_enterprise_systems/05_data_bi/320_gnn_vector_db_recommendation/) |
 
 ---
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/">협업 필터링</a></strong>은 마치 도서관 사서가 "이 책을 빌린 친구들이 이런 책도 많이 빌렸어요"라고 알려주는 것처럼, 비슷한 취향의 사람들이 좋아하는 것을 함께 추천해주는 방법이에요.
+1. <strong><a href="/studynote/06_ict_convergence/05_data_science/345_collaborative_filtering/">협업 필터링</a></strong>은 마치 도서관 사서가 "이 책을 빌린 친구들이 이런 책도 많이 빌렸어요"라고 알려주는 것처럼, 비슷한 취향의 사람들이 좋아하는 것을 함께 추천해주는 방법이에요.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -313,8 +310,8 @@ LightGCN 아키텍처:
     v
 하이브리드 · Cold Start 해결: 메타 러닝 · Side Information
 ```
-2. <strong><a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">콜드 스타트 문제</a></strong>는 처음 도서관에 온 학생에게는 이전 대출 기록이 없어서 "비슷한 취향의 친구"를 찾을 수 없어 추천이 어렵다는 문제예요—이때는 학생이 좋아하는 과목이나 작가(콘텐츠 기반)를 물어보는 것이 해결책이에요.
-3. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> DB 추천</strong>은 마치 친구의 친구의 친구까지 연결된 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 통해 "너와 3단계 연결된 사람도 이걸 좋아했어"라고 알려주는, 더 넓은 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 활용하는 똑똑한 추천 방법이에요.
+2. <strong><a href="/studynote/06_ict_convergence/05_data_science/347_cold_start_problem/">콜드 스타트 문제</a></strong>는 처음 도서관에 온 학생에게는 이전 대출 기록이 없어서 "비슷한 취향의 친구"를 찾을 수 없어 추천이 어렵다는 문제예요—이때는 학생이 좋아하는 과목이나 작가(콘텐츠 기반)를 물어보는 것이 해결책이에요.
+3. <strong><a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> DB 추천</strong>은 마치 친구의 친구의 친구까지 연결된 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 통해 "너와 3단계 연결된 사람도 이걸 좋아했어"라고 알려주는, 더 넓은 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)망을 활용하는 똑똑한 추천 방법이에요.
 
 ---
 
@@ -322,7 +319,7 @@ LightGCN 아키텍처:
 
 **진행 상황**: 186 / 258
 
-<- **이전**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/knowledge-base/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
-**다음**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/knowledge-base/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/) ->
+<- **이전**: [185. K-익명성 (K-Anonymity), 마스킹 (Masking) 파이프 자동 변환](/studynote/14_data_engineering/04_mlops/185_k_anonymity_masking_data_pipeline/)
+**다음**: [187. 시계열 DB 보간법 (Interpolation) 롤업 (Rollup) 통계 지표 대시보드](/studynote/14_data_engineering/04_mlops/187_time_series_interpolation_rollup_dashboard/) ->
 
 ---

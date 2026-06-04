@@ -1,13 +1,10 @@
-+++
-title = "408. AI 보안 적대적 공격 방어 전략 (AI Security Adversarial Attack Defense)"
-date = 2026-05-09
+---
+title: "408. AI 보안 적대적 공격 방어 전략 (AI Security Adversarial Attack Defense)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ L_TRADES = L_CE(f_θ(x), y) + β · KL( f_θ
 
 **진행 상황**: 408 / 800
 
-<- **이전**: [407. OT 보안 산업 제어 시스템 SCADA](/knowledge-base/studynote/12_it_management/05_security_compliance/407_ot_security_ics_scada_protection/)
-**다음**: [409. 양자 내성 암호 PQC 전환 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/409_post_quantum_cryptography_pqc_transition/) ->
+<- **이전**: [407. OT 보안 산업 제어 시스템 SCADA](/studynote/12_it_management/05_security_compliance/407_ot_security_ics_scada_protection/)
+**다음**: [409. 양자 내성 암호 PQC 전환 계획](/studynote/12_it_management/05_security_compliance/409_post_quantum_cryptography_pqc_transition/) ->
 
 ---

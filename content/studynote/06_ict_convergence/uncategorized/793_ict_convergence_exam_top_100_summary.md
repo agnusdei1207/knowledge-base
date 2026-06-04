@@ -1,13 +1,10 @@
-+++
-title = "793. ICT 융합 시험 빈출 핵심 100선 요약 (ICT Convergence Exam Top 100 Summary)"
-date = 2026-05-09
+---
+title: "793. ICT 융합 시험 빈출 핵심 100선 요약 (ICT Convergence Exam Top 100 Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ ICT 융합의 표준 참조 아키텍처는 **RAMI 4.0(Reference Architecture Mo
 
 **진행 상황**: 793 / 800
 
-<- **이전**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/knowledge-base/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/)
-**다음**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/knowledge-base/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/) ->
+<- **이전**: [792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2](/studynote/06_ict_convergence/uncategorized/792_ict_convergence_pe_architecture_master_map_2/)
+**다음**: [794. ICT 융합 기술 디지털 전환 융합 마스터](/studynote/06_ict_convergence/uncategorized/794_ict_digital_transformation_convergence_master/) ->
 
 ---

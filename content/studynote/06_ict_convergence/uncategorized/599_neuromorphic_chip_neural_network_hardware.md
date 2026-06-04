@@ -1,13 +1,10 @@
-+++
-title = "599. 뉴로모픽 칩 신경망 하드웨어 (Neuromorphic Chip Neural Network Hardware)"
-date = 2026-05-09
+---
+title: "599. 뉴로모픽 칩 신경망 하드웨어 (Neuromorphic Chip Neural Network Hardware)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Spike -> Encode -> Process -> Learn -> Infer
 
 **진행 상황**: 599 / 800
 
-<- **이전**: [598. 양자컴퓨팅 큐비트 양자우월성](/knowledge-base/studynote/06_ict_convergence/uncategorized/598_quantum_computing_qubit_quantum_supremacy/)
-**다음**: [600. 광컴퓨팅 포토닉스 데이터센터](/knowledge-base/studynote/06_ict_convergence/uncategorized/600_optical_computing_photonics_data_center/) ->
+<- **이전**: [598. 양자컴퓨팅 큐비트 양자우월성](/studynote/06_ict_convergence/uncategorized/598_quantum_computing_qubit_quantum_supremacy/)
+**다음**: [600. 광컴퓨팅 포토닉스 데이터센터](/studynote/06_ict_convergence/uncategorized/600_optical_computing_photonics_data_center/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "702. 생체 인증 FIDO2 패스키 인증 체계 (Biometric Auth FIDO2 Passkey Authentication)"
-date = 2026-05-09
+---
+title: "702. 생체 인증 FIDO2 패스키 인증 체계 (Biometric Auth FIDO2 Passkey Authentication)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -202,7 +199,7 @@ FIDO2는 다음 4계층 구조를 가진다.
 
 **진행 상황**: 702 / 800
 
-<- **이전**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/knowledge-base/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/)
-**다음**: [703. 양자 내성 암호 PQC 전환 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration/) ->
+<- **이전**: [701. 산업 메타버스 디지털 트윈 시뮬레이션](/studynote/06_ict_convergence/uncategorized/701_industrial_metaverse_digital_twin_simulation/)
+**다음**: [703. 양자 내성 암호 PQC 전환 전략](/studynote/06_ict_convergence/uncategorized/703_post_quantum_cryptography_pqc_migration/) ->
 
 ---

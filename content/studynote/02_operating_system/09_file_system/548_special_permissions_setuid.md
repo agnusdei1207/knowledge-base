@@ -1,33 +1,30 @@
-+++
-title = "548. SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)"
-date = 2026-05-09
+---
+title: "548. SetUID (4000), SetGID (2000), Sticky Bit (1000) 특수 권한 (Special Permissions Setuid)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 앞선 rwx 권한만으로는 "일반 유저가 자기 비밀번호를 바꾸려면 최고 관리자(Root)만 만질 수 있는 `/etc/shadow` [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정해야 한다" 는 딜레마(권한 모순 늪!)를 풀 수 없다. 이를 해소하기 위해 만들어진 <strong>"이 프로그램을 실행하는 그 순간만큼은, 이 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 주인의 영혼(UID)으로 빙의(둔갑 스왑)시켜주마!"</strong> 라는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 조건부 신분 상승 렌더다.
-> 2. **가치**: `SetUID (4000)` 가 켜진 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `/usr/bin/passwd`) 덕분에, 평민 유저가 루트 관리자의 멱살을 잡지 않고도 안전하게 자기 비밀번호를 고칠 수 있는 유연한 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경이 구축되었다. `Sticky Bit (1000)` 는 공유 구역(`/tmp`)에서 남의 쓰레기는 못 지우게 막는 보호막 결속으로 공용 폴더 생태계를 통치했다 포팅.
-> 3. **한계**: SetUID는 해커들이 서버를 뚫기 위해 노리는 <strong>최상위 1순위 먹잇감(<a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">Privilege Escalation</a> <a href="/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a> 멸망 랙!)</strong> 이다. 만약 누군가 실수로 `bash` 쉘이나 `vi` 에 SetUID 록백을 걸어 두면, 해커가 그걸 실행하는 즉시 서버 전체를 박살 내는 최고 신(Root) 권한을 날름 집어먹는 시스템 치명타([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Hole) 데들락을 낳게 된다 결착.
+> 1. **본질**: 앞선 rwx 권한만으로는 "일반 유저가 자기 비밀번호를 바꾸려면 최고 관리자(Root)만 만질 수 있는 `/etc/shadow` [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 수정해야 한다" 는 딜레마(권한 모순 늪!)를 풀 수 없다. 이를 해소하기 위해 만들어진 <strong>"이 프로그램을 실행하는 그 순간만큼은, 이 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 주인의 영혼(UID)으로 빙의(둔갑 스왑)시켜주마!"</strong> 라는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 조건부 신분 상승 렌더다.
+> 2. **가치**: `SetUID (4000)` 가 켜진 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(예: `/usr/bin/passwd`) 덕분에, 평민 유저가 루트 관리자의 멱살을 잡지 않고도 안전하게 자기 비밀번호를 고칠 수 있는 유연한 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 환경이 구축되었다. `Sticky Bit (1000)` 는 공유 구역(`/tmp`)에서 남의 쓰레기는 못 지우게 막는 보호막 결속으로 공용 폴더 생태계를 통치했다 포팅.
+> 3. **한계**: SetUID는 해커들이 서버를 뚫기 위해 노리는 <strong>최상위 1순위 먹잇감(<a href="/studynote/09_security/04_endpoint_security/356_privilege_escalation/">Privilege Escalation</a> <a href="/studynote/09_security/04_endpoint_security/356_privilege_escalation/">권한 상승</a> 멸망 랙!)</strong> 이다. 만약 누군가 실수로 `bash` 쉘이나 `vi` 에 SetUID 록백을 걸어 두면, 해커가 그걸 실행하는 즉시 서버 전체를 박살 내는 최고 신(Root) 권한을 날름 집어먹는 시스템 치명타([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Hole) 데들락을 낳게 된다 결착.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
 - **개념**:
-  - **rwx 권한의 한계 (평민의 무력함 파단 늪)**: [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(w) 가능하고 남(Other)은 불가능하다. 근데 리눅스는 누구나 자기 비밀번호를 바꿀 수 있어야 한다! 비밀번호는 루트 소유 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/shadow`)에 저장되는데, 평민이 이걸 어떻게 수정하나? 논리에 미친 모순 발생!
-  - <strong>SetUID / SetGID / Sticky <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> (특수 권한 3대 돌파 빔!)</strong>: x(실행) 권한 자리에 `s` 나 `t` 라는 특수 알파벳 영혼을 입힌다. "실행하는 동안에만 신분을 빌려주는 마법(SetUID/SetGID 스왑)" 과 "버릴 순 있어도 치울 순 없는 공용 휴지통 마법(Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 록백)" 으로 OS 한계를 압살 시키는 설계 기전이다.
-- **필요성**: 모든 운영체제에는 "평민이 시스템 핵심 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 '기계적으로' 수정하게 해주는 톱니바퀴 콜백" 이 필요하다. 관리자가 일일이 허락할 수 없으니 앱(바이너리) 자체에 '잠깐의 권력(Root Privilege 렌더)' 을 부여해 알아서 돌아가도록 해야 했다 증명.
+  - **rwx 권한의 한계 (평민의 무력함 파단 늪)**: [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자만 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(w) 가능하고 남(Other)은 불가능하다. 근데 리눅스는 누구나 자기 비밀번호를 바꿀 수 있어야 한다! 비밀번호는 루트 소유 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(`/etc/shadow`)에 저장되는데, 평민이 이걸 어떻게 수정하나? 논리에 미친 모순 발생!
+  - <strong>SetUID / SetGID / Sticky <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> (특수 권한 3대 돌파 빔!)</strong>: x(실행) 권한 자리에 `s` 나 `t` 라는 특수 알파벳 영혼을 입힌다. "실행하는 동안에만 신분을 빌려주는 마법(SetUID/SetGID 스왑)" 과 "버릴 순 있어도 치울 순 없는 공용 휴지통 마법(Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 록백)" 으로 OS 한계를 압살 시키는 설계 기전이다.
+- **필요성**: 모든 운영체제에는 "평민이 시스템 핵심 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 안전하게 '기계적으로' 수정하게 해주는 톱니바퀴 콜백" 이 필요하다. 관리자가 일일이 허락할 수 없으니 앱(바이너리) 자체에 '잠깐의 권력(Root Privilege 렌더)' 을 부여해 알아서 돌아가도록 해야 했다 증명.
 
-  - (rwx 방식의 치명적 절망 늪): 일반 병사(일반 유저)가 보안 구역(Shadow [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 들어가려면 권한이 없어 못 갑니다! 무조건 매번 사단장(Root)을 데리고 와서 사단장이 대신 문을 열어줘야 합니다 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 대기열!
+  - (rwx 방식의 치명적 절망 늪): 일반 병사(일반 유저)가 보안 구역(Shadow [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/))에 들어가려면 권한이 없어 못 갑니다! 무조건 매번 사단장(Root)을 데리고 와서 사단장이 대신 문을 열어줘야 합니다 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 대기열!
   - **(SetUID 마패 대여 기전!)**: 똑똑한 리눅스 군대는 '자동출입증(SetUID 빔!)' 을 발급합니다! 병사가 `비밀번호변경.exe` 라는 컴퓨터에 들어가면? সেই 컴퓨터는 병사에게 **[사단장 마패 스왑!]** 을 잠깐 목에 걸어줍니다. 병사는 10초간 사단장(Root UID) 신분으로 탈바꿈하여 스스로 보안 구역에 들어가 비밀번호를 갱신하고, 앱을 종료하는 즉시 마패가 회수되며 원래 병사 신분으로 강등 복원되는 기적입니다 결속!
 
-- <strong>SetUID 실행 시 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> PID / UID 자격 스위칭 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
+- <strong>SetUID 실행 시 <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> PID / UID 자격 스위칭 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/">ASCII</a> 메커니즘 뷰</strong>:
 해커 유저 `john` 이 SetUID가 걸린 `passwd` 명령을 실행할 때, 터미널 뱃속에서 프로세스 영혼이 어떻게 루트로 바뀌는지 그 렌더를 까보면 다음과 같다.
 
 ```text
@@ -59,7 +56,7 @@ tags = ["studynote-operating-system"]
   +-------------------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 프로세스 자격 검사는 항상 두 얼굴이다. **RUID(Real UID, 넌 진짜 누구냐?)** 와 **EUID(Effective UID, 지금 행사할 수 있는 권력계급이 뭐냐?)** 다. 일반적인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 RUID = EUID 다. 하지만 `s (SetUID)` 가 달린 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 프로세스 화(실행) 되면, [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 프로세스의 EUID를 "그 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들었던 원주인의 번호(보통 0번 Root)" 로 강제 둔갑 오버라이딩(Overriding 렌더)시켜 버린다. 이 EUID 스왑을 통해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 엑세스 정책망([VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 보안 검문소)을 무결하게 우회 통과하는 무적 뷰다 도출.
+**[다이어그램 해설]** 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 프로세스 자격 검사는 항상 두 얼굴이다. **RUID(Real UID, 넌 진짜 누구냐?)** 와 **EUID(Effective UID, 지금 행사할 수 있는 권력계급이 뭐냐?)** 다. 일반적인 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)은 RUID = EUID 다. 하지만 `s (SetUID)` 가 달린 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 프로세스 화(실행) 되면, [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 그 프로세스의 EUID를 "그 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 만들었던 원주인의 번호(보통 0번 Root)" 로 강제 둔갑 오버라이딩(Overriding 렌더)시켜 버린다. 이 EUID 스왑을 통해 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 엑세스 정책망([VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/) 보안 검문소)을 무결하게 우회 통과하는 무적 뷰다 도출.
 
 - **📢 섹션 요약 비유**: 복잡한 창고에서 필요한 물건을 찾기 위해 먼저 구역과 표지판을 세우는 것과 같다.
 
@@ -70,36 +67,36 @@ tags = ["studynote-operating-system"]
 ### 1. 트레이드오프 전선 종결: 4 / 2 / 1 특수 권한 8진수 자리의 마스킹 렌더뷰
 기존 rwx 3자리 앞에 '보이지 않는 4번째 정수리 숫자' 가 통제를 확장한다.
 
-| 진수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) (특수 4번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)) | 대상 타겟 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) | ✨ 아키텍처 발동 기전 및 [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 효용 뷰 |
+| 진수 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) (특수 4번째 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)) | 대상 타겟 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) | ✨ 아키텍처 발동 기전 및 [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 효용 뷰 |
 |:---|:---|:---|
-| **SetUID (4000 빔)** | `실행 파일` | 실행하는 동안 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자(User)" 의 권한으로 빙의 스왑! (주로 Root 신분 강탈용) |
-| **SetGID (2000 빔)** | `실행 파일` 및 `디렉터리` | 실행 시 "[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소속 그룹(Group)" 으로 빙의! 혹은 폴더에 걸면 <strong>"그 안에서 만들어지는 모든 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>은 폴더 소속 그룹으로 강제 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 통일 됨 록백!"</strong> (팀 폴더 협업의 성배). |
-| <strong>Sticky <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> (1000 빔)</strong> | `디렉터리(폴더)` | 547장 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/). 누구나 쓰고 버릴 순 있지만(777), <strong>"자기가 만든 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 아니면 삭제/이름 변경 절대 불가 컷!"</strong> (`/tmp` 의 불멸 보호구역). |
+| **SetUID (4000 빔)** | `실행 파일` | 실행하는 동안 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자(User)" 의 권한으로 빙의 스왑! (주로 Root 신분 강탈용) |
+| **SetGID (2000 빔)** | `실행 파일` 및 `디렉터리` | 실행 시 "[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소속 그룹(Group)" 으로 빙의! 혹은 폴더에 걸면 <strong>"그 안에서 만들어지는 모든 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>은 폴더 소속 그룹으로 강제 <a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 통일 됨 록백!"</strong> (팀 폴더 협업의 성배). |
+| <strong>Sticky <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a> (1000 빔)</strong> | `디렉터리(폴더)` | 547장 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/). 누구나 쓰고 버릴 순 있지만(777), <strong>"자기가 만든 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>이 아니면 삭제/이름 변경 절대 불가 컷!"</strong> (`/tmp` 의 불멸 보호구역). |
 
-### 2. 치명적 오버헤드 폭발: 해커 [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/))의 치명적 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 구멍
+### 2. 치명적 오버헤드 폭발: 해커 [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/)([Privilege Escalation](/studynote/09_security/04_endpoint_security/356_privilege_escalation/))의 치명적 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 구멍
 신분 탈취 스왑 기능은 그 자체로 가장 위험한 "OS 자폭 버튼" 공격 벡터 생태계를 갖는다.
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (잘못 걸린 루트 SetUID 해킹 암살 데들락 랙)</strong>:
+- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 오염 발생 미스터리 (잘못 걸린 루트 SetUID 해킹 암살 데들락 랙)</strong>:
   - (치명적 오류 늪 스왑): 초보 서버 관리자가 쉘 프로그램 `/bin/bash` 에 미친 척하고 `chmod 4755` (SetUID) 를 걸어 두었다.
   - (해커 클라이언트 침탈 발동!): 외부 해커가 평민 계정(john)으로 터미널에 접속해서 그냥 `/bin/bash -p` 라고 엔터를 쳤다.
   - 결과: 터미널 껍데기가 다시 켜지는데 프롬프트가 `$` 에서 `# (최고관리자 신 렌더!)` 로 바뀌어 버렸다! `bash` 실행 시 소유자 root의 신분으로 강제 빙의(EUID=0) 되어, 해커가 1초 만에 엔터프라이즈 전체 클러스터를 완전히 잡아먹는 치명적 폭쇄 마비가 발생 입증 멸망.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>find -perm -4000</code> 색출 봇과 nosuid <a href="/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 록백!!) / <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 본진 방어</strong>:
-  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 구조 1방: 보안 엔지니어는 매일 밤 크론([Cron](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/)) 스크립트를 쏴서 시스템 내 `s` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 박힌 외계인 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조작 흔적을 탐지한다 발사! `find / -type f -perm -4000 -print`
-  - [SRE](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 진화 포팅 (`nosuid` [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 빔!): 해커가 자기 USB나 외장 하드에 SetUID [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 교묘히 심어와서 서버에 꽂을 수 있다. 이를 막기 위해 `/tmp` 나 [USB](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 [마운트](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) [VFS](/knowledge-base/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))할 때, 애초부터 옵션으로 <strong><code>nosuid</code> (이 철판에서는 SetUID 마법 절대 무효 파단 컷!)</strong> 를 강제로 줘서 OS 레벨의 신분 세탁을 원천 거세시키는 방검복 구조 진단을 띄운다 증명.
+- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 극복 솔루션 패치 타결 조율 (<code>find -perm -4000</code> 색출 봇과 nosuid <a href="/studynote/02_operating_system/09_file_system/516_mount_mechanism/">마운트</a> 록백!!) / <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 본진 방어</strong>:
+  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 구조 1방: 보안 엔지니어는 매일 밤 크론([Cron](/studynote/15_devops_sre/02_cicd_gitops/107_nightly_build_scheduled_cron_pipeline/)) 스크립트를 쏴서 시스템 내 `s` [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 박힌 외계인 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 조작 흔적을 탐지한다 발사! `find / -type f -perm -4000 -print`
+  - [SRE](/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/) 궁극 진화 포팅 (`nosuid` [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 빔!): 해커가 자기 USB나 외장 하드에 SetUID [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 교묘히 심어와서 서버에 꽂을 수 있다. 이를 막기 위해 `/tmp` 나 [USB](/studynote/01_computer_architecture/09_system_bus_interconnects/359_usb/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템을 [마운트](/studynote/02_operating_system/09_file_system/516_mount_mechanism/)([Mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) [VFS](/studynote/02_operating_system/09_file_system/517_virtual_file_system_vfs/))할 때, 애초부터 옵션으로 <strong><code>nosuid</code> (이 철판에서는 SetUID 마법 절대 무효 파단 컷!)</strong> 를 강제로 줘서 OS 레벨의 신분 세탁을 원천 거세시키는 방검복 구조 진단을 띄운다 증명.
 
 ---
 
-### 여러 팀원이 같이 쓰는 폴더에서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 꼬임(Access Denied)을 분쇄하는 마법
-단순 `770` 권한으로 막을 수 없는 "A가 만든 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 B가 고칠 수 없다" [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 현상을 치유한다.
+### 여러 팀원이 같이 쓰는 폴더에서 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 꼬임(Access Denied)을 분쇄하는 마법
+단순 `770` 권한으로 막을 수 없는 "A가 만든 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 B가 고칠 수 없다" [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 현상을 치유한다.
 
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (리눅스 폴더 소유권 파편화 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 에러 데들락)</strong>:
+- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> 충돌 (리눅스 폴더 소유권 파편화 <a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 에러 데들락)</strong>:
   - `dev-team` 폴더가 있다(권한 770). A사원(dev팀 소속)과 B사원(dev팀 소속)이 들어왔다.
-  - A사원이 그 방에 `인계장.txt` 를 만들었다. [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자와 그룹은 `A유저 / A소속그룹` 으로 찍힌다!
-  - 재앙 터짐: B사원이 들어와서 `인계장.txt` 를 수정하려 하니 튕긴다! [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한이 `A유저(rwx) A그룹(r--) Other(---)` 인데, B사원은 A유저도 아니고 A그룹 소속도 아니기 때문(접근 차단 파단 랙!).
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (SetGID 2000 빔 강제 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 스왑 렌더!)</strong>:
+  - A사원이 그 방에 `인계장.txt` 를 만들었다. [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 소유자와 그룹은 `A유저 / A소속그룹` 으로 찍힌다!
+  - 재앙 터짐: B사원이 들어와서 `인계장.txt` 를 수정하려 하니 튕긴다! [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한이 `A유저(rwx) A그룹(r--) Other(---)` 인데, B사원은 A유저도 아니고 A그룹 소속도 아니기 때문(접근 차단 파단 랙!).
+- <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/100_sre_site_reliability_engineering_error_budget/">SRE</a> 엔지니어 도축 솔루션 (SetGID 2000 빔 강제 <a href="/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/">상속</a> 스왑 렌더!)</strong>:
   - 엔지니어 한 방: 그 `dev-team` 최상위 폴더에 대고 `chmod 2770 (SetGID)` 마법을 쏜다!
-  - 갓기능 발동 스로틀: 이 폴더 안에서 1,000만 개의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 미친 듯이 생성되더라도? <strong>"누가 만들었든 상관하지 마라! 무조건 <a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 소속 그룹을 부모 폴더의 소속 그룹(dev팀)으로 강제 이름 세탁 강등 결합시켜버린다 록백!!"</strong> (Group [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 뷰).
-  - 결과적으로 B사원은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 그룹이 자기와 똑같은 `dev팀` (권한 rwx) 임을 알고 즉시 내용 수정에 개입하며 동시 협업(Collaboration 병목 분쇄)을 이뤄낸다 도출.
+  - 갓기능 발동 스로틀: 이 폴더 안에서 1,000만 개의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 미친 듯이 생성되더라도? <strong>"누가 만들었든 상관하지 마라! 무조건 <a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a>의 소속 그룹을 부모 폴더의 소속 그룹(dev팀)으로 강제 이름 세탁 강등 결합시켜버린다 록백!!"</strong> (Group [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 뷰).
+  - 결과적으로 B사원은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)의 그룹이 자기와 똑같은 `dev팀` (권한 rwx) 임을 알고 즉시 내용 수정에 개입하며 동시 협업(Collaboration 병목 분쇄)을 이뤄낸다 도출.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -107,9 +104,9 @@ tags = ["studynote-operating-system"]
 
 ## Ⅲ. 비교 및 연결
 
-SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid)은(는) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)), [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
+SetUID (4000), SetGID (2000), Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid)은(는) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)), [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제과 비교할 때 경계가 선명해진다. 같은 범주에 속하더라도 목표가 성능인지, 격리인지, 단순성인지에 따라 선택 기준이 달라진다. 따라서 이 개념은 독립적으로 외우기보다 앞뒤 개념과 함께 묶어 이해해야 시험과 실무에서 흔들리지 않는다.
 
-| 비교 축 | [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid) | [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제 |
+| 비교 축 | [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | SetUID (4000), SetGID (2000), Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid) | [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제 |
 |:---|:---|:---|:---|
 | 초점 | 기반 조건 | 현재 판단 기준 | 확장/세분화 방향 |
 | 운영 관점 | 준비 단계 | 핵심 제어 단계 | 후속 최적화 단계 |
@@ -120,9 +117,9 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- '특수 권한 (SetUID / SetGID / Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 4-2-1 보이지 않는 렌더 뷰)' 아키텍처는 경직되고 차가운 U-G-O (소유자-그룹-기타) 1차원 필터링 감옥을 탈옥하여, 프로그램의 구동 시점과 공간 좌표(폴더)에 우주적 유연성(Flexibility 둔갑 빔)을 부여한 절대적 메커니즘 뼈대다.
-- 평민 유저의 프로세스 영혼 껍데기를 일시적으로 신(Root)으로 승격시켜 SRE들의 패스워드 개입을 소멸시킨 SetUID($O(1)$ 자동화), 협업 부서의 소유권 꼬임을 분쇄하며 전위대 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 강제한 SetGID, 오물 쓰레기장 공유 폴더에서 남의 재산 소각을 틀어막은 Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 까지 모두 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 보안 필터의 혁명 무결 달성해 냈다 선고.
-- 비록 단 하나의 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(SetUID 쉘 스크립트)만 뚫려도 서버 전체 클러스터가 1초 만에 해커에게 먹혀버리는 ([Privilege Escalation](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 지옥 폭파) 최악의 보안 트레이드오프 파단을 안고 태어났으나, 이마저도 외장 볼륨 [Mount](/knowledge-base/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 시점의 `nosuid` 옵션 거세 조율과 안티 디버깅 방어막([SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) 스왑 도입 등)을 통해 OS 핵심 무장 요새로 거시 통치되는 불멸의 유닉스 진화 모델로 종결되었다 록백 보장.
+- '특수 권한 (SetUID / SetGID / Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 4-2-1 보이지 않는 렌더 뷰)' 아키텍처는 경직되고 차가운 U-G-O (소유자-그룹-기타) 1차원 필터링 감옥을 탈옥하여, 프로그램의 구동 시점과 공간 좌표(폴더)에 우주적 유연성(Flexibility 둔갑 빔)을 부여한 절대적 메커니즘 뼈대다.
+- 평민 유저의 프로세스 영혼 껍데기를 일시적으로 신(Root)으로 승격시켜 SRE들의 패스워드 개입을 소멸시킨 SetUID($O(1)$ 자동화), 협업 부서의 소유권 꼬임을 분쇄하며 전위대 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)을 강제한 SetGID, 오물 쓰레기장 공유 폴더에서 남의 재산 소각을 틀어막은 Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) 까지 모두 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 보안 필터의 혁명 무결 달성해 냈다 선고.
+- 비록 단 하나의 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(SetUID 쉘 스크립트)만 뚫려도 서버 전체 클러스터가 1초 만에 해커에게 먹혀버리는 ([Privilege Escalation](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) 지옥 폭파) 최악의 보안 트레이드오프 파단을 안고 태어났으나, 이마저도 외장 볼륨 [Mount](/studynote/02_operating_system/09_file_system/516_mount_mechanism/) 시점의 `nosuid` 옵션 거세 조율과 안티 디버깅 방어막([SELinux](/studynote/02_operating_system/10_security/583_selinux/) 스왑 도입 등)을 통해 OS 핵심 무장 요새로 거시 통치되는 불멸의 유닉스 진화 모델로 종결되었다 록백 보장.
 
 - **📢 섹션 요약 비유**: 운전자가 도로 상황에 따라 기어와 브레이크를 다르게 선택하는 것처럼 조건별 판단이 중요하다.
 
@@ -130,7 +127,7 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 ## Ⅴ. 기대효과 및 결론
 
-SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid)은 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
+SetUID (4000), SetGID (2000), Sticky [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) (1000) 특수 권한 (Special Permissions Setuid)은 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템과 [디렉터리](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/) 구조을 이해하는 연결 고리 역할을 한다. 이 개념을 익히면 시스템 동작을 더 예측 가능하게 설명할 수 있지만, 만능 해법은 아니므로 적용 전제와 한계를 함께 기억해야 한다. 앞으로는 [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제처럼 더 세분화된 기술과 결합되며 자동화·최적화 방향으로 발전한다.
 
 - **📢 섹션 요약 비유**: 도구의 장점만 외우는 것이 아니라 어디까지 믿고 어디서 보완해야 하는지 기억하는 정리 노트와 같다.
 
@@ -140,10 +137,10 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) ([Data Deduplication](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/)) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기능 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [리눅스 확장 속성](/knowledge-base/studynote/02_operating_system/09_file_system/550_extended_attributes_xattr/) (Extended [Attributes](/knowledge-base/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/), xattr) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [데이터 중복 제거](/studynote/02_operating_system/09_file_system/546_data_deduplication/) ([Data Deduplication](/studynote/02_operating_system/09_file_system/546_data_deduplication/)) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 기능 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 시스템 접근 제어 ([Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)) 확장을 통한 세밀한 사용자별 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 권한 통제 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [리눅스 확장 속성](/studynote/02_operating_system/09_file_system/550_extended_attributes_xattr/) (Extended [Attributes](/studynote/02_operating_system/09_file_system/502_file_attributes_metadata/), xattr) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -162,8 +159,8 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 게임 운영자(루트 Root)만이 내 계정 비밀번호 캐시 아이템을 줄 수 있는데, 매번 내가 번호 바꿀 때마다 운영자님 핸드폰으로 전화를 걸어야 하면(기본 권한 불가능 늪!) 전화통이 불나고 터져서 아무것도 안 되는 바보 행정 현상이 벌어졌어요 완전 렉 멸망!
-2. 그래서 컴퓨터 초천재 보안봇이 **"SetUID! 너 잠깐 동안만 운영자 변신 빔!(신분 스왑!)"** 을 만들어줬어요 록백! 내가 『비밀번호변경.exe』 라는 마법 프로그램에 들어가는 순간? 컴퓨터가 내게 `운영자 모자(Root 둔갑)` 를 잠깐 씌워줘요! 나는 운영자 권력으로 1초 만에 안전하게 번호를 바꾸고 나오는 순간, 다시 일반 닝겐 모자로 변환되는(환상 [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 부스트!) 완전 기적 시스템이에요 도출!
-3. 치명적 슬픔 해킹 테러 현상 발생! 이 강력한 "신분 변신 마법 모자" 가 달린 프로그램을 해커가 몰래 터미널이나 사물함 해킹 툴에 걸어놓으면? 멍청한 컴퓨터가 누구든 구별 없이 해커에게도 '서버 운영자 모스터 마법 모자(권한 강제 상승 멸망 랙!)' 를 씌워줘서 서버 전체가 1분 만에 초토화 공격당하는 끔찍한 오버헤드 보안 약점 사고([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 홀 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 모순)를 항상 안고 태어나게 되었답니다 만렙 진화 랙!
+2. 그래서 컴퓨터 초천재 보안봇이 **"SetUID! 너 잠깐 동안만 운영자 변신 빔!(신분 스왑!)"** 을 만들어줬어요 록백! 내가 『비밀번호변경.exe』 라는 마법 프로그램에 들어가는 순간? 컴퓨터가 내게 `운영자 모자(Root 둔갑)` 를 잠깐 씌워줘요! 나는 운영자 권력으로 1초 만에 안전하게 번호를 바꾸고 나오는 순간, 다시 일반 닝겐 모자로 변환되는(환상 [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) 부스트!) 완전 기적 시스템이에요 도출!
+3. 치명적 슬픔 해킹 테러 현상 발생! 이 강력한 "신분 변신 마법 모자" 가 달린 프로그램을 해커가 몰래 터미널이나 사물함 해킹 툴에 걸어놓으면? 멍청한 컴퓨터가 누구든 구별 없이 해커에게도 '서버 운영자 모스터 마법 모자(권한 강제 상승 멸망 랙!)' 를 씌워줘서 서버 전체가 1분 만에 초토화 공격당하는 끔찍한 오버헤드 보안 약점 사고([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) 홀 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 모순)를 항상 안고 태어나게 되었답니다 만렙 진화 랙!
 
 ---
 
@@ -171,7 +168,7 @@ SetUID (4000), SetGID (2000), Sticky [Bit](/knowledge-base/studynote/08_algorith
 
 **진행 상황**: 548 / 800
 
-<- **이전**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/)
-**다음**: [549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ->
+<- **이전**: [547. 파일 시스템 접근 제어 (Access Control) - 소유자, 그룹, 기타(Other)의 rwx 권한 (r=4, w=2,](/studynote/02_operating_system/09_file_system/547_access_control_rwx/)
+**다음**: [549. ACL (Access Control List) 확장을 통한 세밀한 사용자별 파일 권한 통제](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/) ->
 
 ---

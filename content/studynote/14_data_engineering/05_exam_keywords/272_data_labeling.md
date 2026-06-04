@@ -1,13 +1,10 @@
-+++
-title = "272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)"
-date = 2026-05-09
+---
+title: "272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -61,7 +58,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 272 / 300
 
-<- **이전**: [271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/271_feature_store/)
-**다음**: [273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/273_data_augmentation/) ->
+<- **이전**: [271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)](/studynote/14_data_engineering/05_exam_keywords/271_feature_store/)
+**다음**: [273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)](/studynote/14_data_engineering/05_exam_keywords/273_data_augmentation/) ->
 
 ---

@@ -1,175 +1,187 @@
-+++
-title = "381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS (Kubernetes Service Discovery DNS CoreDNS)"
-date = 2026-05-09
+---
+title: "381. 쿠버네티스 서비스 디스커버리 DNS CoreDNS (Kubernetes Service Discovery DNS CoreDNS)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 쿠버네티스 클러스터 내부의 동적 IP 할당 환경에서 서비스/파드 간 통신을 위해 CoreDNS(Go 기반 플러그인 아키텍처 DNS 서버, Caddy 임베디드)가 FQDN `<svc>.<ns>.svc.cluster.local` 규약으로 가상 IP(Service ClusterIP)와 엔드포인트(EndpointSlice)를 자동 매핑하는 인-클러스터 DNS 기반 서비스 디스커버리 메커니즘이다.
+> 2. **가치**: 애플리케이션이 파드 재스케줄링·롤링 업데이트·장애 복구로 변동되는 IP를 추적할 필요 없이 DNS 질의 한 번으로 로드밸런싱된 엔드포인트에 도달할 수 있어(헤드리스 서비스 시 DNS RR 반환) 서비스 가용성 99.99% 환경에서 디스커버리 지연을 ~1ms(PodLocalCache 적용 시 P99 5ms 이하)로 단축하고, SRV 레코드를 통한 포트/우선순위 인지형 디스커버리까지 지원한다.
+> 3. **판단 포인트**: CoreDNS 단일 인스턴스/단일 AZ 배치의 SPOF 위험과 `ndots:5`로 인한 후행 질의 비용, 클러스터 규모 1,000 노드·5,000 서비스 초과 시 발생하는 캐시 적중률 저하, 그리고 NodeLocal DNSCache·CoreDNS HPA·Split-horizon DNS 설계가 핵심 트레이드오프이며, 컨테이너 런타임(containerd/CRI-O)별 resolv.conf 동기화 차이까지 검토해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+쿠버네티스는 본질적으로 **선언형(Declarative)** 컨트롤 루프를 통해 파드 IP를 수시로 재할당한다. 기본 CNI(예: Calico VXLAN, Cilium eBPF, Flannel) 위에서 파드는 노드 장애·HPA·Deployment 롤아웃 시 평균 수십 초~수 분 주기로 IP가 변동되므로, 클라이언트가 IP를 하드코딩하면 24시간 내 접속 실패가 불가피하다. 전통적인 3-tier 환경에서는 F5 BIG-IP LTM, HAProxy, Consul Template, Netflix Eureka, Zookeeper 등이 디스커버리를 담당했으나, 컨테이너 오케스트레이터 표준인 쿠버네티스는 이를 **클러스터 네이티브 DNS**로 통합하여 별도의 에이전트 없이 kube-apiserver의 Watch 메커니즘을 통해 Service/EndpointSlice 객체를 실시간으로 반영한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Kubernetes Service Discovery DNS CoreDNS 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+초기 쿠버네티스(1.0~1.10)에서는 `kube-dns`(SkyDNS + dnsmasq + sidecar 3-tier 구조)을 사용했으나, kube-dns는 2018년경 Deprecate 결정 후 **1.13 버전부터 CoreDNS가 기본 DNS 플러그인으로 채택**되었다(GA 1.11, Default 1.13). CoreDNS는 단일 바이너리·단일 프로세스·플러그인 체인 구조로 메모리 풋프린트를 약 60% 절감(150MB -> 60MB)하고, dnsmasq의 race condition·메모리 누수 이슈를 해소했다.
+
+**도입 전후 패러다임 비교**
+
+| 구분 | 전통 디스커버리 (Eureka/Consul) | 쿠버네티스 CoreDNS |
+|---|---|---|
+| 등록 주체 | 애플리케이션 SDK가 Heartbeat | kubelet + kube-controller-manager가 자동 |
+| 데이터 저장 | 별도 Key-Value 스토어(Raft) | in-memory + apiserver watch |
+| 질의 프로토콜 | 전용 gRPC/REST API | 표준 DNS(UDP/TCP 53), mDNS |
+| 헬스체크 | 클라이언트 Heartbeat | kube-proxy + EndpointSlice condition |
+| 운영 복잡도 | 클러스터 별도 구성 | 컨트롤 플레인과 통합 |
+| 확장성 | 수백~수천 인스턴스 | 수만 서비스/수십만 엔드포인트 |
 
 ```text
-+--------------------------------------------------------------+
-|                    쿠버네티스 서비스 디스커버리 DNS CoreDNS 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+  +--------------------------------------------------------------------+
+  |          쿠버네티스 클러스터 내부 DNS 질의 흐름 (요약)               |
+  |                                                                    |
+  |  [App Pod] ---(UDP 53, ndots:5)--► [CoreDNS Pod 10.96.0.10:53]    |
+  |       |                                  |                         |
+  |       | 1) /etc/resolv.conf                | 2) kubernetes 플러그인  |
+  |       |    search: ns.svc.cluster.local    |    apiserver watch      |
+  |       |    ndots:5                         |    Service/Endpoint    |
+  |       |                                   v                        |
+  |       |                            +--------------+                |
+  |       |  3) 응답 (A, SRV, PTR) ◄----| Corefile     |                |
+  |       |                            | plugin chain |                |
+  |       |                            | (cache,      |                |
+  |       |                            |  forward,    |                |
+  |       |                            |  kubernetes) |                |
+  |       |                            +--------------+                |
+  |       v                                                           |
+  |  [실제 Endpoint Pod IP로 직접 접속]                                  |
+  |  (Service ClusterIP는 kube-proxy가 DNAT/SNAT 처리)                |
+  +--------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: CoreDNS는 마치 **"학교 급식실의 식단표 게시판"**과 같다. 학년(class)·반(namespace)·날짜(svc.cluster.local)별로 매일 바뀌는 식단이 자동으로 반영되어, 학생(파드)은 "오늘 점심 뭐야?" 한 마디면 자기 자리에 배달받을 수 있다. 식단이 바뀌어도 학생은 식당 위치를 다시 외울 필요가 없다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-쿠버네티스 서비스 디스커버리 DNS CoreDNS의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+CoreDNS는 **Caddy(HTTP/2 웹서버) 프레임워크를 차용**한 Go 기반 DNS 서버로, DNS 메시지 처리 파이프라인을 **플러그인 체인(Plugin Chain)**으로 구성한다. 각 플러그인은 `ServeDNS(ctx, zone, w, msg) (int, error)` 시그니처를 구현하며, 요청은 체인을 순차 통과하면서 forward, cache, rewrite, log 등의 액션이 적용된다.
+
+### 1) CoreDNS 컨테이너 내부 아키텍처
 
 ```text
-+--------------------------------------------------------------+
-|              Kubernetes Service Discovery DNS CoreDNS 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   +---------------------------------------------------------------------+
+   |               CoreDNS Pod  (kube-system 네임스페이스)                 |
+   |  +--------------------------------------------------------------+  |
+   |  |                    Corefile (ConfigMap)                       |  |
+   |  |  .:53 {                                                        |  |
+   |  |      errors                                                   |  |
+   |  |      health { lameduck 5s }                                   |  |
+   |  |      ready                                                    |  |
+   |  |      kubernetes cluster.local in-addr.arpa iparpa.168.96.in-  |  |
+   |  |                addr.arpa { pods insecure fallthrough in-addr  |  |
+   |  |                                  arpa iparpa.168.96.in-addr  |  |
+   |  |                                  .arpa ttl 30                |  |
+   |  |                  pods verified                               |  |
+   |  |                  loadbalance                                  |  |
+   |  |                  cache 30                                     |  |
+   |  |                  loop                                         |  |
+   |  |                  reload                                       |  |
+   |  |                  forward . /etc/resolv.conf                   |  |
+   |  |                  prometheus :9153                             |  |
+   |  |      }                                                         |  |
+   |  |  }                                                             |  |
+   |  +--------------------------------------------------------------+  |
+   |                            |                                        |
+   |  +-------------------------v----------------------------------+    |
+   |  |             Caddy DNS Server (go routine per query)          |    |
+   |  |                                                              |    |
+   |  |  Query --► [errors] --► [health] --► [ready]                |    |
+   |  |           --► [kubernetes] ◄-- watch Service/EndpointSlice  |    |
+   |  |           --► [loadbalance] (A 레코드 RR 셔플)              |    |
+   |  |           --► [cache]  (Lmax=1000, TTL=30s 기본)            |    |
+   |  |           --► [loop]   (forward loop 감지)                  |    |
+   |  |           --► [forward] (외부 도메인 -> upstream)             |    |
+   |  |           --► [prometheus] :9153/metrics                     |    |
+   |  |           --► [log] (query log)                              |    |
+   |  +--------------------------------------------------------------+    |
+   |                                                                     |
+   |  kube-dns Service  (10.96.0.10 ClusterIP)                            |
+   |   +-- EndpointSlice: replicas=2 (HA), lameduck 5s                    |
+   +---------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-쿠버네티스 서비스 디스커버리 DNS CoreDNS을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 쿠버네티스 서비스 디스커버리 DNS CoreDNS |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 쿠버네티스 서비스 디스커버리 DNS CoreDNS을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-쿠버네티스 서비스 디스커버리 DNS CoreDNS을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 쿠버네티스 서비스 디스커버리 DNS CoreDNS 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 쿠버네티스 서비스 디스커버리 DNS CoreDNS의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 쿠버네티스 서비스 디스커버리 DNS CoreDNS의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 2) DNS 질의 처리 시퀀스
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-쿠버네티스 서비스 디스커버리 DNS CoreDNS 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+  Application Pod                      CoreDNS                          kube-apiserver
+  --------------                       -------                          --------------
+  1) getent hosts my-svc.default.svc
+     -> libc (glibc/musl)                    |
+     -> nsswitch.conf (files dns)            |
+  2) name resolution to 10.96.x.x:53        |
+     +------------------------+             |
+     | Pod /etc/resolv.conf:  |             |
+     | nameserver 10.96.0.10  |             |
+     | search default.svc.    |             |
+     |  cluster.local svc.    |             |
+     |  cluster.local cluster.local        |
+     | ndots:5                |             |
+     | options ndots:5 ...    |             |
+     +------------------------+             |
+  3) UDP 53: A? my-svc.default.svc  --------►|
+  4) ndots:5 이므로 search domain 추가 시도  |
+     - my-svc (실패)                        |
+     - my-svc.default.svc (실패)            |
+     - my-svc.default.svc.cluster.local (성공)|
+  5)                              kubernetes 플러그인:
+                                     +- Service "my-svc" 검색
+                                     +- Spec.ClusterIP = 10.96.45.123
+                                     +- EndpointSlice 조회 (ready=true)
+                                     +- Endpoints = [10.244.1.5, 10.244.2.7]
+  6)                              loadbalance 플러그인:
+                                     +- 순서 셔플 (라운드로빈)
+  7)                              cache 플러그인:
+                                     +- TTL=30초 동안 메모리 캐시
+  8)                              ◄--- A record 응답
+     A 10.96.45.123 (ClusterIP)            |
+  9) 앱은 kube-proxy가 DNAT한 IP로 접속    |
+     -> 10.244.1.5:80 (실제 파드)
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 3) 핵심 구성 요소 매트릭스
 
-1. 쿠버네티스 서비스 디스커버리 DNS CoreDNS은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Corefile (ConfigMap)** | DNS 서버 동작 정책 선언 | `.:53 { ... }` 블록 단위로 zone과 플러그인 정의, kubeadm/클라우드 프로바이더가 자동 주입, `kubectl edit cm coredns -n kube-system`으로 라이브 패치 |
+| **kubernetes 플러그인** | Service/EndpointSlice -> DNS 레코드 변환 | apiserver에 `List+Watch`로 informer 캐시 구성, `cluster.local` zone 내 A/AAAA/SRV/PTR 생성, `pods verified` 시 파드 hostname/domain 검증, ttl 5~30s |
+| **CoreDNS 컨테이너 (Deployment)** | DNS 쿼리 처리 | replicas=2 기본(HA), `--conf=/etc/coredns/Corefile`로 실행, 컨테이너당 ~30~80MB RSS, 단일 프로세스 모델 |
+| **kube-dns Service (ClusterIP)** | 가상 서비스 엔드포인트 | 기본 IP `10.96.0.10`(kube-proxy의 `clusterIP` 정적 할당), 포트 53/UDP+TCP, 9153/TCP는 prometheus 메트릭 |
+| **Pod resolv.conf 동기화** | 파드의 DNS 클라이언트 설정 | kubelet이 파드 생성 시 `--resolv-conf` 옵션으로 노드의 `/etc/resolv.conf`를 읽어 search 옵션·ndots 주입, `dnsPolicy`에 따라 4가지 모드 |
+| **NodeLocal DNSCache (DaemonSet)** | 노드 단위 DNS 캐시 | 각 노드에 `node-cache` Pod 배치, CoreDNS로의 질의량을 80% 감소, nodelocaldns가 169.254.25.10 IP로 listen, P99 지연시간 5ms 이하 |
+| **EndpointSlice (K8s 1.21+)** | 엔드포인트 샤딩 | Service당 100개 엔드포인트를 default로 분할, CoreDNS는 단일 slice watch가 아닌 multi-slice watch로 성능 개선 |
 
----
+### 4) DNS 레코드 타입과 FQDN 명명 규칙
 
+| 레코드 타입 | 생성 조건 | 예시 | TTL |
+|---|---|---|---|
+| **A (IPv4)** | 모든 Service ClusterIP | `my-svc.default.svc.cluster.local. 30 IN A 10.96.45.123` | 30s (변경 가능) |
+| **AAAA (IPv6)** | Service에 `ipFamilies: [IPv6]` 또는 dual-stack | `my-svc.default.svc.cluster.local. 30 IN AAAA fd00::1` | 30s |
+| **SRV** | Named Port 명시 시 자동 생성, `_port-name._proto.service.namespace.svc` | `_http._tcp.my-svc.default.svc.cluster.local. 30 IN SRV 0 50 80 10-96-45-123...` | 30s |
+| **PTR** | Reverse lookup zone `in-addr.arpa`, `ipv6.arpa`, `iparpa.fd00::/8` | `10.96.45.123.in-addr.arpa. 30 IN PTR my-svc.default.svc.cluster.local.` | 30s |
+| **Headless A** | `clusterIP: None` 인 Service | `my-svc.default.svc.cluster.local. 30 IN A 10.244.1.5` (실제 파드 IP, RR 셔플) | 30s |
+| **Pod Hostname A** | `pods verified` / `pods insecure` 옵션 | `10-244-1-5.default.pod.cluster.local.` | 30s |
+
+### 5) DNS Policy 및 ndots 메커니즘
+
+| dnsPolicy | 동작 | 적용 대상 |
+|---|---|---|
+| **ClusterFirst** | 클러스터 내 DNS 우선, 외부 fallback | 일반 Pod (default) |
+| **Default** | 노드 `/etc/resolv.conf` 그대로 사용 | hostNetwork Pod, 시스템 Pod |
+| **ClusterFirstWithHostNet** | hostNetwork이면서 ClusterFirst | kube-proxy, CNI DaemonSet 등 |
+| **None** | dnsConfig로 완전 커스터마이즈 | 게임 서버, 외부 DNS 전용 |
+
+**ndots:5 알고리즘**: 검색할 도메인 이름에 점(`.`)이 5개 미만이면 search 도메인을 차례로 append. `
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 381 / 800
 
-<- **이전**: [380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/380_kubernetes_ingress_controller_load_balancing/)
-**다음**: [382. 헬름 차트 패키지 관리 배포 자동화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/382_helm_chart_package_management_deployment/) ->
+<- **이전**: [380. 쿠버네티스 인그레스 컨트롤러 로드 밸런싱](/studynote/13_cloud_architecture/06_exam_summary/380_kubernetes_ingress_controller_load_balancing/)
+**다음**: [382. 헬름 차트 패키지 관리 배포 자동화](/studynote/13_cloud_architecture/06_exam_summary/382_helm_chart_package_management_deployment/) ->
 
 ---

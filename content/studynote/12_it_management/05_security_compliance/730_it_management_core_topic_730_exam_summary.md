@@ -1,13 +1,10 @@
-+++
-title = "730. IT 경영 관리 핵심 토픽 730번 시험 요약 (IT Management Core Topic 730 Exam Summary)"
-date = 2026-05-09
+---
+title: "730. IT 경영 관리 핵심 토픽 730번 시험 요약 (IT Management Core Topic 730 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 730. IT 경영 관리 핵심 토픽 730번 시험 요약
 
@@ -150,7 +147,7 @@ IT 경영관리의 기술적 핵심은 **거버넌스 체계(Governance System) 
 
 **진행 상황**: 730 / 800
 
-<- **이전**: [729. IT 경영 관리 핵심 토픽 729번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/729_it_management_core_topic_729_exam_summary/)
-**다음**: [731. IT 경영 관리 핵심 토픽 731번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/731_it_management_core_topic_731_exam_summary/) ->
+<- **이전**: [729. IT 경영 관리 핵심 토픽 729번 시험 요약](/studynote/12_it_management/05_security_compliance/729_it_management_core_topic_729_exam_summary/)
+**다음**: [731. IT 경영 관리 핵심 토픽 731번 시험 요약](/studynote/12_it_management/05_security_compliance/731_it_management_core_topic_731_exam_summary/) ->
 
 ---

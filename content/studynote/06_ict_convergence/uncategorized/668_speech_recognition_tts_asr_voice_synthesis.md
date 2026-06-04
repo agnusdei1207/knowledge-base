@@ -1,13 +1,10 @@
-+++
-title = "668. 음성 인식 TTS ASR 음성 합성 (Speech Recognition TTS ASR Voice Synthesis)"
-date = 2026-05-09
+---
+title: "668. 음성 인식 TTS ASR 음성 합성 (Speech Recognition TTS ASR Voice Synthesis)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -158,7 +155,7 @@ FastSpeech 2는 **Duration·Pitch·Energy Predictor**를 명시적으로 모델�
 
 **진행 상황**: 668 / 800
 
-<- **이전**: [667. 컴퓨터 비전 객체 탐지 세그멘테이션](/knowledge-base/studynote/06_ict_convergence/uncategorized/667_computer_vision_object_detection_segmentation/)
-**다음**: [669. 추천 시스템 협업 필터링 딥러닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/669_recommendation_system_collaborative_deep_lear/) ->
+<- **이전**: [667. 컴퓨터 비전 객체 탐지 세그멘테이션](/studynote/06_ict_convergence/uncategorized/667_computer_vision_object_detection_segmentation/)
+**다음**: [669. 추천 시스템 협업 필터링 딥러닝](/studynote/06_ict_convergence/uncategorized/669_recommendation_system_collaborative_deep_lear/) ->
 
 ---

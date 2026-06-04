@@ -1,13 +1,10 @@
-+++
-title = "640. 이벤트 드리븐 아키텍처 EventBridge (Event Driven Architecture EventBridge)"
-date = 2026-05-09
+---
+title: "640. 이벤트 드리븐 아키텍처 EventBridge (Event Driven Architecture EventBridge)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -187,7 +184,7 @@ Target: SQS/SNS/Lambda
 
 **진행 상황**: 640 / 800
 
-<- **이전**: [639. API 게이트웨이 매니지드 서비스 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/)
-**다음**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/knowledge-base/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/) ->
+<- **이전**: [639. API 게이트웨이 매니지드 서비스 비교](/studynote/06_ict_convergence/uncategorized/639_api_gateway_managed_service_comparison/)
+**다음**: [641. 트랜스포머 아키텍처 어텐션 메커니즘](/studynote/06_ict_convergence/uncategorized/641_transformer_architecture_attention_mechanism/) ->
 
 ---

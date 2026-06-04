@@ -1,13 +1,10 @@
-+++
-title = "589. 엔터프라이즈 시스템 핵심 토픽 589번 시험 요약 (Enterprise System Core Topic 589 Exam Summary)"
-date = 2026-05-09
+---
+title: "589. 엔터프라이즈 시스템 핵심 토픽 589번 시험 요약 (Enterprise System Core Topic 589 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 589 / 800
 
-<- **이전**: [588. 엔터프라이즈 시스템 핵심 토픽 588번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/588_enterprise_system_core_topic_588_exam_summary/)
-**다음**: [590. 엔터프라이즈 시스템 핵심 토픽 590번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/590_enterprise_system_core_topic_590_exam_summary/) ->
+<- **이전**: [588. 엔터프라이즈 시스템 핵심 토픽 588번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/588_enterprise_system_core_topic_588_exam_summary/)
+**다음**: [590. 엔터프라이즈 시스템 핵심 토픽 590번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/590_enterprise_system_core_topic_590_exam_summary/) ->
 
 ---

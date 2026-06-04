@@ -1,13 +1,10 @@
-+++
-title = "473. 도메인 주도 설계 DDD 전략 패턴 (Domain Driven Design DDD Strategic Pattern)"
-date = 2026-05-09
+---
+title: "473. 도메인 주도 설계 DDD 전략 패턴 (Domain Driven Design DDD Strategic Pattern)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -202,7 +199,7 @@ Vernon의 표기법은 UML 패키지 다이어그램을 차용하되, **두 컨�
 
 **진행 상황**: 473 / 600
 
-<- **이전**: [472. 반응형 시스템 리액티브 매니페스토](/knowledge-base/studynote/11_design_supervision/06_exam_summary/473_reactive_system/)
-**다음**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/knowledge-base/studynote/11_design_supervision/06_exam_summary/474_bounded_context/) ->
+<- **이전**: [472. 반응형 시스템 리액티브 매니페스토](/studynote/11_design_supervision/06_exam_summary/473_reactive_system/)
+**다음**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/studynote/11_design_supervision/06_exam_summary/474_bounded_context/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "554. DAO 탈중앙화 자율 조직 거버넌스 (DAO Decentralized Autonomous Organization)"
-date = 2026-05-09
+---
+title: "554. DAO 탈중앙화 자율 조직 거버넌스 (DAO Decentralized Autonomous Organization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ DAO 탈중앙화 자율 조직은(는) 디지털 권리, 금융, 조직 운영, 
 
 **진행 상황**: 554 / 800
 
-<- **이전**: [553. DeFi 탈중앙화 금융 스마트 계약 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/553_defi_decentralized_finance_smart_contract/)
-**다음**: [555. CBDC 중앙은행 디지털 화폐 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/555_cbdc_central_bank_digital_currency_design/) ->
+<- **이전**: [553. DeFi 탈중앙화 금융 스마트 계약 프로토콜](/studynote/06_ict_convergence/uncategorized/553_defi_decentralized_finance_smart_contract/)
+**다음**: [555. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/555_cbdc_central_bank_digital_currency_design/) ->
 
 ---

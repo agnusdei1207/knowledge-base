@@ -1,13 +1,10 @@
-+++
-title = "421. 연속성 관리 BCP DRP 사이트 전략 (Continuity Management BCP DRP Site)"
-date = 2026-05-09
+---
+title: "421. 연속성 관리 BCP DRP 사이트 전략 (Continuity Management BCP DRP Site)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ DR 사이트 전략의 핵심은 **데이터 복제 메커니즘**, **시스템 
 
 **진행 상황**: 421 / 800
 
-<- **이전**: [420. 가용성 관리 MTBF MTTR 고가용성](/knowledge-base/studynote/12_it_management/05_security_compliance/420_availability_management_mtbf_mttr_ha/)
-**다음**: [422. IT 재무 관리 FinOps 비용 최적화](/knowledge-base/studynote/12_it_management/05_security_compliance/422_it_financial_management_finops_cost/) ->
+<- **이전**: [420. 가용성 관리 MTBF MTTR 고가용성](/studynote/12_it_management/05_security_compliance/420_availability_management_mtbf_mttr_ha/)
+**다음**: [422. IT 재무 관리 FinOps 비용 최적화](/studynote/12_it_management/05_security_compliance/422_it_financial_management_finops_cost/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)"
-date = 2026-05-09
+---
+title: "298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -163,7 +160,7 @@ Action 3: FINISH(answer=Observation_2)
 
 **진행 상황**: 298 / 300
 
-<- **이전**: [297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/297_prompt_engineering/)
-**다음**: [299. 데이터 엔지니어링 기술사 종합 아키텍처 마스터 맵 (Data Engineering PE Master Architecture Map)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/299_data_engineering_master_map/) ->
+<- **이전**: [297. 프롬프트 엔지니어링 인컨텍스트 학습 전략 (Prompt Engineering In-Context Learning)](/studynote/14_data_engineering/05_exam_keywords/297_prompt_engineering/)
+**다음**: [299. 데이터 엔지니어링 기술사 종합 아키텍처 마스터 맵 (Data Engineering PE Master Architecture Map)](/studynote/14_data_engineering/05_exam_keywords/299_data_engineering_master_map/) ->
 
 ---

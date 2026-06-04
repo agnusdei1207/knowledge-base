@@ -1,18 +1,15 @@
-+++
-title = "29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)"
-date = 2026-04-29
+---
+title: "29. 스케일 업 vs 스케일 아웃 (Scale Up vs Scale Out)"
+date: "2026-04-29"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(Scale Up, 수직 확장)은 단일 서버의 CPU·RAM·스토리지를 강화하는 방식이고, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)(Scale Out, 수평 확장)은 동일 서버를 여러 대 추가하여 부하를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방식이다.
-> 2. **가치**: [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처의 핵심 패턴은 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이다. [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + 로드 밸런서 조합으로 트래픽에 따른 동적 수평 확장이 가능하며, [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 비용 효율을 달성한다. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 DB처럼 수평 확장이 어려운 상태 저장(Stateful) 시스템에 적합하다.
-> 3. **판단 포인트**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계는 "하드웨어 상한"이다. 아무리 큰 서버도 물리적 한계가 있고, 업그레이드 시 다운타임이 발생한다. [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 한계는 "[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 관리"다. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 캐시, DB를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 관리하는 것이 복잡하다.
+> 1. **본질**: [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)(Scale Up, 수직 확장)은 단일 서버의 CPU·RAM·스토리지를 강화하는 방식이고, [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)(Scale Out, 수평 확장)은 동일 서버를 여러 대 추가하여 부하를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)하는 방식이다.
+> 2. **가치**: [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 아키텍처의 핵심 패턴은 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)이다. [Auto Scaling](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) + 로드 밸런서 조합으로 트래픽에 따른 동적 수평 확장이 가능하며, [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/))을 제거하고 비용 효율을 달성한다. [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 DB처럼 수평 확장이 어려운 상태 저장(Stateful) 시스템에 적합하다.
+> 3. **판단 포인트**: [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)의 한계는 "하드웨어 상한"이다. 아무리 큰 서버도 물리적 한계가 있고, 업그레이드 시 다운타임이 발생한다. [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 한계는 "[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 상태 관리"다. [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/), 캐시, DB를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 있게 관리하는 것이 복잡하다.
 
 ---
 
@@ -36,24 +33,24 @@ tags = ["studynote-cloud-architecture"]
 +----------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원 한 명에게 전기 오토바이를 주는 것, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 것이다. 전기 오토바이([스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))는 빠르지만 한계가 있고, 배달원 10명([스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 한 명이 아프면 다른 9명이 계속 일한다.
+- **📢 섹션 요약 비유**: [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원 한 명에게 전기 오토바이를 주는 것, [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 것이다. 전기 오토바이([스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))는 빠르지만 한계가 있고, 배달원 10명([스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/))은 한 명이 아프면 다른 9명이 계속 일한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) vs [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 비교
+### [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) vs [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 비교
 
-| 항목 | [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
+| 항목 | [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/) | [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
 |:---|:---|:---|
 | 확장 방식 | 단일 서버 강화 | 서버 수 증가 |
-| 한계 | 하드웨어 상한 | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 복잡성 |
+| 한계 | 하드웨어 상한 | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 복잡성 |
 | 다운타임 | 업그레이드 시 발생 | 무중단 가능 |
-| [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) | 높음 | 낮음 |
+| [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) | 높음 | 낮음 |
 | 비용 | 고성능 = 고비용 | 상품 서버 활용 |
-| 적합 시스템 | RDB, 레거시 | 웹·[API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
+| 적합 시스템 | RDB, 레거시 | 웹·[API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
 
-### [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 패턴
+### [Auto Scaling](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) 패턴
 
 ```text
 AWS Auto Scaling Group:
@@ -71,19 +68,19 @@ Kubernetes HPA (Horizontal Pod Autoscaler):
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) | DB [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) | [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
+| 비교 | [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) | DB [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/) | [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/) |
 |:---|:---|:---|:---|
-| 대상 | 앱 서버 | [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 |
-| 원리 | 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) | 기능 분리 |
-| 상태 | 무상태 선호 | 상태 있음 | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 DB |
+| 대상 | 앱 서버 | [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 단위 |
+| 원리 | 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) | 기능 분리 |
+| 상태 | 무상태 선호 | 상태 있음 | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)별 DB |
 
-- **📢 섹션 요약 비유**: [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)·DB [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·[마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 업무 분담의 세 차원이다. [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 같은 업무를 여러 사람이 나눠서, [샤딩](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 고객을 지역별로 나눠서, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 업무 종류(영업·회계·물류)를 나눠서 처리한다.
+- **📢 섹션 요약 비유**: [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)·DB [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)·[마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 업무 분담의 세 차원이다. [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 같은 업무를 여러 사람이 나눠서, [샤딩](/studynote/05_database/05_distributed_nosql_newsql/280_sharding/)은 고객을 지역별로 나눠서, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)는 업무 종류(영업·회계·물류)를 나눠서 처리한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```text
 읽기 확장 (Read Replica):
@@ -99,7 +96,7 @@ NewSQL (Google Spanner, TiDB):
   분산 SQL — 수평 확장 + ACID 보장
 ```
 
-- **📢 섹션 요약 비유**: DB Read Replica는 도서관 복사본 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 인기 책(읽기 트래픽)은 여러 권 복사해서 여러 테이블(Replica)에 비치하고, 새 책 등록([쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))은 원본 사서(마스터)만 처리한다.
+- **📢 섹션 요약 비유**: DB Read Replica는 도서관 복사본 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다. 인기 책(읽기 트래픽)은 여러 권 복사해서 여러 테이블(Replica)에 비치하고, 새 책 등록([쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/))은 원본 사서(마스터)만 처리한다.
 
 ---
 
@@ -107,13 +104,13 @@ NewSQL (Google Spanner, TiDB):
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **비용 효율** | 트래픽에 맞는 동적 [Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) |
-| **고가용성** | [SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거, 서버 장애 시 자동 대체 |
+| **비용 효율** | 트래픽에 맞는 동적 [Auto Scaling](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) |
+| **고가용성** | [SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/) 제거, 서버 장애 시 자동 대체 |
 | **무한 확장** | 이론적으로 무한 수평 확장 가능 |
 
-[서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Google Cloud Run)는 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 극단적 형태다. 요청 단위로 자동 확장하여 "0에서 무한대"까지 즉시 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되며, 인프라 관리 부담을 완전히 제거한다. [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 궁극적 진화 방향이다.
+[서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)(AWS [Lambda](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/), Google Cloud Run)는 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 극단적 형태다. 요청 단위로 자동 확장하여 "0에서 무한대"까지 즉시 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/)되며, 인프라 관리 부담을 완전히 제거한다. [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 궁극적 진화 방향이다.
 
-- **📢 섹션 요약 비유**: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 필요할 때만 나타나는 자동 직원이다. 요청이 오면 즉시 처리 직원이 나타나고, 처리가 끝나면 사라진다 — 월급이 없고 실제 일한 시간만큼만 비용이 발생한다.
+- **📢 섹션 요약 비유**: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 필요할 때만 나타나는 자동 직원이다. 요청이 오면 즉시 처리 직원이 나타나고, 처리가 끝나면 사라진다 — 월급이 없고 실제 일한 시간만큼만 비용이 발생한다.
 
 ---
 
@@ -121,11 +118,11 @@ NewSQL (Google Spanner, TiDB):
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **로드 밸런서** | [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 트래픽 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 장치 |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/">Auto Scaling</a></strong> | 동적 수평 확장 자동화 |
-| **Read Replica** | DB 읽기 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
-| <strong><a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | DB [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong> | 극단적 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 패러다임 |
+| **로드 밸런서** | [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)의 트래픽 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 장치 |
+| <strong><a href="/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/">Auto Scaling</a></strong> | 동적 수평 확장 자동화 |
+| **Read Replica** | DB 읽기 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
+| <strong><a href="/studynote/05_database/05_distributed_nosql_newsql/280_sharding/">샤딩</a></strong> | DB [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/">서버리스</a></strong> | 극단적 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -147,9 +144,9 @@ NewSQL (Google Spanner, TiDB):
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원에게 전기 오토바이를 주는 것, [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 거예요!
+1. [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)은 배달원에게 전기 오토바이를 주는 것, [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/)은 배달원을 10명으로 늘리는 거예요!
 2. Auto Scaling은 점심 시간에 아르바이트생을 자동 채용하고 저녁에 자동 퇴근시키는 스마트 시스템이에요!
-3. [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 요청이 올 때만 나타나는 마법 직원이에요 — 일한 만큼만 비용이 나와서 아주 경제적이랍니다!
+3. [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)는 요청이 올 때만 나타나는 마법 직원이에요 — 일한 만큼만 비용이 나와서 아주 경제적이랍니다!
 
 ---
 
@@ -157,7 +154,7 @@ NewSQL (Google Spanner, TiDB):
 
 **진행 상황**: 28 / 371
 
-<- **이전**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/028_vpc/)
-**다음**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) ->
+<- **이전**: [28. VPC — 가상 사설 클라우드 (Virtual Private Cloud)](/studynote/13_cloud_architecture/01_virtualization/028_vpc/)
+**다음**: [30. 오토 스케일링 — 클라우드 자동 용량 조정](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/) ->
 
 ---

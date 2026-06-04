@@ -1,13 +1,10 @@
-+++
-title = "716. 추천 시스템 협업 필터링 콘텐츠 기반 (Recommendation Collaborative Content Based)"
-date = 2026-05-09
+---
+title: "716. 추천 시스템 협업 필터링 콘텐츠 기반 (Recommendation Collaborative Content Based)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -202,7 +199,7 @@ L = Σ_{(u,i)∈Ω} (r_ui - μ - b_u - b_i - p_uᵀq_i)²
 
 **진행 상황**: 716 / 800
 
-<- **이전**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/)
-**다음**: [717. 이미지 인식 CNN 객체 탐지 분할](/knowledge-base/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/) ->
+<- **이전**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/)
+**다음**: [717. 이미지 인식 CNN 객체 탐지 분할](/studynote/06_ict_convergence/uncategorized/717_image_recognition_cnn_object_detection/) ->
 
 ---

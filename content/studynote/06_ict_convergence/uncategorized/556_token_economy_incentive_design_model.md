@@ -1,13 +1,10 @@
-+++
-title = "556. 토큰 이코노미 인센티브 설계 모델 (Token Economy Incentive Design Model)"
-date = 2026-05-09
+---
+title: "556. 토큰 이코노미 인센티브 설계 모델 (Token Economy Incentive Design Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Utility -> Reward -> Staking -> Burn -> Governance
 
 **진행 상황**: 556 / 800
 
-<- **이전**: [555. CBDC 중앙은행 디지털 화폐 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/555_cbdc_central_bank_digital_currency_design/)
-**다음**: [557. 크로스체인 상호운용성 브리지](/knowledge-base/studynote/06_ict_convergence/uncategorized/557_cross_chain_interoperability_bridge/) ->
+<- **이전**: [555. CBDC 중앙은행 디지털 화폐 설계](/studynote/06_ict_convergence/uncategorized/555_cbdc_central_bank_digital_currency_design/)
+**다음**: [557. 크로스체인 상호운용성 브리지](/studynote/06_ict_convergence/uncategorized/557_cross_chain_interoperability_bridge/) ->
 
 ---

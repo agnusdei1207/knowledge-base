@@ -1,28 +1,25 @@
-+++
-title = "081. 고밀도 파장 분할 다중화 (DWDM, Dense Wavelength Division Multiplexing)"
-date = 2026-05-05
+---
+title: "081. 고밀도 파장 분할 다중화 (DWDM, Dense Wavelength Division Multiplexing)"
+date: "2026-05-05"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: DWDM(Dense WDM)은 한 가닥의 머리카락 굵기 광섬유 안에 <strong>수십~수백 개의 다른 색깔(파장)의 레이저 빛을 0.8nm(나노미터) 이하의 극도로 촘촘한 간격으로 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하여 동시에 쏘아 보내는 최고급 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 광통신 아키텍처다.
+> 1. **본질**: DWDM(Dense WDM)은 한 가닥의 머리카락 굵기 광섬유 안에 <strong>수십~수백 개의 다른 색깔(파장)의 레이저 빛을 0.8nm(나노미터) 이하의 극도로 촘촘한 간격으로 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a></strong>하여 동시에 쏘아 보내는 최고급 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 광통신 아키텍처다.
 > 2. **가치**: 전국에 광케이블을 새로 까는 천문학적인 토목 공사(땅 파기) 비용 없이, 양 끝의 단말 장비(Transponder)만 교체하여 기존 케이블 1가닥의 전송 용량을 100배(수 테라비트급)로 폭증시키는 대륙 간/국가망 백본(Backbone)의 절대적 황제다.
-> 3. **판단 포인트**: 빛의 간격이 너무 촘촘하여 온도가 조금만 변해도 파장이 흔들려 옆 차선과 충돌하므로, 엄청난 전력을 소모하는 <strong>고가의 냉각 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(Cooled Laser)과 정밀 필터, 그리고 장거리 전송을 위한 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/134_optical_amplifier_edfa_soa_raman/">광증폭기</a>(EDFA)가 필수적으로 융합된 무거운 쇳덩어리 인프라</strong>다.
+> 3. **판단 포인트**: 빛의 간격이 너무 촘촘하여 온도가 조금만 변해도 파장이 흔들려 옆 차선과 충돌하므로, 엄청난 전력을 소모하는 <strong>고가의 냉각 <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a>(Cooled Laser)과 정밀 필터, 그리고 장거리 전송을 위한 <a href="/studynote/03_network/03_physical_layer_media/134_optical_amplifier_edfa_soa_raman/">광증폭기</a>(EDFA)가 필수적으로 융합된 무거운 쇳덩어리 인프라</strong>다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1990년대 인터넷 붐이 일면서 전 세계의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 폭발했다. 통신사들은 절망했다. 서울에서 부산까지 묻어둔 광케이블이 꽉 찼는데, 용량을 늘리려면 포크레인을 불러 고속도로를 다 파헤치고 케이블을 새로 묻어야(수천억 원 소요) 했기 때문이다.
+1990년대 인터넷 붐이 일면서 전 세계의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 트래픽이 폭발했다. 통신사들은 절망했다. 서울에서 부산까지 묻어둔 광케이블이 꽉 찼는데, 용량을 늘리려면 포크레인을 불러 고속도로를 다 파헤치고 케이블을 새로 묻어야(수천억 원 소요) 했기 때문이다.
 
 이때 물리학자와 아키텍트들이 구세주처럼 등장했다. "어차피 빛은 색깔(파장)이 다르면 서로 간섭하지 않잖아? 빨간빛, 파란빛, 초록빛을 프리즘으로 합쳐서 1가닥에 쏘고 도착해서 다시 프리즘으로 나누자!" 여기서 더 미친 발상이 더해졌다. "빨강 파랑 정도가 아니라, 빛의 스펙트럼을 0.8 나노미터(머리카락 굵기의 10만 분의 1) 단위로 아주 미세하게 80개로 쪼개서(Dense) 쑤셔 넣자!" 이렇게 탄생한 DWDM은 땅을 한 삽도 파지 않고, 기계만 바꿔 달아 케이블 1가닥의 용량을 단숨에 테라비트(Tbps) 급으로 뻥튀기시킨 광통신의 기적이다.
 
-- **📢 섹션 요약 비유**: DWDM은 고속도로 확장의 마법이다. 차가 너무 막혀 1차선 도로 옆에 10차선을 새로 깔려면 산을 깎고 엄청난 공사비가 든다. DWDM은 길은 그대로 둔 채, 자동차의 폭을 1/80로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 축소해서 1차선 도로 위에 80대의 미니 자동차가 나란히 부딪히지 않고 한 번에 달리게 만드는 외계인의 쇳덩어리 기술이다.
+- **📢 섹션 요약 비유**: DWDM은 고속도로 확장의 마법이다. 차가 너무 막혀 1차선 도로 옆에 10차선을 새로 깔려면 산을 깎고 엄청난 공사비가 든다. DWDM은 길은 그대로 둔 채, 자동차의 폭을 1/80로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 축소해서 1차선 도로 위에 80대의 미니 자동차가 나란히 부딪히지 않고 한 번에 달리게 만드는 외계인의 쇳덩어리 기술이다.
 
 ---
 
@@ -71,26 +68,26 @@ DWDM은 가격을 포기하고 성능의 극한을 끌어낸 하이엔드 쇳덩
 | 항목 | DWDM (고밀도 파장 분할) | CWDM (저밀도 파장 분할) |
 |:---|:---|:---|
 | **채널 간격 (Spacing)** | **0.8 nm 이하 (바늘구멍, 초정밀)**| 20 nm (광활함, 대충 쏴도 됨) |
-| **최대 채널 수 (Capacity)**| <strong>80 ~ 160개 (테라비트급 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>| 18개 ([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계 뚜렷) |
+| **최대 채널 수 (Capacity)**| <strong>80 ~ 160개 (테라비트급 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>| 18개 ([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 한계 뚜렷) |
 | **온도 제어 장치 (Cooling)**| **Cooled (고비용 에어컨 필수)** | Uncooled (상온 쿨러링 방치) |
 | **장거리 광증폭(EDFA) 지원**| **100% 지원 (수천 km 횡단 가능)**| 절대 불가 (파장 대역이 안 맞음) |
-| **망 적용 범위** | **국가 백본망, 해저 케이블, 코어망**| 기업 캠퍼스망, [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나망(MAN) |
+| **망 적용 범위** | **국가 백본망, 해저 케이블, 코어망**| 기업 캠퍼스망, [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 안테나망(MAN) |
 | **구축 비용** | 엄청나게 비싸다 (재벌 통신사용) | 매우 싸다 (일반 기업용 다이소) |
 
-CWDM이 동네 배달 오토바이라면, DWDM은 태평양을 건너는 초대형 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 화물선이다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장비 값은 끔찍하게 비싸지만, 서울-미국 간 해저 케이블 1가닥에 넷플릭스, 유튜브, 게임 트래픽(100개의 파장)을 통째로 구겨 넣어 쏘아버릴 때의 트래픽 처리 단가는 지구상 어떤 기술보다 저렴하다.
+CWDM이 동네 배달 오토바이라면, DWDM은 태평양을 건너는 초대형 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 화물선이다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장비 값은 끔찍하게 비싸지만, 서울-미국 간 해저 케이블 1가닥에 넷플릭스, 유튜브, 게임 트래픽(100개의 파장)을 통째로 구겨 넣어 쏘아버릴 때의 트래픽 처리 단가는 지구상 어떤 기술보다 저렴하다.
 
-- **📢 섹션 요약 비유**: DWDM은 비싼 티켓값의 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) KTX'다. 선로(광케이블) 하나에 기차 80대를 0.1초 간격으로 밀어 넣기 때문에, 중앙 통제소에서 에어컨과 첨단 신호기(정밀 레이저/필터)로 피 말리는 관제를 해야 한다. 대신 서울에서 부산까지 엄청난 사람([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쏘아 보낼 수 있다.
+- **📢 섹션 요약 비유**: DWDM은 비싼 티켓값의 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) KTX'다. 선로(광케이블) 하나에 기차 80대를 0.1초 간격으로 밀어 넣기 때문에, 중앙 통제소에서 에어컨과 첨단 신호기(정밀 레이저/필터)로 피 말리는 관제를 해야 한다. 대신 서울에서 부산까지 엄청난 사람([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 쏘아 보낼 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **태평양 해저 케이블(Submarine Cable) 용량 증설 아키텍처**: 한국과 미국을 잇는 광케이블은 심해 수천 미터에 깔려있어 고장 나거나 케이블을 추가하려면 배를 띄워 수백억이 깨진다. 4K 넷플릭스 트래픽 폭증으로 용량이 부족해지면, 아키텍트들은 바닷속 쇳덩어리는 놔두고 육지 양 끝단에 있는 육양국(Landing [Station](/knowledge-base/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))의 DWDM 장비만 40채널 모델에서 80채널 모델로 교체한다. 바닷속 케이블 1가닥은 그대로인데, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량은 하루아침에 2배(수 Tbps)로 점프하는 극강의 인프라 업그레이드를 시전한다.
-2. **ROADM (재설정 가능 광 분기/결합기)과의 지능형 백본망 융합**: 과거 DWDM은 서울-부산 직선으로 쏘는 건 잘했지만, 중간 대전역에서 특정 파장(예: 파란색 3번 채널)만 쏙 빼내고 다른 빛(노란색 10번 채널)을 끼워 넣으려면 기사가 출동해 선을 수동으로 따야 했다(OADM). 현대 아키텍트들은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 빛의 굴절을 제어하는 ROADM 장비를 DWDM 노드마다 박아버린다. 서울 통제센터 마우스 클릭 한 번으로 대전으로 가던 파장을 대구로 꺾어버리는 '빛의 지능형 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)'이 완성된다.
+1. **태평양 해저 케이블(Submarine Cable) 용량 증설 아키텍처**: 한국과 미국을 잇는 광케이블은 심해 수천 미터에 깔려있어 고장 나거나 케이블을 추가하려면 배를 띄워 수백억이 깨진다. 4K 넷플릭스 트래픽 폭증으로 용량이 부족해지면, 아키텍트들은 바닷속 쇳덩어리는 놔두고 육지 양 끝단에 있는 육양국(Landing [Station](/studynote/03_network/04_data_link_layer_error/218_hdlc_station_primary_secondary/))의 DWDM 장비만 40채널 모델에서 80채널 모델로 교체한다. 바닷속 케이블 1가닥은 그대로인데, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송량은 하루아침에 2배(수 Tbps)로 점프하는 극강의 인프라 업그레이드를 시전한다.
+2. **ROADM (재설정 가능 광 분기/결합기)과의 지능형 백본망 융합**: 과거 DWDM은 서울-부산 직선으로 쏘는 건 잘했지만, 중간 대전역에서 특정 파장(예: 파란색 3번 채널)만 쏙 빼내고 다른 빛(노란색 10번 채널)을 끼워 넣으려면 기사가 출동해 선을 수동으로 따야 했다(OADM). 현대 아키텍트들은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 하나로 빛의 굴절을 제어하는 ROADM 장비를 DWDM 노드마다 박아버린다. 서울 통제센터 마우스 클릭 한 번으로 대전으로 가던 파장을 대구로 꺾어버리는 '빛의 지능형 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)'이 완성된다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **단거리/저용량 망에 무지성 DWDM 오버엔지니어링(Over-engineering)**: 사내 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 서버실 1층과 2층을 연결(거리 500m)하는데, "우리도 넷플릭스처럼 빵빵하고 뽀대나는 80채널짜리 DWDM 장비 도입합시다!"라고 결재 올리는 설계. DWDM은 온도 유지용 냉각 팬이 미친 듯이 돌아가 전기세를 잡아먹고, 부품 수리비가 수천만 원이다. 고작 500m 단거리에 테라급 트래픽도 없는데 이걸 도입하는 것은 회사 돈을 허공에 태우는 배임 행위다. 단거리엔 그냥 싼 CWDM이나 다이렉트 광케이블 수십 가닥을 까는 게 100배 현명하다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **단거리/저용량 망에 무지성 DWDM 오버엔지니어링(Over-engineering)**: 사내 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 서버실 1층과 2층을 연결(거리 500m)하는데, "우리도 넷플릭스처럼 빵빵하고 뽀대나는 80채널짜리 DWDM 장비 도입합시다!"라고 결재 올리는 설계. DWDM은 온도 유지용 냉각 팬이 미친 듯이 돌아가 전기세를 잡아먹고, 부품 수리비가 수천만 원이다. 고작 500m 단거리에 테라급 트래픽도 없는데 이걸 도입하는 것은 회사 돈을 허공에 태우는 배임 행위다. 단거리엔 그냥 싼 CWDM이나 다이렉트 광케이블 수십 가닥을 까는 게 100배 현명하다.
 
 - **📢 섹션 요약 비유**: 단거리에 DWDM을 까는 것은, 집 앞 5분 거리 슈퍼마켓에 파 한 단 사러 가는데 '우주선(DWDM)'에 로켓 연료(엄청난 전기세/유지비)를 붓고 헬멧 쓰고 날아가는 짓이다. 슈퍼 갈 땐 그냥 킥보드(CWDM) 타고 가는 게 아키텍처의 정석이다.
 
@@ -98,7 +95,7 @@ CWDM이 동네 배달 오토바이라면, DWDM은 태평양을 건너는 초대�
 
 ## Ⅴ. 기대효과 및 결론
 
-DWDM(고밀도 파장 분할 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))은 인류가 빛의 속성을 완벽하게 지배하고 쪼개어, 쇳덩어리 유리섬유(광케이블) 하나에 무한대에 가까운 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣은 통신 물리학의 금자탑이다.
+DWDM(고밀도 파장 분할 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/))은 인류가 빛의 속성을 완벽하게 지배하고 쪼개어, 쇳덩어리 유리섬유(광케이블) 하나에 무한대에 가까운 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣은 통신 물리학의 금자탑이다.
 
 오늘날 우리가 침대에 누워 끊김 없이 미국 캘리포니아 서버의 유튜브 영상을 4K로 볼 수 있는 이유는, 깊은 바닷속을 지나는 얇은 광섬유 한 가닥 안에서 100개가 넘는 서로 다른 색깔의 레이저 빛들이 0.8nm의 숨 막히는 간격을 유지하며 초당 테라비트(Tbps)의 정보를 실어 나르는 DWDM의 보이지 않는 노동 덕분이다. 광통신의 극한을 보여주는 이 아키텍처는 양자 통신이 상용화되기 전까지 지구촌 백본망을 지배하는 절대 군주의 자리를 내어주지 않을 것이다.
 
@@ -110,9 +107,9 @@ DWDM(고밀도 파장 분할 [다중화](/knowledge-base/studynote/03_network/02
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **CWDM (Coarse WDM)** | DWDM의 보급형 하위 호환 동생. 에어컨(냉각)을 빼서 가격은 똥값이지만, 파장이 듬성듬성해 용량이 적고 장거리를 못 가는 시내용 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 솔루션 |
-| **EDFA (에르븀 첨가 광섬유 증폭기)** | 전기를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환하지 않고 돋보기처럼 순수하게 '빛 자체'를 뻥튀기해 주는 장비. DWDM이 대륙을 건널 수 있게 만든 최강의 부스터 |
-| **ROADM (Reconfigurable OADM)** | DWDM 고속도로 중간중간에 설치된 지능형 톨게이트. 빛의 색깔을 인식하여 원격 제어로 원하는 파장만 고속도로에서 내리게 하거나 태울 수 있는 광 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
+| **CWDM (Coarse WDM)** | DWDM의 보급형 하위 호환 동생. 에어컨(냉각)을 빼서 가격은 똥값이지만, 파장이 듬성듬성해 용량이 적고 장거리를 못 가는 시내용 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 솔루션 |
+| **EDFA (에르븀 첨가 광섬유 증폭기)** | 전기를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 변환하지 않고 돋보기처럼 순수하게 '빛 자체'를 뻥튀기해 주는 장비. DWDM이 대륙을 건널 수 있게 만든 최강의 부스터 |
+| **ROADM (Reconfigurable OADM)** | DWDM 고속도로 중간중간에 설치된 지능형 톨게이트. 빛의 색깔을 인식하여 원격 제어로 원하는 파장만 고속도로에서 내리게 하거나 태울 수 있는 광 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,7 +143,7 @@ EDFA(광증폭기)와의 완벽한 융합 ---> 장거리/대용량 전송의 완
 
 **진행 상황**: 81 / 1120
 
-<- **이전**: [080. 저밀도 파장 분할 다중화 (CWDM, Coarse Wavelength Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/080_저밀도_파장_분할_다중화_CWDM/)
-**다음**: [82. 코드 분할 다중화 (CDM, Code Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/) ->
+<- **이전**: [080. 저밀도 파장 분할 다중화 (CWDM, Coarse Wavelength Division Multiplexing)](/studynote/03_network/02_multiplexing_multiple_access/080_저밀도_파장_분할_다중화_CWDM/)
+**다음**: [82. 코드 분할 다중화 (CDM, Code Division Multiplexing)](/studynote/03_network/02_multiplexing_multiple_access/082_코드_분할_다중화_CDM/) ->
 
 ---

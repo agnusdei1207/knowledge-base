@@ -1,25 +1,22 @@
-+++
-title = "270. 소프트맥스 (Softmax)"
-date = 2026-05-09
+---
+title: "270. 소프트맥스 (Softmax)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 소프트맥스(Softmax) 함수는 K개의 임의 실수 벡터를 합이 1인 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환하며, 다중 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Multi-class [Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))의 출력층에서 "각 클래스에 속할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 반환한다.
-> 2. **가치**: [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) [손실 함수](/knowledge-base/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)와 결합할 때 수학적으로 매우 효율적인 기울기를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 출력 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 해석 가능한 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 활용할 수 있다.
-> 3. **판단 포인트**: Softmax는 온도 매개변수([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Parameter, T)로 출력의 날카로움(Sharpness)을 조절할 수 있어 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))와 샘플링([Sampling](/knowledge-base/studynote/03_network/01_data_communication/056_표본화_Sampling/))에서 핵심 역할을 한다.
+> 1. **본질**: 소프트맥스(Softmax) 함수는 K개의 임의 실수 벡터를 합이 1인 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환하며, 다중 클래스 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)(Multi-class [Classification](/studynote/12_it_management/03_ea_isp/107_classification/))의 출력층에서 "각 클래스에 속할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"을 반환한다.
+> 2. **가치**: [크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)([Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) [손실 함수](/studynote/10_ai/01_ai_basics/075_loss_function_cost_function/)와 결합할 때 수학적으로 매우 효율적인 기울기를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하며, 출력 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포를 해석 가능한 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 활용할 수 있다.
+> 3. **판단 포인트**: Softmax는 온도 매개변수([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Parameter, T)로 출력의 날카로움(Sharpness)을 조절할 수 있어 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))와 샘플링([Sampling](/studynote/03_network/01_data_communication/056_표본화_Sampling/))에서 핵심 역할을 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### [소프트맥스 함수](/knowledge-base/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) 정의
+### [소프트맥스 함수](/studynote/10_ai/01_ai_basics/073_softmax_function_multiclass_classification_probability/) 정의
 
 ```
 소프트맥스 수식:
@@ -36,9 +33,9 @@ yᵢ = -------------    (i = 1, 2, ..., K)
   - argmax(z) = argmax(y): 가장 큰 로짓 = 가장 큰 확률
 ```
 
-### 필요성: 왜 단순 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 아닌가?
+### 필요성: 왜 단순 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)가 아닌가?
 
-단순 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Linear [Normalization](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)):
+단순 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) (Linear [Normalization](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/)):
 ```
 yᵢ = zᵢ / Σzⱼ  <- 음수 처리 불가, 기울기 균일
 ```
@@ -51,15 +48,15 @@ yᵢ = e^(zᵢ) / Σe^(zⱼ)  <- 음수 처리 가능, 큰 값 강조, 미분 �
 지수 함수 e^z를 사용함으로써:
 1. 음수 로짓(Logit, z)도 양수로 변환
 2. 큰 값과 작은 값의 차이를 증폭 -> 승자 독식(Winner-takes-more) 효과
-3. 연속 미분 가능 -> [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 가능
+3. 연속 미분 가능 -> [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) 적용 가능
 
-- **📢 섹션 요약 비유**: 소프트맥스는 시험 점수를 "반에서 몇 등인지 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"로 변환하는 것 — 100점은 80점보다 훨씬 높은 1등 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 가지고, 모든 학생의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합은 항상 100%가 된다.
+- **📢 섹션 요약 비유**: 소프트맥스는 시험 점수를 "반에서 몇 등인지 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"로 변환하는 것 — 100점은 80점보다 훨씬 높은 1등 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 가지고, 모든 학생의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 합은 항상 100%가 된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층에서 Softmax 동작
+### 다중 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층에서 Softmax 동작
 
 ```
 +-------------------------------------------------------------------+
@@ -81,9 +78,9 @@ yᵢ = e^(zᵢ) / Σe^(zⱼ)  <- 음수 처리 가능, 큰 값 강조, 미분 �
 +-------------------------------------------------------------------+
 ```
 
-### 수치 안정성: [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지
+### 수치 안정성: [오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 방지
 
-e^z 계산 시 z가 크면 [오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 발생:
+e^z 계산 시 z가 크면 [오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)([Overflow](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/)) 발생:
 
 ```
 z = [1000, 1001, 999] -> e^1000 = 수치 폭발!
@@ -95,7 +92,7 @@ yᵢ = e^(zᵢ-c) / Σe^(zⱼ-c)
 동치 증명: e^(zᵢ-c) / Σe^(zⱼ-c) = e^(zᵢ)/Σe^(zⱼ) (분모분자에 e^(-c) 약분)
 ```
 
-### 온도 매개변수 ([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Parameter)
+### 온도 매개변수 ([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/) Parameter)
 
 ```
 소프트맥스 with 온도:  yᵢ = e^(zᵢ/T) / Σe^(zⱼ/T)
@@ -125,22 +122,22 @@ T -> ∞ (높은 온도): 분포가 균등해짐 -> 랜덤 샘플링 (불확실)
          = -yᵢyⱼ         (i ≠ j)
 ```
 
-[크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실 L = -Σ tᵢ log(yᵢ)와 결합 시:
+[크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실 L = -Σ tᵢ log(yᵢ)와 결합 시:
 
 ```
 ∂L/∂zᵢ = yᵢ - tᵢ  (예측 확률 - 정답 원핫벡터)
 ```
 
-이 단순한 기울기가 Softmax + [Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 조합이 표준이 된 이유다.
+이 단순한 기울기가 Softmax + [Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 조합이 표준이 된 이유다.
 
 | 요소 | 역할 |
 |:---|:---|
 | 특성 공학 | 문제 구조를 모델이 학습 가능한 형태로 바꾸는 출발점이다. |
 | 평가 지표 | 같은 정확도여도 비즈니스 위험은 지표 선택에 따라 달라진다. |
-| 모델 선택 | 문제의 선형성, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 해석성 요구를 반영한다. |
-| 최적화 | 탐색·튜닝을 통해 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용의 균형점을 찾는다. |
+| 모델 선택 | 문제의 선형성, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기, 해석성 요구를 반영한다. |
+| 최적화 | 탐색·튜닝을 통해 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 비용의 균형점을 찾는다. |
 
-- **📢 섹션 요약 비유**: 소프트맥스는 투표 시스템 — 각 후보(클래스)가 얻은 점수(로짓)를 지수 변환해 모든 표([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/))의 합이 100%가 되게 만들며, 점수 차이가 클수록 표 쏠림 현상이 심해진다.
+- **📢 섹션 요약 비유**: 소프트맥스는 투표 시스템 — 각 후보(클래스)가 얻은 점수(로짓)를 지수 변환해 모든 표([확률](/studynote/08_algorithm_stats/08_stats/130_probability/))의 합이 100%가 되게 만들며, 점수 차이가 클수록 표 쏠림 현상이 심해진다.
 
 ---
 
@@ -150,22 +147,22 @@ T -> ∞ (높은 온도): 분포가 균등해짐 -> 랜덤 샘플링 (불확실)
 
 | 개념 | 설명 | 차이점 |
 |:---|:---|:---|
-| **Softmax** | K개 클래스 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 모든 출력 고려한 [정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a></strong> | 1개 이진 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | 독립적 이진 판단 |
-| **argmax** | 가장 큰 로짓의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 미분 불가, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 아님 |
-| **Sparsemax** | Softmax의 희소 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 일부 클래스만 0이 아닌 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) |
+| **Softmax** | K개 클래스 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 모든 출력 고려한 [정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">Sigmoid</a></strong> | 1개 이진 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | 독립적 이진 판단 |
+| **argmax** | 가장 큰 로짓의 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) | 미분 불가, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 아님 |
+| **Sparsemax** | Softmax의 희소 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) | 일부 클래스만 0이 아닌 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) |
 | **Gumbel-Softmax** | 이산 샘플링 미분 가능화 | 강화학습·VAE에서 사용 |
 
-### 소프트맥스와 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 소프트맥스와 [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 Softmax(K=2) = [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/):
+이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에서 Softmax(K=2) = [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/):
 
 ```
 K=2 소프트맥스:
 y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <- Sigmoid
 ```
 
-따라서 소프트맥스는 [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))의 다중 클래스 일반화다.
+따라서 소프트맥스는 [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)([Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/))의 다중 클래스 일반화다.
 
 - **📢 섹션 요약 비유**: Softmax와 argmax의 차이는 "1등 뽑기"와 "1등 뽑기 + 점수 차이 알기" — argmax는 우승자만 알고, Softmax는 각 후보가 얼마나 경쟁력 있는지까지 보여준다.
 
@@ -175,10 +172,10 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 
 ### 기술사 시험 핵심 논점
 
-1. **왜 Softmax인가**: 다중 클래스에서 "모든 클래스에 대한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 합=1" 보장 필요 -> 상호 배타적 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 필수
-2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>와 결합 이유</strong>: Softmax + CE 기울기 = yᵢ - tᵢ (단순, 수치 안정)
-3. **온도 매개변수 활용**: [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))에서 교사 모델의 "소프트 레이블"을 높은 온도로 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
-4. **과신뢰(Overconfidence) 문제**: Softmax 출력이 항상 합=1이라 틀려도 높은 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) -> 교정([Calibration](/knowledge-base/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)) 기법 필요
+1. **왜 Softmax인가**: 다중 클래스에서 "모든 클래스에 대한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)의 합=1" 보장 필요 -> 상호 배타적 클래스 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 필수
+2. <strong><a href="/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/">크로스 엔트로피</a>와 결합 이유</strong>: Softmax + CE 기울기 = yᵢ - tᵢ (단순, 수치 안정)
+3. **온도 매개변수 활용**: [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/))에서 교사 모델의 "소프트 레이블"을 높은 온도로 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+4. **과신뢰(Overconfidence) 문제**: Softmax 출력이 항상 합=1이라 틀려도 높은 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) -> 교정([Calibration](/studynote/10_ai/03_llm_nlp/230_digital_twin_simulation_calibration/)) 기법 필요
 
 ### 실무 활용 예시
 
@@ -193,7 +190,7 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 교사 로짓 -> Softmax(T=4) -> 소프트 레이블 -> 학생 모델 학습
 ```
 
-- **📢 섹션 요약 비유**: 소프트맥스는 포털 사이트의 "검색 결과 순위" — 검색어와의 관련성(로짓) 점수를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해 각 결과가 "정답일 가능성"을 퍼센트로 보여주는 것과 같다.
+- **📢 섹션 요약 비유**: 소프트맥스는 포털 사이트의 "검색 결과 순위" — 검색어와의 관련성(로짓) 점수를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 변환해 각 결과가 "정답일 가능성"을 퍼센트로 보여주는 것과 같다.
 
 ---
 
@@ -206,8 +203,8 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 | **수식** | yᵢ = e^(zᵢ) / Σe^(zⱼ) |
 | **출력 범위** | 각 yᵢ ∈ (0, 1), Σyᵢ = 1 |
 | **클래스 수** | K ≥ 2 (K=2 시 Sigmoid와 동등) |
-| **사용 위치** | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층 |
-| **결합 손실** | 범주형 [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) |
+| **사용 위치** | 다중 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층 |
+| **결합 손실** | 범주형 [크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) |
 | **기울기** | yᵢ - tᵢ (CE 결합 시) |
 | **온도 조절** | T<1 날카롭게, T>1 부드럽게 |
 
@@ -215,14 +212,14 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 
 | 효과 | 내용 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 해석</strong> | 모델 출력을 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 해석 가능 |
+| <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a> 해석</strong> | 모델 출력을 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)([Confidence](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/))로 해석 가능 |
 | **다중 클래스** | K개 클래스에 자연스럽게 확장 |
 | **최적화 효율** | CE와 결합 시 단순하고 안정적인 기울기 |
-| **소프트 레이블** | 온도 조절로 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·샘플링 활용 |
+| **소프트 레이블** | 온도 조절로 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·샘플링 활용 |
 
 ### 결론
 
-소프트맥스는 다중 클래스 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 출력층 표준 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)로, 임의의 실수 벡터를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환하는 핵심 역할을 한다. [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실과의 결합으로 효율적인 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)가 가능하며, 온도 매개변수를 통해 [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)와 언어 모델 샘플링에서도 폭넓게 활용된다. 기술사 시험에서는 수식, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 특성, CE와의 결합 이유, 온도 매개변수가 핵심이다.
+소프트맥스는 다중 클래스 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)의 출력층 표준 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)로, 임의의 실수 벡터를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포로 변환하는 핵심 역할을 한다. [크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) 손실과의 결합으로 효율적인 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)가 가능하며, 온도 매개변수를 통해 [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)와 언어 모델 샘플링에서도 폭넓게 활용된다. 기술사 시험에서는 수식, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 특성, CE와의 결합 이유, 온도 매개변수가 핵심이다.
 
 - **📢 섹션 요약 비유**: 소프트맥스는 "파이 나누기" — 어떤 크기의 파이(로짓 벡터)든 K개 조각으로 나누어 모든 조각의 합이 100%가 되게 만들며, 지수 함수로 큰 조각을 더 크게 강조한다.
 
@@ -232,12 +229,12 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 로짓 (Logit) | 소프트맥스 입력, 선형 출력 / Softmax 입력값 ([정규화](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 전) |
-| [크로스 엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) ([Cross-Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) | -Σy·log(ŷ), [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실 / Softmax와 결합되는 표준 손실 |
-| 온도 매개변수 ([Temperature](/knowledge-base/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) | T, 날카로움 조절 / [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·샘플링에서 활용 |
-| [지식 증류](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 소프트 레이블, T>1 / 소프트맥스 온도 활용 핵심 사례 |
-| argmax | 최대값 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / Softmax의 미분 불가능 대안 |
-| [로지스틱 회귀](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)) | [Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) / Softmax의 이진 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 특수 경우 |
+| 로짓 (Logit) | 소프트맥스 입력, 선형 출력 / Softmax 입력값 ([정규화](/studynote/01_computer_architecture/02_data_representation_arithmetic/093_normalization/) 전) |
+| [크로스 엔트로피](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/) ([Cross-Entropy](/studynote/08_algorithm_stats/09_info_theory/154_cross_entropy/)) | -Σy·log(ŷ), [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 손실 / Softmax와 결합되는 표준 손실 |
+| 온도 매개변수 ([Temperature](/studynote/10_ai/05_data_science_ml/386_llm_temperature/)) | T, 날카로움 조절 / [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)·샘플링에서 활용 |
+| [지식 증류](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/) ([Knowledge Distillation](/studynote/14_data_engineering/05_exam_keywords/252_knowledge_distillation_quantization_edge_slm_diffusion/)) | 소프트 레이블, T>1 / 소프트맥스 온도 활용 핵심 사례 |
+| argmax | 최대값 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) / Softmax의 미분 불가능 대안 |
+| [로지스틱 회귀](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/) ([Logistic Regression](/studynote/14_data_engineering/05_exam_keywords/227_logistic_regression_clt_pvalue_type_error/)) | [Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/), 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) / Softmax의 이진 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 특수 경우 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -248,8 +245,8 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 🍕 **"피자 나눠 먹기"**
-2. 친구들(클래스)에게 점수(로짓)에 따라 피자를 나눠주는데, 모든 친구 몫의 합은 항상 피자 한 판([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 합=1)이에요.
-3. 점수가 제일 높은 친구가 가장 큰 조각을 받고 — 이게 소프트맥스가 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 제일 높은 클래스를 선택"하는 방식이에요.
+2. 친구들(클래스)에게 점수(로짓)에 따라 피자를 나눠주는데, 모든 친구 몫의 합은 항상 피자 한 판([확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 합=1)이에요.
+3. 점수가 제일 높은 친구가 가장 큰 조각을 받고 — 이게 소프트맥스가 "[확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 제일 높은 클래스를 선택"하는 방식이에요.
 
 ---
 
@@ -257,7 +254,7 @@ y₁ = e^z₁ / (e^z₁ + e^z₂) = 1 / (1 + e^(z₂-z₁)) = σ(z₁ - z₂) <-
 
 **진행 상황**: 270 / 420
 
-<- **이전**: [269. ReLU (Rectified Linear Unit)](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/)
-**다음**: [271. 순전파 (Forward Propagation)](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) ->
+<- **이전**: [269. ReLU (Rectified Linear Unit)](/studynote/10_ai/03_llm_nlp/269_relu_activation/)
+**다음**: [271. 순전파 (Forward Propagation)](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) ->
 
 ---

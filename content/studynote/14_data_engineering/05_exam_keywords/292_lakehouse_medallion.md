@@ -1,13 +1,10 @@
-+++
-title = "292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)"
-date = 2026-05-09
+---
+title: "292. 데이터 레이크하우스 메달리온 아키텍처 (Data Lakehouse Medallion Architecture)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -177,7 +174,7 @@ Delta Lake의 `_delta_log/` 폴더에는 JSON/Checkpoint 파일이 저장됩니�
 
 **진행 상황**: 292 / 300
 
-<- **이전**: [291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/291_iceberg_hudi_delta/)
-**다음**: [293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/293_data_observability/) ->
+<- **이전**: [291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)](/studynote/14_data_engineering/05_exam_keywords/291_iceberg_hudi_delta/)
+**다음**: [293. 데이터 관측 가능성 이상 탐지 SLO (Data Observability Anomaly Detection SLO)](/studynote/14_data_engineering/05_exam_keywords/293_data_observability/) ->
 
 ---

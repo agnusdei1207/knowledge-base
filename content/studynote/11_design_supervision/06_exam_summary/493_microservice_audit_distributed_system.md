@@ -1,13 +1,10 @@
-+++
-title = "493. 마이크로서비스 감리 분산 시스템 진단 (Microservice Audit Distributed System)"
-date = 2026-05-09
+---
+title: "493. 마이크로서비스 감리 분산 시스템 진단 (Microservice Audit Distributed System)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 # 493. 마이크로서비스 감리 · 분산 시스템 진단 (Microservice Audit · Distributed System Diagnostics)
 
@@ -170,7 +167,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 493 / 600
 
-<- **이전**: [492. DevOps 환경 감리 자동화 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/493_devops_environment_audit_automation/)
-**다음**: [494. 컨테이너 감리 오케스트레이션 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/494_container_audit_orchestration_validation/) ->
+<- **이전**: [492. DevOps 환경 감리 자동화 검증](/studynote/11_design_supervision/06_exam_summary/493_devops_environment_audit_automation/)
+**다음**: [494. 컨테이너 감리 오케스트레이션 검증](/studynote/11_design_supervision/06_exam_summary/494_container_audit_orchestration_validation/) ->
 
 ---

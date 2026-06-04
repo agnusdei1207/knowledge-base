@@ -1,13 +1,10 @@
-+++
-title = "581. IT 경영 관리 핵심 토픽 581번 시험 요약 (IT Management Core Topic 581 Exam Summary)"
-date = 2026-05-09
+---
+title: "581. IT 경영 관리 핵심 토픽 581번 시험 요약 (IT Management Core Topic 581 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -140,7 +137,7 @@ IT 경영 관리의 핵심 메커니즘은 **PDCA(Plan-Do-Check-Act) + 거버넌
 
 **진행 상황**: 581 / 800
 
-<- **이전**: [580. IT 경영 관리 핵심 토픽 580번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/580_it_management_core_topic_580_exam_summary/)
-**다음**: [582. IT 경영 관리 핵심 토픽 582번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/582_it_management_core_topic_582_exam_summary/) ->
+<- **이전**: [580. IT 경영 관리 핵심 토픽 580번 시험 요약](/studynote/12_it_management/05_security_compliance/580_it_management_core_topic_580_exam_summary/)
+**다음**: [582. IT 경영 관리 핵심 토픽 582번 시험 요약](/studynote/12_it_management/05_security_compliance/582_it_management_core_topic_582_exam_summary/) ->
 
 ---

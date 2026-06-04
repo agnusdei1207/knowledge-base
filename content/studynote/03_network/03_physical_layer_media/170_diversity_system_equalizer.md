@@ -1,27 +1,24 @@
-+++
-title = "170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)"
-date = 2026-05-06
+---
+title: "170. 다이버시티 시스템 (Diversity System) / 경로 이퀄라이저 (Equalizer)"
+date: "2026-05-06"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다이버시티 시스템 (Diversity System)은 서로 독립적으로 약해지는 여러 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 복사본을 확보해 깊은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Deep [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))을 통계적으로 피하는 기법이고, 이퀄라이저 ([Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 왜곡된 채널 응답을 추정해 심볼 간 간섭 (Inter-Symbol Interference, ISI)을 복원하는 수신기 처리 기법이다.
-> 2. **가치**: 둘은 송신 전력을 무작정 높이지 않고도 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate, BER)을 낮추는 대표 수단이며, 다중 경로 채널에서 신뢰성과 스펙트럼 효율을 함께 지키게 해 준다.
-> 3. **판단 포인트**: 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 중심 환경에서는 다이버시티 이득이 크고, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 심해 심볼이 겹치는 환경에서는 이퀄라이저가 필수다. 현대 이동통신은 보통 두 기법을 함께 쓴다.
+> 1. **본질**: 다이버시티 시스템 (Diversity System)은 서로 독립적으로 약해지는 여러 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 복사본을 확보해 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Deep [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/))을 통계적으로 피하는 기법이고, 이퀄라이저 ([Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 왜곡된 채널 응답을 추정해 심볼 간 간섭 (Inter-Symbol Interference, ISI)을 복원하는 수신기 처리 기법이다.
+> 2. **가치**: 둘은 송신 전력을 무작정 높이지 않고도 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류율 ([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate, BER)을 낮추는 대표 수단이며, 다중 경로 채널에서 신뢰성과 스펙트럼 효율을 함께 지키게 해 준다.
+> 3. **판단 포인트**: 평탄 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 중심 환경에서는 다이버시티 이득이 크고, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 심해 심볼이 겹치는 환경에서는 이퀄라이저가 필수다. 현대 이동통신은 보통 두 기법을 함께 쓴다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-무선 채널은 한 줄의 깨끗한 선로가 아니라, 반사·회절·산란으로 여러 경로가 뒤섞이는 환경이다. 이때 어떤 경로는 서로 상쇄되어 특정 순간 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 크게 꺼지고, 어떤 경로는 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어 뒤늦게 들어와 다음 심볼과 겹친다. 전자는 깊은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)과 [신호 대 잡음비](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([Signal-to-Noise Ratio](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 저하 문제이고, 후자는 ISI 문제다.
+무선 채널은 한 줄의 깨끗한 선로가 아니라, 반사·회절·산란으로 여러 경로가 뒤섞이는 환경이다. 이때 어떤 경로는 서로 상쇄되어 특정 순간 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 세기가 크게 꺼지고, 어떤 경로는 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되어 뒤늦게 들어와 다음 심볼과 겹친다. 전자는 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)과 [신호 대 잡음비](/studynote/03_network/01_data_communication/024_신호_대_잡음비/) ([Signal-to-Noise Ratio](/studynote/03_network/01_data_communication/024_신호_대_잡음비/), [SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/)) 저하 문제이고, 후자는 ISI 문제다.
 
-이 때문에 단순히 송신 전력을 키우는 것만으로는 충분하지 않다. 채널에 깊은 페이드 구간이 있으면 전력을 올려도 순간적으로 약해지는 문제를 피하기 어렵고, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 복사본이 겹쳐 생기는 파형 왜곡은 더 큰 전력으로도 본질적으로 해결되지 않는다. 그래서 수신기에는 두 가지 대표 대응이 필요하다. 하나는 서로 다른 경로나 시간·주파수에서 여러 복사본을 모으는 다이버시티이고, 다른 하나는 채널의 찌그러짐을 역으로 보정하는 이퀄라이저다.
+이 때문에 단순히 송신 전력을 키우는 것만으로는 충분하지 않다. 채널에 깊은 페이드 구간이 있으면 전력을 올려도 순간적으로 약해지는 문제를 피하기 어렵고, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)된 복사본이 겹쳐 생기는 파형 왜곡은 더 큰 전력으로도 본질적으로 해결되지 않는다. 그래서 수신기에는 두 가지 대표 대응이 필요하다. 하나는 서로 다른 경로나 시간·주파수에서 여러 복사본을 모으는 다이버시티이고, 다른 하나는 채널의 찌그러짐을 역으로 보정하는 이퀄라이저다.
 
 아래 그림은 다중 경로 채널이 왜 두 종류의 대책을 동시에 요구하는지 보여준다.
 
@@ -38,15 +35,15 @@ tags = ["studynote-network"]
 
 이 그림의 핵심은 두 기법이 같은 문제를 중복 해결하는 것이 아니라, 채널의 서로 다른 고장을 다룬다는 점이다. 다이버시티는 "여러 길 중 덜 나쁜 길을 잡는 것"에 가깝고, 이퀄라이저는 "들어온 길의 찌그러짐을 펴는 것"에 가깝다. 그래서 무선 채널이 복잡해질수록 둘을 병행하는 수신기 구조가 자연스러워진다.
 
-- **📢 섹션 요약 비유**: 다이버시티와 이퀄라이저는 비 오는 날 학교에 가는 두 방법과 같다. 우산을 여러 개 준비하는 것은 빗줄기를 피할 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 높이는 일이고, 젖은 옷을 다려 입는 것은 이미 구겨진 상태를 바로잡는 일이다. 문제 종류가 다르니 대응도 달라진다.
+- **📢 섹션 요약 비유**: 다이버시티와 이퀄라이저는 비 오는 날 학교에 가는 두 방법과 같다. 우산을 여러 개 준비하는 것은 빗줄기를 피할 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 높이는 일이고, 젖은 옷을 다려 입는 것은 이미 구겨진 상태를 바로잡는 일이다. 문제 종류가 다르니 대응도 달라진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-다이버시티의 핵심은 서로 상관이 낮은 복사본을 여러 개 확보하는 것이다. 공간 다이버시티는 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 분리해 서로 다른 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 받게 하고, 주파수 다이버시티는 다른 반송파나 서브캐리어에 정보를 분산한다. 시간 다이버시티는 다른 시점에 재전송하거나 인터리빙·부호화를 이용하고, 편파 다이버시티는 서로 다른 편파를 활용한다. 이 복사본들은 선택 결합 ([Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Combining), 등 이득 결합 (Equal Gain Combining), 최대 비 결합 (Maximal Ratio Combining, MRC) 같은 방식으로 합쳐진다.
+다이버시티의 핵심은 서로 상관이 낮은 복사본을 여러 개 확보하는 것이다. 공간 다이버시티는 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 분리해 서로 다른 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 받게 하고, 주파수 다이버시티는 다른 반송파나 서브캐리어에 정보를 분산한다. 시간 다이버시티는 다른 시점에 재전송하거나 인터리빙·부호화를 이용하고, 편파 다이버시티는 서로 다른 편파를 활용한다. 이 복사본들은 선택 결합 ([Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Combining), 등 이득 결합 (Equal Gain Combining), 최대 비 결합 (Maximal Ratio Combining, MRC) 같은 방식으로 합쳐진다.
 
-이퀄라이저의 핵심은 채널 응답을 추정한 뒤 그 역특성을 근사하는 필터를 적용하는 것이다. 선형 이퀄라이저 (Linear [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 단순한 구조로 앞뒤 심볼 영향을 줄이고, 결정 피드백 이퀄라이저 (Decision Feedback [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/), DFE)는 이미 판정한 심볼을 활용해 후행 간섭을 제거한다. 직교 [주파수 분할 다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), OFDM)에서는 순환 접두부 ([Cyclic Prefix](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 덕분에 각 서브캐리어를 거의 평탄 채널처럼 볼 수 있어, 서브캐리어별 1-tap 등화가 가능해진다.
+이퀄라이저의 핵심은 채널 응답을 추정한 뒤 그 역특성을 근사하는 필터를 적용하는 것이다. 선형 이퀄라이저 (Linear [Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/))는 단순한 구조로 앞뒤 심볼 영향을 줄이고, 결정 피드백 이퀄라이저 (Decision Feedback [Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/), DFE)는 이미 판정한 심볼을 활용해 후행 간섭을 제거한다. 직교 [주파수 분할 다중화](/studynote/03_network/02_multiplexing_multiple_access/073_주파수_분할_다중화_FDM/) (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), OFDM)에서는 순환 접두부 ([Cyclic Prefix](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/), [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/)) 덕분에 각 서브캐리어를 거의 평탄 채널처럼 볼 수 있어, 서브캐리어별 1-tap 등화가 가능해진다.
 
 ```text
 +--------------------------------------------------------------+
@@ -59,34 +56,34 @@ tags = ["studynote-network"]
 +--------------------------------------------------------------+
 ```
 
-이 구조에서 다이버시티는 "좋은 복사본을 더 잘 모으는 단계"이고, 이퀄라이저는 "모아진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 시간축 왜곡을 바로잡는 단계"다. 실제 시스템에서는 채널 추정기가 각 브랜치의 복소 채널 계수를 구하고, 결합기와 이퀄라이저가 그 추정값을 동시에 사용한다. 그래서 이동 속도가 빠를수록 채널 추정과 계수 갱신 주기도 함께 빨라져야 한다.
+이 구조에서 다이버시티는 "좋은 복사본을 더 잘 모으는 단계"이고, 이퀄라이저는 "모아진 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 시간축 왜곡을 바로잡는 단계"다. 실제 시스템에서는 채널 추정기가 각 브랜치의 복소 채널 계수를 구하고, 결합기와 이퀄라이저가 그 추정값을 동시에 사용한다. 그래서 이동 속도가 빠를수록 채널 추정과 계수 갱신 주기도 함께 빨라져야 한다.
 
 | 기법 | 주로 겨냥하는 문제 | 장점 | 주의점 |
 | :--- | :----------------- | :--- | :----- |
-| [Selection](/knowledge-base/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Combining | 깊은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) | 구현 단순 | 다른 브랜치 에너지 활용이 제한적 |
-| MRC | 깊은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) + [SNR](/knowledge-base/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 최대화 | 이론적으로 좋은 결합 이득 | 정확한 채널 추정 필요 |
-| Linear [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) | 중간 수준 ISI | 구조 단순, 실시간 처리 용이 | 잡음 증폭 가능 |
-| DFE | 강한 후행 ISI | [성능 우수](/knowledge-base/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) | 오판정 전파 위험 |
-| OFDM 1-tap [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) | 주파수 선택적 채널 | 계산 단순화 | [CP](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 오버헤드, 주파수 동기 필요 |
+| [Selection](/studynote/10_ai/01_ai_basics/022_mcts_four_stages/) Combining | 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) | 구현 단순 | 다른 브랜치 에너지 활용이 제한적 |
+| MRC | 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) + [SNR](/studynote/03_network/01_data_communication/024_신호_대_잡음비/) 최대화 | 이론적으로 좋은 결합 이득 | 정확한 채널 추정 필요 |
+| Linear [Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) | 중간 수준 ISI | 구조 단순, 실시간 처리 용이 | 잡음 증폭 가능 |
+| DFE | 강한 후행 ISI | [성능 우수](/studynote/05_database/07_exam_summary/484_elt_extract_load_transform/) | 오판정 전파 위험 |
+| OFDM 1-tap [Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) | 주파수 선택적 채널 | 계산 단순화 | [CP](/studynote/03_network/02_multiplexing_multiple_access/086_CP_순환_전치_GI/) 오버헤드, 주파수 동기 필요 |
 
-- **📢 섹션 요약 비유**: 다이버시티는 여러 사람의 목소리를 동시에 듣고 가장 또렷한 쪽을 고르는 일이고, 이퀄라이저는 울리는 강당 마이크 소리를 전자 장비로 또렷하게 다듬는 일과 같다. 하나는 입력을 더 좋게 모으고, 다른 하나는 들어온 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 복원한다.
+- **📢 섹션 요약 비유**: 다이버시티는 여러 사람의 목소리를 동시에 듣고 가장 또렷한 쪽을 고르는 일이고, 이퀄라이저는 울리는 강당 마이크 소리를 전자 장비로 또렷하게 다듬는 일과 같다. 하나는 입력을 더 좋게 모으고, 다른 하나는 들어온 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 복원한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-다이버시티와 이퀄라이저는 종종 같은 범주의 "수신 개선 기술"로 묶이지만, 실제로는 초점이 다르다. 다이버시티는 복사본의 독립성을 이용해 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 낮추고, 이퀄라이저는 채널이 주파수별·시간별로 다르게 준 왜곡을 줄인다. 그래서 평탄 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Flat [Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) 환경에서는 다이버시티만으로도 큰 개선을 볼 수 있지만, 심볼 시간에 비해 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 큰 주파수 선택적 채널에서는 이퀄라이저가 빠질 수 없다.
+다이버시티와 이퀄라이저는 종종 같은 범주의 "수신 개선 기술"로 묶이지만, 실제로는 초점이 다르다. 다이버시티는 복사본의 독립성을 이용해 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 낮추고, 이퀄라이저는 채널이 주파수별·시간별로 다르게 준 왜곡을 줄인다. 그래서 평탄 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) (Flat [Fading](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)) 환경에서는 다이버시티만으로도 큰 개선을 볼 수 있지만, 심볼 시간에 비해 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 큰 주파수 선택적 채널에서는 이퀄라이저가 빠질 수 없다.
 
 | 비교 축 | 다이버시티 | 이퀄라이저 |
 | :------ | :--------- | :--------- |
-| 주 대상 문제 | [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 아웃리지 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | ISI, 채널 왜곡 |
-| 핵심 자원 | 추가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)/시간/주파수 자원 | 필터 계수, 파일럿, DSP 연산 |
+| 주 대상 문제 | [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 아웃리지 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | ISI, 채널 왜곡 |
+| 핵심 자원 | 추가 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)/시간/주파수 자원 | 필터 계수, 파일럿, DSP 연산 |
 | 성공 조건 | 브랜치 간 상관 낮음 | 채널 추정이 충분히 정확함 |
 | 약한 상황 | 모든 브랜치가 함께 꺼질 때 | 채널이 너무 빨리 바뀌거나 잡음이 큰 상황 |
 
-현대 통신에서는 두 기법이 경쟁 관계보다 보완 관계에 가깝다. 다중 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([MIMO](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [Multiple-Input Multiple-Output](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 시스템은 공간 다이버시티와 빔포밍을 제공하고, OFDM 수신기는 파일럿 기반 등화를 수행한다. [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 계열에서는 RAKE 수신기가 시간적으로 분리된 경로를 모아 시간 다이버시티와 유사한 효과를 낸다. 결국 다중 경로를 "적"으로만 보지 않고, 분리 가능한 복사본은 이득으로, 겹쳐진 왜곡은 보정 대상으로 다루는 것이다.
+현대 통신에서는 두 기법이 경쟁 관계보다 보완 관계에 가깝다. 다중 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ([MIMO](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/), [Multiple-Input Multiple-Output](/studynote/03_network/02_multiplexing_multiple_access/097_MIMO_다중_안테나_기술/)) 시스템은 공간 다이버시티와 빔포밍을 제공하고, OFDM 수신기는 파일럿 기반 등화를 수행한다. [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 계열에서는 RAKE 수신기가 시간적으로 분리된 경로를 모아 시간 다이버시티와 유사한 효과를 낸다. 결국 다중 경로를 "적"으로만 보지 않고, 분리 가능한 복사본은 이득으로, 겹쳐진 왜곡은 보정 대상으로 다루는 것이다.
 
-또한 이전 주제였던 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))와도 직접 연결된다. 이동 속도가 빨라지면 브랜치별 채널 추정이 빨리 낡아 MRC 가중치도, 이퀄라이저 계수도 자주 갱신해야 한다. 따라서 고속 이동체 환경에서는 다이버시티나 이퀄라이저 자체보다 "얼마나 빨리 채널을 다시 배울 수 있는가"가 더 중요해진다.
+또한 이전 주제였던 [도플러 효과](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ([Doppler Effect](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/))와도 직접 연결된다. 이동 속도가 빨라지면 브랜치별 채널 추정이 빨리 낡아 MRC 가중치도, 이퀄라이저 계수도 자주 갱신해야 한다. 따라서 고속 이동체 환경에서는 다이버시티나 이퀄라이저 자체보다 "얼마나 빨리 채널을 다시 배울 수 있는가"가 더 중요해진다.
 
 - **📢 섹션 요약 비유**: 다이버시티가 여러 우회도로를 확보하는 전략이라면, 이퀄라이저는 이미 들어온 울퉁불퉁한 도로를 평탄하게 고치는 전략이다. 도로가 자주 막히는 도시에서는 우회도로와 도로 보수팀이 둘 다 필요하다.
 
@@ -94,7 +91,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 먼저 채널이 어떤 방식으로 망가지는지부터 판단해야 한다. 심볼 시간보다 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 훨씬 짧아 파형 겹침이 크지 않다면, [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 다이버시티와 결합 방식만으로 충분할 수 있다. 반대로 광대역 전송처럼 심볼이 짧고 경로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 상대적으로 길면, 다이버시티만으로는 ISI를 제거할 수 없어 등화가 필수다.
+실무에서는 먼저 채널이 어떤 방식으로 망가지는지부터 판단해야 한다. 심볼 시간보다 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산이 훨씬 짧아 파형 겹침이 크지 않다면, [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 다이버시티와 결합 방식만으로 충분할 수 있다. 반대로 광대역 전송처럼 심볼이 짧고 경로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 상대적으로 길면, 다이버시티만으로는 ISI를 제거할 수 없어 등화가 필수다.
 
 ```text
 +--------------------------------------------------------------+
@@ -116,20 +113,20 @@ tags = ["studynote-network"]
 +--------------------------------------------------------------+
 ```
 
-예를 들어 스마트폰 셀 가장자리에서는 2개 이상 수신 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 두고 MRC 또는 유사 결합을 적용해 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 줄인다. 동시에 LTE와 [5G NR](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 같은 OFDM 기반 시스템은 파일럿으로 채널을 추정해 서브캐리어별 등화를 수행한다. 반면 DSL이나 수중 음향 통신처럼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 ISI가 매우 큰 환경에서는 다이버시티보다 이퀄라이저 복잡도와 적응 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 큰 설계 이슈가 되기도 한다.
+예를 들어 스마트폰 셀 가장자리에서는 2개 이상 수신 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 두고 MRC 또는 유사 결합을 적용해 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 줄인다. 동시에 LTE와 [5G NR](/studynote/03_network/15_nextgen_communication_architecture/763_5g_nr_new_radio_scalable_numerology/) 같은 OFDM 기반 시스템은 파일럿으로 채널을 추정해 서브캐리어별 등화를 수행한다. 반면 DSL이나 수중 음향 통신처럼 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 ISI가 매우 큰 환경에서는 다이버시티보다 이퀄라이저 복잡도와 적응 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 더 큰 설계 이슈가 되기도 한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-- [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 심볼 시간의 상대 크기를 계산했는가?
-- [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 간격, 편파, 주파수 분리로 브랜치 독립성을 확보했는가?
+- [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 확산과 심볼 시간의 상대 크기를 계산했는가?
+- [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) 간격, 편파, 주파수 분리로 브랜치 독립성을 확보했는가?
 - 파일럿 오버헤드와 적응 필터 복잡도가 전력 예산 안에 들어오는가?
-- 목표가 단순 수신 감도 개선인지, BER·[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·스펙트럼 효율의 동시 최적화인지 명확한가?
+- 목표가 단순 수신 감도 개선인지, BER·[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·스펙트럼 효율의 동시 최적화인지 명확한가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 여러 개 달았지만 서로 너무 가까워 거의 같은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 받는 설계
+- [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/)를 여러 개 달았지만 서로 너무 가까워 거의 같은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/)을 받는 설계
 - 시간 변동 채널인데 고정 계수 이퀄라이저로 버티는 설계
-- 전력만 올리면 ISI와 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 문제도 같이 해결된다고 보는 설계
+- 전력만 올리면 ISI와 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/) 문제도 같이 해결된다고 보는 설계
 
 - **📢 섹션 요약 비유**: 다이버시티와 이퀄라이저를 고르는 일은 비행기 결항 대책을 세우는 것과 같다. 대체 공항을 여러 개 마련하는 것은 다이버시티이고, 착륙한 비행기를 정비해 다시 쓰는 것은 이퀄라이저다. 일정이 복잡할수록 둘 다 필요해진다.
 
@@ -137,13 +134,13 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-다이버시티와 이퀄라이저를 적절히 결합하면 깊은 [페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 주파수 선택성, ISI를 동시에 완화할 수 있다. 그 결과 BER과 패킷 오류율이 낮아지고, 셀 경계 커버리지와 이동 중 링크 안정성이 좋아지며, 같은 전력 예산으로 더 높은 전송 효율을 확보할 수 있다. 이는 무선 시스템이 단순히 "잘 터지는가"를 넘어 "얼마나 안정적으로 고속 전송하는가"로 발전하는 기반이다.
+다이버시티와 이퀄라이저를 적절히 결합하면 깊은 [페이딩](/studynote/03_network/03_physical_layer_media/167_fading_large_scale_small_scale/), 주파수 선택성, ISI를 동시에 완화할 수 있다. 그 결과 BER과 패킷 오류율이 낮아지고, 셀 경계 커버리지와 이동 중 링크 안정성이 좋아지며, 같은 전력 예산으로 더 높은 전송 효율을 확보할 수 있다. 이는 무선 시스템이 단순히 "잘 터지는가"를 넘어 "얼마나 안정적으로 고속 전송하는가"로 발전하는 기반이다.
 
-물론 비용도 있다. 다이버시티는 추가 [안테나](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/), RF 체인, 결합 로직을 요구하고, 이퀄라이저는 파일럿 오버헤드와 연산량을 늘린다. 브랜치 상관이 높거나 채널 추정이 부정확하면 기대한 만큼의 이득도 나오지 않는다. 따라서 두 기법은 항상 전력, 복잡도, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 하드웨어 비용과 함께 평가해야 한다.
+물론 비용도 있다. 다이버시티는 추가 [안테나](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/), RF 체인, 결합 로직을 요구하고, 이퀄라이저는 파일럿 오버헤드와 연산량을 늘린다. 브랜치 상관이 높거나 채널 추정이 부정확하면 기대한 만큼의 이득도 나오지 않는다. 따라서 두 기법은 항상 전력, 복잡도, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 하드웨어 비용과 함께 평가해야 한다.
 
-결국 이 주제의 핵심은 명확하다. 다이버시티는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 더 좋은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 확보하는 전략이고, 이퀄라이저는 채널 왜곡을 수학적으로 복원하는 전략이다. 현대 수신기는 이 둘을 함께 사용해 "[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 잘 받고, 받은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 더 잘 고친다"는 두 단계 방어선을 구축한다.
+결국 이 주제의 핵심은 명확하다. 다이버시티는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 더 좋은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 확보하는 전략이고, 이퀄라이저는 채널 왜곡을 수학적으로 복원하는 전략이다. 현대 수신기는 이 둘을 함께 사용해 "[신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 더 잘 받고, 받은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 더 잘 고친다"는 두 단계 방어선을 구축한다.
 
-- **📢 섹션 요약 비유**: 다이버시티와 이퀄라이저는 시험 준비에서 예비 연필을 여러 자루 챙기는 일과, 구겨진 답안지를 반듯하게 펴는 일의 조합과 같다. 하나는 실패 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 줄이고, 다른 하나는 이미 생긴 문제를 복구한다.
+- **📢 섹션 요약 비유**: 다이버시티와 이퀄라이저는 시험 준비에서 예비 연필을 여러 자루 챙기는 일과, 구겨진 답안지를 반듯하게 펴는 일의 조합과 같다. 하나는 실패 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 줄이고, 다른 하나는 이미 생긴 문제를 복구한다.
 
 ---
 
@@ -151,13 +148,13 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 | :--- | :---------- |
-| [다중 경로 페이딩](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/knowledge-base/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) | 다이버시티와 이퀄라이저가 모두 대응하는 채널 배경 |
+| [다중 경로 페이딩](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/) ([Multipath Fading](/studynote/03_network/03_physical_layer_media/168_multipath_fading_isi/)) | 다이버시티와 이퀄라이저가 모두 대응하는 채널 배경 |
 | ISI (Inter-Symbol Interference) | 이퀄라이저가 직접 줄이려는 대표 왜곡 |
 | MRC (Maximal Ratio Combining) | 브랜치 SNR을 최대한 활용하는 대표 결합 방식 |
-| DFE (Decision Feedback [Equalizer](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)) | 강한 후행 ISI에 대응하는 대표 적응 [등화기](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) |
+| DFE (Decision Feedback [Equalizer](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/)) | 강한 후행 ISI에 대응하는 대표 적응 [등화기](/studynote/03_network/11_wireless_mobile_communication/566_equalizer_isi_inter_symbol_interference/) |
 | OFDM | 주파수 선택적 채널을 서브캐리어별 단순 등화 문제로 바꾸는 구조 |
-| 파일럿 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) | 다이버시티 가중치와 등화 계수를 추정하는 기준 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| BER ([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) | 두 기법의 효과를 최종적으로 확인하는 대표 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
+| 파일럿 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) | 다이버시티 가중치와 등화 계수를 추정하는 기준 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| BER ([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error Rate) | 두 기법의 효과를 최종적으로 확인하는 대표 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -183,7 +180,7 @@ tags = ["studynote-network"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 전파가 오는 길이 여러 개면 어떤 길은 약하고 어떤 길은 늦게 도착해서 섞일 수 있어요.
-2. 다이버시티는 여러 길 중 더 좋은 길을 골라 모으는 방법이고, 이퀄라이저는 구겨진 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 반듯하게 펴는 방법이에요.
+2. 다이버시티는 여러 길 중 더 좋은 길을 골라 모으는 방법이고, 이퀄라이저는 구겨진 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 반듯하게 펴는 방법이에요.
 3. 그래서 무선 통신은 두 방법을 같이 써서 더 또렷하게 이야기를 듣는답니다.
 
 ---
@@ -192,7 +189,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 291 / 1120
 
-<- **이전**: [169. 도플러 효과 (Doppler Effect) / 고속 이동체 통신](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)
-**다음**: [171. 안테나 (Antenna) 기본 원리 (공진/다이폴)](/knowledge-base/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ->
+<- **이전**: [169. 도플러 효과 (Doppler Effect) / 고속 이동체 통신](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)
+**다음**: [171. 안테나 (Antenna) 기본 원리 (공진/다이폴)](/studynote/03_network/03_physical_layer_media/171_antenna_basic_dipole_resonance/) ->
 
 ---

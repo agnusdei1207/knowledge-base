@@ -1,25 +1,22 @@
-+++
-title = "11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭"
-date = 2026-04-21
+---
+title: "11. 정규 표현식 (Regex, Regular Expression) — NFA/DFA, 패턴 매칭"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 정규 표현식 (Regex, Regular Expression)은 정규 문법 (Regular Grammar)으로 표현되는 패턴을 NFA (Non-deterministic Finite Automaton) -> DFA (Deterministic Finite Automaton) 변환 파이프라인으로 컴파일하여 O(n) 시간에 텍스트 매칭을 수행하는 패턴 매칭 언어다.
 > 2. **가치**: 복잡한 문자열 패턴을 선언적으로 기술하고, 그 패턴을 최적 자동자로 컴파일하면 O(n) 선형 시간 매칭이 보장된다. 단, 역참조(Backreference)는 정규 언어를 벗어나 NP-완전 최악 케이스를 유발한다.
-> 3. **판단 포인트**: 역참조를 쓰지 않으면 DFA 기반 O(n) 매칭이 보장되며, 역참조·중첩 수량자 사용 시 PCRE 엔진의 지수 폭발([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/))에 주의해야 한다.
+> 3. **판단 포인트**: 역참조를 쓰지 않으면 DFA 기반 O(n) 매칭이 보장되며, 역참조·중첩 수량자 사용 시 PCRE 엔진의 지수 폭발([ReDoS](/studynote/09_security/05_web_app_security/865_redos/))에 주의해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일에서 특정 패턴의 IP 주소를 추출하거나, 이메일 주소 형식을 검증하거나, 코드에서 특정 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 패턴을 찾는 일이 모두 정규 표현식의 영역이다. 정규 표현식은 패턴을 수동으로 구현하는 수고를 덜어주고, 이론적으로는 선형 시간 매칭이 보장된다.
+[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 파일에서 특정 패턴의 IP 주소를 추출하거나, 이메일 주소 형식을 검증하거나, 코드에서 특정 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 패턴을 찾는 일이 모두 정규 표현식의 영역이다. 정규 표현식은 패턴을 수동으로 구현하는 수고를 덜어주고, 이론적으로는 선형 시간 매칭이 보장된다.
 
 ### 정규 표현식 기본 구성 요소
 
@@ -116,7 +113,7 @@ DFA 특성:
   가능한 한 적게 매칭 -> "<h1>" 첫 태그만
 ```
 
-📢 **섹션 요약 비유**: NFA는 여러 경로를 동시에 시도하는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐험대, DFA는 미리 최적 경로를 외운 안내원—DFA가 텍스트를 더 빠르게 통과하지만 지도(상태) 크기가 더 크다.
+📢 **섹션 요약 비유**: NFA는 여러 경로를 동시에 시도하는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 탐험대, DFA는 미리 최적 경로를 외운 안내원—DFA가 텍스트를 더 빠르게 통과하지만 지도(상태) 크기가 더 크다.
 
 ---
 
@@ -132,7 +129,7 @@ DFA 특성:
 | Look-ahead/behind | ❌ | ✅ |
 | 사용 환경 | grep, awk | Python re, Java, JS, PHP |
 
-### [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) (Regular Expression Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
+### [ReDoS](/studynote/09_security/05_web_app_security/865_redos/) (Regular Expression Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/))
 
 ```
 패턴: (a+)+  (중첩된 탐욕적 수량자)
@@ -172,10 +169,10 @@ DFA 특성:
 ### 주요 활용 사례
 
 - **입력 유효성 검사**: 이메일·전화번호·URL·우편번호 형식 체크
-- <strong><a href="/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a> (Log Parsing)</strong>: 서버 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 에러 패턴·IP·시간 추출
-- <strong>코드 <a href="/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong>: IDE의 정규 표현식 찾기/바꾸기
+- <strong><a href="/studynote/16_bigdata/05_analysis/119_log_analysis/">로그 분석</a> (Log Parsing)</strong>: 서버 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 에러 패턴·IP·시간 추출
+- <strong>코드 <a href="/studynote/06_ict_convergence/03_cloud_infrastructure/213_refactoring_cloud_native_rearchitecture/">리팩토링</a></strong>: IDE의 정규 표현식 찾기/바꾸기
 - **컴파일러 렉서 (Lexer)**: 토큰 인식에 DFA 기반 패턴 매칭
-- <strong><a href="/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a></strong>: [Snort](/knowledge-base/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) 규칙의 페이로드 패턴 매칭
+- <strong><a href="/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/">네트워크 보안</a></strong>: [Snort](/studynote/03_network/13_network_security_basics/694_snort_suricata_misuse_anomaly_detection/) 규칙의 페이로드 패턴 매칭
 
 ### 기술사 판단 기준
 
@@ -193,7 +190,7 @@ DFA 특성:
 
 ## Ⅴ. 기대효과 및 결론
 
-정규 표현식은 강력한 선언적 패턴 기술 언어로, Thompson 구성법과 DFA 변환을 통해 O(n) 매칭을 보장한다. 그러나 PCRE 엔진의 역참조와 중첩 수량자는 지수 폭발([ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/))을 유발할 수 있으므로, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 RE2처럼 DFA를 강제하는 엔진 사용이 권장된다. 정규 언어의 표현력 한계를 이해하고 필요 시 CFG 파서로 전환하는 판단이 중요하다.
+정규 표현식은 강력한 선언적 패턴 기술 언어로, Thompson 구성법과 DFA 변환을 통해 O(n) 매칭을 보장한다. 그러나 PCRE 엔진의 역참조와 중첩 수량자는 지수 폭발([ReDoS](/studynote/09_security/05_web_app_security/865_redos/))을 유발할 수 있으므로, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 환경에서는 RE2처럼 DFA를 강제하는 엔진 사용이 권장된다. 정규 언어의 표현력 한계를 이해하고 필요 시 CFG 파서로 전환하는 판단이 중요하다.
 
 **결론**: 역참조 없는 정규 표현식은 O(n) 안전한 패턴 매칭 도구이며, 보안 환경에서는 ReDoS를 차단하는 DFA 기반 엔진 선택이 필수다.
 
@@ -201,13 +198,13 @@ DFA 특성:
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
 | NFA (Non-deterministic Finite Automaton) | 정규 표현식의 직접 컴파일 결과 |
 | DFA (Deterministic Finite Automaton) | NFA 변환 후 O(n) 매칭 구조 |
-| Thompson 구성법 | 정규 표현식 -> NFA 변환 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| [ReDoS](/knowledge-base/studynote/09_security/05_web_app_security/865_redos/) | 역참조·중첩 수량자의 보안 취약점 |
-| [아호-코라식](/knowledge-base/studynote/08_algorithm_stats/05_string/098_aho_corasick/) | 다중 패턴 DFA 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| Thompson 구성법 | 정규 표현식 -> NFA 변환 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| [ReDoS](/studynote/09_security/05_web_app_security/865_redos/) | 역참조·중첩 수량자의 보안 취약점 |
+| [아호-코라식](/studynote/08_algorithm_stats/05_string/098_aho_corasick/) | 다중 패턴 DFA 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 | Chomsky 계층 | 정규 표현식의 표현력 한계 이론 |
 
 ---
@@ -244,7 +241,7 @@ DFA 특성:
 
 **진행 상황**: 104 / 175
 
-<- **이전**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/knowledge-base/studynote/08_algorithm_stats/05_string/103_edit_distance/)
-**다음**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/knowledge-base/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/) ->
+<- **이전**: [10. 편집 거리 (Edit Distance / Levenshtein Distance) — DP](/studynote/08_algorithm_stats/05_string/103_edit_distance/)
+**다음**: [접미사 트리와 접미사 배열 (Suffix Tree & Suffix Array)](/studynote/08_algorithm_stats/05_string/105_suffix_tree_array/) ->
 
 ---

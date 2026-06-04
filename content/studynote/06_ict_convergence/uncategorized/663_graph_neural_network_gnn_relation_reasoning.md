@@ -1,13 +1,10 @@
-+++
-title = "663. 그래프 신경망 GNN 관계 추론 (Graph Neural Network GNN Relation Reasoning)"
-date = 2026-05-09
+---
+title: "663. 그래프 신경망 GNN 관계 추론 (Graph Neural Network GNN Relation Reasoning)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -153,7 +150,7 @@ GNN의 학습은 **순전파(Forward Pass)** 단계에서 반복적으로 발생
 
 **진행 상황**: 663 / 800
 
-<- **이전**: [662. 벡터 데이터베이스 Pinecone Weaviate](/knowledge-base/studynote/06_ict_convergence/uncategorized/662_vector_database_pinecone_weaviate/)
-**다음**: [664. 시계열 예측 자기회귀 트랜스포머](/knowledge-base/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/) ->
+<- **이전**: [662. 벡터 데이터베이스 Pinecone Weaviate](/studynote/06_ict_convergence/uncategorized/662_vector_database_pinecone_weaviate/)
+**다음**: [664. 시계열 예측 자기회귀 트랜스포머](/studynote/06_ict_convergence/uncategorized/664_time_series_forecasting_autoregressive_transf/) ->
 
 ---

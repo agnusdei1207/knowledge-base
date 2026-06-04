@@ -1,13 +1,10 @@
-+++
-title = "631. 엔터프라이즈 시스템 핵심 토픽 631번 시험 요약 (Enterprise System Core Topic 631 Exam Summary)"
-date = 2026-05-09
+---
+title: "631. 엔터프라이즈 시스템 핵심 토픽 631번 시험 요약 (Enterprise System Core Topic 631 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 631 / 800
 
-<- **이전**: [630. 엔터프라이즈 시스템 핵심 토픽 630번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/630_enterprise_system_core_topic_630_exam_summary/)
-**다음**: [632. 엔터프라이즈 시스템 핵심 토픽 632번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/632_enterprise_system_core_topic_632_exam_summary/) ->
+<- **이전**: [630. 엔터프라이즈 시스템 핵심 토픽 630번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/630_enterprise_system_core_topic_630_exam_summary/)
+**다음**: [632. 엔터프라이즈 시스템 핵심 토픽 632번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/632_enterprise_system_core_topic_632_exam_summary/) ->
 
 ---

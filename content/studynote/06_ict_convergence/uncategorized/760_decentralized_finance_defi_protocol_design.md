@@ -1,13 +1,10 @@
-+++
-title = "760. 탈중앙화 금융 DeFi 프로토콜 설계 (Decentralized Finance DeFi Protocol Design)"
-date = 2026-05-09
+---
+title: "760. 탈중앙화 금융 DeFi 프로토콜 설계 (Decentralized Finance DeFi Protocol Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -183,7 +180,7 @@ DeFi 프로토콜은 일반적으로 **5계층 레이어 아키텍처**로 설�
 
 **진행 상황**: 760 / 800
 
-<- **이전**: [759. 디지털 신원 검증 eKYC 원격 인증](/knowledge-base/studynote/06_ict_convergence/uncategorized/759_digital_identity_verification_ekyc_remote/)
-**다음**: [761. NFT 디지털 자산 토큰화 소유권](/knowledge-base/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/) ->
+<- **이전**: [759. 디지털 신원 검증 eKYC 원격 인증](/studynote/06_ict_convergence/uncategorized/759_digital_identity_verification_ekyc_remote/)
+**다음**: [761. NFT 디지털 자산 토큰화 소유권](/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/) ->
 
 ---

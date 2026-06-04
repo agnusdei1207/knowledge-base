@@ -1,13 +1,10 @@
-+++
-title = "723. 3D 프린팅 적층 제조 산업 응용 (3D Printing Additive Manufacturing Industry)"
-date = 2026-05-09
+---
+title: "723. 3D 프린팅 적층 제조 산업 응용 (3D Printing Additive Manufacturing Industry)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -50,7 +47,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 723 / 800
 
-<- **이전**: [722. 나노 기술 분자 컴퓨팅 나노센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/)
-**다음**: [724. 배터리 기술 고체 전지 에너지 저장](/knowledge-base/studynote/06_ict_convergence/uncategorized/724_battery_technology_solid_state_energy_storage/) ->
+<- **이전**: [722. 나노 기술 분자 컴퓨팅 나노센서](/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/)
+**다음**: [724. 배터리 기술 고체 전지 에너지 저장](/studynote/06_ict_convergence/uncategorized/724_battery_technology_solid_state_energy_storage/) ->
 
 ---

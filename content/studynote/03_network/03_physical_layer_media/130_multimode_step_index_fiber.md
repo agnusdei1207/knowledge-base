@@ -1,27 +1,24 @@
-+++
-title = "130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)"
-date = 2026-05-08
+---
+title: "130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다중 모드 계단형(Step-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 광섬유는 코어(Core)가 굵어 여러 경로(모드)의 빛이 동시에 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하며, 코어와 클래딩의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이가 계단처럼 뚜렷하게 끊어지는 구조를 갖는다.
-> 2. **가치**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신 모델로서 광원([LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))과의 결합이 쉬워 포설 비용이 저렴하지만, 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/))으로 인해 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전송 거리에 치명적 한계를 안고 있다.
-> 3. **판단 포인트**: 이 구조적 한계를 극복하기 위해 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 부드럽게 깎은 언덕형(Graded-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 광섬유가 등장하였고, 현대 근거리 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(LAN) 아키텍처 발전에 초석을 다졌다.
+> 1. **본질**: 다중 모드 계단형(Step-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 광섬유는 코어(Core)가 굵어 여러 경로(모드)의 빛이 동시에 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하며, 코어와 클래딩의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 차이가 계단처럼 뚜렷하게 끊어지는 구조를 갖는다.
+> 2. **가치**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신 모델로서 광원([LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/))과의 결합이 쉬워 포설 비용이 저렴하지만, 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)(Modal [Dispersion](/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/))으로 인해 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 전송 거리에 치명적 한계를 안고 있다.
+> 3. **판단 포인트**: 이 구조적 한계를 극복하기 위해 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 부드럽게 깎은 언덕형(Graded-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) 광섬유가 등장하였고, 현대 근거리 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(LAN) 아키텍처 발전에 초석을 다졌다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-광섬유를 전송 매체로 활용하기 위한 최초의 실용적 설계는 코어의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 일정하게 높고, 클래딩은 일정하게 낮아 그 경계면에서 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 계단(Step)처럼 급격히 꺾이는 <strong>계단형 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 광섬유 (Step-<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Fiber)</strong>였다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신에서는 광원의 직경이 크고 조준이 부정확한 저가형 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 등을 사용했기 때문에, 빛을 쉽게 쏘아 넣으려면 수용 공간인 코어 직경이 상대적으로 큰 **다중 모드(Multi-mode, 약 50~200µm)** 설계가 필수적이었다.
+광섬유를 전송 매체로 활용하기 위한 최초의 실용적 설계는 코어의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 일정하게 높고, 클래딩은 일정하게 낮아 그 경계면에서 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 계단(Step)처럼 급격히 꺾이는 <strong>계단형 <a href="/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 광섬유 (Step-<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a> Fiber)</strong>였다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신에서는 광원의 직경이 크고 조준이 부정확한 저가형 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 등을 사용했기 때문에, 빛을 쉽게 쏘아 넣으려면 수용 공간인 코어 직경이 상대적으로 큰 **다중 모드(Multi-mode, 약 50~200µm)** 설계가 필수적이었다.
 
-하지만 코어가 넓어 수용각이 커질수록, 레이저 빔이 직진하는 경로(기본 모드)부터 심하게 지그재그로 튕기며 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 경로(고차 모드)까지 수많은 빛의 갈래(Mode)가 케이블 내부에 혼재하게 된다. 이 "빛의 여러 경로(다중 모드)"는 신호가 출발해서 도착할 때까지 걸리는 시간에 차이를 만들어 펄스를 뭉개뜨리는데, 고속 통신망이 요구됨에 따라 이 병목을 해결하고 특성을 이해하는 것이 망 설계의 핵심 지표가 되었다.
+하지만 코어가 넓어 수용각이 커질수록, 레이저 빔이 직진하는 경로(기본 모드)부터 심하게 지그재그로 튕기며 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하는 경로(고차 모드)까지 수많은 빛의 갈래(Mode)가 케이블 내부에 혼재하게 된다. 이 "빛의 여러 경로(다중 모드)"는 신호가 출발해서 도착할 때까지 걸리는 시간에 차이를 만들어 펄스를 뭉개뜨리는데, 고속 통신망이 요구됨에 따라 이 병목을 해결하고 특성을 이해하는 것이 망 설계의 핵심 지표가 되었다.
 
 다음은 단일 모드와 비교하여 다중 모드 계단형 구조에서 나타나는 경로 혼재 문제를 시각화한 그림이다.
 
@@ -34,7 +31,7 @@ tags = ["studynote-network"]
 --/---\-/---\-/---\-/---\-/---\-/---\-/--- ---> 고차 모드 (많이 튕김, 제일 늦게 도착)
   --------------------------------------- ---> 기본 모드 (직진, 제일 일찍 도착)
 ```
-*이 그림의 핵심은 코어 직경이 넓은 계단형 다중 모드 광섬유 내부에서는 똑같이 출발한 빛의 펄스라도, 정중앙을 직진하는 녀석과 위아래로 심하게 반사하며 우회하는 녀석 간의 이동 거리 격차가 심각하게 벌어진다는 점이다. 이런 물리적 경로는 필연적으로 수신단에서 신호가 퍼져 겹치는 왜곡을 유발하며, 따라서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓어지고 펄스 간격이 짧아질수록 장거리 전송에 치명적인 제약을 준다.*
+*이 그림의 핵심은 코어 직경이 넓은 계단형 다중 모드 광섬유 내부에서는 똑같이 출발한 빛의 펄스라도, 정중앙을 직진하는 녀석과 위아래로 심하게 반사하며 우회하는 녀석 간의 이동 거리 격차가 심각하게 벌어진다는 점이다. 이런 물리적 경로는 필연적으로 수신단에서 신호가 퍼져 겹치는 왜곡을 유발하며, 따라서 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 넓어지고 펄스 간격이 짧아질수록 장거리 전송에 치명적인 제약을 준다.*
 
 - **📢 섹션 요약 비유**: 넓은 고속도로(다중모드)에서 여러 대의 자동차가 출발할 때, 1차선으로 직진하는 차와 모든 차선을 지그재그로 차선 변경하며 가는 차가 도착하는 시간이 크게 벌어지는 현상과 같습니다.
 
@@ -42,22 +39,22 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-계단형 다중 모드 광섬유의 물리적 특성은 코어의 단면 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 프로파일(Profile)과 그로 인해 파생되는 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메커니즘으로 설명된다.
+계단형 다중 모드 광섬유의 물리적 특성은 코어의 단면 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 프로파일(Profile)과 그로 인해 파생되는 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메커니즘으로 설명된다.
 
 | 물리적 특성 | 내부 동작 및 파라미터 | 원인 및 현상 | 비유 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 프로파일</strong> | 코어 내부 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)(n1) 균일, 클래딩(n2) 균일 | 중심에서 가장자리까지 빛의 전파 속도가 동일함 ($v = c/n$) | 평평한 평지 트랙 |
+| <strong><a href="/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 프로파일</strong> | 코어 내부 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)(n1) 균일, 클래딩(n2) 균일 | 중심에서 가장자리까지 빛의 전파 속도가 동일함 ($v = c/n$) | 평평한 평지 트랙 |
 | **빛의 궤적** | 직진 또는 V자형 꺾임(지그재그) 반사 | 전반사 임계각 이상의 빛만 튕기고, 나머지는 방사됨 | 벽에 부딪히며 가는 공 |
-| <strong>모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (Modal <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>)</strong> | 펄스 팽창(Pulse Broadening) 발생 | 빛의 모드([진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 경로)별 이동 거리 차이로 도착 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 앞차와 뒷차의 간격 좁아짐 |
-| **수용각 / 개구수(NA)** | 상대적으로 큼 | 광원 결합(Splicing)이 쉬워 값싼 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 사용 가능 | 넓은 깔때기 입구 |
+| <strong>모드 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> (Modal <a href="/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>)</strong> | 펄스 팽창(Pulse Broadening) 발생 | 빛의 모드([진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 경로)별 이동 거리 차이로 도착 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생 | 앞차와 뒷차의 간격 좁아짐 |
+| **수용각 / 개구수(NA)** | 상대적으로 큼 | 광원 결합(Splicing)이 쉬워 값싼 [트랜시버](/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/) 사용 가능 | 넓은 깔때기 입구 |
 
-<strong>모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Modal <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>)에 의한 심층 병목 현상</strong>
+<strong>모드 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a>(Modal <a href="/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/">Dispersion</a>)에 의한 심층 병목 현상</strong>
 - 송신단에서 1, 0, 1을 짧은 펄스로 쏘아 보낸다 (마치 점멸 신호처럼).
 - 계단형 MMF 안에서 1번 펄스의 지그재그 빛이 느리게 도착하고, 2번 펄스의 직진 빛이 빠르게 도착한다.
 - 수신단에서는 두 펄스가 겹쳐져 0을 인식할 수 없는 ISI (Inter-Symbol Interference, 심볼 간 간섭)가 발생한다.
 - 이를 막기 위해서는 펄스 간격을 넓게(저속) 보내거나, 거리를 짧게 만들어야만 한다.
 
-다음은 계단형(Step-[index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 분포도와 펄스 왜곡 양상을 보여주는 타이밍/구조도이다.
+다음은 계단형(Step-[index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 분포도와 펄스 왜곡 양상을 보여주는 타이밍/구조도이다.
 
 ```text
 [굴절률 프로파일]               [송신 펄스]             [수신 펄스 왜곡]
@@ -68,7 +65,7 @@ tags = ["studynote-network"]
 ----------+------------> 반경 r
          클래딩 코어 클래딩        모드 분산으로 인해 펄스가 뭉개짐
 ```
-*이 구조도의 핵심은 코어 내부의 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 일직선으로 완벽하게 균일(Step)하다는 점이다. 이런 배치는 빛이 직진하든 지그재그로 가든 매질 내에서의 절대 속도를 일정하게 만들며, 결과적으로 이동 거리가 긴 지그재그 빛이 수신단에 무조건 늦게 도착하게 하여 펄스의 꼬리가 늘어지게(Broadening) 만든다. 실무에서는 이러한 에러를 방지하기 위해 계단형 MMF의 전송 거리를 수백 미터 이내, 속도는 Gbps 이하로 엄격히 제한해야만 한다.*
+*이 구조도의 핵심은 코어 내부의 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 일직선으로 완벽하게 균일(Step)하다는 점이다. 이런 배치는 빛이 직진하든 지그재그로 가든 매질 내에서의 절대 속도를 일정하게 만들며, 결과적으로 이동 거리가 긴 지그재그 빛이 수신단에 무조건 늦게 도착하게 하여 펄스의 꼬리가 늘어지게(Broadening) 만든다. 실무에서는 이러한 에러를 방지하기 위해 계단형 MMF의 전송 거리를 수백 미터 이내, 속도는 Gbps 이하로 엄격히 제한해야만 한다.*
 
 - **📢 섹션 요약 비유**: 메아리가 심한 넓은 동굴(계단형 코어)에서 빠르게 말을 하면, 앞 단어의 메아리와 뒷 단어가 섞여버려 결국 천천히 띄엄띄엄 말해야만(속도 제한) 상대가 알아듣는 것과 같습니다.
 
@@ -78,16 +75,16 @@ tags = ["studynote-network"]
 
 계단형 다중 모드 광섬유의 치명적 한계를 극복하기 위해 등장한 대안 기술들과의 비교 매트릭스이다.
 
-| 비교 지표 | 다중 모드 계단형 (MMF Step-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 다중 모드 언덕형 (MMF Graded-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 단일 모드 계단형 ([SMF](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) Step-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) |
+| 비교 지표 | 다중 모드 계단형 (MMF Step-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 다중 모드 언덕형 (MMF Graded-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 단일 모드 계단형 ([SMF](/studynote/03_network/15_nextgen_communication_architecture/771_smf_upf_session_management_user_plane/) Step-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) |
 |:---|:---|:---|:---|
-| <strong>코어 <a href="/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 형태</strong> | 균일한 일직선 형태 (계단식 꺾임) | 중심에서 밖으로 서서히 낮아지는 포물선형 | 균일하지만 직경이 극히 작음 |
-| <strong>모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | **매우 열악** (거리차 극복 불가) | **양호** (가장자리 빛 속도를 높여 도착 시간 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) | **완벽** (경로가 1개뿐이라 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 원천 차단) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> | 수십 ~ 수백 MHz·km | 수 GHz·km | [테라헤르츠](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/knowledge-base/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))급 사실상 무제한 |
-| **광원 및 단가** | [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) (초저가) | VCSEL 레이저 (중간) | 정밀 레이저 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) (초고가) |
-| **현재 실무 위상** | **도태됨** (특수 구형 장비 일부 사용) | **주력 LAN 망** ([데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 OM3/OM4 규격) | **주력 WAN 망** (장거리 백본망) |
+| <strong>코어 <a href="/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/">굴절률</a> 형태</strong> | 균일한 일직선 형태 (계단식 꺾임) | 중심에서 밖으로 서서히 낮아지는 포물선형 | 균일하지만 직경이 극히 작음 |
+| <strong>모드 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | **매우 열악** (거리차 극복 불가) | **양호** (가장자리 빛 속도를 높여 도착 시간 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)) | **완벽** (경로가 1개뿐이라 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 원천 차단) |
+| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 한계</strong> | 수십 ~ 수백 MHz·km | 수 GHz·km | [테라헤르츠](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/)([THz](/studynote/03_network/03_physical_layer_media/157_terahertz_thz_6g/))급 사실상 무제한 |
+| **광원 및 단가** | [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) (초저가) | VCSEL 레이저 (중간) | 정밀 레이저 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) (초고가) |
+| **현재 실무 위상** | **도태됨** (특수 구형 장비 일부 사용) | **주력 LAN 망** ([데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 OM3/OM4 규격) | **주력 WAN 망** (장거리 백본망) |
 
-<strong>언덕형(Graded-<a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">index</a>)의 융합 메커니즘</strong>
-계단형의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 한계를 '[굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 그라데이션'이라는 제조 공법으로 융합 해결했다. 코어 중심은 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 높게(빛이 느림), 바깥쪽은 낮게(빛이 빠름) 만들어, 거리를 많이 돌아가는 바깥쪽 빛의 달리기 속도 자체를 펌핑해 중심 직진 빛과 동시에 도착하게 만드는 획기적인 트레이드오프 극복 기술이다. 현재 실무에서 쓰이는 다중 모드(MMF) 케이블은 모두 이 언덕형 구조이다.
+<strong>언덕형(Graded-<a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">index</a>)의 융합 메커니즘</strong>
+계단형의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 한계를 '[굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 그라데이션'이라는 제조 공법으로 융합 해결했다. 코어 중심은 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 높게(빛이 느림), 바깥쪽은 낮게(빛이 빠름) 만들어, 거리를 많이 돌아가는 바깥쪽 빛의 달리기 속도 자체를 펌핑해 중심 직진 빛과 동시에 도착하게 만드는 획기적인 트레이드오프 극복 기술이다. 현재 실무에서 쓰이는 다중 모드(MMF) 케이블은 모두 이 언덕형 구조이다.
 
 - **📢 섹션 요약 비유**: 달리기 트랙에서 계단형은 코스별 거리가 달라도 바닥 질감이 같아 바깥쪽이 무조건 지각하지만, 언덕형은 바깥쪽 코스 바닥을 빙판(빛이 빠름)으로 만들어 모두가 1등으로 동시에 골인하게 만드는 차이가 있습니다.
 
@@ -95,7 +92,7 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현대 네트워크 엔지니어링 실무에서 순수 "다중 모드 계단형" 광섬유를 신규 포설하는 일은 없다. 그러나 기존 설비 점검이나 이론적 기반을 위해 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 한계를 인지하는 의사결정은 중요하다.
+현대 네트워크 엔지니어링 실무에서 순수 "다중 모드 계단형" 광섬유를 신규 포설하는 일은 없다. 그러나 기존 설비 점검이나 이론적 기반을 위해 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 한계를 인지하는 의사결정은 중요하다.
 
 다음은 노후 산업용 통신망 트러블슈팅 및 망 업그레이드 시의 운영 판단 플로우이다.
 
@@ -117,32 +114,32 @@ tags = ["studynote-network"]
              |               MMF는 구조적 한계상 거리가 늘어나면 대역폭이 급감하므로
              |               미래를 위해 넉넉한 마진의 SMF 도입 권장.
 ```
-*이 흐름의 핵심은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 다중모드 케이블의 스펙(계단형, 넓은 코어)이 현재의 트래픽 요구량을 물리적으로 절대 감당할 수 없다는 판단 기준을 제시하는 것이다. 소프트웨어 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 설정이나 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)를 고성능으로 바꾼다고 해결되는 문제가 아니다. 실무에서는 케이블 자켓에 인쇄된 코어 직경(62.5/125µm vs 50/125µm)과 OM 등급(OM1~OM4)을 읽고, 병목의 원인이 물리 계층의 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)에 있음을 증명하여 윗선에 케이블 공사 필요성을 설득해야 한다.*
+*이 흐름의 핵심은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 다중모드 케이블의 스펙(계단형, 넓은 코어)이 현재의 트래픽 요구량을 물리적으로 절대 감당할 수 없다는 판단 기준을 제시하는 것이다. 소프트웨어 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 설정이나 광 [트랜시버](/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)를 고성능으로 바꾼다고 해결되는 문제가 아니다. 실무에서는 케이블 자켓에 인쇄된 코어 직경(62.5/125µm vs 50/125µm)과 OM 등급(OM1~OM4)을 읽고, 병목의 원인이 물리 계층의 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)에 있음을 증명하여 윗선에 케이블 공사 필요성을 설득해야 한다.*
 
-<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
-- **계단형 구형 MMF에 레이저(LD) 장비 직결**: 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하고자 [LED](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 대신 강력하고 좁은 레이저를 MMF 코어 한가운데 쏘아 버림. 중심부 경로만 활성화되어 DMD(Differential Mode Delay, 차등 모드 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))라는 심각한 지터 현상이 오히려 폭증하여 링크가 뻗어버림. (이를 막기 위해 모드 컨디셔닝 패치 코드가 필요함).
+<strong>실무 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- **계단형 구형 MMF에 레이저(LD) 장비 직결**: 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하고자 [LED](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) 대신 강력하고 좁은 레이저를 MMF 코어 한가운데 쏘아 버림. 중심부 경로만 활성화되어 DMD(Differential Mode Delay, 차등 모드 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))라는 심각한 지터 현상이 오히려 폭증하여 링크가 뻗어버림. (이를 막기 위해 모드 컨디셔닝 패치 코드가 필요함).
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 오래된 비포장 꼬불꼬불한 좁은 산길(계단형 광섬유)에 갑자기 KTX [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 열차(최신 광스위치)를 올려놓으면 탈선할 수밖에 없으니, 선로 자체를 최정보 일직선 고속철도(단일모드)로 아예 새로 깔아야 하는 판단과 같습니다.
+- **📢 섹션 요약 비유**: 오래된 비포장 꼬불꼬불한 좁은 산길(계단형 광섬유)에 갑자기 KTX [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 열차(최신 광스위치)를 올려놓으면 탈선할 수밖에 없으니, 선로 자체를 최정보 일직선 고속철도(단일모드)로 아예 새로 깔아야 하는 판단과 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신을 열었던 다중 모드 계단형 광섬유는 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)과 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)이라는 소중한 물리적 교훈을 남겼다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 광통신을 열었던 다중 모드 계단형 광섬유는 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)과 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)이라는 소중한 물리적 교훈을 남겼다.
 
-| 지표 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 계단형 광섬유 시대 | 현대 언덕형/단일모드 아키텍처 진화 후 |
+| 지표 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 계단형 광섬유 시대 | 현대 언덕형/단일모드 아키텍처 진화 후 |
 |:---|:---|:---|
 | **도입 목적** | 값싼 LED와 굵은 코어를 이용한 쉬운 포설과 비용 절감 | 레이저와 언덕형/정밀 코어 채택으로 무결점 고속화 지향 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>| 최대 수백 Mbps (근거리) 수준으로 발전 정체 | 파장다중화(WDM) 접목 시 수백 Gbps ~ Tbps 달성 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong>| 최대 수백 Mbps (근거리) 수준으로 발전 정체 | 파장다중화(WDM) 접목 시 수백 Gbps ~ Tbps 달성 |
 
 **미래 전망**
-계단형 다중 모드 기술은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 시장에서는 자취를 감추었으나, 통신 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요하지 않은 산업 분야(장식용 조명 유도, 의료용 레이저 수술 전달, 단거리 센서 망)에서는 굵은 코어의 빛 포집력 덕분에 명맥을 유지하고 있다. 정보통신기술사적 관점에서 계단형 다중 모드의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 메커니즘을 이해하는 것은, 현재 광통신망이 왜 언덕형(Graded)과 단일모드(Single)로 철저히 양분되어 진화할 수밖에 없었는지 아키텍처의 당위성을 증명하는 기초 지식이 된다.
+계단형 다중 모드 기술은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 시장에서는 자취를 감추었으나, 통신 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요하지 않은 산업 분야(장식용 조명 유도, 의료용 레이저 수술 전달, 단거리 센서 망)에서는 굵은 코어의 빛 포집력 덕분에 명맥을 유지하고 있다. 정보통신기술사적 관점에서 계단형 다중 모드의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 메커니즘을 이해하는 것은, 현재 광통신망이 왜 언덕형(Graded)과 단일모드(Single)로 철저히 양분되어 진화할 수밖에 없었는지 아키텍처의 당위성을 증명하는 기초 지식이 된다.
 
 - **📢 섹션 요약 비유**: 첫 비행기 실험 모델(다중모드 계단형)이 속도와 고도의 한계에 부딪혔기에, 이를 극복한 세련된 제트기(언덕형)와 우주선(단일모드)이 탄생할 수 있었던 위대한 실패이자 주춧돌입니다.
 
@@ -152,11 +149,11 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) | 빛이 여러 각도로 퍼져 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하면서 도착 지점에 도달하는 시간이 달라져 펄스가 왜곡되는 MMF의 최대 단점 |
-| 언덕형 광섬유 (Graded-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Fiber) | 계단형의 단점을 해결하기 위해 코어 내부 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 포물선 형태로 만들어 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 상쇄시킨 케이블 |
-| 단일 모드 광섬유 (Single-Mode Fiber) | 코어를 빛의 파장만큼 얇게 깎아 오직 1개의 경로(모드)로만 빛을 직진시켜 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)을 원천 차단한 최상위 케이블 |
+| 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) (Modal [Dispersion](/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) | 빛이 여러 각도로 퍼져 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하면서 도착 지점에 도달하는 시간이 달라져 펄스가 왜곡되는 MMF의 최대 단점 |
+| 언덕형 광섬유 (Graded-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) Fiber) | 계단형의 단점을 해결하기 위해 코어 내부 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)을 포물선 형태로 만들어 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 상쇄시킨 케이블 |
+| 단일 모드 광섬유 (Single-Mode Fiber) | 코어를 빛의 파장만큼 얇게 깎아 오직 1개의 경로(모드)로만 빛을 직진시켜 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)을 원천 차단한 최상위 케이블 |
 | 개구수 (Numerical Aperture, NA) | 광섬유 끝단에서 전반사 조건을 깨지 않고 빛을 쏘아 넣을 수 있는 최대 허용 각도 지표 |
-| [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 프로파일 ([Refractive Index](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) Profile) | 코어 중심에서 클래딩까지 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 변하는 단면 분포 형태로, 계단형과 언덕형을 구분하는 기준 |
+| [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) 프로파일 ([Refractive Index](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/) Profile) | 코어 중심에서 클래딩까지 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)이 변하는 단면 분포 형태로, 계단형과 언덕형을 구분하는 기준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -170,12 +167,12 @@ tags = ["studynote-network"]
     +---> [확장 B: 고속 광전송 최적화]
 ```
 
-멀티모드 계단형 광섬유는 [굴절률](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/), 전반사에서 출발해 현재 메커니즘을 정교화하고, 이후 멀티모드 언덕형 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+멀티모드 계단형 광섬유는 [굴절률](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/), 전반사에서 출발해 현재 메커니즘을 정교화하고, 이후 멀티모드 언덕형 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 이 광섬유는 터널(코어)이 넓어서 여러 마리의 빛 요정들이 동시에 들어갈 수 있는 옛날 방식의 투명한 실이에요.
-2. 하지만 요정들이 똑바로 뛰는 애들과 벽에 튕기며 이리저리 뛰어다니는 애들로 나뉘면서, 도착점에 제각각 다른 시간에 도착해버려 엉망이 되는 문제(모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 생겼어요.
+2. 하지만 요정들이 똑바로 뛰는 애들과 벽에 튕기며 이리저리 뛰어다니는 애들로 나뉘면서, 도착점에 제각각 다른 시간에 도착해버려 엉망이 되는 문제(모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/))가 생겼어요.
 3. 그래서 요정들이 늦지 않도록 터널을 아주 좁게 만들거나(단일 모드), 벽 쪽 바닥을 미끄럽게 만들어(언덕형) 속도를 조절하는 최신 기술로 발전하는 밑거름이 되었답니다.
 
 ---
@@ -184,7 +181,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 251 / 1120
 
-<- **이전**: [129. 굴절률 (Refractive Index), 전반사 (Total Internal Reflection)](/knowledge-base/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)
-**다음**: [131. 멀티모드 언덕형 광섬유 (Multi-mode Graded-index)](/knowledge-base/studynote/03_network/03_physical_layer_media/131_multi_mode_graded_index/) ->
+<- **이전**: [129. 굴절률 (Refractive Index), 전반사 (Total Internal Reflection)](/studynote/03_network/03_physical_layer_media/129_refractive_index_tir/)
+**다음**: [131. 멀티모드 언덕형 광섬유 (Multi-mode Graded-index)](/studynote/03_network/03_physical_layer_media/131_multi_mode_graded_index/) ->
 
 ---

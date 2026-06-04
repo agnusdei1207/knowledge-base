@@ -1,13 +1,10 @@
-+++
-title = "547. 클라우드 퍼스트 전략 마이그레이션 (Cloud First Strategy Migration)"
-date = 2026-05-09
+---
+title: "547. 클라우드 퍼스트 전략 마이그레이션 (Cloud First Strategy Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 547 / 800
 
-<- **이전**: [546. 디지털 트윈 기업 운영 시뮬레이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/546_digital_twin_enterprise_operations_simulation/)
-**다음**: [548. SaaS 전환 전략 구독 경제 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/548_saas_transformation_subscription_economy/) ->
+<- **이전**: [546. 디지털 트윈 기업 운영 시뮬레이션](/studynote/07_enterprise_systems/06_exam_summary/546_digital_twin_enterprise_operations_simulation/)
+**다음**: [548. SaaS 전환 전략 구독 경제 모델](/studynote/07_enterprise_systems/06_exam_summary/548_saas_transformation_subscription_economy/) ->
 
 ---

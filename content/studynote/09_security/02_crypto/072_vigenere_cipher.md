@@ -1,13 +1,10 @@
-+++
-title = "072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환"
-date = 2026-04-05
+---
+title: "072. 다중 치환 암호 (Vigenère Cipher) — 키워드 기반 복수 치환"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -59,7 +56,7 @@ Ciphertext
 
 | 약점 | 설명 |
 | :-- | :-- |
-| Repeating [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 키 반복 |
+| Repeating [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/) | 키 반복 |
 | Periodicity | 주기 노출 |
 
 비즈네르는 고전 암호 발전의 중요한 단계지만, 현대적 안전성은 부족하다.
@@ -70,7 +67,7 @@ Ciphertext
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 다중 치환임을 아는가?
 2. 키 반복의 약점을 아는가?
@@ -78,7 +75,7 @@ Ciphertext
 4. Kasiski/Friedman 공격을 설명할 수 있는가?
 5. 현대 암호와 구분하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 고전 암호를 실무 보안으로 쓰는 설계
 - 키 반복 취약성을 모르는 설계
@@ -139,7 +136,7 @@ Cryptanalysis
 
 **진행 상황**: 72 / 1108
 
-<- **이전**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/knowledge-base/studynote/09_security/02_crypto/071_monoalphabetic_cipher/)
-**다음**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/knowledge-base/studynote/09_security/02_crypto/073_enigma/) ->
+<- **이전**: [071. 단일 치환 암호 — 하나의 알파벳을 하나의 문자로 치환](/studynote/09_security/02_crypto/071_monoalphabetic_cipher/)
+**다음**: [073. Enigma — 독일 제2차 세계대전 기계식 암호](/studynote/09_security/02_crypto/073_enigma/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "490. 전략 기획 SWOT PEST 5Forces 분석 (Strategy Planning SWOT PEST 5Forces)"
-date = 2026-05-09
+---
+title: "490. 전략 기획 SWOT PEST 5Forces 분석 (Strategy Planning SWOT PEST 5Forces)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 490 / 800
 
-<- **이전**: [489. BSC 균형 성과표 4대 관점 KPI](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/489_bsc_balanced_scorecard_4_perspectives_kpi/)
-**다음**: [491. IT 거버넌스 COBIT 프레임워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/491_it_governance_cobit_framework/) ->
+<- **이전**: [489. BSC 균형 성과표 4대 관점 KPI](/studynote/07_enterprise_systems/06_exam_summary/489_bsc_balanced_scorecard_4_perspectives_kpi/)
+**다음**: [491. IT 거버넌스 COBIT 프레임워크](/studynote/07_enterprise_systems/06_exam_summary/491_it_governance_cobit_framework/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "788. IT 경영 관리 핵심 토픽 788번 시험 요약 (IT Management Core Topic 788 Exam Summary)"
-date = 2026-05-09
+---
+title: "788. IT 경영 관리 핵심 토픽 788번 시험 요약 (IT Management Core Topic 788 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -136,7 +133,7 @@ Process Capability Level = Σ(PA
 
 **진행 상황**: 788 / 800
 
-<- **이전**: [787. IT 경영 관리 핵심 토픽 787번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/787_it_management_core_topic_787_exam_summary/)
-**다음**: [789. IT 경영 관리 핵심 토픽 789번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/789_it_management_core_topic_789_exam_summary/) ->
+<- **이전**: [787. IT 경영 관리 핵심 토픽 787번 시험 요약](/studynote/12_it_management/05_security_compliance/787_it_management_core_topic_787_exam_summary/)
+**다음**: [789. IT 경영 관리 핵심 토픽 789번 시험 요약](/studynote/12_it_management/05_security_compliance/789_it_management_core_topic_789_exam_summary/) ->
 
 ---

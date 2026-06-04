@@ -1,25 +1,22 @@
-+++
-title = "302. 프롬프트 인젝션 공격 (Prompt Injection / Jailbreak)"
-date = 2026-05-08
+---
+title: "302. 프롬프트 인젝션 공격 (Prompt Injection / Jailbreak)"
+date: "2026-05-08"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 ([Prompt Injection](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) / Jailbreak): LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 이해하는 핵심 개념으로, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
-> 2. **가치**: 이 주제를 제대로 잡으면 정확도 향상, 자동화, 개인화뿐 아니라 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성까지 한 번에 연결해서 설명할 수 있다.
-> 3. **판단 포인트**: 기술사 답안에서는 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용과 자산 경계·탐지·대응을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
+> 1. **본질**: [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 ([Prompt Injection](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) / Jailbreak): LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 이해하는 핵심 개념으로, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 설명하는 데 쓰인다.
+> 2. **가치**: 이 주제를 제대로 잡으면 정확도 향상, 자동화, 개인화뿐 아니라 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성까지 한 번에 연결해서 설명할 수 있다.
+> 3. **판단 포인트**: 기술사 답안에서는 정확도, 설명 가능성, 추론 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용과 자산 경계·탐지·대응을 함께 제시해야 하며, 정의보다 적용 경계를 말할 수 있어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 ([Prompt Injection](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) / Jailbreak): LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
+[프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 ([Prompt Injection](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) / Jailbreak): LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 다루는 개념이다. 이 주제가 중요한 이유는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 패턴을 학습해 예측·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)·판단 보조로 연결해야 하는 문제를 단순한 선언이 아니라 실제 설계 항목으로 바꾸기 때문이다. 다시 말해, "왜 필요한가"를 묻는 순간 이 개념은 문제를 구조화하는 언어가 된다.
 
 현업에서 이 개념이 빠지면 보통 사후 대응 중심 운영에 기대게 된다. 그 방식은 출발은 쉽지만 규모가 커질수록 병목, 수작업, 책임 불분명 같은 문제가 누적되기 쉽다. 반대로 이 개념을 기준으로 보면 문제의 위치와 제어 지점을 분리해서 설명할 수 있어, 설계와 운영 모두에서 판단이 선명해진다.
 
@@ -42,14 +39,14 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격의 핵심은 입력, 처리, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
+[프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격의 핵심은 입력, 처리, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 결과의 흐름을 한 세트로 보는 데 있다. 구현 기술이 달라도 결국 LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 안정적으로 수행하려면 어떤 입력이 들어오고, 어떤 규칙으로 처리되며, 어떤 제어 지점에서 품질을 보장하는지가 정리되어야 한다. 이 메커니즘을 이해해야 실제 시스템에서 튜닝 포인트를 잡을 수 있다.
 
 | 구성 관점 | 해당 기술에서 보는 의미 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 자산 | [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격가 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·권한·상태를 정한다. | 자산 경계를 먼저 문서화한다. |
+| [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 자산 | [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격가 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하거나 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·권한·상태를 정한다. | 자산 경계를 먼저 문서화한다. |
 | 위협 모델 | 오용, 위조, 우회, 누출 가능성을 구조적으로 식별한다. | 공격 비용과 방어 비용을 함께 계산한다. |
-| 대응 메커니즘 | 탐지, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 격리, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 설계한다. | 기술 통제와 운영 통제를 분리한다. |
-| 운영 기준 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 규제 대응이 실무 적합성을 결정한다. | 예외 처리 기준을 미리 정한다. |
+| 대응 메커니즘 | 탐지, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 격리, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 절차를 설계한다. | 기술 통제와 운영 통제를 분리한다. |
+| 운영 기준 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 추적, 규제 대응이 실무 적합성을 결정한다. | 예외 처리 기준을 미리 정한다. |
 
 아래 구조도는 이 개념이 실제 시스템 안에서 어떻게 흘러가는지 보여 준다.
 
@@ -61,7 +58,7 @@ tags = ["studynote-ict-convergence"]
 +--------------------------------------------------------------+
 ```
 
-핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
+핵심은 어느 한 단계만 좋아서는 전체 품질이 좋아지지 않는다는 점이다. 입력 조건이 흔들리면 뒤 단계가 좋아도 결과는 불안정하고, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 지점이 없으면 일시적으로 빠르게 보여도 운영 안정성이 무너진다. 따라서 이 개념은 개별 기능이 아니라 흐름 전체를 맞추는 설계 문제로 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 사례를 많이 볼수록 더 빨라지는 비서와 같다.
 
@@ -69,16 +66,16 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅲ. 비교 및 연결
 
-[프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격의 경계를 드러내려면 **사후 대응 중심 운영** 과 비교하는 것이 가장 빠르다. 사후 대응 중심 운영이 익숙함과 단순성을 제공한다면, 이 개념은 정확도 향상, 자동화, 개인화 같은 가치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
+[프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격의 경계를 드러내려면 **사후 대응 중심 운영** 과 비교하는 것이 가장 빠르다. 사후 대응 중심 운영이 익숙함과 단순성을 제공한다면, 이 개념은 정확도 향상, 자동화, 개인화 같은 가치와 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성를 얻기 위해 구조적 통제를 더 가져가는 쪽에 가깝다. 차이는 기술 이름보다도 어떤 제약을 우선 해결하려는지에서 생긴다.
 
-| 비교 항목 | [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 | 사후 대응 중심 운영 |
+| 비교 항목 | [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 | 사후 대응 중심 운영 |
 | :--- | :--- | :--- |
 | 설계 초점 | LLM의 행동 제어 프롬프트를 악의적 명령으로 무시하게 만들어 차별, 혐오, 기밀 코드를 내뱉게 하는 공격를 체계적으로 다루는 구조 | 익숙한 방식으로 빠르게 구현하는 구조 |
-| 강점 | 정확도 향상, 자동화, 개인화 같은 가치와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 확보에 유리 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
+| 강점 | 정확도 향상, 자동화, 개인화 같은 가치와 [무결성](/studynote/09_security/01_intro_principles/003_integrity/), 추적성, [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 가능성 확보에 유리 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 진입과 단순 운영에 유리 |
 | 약점 | 운영 기준과 예외 처리까지 설계해야 효과가 난다 | 규모 확대 시 병목과 수작업이 누적되기 쉽다 |
-| 연결 관점 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))를 배경으로 설명 가능한 AI로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
+| 연결 관점 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))를 배경으로 설명 가능한 AI로 확장된다 | 독립 운영은 쉬우나 구조 확장성은 제한될 수 있다 |
 
-또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))는 왜 이 주제가 등장했는지 보여 주는 선행 개념이고, 설명 가능한 AI는 실제 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확장 또는 세부 기술로 이어지는 인접 개념이다. 시험 답안에서는 이런 연결선을 함께 말해야 현재 개념의 위치가 살아난다.
+또한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))는 왜 이 주제가 등장했는지 보여 주는 선행 개념이고, 설명 가능한 AI는 실제 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 확장 또는 세부 기술로 이어지는 인접 개념이다. 시험 답안에서는 이런 연결선을 함께 말해야 현재 개념의 위치가 살아난다.
 
 - **📢 섹션 요약 비유**: 실수를 줄이기 위해 계속 피드백을 받는 코치와 같다.
 
@@ -86,13 +83,13 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 보통 하루 수만 건의 질의에 응답하면서 p95 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 800ms 수준으로 유지해야 하는 추천·검색·[생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+실무에서는 보통 하루 수만 건의 질의에 응답하면서 p95 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 800ms 수준으로 유지해야 하는 추천·검색·[생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에서 이 개념을 검토한다. 이때 중요한 것은 "좋은 기술인가"가 아니라 "어떤 요구사항에서 이 방식이 합리적인가"를 설명하는 일이다. 즉, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)·운영·보안·비용의 우선순위를 먼저 정한 뒤, 이 개념이 그 우선순위를 실제로 만족시키는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
 ### 적용 판단 체크포인트
 
 1. 현재 병목이 위협을 줄이고 신뢰 경계를 명확히 하는 문제인지, 아니면 단순 운영 미숙인지 먼저 분리한다.
-2. 목표 지표를 정한 뒤 정확도, 설명 가능성, 추론 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용 중 무엇을 최우선으로 둘지 합의한다.
-3. 파일럿 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 모니터링, 장애복구, 표준 호환성까지 운영 관점으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+2. 목표 지표를 정한 뒤 정확도, 설명 가능성, 추론 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질, 비용 중 무엇을 최우선으로 둘지 합의한다.
+3. 파일럿 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)뿐 아니라 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 모니터링, 장애복구, 표준 호환성까지 운영 관점으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 ### 채택/회피 기준
 
@@ -107,9 +104,9 @@ tags = ["studynote-ict-convergence"]
 
 ## Ⅴ. 기대효과 및 결론
 
-이 개념을 올바르게 적용하면 지식 작업 자동화와 의사결정 속도 향상를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
+이 개념을 올바르게 적용하면 지식 작업 자동화와 의사결정 속도 향상를 기대할 수 있다. 더 중요한 점은 구조가 분명해질수록 자동화, 표준화, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝, 장애 분석의 기준점도 함께 선명해진다는 것이다. 즉, 이 개념의 가치는 기능 하나보다도 시스템을 설명 가능한 형태로 바꿔 준다는 데 있다.
 
-물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)와 온디바이스·에이전트 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
+물론 이 개념이 만능은 아니다. 입력 품질이 낮거나 운영 정책이 비어 있거나, 조직 역량보다 과한 복잡도를 도입하면 오히려 관리 비용만 늘어난다. 앞으로는 [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/)와 온디바이스·에이전트 방향으로 더 진화하겠지만, 그 출발점은 여전히 기본 원리와 적용 경계를 정확히 이해하는 데 있다.
 
 정리하면 이 개념은 "무엇인가"보다 "언제, 왜, 어떤 조건에서 써야 하는가"로 기억해야 한다. 그래야 시험에서도 비교형 답안을 안정적으로 쓸 수 있고, 실무에서도 기술 도입 우선순위를 흔들림 없이 정할 수 있다.
 
@@ -121,10 +118,10 @@ tags = ["studynote-ict-convergence"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)) | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
-| [프롬프트 인젝션](/knowledge-base/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 맥락에서 현재 설계 판단의 중심 개념이다. |
-| 설명 가능한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
-| [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) | 현재 개념 이후의 고도화 방향을 보여 준다. |
+| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)) | 현재 개념이 등장하게 된 배경 또는 선행 개념이다. |
+| [프롬프트 인젝션](/studynote/09_security/19_ai_advanced_security/955_prompt_injection/) 공격 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 맥락에서 현재 설계 판단의 중심 개념이다. |
+| 설명 가능한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 현재 개념을 다음 응용 단계로 연결하는 인접 개념이다. |
+| [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) | 현재 개념 이후의 고도화 방향을 보여 준다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +135,7 @@ tags = ["studynote-ict-convergence"]
     +---> [멀티모달 / 온디바이스·에이전트]
 ```
 
-이 흐름도는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))에서 출발해 현재 개념을 거쳐 설명 가능한 AI와 [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
+이 흐름도는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 안전 및 레드티밍 ([Red Teaming](/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/))에서 출발해 현재 개념을 거쳐 설명 가능한 AI와 [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) 방향으로 확장되는 학습 흐름을 보여 준다. 즉, 현재 개념은 독립된 섬이 아니라 앞 개념의 문제를 받아 다음 단계의 설계 선택으로 넘겨 주는 연결 고리다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 이 개념은 복잡한 일을 한눈에 보이게 정리해서 모두가 같은 규칙으로 움직이게 해 줘.
@@ -151,7 +148,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 302 / 552
 
-<- **이전**: [301. AI 안전 및 레드티밍 (Red Teaming) (AI Safety)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)
-**다음**: [303. 설명 가능한 AI (XAI, eXplainable AI)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/303_xai_explainable_ai/) ->
+<- **이전**: [301. AI 안전 및 레드티밍 (Red Teaming) (AI Safety)](/studynote/06_ict_convergence/04_ai_llm/301_ai_safety_red_teaming/)
+**다음**: [303. 설명 가능한 AI (XAI, eXplainable AI)](/studynote/06_ict_convergence/04_ai_llm/303_xai_explainable_ai/) ->
 
 ---

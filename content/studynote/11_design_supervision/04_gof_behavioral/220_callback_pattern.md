@@ -1,19 +1,16 @@
-+++
-title = "220. 콜백 패턴 (Callback Pattern)"
-date = 2026-05-10
+---
+title: "220. 콜백 패턴 (Callback Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: Callback (콜백) 패턴은 함수를 인수로 전달하여 특정 이벤트나 작업 완료 시점에 호출되도록 하는 역전된 제어(Inversion of Control) 메커니즘이다 — "나중에 전화해줄게" 방식의 비동기 통지.
 > 2. **가치**: 비동기 작업 완료 후 취해야 할 행동을 호출자가 직접 정의하고 전달할 수 있어, 호출자와 비동기 실행자를 느슨하게 결합한다.
-> 3. **판단 포인트**: 콜백 지옥(Callback Hell / Pyramid of Doom)은 중첩 콜백이 만드는 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 붕괴다 — Promise, async/await, Observable이 이를 해결하는 발전된 패턴이다.
+> 3. **판단 포인트**: 콜백 지옥(Callback Hell / Pyramid of Doom)은 중첩 콜백이 만드는 [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/) 붕괴다 — Promise, async/await, Observable이 이를 해결하는 발전된 패턴이다.
 
 ---
 
@@ -58,7 +55,7 @@ element.addEventListener("click", () => console.log("클릭됨")); // 이벤트 
 +--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: 콜백은 식당에서 "음식 나오면 문자 주세요" 방식 — 음식이 나올 때까지 자리에 앉아 기다리지(블로킹) 않고, [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 번호표(콜백 함수)를 주고 다른 일을 하다가 호출받는 것이다.
+- **📢 섹션 요약 비유**: 콜백은 식당에서 "음식 나오면 문자 주세요" 방식 — 음식이 나올 때까지 자리에 앉아 기다리지(블로킹) 않고, [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 번호표(콜백 함수)를 주고 다른 일을 하다가 호출받는 것이다.
 
 ---
 
@@ -122,16 +119,16 @@ getUser(userId, function(err, user) {
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 - **📢 섹션 요약 비유**: 콜백 지옥은 러시아 마트료시카 인형 — 인형 속에 인형이 계속 들어가서, 진짜 원하는 인형(비즈니스 로직)을 꺼내려면 겹겹이 쌓인 껍데기(에러 처리, 조건문)를 다 벗겨야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 패턴 | 표현 방식 | 에러 처리 | [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 사용 환경 |
+| 패턴 | 표현 방식 | 에러 처리 | [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 사용 환경 |
 |:---|:---|:---|:---|:---|
-| Callback | 함수 인수 전달 | 각 콜백마다 | 낮음 (중첩) | Node.js ([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) |
+| Callback | 함수 인수 전달 | 각 콜백마다 | 낮음 (중첩) | Node.js ([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)) |
 | Promise | `.then().catch()` | `.catch()` 통합 | 중간 | 모든 JS 환경 |
 | async/await | `await` 키워드 | `try/catch` | 높음 (동기처럼) | ES2017+ |
 | Observable (RxJS) | 스트림 연산자 | `.catchError()` | 중간~높음 | Angular, 반응형 |
@@ -176,14 +173,14 @@ service.fetchData("123", (result, error) -> {
 });
 ```
 
-[콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/)은 [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) ([옵저버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) 패턴의 단순화된 형태다:
+[콜백 패턴](/studynote/11_design_supervision/06_exam_summary/409_architecture/)은 [Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) ([옵저버](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/)) 패턴의 단순화된 형태다:
 
-| 비교 | Callback | [Observer](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) |
+| 비교 | Callback | [Observer](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) |
 |:---|:---|:---|
 | 구독자 수 | 1개 (일반적) | N개 가능 |
 | 지속성 | 일회성 (보통) | 지속적 구독 |
 | 취소 | 어려움 | 구독 해제(unsubscribe) |
-| [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | 부적합 | 적합 (RxJS, Reactor) |
+| [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) | 부적합 | 적합 (RxJS, Reactor) |
 
 ```javascript
 // Node.js 표준 콜백 규약: (error, result) 순서
@@ -196,23 +193,23 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 });
 ```
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
-- **📢 섹션 요약 비유**: Node.js의 Error-First 콜백은 소방서 보고 규약처럼 — 항상 "이상 없음/있음" 상황 보고(err)를 먼저 하고, 문제 없을 때만 세부 정보([data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보고한다.
+- **📢 섹션 요약 비유**: Node.js의 Error-First 콜백은 소방서 보고 규약처럼 — 항상 "이상 없음/있음" 상황 보고(err)를 먼저 하고, 문제 없을 때만 세부 정보([data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보고한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-[콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/)은 비동기 프로그래밍의 출발점이자, 현대 비동기 패턴들(Promise, async/await, Reactive Streams)의 원형이다:
+[콜백 패턴](/studynote/11_design_supervision/06_exam_summary/409_architecture/)은 비동기 프로그래밍의 출발점이자, 현대 비동기 패턴들(Promise, async/await, Reactive Streams)의 원형이다:
 
 **장점**:
 - 단순하고 범용적 — 어떤 환경에서도 구현 가능
 - 이벤트 기반 시스템(GUI, 네트워크, 타이머)에 자연스럽게 적합
-- 낮은 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 오버헤드
+- 낮은 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 오버헤드
 
 **콜백 지옥의 대안 선택 기준**:
 
@@ -223,27 +220,27 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 | 여러 이벤트 스트림 | Observable (RxJS, Reactor) |
 | Java 다단계 비동기 | CompletableFuture |
 
-[콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/)을 이해하면 Promise, async/await의 설계 의도와 문제 해결 방식을 깊이 이해할 수 있다. 기술사 시험에서는 <strong>콜백 지옥의 문제점과 Promise/async/await로의 발전 과정</strong>을 서술하는 것이 핵심이다.
+[콜백 패턴](/studynote/11_design_supervision/06_exam_summary/409_architecture/)을 이해하면 Promise, async/await의 설계 의도와 문제 해결 방식을 깊이 이해할 수 있다. 기술사 시험에서는 <strong>콜백 지옥의 문제점과 Promise/async/await로의 발전 과정</strong>을 서술하는 것이 핵심이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
 - **📢 섹션 요약 비유**: 콜백은 오래된 호출기(삐삐) — 메시지(콜백 인수)를 받아서 직접 행동(콜백 로직)해야 한다. Promise는 스마트폰 알림 — 여러 알림을 체계적으로 관리하고, async/await는 마치 직접 통화하는 것처럼 자연스럽게 비동기를 동기 코드처럼 쓸 수 있다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | 제어 역전 (Inversion of Control) | 콜백이 구현하는 핵심 원칙 |
-| 연관 패턴 | [Observer Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) | 콜백의 다중 구독자 확장 |
-| 발전 패턴 | Promise/Future | 콜백 지옥을 해결한 상위 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
+| 연관 패턴 | [Observer Pattern](/studynote/04_software_engineering/04_testing_quality/267_observer_pattern/) | 콜백의 다중 구독자 확장 |
+| 발전 패턴 | Promise/Future | 콜백 지옥을 해결한 상위 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) |
 | 발전 패턴 | async/await | Promise의 문법적 설탕 |
-| 발전 패턴 | Observable (RxJS) | 이벤트 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 위한 반응형 확장 |
+| 발전 패턴 | Observable (RxJS) | 이벤트 [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/)를 위한 반응형 확장 |
 | 구현체 | Node.js EventEmitter | 비동기 이벤트 기반 콜백 시스템 |
-| 연관 패턴 | [Command Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 콜백 함수를 [커맨드](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 객체로 캡슐화 |
+| 연관 패턴 | [Command Pattern](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) | 콜백 함수를 [커맨드](/studynote/04_software_engineering/05_devops_ci_cd/271_command_pattern/) 객체로 캡슐화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-이벤트 통지 -> [콜백 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/409_architecture/) -> 비동기 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
+이벤트 통지 -> [콜백 패턴](/studynote/11_design_supervision/06_exam_summary/409_architecture/) -> 비동기 [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 콜백은 피자 배달 주문 — "피자 다 되면 전화(콜백)해줘" 하고 전화번호(콜백 함수)를 알려주면, 완성됐을 때 전화가 온다.
@@ -256,7 +253,7 @@ fs.readFile('file.txt', 'utf8', (err, data) => {
 
 **진행 상황**: 281 / 530
 
-<- **이전**: [219. 객체 풀 패턴 (Object Pool Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/)
-**다음**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/) ->
+<- **이전**: [219. 객체 풀 패턴 (Object Pool Pattern)](/studynote/11_design_supervision/04_gof_behavioral/219_object_pool_pattern/)
+**다음**: [221. Promise/Future 비동기 패턴 (Promise/Future Async Pattern)](/studynote/11_design_supervision/04_gof_behavioral/221_promise_future_async/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "209. GBN ARQ (Go-Back-N ARQ)"
-date = 2026-05-08
+---
+title: "209. GBN ARQ (Go-Back-N ARQ)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GBN ARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: GBN ARQ는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: GBN ARQ를 이해하면 오류율과 재전송 비용 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -22,7 +19,7 @@ tags = ["studynote-network"]
 정지-대기는 윈도우 크기가 양쪽 다 1이었습니다. GBN은 <strong>송신 윈도우 크기만 N (예: 5), 수신 윈도우 크기는 여전히 1</strong>로 세팅합니다.
 
 - 수신기는 오직 자기 코앞에 떨어지는 순서에 맞는 프레임 1개만 기다립니다(버퍼 1개).
-- 송신기는 ACK를 안 받아도 버퍼에 있는 1, 2, 3, 4, 5번 프레임 5개를 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)(네트워크) 안으로 한꺼번에 와다다다 밀어 넣습니다. 이렇게 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 가득 채우므로 통신 속도가 미친 듯이 빨라집니다. ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) 효과).
+- 송신기는 ACK를 안 받아도 버퍼에 있는 1, 2, 3, 4, 5번 프레임 5개를 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)(네트워크) 안으로 한꺼번에 와다다다 밀어 넣습니다. 이렇게 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)를 가득 채우므로 통신 속도가 미친 듯이 빨라집니다. ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) 효과).
 
 ```text
 [정지-대기 ARQ]
@@ -33,7 +30,7 @@ tags = ["studynote-network"]
     +---> [SR ARQ]
 ```
 
-- **📢 섹션 요약 비유**: GBN ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: GBN ARQ는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
@@ -45,8 +42,8 @@ tags = ["studynote-network"]
 1. 송신기가 `0, 1, 2, 3, 4, 5` 프레임을 연달아 쐈습니다.
 2. 수신기는 `0, 1`을 예쁘게 받고 `ACK 2(다음엔 2번 줘)`를 보냈습니다.
 3. 그런데 <strong><code>2번</code> 프레임이 날아오다 벼락을 맞아 깨졌습니다.</strong>
-4. 그 사이 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 날아오던 `3, 4, 5번` 프레임이 수신기에 도착합니다.
-5. **수신기의 태도**: 수신기는 윈도우 크기가 1이므로, 2번 자리가 비어있는데 3번이 먼저 오면 <strong>"난 2번이 안 오면 3, 4, 5번은 안 받아!"</strong>라며 완벽하고 멀쩡하게 도착한 3, 4, 5번 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가차 없이 쓰레기통에 폐기(Discard)해 버립니다. 그리고 송신기에게 계속 `NAK 2(2번 깨졌어!)`만 보냅니다.
+4. 그 사이 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)를 타고 날아오던 `3, 4, 5번` 프레임이 수신기에 도착합니다.
+5. **수신기의 태도**: 수신기는 윈도우 크기가 1이므로, 2번 자리가 비어있는데 3번이 먼저 오면 <strong>"난 2번이 안 오면 3, 4, 5번은 안 받아!"</strong>라며 완벽하고 멀쩡하게 도착한 3, 4, 5번 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 가차 없이 쓰레기통에 폐기(Discard)해 버립니다. 그리고 송신기에게 계속 `NAK 2(2번 깨졌어!)`만 보냅니다.
 6. **송신기의 태도**: NAK를 받은 송신기는 눈물을 머금고, 에러가 발생한 지점인 **2번(N)으로 되돌아가서(Go-Back)**, 그 뒤에 이미 보냈던 `2, 3, 4, 5`를 싹 다 새로 긁어서 재전송해야 합니다.
 
 ```text
@@ -65,7 +62,7 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 - **장점**: 송신기가 쉬지 않고 쏠 수 있어 네트워크 효율이 올라갑니다. 무엇보다 수신기는 <strong>도착한 걸 순서대로 저장할 거대한 메모리(버퍼)가 전혀 필요 없고 오직 1칸만 있으면 되므로, 하드웨어 칩셋 가격이 극단적으로 저렴</strong>해집니다.
-- **단점**: 선로의 에러율이 높은 환경(무선망 등)에서는 한 번 에러가 날 때마다 수백 개의 멀쩡한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동반 자살(폐기)해야 하므로, 재전송 트래픽이 폭발하여 네트워크 대역폭이 처참하게 박살 납니다.
+- **단점**: 선로의 에러율이 높은 환경(무선망 등)에서는 한 번 에러가 날 때마다 수백 개의 멀쩡한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 동반 자살(폐기)해야 하므로, 재전송 트래픽이 폭발하여 네트워크 대역폭이 처참하게 박살 납니다.
 
 GBN ARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 정지-대기 ARQ가 기반 조건을 만든다면, GBN ARQ는 그 위에서 핵심 메커니즘을 구현하고, SR ARQ는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 오류율과 재전송 비용에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
@@ -73,7 +70,7 @@ GBN ARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 |:---|:---|:---|:---|
 | 초점 | 정지-대기 ARQ의 기반 정리 | GBN ARQ의 핵심 동작 | SR ARQ의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 오류율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: ** Go-Back-N은 선생님이 학생 5명을 한 줄로 묶어놓고 벌을 세우는 **'연대 책임'**입니다. 1번부터 5번 학생이 차례대로 숙제 검사를 맡는데, 2번 학생이 숙제를 안 해왔다면(에러), 선생님은 숙제를 완벽하게 다 해온 뒤의 3, 4, 5번 학생들까지 "네 앞사람이 안 해왔으니 너희들도 다 찢어!"라고 공책을 쓰레기통에 버려버립니다. 결국 2번부터 5번까지 전원이 집에 돌아가서 처음부터 다시 숙제를 해와야(Go-Back) 하는 끔찍한 연대 책임 룰입니다.
 
@@ -81,18 +78,18 @@ GBN ARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 GBN ARQ를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 정지-대기 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 수준의 기본 대책으로 충분한지, 아니면 GBN ARQ가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SR ARQ와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 GBN ARQ를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 정지-대기 [ARQ](/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) 수준의 기본 대책으로 충분한지, 아니면 GBN ARQ가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 SR ARQ와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 오류율 부족인지, 재전송 비용 악화인지 먼저 분리한다.
-2. GBN ARQ가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+2. GBN ARQ가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
 3. 도입 후에는 인접 기술인 SR ARQ와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - GBN ARQ의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 정지-대기 ARQ와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 정지-대기 ARQ와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: GBN ARQ를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -100,7 +97,7 @@ GBN ARQ를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅴ. 기대효과 및 결론
 
-GBN ARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SR ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+GBN ARQ는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 오류율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SR ARQ](/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/), 고신뢰 저지연 링크 제어, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 고신뢰 저지연 링크 제어 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: GBN ARQ는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -110,10 +107,10 @@ GBN ARQ는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 정지-대기 [ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [프레이밍](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/knowledge-base/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | 비트열을 의미 있는 전송 단위로 구분한다. |
-| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
-| [SR ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 정지-대기 [ARQ](/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [프레이밍](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/) ([Framing](/studynote/03_network/04_data_link_layer_error/184_framing_mechanism/)) | 비트열을 의미 있는 전송 단위로 구분한다. |
+| [오류 제어](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/) ([Error Control](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) | 검출과 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다. |
+| [SR ARQ](/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -131,7 +128,7 @@ GBN ARQ는 정지-대기 ARQ에서 출발해 현재 메커니즘을 정교화하
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
+1. 편지를 보낼 때 봉투를 제대로 닫고 틀린 글자가 없는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 해요.
 2. 이 개념은 편지가 깨지거나 사라졌을 때 다시 보내는 규칙까지 정해줘요.
 3. 그래서 중간에 흔들려도 중요한 내용이 더 안전하게 도착해요.
 
@@ -141,7 +138,7 @@ GBN ARQ는 정지-대기 ARQ에서 출발해 현재 메커니즘을 정교화하
 
 **진행 상황**: 330 / 1120
 
-<- **이전**: [208. 정지-대기 ARQ (Stop-and-Wait ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/)
-**다음**: [210. SR ARQ (Selective Repeat ARQ)](/knowledge-base/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) ->
+<- **이전**: [208. 정지-대기 ARQ (Stop-and-Wait ARQ)](/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/)
+**다음**: [210. SR ARQ (Selective Repeat ARQ)](/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) ->
 
 ---

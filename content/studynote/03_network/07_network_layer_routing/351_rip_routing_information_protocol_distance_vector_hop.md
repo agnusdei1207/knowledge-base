@@ -1,17 +1,14 @@
-+++
-title = "351. RIP (Routing Information Protocol)"
-date = 2026-05-08
+---
+title: "351. RIP (Routing Information Protocol)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: RIP는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: RIP를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)(자율 시스템) 내부에서 사용되는 IGP에 속하며, [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)([Bellman-Ford](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)) 알고리즘을 기반으로 최적 경로를 결정하는 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). ([UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 520번 사용).
-- **필요성**: 1980년대 컴퓨터들은 지금의 스마트폰보다도 계산 능력이 떨어졌다. 라우터가 온 동네 지형을 다 파악해서 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)) 공식을 돌리는 건 CPU가 녹아내리는 미친 짓이었다. "야, 그냥 묻지도 따지지도 말고 네가 아는 길 나한테 알려주고, 내가 아는 길 너한테 알려주면서 숫자 1씩만 더하자! CPU 안 쓰고 짱 편하네!"라는 빈약한 하드웨어의 생존 본능이 RIP를 낳았다.
+- **개념**: [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/)(자율 시스템) 내부에서 사용되는 IGP에 속하며, [벨만-포드](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)([Bellman-Ford](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)) 알고리즘을 기반으로 최적 경로를 결정하는 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/) [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). ([UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 520번 사용).
+- **필요성**: 1980년대 컴퓨터들은 지금의 스마트폰보다도 계산 능력이 떨어졌다. 라우터가 온 동네 지형을 다 파악해서 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)) 공식을 돌리는 건 CPU가 녹아내리는 미친 짓이었다. "야, 그냥 묻지도 따지지도 말고 네가 아는 길 나한테 알려주고, 내가 아는 길 너한테 알려주면서 숫자 1씩만 더하자! CPU 안 쓰고 짱 편하네!"라는 빈약한 하드웨어의 생존 본능이 RIP를 낳았다.
 
-- **💡 비유**: RIP는 시골 마을의 <strong>"카더라 통신"</strong>과 같습니다. 이웃 할머니가 "읍내 시장(목적지)까지 3정거장(Hop) 걸린대!"라고 말해주면, 나는 그게 진흙탕 길인지 8차선 포장도로인지([대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 묻지도 않고 내 수첩에 <strong>"시장까지 4정거장(3+1)"</strong>이라고 덜컥 적어버립니다.
+- **💡 비유**: RIP는 시골 마을의 <strong>"카더라 통신"</strong>과 같습니다. 이웃 할머니가 "읍내 시장(목적지)까지 3정거장(Hop) 걸린대!"라고 말해주면, 나는 그게 진흙탕 길인지 8차선 포장도로인지([대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/))는 묻지도 않고 내 수첩에 <strong>"시장까지 4정거장(3+1)"</strong>이라고 덜컥 적어버립니다.
 
 ```text
 [홀드다운 타이머, 트리거드 업데이트]
@@ -39,19 +36,19 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. 30초의 저주 (Update [Timer](/knowledge-base/studynote/02_operating_system/01_overview_architecture/071_os_timer/))
+### 1. 30초의 저주 (Update [Timer](/studynote/02_operating_system/01_overview_architecture/071_os_timer/))
 RIP는 말이 안 통할 정도로 수다쟁이다.
-- [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(자기 지식 전부)을 **무조건 30초마다** 이웃 라우터에게 복사해서 던진다.
+- [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(자기 지식 전부)을 **무조건 30초마다** 이웃 라우터에게 복사해서 던진다.
 - 1시간 동안 아무런 선로 단절(이벤트)이 없어도, 30초마다 수백 줄짜리 엽서를 계속 주고받는다.
-- 이 때문에 구형 56Kbps 같은 좁은 전용선에서는 <strong>RIP가 떠드는 소리(오버헤드) 때문에 정작 고객의 진짜 데이터가 지나갈 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 꽉 막혀버리는 현상</strong>이 발생했다.
+- 이 때문에 구형 56Kbps 같은 좁은 전용선에서는 <strong>RIP가 떠드는 소리(오버헤드) 때문에 정작 고객의 진짜 데이터가 지나갈 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 꽉 막혀버리는 현상</strong>이 발생했다.
 
 ### 2. 15 Hop 제한의 딜레마 (Count to Infinity)
 RIP의 최대 홉(Hop) 허용치는 15다. (16은 죽음, Unreachable을 의미함).
-- **왜 15로 막았나?**: 앞서 배운 [거리 벡터](/knowledge-base/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)의 치명적 단점인 "무한 루프([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)"를 막기 위해서다. 길이 끊겨서 라우터 둘이서 핑퐁으로 패킷을 돌리다 보면 홉이 1, 2, 3... 무한대로 늘어나야 하지만, "어? 16이 됐네! 이거 루프 돌고 있는 거네! 폐기!"라고 억지로 끊어버리는 <strong>최후의 안전장치</strong>다.
+- **왜 15로 막았나?**: 앞서 배운 [거리 벡터](/studynote/03_network/07_network_layer_routing/347_distance_vector_routing_bellman_ford/)의 치명적 단점인 "무한 루프([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Loop)"를 막기 위해서다. 길이 끊겨서 라우터 둘이서 핑퐁으로 패킷을 돌리다 보면 홉이 1, 2, 3... 무한대로 늘어나야 하지만, "어? 16이 됐네! 이거 루프 돌고 있는 거네! 폐기!"라고 억지로 끊어버리는 <strong>최후의 안전장치</strong>다.
 - **부작용**: 전국에 지사를 둔 농협 망을 생각해보자. 서울에서 제주 지사까지 라우터를 16대 거쳐야 한다고 치자. RIP를 돌리면 16번째 제주 라우터는 "어? 나 죽은 거네?" 하고 스스로 통신을 끊어버린다. 즉, **대형 네트워크에서는 절대 쓸 수 없다.**
 
-### 3. [UDP](/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 520번 ([신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 결여)
-OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통신하는 것과 달리, RIP는 대충 <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 520번 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>에 엽서를 싣고 허공에 냅다 던진다. "가다가 엽서가 분실되면 어떡하죠?" "어차피 30초 뒤에 똑같은 엽서 또 던질 건데 뭐 어때!"라는 극강의 무책임한 방식을 쓴다.
+### 3. [UDP](/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/) 520번 ([신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 결여)
+OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통신하는 것과 달리, RIP는 대충 <strong><a href="/studynote/03_network/08_transport_layer/406_udp_user_datagram_protocol_connectionless_fast/">UDP</a> 520번 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a></strong>에 엽서를 싣고 허공에 냅다 던진다. "가다가 엽서가 분실되면 어떡하죠?" "어차피 30초 뒤에 똑같은 엽서 또 던질 건데 뭐 어때!"라는 극강의 무책임한 방식을 쓴다.
 
 ```text
  +-------------------------------------------------------------+
@@ -78,13 +75,13 @@ OSPF가 직접 IP 헤더에 올라타거나 BGP가 TCP로 손을 꽉 잡고 통�
 
 ## Ⅲ. 비교 및 연결
 
-RIP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트가 기반 조건을 만든다면, RIP는 그 위에서 핵심 메커니즘을 구현하고, [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+RIP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트가 기반 조건을 만든다면, RIP는 그 위에서 핵심 메커니즘을 구현하고, [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트의 기반 정리 | RIP의 핵심 동작 | [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2의 확장 적용 |
+| 초점 | [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트의 기반 정리 | RIP의 핵심 동작 | [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: RIP는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -92,18 +89,18 @@ RIP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 RIP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트 수준의 기본 대책으로 충분한지, 아니면 RIP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 RIP를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트 수준의 기본 대책으로 충분한지, 아니면 RIP가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 수렴 속도 부족인지, 확장성 악화인지 먼저 분리한다.
-2. RIP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와의 연계 방식을 함께 검증한다.
+2. RIP가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - RIP의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: RIP를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -111,7 +108,7 @@ RIP를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 
 ## Ⅴ. 기대효과 및 결론
 
-RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+RIP는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2, 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: RIP는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -121,10 +118,10 @@ RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,7 +135,7 @@ RIP는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-RIP는 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트에서 출발해 현재 메커니즘을 정교화하고, 이후 [RIPv1](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+RIP는 [홀드다운 타이머](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/), 트리거드 업데이트에서 출발해 현재 메커니즘을 정교화하고, 이후 [RIPv1](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) vs RIPv2와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -152,7 +149,7 @@ RIP는 [홀드다운 타이머](/knowledge-base/studynote/03_network/07_network_
 
 **진행 상황**: 472 / 1120
 
-<- **이전**: [350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)](/knowledge-base/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/)
-**다음**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/knowledge-base/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) ->
+<- **이전**: [350. 홀드다운 타이머 (Hold-down Timer), 트리거드 업데이트 (Triggered Update)](/studynote/03_network/07_network_layer_routing/350_distance_vector_hold_down_timer_triggered_update/)
+**다음**: [352. RIPv1 (클래스풀, 브로드캐스트) vs RIPv2 (클래스리스/VLSM, 멀티캐스트: 224.0.0.9)](/studynote/03_network/07_network_layer_routing/352_ripv1_classful_vs_ripv2_classless_vlsm/) ->
 
 ---

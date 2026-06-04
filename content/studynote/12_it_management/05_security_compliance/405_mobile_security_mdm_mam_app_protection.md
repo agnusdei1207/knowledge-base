@@ -1,13 +1,10 @@
-+++
-title = "405. 모바일 보안 MDM MAM 앱 보호 (Mobile Security MDM MAM App Protection)"
-date = 2026-05-09
+---
+title: "405. 모바일 보안 MDM MAM 앱 보호 (Mobile Security MDM MAM App Protection)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -180,7 +177,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 405 / 800
 
-<- **이전**: [404. API 보안 OAuth JWT 토큰 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/404_api_security_oauth_jwt_token_management/)
-**다음**: [406. IoT 보안 디바이스 인증 펌웨어](/knowledge-base/studynote/12_it_management/05_security_compliance/406_iot_security_device_authentication_firmware/) ->
+<- **이전**: [404. API 보안 OAuth JWT 토큰 관리](/studynote/12_it_management/05_security_compliance/404_api_security_oauth_jwt_token_management/)
+**다음**: [406. IoT 보안 디바이스 인증 펌웨어](/studynote/12_it_management/05_security_compliance/406_iot_security_device_authentication_firmware/) ->
 
 ---

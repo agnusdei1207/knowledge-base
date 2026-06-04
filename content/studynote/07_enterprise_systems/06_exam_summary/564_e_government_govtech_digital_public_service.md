@@ -1,13 +1,10 @@
-+++
-title = "564. 전자정부 GovTech 디지털 공공 서비스 (e-Government GovTech Digital Public Service)"
-date = 2026-05-09
+---
+title: "564. 전자정부 GovTech 디지털 공공 서비스 (e-Government GovTech Digital Public Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 564 / 800
 
-<- **이전**: [563. IT 법규 컴플라이언스 규제 대응](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/563_it_legal_compliance_regulatory_response/)
-**다음**: [565. 스마트 시티 데이터 플랫폼 거버넌스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/565_smart_city_data_platform_governance/) ->
+<- **이전**: [563. IT 법규 컴플라이언스 규제 대응](/studynote/07_enterprise_systems/06_exam_summary/563_it_legal_compliance_regulatory_response/)
+**다음**: [565. 스마트 시티 데이터 플랫폼 거버넌스](/studynote/07_enterprise_systems/06_exam_summary/565_smart_city_data_platform_governance/) ->
 
 ---

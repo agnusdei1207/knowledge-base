@@ -1,13 +1,10 @@
-+++
-title = "714. IT 경영 관리 핵심 토픽 714번 시험 요약 (IT Management Core Topic 714 Exam Summary)"
-date = 2026-05-09
+---
+title: "714. IT 경영 관리 핵심 토픽 714번 시험 요약 (IT Management Core Topic 714 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ PMBOK 7(2021)은 **Process-based -> Principle-based**로 대전환하여 12가�
 
 **진행 상황**: 714 / 800
 
-<- **이전**: [713. IT 경영 관리 핵심 토픽 713번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/713_it_management_core_topic_713_exam_summary/)
-**다음**: [715. IT 경영 관리 핵심 토픽 715번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/715_it_management_core_topic_715_exam_summary/) ->
+<- **이전**: [713. IT 경영 관리 핵심 토픽 713번 시험 요약](/studynote/12_it_management/05_security_compliance/713_it_management_core_topic_713_exam_summary/)
+**다음**: [715. IT 경영 관리 핵심 토픽 715번 시험 요약](/studynote/12_it_management/05_security_compliance/715_it_management_core_topic_715_exam_summary/) ->
 
 ---

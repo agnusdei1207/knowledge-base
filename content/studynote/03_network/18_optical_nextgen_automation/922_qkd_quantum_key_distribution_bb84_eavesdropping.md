@@ -1,13 +1,10 @@
-+++
-title = "922. QKD (양자 암호 통신)"
-date = 2026-05-08
+---
+title: "922. QKD (양자 암호 통신)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- 우리가 쓰는 은행 암호(공개키 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))는 "소인수분해가 엄청 어렵다"는 수학적 꼼수에 기대고 있습니다.
-- 10년 뒤 초거대 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a></strong>가 상용화되면, 이 소인수분해를 1초 만에 풀어버려 전 세계 금융망이 다 털리게 됩니다. 이를 막기 위해 물리학의 절대 법칙을 활용한 '양자 암호'가 등판했습니다.
+- 우리가 쓰는 은행 암호(공개키 [RSA](/studynote/09_security/03_network_security/110_rsa/))는 "소인수분해가 엄청 어렵다"는 수학적 꼼수에 기대고 있습니다.
+- 10년 뒤 초거대 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/447_quantum_computer/">양자 컴퓨터</a></strong>가 상용화되면, 이 소인수분해를 1초 만에 풀어버려 전 세계 금융망이 다 털리게 됩니다. 이를 막기 위해 물리학의 절대 법칙을 활용한 '양자 암호'가 등판했습니다.
 
 ```text
 [양자 중계기]
@@ -31,14 +28,14 @@ tags = ["studynote-network"]
     +---> [시맨틱 통신 망]
 ```
 
-- **📢 섹션 요약 비유**: QKD는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: QKD는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 정보를 암호화해서 풀 때 쓰는 <strong>'비밀 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 기술</strong>입니다.
-- 해커가 중간에 열쇠를 훔쳐보면 양자역학의 법칙(관측자의 개입)에 의해 열쇠가 즉각 붕괴하여 썩어버리기 때문에, [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 사실을 수신자가 100% 알아채고 그 열쇠를 버려버리는 철통 보안 체계입니다.
+- **개념**: 정보를 암호화해서 풀 때 쓰는 <strong>'비밀 열쇠(<a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'를 빛의 최소 단위인 광자(Photon) 하나하나에 실어서 보내는 무조건적 보안(Unconditional <a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) 기술</strong>입니다.
+- 해커가 중간에 열쇠를 훔쳐보면 양자역학의 법칙(관측자의 개입)에 의해 열쇠가 즉각 붕괴하여 썩어버리기 때문에, [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 사실을 수신자가 100% 알아채고 그 열쇠를 버려버리는 철통 보안 체계입니다.
 
 ```text
 [양자 중계기]
@@ -59,15 +56,15 @@ tags = ["studynote-network"]
 
 1. **송신자(앨리스)의 암호 빔 쏘기**: 앨리스는 0과 1의 암호키를 빛 알갱이(광자)로 만듭니다. 이때 광자의 떨림 방향(편광)을 십자가 모양(➕)이나 대각선 모양(✖️) 필터 중 하나를 무작위로 골라 통과시켜 광케이블로 쏩니다.
 2. **수신자(밥)의 눈 감고 필터 찍기**: 밥에게 광자가 날아옵니다. 밥은 앨리스가 무슨 필터를 썼는지 모릅니다. 밥도 ➕필터나 ✖️필터 중 아무거나 무작위로 들이대서 광자를 잡아냅니다.
-3. **필터 비교 (일반 인터넷 통신)**: 다 보낸 후, 둘은 카카오톡(일반 통신)으로 "나 1번은 ➕필터 썼고, 2번은 ✖️필터 썼다!"라고 필터 종류만 맞춰봅니다. 둘이 똑같이 ➕필터를 썼을 때의 광자([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 진짜 암호키로 쓰고, 필터가 어긋난 건 쓰레기통에 버립니다.
+3. **필터 비교 (일반 인터넷 통신)**: 다 보낸 후, 둘은 카카오톡(일반 통신)으로 "나 1번은 ➕필터 썼고, 2번은 ✖️필터 썼다!"라고 필터 종류만 맞춰봅니다. 둘이 똑같이 ➕필터를 썼을 때의 광자([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 진짜 암호키로 쓰고, 필터가 어긋난 건 쓰레기통에 버립니다.
 
-QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)가 기반 조건을 만든다면, QKD는 그 위에서 핵심 메커니즘을 구현하고, [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [양자 중계기](/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)가 기반 조건을 만든다면, QKD는 그 위에서 핵심 메커니즘을 구현하고, [시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전송 용량과 자동 제어성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)의 기반 정리 | QKD의 핵심 동작 | [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)의 확장 적용 |
+| 초점 | [양자 중계기](/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)의 기반 정리 | QKD의 핵심 동작 | [시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전송 용량 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: QKD는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -78,25 +75,25 @@ QKD를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 �
 - 해커(이브)가 중간에 광케이블을 까서 광자를 몰래 가로챕니다.
 - 해커도 앨리스가 무슨 필터를 썼는지 모르니 자기 맘대로 ➕필터를 대고 광자를 들여다봅니다(관측).
 - **양자의 복수(파동 붕괴)**: 양자역학의 법칙상, 해커가 잘못된 필터로 광자를 쳐다보는 순간 광자의 원래 편광 상태가 파사삭 부서져 엉뚱한 모양으로 변해버립니다. 해커는 이걸 모르고 다시 밥에게 똑같이 쏴줍니다.
-- 밥이 나중에 앨리스와 답(필터)을 맞춰봤는데, 둘이 똑같은 ➕필터를 썼는데도 밥의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 앨리스와 다릅니다(에러율 25% 폭증).
+- 밥이 나중에 앨리스와 답(필터)을 맞춰봤는데, 둘이 똑같은 ➕필터를 썼는데도 밥의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 앨리스와 다릅니다(에러율 25% 폭증).
 - **밥과 앨리스의 결단**: "야! 필터가 똑같은데 값이 다르다는 건, 중간에 어떤 새끼가 훔쳐보느라 광자가 붕괴됐다는 뜻이다! 이 암호키 다 폐기해버려!" 해커는 영원히 제대로 된 암호키를 훔칠 수 없습니다.
 
 - **거리 한계**: 광자가 너무 얇아서 100km만 가도 힘이 빠져 죽어버립니다(921번 중계기 문서).
-- **실무 적용 (SKT/KT의 하이브리드)**: QKD만으로 영화를 다운로드받는 건 속도가 느려 불가능합니다. QKD는 오직 은행의 <strong>"암호 열쇠(<a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)" 딱 하나만 1분에 1개씩 안전하게 배달하는 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a></strong>으로 씁니다. 진짜 영화([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 그 열쇠를 이용해 기존 100G 광케이블 인터넷망으로 안전하게 암호화해서 쏘는 투트랙(Hybrid) 융합망으로 상용화되고 있습니다.
+- **실무 적용 (SKT/KT의 하이브리드)**: QKD만으로 영화를 다운로드받는 건 속도가 느려 불가능합니다. QKD는 오직 은행의 <strong>"암호 열쇠(<a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)" 딱 하나만 1분에 1개씩 안전하게 배달하는 <a href="/studynote/03_network/05_lan_wan_l2_devices/266_leased_line_basics_e1_t1_t3/">전용선</a></strong>으로 씁니다. 진짜 영화([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))는 그 열쇠를 이용해 기존 100G 광케이블 인터넷망으로 안전하게 암호화해서 쏘는 투트랙(Hybrid) 융합망으로 상용화되고 있습니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 암호는 '엄청 복잡한 퍼즐 상자'에 돈을 넣어 택배로 보내는 것입니다. 도둑이 중간에 상자를 몰래 훔쳐 가서 사진을 수만 장 찍어놓고 다시 컨베이어 벨트에 올려놔도 우리는 도둑맞은 사실을 영원히 모릅니다([복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능). <strong>QKD(양자 암호 통신)</strong>는 돈을 **'극도로 예민한 비눗방울'** 안에 넣어 보내는 것입니다. 도둑이 안을 들여다보려고 비눗방울에 손가락을 살짝 대는 순간, "톡!" 하고 비눗방울이 터져버립니다(양자 붕괴). 목적지에 도착한 수신자는 비눗방울이 터져있는 걸 보자마자 "누가 중간에 훔쳐봤구나!" 100% 확신하고 그 돈(암호 키)을 가짜로 간주해 소각로에 태워버립니다. 도둑이 내용을 훔쳐본 사실을 물리법칙으로 절대 숨길 수 없게 만든 완벽한 [도청](/knowledge-base/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지 알람 방어막입니다.
+- **📢 섹션 요약 비유**: 기존 암호는 '엄청 복잡한 퍼즐 상자'에 돈을 넣어 택배로 보내는 것입니다. 도둑이 중간에 상자를 몰래 훔쳐 가서 사진을 수만 장 찍어놓고 다시 컨베이어 벨트에 올려놔도 우리는 도둑맞은 사실을 영원히 모릅니다([복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) 가능). <strong>QKD(양자 암호 통신)</strong>는 돈을 **'극도로 예민한 비눗방울'** 안에 넣어 보내는 것입니다. 도둑이 안을 들여다보려고 비눗방울에 손가락을 살짝 대는 순간, "톡!" 하고 비눗방울이 터져버립니다(양자 붕괴). 목적지에 도착한 수신자는 비눗방울이 터져있는 걸 보자마자 "누가 중간에 훔쳐봤구나!" 100% 확신하고 그 돈(암호 키)을 가짜로 간주해 소각로에 태워버립니다. 도둑이 내용을 훔쳐본 사실을 물리법칙으로 절대 숨길 수 없게 만든 완벽한 [도청](/studynote/03_network/14_network_security_threats/701_sniffing_eavesdropping_promiscuous/) 탐지 알람 방어막입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-QKD는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+QKD는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전송 용량 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/), 의미 기반 통신 최적화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의미 기반 통신 최적화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: QKD는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +103,10 @@ QKD는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 광 전송 (Optical Transport) | [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
+| [양자 중계기](/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 광 전송 (Optical Transport) | [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 백본의 기본 전달 수단이다. |
 | 텔레메트리 (Telemetry) | 실시간 상태 측정과 제어 피드백을 가능하게 한다. |
-| [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +120,7 @@ QKD는 광통신·차세대·자동화를 이해할 때 핵심 축을 잡아 주
     +---> [확장 B: 의미 기반 통신 최적화]
 ```
 
-QKD는 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+QKD는 [양자 중계기](/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/)와 의미 기반 통신 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +134,7 @@ QKD는 [양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextge
 
 **진행 상황**: 1043 / 1120
 
-<- **이전**: [921. 양자 중계기](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)
-**다음**: [923. 시맨틱 통신 망](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/) ->
+<- **이전**: [921. 양자 중계기](/studynote/03_network/18_optical_nextgen_automation/921_quantum_repeater_entanglement_swapping_no_cloning/)
+**다음**: [923. 시맨틱 통신 망](/studynote/03_network/18_optical_nextgen_automation/923_semantic_communication_6g_ai_meaning_extraction/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "393. 개인정보보호법 PIPA 국내 규제 대응 (PIPA Personal Information Protection Act)"
-date = 2026-05-09
+---
+title: "393. 개인정보보호법 PIPA 국내 규제 대응 (PIPA Personal Information Protection Act)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -144,7 +141,7 @@ PIPA는 **"데이터 컨트롤러(개인정보처리자) — 데이터 프로세
 
 **진행 상황**: 393 / 800
 
-<- **이전**: [392. GDPR 일반 데이터 보호 규정 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/392_gdpr_general_data_protection_regulation/)
-**다음**: [394. 데이터 3법 가명정보 결합 활용](/knowledge-base/studynote/12_it_management/05_security_compliance/394_data_3_acts_pseudonymization_combination/) ->
+<- **이전**: [392. GDPR 일반 데이터 보호 규정 대응](/studynote/12_it_management/05_security_compliance/392_gdpr_general_data_protection_regulation/)
+**다음**: [394. 데이터 3법 가명정보 결합 활용](/studynote/12_it_management/05_security_compliance/394_data_3_acts_pseudonymization_combination/) ->
 
 ---

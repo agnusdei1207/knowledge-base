@@ -1,18 +1,15 @@
-+++
-title = "038. 관계 대수 (Relational Algebra)"
-date = 2026-03-03
+---
+title: "038. 관계 대수 (Relational Algebra)"
+date: "2026-03-03"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 > **핵심 인사이트**
-> 1. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수(Relational Algebra)는 Edgar F. Codd가 정의한 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 이론적 기반으로, 테이블([릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 적용하는 8개 연산자의 집합이며, SQL의 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)·FROM·WHERE·[JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·GROUP BY가 모두 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 연산의 직접 구현이다.
-> 2. 기본 연산(선택·사영·카티션 곱·합집합·차집합)만으로 모든 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 표현할 수 있으며, [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)·교차·나누기는 이들로부터 유도된다 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화기(Query [Optimizer](/knowledge-base/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 표현식을 변환해 최적 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 탐색한다.
-> 3. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수를 이해하면 SQL의 실행 순서(FROM->WHERE->[GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/)->HAVING->[SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)->ORDER BY)와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계의 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거를 파악할 수 있으며, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 사고의 기반이 된다.
+> 1. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수(Relational Algebra)는 Edgar F. Codd가 정의한 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)의 이론적 기반으로, 테이블([릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))에 적용하는 8개 연산자의 집합이며, SQL의 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)·FROM·WHERE·[JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·GROUP BY가 모두 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 연산의 직접 구현이다.
+> 2. 기본 연산(선택·사영·카티션 곱·합집합·차집합)만으로 모든 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)형 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)를 표현할 수 있으며, [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/)·교차·나누기는 이들로부터 유도된다 — [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화기(Query [Optimizer](/studynote/12_it_management/02_itsm_itil/088_optimizer/))는 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수 표현식을 변환해 최적 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 탐색한다.
+> 3. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수를 이해하면 SQL의 실행 순서(FROM->WHERE->[GROUP BY](/studynote/05_database/04_transactions_concurrency/522_group_by/)->HAVING->[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/)->ORDER BY)와 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계의 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 근거를 파악할 수 있으며, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 사고의 기반이 된다.
 
 ---
 
@@ -73,16 +70,16 @@ tags = ["studynote-database"]
 | 연산    | 기호 | SQL 대응     | 의미              |
 |-------|-----|------------|-----------------|
 | 선택   | σ   | WHERE      | 행 필터           |
-| 사영   | π   | [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) (열) | 열 선택           |
-| 조인   | ⋈   | [JOIN](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/) ON    | 관련 테이블 결합   |
+| 사영   | π   | [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) (열) | 열 선택           |
+| 조인   | ⋈   | [JOIN](/studynote/05_database/04_transactions_concurrency/521_join/) ON    | 관련 테이블 결합   |
 | 합집합 | ∪   | UNION      | 두 결과 합치기    |
 | 차집합 | -   | EXCEPT     | 첫 번째에서 두 번째 제거|
 
-> 📢 **섹션 요약 비유**: [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레고 — 기본 블록(5개 연산)으로 복잡한 구조(조인, 나누기)를 조립.
+> 📢 **섹션 요약 비유**: [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레고 — 기본 블록(5개 연산)으로 복잡한 구조(조인, 나누기)를 조립.
 
 ---
 
-## III. [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화와 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수
+## III. [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화와 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수
 
 ```
 SQL -> 관계 대수 표현식 -> 최적화 -> 실행 계획
@@ -109,7 +106,7 @@ SQL -> 관계 대수 표현식 -> 최적화 -> 실행 계획
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수와 SQL 실행 순서
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수와 SQL 실행 순서
 
 ```
 SQL 논리적 실행 순서 (관계 대수 관점):
@@ -127,11 +124,11 @@ SQL 논리적 실행 순서 (관계 대수 관점):
   SELECT는 WHERE보다 나중에 실행 -> nm이 아직 없음!
 ```
 
-> 📢 **섹션 요약 비유**: SQL은 작성 순서와 실행 순서가 다르다 — 이를 모르면 "왜 [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) 별칭을 WHERE에서 못 쓰는지" 이해가 안 된다.
+> 📢 **섹션 요약 비유**: SQL은 작성 순서와 실행 순서가 다르다 — 이를 모르면 "왜 [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) 별칭을 WHERE에서 못 쓰는지" 이해가 안 된다.
 
 ---
 
-## V. 실무 시나리오 — [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 사고
+## V. 실무 시나리오 — [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 최적화 사고
 
 ```
 문제 쿼리 (느림):
@@ -207,9 +204,9 @@ Catalyst Optimizer, Velox
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수는 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 표를 가지고 할 수 있는 기본 연산들 — 행 고르기(선택), 열 고르기(사영), 두 표 결합하기(조인)예요.
-2. SQL의 WHERE, [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), JOIN이 모두 이 수학 연산을 쉽게 쓸 수 있게 만든 거예요.
-3. 컴퓨터가 SQL을 실행할 때 먼저 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 줄여놓고(선택 먼저) 합치는(조인 나중) 순서로 최적화해서 빠르게 처리해요!
+1. [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 대수는 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 표를 가지고 할 수 있는 기본 연산들 — 행 고르기(선택), 열 고르기(사영), 두 표 결합하기(조인)예요.
+2. SQL의 WHERE, [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/), JOIN이 모두 이 수학 연산을 쉽게 쓸 수 있게 만든 거예요.
+3. 컴퓨터가 SQL을 실행할 때 먼저 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 많이 줄여놓고(선택 먼저) 합치는(조인 나중) 순서로 최적화해서 빠르게 처리해요!
 
 ---
 
@@ -217,7 +214,7 @@ Catalyst Optimizer, Velox
 
 **진행 상황**: 38 / 600
 
-<- **이전**: [037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준](/knowledge-base/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/)
-**다음**: [039. 일반 집합 연산 (General Set Operators)](/knowledge-base/studynote/05_database/01_db_architecture_relational/039_general_set_operators/) ->
+<- **이전**: [037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준](/studynote/05_database/01_db_architecture_relational/037_b_plus_tree/)
+**다음**: [039. 일반 집합 연산 (General Set Operators)](/studynote/05_database/01_db_architecture_relational/039_general_set_operators/) ->
 
 ---

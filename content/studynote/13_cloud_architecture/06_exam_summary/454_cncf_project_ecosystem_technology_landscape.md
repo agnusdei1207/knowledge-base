@@ -1,13 +1,10 @@
-+++
-title = "454. CNCF 프로젝트 생태계 기술 지형도 (CNCF Project Ecosystem Technology Landscape)"
-date = 2026-05-09
+---
+title: "454. CNCF 프로젝트 생태계 기술 지형도 (CNCF Project Ecosystem Technology Landscape)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 454 / 800
 
-<- **이전**: [453. 클라우드 네이티브 성숙도 모델 평가](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/453_cloud_native_maturity_model_assessment/)
-**다음**: [455. 클라우드 거버넌스 정책 프레임워크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/455_cloud_governance_policy_framework/) ->
+<- **이전**: [453. 클라우드 네이티브 성숙도 모델 평가](/studynote/13_cloud_architecture/06_exam_summary/453_cloud_native_maturity_model_assessment/)
+**다음**: [455. 클라우드 거버넌스 정책 프레임워크](/studynote/13_cloud_architecture/06_exam_summary/455_cloud_governance_policy_framework/) ->
 
 ---

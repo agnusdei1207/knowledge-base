@@ -1,13 +1,10 @@
-+++
-title = "605. IT 경영 관리 핵심 토픽 605번 시험 요약 (IT Management Core Topic 605 Exam Summary)"
-date = 2026-05-09
+---
+title: "605. IT 경영 관리 핵심 토픽 605번 시험 요약 (IT Management Core Topic 605 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 605 / 800
 
-<- **이전**: [604. IT 경영 관리 핵심 토픽 604번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/604_it_management_core_topic_604_exam_summary/)
-**다음**: [606. IT 경영 관리 핵심 토픽 606번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/606_it_management_core_topic_606_exam_summary/) ->
+<- **이전**: [604. IT 경영 관리 핵심 토픽 604번 시험 요약](/studynote/12_it_management/05_security_compliance/604_it_management_core_topic_604_exam_summary/)
+**다음**: [606. IT 경영 관리 핵심 토픽 606번 시험 요약](/studynote/12_it_management/05_security_compliance/606_it_management_core_topic_606_exam_summary/) ->
 
 ---

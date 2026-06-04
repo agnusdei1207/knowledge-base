@@ -1,26 +1,23 @@
-+++
-title = "12. 정류 회로 (Rectifier)"
-date = 2026-04-19
+---
+title: "12. 정류 회로 (Rectifier)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정류 회로 (Rectifier)는 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 [단방향](/knowledge-base/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통전 특성을 이용해 요동치는 교류([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 전력을 한 방향으로만 흐르는 직류(DC)로 변환하는 첫 번째 전력 관문이다.
+> 1. **본질**: 정류 회로 (Rectifier)는 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 [단방향](/studynote/03_network/01_data_communication/008_단방향_반이중_전이중/) 통전 특성을 이용해 요동치는 교류([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)) 전력을 한 방향으로만 흐르는 직류(DC)로 변환하는 첫 번째 전력 관문이다.
 > 2. **가치**: 발전소에서 송전된 고전압 교류를 컴퓨터 부품이 소화할 수 있는 안정적인 직류로 바꾸어, 칩이 오작동 없이 0과 1을 처리할 수 있는 물리적 기반을 제공한다.
-> 3. **판단 포인트**: 반파 정류의 비효율을 극복하기 위해 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 전파 정류를 표준으로 사용하며, 하이엔드 파워서플라이에서는 열 손실을 줄이기 위해 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 대신 동기식 정류([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))를 채택한다.
+> 3. **판단 포인트**: 반파 정류의 비효율을 극복하기 위해 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 전파 정류를 표준으로 사용하며, 하이엔드 파워서플라이에서는 열 손실을 줄이기 위해 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 대신 동기식 정류([MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))를 채택한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-정류 회로 (Rectifier)는 교류 ([AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/), Alternating [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 전원의 역방향 파형을 차단하거나 정방향으로 뒤집어, 전류가 한쪽 방향으로만 흐르는 직류 (DC, [Direct](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Current](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))로 강제 변환하는 회로다.
+정류 회로 (Rectifier)는 교류 ([AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/), Alternating [Current](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/)) 전원의 역방향 파형을 차단하거나 정방향으로 뒤집어, 전류가 한쪽 방향으로만 흐르는 직류 (DC, [Direct](/studynote/01_computer_architecture/04_instruction_set_architecture/176_direct_addressing/) [Current](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/))로 강제 변환하는 회로다.
 
-발전소에서 오는 교류는 송전에 유리하지만, CPU나 메모리 같은 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩들은 일정한 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 직류만으로 동작한다. 이 전력 형식의 불일치를 해결하지 못하면 컴퓨터는 켜질 수조차 없다. 따라서 파워서플라이 (PSU, [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit)의 가장 앞단에서 교류 파형의 마이너스(-) 구간을 통제하는 1차 정류 작업이 반드시 선행되어야 한다.
+발전소에서 오는 교류는 송전에 유리하지만, CPU나 메모리 같은 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/) 칩들은 일정한 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 직류만으로 동작한다. 이 전력 형식의 불일치를 해결하지 못하면 컴퓨터는 켜질 수조차 없다. 따라서 파워서플라이 (PSU, [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Supply Unit)의 가장 앞단에서 교류 파형의 마이너스(-) 구간을 통제하는 1차 정류 작업이 반드시 선행되어야 한다.
 
 ```text
 +--------------------------------------------------------------+
@@ -43,14 +40,14 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-가장 널리 쓰이는 표준 정류 아키텍처는 4개의 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)를 교차로 연결한 <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> 전파 정류 (<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> Full-Wave Rectification)</strong> 회로다.
+가장 널리 쓰이는 표준 정류 아키텍처는 4개의 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)를 교차로 연결한 <strong><a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">브리지</a> 전파 정류 (<a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a> Full-Wave Rectification)</strong> 회로다.
 
-입력 교류가 플러스(+) 주기일 때는 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 2개가 짝을 이루어 전류를 통과시키고, 마이너스(-) 주기일 때는 나머지 2개의 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)가 열려 반대 방향 전류를 다시 원래의 정방향으로 꺾어버린다. 이로 인해 버려지는 전력 없이 100% 한 방향으로만 흐르는 맥동 직류 (Pulsating DC)가 생성된다.
+입력 교류가 플러스(+) 주기일 때는 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 2개가 짝을 이루어 전류를 통과시키고, 마이너스(-) 주기일 때는 나머지 2개의 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)가 열려 반대 방향 전류를 다시 원래의 정방향으로 꺾어버린다. 이로 인해 버려지는 전력 없이 100% 한 방향으로만 흐르는 맥동 직류 (Pulsating DC)가 생성된다.
 
 | 정류 방식 | 구성 | 특징 및 효율 |
 |:---|:---|:---|
-| **반파 정류** | [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 1개 | (-) 파형을 버림. 부품이 적으나 에너지 손실 큼 (최대 효율 40.6%) |
-| **전파 정류** | [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 4개 ([브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) | (-) 파형까지 반전시켜 100% 활용. PSU 표준 설계 (최대 효율 81.2%) |
+| **반파 정류** | [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 1개 | (-) 파형을 버림. 부품이 적으나 에너지 손실 큼 (최대 효율 40.6%) |
+| **전파 정류** | [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) 4개 ([브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) | (-) 파형까지 반전시켜 100% 활용. PSU 표준 설계 (최대 효율 81.2%) |
 
 - **📢 섹션 요약 비유**: 밀물이 들어올 때나 썰물이 빠져나갈 때나 밸브를 교묘히 열고 닫아서, 한가운데 있는 물레방아가 항상 같은 방향으로만 돌도록 강제하는 영리한 톱니바퀴 펌프다.
 
@@ -58,18 +55,18 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-현대 전원 설계에서는 정류 회로 자체의 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하로 인한 발열 손실마저 큰 문제로 대두된다.
+현대 전원 설계에서는 정류 회로 자체의 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 강하로 인한 발열 손실마저 큰 문제로 대두된다.
 
-| 구분 | 일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | 동기식 정류 ([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Rectification) |
+| 구분 | 일반 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) | 동기식 정류 ([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/) Rectification) |
 |:---|:---|:---|
-| **핵심 소자** | 실리콘 PN [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) | 전력 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor [FET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/)) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하 손실</strong> | 약 0.7V (고정적 열 발생) | 0V에 수렴 ([스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 극소화) |
+| **핵심 소자** | 실리콘 PN [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/) | 전력 [MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) (Metal-Oxide-Semiconductor [FET](/studynote/01_computer_architecture/01_basic_electronics_logic/016_fet/)) |
+| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/">전압</a> 강하 손실</strong> | 약 0.7V (고정적 열 발생) | 0V에 수렴 ([스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 극소화) |
 | **장단점** | 저렴하고 회로가 단순함 | 회로가 복잡하고 비싸지만 발열이 거의 없음 |
-| **적용처** | 저가형 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), 일반 파워 | 80 PLUS 고효율 하이엔드 파워, 초소형 충전기 |
+| **적용처** | 저가형 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/), 일반 파워 | 80 PLUS 고효율 하이엔드 파워, 초소형 충전기 |
 
-에너지 효율 규제가 강화되면서 일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 퇴출되고 있다. 전류가 흐를 때마다 생기는 0.7V의 톨게이트 비용(열 손실)을 없애기 위해, [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))가 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 방향을 감지해 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 직접 열고 닫는 능동적인 정류 방식이 프리미엄 시장을 지배하고 있다.
+에너지 효율 규제가 강화되면서 일반 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)는 퇴출되고 있다. 전류가 흐를 때마다 생기는 0.7V의 톨게이트 비용(열 손실)을 없애기 위해, [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/)([MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/))가 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 방향을 감지해 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 직접 열고 닫는 능동적인 정류 방식이 프리미엄 시장을 지배하고 있다.
 
-- **📢 섹션 요약 비유**: 요금을 낼 때마다 차를 멈춰야 하는 낡은 톨게이트(일반 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))를 다 부수고, 멈출 필요 없이 쌩쌩 지나가도 알아서 처리되는 하이패스(동기식 정류)를 깐 것과 같다.
+- **📢 섹션 요약 비유**: 요금을 낼 때마다 차를 멈춰야 하는 낡은 톨게이트(일반 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/))를 다 부수고, 멈출 필요 없이 쌩쌩 지나가도 알아서 처리되는 하이패스(동기식 정류)를 깐 것과 같다.
 
 ---
 
@@ -77,14 +74,14 @@ tags = ["studynote-computer-architecture"]
 
 실무 파워서플라이 설계에서 정류단은 가장 먼저 고압의 외부 충격을 맞는 최전선이므로, 부품의 내압 마진과 효율 설계가 핵심이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
-1. [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)가 차단 상태에서 버텨야 하는 <strong>최대 역방향 내압 (PIV)</strong>이 교류 피크 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 2배 이상 마진을 확보했는가?
-2. 무효 전력을 줄이기 위해 정류 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 앞단에 능동형 역률 개선 ([Active](/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) PFC) 회로가 결합되어 있는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) 및 판단 기준
+1. [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)가 차단 상태에서 버텨야 하는 <strong>최대 역방향 내압 (PIV)</strong>이 교류 피크 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)의 2배 이상 마진을 확보했는가?
+2. 무효 전력을 줄이기 위해 정류 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 앞단에 능동형 역률 개선 ([Active](/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/) PFC) 회로가 결합되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 100W급 소형 고속 충전기 설계 시 원가 절감을 위해 일반 정류 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)와 거대한 전해 [커패시터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)를 고집하는 설계. [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 발열 때문에 폼팩터를 줄일 수 없으며, 열 폭주로 인해 [어댑터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 녹아내릴 위험이 크다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 100W급 소형 고속 충전기 설계 시 원가 절감을 위해 일반 정류 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)와 거대한 전해 [커패시터](/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/)를 고집하는 설계. [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)의 발열 때문에 폼팩터를 줄일 수 없으며, 열 폭주로 인해 [어댑터](/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/)가 녹아내릴 위험이 크다.
 
-- **📢 섹션 요약 비유**: [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 충전기라는 스포츠카를 만들면서 바퀴(정류 회로)를 옛날 마차 바퀴로 달아놓으면, 조금만 빨리 달려도 바퀴가 마찰열로 불타버린다.
+- **📢 섹션 요약 비유**: [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 충전기라는 스포츠카를 만들면서 바퀴(정류 회로)를 옛날 마차 바퀴로 달아놓으면, 조금만 빨리 달려도 바퀴가 마찰열로 불타버린다.
 
 ---
 
@@ -92,9 +89,9 @@ tags = ["studynote-computer-architecture"]
 
 완벽한 정류 회로의 설계는 노이즈(Ripple) 없는 직류를 생성하여, 과부하 상태에서도 시스템 프리징이 없는 무결점 컴퓨팅의 토대를 제공한다.
 
-미래에는 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 발열 문제를 해결하기 위해 발전소에서부터 초고압 직류(HVDC)로 송전하여 서버에 바로 꽂는 랙 스케일 아키텍처가 도입될 것이다. 이렇게 되면 개별 서버 내부의 [AC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)-DC 정류 회로 자체가 역사 속으로 사라질 수 있다.
+미래에는 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 발열 문제를 해결하기 위해 발전소에서부터 초고압 직류(HVDC)로 송전하여 서버에 바로 꽂는 랙 스케일 아키텍처가 도입될 것이다. 이렇게 되면 개별 서버 내부의 [AC](/studynote/12_it_management/04_sdlc_testing/155_ac_actual_cost/)-DC 정류 회로 자체가 역사 속으로 사라질 수 있다.
 
-- **📢 섹션 요약 비유**: 집집마다 얼음(교류)을 사서 [가스](/knowledge-base/studynote/06_ict_convergence/01_blockchain/024_gas/) 불로 녹여 물(직류)을 마시던 비효율을 끝내고, 아예 도시 전체에 깨끗한 수돗물(직류 전용망)을 직접 콸콸 공급하는 스마트 시티의 미래와 같다.
+- **📢 섹션 요약 비유**: 집집마다 얼음(교류)을 사서 [가스](/studynote/06_ict_convergence/01_blockchain/024_gas/) 불로 녹여 물(직류)을 마시던 비효율을 끝내고, 아예 도시 전체에 깨끗한 수돗물(직류 전용망)을 직접 콸콸 공급하는 스마트 시티의 미래와 같다.
 
 ---
 
@@ -102,9 +99,9 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>평활 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a> (Smoothing <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">Capacitor</a>)</strong> | 정류된 파형의 빈 골짜기를 전하로 채워 직류에 가깝게 펴주는 필터 |
-| <strong>능동형 역률 개선 (<a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> PFC)</strong> | 정류 과정에서 교류 파형이 찌그러지는 것을 막아 전력망 부하를 줄이는 기술 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a> (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a>)</strong> | 정류 회로를 구성하는 뼈대이자, 전류를 한 방향으로만 흐르게 하는 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
+| <strong>평활 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">커패시터</a> (Smoothing <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/005_capacitor/">Capacitor</a>)</strong> | 정류된 파형의 빈 골짜기를 전하로 채워 직류에 가깝게 펴주는 필터 |
+| <strong>능동형 역률 개선 (<a href="/studynote/03_network/09_application_layer_web_email/483_active_vs_passive_ftp/">Active</a> PFC)</strong> | 정류 과정에서 교류 파형이 찌그러지는 것을 막아 전력망 부하를 줄이는 기술 |
+| <strong><a href="/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">다이오드</a> (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/">Diode</a>)</strong> | 정류 회로를 구성하는 뼈대이자, 전류를 한 방향으로만 흐르게 하는 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,7 +121,7 @@ tags = ["studynote-computer-architecture"]
 [동기식 정류 (Synchronous Rectification) — MOSFET 스위칭으로 손실을 줄인 고효율 방식]
 ```
 
-이 흐름은 교류의 양·음 파형을 [다이오드](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)와 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 한 방향 직류로 바꾼 뒤, 더 높은 효율을 위해 [MOSFET](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 기반 동기식 정류로 진화하는 과정을 보여준다.
+이 흐름은 교류의 양·음 파형을 [다이오드](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)와 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)로 한 방향 직류로 바꾼 뒤, 더 높은 효율을 위해 [MOSFET](/studynote/01_computer_architecture/01_basic_electronics_logic/017_mosfet/) 기반 동기식 정류로 진화하는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -138,7 +135,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 12 / 803
 
-<- **이전**: [11. 다이오드 (Diode)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)
-**다음**: [13. 발광 다이오드 (LED)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) ->
+<- **이전**: [11. 다이오드 (Diode)](/studynote/01_computer_architecture/01_basic_electronics_logic/011_diode/)
+**다음**: [13. 발광 다이오드 (LED)](/studynote/01_computer_architecture/01_basic_electronics_logic/013_led/) ->
 
 ---

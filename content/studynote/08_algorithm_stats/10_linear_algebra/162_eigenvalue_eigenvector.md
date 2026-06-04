@@ -1,19 +1,16 @@
-+++
-title = "3. 고유값/고유벡터 (Eigenvalue/Eigenvector) — Av = λv"
-date = 2026-04-21
+---
+title: "3. 고유값/고유벡터 (Eigenvalue/Eigenvector) — Av = λv"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Av](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = λv — 행렬 변환 A 아래서 *방향이 바뀌지 않고 크기만 λ배 되는 특별한 벡터 v* 가 고유벡터이며, 이것이 행렬의 핵심 구조를 드러낸다.
-> 2. **가치**: 반복 행렬 곱 연산 (AⁿB)을 고유분해로 O(n) 계산, 대칭 행렬의 실수 고유값 보장, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방향 발견([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)), PageRank의 지배 고유벡터 계산 등 응용이 방대하다.
-> 3. **판단 포인트**: 대칭 행렬 (A = Aᵀ) 은 항상 실수 고유값과 직교 고유벡터를 가진다 (스펙트럼 정리) — 이것이 공분산 [행렬 분해](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)와 PCA의 수학적 근거다.
+> 1. **본질**: [Av](/studynote/09_security/04_endpoint_security/323_antivirus/) = λv — 행렬 변환 A 아래서 *방향이 바뀌지 않고 크기만 λ배 되는 특별한 벡터 v* 가 고유벡터이며, 이것이 행렬의 핵심 구조를 드러낸다.
+> 2. **가치**: 반복 행렬 곱 연산 (AⁿB)을 고유분해로 O(n) 계산, 대칭 행렬의 실수 고유값 보장, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 방향 발견([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/)), PageRank의 지배 고유벡터 계산 등 응용이 방대하다.
+> 3. **판단 포인트**: 대칭 행렬 (A = Aᵀ) 은 항상 실수 고유값과 직교 고유벡터를 가진다 (스펙트럼 정리) — 이것이 공분산 [행렬 분해](/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)와 PCA의 수학적 근거다.
 
 ---
 
@@ -38,7 +35,7 @@ v: 고유벡터 (eigenvector) ∈ ℝⁿ
 det(A - λI) = 0   (특성 다항식 = 0)
 ```
 
-n×n 행렬 -> n차 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) -> n개의 고유값 (중복 포함, 복소수 포함).
+n×n 행렬 -> n차 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) -> n개의 고유값 (중복 포함, 복소수 포함).
 
 📢 **섹션 요약 비유**: 고유벡터는 "거울 변환 후에도 같은 방향을 가리키는 화살표"다 — 거울(A)로 반사해도 줄어들거나 늘어날 뿐(λ배), 방향이 안 바뀌는 특별한 화살표.
 
@@ -84,7 +81,7 @@ P = [v₁ | v₂ | ... | vₙ]   (고유벡터 열로 구성)
 
 이것이 **공분산 행렬 Σ** (대칭 양반정치) 분해의 수학적 근거.
 
-### 거듭제곱 반복법 ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Iteration)
+### 거듭제곱 반복법 ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Iteration)
 
 큰 희소 행렬에서 가장 큰 고유값 λ₁과 고유벡터 v₁:
 
@@ -96,7 +93,7 @@ vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
                  ‖A·vₖ‖/‖vₖ‖ -> λ₁
 ```
 
-**PageRank** [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심: 웹 그래프의 전이 행렬에 거듭제곱 반복 적용.
+**PageRank** [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 핵심: 웹 그래프의 전이 행렬에 거듭제곱 반복 적용.
 
 ```
 웹 페이지 그래프
@@ -114,9 +111,9 @@ vₖ₊₁ = A·vₖ / ‖A·vₖ‖   (정규화)
 
 ## Ⅲ. 비교 및 연결
 
-### 고유분해 vs [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
+### 고유분해 vs [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)
 
-| 항목 | 고유분해 | [SVD](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) |
+| 항목 | 고유분해 | [SVD](/studynote/14_data_engineering/05_exam_keywords/230_svd_matrix_factorization_random_forest_xgboost_boosting/) |
 |:---|:---|:---|
 | 적용 대상 | 정방 행렬 (대각화 가능) | 모든 m×n 행렬 |
 | 분해 결과 | A = PΛP⁻¹ | A = UΣVᵀ |
@@ -138,9 +135,9 @@ K·M⁻¹·x = ω^·x  <- 고유값 문제!
 
 구조물 설계에서 외부 진동과 고유 진동수의 공진 (Resonance) 회피가 핵심.
 
-### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 방향과 [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 연결
+### [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 방향과 [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) 연결
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공분산 행렬 Σ = 1/n XᵀX (X: 중심화 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)):
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 공분산 행렬 Σ = 1/n XᵀX (X: 중심화 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)):
 
 ```
 Σ·v = λ·v
@@ -149,15 +146,15 @@ K·M⁻¹·x = ω^·x  <- 고유값 문제!
 두 번째 고유값 λ₂에 대응하는 v₂: v₁에 직교하는 방향 중 변동 최대 (2nd PC)
 ```
 
-📢 **섹션 요약 비유**: 공분산 행렬의 고유벡터는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구름의 주축"이다 — 타원형 구름이 있을 때 장축 방향이 1st [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(v₁, λ₁ 최대), 단축이 2nd [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(v₂, λ₂).
+📢 **섹션 요약 비유**: 공분산 행렬의 고유벡터는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구름의 주축"이다 — 타원형 구름이 있을 때 장축 방향이 1st [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(v₁, λ₁ 최대), 단축이 2nd [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/)(v₂, λ₂).
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### QR [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 실용 고유값 계산
+### QR [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) — 실용 고유값 계산
 
-n > 3에서 특성 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)은 근의 공식 없음 (Abel's theorem) -> 반복 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 필요:
+n > 3에서 특성 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)은 근의 공식 없음 (Abel's theorem) -> 반복 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 필요:
 
 ```
 QR 알고리즘:
@@ -179,13 +176,13 @@ x' = Ax 형태의 선형 시스템:
 안정 조건: 모든 고유값의 실수부 Re(λᵢ) < 0
 ```
 
-제어 시스템, 신경망 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 분석에 활용.
+제어 시스템, 신경망 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발 분석에 활용.
 
 ### 기술사 판단 포인트
 
 1. **"대칭 행렬의 고유값이 항상 실수인 이유?"** -> 스펙트럼 정리 (에르미트 행렬의 성질)
 2. **"PageRank 수렴 조건은?"** -> 전이 행렬이 기약 비주기적 -> 유일 정상 분포 = 지배 고유벡터
-3. <strong>"PCA와 고유값의 <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>는?"</strong> -> 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)량
+3. <strong>"PCA와 고유값의 <a href="/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/">관계</a>는?"</strong> -> 공분산 행렬의 고유벡터 = 주성분, 고유값 = 설명 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)량
 
 📢 **섹션 요약 비유**: 안정성 분석의 고유값 실수부는 "시스템 붕괴 속도 미터기"다 — 실수부가 음수면 시간이 지날수록 안정화되고, 양수면 폭발적으로 성장한다.
 
@@ -196,11 +193,11 @@ x' = Ax 형태의 선형 시스템:
 고유값/고유벡터는 <strong>선형대수의 핵심 구조 도구</strong>다. 행렬이 나타내는 변환의 본질을 스케일(고유값)과 방향(고유벡터)으로 분리함으로써:
 
 1. 복잡한 반복 연산을 단순화 (Aⁿ = PΛⁿP⁻¹)
-2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주요 변동 방향 발견 ([PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
+2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 주요 변동 방향 발견 ([PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/))
 3. 시스템 안정성 판단 (제어 이론)
 4. 웹 중요도 계산 (PageRank)
 
-스펙트럼 정리는 "대칭 = 직교 분해 가능"이라는 아름다운 사실을 제공하며, 물리·공학·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)과학의 수많은 문제에서 활용된다.
+스펙트럼 정리는 "대칭 = 직교 분해 가능"이라는 아름다운 사실을 제공하며, 물리·공학·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)과학의 수많은 문제에서 활용된다.
 
 📢 **섹션 요약 비유**: 고유분해는 "복잡한 춤 동작의 기본 스텝 분해"다 — 아무리 복잡한 회전·변형도 결국 몇 가지 기본 방향(고유벡터)과 크기(고유값)의 조합으로 설명된다.
 
@@ -210,9 +207,9 @@ x' = Ax 형태의 선형 시스템:
 
 | 개념 | 수식/조건 | 응용 |
 |:---|:---|:---|
-| 고유값/고유벡터 | [Av](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = λv | 변환 분석 |
-| 특성 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) | det(A-λI) = 0 | 고유값 계산 |
-| 고유분해 | A = PΛP⁻¹ | [PCA](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), Aⁿ 계산 |
+| 고유값/고유벡터 | [Av](/studynote/09_security/04_endpoint_security/323_antivirus/) = λv | 변환 분석 |
+| 특성 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) | det(A-λI) = 0 | 고유값 계산 |
+| 고유분해 | A = PΛP⁻¹ | [PCA](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/), Aⁿ 계산 |
 | 스펙트럼 정리 | A=Aᵀ -> 실수 λ, 직교 v | 공분산 분해 |
 | 거듭제곱 반복법 | vₖ₊₁ = Avₖ/‖Avₖ‖ | PageRank |
 
@@ -253,7 +250,7 @@ x' = Ax 형태의 선형 시스템:
 
 **진행 상황**: 162 / 175
 
-<- **이전**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)
-**다음**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ->
+<- **이전**: [2. 행렬 분해 (Matrix Decomposition) — LU / QR / SVD](/studynote/08_algorithm_stats/10_linear_algebra/161_matrix_decomposition/)
+**다음**: [4. PCA (Principal Component Analysis) — SVD 기반 차원 축소](/studynote/08_algorithm_stats/10_linear_algebra/163_pca/) ->
 
 ---

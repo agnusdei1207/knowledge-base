@@ -1,27 +1,24 @@
-+++
-title = "812. 핵심 성공 요인 (CSF, Critical Success Factor)"
-date = 2026-05-08
+---
+title: "812. 핵심 성공 요인 (CSF, Critical Success Factor)"
+date: "2026-05-08"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 핵심 성공 요인의 핵심은 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.
-> 2. **가치**: 이 개념을 쓰면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 품질 약속에 대한 설명과 우선순위 결정이 한층 쉬워진다.
+> 1. **본질**: 핵심 성공 요인의 핵심은 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인라는 점에 있다. 이를 현장 의사결정에 연결하는 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 구조로 이해하면 된다.
+> 2. **가치**: 이 개념을 쓰면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 품질 약속에 대한 설명과 우선순위 결정이 한층 쉬워진다.
 > 3. **판단 포인트**: 실제 효과는 개념 도입 자체보다 범위, 책임, 측정 지표, 예외 처리 기준을 함께 설계할 때 커진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-핵심 성공 요인 ([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/), [Critical Success Factor](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/021_csf_critical_success_factor/))는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
+핵심 성공 요인 ([CSF](/studynote/12_it_management/01_governance_strategy/017_csf/), [Critical Success Factor](/studynote/07_enterprise_systems/01_strategy_governance/021_csf_critical_success_factor/))는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인에 초점을 맞춘다. 이 개념이 필요한 이유는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 투자 우선순위를 같은 언어로 맞추지 못하면 각 부서가 서로 다른 성공 기준으로 움직이기 쉽기 때문이다. 특히 IT 거버넌스 및 IT 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 영역에서는 용어를 아는 것보다도 어떤 상황에서 이 개념을 꺼내야 하는지 아는 편이 더 중요하다.
 
-실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
+실무에서는 이 개념을 단순 정의로 외우기보다 조직이 무엇을 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)·개선·정렬하려는지에 맞춰 읽어야 한다. 그래서 기술사 답안에서도 배경, 필요성, 실패 시 위험을 먼저 말하고 나서 구조와 지표를 붙여 주는 편이 설득력이 높다.
 
 ```text
 +--------------------+
@@ -39,19 +36,19 @@ tags = ["studynote-it-management"]
 
 이 흐름은 '핵심 성공 요인'이라는 이름의 개념이 기술 하나를 설명하는 용어가 아니라, 경영 요구와 운영 통제를 잇는 중간 다리라는 점을 보여 준다.
 
-- **📢 섹션 요약 비유**: [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리는 역무실이 열차보다 승객 도착 시간을 먼저 보는 것과 같다.
+- **📢 섹션 요약 비유**: [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리는 역무실이 열차보다 승객 도착 시간을 먼저 보는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-핵심 성공 요인의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루프를 끊기지 않게 연결하는 데 있다. 겉으로는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인처럼 보이더라도 실제 효과는 사람·프로세스·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·도구가 한 세트로 맞물릴 때 나온다. 핵심은 정의와 실행을 같은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결하는 것이다.
+핵심 성공 요인의 핵심 원리는 입력 기준, 실행 규칙, 측정 지표, 개선 루프를 끊기지 않게 연결하는 데 있다. 겉으로는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 목표 달성을 위해 가장 결정적인 필수 요인처럼 보이더라도 실제 효과는 사람·프로세스·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·도구가 한 세트로 맞물릴 때 나온다. 핵심은 정의와 실행을 같은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결하는 것이다.
 
 | 구성 요소 | 역할 | 기술사 포인트 |
 |:---|:---|:---|
-| [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 장애·요청·변경 요구를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기준으로 접수한다. | 사용자 관점의 우선순위가 먼저 정해져야 한다. |
-| 실행 절차 | 표준 프로세스로 처리 흐름을 통일한다. | [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도와 재발 방지의 균형이 중요하다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 티켓, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/), 지식, 계약 지표를 함께 본다. | 도구보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결성이 핵심이다. |
+| [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | 장애·요청·변경 요구를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 기준으로 접수한다. | 사용자 관점의 우선순위가 먼저 정해져야 한다. |
+| 실행 절차 | 표준 프로세스로 처리 흐름을 통일한다. | [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 속도와 재발 방지의 균형이 중요하다. |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 티켓, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/), 지식, 계약 지표를 함께 본다. | 도구보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 연결성이 핵심이다. |
 | 개선 | 리뷰와 CSI로 다음 운영 기준을 조정한다. | 닫힌 루프가 없으면 반복 장애가 남는다. |
 
 ```text
@@ -70,35 +67,35 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-현재 개념은 인접 프레임, 지표, 프로세스와 함께 볼 때 경계가 더 선명해진다. 같은 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/) 영역 안에서도 어떤 개념은 상위 방향을, 어떤 개념은 실행 절차를, 어떤 개념은 성과 측정을 담당한다.
+현재 개념은 인접 프레임, 지표, 프로세스와 함께 볼 때 경계가 더 선명해진다. 같은 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/) 영역 안에서도 어떤 개념은 상위 방향을, 어떤 개념은 실행 절차를, 어떤 개념은 성과 측정을 담당한다.
 
 | 비교 대상 | 경계 차이 | 판단 포인트 |
 |:---|:---|:---|
-| 7S 모델 | '7S 모델' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) | '[MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | '[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/knowledge-base/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| 7S 모델 | '7S 모델' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) | '[MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
+| [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) | '[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)' 쪽은 인접한 판단 축을 보여 주고, 현재 개념은 [서비스 운영](/studynote/12_it_management/02_itsm_itil/067_service_operation/)과 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 품질에 더 직접적으로 초점을 둔다. | 범위, 시점, 책임 주체를 분리해서 함께 봐야 한다. |
 
-따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 핵심 성공 요인의 사용 위치가 달라진다.
+따라서 시험 답안에서는 "무엇과 다르며 왜 같이 보아야 하는가"를 짝지어 말하는 것이 중요하다. 실무에서도 현재 문제가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 정렬인지, 운영 절차인지, 보안 통제인지에 따라 핵심 성공 요인의 사용 위치가 달라진다.
 
-- **📢 섹션 요약 비유**: 인접 프로세스는 응급실과 정밀검사실 차이처럼 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 원인 제거의 초점이 다르다.
+- **📢 섹션 요약 비유**: 인접 프로세스는 응급실과 정밀검사실 차이처럼 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 원인 제거의 초점이 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 이 개념은 보통 제도 설계, 운영 개선, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응, 투자 판단 중 하나의 장면에서 등장한다. 중요한 것은 문서를 예쁘게 만드는 일이 아니라, 해당 개념이 실제 의사결정 속도와 품질을 얼마나 개선하는지 확인하는 것이다. 예를 들어 IT 거버넌스 및 IT 경영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 맥락에서는 범위 정의가 모호하면 책임 공백이 생기고, 반대로 통제를 과도하게 두면 현장 실행력이 급격히 떨어질 수 있다.
+실무에서 이 개념은 보통 제도 설계, 운영 개선, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응, 투자 판단 중 하나의 장면에서 등장한다. 중요한 것은 문서를 예쁘게 만드는 일이 아니라, 해당 개념이 실제 의사결정 속도와 품질을 얼마나 개선하는지 확인하는 것이다. 예를 들어 IT 거버넌스 및 IT 경영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) (80개) 맥락에서는 범위 정의가 모호하면 책임 공백이 생기고, 반대로 통제를 과도하게 두면 현장 실행력이 급격히 떨어질 수 있다.
 
-### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 의사결정 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제를 핵심 성공 요인의 관점으로 봐야 할 이유가 분명한가?
-2. 책임 주체, 적용 범위, 측정 지표가 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 연결되는가?
+2. 책임 주체, 적용 범위, 측정 지표가 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 연결되는가?
 3. 예외 처리, 변경 승인, 사후 리뷰까지 닫힌 루프로 설계되어 있는가?
 
 ### 판단 포인트
 
 - 채택: 조직 간 기준 불일치, 반복 장애, 중복 투자, 규제 대응 부담을 줄여야 할 때 유효하다.
 - 주의: 도구만 먼저 도입하거나, 지표 정의 없이 형식적으로 운영하면 오히려 관리 비용만 늘어난다.
-- 확장: 자동화, 대시보드, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조 분석을 붙이면 운영 효율이 높아지지만 기본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 먼저 확보되어야 한다.
+- 확장: 자동화, 대시보드, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 보조 분석을 붙이면 운영 효율이 높아지지만 기본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질이 먼저 확보되어야 한다.
 
 - **📢 섹션 요약 비유**: 실무 판단은 티켓을 닫는 것이 아니라 사용자가 체감한 장애 시간을 줄였는지로 내려야 한다.
 
@@ -106,11 +103,11 @@ tags = ["studynote-it-management"]
 
 ## Ⅴ. 기대효과 및 결론
 
-이 개념을 제대로 적용하면 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 품질 약속에 대해 하나의 언어로 합의할 수 있다. 이는 비용 절감이나 속도 향상 같은 직접 효과뿐 아니라, 의사결정 근거가 명확해지고 조직 간 논의가 재현 가능해진다는 점에서 더 큰 의미가 있다.
+이 개념을 제대로 적용하면 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)와 품질 약속에 대해 하나의 언어로 합의할 수 있다. 이는 비용 절감이나 속도 향상 같은 직접 효과뿐 아니라, 의사결정 근거가 명확해지고 조직 간 논의가 재현 가능해진다는 점에서 더 큰 의미가 있다.
 
-반대로 개념만 도입하고 현행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 책임 구조, 리뷰 체계를 붙이지 않으면 성과는 오래가지 않는다. 앞으로는 핵심 성공 요인도 자동화된 [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 실시간 대시보드, [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 추천과 결합하면서 더 동적인 관리 체계로 진화할 가능성이 크다. 따라서 이 개념은 "정답"이 아니라 "좋은 판단을 반복하게 만드는 구조"로 기억하는 것이 맞다.
+반대로 개념만 도입하고 현행 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 책임 구조, 리뷰 체계를 붙이지 않으면 성과는 오래가지 않는다. 앞으로는 핵심 성공 요인도 자동화된 [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 실시간 대시보드, [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 코드화, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 추천과 결합하면서 더 동적인 관리 체계로 진화할 가능성이 크다. 따라서 이 개념은 "정답"이 아니라 "좋은 판단을 반복하게 만드는 구조"로 기억하는 것이 맞다.
 
-- **📢 섹션 요약 비유**: 좋은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체계는 일이 몰려도 줄을 세우고 우선순위를 지켜 주는 관제실이다.
+- **📢 섹션 요약 비유**: 좋은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 체계는 일이 몰려도 줄을 세우고 우선순위를 지켜 주는 관제실이다.
 
 ---
 
@@ -119,9 +116,9 @@ tags = ["studynote-it-management"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 7S 모델 | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
-| [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 | 현재 개념을 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 관점과 연결해 실무 맥락을 넓힌다. |
+| [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) | 인접 주제로서 범위와 시점을 구분하게 한다. |
+| [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 | 현재 개념을 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 가치 관점과 연결해 실무 맥락을 넓힌다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,7 +145,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 29 / 587
 
-<- **이전**: [17. 핵심 성공 요인 (CSF, Critical Success Factor) - 전략 목표 달성을 위해 가장 결정적인 필수 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/)
-**다음**: [18. 핵심 성과 지표 (KPI, Key Performance Indicator) - CSF 달성 여부를 정량적으로 측정하는 지표](/knowledge-base/studynote/12_it_management/01_governance_strategy/018_kpi/) ->
+<- **이전**: [17. 핵심 성공 요인 (CSF, Critical Success Factor) - 전략 목표 달성을 위해 가장 결정적인 필수 요인](/studynote/12_it_management/01_governance_strategy/017_csf/)
+**다음**: [18. 핵심 성과 지표 (KPI, Key Performance Indicator) - CSF 달성 여부를 정량적으로 측정하는 지표](/studynote/12_it_management/01_governance_strategy/018_kpi/) ->
 
 ---

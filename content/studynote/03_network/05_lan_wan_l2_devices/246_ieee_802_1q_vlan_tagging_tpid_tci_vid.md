@@ -1,13 +1,10 @@
-+++
-title = "246. IEEE 802.1Q"
-date = 2026-05-08
+---
+title: "246. IEEE 802.1Q"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 802.1Q는 [이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임에 소속 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 정보를 명시하는 '태깅(Tagging)' 기술의 IEEE 공식 표준이다.
-- **필요성**: 만약 A [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 영업부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))와 인사부([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20)가 있고, B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에도 영업부와 인사부가 있다고 치자. 두 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 1가닥의 선(트렁크)으로 연결하면, B [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 건너온 데이터가 영업부 것인지 인사부 것인지 알 도리가 없다. 따라서 건너가는 택배 상자 겉면에 "이건 10번 방([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 물건이야!"라는 형광색 스티커를 붙여주어야 하는데, 이것이 바로 802.1Q 태그다.
+- **개념**: 802.1Q는 [이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임에 소속 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 정보를 명시하는 '태깅(Tagging)' 기술의 IEEE 공식 표준이다.
+- **필요성**: 만약 A [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에 영업부([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))와 인사부([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20)가 있고, B [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)에도 영업부와 인사부가 있다고 치자. 두 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 1가닥의 선(트렁크)으로 연결하면, B [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 건너온 데이터가 영업부 것인지 인사부 것인지 알 도리가 없다. 따라서 건너가는 택배 상자 겉면에 "이건 10번 방([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 물건이야!"라는 형광색 스티커를 붙여주어야 하는데, 이것이 바로 802.1Q 태그다.
 
 - **💡 비유**: 공항 수하물 컨베이어 벨트(트렁크 선로)에 서울행, 부산행, 제주행 짐들이 섞여서 돌아갑니다. 수하물을 구별하기 위해 각 가방 손잡이에 <strong>"바코드 꼬리표(802.1Q Tag)"</strong>를 매달아 놓는 것과 같습니다. 최종 목적지 공항에 도착하면 직원은 이 꼬리표를 떼어내고(Untag) 승객에게 짐을 돌려줍니다.
 
@@ -33,15 +30,15 @@ tags = ["studynote-network"]
     +---> [접근 포트 / 트렁크 포트]
 ```
 
-- **📢 섹션 요약 비유**: ** 802.1Q 태깅은 수많은 사람들이 섞여서 지나가는 하나의 긴 통로(트렁크)에서, 서로 소속을 헷갈리지 않게 **"빨간색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 파란색([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) 이름표(Tag)를 목에 걸어주는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템"**입니다.
+- **📢 섹션 요약 비유**: ** 802.1Q 태깅은 수많은 사람들이 섞여서 지나가는 하나의 긴 통로(트렁크)에서, 서로 소속을 헷갈리지 않게 **"빨간색([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)), 파란색([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 20) 이름표(Tag)를 목에 걸어주는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)([Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 시스템"**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. 4바이트 태그의 삽입 위치
-[이더넷](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 앞부분은 `[목적지 MAC] - [출발지 MAC] - [Type] - [Data]` 순으로 되어 있다. 802.1Q [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임을 밖으로 쏠 때, <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">출발지 [MAC</a>]과 [Type] 사이를 강제로 벌리고 4바이트(32비트)의 태그를 삽입</strong>한다.
-- 태그가 삽입되면서 원래 있던 FCS(에러 검출 코드) 값은 틀려지므로, [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 FCS 값을 새롭게 다시 계산하여 맨 꼬리에 덮어쓴다.
+[이더넷](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) 프레임의 앞부분은 `[목적지 MAC] - [출발지 MAC] - [Type] - [Data]` 순으로 되어 있다. 802.1Q [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)는 프레임을 밖으로 쏠 때, <strong><a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">출발지 [MAC</a>]과 [Type] 사이를 강제로 벌리고 4바이트(32비트)의 태그를 삽입</strong>한다.
+- 태그가 삽입되면서 원래 있던 FCS(에러 검출 코드) 값은 틀려지므로, [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 FCS 값을 새롭게 다시 계산하여 맨 꼬리에 덮어쓴다.
 
 ```text
  +-------------------------------------------------------------+
@@ -70,27 +67,27 @@ tags = ["studynote-network"]
 ### 2. 4바이트(32비트) 태그의 내부 구조
 태그는 크게 2바이트의 <strong>TPID</strong>와 2바이트의 <strong>TCI</strong>로 나뉜다.
 
-1. <strong>TPID (Tag <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 16비트)</strong>:
+1. <strong>TPID (Tag <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">Protocol</a> <a href="/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 16비트)</strong>:
    - 항상 `0x8100`이라는 고정된 값을 가진다.
-   - 수신 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 값을 보면 "아, 이 프레임은 일반 프레임이 아니라 802.1Q 태그가 붙은 프레임이구나!"라고 단번에 인식([식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))하게 해주는 마법의 번호다.
+   - 수신 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 이 값을 보면 "아, 이 프레임은 일반 프레임이 아니라 802.1Q 태그가 붙은 프레임이구나!"라고 단번에 인식([식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/))하게 해주는 마법의 번호다.
 2. **TCI (Tag Control Information, 16비트)**:
-   - **PRI (Priority, 3비트)**: `IEEE 802.1p`라고 불리는 음성/영상 트래픽 우선순위([QoS](/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 부여하는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). 0~7까지의 값을 갖는다.
-   - **CFI (Canonical Format Indicator, 1비트)**: 토큰링 등 과거 망과의 호환성을 위한 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (현재는 거의 `0`으로 고정).
-   - <strong>VID (<a href="/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 12비트) ★핵심</strong>: 자신이 속한 [VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 번호를 나타낸다. 12비트이므로 $2^{12} = 4096$개의 숫자를 표현할 수 있다. (0과 4095는 예약되어 실제 사용 가능 범위는 1~4094번이다.)
+   - **PRI (Priority, 3비트)**: `IEEE 802.1p`라고 불리는 음성/영상 트래픽 우선순위([QoS](/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/))를 부여하는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/). 0~7까지의 값을 갖는다.
+   - **CFI (Canonical Format Indicator, 1비트)**: 토큰링 등 과거 망과의 호환성을 위한 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) (현재는 거의 `0`으로 고정).
+   - <strong>VID (<a href="/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/">VLAN</a> <a href="/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/">Identifier</a>, 12비트) ★핵심</strong>: 자신이 속한 [VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) 번호를 나타낸다. 12비트이므로 $2^{12} = 4096$개의 숫자를 표현할 수 있다. (0과 4095는 예약되어 실제 사용 가능 범위는 1~4094번이다.)
 
-- **📢 섹션 요약 비유**: <strong> 4바이트 꼬리표 중 절반(TPID <code>0x8100</code>)은 </strong>"이거 꼬리표야! 주의해서 봐!"<strong>라고 외치는 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>자이고, 나머지 절반 중 12비트(VID)가 진짜 </strong>"나 10번 부서([VLAN](/knowledge-base/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 소속이야!"**라고 알려주는 핵심 정보칸입니다.
+- **📢 섹션 요약 비유**: <strong> 4바이트 꼬리표 중 절반(TPID <code>0x8100</code>)은 </strong>"이거 꼬리표야! 주의해서 봐!"<strong>라고 외치는 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>자이고, 나머지 절반 중 12비트(VID)가 진짜 </strong>"나 10번 부서([VLAN](/studynote/09_security/05_web_app_security/224_vlan_virtual_lan_broadcast_domain/) [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)) 소속이야!"**라고 알려주는 핵심 정보칸입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-IEEE 802.1Q를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)이 기반 조건을 만든다면, IEEE 802.1Q는 그 위에서 핵심 메커니즘을 구현하고, [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+IEEE 802.1Q를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)이 기반 조건을 만든다면, IEEE 802.1Q는 그 위에서 핵심 메커니즘을 구현하고, [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)의 기반 정리 | IEEE 802.1Q의 핵심 동작 | [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 확장 적용 |
+| 초점 | [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)의 기반 정리 | IEEE 802.1Q의 핵심 동작 | [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: IEEE 802.1Q는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -98,18 +95,18 @@ IEEE 802.1Q를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 IEEE 802.1Q를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/) 수준의 기본 대책으로 충분한지, 아니면 IEEE 802.1Q가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 IEEE 802.1Q를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/) 수준의 기본 대책으로 충분한지, 아니면 IEEE 802.1Q가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. IEEE 802.1Q가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와의 연계 방식을 함께 검증한다.
+2. IEEE 802.1Q가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - IEEE 802.1Q의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: IEEE 802.1Q를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -117,7 +114,7 @@ IEEE 802.1Q를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐
 
 ## Ⅴ. 기대효과 및 결론
 
-IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: IEEE 802.1Q는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -127,10 +124,10 @@ IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기본 주소다. |
-| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
-| [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)하는 기본 주소다. |
+| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -144,12 +141,12 @@ IEEE 802.1Q는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 �
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [접근 포트](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+IEEE 802.1Q는 [가상 랜](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [접근 포트](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) / 트렁크 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -158,7 +155,7 @@ IEEE 802.1Q는 [가상 랜](/knowledge-base/studynote/03_network/05_lan_wan_l2_d
 
 **진행 상황**: 367 / 1120
 
-<- **이전**: [245. 가상 랜 (VLAN, Virtual LAN)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)
-**다음**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) ->
+<- **이전**: [245. 가상 랜 (VLAN, Virtual LAN)](/studynote/03_network/05_lan_wan_l2_devices/245_vlan_virtual_lan_broadcast_control/)
+**다음**: [247. 접근 포트 (Access Port) / 트렁크 포트 (Trunk Port)](/studynote/03_network/05_lan_wan_l2_devices/247_access_port_vs_trunk_port/) ->
 
 ---

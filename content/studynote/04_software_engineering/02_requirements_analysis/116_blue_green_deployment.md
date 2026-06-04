@@ -1,18 +1,15 @@
-+++
-title = "116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백"
-date = 2026-04-19
+---
+title: "116. 블루/그린 배포 (Blue/Green Deployment) - 무중단 전환과 즉시 롤백"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 블루/그린 배포는 현재 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue->Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
-> 2. **가치**: 문제 발생 시 트래픽을 **Green->Blue로 즉시 되돌려** [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.
-> 3. **판단 포인트**: 인프라 비용이 **2배(Blue+Green 동시 운영)** 필요하며, DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 있을 때 <strong>양쪽 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>(Expand and Contract)</strong>을 보장해야 한다.
+> 1. **본질**: 블루/그린 배포는 현재 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)(Blue)과 신버전(Green)을 <strong>동시에 운영</strong>하고, 로드밸런서/라우터의 트래픽을 <strong>한 번에 Blue->Green으로 전환</strong>하여 무중단 배포를 실현하는 전략이다.
+> 2. **가치**: 문제 발생 시 트래픽을 **Green->Blue로 즉시 되돌려** [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)이 초 단위로 가능하며, 전환 전 Green 환경에서 <strong>완전한 프로덕션급 테스트</strong>를 수행할 수 있다.
+> 3. **판단 포인트**: 인프라 비용이 **2배(Blue+Green 동시 운영)** 필요하며, DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 변경이 있을 때 <strong>양쪽 <a href="/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/">호환성</a>(Expand and Contract)</strong>을 보장해야 한다.
 
 ---
 
@@ -42,26 +39,26 @@ tags = ["studynote-software-engineering"]
 
 | 방식 | 도구 | 특징 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 전환</strong> | Route 53 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [TTL](/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 주의, [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/) |
-| **LB 전환** | ALB/NLB Target Group | 즉시 전환, [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 고려 |
-| <strong>K8s <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Selector 변경 | 라벨 기반 즉시 전환 |
+| <strong><a href="/studynote/03_network/10_application_layer_dns_mgmt/511_dns_hierarchical_distributed_architecture/">DNS</a> 전환</strong> | Route 53 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | [TTL](/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/) 주의, [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/) |
+| **LB 전환** | ALB/NLB Target Group | 즉시 전환, [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 고려 |
+| <strong>K8s <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a></strong> | [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) Selector 변경 | 라벨 기반 즉시 전환 |
 
-### 블루/그린 vs [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)
+### 블루/그린 vs [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)
 
-| 비교 | 블루/그린 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
+| 비교 | 블루/그린 | [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
 |:---|:---|:---|
 | **전환** | 100% 한 번에 | 1%->100% 점진 |
 | **비용** | 2배 인프라 | +α만 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 전환 전 테스트 | 실 트래픽 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
-| <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 즉시 (LB 전환) | 즉시 (비율 0%) |
+| <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> | 전환 전 테스트 | 실 트래픽 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) |
+| <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a></strong> | 즉시 (LB 전환) | 즉시 (비율 0%) |
 
-- **📢 섹션 요약 비유**: 블루/그린은 ON/OFF [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(전체 전환)이고, [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 디머(밝기 조절)이다.
+- **📢 섹션 요약 비유**: 블루/그린은 ON/OFF [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(전체 전환)이고, [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)는 디머(밝기 조절)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 롤링 | 블루/그린 | [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
+| 비교 | 롤링 | 블루/그린 | [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/) |
 |:---|:---|:---|:---|
 | **인프라 비용** | 1배 | **2배** | 1+α배 |
 | **전환 속도** | 느림 | **즉시** | 단계적 |
@@ -71,8 +68,8 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
-블루/그린 전환 시 DB는 하나이므로, 신버전이 구 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)를 깨면 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 구버전이 동작하지 않는다. <strong>Expand and Contract 패턴</strong>으로 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 보장해야 한다.
+### DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)
+블루/그린 전환 시 DB는 하나이므로, 신버전이 구 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)를 깨면 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 시 구버전이 동작하지 않는다. <strong>Expand and Contract 패턴</strong>으로 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)을 보장해야 한다.
 
 ---
 
@@ -81,10 +78,10 @@ tags = ["studynote-software-engineering"]
 | 지표 | 전통 배포 | 블루/그린 | 개선 |
 |:---|:---|:---|:---|
 | 다운타임 | 분~시간 | **0** | 무중단 |
-| [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도 | 분 단위 | **초 단위** | 즉시 |
+| [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 속도 | 분 단위 | **초 단위** | 즉시 |
 | 테스트 | 스테이징 | **프로덕션급 Green** | 정확도 ^ |
 
-블루/그린은 [카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 플래그와 결합한 **Progressive Delivery** 체계의 구성 요소로 활용된다.
+블루/그린은 [카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)·[피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 플래그와 결합한 **Progressive Delivery** 체계의 구성 요소로 활용된다.
 
 ---
 
@@ -92,11 +89,11 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong> | 점진적 전환 (블루/그린의 대안) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a></strong> | [Pod](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 순차 교체 (K8s 기본) |
-| **Expand and Contract** | DB [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 보장 패턴 |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/">카나리 배포</a></strong> | 점진적 전환 (블루/그린의 대안) |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/">롤링 업데이트</a></strong> | [Pod](/studynote/06_ict_convergence/03_cloud_infrastructure/198_pod_kubernetes_minimum_deployment_unit/) 순차 교체 (K8s 기본) |
+| **Expand and Contract** | DB [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 보장 패턴 |
 | **로드밸런서** | 트래픽 전환의 핵심 인프라 |
-| **Progressive Delivery** | 블루/그린+[카나리](/knowledge-base/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)+[피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)플래그 통합 |
+| **Progressive Delivery** | 블루/그린+[카나리](/studynote/02_operating_system/10_security/595_canary_stack_smashing_protector/)+[피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)플래그 통합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -119,7 +116,7 @@ tags = ["studynote-software-engineering"]
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 블루/그린은 <strong>무대 2개</strong>가 있는 극장이에요. 하나는 공연 중이고, 다른 하나에서 새 공연을 준비해요.
 2. 준비가 끝나면 <strong>조명을 순간 전환</strong>해서 관객이 끊김 없이 새 공연을 봐요.
-3. 새 공연이 이상하면 <strong>조명만 다시 바꾸면(<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong> 원래 공연으로 돌아갈 수 있답니다!
+3. 새 공연이 이상하면 <strong>조명만 다시 바꾸면(<a href="/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/">롤백</a>)</strong> 원래 공연으로 돌아갈 수 있답니다!
 
 ---
 
@@ -127,7 +124,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 116 / 973
 
-<- **이전**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)
-**다음**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) ->
+<- **이전**: [115. 카나리 배포 (Canary Deployment) - 점진적 롤아웃과 트래픽 분배 전략](/studynote/04_software_engineering/02_requirements_analysis/115_canary_deployment_gradual_rollout/)
+**다음**: [117. 롤링 업데이트 (Rolling Update Deployment) - K8s 기본 무중단 배포 전략](/studynote/04_software_engineering/02_requirements_analysis/117_rolling_update_deployment/) ->
 
 ---

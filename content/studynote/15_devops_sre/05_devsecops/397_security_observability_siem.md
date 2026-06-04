@@ -1,13 +1,10 @@
-+++
-title = "397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)"
-date = 2026-05-09
+---
+title: "397. 보안 관측 가능성 SIEM SOAR 탐지 대응 자동화 (Security Observability SIEM SOAR Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 397 / 400
 
-<- **이전**: [396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)](/knowledge-base/studynote/15_devops_sre/05_devsecops/396_infra_security_scanning/)
-**다음**: [398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)](/knowledge-base/studynote/15_devops_sre/05_devsecops/398_devsecops_maturity_model/) ->
+<- **이전**: [396. 인프라 보안 스캐닝 IaC 취약점 사전 탐지 (Infrastructure Security Scanning Checkov Trivy)](/studynote/15_devops_sre/05_devsecops/396_infra_security_scanning/)
+**다음**: [398. DevSecOps 성숙도 모델 보안 내재화 평가 (DevSecOps Maturity Model DSOMM BSIMM)](/studynote/15_devops_sre/05_devsecops/398_devsecops_maturity_model/) ->
 
 ---

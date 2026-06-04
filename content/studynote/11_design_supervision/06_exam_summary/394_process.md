@@ -1,25 +1,22 @@
-+++
-title = "394. 상태 패턴 (State Pattern)"
-date = 2026-05-10
+---
+title: "394. 상태 패턴 (State Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 객체 내부 상태에 따라 달라지는 행동을 상태 객체로 분리하는 행동 패턴이다.
-> 2. **가치**: [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다.
+> 1. **본질**: 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 객체 내부 상태에 따라 달라지는 행동을 상태 객체로 분리하는 행동 패턴이다.
+> 2. **가치**: [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다.
 > 3. **판단 포인트**: 상태 패턴은 단순 열거형보다 상태별 행동과 전이가 복잡할 때 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 객체 내부 상태에 따라 달라지는 행동을 상태 객체로 분리하는 행동 패턴이다. 상태 분기 if/switch가 늘어나면 한 클래스가 모든 상태 규칙을 떠안아 수정이 어려워진다. 이 개념이 필요한 이유는 상태별 행위를 객체로 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 새 상태 하나 추가할 때마다 곳곳의 조건문을 수정해야 한다.
+상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 객체 내부 상태에 따라 달라지는 행동을 상태 객체로 분리하는 행동 패턴이다. 상태 분기 if/switch가 늘어나면 한 클래스가 모든 상태 규칙을 떠안아 수정이 어려워진다. 이 개념이 필요한 이유는 상태별 행위를 객체로 분리하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 새 상태 하나 추가할 때마다 곳곳의 조건문을 수정해야 한다.
 
 아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -37,12 +34,12 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 핵심 원리는 "상태별 행위를 객체로 분리하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 Context가 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다. 동시에 상태 수가 적고 단순하면 객체 수만 늘어나는 과설계가 될 수 있다.
+상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 핵심 원리는 "상태별 행위를 객체로 분리하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 Context가 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다. 동시에 상태 수가 적고 단순하면 객체 수만 늘어나는 과설계가 될 수 있다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 문제 | 상태별 행위를 객체로 분리하는 일 | 이 축이 흔들리면 설계 목적이 사라진다 |
-| 구현 방식 | Context가 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
+| 구현 방식 | Context가 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
 | 트레이드오프 | 상태 수가 적고 단순하면 객체 수만 늘어나는 과설계가 될 수 있다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
@@ -53,7 +50,7 @@ tags = ["studynote-design-supervision"]
 +----------+   +----------+   +----------+   +----------+
 ```
 
-이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
+이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
 - **📢 섹션 요약 비유**: 조립식 부품처럼 협력 관계가 정리되면 기능을 더해도 기본 골격은 유지된다.
 
@@ -61,15 +58,15 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **패턴 적용 상태** 와 **즉흥 구현 상태** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **패턴 적용 상태** 와 **즉흥 구현 상태** 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 변경 대응 | 패턴 적용 상태는 상태별 행위를 객체로 분리하는 일에 맞춰 영향 범위를 줄인다 | 즉흥 구현 상태는 변경이 주변 모듈로 번지기 쉽다 |
-| 구조 안정성 | 패턴 적용 상태는 Context가 [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
-| 운영 결과 | 패턴 적용 상태는 [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다 | 즉흥 구현 상태는 새 상태 하나 추가할 때마다 곳곳의 조건문을 수정해야 한다 |
+| 구조 안정성 | 패턴 적용 상태는 Context가 [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) 객체에 요청을 위임하고 상태 전환은 상태 객체 또는 컨텍스트가 관리한다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
+| 운영 결과 | 패턴 적용 상태는 [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다 | 즉흥 구현 상태는 새 상태 하나 추가할 때마다 곳곳의 조건문을 수정해야 한다 |
 
-연결 개념으로는 상태 머신, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 상태 머신, [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 전용 공구와 즉흥 수리를 비교하면 패턴이 줄이는 복잡도가 분명해진다.
 
@@ -77,11 +74,11 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 무조건 채택하기보다 상태 패턴은 단순 열거형보다 상태별 행동과 전이가 복잡할 때 선택해야 한다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 무조건 채택하기보다 상태 패턴은 단순 열거형보다 상태별 행동과 전이가 복잡할 때 선택해야 한다. 아래 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 반복되는 변화 축이 실제로 존재하는가?
-2. 패턴이 줄이는 복잡도보다 추가 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용이 작은가?
+2. 패턴이 줄이는 복잡도보다 추가 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용이 작은가?
 3. 클라이언트가 다시 구체 구현에 묶이지 않는가?
 4. 테스트와 디버깅 관점에서 협력 구조를 설명할 수 있는가?
 
@@ -93,7 +90,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 기대효과는 분명하다. [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다. 다만 상태 수가 적고 단순하면 객체 수만 늘어나는 과설계가 될 수 있다. 결국 기억할 관점은 상태별 행위를 객체로 분리하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
+상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))의 기대효과는 분명하다. [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) 규칙과 상태별 행위를 명확하게 분리한다. 다만 상태 수가 적고 단순하면 객체 수만 늘어나는 과설계가 될 수 있다. 결국 기억할 관점은 상태별 행위를 객체로 분리하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 현장 표준 공법서처럼, 패턴은 이름보다 어떤 문제를 반복해서 줄여 주는지가 핵심이다.
 
@@ -103,16 +100,16 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 상태 머신 | 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 워크플로 | 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 조건문 제거 | 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 상태 머신 | 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 워크플로 | 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 조건문 제거 | 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 [상태 조건문 누적] -> [상태 패턴] -> [전이 규칙 객체화]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 상태 패턴 ([State Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 신호등이 빨강, 노랑, 초록일 때마다 다르게 행동하는 것처럼 약속을 먼저 정하는 거예요.
+1. 상태 패턴 ([State Pattern](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/))은 신호등이 빨강, 노랑, 초록일 때마다 다르게 행동하는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 상태별 행위를 객체로 분리하는 일이 더 중요해져요.
 
@@ -122,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 472 / 530
 
-<- **이전**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/)
-**다음**: [395. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/395_process/) ->
+<- **이전**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/studynote/11_design_supervision/06_exam_summary/393_undo/)
+**다음**: [395. 책임 연쇄 패턴 (Chain of Responsibility Pattern)](/studynote/11_design_supervision/06_exam_summary/395_process/) ->
 
 ---

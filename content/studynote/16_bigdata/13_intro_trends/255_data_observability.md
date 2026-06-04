@@ -1,22 +1,19 @@
-+++
-title = "043. 데이터 옵저버빌리티"
-date = 2026-04-05
+---
+title: "043. 데이터 옵저버빌리티"
+date: "2026-04-05"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 > **핵심 인사이트**
-> 1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통해 흐르는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 실시간으로 감지·[모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨([Volume](/knowledge-base/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)), [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/knowledge-base/studynote/05_database/04_transactions_concurrency/505_schema/)), 계보(Lineage) 5대 기둥으로 구성되며, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.
-> 2. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운타임([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Downtime)은 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 오류나 품질 저하로 분석/ML 모델이 오염된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사용하게 되는 상태를 말하며 — 조직의 79%가 경험하지만 평균 발견 시간이 9시간 이상이라는 연구 결과는, 사후 탐지보다 실시간 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 체계가 필수임을 보여준다.
-> 3. Monte Carlo([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 아님, [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/)), Great Expectations([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)), Soda Core([오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도구의 대표 주자이며 — [DataOps](/knowledge-base/studynote/12_it_management/05_security_compliance/965_dataops/)/[MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) 환경에서 [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/))과 결합될 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/))를 코드로 관리하는 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링"으로 발전한다.
+> 1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/))는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 통해 흐르는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 상태를 실시간으로 감지·[모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링하는 능력으로 — 신선도(Freshness), 분포(Distribution), 볼륨([Volume](/studynote/14_data_engineering/01_infrastructure/001_bigdata_3v_5v/)), [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)([Schema](/studynote/05_database/04_transactions_concurrency/505_schema/)), 계보(Lineage) 5대 기둥으로 구성되며, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 이슈가 비즈니스에 도달하기 전에 사전 탐지한다.
+> 2. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 다운타임([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Downtime)은 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 오류나 품질 저하로 분석/ML 모델이 오염된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 사용하게 되는 상태를 말하며 — 조직의 79%가 경험하지만 평균 발견 시간이 9시간 이상이라는 연구 결과는, 사후 탐지보다 실시간 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 체계가 필수임을 보여준다.
+> 3. Monte Carlo([오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 아님, [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/)), Great Expectations([오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/)), Soda Core([오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/))는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 도구의 대표 주자이며 — [DataOps](/studynote/12_it_management/05_security_compliance/965_dataops/)/[MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) 환경에서 [데이터 계약](/studynote/16_bigdata/12_trends/236_data_contract/)([Data Contract](/studynote/16_bigdata/12_trends/236_data_contract/))과 결합될 때 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질 [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)([Service Level Agreement](/studynote/12_it_management/02_itsm_itil/869_sla/))를 코드로 관리하는 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 엔지니어링"으로 발전한다.
 
 ---
 
-## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 개념
+## Ⅰ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 개념
 
 ```
 데이터 옵저버빌리티 (Data Observability):
@@ -47,7 +44,7 @@ tags = ["studynote-bigdata"]
   5. 계보 (Lineage): 이 데이터는 어디서 왔는가?
 ```
 
-> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포), 신분증([스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)), 가족력(계보)을 매시간 자동 체크하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링.
+> 📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포), 신분증([스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)), 가족력(계보)을 매시간 자동 체크하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링.
 
 ---
 
@@ -119,7 +116,7 @@ tags = ["studynote-bigdata"]
    -> 계보 추적: Tableau 대시보드까지 영향 자동 알림
 ```
 
-> 📢 **섹션 요약 비유**: 5대 기둥은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)=원재료, 계보=원산지. 5가지 모두 정상이면 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안전 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!"
+> 📢 **섹션 요약 비유**: 5대 기둥은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 상태 검침표 — 신선도=유통기한, 분포=영양성분, 볼륨=무게, [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)=원재료, 계보=원산지. 5가지 모두 정상이면 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 안전 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)!"
 
 ---
 
@@ -182,7 +179,7 @@ tags = ["studynote-bigdata"]
 
 ---
 
-## Ⅳ. [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)
+## Ⅳ. [데이터 계약](/studynote/16_bigdata/12_trends/236_data_contract/)
 
 ```
 데이터 계약 (Data Contract):
@@ -229,11 +226,11 @@ tags = ["studynote-bigdata"]
   조직: 데이터 신뢰성 SLA 가시화
 ```
 
-> 📢 **섹션 요약 비유**: [데이터 계약](/knowledge-base/studynote/16_bigdata/12_trends/236_data_contract/)은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 약속 — "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매 시간 갱신하고, NULL은 없고, 레코드 수는 최소 1만건". 공급자가 약속을 어기면 자동으로 알람이 울려요.
+> 📢 **섹션 요약 비유**: [데이터 계약](/studynote/16_bigdata/12_trends/236_data_contract/)은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 배달 약속 — "이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 매 시간 갱신하고, NULL은 없고, 레코드 수는 최소 1만건". 공급자가 약속을 어기면 자동으로 알람이 울려요.
 
 ---
 
-## Ⅴ. 실무 시나리오 — ML 모델 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링
+## Ⅴ. 실무 시나리오 — ML 모델 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링
 
 ```
 E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
@@ -280,7 +277,7 @@ E커머스 추천 ML 모델 데이터 파이프라인 모니터링:
   ROI: 추천 수익 손실 방지 (약 $10만)
 ```
 
-> 📢 **섹션 요약 비유**: ML [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 자동 식품 검사 — 오염된 재료(NULL [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 요리(ML 모델)에 들어가기 전에 입구에서 자동 탐지. 손님(사용자)에게 나쁜 음식이 가지 않도록!
+> 📢 **섹션 요약 비유**: ML [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 자동 식품 검사 — 오염된 재료(NULL [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 요리(ML 모델)에 들어가기 전에 입구에서 자동 탐지. 손님(사용자)에게 나쁜 음식이 가지 않도록!
 
 ---
 
@@ -341,9 +338,9 @@ MLOps 파이프라인 통합
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포)을 매 시간 자동으로 재주는 의료 시스템!
-2. 5대 기둥 — 신선도·분포·볼륨·[스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/)·계보를 항상 체크하면 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 와서 어떤 상태인지" 다 알 수 있어요.
-3. 이상이 생기면 즉시 알람 — 오염된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 ML 모델이나 대시보드로 가기 전에 자동으로 잡아줘요!
+1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 건강검진 — 혈압(볼륨), 체온(신선도), 혈액 성분(분포)을 매 시간 자동으로 재주는 의료 시스템!
+2. 5대 기둥 — 신선도·분포·볼륨·[스키마](/studynote/05_database/01_db_architecture_relational/005_schema/)·계보를 항상 체크하면 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디서 와서 어떤 상태인지" 다 알 수 있어요.
+3. 이상이 생기면 즉시 알람 — 오염된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 ML 모델이나 대시보드로 가기 전에 자동으로 잡아줘요!
 
 ---
 
@@ -351,7 +348,7 @@ MLOps 파이프라인 통합
 
 **진행 상황**: 255 / 262
 
-<- **이전**: [042. 데이터 자산 평가](/knowledge-base/studynote/16_bigdata/13_intro_trends/254_data_asset_valuation/)
-**다음**: [044. 데이터 메시 — Data Mesh](/knowledge-base/studynote/16_bigdata/13_intro_trends/256_data_mesh/) ->
+<- **이전**: [042. 데이터 자산 평가](/studynote/16_bigdata/13_intro_trends/254_data_asset_valuation/)
+**다음**: [044. 데이터 메시 — Data Mesh](/studynote/16_bigdata/13_intro_trends/256_data_mesh/) ->
 
 ---

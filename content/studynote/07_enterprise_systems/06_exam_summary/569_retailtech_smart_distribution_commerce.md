@@ -1,13 +1,10 @@
-+++
-title = "569. 리테일테크 스마트 유통 커머스 (RetailTech Smart Distribution Commerce)"
-date = 2026-05-09
+---
+title: "569. 리테일테크 스마트 유통 커머스 (RetailTech Smart Distribution Commerce)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 569 / 800
 
-<- **이전**: [568. 에듀테크 디지털 교육 학습 플랫폼](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/568_edutech_digital_education_learning_platform/)
-**다음**: [570. 모빌리티 MaaS 자율주행 서비스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/570_mobility_maas_autonomous_driving_service/) ->
+<- **이전**: [568. 에듀테크 디지털 교육 학습 플랫폼](/studynote/07_enterprise_systems/06_exam_summary/568_edutech_digital_education_learning_platform/)
+**다음**: [570. 모빌리티 MaaS 자율주행 서비스](/studynote/07_enterprise_systems/06_exam_summary/570_mobility_maas_autonomous_driving_service/) ->
 
 ---

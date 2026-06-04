@@ -1,13 +1,10 @@
-+++
-title = "596. 성능 감리 부하 테스트 병목 진단 (Performance Audit Load Test Bottleneck)"
-date = 2026-05-09
+---
+title: "596. 성능 감리 부하 테스트 병목 진단 (Performance Audit Load Test Bottleneck)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ MSA 환경에서 한 HTTP 요청은 10~30개의 Span으로 구성되며, 각 Spa
 
 **진행 상황**: 596 / 600
 
-<- **이전**: [595. 보안 감리 제로 트러스트 적합성 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/595_security_audit_zero_trust_fitness/)
-**다음**: [597. UX 감리 사용성 접근성 인터페이스 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/597_ux_audit_usability_accessibility_interface/) ->
+<- **이전**: [595. 보안 감리 제로 트러스트 적합성 평가](/studynote/11_design_supervision/06_exam_summary/595_security_audit_zero_trust_fitness/)
+**다음**: [597. UX 감리 사용성 접근성 인터페이스 평가](/studynote/11_design_supervision/06_exam_summary/597_ux_audit_usability_accessibility_interface/) ->
 
 ---

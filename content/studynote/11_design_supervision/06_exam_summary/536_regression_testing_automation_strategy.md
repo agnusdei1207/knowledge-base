@@ -1,13 +1,10 @@
-+++
-title = "536. 회귀 테스팅 자동화 전략 효율화 (Regression Testing Automation Strategy)"
-date = 2026-05-09
+---
+title: "536. 회귀 테스팅 자동화 전략 효율화 (Regression Testing Automation Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -168,7 +165,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 536 / 600
 
-<- **이전**: [535. 접근성 테스팅 WCAG 규정 준수](/knowledge-base/studynote/11_design_supervision/06_exam_summary/536_accessibility_testing_wcag_compliance/)
-**다음**: [537. 비기능 요구사항 검증 신뢰성 가용성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/537_nfr_verification_reliability_availabilit/) ->
+<- **이전**: [535. 접근성 테스팅 WCAG 규정 준수](/studynote/11_design_supervision/06_exam_summary/536_accessibility_testing_wcag_compliance/)
+**다음**: [537. 비기능 요구사항 검증 신뢰성 가용성](/studynote/11_design_supervision/06_exam_summary/537_nfr_verification_reliability_availabilit/) ->
 
 ---

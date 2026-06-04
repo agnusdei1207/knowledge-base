@@ -1,27 +1,24 @@
-+++
-title = "129. 굴절률 (Refractive Index), 전반사 (Total Internal Reflection)"
-date = 2026-05-08
+---
+title: "129. 굴절률 (Refractive Index), 전반사 (Total Internal Reflection)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 굴절률(n)은 빛이 특정 매질을 통과할 때 속도가 얼마나 느려지고 꺾이는지를 나타내는 지표이며, 전반사는 빛이 밀한 매질에서 소한 매질로 임계각 이상으로 입사될 때 경계면을 뚫지 못하고 100% 반사되는 현상이다.
-> 2. **가치**: 이 자연계의 물리 법칙은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 외부 누출과 감쇠를 원천 차단하여, 광섬유를 통한 무손실 장거리 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 가능하게 한 네트워크 통신의 물리적 근간이다.
+> 2. **가치**: 이 자연계의 물리 법칙은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 외부 누출과 감쇠를 원천 차단하여, 광섬유를 통한 무손실 장거리 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 가능하게 한 네트워크 통신의 물리적 근간이다.
 > 3. **판단 포인트**: 광학(Optics)의 스넬의 법칙(Snell's Law)이 컴퓨터 통신(L1 물리 계층)과 융합되어, 수백 킬로미터 해저 케이블의 코어-클래딩 설계 알고리즘으로 체화되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-빛은 진공 상태에서 가장 빠르며(초속 약 30만 km), 물이나 유리처럼 밀도가 높은 매질(Medium)로 들어가면 속도가 느려지면서 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 꺾이는 굴절(Refraction) 현상이 일어난다. 이때 매질이 빛의 속도를 늦추는 정도를 수치화한 것이 <strong>굴절률 (Refractive <a href="/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>이다. (진공의 굴절률은 1, 유리는 약 1.5)
+빛은 진공 상태에서 가장 빠르며(초속 약 30만 km), 물이나 유리처럼 밀도가 높은 매질(Medium)로 들어가면 속도가 느려지면서 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 방향이 꺾이는 굴절(Refraction) 현상이 일어난다. 이때 매질이 빛의 속도를 늦추는 정도를 수치화한 것이 <strong>굴절률 (Refractive <a href="/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/">Index</a>)</strong>이다. (진공의 굴절률은 1, 유리는 약 1.5)
 
-통신 공학에서 빛을 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려면 치명적인 문제가 하나 발생한다. 손전등 빛을 허공에 쏘면 사방으로 퍼지면서 에너지가 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)되듯, 통신용 레이저 빛 역시 직선으로 가다가 곡선 케이블을 만나면 케이블 밖으로 새어나가 버리는(손실되는) 현상이 발생한다. 이를 극복하기 위해 과학자들은 빛이 특정 조건에서 경계면을 뚫고 나가지 않고 거울처럼 완벽하게 반사되는 **전반사 (Total Internal Reflection)** 원리를 주목했다. 이를 인위적으로 통신선에 구현함으로써 빛을 구부러진 케이블 속에서도 밖으로 탈출하지 못하게 "가두는" 기술적 혁신이 필요했다.
+통신 공학에서 빛을 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내려면 치명적인 문제가 하나 발생한다. 손전등 빛을 허공에 쏘면 사방으로 퍼지면서 에너지가 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)되듯, 통신용 레이저 빛 역시 직선으로 가다가 곡선 케이블을 만나면 케이블 밖으로 새어나가 버리는(손실되는) 현상이 발생한다. 이를 극복하기 위해 과학자들은 빛이 특정 조건에서 경계면을 뚫고 나가지 않고 거울처럼 완벽하게 반사되는 **전반사 (Total Internal Reflection)** 원리를 주목했다. 이를 인위적으로 통신선에 구현함으로써 빛을 구부러진 케이블 속에서도 밖으로 탈출하지 못하게 "가두는" 기술적 혁신이 필요했다.
 
 다음은 굴절률의 차이에 따라 빛이 경계면에서 꺾이거나 갇히는 상태의 변화를 보여주는 배경도이다.
 
@@ -48,13 +45,13 @@ tags = ["studynote-network"]
 $$ n_1 \times \sin(\theta_1) = n_2 \times \sin(\theta_2) $$
 
 **2. 전반사의 필수 성립 2조건**
-1. **굴절률 조건**: 빛은 반드시 굴절률이 높은 매질(밀한 매질, 코어)에서 낮은 매질(소한 매질, 클래딩)로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해야 한다. ($n_1 > n_2$)
+1. **굴절률 조건**: 빛은 반드시 굴절률이 높은 매질(밀한 매질, 코어)에서 낮은 매질(소한 매질, 클래딩)로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)해야 한다. ($n_1 > n_2$)
 2. **입사각 조건**: 빛의 입사각($\theta_1$)이 **임계각(Critical Angle, $\theta_c$)**보다 커야 한다.
 
 **3. 수용각 (Acceptance Angle)과 개구수 (NA)**
 전반사를 유지하며 광섬유 코어 안으로 빛을 쏘아 넣을 수 있는 외부 진입 각도의 최댓값을 수용각이라 하며, 이를 수치화한 것이 <strong>개구수(Numerical Aperture, NA)</strong>이다.
 $$ NA = \sqrt{n_1^2 - n_2^2} $$
-개구수가 클수록 빛을 광섬유로 집어넣기 쉬우나, 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)(빛의 경로 혼재)이 심해져 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 감소하는 트레이드오프가 있다.
+개구수가 클수록 빛을 광섬유로 집어넣기 쉬우나, 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)(빛의 경로 혼재)이 심해져 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 감소하는 트레이드오프가 있다.
 
 다음은 광섬유 내에서 스넬의 법칙과 전반사가 연쇄적으로 일어나는 동작 흐름도이다.
 
@@ -71,7 +68,7 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
                   V
 ----------- 경계면 반사 ------------------------- [클래딩 n2]
 ```
-*이 흐름의 핵심은 최초 공기에서 코어로 진입할 때 허용된 각도(수용각) 내로 들어온 빛만이 내부 경계면에서 임계각 이상의 조건을 만족하여 끝없는 전반사 루프에 진입한다는 점이다. 만약 수용각 밖에서 억지로 쏜 빛은 내부 경계면에 수직에 가깝게 부딪히면서 클래딩 밖으로 새어 나가 소멸한다. 실무에서는 광 [트랜시버](/knowledge-base/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(SFP)의 레이저 다이오드가 이 수용각 내로 정확히 포커싱되도록 기계적으로 엄격히 통제된다.*
+*이 흐름의 핵심은 최초 공기에서 코어로 진입할 때 허용된 각도(수용각) 내로 들어온 빛만이 내부 경계면에서 임계각 이상의 조건을 만족하여 끝없는 전반사 루프에 진입한다는 점이다. 만약 수용각 밖에서 억지로 쏜 빛은 내부 경계면에 수직에 가깝게 부딪히면서 클래딩 밖으로 새어 나가 소멸한다. 실무에서는 광 [트랜시버](/studynote/03_network/03_physical_layer_media/153_transceiver_mau_sfp/)(SFP)의 레이저 다이오드가 이 수용각 내로 정확히 포커싱되도록 기계적으로 엄격히 통제된다.*
 
 - **📢 섹션 요약 비유**: 터널(광섬유) 안으로 당구공(빛)을 찰지게 굴릴 때, 너무 정면으로 벽에 던지면 벽을 뚫고 나가버리지만, 벽을 훑듯이 비스듬히 던지면(임계각 이상) 당구공이 터널 벽을 지그재그로 무한히 튕기며 끝까지 굴러가는 것과 같습니다.
 
@@ -79,16 +76,16 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 ## Ⅲ. 비교 및 연결
 
-굴절률 조작 방식에 따라 광케이블 내부에서 빛이 전반사되는 궤적의 양상이 다르다. 계단형(Step-[index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 언덕형(Graded-[index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))의 비교 매트릭스이다.
+굴절률 조작 방식에 따라 광케이블 내부에서 빛이 전반사되는 궤적의 양상이 다르다. 계단형(Step-[index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))과 언덕형(Graded-[index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))의 비교 매트릭스이다.
 
-| 항목 | 계단형 (Step-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 언덕형 (Graded-[Index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 판단 포인트 (효과) |
+| 항목 | 계단형 (Step-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 언덕형 (Graded-[Index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)) | 판단 포인트 (효과) |
 |:---|:---|:---|:---|
 | **굴절률 변화** | 코어 굴절률이 일정하다가 경계에서 급격히 하락 | 코어 중심에서 가장 높고, 가장자리로 갈수록 서서히 낮아짐 | 제조 복잡도 및 단가 |
-| **빛의 궤적** | 지그재그 (직선과 꺾임의 반복) | 부드러운 사인파 (곡선형 휨) | [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 부드러운 유도 |
-| <strong>모드 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 심함 (직진하는 빛과 튕기는 빛의 도달 시간차 큼) | 적음 (바깥쪽 빛이 더 빨리 이동하여 도달 시간 보정) | 고속 대용량 전송 한계 |
-| **적용 광섬유** | 주로 단일 모드 (코어를 얇게 만들어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 제거) | 주로 다중 모드 (MMF의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)용) | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 및 포설 목적 |
+| **빛의 궤적** | 지그재그 (직선과 꺾임의 반복) | 부드러운 사인파 (곡선형 휨) | [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 부드러운 유도 |
+| <strong>모드 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a></strong> | 심함 (직진하는 빛과 튕기는 빛의 도달 시간차 큼) | 적음 (바깥쪽 빛이 더 빨리 이동하여 도달 시간 보정) | 고속 대용량 전송 한계 |
+| **적용 광섬유** | 주로 단일 모드 (코어를 얇게 만들어 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 제거) | 주로 다중 모드 (MMF의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)용) | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 및 포설 목적 |
 
-계단형은 코어 크기를 늘리면 지그재그 경로 간의 거리 차이가 커져 도착 지점에서 펄스가 겹치는 에러(모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/))가 발생한다. 이를 극복하기 위해 코어 내부의 굴절률을 그라데이션처럼 바꾼 언덕형(Graded-[index](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))이 도입되었다. 굴절률이 낮으면 빛의 속도가 빨라진다는 원리를 이용해, 먼 거리를 우회하는 가장자리 빛의 속도를 빠르게 만들어 직진하는 빛과 동시에 도착하게 융합 시킨 과학적 예술이다.
+계단형은 코어 크기를 늘리면 지그재그 경로 간의 거리 차이가 커져 도착 지점에서 펄스가 겹치는 에러(모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/))가 발생한다. 이를 극복하기 위해 코어 내부의 굴절률을 그라데이션처럼 바꾼 언덕형(Graded-[index](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))이 도입되었다. 굴절률이 낮으면 빛의 속도가 빨라진다는 원리를 이용해, 먼 거리를 우회하는 가장자리 빛의 속도를 빠르게 만들어 직진하는 빛과 동시에 도착하게 융합 시킨 과학적 예술이다.
 
 - **📢 섹션 요약 비유**: 육상 트랙에서 안쪽 코스는 거리가 짧고 바깥 코스는 멀지만, 바깥 코스의 바닥을 무빙워크(낮은 굴절률)로 만들어 선수들이 모두 동시에 결승선에 도착하게 조절하는 기술이 '언덕형 굴절률' 설계입니다.
 
@@ -98,7 +95,7 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 실무 네트워크 장애 중 물리 계층(L1) 광케이블 이슈의 대부분은 전반사 조건이 물리적인 외부 요인에 의해 깨졌을 때 발생한다.
 
-다음은 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 광케이블 포설 및 장애 대처 시 굴절률/전반사 원리에 기반한 점검 플로우이다.
+다음은 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/) 내 광케이블 포설 및 장애 대처 시 굴절률/전반사 원리에 기반한 점검 플로우이다.
 
 ```text
 [광 링크 (Link) 다운 또는 CRC 에러 폭증 발생]
@@ -123,11 +120,11 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 ```
 *이 흐름의 핵심은 전반사는 빛이 '완벽한 각도'로 유지될 때만 성립하는 섬세한 조건이라는 점이다. 실무에서 광케이블을 타이(Tie)로 꽉 조이거나 직각으로 구부리면, 코어 내부의 각도가 임계각보다 작아져 빛이 거울(경계)을 뚫고 밖으로 새어버리는 굽힘 손실(Bending Loss)이 일어난다. 따라서 랙 마운팅 시 광케이블은 반드시 둥근 곡률 반경(일반적으로 케이블 외경의 10배 이상)을 유지하도록 가이드 롤러를 사용해 배선해야 한다.*
 
-<strong>실무 <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
-- **광 패치코드 강결속**: 케이블 정리 명목으로 케이블 타이를 사용해 광섬유를 강하게 조임. 코어 미세 변형(Microbending)을 유발해 굴절률 분포를 망가뜨리고 알 수 없는 간헐적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드롭 유발.
+<strong>실무 <a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- **광 패치코드 강결속**: 케이블 정리 명목으로 케이블 타이를 사용해 광섬유를 강하게 조임. 코어 미세 변형(Microbending)을 유발해 굴절률 분포를 망가뜨리고 알 수 없는 간헐적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 드롭 유발.
 - **물/습기 침투**: 야외 포설 케이블 틈으로 습기가 침투. 물의 굴절률(1.33)이 클래딩 굴절률을 변형시켜 전반사 효율이 하락하고 장기적으로 유리가 부식됨.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -141,13 +138,13 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 굴절률 조작과 전반사 원리는 인류가 빛을 통제하여 정보를 저장하고 전달하는 방식에 근본적 변혁을 가져왔다.
 
-| 지표 | 원리 적용 전 (전기 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 의존) | 전반사 아키텍처 도입 후 |
+| 지표 | 원리 적용 전 (전기 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 의존) | 전반사 아키텍처 도입 후 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 도달성</strong> | [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 발열에 의한 에너지 낭비 | 빛의 갇힘 구조로 에너지 손실을 극한으로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (0.2 dB/km 수준) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 제약</strong> | 주파수 간섭(표피 효과) 한계 | 빛 파장 다중화와 무간섭 성질로 무한대에 가까운 채널 활용 |
+| <strong><a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a> 도달성</strong> | [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 발열에 의한 에너지 낭비 | 빛의 갇힘 구조로 에너지 손실을 극한으로 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) (0.2 dB/km 수준) |
+| <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a> 제약</strong> | 주파수 간섭(표피 효과) 한계 | 빛 파장 다중화와 무간섭 성질로 무한대에 가까운 채널 활용 |
 
 **미래 전망**
-전반사는 비단 통신망 광섬유에만 그치지 않는다. 광학 칩(Photonic IC) 내부의 초소형 도파로(Waveguide) 설계, 양자 암호 통신의 단일 광자(Photon) 전송 보존 기법 등 차세대 양자 컴퓨팅과 [6G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 광 네트워크의 가장 밑단에서 핵심 지배 법칙으로 작용하고 있다. 향후 공기의 굴절률(1.0)에 가장 가까운 중공 코어(Hollow-Core) 광섬유가 상용화되면, 굴절률 차이에 의한 전파 지연조차 최소화되어 빛이 진공에서 날아가는 완벽한 속도에 근접할 것이다.
+전반사는 비단 통신망 광섬유에만 그치지 않는다. 광학 칩(Photonic IC) 내부의 초소형 도파로(Waveguide) 설계, 양자 암호 통신의 단일 광자(Photon) 전송 보존 기법 등 차세대 양자 컴퓨팅과 [6G](/studynote/07_enterprise_systems/09_digital_transformation/419_6g_ntn_thz_ris_next_gen/) 광 네트워크의 가장 밑단에서 핵심 지배 법칙으로 작용하고 있다. 향후 공기의 굴절률(1.0)에 가장 가까운 중공 코어(Hollow-Core) 광섬유가 상용화되면, 굴절률 차이에 의한 전파 지연조차 최소화되어 빛이 진공에서 날아가는 완벽한 속도에 근접할 것이다.
 
 - **📢 섹션 요약 비유**: 빛이 유리 벽에 부딪혀 끝없이 튕기는 이 단순한 마법(전반사)이, 사실은 넷플릭스를 끊김 없이 보고 구글에 순식간에 접속할 수 있게 만드는 현대 마법의 진짜 정체입니다.
 
@@ -157,10 +154,10 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/) (Optical Fiber) | 굴절률이 다른 두 유리 층을 조합하여 전반사를 물리적으로 구현한 통신 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) |
+| [광섬유 케이블](/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/) (Optical Fiber) | 굴절률이 다른 두 유리 층을 조합하여 전반사를 물리적으로 구현한 통신 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) |
 | 스넬의 법칙 (Snell's Law) | 빛이 서로 다른 매질을 통과할 때 꺾이는 각도와 속도의 관계를 정의한 물리학 법칙 |
 | 임계각 (Critical Angle) | 빛이 굴절하지 않고 매질 내부에 완벽히 반사되기 위해 필요한 최소한의 진입 각도 |
-| 모드 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (Modal [Dispersion](/knowledge-base/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) | 굴절률 차이에 의해 빛이 튕기는 경로가 여러 개로 나뉘어 도착 시간에 차이가 생기는 왜곡 현상 |
+| 모드 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) (Modal [Dispersion](/studynote/03_network/03_physical_layer_media/133_dispersion_mode_chromatic/)) | 굴절률 차이에 의해 빛이 튕기는 경로가 여러 개로 나뉘어 도착 시간에 차이가 생기는 왜곡 현상 |
 | 마이크로 벤딩 (Microbending) | 외부 압력으로 광섬유의 코어 형태가 미세하게 변형되어 전반사 조건이 깨져 발생하는 광 손실 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -175,7 +172,7 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
     +---> [확장 B: 고속 광전송 최적화]
 ```
 
-굴절률, 전반사는 [광섬유 케이블](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)에서 출발해 현재 메커니즘을 정교화하고, 이후 멀티모드 계단형 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+굴절률, 전반사는 [광섬유 케이블](/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)에서 출발해 현재 메커니즘을 정교화하고, 이후 멀티모드 계단형 광섬유와 고속 광전송 최적화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -189,7 +186,7 @@ $$ NA = \sqrt{n_1^2 - n_2^2} $$
 
 **진행 상황**: 250 / 1120
 
-<- **이전**: [128. 광섬유 케이블 (Optical Fiber Cable)](/knowledge-base/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)
-**다음**: [130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)](/knowledge-base/studynote/03_network/03_physical_layer_media/130_multimode_step_index_fiber/) ->
+<- **이전**: [128. 광섬유 케이블 (Optical Fiber Cable)](/studynote/03_network/03_physical_layer_media/128_optical_fiber_cable/)
+**다음**: [130. 멀티모드 계단형 광섬유 (Multi-mode Step-index)](/studynote/03_network/03_physical_layer_media/130_multimode_step_index_fiber/) ->
 
 ---

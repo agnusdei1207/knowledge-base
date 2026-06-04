@@ -1,13 +1,10 @@
-+++
-title = "796. ICT 융합 기술 종합 마스터 아키텍처 정리 (ICT Convergence Master Architecture Final)"
-date = 2026-05-09
+---
+title: "796. ICT 융합 기술 종합 마스터 아키텍처 정리 (ICT Convergence Master Architecture Final)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -134,7 +131,7 @@ ICT 융합 마스터 아키텍처는 **OT(운용기술) × IT(정보기술) × C
 
 **진행 상황**: 796 / 800
 
-<- **이전**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/)
-**다음**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/) ->
+<- **이전**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/)
+**다음**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/) ->
 
 ---

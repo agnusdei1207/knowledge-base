@@ -1,13 +1,10 @@
-+++
-title = "689. IT 경영 관리 핵심 토픽 689번 시험 요약 (IT Management Core Topic 689 Exam Summary)"
-date = 2026-05-09
+---
+title: "689. IT 경영 관리 핵심 토픽 689번 시험 요약 (IT Management Core Topic 689 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -153,7 +150,7 @@ IT 경영 관리의 핵심은 **3-Layer Architecture** — **전략층(Governanc
 
 **진행 상황**: 689 / 800
 
-<- **이전**: [688. IT 경영 관리 핵심 토픽 688번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/688_it_management_core_topic_688_exam_summary/)
-**다음**: [690. IT 경영 관리 핵심 토픽 690번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/690_it_management_core_topic_690_exam_summary/) ->
+<- **이전**: [688. IT 경영 관리 핵심 토픽 688번 시험 요약](/studynote/12_it_management/05_security_compliance/688_it_management_core_topic_688_exam_summary/)
+**다음**: [690. IT 경영 관리 핵심 토픽 690번 시험 요약](/studynote/12_it_management/05_security_compliance/690_it_management_core_topic_690_exam_summary/) ->
 
 ---

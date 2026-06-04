@@ -1,13 +1,10 @@
-+++
-title = "376. 시크릿 관리 볼트 키 로테이션 자동화 (Secret Management Vault KMS Key Rotation)"
-date = 2026-05-09
+---
+title: "376. 시크릿 관리 볼트 키 로테이션 자동화 (Secret Management Vault KMS Key Rotation)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 376 / 400
 
-<- **이전**: [375. 375. 소프트웨어 공급망 보안 SBOM 의존성 관리 (Software Supply Chain Security SBOM CycloneDX)](/knowledge-base/studynote/15_devops_sre/05_devsecops/375_software_supply_chain_security/)
-**다음**: [377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)](/knowledge-base/studynote/15_devops_sre/05_devsecops/377_container_image_signing/) ->
+<- **이전**: [375. 375. 소프트웨어 공급망 보안 SBOM 의존성 관리 (Software Supply Chain Security SBOM CycloneDX)](/studynote/15_devops_sre/05_devsecops/375_software_supply_chain_security/)
+**다음**: [377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)](/studynote/15_devops_sre/05_devsecops/377_container_image_signing/) ->
 
 ---

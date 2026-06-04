@@ -1,13 +1,10 @@
-+++
-title = "394. 데이터 3법 가명정보 결합 활용 (Data 3 Acts Pseudonymization Combination)"
-date = 2026-05-09
+---
+title: "394. 데이터 3법 가명정보 결합 활용 (Data 3 Acts Pseudonymization Combination)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 394 / 800
 
-<- **이전**: [393. 개인정보보호법 PIPA 국내 규제 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/)
-**다음**: [395. 클라우드 보안 인증 CSAP FedRAMP](/knowledge-base/studynote/12_it_management/05_security_compliance/395_cloud_security_certification_csap_fedramp/) ->
+<- **이전**: [393. 개인정보보호법 PIPA 국내 규제 대응](/studynote/12_it_management/05_security_compliance/393_pipa_personal_information_protection_act/)
+**다음**: [395. 클라우드 보안 인증 CSAP FedRAMP](/studynote/12_it_management/05_security_compliance/395_cloud_security_certification_csap_fedramp/) ->
 
 ---

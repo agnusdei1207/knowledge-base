@@ -1,13 +1,10 @@
-+++
-title = "425. 변경 관리 CAB 영향 분석 승인 (Change Management CAB Impact Approval)"
-date = 2026-05-09
+---
+title: "425. 변경 관리 CAB 영향 분석 승인 (Change Management CAB Impact Approval)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -173,7 +170,7 @@ CAB 영향 분석 승인 아키텍처는 **3계층 의사결정 프레임워크*
 
 **진행 상황**: 425 / 800
 
-<- **이전**: [424. 형상 관리 CMDB 구성 항목 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/424_configuration_management_cmdb_ci/)
-**다음**: [426. 릴리스 관리 배포 전략 롤백](/knowledge-base/studynote/12_it_management/05_security_compliance/426_release_management_deploy_strategy_rollback/) ->
+<- **이전**: [424. 형상 관리 CMDB 구성 항목 관리](/studynote/12_it_management/05_security_compliance/424_configuration_management_cmdb_ci/)
+**다음**: [426. 릴리스 관리 배포 전략 롤백](/studynote/12_it_management/05_security_compliance/426_release_management_deploy_strategy_rollback/) ->
 
 ---

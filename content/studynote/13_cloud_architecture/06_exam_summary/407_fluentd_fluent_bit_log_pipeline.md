@@ -1,13 +1,10 @@
-+++
-title = "407. Fluentd Fluent Bit 로그 전달 파이프라인 (Fluentd Fluent Bit Log Pipeline)"
-date = 2026-05-09
+---
+title: "407. Fluentd Fluent Bit 로그 전달 파이프라인 (Fluentd Fluent Bit Log Pipeline)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 407 / 800
 
-<- **이전**: [406. ELK 스택 로그 분석 검색 시각화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/406_elk_stack_log_analysis_search_visualization/)
-**다음**: [408. Thanos Cortex 프로메테우스 장기 저장](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/408_thanos_cortex_prometheus_long_term_storage/) ->
+<- **이전**: [406. ELK 스택 로그 분석 검색 시각화](/studynote/13_cloud_architecture/06_exam_summary/406_elk_stack_log_analysis_search_visualization/)
+**다음**: [408. Thanos Cortex 프로메테우스 장기 저장](/studynote/13_cloud_architecture/06_exam_summary/408_thanos_cortex_prometheus_long_term_storage/) ->
 
 ---

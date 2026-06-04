@@ -1,13 +1,10 @@
-+++
-title = "616. 서비스 메시 Istio Envoy 데이터 플레인 (Service Mesh Istio Envoy Data Plane)"
-date = 2026-05-09
+---
+title: "616. 서비스 메시 Istio Envoy 데이터 플레인 (Service Mesh Istio Envoy Data Plane)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Inject -> Encrypt -> Route -> Observe -> Control
 
 **진행 상황**: 615 / 800
 
-<- **이전**: [614. 클라우드 네이티브 12-Factor 설계 원칙](/knowledge-base/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/)
-**다음**: [616. Helm 차트 패키지 관리 배포](/knowledge-base/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/) ->
+<- **이전**: [614. 클라우드 네이티브 12-Factor 설계 원칙](/studynote/06_ict_convergence/uncategorized/614_cloud_native_12_factor_design_principles/)
+**다음**: [616. Helm 차트 패키지 관리 배포](/studynote/06_ict_convergence/uncategorized/618_helm_chart_package_management_deployment/) ->
 
 ---

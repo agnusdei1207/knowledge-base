@@ -1,13 +1,10 @@
-+++
-title = "553. DeFi 탈중앙화 금융 스마트 계약 프로토콜 (DeFi Decentralized Finance Smart Contract)"
-date = 2026-05-09
+---
+title: "553. DeFi 탈중앙화 금융 스마트 계약 프로토콜 (DeFi Decentralized Finance Smart Contract)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ DeFi 탈중앙화 금융 스마트 계약 프로토콜은(는) 디지털 권리,
 
 **진행 상황**: 553 / 800
 
-<- **이전**: [552. NFT 대체 불가능 토큰 디지털 소유권](/knowledge-base/studynote/06_ict_convergence/uncategorized/552_nft_non_fungible_token_digital_ownership/)
-**다음**: [554. DAO 탈중앙화 자율 조직](/knowledge-base/studynote/06_ict_convergence/uncategorized/554_dao_decentralized_autonomous_organization/) ->
+<- **이전**: [552. NFT 대체 불가능 토큰 디지털 소유권](/studynote/06_ict_convergence/uncategorized/552_nft_non_fungible_token_digital_ownership/)
+**다음**: [554. DAO 탈중앙화 자율 조직](/studynote/06_ict_convergence/uncategorized/554_dao_decentralized_autonomous_organization/) ->
 
 ---

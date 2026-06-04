@@ -1,29 +1,26 @@
-+++
-title = "704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)"
-date = 2026-05-08
+---
+title: "704. 호스트 메모리 버퍼 (HMB, Host Memory Buffer)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: HMB (Host Memory Buffer)는 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)이 없는 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 호스트 메모리 일부를 빌려 매핑 정보와 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)를 캐시하는 기능이다.
-> 2. **가치**: 값비싼 온보드 DRAM을 생략해도 무작위 입출력 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락을 완화해, 저가형 클라이언트 SSD의 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 끌어올린다.
+> 1. **본질**: HMB (Host Memory Buffer)는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory)이 없는 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) ([Non-Volatile Memory Express](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/)) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))가 호스트 메모리 일부를 빌려 매핑 정보와 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)를 캐시하는 기능이다.
+> 2. **가치**: 값비싼 온보드 DRAM을 생략해도 무작위 입출력 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 하락을 완화해, 저가형 클라이언트 SSD의 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 끌어올린다.
 > 3. **판단 포인트**: HMB는 온보드 DRAM의 완전한 대체제가 아니라 타협안이므로, 장치 비용·시스템 메모리 여유·워크로드 특성을 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-HMB는 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less SSD가 가장 약한 부분을 보완하기 위해 나온 기능이다. SSD는 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장하는 장치가 아니라, [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 실제 플래시 위치로 바꿔 주는 L2P (Logical-to-Physical) 매핑 테이블도 관리해야 한다. 이 매핑 정보가 빠르게 조회되어야 랜덤 읽기와 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 응답이 안정적으로 나온다.
+HMB는 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less SSD가 가장 약한 부분을 보완하기 위해 나온 기능이다. SSD는 사용자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 저장하는 장치가 아니라, [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 주소를 실제 플래시 위치로 바꿔 주는 L2P (Logical-to-Physical) 매핑 테이블도 관리해야 한다. 이 매핑 정보가 빠르게 조회되어야 랜덤 읽기와 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 응답이 안정적으로 나온다.
 
-온보드 DRAM이 있는 SSD는 이 매핑 테이블의 뜨거운 부분을 자체 메모리에 올려 둔다. 하지만 원가를 낮추기 위해 DRAM을 제거하면, 매핑 정보를 확인하려고 낸드 플래시를 한 번 더 읽어야 하는 경우가 많아진다. 그러면 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 주소표부터 찾는 우회가 발생해 작은 입출력에서 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크게 늘어난다.
+온보드 DRAM이 있는 SSD는 이 매핑 테이블의 뜨거운 부분을 자체 메모리에 올려 둔다. 하지만 원가를 낮추기 위해 DRAM을 제거하면, 매핑 정보를 확인하려고 낸드 플래시를 한 번 더 읽어야 하는 경우가 많아진다. 그러면 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽기 전에 주소표부터 찾는 우회가 발생해 작은 입출력에서 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크게 늘어난다.
 
-클라이언트 환경에서는 여기서 딜레마가 생긴다. 별도 DRAM을 넣으면 단가와 전력 소모가 올라가고, 빼면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠진다. HMB는 이 사이에서 "장치 안 메모리는 없지만, 호스트 메모리의 일부를 빌려 쓰자"라는 절충안으로 등장했다.
+클라이언트 환경에서는 여기서 딜레마가 생긴다. 별도 DRAM을 넣으면 단가와 전력 소모가 올라가고, 빼면 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 급격히 나빠진다. HMB는 이 사이에서 "장치 안 메모리는 없지만, 호스트 메모리의 일부를 빌려 쓰자"라는 절충안으로 등장했다.
 
 - **📢 섹션 요약 비유**: HMB는 자기 책상이 없는 신입사원이 공용 책상 한쪽을 빌려 메모장을 펼쳐 두는 것과 같다. 완전한 개인 책상만큼 편하진 않지만, 바닥에 쭈그리고 메모하는 것보다는 훨씬 낫다.
 
@@ -31,16 +28,16 @@ HMB는 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hiera
 
 ## Ⅱ. HMB의 동작 구조
 
-HMB는 장치가 임의로 시스템 메모리를 가져다 쓰는 기능이 아니다. 초기화 과정에서 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러가 HMB 지원 사실과 필요한 메모리 크기를 알리고, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 드라이버가 메모리 영역을 할당한 뒤 그 위치 정보를 장치에 전달한다. 이후 SSD는 [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 링크를 통해 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 방식으로 해당 메모리를 접근한다.
+HMB는 장치가 임의로 시스템 메모리를 가져다 쓰는 기능이 아니다. 초기화 과정에서 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 컨트롤러가 HMB 지원 사실과 필요한 메모리 크기를 알리고, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 드라이버가 메모리 영역을 할당한 뒤 그 위치 정보를 장치에 전달한다. 이후 SSD는 [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) ([Peripheral Component Interconnect](/studynote/01_computer_architecture/09_system_bus_interconnects/355_pci/) Express) 링크를 통해 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 방식으로 해당 메모리를 접근한다.
 
 | 단계 | 주체 | 수행 내용 |
 | :--- | :--- | :--- |
-| 기능 광고 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB 지원 여부와 선호 크기 제시 |
+| 기능 광고 | [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB 지원 여부와 선호 크기 제시 |
 | 메모리 할당 | 호스트 드라이버 | 시스템 메모리 일부를 고정 영역으로 준비 |
 | 주소 전달 | 호스트 드라이버 | SSD가 접근할 수 있게 메모리 기술자 제공 |
-| 실사용 | [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 | 매핑 캐시, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 일부 읽기 버퍼로 활용 |
+| 실사용 | [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 컨트롤러 | 매핑 캐시, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 일부 읽기 버퍼로 활용 |
 
-아래 그림은 HMB의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 단순화한 것이다.
+아래 그림은 HMB의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 흐름을 단순화한 것이다.
 
 ```text
 +--------------------------------------------------------------+
@@ -60,50 +57,50 @@ HMB는 장치가 임의로 시스템 메모리를 가져다 쓰는 기능이 아
 +--------------------------------------------------------------+
 ```
 
-중요한 점은 HMB가 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 보관하는 메모리가 아니라는 사실이다. 주된 목적은 매핑 테이블의 일부, 큐 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/), 작은 읽기 캐시처럼 "빠르게 다시 참고해야 하는 정보"를 담는 것이다. 따라서 전원이 꺼지면 사라져도 문제없는 정보 위주로 쓰이며, 대형 서버용 SSD의 온보드 DRAM을 그대로 대체하는 구조는 아니다.
+중요한 점은 HMB가 사용자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 오래 보관하는 메모리가 아니라는 사실이다. 주된 목적은 매핑 테이블의 일부, 큐 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/), 작은 읽기 캐시처럼 "빠르게 다시 참고해야 하는 정보"를 담는 것이다. 따라서 전원이 꺼지면 사라져도 문제없는 정보 위주로 쓰이며, 대형 서버용 SSD의 온보드 DRAM을 그대로 대체하는 구조는 아니다.
 
 - **📢 섹션 요약 비유**: HMB는 장치를 위해 방 하나를 새로 지어 주는 것이 아니라, 거실 구석에 작은 책상을 내어 주는 수준이다. 필요한 메모는 빨리 볼 수 있지만, 모든 짐을 다 올려둘 수는 없다.
 
 ---
 
-## Ⅲ. 온보드 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·순수 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less와의 비교
+## Ⅲ. 온보드 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)·순수 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less와의 비교
 
-HMB의 위치를 이해하려면 세 가지 구성을 함께 봐야 한다. 온보드 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD는 가장 빠르지만 비용이 높고, 순수 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less SSD는 가장 싸지만 매핑 조회 비용이 크다. HMB SSD는 호스트 메모리를 활용해 그 격차를 줄이는 중간 지점이다.
+HMB의 위치를 이해하려면 세 가지 구성을 함께 봐야 한다. 온보드 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD는 가장 빠르지만 비용이 높고, 순수 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less SSD는 가장 싸지만 매핑 조회 비용이 크다. HMB SSD는 호스트 메모리를 활용해 그 격차를 줄이는 중간 지점이다.
 
-| 항목 | 온보드 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 순수 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
+| 항목 | 온보드 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | 순수 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) |
 | :--- | :--- | :--- | :--- |
-| 매핑 캐시 위치 | 장치 내부 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | 호스트 메모리 | 주로 낸드 내부 |
-| 접근 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 가장 낮음 | 중간 | 가장 높음 |
+| 매핑 캐시 위치 | 장치 내부 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) | 호스트 메모리 | 주로 낸드 내부 |
+| 접근 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | 가장 낮음 | 중간 | 가장 높음 |
 | 장치 원가 | 높음 | 중간 | 낮음 |
 | 워크로드 적합성 | 클라이언트·서버 전반 | 클라이언트 중심 | 보급형·가벼운 용도 |
-| 일관된 고부하 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 우수 | 제한적 | 낮음 |
+| 일관된 고부하 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 우수 | 제한적 | 낮음 |
 
-또한 HMB는 [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) ([Single-Level Cell](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)) 캐시와 역할이 다르다. [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버스트를 흡수하는 데 초점이 있고, HMB는 매핑 조회를 빠르게 해 작은 입출력의 반응성을 높이는 데 초점이 있다. 두 기능이 함께 있으면 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아지지만, 어느 한쪽이 다른 한쪽을 대체하지는 않는다.
+또한 HMB는 [SLC](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) ([Single-Level Cell](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/)) 캐시와 역할이 다르다. [SLC](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 버스트를 흡수하는 데 초점이 있고, HMB는 매핑 조회를 빠르게 해 작은 입출력의 반응성을 높이는 데 초점이 있다. 두 기능이 함께 있으면 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋아지지만, 어느 한쪽이 다른 한쪽을 대체하지는 않는다.
 
-정리하면 HMB는 "온보드 DRAM을 없애도 완전히 느려지지는 않게 하자"는 구조다. 그래서 웹 브라우징, 게임 로딩, 문서 작업처럼 클라이언트 환경의 혼합 워크로드에서는 효과가 좋지만, 장시간 무거운 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)나 대규모 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 작업에서는 한계가 드러난다.
+정리하면 HMB는 "온보드 DRAM을 없애도 완전히 느려지지는 않게 하자"는 구조다. 그래서 웹 브라우징, 게임 로딩, 문서 작업처럼 클라이언트 환경의 혼합 워크로드에서는 효과가 좋지만, 장시간 무거운 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)나 대규모 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 작업에서는 한계가 드러난다.
 
-- **📢 섹션 요약 비유**: 온보드 DRAM이 개인 사무실이라면, HMB는 회사의 예약 좌석이고, 순수 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less는 서서 일하는 상태에 가깝다. 예약 좌석만으로도 훨씬 나아지지만, 개인 사무실만큼 여유롭지는 않다.
+- **📢 섹션 요약 비유**: 온보드 DRAM이 개인 사무실이라면, HMB는 회사의 예약 좌석이고, 순수 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less는 서서 일하는 상태에 가깝다. 예약 좌석만으로도 훨씬 나아지지만, 개인 사무실만큼 여유롭지는 않다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-HMB는 노트북, 사무용 데스크톱, 게임용 보조 저장장치처럼 가격 대비 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 환경에서 특히 유용하다. 부팅 드라이브나 애플리케이션 로딩처럼 작은 랜덤 읽기가 많은 상황에서 매핑 조회 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄여 주기 때문이다. 반면 긴 시간 동안 높은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 낮은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 동시에 요구하는 서버급 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 용도에는 온보드 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD가 더 안정적이다.
+HMB는 노트북, 사무용 데스크톱, 게임용 보조 저장장치처럼 가격 대비 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 중요한 환경에서 특히 유용하다. 부팅 드라이브나 애플리케이션 로딩처럼 작은 랜덤 읽기가 많은 상황에서 매핑 조회 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄여 주기 때문이다. 반면 긴 시간 동안 높은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)과 낮은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 동시에 요구하는 서버급 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 용도에는 온보드 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD가 더 안정적이다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 드라이버가 HMB를 지원하는지 확인한다.
+1. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)와 드라이버가 HMB를 지원하는지 확인한다.
 2. 시스템 메모리 용량이 너무 작다면 HMB 이득이 제한될 수 있음을 감안한다.
-3. [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input-Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) 정책과 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 보안 설정을 점검한다.
-4. 제품 사양에서 HMB 지원만 볼 것이 아니라, 실제 랜덤 읽기와 장시간 부하 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 본다.
+3. [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input-Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) 정책과 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 보안 설정을 점검한다.
+4. 제품 사양에서 HMB 지원만 볼 것이 아니라, 실제 랜덤 읽기와 장시간 부하 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 함께 본다.
 
-### 대표 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 대표 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- HMB를 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 캐시"로 오해해 서버급 지속 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 기대하는 판단
+- HMB를 "[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 캐시"로 오해해 서버급 지속 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 기대하는 판단
 - 시스템 메모리가 빠듯한 저사양 장치에서 HMB 효과를 과신하는 구매
 - 벤치마크의 짧은 버스트 수치만 보고 장시간 실사용 특성을 무시하는 평가
 
-실무 판단의 본질은 용도 분리다. 클라이언트 장치에서는 HMB가 가격 대비 효율적인 해법이 될 수 있지만, 높은 입출력 일관성과 장애 대응이 중요한 엔터프라이즈 영역에서는 타협의 폭이 작다. 즉, HMB는 "싼데도 꽤 괜찮은" 해법이지 "언제나 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD를 대체하는" 해법은 아니다.
+실무 판단의 본질은 용도 분리다. 클라이언트 장치에서는 HMB가 가격 대비 효율적인 해법이 될 수 있지만, 높은 입출력 일관성과 장애 대응이 중요한 엔터프라이즈 영역에서는 타협의 폭이 작다. 즉, HMB는 "싼데도 꽤 괜찮은" 해법이지 "언제나 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) SSD를 대체하는" 해법은 아니다.
 
 - **📢 섹션 요약 비유**: HMB는 단기 출장용 접이식 책상 같다. 잠깐 일하기엔 훌륭하지만, 매일 대형 도면을 펼쳐야 하는 설계실 책상 역할까지 맡기면 불편함이 드러난다.
 
@@ -111,11 +108,11 @@ HMB는 노트북, 사무용 데스크톱, 게임용 보조 저장장치처럼 �
 
 ## Ⅴ. 기대효과 및 결론
 
-HMB의 가장 큰 장점은 비용과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이의 간극을 줄여 준다는 점이다. 장치 제조사는 별도 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 부품을 줄여 원가와 소비전력을 낮출 수 있고, 사용자는 순수 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less 구조보다 훨씬 나은 체감 반응성을 얻는다. 특히 작은 랜덤 읽기, 애플리케이션 실행, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부팅 같은 작업에서 이 차이가 잘 드러난다.
+HMB의 가장 큰 장점은 비용과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 사이의 간극을 줄여 준다는 점이다. 장치 제조사는 별도 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 부품을 줄여 원가와 소비전력을 낮출 수 있고, 사용자는 순수 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less 구조보다 훨씬 나은 체감 반응성을 얻는다. 특히 작은 랜덤 읽기, 애플리케이션 실행, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 부팅 같은 작업에서 이 차이가 잘 드러난다.
 
-하지만 HMB는 호스트 메모리와 드라이버 협조에 의존한다. 메모리 용량이 부족하거나 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 지원이 약하면 이득이 제한될 수 있고, 장치 외부 메모리를 쓰는 만큼 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 면에서 온보드 DRAM보다 불리하다. 따라서 HMB를 볼 때는 "유무"만 보지 말고, 어느 정도의 메모리를 어떤 방식으로 활용하는지까지 함께 봐야 한다.
+하지만 HMB는 호스트 메모리와 드라이버 협조에 의존한다. 메모리 용량이 부족하거나 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 지원이 약하면 이득이 제한될 수 있고, 장치 외부 메모리를 쓰는 만큼 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 면에서 온보드 DRAM보다 불리하다. 따라서 HMB를 볼 때는 "유무"만 보지 말고, 어느 정도의 메모리를 어떤 방식으로 활용하는지까지 함께 봐야 한다.
 
-결론적으로 HMB는 저가형 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 약점을 가장 경제적으로 보완한 기능이다. 플래시 자체를 바꾸지 않고도 매핑 병목을 줄여 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선한다는 점에서, 비용 제약이 큰 클라이언트 스토리지 시장의 현실적인 최적화 기술로 기억하면 된다.
+결론적으로 HMB는 저가형 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 약점을 가장 경제적으로 보완한 기능이다. 플래시 자체를 바꾸지 않고도 매핑 병목을 줄여 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 개선한다는 점에서, 비용 제약이 큰 클라이언트 스토리지 시장의 현실적인 최적화 기술로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: HMB는 작은 가게가 창고를 새로 짓지 못할 때 옆 건물 선반 일부를 빌려 쓰는 방식이다. 완벽한 대형 창고는 아니지만, 물건 찾는 속도를 크게 높여 장사를 훨씬 수월하게 만든다.
 
@@ -124,10 +121,10 @@ HMB의 가장 큰 장점은 비용과 [성능](/knowledge-base/studynote/04_soft
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | L2P 매핑 테이블 | HMB가 가장 먼저 보완하려는 병목 대상이다. |
-| [PCIe](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) | 장치가 호스트 메모리에 접근하는 물리적 연결 통로다. |
-| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) | SSD가 CPU 개입 없이 HMB 영역을 읽고 쓰게 해 주는 방식이다. |
-| [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB가 주로 적용되는 제품군이다. |
-| [SLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시 | HMB와 함께 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이지만 역할은 다른 보조 기술이다. |
+| [PCIe](/studynote/01_computer_architecture/09_system_bus_interconnects/356_pcie/) | 장치가 호스트 메모리에 접근하는 물리적 연결 통로다. |
+| [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) | SSD가 CPU 개입 없이 HMB 영역을 읽고 쓰게 해 주는 방식이다. |
+| [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/)-less [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | HMB가 주로 적용되는 제품군이다. |
+| [SLC](/studynote/01_computer_architecture/15_advanced_topics/597_slc_caching/) 캐시 | HMB와 함께 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이지만 역할은 다른 보조 기술이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -161,7 +158,7 @@ HMB 기반 클라이언트 SSD 최적화
 
 **진행 상황**: 705 / 803
 
-<- **이전**: [703. ZNS (Zoned Namespace) SSD](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)
-**다음**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/) ->
+<- **이전**: [703. ZNS (Zoned Namespace) SSD](/studynote/01_computer_architecture/15_advanced_topics/703_zns_ssd/)
+**다음**: [705. 오픈소스 펌웨어 (Coreboot, LinuxBoot)](/studynote/01_computer_architecture/15_advanced_topics/705_open_source_firmware_coreboot/) ->
 
 ---

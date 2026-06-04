@@ -1,27 +1,24 @@
-+++
-title = "104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)"
+---
+title: "104. 초소형 운영체제 (TinyOS, RIOT, FreeRTOS)"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 극도로 제한된 자원(수 KB의 RAM, 저전력 CPU)을 가진 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 노드 등에서 동작하기 위해 덩치를 극한으로 줄인 특수 목적 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다.
-> 2. **가치**: 범용 OS가 요구하는 막대한 메모리 오버헤드를 제거하고, 이벤트 기반 또는 초경량 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링을 통해 실시간성(Real-Time)과 배터리 수명을 극대화한다.
+> 1. **본질**: 초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 극도로 제한된 자원(수 KB의 RAM, 저전력 CPU)을 가진 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서 노드 등에서 동작하기 위해 덩치를 극한으로 줄인 특수 목적 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)다.
+> 2. **가치**: 범용 OS가 요구하는 막대한 메모리 오버헤드를 제거하고, 이벤트 기반 또는 초경량 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링을 통해 실시간성(Real-Time)과 배터리 수명을 극대화한다.
 > 3. **판단 포인트**: 기기의 하드웨어 한계, 전력 소비 요구사항, 그리고 개발 편의성(C/C++ 표준 지원 여부 등)을 종합적으로 고려하여 TinyOS, RIOT, FreeRTOS 중 최적의 OS를 선택해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things)의 발달과 함께 등장한 필수적인 소프트웨어 인프라다.
+초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) (Micro OS)는 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)([IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), Internet of Things)의 발달과 함께 등장한 필수적인 소프트웨어 인프라다.
 
-화재 감지기, 스마트 전구 등에 탑재되는 [마이크로컨트롤러](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) (MCU, [Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)는 불과 수십 MHz의 CPU와 수 KB~수십 KB의 RAM(Random Access Memory)만을 가진다. 여기에 부팅에만 수백 MB가 필요한 리눅스(Linux)나 윈도우(Windows)를 탑재하는 것은 물리적으로 불가능하다. 또한, 이러한 센서 기기들은 건전지 하나로 수년을 버텨야 하며, 화재 발생 같은 중요한 이벤트에는 즉각적으로 반응하는 실시간성 (RTOS, Real-Time OS)이 요구된다. 따라서 불필요한 기능을 모두 덜어내고 뼈대만 남긴 초경량, 저전력 특화 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 필요하게 되었다.
+화재 감지기, 스마트 전구 등에 탑재되는 [마이크로컨트롤러](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) (MCU, [Microcontroller](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)는 불과 수십 MHz의 CPU와 수 KB~수십 KB의 RAM(Random Access Memory)만을 가진다. 여기에 부팅에만 수백 MB가 필요한 리눅스(Linux)나 윈도우(Windows)를 탑재하는 것은 물리적으로 불가능하다. 또한, 이러한 센서 기기들은 건전지 하나로 수년을 버텨야 하며, 화재 발생 같은 중요한 이벤트에는 즉각적으로 반응하는 실시간성 (RTOS, Real-Time OS)이 요구된다. 따라서 불필요한 기능을 모두 덜어내고 뼈대만 남긴 초경량, 저전력 특화 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 필요하게 되었다.
 
-- **📢 섹션 요약 비유**: 초소형 OS의 필요성은 '택배 트럭'과 '1인용 전동 킥보드'의 차이와 같다. 거대한 짐을 나르는 택배 트럭(범용 OS)은 에어컨도 있고 힘도 세지만, 좁은 골목길에 작은 서류 봉투 하나를 재빨리 배달(센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)하기에는 배터리만 조금 먹는 전동 킥보드(초소형 OS)가 훨씬 효율적이다.
+- **📢 섹션 요약 비유**: 초소형 OS의 필요성은 '택배 트럭'과 '1인용 전동 킥보드'의 차이와 같다. 거대한 짐을 나르는 택배 트럭(범용 OS)은 에어컨도 있고 힘도 세지만, 좁은 골목길에 작은 서류 봉투 하나를 재빨리 배달(센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)하기에는 배터리만 조금 먹는 전동 킥보드(초소형 OS)가 훨씬 효율적이다.
 
 ---
 
@@ -29,11 +26,11 @@ tags = ["ict_convergence"]
 
 초소형 OS는 자원 제약을 극복하기 위해 극단적인 모듈화(Modularity)와 효율적인 스케줄링 구조를 채택한다.
 
-| [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) | 구조 및 특징 | 핵심 동작 원리 |
+| [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) | 구조 및 특징 | 핵심 동작 원리 |
 | :--- | :--- | :--- |
-| **TinyOS** | [컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 기반 아키텍처 | nesC 언어 사용, 철저한 **이벤트 구동(Event-Driven)** 방식. 평소엔 깊은 수면(Sleep) 상태를 유지하다 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시에만 동작하여 전력을 극강으로 절약함. |
-| **RIOT** | [마이크로커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 아키텍처 | IoT를 위한 친화적 OS. 표준 C/C++ 사용 및 POSIX [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원으로 <strong><a href="/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/">멀티스레딩</a>(Multi-Threading)</strong>을 완벽히 제공하면서도 1.5KB RAM 수준으로 구동 가능함. |
-| **FreeRTOS** | [실시간 커널](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 <strong>엄격한 시간 제약(Hard Real-Time)</strong>이 필요한 상업용 임베디드 장비 제어에 특화됨. |
+| **TinyOS** | [컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) 기반 아키텍처 | nesC 언어 사용, 철저한 **이벤트 구동(Event-Driven)** 방식. 평소엔 깊은 수면(Sleep) 상태를 유지하다 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 발생 시에만 동작하여 전력을 극강으로 절약함. |
+| **RIOT** | [마이크로커널](/studynote/02_operating_system/01_overview_architecture/024_microkernel/)([Microkernel](/studynote/02_operating_system/01_overview_architecture/024_microkernel/)) 아키텍처 | IoT를 위한 친화적 OS. 표준 C/C++ 사용 및 POSIX [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 지원으로 <strong><a href="/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/">멀티스레딩</a>(Multi-Threading)</strong>을 완벽히 제공하면서도 1.5KB RAM 수준으로 구동 가능함. |
+| **FreeRTOS** | [실시간 커널](/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)([Real-Time Kernel](/studynote/02_operating_system/03_cpu_scheduling/200_real_time_kernel_preempt_rt/)) | 우선순위 기반 [선점형 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/). 밀리초(ms) 단위의 <strong>엄격한 시간 제약(Hard Real-Time)</strong>이 필요한 상업용 임베디드 장비 제어에 특화됨. |
 
 ```text
 +--------------------------------------------------------------+
@@ -67,11 +64,11 @@ tags = ["ict_convergence"]
 | 항목 | TinyOS | RIOT | FreeRTOS |
 | :--- | :--- | :--- | :--- |
 | **개발 언어** | nesC (전용 언어) | 표준 C/C++ | 표준 C |
-| **스케줄링** | 비선점형, 이벤트 주도 | 선점형 [멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) | 우선순위 기반 선점형 실시간 |
-| **주요 강점** | 초저전력, 학술/[WSN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) 연구 표준 | 리눅스 친화적 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (POSIX), 개발 용이 | 산업계 점유율 1위, [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
-| **주된 한계** | nesC 학습 곡선 가파름 | 상대적으로 타이밍 제약이 덜 엄격함 | 네트워킹 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성의 복잡성 |
+| **스케줄링** | 비선점형, 이벤트 주도 | 선점형 [멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/) | 우선순위 기반 선점형 실시간 |
+| **주요 강점** | 초저전력, 학술/[WSN](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) 연구 표준 | 리눅스 친화적 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) (POSIX), 개발 용이 | 산업계 점유율 1위, [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) |
+| **주된 한계** | nesC 학습 곡선 가파름 | 상대적으로 타이밍 제약이 덜 엄격함 | 네트워킹 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) 구성의 복잡성 |
 
-TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)([WSN](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/))의 조상격으로 전력 효율의 끝판왕을 보여줬다면, RIOT은 'IoT계의 리눅스'를 표방하며 개발 편의성을 끌어올렸다. 반면 FreeRTOS는 드론이나 로봇 팔처럼 한 치의 시간 오차도 허용되지 않는 기계 제어 분야에서 독보적인 상업적 생태계를 구축했다.
+TinyOS가 [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)([WSN](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/))의 조상격으로 전력 효율의 끝판왕을 보여줬다면, RIOT은 'IoT계의 리눅스'를 표방하며 개발 편의성을 끌어올렸다. 반면 FreeRTOS는 드론이나 로봇 팔처럼 한 치의 시간 오차도 허용되지 않는 기계 제어 분야에서 독보적인 상업적 생태계를 구축했다.
 
 - **📢 섹션 요약 비유**: TinyOS가 극도로 연비가 좋지만 조작법이 특이한 '우주탐사선'이라면, RIOT은 운전하기 편하게 리눅스의 조향 장치를 떼어다 붙인 '소형 하이브리드 자동차'이고, FreeRTOS는 정해진 시간에 1초도 안 늦고 목적지에 도착해야 하는 '정밀 고속열차'다.
 
@@ -79,15 +76,15 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-현장에서 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 단말을 설계할 때는 하드웨어 스펙과 비즈니스 요구사항에 따라 OS 선택이 달라져야 한다.
+현장에서 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 단말을 설계할 때는 하드웨어 스펙과 비즈니스 요구사항에 따라 OS 선택이 달라져야 한다.
 
 ### 판단 가이드 (의사결정)
 1. **배터리 수명이 절대적일 때 (스마트 농업 센서)**: TinyOS를 채택하여 이벤트 발생 시에만 기동하도록 극단적인 전력 설계를 적용한다.
-2. <strong>다양한 네트워크 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 통신이 필요할 때 (스마트홈 게이트웨이)</strong>: [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), [CoAP](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 등을 손쉽게 포팅할 수 있고 개발자 풀이 넓은 RIOT을 우선 고려한다.
-3. <strong>정밀한 모터 제어나 산업 표준이 중요할 때 (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 기계)</strong>: AWS 생태계와 긴밀히 연동되며, 엄격한 타이밍을 보장하는 FreeRTOS를 표준으로 삼는다.
+2. <strong>다양한 네트워크 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a> 통신이 필요할 때 (스마트홈 게이트웨이)</strong>: [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/), [CoAP](/studynote/06_ict_convergence/02_iot_mobility/120_coap_constrained_application_protocol/) 등을 손쉽게 포팅할 수 있고 개발자 풀이 넓은 RIOT을 우선 고려한다.
+3. <strong>정밀한 모터 제어나 산업 표준이 중요할 때 (<a href="/studynote/06_ict_convergence/02_iot_mobility/166_smart_factory/">스마트 팩토리</a> 기계)</strong>: AWS 생태계와 긴밀히 연동되며, 엄격한 타이밍을 보장하는 FreeRTOS를 표준으로 삼는다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 단순한 온습도 수집 센서에 불필요하게 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 많이 생성하는 선점형 OS를 적용하여 오버헤드로 인해 건전지가 한 달 만에 방전되게 만드는 설계.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 단순한 온습도 수집 센서에 불필요하게 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)를 많이 생성하는 선점형 OS를 적용하여 오버헤드로 인해 건전지가 한 달 만에 방전되게 만드는 설계.
 
 - **📢 섹션 요약 비유**: OS 선택은 직원을 채용하는 것과 같다. 한 달에 한 번 물 온도를 재는 일에는 출근할 때만 일당을 주는 '프리랜서(TinyOS)'가 맞고, 복잡한 문서를 다루는 일에는 '경험 많은 정규직(RIOT)'이, 1분 1초의 오차도 없이 기계를 돌려야 할 때는 '군 출신 관리자(FreeRTOS)'를 채용해야 한다.
 
@@ -95,9 +92,9 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ## Ⅴ. 기대효과 및 결론
 
-초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 통해 기업들은 수천 개의 센서를 유지보수 없이 수년간 방치해도 알아서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 진정한 의미의 유비쿼터스(Ubiquitous) 환경을 구축할 수 있게 되었다.
+초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)를 통해 기업들은 수천 개의 센서를 유지보수 없이 수년간 방치해도 알아서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 수집하는 진정한 의미의 유비쿼터스(Ubiquitous) 환경을 구축할 수 있게 되었다.
 
-향후 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 노드로 진화하면서, 마이크로 OS들도 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(TinyML) 모델의 추론을 초저전력으로 지원하는 방향으로 확장되고 있다. 결론적으로 초소형 OS는 단순히 가벼운 소프트웨어가 아니라, 제한된 물리적 환경과 무한한 연결성을 이어주는 가장 핵심적인 시스템 소프트웨어로 기억되어야 한다.
+향후 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 디바이스가 [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)([Edge Computing](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) 노드로 진화하면서, 마이크로 OS들도 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)(TinyML) 모델의 추론을 초저전력으로 지원하는 방향으로 확장되고 있다. 결론적으로 초소형 OS는 단순히 가벼운 소프트웨어가 아니라, 제한된 물리적 환경과 무한한 연결성을 이어주는 가장 핵심적인 시스템 소프트웨어로 기억되어야 한다.
 
 - **📢 섹션 요약 비유**: 초소형 OS는 거대한 고층 빌딩(클라우드)을 떠받치는 수만 개의 보이지 않는 '티타늄 못'과 같다. 크기는 작지만, 각자의 자리에서 절대 녹슬지 않고(저전력), 정확하게 뼈대를 고정하며(실시간성) 거대한 연결망을 유지하는 필수 부품이다.
 
@@ -106,10 +103,10 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 ### 📌 관련 개념 맵
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| **RTOS (Real-Time OS)** | 정해진 시간 제약([Deadline](/knowledge-base/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) 내에 논리적으로 정확한 결과를 산출해야 하는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
-| <strong>MCU (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">Microcontroller</a> Unit)</strong> | CPU, 메모리, I/O 포트가 하나의 칩에 집적된 소형 제어기 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong> | 각종 사물에 센서와 통신 기능을 내장하여 인터넷에 연결하는 기술 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/">WSN</a> (Wireless Sensor Network)</strong> | 무선 통신을 이용해 환경이나 물리적 상태를 관측하는 센서 노드들의 집합 |
+| **RTOS (Real-Time OS)** | 정해진 시간 제약([Deadline](/studynote/02_operating_system/11_exam_summary/766_realtime_scheduling_deadline/)) 내에 논리적으로 정확한 결과를 산출해야 하는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) |
+| <strong>MCU (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/">Microcontroller</a> Unit)</strong> | CPU, 메모리, I/O 포트가 하나의 칩에 집적된 소형 제어기 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/">IoT</a> (Internet of Things)</strong> | 각종 사물에 센서와 통신 기능을 내장하여 인터넷에 연결하는 기술 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/">WSN</a> (Wireless Sensor Network)</strong> | 무선 통신을 이용해 환경이나 물리적 상태를 관측하는 센서 노드들의 집합 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,7 +130,7 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 컴퓨터가 먹는 아주 큰 밥(메모리)을 다 먹지 못하는 콩알만 한 꼬마 칩(센서)들이 있어요.
-2. 초소형 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 꼬마 칩들을 위해 특별히 만들어진 '초경량 다이어트 도시락'이에요.
+2. 초소형 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 이 꼬마 칩들을 위해 특별히 만들어진 '초경량 다이어트 도시락'이에요.
 3. 이 도시락 덕분에 꼬마 칩들은 무겁지 않게 쌩쌩 날아다니고, 건전지 하나로도 몇 년 동안이나 잠 안 자고 씩씩하게 일할 수 있답니다.
 
 ---
@@ -142,7 +139,7 @@ TinyOS가 [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_
 
 **진행 상황**: 104 / 552
 
-<- **이전**: [센서 네트워크 (WSN)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)
-**다음**: [105. 엣지 컴퓨팅 (Edge Computing) - 클라우드로 모든 데이터를 보내지 않고 디바이스 주변(엣지)에서 데이터를 실시간](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/105_edge_computing_zero_latency/) ->
+<- **이전**: [센서 네트워크 (WSN)](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/)
+**다음**: [105. 엣지 컴퓨팅 (Edge Computing) - 클라우드로 모든 데이터를 보내지 않고 디바이스 주변(엣지)에서 데이터를 실시간](/studynote/06_ict_convergence/02_iot_mobility/105_edge_computing_zero_latency/) ->
 
 ---

@@ -1,17 +1,14 @@
-+++
-title = "343. 관리 거리 (AD, Administrative Distance)"
-date = 2026-05-08
+---
+title: "343. 관리 거리 (AD, Administrative Distance)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 관리 거리는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 1. **본질**: 관리 거리는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
 > 2. **가치**: 관리 거리를 이해하면 수렴 속도과 확장성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 여러 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 소스([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로부터 동일한 목적지에 대한 경로를 학습했을 때, 어떤 정보 소스를 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 등록할지 결정하는 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(Trustworthiness) 지수.
-- **필요성**: [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))은 자기들끼리 싸울 때 쓰는 거다. OSPF가 "내 길이 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Cost 10이니까 내가 짱이야!"라고 주장하는데, 옆에 있던 RIP가 "웃기지 마! 내 길은 Hop이 1개니까 내가 짱이야!"라고 우긴다. 잣대(단위)가 다르니 둘을 링에 올려놓고 싸움을 붙일 수가 없다. 라우터 입장에서는 <strong>"서로 잣대가 다를 땐, 그냥 어느 소속(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 놈이 더 똑똑한 놈인지 <a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 서열을 미리 매겨놓고, 서열 높은 놈 말만 듣자!"</strong>라는 교통정리가 필요했다.
+- **개념**: 여러 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 정보 소스([프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/))로부터 동일한 목적지에 대한 경로를 학습했을 때, 어떤 정보 소스를 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블(RIB)에 등록할지 결정하는 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)(Trustworthiness) 지수.
+- **필요성**: [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/))은 자기들끼리 싸울 때 쓰는 거다. OSPF가 "내 길이 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) Cost 10이니까 내가 짱이야!"라고 주장하는데, 옆에 있던 RIP가 "웃기지 마! 내 길은 Hop이 1개니까 내가 짱이야!"라고 우긴다. 잣대(단위)가 다르니 둘을 링에 올려놓고 싸움을 붙일 수가 없다. 라우터 입장에서는 <strong>"서로 잣대가 다를 땐, 그냥 어느 소속(<a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>) 놈이 더 똑똑한 놈인지 <a href="/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/">신뢰도</a> 서열을 미리 매겨놓고, 서열 높은 놈 말만 듣자!"</strong>라는 교통정리가 필요했다.
 
-- **💡 비유**: 길을 잃었을 때 동네 꼬마([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 "오른쪽으로 가!"라고 하고, 경찰관([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 "왼쪽으로 가!"라고 하며, 내비게이션(Static)은 "직진해!"라고 합니다. 이때 나는 누구의 말을 믿을까요? 당연히 가장 신뢰할 수 있는 내비게이션(1순위)의 말을 듣고 직진합니다. 이 <strong>"누구의 직업(출처)을 믿을 것인가"에 대한 점수표가 바로 AD(관리 거리)</strong>입니다.
+- **💡 비유**: 길을 잃었을 때 동네 꼬마([RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))는 "오른쪽으로 가!"라고 하고, 경찰관([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/))은 "왼쪽으로 가!"라고 하며, 내비게이션(Static)은 "직진해!"라고 합니다. 이때 나는 누구의 말을 믿을까요? 당연히 가장 신뢰할 수 있는 내비게이션(1순위)의 말을 듣고 직진합니다. 이 <strong>"누구의 직업(출처)을 믿을 것인가"에 대한 점수표가 바로 AD(관리 거리)</strong>입니다.
 
 ```text
 [메트릭]
@@ -33,13 +30,13 @@ tags = ["studynote-network"]
     +---> [AS / ASN 분배]
 ```
 
-- **📢 섹션 요약 비유**: ** AD 값은 라우터 세상의 **"공무원 직급(서열)"**입니다. 9급 공무원([RIP](/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))이 아무리 완벽한 보고서를 써와도, 1급 장관(Static)이 "이 길로 가!"라고 한마디 하면 9급의 보고서는 즉각 휴지통에 버려집니다.
+- **📢 섹션 요약 비유**: ** AD 값은 라우터 세상의 **"공무원 직급(서열)"**입니다. 9급 공무원([RIP](/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/))이 아무리 완벽한 보고서를 써와도, 1급 장관(Static)이 "이 길로 가!"라고 한마디 하면 9급의 보고서는 즉각 휴지통에 버려집니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-관리 거리는 네트워크 전체에서 최적 경로를 찾고 유지하는 제어 축라는 관점에서 이해해야 한다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)와 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
+관리 거리는 네트워크 전체에서 최적 경로를 찾고 유지하는 제어 축라는 관점에서 이해해야 한다. [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)와 [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배 사이의 연결점으로 놓고 보면 개념의 역할이 더 분명해진다.
 
 ```text
 [메트릭]
@@ -56,13 +53,13 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-관리 거리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 기반 조건을 만든다면, 관리 거리는 그 위에서 핵심 메커니즘을 구현하고, [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+관리 거리를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)이 기반 조건을 만든다면, 관리 거리는 그 위에서 핵심 메커니즘을 구현하고, [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 수렴 속도과 확장성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 기반 정리 | 관리 거리의 핵심 동작 | [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배의 확장 적용 |
+| 초점 | [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)의 기반 정리 | 관리 거리의 핵심 동작 | [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 수렴 속도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 관리 거리는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -70,16 +67,16 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-숫자가 작을수록 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)가 높다. 이 숫자는 전 세계 네트워크 엔지니어들이 달달 외우고 사는 족보다.
+숫자가 작을수록 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/)가 높다. 이 숫자는 전 세계 네트워크 엔지니어들이 달달 외우고 사는 족보다.
 
-| 순위 | [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소스 ([프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | AD 값 | 이유 (왜 신뢰하는가?) |
+| 순위 | [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 소스 ([프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)) | AD 값 | 이유 (왜 신뢰하는가?) |
 |:---:|:---|:---:|:---|
-| **0순위** | **Connected** (직접 연결됨) | <strong><code>0</code></strong> | 내 몸([포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 직접 꽂힌 선인데 당연히 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 믿어야 함. |
-| **1순위** | **Static Route** ([정적 라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)) | <strong><code>1</code></strong> | 라우터의 주인이신 관리자(인간)가 쳐 넣은 절대 명령이므로 99% 믿음. |
-| **2순위** | **eBGP** (외부 [BGP](/knowledge-base/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) | <strong><code>20</code></strong> | 통신사 밖에서 넘어온 인터넷 국가대표급 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이라 매우 신뢰. |
-| **3순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a></strong> (시스코 내부용) | <strong><code>90</code></strong> | 시스코가 자기네 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 쓰게 하려고 OSPF보다 일부러 점수 좋게 줌. |
-| **4순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong> (오픈 표준) | <strong><code>110</code></strong> | 동네 지도를 다 그려보고 판단하는 가장 합리적이고 똑똑한 놈. |
-| **5순위** | <strong><a href="/knowledge-base/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong> | <strong><code>120</code></strong> | 남의 말만 듣고 소문 퍼뜨리는 멍청한 놈이라 제일 안 믿음. |
+| **0순위** | **Connected** (직접 연결됨) | <strong><code>0</code></strong> | 내 몸([포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))에 직접 꽂힌 선인데 당연히 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000% 믿어야 함. |
+| **1순위** | **Static Route** ([정적 라우팅](/studynote/03_network/07_network_layer_routing/340_static_routing_default_route_0_0_0_0/)) | <strong><code>1</code></strong> | 라우터의 주인이신 관리자(인간)가 쳐 넣은 절대 명령이므로 99% 믿음. |
+| **2순위** | **eBGP** (외부 [BGP](/studynote/03_network/07_network_layer_routing/365_bgp_border_gateway_protocol_path_vector/)) | <strong><code>20</code></strong> | 통신사 밖에서 넘어온 인터넷 국가대표급 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)이라 매우 신뢰. |
+| **3순위** | <strong><a href="/studynote/03_network/07_network_layer_routing/355_eigrp_enhanced_igrp_dual_algorithm/">EIGRP</a></strong> (시스코 내부용) | <strong><code>90</code></strong> | 시스코가 자기네 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 쓰게 하려고 OSPF보다 일부러 점수 좋게 줌. |
+| **4순위** | <strong><a href="/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/">OSPF</a></strong> (오픈 표준) | <strong><code>110</code></strong> | 동네 지도를 다 그려보고 판단하는 가장 합리적이고 똑똑한 놈. |
+| **5순위** | <strong><a href="/studynote/03_network/07_network_layer_routing/351_rip_routing_information_protocol_distance_vector_hop/">RIP</a></strong> | <strong><code>120</code></strong> | 남의 말만 듣고 소문 퍼뜨리는 멍청한 놈이라 제일 안 믿음. |
 
 ```text
  +-------------------------------------------------------------+
@@ -98,28 +95,28 @@ tags = ["studynote-network"]
  +-------------------------------------------------------------+
 ```
 
-### 2. 플로팅 스태틱 (Floating Static) [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기술
+### 2. 플로팅 스태틱 (Floating Static) [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 기술
 AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
-보통 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(AD 110)로 메인 통신을 하고 있다. 선이 끊어지면 쓸 ISDN 전화선(예비선)을 하나 꽂아놨다.
-- 관리자가 예비선 쪽에 Static [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 건다. `ip route 10.0.0.0 255.0.0.0 1.1.1.1`
-- 이러면 Static의 AD가 `1`이 되어서, [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(`110`)를 찢어버리고 평소에도 끔찍하게 느린 예비선(전화선)으로만 트래픽이 흐르는 대참사가 벌어진다.
-- **해결책**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 맨 뒤에 AD 값을 억지로 <strong><code>130</code></strong>으로 조작해서 박아 넣는다!
+보통 [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(AD 110)로 메인 통신을 하고 있다. 선이 끊어지면 쓸 ISDN 전화선(예비선)을 하나 꽂아놨다.
+- 관리자가 예비선 쪽에 Static [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)을 건다. `ip route 10.0.0.0 255.0.0.0 1.1.1.1`
+- 이러면 Static의 AD가 `1`이 되어서, [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(`110`)를 찢어버리고 평소에도 끔찍하게 느린 예비선(전화선)으로만 트래픽이 흐르는 대참사가 벌어진다.
+- **해결책**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 맨 뒤에 AD 값을 억지로 <strong><code>130</code></strong>으로 조작해서 박아 넣는다!
   `ip route 10.0.0.0 255.0.0.0 1.1.1.1 130`
-- **플로팅(물 위에 둥둥 뜸) 효과**: 평소엔 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(110)가 130보다 낮아서 이겨서 메인 선로를 쓴다. 그러다 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 메인 선이 포크레인에 끊겨서 [OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 룰이 테이블에서 날아가 버리면? <strong>수면 아래 잠수해 있던 AD 130짜리 예비 스태틱 경로가 "짠!" 하고 물 위(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)로 부상하여</strong> 끊김 없이 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 선로로 통신을 살려낸다.
+- **플로팅(물 위에 둥둥 뜸) 효과**: 평소엔 [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/)(110)가 130보다 낮아서 이겨서 메인 선로를 쓴다. 그러다 [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 메인 선이 포크레인에 끊겨서 [OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 룰이 테이블에서 날아가 버리면? <strong>수면 아래 잠수해 있던 AD 130짜리 예비 스태틱 경로가 "짠!" 하고 물 위(<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 테이블)로 부상하여</strong> 끊김 없이 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 선로로 통신을 살려낸다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: ** AD 값을 조작하는 플로팅 스태틱 기술은, 서랍 깊숙한 곳에 꽁꽁 숨겨둔 **"비상금(130점)"**과 같습니다. 평소에는 내 지갑에 있는 체크카드([OSPF](/knowledge-base/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 110점)를 최우선으로 쓰다가, 카드를 잃어버리는 비상사태가 터지면 그때서야 서랍에서 비상금을 꺼내 쓰는 완벽한 2선 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템입니다.
+- **📢 섹션 요약 비유**: ** AD 값을 조작하는 플로팅 스태틱 기술은, 서랍 깊숙한 곳에 꽁꽁 숨겨둔 **"비상금(130점)"**과 같습니다. 평소에는 내 지갑에 있는 체크카드([OSPF](/studynote/03_network/07_network_layer_routing/357_ospf_open_shortest_path_first_overview/) 110점)를 최우선으로 쓰다가, 카드를 잃어버리는 비상사태가 터지면 그때서야 서랍에서 비상금을 꺼내 쓰는 완벽한 2선 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-관리 거리는 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배, 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+관리 거리는 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/)과 경로 제어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 수렴 속도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배, 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 관리 거리는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -129,10 +126,10 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
-| [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
-| [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 테이블 ([Routing](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) Table) | 패킷 전달 의사결정의 기준이 된다. |
+| [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/) ([Metric](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)) | 최적 경로를 선택하는 비교 척도다. |
+| [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -146,7 +143,7 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
     +---> [확장 B: 의도 기반 라우팅]
 ```
 
-관리 거리는 [메트릭](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [AS](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배와 의도 기반 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+관리 거리는 [메트릭](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [AS](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) / ASN 분배와 의도 기반 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -160,7 +157,7 @@ AD 제도를 역으로 찌르는 기가 막힌 실무 꼼수 기술이다.
 
 **진행 상황**: 464 / 1120
 
-<- **이전**: [342. 메트릭 (Metric)](/knowledge-base/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
-**다음**: [344. AS (Autonomous System, 자율 시스템) / ASN 분배](/knowledge-base/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) ->
+<- **이전**: [342. 메트릭 (Metric)](/studynote/03_network/07_network_layer_routing/342_routing_metric_hop_bandwidth_delay/)
+**다음**: [344. AS (Autonomous System, 자율 시스템) / ASN 분배](/studynote/03_network/07_network_layer_routing/344_as_autonomous_system_asn/) ->
 
 ---

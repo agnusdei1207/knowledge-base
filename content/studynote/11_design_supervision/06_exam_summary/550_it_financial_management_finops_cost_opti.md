@@ -1,13 +1,10 @@
-+++
-title = "550. IT 재무 관리 FinOps 비용 최적화 (IT Financial Management FinOps Cost Optimization)"
-date = 2026-05-09
+---
+title: "550. IT 재무 관리 FinOps 비용 최적화 (IT Financial Management FinOps Cost Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -165,7 +162,7 @@ FinOps 아키텍처는 **데이터 수집 계층 -> 정규화·할당 계층 -> 
 
 **진행 상황**: 550 / 600
 
-<- **이전**: [549. 서비스 카탈로그 셀프서비스 포털](/knowledge-base/studynote/11_design_supervision/06_exam_summary/550_service_catalog_self_service_portal/)
-**다음**: [551. 공급업체 관리 벤더 성과 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/551_supplier_management_vendor_performance/) ->
+<- **이전**: [549. 서비스 카탈로그 셀프서비스 포털](/studynote/11_design_supervision/06_exam_summary/550_service_catalog_self_service_portal/)
+**다음**: [551. 공급업체 관리 벤더 성과 평가](/studynote/11_design_supervision/06_exam_summary/551_supplier_management_vendor_performance/) ->
 
 ---

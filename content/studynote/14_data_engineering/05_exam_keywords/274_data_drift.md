@@ -1,13 +1,10 @@
-+++
-title = "274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)"
-date = 2026-05-09
+---
+title: "274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ $$S_t = \max(0, S_{t-1} + (x_t - \mu_0) - k), \quad \text{Alert if } S_t > h$$
 
 **진행 상황**: 274 / 300
 
-<- **이전**: [273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/273_data_augmentation/)
-**다음**: [275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/275_ab_testing/) ->
+<- **이전**: [273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)](/studynote/14_data_engineering/05_exam_keywords/273_data_augmentation/)
+**다음**: [275. A/B 테스트 실험 설계 통계적 유의성 (A/B Testing Experiment Design Statistical Significance)](/studynote/14_data_engineering/05_exam_keywords/275_ab_testing/) ->
 
 ---

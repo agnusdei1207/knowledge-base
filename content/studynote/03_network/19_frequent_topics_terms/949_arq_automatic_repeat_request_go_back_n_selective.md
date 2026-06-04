@@ -1,13 +1,10 @@
-+++
-title = "949. 자동 재전송 요구 (ARQ) 선택적/GBN"
-date = 2026-05-08
+---
+title: "949. 자동 재전송 요구 (ARQ) 선택적/GBN"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,8 +16,8 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 중 노이즈나 충돌로 인해 수신 측에 패킷 에러(손상)나 유실이 발생했을 때, 수신 측이 송신 측에게 <strong>"야! <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 깨졌어! 못 받았으니까 똑같은 거 다시 쏴줘(재전송)!"라고 자동으로 요구하여 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 100%를 보장하는 <a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a> 기법</strong>입니다.
-- 주로 L2([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)나 L4(전송 계층, [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에서 지독하게 씁니다.
+- **개념**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통신 중 노이즈나 충돌로 인해 수신 측에 패킷 에러(손상)나 유실이 발생했을 때, 수신 측이 송신 측에게 <strong>"야! <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 깨졌어! 못 받았으니까 똑같은 거 다시 쏴줘(재전송)!"라고 자동으로 요구하여 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 <a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> 100%를 보장하는 <a href="/studynote/03_network/04_data_link_layer_error/188_error_control_overview/">오류 제어</a> 기법</strong>입니다.
+- 주로 L2([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크 계층)나 L4(전송 계층, [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))에서 지독하게 씁니다.
 
 ```text
 [해밍 거리]
@@ -31,25 +28,25 @@ tags = ["studynote-network"]
     +---> [HDLC 비트 스터핑]
 ```
 
-- **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-수신자가 깨진 걸 발견했을 때 송신자가 어떻게 행동(재전송)할 것인가에 대한 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
+수신자가 깨진 걸 발견했을 때 송신자가 어떻게 행동(재전송)할 것인가에 대한 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)입니다.
 
-### 1. [Stop-and-Wait ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/) (정지-대기) - "가장 무식하고 답답한 놈"
-- **동작**: 송신자가 딱 1개의 패킷(1번)을 쏩니다. 그리고 두 손 모아 가만히 기다립니다. 수신자에게서 "1번 잘 받았음(ACK)!"이라는 답장이 오기 전까지 절대 2번 패킷을 보내지 않습니다. 만약 답장이 안 오거나 에러([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/))가 오면 1번을 다시 쏩니다.
-- **장단점**: 구조가 미치도록 단순해 구현이 쉽습니다. 하지만 서울에서 미국으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때 매번 답장을 기다리느라 대역폭을 다 까먹고, 통신 속도가 지옥으로 떨어집니다(효율 최악).
+### 1. [Stop-and-Wait ARQ](/studynote/03_network/04_data_link_layer_error/208_stop_and_wait_arq/) (정지-대기) - "가장 무식하고 답답한 놈"
+- **동작**: 송신자가 딱 1개의 패킷(1번)을 쏩니다. 그리고 두 손 모아 가만히 기다립니다. 수신자에게서 "1번 잘 받았음(ACK)!"이라는 답장이 오기 전까지 절대 2번 패킷을 보내지 않습니다. 만약 답장이 안 오거나 에러([NAK](/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/))가 오면 1번을 다시 쏩니다.
+- **장단점**: 구조가 미치도록 단순해 구현이 쉽습니다. 하지만 서울에서 미국으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏠 때 매번 답장을 기다리느라 대역폭을 다 까먹고, 통신 속도가 지옥으로 떨어집니다(효율 최악).
 
-### 2. [Go-Back-N ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) (N번부터 몽땅 다시) - "효율적이지만 욱하는 놈" 🌟
-답답함을 해결하기 위해 '슬라이딩 윈도우(Sliding Window)'라는 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 마법을 가져왔습니다.
+### 2. [Go-Back-N ARQ](/studynote/03_network/04_data_link_layer_error/209_go_back_n_arq_gbn/) (N번부터 몽땅 다시) - "효율적이지만 욱하는 놈" 🌟
+답답함을 해결하기 위해 '슬라이딩 윈도우(Sliding Window)'라는 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 마법을 가져왔습니다.
 - **동작**: 송신자는 수신자 답장(ACK)을 안 기다리고 1번, 2번, 3번, 4번, 5번 패킷을 기관총처럼 연달아 쏴버립니다.
-- **에러 발생 시**: 수신자가 받다가 "어? 3번이 깨졌네!" 하고 3번 에러([NAK](/knowledge-base/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 3)를 날립니다. 송신자는 이 알람을 받고 이성을 잃습니다. **"아씨! 3번 깨졌어? 그럼 내가 방금 보냈던 4번, 5번도 다 무효야! 3번부터 5번까지 싹 다 다시 받아!!"** 라며 에러 난 N번부터 그 이후의 모든 패킷을 무식하게 통째로 재전송해 버립니다.
+- **에러 발생 시**: 수신자가 받다가 "어? 3번이 깨졌네!" 하고 3번 에러([NAK](/studynote/03_network/04_data_link_layer_error/211_nak_negative_acknowledgement/) 3)를 날립니다. 송신자는 이 알람을 받고 이성을 잃습니다. **"아씨! 3번 깨졌어? 그럼 내가 방금 보냈던 4번, 5번도 다 무효야! 3번부터 5번까지 싹 다 다시 받아!!"** 라며 에러 난 N번부터 그 이후의 모든 패킷을 무식하게 통째로 재전송해 버립니다.
 - **장단점**: 구현이 적당히 쉽고(수신자 뇌가 가벼움), 송신 속도도 빨라서 실무(TCP의 기본)에서 엄청 씁니다. 하지만 4, 5번은 멀쩡히 도착했는데도 다시 보내야 하니 트래픽 낭비가 큽니다.
 
-### 3. [Selective Repeat ARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) (선택적 재전송) - "가장 합리적이지만 똑똑한 놈" 🌟
+### 3. [Selective Repeat ARQ](/studynote/03_network/04_data_link_layer_error/210_sr_arq_selective_repeat/) (선택적 재전송) - "가장 합리적이지만 똑똑한 놈" 🌟
 Go-Back-N의 무식한 낭비를 박살 냅니다.
 - **동작**: 송신자가 1~5번을 연사합니다. 수신자가 "3번이 깨졌어!" 보냅니다.
 - **에러 발생 시**: 송신자는 "아, 3번만 깨졌어? 4, 5번은 정상이지? **오케이, 3번 박스 1개만 핀셋으로 집어서 딱 1개만 재전송해 줄게!**"
@@ -70,15 +67,15 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 ## Ⅲ. 비교 및 연결
 
-- <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: 기본적으로 Go-Back-N의 철학을 쓰지만, 최신 인터넷에서는 버려지는 트래픽이 아까워 SACK(Selective ACK, 선택적 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답)라는 옵션을 추가해 3번 방식(선택적 재전송)의 마법을 살짝 섞어 쓰는 영리한 하이브리드 방식을 채택하고 있습니다.
+- <strong><a href="/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/">TCP</a> <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a></strong>: 기본적으로 Go-Back-N의 철학을 쓰지만, 최신 인터넷에서는 버려지는 트래픽이 아까워 SACK(Selective ACK, 선택적 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 응답)라는 옵션을 추가해 3번 방식(선택적 재전송)의 마법을 살짝 섞어 쓰는 영리한 하이브리드 방식을 채택하고 있습니다.
 
-자동 재전송 요구 선택적/GBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 기반 조건을 만든다면, 자동 재전송 요구 선택적/GBN는 그 위에서 핵심 메커니즘을 구현하고, [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+자동 재전송 요구 선택적/GBN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)가 기반 조건을 만든다면, 자동 재전송 요구 선택적/GBN는 그 위에서 핵심 메커니즘을 구현하고, [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 구분 명확성과 설명력에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)의 기반 정리 | 자동 재전송 요구 선택적/GBN의 핵심 동작 | [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)의 확장 적용 |
+| 초점 | [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)의 기반 정리 | 자동 재전송 요구 선택적/GBN의 핵심 동작 | [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 구분 명확성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: ARQ 방식은 책 100권을 목적지에 배송하다가 중간에 5번 책이 물에 젖어 찢어진(오류 발생) 상황 대처법입니다. <strong>Stop-and-Wait</strong>은 1권 보내고 잘 받았다는 카톡이 오면 2권을 보내는 '숨 막히는 극소심 배달'입니다. 안전하지만 100권 보내는데 1년이 걸립니다. <strong>Go-Back-N</strong>은 1번부터 10번까지 트럭으로 막 던집니다. 목적지에서 "5번 책 젖었어요!" 클레임이 들어오면, 배송 기사가 욱해서 "아 짜증나! 그럼 방금 보낸 멀쩡한 6, 7, 8, 9, 10번 책 싹 다 버려! 5번부터 10번까지 박스 통째로 다시 쏠게!"라고 무식하게 덮어씌우는 '분노의 일괄 재배송'입니다(통신 낭비 발생). 이를 개선한 <strong>선택적 재전송(Selective Repeat)</strong>은 기사가 "오케이, 멀쩡한 6~10번은 책꽂이에 잘 꽂아두시고, 찢어진 5번 책 한 권만 오토바이 퀵으로 다시 보내줄게!"라고 하는 합리적 배달입니다. 택배비(트래픽)는 아끼지만, 책을 받는 사람(수신기)이 책 번호를 일일이 엑셀에 적어두고 빈 공간을 맞춰놔야 하는 고도의 뇌지컬(버퍼 메모리)을 요구하는 궁극의 재전송 기법입니다.
 
@@ -86,18 +83,18 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 자동 재전송 요구 선택적/GBN를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 수준의 기본 대책으로 충분한지, 아니면 자동 재전송 요구 선택적/GBN가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 자동 재전송 요구 선택적/GBN를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) 수준의 기본 대책으로 충분한지, 아니면 자동 재전송 요구 선택적/GBN가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 구분 명확성 부족인지, 설명력 악화인지 먼저 분리한다.
-2. 자동 재전송 요구 선택적/GBN가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와의 연계 방식을 함께 검증한다.
+2. 자동 재전송 요구 선택적/GBN가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 자동 재전송 요구 선택적/GBN의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -105,7 +102,7 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 ## Ⅴ. 기대효과 및 결론
 
-자동 재전송 요구 선택적/GBN는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/), [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+자동 재전송 요구 선택적/GBN는 빈출 주제와 용어를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 구분 명확성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/), [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 자동 재전송 요구 선택적/GBN는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -115,10 +112,10 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
 | 정의 (Definition) | 용어의 시작점을 분명하게 만든다. |
 | 비교 (Comparison) | 헷갈리는 개념의 경계를 드러낸다. |
-| [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -132,7 +129,7 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
     +---> [확장 B: 컨텍스트 기반 용어 해석]
 ```
 
-자동 재전송 요구 선택적/GBN는 [해밍 거리](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HDLC](/knowledge-base/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/knowledge-base/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와 [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+자동 재전송 요구 선택적/GBN는 [해밍 거리](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [HDLC](/studynote/03_network/04_data_link_layer_error/216_hdlc_high_level_data_link_control/) [비트 스터핑](/studynote/03_network/04_data_link_layer_error/187_bit_stuffing_flag_mechanism/)와 [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/) 기반 용어 해석 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -146,7 +143,7 @@ Go-Back-N의 무식한 낭비를 박살 냅니다.
 
 **진행 상황**: 1070 / 1120
 
-<- **이전**: [948. 해밍 거리 (Hamming Distance)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/948_hamming_distance_error_detection_correction_code/)
-**다음**: [950. HDLC 비트 스터핑 (Bit Stuffing)](/knowledge-base/studynote/03_network/19_frequent_topics_terms/950_hdlc_bit_stuffing_data_transparency_flag/) ->
+<- **이전**: [948. 해밍 거리 (Hamming Distance)](/studynote/03_network/19_frequent_topics_terms/948_hamming_distance_error_detection_correction_code/)
+**다음**: [950. HDLC 비트 스터핑 (Bit Stuffing)](/studynote/03_network/19_frequent_topics_terms/950_hdlc_bit_stuffing_data_transparency_flag/) ->
 
 ---

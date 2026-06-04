@@ -1,13 +1,10 @@
-+++
-title = "637. 스팟 인스턴스 리저브드 비용 전략 (Spot Instance Reserved Cost Strategy)"
-date = 2026-05-09
+---
+title: "637. 스팟 인스턴스 리저브드 비용 전략 (Spot Instance Reserved Cost Strategy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -188,7 +185,7 @@ c5.xlarge = 4 vCPU
 
 **진행 상황**: 637 / 800
 
-<- **이전**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/)
-**다음**: [638. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/) ->
+<- **이전**: [636. 엣지 클라우드 MEC CDN 분산 컴퓨팅](/studynote/06_ict_convergence/uncategorized/636_edge_cloud_mec_cdn_distributed_computing/)
+**다음**: [638. 클라우드 마이그레이션 6R 전략](/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/) ->
 
 ---

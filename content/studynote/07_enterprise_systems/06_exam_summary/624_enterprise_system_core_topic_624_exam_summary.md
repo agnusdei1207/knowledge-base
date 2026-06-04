@@ -1,13 +1,10 @@
-+++
-title = "624. 엔터프라이즈 시스템 핵심 토픽 624번 시험 요약 (Enterprise System Core Topic 624 Exam Summary)"
-date = 2026-05-09
+---
+title: "624. 엔터프라이즈 시스템 핵심 토픽 624번 시험 요약 (Enterprise System Core Topic 624 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 624 / 800
 
-<- **이전**: [623. 엔터프라이즈 시스템 핵심 토픽 623번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/623_enterprise_system_core_topic_623_exam_summary/)
-**다음**: [625. 엔터프라이즈 시스템 핵심 토픽 625번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/625_enterprise_system_core_topic_625_exam_summary/) ->
+<- **이전**: [623. 엔터프라이즈 시스템 핵심 토픽 623번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/623_enterprise_system_core_topic_623_exam_summary/)
+**다음**: [625. 엔터프라이즈 시스템 핵심 토픽 625번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/625_enterprise_system_core_topic_625_exam_summary/) ->
 
 ---

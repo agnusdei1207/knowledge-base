@@ -1,13 +1,10 @@
-+++
-title = "789. 생물학적 컴퓨팅 DNA 저장 분자 기계 (Biological Computing DNA Storage Molecular)"
-date = 2026-05-09
+---
+title: "789. 생물학적 컴퓨팅 DNA 저장 분자 기계 (Biological Computing DNA Storage Molecular)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -163,7 +160,7 @@ DNA 나노기술은 Nadrian Seeman(1980년대)의 DNA Tile 구조에서 시작�
 
 **진행 상황**: 789 / 800
 
-<- **이전**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/knowledge-base/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/)
-**다음**: [790. 6G 비전 AI 네이티브 자율 네트워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/) ->
+<- **이전**: [788. 뇌 과학 AI 인지 컴퓨팅 신경 모방](/studynote/06_ict_convergence/uncategorized/788_brain_science_ai_cognitive_computing_neuro/)
+**다음**: [790. 6G 비전 AI 네이티브 자율 네트워크](/studynote/06_ict_convergence/uncategorized/790_6g_vision_ai_native_autonomous_network/) ->
 
 ---

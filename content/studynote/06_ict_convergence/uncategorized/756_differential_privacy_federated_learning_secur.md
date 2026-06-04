@@ -1,13 +1,10 @@
-+++
-title = "756. 차등 프라이버시 연합 학습 보안 (Differential Privacy Federated Learning Security)"
-date = 2026-05-09
+---
+title: "756. 차등 프라이버시 연합 학습 보안 (Differential Privacy Federated Learning Security)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -134,7 +131,7 @@ DP-FL의 **엔드-투-엔드 파이프라인**은 크게 **(1) 로컬 학습 -> 
 
 **진행 상황**: 756 / 800
 
-<- **이전**: [755. 합성 데이터 프라이버시 보존 생성](/knowledge-base/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/)
-**다음**: [757. 동형 암호 안전 연산 데이터 보호](/knowledge-base/studynote/06_ict_convergence/uncategorized/757_homomorphic_encryption_secure_computation/) ->
+<- **이전**: [755. 합성 데이터 프라이버시 보존 생성](/studynote/06_ict_convergence/uncategorized/755_synthetic_data_privacy_preserving_generation/)
+**다음**: [757. 동형 암호 안전 연산 데이터 보호](/studynote/06_ict_convergence/uncategorized/757_homomorphic_encryption_secure_computation/) ->
 
 ---

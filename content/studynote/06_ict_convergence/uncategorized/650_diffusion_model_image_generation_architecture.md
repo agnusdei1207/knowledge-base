@@ -1,13 +1,10 @@
-+++
-title = "650. 디퓨전 모델 이미지 생성 아키텍처 (Diffusion Model Image Generation Architecture)"
-date = 2026-05-09
+---
+title: "650. 디퓨전 모델 이미지 생성 아키텍처 (Diffusion Model Image Generation Architecture)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -165,7 +162,7 @@ L_simple = E_{t, x_0, ε} [ ||ε - ε_θ(√ᾱ_t x_0 + √(1-ᾱ_t) ε, t)||² 
 
 **진행 상황**: 650 / 800
 
-<- **이전**: [649. 멀티모달 AI 비전 언어 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/)
-**다음**: [651. 생성형 AI 비즈니스 적용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/) ->
+<- **이전**: [649. 멀티모달 AI 비전 언어 모델](/studynote/06_ict_convergence/uncategorized/649_multimodal_ai_vision_language_model/)
+**다음**: [651. 생성형 AI 비즈니스 적용 전략](/studynote/06_ict_convergence/uncategorized/651_generative_ai_business_application_strategy/) ->
 
 ---

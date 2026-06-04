@@ -1,25 +1,22 @@
-+++
-title = "887. SD-LAN (소프트웨어 정의 랜)"
-date = 2026-05-08
+---
+title: "887. SD-LAN (소프트웨어 정의 랜)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: SD-LAN를 이해하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: SD-LAN는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: SD-LAN를 이해하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)의 저주</strong>: 1번 부서(유선망)는 시스코 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CLI 화면을 쳐다보고, 2번 부서(무선망)는 아루바(Aruba) 와이파이 화면을 쳐다보며 각자 따로 [보안 정책](/knowledge-base/studynote/09_security/01_intro_principles/007_security_policy/)([ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 짰습니다.
+- <strong><a href="/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">사일로</a>(<a href="/studynote/15_devops_sre/01_culture_methodology/002_silo_hyeonhyung/">Silo</a>)의 저주</strong>: 1번 부서(유선망)는 시스코 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) CLI 화면을 쳐다보고, 2번 부서(무선망)는 아루바(Aruba) 와이파이 화면을 쳐다보며 각자 따로 [보안 정책](/studynote/09_security/01_intro_principles/007_security_policy/)([ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))을 짰습니다.
 - 교수가 노트북을 뽑아서 회의실(무선망)로 가면, 회의실 AP에 다시 보안 IP와 권한을 수동으로 먹여줘야 하는 노가다가 발생했습니다. 사내 이동성(Mobility)이 0점이었습니다.
 
 ```text
@@ -31,14 +28,14 @@ tags = ["studynote-network"]
     +---> [멀티 테넌트]
 ```
 
-- **📢 섹션 요약 비유**: SD-LAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: SD-LAN는 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 앞서 850번대에서 배운 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([소프트웨어 정의 네트워킹](/knowledge-base/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))의 중앙 통제 철학을 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터가 아닌, <strong>일반 기업 사옥이나 대학교 캠퍼스의 유무선 로컬 네트워크(LAN/<a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a>) 구역에 적용하여, 모든 물리 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 AP를 중앙에서 단일 소프트웨어(컨트롤러)로 통합 제어, 배포, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링하는 차세대 구내망 기술</strong>입니다.
-- **솔루션 예시**: [Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) DNA Center (SDA), Aruba Central, Juniper Mist 등.
+- **개념**: 앞서 850번대에서 배운 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)([소프트웨어 정의 네트워킹](/studynote/03_network/17_sdn_nfv/850_sdn_software_defined_networking_concept/))의 중앙 통제 철학을 거대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)센터가 아닌, <strong>일반 기업 사옥이나 대학교 캠퍼스의 유무선 로컬 네트워크(LAN/<a href="/studynote/03_network/11_wireless_mobile_communication/571_wlan_bss_ess_structure/">WLAN</a>) 구역에 적용하여, 모든 물리 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a>와 AP를 중앙에서 단일 소프트웨어(컨트롤러)로 통합 제어, 배포, <a href="/studynote/02_operating_system/04_synchronization/229_monitor/">모니터</a>링하는 차세대 구내망 기술</strong>입니다.
+- **솔루션 예시**: [Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) DNA Center (SDA), Aruba Central, Juniper Mist 등.
 
 ```text
 [엣지 가상화]
@@ -56,25 +53,25 @@ tags = ["studynote-network"]
 ## Ⅲ. 비교 및 연결
 
 ### 1. 유무선 완전 통합 (Unified Wired & Wireless)
-- 이제 중앙 컨트롤러 대시보드 화면 하나에, 캠퍼스에 깔린 유선 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1,000대와 천장에 달린 무선 와이파이([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 5,000대가 <strong>구분 없이 똑같은 네모 블록</strong>으로 그려집니다.
-- 관리자가 "연구소 그룹은 유튜브 접속 금지" 룰을 짜서 쏘면, 유선 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 무선 와이파이 장비들에 똑같은 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 명령이 0.1초 만에 동시에 깔립니다(일관된 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포).
+- 이제 중앙 컨트롤러 대시보드 화면 하나에, 캠퍼스에 깔린 유선 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 1,000대와 천장에 달린 무선 와이파이([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 5,000대가 <strong>구분 없이 똑같은 네모 블록</strong>으로 그려집니다.
+- 관리자가 "연구소 그룹은 유튜브 접속 금지" 룰을 짜서 쏘면, 유선 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)와 무선 와이파이 장비들에 똑같은 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 명령이 0.1초 만에 동시에 깔립니다(일관된 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 배포).
 
-### 2. 극강의 마이크로 이동성과 [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Micro-Segmentation](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 🌟
+### 2. 극강의 마이크로 이동성과 [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/)([Micro-Segmentation](/studynote/13_cloud_architecture/01_virtualization/059_micro_segmentation_east_west_traffic/)) 🌟
 - 842번의 마이크로세그멘테이션 기술이 사옥에 깔립니다.
 - 사용자의 IP 주소가 아니라, 사원증(사용자 ID)이나 맥어드레스를 기반으로 꼬리표(Tag)가 붙습니다. (예: `[재무팀_김대리]`)
-- 김 대리가 자리에서 랜선을 뽑고 5층 회의실에 가서 무선 와이파이를 잡든, 옥상에서 다른 공유기를 잡든, 이 <strong><code>[재무팀_김대리]</code>라는 보안 권한표(<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Group Tag)가 김 대리의 뒤통수를 찰싹 따라다니며 평생 쫓아다닙니다.</strong> 회의실에서 접속해도 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 그대로 살아있어 절대 재무팀 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 털리지 않습니다. (완벽한 장소 독립형 보안)
+- 김 대리가 자리에서 랜선을 뽑고 5층 회의실에 가서 무선 와이파이를 잡든, 옥상에서 다른 공유기를 잡든, 이 <strong><code>[재무팀_김대리]</code>라는 보안 권한표(<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a> Group Tag)가 김 대리의 뒤통수를 찰싹 따라다니며 평생 쫓아다닙니다.</strong> 회의실에서 접속해도 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 룰이 그대로 살아있어 절대 재무팀 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 털리지 않습니다. (완벽한 장소 독립형 보안)
 
-### 3. 플러그 앤 플레이 (Zero-Touch [Provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/))
-- 3동 건물에 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 고장 났습니다. 옛날엔 콘솔 선을 들고 가서 명령어를 1시간 동안 쳤습니다.
-- **SD-LAN 혁명**: 신입 직원이 새 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 사 와서 랜선만 딱 꽂고 전원을 켭니다. 깡통 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1초 만에 중앙 컨트롤러에 무전을 치고, 컨트롤러가 "오 3동에 빈자리 들어왔네" 하며 옛날에 백업해 둔 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅 파일을 싹 밀어 넣어 3분 만에 혼자 켜집니다. IT 부서의 출장 업무가 사라집니다.
+### 3. 플러그 앤 플레이 (Zero-Touch [Provisioning](/studynote/09_security/11_iam_access_control/528_provisioning/))
+- 3동 건물에 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 고장 났습니다. 옛날엔 콘솔 선을 들고 가서 명령어를 1시간 동안 쳤습니다.
+- **SD-LAN 혁명**: 신입 직원이 새 깡통 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)를 사 와서 랜선만 딱 꽂고 전원을 켭니다. 깡통 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 1초 만에 중앙 컨트롤러에 무전을 치고, 컨트롤러가 "오 3동에 빈자리 들어왔네" 하며 옛날에 백업해 둔 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 세팅 파일을 싹 밀어 넣어 3분 만에 혼자 켜집니다. IT 부서의 출장 업무가 사라집니다.
 
-SD-LAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)가 기반 조건을 만든다면, SD-LAN는 그 위에서 핵심 메커니즘을 구현하고, [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+SD-LAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [엣지 가상화](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)가 기반 조건을 만든다면, SD-LAN는 그 위에서 핵심 메커니즘을 구현하고, [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성과 자동화 수준에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)의 기반 정리 | SD-LAN의 핵심 동작 | [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | [엣지 가상화](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)의 기반 정리 | SD-LAN의 핵심 동작 | [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: SD-LAN는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -82,9 +79,9 @@ SD-LAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- 849번에서 배운 지사 연결망([SD-WAN](/knowledge-base/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/))과 이 사내망(SD-LAN)이 결합하면? 전 세계 100개국에 지사가 있는 삼성이, 서울 본사 컨트롤러 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/) 클릭 한 번으로 뉴욕 지사 5층 회의실 천장에 있는 와이파이([AP](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 하나의 비밀번호를 1초 만에 바꾸고 재부팅시킬 수 있는 <strong>'글로벌 원-네트워크(Global One-Network)' 신의 경지</strong>에 도달합니다.
+- 849번에서 배운 지사 연결망([SD-WAN](/studynote/03_network/16_data_center_cloud/849_sd_wan_software_defined_wide_area_network/))과 이 사내망(SD-LAN)이 결합하면? 전 세계 100개국에 지사가 있는 삼성이, 서울 본사 컨트롤러 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/) 클릭 한 번으로 뉴욕 지사 5층 회의실 천장에 있는 와이파이([AP](/studynote/03_network/11_wireless_mobile_communication/572_ap_access_point_ds_distribution_system/)) 하나의 비밀번호를 1초 만에 바꾸고 재부팅시킬 수 있는 <strong>'글로벌 원-네트워크(Global One-Network)' 신의 경지</strong>에 도달합니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -96,7 +93,7 @@ SD-LAN를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅴ. 기대효과 및 결론
 
-SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/), 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+SD-LAN는 [SDN](/studynote/01_computer_architecture/15_advanced_topics/633_sdn_whitebox/)/NFV를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 유연성 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/), 프로그래머블 네트워크, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 프로그래머블 네트워크 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: SD-LAN는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +103,10 @@ SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_t
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 제어 평면 (Control Plane) | [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)과 경로 결정을 담당한다. |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) | 실제 패킷 전달을 수행한다. |
-| [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [엣지 가상화](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| 제어 평면 (Control Plane) | [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)과 경로 결정을 담당한다. |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 평면 ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Plane) | 실제 패킷 전달을 수행한다. |
+| [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,7 +120,7 @@ SD-LAN는 [SDN](/knowledge-base/studynote/01_computer_architecture/15_advanced_t
     +---> [확장 B: 프로그래머블 네트워크]
 ```
 
-SD-LAN는 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티 테넌트](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+SD-LAN는 [엣지 가상화](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [멀티 테넌트](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/)와 프로그래머블 네트워크 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -137,7 +134,7 @@ SD-LAN는 [엣지 가상화](/knowledge-base/studynote/03_network/17_sdn_nfv/886
 
 **진행 상황**: 1008 / 1120
 
-<- **이전**: [886. 엣지 가상화 (vCPE)](/knowledge-base/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)
-**다음**: [888. 멀티 테넌트 (Multi-Tenant)](/knowledge-base/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) ->
+<- **이전**: [886. 엣지 가상화 (vCPE)](/studynote/03_network/17_sdn_nfv/886_vcpe_virtual_customer_premises_equipment_edge_vnf/)
+**다음**: [888. 멀티 테넌트 (Multi-Tenant)](/studynote/03_network/17_sdn_nfv/888_multi_tenant_cloud_resource_isolation_noisy_neighbor/) ->
 
 ---

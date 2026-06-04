@@ -1,13 +1,10 @@
-+++
-title = "392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)"
-date = 2026-05-09
+---
+title: "392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 392 / 400
 
-<- **이전**: [391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/391_cwpp_workload_protection/)
-**다음**: [393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)](/knowledge-base/studynote/15_devops_sre/05_devsecops/393_data_protection_encryption/) ->
+<- **이전**: [391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)](/studynote/15_devops_sre/05_devsecops/391_cwpp_workload_protection/)
+**다음**: [393. 데이터 보호 암호화 토큰화 마스킹 전략 (Data Protection Encryption Tokenization Masking)](/studynote/15_devops_sre/05_devsecops/393_data_protection_encryption/) ->
 
 ---

@@ -1,31 +1,28 @@
-+++
-title = "147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템"
-date = 2026-04-19
+---
+title: "147. UTM (Unmanned Aircraft System Traffic Management) - 무인 비행체 교통 관제 시스템"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: UTM(Unmanned Aircraft System Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), 무인 비행체 교통 관제 시스템)은 도심 저고도(150m 이하) 공역에서 드론(Drone) 등 무인 항공기(UAS, Unmanned Aircraft System)의 안전한 운항을 관리하는 디지털 항공 교통 관제 체계다.
-> 2. **가치**: 드론 배송·도심항공교통([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/), [Urban Air Mobility](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))의 상용화를 위한 <strong>항공 규제 인프라의 <a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong>으로, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·충돌 회피·비행 승인을 자동화하여 수만 대의 드론이 동시에 비행할 수 있게 한다.
-> 3. **판단 포인트**: UTM은 기존 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(Air Traffic [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/), 항공 교통 관제)과 달리 관제사 없이 <strong>자동화된 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>으로 운영되며, [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(Remote ID), 지오펜싱(Geofencing), 비행 계획 승인, 충돌 회피가 핵심 기능이다.
+> 1. **본질**: UTM(Unmanned Aircraft System Traffic [Management](/studynote/12_it_management/05_security_compliance/1013_management/), 무인 비행체 교통 관제 시스템)은 도심 저고도(150m 이하) 공역에서 드론(Drone) 등 무인 항공기(UAS, Unmanned Aircraft System)의 안전한 운항을 관리하는 디지털 항공 교통 관제 체계다.
+> 2. **가치**: 드론 배송·도심항공교통([UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/), [Urban Air Mobility](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))의 상용화를 위한 <strong>항공 규제 인프라의 <a href="/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a></strong>으로, [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·충돌 회피·비행 승인을 자동화하여 수만 대의 드론이 동시에 비행할 수 있게 한다.
+> 3. **판단 포인트**: UTM은 기존 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/)(Air Traffic [Management](/studynote/12_it_management/05_security_compliance/1013_management/), 항공 교통 관제)과 달리 관제사 없이 <strong>자동화된 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템</strong>으로 운영되며, [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)(Remote ID), 지오펜싱(Geofencing), 비행 계획 승인, 충돌 회피가 핵심 기능이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-UTM은 드론 산업의 폭발적 성장과 함께 등장한 저고도 공역 관리 패러다임이다. 기존 ATM은 수천~수만 피트 고도를 유인 항공기(항공사 항공기)를 위해 관제사가 직접 관리하지만, 드론이 작동하는 150m 이하 저고도는 기존 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 체계가 관리하기 어렵고, 드론 수 자체가 너무 많아 인간 관제사가 일일이 처리할 수 없다.
+UTM은 드론 산업의 폭발적 성장과 함께 등장한 저고도 공역 관리 패러다임이다. 기존 ATM은 수천~수만 피트 고도를 유인 항공기(항공사 항공기)를 위해 관제사가 직접 관리하지만, 드론이 작동하는 150m 이하 저고도는 기존 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 체계가 관리하기 어렵고, 드론 수 자체가 너무 많아 인간 관제사가 일일이 처리할 수 없다.
 
-NASA와 FAA(미국 연방항공청)가 2015년경 UTM 개념을 공식화했으며, 유럽의 U-Space, 한국의 드론 교통 관리 체계(KDTM) 등으로 각국이 표준화를 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 있다.
+NASA와 FAA(미국 연방항공청)가 2015년경 UTM 개념을 공식화했으며, 유럽의 U-Space, 한국의 드론 교통 관리 체계(KDTM) 등으로 각국이 표준화를 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)하고 있다.
 
 **UTM 없으면 발생하는 문제**:
 - 드론 간 충돌 — 수십 대가 같은 공역을 비행 시 충돌 위험
 - 규제 공역 침범 — 공항 근처, 군사 시설 등 비행 금지 구역 침입
-- 책임 소재 불명확 — 사고 발생 시 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 불가능한 드론
+- 책임 소재 불명확 — 사고 발생 시 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) 불가능한 드론
 - 비상 대응 방해 — 응급 헬기 비행 경로와 드론 충돌 위험
 
 - **📢 섹션 요약 비유**: UTM은 **'드론들을 위한 하늘의 네비게이션·신호등 시스템'** 입니다. 수만 대의 드론이 각자 빠른 길을 찾으면서도 서로 충돌하지 않게, 하늘에 보이지 않는 차선(비행 경로)과 신호등(비행 승인)을 디지털로 구성하는 시스템입니다.
@@ -66,10 +63,10 @@ UTM 생태계 구조
 
 | 기능 | 설명 | 기술 요소 |
 |:---|:---|:---|
-| <strong>Remote ID (원격 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>)</strong> | 비행 중 드론의 ID·위치·고도를 실시간 브로드캐스트 | Wi-Fi [Beacon](/knowledge-base/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/), BT, 셀룰러 |
+| <strong>Remote ID (원격 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>)</strong> | 비행 중 드론의 ID·위치·고도를 실시간 브로드캐스트 | Wi-Fi [Beacon](/studynote/03_network/12_iot_wpan_edge/608_beacon_technology_ibeacon_eddystone/), BT, 셀룰러 |
 | **지오펜싱 (Geofencing)** | 비행 금지 구역(공항 반경, 군사 시설 등)에 진입 시 자동 회피 | GNSS + 디지털 지도 |
-| <strong>비행 계획 승인 (Flight <a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong> | USS에 비행 계획 제출 -> 공역 충돌 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 승인 | 공역 예약 시스템 |
-| **교통 분리 (Separation Assurance)** | 다수 드론 간 안전 거리 유지 및 충돌 경보 | 경로 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong>비행 계획 승인 (Flight <a href="/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/">Authorization</a>)</strong> | USS에 비행 계획 제출 -> 공역 충돌 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 승인 | 공역 예약 시스템 |
+| **교통 분리 (Separation Assurance)** | 다수 드론 간 안전 거리 유지 및 충돌 경보 | 경로 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 3. Remote ID 브로드캐스트 방식
 
@@ -91,12 +88,12 @@ Remote ID 전송 방식
 
 ## Ⅲ. 비교 및 연결
 
-### UTM vs. [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 비교
+### UTM vs. [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 비교
 
-| 구분 | UTM (무인기 관제) | [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) (유인기 관제) |
+| 구분 | UTM (무인기 관제) | [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) (유인기 관제) |
 |:---|:---|:---|
 | 대상 | 드론, UAS (150m 이하) | 여객기·화물기 (수천m 이상) |
-| 관제 방식 | 자동화·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 | 관제사 직접 지시 |
+| 관제 방식 | 자동화·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템 | 관제사 직접 지시 |
 | 항공기 수 | 수만 대 동시 | 수백~수천 대 |
 | 통신 | 디지털 네트워크, 셀룰러 | VHF 음성 통신 |
 | 비행 승인 | 소프트웨어 자동 승인 | 관제사 허가 |
@@ -104,21 +101,21 @@ Remote ID 전송 방식
 
 ### 관련 기술 생태계
 
-드론 물류(라스트마일 배송) + [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심항공교통) -> UTM 저고도 공역 관리 -> [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크(명령·제어) -> BVLOS(가시권 외 비행, Beyond Visual Line of Sight) -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 충돌 회피 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+드론 물류(라스트마일 배송) + [UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)(도심항공교통) -> UTM 저고도 공역 관리 -> [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/)/[LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/) [C2](/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크(명령·제어) -> BVLOS(가시권 외 비행, Beyond Visual Line of Sight) -> [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 충돌 회피 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-- **📢 섹션 요약 비유**: UTM과 ATM의 차이는 <strong>'대형 화물선 항로 관제(<a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a>)와 도심 오토바이 배달 교통 관리(UTM)'</strong> 의 차이입니다. 화물선은 수가 적고 크므로 항만 관제사가 직접 지시하지만, 배달 오토바이는 수천 대가 매 순간 도심을 누비므로 앱 기반 자동 내비게이션(UTM)이 훨씬 현실적입니다.
+- **📢 섹션 요약 비유**: UTM과 ATM의 차이는 <strong>'대형 화물선 항로 관제(<a href="/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a>)와 도심 오토바이 배달 교통 관리(UTM)'</strong> 의 차이입니다. 화물선은 수가 적고 크므로 항만 관제사가 직접 지시하지만, 배달 오토바이는 수천 대가 매 순간 도심을 누비므로 앱 기반 자동 내비게이션(UTM)이 훨씬 현실적입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 의사결정 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 의사결정 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 | 상황 | UTM 핵심 요소 | 판단 기준 |
 |:---|:---|:---|
 | 공항 5km 이내 드론 운영 | 지오펜싱 + 비행 승인 필수 | 항공법 규제 준수 |
-| 도심 드론 배송 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Remote ID + 경로 예약 | 충돌 위험 최소화 |
-| BVLOS 농업용 드론 | USS 연동 + [C2](/knowledge-base/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크 | 가시권 외 안전 보장 |
+| 도심 드론 배송 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | Remote ID + 경로 예약 | 충돌 위험 최소화 |
+| BVLOS 농업용 드론 | USS 연동 + [C2](/studynote/09_security/15_malware_attack_vectors/746_c2/) 링크 | 가시권 외 안전 보장 |
 | 재난 대응 드론 | 긴급 비행 우선 채널 | 응급 헬기 경로 분리 |
 
 ### 기술사 시험 핵심 포인트
@@ -126,11 +123,11 @@ Remote ID 전송 방식
 1. **UTM = 디지털 교통 관제**: 관제사 없이 소프트웨어가 공역을 관리
 2. **Remote ID**: 드론의 번호판 역할 — Wi-Fi/BT/셀룰러로 브로드캐스트
 3. **지오펜싱**: GNSS 기반 가상 울타리 — 비행 금지 구역 자동 차단
-4. <strong>USS (UAS <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Supplier)</strong>: 비행 계획 접수·조율·공역 예약 핵심 엔티티
+4. <strong>USS (UAS <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">Service</a> Supplier)</strong>: 비행 계획 접수·조율·공역 예약 핵심 엔티티
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-**Remote ID 없는 드론 운용**: 대부분 국가에서 Remote ID 없는 상업용 드론 운용은 불법이다. FAA, EASA, 국토교통부 모두 Remote ID 의무화를 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다. 규제 선제 준수가 필수다.
+**Remote ID 없는 드론 운용**: 대부분 국가에서 Remote ID 없는 상업용 드론 운용은 불법이다. FAA, EASA, 국토교통부 모두 Remote ID 의무화를 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/) 중이다. 규제 선제 준수가 필수다.
 
 - **📢 섹션 요약 비유**: Remote ID 없는 드론은 **'번호판 없는 자동차'** 와 같습니다. 도로(하늘)를 달리는 것 자체가 불법이며, 사고 시 책임자를 특정할 수 없습니다.
 
@@ -140,13 +137,13 @@ Remote ID 전송 방식
 
 UTM은 드론 경제(Drone Economy)의 인프라 기반이다. 아마존 Prime Air, Wing(Google), 카카오모빌리티의 드론 배송 상용화는 UTM 없이는 불가능하다. 도심 저고도에 수만 대의 드론이 동시에 비행하면서 서로 충돌하지 않고, 비행 금지 구역을 침범하지 않으며, 긴급 헬기 경로를 침범하지 않으려면 자동화된 디지털 교통 관제가 필수다.
 
-**한계**: 셀룰러 네트워크 커버리지가 없는 농촌·산간 지역은 UTM 적용이 어렵다. 또한 사이버 보안 위협(GPS [스푸핑](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/), USS 해킹)이 드론 사고로 이어질 수 있어 보안 강화가 필수적이다.
+**한계**: 셀룰러 네트워크 커버리지가 없는 농촌·산간 지역은 UTM 적용이 어렵다. 또한 사이버 보안 위협(GPS [스푸핑](/studynote/02_operating_system/10_security/598_spoofing/), USS 해킹)이 드론 사고로 이어질 수 있어 보안 강화가 필수적이다.
 
-**미래 방향**: ① [UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)([Urban Air Mobility](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)) 에어택시와 UTM 통합, ② [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자율 충돌 회피(no human in the loop), ③ 위성 기반 초정밀 GNSS 연계 UTM 정확도 향상.
+**미래 방향**: ① [UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)([Urban Air Mobility](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/)) 에어택시와 UTM 통합, ② [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 자율 충돌 회피(no human in the loop), ③ 위성 기반 초정밀 GNSS 연계 UTM 정확도 향상.
 
 UTM은 "드론을 날리는 기술"이 아니라, **"수만 대의 드론이 동시에 안전하게 공존하는 하늘의 인터넷 인프라"** 라는 관점으로 이해해야 한다.
 
-- **📢 섹션 요약 비유**: UTM은 <strong>'드론 시대의 인터넷 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(IP)'</strong> 입니다. 인터넷이 없으면 수억 대의 컴퓨터가 서로 통신할 수 없듯이, UTM 없이는 수만 대의 드론이 하늘에서 충돌 없이 공존할 수 없습니다.
+- **📢 섹션 요약 비유**: UTM은 <strong>'드론 시대의 인터넷 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>(IP)'</strong> 입니다. 인터넷이 없으면 수억 대의 컴퓨터가 서로 통신할 수 없듯이, UTM 없이는 수만 대의 드론이 하늘에서 충돌 없이 공존할 수 없습니다.
 
 ---
 
@@ -154,10 +151,10 @@ UTM은 "드론을 날리는 기술"이 아니라, **"수만 대의 드론이 동
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> (Air Traffic <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> | 유인 항공기 고고도 관제; UTM의 선행 기술 |
-| **Remote ID** | 드론 실시간 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·위치 브로드캐스트; UTM의 기초 레이어 |
-| **지오펜싱 (Geofencing)** | GNSS 기반 가상 비행 구역 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/); UTM의 핵심 안전 기능 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a> (<a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">Urban Air Mobility</a>)</strong> | 에어택시·플라잉카; UTM의 확장 적용 영역 |
+| <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> (Air Traffic <a href="/studynote/12_it_management/05_security_compliance/1013_management/">Management</a>)</strong> | 유인 항공기 고고도 관제; UTM의 선행 기술 |
+| **Remote ID** | 드론 실시간 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·위치 브로드캐스트; UTM의 기초 레이어 |
+| **지오펜싱 (Geofencing)** | GNSS 기반 가상 비행 구역 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/); UTM의 핵심 안전 기능 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">UAM</a> (<a href="/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/">Urban Air Mobility</a>)</strong> | 에어택시·플라잉카; UTM의 확장 적용 영역 |
 | **BVLOS (Beyond Visual Line of Sight)** | 가시권 외 장거리 드론 운항; UTM 없이는 불가능 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -183,7 +180,7 @@ UAM (도심항공교통) — 에어택시 공역 통합 관제
 
 1. UTM은 **'드론들을 위한 하늘의 교통 앱'** 이에요! 수많은 드론이 하늘에서 서로 부딪히지 않도록 각자의 비행 경로를 자동으로 정해주는 스마트 관제 시스템이에요.
 2. 각 드론은 자신의 위치를 실시간으로 알려주는 **번호판(Remote ID)** 을 갖고, 공항 근처나 군사 시설 같은 금지 구역에는 **보이지 않는 울타리(지오펜싱)** 가 자동으로 막아줘요!
-3. 미래에는 드론 배달 트럭과 에어택시([UAM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))가 같은 하늘을 다닐 텐데, UTM이 없으면 그 많은 하늘의 차량들이 다 충돌할 거예요 — UTM은 <strong>드론 시대의 도로 교통 법규 + 신호등</strong>이랍니다!
+3. 미래에는 드론 배달 트럭과 에어택시([UAM](/studynote/06_ict_convergence/02_iot_mobility/145_uam_urban_air_mobility_evtol/))가 같은 하늘을 다닐 텐데, UTM이 없으면 그 많은 하늘의 차량들이 다 충돌할 거예요 — UTM은 <strong>드론 시대의 도로 교통 법규 + 신호등</strong>이랍니다!
 
 ---
 
@@ -191,7 +188,7 @@ UAM (도심항공교통) — 에어택시 공역 통합 관제
 
 **진행 상황**: 147 / 552
 
-<- **이전**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/)
-**다음**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) ->
+<- **이전**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/)
+**다음**: [148. 5G 통신망의 3대 초격차 특성 - eMBB (초고속), uRLLC (초저지연/고신뢰 1ms), mMTC (초연결 IoT)](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) ->
 
 ---

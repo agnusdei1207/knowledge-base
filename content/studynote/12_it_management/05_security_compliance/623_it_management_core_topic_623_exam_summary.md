@@ -1,13 +1,10 @@
-+++
-title = "623. IT 경영 관리 핵심 토픽 623번 시험 요약 (IT Management Core Topic 623 Exam Summary)"
-date = 2026-05-09
+---
+title: "623. IT 경영 관리 핵심 토픽 623번 시험 요약 (IT Management Core Topic 623 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ ITIL(Information Technology Infrastructure Library)은 1989년 영국 정부(CCT
 
 **진행 상황**: 623 / 800
 
-<- **이전**: [622. IT 경영 관리 핵심 토픽 622번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/622_it_management_core_topic_622_exam_summary/)
-**다음**: [624. IT 경영 관리 핵심 토픽 624번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/624_it_management_core_topic_624_exam_summary/) ->
+<- **이전**: [622. IT 경영 관리 핵심 토픽 622번 시험 요약](/studynote/12_it_management/05_security_compliance/622_it_management_core_topic_622_exam_summary/)
+**다음**: [624. IT 경영 관리 핵심 토픽 624번 시험 요약](/studynote/12_it_management/05_security_compliance/624_it_management_core_topic_624_exam_summary/) ->
 
 ---

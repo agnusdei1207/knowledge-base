@@ -1,26 +1,23 @@
-+++
-title = "115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리"
-date = 2026-04-21
+---
+title: "115. 이미지 분석 (Image Analysis) — CNN 기반 대용량 이미지 배치 처리"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 대규모 이미지 분석은 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 아키텍처로 이미지 특성을 자동 추출하고, [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))·[객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)를 수행하며, 빅데이터 환경에서는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필수다.
-> 2. **가치**: 의료 영상 진단 자동화, 리테일 상품 인식, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 이상 행동 탐지, 제조 불량 검사 등 시각적 정보를 처리하는 모든 산업에서 인간 전문가의 처리 속도와 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 한계를 극복한다.
-> 3. **판단 포인트**: [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)/EfficientNet은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 강하고, YOLO (You Only Look Once)/Faster-RCNN은 실시간 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)에 적합하며, SAM ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model)/Mask-RCNN은 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)에 특화된다. 수억 장 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)에는 Spark + PyTorch [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 아키텍처가 필요하다.
+> 1. **본질**: 대규모 이미지 분석은 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) 아키텍처로 이미지 특성을 자동 추출하고, [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) ([Classification](/studynote/12_it_management/03_ea_isp/107_classification/))·[객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) ([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))·[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) [태스크](/studynote/02_operating_system/02_process_thread/150_task/)를 수행하며, 빅데이터 환경에서는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인이 필수다.
+> 2. **가치**: 의료 영상 진단 자동화, 리테일 상품 인식, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 이상 행동 탐지, 제조 불량 검사 등 시각적 정보를 처리하는 모든 산업에서 인간 전문가의 처리 속도와 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 한계를 극복한다.
+> 3. **판단 포인트**: [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/)/EfficientNet은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)에 강하고, YOLO (You Only Look Once)/Faster-RCNN은 실시간 [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)에 적합하며, SAM ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model)/Mask-RCNN은 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)에 특화된다. 수억 장 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)에는 Spark + PyTorch [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 아키텍처가 필요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-매일 수십억 장의 이미지가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 인스타그램·위챗·유튜브의 이미지·영상, 의료 기관의 [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)·MRI, 제조 현장의 품질 검사 카메라, 자율주행 차량의 카메라—이 모든 시각 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 딥러닝이 등장하기 전까지 사람이 직접 분석해야 했다.
+매일 수십억 장의 이미지가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된다. 인스타그램·위챗·유튜브의 이미지·영상, 의료 기관의 [CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/)·MRI, 제조 현장의 품질 검사 카메라, 자율주행 차량의 카메라—이 모든 시각 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 딥러닝이 등장하기 전까지 사람이 직접 분석해야 했다.
 
-2012년 AlexNet이 ImageNet 대회를 석권한 이후 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 이미지 분석은 의료·제조·유통·보안 등 전 산업으로 확산됐다. 이제는 모델 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 "수억 장의 이미지를 어떻게 빠르고 저렴하게 처리하는가"라는 인프라 설계가 핵심 과제다.
+2012년 AlexNet이 ImageNet 대회를 석권한 이후 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 이미지 분석은 의료·제조·유통·보안 등 전 산업으로 확산됐다. 이제는 모델 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 "수억 장의 이미지를 어떻게 빠르고 저렴하게 처리하는가"라는 인프라 설계가 핵심 과제다.
 
 - **📢 섹션 요약 비유**: 이미지 분석은 수억 장의 사진을 보고 "이것이 뭔지" 즉각 답하는 무한 속독 눈이다. 의사가 X-레이를 보는 것처럼, 컴퓨터가 의학 이미지를 보고 진단을 내린다.
 
@@ -28,7 +25,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 처리 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+### [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 처리 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```text
 +--------------------------------------------------------------------+
@@ -51,26 +48,26 @@ tags = ["studynote-bigdata"]
 +--------------------------------------------------------------------+
 ```
 
-### [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/)별 핵심 아키텍처
+### [태스크](/studynote/02_operating_system/02_process_thread/150_task/)별 핵심 아키텍처
 
-| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) | 아키텍처 | 특징 | 사용 사례 |
+| [태스크](/studynote/02_operating_system/02_process_thread/150_task/) | 아키텍처 | 특징 | 사용 사례 |
 |:---|:---|:---|:---|
-| <strong>이미지 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet, ViT | Skip Connection, 자동 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) | 상품 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단 |
-| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">객체 탐지</a></strong> | YOLOv8 (실시간), Faster-RCNN (정확도) | 바운딩 박스 + [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 동시 | [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 탐지, 자율주행 |
-| <strong>시맨틱 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | U-Net, DeepLab | 픽셀 단위 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 의료 영상, 위성 영상 |
-| <strong>인스턴스 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | Mask-RCNN, SAM | 객체별 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품 검사, AR |
-| <strong>특성 추출 (<a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>)</strong> | [CLIP](/knowledge-base/studynote/10_ai/05_data_science_ml/408_clip/), DINOv2 | 이미지-텍스트 공통 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 이미지 검색, [멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) |
+| <strong>이미지 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a></strong> | [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/), EfficientNet, ViT | Skip Connection, 자동 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) | 상품 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 의료 진단 |
+| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/">객체 탐지</a></strong> | YOLOv8 (실시간), Faster-RCNN (정확도) | 바운딩 박스 + [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 동시 | [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 탐지, 자율주행 |
+| <strong>시맨틱 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | U-Net, DeepLab | 픽셀 단위 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 의료 영상, 위성 영상 |
+| <strong>인스턴스 <a href="/studynote/02_operating_system/06_memory_management/364_segmentation/">세그멘테이션</a></strong> | Mask-RCNN, SAM | 객체별 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)크 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 제품 검사, AR |
+| <strong>특성 추출 (<a href="/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/">임베딩</a>)</strong> | [CLIP](/studynote/10_ai/05_data_science_ml/408_clip/), DINOv2 | 이미지-텍스트 공통 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 이미지 검색, [멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) |
 
-### 대규모 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 아키텍처
+### 대규모 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 아키텍처
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 도구 | 특징 |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) | 도구 | 특징 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | PyTorch DDP | 동일 모델, 다른 배치 멀티 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
-| <strong>모델 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | [Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 대형 모델 레이어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
-| <strong>Spark <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 추론</strong> | Spark + PyTorch (spark-dl) | 수억 장 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
-| **스트리밍 처리** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink + TensorRT | 실시간 비디오 프레임 분석 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | PyTorch DDP | 동일 모델, 다른 배치 멀티 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) |
+| <strong>모델 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a></strong> | [Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Parallelism | 대형 모델 레이어 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| <strong>Spark <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 추론</strong> | Spark + PyTorch (spark-dl) | 수억 장 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) |
+| **스트리밍 처리** | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Flink + TensorRT | 실시간 비디오 프레임 분석 |
 
-- **📢 섹션 요약 비유**: CNN의 [합성곱](/knowledge-base/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 레이어는 이미지를 보는 인간의 시각 피질과 유사하다. 처음에는 선과 모서리를 인식하고, 점점 깊어질수록 귀, 눈, 얼굴 전체를 인식한다.
+- **📢 섹션 요약 비유**: CNN의 [합성곱](/studynote/10_ai/03_llm_nlp/228_cnn_1d_2d_3d_video_medical/) 레이어는 이미지를 보는 인간의 시각 피질과 유사하다. 처음에는 선과 모서리를 인식하고, 점점 깊어질수록 귀, 눈, 얼굴 전체를 인식한다.
 
 ---
 
@@ -78,12 +75,12 @@ tags = ["studynote-bigdata"]
 
 | 항목 | YOLO (You Only Look Once) | Faster-RCNN |
 |:---|:---|:---|
-| **처리 방식** | 1-Stage: 그리드로 한 번에 탐지 | 2-Stage: 후보 영역 제안 + [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| **처리 방식** | 1-Stage: 그리드로 한 번에 탐지 | 2-Stage: 후보 영역 제안 + [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
 | **속도** | 빠름 (실시간 30~100FPS) | 느림 (2~5FPS) |
 | **정확도** | 약간 낮음 (작은 물체) | 높음 |
-| **적합 사용처** | 실시간 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/), 자율주행 | 의료 영상, 정밀 검사 |
+| **적합 사용처** | 실시간 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/), 자율주행 | 의료 영상, 정밀 검사 |
 
-ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 이미지를 패치로 분할하고 [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)로 처리하는 방식으로, 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 CNN을 능가하는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다. SAM ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model, Meta)은 모든 객체를 프롬프트로 분할할 수 있는 [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)이다.
+ViT (Vision [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/))는 이미지를 패치로 분할하고 [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)로 처리하는 방식으로, 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 CNN을 능가하는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 보인다. SAM ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model, Meta)은 모든 객체를 프롬프트로 분할할 수 있는 [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/)이다.
 
 - **📢 섹션 요약 비유**: YOLO는 운전 중 빠르게 위험을 감지하는 반사 신경이고, Faster-RCNN은 의사가 X-레이를 꼼꼼하게 검토하는 방식이다. 속도와 정확도 중 무엇이 더 중요한지에 따라 선택한다.
 
@@ -94,18 +91,18 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 ### 적용 시나리오
 
 1. **제조 불량 검사**: 라인 카메라 + YOLOv8 실시간 탐지 -> 불량품 즉시 제거, 불량률 90% 감소
-2. **의료 영상 진단 보조**: [CT](/knowledge-base/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 스캔 U-Net [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) -> 암 의심 구역 자동 표시
+2. **의료 영상 진단 보조**: [CT](/studynote/14_data_engineering/04_mlops/162_continuous_training_pipeline_model_retraining/) 스캔 U-Net [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) -> 암 의심 구역 자동 표시
 3. **리테일 상품 인식**: 매장 카메라 + EfficientNet -> 진열 현황 자동 집계, 발주 자동화
 4. **위성 이미지 분석**: Sentinel 위성 + DeepLab -> 산림 피복 변화 자동 탐지
 
-### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 학습 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이블링 비용이 충분히 확보됐는가? (약지도 학습·전이학습 검토 필요)
-2. 클래스 불균형 (불량품 1% vs 정상 99%)에 대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
-3. 엣지 디바이스 배포 시 모델 경량화 (TensorRT, ONNX 최적화, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))를 적용했는가?
-4. 대용량 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 방지하는 배치 크기 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)과 혼합 [정밀도](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP16) 학습을 적용했는가?
+1. 학습 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이블링 비용이 충분히 확보됐는가? (약지도 학습·전이학습 검토 필요)
+2. 클래스 불균형 (불량품 1% vs 정상 99%)에 대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증강 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 있는가?
+3. 엣지 디바이스 배포 시 모델 경량화 (TensorRT, ONNX 최적화, [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/))를 적용했는가?
+4. 대용량 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) 시 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 메모리 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) ([Out Of Memory](/studynote/02_operating_system/02_process_thread/157_oom_killer/))을 방지하는 배치 크기 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)과 혼합 [정밀도](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/) (Mixed [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/), FP16) 학습을 적용했는가?
 
-- **📢 섹션 요약 비유**: 딥러닝 이미지 모델 배포는 스포츠카를 구입하는 것과 같다. 아무리 빠른 모델이어도 도로(인프라)가 없으면 달릴 수 없다. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인프라, [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), 모델 서빙까지 시스템 전체를 설계해야 한다.
+- **📢 섹션 요약 비유**: 딥러닝 이미지 모델 배포는 스포츠카를 구입하는 것과 같다. 아무리 빠른 모델이어도 도로(인프라)가 없으면 달릴 수 없다. [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 인프라, [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/), 모델 서빙까지 시스템 전체를 설계해야 한다.
 
 ---
 
@@ -115,27 +112,27 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 |:---|:---|
 | 검사 자동화 | 24시간 불량 검사, 인적 오류 제거 |
 | 의료 진단 지원 | 영상 판독 속도 10배 향상, 전문의 피로도 감소 |
-| 보안 강화 | 실시간 [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 분석으로 이상 행동 즉각 탐지 |
+| 보안 강화 | 실시간 [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 분석으로 이상 행동 즉각 탐지 |
 | 유통 효율화 | 상품 인식 자동화로 재고 관리 오차 최소화 |
 | 과학 연구 가속 | 위성·현미경 이미지 대규모 분석으로 연구 속도 향상 |
 
-[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 이미지 분석은 딥러닝의 가장 성숙한 응용 분야다. ResNet에서 ViT로, YOLO에서 SAM으로 진화하면서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계가 계속 높아지고 있다. 빅데이터 관점에서는 수억 장의 이미지를 처리하는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 인프라 설계가 앞으로도 핵심 엔지니어링 과제로 남을 것이다.
+[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 이미지 분석은 딥러닝의 가장 성숙한 응용 분야다. ResNet에서 ViT로, YOLO에서 SAM으로 진화하면서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계가 계속 높아지고 있다. 빅데이터 관점에서는 수억 장의 이미지를 처리하는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 추론 인프라 설계가 앞으로도 핵심 엔지니어링 과제로 남을 것이다.
 
-- **📢 섹션 요약 비유**: 이미지 분석은 눈이 없는 기계에게 시각을 선물하는 기술이다. 공장 로봇이 불량품을 보고, 자율주행 차가 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)등을 보고, 의사 AI가 암세포를 보는 것처럼, 시각 능력은 모든 산업을 바꾸고 있다.
+- **📢 섹션 요약 비유**: 이미지 분석은 눈이 없는 기계에게 시각을 선물하는 기술이다. 공장 로봇이 불량품을 보고, 자율주행 차가 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)등을 보고, 의사 AI가 암세포를 보는 것처럼, 시각 능력은 모든 산업을 바꾸고 있다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) | 이미지 분석의 핵심 딥러닝 아키텍처 |
-| [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) / EfficientNet | Skip Connection / 복합 [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 기반 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
-| YOLO (You Only Look Once) | 실시간 1-Stage [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) |
-| SAM ([Segment](/knowledge-base/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model) | Meta의 범용 [세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/) [파운데이션 모델](/knowledge-base/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) |
-| ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | [트랜스포머](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 이미지 처리 |
-| TensorRT | NVIDIA [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추론 최적화 |
-| Spark + PyTorch | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 대규모 배치 이미지 처리 |
+| [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/)) | 이미지 분석의 핵심 딥러닝 아키텍처 |
+| [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) / EfficientNet | Skip Connection / 복합 [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) 기반 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) |
+| YOLO (You Only Look Once) | 실시간 1-Stage [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/) |
+| SAM ([Segment](/studynote/03_network/08_transport_layer/407_tcp_segment_header_structure_20_60_bytes/) Anything Model) | Meta의 범용 [세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/) [파운데이션 모델](/studynote/12_it_management/05_security_compliance/225_foundation_model_peft_lora/) |
+| ViT (Vision [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | [트랜스포머](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) 기반 이미지 처리 |
+| TensorRT | NVIDIA [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 추론 최적화 |
+| Spark + PyTorch | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 대규모 배치 이미지 처리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -154,7 +151,7 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
     v
 [Vision Transformer (ViT) — 어텐션 기반 이미지 이해의 새 패러다임]
 ```
-이미지 분석은 수동 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출에서 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 학습으로 전환되고, [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)·[세그멘테이션](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)·Vision Transformer로 발전해 의료·자율주행 등 핵심 산업에 응용된다.
+이미지 분석은 수동 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 추출에서 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) 기반 자동 학습으로 전환되고, [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)·[세그멘테이션](/studynote/02_operating_system/06_memory_management/364_segmentation/)·Vision Transformer로 발전해 의료·자율주행 등 핵심 산업에 응용된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 이미지 분석은 컴퓨터에게 눈을 달아주는 기술이에요. "이 사진 속에 고양이가 있다!"를 스스로 알아내요.
@@ -167,7 +164,7 @@ ViT (Vision [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_
 
 **진행 상황**: 118 / 262
 
-<- **이전**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/knowledge-base/studynote/16_bigdata/05_analysis/117_ner/)
-**다음**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) ->
+<- **이전**: [114. 개체명 인식 (NER, Named Entity Recognition) — 인물/장소/조직 추출](/studynote/16_bigdata/05_analysis/117_ner/)
+**다음**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/studynote/16_bigdata/05_analysis/119_log_analysis/) ->
 
 ---

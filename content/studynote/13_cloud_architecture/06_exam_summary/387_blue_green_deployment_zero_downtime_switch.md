@@ -1,13 +1,10 @@
-+++
-title = "387. 블루그린 배포 무중단 전환 전략 (Blue Green Deployment Zero Downtime Switch)"
-date = 2026-05-09
+---
+title: "387. 블루그린 배포 무중단 전환 전략 (Blue Green Deployment Zero Downtime Switch)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 387 / 800
 
-<- **이전**: [386. 카나리 배포 Flagger 프로그레시브](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/386_canary_deployment_flagger_progressive_deliver/)
-**다음**: [388. 롤링 업데이트 배포 전략 롤백](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/388_rolling_update_deployment_strategy_rollback/) ->
+<- **이전**: [386. 카나리 배포 Flagger 프로그레시브](/studynote/13_cloud_architecture/06_exam_summary/386_canary_deployment_flagger_progressive_deliver/)
+**다음**: [388. 롤링 업데이트 배포 전략 롤백](/studynote/13_cloud_architecture/06_exam_summary/388_rolling_update_deployment_strategy_rollback/) ->
 
 ---

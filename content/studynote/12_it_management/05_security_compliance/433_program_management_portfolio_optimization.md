@@ -1,13 +1,10 @@
-+++
-title = "433. 프로그램 관리 포트폴리오 최적화 (Program Management Portfolio Optimization)"
-date = 2026-05-09
+---
+title: "433. 프로그램 관리 포트폴리오 최적화 (Program Management Portfolio Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ $$ V_{total} = V_{NPV} + V_{Option} $$
 
 **진행 상황**: 433 / 800
 
-<- **이전**: [432. 프로젝트 관리 PMBOK 원칙 적용](/knowledge-base/studynote/12_it_management/05_security_compliance/432_project_management_pmbok_application/)
-**다음**: [434. 소프트웨어 개발 방법론 워터폴 애자일](/knowledge-base/studynote/12_it_management/05_security_compliance/434_software_development_waterfall_agile/) ->
+<- **이전**: [432. 프로젝트 관리 PMBOK 원칙 적용](/studynote/12_it_management/05_security_compliance/432_project_management_pmbok_application/)
+**다음**: [434. 소프트웨어 개발 방법론 워터폴 애자일](/studynote/12_it_management/05_security_compliance/434_software_development_waterfall_agile/) ->
 
 ---

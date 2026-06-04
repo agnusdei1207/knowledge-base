@@ -1,27 +1,24 @@
-+++
-title = "75. 워드 (Word)"
-date = 2026-03-19
+---
+title: "75. 워드 (Word)"
+date: "2026-03-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 워드(Word)는 CPU (Central Processing Unit)가 한 번에 다루는 자연 단위이며, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭을 묶는 아키텍처의 기본 척도다.
-> 2. **가치**: 워드가 커지면 주소 공간과 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 커지지만, 포인터와 자료형도 함께 비대해져 메모리 비용이 올라간다.
-> 3. **판단 포인트**: 소프트웨어는 word size를 가정하지 말고, [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))와 [ABI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/) ([Application Binary Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/))가 약속한 크기를 확인해야 한다.
+> 1. **본질**: 워드(Word)는 CPU (Central Processing Unit)가 한 번에 다루는 자연 단위이며, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/)·[ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)·[버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 폭을 묶는 아키텍처의 기본 척도다.
+> 2. **가치**: 워드가 커지면 주소 공간과 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 커지지만, 포인터와 자료형도 함께 비대해져 메모리 비용이 올라간다.
+> 3. **판단 포인트**: 소프트웨어는 word size를 가정하지 말고, [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))와 [ABI](/studynote/02_operating_system/01_overview_architecture/015_abi/) ([Application Binary Interface](/studynote/02_operating_system/01_overview_architecture/015_abi/))가 약속한 크기를 확인해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-컴퓨터 구조에서 워드는 "글자"가 아니라 한 번에 읽고 쓰는 기본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리다. 8비트와 16비트 시대에는 작은 숫자를 다루기 쉬웠지만, 메모리와 주소가 커지면서 32비트와 64비트 워드가 표준이 됐다.
+컴퓨터 구조에서 워드는 "글자"가 아니라 한 번에 읽고 쓰는 기본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 덩어리다. 8비트와 16비트 시대에는 작은 숫자를 다루기 쉬웠지만, 메모리와 주소가 커지면서 32비트와 64비트 워드가 표준이 됐다.
 
-워드가 필요했던 이유는 연산 폭과 메모리 폭을 하나로 맞춰야 했기 때문이다. CPU가 4바이트를 한 번에 읽는데 메모리와 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 1바이트씩만 느리게 움직이면 병목이 생긴다. 그래서 워드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 주소 지정 능력, 소프트웨어 ABI를 동시에 규정하는 기준이 됐다.
+워드가 필요했던 이유는 연산 폭과 메모리 폭을 하나로 맞춰야 했기 때문이다. CPU가 4바이트를 한 번에 읽는데 메모리와 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)는 1바이트씩만 느리게 움직이면 병목이 생긴다. 그래서 워드는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 주소 지정 능력, 소프트웨어 ABI를 동시에 규정하는 기준이 됐다.
 
 ```text
 +------------------------------------------------------+
@@ -39,17 +36,17 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-워드는 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/), 주소 표현 방식에 함께 반영된다. 많은 시스템에서 워드 크기와 포인터 크기가 같아지지만, 주소 폭과 연산 폭은 반드시 완전히 같아야 하는 것은 아니다.
+워드는 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [데이터 버스](/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/), 주소 표현 방식에 함께 반영된다. 많은 시스템에서 워드 크기와 포인터 크기가 같아지지만, 주소 폭과 연산 폭은 반드시 완전히 같아야 하는 것은 아니다.
 
-| 구성 요소 | 워드와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 의미 |
+| 구성 요소 | 워드와의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 의미 |
 | :--- | :--- | :--- |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 워드 크기와 밀접 | CPU가 한 번에 쥐는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
-| [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) | 워드 단위 연산 | 덧셈·뺄셈 폭 |
-| [데이터 버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) | 워드 너비와 연동 | 전송 폭 |
+| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 워드 크기와 밀접 | CPU가 한 번에 쥐는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) | 워드 단위 연산 | 덧셈·뺄셈 폭 |
+| [데이터 버스](/studynote/01_computer_architecture/09_system_bus_interconnects/345_data_bus/) | 워드 너비와 연동 | 전송 폭 |
 | 주소 체계 | 워드 선택에 영향 | RAM 주소 공간 |
-| [ABI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/) | 자료형 크기 규정 | 프로그램 간 약속 |
+| [ABI](/studynote/02_operating_system/01_overview_architecture/015_abi/) | 자료형 크기 규정 | 프로그램 간 약속 |
 
-또 하나의 핵심은 정렬(alignment)이다. 워드 경계에 맞는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한 번에 읽히지만, 어긋난 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 추가 접근이 생겨 느려진다. 그래서 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷과 네트워크 프로토콜은 워드 정렬을 의식해 설계한다.
+또 하나의 핵심은 정렬(alignment)이다. 워드 경계에 맞는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 한 번에 읽히지만, 어긋난 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 추가 접근이 생겨 느려진다. 그래서 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷과 네트워크 프로토콜은 워드 정렬을 의식해 설계한다.
 
 - **📢 섹션 요약 비유**: 칸이 맞는 상자는 빨리 꺼낼 수 있다.
 
@@ -57,11 +54,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-워드는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)·[바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)·워드라는 계층 중 가운데에 있으면서, 하드웨어와 소프트웨어의 연결점을 만든다. [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 정보의 최소 단위이고, [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)는 저장의 실용 단위이며, 워드는 연산의 실전 단위다.
+워드는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)·[바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)·워드라는 계층 중 가운데에 있으면서, 하드웨어와 소프트웨어의 연결점을 만든다. [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 정보의 최소 단위이고, [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)는 저장의 실용 단위이며, 워드는 연산의 실전 단위다.
 
 | 비교 축 | 작은 워드 | 큰 워드 |
 | :--- | :--- | :--- |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 작음 | 큼 |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) | 작음 | 큼 |
 | 주소 공간 | 제한적 | 넓음 |
 | 메모리 사용 | 절약 | 증가 |
 | 포터빌리티 | 단순 | 주의 필요 |
@@ -74,7 +71,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 고정 폭 자료형을 먼저 쓴다. 네트워크 패킷, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷, 암호화 블록은 `int`보다 `uint32_t`나 `uint64_t`처럼 크기가 명확한 타입이 안전하다.
+실무에서는 고정 폭 자료형을 먼저 쓴다. 네트워크 패킷, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 포맷, 암호화 블록은 `int`보다 `uint32_t`나 `uint64_t`처럼 크기가 명확한 타입이 안전하다.
 
 체크 포인트는 세 가지다.
 - word size와 pointer size를 혼동하지 않는가.
@@ -89,7 +86,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-워드는 하드웨어의 체급을 보여주는 지표다. 크기가 커질수록 주소 공간과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 포인터도 함께 커져 비용이 따른다.
+워드는 하드웨어의 체급을 보여주는 지표다. 크기가 커질수록 주소 공간과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 좋아지지만, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)와 포인터도 함께 커져 비용이 따른다.
 
 그래서 워드를 기억할 때는 "CPU가 무엇을 한 번에 먹는가"와 "소프트웨어가 무엇을 가정하면 안 되는가"를 같이 떠올리면 된다. 이것이 32비트에서 64비트로 넘어온 진짜 의미다.
 
@@ -101,11 +98,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 정보의 최소 단위 |
-| [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 저장의 기본 단위 |
+| [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) | 정보의 최소 단위 |
+| [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) | 저장의 기본 단위 |
 | 워드 | CPU의 자연 연산 단위 |
-| [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 워드 폭을 반영하는 내부 저장소 |
-| [ABI](/knowledge-base/studynote/02_operating_system/01_overview_architecture/015_abi/) | 크기와 정렬을 고정하는 약속 |
+| [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) | 워드 폭을 반영하는 내부 저장소 |
+| [ABI](/studynote/02_operating_system/01_overview_architecture/015_abi/) | 크기와 정렬을 고정하는 약속 |
 
 ### 관련 키워드 및 발전 흐름도
 
@@ -140,7 +137,7 @@ memory bus
 
 **진행 상황**: 75 / 803
 
-<- **이전**: [74. 바이트 (Byte)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)
-**다음**: [76. 더블 워드 (Double Word)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/) ->
+<- **이전**: [74. 바이트 (Byte)](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)
+**다음**: [76. 더블 워드 (Double Word)](/studynote/01_computer_architecture/02_data_representation_arithmetic/076_double_word/) ->
 
 ---

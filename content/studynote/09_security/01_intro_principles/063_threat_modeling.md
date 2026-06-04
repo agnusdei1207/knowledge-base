@@ -1,27 +1,24 @@
-+++
-title = "063. 위협 모델링 (Threat Modeling)"
-date = 2026-04-05
+---
+title: "063. 위협 모델링 (Threat Modeling)"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)([Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/))은 시스템 설계 단계에서 자산, 공격면, 신뢰 경계, 위협을 체계적으로 찾는 보안 분석이다.
+> 1. **본질**: [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)([Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/))은 시스템 설계 단계에서 자산, 공격면, 신뢰 경계, 위협을 체계적으로 찾는 보안 분석이다.
 > 2. **가치**: 개발이 끝난 뒤 취약점을 찾는 것보다, 설계 초기에 공격 경로를 막는 편이 훨씬 싸고 효과적이다.
-> 3. **판단**: [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/), DREAD, [MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) 같은 틀을 사용해 위협을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 우선순위를 정해야 한다.
+> 3. **판단**: [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/), DREAD, [MITRE ATT&CK](/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) 같은 틀을 사용해 위협을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 우선순위를 정해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-보안 사고는 종종 코드 한 줄보다 설계 한 장에서 시작된다. 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디를 지나고 누가 볼 수 있는지 모르면, 공격자는 그 빈틈을 먼저 찾는다.
+보안 사고는 종종 코드 한 줄보다 설계 한 장에서 시작된다. 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 어디를 지나고 누가 볼 수 있는지 모르면, 공격자는 그 빈틈을 먼저 찾는다.
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 "무엇이 뚫릴 수 있는가"를 미리 묻는 작업이다. 그래서 시큐어 코딩보다 앞단에서 작동하는 보안 설계 도구다.
+[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 "무엇이 뚫릴 수 있는가"를 미리 묻는 작업이다. 그래서 시큐어 코딩보다 앞단에서 작동하는 보안 설계 도구다.
 
 - **📢 섹션 요약 비유**: 새 집에 들어가기 전에 창문, 문, 담장부터 살펴보는 것과 같다.
 
@@ -43,16 +40,16 @@ Risk Prioritization
 Mitigation
 ```
 
-| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 의미 | 예시 |
+| [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 의미 | 예시 |
 | :-- | :-- | :-- |
-| [Spoofing](/knowledge-base/studynote/02_operating_system/10_security/598_spoofing/) | 신원 위조 | 계정 탈취 |
-| Tampering | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 | 요청 파라미터 조작 |
-| Repudiation | 부인 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 부재로 행위 부인 |
-| Information Disclosure | 정보 유출 | [민감정보](/knowledge-base/studynote/09_security/16_data_privacy/782_sensitive_information/) 노출 |
-| Denial of [Service](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [서비스 거부](/knowledge-base/studynote/02_operating_system/10_security/599_dos_ddos_attack/) | 트래픽 과부하 |
-| Elevation of Privilege | [권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) | 관리자 권한 탈취 |
+| [Spoofing](/studynote/02_operating_system/10_security/598_spoofing/) | 신원 위조 | 계정 탈취 |
+| Tampering | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조 | 요청 파라미터 조작 |
+| Repudiation | 부인 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 부재로 행위 부인 |
+| Information Disclosure | 정보 유출 | [민감정보](/studynote/09_security/16_data_privacy/782_sensitive_information/) 노출 |
+| Denial of [Service](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [서비스 거부](/studynote/02_operating_system/10_security/599_dos_ddos_attack/) | 트래픽 과부하 |
+| Elevation of Privilege | [권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) | 관리자 권한 탈취 |
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 [DFD](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)([Data Flow Diagram](/knowledge-base/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))를 그려 흐름을 파악한 뒤, 경계마다 어떤 위협이 가능한지 묻는다. 이때 중요한 것은 "취약점 목록"보다 "공격 시나리오"다.
+[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 [DFD](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/)([Data Flow Diagram](/studynote/04_software_engineering/03_design_architecture/144_dfd_data_flow_diagram/))를 그려 흐름을 파악한 뒤, 경계마다 어떤 위협이 가능한지 묻는다. 이때 중요한 것은 "취약점 목록"보다 "공격 시나리오"다.
 
 - **📢 섹션 요약 비유**: 집 평면도를 보고 어디로 침입할 수 있는지 상상하는 일이다.
 
@@ -62,17 +59,17 @@ Mitigation
 
 | 프레임 | 초점 | 장점 | 주의점 |
 | :-- | :-- | :-- | :-- |
-| [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 설계 검토에 좋음 | 사람 해석이 필요 |
+| [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) | 위협 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 설계 검토에 좋음 | 사람 해석이 필요 |
 | DREAD | 위험 점수화 | 우선순위 정리 | 점수의 주관성 |
-| [MITRE ATT&CK](/knowledge-base/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) | 실제 공격 전술 | 공격자 관점 강함 | 설계 초기엔 과할 수 있음 |
+| [MITRE ATT&CK](/studynote/09_security/13_secops_ir_forensics/642_mitre_attack/) | 실제 공격 전술 | 공격자 관점 강함 | 설계 초기엔 과할 수 있음 |
 
 | 보안 활동 | 시점 | 목적 |
 | :-- | :-- | :-- |
-| [Threat Modeling](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/) | 설계 전/중 | 공격 경로 예측 |
-| [Secure Coding](/knowledge-base/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) | 구현 중 | 취약점 원천 차단 |
-| [Penetration](/knowledge-base/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) Test | 배포 전/후 | 실제 침투 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| [Threat Modeling](/studynote/09_security/uncategorized/1041_threat_modeling/) | 설계 전/중 | 공격 경로 예측 |
+| [Secure Coding](/studynote/12_it_management/05_security_compliance/190_secure_coding_guideline/) | 구현 중 | 취약점 원천 차단 |
+| [Penetration](/studynote/03_network/03_physical_layer_media/163_penetration_diffraction_radio_waves/) Test | 배포 전/후 | 실제 침투 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 다른 보안 활동을 대체하지 않는다. 대신 어떤 코드를 더 엄격히 봐야 하는지, 어떤 경계를 더 강하게 해야 하는지 알려준다.
+[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 다른 보안 활동을 대체하지 않는다. 대신 어떤 코드를 더 엄격히 봐야 하는지, 어떤 경계를 더 강하게 해야 하는지 알려준다.
 
 - **📢 섹션 요약 비유**: 여행 전에 지도를 보고 위험한 길을 미리 피해 가는 것과 같다.
 
@@ -80,22 +77,22 @@ Mitigation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 자산과 신뢰 경계가 명확한가?
 2. 외부 입력과 내부 시스템 경로를 모두 그렸는가?
-3. [STRIDE](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 관점으로 각 경로를 검사했는가?
+3. [STRIDE](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) 관점으로 각 경로를 검사했는가?
 4. 위협별 대응책이 실제 설계에 반영되었는가?
 5. 위험 우선순위를 정해 단계적으로 보완하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 보안 문서를 만들고 실제 설계에는 반영하지 않는 설계
 - 공격 경로 대신 기능 목록만 나열하는 설계
 - 모든 위협을 동일하게 취급하는 설계
-- 개발이 끝난 뒤에야 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)을 하는 설계
+- 개발이 끝난 뒤에야 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)을 하는 설계
 
-기술사 관점에서는 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)을 "보안 리뷰"가 아니라 "설계 품질 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 봐야 한다. 공격자 시나리오를 먼저 생각하면 방어도 명확해진다.
+기술사 관점에서는 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)을 "보안 리뷰"가 아니라 "설계 품질 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"으로 봐야 한다. 공격자 시나리오를 먼저 생각하면 방어도 명확해진다.
 
 - **📢 섹션 요약 비유**: 문지기 없이 문을 여러 개 만든 뒤 나중에 경비를 붙이는 것보다 처음부터 어디가 문인지 정하는 편이 낫다.
 
@@ -103,9 +100,9 @@ Mitigation
 
 ## Ⅴ. 기대효과 및 결론
 
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 보안 비용을 앞당겨 지불하게 만들지만, 그 결과 더 큰 사고를 줄인다. 설계 단계에서 막을 수 있으면 운영 중 장애도 줄어든다.
+[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 보안 비용을 앞당겨 지불하게 만들지만, 그 결과 더 큰 사고를 줄인다. 설계 단계에서 막을 수 있으면 운영 중 장애도 줄어든다.
 
-결국 좋은 [위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 "누가 어떻게 들어올 수 있는가"를 끝까지 상상하는 일이다.
+결국 좋은 [위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 "누가 어떻게 들어올 수 있는가"를 끝까지 상상하는 일이다.
 
 - **📢 섹션 요약 비유**: 미리 함정을 찾으면 나중에 다치는 사람이 줄어든다.
 
@@ -142,8 +139,8 @@ Secure Design
 ## 어린이를 위한 3줄 비유 설명
 
 새 집에 들어가기 전에 어디로 들어올 수 있는지 먼저 봐요.
-문, 창문, 담장에 구멍이 없는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
-[위협 모델링](/knowledge-base/studynote/09_security/uncategorized/1041_threat_modeling/)은 그런 구멍을 미리 찾는 일이에요.
+문, 창문, 담장에 구멍이 없는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해요.
+[위협 모델링](/studynote/09_security/uncategorized/1041_threat_modeling/)은 그런 구멍을 미리 찾는 일이에요.
 
 ---
 
@@ -151,7 +148,7 @@ Secure Design
 
 **진행 상황**: 63 / 1108
 
-<- **이전**: [62. 시큐어 코딩 (Secure Coding)](/knowledge-base/studynote/09_security/01_intro_principles/062_secure_coding/)
-**다음**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/knowledge-base/studynote/09_security/01_intro_principles/064_dread_model/) ->
+<- **이전**: [62. 시큐어 코딩 (Secure Coding)](/studynote/09_security/01_intro_principles/062_secure_coding/)
+**다음**: [064. DREAD 모델 — Damage/Reproducibility/Exploitability/Affected Users discoverability](/studynote/09_security/01_intro_principles/064_dread_model/) ->
 
 ---

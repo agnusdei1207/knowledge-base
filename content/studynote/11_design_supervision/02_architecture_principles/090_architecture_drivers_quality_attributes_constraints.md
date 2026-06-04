@@ -1,35 +1,32 @@
-+++
-title = "90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항"
-date = 2026-04-10
+---
+title: "90. 아키텍처 드라이버 (Architecture Drivers) - 시스템 설계 핵심 요구사항"
+date: "2026-04-10"
+tags:
+  - "studynote-design"
+---
 
-[taxonomies]
-tags = ["studynote-design"]
-
-[extra]
-tags = ["studynote-design"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))는 소프트웨어 아키텍처의 형태와 근본적인 설계 결정을 좌우하는 핵심 요구사항들의 집합이다.
+> 1. **본질**: [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))는 소프트웨어 아키텍처의 형태와 근본적인 설계 결정을 좌우하는 핵심 요구사항들의 집합이다.
 > 2. **가치**: 수많은 요구사항 중에서 프로젝트의 성패를 가르는 소수의 치명적인 요인을 선별함으로써, 한정된 자원 내에서 설계의 타협점 (Trade-off)을 도출하는 나침반 역할을 한다.
-> 3. **판단 포인트**: 단순히 "빠르게"와 같은 추상적 요구가 아니라, 구체적인 시나리오 기반의 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/)), 제약 사항 (Constraints), 핵심 기능 (Primary Functionality)으로 명확히 정의되고 우선순위가 매겨져야 한다.
+> 3. **판단 포인트**: 단순히 "빠르게"와 같은 추상적 요구가 아니라, 구체적인 시나리오 기반의 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/)), 제약 사항 (Constraints), 핵심 기능 (Primary Functionality)으로 명확히 정의되고 우선순위가 매겨져야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))는 시스템의 뼈대를 어떻게 구성할지 180도 뒤바꿀 수 있는 절대적인 영향력을 가진 설계 지표다. 일반적인 기능 요구사항(예: 버튼 색상 변경)이 단위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수준의 코딩으로 해결된다면, [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 시스템의 인프라, 기술 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등 되돌리기 어려운 중대한 결정을 강제한다.
+[아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/) ([Architecture Drivers](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/))는 시스템의 뼈대를 어떻게 구성할지 180도 뒤바꿀 수 있는 절대적인 영향력을 가진 설계 지표다. 일반적인 기능 요구사항(예: 버튼 색상 변경)이 단위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 수준의 코딩으로 해결된다면, [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 시스템의 인프라, 기술 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 등 되돌리기 어려운 중대한 결정을 강제한다.
 
-이 개념이 중요한 이유는 모든 요구사항을 완벽하게 만족하는 시스템은 현실 세계에 존재하지 않기 때문이다. 보안을 강화하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지고, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이면 비용이 상승하는 상충 (Trade-off) [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 속에서, 아키텍트는 "무엇을 포기하고 무엇을 취할 것인가"를 결정해야 한다. 이때 기준점이 되는 것이 바로 우선순위가 부여된 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)다.
+이 개념이 중요한 이유는 모든 요구사항을 완벽하게 만족하는 시스템은 현실 세계에 존재하지 않기 때문이다. 보안을 강화하면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 떨어지고, [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)을 높이면 비용이 상승하는 상충 (Trade-off) [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 속에서, 아키텍트는 "무엇을 포기하고 무엇을 취할 것인가"를 결정해야 한다. 이때 기준점이 되는 것이 바로 우선순위가 부여된 [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)다.
 
-- **📢 섹션 요약 비유**: 자동차를 만들 때 "시트를 가죽으로 해달라"는 요구는 일반 요구사항이지만, "사막에서 시속 200km로 달려야 한다"는 요구는 엔진과 프레임 자체를 바꾸는 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)입니다.
+- **📢 섹션 요약 비유**: 자동차를 만들 때 "시트를 가죽으로 해달라"는 요구는 일반 요구사항이지만, "사막에서 시속 200km로 달려야 한다"는 요구는 엔진과 프레임 자체를 바꾸는 [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 크게 핵심 기능, 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약 사항의 3대 요소로 구성되며, 이들이 결합하여 최종적인 설계 결정을 이끌어낸다.
+[아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)는 크게 핵심 기능, 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/), 제약 사항의 3대 요소로 구성되며, 이들이 결합하여 최종적인 설계 결정을 이끌어낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -51,24 +48,24 @@ tags = ["studynote-design"]
                  [ 아키텍처 도면 / 구조 결정 ]
 ```
 
-가장 다루기 까다로운 부분은 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/) ([Quality Attribute Scenario](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
+가장 다루기 까다로운 부분은 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) ([Quality Attributes](/studynote/04_software_engineering/05_devops_ci_cd/279_quality_attributes_scenario/))이다. 추상적인 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)은 반드시 "환경-자극-응답-측정"으로 이어지는 구체적인 [품질 속성 시나리오](/studynote/12_it_management/05_security_compliance/993_process/) ([Quality Attribute Scenario](/studynote/12_it_management/05_security_compliance/993_process/))로 작성되어야 실질적인 드라이버로 작동할 수 있다. 예를 들어 "시스템은 안정적이어야 한다"는 드라이버가 될 수 없으며, "DB 서버 다운 시(자극) 3초 이내에(측정) 예비 서버로 전환된다(응답)"로 구체화해야 한다.
 
-- **📢 섹션 요약 비유**: 집을 지을 때 "가족이 머무를 공간(핵심 기능)", "지진 진도 7을 버티는 내진 설계(품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))", "예산 1억 원 이내(제약 사항)"라는 3가지 뼈대가 모여야 건축가가 철근 콘크리트를 쓸지 목조를 쓸지 결정할 수 있습니다.
+- **📢 섹션 요약 비유**: 집을 지을 때 "가족이 머무를 공간(핵심 기능)", "지진 진도 7을 버티는 내진 설계(품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/))", "예산 1억 원 이내(제약 사항)"라는 3가지 뼈대가 모여야 건축가가 철근 콘크리트를 쓸지 목조를 쓸지 결정할 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-아키텍처 설계 과정에서는 드라이버들 간의 경합이 반드시 발생한다. 특히 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안, [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 비용은 영원한 라이벌 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있다.
+아키텍처 설계 과정에서는 드라이버들 간의 경합이 반드시 발생한다. 특히 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안, [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 비용은 영원한 라이벌 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 있다.
 
 | 드라이버 A (요구) | 드라이버 B (요구) | 충돌 포인트 (Trade-off) | 아키텍처 타협안 예시 |
 | :--- | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong><br>빠른 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong><br>강력한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 | 암호화/복호화 연산으로 인한 CPU 부하 및 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 발생 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 부분 암호화 적용, 전용 H/W 가속기 도입 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong><br>무중단 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | **제약 (Constraints)**<br>인프라 예산 삭감 | [이중화](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)/삼중화 서버 구성 시 비용 기하급수적 증가 | 클라우드 오토스케일링 및 Active-Standby의 저비용 혼합 구성 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (<a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">Performance</a>)</strong><br>빠른 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) | <strong>보안 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>)</strong><br>강력한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화 | 암호화/복호화 연산으로 인한 CPU 부하 및 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 발생 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 중요도에 따라 부분 암호화 적용, 전용 H/W 가속기 도입 |
+| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a> (<a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong><br>무중단 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | **제약 (Constraints)**<br>인프라 예산 삭감 | [이중화](/studynote/01_computer_architecture/13_reliability_power_management/456_dual_redundancy/)/삼중화 서버 구성 시 비용 기하급수적 증가 | 클라우드 오토스케일링 및 Active-Standby의 저비용 혼합 구성 |
 
-이러한 충돌을 해결하기 위해 유틸리티 트리 (Utility Tree) 기법을 사용한다. 추상적인 목표를 구체적 시나리오로 분해한 뒤, 비즈니스 가치(H/M/L)와 아키텍처 난이도(H/M/L)를 투표하여 H-H 등급을 받은 시나리오를 최우선 드라이버로 선정하고 다른 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 양보하는 의사결정을 내린다.
+이러한 충돌을 해결하기 위해 유틸리티 트리 (Utility Tree) 기법을 사용한다. 추상적인 목표를 구체적 시나리오로 분해한 뒤, 비즈니스 가치(H/M/L)와 아키텍처 난이도(H/M/L)를 투표하여 H-H 등급을 받은 시나리오를 최우선 드라이버로 선정하고 다른 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 양보하는 의사결정을 내린다.
 
-- **📢 섹션 요약 비유**: 완벽한 방어력(보안)을 가진 무거운 갑옷과 누구보다 빠른 이동 속도([성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 동시에 가질 수는 없습니다. 전장의 특성(우선순위)에 따라 적당한 가죽 갑옷으로 타협하는 것이 아키텍트의 역할입니다.
+- **📢 섹션 요약 비유**: 완벽한 방어력(보안)을 가진 무거운 갑옷과 누구보다 빠른 이동 속도([성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))를 동시에 가질 수는 없습니다. 전장의 특성(우선순위)에 따라 적당한 가죽 갑옷으로 타협하는 것이 아키텍트의 역할입니다.
 
 ---
 
@@ -76,14 +73,14 @@ tags = ["studynote-design"]
 
 실무에서 아키텍트는 쏟아지는 요구사항 목록에서 숨어있는 진짜 드라이버를 찾아내고 뾰족하게 다듬는 능력이 필요하다. 요구사항 정의서에 명시되지 않은 '암묵적 제약 사항'이 뒤늦게 아키텍처를 붕괴시키는 경우가 많다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. **시나리오 구체성**: 도출된 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 구체적인 자극(Stimulus)과 측정 가능한 응답(Response Measure) 수치를 포함하고 있는가?
-2. <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 합의</strong>: 도출된 최우선 드라이버에 대해 고객, 경영진, 개발팀 등 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) (Stakeholders)가 동의(Trade-off 인정)했는가?
-3. <strong>제약 사항 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: "우리 회사는 무조건 오라클 DB만 쓴다" 같은 조직 정치적, 레거시적 제약 사항이 빠짐없이 드라이버에 포함되었는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. **시나리오 구체성**: 도출된 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)이 구체적인 자극(Stimulus)과 측정 가능한 응답(Response Measure) 수치를 포함하고 있는가?
+2. <strong><a href="/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/">이해관계자</a> 합의</strong>: 도출된 최우선 드라이버에 대해 고객, 경영진, 개발팀 등 모든 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) (Stakeholders)가 동의(Trade-off 인정)했는가?
+3. <strong>제약 사항 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>: "우리 회사는 무조건 오라클 DB만 쓴다" 같은 조직 정치적, 레거시적 제약 사항이 빠짐없이 드라이버에 포함되었는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 비즈니스 중요도 구분 없이 모든 요구사항을 완벽하게 충족하려다 아키텍처가 과도하게 복잡해지는 오버 엔지니어링 (Over-engineering).
-- 품질 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 숫자가 아닌 "최대한 빠르게", "사용하기 쉽게" 등 형용사로 남겨두어 테스트와 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 불가능하게 만드는 행위.
+- 품질 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)을 숫자가 아닌 "최대한 빠르게", "사용하기 쉽게" 등 형용사로 남겨두어 테스트와 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 불가능하게 만드는 행위.
 
 - **📢 섹션 요약 비유**: 의사가 환자의 "아프다"는 말만 듣고 수술실에 들어가지 않듯, 아키텍트도 "빠르게 해달라"는 말만 듣고 설계하지 않습니다. 어디가 언제부터 얼만큼 아픈지 정확히 진단(시나리오화)해야 메스를 댈 수 있습니다.
 
@@ -91,9 +88,9 @@ tags = ["studynote-design"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 명확히 식별하고 우선순위를 부여하면, 프로젝트 초기에 가장 리스크가 큰 구조적 결정들을 안전하게 내릴 수 있다. 이는 추후 개발 단계에서 아키텍처를 뒤엎어야 하는 치명적인 재작업 비용을 방지하고, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)들 간의 불필요한 논쟁을 객관적인 지표로 중재하는 효과를 제공한다.
+[아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 명확히 식별하고 우선순위를 부여하면, 프로젝트 초기에 가장 리스크가 큰 구조적 결정들을 안전하게 내릴 수 있다. 이는 추후 개발 단계에서 아키텍처를 뒤엎어야 하는 치명적인 재작업 비용을 방지하고, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)들 간의 불필요한 논쟁을 객관적인 지표로 중재하는 효과를 제공한다.
 
-결론적으로, 좋은 아키텍처는 모든 것을 잘하는 시스템이 아니라, 최우선 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 완벽하게 만족시키면서 나머지 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 허용 가능한 수준으로 방어해 낸 "의도된 타협의 산물"로 기억되어야 한다.
+결론적으로, 좋은 아키텍처는 모든 것을 잘하는 시스템이 아니라, 최우선 [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)를 완벽하게 만족시키면서 나머지 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/)들을 허용 가능한 수준으로 방어해 낸 "의도된 타협의 산물"로 기억되어야 한다.
 
 - **📢 섹션 요약 비유**: 튼튼한 돛(드라이버)과 나침반(우선순위)이 있는 배는 폭풍우(요구사항 변경) 속에서도 목적지를 향해 가지만, 돛이 없는 배는 제자리만 맴돌다 가라앉습니다.
 
@@ -103,10 +100,10 @@ tags = ["studynote-design"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
-| **유틸리티 트리 (Utility Tree)** | 다수의 [품질 속성 시나리오](/knowledge-base/studynote/12_it_management/05_security_compliance/993_process/)들의 우선순위를 평가하고 선정하는 프레임워크 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 아키텍처가 드라이버를 잘 충족시키고 있는지 평가하는 아키텍처 평가 방법론 |
-| **전술 (Tactics)** | 특정 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)(예: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))를 달성하기 위해 사용하는 구체적인 설계 기법 (예: Ping/Echo) |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/993_process/">품질 속성 시나리오</a> (QA Scenario)</strong> | 추상적인 품질 요구를 구체적이고 측정 가능하게 변환한 명세서 |
+| **유틸리티 트리 (Utility Tree)** | 다수의 [품질 속성 시나리오](/studynote/12_it_management/05_security_compliance/993_process/)들의 우선순위를 평가하고 선정하는 프레임워크 |
+| <strong><a href="/studynote/04_software_engineering/04_testing_quality/229_atam_architecture_trade_off_analysis_method/">ATAM</a> (<a href="/studynote/12_it_management/05_security_compliance/319_architecture/">Architecture</a> Trade-off Analysis Method)</strong> | 아키텍처가 드라이버를 잘 충족시키고 있는지 평가하는 아키텍처 평가 방법론 |
+| **전술 (Tactics)** | 특정 [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)(예: [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))를 달성하기 위해 사용하는 구체적인 설계 기법 (예: Ping/Echo) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -126,12 +123,12 @@ tags = ["studynote-design"]
 아키텍처 설계 결정 및 트레이드오프 분석 (ATAM)
 ```
 
-이 흐름도는 모호한 비즈니스 목표가 구체적인 [아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)로 정제되고, 최종적으로 아키텍처 설계와 평가로 이어지는 일련의 과정을 보여준다.
+이 흐름도는 모호한 비즈니스 목표가 구체적인 [아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)로 정제되고, 최종적으로 아키텍처 설계와 평가로 이어지는 일련의 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 장난감 로봇을 만들 때 "불빛이 난다"는 나중에 추가해도 되지만, "하늘을 난다"는 처음부터 날개와 모터를 넣어야 해요.
-2. 이렇게 로봇의 모양 전체를 처음부터 결정해버리는 가장 중요한 규칙을 '[아키텍처 드라이버](/knowledge-base/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)'라고 불러요.
+2. 이렇게 로봇의 모양 전체를 처음부터 결정해버리는 가장 중요한 규칙을 '[아키텍처 드라이버](/studynote/04_software_engineering/04_testing_quality/202_architecture_drivers_quality_attributes/)'라고 불러요.
 3. 배터리는 작은데 하늘도 날고 레이저도 쏘게 할 수는 없어서, 가장 중요한 규칙 하나를 고르고 나머지는 조금 양보해야 한답니다.
 
 ---
@@ -140,7 +137,7 @@ tags = ["studynote-design"]
 
 **진행 상황**: 133 / 530
 
-<- **이전**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)
-**다음**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/) ->
+<- **이전**: [89. 유스케이스 뷰 (Use Case View / +1 View)](/studynote/11_design_supervision/02_architecture_principles/089_use_case_view_plus_one_view_actor_boundary/)
+**다음**: [91. 품질 속성 시나리오 (Quality Attribute Scenario)](/studynote/11_design_supervision/02_architecture_principles/091_quality_attribute_scenario_architecture_evaluation/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "591. 가상현실 VR 몰입형 교육 훈련 (Virtual Reality VR Immersive Training)"
-date = 2026-05-09
+---
+title: "591. 가상현실 VR 몰입형 교육 훈련 (Virtual Reality VR Immersive Training)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Model -> Render -> Interact -> Measure -> Feedback
 
 **진행 상황**: 591 / 800
 
-<- **이전**: [590. 증강현실 AR 산업 가이드](/knowledge-base/studynote/06_ict_convergence/uncategorized/590_augmented_reality_ar_industrial_guide/)
-**다음**: [592. 혼합현실 MR 공간 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/uncategorized/592_mixed_reality_mr_spatial_computing/) ->
+<- **이전**: [590. 증강현실 AR 산업 가이드](/studynote/06_ict_convergence/uncategorized/590_augmented_reality_ar_industrial_guide/)
+**다음**: [592. 혼합현실 MR 공간 컴퓨팅](/studynote/06_ict_convergence/uncategorized/592_mixed_reality_mr_spatial_computing/) ->
 
 ---

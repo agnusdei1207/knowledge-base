@@ -1,13 +1,10 @@
-+++
-title = "557. IT 경영 관리 핵심 토픽 557번 시험 요약 (IT Management Core Topic 557 Exam Summary)"
-date = 2026-05-09
+---
+title: "557. IT 경영 관리 핵심 토픽 557번 시험 요약 (IT Management Core Topic 557 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 557. IT 경영 관리 핵심 토픽 557번 시험 요약 (IT Management Core Topic 557 Exam Summary)
 
@@ -167,7 +164,7 @@ Level 0 (비존재) -> 1 (초기/Ad-hoc) -> 2 (반복가능) -> 3 (정의됨) ->
 
 **진행 상황**: 557 / 800
 
-<- **이전**: [556. IT 경영 관리 핵심 토픽 556번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/556_it_management_core_topic_556_exam_summary/)
-**다음**: [558. IT 경영 관리 핵심 토픽 558번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/558_it_management_core_topic_558_exam_summary/) ->
+<- **이전**: [556. IT 경영 관리 핵심 토픽 556번 시험 요약](/studynote/12_it_management/05_security_compliance/556_it_management_core_topic_556_exam_summary/)
+**다음**: [558. IT 경영 관리 핵심 토픽 558번 시험 요약](/studynote/12_it_management/05_security_compliance/558_it_management_core_topic_558_exam_summary/) ->
 
 ---

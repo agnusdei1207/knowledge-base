@@ -1,13 +1,10 @@
-+++
-title = "742. IT 경영 관리 핵심 토픽 742번 시험 요약 (IT Management Core Topic 742 Exam Summary)"
-date = 2026-05-09
+---
+title: "742. IT 경영 관리 핵심 토픽 742번 시험 요약 (IT Management Core Topic 742 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 742. IT 경영 관리 핵심 토픽 742번 시험 요약 (IT Management Core Topic 742 Exam Summary)
 
@@ -139,7 +136,7 @@ IT 경영의 핵심 메커니즘은 **거버넌스 체계(Governance Layer) -> �
 
 **진행 상황**: 742 / 800
 
-<- **이전**: [741. IT 경영 관리 핵심 토픽 741번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/741_it_management_core_topic_741_exam_summary/)
-**다음**: [743. IT 경영 관리 핵심 토픽 743번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/743_it_management_core_topic_743_exam_summary/) ->
+<- **이전**: [741. IT 경영 관리 핵심 토픽 741번 시험 요약](/studynote/12_it_management/05_security_compliance/741_it_management_core_topic_741_exam_summary/)
+**다음**: [743. IT 경영 관리 핵심 토픽 743번 시험 요약](/studynote/12_it_management/05_security_compliance/743_it_management_core_topic_743_exam_summary/) ->
 
 ---

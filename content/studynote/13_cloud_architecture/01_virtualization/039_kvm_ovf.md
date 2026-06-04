@@ -1,22 +1,19 @@
-+++
-title = "039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)"
-date = 2026-03-04
+---
+title: "039. KVM과 OVF (Kernel-based Virtual Machine & Open Virtualization Format)"
+date: "2026-03-04"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)(Kernel-based [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))은 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 내장된 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로, 하드웨어 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 지원([Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)/[AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/))을 활용하여 최소 오버헤드로 완전 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 제공하며, QEMU와 결합하여 OpenStack·AWS Nitro·Google Cloud의 기반 기술로 사용된다.
-> 2. OVF(Open [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Format)는 VMware·Red Hat·IBM 등이 공동 개발한 가상 어플라이언스 패키징 표준으로, [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 독립적인 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지 배포를 가능하게 하는 인터오퍼러빌리티의 핵심이다.
-> 3. KVM의 핵심 구성 요소는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([kvm](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/).ko) + QEMU(에뮬레이터) + libvirt(관리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 3계층 — 이 분리 구조 덕분에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/[Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))와 공존하며 클라우드 인프라의 실질적 기반이 되었다.
+> 1. [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/)(Kernel-based [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))은 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 내장된 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)로, 하드웨어 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 지원([Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/)/[AMD-V](/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/))을 활용하여 최소 오버헤드로 완전 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 제공하며, QEMU와 결합하여 OpenStack·AWS Nitro·Google Cloud의 기반 기술로 사용된다.
+> 2. OVF(Open [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Format)는 VMware·Red Hat·IBM 등이 공동 개발한 가상 어플라이언스 패키징 표준으로, [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 독립적인 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지 배포를 가능하게 하는 인터오퍼러빌리티의 핵심이다.
+> 3. KVM의 핵심 구성 요소는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)([kvm](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/).ko) + QEMU(에뮬레이터) + libvirt(관리 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))의 3계층 — 이 분리 구조 덕분에 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)([Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/)/[Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))와 공존하며 클라우드 인프라의 실질적 기반이 되었다.
 
 ---
 
-## I. [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 아키텍처
+## I. [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 아키텍처
 
 ```
 KVM (Kernel-based Virtual Machine, 2007):
@@ -44,11 +41,11 @@ libvirt:
   virsh, virt-manager, OpenStack 인터페이스
 ```
 
-> 📢 **섹션 요약 비유**: KVM은 아파트 건물(Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 안에 독립된 집([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 만드는 것 — 건물 관리인([kvm](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/).ko)이 CPU/메모리 자원 배분.
+> 📢 **섹션 요약 비유**: KVM은 아파트 건물(Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) 안에 독립된 집([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))을 만드는 것 — 건물 관리인([kvm](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/).ko)이 CPU/메모리 자원 배분.
 
 ---
 
-## II. [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 메커니즘
+## II. [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 메커니즘
 
 ```
 하드웨어 지원 가상화:
@@ -109,11 +106,11 @@ OVA (Open Virtual Appliance):
   virt-v2v -i ova vm.ova -o local -of qcow2
 ```
 
-> 📢 **섹션 요약 비유**: OVA는 VM의 이사 박스 — 어느 집([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))에서든 열어서 그대로 설치 가능한 표준 패키징.
+> 📢 **섹션 요약 비유**: OVA는 VM의 이사 박스 — 어느 집([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))에서든 열어서 그대로 설치 가능한 표준 패키징.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). QEMU-KVM과 libvirt
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). QEMU-KVM과 libvirt
 
 ```
 QEMU (Quick Emulator):
@@ -154,7 +151,7 @@ XML 기반 VM 정의:
 
 ---
 
-## V. 실무 시나리오 — [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) 구성
+## V. 실무 시나리오 — [프라이빗 클라우드](/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/) 구성
 
 ```
 OpenStack + KVM 프라이빗 클라우드:
@@ -183,7 +180,7 @@ OVF를 이용한 마이그레이션:
   -> 유지보수를 위한 핵심 기능
 ```
 
-> 📢 **섹션 요약 비유**: libvirt migrate는 달리는 기차의 승객을 다른 기차로 옮기기 — VM을 끄지 않고 다른 서버로 이동 ([라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)).
+> 📢 **섹션 요약 비유**: libvirt migrate는 달리는 기차의 승객을 다른 기차로 옮기기 — VM을 끄지 않고 다른 서버로 이동 ([라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)).
 
 ---
 
@@ -237,9 +234,9 @@ VM과 컨테이너를 혼용하는 구조
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. KVM은 Linux [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 여러 개의 완전한 컴퓨터([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 만들어 실행하는 기술로, CPU의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 덕분에 거의 실제 속도로 동작해요.
+1. KVM은 Linux [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에서 여러 개의 완전한 컴퓨터([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))를 만들어 실행하는 기술로, CPU의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 덕분에 거의 실제 속도로 동작해요.
 2. OVF/OVA는 VM을 이삿짐처럼 표준 박스에 포장하는 방법 — VMware에서 만든 VM을 KVM에서도 열 수 있게 해주는 공통 표준이에요.
-3. OpenStack과 KVM을 결합하면 AWS 같은 [프라이빗 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)를 회사 안에 직접 구축할 수 있고, VM을 끄지 않고 다른 서버로 이동시키는 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)도 가능해요!
+3. OpenStack과 KVM을 결합하면 AWS 같은 [프라이빗 클라우드](/studynote/13_cloud_architecture/01_virtualization/008_private_cloud/)를 회사 안에 직접 구축할 수 있고, VM을 끄지 않고 다른 서버로 이동시키는 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)도 가능해요!
 
 ---
 
@@ -247,7 +244,7 @@ VM과 컨테이너를 혼용하는 구조
 
 **진행 상황**: 38 / 371
 
-<- **이전**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/)
-**다음**: [040. 클라우드 네이티브 (Cloud Native)](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/) ->
+<- **이전**: [038. 데이터 중력과 벤더 종속 (Data Gravity & Vendor Lock-in)](/studynote/13_cloud_architecture/01_virtualization/038_data_gravity_vendor_lockin/)
+**다음**: [040. 클라우드 네이티브 (Cloud Native)](/studynote/13_cloud_architecture/01_virtualization/040_cloud_native/) ->
 
 ---

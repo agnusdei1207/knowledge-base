@@ -1,13 +1,10 @@
-+++
-title = "576. 일정 관리 CPM PERT 간트 차트 (Schedule Management CPM PERT Gantt)"
-date = 2026-05-09
+---
+title: "576. 일정 관리 CPM PERT 간트 차트 (Schedule Management CPM PERT Gantt)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 576 / 800
 
-<- **이전**: [575. 비용 관리 EVM 획득가치 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/575_cost_management_evm_earned_value_analysis/)
-**다음**: [577. 범위 관리 WBS 요구사항 추적 매트릭스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/577_scope_management_wbs_requirements_traceabilit/) ->
+<- **이전**: [575. 비용 관리 EVM 획득가치 분석](/studynote/07_enterprise_systems/06_exam_summary/575_cost_management_evm_earned_value_analysis/)
+**다음**: [577. 범위 관리 WBS 요구사항 추적 매트릭스](/studynote/07_enterprise_systems/06_exam_summary/577_scope_management_wbs_requirements_traceabilit/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "630. FinOps 클라우드 비용 최적화 태깅 (FinOps Cloud Cost Optimization Tagging)"
-date = 2026-05-09
+---
+title: "630. FinOps 클라우드 비용 최적화 태깅 (FinOps Cloud Cost Optimization Tagging)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ FinOps 클라우드 비용 최적화 태깅은(는) 클라우드 네이티브 �
 
 **진행 상황**: 624 / 800
 
-<- **이전**: [623. SRE 에러버짓 신뢰성 목표 설정](/knowledge-base/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
-**다음**: [625. 그린 클라우드 탄소중립 PUE 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/) ->
+<- **이전**: [623. SRE 에러버짓 신뢰성 목표 설정](/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
+**다음**: [625. 그린 클라우드 탄소중립 PUE 최적화](/studynote/06_ict_convergence/uncategorized/631_green_cloud_carbon_neutral_pue_optimization/) ->
 
 ---

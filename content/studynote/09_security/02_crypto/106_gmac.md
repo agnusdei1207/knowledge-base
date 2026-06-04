@@ -1,29 +1,26 @@
-+++
-title = "106. GMAC (Galois MAC) — GCM의 인증 부분"
-date = 2026-04-05
+---
+title: "106. GMAC (Galois MAC) — GCM의 인증 부분"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: GMAC (Galois [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 복잡한 해시나 암호화 과정을 덜어내고, 갈루아 체(Galois Field)라는 특수한 수학적 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈을 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag)를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 기존 CBC-MAC이나 CMAC의 치명적 약점인 '[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 병목'을 해소했다. 블록을 독립적으로 연산할 수 있어 CPU 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하드웨어 가속을 통해 기가비트급 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능하다.
-> 3. **판단 포인트**: GMAC 단독으로 쓰이기보다는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 수행하는 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드와 결합하여 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)(Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)의 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 핵심 엔진([무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) 파트)으로 사용될 때 진가가 발휘된다.
+> 1. **본질**: GMAC (Galois [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))은 복잡한 해시나 암호화 과정을 덜어내고, 갈루아 체(Galois Field)라는 특수한 수학적 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈을 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그(Tag)를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 기존 CBC-MAC이나 CMAC의 치명적 약점인 '[직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 병목'을 해소했다. 블록을 독립적으로 연산할 수 있어 CPU 전용 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하드웨어 가속을 통해 기가비트급 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리가 가능하다.
+> 3. **판단 포인트**: GMAC 단독으로 쓰이기보다는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 수행하는 [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드와 결합하여 [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)(Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)의 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 핵심 엔진([무결성 보장](/studynote/05_database/07_exam_summary/442_consistency_integrity/) 파트)으로 사용될 때 진가가 발휘된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-네트워크 구간에서 대량의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때, 해커가 패킷 내용을 몰래 조작하지 못하도록 막는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 확인용 도장([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이 필수적이다.
+네트워크 구간에서 대량의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 전송할 때, 해커가 패킷 내용을 몰래 조작하지 못하도록 막는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 확인용 도장([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/), [Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))이 필수적이다.
 
-과거에는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)([해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 반복)이나 [CMAC](/knowledge-base/studynote/09_security/02_crypto/105_cmac/)([블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 사슬처럼 연결)을 주로 사용했다. 하지만 트래픽이 기가바이트(GB) 단위로 치솟는 클라우드 시대에, 이들은 치명적인 약점이 있었다. 이전 블록의 암호화가 끝나야 다음 블록을 연산할 수 있는 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산 구조였기 때문에 멀티코어 CPU의 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 전혀 활용하지 못하고 서버 병목의 주범이 되었다. 이 거북이 속도를 타파하기 위해 복잡한 암호 회로를 버리고, 하드웨어가 가장 빨리 계산할 수 있는 특수한 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈(수학)으로 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도장을 찍어내는 혁신적인 방식, GMAC이 등장하게 되었다.
+과거에는 [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/)([해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/) 반복)이나 [CMAC](/studynote/09_security/02_crypto/105_cmac/)([블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 사슬처럼 연결)을 주로 사용했다. 하지만 트래픽이 기가바이트(GB) 단위로 치솟는 클라우드 시대에, 이들은 치명적인 약점이 있었다. 이전 블록의 암호화가 끝나야 다음 블록을 연산할 수 있는 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연산 구조였기 때문에 멀티코어 CPU의 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 전혀 활용하지 못하고 서버 병목의 주범이 되었다. 이 거북이 속도를 타파하기 위해 복잡한 암호 회로를 버리고, 하드웨어가 가장 빨리 계산할 수 있는 특수한 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 곱셈(수학)으로 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 도장을 찍어내는 혁신적인 방식, GMAC이 등장하게 되었다.
 
-- **📢 섹션 요약 비유**: 기존 [CMAC](/knowledge-base/studynote/09_security/02_crypto/105_cmac/) 방식은 만 장의 서류에 도장을 찍을 때 이전 서류를 풀로 붙인 뒤에야 다음 도장을 찍을 수 있는 답답한 수작업이었다. GMAC은 만 장의 서류를 공중에 흩뿌린 뒤, 100개의 기계 팔([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산)이 동시에 도장을 찍어 1초 만에 끝내는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 자동화 공장이다.
+- **📢 섹션 요약 비유**: 기존 [CMAC](/studynote/09_security/02_crypto/105_cmac/) 방식은 만 장의 서류에 도장을 찍을 때 이전 서류를 풀로 붙인 뒤에야 다음 도장을 찍을 수 있는 답답한 수작업이었다. GMAC은 만 장의 서류를 공중에 흩뿌린 뒤, 100개의 기계 팔([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산)이 동시에 도장을 찍어 1초 만에 끝내는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 자동화 공장이다.
 
 ---
 
@@ -33,9 +30,9 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 
 | 연산 단계 | 핵심 동작 | 기술적 특징 |
 | :--- | :--- | :--- |
-| <strong>1. 키 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 비밀키를 AES로 암호화하여 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고정된 기준점 마련 |
-| **2. GHASH 누적** | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 $H$와 갈루아 곱셈($\times$)하고 XOR($+$) 반복 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능 (CPU 하드웨어 가속)</strong> |
-| **3. 최종 마감** | 연산 결과에 일회용 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 XOR하여 태그(Tag) 출력 | 재사용 방지 및 태그 암호화 |
+| <strong>1. 키 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> | 비밀키를 AES로 암호화하여 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | 고정된 기준점 마련 |
+| **2. GHASH 누적** | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 블록을 $H$와 갈루아 곱셈($\times$)하고 XOR($+$) 반복 | <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능 (CPU 하드웨어 가속)</strong> |
+| **3. 최종 마감** | 연산 결과에 일회용 난수([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 XOR하여 태그(Tag) 출력 | 재사용 방지 및 태그 암호화 |
 
 ```text
 +--------------------------------------------------------------+
@@ -59,51 +56,51 @@ GMAC의 뼈대는 갈루아 체(Galois Field, $GF(2^{128})$)에서의 수학적 
 +--------------------------------------------------------------+
 ```
 
-이 방식이 무서운 속도를 내는 이유는 곱셈과 XOR 연산이 CPU가 가장 좋아하는 기본 동작이기 때문이다. 인텔과 AMD 같은 칩 제조사들은 이 갈루아 곱셈을 위한 전용 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`PCLMULQDQ`)를 아예 CPU 안에 박아 넣었다. 덕분에 복잡한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 타는 것보다 물리적으로 압도적인 속도를 낸다.
+이 방식이 무서운 속도를 내는 이유는 곱셈과 XOR 연산이 CPU가 가장 좋아하는 기본 동작이기 때문이다. 인텔과 AMD 같은 칩 제조사들은 이 갈루아 곱셈을 위한 전용 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`PCLMULQDQ`)를 아예 CPU 안에 박아 넣었다. 덕분에 복잡한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 타는 것보다 물리적으로 압도적인 속도를 낸다.
 
-- **📢 섹션 요약 비유**: 미로를 뚫고 목적지에 가는 것(복잡한 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 포기하고, 슈퍼컴퓨터로 좌표를 계산해 그냥 순간이동(수학 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산)을 해버리는 것이다. 어차피 조작 여부([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))만 확인하면 되니 굳이 무거운 미로를 탈 필요가 없다.
+- **📢 섹션 요약 비유**: 미로를 뚫고 목적지에 가는 것(복잡한 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 포기하고, 슈퍼컴퓨터로 좌표를 계산해 그냥 순간이동(수학 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산)을 해버리는 것이다. 어차피 조작 여부([무결성](/studynote/09_security/01_intro_principles/003_integrity/))만 확인하면 되니 굳이 무거운 미로를 탈 필요가 없다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-GMAC 단독으로는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 보장)할 수 없다. 오직 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 깨졌다'는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 도장만 제공한다. 그래서 현대 인터넷에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 담당하는 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드와 이 GMAC을 결합하여 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/)([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호)의 완전체인 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>을 만들어 쓴다.
+GMAC 단독으로는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 암호화([기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 보장)할 수 없다. 오직 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 깨졌다'는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 도장만 제공한다. 그래서 현대 인터넷에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 암호화를 담당하는 [CTR](/studynote/09_security/02_crypto/090_ctr_mode/)([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드와 이 GMAC을 결합하여 [AEAD](/studynote/09_security/02_crypto/092_aead/)([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호)의 완전체인 <strong><a href="/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>을 만들어 쓴다.
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 기반 원리 | 연산 방식 | 속도 특성 | 주요 용도 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 기반 원리 | 연산 방식 | 속도 특성 | 주요 용도 |
 | :--- | :--- | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a></strong> | [해시 함수](/knowledge-base/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA 등) 반복 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 일반적인 소프트웨어 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| <strong><a href="/knowledge-base/studynote/09_security/02_crypto/105_cmac/">CMAC</a></strong> | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등) 체인 | [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 작은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 제어 환경 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
-| **GMAC** | 갈루아 체 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 수학 곱셈 | <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 지원</strong> | **매우 빠름(가속)** | 대용량 고속 트래픽 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
+| <strong><a href="/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/">HMAC</a></strong> | [해시 함수](/studynote/03_network/13_network_security_basics/667_hash_function_integrity_one_way/)(SHA 등) 반복 | [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 일반적인 소프트웨어 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| <strong><a href="/studynote/09_security/02_crypto/105_cmac/">CMAC</a></strong> | [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 등) 체인 | [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리 | 느림 | 작은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 제어 환경 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) |
+| **GMAC** | 갈루아 체 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 수학 곱셈 | <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 지원</strong> | **매우 빠름(가속)** | 대용량 고속 트래픽 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)) |
 
-[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드에서 IP 주소나 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포트처럼 라우팅을 위해 평문으로 둬야 하지만(암호화 X), 해커가 변조하는 것은 막아야 하는 부가 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(AAD, Additional Authenticated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보호할 때 이 GMAC 연산기에 쏙 집어넣어 처리한다.
+[GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드에서 IP 주소나 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 포트처럼 라우팅을 위해 평문으로 둬야 하지만(암호화 X), 해커가 변조하는 것은 막아야 하는 부가 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(AAD, Additional Authenticated [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보호할 때 이 GMAC 연산기에 쏙 집어넣어 처리한다.
 
-- **📢 섹션 요약 비유**: [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 내용물을 볼 수 없게 까만 비닐봉지로 포장하는 작업(암호화)이고, GMAC은 그 봉지 입구와 겉면 송장(AAD)에 개봉 방지 특수 테이프([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 바르는 작업이다. 이 둘이 합쳐져야 배달(인터넷 전송) 사고가 완벽히 차단된다.
+- **📢 섹션 요약 비유**: [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드는 내용물을 볼 수 없게 까만 비닐봉지로 포장하는 작업(암호화)이고, GMAC은 그 봉지 입구와 겉면 송장(AAD)에 개봉 방지 특수 테이프([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))를 바르는 작업이다. 이 둘이 합쳐져야 배달(인터넷 전송) 사고가 완벽히 차단된다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-이 엄청난 스피드의 GMAC도 무너지는 치명적인 아킬레스건이 존재한다. 바로 초기화 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)/[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))의 통제다.
+이 엄청난 스피드의 GMAC도 무너지는 치명적인 아킬레스건이 존재한다. 바로 초기화 난수([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/)/[IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/))의 통제다.
 
-### 1. 실무 설계 시 주의점 ([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용의 파국)
-- GMAC은 철저한 수학적 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)에 기반하므로, 만약 똑같은 일회용 난수([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 써서 태그를 2번 만들어내면 끔찍한 사태가 벌어진다.
-- 해커가 두 개의 태그 값을 빼서(XOR) [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 방정식을 풀어버리면, 시스템의 심장인 **비밀 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) 전체가 고스란히 노출**된다. (수학적으로 인수분해가 됨).
-- 키가 털리면 해커는 원하는 어떤 가짜 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에라도 정상 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 쾅쾅 찍어 서버에 밀어 넣을 수 있다 (Universal Forgery).
+### 1. 실무 설계 시 주의점 ([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용의 파국)
+- GMAC은 철저한 수학적 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/)에 기반하므로, 만약 똑같은 일회용 난수([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 써서 태그를 2번 만들어내면 끔찍한 사태가 벌어진다.
+- 해커가 두 개의 태그 값을 빼서(XOR) [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 방정식을 풀어버리면, 시스템의 심장인 **비밀 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)키($H$) 전체가 고스란히 노출**된다. (수학적으로 인수분해가 됨).
+- 키가 털리면 해커는 원하는 어떤 가짜 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에라도 정상 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그를 쾅쾅 찍어 서버에 밀어 넣을 수 있다 (Universal Forgery).
 
-### 2. [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 기술사 판단
-- 64비트 이하의 짧은 카운터를 Nonce로 사용하여 장비 재부팅이나 트래픽 과부하 시 카운터가 한 바퀴 돌아 겹치게 방치하는 아키텍처는 절대로 피해야 한다. [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 필요할 때는 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)/GMAC을 무조건 채택하되, [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 생명주기 관리 모듈을 가장 높은 수준으로 통제해야 한다.
+### 2. [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) 및 기술사 판단
+- 64비트 이하의 짧은 카운터를 Nonce로 사용하여 장비 재부팅이나 트래픽 과부하 시 카운터가 한 바퀴 돌아 겹치게 방치하는 아키텍처는 절대로 피해야 한다. [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)이 필요할 때는 [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)/GMAC을 무조건 채택하되, [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 생명주기 관리 모듈을 가장 높은 수준으로 통제해야 한다.
 
-- **📢 섹션 요약 비유**: GMAC은 세상에서 가장 빠른 스포츠카지만, 열쇠 구멍에 방금 뺐던 열쇠를 두 번 연속으로 꽂으면([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용) 자동차 설계도 전체가 밖으로 인쇄되어 나오는 무서운 결함을 가진 차다. 엄청난 성능을 누리려면 운전자의 꼼꼼한 매뉴얼 준수가 생명이다.
+- **📢 섹션 요약 비유**: GMAC은 세상에서 가장 빠른 스포츠카지만, 열쇠 구멍에 방금 뺐던 열쇠를 두 번 연속으로 꽂으면([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용) 자동차 설계도 전체가 밖으로 인쇄되어 나오는 무서운 결함을 가진 차다. 엄청난 성능을 누리려면 운전자의 꼼꼼한 매뉴얼 준수가 생명이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 암호 연산이라는 물리적 족쇄를 끊어내고 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산(수학)이라는 우회로를 통해 대규모 트래픽 시대의 목마름을 완벽히 해결했다.
+GMAC은 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 암호 연산이라는 물리적 족쇄를 끊어내고 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산(수학)이라는 우회로를 통해 대규모 트래픽 시대의 목마름을 완벽히 해결했다.
 
-다만 성능과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 극한으로 끌어올린 대가로 "단 한 번의 [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용도 용납하지 않는" 가혹한 취약성 관리의 책임을 개발자에게 넘겼다. 결론적으로 하드웨어 가속(PCLMULQDQ) 버프를 받은 GMAC은 사실상 지구상에서 가장 효율적인 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 엔진이며, 인터넷 보안의 절대 표준인 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3과 IPsec이 GCM을 기본으로 채택할 수밖에 없었던 공학적 승리다.
+다만 성능과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 능력을 극한으로 끌어올린 대가로 "단 한 번의 [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용도 용납하지 않는" 가혹한 취약성 관리의 책임을 개발자에게 넘겼다. 결론적으로 하드웨어 가속(PCLMULQDQ) 버프를 받은 GMAC은 사실상 지구상에서 가장 효율적인 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 엔진이며, 인터넷 보안의 절대 표준인 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3과 IPsec이 GCM을 기본으로 채택할 수밖에 없었던 공학적 승리다.
 
-- **📢 섹션 요약 비유**: 굼벵이 같은 암호화 미로([CMAC](/knowledge-base/studynote/09_security/02_crypto/105_cmac/))를 걷어차고, CPU를 위한 전용 고속도로(갈루아 곱셈)를 깔아버린 것이 GMAC의 본질이다. 고속도로인 만큼 역주행([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용) 사고 한 방이 치명적이지만, 그 스피드가 주는 물류(트래픽) 혁신을 포기할 수 없기에 모두가 쓰는 표준이 되었다.
+- **📢 섹션 요약 비유**: 굼벵이 같은 암호화 미로([CMAC](/studynote/09_security/02_crypto/105_cmac/))를 걷어차고, CPU를 위한 전용 고속도로(갈루아 곱셈)를 깔아버린 것이 GMAC의 본질이다. 고속도로인 만큼 역주행([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용) 사고 한 방이 치명적이지만, 그 스피드가 주는 물류(트래픽) 혁신을 포기할 수 없기에 모두가 쓰는 표준이 되었다.
 
 ---
 
@@ -111,10 +108,10 @@ GMAC은 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/14
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)을 위한 [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) 모드와 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 위한 GMAC이 결합된 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 절대 표준 |
-| GHASH | GMAC 내부에서 갈루아 체 [다항식](/knowledge-base/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산을 수행하여 태그를 누적하는 핵심 함수 |
-| [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) (Number Used Once) | GMAC에서 단 한 번만 써야 하며, 재사용 시 비밀키가 통째로 털리는 일회용 난수 |
-| [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) ([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호) | 암호화([기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/))와 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)/[인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 동시에 제공하는 현대 암호학의 필수 규격 |
+| [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) | [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)을 위한 [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) 모드와 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 위한 GMAC이 결합된 [AEAD](/studynote/09_security/02_crypto/092_aead/) 절대 표준 |
+| GHASH | GMAC 내부에서 갈루아 체 [다항식](/studynote/03_network/04_data_link_layer_error/195_polynomial_generator_crc/) 연산을 수행하여 태그를 누적하는 핵심 함수 |
+| [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) (Number Used Once) | GMAC에서 단 한 번만 써야 하며, 재사용 시 비밀키가 통째로 털리는 일회용 난수 |
+| [AEAD](/studynote/09_security/02_crypto/092_aead/) ([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)형 암호) | 암호화([기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/))와 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)([무결성](/studynote/09_security/01_intro_principles/003_integrity/)/[인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 동시에 제공하는 현대 암호학의 필수 규격 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -133,9 +130,9 @@ GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 편지에 나쁜 도둑이 낙서했는지 확인하려고 도장을 찍을 때, 옛날엔 꼬불꼬불한 미로(해시/[블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/))를 통과하느라 시간이 너무 오래 걸렸어요.
-2. GMAC은 미로 대신 컴퓨터가 제일 좋아하는 '구구단(수학 곱셈)'으로 순식간에 쪼개서 계산을 끝내버리는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 얌체공 기계랍니다.
-3. 속도는 세상에서 제일 빠르지만, 만약 주인이 번호표([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 두 번 겹쳐서 쓰는 실수를 하면 도둑이 역으로 구구단 공식을 풀어버려 열쇠를 훔쳐 갈 수 있으니 조심해야 해요!
+1. 편지에 나쁜 도둑이 낙서했는지 확인하려고 도장을 찍을 때, 옛날엔 꼬불꼬불한 미로(해시/[블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/))를 통과하느라 시간이 너무 오래 걸렸어요.
+2. GMAC은 미로 대신 컴퓨터가 제일 좋아하는 '구구단(수학 곱셈)'으로 순식간에 쪼개서 계산을 끝내버리는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 얌체공 기계랍니다.
+3. 속도는 세상에서 제일 빠르지만, 만약 주인이 번호표([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))를 두 번 겹쳐서 쓰는 실수를 하면 도둑이 역으로 구구단 공식을 풀어버려 열쇠를 훔쳐 갈 수 있으니 조심해야 해요!
 
 ---
 
@@ -143,7 +140,7 @@ GCM (Galois/Counter Mode) · 암호화(CTR) 결합으로 현대 인터넷 트래
 
 **진행 상황**: 159 / 1108
 
-<- **이전**: [105. CMAC (Cipher-based MAC) — 블록 암호 기반](/knowledge-base/studynote/09_security/02_crypto/105_cmac/)
-**다음**: [107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격](/knowledge-base/studynote/09_security/02_crypto/107_rainbow_table/) ->
+<- **이전**: [105. CMAC (Cipher-based MAC) — 블록 암호 기반](/studynote/09_security/02_crypto/105_cmac/)
+**다음**: [107. Rainbow Table — 사전 계산 해시 테이블, 역산 공격](/studynote/09_security/02_crypto/107_rainbow_table/) ->
 
 ---

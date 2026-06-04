@@ -1,13 +1,10 @@
-+++
-title = "639. API 게이트웨이 매니지드 서비스 비교 (API Gateway Managed Service Comparison)"
-date = 2026-05-09
+---
+title: "639. API 게이트웨이 매니지드 서비스 비교 (API Gateway Managed Service Comparison)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ MSA(Microservices Architecture) 전환이 가속화되면서 단일 시스템이
 
 **진행 상황**: 639 / 800
 
-<- **이전**: [638. 클라우드 마이그레이션 6R 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/)
-**다음**: [640. 이벤트 드리븐 아키텍처 EventBridge](/knowledge-base/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/) ->
+<- **이전**: [638. 클라우드 마이그레이션 6R 전략](/studynote/06_ict_convergence/uncategorized/638_cloud_migration_6r_strategy/)
+**다음**: [640. 이벤트 드리븐 아키텍처 EventBridge](/studynote/06_ict_convergence/uncategorized/640_event_driven_architecture_eventbridge/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류"
-date = 2026-04-19
+---
+title: "135. 자율주행 SAE 레벨 (Level 0~5) - 자율주행 단계 분류"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: SAE J3016은 <strong>자율주행을 Level 0(비자동)~Level 5(완전 자율)의 6단계</strong>로 분류하는 국제 표준이며, Level 3(조건부 자율)부터 시스템이 주행의 주체가 된다.
@@ -42,7 +39,7 @@ SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</s
 | **SAE L0~L5** | 자율주행 6단계 |
 | **ADAS** | L1~L2 (운전 보조) |
 | **ODD** | 운행 설계 영역 (L3+) |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a></strong> | 차량-인프라 통신 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/141_v2x_vehicle_to_everything_communication/">V2X</a></strong> | 차량-인프라 통신 |
 | **Waymo** | L4 로보택시 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -65,7 +62,7 @@ SAE 레벨은 <strong>자율주행 기술·법규·보험의 기준 프레임</s
 
 **진행 상황**: 135 / 552
 
-<- **이전**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/)
-**다음**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/) ->
+<- **이전**: [134. 메타버스 & 가상 현실 경제 - 디지털 세계의 경제 생태계](/studynote/06_ict_convergence/02_iot_mobility/134_metaverse_virtual_reality_economy/)
+**다음**: [136. 자율주행 Level 2 ADAS - 운전 보조의 현재와 한계](/studynote/06_ict_convergence/02_iot_mobility/136_autonomous_vehicle_level_2_adas/) ->
 
 ---

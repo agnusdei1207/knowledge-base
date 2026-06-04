@@ -1,13 +1,10 @@
-+++
-title = "736. 로봇 협동 코봇 휴먼 로봇 인터랙션 (Collaborative Robot Cobot Human Interaction)"
-date = 2026-05-09
+---
+title: "736. 로봇 협동 코봇 휴먼 로봇 인터랙션 (Collaborative Robot Cobot Human Interaction)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ $$E_{qs} = \frac{1}{2} m_r \cdot v^2 \leq 80 \text{ W·s (생체 한계)}$$
 
 **진행 상황**: 736 / 800
 
-<- **이전**: [735. 드론 군집 비행 무인 물류 배송](/knowledge-base/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/)
-**다음**: [737. 디지털 포렌식 증거 수집 분석 법정](/knowledge-base/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/) ->
+<- **이전**: [735. 드론 군집 비행 무인 물류 배송](/studynote/06_ict_convergence/uncategorized/735_drone_swarm_flight_unmanned_logistics/)
+**다음**: [737. 디지털 포렌식 증거 수집 분석 법정](/studynote/06_ict_convergence/uncategorized/737_digital_forensics_evidence_collection_analysi/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "452. 마이크로서비스 아키텍처 설계 패턴 심화 (MSA Design Pattern Advanced)"
-date = 2026-05-09
+---
+title: "452. 마이크로서비스 아키텍처 설계 패턴 심화 (MSA Design Pattern Advanced)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -219,7 +216,7 @@ Christopher Richardson의 분류를 실무 기준으로 재구성하면 다음�
 
 **진행 상황**: 452 / 600
 
-<- **이전**: [451. 451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management and System Audit Keyword Mapping Network)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/451_audit/)
-**다음**: [453. 이벤트 소싱 CQRS 설계 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/453_event_sourcing_cqrs/) ->
+<- **이전**: [451. 451. 정보관리·시스템 감리 평가 빈출 키워드 100% 매핑 요약 연결망 (High-Frequency Information Management and System Audit Keyword Mapping Network)](/studynote/11_design_supervision/06_exam_summary/451_audit/)
+**다음**: [453. 이벤트 소싱 CQRS 설계 패턴](/studynote/11_design_supervision/06_exam_summary/453_event_sourcing_cqrs/) ->
 
 ---

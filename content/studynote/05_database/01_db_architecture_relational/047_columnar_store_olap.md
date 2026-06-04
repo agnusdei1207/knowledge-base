@@ -1,18 +1,15 @@
-+++
-title = "047. 컬럼 기반 스토리지 — Columnar Store & OLAP"
-date = 2026-04-05
+---
+title: "047. 컬럼 기반 스토리지 — Columnar Store & OLAP"
+date: "2026-04-05"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 > **핵심 인사이트**
-> 1. 컬럼 기반 스토리지(Columnar Store)는 동일 컬럼의 값을 연속으로 저장하여 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/) 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 극적인 I/O 절감을 달성 — "[SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/) AVG(price) FROM orders"처럼 특정 컬럼만 읽는 분석 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 행 기반 저장보다 100배 이상 빠를 수 있다.
-> 2. 컬럼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 컬럼 스토리지의 또 다른 핵심 장점 — 동일 컬럼의 값은 타입이 동일하고 중복이 많아 [RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)(Run-Length Encoding), 사전 인코딩(Dictionary Encoding), [비트맵 인덱스](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)([Bitmap Index](/knowledge-base/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)) 등으로 5~20배 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 가능하다.
-> 3. [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) vs OLAP의 저장 방식 선택 원칙 — 행 단위 CRUD 많은 OLTP는 행 기반(InnoDB, PostgreSQL [Heap](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), 컬럼 집계 분석 위주 OLAP는 컬럼 기반(Redshift, [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), ClickHouse)이 적합하며, 하이브리드 [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 이를 통합하는 추세다.
+> 1. 컬럼 기반 스토리지(Columnar Store)는 동일 컬럼의 값을 연속으로 저장하여 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/) 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)에서 극적인 I/O 절감을 달성 — "[SELECT](/studynote/05_database/04_transactions_concurrency/520_select/) AVG(price) FROM orders"처럼 특정 컬럼만 읽는 분석 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)는 행 기반 저장보다 100배 이상 빠를 수 있다.
+> 2. 컬럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 컬럼 스토리지의 또 다른 핵심 장점 — 동일 컬럼의 값은 타입이 동일하고 중복이 많아 [RLE](/studynote/08_algorithm_stats/05_string/099_rle/)(Run-Length Encoding), 사전 인코딩(Dictionary Encoding), [비트맵 인덱스](/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)([Bitmap Index](/studynote/05_database/03_relational_model/158_bitmap_index_cardinality_dml/)) 등으로 5~20배 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 가능하다.
+> 3. [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/) vs OLAP의 저장 방식 선택 원칙 — 행 단위 CRUD 많은 OLTP는 행 기반(InnoDB, PostgreSQL [Heap](/studynote/08_algorithm_stats/04_datastructure/078_heap_datastructure/)), 컬럼 집계 분석 위주 OLAP는 컬럼 기반(Redshift, [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/), [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/), ClickHouse)이 적합하며, 하이브리드 [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)가 이를 통합하는 추세다.
 
 ---
 
@@ -60,7 +57,7 @@ tags = ["studynote-database"]
 
 ---
 
-## Ⅱ. 컬럼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기법
+## Ⅱ. 컬럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기법
 
 ```
 컬럼 스토리지 압축:
@@ -107,7 +104,7 @@ tags = ["studynote-database"]
   Parquet + ZSTD: 1.5GB (6.7×)
 ```
 
-> 📢 **섹션 요약 비유**: 컬럼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 종류별 정리 — "부산×3"으로 써서 공간 절약([RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)), 지역명 대신 코드 번호(사전 인코딩). 같은 종류끼리 모아서 훨씬 작게!
+> 📢 **섹션 요약 비유**: 컬럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 종류별 정리 — "부산×3"으로 써서 공간 절약([RLE](/studynote/08_algorithm_stats/05_string/099_rle/)), 지역명 대신 코드 번호(사전 인코딩). 같은 종류끼리 모아서 훨씬 작게!
 
 ---
 
@@ -159,11 +156,11 @@ Apache Arrow:
   자체 관리 오픈소스: Apache Druid/Pinot
 ```
 
-> 📢 **섹션 요약 비유**: 컬럼 DB 선택은 음식점 선택 — [BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)(음식 배달: [서버리스](/knowledge-base/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)), Redshift(패밀리 레스토랑: 예약 필요), ClickHouse(패스트푸드: 가장 빠름), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)(뷔페: 유연함)!
+> 📢 **섹션 요약 비유**: 컬럼 DB 선택은 음식점 선택 — [BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)(음식 배달: [서버리스](/studynote/12_it_management/05_security_compliance/206_serverless_cold_start/)), Redshift(패밀리 레스토랑: 예약 필요), ClickHouse(패스트푸드: 가장 빠름), [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/)(뷔페: 유연함)!
 
 ---
 
-## Ⅳ. [HTAP](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) — 행+컬럼 통합
+## Ⅳ. [HTAP](/studynote/05_database/05_distributed_nosql_newsql/294_oltp_vs_olap/) — 행+컬럼 통합
 
 ```
 HTAP (Hybrid Transactional/Analytical Processing):
@@ -206,7 +203,7 @@ MySQL HeatWave (Oracle):
   -> 순수 OLAP 워크로드엔 컬럼 전용 DB 유리
 ```
 
-> 📢 **섹션 요약 비유**: HTAP는 하이브리드 자동차 — 도심([OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))엔 전기모터(행 기반), 고속도로([OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/))엔 가솔린(컬럼 기반). 하나의 차에 두 동력. 편리하지만 무겁고 비싸요!
+> 📢 **섹션 요약 비유**: HTAP는 하이브리드 자동차 — 도심([OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/))엔 전기모터(행 기반), 고속도로([OLAP](/studynote/12_it_management/05_security_compliance/316_olap/))엔 가솔린(컬럼 기반). 하나의 차에 두 동력. 편리하지만 무겁고 비싸요!
 
 ---
 
@@ -258,7 +255,7 @@ Redshift 적용:
   Concurrency Scaling: 동시 쿼리 급증 시 자동 확장
 ```
 
-> 📢 **섹션 요약 비유**: 이커머스 Redshift 최적화 — 10억 주문 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날짜별 정렬(Sort [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) + [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(7× 절감) + 컬럼 저장. "월별 매출"이 MySQL 45분 -> Redshift 8초. 337배 빠름!
+> 📢 **섹션 요약 비유**: 이커머스 Redshift 최적화 — 10억 주문 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 날짜별 정렬(Sort [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) + [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(7× 절감) + 컬럼 저장. "월별 매출"이 MySQL 45분 -> Redshift 8초. 337배 빠름!
 
 ---
 
@@ -316,8 +313,8 @@ TiDB HTAP 통합
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 컬럼 저장은 세로 서랍 — "급여만 보고 싶어"라면 급여 서랍(컬럼) 하나만 열면 돼요. 가로 서랍(행 기반)은 모든 서랍 다 열어야 해요!
-2. 컬럼 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 반복 줄이기 — "부산부산부산" 대신 "부산×3"으로 저장([RLE](/knowledge-base/studynote/08_algorithm_stats/05_string/099_rle/)). 같은 것이 많을수록 더 많이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)!
-3. HTAP는 하이브리드 자동차 — [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(도심 전기)와 [OLAP](/knowledge-base/studynote/12_it_management/05_security_compliance/316_olap/)(고속도로 가솔린)을 하나의 DB에. 편리하지만 비용은 2배!
+2. 컬럼 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 반복 줄이기 — "부산부산부산" 대신 "부산×3"으로 저장([RLE](/studynote/08_algorithm_stats/05_string/099_rle/)). 같은 것이 많을수록 더 많이 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)!
+3. HTAP는 하이브리드 자동차 — [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)(도심 전기)와 [OLAP](/studynote/12_it_management/05_security_compliance/316_olap/)(고속도로 가솔린)을 하나의 DB에. 편리하지만 비용은 2배!
 
 ---
 
@@ -325,7 +322,7 @@ TiDB HTAP 통합
 
 **진행 상황**: 47 / 600
 
-<- **이전**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/knowledge-base/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/)
-**다음**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/knowledge-base/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/) ->
+<- **이전**: [046. 인메모리 데이터베이스 — IMDB (In-Memory Database)](/studynote/05_database/01_db_architecture_relational/046_in_memory_db_imdb/)
+**다음**: [048. 행 지향 저장소 — Row-Oriented Store & OLTP](/studynote/05_database/01_db_architecture_relational/048_row_oriented_store_oltp/) ->
 
 ---

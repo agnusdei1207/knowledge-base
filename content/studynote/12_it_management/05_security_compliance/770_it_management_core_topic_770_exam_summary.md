@@ -1,13 +1,10 @@
-+++
-title = "770. IT 경영 관리 핵심 토픽 770번 시험 요약 (IT Management Core Topic 770 Exam Summary)"
-date = 2026-05-09
+---
+title: "770. IT 경영 관리 핵심 토픽 770번 시험 요약 (IT Management Core Topic 770 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 770. IT 경영 관리 핵심 토픽 시험 요약 (IT Management Core Topic Exam Summary)
 
@@ -191,7 +188,7 @@ IT 경영 관리의 핵심은 **"어떤 표준을 어떤 계층에 적용할 것
 
 **진행 상황**: 770 / 800
 
-<- **이전**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/)
-**다음**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/) ->
+<- **이전**: [769. IT 경영 관리 핵심 토픽 769번 시험 요약](/studynote/12_it_management/05_security_compliance/769_it_management_core_topic_769_exam_summary/)
+**다음**: [771. IT 경영 관리 핵심 토픽 771번 시험 요약](/studynote/12_it_management/05_security_compliance/771_it_management_core_topic_771_exam_summary/) ->
 
 ---

@@ -1,25 +1,22 @@
-+++
-title = "54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)"
-date = 2026-05-01
+---
+title: "54. 의사결정나무의 불순도 (Decision Tree Impurity: Entropy/Gini)"
+date: "2026-05-01"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 의사결정나무는 불순도 (Impurity)를 줄이는 방향으로 분할을 선택한다.
-> 2. **가치**: [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/))와 Gini (지니 계수)는 클래스가 얼마나 섞였는지 수치화한다.
+> 2. **가치**: [Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) ([엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/))와 Gini (지니 계수)는 클래스가 얼마나 섞였는지 수치화한다.
 > 3. **판단 포인트**: 정보 이득 (Information Gain)과 분할 기준의 차이를 이해해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-의사결정나무는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질문과 답으로 나누는 모델이다. 좋은 질문은 한 번 나눴을 때 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 깔끔하게 분리되는 질문이다.
+의사결정나무는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 질문과 답으로 나누는 모델이다. 좋은 질문은 한 번 나눴을 때 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 더 깔끔하게 분리되는 질문이다.
 
 그래서 분할 기준을 고르기 위해 불순도를 계산한다.
 
@@ -29,7 +26,7 @@ tags = ["studynote-ai"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-불순도는 한 노드에 여러 클래스가 얼마나 섞여 있는지를 나타낸다. [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 정보량 관점, Gini는 오분류 가능성 관점에 가깝다.
+불순도는 한 노드에 여러 클래스가 얼마나 섞여 있는지를 나타낸다. [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 정보량 관점, Gini는 오분류 가능성 관점에 가깝다.
 
 ```text
 데이터 -> Split 후보 -> 불순도 계산 -> 최적 분할 선택
@@ -37,29 +34,29 @@ tags = ["studynote-ai"]
 
 | 지표 | 의미 | 특징 |
 | :--- | :--- | :--- |
-| [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 불확실성 | 정보 이론 기반 |
+| [Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 불확실성 | 정보 이론 기반 |
 | Gini | 혼합 정도 | 계산이 간단 |
 | Misclassification Error | 오분류율 | 직관적 |
 
 핵심은 불순도가 낮을수록 노드가 더 순수해지고, 그 결과 트리가 더 잘 학습된다는 것이다.
 
-- **📢 섹션 요약 비유**: [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니는 섞인 보따리를 얼마나 잘 분리했는지 재는 자다.
+- **📢 섹션 요약 비유**: [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니는 섞인 보따리를 얼마나 잘 분리했는지 재는 자다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)/정보이득을 자주 쓰고, CART는 Gini를 주로 쓴다. 둘 다 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 품질을 평가하지만 계산 방식이 다르다.
+ID3와 C4.5는 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)/정보이득을 자주 쓰고, CART는 Gini를 주로 쓴다. 둘 다 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 품질을 평가하지만 계산 방식이 다르다.
 
-| 항목 | [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | Gini |
+| 항목 | [Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | Gini |
 | :--- | :--- | :--- |
 | 해석 | 정보량 | 혼합도 |
-| 계산 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 포함 | 단순 |
+| 계산 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 포함 | 단순 |
 | 활용 | ID3/C4.5 | CART |
 
 정보 이득은 부모 노드 불순도에서 자식 노드 불순도를 뺀 값이다. 가장 많이 줄어드는 분할을 선택한다.
 
-- **📢 섹션 요약 비유**: [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "얼마나 헷갈리나", 지니는 "얼마나 섞였나"를 보는 눈이다.
+- **📢 섹션 요약 비유**: [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)는 "얼마나 헷갈리나", 지니는 "얼마나 섞였나"를 보는 눈이다.
 
 ---
 
@@ -67,20 +64,20 @@ ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_in
 
 실무에서는 과적합을 막기 위해 max depth, min samples, pruning을 함께 사용한다. 불순도만 낮다고 좋은 트리는 아니다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 분할 기준이 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)인지 Gini인지 아는가?
+1. 분할 기준이 [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)인지 Gini인지 아는가?
 2. 정보 이득이 왜 커졌는지 설명할 수 있는가?
 3. 과적합 방지 파라미터를 조정하는가?
 4. 클래스 불균형에 대한 영향을 고려하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 훈련 정확도만 높게 만드는 깊은 트리
 - 불순도 수치만 보고 해석을 끝내는 경우
-- [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니를 같은 것으로 쓰는 경우
+- [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니를 같은 것으로 쓰는 경우
 
-기술사 관점에서는 불순도가 분할의 기준일 뿐, 일반화 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 별도 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요하다는 점을 설명해야 한다.
+기술사 관점에서는 불순도가 분할의 기준일 뿐, 일반화 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 별도 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 필요하다는 점을 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 불순도는 정리 전 서랍 상태이고, 진짜 평가는 정리 후에도 원하는 물건이 잘 나오는지다.
 
@@ -88,7 +85,7 @@ ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_in
 
 ## Ⅴ. 기대효과 및 결론
 
-[엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 Gini는 의사결정나무가 어떤 질문을 먼저 던질지 정하는 기준이다. [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 핵심 계산식이다.
+[엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 Gini는 의사결정나무가 어떤 질문을 먼저 던질지 정하는 기준이다. [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 문제의 핵심 계산식이다.
 
 정리하면, 더 좋은 분할은 더 낮은 불순도를 만든다.
 
@@ -100,11 +97,11 @@ ID3와 C4.5는 [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_in
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [Entropy](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 정보량 |
+| [Entropy](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) | 정보량 |
 | Gini | 혼합도 |
 | Information Gain | 분할 이득 |
-| [Pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | 과적합 방지 |
-| CART / C4.5 | 대표 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| [Pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) | 과적합 방지 |
+| CART / C4.5 | 대표 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -124,11 +121,11 @@ Entropy / Gini 계산
 의사결정나무
 ```
 
-이 흐름은 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 순수한 노드로 나누는지 보여준다.
+이 흐름은 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 어떻게 순수한 노드로 나누는지 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니는 상자 안 사탕이 얼마나 섞였는지 보는 거예요.
+1. [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/)와 지니는 상자 안 사탕이 얼마나 섞였는지 보는 거예요.
 2. 덜 섞인 상자를 고르면 정리하기 쉬워요.
 3. 그래서 나무가 더 똑똑하게 질문할 수 있어요.
 
@@ -138,7 +135,7 @@ Entropy / Gini 계산
 
 **진행 상황**: 54 / 420
 
-<- **이전**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/knowledge-base/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/)
-**다음**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/knowledge-base/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/) ->
+<- **이전**: [53. 스태킹 메타 모델 앙상블 (Stacking Meta-Model Ensemble)](/studynote/10_ai/01_ai_basics/053_stacking_meta_model_ensemble/)
+**다음**: [55. 로지스틱 회귀와 시그모이드 이진 분류 (Logistic Regression / Sigmoid Binary Classification)](/studynote/10_ai/01_ai_basics/055_logistic_regression_sigmoid_binary_classification/) ->
 
 ---

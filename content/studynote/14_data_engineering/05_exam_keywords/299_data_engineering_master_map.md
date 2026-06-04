@@ -1,13 +1,10 @@
-+++
-title = "299. 데이터 엔지니어링 기술사 종합 아키텍처 마스터 맵 (Data Engineering PE Master Architecture Map)"
-date = 2026-05-09
+---
+title: "299. 데이터 엔지니어링 기술사 종합 아키텍처 마스터 맵 (Data Engineering PE Master Architecture Map)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -193,7 +190,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 299 / 300
 
-<- **이전**: [298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/298_ai_agent_workflow/)
-**다음**: [300. 300. 데이터 및 AI 아키텍트 전용 고득점 암기 단어장 집대성](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/300_summary/) ->
+<- **이전**: [298. AI 에이전트 도구 사용 자율 워크플로 (AI Agent Tool Use Autonomous Workflow)](/studynote/14_data_engineering/05_exam_keywords/298_ai_agent_workflow/)
+**다음**: [300. 300. 데이터 및 AI 아키텍트 전용 고득점 암기 단어장 집대성](/studynote/14_data_engineering/05_exam_keywords/300_summary/) ->
 
 ---

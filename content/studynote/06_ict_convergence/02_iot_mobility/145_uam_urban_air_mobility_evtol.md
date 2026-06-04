@@ -1,18 +1,15 @@
-+++
-title = "145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL"
-date = 2026-04-19
+---
+title: "145. UAM (Urban Air Mobility) - 도심 항공 모빌리티 & eVTOL"
+date: "2026-04-19"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: UAM은 <strong>전기 수직이착륙(eVTOL) 항공기로 도심 내 단거리(30~100km) 항공 이동</strong>을 제공하는 차세대 교통 시스템이며, "하늘을 나는 택시"이다.
-> 2. **가치**: 도심 교통 체증을 <strong>수직(3D) 공간으로 우회</strong>하여, 1시간 지상 이동을 <strong><a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~15분으로 단축</strong>하며, 전기 동력으로 탄소 배출이 적다.
-> 3. **판단 포인트**: eVTOL 기체 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(FAA/EASA)·[UTM](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)(무인 교통 관리)·버티포트(이착륙장)·자율 비행·소음 규제가 핵심 과제이며, 2025~2028년 상용화 목표이다.
+> 2. **가치**: 도심 교통 체증을 <strong>수직(3D) 공간으로 우회</strong>하여, 1시간 지상 이동을 <strong><a href="/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/">10</a>~15분으로 단축</strong>하며, 전기 동력으로 탄소 배출이 적다.
+> 3. **판단 포인트**: eVTOL 기체 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(FAA/EASA)·[UTM](/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/)(무인 교통 관리)·버티포트(이착륙장)·자율 비행·소음 규제가 핵심 과제이며, 2025~2028년 상용화 목표이다.
 
 ---
 
@@ -32,7 +29,7 @@ UAM 생태계:
 
 ## Ⅱ~Ⅴ. 결론
 
-UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 인프라(버티포트)가 상용화의 관건이다.
+UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)과 인프라(버티포트)가 상용화의 관건이다.
 
 ---
 
@@ -43,7 +40,7 @@ UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowle
 | **UAM** | 도심 항공 모빌리티 |
 | **eVTOL** | 전기 수직이착륙 |
 | **버티포트** | 이착륙 인프라 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/">UTM</a></strong> | 항공 교통 관리 |
+| <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/147_utm_unmanned_aircraft_system_traffic_management/">UTM</a></strong> | 항공 교통 관리 |
 | **AAM** | 도심+지역 포함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -66,7 +63,7 @@ UAM은 <strong>도심 교통의 3D 혁신</strong>이며, eVTOL [인증](/knowle
 
 **진행 상황**: 145 / 552
 
-<- **이전**: [144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)
-**다음**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/) ->
+<- **이전**: [144. 군집주행 (Platooning) - 자율주행 트럭 대열 주행](/studynote/06_ict_convergence/02_iot_mobility/144_platooning_autonomous_truck_convoy/)
+**다음**: [146. K-UAM 그랜드 챌린지 & 회랑(Corridor) - 한국 UAM 실증](/studynote/06_ict_convergence/02_iot_mobility/146_k_uam_grand_challenge_corridor/) ->
 
 ---

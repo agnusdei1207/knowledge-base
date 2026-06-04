@@ -1,13 +1,10 @@
-+++
-title = "385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)"
-date = 2026-05-09
+---
+title: "385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 385 / 400
 
-<- **이전**: [384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/384_rasp_self_protection/)
-**다음**: [386. 컴플라이언스 코드화 규제 준수 자동화 (Compliance as Code Regulatory Automation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/386_compliance_as_code/) ->
+<- **이전**: [384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)](/studynote/15_devops_sre/05_devsecops/384_rasp_self_protection/)
+**다음**: [386. 컴플라이언스 코드화 규제 준수 자동화 (Compliance as Code Regulatory Automation)](/studynote/15_devops_sre/05_devsecops/386_compliance_as_code/) ->
 
 ---

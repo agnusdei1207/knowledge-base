@@ -1,13 +1,10 @@
-+++
-title = "446. IT 경영 관리 핵심 토픽 446번 시험 요약 (IT Management Core Topic 446 Exam Summary)"
-date = 2026-05-09
+---
+title: "446. IT 경영 관리 핵심 토픽 446번 시험 요약 (IT Management Core Topic 446 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 IT 경영 관리 핵심 토픽 446 — IT 거버넌스·전략·디지털 전환 통합 프레임워크
 
@@ -174,7 +171,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 446 / 800
 
-<- **이전**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/)
-**다음**: [447. IT 경영 관리 핵심 토픽 447번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/447_it_management_core_topic_447_exam_summary/) ->
+<- **이전**: [445. IT 경영 관리 핵심 토픽 445번 시험 요약](/studynote/12_it_management/05_security_compliance/445_it_management_core_topic_445_exam_summary/)
+**다음**: [447. IT 경영 관리 핵심 토픽 447번 시험 요약](/studynote/12_it_management/05_security_compliance/447_it_management_core_topic_447_exam_summary/) ->
 
 ---

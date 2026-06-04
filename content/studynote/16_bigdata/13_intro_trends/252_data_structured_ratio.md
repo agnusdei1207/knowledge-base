@@ -1,22 +1,19 @@
-+++
-title = "040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)"
-date = 2026-03-04
+---
+title: "040. 데이터 정형화 비율 (Structured vs Unstructured Data Ratio)"
+date: "2026-03-04"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 > **핵심 인사이트**
-> 1. 전 세계 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상이 비정형(Unstructured) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 기업이 실제로 분석에 활용하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 20% 이하의 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에 불과하다 — 이 "80/20 역설"이 빅데이터 분석의 핵심 도전이자 기회다.
-> 2. [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Structured) -> [반정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)(Semi-structured) -> [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Unstructured)의 스펙트럼에서, 기업 정보화의 성숙도는 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 얼마나 활용 가능한 형태로 전환하느냐로 측정된다.
-> 3. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용의 폭발적 성장은 NLP(자연어 처리)·컴퓨터 비전·[멀티모달](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 발전과 직결되며, 2025년 IDC 전망에 따르면 전 세계 연간 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 93%가 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)가 된다.
+> 1. 전 세계 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 80% 이상이 비정형(Unstructured) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)이며, 기업이 실제로 분석에 활용하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 20% 이하의 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)에 불과하다 — 이 "80/20 역설"이 빅데이터 분석의 핵심 도전이자 기회다.
+> 2. [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(Structured) -> [반정형 데이터](/studynote/14_data_engineering/01_infrastructure/003_semi_structured_data/)(Semi-structured) -> [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(Unstructured)의 스펙트럼에서, 기업 정보화의 성숙도는 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 얼마나 활용 가능한 형태로 전환하느냐로 측정된다.
+> 3. [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용의 폭발적 성장은 NLP(자연어 처리)·컴퓨터 비전·[멀티모달](/studynote/14_data_engineering/03_ml_dl_llm/158_multimodal_clip_vision_audio_encoding/) AI의 발전과 직결되며, 2025년 IDC 전망에 따르면 전 세계 연간 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 93%가 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)가 된다.
 
 ---
 
-## Ⅰ. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)
+## Ⅰ. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)
 
 ```
 데이터 구조화 스펙트럼:
@@ -43,11 +40,11 @@ tags = ["studynote-bigdata"]
   분석 용이성: ★☆☆☆☆ (AI 전에는)
 ```
 
-> 📢 **섹션 요약 비유**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형은 서류 정리 방식 — 정형은 표로 정리된 영수증, 반정형은 태그 붙은 폴더, 비정형은 무분별하게 쌓인 사진/메모.
+> 📢 **섹션 요약 비유**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유형은 서류 정리 방식 — 정형은 표로 정리된 영수증, 반정형은 태그 붙은 폴더, 비정형은 무분별하게 쌓인 사진/메모.
 
 ---
 
-## Ⅱ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 현황
+## Ⅱ. [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 현황
 
 ```
 비정형 데이터 폭증 현황 (2024):
@@ -71,11 +68,11 @@ tags = ["studynote-bigdata"]
   가치 창출 기회 손실
 ```
 
-> 📢 **섹션 요약 비유**: [다크 데이터](/knowledge-base/studynote/12_it_management/02_itsm_itil/062_darkdata/)는 창고에 쌓아둔 상자 — 뭐가 들었는지 몰라서 열어보지도 않고 임대비(스토리지)만 내는 상황.
+> 📢 **섹션 요약 비유**: [다크 데이터](/studynote/12_it_management/02_itsm_itil/062_darkdata/)는 창고에 쌓아둔 상자 — 뭐가 들었는지 몰라서 열어보지도 않고 임대비(스토리지)만 내는 상황.
 
 ---
 
-## Ⅲ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 분석 기술
+## Ⅲ. [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 분석 기술
 
 ```
 비정형 데이터 처리 기술:
@@ -106,11 +103,11 @@ tags = ["studynote-bigdata"]
   GPT-4V, Gemini Ultra
 ```
 
-> 📢 **섹션 요약 비유**: [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 분석은 사진첩 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) — AI가 수천 장 사진에서 사람 얼굴, 장소, 날짜를 자동으로 인식하고 정리.
+> 📢 **섹션 요약 비유**: [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 분석은 사진첩 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) — AI가 수천 장 사진에서 사람 얼굴, 장소, 날짜를 자동으로 인식하고 정리.
 
 ---
 
-## Ⅳ. [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) -> 정형화 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+## Ⅳ. [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) -> 정형화 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
 비정형 데이터 정형화 프로세스:
@@ -148,7 +145,7 @@ tags = ["studynote-bigdata"]
 
 ---
 
-## Ⅴ. 실무 시나리오 — 금융 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용
+## Ⅴ. 실무 시나리오 — 금융 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용
 
 ```
 금융사 A의 비정형 데이터 분석 전략:
@@ -184,7 +181,7 @@ ROI:
   리스크 관리 고도화
 ```
 
-> 📢 **섹션 요약 비유**: 금융 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용은 창고 정리 후 숨은 보물 발견 — 쌓아둔 상담 메모와 계약서에서 AI로 가치 있는 인사이트를 발굴.
+> 📢 **섹션 요약 비유**: 금융 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/) 활용은 창고 정리 후 숨은 보물 발견 — 쌓아둔 상담 메모와 계약서에서 AI로 가치 있는 인사이트를 발굴.
 
 ---
 
@@ -246,9 +243,9 @@ RAG, 기업 LLM 도입 붐
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 표처럼 깔끔한 [정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(약 20%)와 사진·영상·글처럼 뒤죽박죽인 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(약 80%)가 있어요.
-2. 예전엔 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)는 컴퓨터가 이해 못 해서 창고에 쌓아두기만 했는데, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 덕분에 이 80%도 분석할 수 있게 됐어요.
-3. 고객 상담 녹음, 계약서 PDF, 소셜미디어 게시글 같은 [비정형 데이터](/knowledge-base/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 분석하면 숨겨진 중요한 정보를 찾을 수 있어요!
+1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에는 표처럼 깔끔한 [정형 데이터](/studynote/14_data_engineering/01_infrastructure/002_structured_data/)(약 20%)와 사진·영상·글처럼 뒤죽박죽인 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)(약 80%)가 있어요.
+2. 예전엔 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)는 컴퓨터가 이해 못 해서 창고에 쌓아두기만 했는데, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 덕분에 이 80%도 분석할 수 있게 됐어요.
+3. 고객 상담 녹음, 계약서 PDF, 소셜미디어 게시글 같은 [비정형 데이터](/studynote/14_data_engineering/01_infrastructure/004_unstructured_data/)를 분석하면 숨겨진 중요한 정보를 찾을 수 있어요!
 
 ---
 
@@ -256,7 +253,7 @@ RAG, 기업 LLM 도입 붐
 
 **진행 상황**: 252 / 262
 
-<- **이전**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/knowledge-base/studynote/16_bigdata/13_intro_trends/251_data_anonymization/)
-**다음**: [041. 제타바이트 시대 (Zettabyte Era)](/knowledge-base/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/) ->
+<- **이전**: [039. 개인정보 비식별화 (Data Anonymization / k-Anonymity)](/studynote/16_bigdata/13_intro_trends/251_data_anonymization/)
+**다음**: [041. 제타바이트 시대 (Zettabyte Era)](/studynote/16_bigdata/13_intro_trends/253_zettabyte_era/) ->
 
 ---

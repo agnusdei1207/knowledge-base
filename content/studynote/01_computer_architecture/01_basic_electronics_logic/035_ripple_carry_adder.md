@@ -1,22 +1,19 @@
-+++
-title = "035. 리플 캐리 가산기 (Ripple Carry Adder)"
-date = 2026-03-03
+---
+title: "035. 리플 캐리 가산기 (Ripple Carry Adder)"
+date: "2026-03-03"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. RCA (Ripple Carry Adder)는 [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)(FA)를 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결해 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리가 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 전파(ripple)되는 구조로, 구현이 단순하지만 캐리 [전파 지연](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/)(Carry [Propagation Delay](/knowledge-base/studynote/03_network/01_data_communication/016_전파_지연/))이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이다.
-> 2. n-bit RCA의 최악 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)은 O(n)이므로, 고속 가산이 필요한 CPU는 CLA ([Carry Lookahead Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)) 또는 CSA (Carry Save Adder)로 대체한다.
+> 1. RCA (Ripple Carry Adder)는 [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)(FA)를 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결해 하위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리가 상위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)로 전파(ripple)되는 구조로, 구현이 단순하지만 캐리 [전파 지연](/studynote/03_network/01_data_communication/016_전파_지연/)(Carry [Propagation Delay](/studynote/03_network/01_data_communication/016_전파_지연/))이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목이다.
+> 2. n-bit RCA의 최악 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)은 O(n)이므로, 고속 가산이 필요한 CPU는 CLA ([Carry Lookahead Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/)) 또는 CSA (Carry Save Adder)로 대체한다.
 > 3. 비용·면적 vs 속도의 트레이드오프가 핵심: RCA는 게이트 수 최소, CLA는 빠르지만 게이트 수 증가.
 
 ---
 
-## Ⅰ. 기본 원리 — [전가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)의 체인
+## Ⅰ. 기본 원리 — [전가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)의 체인
 
 ```
   A3 B3    A2 B2    A1 B1    A0 B0
@@ -28,11 +25,11 @@ tags = ["studynote-computer-architecture"]
   Cout
 ```
 
-- <strong>FA (<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">Full Adder</a>)</strong> 하나가 1비트 합(Sum)과 캐리(Carry Out) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+- <strong>FA (<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/">Full Adder</a>)</strong> 하나가 1비트 합(Sum)과 캐리(Carry Out) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - Carry Out이 다음 FA의 Carry In으로 전달 -> 물결처럼 전파
-- n-bit 합산 시 FA를 n개 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결
+- n-bit 합산 시 FA를 n개 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 연결
 
-### [진리표](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) (FA 단일)
+### [진리표](/studynote/01_computer_architecture/01_basic_electronics_logic/024_truth_table/) (FA 단일)
 
 | A | B | Cin | Sum | Cout |
 |---|---|-----|-----|------|
@@ -45,7 +42,7 @@ tags = ["studynote-computer-architecture"]
 
 ---
 
-## Ⅱ. [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 분석
+## Ⅱ. [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) 분석
 
 ```
 게이트 지연 단위 = t_gate
@@ -57,13 +54,13 @@ n-bit RCA 총 지연:
   - Sn-1: 2n·t           <- O(n) 선형 증가
 ```
 
-| [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | RCA [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | CLA [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 | RCA [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) | CLA [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 |---------|---------|---------|
 | 4-bit   | 8t      | 4t      |
 | 8-bit   | 16t     | 5t      |
 | 32-bit  | 64t     | 8t      |
 
-- **Critical Path**: 최하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리 -> 최상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [순전파](/knowledge-base/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 경로
+- **Critical Path**: 최하위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리 -> 최상위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) [순전파](/studynote/10_ai/03_llm_nlp/271_forward_propagation/) 경로
 
 > 📢 **섹션 요약 비유**: 릴레이 경기처럼 바통을 한 명씩 전달 — 선수가 많을수록 총 시간이 선형 증가.
 
@@ -71,7 +68,7 @@ n-bit RCA 총 지연:
 
 ## Ⅲ. 개선 기법 — CLA와 CSA
 
-### 3-1. CLA ([Carry Lookahead Adder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))
+### 3-1. CLA ([Carry Lookahead Adder](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/))
 
 ```
 Generate: Gi = Ai AND Bi   -> 이 자리에서 캐리 생성
@@ -82,8 +79,8 @@ C2 = G1 + P1·G0 + P1·P0·C0
 C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
 ```
 
-- **O(log n)** [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 단축
-- 상위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리를 하위 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 결과를 기다리지 않고 직접 계산
+- **O(log n)** [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 단축
+- 상위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 캐리를 하위 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 결과를 기다리지 않고 직접 계산
 
 ### 3-2. CSA (Carry Save Adder) — 3피연산자 합산
 
@@ -95,7 +92,7 @@ C3 = G2 + P2·G1 + P2·P1·G0 + P2·P1·P0·C0  (병렬 계산)
 
 - 곱셈기(Multiplier) 내부에서 부분 합(Partial Product) 처리에 필수
 
-> 📢 **섹션 요약 비유**: CLA는 경기 전 각 구간 예상 결과를 미리 계산해두는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 모든 구간을 동시에 달릴 수는 없지만 바통 위치를 예측해 준비한다.
+> 📢 **섹션 요약 비유**: CLA는 경기 전 각 구간 예상 결과를 미리 계산해두는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) — 모든 구간을 동시에 달릴 수는 없지만 바통 위치를 예측해 준비한다.
 
 ---
 
@@ -122,14 +119,14 @@ endmodule
 
 ---
 
-## Ⅴ. 실무 시나리오 — CPU [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 설계
+## Ⅴ. 실무 시나리오 — CPU [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/) 설계
 
 | 상황              | 선택       | 이유                              |
 |-------------------|-----------|-----------------------------------|
 | 교육용 4-bit 계산기 | RCA       | 단순성 우선                        |
-| [FPGA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 32-bit 가산  | CLA       | 타이밍 클로저 요구                 |
-| [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) 내부    | CSA + CLA | 다수 [피연산자](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리             |
-| [RISC-V](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) [ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)       | CLA 2단계 | 게이트 수·속도 균형                |
+| [FPGA](/studynote/01_computer_architecture/15_advanced_topics/606_dynamic_partial_reconfiguration/) 32-bit 가산  | CLA       | 타이밍 클로저 요구                 |
+| [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [누산기](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/) 내부    | CSA + CLA | 다수 [피연산자](/studynote/01_computer_architecture/04_instruction_set_architecture/160_operand/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리             |
+| [RISC-V](/studynote/01_computer_architecture/04_instruction_set_architecture/200_riscv/) [ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)       | CLA 2단계 | 게이트 수·속도 균형                |
 
 > 📢 **섹션 요약 비유**: 단거리면 RCA, 마라톤 속도전이면 CLA — 도구는 목적에 맞게 선택한다.
 
@@ -195,7 +192,7 @@ GHz 클럭에서 1사이클 가산
 
 **진행 상황**: 35 / 803
 
-<- **이전**: [전가산기 (Full Adder) 와 리플 캐리 가산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)
-**다음**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) ->
+<- **이전**: [전가산기 (Full Adder) 와 리플 캐리 가산기](/studynote/01_computer_architecture/01_basic_electronics_logic/034_full_adder/)
+**다음**: [036. 올림수 예측 가산기 (Carry Lookahead Adder)](/studynote/01_computer_architecture/01_basic_electronics_logic/036_carry_lookahead_adder/) ->
 
 ---

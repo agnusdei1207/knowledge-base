@@ -1,13 +1,10 @@
-+++
-title = "413. TOGAF ADM 아키텍처 개발 방법론 (TOGAF ADM Architecture Development Method)"
-date = 2026-05-09
+---
+title: "413. TOGAF ADM 아키텍처 개발 방법론 (TOGAF ADM Architecture Development Method)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 413. TOGAF ADM 아키텍처 개발 방법론 (TOGAF ADM Architecture Development Method)
 
@@ -143,7 +140,7 @@ TOGAF(The Open Group Architecture Framework)는 1995년 The Open Group(IBM, HP, 
 
 **진행 상황**: 413 / 800
 
-<- **이전**: [412. EA 엔터프라이즈 아키텍처 프레임워크](/knowledge-base/studynote/12_it_management/05_security_compliance/412_ea_enterprise_architecture_framework/)
-**다음**: [414. ArchiMate 아키텍처 모델링 언어](/knowledge-base/studynote/12_it_management/05_security_compliance/414_archimate_architecture_modeling_language/) ->
+<- **이전**: [412. EA 엔터프라이즈 아키텍처 프레임워크](/studynote/12_it_management/05_security_compliance/412_ea_enterprise_architecture_framework/)
+**다음**: [414. ArchiMate 아키텍처 모델링 언어](/studynote/12_it_management/05_security_compliance/414_archimate_architecture_modeling_language/) ->
 
 ---

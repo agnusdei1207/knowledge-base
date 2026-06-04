@@ -1,13 +1,10 @@
-+++
-title = "410. IT 거버넌스 프레임워크 COBIT 2019 (IT Governance Framework COBIT 2019)"
-date = 2026-05-09
+---
+title: "410. IT 거버넌스 프레임워크 COBIT 2019 (IT Governance Framework COBIT 2019)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -187,7 +184,7 @@ D1. Enterprise Strategy (조직 전략)
 
 **진행 상황**: 410 / 800
 
-<- **이전**: [409. 양자 내성 암호 PQC 전환 계획](/knowledge-base/studynote/12_it_management/05_security_compliance/409_post_quantum_cryptography_pqc_transition/)
-**다음**: [411. IT 전략 수립 ISP BPR ISP 방법론](/knowledge-base/studynote/12_it_management/05_security_compliance/411_it_strategy_planning_isp_bpr_methodology/) ->
+<- **이전**: [409. 양자 내성 암호 PQC 전환 계획](/studynote/12_it_management/05_security_compliance/409_post_quantum_cryptography_pqc_transition/)
+**다음**: [411. IT 전략 수립 ISP BPR ISP 방법론](/studynote/12_it_management/05_security_compliance/411_it_strategy_planning_isp_bpr_methodology/) ->
 
 ---

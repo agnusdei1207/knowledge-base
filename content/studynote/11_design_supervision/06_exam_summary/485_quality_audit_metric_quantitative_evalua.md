@@ -1,13 +1,10 @@
-+++
-title = "485. 품질 감리 메트릭 정량적 평가 (Quality Audit Metric Quantitative Evaluation)"
-date = 2026-05-09
+---
+title: "485. 품질 감리 메트릭 정량적 평가 (Quality Audit Metric Quantitative Evaluation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -71,7 +68,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 485 / 600
 
-<- **이전**: [484. 성능 감리 벤치마크 기준 설정](/knowledge-base/studynote/11_design_supervision/06_exam_summary/485_performance_audit_benchmark_setting/)
-**다음**: [486. 사용성 감리 UX 인터페이스 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/486_usability_audit_ux_interface_validation/) ->
+<- **이전**: [484. 성능 감리 벤치마크 기준 설정](/studynote/11_design_supervision/06_exam_summary/485_performance_audit_benchmark_setting/)
+**다음**: [486. 사용성 감리 UX 인터페이스 검증](/studynote/11_design_supervision/06_exam_summary/486_usability_audit_ux_interface_validation/) ->
 
 ---

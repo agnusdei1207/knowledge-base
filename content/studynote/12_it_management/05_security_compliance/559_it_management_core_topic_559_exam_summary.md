@@ -1,13 +1,10 @@
-+++
-title = "559. IT 경영 관리 핵심 토픽 559번 시험 요약 (IT Management Core Topic 559 Exam Summary)"
-date = 2026-05-09
+---
+title: "559. IT 경영 관리 핵심 토픽 559번 시험 요약 (IT Management Core Topic 559 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ IT 거버넌스 관련 프레임워크는 각기 다른 초점을 가지며, 상
 
 **진행 상황**: 559 / 800
 
-<- **이전**: [558. IT 경영 관리 핵심 토픽 558번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/558_it_management_core_topic_558_exam_summary/)
-**다음**: [560. IT 경영 관리 핵심 토픽 560번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/560_it_management_core_topic_560_exam_summary/) ->
+<- **이전**: [558. IT 경영 관리 핵심 토픽 558번 시험 요약](/studynote/12_it_management/05_security_compliance/558_it_management_core_topic_558_exam_summary/)
+**다음**: [560. IT 경영 관리 핵심 토픽 560번 시험 요약](/studynote/12_it_management/05_security_compliance/560_it_management_core_topic_560_exam_summary/) ->
 
 ---

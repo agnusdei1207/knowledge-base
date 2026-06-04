@@ -1,13 +1,10 @@
-+++
-title = "467. 클라우드 재해 복구 DR 다중 리전 (Cloud Disaster Recovery DR Multi Region)"
-date = 2026-05-09
+---
+title: "467. 클라우드 재해 복구 DR 다중 리전 (Cloud Disaster Recovery DR Multi Region)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 467 / 800
 
-<- **이전**: [466. 클라우드 데이터 주권 지역 규제 대응](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/466_cloud_data_sovereignty_regional_regulation/)
-**다음**: [468. 클라우드 백업 스냅샷 복제 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/468_cloud_backup_snapshot_replication_strategy/) ->
+<- **이전**: [466. 클라우드 데이터 주권 지역 규제 대응](/studynote/13_cloud_architecture/06_exam_summary/466_cloud_data_sovereignty_regional_regulation/)
+**다음**: [468. 클라우드 백업 스냅샷 복제 전략](/studynote/13_cloud_architecture/06_exam_summary/468_cloud_backup_snapshot_replication_strategy/) ->
 
 ---

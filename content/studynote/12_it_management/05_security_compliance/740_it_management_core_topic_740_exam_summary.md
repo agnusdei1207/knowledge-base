@@ -1,13 +1,10 @@
-+++
-title = "740. IT 경영 관리 핵심 토픽 740번 시험 요약 (IT Management Core Topic 740 Exam Summary)"
-date = 2026-05-09
+---
+title: "740. IT 경영 관리 핵심 토픽 740번 시험 요약 (IT Management Core Topic 740 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -230,7 +227,7 @@ PMBOK 7th(2021)는 **12 Principles of Project Management + 8 Performance Domains
 
 **진행 상황**: 740 / 800
 
-<- **이전**: [739. IT 경영 관리 핵심 토픽 739번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/739_it_management_core_topic_739_exam_summary/)
-**다음**: [741. IT 경영 관리 핵심 토픽 741번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/741_it_management_core_topic_741_exam_summary/) ->
+<- **이전**: [739. IT 경영 관리 핵심 토픽 739번 시험 요약](/studynote/12_it_management/05_security_compliance/739_it_management_core_topic_739_exam_summary/)
+**다음**: [741. IT 경영 관리 핵심 토픽 741번 시험 요약](/studynote/12_it_management/05_security_compliance/741_it_management_core_topic_741_exam_summary/) ->
 
 ---

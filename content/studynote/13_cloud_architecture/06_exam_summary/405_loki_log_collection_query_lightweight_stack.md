@@ -1,175 +1,242 @@
-+++
-title = "405. 로키 로그 수집 쿼리 경량 스택 (Loki Log Collection Query Lightweight Stack)"
-date = 2026-05-09
+---
+title: "405. 로키 로그 수집 쿼리 경량 스택 (Loki Log Collection Query Lightweight Stack)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 로키 로그 수집 쿼리 경량 스택은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Grafana Loki는 Prometheus에서 영감을 받은 **"Log를 위한 시계열 DB"** 철학으로, 로그 본문을 압축하여 Object Storage(S3/GCS/Azure Blob)에 저장하고, **Label(메타데이터) 인덱스만 별도 분리**하여 LogQL로 쿼리하는 수평 확장 가능한 로그 집계 시스템임.
+> 2. **가치**: Elasticsearch 대비 **스토리지 비용 약 1/10~1/5, 인덱싱 CPU 1/20 수준**으로 절감되며(공식 Grafana Labs 발표), 단일 바이너리(Loki+Promtail)로 구성 가능하여 **k8s/Edge 환경에서 경량 운영**이 가능함. 1초에 1TB 로그 처리 가능한 수평 확장 구조.
+> 3. **판단 포인트**: Full-text 검색 성능(ELK) vs 비용·단순성(Loki)의 트레이드오프, **Chunk 단위 Retention 정책과 Store-gateway 캐싱 전략**, Promtail vs Fluent Bit 에이전트 선택, Multi-tenancy 활성화 여부, **GELK↔Loki+Promtail+Tempo+Mimir** 관측성 스택 통합 판단이 핵심.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-로키 로그 수집 쿼리 경량 스택은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 로깅 스택(ELK: Elasticsearch+Logstash+Kibana)은 클러스터 운영 복잡도, JVM 메모리 오버헤드, Full-text 인덱스의 높은 디스크 사용량으로 인해 **소규모~중규모 MSA, Edge 컴퓨팅, IoT 환경**에서는 비용·성능 부담이 컸음. Kubernetes 환경에서 Pod 단위로 폭증하는 로그를 안정적으로 수집·보관하면서도 **Prometheus와 동일한 Label 기반 Mental Model**로 통합 관측성을 구현하려는 요구가 대두됨.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Loki Log Collection Query Lightweight Stack 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+Grafana Labs는 2018년 **"Like Prometheus, but for logs"** 슬로건으로 Loki를 오픈소스 공개(CNCF Incubating 프로젝트, 2020년 기부). 2024년 기준 v2.9까지 출시되었으며, Grafana 10/11과의 완벽 통합, Alertmanager 연동, LogQL 파이프라인을 통한 메트릭 변환 기능을 제공함.
 
 ```text
-+--------------------------------------------------------------+
-|                    로키 로그 수집 쿼리 경량 스택 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++-------------------------------------------------------------+
+|            기존 ELK 스택의 한계와 Loki 등장 배경             |
++-------------------------------------------------------------+
+|                                                             |
+|  [기존 패러다임: Full-text Index 중심]                       |
+|  App --> Fluentd --> Logstash(parse/filter) --> Elasticsearch  |
+|                                          (역색인/Inverted)  |
+|                                          --> Kibana          |
+|  문제점:                                                    |
+|   • Elasticsearch JVM Heap = 로그량 비례 급증 (GB/일)       |
+|   • Shard rebalancing 비용, Master 노드 SPOF                |
+|   • Inverted Index 갱신 IO 병목 -> Write Throughput 저하     |
+|   • Kibana Query는 풍부하지만 인프라 운영 난이도 ^           |
+|                                                             |
+|  [신 패러다임: Label Index + 압축 Chunk]                    |
+|  App --> Promtail --> Distributor --> Ingester --> Object Store|
+|                              (메모리)    (S3/GCS/Azure)     |
+|                              +-> Querier <-- LogQL            |
+|  장점:                                                      |
+|   • 로그 본문 = gzip/zstd 압축, 원본 그대로 저장             |
+|   • 인덱스 = {job, instance, pod, namespace, level} 등      |
+|     라벨만 -> 색인 크기 MB/일 수준                           |
+|   • Stateless Querier -> Read/Write 완전 분리, 수평확장 용이  |
++-------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+Loki의 핵심 철학은 **"High Cardinality는 비싸다(High Cost)"**라는 인식에서 출발함. 사용자ID, IP, 요청ID 같은 비제한 차원(Unbounded Cardinality)을 라벨로 쓰면 안 되며, 이는 Prometheus의 Label 제약과 동일한 사고방식임. 결과적으로 인덱스 크기를 **로그 본문 대비 1% 미만**으로 유지하여 PB급 로그도 단일 Object Storage에 보관 가능.
 
-- **📢 섹션 요약 비유**: 로키 로그 수집 쿼리 경량 스택은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: ELK가 "모든 책의 첫 페이지부터 단어를 색인한 두꺼운 사전"이라면, Loki는 **"책장(Storage)에 책은 그대로 꽂아두고, 표지(Label)만 별도 색인 카드함에 정리"**해두는 도서관 시스템과 같음. 책을 찾을 땐 표지(라벨)로 빠르게 위치 파악, 내용은 펼쳐서 읽음.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-로키 로그 수집 쿼리 경량 스택의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Loki 아키텍처는 **Monolithic 모드(microservices=false)**와 **Microservices 모드** 두 가지로 나뉨. 경량 스택에서는 단일 바이너리(monolith)로 시작하다가, **일일 로그량 100GB 초과 또는 QPS 1,000 초과 시** 서비스 분리(ingester, querier, store-gateway 등)를 권장함. 컴포넌트 간 통신은 **gRPC** 기본, 외부 API는 **HTTP/REST**.
+
+### 2.1 핵심 컴포넌트
 
 ```text
-+--------------------------------------------------------------+
-|              Loki Log Collection Query Lightweight Stack 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|                Loki Lightweight Stack 상세 아키텍처                    |
++----------------------------------------------------------------------+
+                            +--------------+
+                            | Application  |
+                            | (stdout/stderr)|
+                            +------+-------+
+                                   | /var/log/pods/*/*.log
+                                   v
+                       +----------------------+
+                       |  Promtail / Fluent Bit|  <--- Edge Agent
+                       |  (DaemonSet or Sidecar)|     (Service Discovery)
+                       |   - Label 추출        |
+                       |   - Pipeline stages   |
+                       |   - 배치(batch_wait)  |
+                       +----------+------------+
+                                  | HTTP POST /loki/api/v1/push
+                                  | (Protobuf/Snappy 압축)
+                                  v
+        +-----------------------------------------------------+
+        |              LOKI  (Monolith or Microservices)        |
+        | +-------------------------------------------------+ |
+        | |            Distributor (Frontend)                 | |
+        | |  • HMAC Tenants 인증, Ring Hash Sharding          | |
+        | |  • Tenant Quota/Rate-limit 적용                  | |
+        | |  • gRPC: 100 streams per request, snappy 압축    | |
+        | +----------------------+---------------------------+ |
+        |                        v                             |
+        | +-------------------------------------------------+ |
+        | |              Ingester (Stateful)                  | |
+        | |  • 스트림(Stream) = {Labels} + Chunk Streams     | |
+        | |  • 메모리 내 Chunk 생성 (1MB~1.5MB 기본)          | |
+        | |  • WAL(Local BoltDB) -> 재시작 시 복구             | |
+        | |  • chunk_id = (tenant, fingerprint, ts)          | |
+        | |  • 주기적 flush(예: 2h) -> Object Storage          | |
+        | +--------------+-----------------+-----------------+ |
+        |                |                 |                   |
+        |                v                 v                   |
+        | +------------------+   +----------------------+    |
+        | |  Object Storage  |   |   Index Store         |    |
+        | |  (Chunks/Blobs)  |   |  (TSDB/BoltDBshipper) |    |
+        | | • S3 / GCS / AZ  |   |  • 단일 인덱스 파일   |    |
+        | | • MinIO(로컬)    |   |  • tsdb-shipper 권장   |    |
+        | | • 압축: gzip/snappy/zstd |  • 멀티테넌트 분리  |    |
+        | +------------------+   +----------------------+    |
+        |                                                     |
+        | +-------------------------------------------------+ |
+        | |  Querier  <--- HTTP /loki/api/v1/query (LogQL)   | |
+        | |  • In-memory merging + tail() 지원              | |
+        | |  • LogQL parser -> AST -> Execution plan          | |
+        | |  • 최근 데이터 = Ingester, 과거 = Store-gateway  | |
+        | +-------------------------------------------------+ |
+        |                                                     |
+        | +-------------------------------------------------+ |
+        | |  Query-frontend (선택)                           | |
+        | |  • 쿼리 분할(split by day) + 병렬 실행            | |
+        | |  • 결과 캐싱 (Redis/Memcached)                   | |
+        | |  • 샘플링(샘플 500/1000)                         | |
+        | +-------------------------------------------------+ |
+        +-----------------------------------------------------+
+                                   |
+                                   v
+                          +---------------+
+                          |  Grafana UI   |
+                          |  / Explore    |
+                          |  / Dashboards |
+                          |  / Alerting   |
+                          +---------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 2.2 LogQL 쿼리 언어
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+LogQL은 두 가지 쿼리 타입을 제공:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **Log Query**: `{job="nginx"} |= "error" | json | duration > 5s`
+- **Metric Query**: `rate({job="nginx", status="500"}[5m])`
+
+| LogQL 연산자 | 의미 | 예시 |
+|:---|:---|:---|
+| `|=` | 포함(대소문자 무시) | `\|= "timeout"` |
+| `!=` | 미포함 | `!= "healthcheck"` |
+| `\|~` / `!~` | 정규식 매치/비매치 | `\|~ "user=\\d+"` |
+| `\| json` | 파서 (json/logfmt/regex) | `\| json \| status_code="500"` |
+| `\| line_format` | 출력 형식 변환 | `\| line_format "{{.msg}} - {{.status}}"` |
+| `rate()` | 초당 카운트 | `rate({job="api"}[1m])` |
+| `quantile_over_time()` | 히스토그램 | `quantile_over_time(0.95, {job="api"} \| unwrap latency[5m])` |
+
+### 2.3 데이터 모델 및 저장 원리
+
+**Stream** = 고유한 Label Set + 시간순 정렬된 Log Entry의 시계열. Promtail이 **fingerprint(MD5(sorted labels))**로 스트림을 식별하며, 동일 Label Set의 로그는 같은 스트림에 append됨.
+
+**Chunk** = Ingester가 관리하는 1~1.5MB 단위 압축 블록. 2시간(기본 `chunk_idle_period`) 동안 라벨이 동일하면 묶이고, 시간이 지나거나 크기 임계 도달 시 **Flush**되어 Object Storage에 영구 저장됨. WAL(BoltDB)을 두어 Ingester 재시작 시 메모리 손실 방지.
+
+### 2.4 핵심 파라미터
+
+```yaml
+# loki config 핵심 튜닝
+limits_config:
+  ingestion_rate_mb: 10           # Tenant당 초당 MB
+  ingestion_burst_size_mb: 20
+  max_query_parallelism: 32
+  max_streams_per_user: 100000    # High Cardinality 방지
+  retention_period: 744h          # 31일
+
+ingester:
+  chunk_idle_period: 2h           # 스트림 idle 임계
+  chunk_target_size: 1572864      # 1.5MB
+  max_chunk_age: 2h               # 강제 flush 주기
+  wal:                            # Write-Ahead Log
+    enabled: true
+    dir: /loki/wal
+
+storage_config:
+  tsdb_shipper:
+    active_index_directory: /loki/tsdb-index
+  aws:
+    s3: s3://ap-northeast-2/loki-chunks
+    s3forcepathstyle: true
+
+query_range:
+  results_cache:
+    cache: embedded-cache         # LRU 인메모리
+```
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Promtail / Agent** | 로그 수집, 라벨 부착, 파이프라인 | `service.kubernetes` API로 Pod 메타데이터 자동 라벨링. `scrape_configs`는 File/Pod/Journal/Windows Event. Pipeline stages = `regex`, `json`, `template`, `metrics` |
+| **Distributor** | 인증, 라우팅, 복제 | TenantID HMAC 검증 -> Ring(Consistent Hash) 기반 Ingester 3개 복제. gRPC Snappy 압축으로 10MB/req 제한 |
+| **Ingester** | 스트림->Chunk 변환, 영구화 | 메모리에서 Fingerprint별 청크 생성, 주기 flush, WAL(BoltDB)로 재시작 보장, **Lifecycler**가 Ring 멤버십 관리 |
+| **Object Storage** | Chunk 영구 저장 | S3 API 호환 (S3/GCS/Azure Blob/MinIO/IBM COS), gzip/chunks 압축, lifecycle 정책으로 Glacier 이동 |
+| **Index Store** | 라벨-스트림-청크 매핑 | BoltDBshipper(단일 노드 OK) / TSDB(권장, v2.8+). 인덱스 = `{Tenant, Labels, Fingerprint, ChunkRefs}` |
+| **Querier** | LogQL 실행 | `IngesterTail`(실시간) + `Store-gateway(과거)` 결합. Worker pool 동시성 제한 |
+| **Query-Frontend** | 쿼리 분할/캐싱/샘플링 | `split_queries_by_interval: 24h`로 대용량 쿼리 병렬화, 1,000라인 샘플링 |
+| **Store-Gateway** (MSA) | 인덱스/청크 캐시, 캐시 무효화 | Boltdb-shipper/TSDB 인덱스 캐싱, ingester의 6시간 미만 데이터는 querier가 직접 fetch |
+| **Compactor** (MSA) | 중복 제거, Retention | 인덱스 머지, **Deletion Marker** 기반 GDPR/Retention 적용, TSDB 인덱스 컴팩션 |
+
+- **📢 섹션 요약 비유**: Ingester는 **"우체국 집배함"** — 우편물(로그)이 들어오면 같은 주소(라벨)별로 쌓고, 우편함(Chunk)이 차면 택배 차량(Object Storage)에게 한꺼번에 인계함. 우편함 위치표(Index)는 색인 카드함에 따로 보관.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-로키 로그 수집 쿼리 경량 스택을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 3.1 로깅 스택 비교
 
-| 구분 | 전통적 접근 | 로키 로그 수집 쿼리 경량 스택 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| 구분 | **ELK (Elasticsearch + Logstash + Kibana)** | **EFK (Fluentd + ES + Kibana)** | **Grafana Loki + Promtail** |
+|:---|:---|:---|:---|
+| **인덱스 방식** | Inverted Index (Full-text) | Inverted Index (Full-text) | Label-based Index (메타데이터만) |
+| **저장소** | 자체 JVM 노드 (디스크) | 자체 JVM 노드 (디스크) | Object Storage (S3/GCS, 무제한) |
+| **디스크 비용(GB/일)** | 100% (기준) | 80~90% | 10~20% |
+| **쿼리 속도 (정확 매칭)** | ★★★★★ | ★★★★★ | ★★★★☆ |
+| **쿼리 속도 (부분 검색)** | ★★★★★ (와일드카드/구문) | ★★★★★ | ★★★☆☆ (grep은 느림) |
+| **운영 복잡도** | 높음 (JVM/마스터/샤드) | 중간~높음 | 낮음 (단일 바이너리 가능) |
+| **수평확장** | 데이터 노드 추가, 리밸런싱 | 동일 | Distributor/Ingester 단순 추가 |
+| **Multi-tenancy** | Index Pattern, X-Pack 유료 | 약함 | **네이티브 (`X-Scope-OrgID`)** |
+| **Alerting** | ElastAlert/Watcher | 동일 | Grafana Alerting (LogQL) |
+| **k8s 친화성** | 보통 (PV 관리) | 보통 | 매우 높음 (Service Discovery) |
+| **적합 환경** | 보안 로그, 감사 로그, 검색 필수 | 동일 | MSA/Edge/IoT/비용 민감 |
+| **약점** | 비용·운영 부담 | 동일 | High Cardinality 약함 |
 
-관련 기술 영역과의 연결점도 중요하다. 로키 로그 수집 쿼리 경량 스택은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 로키 로그 수집 쿼리 경량 스택은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 로키 로그 수집 쿼리 경량 스택을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-로키 로그 수집 쿼리 경량 스택을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 로키 로그 수집 쿼리 경량 스택 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 로키 로그 수집 쿼리 경량 스택은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 로키 로그 수집 쿼리 경량 스택의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 로키 로그 수집 쿼리 경량 스택의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 3.2 통합 생태계
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-로키 로그 수집 쿼리 경량 스택 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 로키 로그 수집 쿼리 경량 스택은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
++---------------------------------------------------------+
+|         Grafana 관측성 스택 (LGTM+ Stack)                 |
++---------------------------------------------------------+
+|                                                         |
+|  +----------+  +----------+  +----------+  +--------+ |
+|  |  Mimir   |  |   Loki   |  |  Tempo   |  |Pyroscope| |
+|  |(Metrics) |  |  (Logs)  |  | (Traces) |  |(Profiles)|
+|  +----+-----+  +----+-----+  +----+-----+  +----+----+ |
+|       |             |             |             |       |
+|       +--------
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 405 / 800
 
-<- **이전**: [404. 예거 분산 추적 서비스 맵 분석](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/404_jaeger_distributed_tracing_service_map/)
-**다음**: [406. ELK 스택 로그 분석 검색 시각화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/406_elk_stack_log_analysis_search_visualization/) ->
+<- **이전**: [404. 예거 분산 추적 서비스 맵 분석](/studynote/13_cloud_architecture/06_exam_summary/404_jaeger_distributed_tracing_service_map/)
+**다음**: [406. ELK 스택 로그 분석 검색 시각화](/studynote/13_cloud_architecture/06_exam_summary/406_elk_stack_log_analysis_search_visualization/) ->
 
 ---

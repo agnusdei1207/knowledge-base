@@ -1,13 +1,10 @@
-+++
-title = "487. IT 경영 관리 핵심 토픽 487번 시험 요약 (IT Management Core Topic 487 Exam Summary)"
-date = 2026-05-09
+---
+title: "487. IT 경영 관리 핵심 토픽 487번 시험 요약 (IT Management Core Topic 487 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -118,7 +115,7 @@ DX는 단일 기술이 아니라 **5개 상호의존 레이어**의 통합 설�
 
 **진행 상황**: 487 / 800
 
-<- **이전**: [486. IT 경영 관리 핵심 토픽 486번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/486_it_management_core_topic_486_exam_summary/)
-**다음**: [488. IT 경영 관리 핵심 토픽 488번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/488_it_management_core_topic_488_exam_summary/) ->
+<- **이전**: [486. IT 경영 관리 핵심 토픽 486번 시험 요약](/studynote/12_it_management/05_security_compliance/486_it_management_core_topic_486_exam_summary/)
+**다음**: [488. IT 경영 관리 핵심 토픽 488번 시험 요약](/studynote/12_it_management/05_security_compliance/488_it_management_core_topic_488_exam_summary/) ->
 
 ---

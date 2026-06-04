@@ -1,13 +1,10 @@
-+++
-title = "515. COSMIC 기능 크기 측정 (COSMIC Functional Size Measurement)"
-date = 2026-05-09
+---
+title: "515. COSMIC 기능 크기 측정 (COSMIC Functional Size Measurement)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -16,7 +13,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 515 / 600
 
-<- **이전**: [514. COCOMO 비용 산정 모델](/knowledge-base/studynote/11_design_supervision/06_exam_summary/515_cocomo_cost_estimation_model/)
-**다음**: [516. 위험 관리 프레임워크 리스크 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/516_risk_management_framework_assessment/) ->
+<- **이전**: [514. COCOMO 비용 산정 모델](/studynote/11_design_supervision/06_exam_summary/515_cocomo_cost_estimation_model/)
+**다음**: [516. 위험 관리 프레임워크 리스크 평가](/studynote/11_design_supervision/06_exam_summary/516_risk_management_framework_assessment/) ->
 
 ---

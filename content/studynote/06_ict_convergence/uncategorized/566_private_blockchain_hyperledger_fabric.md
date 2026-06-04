@@ -1,13 +1,10 @@
-+++
-title = "566. 프라이빗 블록체인 하이퍼레저 패브릭 (Private Blockchain Hyperledger Fabric)"
-date = 2026-05-09
+---
+title: "566. 프라이빗 블록체인 하이퍼레저 패브릭 (Private Blockchain Hyperledger Fabric)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Endorse -> Order -> Validate -> Commit -> Query
 
 **진행 상황**: 566 / 800
 
-<- **이전**: [565. 블록체인 오라클 오프체인 데이터 통합](/knowledge-base/studynote/06_ict_convergence/uncategorized/565_blockchain_oracle_off_chain_data_integration/)
-**다음**: [567. 블록체인 거버넌스 온체인 오프체인](/knowledge-base/studynote/06_ict_convergence/uncategorized/567_blockchain_governance_on_chain_off_chain/) ->
+<- **이전**: [565. 블록체인 오라클 오프체인 데이터 통합](/studynote/06_ict_convergence/uncategorized/565_blockchain_oracle_off_chain_data_integration/)
+**다음**: [567. 블록체인 거버넌스 온체인 오프체인](/studynote/06_ict_convergence/uncategorized/567_blockchain_governance_on_chain_off_chain/) ->
 
 ---

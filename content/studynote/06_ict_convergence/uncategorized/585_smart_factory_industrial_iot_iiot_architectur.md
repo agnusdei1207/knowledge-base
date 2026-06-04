@@ -1,13 +1,10 @@
-+++
-title = "585. 스마트 팩토리 산업 IoT IIoT 아키텍처 (Smart Factory Industrial IoT IIoT Architecture)"
-date = 2026-05-09
+---
+title: "585. 스마트 팩토리 산업 IoT IIoT 아키텍처 (Smart Factory Industrial IoT IIoT Architecture)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sense -> Control -> Collect -> Analyze -> Optimize
 
 **진행 상황**: 585 / 800
 
-<- **이전**: [584. 스마트시티 도시 데이터 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/584_smart_city_urban_data_platform/)
-**다음**: [586. AMI 지능형 검침 스마트그리드](/knowledge-base/studynote/06_ict_convergence/uncategorized/586_ami_advanced_metering_smart_grid/) ->
+<- **이전**: [584. 스마트시티 도시 데이터 플랫폼](/studynote/06_ict_convergence/uncategorized/584_smart_city_urban_data_platform/)
+**다음**: [586. AMI 지능형 검침 스마트그리드](/studynote/06_ict_convergence/uncategorized/586_ami_advanced_metering_smart_grid/) ->
 
 ---

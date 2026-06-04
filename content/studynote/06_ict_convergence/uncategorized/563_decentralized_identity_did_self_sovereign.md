@@ -1,13 +1,10 @@
-+++
-title = "563. 탈중앙화 신원 DID 자기주권 신원 (Decentralized Identity DID Self-Sovereign)"
-date = 2026-05-09
+---
+title: "563. 탈중앙화 신원 DID 자기주권 신원 (Decentralized Identity DID Self-Sovereign)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Issuer -> Credential -> Wallet -> Presentation -> Verifier
 
 **진행 상황**: 563 / 800
 
-<- **이전**: [562. 스마트 계약 보안 감사 취약점](/knowledge-base/studynote/06_ict_convergence/uncategorized/562_smart_contract_security_audit_vulnerability/)
-**다음**: [564. 탈중앙 저장소 IPFS Filecoin](/knowledge-base/studynote/06_ict_convergence/uncategorized/564_decentralized_storage_ipfs_filecoin/) ->
+<- **이전**: [562. 스마트 계약 보안 감사 취약점](/studynote/06_ict_convergence/uncategorized/562_smart_contract_security_audit_vulnerability/)
+**다음**: [564. 탈중앙 저장소 IPFS Filecoin](/studynote/06_ict_convergence/uncategorized/564_decentralized_storage_ipfs_filecoin/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "442. IT 경영 관리 핵심 토픽 442번 시험 요약 (IT Management Core Topic 442 Exam Summary)"
-date = 2026-05-09
+---
+title: "442. IT 경영 관리 핵심 토픽 442번 시험 요약 (IT Management Core Topic 442 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 442. IT 경영 관리 핵심 토픽 442번 시험 요약
 
@@ -150,7 +147,7 @@ IT 경영관리는 5대 영역(Strategy·Governance·Architecture·Service·Perf
 
 **진행 상황**: 442 / 800
 
-<- **이전**: [441. IT 경영 관리 핵심 토픽 441번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/441_it_management_core_topic_441_exam_summary/)
-**다음**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/) ->
+<- **이전**: [441. IT 경영 관리 핵심 토픽 441번 시험 요약](/studynote/12_it_management/05_security_compliance/441_it_management_core_topic_441_exam_summary/)
+**다음**: [443. IT 경영 관리 핵심 토픽 443번 시험 요약](/studynote/12_it_management/05_security_compliance/443_it_management_core_topic_443_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "472. 엣지 AI 추론 최적화 온디바이스 (Edge AI Inference Optimization On Device)"
-date = 2026-05-09
+---
+title: "472. 엣지 AI 추론 최적화 온디바이스 (Edge AI Inference Optimization On Device)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 472 / 800
 
-<- **이전**: [471. 엣지 컴퓨팅 MEC 분산 처리 IoT](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/471_edge_computing_mec_distributed_processing_iot/)
-**다음**: [473. 5G MEC 초저지연 엣지 서비스](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/473_5g_mec_ultra_low_latency_edge_service/) ->
+<- **이전**: [471. 엣지 컴퓨팅 MEC 분산 처리 IoT](/studynote/13_cloud_architecture/06_exam_summary/471_edge_computing_mec_distributed_processing_iot/)
+**다음**: [473. 5G MEC 초저지연 엣지 서비스](/studynote/13_cloud_architecture/06_exam_summary/473_5g_mec_ultra_low_latency_edge_service/) ->
 
 ---

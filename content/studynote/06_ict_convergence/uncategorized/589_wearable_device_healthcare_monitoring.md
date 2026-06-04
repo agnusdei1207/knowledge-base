@@ -1,13 +1,10 @@
-+++
-title = "589. 웨어러블 디바이스 헬스케어 모니터링 (Wearable Device Healthcare Monitoring)"
-date = 2026-05-09
+---
+title: "589. 웨어러블 디바이스 헬스케어 모니터링 (Wearable Device Healthcare Monitoring)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sense -> Filter -> Analyze -> Alert -> Share
 
 **진행 상황**: 589 / 800
 
-<- **이전**: [588. RPA 엔터프라이즈 업무 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/)
-**다음**: [590. 증강현실 AR 산업 가이드](/knowledge-base/studynote/06_ict_convergence/uncategorized/590_augmented_reality_ar_industrial_guide/) ->
+<- **이전**: [588. RPA 엔터프라이즈 업무 자동화](/studynote/06_ict_convergence/uncategorized/588_robot_process_automation_rpa_enterprise/)
+**다음**: [590. 증강현실 AR 산업 가이드](/studynote/06_ict_convergence/uncategorized/590_augmented_reality_ar_industrial_guide/) ->
 
 ---

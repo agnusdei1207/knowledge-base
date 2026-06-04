@@ -1,29 +1,26 @@
-+++
-title = "278. 더티 비트 (Dirty Bit)"
-date = 2026-04-20
+---
+title: "278. 더티 비트 (Dirty Bit)"
+date: "2026-04-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))는 캐시 라인이나 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 원본 메모리와 달라졌는지를 표시하는 1비트 상태 정보로, "이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나중에 반드시 다시 써야 하는가"를 결정한다.
-> 2. **가치**: 수정되지 않은 블록까지 모두 하위 계층에 기록하지 않게 만들어, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽·[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유·디스크 입출력 (Input/Output) 부담을 크게 줄인다.
-> 3. **판단 포인트**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단순 표시가 아니라 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ([나중 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)), [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/), [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 설계에서 "지연된 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"를 안전하게 성립시키는 최소 비용의 제어 장치다.
+> 1. **본질**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Dirty Bit](/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))는 캐시 라인이나 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 원본 메모리와 달라졌는지를 표시하는 1비트 상태 정보로, "이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 나중에 반드시 다시 써야 하는가"를 결정한다.
+> 2. **가치**: 수정되지 않은 블록까지 모두 하위 계층에 기록하지 않게 만들어, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 트래픽·[버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 점유·디스크 입출력 (Input/Output) 부담을 크게 줄인다.
+> 3. **판단 포인트**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단순 표시가 아니라 [Write-Back](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ([나중 쓰기](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)), [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/), [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 설계에서 "지연된 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)"를 안전하게 성립시키는 최소 비용의 제어 장치다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Dirty Bit](/knowledge-base/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))는 상위 기억장치에 복사된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **읽기만 되었는지**, 아니면 <strong>수정까지 되었는지</strong>를 구분하는 상태 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 캐시 메모리에서는 캐시 라인이 메인 메모리 원본과 달라졌는지를, 가상 메모리에서는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크의 원본과 달라졌는지를 나타낸다. 즉 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 핵심 질문은 단 하나다. **"이 블록을 내보낼 때 다시 써야 하는가?"**
+더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) ([Dirty Bit](/studynote/02_operating_system/07_virtual_memory/396_dirty_bit/))는 상위 기억장치에 복사된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 **읽기만 되었는지**, 아니면 <strong>수정까지 되었는지</strong>를 구분하는 상태 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)다. 캐시 메모리에서는 캐시 라인이 메인 메모리 원본과 달라졌는지를, 가상 메모리에서는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 디스크의 원본과 달라졌는지를 나타낸다. 즉 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 핵심 질문은 단 하나다. **"이 블록을 내보낼 때 다시 써야 하는가?"**
 
-이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요한 이유는 기억장치 계층이 서로 너무 느리기 때문이다. CPU (Central Processing Unit)는 수 ns 단위로 동작하지만 메인 메모리 접근은 그보다 훨씬 느리고, 디스크나 스왑 영역은 더 느리다. 만약 수정 여부를 구분하지 못하면 교체되는 모든 블록을 하위 계층으로 다시 기록해야 하므로, 읽기 중심 작업조차 불필요한 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용을 떠안게 된다.
+이 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요한 이유는 기억장치 계층이 서로 너무 느리기 때문이다. CPU (Central Processing Unit)는 수 ns 단위로 동작하지만 메인 메모리 접근은 그보다 훨씬 느리고, 디스크나 스왑 영역은 더 느리다. 만약 수정 여부를 구분하지 못하면 교체되는 모든 블록을 하위 계층으로 다시 기록해야 하므로, 읽기 중심 작업조차 불필요한 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용을 떠안게 된다.
 
-특히 [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 캐시나 가상 메모리의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)처럼 "나중에 몰아서 쓰는" [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은, 어떤 블록이 실제로 바뀌었는지를 추적해야만 성립한다. 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 하드웨어 비용은 매우 작지만, 없으면 시스템은 안전을 위해 매번 보수적으로 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작을 수행해야 한다. 결국 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 기억장치 계층 전체에 걸친 <strong>선별적 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 출발점</strong>이다.
+특히 [Write-Back](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 캐시나 가상 메모리의 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)처럼 "나중에 몰아서 쓰는" [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)은, 어떤 블록이 실제로 바뀌었는지를 추적해야만 성립한다. 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 하드웨어 비용은 매우 작지만, 없으면 시스템은 안전을 위해 매번 보수적으로 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 동작을 수행해야 한다. 결국 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 기억장치 계층 전체에 걸친 <strong>선별적 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/10_ai/02_dl_architecture_new/164_policy/">정책</a>의 출발점</strong>이다.
 
 ```text
 +--------------------------------------------------------------+
@@ -38,17 +35,17 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 도서관 책에 붙이는 "메모함" 스티커와 같다. 그냥 읽은 책은 바로 반납하면 되지만, 밑줄을 긋고 메모한 책은 원본 보관 전에 다시 확인해야 한다.
+- **📢 섹션 요약 비유**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 도서관 책에 붙이는 "메모함" 스티커와 같다. 그냥 읽은 책은 바로 반납하면 되지만, 밑줄을 긋고 메모한 책은 원본 보관 전에 다시 확인해야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 보통 캐시 라인의 태그 (Tag) 메타데이터나 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE)에 함께 저장된다. 캐시 기준으로 보면 `Valid Bit`, `Tag`, `Dirty Bit`, 교체 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정보가 한 묶음으로 관리된다. CPU가 해당 캐시 라인에 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행하는 순간 컨트롤러가 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 세트하고, 이후 그 라인이 퇴출될 때까지 이 상태를 유지한다.
+더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 보통 캐시 라인의 태그 (Tag) 메타데이터나 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE)에 함께 저장된다. 캐시 기준으로 보면 `Valid Bit`, `Tag`, `Dirty Bit`, 교체 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 정보가 한 묶음으로 관리된다. CPU가 해당 캐시 라인에 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 수행하는 순간 컨트롤러가 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 1로 세트하고, 이후 그 라인이 퇴출될 때까지 이 상태를 유지한다.
 
-핵심 원리는 단순한 상태 전이다. 메모리에서 막 읽어 온 블록은 원본과 같으므로 `Dirty=0`이다. 읽기 히트는 값을 바꾸지 않으므로 그대로 유지된다. 하지만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 히트가 발생하면 캐시 내부 값만 바뀌므로 `Dirty=1`이 된다. 이후 교체 시점에 컨트롤러는 `Dirty=1`이면 Write-Back을 수행하고, `Dirty=0`이면 바로 버린다.
+핵심 원리는 단순한 상태 전이다. 메모리에서 막 읽어 온 블록은 원본과 같으므로 `Dirty=0`이다. 읽기 히트는 값을 바꾸지 않으므로 그대로 유지된다. 하지만 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 히트가 발생하면 캐시 내부 값만 바뀌므로 `Dirty=1`이 된다. 이후 교체 시점에 컨트롤러는 `Dirty=1`이면 Write-Back을 수행하고, `Dirty=0`이면 바로 버린다.
 
-아래 그림은 캐시 라인 기준의 상태 흐름을 압축해 보여준다. 중요한 점은 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 "언제 1이 되느냐"보다 "언제 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략할 수 있느냐"를 결정한다는 데 있다. 즉 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 실행 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)라기보다 <strong>불필요한 <a href="/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a> <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>에 가깝다.
+아래 그림은 캐시 라인 기준의 상태 흐름을 압축해 보여준다. 중요한 점은 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 "언제 1이 되느냐"보다 "언제 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 생략할 수 있느냐"를 결정한다는 데 있다. 즉 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 실행 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)라기보다 <strong>불필요한 <a href="/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/">쓰기</a> <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a> <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>에 가깝다.
 
 ```text
 +--------------------------------------------------------------+
@@ -69,61 +66,61 @@ tags = ["studynote-computer-architecture"]
 | `Valid=1, Dirty=0` | 유효하지만 원본과 동일 | 바로 폐기 |
 | `Valid=1, Dirty=1` | 유효하며 상위 계층에서 수정됨 | 하위 계층에 기록 후 폐기 |
 
-가상 메모리에서도 원리는 같다. 운영체제가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내보낼 때 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 디스크에 다시 쓰지 않고 버릴 수 있고, 1이면 스왑 공간이나 파일에 반영해야 한다. 그래서 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 캐시 최적화뿐 아니라 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)에서의 입출력 절감에도 직접 기여한다.
+가상 메모리에서도 원리는 같다. 운영체제가 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 내보낼 때 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 디스크에 다시 쓰지 않고 버릴 수 있고, 1이면 스왑 공간이나 파일에 반영해야 한다. 그래서 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 캐시 최적화뿐 아니라 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)에서의 입출력 절감에도 직접 기여한다.
 
-- **📢 섹션 요약 비유**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 택배 상자의 "개봉 후 재포장 필요" 표시와 같다. 뜯지 않은 상자는 바로 창고로 보내도 되지만, 내용물을 바꾼 상자는 다시 포장해서 보내야 한다.
+- **📢 섹션 요약 비유**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 택배 상자의 "개봉 후 재포장 필요" 표시와 같다. 뜯지 않은 상자는 바로 창고로 보내도 되지만, 내용물을 바꾼 상자는 다시 포장해서 보내야 한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제대로 이해하려면 Write-Back과 [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) ([동시 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/))를 함께 봐야 한다. Write-Through는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 캐시와 메인 메모리에 동시에 쓰므로 원칙적으로 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요 없다. 반면 Write-Back은 메모리 반영을 뒤로 미루기 때문에, 어느 라인이 미반영 상태인지 추적할 표식이 반드시 필요하다. 즉 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 Write-Back의 선택 사항이 아니라 구조적 전제다.
+더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 제대로 이해하려면 Write-Back과 [Write-Through](/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) ([동시 쓰기](/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/))를 함께 봐야 한다. Write-Through는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 캐시와 메인 메모리에 동시에 쓰므로 원칙적으로 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 필요 없다. 반면 Write-Back은 메모리 반영을 뒤로 미루기 때문에, 어느 라인이 미반영 상태인지 추적할 표식이 반드시 필요하다. 즉 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 Write-Back의 선택 사항이 아니라 구조적 전제다.
 
-| 비교 항목 | [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) | [Write-Through](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) |
+| 비교 항목 | [Write-Back](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) | [Write-Through](/studynote/01_computer_architecture/06_memory_hierarchy_cache/276_write_through/) |
 | :-- | :-- | :-- |
-| 메모리 반영 시점 | 퇴출 시점 | 매 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시점 |
-| 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필요성 | 필수 | 보통 불필요 |
-| [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 | 낮음 | 높음 |
-| [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 난이도 | 높음 | 상대적으로 낮음 |
+| 메모리 반영 시점 | 퇴출 시점 | 매 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시점 |
+| 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 필요성 | 필수 | 보통 불필요 |
+| [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 트래픽 | 낮음 | 높음 |
+| [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 관리 난이도 | 높음 | 상대적으로 낮음 |
 
-더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 Valid Bit와도 함께 이해해야 한다. Valid Bit가 "이 칸에 유효한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가"를 말한다면, 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "그 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원본과 달라졌는가"를 말한다. 둘을 섞어 보면 빈 칸, 깨끗한 칸, 수정된 칸을 구분할 수 있고, 캐시 컨트롤러는 이 조합을 바탕으로 교체·기록·무효화를 결정한다.
+더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 Valid Bit와도 함께 이해해야 한다. Valid Bit가 "이 칸에 유효한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 있는가"를 말한다면, 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "그 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 원본과 달라졌는가"를 말한다. 둘을 섞어 보면 빈 칸, 깨끗한 칸, 수정된 칸을 구분할 수 있고, 캐시 컨트롤러는 이 조합을 바탕으로 교체·기록·무효화를 결정한다.
 
-멀티코어 환경에서는 이 개념이 더 확장된다. MESI (Modified, Exclusive, Shared, Invalid) 프로토콜의 `Modified` 상태는 사실상 "유효하면서 더티한 상태"를 더 정교하게 표현한 것이다. 따라서 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단일 코어 캐시의 작은 표식을 넘어, [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜로 발전하는 출발점이라고 볼 수 있다.
+멀티코어 환경에서는 이 개념이 더 확장된다. MESI (Modified, Exclusive, Shared, Invalid) 프로토콜의 `Modified` 상태는 사실상 "유효하면서 더티한 상태"를 더 정교하게 표현한 것이다. 따라서 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단일 코어 캐시의 작은 표식을 넘어, [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 프로토콜로 발전하는 출발점이라고 볼 수 있다.
 
-- **📢 섹션 요약 비유**: Valid Bit가 사물함에 "짐이 있나요?"를 묻는 표지라면, 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "짐 안 내용물이 원래와 달라졌나요?"를 묻는 표지다. 둘 다 알아야 사물함을 바로 비울지, 확인하고 정리할지 결정할 수 있다.
+- **📢 섹션 요약 비유**: Valid Bit가 사물함에 "짐이 있나요?"를 묻는 표지라면, 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "짐 안 내용물이 원래와 달라졌나요?"를 묻는 표지다. 둘 다 알아야 사물함을 바로 비울지, 확인하고 정리할지 결정할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단순 개념 문제가 아니라 성능과 안정성의 균형점으로 등장한다. 예를 들어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀은 수많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 메모리에 올려 두고 수정한 뒤, 체크포인트 시점에 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 골라 디스크에 기록한다. 이 방식은 입출력량을 줄여 처리량을 높이지만, 반대로 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 너무 오래 누적되면 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부담과 순간 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 폭증이 커진다.
+실무에서 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 단순 개념 문제가 아니라 성능과 안정성의 균형점으로 등장한다. 예를 들어 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 버퍼 풀은 수많은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 메모리에 올려 두고 수정한 뒤, 체크포인트 시점에 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)만 골라 디스크에 기록한다. 이 방식은 입출력량을 줄여 처리량을 높이지만, 반대로 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 너무 오래 누적되면 장애 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 부담과 순간 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 폭증이 커진다.
 
-운영체제의 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/)도 같은 판단을 요구한다. 코드 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)처럼 읽기 위주인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0인 경우가 많아 교체가 싸다. 반대로 사용자 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 가능성이 높아, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리나 메모리 압박 상황에서 디스크 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 지연을 유발한다. 따라서 메모리 관리 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단순히 "최근에 안 쓴 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"만 볼 것이 아니라 "내보냈을 때 얼마나 비싼가"도 함께 고려해야 한다.
+운영체제의 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/)도 같은 판단을 요구한다. 코드 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)처럼 읽기 위주인 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0인 경우가 많아 교체가 싸다. 반대로 사용자 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1일 가능성이 높아, [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 처리나 메모리 압박 상황에서 디스크 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 지연을 유발한다. 따라서 메모리 관리 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)은 단순히 "최근에 안 쓴 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)"만 볼 것이 아니라 "내보냈을 때 얼마나 비싼가"도 함께 고려해야 한다.
 
 ### 실무 판단 체크포인트
 
-1. [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 구조를 택했다면 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 플러시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다.
-2. 대용량 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 워크로드에서는 더티 블록 누적량과 백그라운드 기록 속도의 균형을 봐야 한다.
-3. [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))나 장치 메모리처럼 즉시 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 중요한 영역은 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)을 별도로 다뤄야 한다.
+1. [Write-Back](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) 구조를 택했다면 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 플러시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 함께 설계해야 한다.
+2. 대용량 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 워크로드에서는 더티 블록 누적량과 백그라운드 기록 속도의 균형을 봐야 한다.
+3. [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/))나 장치 메모리처럼 즉시 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/)이 중요한 영역은 캐시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)을 별도로 다뤄야 한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 더티 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쌓이는 구조인데도 주기적 플러시나 체크포인트 없이 방치하는 설계
-- 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 큰 시스템에서 수정 여부 구분 없이 모든 교체 블록을 무조건 기록하는 설계
+- 더티 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 쌓이는 구조인데도 주기적 플러시나 체크포인트 없이 방치하는 설계
+- 메모리 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 비용이 큰 시스템에서 수정 여부 구분 없이 모든 교체 블록을 무조건 기록하는 설계
 
-- **📢 섹션 요약 비유**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 관리는 식당 설거지와 비슷하다. 손님이 안 쓴 접시까지 다 씻으면 낭비이고, 쓴 접시를 너무 오래 쌓아 두면 마감 시간에 일이 폭발한다.
+- **📢 섹션 요약 비유**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 관리는 식당 설거지와 비슷하다. 손님이 안 쓴 접시까지 다 씻으면 낭비이고, 쓴 접시를 너무 오래 쌓아 두면 마감 시간에 일이 폭발한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 가장 큰 효과는 "[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화의 선택권"을 준다는 데 있다. 시스템은 수정된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 하위 계층으로 내려보내면서 메모리 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 디스크 입출력, 교체 지연을 절약할 수 있다. 특히 시간 지역성 ([Temporal Locality](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 큰 워크로드에서는 같은 블록을 여러 번 수정해도 최종적으로 한 번만 기록하면 되므로 효과가 매우 크다.
+더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)의 가장 큰 효과는 "[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 최적화의 선택권"을 준다는 데 있다. 시스템은 수정된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 하위 계층으로 내려보내면서 메모리 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 디스크 입출력, 교체 지연을 절약할 수 있다. 특히 시간 지역성 ([Temporal Locality](/studynote/01_computer_architecture/06_memory_hierarchy_cache/247_temporal_locality/))이 큰 워크로드에서는 같은 블록을 여러 번 수정해도 최종적으로 한 번만 기록하면 되므로 효과가 매우 크다.
 
-물론 전제조건도 있다. 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 유용하려면 지연된 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 감당할 버퍼 구조, 플러시 시점 제어, 장애 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 함께 있어야 한다. 멀티코어 환경에서는 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)까지 엮이므로 단순한 1비트가 실제로는 꽤 큰 설계 복잡도를 불러온다. 즉 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 공짜 성능이 아니라, <strong>복잡한 제어를 감수하고 얻는 고효율 <a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>다.
+물론 전제조건도 있다. 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 유용하려면 지연된 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)를 감당할 버퍼 구조, 플러시 시점 제어, 장애 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 함께 있어야 한다. 멀티코어 환경에서는 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)까지 엮이므로 단순한 1비트가 실제로는 꽤 큰 설계 복잡도를 불러온다. 즉 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 공짜 성능이 아니라, <strong>복잡한 제어를 감수하고 얻는 고효율 <a href="/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/">스위치</a></strong>다.
 
-결론적으로 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "수정된 것만 나중에 정확히 쓰게 해 주는 최소 단위의 기억"으로 이해하면 된다. 이 작은 표식 덕분에 캐시 계층과 가상 메모리는 모든 블록을 똑같이 취급하지 않고, 정말 비용이 필요한 경우에만 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 수행할 수 있다.
+결론적으로 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 "수정된 것만 나중에 정확히 쓰게 해 주는 최소 단위의 기억"으로 이해하면 된다. 이 작은 표식 덕분에 캐시 계층과 가상 메모리는 모든 블록을 똑같이 취급하지 않고, 정말 비용이 필요한 경우에만 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 작업을 수행할 수 있다.
 
-- **📢 섹션 요약 비유**: 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 세탁 바구니에 붙는 작은 빨간 표시와 같다. 표시가 있는 옷만 세탁기로 보내면 물과 시간을 아끼면서도 꼭 씻어야 할 옷은 놓치지 않는다.
+- **📢 섹션 요약 비유**: 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 세탁 바구니에 붙는 작은 빨간 표시와 같다. 표시가 있는 옷만 세탁기로 보내면 물과 시간을 아끼면서도 꼭 씻어야 할 옷은 놓치지 않는다.
 
 ---
 
@@ -131,11 +128,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [Write-Back](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ([나중 쓰기](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) | 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 블록만 퇴출 시 메모리에 기록하는 대표 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
-| Valid [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 캐시 라인의 존재 여부를 나타내며, 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 함께 상태를 구성 |
-| [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수정 여부를 기록해 스왑 입출력 비용을 줄임 |
-| MESI (Modified, Exclusive, Shared, Invalid) | 더티 상태를 멀티코어 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 상태로 확장한 구조 |
-| 체크포인트 (Checkpoint) | 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 주기적으로 디스크에 반영하는 운영 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| [Write-Back](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/) ([나중 쓰기](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)) | 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1인 블록만 퇴출 시 메모리에 기록하는 대표 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| Valid [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) | 캐시 라인의 존재 여부를 나타내며, 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)와 함께 상태를 구성 |
+| [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리 ([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/) Entry, PTE) | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 수정 여부를 기록해 스왑 입출력 비용을 줄임 |
+| MESI (Modified, Exclusive, Shared, Invalid) | 더티 상태를 멀티코어 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) 상태로 확장한 구조 |
+| 체크포인트 (Checkpoint) | 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 주기적으로 디스크에 반영하는 운영 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,11 +154,11 @@ MESI (Modified, Exclusive, Shared, Invalid)
 멀티코어 캐시 일관성 · 백그라운드 플러시 전략
 ```
 
-이 흐름은 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 단순한 캐시 내부 표식에서 출발해, 가상 메모리와 멀티코어 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 설계까지 확장되는 경로를 보여준다.
+이 흐름은 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 단순한 캐시 내부 표식에서 출발해, 가상 메모리와 멀티코어 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 설계까지 확장되는 경로를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 더티 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 공책에 "이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내가 고쳤어요" 하고 붙이는 작은 스티커예요.
+1. 더티 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)는 공책에 "이 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 내가 고쳤어요" 하고 붙이는 작은 스티커예요.
 2. 스티커가 없으면 그냥 서랍에 넣으면 되고, 스티커가 있으면 엄마가 진짜 공책에 다시 적어야 해요.
 3. 그래서 컴퓨터는 바뀐 것만 골라서 정리하고, 안 바뀐 것은 그냥 지나가며 시간을 아낀답니다.
 
@@ -171,7 +168,7 @@ MESI (Modified, Exclusive, Shared, Invalid)
 
 **진행 상황**: 278 / 803
 
-<- **이전**: [277. Write-Back (나중 쓰기)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)
-**다음**: [279. 분리 캐시 (Split Cache)](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/) ->
+<- **이전**: [277. Write-Back (나중 쓰기)](/studynote/01_computer_architecture/06_memory_hierarchy_cache/277_write_back/)
+**다음**: [279. 분리 캐시 (Split Cache)](/studynote/01_computer_architecture/06_memory_hierarchy_cache/279_split_cache/) ->
 
 ---

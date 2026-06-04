@@ -1,13 +1,10 @@
-+++
-title = "551. IT 경영 관리 핵심 토픽 551번 시험 요약 (IT Management Core Topic 551 Exam Summary)"
-date = 2026-05-09
+---
+title: "551. IT 경영 관리 핵심 토픽 551번 시험 요약 (IT Management Core Topic 551 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 551 / 800
 
-<- **이전**: [550. IT 경영 관리 핵심 토픽 550번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/550_it_management_core_topic_550_exam_summary/)
-**다음**: [552. IT 경영 관리 핵심 토픽 552번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/552_it_management_core_topic_552_exam_summary/) ->
+<- **이전**: [550. IT 경영 관리 핵심 토픽 550번 시험 요약](/studynote/12_it_management/05_security_compliance/550_it_management_core_topic_550_exam_summary/)
+**다음**: [552. IT 경영 관리 핵심 토픽 552번 시험 요약](/studynote/12_it_management/05_security_compliance/552_it_management_core_topic_552_exam_summary/) ->
 
 ---

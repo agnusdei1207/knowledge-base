@@ -1,29 +1,26 @@
-+++
-title = "525. 메인 메모리 압축 기술 (Main Memory Compression)"
-date = 2026-05-08
+---
+title: "525. 메인 메모리 압축 기술 (Main Memory Compression)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) (Main Memory [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))은 CPU (Central Processing Unit)와 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 저장해, 물리 메모리를 늘리지 않고도 더 큰 작업 집합을 주기억장치 안에 붙잡아 두는 기술이다.
-> 2. **가치**: [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 맞는 워크로드에서는 스왑, 원격 메모리, 불필요한 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 왕복을 줄여 유효 용량과 유효 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 동시에 늘릴 수 있다.
-> 3. **판단 포인트**: 실제 효과는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률 자체보다도 [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회, 재배치, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 모두 합친 비용이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트나 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 원격 접근 비용보다 충분히 작은가에 달려 있다.
+> 1. **본질**: 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) (Main Memory [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))은 CPU (Central Processing Unit)와 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) (Dynamic Random Access Memory) 사이에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 투명하게 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 저장해, 물리 메모리를 늘리지 않고도 더 큰 작업 집합을 주기억장치 안에 붙잡아 두는 기술이다.
+> 2. **가치**: [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 맞는 워크로드에서는 스왑, 원격 메모리, 불필요한 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 왕복을 줄여 유효 용량과 유효 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 동시에 늘릴 수 있다.
+> 3. **판단 포인트**: 실제 효과는 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률 자체보다도 [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회, 재배치, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 모두 합친 비용이 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트나 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 원격 접근 비용보다 충분히 작은가에 달려 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 메모리 컨트롤러가 주기억장치의 일부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 형태로 저장하고, CPU에는 원래 크기 그대로 보이게 만드는 투명한 용량 확장 기법이다. 핵심은 "메모리가 부족해졌다고 바로 디스크로 내보내기 전에, 같은 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 안에서 먼저 더 작게 접어 넣는다"는 데 있다. [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 가격과 전력 소모는 여전히 크고, [인메모리 데이터베이스](/knowledge-base/studynote/16_bigdata/06_nosql/139_inmemory_db/)·가상 머신 밀집 배치·통합 메모리 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 워크로드는 작업 집합을 계속 키우기 때문에 물리 증설만으로는 비용을 감당하기 어렵다.
+메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)나 메모리 컨트롤러가 주기억장치의 일부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 형태로 저장하고, CPU에는 원래 크기 그대로 보이게 만드는 투명한 용량 확장 기법이다. 핵심은 "메모리가 부족해졌다고 바로 디스크로 내보내기 전에, 같은 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 안에서 먼저 더 작게 접어 넣는다"는 데 있다. [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 가격과 전력 소모는 여전히 크고, [인메모리 데이터베이스](/studynote/16_bigdata/06_nosql/139_inmemory_db/)·가상 머신 밀집 배치·통합 메모리 기반 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/)) 워크로드는 작업 집합을 계속 키우기 때문에 물리 증설만으로는 비용을 감당하기 어렵다.
 
-[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한 이유는 메모리 부족 이후의 비용이 너무 가파르기 때문이다. 캐시를 벗어난 뒤에도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 로컬 DRAM에 남아 있으면 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 수십 ns 수준이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 넘쳐난 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑이나 원격 메모리로 밀리면 비용은 수백 ns에서 수 ms까지 커질 수 있다. 즉 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 단순한 저장 공간 절약이 아니라, <strong>비싼 계층 이동을 늦추는 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 방어선</strong>이다.
+[압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 필요한 이유는 메모리 부족 이후의 비용이 너무 가파르기 때문이다. 캐시를 벗어난 뒤에도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 로컬 DRAM에 남아 있으면 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)은 수십 ns 수준이지만, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 없이 넘쳐난 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 스왑이나 원격 메모리로 밀리면 비용은 수백 ns에서 수 ms까지 커질 수 있다. 즉 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 단순한 저장 공간 절약이 아니라, <strong>비싼 계층 이동을 늦추는 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>시간 방어선</strong>이다.
 
-이 그림은 왜 "조금의 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드"가 "큰 계층 이동 비용"보다 유리할 수 있는지를 보여준다.
+이 그림은 왜 "조금의 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 오버헤드"가 "큰 계층 이동 비용"보다 유리할 수 있는지를 보여준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -41,33 +38,33 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-물론 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1.5배로 잘 접히는 것은 아니다. 그러나 0 값이 많은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 유사한 [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/), 희소 행렬처럼 규칙성이 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 커서 로컬 메모리에 더 오래 남을 수 있다. 반대로 이미 암호화되었거나 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 작으므로, 결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 "무엇을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)할지"를 똑똑하게 고르는 일이다.
+물론 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1.5배로 잘 접히는 것은 아니다. 그러나 0 값이 많은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), 유사한 [포인터 배열](/studynote/05_database/07_exam_summary/423_non_clustered_index/), 희소 행렬처럼 규칙성이 높은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효과가 커서 로컬 메모리에 더 오래 남을 수 있다. 반대로 이미 암호화되었거나 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 작으므로, 결국 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심은 "무엇을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)할지"를 똑똑하게 고르는 일이다.
 
-- **📢 섹션 요약 비유**: 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 여행 가방에 진공 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩을 넣는 것과 같다. 가방을 새로 사지 않아도 더 많은 옷을 넣을 수 있지만, 꺼낼 때 조금의 수고가 추가된다는 점까지 함께 봐야 한다.
+- **📢 섹션 요약 비유**: 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 여행 가방에 진공 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)팩을 넣는 것과 같다. 가방을 새로 사지 않아도 더 많은 옷을 넣을 수 있지만, 꺼낼 때 조금의 수고가 추가된다는 점까지 함께 봐야 한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심 경로는 `분류 -> 압축 -> 배치 -> 메타데이터 기록 -> 필요 시 해제`로 정리된다. 구현 위치는 크게 두 가지다. 하나는 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 풀을 관리하는 방식이고, 다른 하나는 메모리 컨트롤러나 [LLC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 하단에서 캐시라인 단위로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 방식이다. 후자가 더 빠르지만 하드웨어 복잡도가 높고, 전자가 더 유연하지만 소프트웨어 개입 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다.
+메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)의 핵심 경로는 `분류 -> 압축 -> 배치 -> 메타데이터 기록 -> 필요 시 해제`로 정리된다. 구현 위치는 크게 두 가지다. 하나는 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)가 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 단위로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 풀을 관리하는 방식이고, 다른 하나는 메모리 컨트롤러나 [LLC](/studynote/01_computer_architecture/15_advanced_topics/744_load_line_calibration/) (Last-Level Cache) 하단에서 캐시라인 단위로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 방식이다. 후자가 더 빠르지만 하드웨어 복잡도가 높고, 전자가 더 유연하지만 소프트웨어 개입 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크다.
 
 | 구성 요소 | 역할 | 설계 포인트 |
 | :--- | :--- | :--- |
-| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 판별기 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가치가 있는지 판단 | [엔트로피](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 높은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 즉시 우회 |
-| [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 엔진 | 짧은 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 저지연 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택이 핵심 |
-| [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 테이블 | 크기, 위치, 포맷 기록 | 조회 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 저장 오버헤드 최소화 |
-| 배치/재배치기 | 가변 길이 블록을 물리 공간에 정렬 | 단편화와 [compaction](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 비용 관리 |
-| 해제기 | 읽기 시 원래 크기로 복원 | 파이프라인 병렬화로 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨김 |
+| [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 판별기 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 가치가 있는지 판단 | [엔트로피](/studynote/08_algorithm_stats/09_info_theory/151_entropy/) 높은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 즉시 우회 |
+| [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 엔진 | 짧은 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)으로 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 축소 | 저지연 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택이 핵심 |
+| [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 테이블 | 크기, 위치, 포맷 기록 | 조회 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 저장 오버헤드 최소화 |
+| 배치/재배치기 | 가변 길이 블록을 물리 공간에 정렬 | 단편화와 [compaction](/studynote/02_operating_system/06_memory_management/347_compaction/) 비용 관리 |
+| 해제기 | 읽기 시 원래 크기로 복원 | 파이프라인 병렬화로 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 숨김 |
 
-실제로 많이 언급되는 방식은 BDI (Base-Delta-Immediate), FPC (Frequent Pattern [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)), [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Linearly Compressed Pages)다. BDI는 서로 비슷한 값이 많은 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에 강하고, FPC는 0이나 작은 정수처럼 자주 나오는 패턴에 강하다. LCP는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 그 자체라기보다 "같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안의 캐시라인을 비슷한 크기로 맞춰 빠르게 주소 계산을 하자"는 배치 프레임워크에 가깝다.
+실제로 많이 언급되는 방식은 BDI (Base-Delta-Immediate), FPC (Frequent Pattern [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/)), [LCP](/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Linearly Compressed Pages)다. BDI는 서로 비슷한 값이 많은 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에 강하고, FPC는 0이나 작은 정수처럼 자주 나오는 패턴에 강하다. LCP는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 그 자체라기보다 "같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안의 캐시라인을 비슷한 크기로 맞춰 빠르게 주소 계산을 하자"는 배치 프레임워크에 가깝다.
 
 | 기법 | 핵심 아이디어 | 강점 | 약점 |
 | :--- | :--- | :--- | :--- |
-| BDI | 기준값 하나와 작은 차이만 저장 | [포인터 배열](/knowledge-base/studynote/05_database/07_exam_summary/423_non_clustered_index/)·연속 값에 강함 | 무작위 바이트에는 약함 |
-| FPC | 자주 등장하는 패턴을 짧은 코드로 치환 | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 잘 맞음 | 패턴 탐지 회로가 필요 |
-| [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내부 슬롯 크기를 제한해 주소 계산 단순화 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회가 빠름 | 내부 단편화가 생길 수 있음 |
+| BDI | 기준값 하나와 작은 차이만 저장 | [포인터 배열](/studynote/05_database/07_exam_summary/423_non_clustered_index/)·연속 값에 강함 | 무작위 바이트에는 약함 |
+| FPC | 자주 등장하는 패턴을 짧은 코드로 치환 | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 잘 맞음 | 패턴 탐지 회로가 필요 |
+| [LCP](/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내부 슬롯 크기를 제한해 주소 계산 단순화 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 조회가 빠름 | 내부 단편화가 생길 수 있음 |
 
-이 그림은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 읽기 경로가 어디서 추가 비용을 내는지 보여준다.
+이 그림은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 경로와 읽기 경로가 어디서 추가 비용을 내는지 보여준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -88,7 +85,7 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-여기서 어려운 지점은 가변 길이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, <strong>빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술</strong>이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
+여기서 어려운 지점은 가변 길이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리다. 64B 캐시라인이 어떤 것은 16B로 줄고 어떤 것은 64B 그대로 남으면, 단순한 `주소 = base + offset` 계산이 깨진다. 그래서 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보는 기술이 아니라, <strong>빠른 위치 결정과 낮은 단편화를 함께 달성하는 주소 관리 기술</strong>이기도 하다. 일반적으로 유효 용량은 `물리 용량 × 평균 압축률 - 메타데이터 및 여유 공간`으로 생각할 수 있다.
 
 - **📢 섹션 요약 비유**: 이 기술은 옷을 접는 법만 좋은 것이 아니라, 접은 옷이 서랍 어디에 들어갔는지 빨리 찾는 수납 시스템까지 함께 좋아야 하는 정리술과 같다.
 
@@ -96,56 +93,56 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 이해하려면 저장장치 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 중복 제거, 메모리 계층 확장과 구분해서 봐야 한다. 저장장치 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 높은 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률을 노려도 되지만, 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 ns 단위 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 때문에 매우 단순한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 허용된다. 또한 중복 제거는 "같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나로 합치자"는 접근이고, 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "같지 않아도 더 작게 담자"는 접근이라서 서로 보완재에 가깝다.
+메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 이해하려면 저장장치 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 중복 제거, 메모리 계층 확장과 구분해서 봐야 한다. 저장장치 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 높은 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률을 노려도 되지만, 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 ns 단위 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)시간 때문에 매우 단순한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)만 허용된다. 또한 중복 제거는 "같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나로 합치자"는 접근이고, 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 "같지 않아도 더 작게 담자"는 접근이라서 서로 보완재에 가깝다.
 
-| 구분 | 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | zswap / zram 기반 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) | 중복 제거 (Deduplication) |
+| 구분 | 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) | zswap / zram 기반 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) | 중복 제거 (Deduplication) |
 | :--- | :--- | :--- | :--- |
-| 주 대상 | 캐시라인 또는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | 동일 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) |
-| 목표 | 로컬 [DRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 체류 시간 증가 | 스왑 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 완화 | 동일 [데이터 중복 제거](/knowledge-base/studynote/02_operating_system/09_file_system/546_data_deduplication/) |
-| 장점 | 빠른 계층 유지, 투명성 높음 | 구현 유연성, [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 제어 용이 | 중복이 큰 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지에 강함 |
-| 약점 | [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/)·재배치 복잡도 | CPU 오버헤드 존재 | 동일성 없으면 효과 없음 |
+| 주 대상 | 캐시라인 또는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) | 동일 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) |
+| 목표 | 로컬 [DRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/251_dram/) 체류 시간 증가 | 스왑 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 완화 | 동일 [데이터 중복 제거](/studynote/02_operating_system/09_file_system/546_data_deduplication/) |
+| 장점 | 빠른 계층 유지, 투명성 높음 | 구현 유연성, [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 제어 용이 | 중복이 큰 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 이미지에 강함 |
+| 약점 | [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/)·재배치 복잡도 | CPU 오버헤드 존재 | 동일성 없으면 효과 없음 |
 
-또한 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)), [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 확장과도 연결된다. 거대 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 적중률을 높이지만, 한 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에 비압축 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞이면 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 관리가 까다로워질 수 있다. [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 로컬 노드에 더 오래 머무르게 하는 것이 중요하고, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 확장 메모리가 붙은 시스템에서는 원격 메모리로 밀어내기 전에 먼저 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 로컬 수용량을 늘리는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 특히 유효하다.
+또한 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 [Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/), [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)), [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 확장과도 연결된다. 거대 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 적중률을 높이지만, 한 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 안에 비압축 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞이면 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 관리가 까다로워질 수 있다. [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경에서는 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)으로 로컬 노드에 더 오래 머무르게 하는 것이 중요하고, [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 확장 메모리가 붙은 시스템에서는 원격 메모리로 밀어내기 전에 먼저 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 로컬 수용량을 늘리는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 특히 유효하다.
 
-즉 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 독립 기술이 아니라, 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)), 원격 메모리, [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 사이에 놓인 연결점이다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)만으로 모든 문제를 해결하지는 못하지만, 잘 맞는 워크로드에서는 스왑보다 훨씬 싼 비용으로 병목을 완화한다.
+즉 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 독립 기술이 아니라, 메모리 벽 ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)), 원격 메모리, [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 사이에 놓인 연결점이다. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)만으로 모든 문제를 해결하지는 못하지만, 잘 맞는 워크로드에서는 스왑보다 훨씬 싼 비용으로 병목을 완화한다.
 
-- **📢 섹션 요약 비유**: 중복 제거가 같은 책 두 권을 한 권만 남기는 일이라면, 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 책의 여백을 줄여 같은 책장을 더 촘촘하게 쓰는 일이다. 둘 다 공간을 아끼지만 방법과 효과가 다르다.
+- **📢 섹션 요약 비유**: 중복 제거가 같은 책 두 권을 한 권만 남기는 일이라면, 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 책의 여백을 줄여 같은 책장을 더 촘촘하게 쓰는 일이다. 둘 다 공간을 아끼지만 방법과 효과가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 맞는 대표 사례는 가상 머신 밀도 향상, 인메모리 분석, 모바일 통합 메모리, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 티어링 전단이다. [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 객체 힙처럼 0 값과 반복 패턴이 많은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 좋다. 반대로 암호화 버퍼, 이미 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 미디어, 난수성 높은 체크포인트는 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 낮아 오히려 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 늘릴 수 있다.
+실무에서 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 잘 맞는 대표 사례는 가상 머신 밀도 향상, 인메모리 분석, 모바일 통합 메모리, [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 메모리 티어링 전단이다. [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 객체 힙처럼 0 값과 반복 패턴이 많은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 효과가 좋다. 반대로 암호화 버퍼, 이미 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 미디어, 난수성 높은 체크포인트는 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 낮아 오히려 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 늘릴 수 있다.
 
-기술사 관점에서는 "[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 가능성"과 "[지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산"을 함께 말해야 답안이 깊어진다. 예를 들어 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 추가 비용이 20~40ns인데, 이를 통해 수백 ns의 원격 메모리 접근이나 수 μs 이상의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 줄일 수 있다면 채택 명분이 분명하다. 하지만 tail latency가 매우 엄격한 실시간 시스템이라면, 평균 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아도 해제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 자체가 위험 요인이 될 수 있다.
+기술사 관점에서는 "[압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 가능성"과 "[지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 예산"을 함께 말해야 답안이 깊어진다. 예를 들어 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 추가 비용이 20~40ns인데, 이를 통해 수백 ns의 원격 메모리 접근이나 수 μs 이상의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 폴트를 줄일 수 있다면 채택 명분이 분명하다. 하지만 tail latency가 매우 엄격한 실시간 시스템이라면, 평균 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아도 해제 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)의 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 자체가 위험 요인이 될 수 있다.
 
-### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0 값, 작은 정수, 유사 포인터처럼 규칙성을 가지는가?
-2. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 서비스의 99번째 백분위수 (P99) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표 안에 들어오는가?
-3. [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 테이블이 캐시에 잘 머물러 추가 미스를 만들지 않는가?
-4. compaction과 재배치가 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 로컬리티를 깨지 않는가?
-5. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 실패 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 우회하는 bypass 경로가 준비되어 있는가?
+1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 0 값, 작은 정수, 유사 포인터처럼 규칙성을 가지는가?
+2. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 서비스의 99번째 백분위수 (P99) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 목표 안에 들어오는가?
+3. [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 테이블이 캐시에 잘 머물러 추가 미스를 만들지 않는가?
+4. compaction과 재배치가 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 로컬리티를 깨지 않는가?
+5. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 실패 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 바로 우회하는 bypass 경로가 준비되어 있는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보고 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 강제 적용하는 설계
-- [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 오버헤드를 무시한 용량 계산
-- [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 생긴 tail latency를 측정하지 않고 "평균 메모리 사용률"만 보는 운영
+- [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률만 보고 모든 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 강제 적용하는 설계
+- [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 오버헤드를 무시한 용량 계산
+- [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)으로 생긴 tail latency를 측정하지 않고 "평균 메모리 사용률"만 보는 운영
 
-결국 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 DRAM을 공짜로 늘리는 마법이 아니다. 더 정확하게는 <strong>비싼 계층 이동을 피하기 위해, 싸게 감당 가능한 정도의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 오버헤드를 미리 지불하는 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
+결국 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 DRAM을 공짜로 늘리는 마법이 아니다. 더 정확하게는 <strong>비싼 계층 이동을 피하기 위해, 싸게 감당 가능한 정도의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 오버헤드를 미리 지불하는 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다.
 
-- **📢 섹션 요약 비유**: 매일 쓰는 옷은 옷장 안에서 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 정리하면 편하지만, 당장 입어야 하는 공연 의상을 너무 꽉 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 두면 꺼내는 시간이 더 큰 문제가 되는 것과 같다.
+- **📢 섹션 요약 비유**: 매일 쓰는 옷은 옷장 안에서 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 정리하면 편하지만, 당장 입어야 하는 공연 의상을 너무 꽉 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 두면 꺼내는 시간이 더 큰 문제가 되는 것과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)의 가장 큰 효과는 유효 용량 증가, 스왑 감소, 로컬 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 활용 개선이다. 특히 물리 메모리 증설이 비싸거나 전력 한계가 빡빡한 시스템에서는 같은 하드웨어로 더 큰 작업 집합을 처리하게 해 준다. 또한 원격 메모리나 보조 저장장치로 밀려나는 빈도를 낮추므로, 평균 성능뿐 아니라 장애 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시의 예측 가능성까지 좋아질 수 있다.
+메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)의 가장 큰 효과는 유효 용량 증가, 스왑 감소, 로컬 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 활용 개선이다. 특히 물리 메모리 증설이 비싸거나 전력 한계가 빡빡한 시스템에서는 같은 하드웨어로 더 큰 작업 집합을 처리하게 해 준다. 또한 원격 메모리나 보조 저장장치로 밀려나는 빈도를 낮추므로, 평균 성능뿐 아니라 장애 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 시의 예측 가능성까지 좋아질 수 있다.
 
-하지만 한계도 분명하다. [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 워크로드 의존적이고, [메타데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리와 재배치 복잡도는 하드웨어 면적과 전력을 증가시킨다. 또한 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 여부에 따라 접근 시간이 달라지면 보안 측면의 타이밍 부채널을 점검해야 하며, 이미 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비중이 큰 환경에서는 투자 대비 효과가 작다.
+하지만 한계도 분명하다. [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률은 워크로드 의존적이고, [메타데이터](/studynote/05_database/01_db_architecture_relational/012_metadata/) 관리와 재배치 복잡도는 하드웨어 면적과 전력을 증가시킨다. 또한 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 여부에 따라 접근 시간이 달라지면 보안 측면의 타이밍 부채널을 점검해야 하며, 이미 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비중이 큰 환경에서는 투자 대비 효과가 작다.
 
-앞으로는 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 풀과 연계한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)형 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/), 테넌트별 메모리 품질 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 통합 메모리용 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 더 중요해질 가능성이 크다. 결론적으로 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 "DRAM을 더 크게 만드는 기술"이라기보다, <strong>작업 집합을 더 오래 로컬에 붙잡아 두는 계층 제어 기술</strong>로 기억하는 것이 정확하다.
+앞으로는 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 기반 메모리 풀과 연계한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)형 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/), 테넌트별 메모리 품질 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가속기 통합 메모리용 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 더 중요해질 가능성이 크다. 결론적으로 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 "DRAM을 더 크게 만드는 기술"이라기보다, <strong>작업 집합을 더 오래 로컬에 붙잡아 두는 계층 제어 기술</strong>로 기억하는 것이 정확하다.
 
 - **📢 섹션 요약 비유**: 결국 이 기술은 작은 냉장고를 조금 더 크게 쓰는 방법이다. 냉장고 문을 자주 열어 멀리 창고까지 가지 않게 해 주지만, 정리 방식이 엉망이면 오히려 필요한 반찬을 찾는 데 시간이 더 걸린다.
 
@@ -155,12 +152,12 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 메모리 벽 ([Memory Wall](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 등장한 근본 배경이다. |
-| BDI (Base-Delta-Immediate) | 유사 값 패턴에 강한 대표적 저지연 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 방식이다. |
-| FPC (Frequent Pattern [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)) | 0 값과 작은 정수 패턴을 짧게 표현하는 기법이다. |
-| [LCP](/knowledge-base/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Linearly Compressed Pages) | 빠른 주소 계산을 위해 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내부 슬롯 구조를 단순화한다. |
-| zswap / zram | [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리의 현실적 비교 대상이다. |
-| [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 메모리 | 원격 메모리로 밀어내기 전 로컬 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 고려하게 만드는 확장 계층이다. |
+| 메모리 벽 ([Memory Wall](/studynote/01_computer_architecture/12_accelerators_ai_hardware/433_memory_wall/)) | 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 등장한 근본 배경이다. |
+| BDI (Base-Delta-Immediate) | 유사 값 패턴에 강한 대표적 저지연 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 방식이다. |
+| FPC (Frequent Pattern [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/)) | 0 값과 작은 정수 패턴을 짧게 표현하는 기법이다. |
+| [LCP](/studynote/03_network/04_data_link_layer_error/225_lcp_link_control_protocol/) (Linearly Compressed Pages) | 빠른 주소 계산을 위해 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내부 슬롯 구조를 단순화한다. |
+| zswap / zram | [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 수준 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 메모리의 현실적 비교 대상이다. |
+| [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) ([Compute Express Link](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/)) 메모리 | 원격 메모리로 밀어내기 전 로컬 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 고려하게 만드는 확장 계층이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -187,7 +184,7 @@ NUMA / CXL 연계 정책형 메인 메모리 압축
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 메인 메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)은 장난감 상자 안의 공기를 꾹 빼서 더 많은 장난감을 넣는 방법이에요.
+1. 메인 메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)은 장난감 상자 안의 공기를 꾹 빼서 더 많은 장난감을 넣는 방법이에요.
 2. 덕분에 장난감을 창고로 옮기지 않아도 돼서 더 빨리 꺼내 놀 수 있어요.
 3. 하지만 꺼낼 때는 다시 모양을 펴야 하니까, 너무 아무 장난감이나 꾹 누르면 오히려 찾기 불편해질 수 있어요.
 
@@ -197,7 +194,7 @@ NUMA / CXL 연계 정책형 메인 메모리 압축
 
 **진행 상황**: 525 / 803
 
-<- **이전**: [524. 스토리지 클래스 메모리 (SCM) 계층화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)
-**다음**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/) ->
+<- **이전**: [524. 스토리지 클래스 메모리 (SCM) 계층화](/studynote/01_computer_architecture/15_advanced_topics/524_scm_tiering/)
+**다음**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/) ->
 
 ---

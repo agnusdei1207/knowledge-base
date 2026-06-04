@@ -1,13 +1,10 @@
-+++
-title = "288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)"
-date = 2026-05-09
+---
+title: "288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -178,7 +175,7 @@ dbt는 데이터 변환 영역의 사실상 표준(de facto)이지만, Apache Ai
 
 **진행 상황**: 288 / 300
 
-<- **이전**: [287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/287_data_orchestration_airflow/)
-**다음**: [289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/289_schema_evolution/) ->
+<- **이전**: [287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)](/studynote/14_data_engineering/05_exam_keywords/287_data_orchestration_airflow/)
+**다음**: [289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)](/studynote/14_data_engineering/05_exam_keywords/289_schema_evolution/) ->
 
 ---

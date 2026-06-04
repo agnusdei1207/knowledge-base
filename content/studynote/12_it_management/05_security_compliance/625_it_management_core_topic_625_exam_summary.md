@@ -1,13 +1,10 @@
-+++
-title = "625. IT 경영 관리 핵심 토픽 625번 시험 요약 (IT Management Core Topic 625 Exam Summary)"
-date = 2026-05-09
+---
+title: "625. IT 경영 관리 핵심 토픽 625번 시험 요약 (IT Management Core Topic 625 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ IT 경영 관리 625번 문제에서 가장 빈번하게 출제되는 비교 분
 
 **진행 상황**: 625 / 800
 
-<- **이전**: [624. IT 경영 관리 핵심 토픽 624번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/624_it_management_core_topic_624_exam_summary/)
-**다음**: [626. IT 경영 관리 핵심 토픽 626번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/626_it_management_core_topic_626_exam_summary/) ->
+<- **이전**: [624. IT 경영 관리 핵심 토픽 624번 시험 요약](/studynote/12_it_management/05_security_compliance/624_it_management_core_topic_624_exam_summary/)
+**다음**: [626. IT 경영 관리 핵심 토픽 626번 시험 요약](/studynote/12_it_management/05_security_compliance/626_it_management_core_topic_626_exam_summary/) ->
 
 ---

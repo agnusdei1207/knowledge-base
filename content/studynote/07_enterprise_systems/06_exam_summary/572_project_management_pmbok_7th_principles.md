@@ -1,13 +1,10 @@
-+++
-title = "572. 프로젝트 관리 PMBOK 7판 원칙 (Project Management PMBOK 7th Principles)"
-date = 2026-05-09
+---
+title: "572. 프로젝트 관리 PMBOK 7판 원칙 (Project Management PMBOK 7th Principles)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 572 / 800
 
-<- **이전**: [571. 에너지테크 스마트 그리드 탈탄소](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/571_energytech_smart_grid_decarbonization/)
-**다음**: [573. 리스크 관리 정량적 정성적 분석](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/573_risk_management_quantitative_qualitative/) ->
+<- **이전**: [571. 에너지테크 스마트 그리드 탈탄소](/studynote/07_enterprise_systems/06_exam_summary/571_energytech_smart_grid_decarbonization/)
+**다음**: [573. 리스크 관리 정량적 정성적 분석](/studynote/07_enterprise_systems/06_exam_summary/573_risk_management_quantitative_qualitative/) ->
 
 ---

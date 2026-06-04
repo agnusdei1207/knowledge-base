@@ -1,13 +1,10 @@
-+++
-title = "543. 디지털 경험 CX UX 고객 여정 맵 (Digital Experience CX UX Customer Journey)"
-date = 2026-05-09
+---
+title: "543. 디지털 경험 CX UX 고객 여정 맵 (Digital Experience CX UX Customer Journey)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 543 / 800
 
-<- **이전**: [542. 플랫폼 비즈니스 양면 시장 네트워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/542_platform_business_two_sided_market_network/)
-**다음**: [544. 옴니채널 통합 채널 고객 경험](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/544_omnichannel_integrated_channel_experience/) ->
+<- **이전**: [542. 플랫폼 비즈니스 양면 시장 네트워크](/studynote/07_enterprise_systems/06_exam_summary/542_platform_business_two_sided_market_network/)
+**다음**: [544. 옴니채널 통합 채널 고객 경험](/studynote/07_enterprise_systems/06_exam_summary/544_omnichannel_integrated_channel_experience/) ->
 
 ---

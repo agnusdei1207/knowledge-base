@@ -1,13 +1,10 @@
-+++
-title = "264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
-date = 2026-05-09
+---
+title: "264. 마스터 데이터 관리 MDM 골든 레코드 (Master Data Management MDM Golden Record)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 264 / 300
 
-<- **이전**: [263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/263_data_quality/)
-**다음**: [265. 데이터 거버넌스 프레임워크 정책 표준 (Data Governance Framework DAMA DMBOK)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/265_data_governance_framework/) ->
+<- **이전**: [263. 데이터 품질 관리 프로파일링 정합성 검증 (Data Quality Management Profiling Validation)](/studynote/14_data_engineering/05_exam_keywords/263_data_quality/)
+**다음**: [265. 데이터 거버넌스 프레임워크 정책 표준 (Data Governance Framework DAMA DMBOK)](/studynote/14_data_engineering/05_exam_keywords/265_data_governance_framework/) ->
 
 ---

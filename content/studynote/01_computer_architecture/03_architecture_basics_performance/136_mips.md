@@ -1,27 +1,24 @@
-+++
-title = "136. MIPS (Million Instructions Per Second)"
-date = 2026-04-19
+---
+title: "136. MIPS (Million Instructions Per Second)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 CPU (Central Processing Unit)가 1초 동안 처리한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 백만 단위로 표현한 처리율 지표다.
-> 2. **가치**: [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)만으로는 설명하기 어려운 "실행 속도"를 직관적인 숫자로 보여 주어, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교의 공통 언어 역할을 했다.
-> 3. **판단 포인트**: [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게가 [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))마다 다르므로, MIPS는 같은 일을 얼마나 빨리 끝냈는지보다 "얼마나 많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 셌는지"에 더 민감하다는 한계를 가진다.
+> 1. **본질**: [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 CPU (Central Processing Unit)가 1초 동안 처리한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수를 백만 단위로 표현한 처리율 지표다.
+> 2. **가치**: [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)만으로는 설명하기 어려운 "실행 속도"를 직관적인 숫자로 보여 주어, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교의 공통 언어 역할을 했다.
+> 3. **판단 포인트**: [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 하나의 무게가 [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))마다 다르므로, MIPS는 같은 일을 얼마나 빨리 끝냈는지보다 "얼마나 많은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 셌는지"에 더 민감하다는 한계를 가진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 프로세서가 초당 몇 개의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 완료하는지를 나타내는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 산업에서는 MHz (megahertz) 같은 클럭 정보만으로 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명하기 어려웠기 때문에, "이 장비가 초당 얼마나 많은 일을 처리하느냐"를 단순한 숫자로 보여 줄 필요가 있었다. 특히 메인프레임과 미니컴퓨터가 공존하던 시기에는 사용자와 영업 조직 모두가 복잡한 내부 구조보다 결과적인 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 빠르게 이해하길 원했다.
+[MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) (Million Instructions Per Second)는 프로세서가 초당 몇 개의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 완료하는지를 나타내는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 산업에서는 MHz (megahertz) 같은 클럭 정보만으로 실제 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 설명하기 어려웠기 때문에, "이 장비가 초당 얼마나 많은 일을 처리하느냐"를 단순한 숫자로 보여 줄 필요가 있었다. 특히 메인프레임과 미니컴퓨터가 공존하던 시기에는 사용자와 영업 조직 모두가 복잡한 내부 구조보다 결과적인 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 빠르게 이해하길 원했다.
 
-문제는 [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)만으로는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정되지 않는다는 점이다. 같은 100 MHz라도 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 끝내는 데 필요한 평균 사이클 수인 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))가 다르면 실제 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 크게 달라진다. 따라서 MIPS는 클럭과 CPI를 함께 반영해 "겉으로 드러나는 실행 속도"를 요약하려는 시도였고, 이 덕분에 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교의 첫 세대 지표로 자리 잡았다.
+문제는 [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)만으로는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 결정되지 않는다는 점이다. 같은 100 MHz라도 한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 끝내는 데 필요한 평균 사이클 수인 [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/))가 다르면 실제 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)은 크게 달라진다. 따라서 MIPS는 클럭과 CPI를 함께 반영해 "겉으로 드러나는 실행 속도"를 요약하려는 시도였고, 이 덕분에 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교의 첫 세대 지표로 자리 잡았다.
 
 하지만 이 지표가 필요한 이유 자체가 동시에 한계의 출발점이기도 했다. 즉, 복잡한 내부를 숨기고 단순한 숫자로 압축할수록 설명력은 좋아지지만, 그만큼 실제 작업량의 차이는 가려지게 된다.
 
@@ -36,7 +33,7 @@ MIPS는 단순한 카운터가 아니라, 클럭과 평균 실행 효율을 묶�
 - `MIPS = 명령어 수 / (실행 시간 × 10^6)`
 - `MIPS = 클럭 주파수 / (CPI × 10^6)`
 
-이 식이 보여 주는 핵심은 두 가지다. 첫째, [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)가 높아지면 같은 시간에 더 많은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 밀어 넣을 수 있다. 둘째, CPI가 낮아지면 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 끝내는 비용이 줄어들어 MIPS가 올라간다. 즉 MIPS는 "빨리 도는가"와 "효율적으로 끝내는가"를 한 숫자로 합친 결과다.
+이 식이 보여 주는 핵심은 두 가지다. 첫째, [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)가 높아지면 같은 시간에 더 많은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 밀어 넣을 수 있다. 둘째, CPI가 낮아지면 한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 끝내는 비용이 줄어들어 MIPS가 올라간다. 즉 MIPS는 "빨리 도는가"와 "효율적으로 끝내는가"를 한 숫자로 합친 결과다.
 
 아래 그림은 MIPS가 어떤 흐름에서 계산되는지 보여 준다.
 
@@ -59,31 +56,31 @@ MIPS는 단순한 카운터가 아니라, 클럭과 평균 실행 효율을 묶�
 +----------------------------------------------------------------------+
 ```
 
-예를 들어 2 GHz (gigahertz) 프로세서가 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 2로 동작하면 약 1,000 MIPS가 된다. 반대로 1 GHz 프로세서라도 평균 [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.5 수준으로 매우 효율적으로 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처리하면 이론상 2,000 MIPS까지도 계산될 수 있다. 이처럼 MIPS는 단순 주파수 경쟁보다 한 단계 나아간 지표였지만, 여전히 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 개수"를 기준으로 삼는다는 점에서 구조적 전제를 갖는다.
+예를 들어 2 GHz (gigahertz) 프로세서가 평균 [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 2로 동작하면 약 1,000 MIPS가 된다. 반대로 1 GHz 프로세서라도 평균 [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) 0.5 수준으로 매우 효율적으로 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 처리하면 이론상 2,000 MIPS까지도 계산될 수 있다. 이처럼 MIPS는 단순 주파수 경쟁보다 한 단계 나아간 지표였지만, 여전히 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 개수"를 기준으로 삼는다는 점에서 구조적 전제를 갖는다.
 
 | 요소 | 의미 | MIPS에 미치는 영향 |
 | :--- | :--- | :--- |
-| [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) ([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Rate) | 초당 동작 박자 수 | 높을수록 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 증가 가능 |
-| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개당 평균 소요 사이클 | 낮을수록 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 증가 |
-| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Count) | 프로그램이 실제로 사용한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 개수 | 같은 작업이어도 ISA에 따라 달라짐 |
+| [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/) ([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/) Rate) | 초당 동작 박자 수 | 높을수록 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 증가 가능 |
+| [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개당 평균 소요 사이클 | 낮을수록 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 증가 |
+| [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Count) | 프로그램이 실제로 사용한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 개수 | 같은 작업이어도 ISA에 따라 달라짐 |
 
-- **📢 섹션 요약 비유**: [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 공식은 제빵 공장의 생산량 계산과 같다. 오븐이 얼마나 빨리 돌고(클럭), 빵 한 판을 굽는 데 몇 분이 걸리는지([CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))를 함께 봐야 "시간당 몇 판을 낼 수 있는지"가 나온다.
+- **📢 섹션 요약 비유**: [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 공식은 제빵 공장의 생산량 계산과 같다. 오븐이 얼마나 빨리 돌고(클럭), 빵 한 판을 굽는 데 몇 분이 걸리는지([CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/))를 함께 봐야 "시간당 몇 판을 낼 수 있는지"가 나온다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개"가 아키텍처마다 같은 무게가 아니라는 점을 먼저 봐야 한다. [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 상대적으로 많은 일을 하도록 설계되는 경우가 많고, [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 더 단순한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 여러 개 조합해 같은 작업을 수행하는 경향이 있다. 따라서 동일한 문제를 해결해도 RISC는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 많아지고, CISC는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 적어질 수 있다.
+MIPS를 제대로 이해하려면, "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개"가 아키텍처마다 같은 무게가 아니라는 점을 먼저 봐야 한다. [CISC](/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) (Complex [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 상대적으로 많은 일을 하도록 설계되는 경우가 많고, [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)는 더 단순한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 여러 개 조합해 같은 작업을 수행하는 경향이 있다. 따라서 동일한 문제를 해결해도 RISC는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 많아지고, CISC는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 적어질 수 있다.
 
-이 차이는 MIPS를 왜곡한다. 예를 들어 메모리 로드, 덧셈, 저장을 묶어 처리하는 복합 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개와, 이를 3~4개의 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 나눠 처리하는 경우를 비교하면 실제 작업량은 비슷해도 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 수치는 크게 달라질 수 있다. 결국 MIPS는 "얼마나 빨리 일을 끝냈는가"보다 "그 일을 몇 개의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 표현했는가"에 영향을 받는다.
+이 차이는 MIPS를 왜곡한다. 예를 들어 메모리 로드, 덧셈, 저장을 묶어 처리하는 복합 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개와, 이를 3~4개의 단순 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 나눠 처리하는 경우를 비교하면 실제 작업량은 비슷해도 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 수치는 크게 달라질 수 있다. 결국 MIPS는 "얼마나 빨리 일을 끝냈는가"보다 "그 일을 몇 개의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 표현했는가"에 영향을 받는다.
 
-| 비교 축 | [CISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 계열 | [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 계열 | [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 관점의 해석 |
+| 비교 축 | [CISC](/studynote/01_computer_architecture/04_instruction_set_architecture/196_cisc/) 계열 | [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) 계열 | [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 관점의 해석 |
 | :--- | :--- | :--- | :--- |
-| [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 성격 | 복합적, 상대적으로 무거움 | 단순적, 상대적으로 가벼움 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개의 의미가 다름 |
-| 같은 작업의 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 | 적을 수 있음 | 많을 수 있음 | RISC가 수치상 유리할 수 있음 |
-| [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 적합성 | 직접 비교 어려움 | 직접 비교 어려움 | [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 단독 비교는 위험 |
+| [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 성격 | 복합적, 상대적으로 무거움 | 단순적, 상대적으로 가벼움 | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 1개의 의미가 다름 |
+| 같은 작업의 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 | 적을 수 있음 | 많을 수 있음 | RISC가 수치상 유리할 수 있음 |
+| [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 적합성 | 직접 비교 어려움 | 직접 비교 어려움 | [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 단독 비교는 위험 |
 
-이 때문에 MIPS는 역사적으로 "Meaningless Indicator of Processor Speed"라는 비판을 받기도 했다. 물론 이 표현은 다소 과격하지만, 핵심 메시지는 분명하다. 서로 다른 ISA를 넘나들며 공정한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교를 하려면, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 아니라 실제 워크로드 수행 시간이나 표준 벤치마크를 봐야 한다는 뜻이다.
+이 때문에 MIPS는 역사적으로 "Meaningless Indicator of Processor Speed"라는 비판을 받기도 했다. 물론 이 표현은 다소 과격하지만, 핵심 메시지는 분명하다. 서로 다른 ISA를 넘나들며 공정한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교를 하려면, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수가 아니라 실제 워크로드 수행 시간이나 표준 벤치마크를 봐야 한다는 뜻이다.
 
 - **📢 섹션 요약 비유**: MIPS로 CISC와 RISC를 비교하는 것은 큰 짐을 한 번에 옮기는 사람과 작은 상자를 여러 번 나르는 사람을 "왕복 횟수"만으로 평가하는 것과 같다. 횟수는 많아도 실제로 옮긴 일의 양은 다를 수 있다.
 
@@ -91,25 +88,25 @@ MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_com
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MIPS는 참고용 숫자로는 쓸 수 있지만, 최종 의사결정 기준으로 쓰기에는 부족하다. 같은 임베디드 MCU ([Microcontroller](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)라도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭, 메모리 구조, 컴파일러 최적화 수준, 주변장치 대기시간에 따라 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라지기 때문이다. 따라서 사양서에 적힌 MIPS만 보고 칩을 선정하면, 제어 주기나 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 요구사항을 만족하지 못할 위험이 있다.
+실무에서 MIPS는 참고용 숫자로는 쓸 수 있지만, 최종 의사결정 기준으로 쓰기에는 부족하다. 같은 임베디드 MCU ([Microcontroller](/studynote/01_computer_architecture/03_architecture_basics_performance/130_microcontroller/) Unit)라도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 폭, 메모리 구조, 컴파일러 최적화 수준, 주변장치 대기시간에 따라 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 크게 달라지기 때문이다. 따라서 사양서에 적힌 MIPS만 보고 칩을 선정하면, 제어 주기나 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 요구사항을 만족하지 못할 위험이 있다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. <strong>동일 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 내부 비교인가?</strong>
+1. <strong>동일 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/">ISA</a> 내부 비교인가?</strong>
    같은 계열 코어끼리의 대략적 상대 비교라면 MIPS가 참고가 될 수 있다. 하지만 ISA가 다르면 직접 비교 지표로 쓰지 않는 편이 안전하다.
 2. **목표 워크로드가 무엇인가?**
-   제어 연산 중심인지, 메모리 접근 중심인지, [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산 중심인지에 따라 MIPS의 설명력이 달라진다.
+   제어 연산 중심인지, 메모리 접근 중심인지, [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 계산 중심인지에 따라 MIPS의 설명력이 달라진다.
 3. **실행 시간 측정이 가능한가?**
-   실제 코드, 대표 입력, 컴파일 옵션을 고정한 뒤 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이나 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 측정하는 것이 가장 중요하다.
+   실제 코드, 대표 입력, 컴파일 옵션을 고정한 뒤 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이나 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 직접 측정하는 것이 가장 중요하다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - **MIPS가 더 높으니 무조건 더 빠르다고 결론내리는 판단**
-  네트워크 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), 캐시 미스, 메모리 병목이 큰 시스템에서는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율보다 지연시간과 대역폭이 더 중요할 수 있다.
-- <strong>최적화 후 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a> 하락을 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 오해하는 판단</strong>
-  컴파일러 최적화가 불필요한 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 줄이면 총 실행 시간은 짧아지는데, 초당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수는 오히려 낮아질 수 있다. 이른바 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) anomaly는 "덜 움직여도 더 빨리 끝나는" 상황을 보여 준다.
+  네트워크 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/), 캐시 미스, 메모리 병목이 큰 시스템에서는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율보다 지연시간과 대역폭이 더 중요할 수 있다.
+- <strong>최적화 후 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/">MIPS</a> 하락을 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 저하로 오해하는 판단</strong>
+  컴파일러 최적화가 불필요한 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 줄이면 총 실행 시간은 짧아지는데, 초당 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수는 오히려 낮아질 수 있다. 이른바 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) anomaly는 "덜 움직여도 더 빨리 끝나는" 상황을 보여 준다.
 
-기술사 관점에서의 답안 포인트는 명확하다. MIPS는 역사적 의미와 내부 효율 감각을 주는 지표이지만, 현대 시스템의 채택 판단은 SPEC (Standard [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corporation) 벤치마크, 실제 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 전력 대비 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 같은 더 직접적인 지표로 내려야 한다.
+기술사 관점에서의 답안 포인트는 명확하다. MIPS는 역사적 의미와 내부 효율 감각을 주는 지표이지만, 현대 시스템의 채택 판단은 SPEC (Standard [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Evaluation Corporation) 벤치마크, 실제 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/), 전력 대비 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 같은 더 직접적인 지표로 내려야 한다.
 
 - **📢 섹션 요약 비유**: 면접에서 번역가를 뽑는데 "분당 키 입력 수"만 보는 것과 비슷하다. 진짜 필요한 것은 얼마나 빨리, 얼마나 정확하게 문서를 끝내는지이지, 손가락이 몇 번 움직였는지가 아니다.
 
@@ -117,13 +114,13 @@ MIPS를 제대로 이해하려면, "[명령어](/knowledge-base/studynote/01_com
 
 ## Ⅴ. 기대효과 및 결론
 
-MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대중적으로 설명하려는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시도의 대표 사례다. 이 지표 덕분에 엔지니어는 클럭과 CPI가 함께 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만든다는 점을 쉽게 설명할 수 있었고, 사용자도 복잡한 내부 회로 대신 하나의 숫자로 대략적인 처리율을 이해할 수 있었다. 즉, 교육적·역사적 가치는 여전히 크다.
+MIPS는 컴퓨터 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 대중적으로 설명하려는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 시도의 대표 사례다. 이 지표 덕분에 엔지니어는 클럭과 CPI가 함께 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 만든다는 점을 쉽게 설명할 수 있었고, 사용자도 복잡한 내부 회로 대신 하나의 숫자로 대략적인 처리율을 이해할 수 있었다. 즉, 교육적·역사적 가치는 여전히 크다.
 
-하지만 현대 관점에서 MIPS를 기억할 때는 장점보다 전제를 함께 기억해야 한다. MIPS는 "[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 비슷한 무게를 가진다"는 가정이 어느 정도 맞을 때만 해석이 쉬우며, ISA가 다르거나 워크로드 특성이 크게 다르면 판단력을 잃는다. 그래서 오늘날 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 자체보다, 실제 응용 프로그램 기준의 벤치마크와 작업 완료 시간 중심으로 이동했다.
+하지만 현대 관점에서 MIPS를 기억할 때는 장점보다 전제를 함께 기억해야 한다. MIPS는 "[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 비슷한 무게를 가진다"는 가정이 어느 정도 맞을 때만 해석이 쉬우며, ISA가 다르거나 워크로드 특성이 크게 다르면 판단력을 잃는다. 그래서 오늘날 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가는 [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 자체보다, 실제 응용 프로그램 기준의 벤치마크와 작업 완료 시간 중심으로 이동했다.
 
-결론적으로 MIPS는 폐기된 개념이 아니라, <strong>왜 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표는 워크로드와 맥락을 함께 봐야 하는지</strong>를 가르쳐 주는 역사적 교훈으로 기억하는 것이 가장 정확하다.
+결론적으로 MIPS는 폐기된 개념이 아니라, <strong>왜 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 지표는 워크로드와 맥락을 함께 봐야 하는지</strong>를 가르쳐 주는 역사적 교훈으로 기억하는 것이 가장 정확하다.
 
-- **📢 섹션 요약 비유**: MIPS는 운동선수를 평가할 때 "초당 발걸음 수"를 재던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기록표와 같다. 지금은 발걸음 수보다 실제 경기 기록을 보지만, 그 옛 기록표 덕분에 무엇을 더 제대로 측정해야 하는지도 배웠다.
+- **📢 섹션 요약 비유**: MIPS는 운동선수를 평가할 때 "초당 발걸음 수"를 재던 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 기록표와 같다. 지금은 발걸음 수보다 실제 경기 기록을 보지만, 그 옛 기록표 덕분에 무엇을 더 제대로 측정해야 하는지도 배웠다.
 
 ---
 
@@ -131,11 +128,11 @@ MIPS는 컴퓨터 [성능](/knowledge-base/studynote/04_software_engineering/05_
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [CPI](/knowledge-base/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | MIPS를 결정하는 직접 변수로, 같은 클럭에서도 실행 효율 차이를 만든다. |
-| [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 의미와 복잡도를 정하므로, [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 해석의 공정성을 좌우한다. |
-| DMIPS ([Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) [MIPS](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/)) | 단순 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 대신 [Dhrystone](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) 벤치마크 결과를 기준으로 환산하려는 파생 지표다. |
-| [FLOPS](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ([Floating Point](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second) | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 중심 계산 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정할 때 MIPS보다 더 직접적인 지표로 쓰인다. |
-| SPEC 벤치마크 | 실제 프로그램 성격을 반영해 MIPS의 한계를 보완하는 대표적 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 방식이다. |
+| [CPI](/studynote/12_it_management/04_sdlc_testing/158_cpi_cost_performance_index/) ([Cycles Per Instruction](/studynote/01_computer_architecture/03_architecture_basics_performance/134_cpi/)) | MIPS를 결정하는 직접 변수로, 같은 클럭에서도 실행 효율 차이를 만든다. |
+| [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/)) | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 의미와 복잡도를 정하므로, [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/) 해석의 공정성을 좌우한다. |
+| DMIPS ([Dhrystone](/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) [MIPS](/studynote/01_computer_architecture/04_instruction_set_architecture/201_mips/)) | 단순 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 대신 [Dhrystone](/studynote/01_computer_architecture/03_architecture_basics_performance/151_dhrystone/) 벤치마크 결과를 기준으로 환산하려는 파생 지표다. |
+| [FLOPS](/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ([Floating Point](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) Operations Per Second) | [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 중심 계산 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 측정할 때 MIPS보다 더 직접적인 지표로 쓰인다. |
+| SPEC 벤치마크 | 실제 프로그램 성격을 반영해 MIPS의 한계를 보완하는 대표적 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가 방식이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -156,7 +153,7 @@ DMIPS (Dhrystone MIPS) 같은 보정 시도
 SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
 ```
 
-이 흐름은 단순 처리율 숫자에서 출발해, [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 질과 실제 작업 완료 시간을 함께 보는 방향으로 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 발전했음을 보여 준다.
+이 흐름은 단순 처리율 숫자에서 출발해, [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)의 질과 실제 작업 완료 시간을 함께 보는 방향으로 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가가 발전했음을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -170,7 +167,7 @@ SPEC 벤치마크 · FLOPS 중심의 실제 워크로드 평가
 
 **진행 상황**: 136 / 803
 
-<- **이전**: [135. IPC (Instructions Per Cycle)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)
-**다음**: [137. FLOPS (Floating-point Operations Per Second)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ->
+<- **이전**: [135. IPC (Instructions Per Cycle)](/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/)
+**다음**: [137. FLOPS (Floating-point Operations Per Second)](/studynote/01_computer_architecture/03_architecture_basics_performance/137_flops/) ->
 
 ---

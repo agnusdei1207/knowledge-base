@@ -1,18 +1,15 @@
-+++
-title = "475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)"
-date = 2026-05-09
+---
+title: "475. PoW와 PoS 합의 메커니즘 비교 (PoW vs PoS Consensus Mechanism)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PoW(Proof of Work, [작업 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/))은 연산 비용으로 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 경쟁하고, PoS(Proof of Stake, [지분 증명](/knowledge-base/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))은 담보 자산으로 검증자를 선정해 에너지 없이 같은 보안을 달성한다.
-> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW -> PoS 전환 후 에너지 소비가 <strong>99.95% 감소</strong>했으며, 이는 탄소 중립 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
+> 1. **본질**: PoW(Proof of Work, [작업 증명](/studynote/06_ict_convergence/01_blockchain/014_pow_proof_of_work/))은 연산 비용으로 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)권을 경쟁하고, PoS(Proof of Stake, [지분 증명](/studynote/06_ict_convergence/01_blockchain/015_pos_proof_of_stake/))은 담보 자산으로 검증자를 선정해 에너지 없이 같은 보안을 달성한다.
+> 2. **가치**: 이더리움 The Merge(2022.09)로 PoW -> PoS 전환 후 에너지 소비가 <strong>99.95% 감소</strong>했으며, 이는 탄소 중립 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 설계의 기준이 됐다.
 > 3. **판단 포인트**: PoW는 51% 공격 비용(전기비 + 하드웨어), PoS는 33% 공격 비용(자산 담보 + 슬래싱 손실)으로 보안 모델이 근본적으로 다르며, 각각 다른 위협 시나리오에 대응한다.
 
 ---
@@ -21,7 +18,7 @@ tags = ["studynote-ict-convergence"]
 
 ### 합의 메커니즘이 필요한 이유
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 수천 개의 노드가 동시에 새 블록을 제안할 때, **어느 블록을 정답으로 채택할지** 결정하는 규칙이 합의 메커니즘이다. 이 규칙은 악의적 노드의 공격을 경제적으로 비용이 너무 많이 들게 만들어야 한다.
+[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 네트워크에서 수천 개의 노드가 동시에 새 블록을 제안할 때, **어느 블록을 정답으로 채택할지** 결정하는 규칙이 합의 메커니즘이다. 이 규칙은 악의적 노드의 공격을 경제적으로 비용이 너무 많이 들게 만들어야 한다.
 
 - **PoW**: 연산 자원 낭비를 통해 공격 비용 창출 -> "작업했음을 증명하라"
 - **PoS**: 자산 담보를 통해 공격 비용 창출 -> "지분이 있음을 증명하라"
@@ -68,7 +65,7 @@ tags = ["studynote-ict-convergence"]
 
 | 항목 | PoW | PoS |
 |:---|:---|:---|
-| <strong>블록 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 선정</strong> | 해시 경쟁(Hashrate) | 지분 기반 무작위 |
+| <strong>블록 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>자 선정</strong> | 해시 경쟁(Hashrate) | 지분 기반 무작위 |
 | **에너지 소비** | 매우 높음(채굴기 24시간) | 낮음(검증자 서명만) |
 | **51% 공격 비용** | 해시레이트 51% 확보 비용 | 전체 스테이킹 33% 매입 비용 |
 | **슬래싱** | 해당 없음 | 이중 서명 시 담보 소각 |
@@ -86,7 +83,7 @@ tags = ["studynote-ict-convergence"]
 | 항목 | PoW 시절 (2015~2022) | PoS 이후 (2022~) |
 |:---|:---|:---|
 | **에너지 소비** | ≈ 75 TWh/년 (덴마크 수준) | ≈ 0.01 TWh/년 |
-| **채굴자** | [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 채굴 팜 | 32 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/) 스테이커 |
+| **채굴자** | [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 채굴 팜 | 32 [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/) 스테이커 |
 | **블록 시간** | ≈ 13초 (변동) | 12초 (고정 슬롯) |
 | **최종성** | 확률적 | 에폭(≈12.8분) 최종화 |
 
@@ -102,15 +99,15 @@ tags = ["studynote-ict-convergence"]
 
 ### 선택 기준
 
-1. <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 극대화 필요</strong>: PoW -> 채굴 분산도 측정 지표(Nakamoto 계수) 활용
+1. <strong><a href="/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a> 극대화 필요</strong>: PoW -> 채굴 분산도 측정 지표(Nakamoto 계수) 활용
 2. **에너지 효율 / ESG 규제**: PoS -> 탄소 발자국 최소화
 3. **빠른 최종성 필요**: PoS Tendermint/Ethereum -> 결정적 최종화
-4. <strong>하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 집중화 위험</strong>: PoW의 고질적 문제, PoS로 완화
+4. <strong>하드웨어 <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/">ASIC</a> 집중화 위험</strong>: PoW의 고질적 문제, PoS로 완화
 
 ### 슬래싱(Slashing) 조건
 - 이중 제안(Double Propose): 같은 슬롯에 두 블록 제안
 - 이중 Attestation: 모순된 두 체크포인트에 투표
-- 처벌: 스테이킹 잔액 1/32 소각 + 강제 퇴출 + 4096 에폭 출금 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
+- 처벌: 스테이킹 잔액 1/32 소각 + 강제 퇴출 + 4096 에폭 출금 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)
 
 - **📢 섹션 요약 비유**: — "슬래싱은 사기 친 보증인의 보증금을 몰수하는 것 — 스테이킹 담보가 정직한 행동의 경제적 인센티브가 된다.
 
@@ -121,11 +118,11 @@ tags = ["studynote-ict-convergence"]
 | 효과 항목 | PoW | PoS |
 |:---|:---|:---|
 | **환경 영향** | 대규모 전력 소비 문제 | ESG 친화적 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong> | 채굴 풀 집중화 위험 | 스테이킹 풀 집중화 가능 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong> | 채굴 풀 집중화 위험 | 스테이킹 풀 집중화 가능 |
 | **보안 모델** | 물리적 자원 의존 | 경제적 자산 의존 |
-| **진입 장벽** | [ASIC](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 구매 비용 | 32 [ETH](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/118_eth/)(≈수천만 원) |
+| **진입 장벽** | [ASIC](/studynote/01_computer_architecture/01_basic_electronics_logic/070_asic/) 구매 비용 | 32 [ETH](/studynote/08_algorithm_stats/06_np_theory/118_eth/)(≈수천만 원) |
 
-PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산 담보)으로 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 보안을 실현하는 두 가지 철학이다. 현대 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 에너지 효율과 성능을 이유로 PoS 전환이 가속되고 있으나, 비트코인은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)와 보안을 이유로 PoW를 고수한다.
+PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산 담보)으로 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 보안을 실현하는 두 가지 철학이다. 현대 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 에너지 효율과 성능을 이유로 PoS 전환이 가속되고 있으나, 비트코인은 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)와 보안을 이유로 PoW를 고수한다.
 
 - **📢 섹션 요약 비유**: — "PoW는 황금 광산 개발처럼 땀으로 가치를 만들고, PoS는 은행 예금처럼 자산을 담보로 신뢰를 보장한다.
 
@@ -135,8 +132,8 @@ PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 설명 |
-| 난이도 조정 | PoW의 블록 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 안정화 메커니즘 |
+| 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 설명 |
+| 난이도 조정 | PoW의 블록 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 속도 안정화 메커니즘 |
 | 슬래싱 | PoS의 악의적 검증자 경제적 처벌 |
 | The Merge | 이더리움 PoW->PoS 전환 역사적 사건 |
 | DPoS | PoS 변형, 대표 검증자 선출 방식 |
@@ -159,7 +156,7 @@ PoW와 PoS는 각각 물리적 비용(전기·장비)과 경제적 비용(자산
 
 **진행 상황**: 475 / 552
 
-<- **이전**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)
-**다음**: [476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/476_bft_byzantine_fault_tolerance_majority_defense/) ->
+<- **이전**: [474. 분산 원장 기술 (DLT, Distributed Ledger Technology)](/studynote/06_ict_convergence/01_blockchain/474_dlt_distributed_ledger_technology/)
+**다음**: [476. BFT 비잔틴 장애 허용과 다수결 방어 (Byzantine Fault Tolerance Majority Defense)](/studynote/06_ict_convergence/01_blockchain/476_bft_byzantine_fault_tolerance_majority_defense/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "461. 제로 트러스트 클라우드 마이크로세그먼트 (Zero Trust Cloud Microsegmentation)"
-date = 2026-05-09
+---
+title: "461. 제로 트러스트 클라우드 마이크로세그먼트 (Zero Trust Cloud Microsegmentation)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 461 / 800
 
-<- **이전**: [460. CNAPP 네이티브 보안 통합 플랫폼](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/460_cnapp_native_security_unified_platform/)
-**다음**: [462. 클라우드 포렌식 로그 분석 사고 대응](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/462_cloud_forensics_log_analysis_incident_respons/) ->
+<- **이전**: [460. CNAPP 네이티브 보안 통합 플랫폼](/studynote/13_cloud_architecture/06_exam_summary/460_cnapp_native_security_unified_platform/)
+**다음**: [462. 클라우드 포렌식 로그 분석 사고 대응](/studynote/13_cloud_architecture/06_exam_summary/462_cloud_forensics_log_analysis_incident_respons/) ->
 
 ---

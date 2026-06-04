@@ -1,9 +1,9 @@
-+++
-title = "03. 컴퓨터 구조 기초 및 성능 분석"
+---
+title: "03. 컴퓨터 구조 기초 및 성능 분석"
+tags:
+  - "computer_architecture"
+---
 
-[extra]
-tags = ["computer_architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

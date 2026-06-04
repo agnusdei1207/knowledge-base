@@ -1,9 +1,9 @@
-+++
-title = "06. 시험 빈출 핵심 요약 (Enterprise Systems)"
+---
+title: "06. 시험 빈출 핵심 요약 (Enterprise Systems)"
+tags:
+  - "enterprise_systems"
+---
 
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

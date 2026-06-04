@@ -1,13 +1,10 @@
-+++
-title = "430. 지식 관리 KMS 조직 학습 체계 (Knowledge Management KMS Learning System)"
-date = 2026-05-09
+---
+title: "430. 지식 관리 KMS 조직 학습 체계 (Knowledge Management KMS Learning System)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -194,7 +191,7 @@ $$ V_{KNOWLEDGE} = \sum_{i=1}^{n} (K_i \times U_i \times R_i \times D_i) $$
 
 **진행 상황**: 430 / 800
 
-<- **이전**: [429. SLA 서비스 수준 관리 SLO SLI](/knowledge-base/studynote/12_it_management/05_security_compliance/429_sla_service_level_management_slo_sli/)
-**다음**: [431. IT 인력 관리 역량 모델 교육](/knowledge-base/studynote/12_it_management/05_security_compliance/431_it_human_resource_capability_model/) ->
+<- **이전**: [429. SLA 서비스 수준 관리 SLO SLI](/studynote/12_it_management/05_security_compliance/429_sla_service_level_management_slo_sli/)
+**다음**: [431. IT 인력 관리 역량 모델 교육](/studynote/12_it_management/05_security_compliance/431_it_human_resource_capability_model/) ->
 
 ---

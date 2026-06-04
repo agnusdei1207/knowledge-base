@@ -1,13 +1,10 @@
-+++
-title = "694. ICT 융합 기술 최신 동향 2025 (ICT Convergence Technology Trends 2025)"
-date = 2026-05-09
+---
+title: "694. ICT 융합 기술 최신 동향 2025 (ICT Convergence Technology Trends 2025)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -135,7 +132,7 @@ ICT 융합 트렌드는 종전 기술과의 명확한 차별점이 있다. **하
 
 **진행 상황**: 694 / 800
 
-<- **이전**: [693. 데이터 사이언스 기술사 마스터 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/)
-**다음**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/knowledge-base/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/) ->
+<- **이전**: [693. 데이터 사이언스 기술사 마스터 정리](/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/)
+**다음**: [695. 디지털 플랫폼 정부 GovTech 전자정부](/studynote/06_ict_convergence/uncategorized/695_digital_platform_government_govtech_e_gov/) ->
 
 ---

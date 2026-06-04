@@ -1,13 +1,10 @@
-+++
-title = "524. IT 경영 관리 핵심 토픽 524번 시험 요약 (IT Management Core Topic 524 Exam Summary)"
-date = 2026-05-09
+---
+title: "524. IT 경영 관리 핵심 토픽 524번 시험 요약 (IT Management Core Topic 524 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -150,7 +147,7 @@ COBIT 2019의 **Capability Level 평가는 Process Attribute(PA 1.1~5.2) 9개**�
 
 **진행 상황**: 524 / 800
 
-<- **이전**: [523. IT 경영 관리 핵심 토픽 523번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/523_it_management_core_topic_523_exam_summary/)
-**다음**: [525. IT 경영 관리 핵심 토픽 525번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/525_it_management_core_topic_525_exam_summary/) ->
+<- **이전**: [523. IT 경영 관리 핵심 토픽 523번 시험 요약](/studynote/12_it_management/05_security_compliance/523_it_management_core_topic_523_exam_summary/)
+**다음**: [525. IT 경영 관리 핵심 토픽 525번 시험 요약](/studynote/12_it_management/05_security_compliance/525_it_management_core_topic_525_exam_summary/) ->
 
 ---

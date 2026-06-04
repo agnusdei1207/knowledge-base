@@ -1,13 +1,10 @@
-+++
-title = "477. 침수 냉각 액체 냉각 데이터센터 (Immersion Cooling Liquid Cooling Data Center)"
-date = 2026-05-09
+---
+title: "477. 침수 냉각 액체 냉각 데이터센터 (Immersion Cooling Liquid Cooling Data Center)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 477 / 800
 
-<- **이전**: [476. 그린 클라우드 탄소 중립 PUE 최적화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/476_green_cloud_carbon_neutral_pue_optimization/)
-**다음**: [478. 데이터센터 설계 Tier 등급 가용성](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/478_data_center_design_tier_grade_availability/) ->
+<- **이전**: [476. 그린 클라우드 탄소 중립 PUE 최적화](/studynote/13_cloud_architecture/06_exam_summary/476_green_cloud_carbon_neutral_pue_optimization/)
+**다음**: [478. 데이터센터 설계 Tier 등급 가용성](/studynote/13_cloud_architecture/06_exam_summary/478_data_center_design_tier_grade_availability/) ->
 
 ---

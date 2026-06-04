@@ -1,13 +1,10 @@
-+++
-title = "390. ISO 27001 정보보안 표준 요구사항 (ISO 27001 InfoSec Standard Requirements)"
-date = 2026-05-09
+---
+title: "390. ISO 27001 정보보안 표준 요구사항 (ISO 27001 InfoSec Standard Requirements)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -176,7 +173,7 @@ ISO/IEC 27001:2022는 **두 개의 구조**가 직교(Orthogonal)한다. ① **C
 
 **진행 상황**: 390 / 800
 
-<- **이전**: [389. 정보보안 관리체계 ISMS 인증 심사](/knowledge-base/studynote/12_it_management/05_security_compliance/389_isms_information_security_management/)
-**다음**: [391. SOC 2 서비스 조직 통제 보고서](/knowledge-base/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/) ->
+<- **이전**: [389. 정보보안 관리체계 ISMS 인증 심사](/studynote/12_it_management/05_security_compliance/389_isms_information_security_management/)
+**다음**: [391. SOC 2 서비스 조직 통제 보고서](/studynote/12_it_management/05_security_compliance/391_soc_2_service_organization_control_report/) ->
 
 ---

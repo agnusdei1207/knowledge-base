@@ -1,13 +1,10 @@
-+++
-title = "662. IT 경영 관리 핵심 토픽 662번 시험 요약 (IT Management Core Topic 662 Exam Summary)"
-date = 2026-05-09
+---
+title: "662. IT 경영 관리 핵심 토픽 662번 시험 요약 (IT Management Core Topic 662 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -170,7 +167,7 @@ IT 경영 관리에서 자주 혼동되는 주요 프레임워크와 개념을 �
 
 **진행 상황**: 662 / 800
 
-<- **이전**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/)
-**다음**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/) ->
+<- **이전**: [661. IT 경영 관리 핵심 토픽 661번 시험 요약](/studynote/12_it_management/05_security_compliance/661_it_management_core_topic_661_exam_summary/)
+**다음**: [663. IT 경영 관리 핵심 토픽 663번 시험 요약](/studynote/12_it_management/05_security_compliance/663_it_management_core_topic_663_exam_summary/) ->
 
 ---

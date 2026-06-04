@@ -1,13 +1,10 @@
-+++
-title = "672. 데이터 메시 분산 데이터 소유권 (Data Mesh Distributed Data Ownership)"
-date = 2026-05-09
+---
+title: "672. 데이터 메시 분산 데이터 소유권 (Data Mesh Distributed Data Ownership)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -172,7 +169,7 @@ Zhamak Dehghani(2019)가 제안한 **데이터 메시(Data Mesh)**는 위 문제
 
 **진행 상황**: 672 / 800
 
-<- **이전**: [671. 데이터 거버넌스 정책 품질 관리 체계](/knowledge-base/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/)
-**다음**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/) ->
+<- **이전**: [671. 데이터 거버넌스 정책 품질 관리 체계](/studynote/06_ict_convergence/uncategorized/671_data_governance_policy_quality_management/)
+**다음**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/) ->
 
 ---

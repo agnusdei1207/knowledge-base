@@ -1,13 +1,10 @@
-+++
-title = "720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI (Cyborg Technology Brain Computer Interface BCI)"
-date = 2026-05-09
+---
+title: "720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI (Cyborg Technology Brain Computer Interface BCI)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -155,7 +152,7 @@ BCI는 입력 채널의 **침습도(Invasiveness)** 와 **의사소통 방향(Di
 
 **진행 상황**: 720 / 800
 
-<- **이전**: [719. 로보틱스 자율 내비게이션 모션 플래닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/719_robotics_autonomous_navigation_motion_plannin/)
-**다음**: [721. 바이오인포매틱스 유전체 분석 정밀의료](/knowledge-base/studynote/06_ict_convergence/uncategorized/721_bioinformatics_genomics_precision_medicine/) ->
+<- **이전**: [719. 로보틱스 자율 내비게이션 모션 플래닝](/studynote/06_ict_convergence/uncategorized/719_robotics_autonomous_navigation_motion_plannin/)
+**다음**: [721. 바이오인포매틱스 유전체 분석 정밀의료](/studynote/06_ict_convergence/uncategorized/721_bioinformatics_genomics_precision_medicine/) ->
 
 ---

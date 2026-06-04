@@ -1,29 +1,26 @@
-+++
-title = "9. ISMP (Information System Master Plan) - 특정 정보시스템 구축 사업을 위한 상세 마스터플랜 (ISP보다 구체적 실행 지침)"
-description = "특정 정보시스템 구축 사업을 위한 상세 요구사항 분석, 아키텍처 설계, RFP 작성을 아우르는 ISMP의 수립 방법론과 실무 적용 방안"
-date = 2026-03-04
+---
+title: "9. ISMP (Information System Master Plan) - 특정 정보시스템 구축 사업을 위한 상세 마스터플랜 (ISP보다 구체적 실행 지침)"
+date: "2026-03-04"
+description: "특정 정보시스템 구축 사업을 위한 상세 요구사항 분석, 아키텍처 설계, RFP 작성을 아우르는 ISMP의 수립 방법론과 실무 적용 방안"
+tags:
+  - "enterprise_systems"
+---
 
-[taxonomies]
-tags = ["enterprise_systems"]
 
-[extra]
-tags = ["enterprise_systems"]
-+++
-
-# 09. [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/), [Information System Master Plan](/knowledge-base/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))
+# 09. [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/), [Information System Master Plan](/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([Information System Master Plan](/knowledge-base/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))는 특정 정보화 프로젝트(단일 사업)를 성공적으로 구축하기 위해 업무 요건과 IT 요건을 상세히 분석하고, 제안요청서(RFP)를 도출하는 실행 중심의 사전 기획 방법론이다.
-> 2. **가치**: 사업 발주 전 과업 범위([Scope](/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/))를 명확히 하고 예산의 타당성을 입증함으로써, 구축 과정에서 발생하는 요구사항 변경([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))과 벤더-발주처 간의 법적 분쟁을 사전에 차단한다.
-> 3. **융합**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)(전사 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜)에서 도출된 개별 과제를 입력(Input)으로 받아, 실제 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 요구공학과 아키텍처 설계(소규모 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 기법을 융합하여 실행력을 담보한다.
+> 1. **본질**: [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([Information System Master Plan](/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))는 특정 정보화 프로젝트(단일 사업)를 성공적으로 구축하기 위해 업무 요건과 IT 요건을 상세히 분석하고, 제안요청서(RFP)를 도출하는 실행 중심의 사전 기획 방법론이다.
+> 2. **가치**: 사업 발주 전 과업 범위([Scope](/studynote/09_security/05_web_app_security/512_oauth_scope/))를 명확히 하고 예산의 타당성을 입증함으로써, 구축 과정에서 발생하는 요구사항 변경([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))과 벤더-발주처 간의 법적 분쟁을 사전에 차단한다.
+> 3. **융합**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)(전사 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜)에서 도출된 개별 과제를 입력(Input)으로 받아, 실제 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 요구공학과 아키텍처 설계(소규모 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)) 기법을 융합하여 실행력을 담보한다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/), [Information System Master Plan](/knowledge-base/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))은 특정 정보시스템 구축 사업에 대한 상세 분석과 제안요청서(RFP, Request For Proposal)를 마련하기 위해 수행되는 활동이다. 조직 전체의 IT 방향성을 그리는 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 끝난 후, 그 결과물로 도출된 수십 개의 프로젝트 중 "올해 당장 실행해야 할 A 시스템 구축 사업"을 어떻게 발주할 것인가에 대한 해답을 제공한다.
+[정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/), [Information System Master Plan](/studynote/12_it_management/01_governance_strategy/007_information_system_master_plan/))은 특정 정보시스템 구축 사업에 대한 상세 분석과 제안요청서(RFP, Request For Proposal)를 마련하기 위해 수행되는 활동이다. 조직 전체의 IT 방향성을 그리는 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 끝난 후, 그 결과물로 도출된 수십 개의 프로젝트 중 "올해 당장 실행해야 할 A 시스템 구축 사업"을 어떻게 발주할 것인가에 대한 해답을 제공한다.
 
-과거에는 ISP에서 도출된 요약 보고서 몇 장만으로 곧바로 개발 벤더(SI 업체)를 선정하여 시스템 구축(Implementation)에 돌입했다. 그러나 이런 방식은 발주처조차 자신이 정확히 무엇을 원하는지(상세 기능, 연계 대상, 트래픽 규모) 모르는 상태에서 계약이 맺어지게 만들었다. 그 결과, 프로젝트 중간에 요구사항이 폭주하여 개발 기간이 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고 품질이 저하되는 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 반복되었다. 특히 공공기관의 경우 예비타당성조사를 통과하기 위해서는 상세한 예산 산출 근거가 필요한데, 단순 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 결과물로는 이를 증명할 수 없었다. 따라서 발주 전에 요구사항을 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 수준으로 상세화하고, 도입해야 할 하드웨어/소프트웨어 스펙(Sizing)을 확정하여 사업의 불확실성을 제거하는 ISMP가 필수적인 절차로 자리 잡게 되었다.
+과거에는 ISP에서 도출된 요약 보고서 몇 장만으로 곧바로 개발 벤더(SI 업체)를 선정하여 시스템 구축(Implementation)에 돌입했다. 그러나 이런 방식은 발주처조차 자신이 정확히 무엇을 원하는지(상세 기능, 연계 대상, 트래픽 규모) 모르는 상태에서 계약이 맺어지게 만들었다. 그 결과, 프로젝트 중간에 요구사항이 폭주하여 개발 기간이 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되고 품질이 저하되는 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/)([Software Crisis](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/))가 반복되었다. 특히 공공기관의 경우 예비타당성조사를 통과하기 위해서는 상세한 예산 산출 근거가 필요한데, 단순 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 결과물로는 이를 증명할 수 없었다. 따라서 발주 전에 요구사항을 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 수준으로 상세화하고, 도입해야 할 하드웨어/소프트웨어 스펙(Sizing)을 확정하여 사업의 불확실성을 제거하는 ISMP가 필수적인 절차로 자리 잡게 되었다.
 
 ```text
 이 도식은 조직의 IT 전략이 ISP에서 ISMP를 거쳐 실제 시스템 구축 프로젝트로 하향 전개되는 구체화 과정(Top-Down Refinement)을 보여준다.
@@ -47,7 +44,7 @@ tags = ["enterprise_systems"]
 +-----------------------------------------------------+
 ```
 
-이 흐름의 핵심은 ISMP가 '[전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))'과 '시스템 구현([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))' 사이를 이어주는 결정적인 '가교([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))' 역할을 한다는 점이다. 이런 배치는 ISMP가 없는 프로젝트는 곧바로 요구사항 변동의 늪([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))에 빠진다는 것을 경고한다. ISP가 회사의 '방향'을 정한다면, ISMP는 해당 사업의 '크기와 비용'을 픽스(Fix)한다. 따라서 실무에서는 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 현업 실무자와 시스템 설계자가 치열하게 논쟁하여 뺄 것은 빼고 넣을 것은 넣는 요구사항 타협(Trade-off)을 완료해야만 성공적인 구축이 보장된다.
+이 흐름의 핵심은 ISMP가 '[전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 기획([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))'과 '시스템 구현([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))' 사이를 이어주는 결정적인 '가교([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/))' 역할을 한다는 점이다. 이런 배치는 ISMP가 없는 프로젝트는 곧바로 요구사항 변동의 늪([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))에 빠진다는 것을 경고한다. ISP가 회사의 '방향'을 정한다면, ISMP는 해당 사업의 '크기와 비용'을 픽스(Fix)한다. 따라서 실무에서는 [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 현업 실무자와 시스템 설계자가 치열하게 논쟁하여 뺄 것은 빼고 넣을 것은 넣는 요구사항 타협(Trade-off)을 완료해야만 성공적인 구축이 보장된다.
 
 📢 **섹션 요약 비유**: ISP가 가족회의를 통해 "올해 집을 허물고 2층 양옥을 짓자"고 결정하는 것이라면, ISMP는 실제 시공사를 부르기 전에 방의 크기, 창문의 개수, 벽지 색상까지 미리 정해서 정확한 '공사 견적서(RFP)'를 만드는 과정입니다.
 
@@ -57,14 +54,14 @@ tags = ["enterprise_systems"]
 
 ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드라인 등 국가 표준을 따르는 경우가 많으며, 대체로 '프로젝트 방향성 수립 -> 업무 및 정보기술 요건 분석 -> 아키텍처 수립 및 시스템 구조 설계 -> 이행 계획 및 RFP 수립'의 4단계 프레임워크로 구성된다.
 
-이 과정의 핵심 메커니즘은 현업의 뭉뚱그려진 요구사항을 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '기능 분해(Functional Decomposition)'를 통해 트리 구조([WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))로 상세화하는 것이다. 요건 분석 단계에서는 사용자의 화면 요구사항과 비기능 요건(응답속도 1초 이내, 동시접속 1만 명 등)을 정의한다. 이를 바탕으로 아키텍처 수립 단계에서는 소프트웨어 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Java, Spring, RDBMS)을 정하고, 피크 타임 트래픽을 감당하기 위한 서버/스토리지/네트워크 용량 산정(Sizing)을 수행한다. 최종적으로 이 모든 분석 결과를 하나의 문서로 응집한 것이 제안요청서(RFP)이며, 이 RFP에는 제안 업체를 어떻게 평가할 것인지에 대한 평가 지표([SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/), 재무 건전성 등)까지 명시된다.
+이 과정의 핵심 메커니즘은 현업의 뭉뚱그려진 요구사항을 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 '기능 분해(Functional Decomposition)'를 통해 트리 구조([WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/))로 상세화하는 것이다. 요건 분석 단계에서는 사용자의 화면 요구사항과 비기능 요건(응답속도 1초 이내, 동시접속 1만 명 등)을 정의한다. 이를 바탕으로 아키텍처 수립 단계에서는 소프트웨어 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/)(Java, Spring, RDBMS)을 정하고, 피크 타임 트래픽을 감당하기 위한 서버/스토리지/네트워크 용량 산정(Sizing)을 수행한다. 최종적으로 이 모든 분석 결과를 하나의 문서로 응집한 것이 제안요청서(RFP)이며, 이 RFP에는 제안 업체를 어떻게 평가할 것인지에 대한 평가 지표([SLA](/studynote/12_it_management/02_itsm_itil/869_sla/), 재무 건전성 등)까지 명시된다.
 
-| [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 수립 단계 | 세부 활동 (Activity) | 핵심 산출물 및 산정 기법 | 비유 |
+| [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 수립 단계 | 세부 활동 (Activity) | 핵심 산출물 및 산정 기법 | 비유 |
 |:---|:---|:---|:---|
-| **1. 방향성 수립** | 대상 사업의 목적 정의, 관련 법제도/컴플라이언스 분석 | 사업계획서, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 명세서 | 집짓기 목적 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) |
-| **2. 요건 분석** | 현행([AS-IS](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 업무의 페인포인트 분석 및 미래(TO-BE) 요구사항 도출 | [사용자 스토리](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/), Use Case, [비기능 요구사항](/knowledge-base/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) 정의서 | 방 개수 및 인테리어 요구 |
-| **3. 아키텍처 설계** | 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)([TA](/knowledge-base/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)/[SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 목표 모델 설계 | HW/SW Sizing(용량 산정), 개념 [데이터 모델](/knowledge-base/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(ERD) | 건축 도면 및 자재 스펙 |
-| **4. 이행계획 / RFP** | [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 기반 예산 산출, 사업 추진 체계(일정, 인력) 정의 | **RFP (제안요청서)**, 제안안내서, 예상 소요 예산안 | 최종 입찰 공고문 |
+| **1. 방향성 수립** | 대상 사업의 목적 정의, 관련 법제도/컴플라이언스 분석 | 사업계획서, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)([Stakeholder](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)) 명세서 | 집짓기 목적 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) |
+| **2. 요건 분석** | 현행([AS-IS](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)) 업무의 페인포인트 분석 및 미래(TO-BE) 요구사항 도출 | [사용자 스토리](/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/), Use Case, [비기능 요구사항](/studynote/04_software_engineering/03_design_architecture/133_non_functional_requirements/) 정의서 | 방 개수 및 인테리어 요구 |
+| **3. 아키텍처 설계** | 애플리케이션, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)([TA](/studynote/12_it_management/03_ea_isp/890_ta_as_is_analysis/)/[SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)) 목표 모델 설계 | HW/SW Sizing(용량 산정), 개념 [데이터 모델](/studynote/05_database/01_db_architecture_relational/014_data_model_components/)(ERD) | 건축 도면 및 자재 스펙 |
+| **4. 이행계획 / RFP** | [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 기반 예산 산출, 사업 추진 체계(일정, 인력) 정의 | **RFP (제안요청서)**, 제안안내서, 예상 소요 예산안 | 최종 입찰 공고문 |
 
 ```text
 이 도식은 ISMP의 가장 중요한 기술적 과정인 '기능 분해와 인프라 용량 산정(Sizing)'이 어떻게 RFP로 수렴되는지를 보여주는 상태 전이도이다.
@@ -87,7 +84,7 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
               +----------------------------+
 ```
 
-이 구조의 핵심은 ISMP가 문과적인 경영 기획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))과 이과적인 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 교집합이라는 점이다. ISMP는 단순히 텍스트로 희망 사항을 적는 것이 아니다. 기능 요건은 [기능 점수](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 모델에 대입되어 '개발자 5명이 3개월간 투입되어야 할 분량'으로 정량화되고, 비기능 요건은 tpmC(Transactions Per Minute)나 OPS 연산식에 대입되어 '최소 16코어 64GB RAM 서버 3대'라는 물리적 스펙으로 번역된다. 이 두 가지 정량적 근거가 합쳐져야만 기획재정부나 내부 재무 부서로부터 타당한 예산(Budget)을 승인받을 수 있다.
+이 구조의 핵심은 ISMP가 문과적인 경영 기획([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))과 이과적인 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))의 교집합이라는 점이다. ISMP는 단순히 텍스트로 희망 사항을 적는 것이 아니다. 기능 요건은 [기능 점수](/studynote/12_it_management/04_sdlc_testing/140_function_point/)([Function Point](/studynote/12_it_management/04_sdlc_testing/140_function_point/)) 모델에 대입되어 '개발자 5명이 3개월간 투입되어야 할 분량'으로 정량화되고, 비기능 요건은 tpmC(Transactions Per Minute)나 OPS 연산식에 대입되어 '최소 16코어 64GB RAM 서버 3대'라는 물리적 스펙으로 번역된다. 이 두 가지 정량적 근거가 합쳐져야만 기획재정부나 내부 재무 부서로부터 타당한 예산(Budget)을 승인받을 수 있다.
 
 📢 **섹션 요약 비유**: 요리사에게 "맛있는 찌개 하나 끓여주세요"라고 모호하게 말하는 것이 아니라, "돼지고기 200g, 두부 한 모를 넣고 맵기는 신라면 수준으로 15분 만에 끓여달라"고 정확한 레시피와 제약조건을 명시하는 과정입니다.
 
@@ -95,14 +92,14 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-정보화 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜의 3대장인 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), ISMP는 그 범위와 구체화 수준(Depth)에 따라 극명한 차이를 갖는다. 이 세 가지를 혼동하여, [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 프로젝트에서 특정 시스템의 서버 스펙을 묻거나 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 프로젝트에서 전사적 사업 모델 전환을 논의하면 프로젝트 전체가 산으로 가게 된다.
+정보화 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜의 3대장인 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/), [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/), ISMP는 그 범위와 구체화 수준(Depth)에 따라 극명한 차이를 갖는다. 이 세 가지를 혼동하여, [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 프로젝트에서 특정 시스템의 서버 스펙을 묻거나 [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 프로젝트에서 전사적 사업 모델 전환을 논의하면 프로젝트 전체가 산으로 가게 된다.
 
-| 비교 항목 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (전사 [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) | [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) (특정 사업 [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜) | 요구공학 ([Requirements 엔진ering](/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) |
+| 비교 항목 | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) (전사 [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)) | [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) (특정 사업 [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜) | 요구공학 ([Requirements 엔진ering](/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/)) |
 |:---|:---|:---|:---|
-| **대상 범위** | 기업/기관 전체 (전 부서, 전 시스템) | 단일 정보화 사업 (특정 시스템 1~2개) | 단일 소프트웨어 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)/[컴포넌트](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
-| **추진 주체** | C-Level 경영진, IT 기획팀 전체 | 특정 현업 부서장 및 IT PM | 시스템 분석가([SA](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)), 개발자 |
-| **결과물 성격** | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 (수십 개의 사업 목록) | 단일 사업을 위한 **RFP 및 상세 예산안** | 시스템 설계서(SRS), 화면 설계서 |
-| **예산의 성격** | 포괄적 추정 예산 (예: 총 500억) | 정확한 단위 예산 (예: 32.5억, [FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반) | (이미 예산은 확정된 상태에서 실행) |
+| **대상 범위** | 기업/기관 전체 (전 부서, 전 시스템) | 단일 정보화 사업 (특정 시스템 1~2개) | 단일 소프트웨어 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)/[컴포넌트](/studynote/04_software_engineering/10_trends_pm_quality/603_component_independent_deployment_unit/) |
+| **추진 주체** | C-Level 경영진, IT 기획팀 전체 | 특정 현업 부서장 및 IT PM | 시스템 분석가([SA](/studynote/03_network/15_nextgen_communication_architecture/767_sa_standalone_5g_core_network/)), 개발자 |
+| **결과물 성격** | [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 (수십 개의 사업 목록) | 단일 사업을 위한 **RFP 및 상세 예산안** | 시스템 설계서(SRS), 화면 설계서 |
+| **예산의 성격** | 포괄적 추정 예산 (예: 총 500억) | 정확한 단위 예산 (예: 32.5억, [FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/) 기반) | (이미 예산은 확정된 상태에서 실행) |
 
 ```text
 이 매트릭스는 범위(Scope)와 구체성(Detail Level)을 기준으로 ISP, ISMP, EA의 위상을 비교한 2D 포지셔닝 맵이다.
@@ -120,22 +117,22 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
      단일/특정 사업 (Specific)               전사적/포괄적 (Enterprise)  범위 (Scope)
 ```
 
-이 매트릭스의 핵심은 ISMP가 전사적(Enterprise)이진 않지만, 그 깊이(Detail) 면에서는 ISP나 EA를 훨씬 능가한다는 점이다. ISP가 '넓고 얕게' 파는 그물망이라면, ISMP는 '좁고 깊게' 파는 드릴(Drill)이다. 공공기관의 차세대 시스템 구축 시, 예비타당성조사(예타)를 통과하려면 ISP의 넓은 명분과 ISMP의 깊은 예산 근거가 모두 결합되어야 한다. 실무적으로 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 산출물이 부실하면 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 방향성을 다시 잡느라 시간을 허비하게 되고, 반대로 ISMP를 생략하면 실제 구축 단계([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))에서 요구사항 폭증으로 프로젝트가 좌초된다.
+이 매트릭스의 핵심은 ISMP가 전사적(Enterprise)이진 않지만, 그 깊이(Detail) 면에서는 ISP나 EA를 훨씬 능가한다는 점이다. ISP가 '넓고 얕게' 파는 그물망이라면, ISMP는 '좁고 깊게' 파는 드릴(Drill)이다. 공공기관의 차세대 시스템 구축 시, 예비타당성조사(예타)를 통과하려면 ISP의 넓은 명분과 ISMP의 깊은 예산 근거가 모두 결합되어야 한다. 실무적으로 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 산출물이 부실하면 [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 방향성을 다시 잡느라 시간을 허비하게 되고, 반대로 ISMP를 생략하면 실제 구축 단계([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/))에서 요구사항 폭증으로 프로젝트가 좌초된다.
 
 📢 **섹션 요약 비유**: ISP가 세계지도(전사 범위)라면, ISMP는 서울시 종로구의 골목길까지 다 보이는 확대된 정밀 지도(특정 사업 범위)입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무에서 ISMP를 적용할 때 가장 주의해야 할 의사결정 포인트는 'Vendor-Neutral(벤더 종립성) 원칙'의 준수다. [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 결과물인 RFP가 특정 솔루션이나 벤더(예: [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), AWS 등 특정 기업)에게만 유리하게 작성되면 심각한 공정성 시비가 발생한다.
+실무에서 ISMP를 적용할 때 가장 주의해야 할 의사결정 포인트는 'Vendor-Neutral(벤더 종립성) 원칙'의 준수다. [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 결과물인 RFP가 특정 솔루션이나 벤더(예: [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/), AWS 등 특정 기업)에게만 유리하게 작성되면 심각한 공정성 시비가 발생한다.
 
 **실무 시나리오 및 해결책**
-1. **공공 정보화 사업 예비타당성 조사**: 500억 규모의 공공 차세대 시스템 구축 시, 예산 당국은 이 사업이 왜 필요한지, 비용 산정은 정확한지 깐깐하게 심사한다. 이때 ISMP를 통해 노후화된 현행 시스템의 유지보수 비용([TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/)) 증가분을 입증하고, [기능점수](/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델로 500억이라는 숫자의 근거를 정확히 제시해야만 예타를 통과할 수 있다.
-2. **요구사항 변경 방어선 구축**: SI 프로젝트의 고질적인 병폐는 현업이 "이것도 추가해 줘, 저것도 추가해 줘"라고 무한히 요구하는 것이다. [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 RFP에 과업 범위를 명확한 WBS로 고정해 두면, 구축 단계에서 추가되는 요구사항에 대해 "이는 RFP 범위 외이므로 추가 과업(비용)으로 처리해야 한다"는 명확한 방어선([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 칠 수 있다.
+1. **공공 정보화 사업 예비타당성 조사**: 500억 규모의 공공 차세대 시스템 구축 시, 예산 당국은 이 사업이 왜 필요한지, 비용 산정은 정확한지 깐깐하게 심사한다. 이때 ISMP를 통해 노후화된 현행 시스템의 유지보수 비용([TCO](/studynote/12_it_management/01_governance_strategy/016_tco/)) 증가분을 입증하고, [기능점수](/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/)([FP](/studynote/12_it_management/05_security_compliance/293_fp_function_point/)) 모델로 500억이라는 숫자의 근거를 정확히 제시해야만 예타를 통과할 수 있다.
+2. **요구사항 변경 방어선 구축**: SI 프로젝트의 고질적인 병폐는 현업이 "이것도 추가해 줘, 저것도 추가해 줘"라고 무한히 요구하는 것이다. [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 RFP에 과업 범위를 명확한 WBS로 고정해 두면, 구축 단계에서 추가되는 요구사항에 대해 "이는 RFP 범위 외이므로 추가 과업(비용)으로 처리해야 한다"는 명확한 방어선([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))을 칠 수 있다.
 
-<strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
-- <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 복붙 (Copy &amp; Paste) <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/">ISMP</a></strong>: 가장 최악의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 컨설팅 업체가 기존 ISP의 현황 분석 파트를 그대로 복사해서 이름만 바꾼 뒤 제출하는 경우다. 이 경우 화면 수, 인터페이스 대상, 서버 사이징 등 시스템 구축에 필요한 실질적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Detail)가 텅 비어 있어, 결국 RFP가 "최신 기술을 이용해 잘 만들어 주시오" 수준의 휴지조각이 된다.
+<strong><a href="/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/">안티패턴</a> (치명적 <a href="/studynote/04_software_engineering/06_software_architecture/352_defect_definition/">결함</a> 사례)</strong>
+- <strong><a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 복붙 (Copy &amp; Paste) <a href="/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/">ISMP</a></strong>: 가장 최악의 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)은 [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 컨설팅 업체가 기존 ISP의 현황 분석 파트를 그대로 복사해서 이름만 바꾼 뒤 제출하는 경우다. 이 경우 화면 수, 인터페이스 대상, 서버 사이징 등 시스템 구축에 필요한 실질적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(Detail)가 텅 비어 있어, 결국 RFP가 "최신 기술을 이용해 잘 만들어 주시오" 수준의 휴지조각이 된다.
 
 ```text
 이 도식은 부실한 ISMP가 시스템 구축(SI) 프로젝트의 실패로 이어지는 연쇄 장애(Cascading Failure) 과정을 보여준다.
@@ -155,7 +152,7 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
 [프로젝트 지연 및 품질 붕괴] -> 벤더 철수(적자 발생), 법적 소송(분쟁), 오픈 실패
 ```
 
-이 연쇄 장애 플로우의 핵심은 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 1%의 모호함이 실제 구축 단계에서는 100%의 재앙으로 증폭된다는 점이다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 기획 단계의 오류를 수정하는 비용은 코딩 단계에서 수정하는 비용의 1/100 수준이다. 따라서 발주처의 IT PM은 [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 보고서를 승인할 때, "이 문서만 보고도 개발자가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블을 60% 수준까지 설계할 수 있는가?"라는 기준을 들이대야 한다. 그 수준에 미치지 못한다면 ISMP는 실패한 것이다.
+이 연쇄 장애 플로우의 핵심은 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 1%의 모호함이 실제 구축 단계에서는 100%의 재앙으로 증폭된다는 점이다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)에서 기획 단계의 오류를 수정하는 비용은 코딩 단계에서 수정하는 비용의 1/100 수준이다. 따라서 발주처의 IT PM은 [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 보고서를 승인할 때, "이 문서만 보고도 개발자가 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 테이블을 60% 수준까지 설계할 수 있는가?"라는 기준을 들이대야 한다. 그 수준에 미치지 못한다면 ISMP는 실패한 것이다.
 
 📢 **섹션 요약 비유**: 이력서(RFP)를 "열심히 하는 인재를 뽑습니다"라고 모호하게 쓰면 아무나 지원해서 회사(프로젝트)가 망가집니다. "자바 5년 차, 스프링 프레임워크 필수"라고 명확히 적는 것이 ISMP의 역할입니다.
 
@@ -163,25 +160,25 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-[ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 제도를 정착시키면 발주처는 프로젝트를 완벽하게 통제할 수 있는 조타수(Steering)를 쥐게 된다. 구축 벤더에게 끌려다니지 않고 명확한 요구사항과 타당한 예산에 기반하여 사업을 리딩할 수 있으며, 프로젝트의 성공 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(On-time, On-budget)을 비약적으로 끌어올린다.
+[ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 제도를 정착시키면 발주처는 프로젝트를 완벽하게 통제할 수 있는 조타수(Steering)를 쥐게 된다. 구축 벤더에게 끌려다니지 않고 명확한 요구사항과 타당한 예산에 기반하여 사업을 리딩할 수 있으며, 프로젝트의 성공 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(On-time, On-budget)을 비약적으로 끌어올린다.
 
 | 정량적 기대효과 | 정성적 기대효과 |
 |:---|:---|
-| 요구사항 변경([Scope Creep](/knowledge-base/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))률 50% 이상 감소 | 발주처와 수주처(벤더) 간 과업 범위에 대한 상호 신뢰 및 투명성 확보 |
-| 정확한 Sizing을 통한 과잉 투자(Over-[provisioning](/knowledge-base/studynote/09_security/11_iam_access_control/528_provisioning/)) 인프라 비용 절감 | 현업 부서가 실제 자신이 쓸 시스템을 깊게 고민하게 만드는 책임감 부여 |
+| 요구사항 변경([Scope Creep](/studynote/04_software_engineering/03_design_architecture/161_scope_creep_requirements_inflation_prevention/))률 50% 이상 감소 | 발주처와 수주처(벤더) 간 과업 범위에 대한 상호 신뢰 및 투명성 확보 |
+| 정확한 Sizing을 통한 과잉 투자(Over-[provisioning](/studynote/09_security/11_iam_access_control/528_provisioning/)) 인프라 비용 절감 | 현업 부서가 실제 자신이 쓸 시스템을 깊게 고민하게 만드는 책임감 부여 |
 
-최근의 ISMP는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에 대응하기 위해 [모놀리식 아키텍처](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 설계에서 벗어나, [마이크로서비스](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 분리 기준과 [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 연동 요건을 RFP에 명시하는 형태로 진화하고 있다. 또한, 폭포수 방식의 엄격한 요건 확정보다는 [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발을 허용하되 [MVP](/knowledge-base/studynote/12_it_management/01_governance_strategy/036_mvp/)([최소 존립 제품](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/))의 범위를 고정하는 유연한 방식([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))이 도입되고 있다. 어떤 형태든 간에 "무엇을 만들지 정의하지 않으면 아무것도 완성할 수 없다"는 ISMP의 본질은 미래에도 변하지 않을 것이다.
+최근의 ISMP는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)([Cloud Native](/studynote/06_ict_convergence/03_cloud_infrastructure/199_cloud_native_architecture_msa_cicd_devops/)) 환경에 대응하기 위해 [모놀리식 아키텍처](/studynote/13_cloud_architecture/03_msa_serverless/121_monolithic_architecture/) 설계에서 벗어나, [마이크로서비스](/studynote/04_software_engineering/09_cloud_native_ai_architecture/532_microservices_decomposition_patterns/)([MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 분리 기준과 [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 연동 요건을 RFP에 명시하는 형태로 진화하고 있다. 또한, 폭포수 방식의 엄격한 요건 확정보다는 [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) 개발을 허용하되 [MVP](/studynote/12_it_management/01_governance_strategy/036_mvp/)([최소 존립 제품](/studynote/04_software_engineering/02_requirements_analysis/090_mvp_minimum_viable_product/))의 범위를 고정하는 유연한 방식([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/) [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))이 도입되고 있다. 어떤 형태든 간에 "무엇을 만들지 정의하지 않으면 아무것도 완성할 수 없다"는 ISMP의 본질은 미래에도 변하지 않을 것이다.
 
 📢 **섹션 요약 비유**: 잘 만들어진 ISMP는 험난한 집짓기 공사 과정에서 건축주와 시공사 모두를 지켜주는 가장 안전하고 튼튼한 '계약서이자 청사진'입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> (Information <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Planning)</strong> : ISMP가 대상 사업을 선택하기 위해 선행되어야 하는 기업 단위의 거시적 IT [마스](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜.
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+* <strong><a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> (Information <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">Strategy</a> Planning)</strong> : ISMP가 대상 사업을 선택하기 위해 선행되어야 하는 기업 단위의 거시적 IT [마스](/studynote/06_ict_convergence/02_iot_mobility/172_maas_mobility_as_a_service/)터플랜.
 * **RFP (제안요청서)** : ISMP의 최종 산출물이자 목적. 벤더에게 시스템 구축을 요구하는 법적, 기술적 명세서.
-* <strong><a href="/knowledge-base/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a> (<a href="/knowledge-base/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>, <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)</strong> : [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 소프트웨어의 규모(예산과 공수)를 정량적으로 산정하기 위해 사용자 관점의 기능을 측정하는 기법.
-* <strong>소프트웨어 요구공학 (<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">Requirements 엔진ering</a>)</strong> : ISMP의 요건 분석 단계에서 모호한 현업의 말을 시스템 명세로 번역하는 핵심 학문.
-* **Sizing (용량 산정)** : 아키텍처 설계 단계에서 예상되는 트래픽과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해 필요한 하드웨어 및 클라우드 자원의 규모를 수학적으로 추정하는 과정.
+* <strong><a href="/studynote/04_software_engineering/uncategorized/673_function_point_ilf_eif/">기능점수</a> (<a href="/studynote/12_it_management/04_sdlc_testing/140_function_point/">Function Point</a>, <a href="/studynote/12_it_management/05_security_compliance/293_fp_function_point/">FP</a>)</strong> : [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) 단계에서 소프트웨어의 규모(예산과 공수)를 정량적으로 산정하기 위해 사용자 관점의 기능을 측정하는 기법.
+* <strong>소프트웨어 요구공학 (<a href="/studynote/04_software_engineering/03_design_architecture/131_requirements_engineering/">Requirements 엔진ering</a>)</strong> : ISMP의 요건 분석 단계에서 모호한 현업의 말을 시스템 명세로 번역하는 핵심 학문.
+* **Sizing (용량 산정)** : 아키텍처 설계 단계에서 예상되는 트래픽과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하기 위해 필요한 하드웨어 및 클라우드 자원의 규모를 수학적으로 추정하는 과정.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -201,10 +198,10 @@ ISMP의 수립 방법론은 한국지능정보사회진흥원(NIA)의 가이드�
 [운영·평가(BSC) — 성과 측정과 개선]
 ```
 
-ISMP는 경영전략과 ISP를 바탕으로 실행 로드맵, 구축, 성과평가를 연결하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 프레임워크다.
+ISMP는 경영전략과 ISP를 바탕으로 실행 로드맵, 구축, 성과평가를 연결하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 프레임워크다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 친구들과 학교 축제에서 연극을 하기로 했어요([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)). 그중에서 우리는 '백설 공주'를 무대에 올리기로 결정했죠.
+1. 친구들과 학교 축제에서 연극을 하기로 했어요([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)). 그중에서 우리는 '백설 공주'를 무대에 올리기로 결정했죠.
 2. 백설 공주 연극을 진짜로 하려면 대본은 누가 쓰고, 옷은 몇 벌이 필요하며, 준비물 돈은 얼마나 들지 아주 꼼꼼하게 적어놔야 해요.
 3. 이렇게 연극(프로젝트) 하나를 완벽하게 해내기 위해 필요한 모든 준비물과 규칙을 자세히 적어둔 계획서를 ISMP라고 부른답니다.
 
@@ -214,7 +211,7 @@ ISMP는 경영전략과 ISP를 바탕으로 실행 로드맵, 구축, 성과평�
 
 **진행 상황**: 9 / 482
 
-<- **이전**: [8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/008_isp_information_strategy_planning/)
-**다음**: [10. EA (Enterprise Architecture, 전사적 아키텍처) - 기업의 비즈니스, 데이터, 애플리케이션, 기술 인프라를](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/) ->
+<- **이전**: [8. 정보화 전략 계획 (ISP, Information Strategy Planning) - 기업의 중장기 경영 목표 달성을 위한 전사적](/studynote/07_enterprise_systems/01_strategy_governance/008_isp_information_strategy_planning/)
+**다음**: [10. EA (Enterprise Architecture, 전사적 아키텍처) - 기업의 비즈니스, 데이터, 애플리케이션, 기술 인프라를](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/) ->
 
 ---

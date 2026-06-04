@@ -1,13 +1,10 @@
-+++
-title = "794. 엔터프라이즈 시스템 핵심 토픽 794번 시험 요약 (Enterprise System Core Topic 794 Exam Summary)"
-date = 2026-05-09
+---
+title: "794. 엔터프라이즈 시스템 핵심 토픽 794번 시험 요약 (Enterprise System Core Topic 794 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 794 / 800
 
-<- **이전**: [793. 엔터프라이즈 시스템 핵심 토픽 793번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/793_enterprise_system_core_topic_793_exam_summary/)
-**다음**: [795. 엔터프라이즈 시스템 핵심 토픽 795번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/795_enterprise_system_core_topic_795_exam_summary/) ->
+<- **이전**: [793. 엔터프라이즈 시스템 핵심 토픽 793번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/793_enterprise_system_core_topic_793_exam_summary/)
+**다음**: [795. 엔터프라이즈 시스템 핵심 토픽 795번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/795_enterprise_system_core_topic_795_exam_summary/) ->
 
 ---

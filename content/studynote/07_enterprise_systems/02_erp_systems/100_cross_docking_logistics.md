@@ -1,24 +1,21 @@
-+++
-title = "100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용 제로화)"
+---
+title: "100. 크로스 도킹 (Cross-Docking) - 물류센터 도착 상품을 창고 보관 없이 즉시 배송 차량으로 분류 환적 (창고 비용 제로화)"
+tags:
+  - "enterprise_systems"
+---
 
-[taxonomies]
-tags = ["enterprise_systems"]
-
-[extra]
-tags = ["enterprise_systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 크로스 도킹 (Cross-Docking)은 입고된 상품을 물류센터 창고에 보관(저장)하지 않고, 하역하자마자 즉시 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 출고장으로 이동시켜 배송 차량에 환적하는 극한의 물류 통과 기법이다.
-> 2. **가치**: 재고 보관 유지비와 하역-적치-피킹에 따르는 이중 노동력을 완전히 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)하여 물류비용을 극단적으로 낮추고, 상품의 신선도와 리드타임 ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 획기적으로 향상시킨다.
-> 3. **판단 포인트**: 단순히 건물을 구조조정한다고 되는 것이 아니라, 입하와 출하 타이밍을 1분 단위로 맞출 수 있는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 완벽한 IT 정보 공유(EDI, ASN) 및 배차 시스템([TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))이 톱니바퀴처럼 맞물려야만 시도할 수 있다.
+> 1. **본질**: 크로스 도킹 (Cross-Docking)은 입고된 상품을 물류센터 창고에 보관(저장)하지 않고, 하역하자마자 즉시 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 출고장으로 이동시켜 배송 차량에 환적하는 극한의 물류 통과 기법이다.
+> 2. **가치**: 재고 보관 유지비와 하역-적치-피킹에 따르는 이중 노동력을 완전히 [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/)하여 물류비용을 극단적으로 낮추고, 상품의 신선도와 리드타임 ([Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/))을 획기적으로 향상시킨다.
+> 3. **판단 포인트**: 단순히 건물을 구조조정한다고 되는 것이 아니라, 입하와 출하 타이밍을 1분 단위로 맞출 수 있는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 전체의 완벽한 IT 정보 공유(EDI, ASN) 및 배차 시스템([TMS](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/))이 톱니바퀴처럼 맞물려야만 시도할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-전통적인 물류센터는 상품을 보관하고 저장하는 거대한 '창고(Warehouse)' 역할을 했다. 상품이 입고되면 팔레트에 실려 랙(Rack)에 보관되고, 주문이 들어오면 다시 지게차를 몰고 가 피킹(Picking) 과정을 거쳐 출하한다. 이러한 "입고 -> 적치 -> 보관 -> 피킹 -> 출고"의 과정은 시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 과도한 창고 임대료, 악성 재고 발생, 신선식품의 부패를 초래했다.
+전통적인 물류센터는 상품을 보관하고 저장하는 거대한 '창고(Warehouse)' 역할을 했다. 상품이 입고되면 팔레트에 실려 랙(Rack)에 보관되고, 주문이 들어오면 다시 지게차를 몰고 가 피킹(Picking) 과정을 거쳐 출하한다. 이러한 "입고 -> 적치 -> 보관 -> 피킹 -> 출고"의 과정은 시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 과도한 창고 임대료, 악성 재고 발생, 신선식품의 부패를 초래했다.
 
 이러한 비효율을 타파하기 위해 등장한 혁신이 크로스 도킹(Cross-Docking)이다. 1980년대 월마트(Walmart)가 도입하여 유통 혁명을 일으킨 이 기법은 물류센터를 '물건이 자는 여관'에서 '스쳐 지나가는 고속도로 톨게이트'로 개념을 완전히 바꿨다. 이는 중간 보관 단계의 낭비 요소를 원천 제거하기 위한 필연적인 진화였다.
 
@@ -28,15 +25,15 @@ tags = ["enterprise_systems"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-크로스 도킹의 핵심 아키텍처는 보관 선반 대신 거대한 '[분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)용 컨베이어 벨트(Sorter)'와 '완벽한 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링'에 의존한다. 입고 도크(Inbound Dock)로 화물차가 들어오면, 화물을 랙에 넣지 않고 바코드 스캐너가 달린 소팅 레일에 바로 얹는다. 레일은 배송지별로 짐을 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 반대편의 출고 도크(Outbound Dock)에 대기 중인 배송 트럭으로 짐을 밀어 넣는다.
+크로스 도킹의 핵심 아키텍처는 보관 선반 대신 거대한 '[분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)용 컨베이어 벨트(Sorter)'와 '완벽한 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링'에 의존한다. 입고 도크(Inbound Dock)로 화물차가 들어오면, 화물을 랙에 넣지 않고 바코드 스캐너가 달린 소팅 레일에 바로 얹는다. 레일은 배송지별로 짐을 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하여 반대편의 출고 도크(Outbound Dock)에 대기 중인 배송 트럭으로 짐을 밀어 넣는다.
 
 이 과정이 매끄럽게 돌아가기 위한 필수 IT 원리는 다음과 같다.
 
 | 핵심 요소 | 역할 | 필수 IT 기술 |
 |:---|:---|:---|
-| **사전 정보 공유** | 짐이 도착하기 전, 어떤 물건이 언제 오는지 센터가 미리 파악 | EDI (Electronic [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange), ASN (Advanced Shipping Notice) |
-| <strong>고속 <a href="/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 자동화</strong> | 박스를 열지 않고 바코드/RFID만으로 0.1초 만에 행선지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 자동 스캐너, 고속 소터 (Cross-belt Sorter) |
-| <strong>정밀 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong> | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
+| **사전 정보 공유** | 짐이 도착하기 전, 어떤 물건이 언제 오는지 센터가 미리 파악 | EDI (Electronic [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Interchange), ASN (Advanced Shipping Notice) |
+| <strong>고속 <a href="/studynote/16_bigdata/05_analysis/104_classification_analysis/">분류</a> 자동화</strong> | 박스를 열지 않고 바코드/RFID만으로 0.1초 만에 행선지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 자동 스캐너, 고속 소터 (Cross-belt Sorter) |
+| <strong>정밀 <a href="/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/">스케줄</a>링</strong> | 입고 트럭과 출고 트럭이 도크에 도착하는 시간의 완벽한 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | [TMS](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)), [WMS](/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/) ([Warehouse Management System](/studynote/07_enterprise_systems/02_erp_systems/097_wms_warehouse_management_system/)) |
 
 ```text
 +--------------------------------------------------------------+
@@ -54,22 +51,22 @@ tags = ["enterprise_systems"]
 
 그림에서 보듯 가운데 존재해야 할 거대한 선반 창고 구역이 통째로 삭제되고, 입고와 출고가 컨베이어 벨트를 통해 하나의 직선 흐름으로 직결된다.
 
-- **📢 섹션 요약 비유**: 비행기 환승을 할 때, 짐을 찾아 호텔에 가지 않고 비행기 문을 나서자마자 바로 무빙워크를 타고 반대편 게이트에 서 있는 다음 비행기로 올라타는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 환승 과정과 똑같습니다.
+- **📢 섹션 요약 비유**: 비행기 환승을 할 때, 짐을 찾아 호텔에 가지 않고 비행기 문을 나서자마자 바로 무빙워크를 타고 반대편 게이트에 서 있는 다음 비행기로 올라타는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 환승 과정과 똑같습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-크로스 도킹은 전통적 보관형 물류 (Traditional Warehousing)와 수익 구조와 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 면에서 명확한 경계를 가진다.
+크로스 도킹은 전통적 보관형 물류 (Traditional Warehousing)와 수익 구조와 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 면에서 명확한 경계를 가진다.
 
 | 비교 항목 | 전통적 보관형 창고 | 크로스 도킹 (Cross-Docking) |
 |:---|:---|:---|
-| **핵심 목적** | 재고 확보를 통한 수요 불확실성 대응 | 리드타임 단축 및 보관/하역 비용 [제로화](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
-| **주요 비용 요소** | 창고 임대료, 지게차, 보관/피킹 인건비 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IT 인프라 구축, 자동화 컨베이어 설비 |
+| **핵심 목적** | 재고 확보를 통한 수요 불확실성 대응 | 리드타임 단축 및 보관/하역 비용 [제로화](/studynote/01_computer_architecture/15_advanced_topics/784_zeroization_circuit/) |
+| **주요 비용 요소** | 창고 임대료, 지게차, 보관/피킹 인건비 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) IT 인프라 구축, 자동화 컨베이어 설비 |
 | **적합한 품목** | 수요 예측이 어려운 상품, 안전재고 필요 상품 | 신선 식품, 판매량이 일정하고 예측 가능한 상품 |
-| <strong>치명적 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 재고 노후화, 보관 비용 눈덩이 증가 | 트럭 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(교통체증) 시 물류센터 전체 마비 |
+| <strong>치명적 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a></strong> | 재고 노후화, 보관 비용 눈덩이 증가 | 트럭 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(교통체증) 시 물류센터 전체 마비 |
 
-크로스 도킹은 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 및 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 긴밀히 연결된다. 공급업체의 생산 일정, 물류센터의 컨베이어 속도, 각 매장의 실시간 판매 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(POS)가 하나의 신경망처럼 연결되어 있어야만 크로스 도킹의 타이밍을 맞출 수 있다.
+크로스 도킹은 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) 및 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)과 긴밀히 연결된다. 공급업체의 생산 일정, 물류센터의 컨베이어 속도, 각 매장의 실시간 판매 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(POS)가 하나의 신경망처럼 연결되어 있어야만 크로스 도킹의 타이밍을 맞출 수 있다.
 
 - **📢 섹션 요약 비유**: 보관형 창고가 물을 가둬두는 커다란 '댐'이라면, 크로스 도킹은 물이 고이지 않고 콸콸 흘러가게 방향만 바꿔주는 좁은 '수로'입니다. 가뭄(수요 변화)에는 댐이 유리하지만, 비용과 신선도 면에서는 수로가 압도적입니다.
 
@@ -77,18 +74,18 @@ tags = ["enterprise_systems"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-아무리 좋은 기법이라도 실무에서 아무 회사나 크로스 도킹을 도입할 수는 없다. 정보의 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 조금만 어긋나도 재앙이 되기 때문이다.
+아무리 좋은 기법이라도 실무에서 아무 회사나 크로스 도킹을 도입할 수는 없다. 정보의 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 조금만 어긋나도 재앙이 되기 때문이다.
 
-### 실무 판단 포인트 및 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 실무 판단 포인트 및 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 1. **파트너사의 IT 수준 판단**
    - 공급사에서 ASN (Advanced Shipping Notice)을 전송할 능력이 없고, 박스 규격표준화 및 바코드 부착이 엉망이라면 도입을 철회해야 한다. 하역장에서 알바생이 박스를 열어 수작업으로 검수하는 순간 크로스 도킹은 실패다.
 2. **취급 품목에 따른 채택 여부**
-   - 부패하기 쉬운 신선식품(우유, 채소)이나, 프로모션으로 대량 출고가 확정된 상품에 최우선 적용한다. 수요가 들쭉날쭉한 롱테일(Long-tail) 상품에는 기존 창고 방식을 유지하는 하이브리드 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞다.
-3. <strong>물류 병목 (<a href="/knowledge-base/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 대비</strong>
-   - 눈폭풍이나 교통사고로 출고 트럭 도착이 2시간 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면, 입하된 물건이 컨베이어벨트 밖으로 넘쳐 흐른다. 버퍼 공간과 비상 보관 시나리오를 설계해야 한다.
+   - 부패하기 쉬운 신선식품(우유, 채소)이나, 프로모션으로 대량 출고가 확정된 상품에 최우선 적용한다. 수요가 들쭉날쭉한 롱테일(Long-tail) 상품에는 기존 창고 방식을 유지하는 하이브리드 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 맞다.
+3. <strong>물류 병목 (<a href="/studynote/02_operating_system/10_security/617_io_bottleneck/">Bottleneck</a>) 대비</strong>
+   - 눈폭풍이나 교통사고로 출고 트럭 도착이 2시간 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되면, 입하된 물건이 컨베이어벨트 밖으로 넘쳐 흐른다. 버퍼 공간과 비상 보관 시나리오를 설계해야 한다.
 
-- **📢 섹션 요약 비유**: 서커스에서 공중그네를 타는 것과 같습니다. 서로 뛰어내리고 잡아주는 타이밍(IT [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링)이 0.1초라도 어긋나면 그네(수익)를 놓치고 바닥으로 추락하게 되니, 파트너 간의 신뢰와 연습이 절대적입니다.
+- **📢 섹션 요약 비유**: 서커스에서 공중그네를 타는 것과 같습니다. 서로 뛰어내리고 잡아주는 타이밍(IT [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링)이 0.1초라도 어긋나면 그네(수익)를 놓치고 바닥으로 추락하게 되니, 파트너 간의 신뢰와 연습이 절대적입니다.
 
 ---
 
@@ -96,7 +93,7 @@ tags = ["enterprise_systems"]
 
 크로스 도킹 시스템이 완성되면, 기업은 재고 자산이 현금으로 묶이는 현상을 차단하여 자금 회전율을 극대화할 수 있다. 창고 공간은 획기적으로 줄어들고 리드타임이 단축되어 고객은 더 빠르고 신선한 상품을 받게 된다.
 
-하지만 이 마법을 유지하려면 [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 전반의 정교한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합과 물리적 자동화가 선행되어야 한다. 미래의 물류센터는 빅데이터 수요 예측과 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배차 시스템이 결합하여, 크로스 도킹 비율을 극한까지 끌어올리는 '무재고 유통망'으로 진화할 것이다. 결국 크로스 도킹은 "물류의 속도가 곧 기업의 이익이자 현금흐름"이라는 현대 SCM의 철학을 가장 잘 보여주는 상징이다.
+하지만 이 마법을 유지하려면 [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) 전반의 정교한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 통합과 물리적 자동화가 선행되어야 한다. 미래의 물류센터는 빅데이터 수요 예측과 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 배차 시스템이 결합하여, 크로스 도킹 비율을 극한까지 끌어올리는 '무재고 유통망'으로 진화할 것이다. 결국 크로스 도킹은 "물류의 속도가 곧 기업의 이익이자 현금흐름"이라는 현대 SCM의 철학을 가장 잘 보여주는 상징이다.
 
 - **📢 섹션 요약 비유**: 패스트푸드점 드라이브스루(Drive-Thru)처럼 고객이 창문에 도착하는 그 짧은 시간에 맞춰 미리 햄버거를 포장해 전달하듯, 창고라는 공간적 낭비를 시간적 정밀함으로 완벽하게 대체한 혁신입니다.
 
@@ -106,10 +103,10 @@ tags = ["enterprise_systems"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/)) | 크로스 도킹을 실현하기 위한 전체 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 자원 통합 관리망 |
-| ASN (Advanced Shipping Notice) | 공급자가 물류센터에 도착할 물품의 상세 내역을 사전에 전자문서로 전송하여 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 준비를 가능케 하는 핵심 기술 |
-| [TMS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)) | 입/출하 트럭의 동선, 도착 시간, 배차를 최적화하여 도크(Dock)에서의 정체를 막는 시스템 |
-| 리드타임 ([Lead Time](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) | 주문에서 배송까지 걸리는 시간으로, 크로스 도킹 도입 시 가장 극적으로 단축되는 지표 |
+| [SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/) ([Supply Chain](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/)) | 크로스 도킹을 실현하기 위한 전체 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 및 자원 통합 관리망 |
+| ASN (Advanced Shipping Notice) | 공급자가 물류센터에 도착할 물품의 상세 내역을 사전에 전자문서로 전송하여 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 준비를 가능케 하는 핵심 기술 |
+| [TMS](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/) ([Transportation Management System](/studynote/07_enterprise_systems/02_erp_systems/098_tms_transportation_management_system/)) | 입/출하 트럭의 동선, 도착 시간, 배차를 최적화하여 도크(Dock)에서의 정체를 막는 시스템 |
+| 리드타임 ([Lead Time](/studynote/04_software_engineering/02_requirements_analysis/085_lead_time_cycle_time/)) | 주문에서 배송까지 걸리는 시간으로, 크로스 도킹 도입 시 가장 극적으로 단축되는 지표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -129,7 +126,7 @@ tags = ["enterprise_systems"]
 데이터 기반 수요 예측 및 100% 무재고 통과형 풀필먼트 (Fulfillment) 진화
 ```
 
-이 흐름도는 과거의 '보관' 중심에서 정보 인프라를 바탕으로 '통과' 중심으로 진화하고, 궁극적으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화와 결합하여 무재고 풀필먼트로 나아가는 물류의 진보를 보여준다.
+이 흐름도는 과거의 '보관' 중심에서 정보 인프라를 바탕으로 '통과' 중심으로 진화하고, 궁극적으로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동화와 결합하여 무재고 풀필먼트로 나아가는 물류의 진보를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -143,7 +140,7 @@ tags = ["enterprise_systems"]
 
 **진행 상황**: 100 / 482
 
-<- **이전**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)
-**다음**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) ->
+<- **이전**: [99. VMI (Vendor Managed Inventory) - 공급자 주도 재고 관리 (월마트 방식, 유통업체 재고를 제조사가 직접](/studynote/07_enterprise_systems/02_erp_systems/099_vmi_vendor_managed_inventory/)
+**다음**: [101. 3PL (Third Party Logistics) / 4PL - 제3자/제4자 물류 아웃소싱 (컨설팅 포함 여부)](/studynote/07_enterprise_systems/02_erp_systems/101_3pl_third_party_logistics_4pl/) ->
 
 ---

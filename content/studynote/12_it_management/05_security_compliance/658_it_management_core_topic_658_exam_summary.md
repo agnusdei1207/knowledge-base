@@ -1,13 +1,10 @@
-+++
-title = "658. IT 경영 관리 핵심 토픽 658번 시험 요약 (IT Management Core Topic 658 Exam Summary)"
-date = 2026-05-09
+---
+title: "658. IT 경영 관리 핵심 토픽 658번 시험 요약 (IT Management Core Topic 658 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -132,7 +129,7 @@ IT 경영 관리의 유사/대안 프레임워크를 명확히 구분하는 것�
 
 **진행 상황**: 658 / 800
 
-<- **이전**: [657. IT 경영 관리 핵심 토픽 657번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/657_it_management_core_topic_657_exam_summary/)
-**다음**: [659. IT 경영 관리 핵심 토픽 659번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/659_it_management_core_topic_659_exam_summary/) ->
+<- **이전**: [657. IT 경영 관리 핵심 토픽 657번 시험 요약](/studynote/12_it_management/05_security_compliance/657_it_management_core_topic_657_exam_summary/)
+**다음**: [659. IT 경영 관리 핵심 토픽 659번 시험 요약](/studynote/12_it_management/05_security_compliance/659_it_management_core_topic_659_exam_summary/) ->
 
 ---

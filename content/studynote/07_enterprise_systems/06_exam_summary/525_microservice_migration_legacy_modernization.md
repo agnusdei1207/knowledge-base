@@ -1,13 +1,10 @@
-+++
-title = "525. 마이크로서비스 전환 레거시 현대화 (Microservice Migration Legacy Modernization)"
-date = 2026-05-09
+---
+title: "525. 마이크로서비스 전환 레거시 현대화 (Microservice Migration Legacy Modernization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 525 / 800
 
-<- **이전**: [524. API 경제 오픈 API 생태계 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/524_api_economy_open_api_ecosystem_strategy/)
-**다음**: [526. 이벤트 드리븐 아키텍처 EDA 설계](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/526_event_driven_architecture_eda_design/) ->
+<- **이전**: [524. API 경제 오픈 API 생태계 전략](/studynote/07_enterprise_systems/06_exam_summary/524_api_economy_open_api_ecosystem_strategy/)
+**다음**: [526. 이벤트 드리븐 아키텍처 EDA 설계](/studynote/07_enterprise_systems/06_exam_summary/526_event_driven_architecture_eda_design/) ->
 
 ---

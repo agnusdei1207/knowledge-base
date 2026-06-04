@@ -1,9 +1,9 @@
-+++
-title = "03. 정렬 알고리즘 (Sorting Algorithms)"
+---
+title: "03. 정렬 알고리즘 (Sorting Algorithms)"
+tags:
+  - "algorithm_stats"
+---
 
-[extra]
-tags = ["algorithm_stats"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

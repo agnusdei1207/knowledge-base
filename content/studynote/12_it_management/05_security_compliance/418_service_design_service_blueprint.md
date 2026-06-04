@@ -1,13 +1,10 @@
-+++
-title = "418. 서비스 디자인 서비스 블루프린트 (Service Design Service Blueprint)"
-date = 2026-05-09
+---
+title: "418. 서비스 디자인 서비스 블루프린트 (Service Design Service Blueprint)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -126,7 +123,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 418 / 800
 
-<- **이전**: [417. ITIL 4 서비스 가치 시스템 SVS](/knowledge-base/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/)
-**다음**: [419. 용량 계획 수요 예측 확장 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/) ->
+<- **이전**: [417. ITIL 4 서비스 가치 시스템 SVS](/studynote/12_it_management/05_security_compliance/417_itil_4_service_value_system_svs/)
+**다음**: [419. 용량 계획 수요 예측 확장 전략](/studynote/12_it_management/05_security_compliance/419_capacity_planning_demand_forecasting/) ->
 
 ---

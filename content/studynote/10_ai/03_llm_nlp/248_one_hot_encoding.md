@@ -1,26 +1,23 @@
-+++
-title = "248. 원-핫 인코딩 (One-Hot Encoding)"
-date = 2026-05-09
+---
+title: "248. 원-핫 인코딩 (One-Hot Encoding)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)([One-Hot Encoding](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))은 범주형 변수(Categorical Variable)의 각 범주를 서로 독립된 이진 열(0 또는 1)로 변환하여, 범주 간 순서나 크기 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 임의로 부여하지 않는 수치화 방법이다.
-> 2. **가치**: 선형 모델과 신경망에서 범주형 변수를 올바르게 처리하기 위해 필수적이며, 순서 없는 범주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 잘못된 수치적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 부여를 방지한다.
-> 3. **판단 포인트**: 범주 수가 많을수록 고차원 희소 벡터가 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 차원의 저주([Curse of Dimensionality](/knowledge-base/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))가 발생하므로, 고차원 범주에는 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))으로 대체하는 것이 적합하다.
+> 1. **본질**: [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)([One-Hot Encoding](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/))은 범주형 변수(Categorical Variable)의 각 범주를 서로 독립된 이진 열(0 또는 1)로 변환하여, 범주 간 순서나 크기 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 임의로 부여하지 않는 수치화 방법이다.
+> 2. **가치**: 선형 모델과 신경망에서 범주형 변수를 올바르게 처리하기 위해 필수적이며, 순서 없는 범주 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 잘못된 수치적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 부여를 방지한다.
+> 3. **판단 포인트**: 범주 수가 많을수록 고차원 희소 벡터가 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되어 차원의 저주([Curse of Dimensionality](/studynote/12_it_management/02_itsm_itil/864_curse_of_dimensionality/))가 발생하므로, 고차원 범주에는 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))으로 대체하는 것이 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-### 1.1 왜 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)이 필요한가?
-[머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 수치 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 처리할 수 있다. 범주형 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(색상, 직업, 도시명 등)를 단순히 정수로 매핑하면(레이블 인코딩) 모델이 숫자 간 크기/순서 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잘못 학습할 수 있다.
+### 1.1 왜 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)이 필요한가?
+[머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델은 수치 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 처리할 수 있다. 범주형 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(색상, 직업, 도시명 등)를 단순히 정수로 매핑하면(레이블 인코딩) 모델이 숫자 간 크기/순서 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잘못 학습할 수 있다.
 
 **문제 예시: 레이블 인코딩의 함정**
 ```
@@ -29,7 +26,7 @@ tags = ["studynote-ai"]
 -> 실제로 색상 간에는 이런 수치적 관계가 없음
 ```
 
-<strong><a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a> 해결책:</strong>
+<strong><a href="/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/">원-핫 인코딩</a> 해결책:</strong>
 ```
 빨강 -> [1, 0, 0]
 초록 -> [0, 1, 0]
@@ -37,22 +34,22 @@ tags = ["studynote-ai"]
 -> 세 범주는 완전히 독립적인 이진 변수로 표현됨
 ```
 
-### 1.2 적용 대상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
+### 1.2 적용 대상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)
 
 | 변수 유형 | 예시 | 인코딩 방법 |
 |:---|:---|:---|
-| 명목형(Nominal) 범주 | 색상, 직업, 도시 | [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) ✅ |
+| 명목형(Nominal) 범주 | 색상, 직업, 도시 | [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) ✅ |
 | 순서형(Ordinal) 범주 | 교육 수준(중/고/대), 만족도(1~5) | 레이블 인코딩 또는 순서 인코딩 |
 | 이진(Binary) 범주 | 성별(남/여), 합격 여부 | 이진 인코딩(0/1) |
-| 고기수 범주 | 우편번호, 유저 ID | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) |
+| 고기수 범주 | 우편번호, 유저 ID | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) |
 
-- **📢 섹션 요약 비유**: 레이블 인코딩은 직업을 "의사=1, 변호사=2, 교사=3"으로 번호 매기는 것인데, 모델이 "교사는 의사보다 3배 중요하다"고 오해할 수 있다. [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 직업마다 깃발 하나씩 주고 해당 직업만 깃발을 세우는 방식으로 오해를 막는다.
+- **📢 섹션 요약 비유**: 레이블 인코딩은 직업을 "의사=1, 변호사=2, 교사=3"으로 번호 매기는 것인데, 모델이 "교사는 의사보다 3배 중요하다"고 오해할 수 있다. [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 직업마다 깃발 하나씩 주고 해당 직업만 깃발을 세우는 방식으로 오해를 막는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 2.1 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 변환 과정
+### 2.1 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 변환 과정
 
 ```
 +-------------------------------------------------------+
@@ -80,12 +77,12 @@ tags = ["studynote-ai"]
 +-------------------------------------------------------+
 ```
 
-### 2.2 가변수 ([Dummy Variable](/knowledge-base/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)) [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)
+### 2.2 가변수 ([Dummy Variable](/studynote/06_ict_convergence/05_data_science/330_dummy_variable/)) [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)
 
-n개 범주에 n개 열을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 <strong>다중공선성(<a href="/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> 발생:
+n개 범주에 n개 열을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하면 <strong>다중공선성(<a href="/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/">Multicollinearity</a>)</strong> 발생:
 - 세 열 중 두 열의 값이 정해지면 세 번째 열은 자동 결정
 - 선형 모델에서 역행렬 계산 불가 문제 발생
-- **해결책**: 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 방지 — n-1개 열만 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (`drop_first=True`)
+- **해결책**: 가변수 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) 방지 — n-1개 열만 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) (`drop_first=True`)
 
 ```
 n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
@@ -94,18 +91,18 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 [0, 0, 1]           [0, 0]
 ```
 
-### 2.3 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) vs [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 비교
+### 2.3 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) vs [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) ([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) 비교
 
-| 구분 | [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) |
+| 구분 | [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)) |
 |:---|:---|:---|
 | 벡터 유형 | 희소(Sparse) 이진 벡터 | 밀집(Dense) 실수 벡터 |
 | 차원 수 | 범주 수와 동일 | 사용자 정의 (보통 8~512) |
-| 범주 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 표현 불가 (직교) | 의미적 유사도 반영 |
+| 범주 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 표현 불가 (직교) | 의미적 유사도 반영 |
 | 적합 범주 수 | 소수 (< 50) | 다수 (1000 이상) |
-| 대표 사용처 | ML 전처리 | 자연어 처리(NLP), [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) |
-| 학습 필요 | 불필요 | 필요 ([Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [BERT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 등) |
+| 대표 사용처 | ML 전처리 | 자연어 처리(NLP), [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) |
+| 학습 필요 | 불필요 | 필요 ([Word2Vec](/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), [BERT](/studynote/10_ai/04_ai_ops_ethics/301_bert_mlm/) 등) |
 
-- **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 출석부에서 각 학생이 자기 이름 칸에만 동그라미를 치는 것이다. 학생이 100명이면 칸도 100개 필요하다. [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)은 학생을 "성격 3가지 점수"로 표현해서 어떤 학생이든 3개 숫자로 요약하는 것이다.
+- **📢 섹션 요약 비유**: [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 출석부에서 각 학생이 자기 이름 칸에만 동그라미를 치는 것이다. 학생이 100명이면 칸도 100개 필요하다. [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)은 학생을 "성격 3가지 점수"로 표현해서 어떤 학생이든 3개 숫자로 요약하는 것이다.
 
 ---
 
@@ -116,17 +113,17 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 | 기법 | 원리 | 장점 | 단점 | 사용 시기 |
 |:---|:---|:---|:---|:---|
 | 레이블 인코딩 | 범주 -> 정수 | 차원 유지, 간단 | 순서 가정 오류 | 트리 기반 모델 |
-| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 범주 -> 이진 벡터 | 순서 없음, 명확 | 고차원화 | 선형 모델, 신경망 |
+| [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 범주 -> 이진 벡터 | 순서 없음, 명확 | 고차원화 | 선형 모델, 신경망 |
 | 순서 인코딩 | 순서 반영 정수 부여 | 순서 정보 포함 | 수동 정의 필요 | 순서형 변수 |
 | 이진 인코딩 | 정수 -> 이진수 표현 | 고차원 완화 | 해석 어려움 | 중간 수준 범주 |
-| [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 밀집 벡터 학습 | 의미 포착, 저차원 | 학습 필요 | NLP, [추천 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/211_recommendation_system/) |
+| [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | 밀집 벡터 학습 | 의미 포착, 저차원 | 학습 필요 | NLP, [추천 시스템](/studynote/10_ai/03_llm_nlp/211_recommendation_system/) |
 
-### 3.2 차원의 저주와 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
-- 10만 개 사용자 ID를 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) -> 10만 차원 희소 행렬 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+### 3.2 차원의 저주와 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)
+- 10만 개 사용자 ID를 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) -> 10만 차원 희소 행렬 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 - 대부분 0인 희소 벡터는 메모리 낭비 + 모델 학습 비효율
-- 해결: [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) Layer) 또는 해싱 트릭(Hashing Trick)
+- 해결: [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)([Embedding](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) Layer) 또는 해싱 트릭(Hashing Trick)
 
-- **📢 섹션 요약 비유**: 전국 모든 식당에 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)을 적용하면 서울 50만 식당마다 칸 하나가 생긴다. 내가 간 식당 하나만 '1'이고 나머지 49만 9천999칸은 전부 '0'이다. 이런 낭비는 "식당 특성 벡터([임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))"로 해결할 수 있다.
+- **📢 섹션 요약 비유**: 전국 모든 식당에 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)을 적용하면 서울 50만 식당마다 칸 하나가 생긴다. 내가 간 식당 하나만 '1'이고 나머지 49만 9천999칸은 전부 '0'이다. 이런 낭비는 "식당 특성 벡터([임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/))"로 해결할 수 있다.
 
 ---
 
@@ -147,32 +144,32 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 | 상황 | 권장 방법 | 이유 |
 |:---|:---|:---|
-| 범주 수 2~20개 | [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 차원 부담 없음 |
-| 범주 수 20~100개 | 이진 인코딩 또는 원-핫 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형 |
-| 범주 수 100개 이상 | [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 또는 해싱 트릭 | 차원 폭발 방지 |
+| 범주 수 2~20개 | [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 차원 부담 없음 |
+| 범주 수 20~100개 | 이진 인코딩 또는 원-핫 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 균형 |
+| 범주 수 100개 이상 | [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 또는 해싱 트릭 | 차원 폭발 방지 |
 | 순서 있는 범주 | 순서 인코딩 | 정보 손실 방지 |
 | 트리 기반 모델 | 레이블 인코딩 가능 | 모델이 자체 분기 처리 |
 
 ### 4.3 기술사 핵심 판단 포인트
-- [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 **명목형(Nominal) 범주에만** 정확히 적용
-- 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/): <strong>n-1개 열 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> 또는 모델에 따라 n개 유지 가능 여부 판단
-- 고차원 범주 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 원-핫 적용 시 **메모리 폭발 위험** 명시
+- [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 **명목형(Nominal) 범주에만** 정확히 적용
+- 가변수 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/): <strong>n-1개 열 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a></strong> 또는 모델에 따라 n개 유지 가능 여부 판단
+- 고차원 범주 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 원-핫 적용 시 **메모리 폭발 위험** 명시
 
-- **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패널이다. [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 100개 있는데 항상 딱 하나만 켜진다. 방이 3개짜리 패널이면 쓸만하지만, 방이 10만 개짜리면 패널 자체가 방보다 크다.
+- **📢 섹션 요약 비유**: [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) 패널이다. [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)가 100개 있는데 항상 딱 하나만 켜진다. 방이 3개짜리 패널이면 쓸만하지만, 방이 10만 개짜리면 패널 자체가 방보다 크다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-### 5.1 [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)의 효과
+### 5.1 [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)의 효과
 - 범주형 변수를 선형 모델/신경망에 올바르게 입력
 - 범주 간 순서 오해 방지로 학습 정확도 향상
-- 명확한 [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 해석 가능
+- 명확한 [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 해석 가능
 
 ### 5.2 결론
-[원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 명목형 범주 변수를 [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 공급하는 표준 기법이다. 그러나 범주 수가 많을수록 차원이 폭발적으로 증가하므로, 범주 [기수](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)(Cardinality)에 따라 [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 등 대안을 선택하는 판단력이 중요하다. 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)과 다중공선성 문제를 항상 의식하며 적용해야 한다.
+[원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 명목형 범주 변수를 [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) 모델에 공급하는 표준 기법이다. 그러나 범주 수가 많을수록 차원이 폭발적으로 증가하므로, 범주 [기수](/studynote/01_computer_architecture/02_data_representation_arithmetic/077_radix/)(Cardinality)에 따라 [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) 등 대안을 선택하는 판단력이 중요하다. 가변수 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/)과 다중공선성 문제를 항상 의식하며 적용해야 한다.
 
-- **📢 섹션 요약 비유**: [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 선택 버튼이다. 피자 종류를 선택할 때 체크박스(원-핫)가 라디오 버튼보다 더 공정하다 — 어떤 피자가 더 "수치적으로 우월하다"는 편견이 없으니까.
+- **📢 섹션 요약 비유**: [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 선택 버튼이다. 피자 종류를 선택할 때 체크박스(원-핫)가 라디오 버튼보다 더 공정하다 — 어떤 피자가 더 "수치적으로 우월하다"는 편견이 없으니까.
 
 ---
 
@@ -180,12 +177,12 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 명목형 변수 / 범주형 -> 수치 변환 |
+| [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) | 이진 벡터, 명목형 변수 / 범주형 -> 수치 변환 |
 | 레이블 인코딩 | 정수 매핑, 순서 오해 / 원-핫과 대안 비교 |
-| [임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | [Word2Vec](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), 밀집 벡터 / 고차원 범주 대안 |
-| 다중공선성 | 가변수 [트랩](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), n-1 열 / [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 주의사항 |
+| [임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/) | [Word2Vec](/studynote/10_ai/04_ai_ops_ethics/339_word2vec/), 밀집 벡터 / 고차원 범주 대안 |
+| 다중공선성 | 가변수 [트랩](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/), n-1 열 / [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/) 주의사항 |
 | 차원의 저주 | 희소 벡터, 고차원 / 원-핫 한계 |
-| [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 공학 | 전처리, 인코딩 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인 / 원-핫이 속하는 더 큰 범주 |
+| [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 공학 | 전처리, 인코딩 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인 / 원-핫이 속하는 더 큰 범주 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -195,9 +192,9 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [원-핫 인코딩](/knowledge-base/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 좋아하는 과일을 표시할 때 <strong>각 과일에 동그라미 칸을 하나씩 만들고 딱 하나만 색칠하는 것</strong>이에요.
+1. [원-핫 인코딩](/studynote/14_data_engineering/02_math_mining/079_one_hot_encoding_categorical_dummy_variable/)은 좋아하는 과일을 표시할 때 <strong>각 과일에 동그라미 칸을 하나씩 만들고 딱 하나만 색칠하는 것</strong>이에요.
 2. 사과=[1,0,0], 바나나=[0,1,0], 포도=[0,0,1]처럼 만들어서 컴퓨터가 "사과가 바나나의 반이다" 같은 이상한 생각을 안 하게 해요.
-3. 과일 종류가 너무 많아지면 칸도 너무 많아져서 힘들어지므로, 그럴 땐 "[임베딩](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)"이라는 더 똑똑한 방법을 써요!
+3. 과일 종류가 너무 많아지면 칸도 너무 많아져서 힘들어지므로, 그럴 땐 "[임베딩](/studynote/06_ict_convergence/04_ai_llm/278_instruction_tuning/)"이라는 더 똑똑한 방법을 써요!
 
 ---
 
@@ -205,7 +202,7 @@ n범주 원-핫 인코딩:    다중공선성 없는 인코딩:
 
 **진행 상황**: 248 / 420
 
-<- **이전**: [247. 독립 변수 (피처) / 종속 변수 (라벨)](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
-**다음**: [249. 스케일링 (Scaling Normalization Standardization)](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) ->
+<- **이전**: [247. 독립 변수 (피처) / 종속 변수 (라벨)](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/)
+**다음**: [249. 스케일링 (Scaling Normalization Standardization)](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/) ->
 
 ---

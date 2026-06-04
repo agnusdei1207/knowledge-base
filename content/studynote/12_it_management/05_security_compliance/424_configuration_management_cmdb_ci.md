@@ -1,13 +1,10 @@
-+++
-title = "424. 형상 관리 CMDB 구성 항목 관리 (Configuration Management CMDB CI)"
-date = 2026-05-09
+---
+title: "424. 형상 관리 CMDB 구성 항목 관리 (Configuration Management CMDB CI)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ CMDB는 크게 4계층 아키텍처로 구성된다: (1) **Data Layer**(실제 C
 
 **진행 상황**: 424 / 800
 
-<- **이전**: [423. IT 자산 관리 ITAM 라이프사이클](/knowledge-base/studynote/12_it_management/05_security_compliance/423_it_asset_management_itam_lifecycle/)
-**다음**: [425. 변경 관리 CAB 영향 분석 승인](/knowledge-base/studynote/12_it_management/05_security_compliance/425_change_management_cab_impact_approval/) ->
+<- **이전**: [423. IT 자산 관리 ITAM 라이프사이클](/studynote/12_it_management/05_security_compliance/423_it_asset_management_itam_lifecycle/)
+**다음**: [425. 변경 관리 CAB 영향 분석 승인](/studynote/12_it_management/05_security_compliance/425_change_management_cab_impact_approval/) ->
 
 ---

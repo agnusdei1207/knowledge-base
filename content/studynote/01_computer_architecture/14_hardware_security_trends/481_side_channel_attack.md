@@ -1,29 +1,26 @@
-+++
-title = "481. 사이드 채널 공격 (Side-channel Attack)"
-date = 2026-03-20
+---
+title: "481. 사이드 채널 공격 (Side-channel Attack)"
+date: "2026-03-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 사이드 채널 공격 (Side-channel Attack)은 암호 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 깨는 대신, CPU (Central Processing Unit)나 암호 장치가 연산하면서 남기는 시간, 전력, 캐시, 전자기파 같은 부산물을 측정해 비밀을 역추적하는 공격이다.
-> 2. **가치**: 수학적으로 안전한 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))나 [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/knowledge-base/studynote/09_security/03_network_security/110_rsa/))도 구현이 비밀 의존적 분기나 메모리 접근을 남기면 실제 시스템에서는 충분히 뚫릴 수 있다.
-> 3. **판단 포인트**: 방어의 핵심은 "강한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택"만이 아니라, 상수 시간 구현, 마스킹, 격리, 측정 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한 누설 최소화 설계다.
+> 1. **본질**: 사이드 채널 공격 (Side-channel Attack)은 암호 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 자체를 깨는 대신, CPU (Central Processing Unit)나 암호 장치가 연산하면서 남기는 시간, 전력, 캐시, 전자기파 같은 부산물을 측정해 비밀을 역추적하는 공격이다.
+> 2. **가치**: 수학적으로 안전한 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))나 [RSA](/studynote/09_security/03_network_security/110_rsa/) ([Rivest-Shamir-Adleman](/studynote/09_security/03_network_security/110_rsa/))도 구현이 비밀 의존적 분기나 메모리 접근을 남기면 실제 시스템에서는 충분히 뚫릴 수 있다.
+> 3. **판단 포인트**: 방어의 핵심은 "강한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 선택"만이 아니라, 상수 시간 구현, 마스킹, 격리, 측정 기반 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)까지 포함한 누설 최소화 설계다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-사이드 채널 공격은 시스템이 공식 인터페이스로는 절대 내보내지 않는 비밀이라도, 연산 과정에서 무심코 흘리는 관측 신호를 통해 알아내는 공격 기법이다. 전통적 보안 모델이 입력·출력과 접근 권한을 중심으로 설계되었다면, 사이드 채널은 "기계는 계산할 때 항상 흔적을 남긴다"는 물리적 현실을 파고든다. 그래서 이 공격은 암호 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 스마트카드, 브라우저, [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), 일반 서버 CPU까지 폭넓게 영향을 준다.
+사이드 채널 공격은 시스템이 공식 인터페이스로는 절대 내보내지 않는 비밀이라도, 연산 과정에서 무심코 흘리는 관측 신호를 통해 알아내는 공격 기법이다. 전통적 보안 모델이 입력·출력과 접근 권한을 중심으로 설계되었다면, 사이드 채널은 "기계는 계산할 때 항상 흔적을 남긴다"는 물리적 현실을 파고든다. 그래서 이 공격은 암호 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/), 스마트카드, 브라우저, [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), 일반 서버 CPU까지 폭넓게 영향을 준다.
 
 이 개념이 중요한 이유는 수학적으로 안전한 설계와 실제 안전한 구현 사이에 큰 간극이 있기 때문이다. 비밀 키를 직접 출력하지 않더라도, 키 값에 따라 테이블 조회 위치가 달라지거나 분기 시간이 달라지면 공격자는 그 차이를 통계적으로 확대해 비밀을 복원할 수 있다. 즉 "읽을 수 없음"과 "알아낼 수 없음"은 전혀 다른 말이다.
 
-아래 그림은 사이드 채널이 공식 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 바깥에서 어떻게 비밀을 새게 만드는지 보여 준다.
+아래 그림은 사이드 채널이 공식 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 경로 바깥에서 어떻게 비밀을 새게 만드는지 보여 준다.
 
 ```text
 +----------------------------------------------------------------------------+
@@ -55,12 +52,12 @@ tags = ["studynote-computer-architecture"]
 
 사이드 채널이 성립하려면 세 가지가 맞물려야 한다. 첫째, 비밀 값이 연산 경로를 바꿔야 한다. 둘째, 그 차이가 시간·전력·캐시 같은 관측 가능한 신호에 반영되어야 한다. 셋째, 공격자가 그 신호를 반복 측정하고 잡음을 줄여 통계적으로 의미 있는 차이로 키워야 한다. 즉 누설은 미세하지만, 반복과 상관 분석이 그것을 실전 정보로 바꾼다.
 
-대표적인 예는 단순 전력 분석 (SPA, Simple [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Analysis), 차분 전력 분석 (DPA, [Differential Power Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)), 캐시 타이밍 공격, 전자기 분석 (EMA, Electromagnetic Analysis)이다. 스마트카드처럼 장치를 손에 넣는 환경에서는 전력·전자기파가 강력하고, 클라우드나 브라우저처럼 원격 환경에서는 시간 차와 캐시 공유가 더 현실적인 공격면이 된다. 같은 "사이드 채널"이라도 측정 장비와 공격 난도는 환경에 따라 크게 달라진다.
+대표적인 예는 단순 전력 분석 (SPA, Simple [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Analysis), 차분 전력 분석 (DPA, [Differential Power Analysis](/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)), 캐시 타이밍 공격, 전자기 분석 (EMA, Electromagnetic Analysis)이다. 스마트카드처럼 장치를 손에 넣는 환경에서는 전력·전자기파가 강력하고, 클라우드나 브라우저처럼 원격 환경에서는 시간 차와 캐시 공유가 더 현실적인 공격면이 된다. 같은 "사이드 채널"이라도 측정 장비와 공격 난도는 환경에 따라 크게 달라진다.
 
 | 채널 | 무엇을 본다 | 주 대상 | 방어 포인트 |
 | :-- | :-- | :-- | :-- |
-| 시간 차 | 요청별 응답 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 분기 길이 | 웹 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 비교 함수, 암호 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 상수 시간 구현, 고정 길이 처리 |
-| 전력 파형 | 스위칭에 따른 [전류](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화 | 스마트카드, [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), 임베디드 칩 | 마스킹, 셔플링, 전력 평탄화 |
+| 시간 차 | 요청별 응답 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 분기 길이 | 웹 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 비교 함수, 암호 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) | 상수 시간 구현, 고정 길이 처리 |
+| 전력 파형 | 스위칭에 따른 [전류](/studynote/01_computer_architecture/01_basic_electronics_logic/002_current/) 변화 | 스마트카드, [하드웨어 보안 모듈](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), 임베디드 칩 | 마스킹, 셔플링, 전력 평탄화 |
 | 캐시 흔적 | 어떤 캐시 라인이 적중했는지 | CPU, 가상 머신, 브라우저 샌드박스 | 캐시 격리, 비밀 의존 메모리 접근 제거 |
 | 전자기파 | 회로 주변 방사 패턴 | 보드, 근접 장치, 특수 장비 환경 | 차폐, 레이아웃 개선, 잡음 주입 |
 
@@ -97,20 +94,20 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-사이드 채널 공격은 직접 취약점 공격이나 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입과 구분해서 봐야 한다. 직접 취약점 공격은 버그를 이용해 권한이나 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정면으로 가져오고, 사이드 채널은 정상 동작의 부산물을 읽어 비밀을 추정한다. 반면 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 글리치, 레이저, 클럭 교란처럼 시스템을 일부러 흔들어 잘못된 연산을 만들고 그 결과를 악용한다. 즉 사이드 채널은 "읽기", [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 "흔들기"에 더 가깝다.
+사이드 채널 공격은 직접 취약점 공격이나 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입과 구분해서 봐야 한다. 직접 취약점 공격은 버그를 이용해 권한이나 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 정면으로 가져오고, 사이드 채널은 정상 동작의 부산물을 읽어 비밀을 추정한다. 반면 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 글리치, 레이저, 클럭 교란처럼 시스템을 일부러 흔들어 잘못된 연산을 만들고 그 결과를 악용한다. 즉 사이드 채널은 "읽기", [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 "흔들기"에 더 가깝다.
 
-| 구분 | 직접 취약점 공격 | 사이드 채널 공격 | [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 공격 |
+| 구분 | 직접 취약점 공격 | 사이드 채널 공격 | [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입 공격 |
 | :-- | :-- | :-- | :-- |
-| 핵심 원리 | 소프트웨어 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)·권한 오류 악용 | 물리·[마이크로아키텍처](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 부산물 관측 | [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·클럭·레이저 등으로 오류 유발 |
-| 공격 결과 | 직접 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취·[권한 상승](/knowledge-base/studynote/09_security/04_endpoint_security/356_privilege_escalation/) | 비밀 값 추정 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 우회·오류 기반 키 추출 |
-| 필요 조건 | 버그 또는 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수 | 반복 측정 가능한 누설 | 물리 접근 또는 강한 제어 |
-| 대표 사례 | 버퍼 오버플로 | 타이밍 공격, 캐시 공격, DPA | 글리치, [Rowhammer](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) 일부 변형 |
+| 핵심 원리 | 소프트웨어 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)·권한 오류 악용 | 물리·[마이크로아키텍처](/studynote/01_computer_architecture/05_control_unit_pipelining/204_microarchitecture/) 부산물 관측 | [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/)·클럭·레이저 등으로 오류 유발 |
+| 공격 결과 | 직접 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 탈취·[권한 상승](/studynote/09_security/04_endpoint_security/356_privilege_escalation/) | 비밀 값 추정 | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 우회·오류 기반 키 추출 |
+| 필요 조건 | 버그 또는 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 실수 | 반복 측정 가능한 누설 | 물리 접근 또는 강한 제어 |
+| 대표 사례 | 버퍼 오버플로 | 타이밍 공격, 캐시 공격, DPA | 글리치, [Rowhammer](/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) 일부 변형 |
 
-또한 [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ([Meltdown](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))과 [스펙터](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) ([Spectre](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/))는 사이드 채널과 직접 연결된다. 두 취약점 모두 일시적 실행이나 권한 경계 위반으로 직접 값을 "보는" 대신, 결국 캐시 상태 같은 사이드 채널을 통해 비밀을 복원한다. 반면 로우해머 ([Rowhammer](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/))는 정보를 읽기보다 비트를 뒤집는 교란 공격에 가깝지만, 그 역시 하드웨어 미세 구조가 공격 표면이 된다는 점에서 같은 흐름 위에 있다.
+또한 [멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ([Meltdown](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/))과 [스펙터](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/) ([Spectre](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/))는 사이드 채널과 직접 연결된다. 두 취약점 모두 일시적 실행이나 권한 경계 위반으로 직접 값을 "보는" 대신, 결국 캐시 상태 같은 사이드 채널을 통해 비밀을 복원한다. 반면 로우해머 ([Rowhammer](/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/))는 정보를 읽기보다 비트를 뒤집는 교란 공격에 가깝지만, 그 역시 하드웨어 미세 구조가 공격 표면이 된다는 점에서 같은 흐름 위에 있다.
 
 즉 하드웨어 보안에서 중요한 질문은 "버그가 있는가?"뿐 아니라 "정상 동작이 무엇을 흘리는가?"와 "물리 구조가 무엇을 견디지 못하는가?"까지 확장된다. 이 관점을 잡아야 현대 CPU와 메모리 공격을 하나의 보안 지형도 안에서 이해할 수 있다.
 
-- **📢 섹션 요약 비유**: 직접 취약점 공격이 문을 부수고 들어오는 도둑이라면, 사이드 채널은 창문에 비친 그림자를 읽는 도둑이고, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 집 전체를 흔들어 자물쇠를 오작동시키는 도둑이다. 침입 방식이 서로 다르다.
+- **📢 섹션 요약 비유**: 직접 취약점 공격이 문을 부수고 들어오는 도둑이라면, 사이드 채널은 창문에 비친 그림자를 읽는 도둑이고, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 주입은 집 전체를 흔들어 자물쇠를 오작동시키는 도둑이다. 침입 방식이 서로 다르다.
 
 ---
 
@@ -118,32 +115,32 @@ tags = ["studynote-computer-architecture"]
 
 실무에서 사이드 채널 대응은 환경별 우선순위를 다르게 잡아야 한다. 원격 웹 서비스는 상수 시간 비교와 타이머 노출 축소가 우선이고, 스마트카드나 보안 칩은 전력·전자기 대응과 마스킹이 핵심이다. 클라우드 환경에서는 캐시 공유, 코어 공동 배치, 고해상도 타이머, 추측 실행 완화까지 함께 봐야 한다. 결국 "어떤 신호를 공격자가 얼마나 정밀하게 볼 수 있는가"가 방어 설계의 출발점이다.
 
-### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **상수 시간 구현**: 비밀번호 비교, 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 키 스케줄이 비밀 값에 따라 조기 종료하거나 분기하지 않는가?
+1. **상수 시간 구현**: 비밀번호 비교, 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 키 스케줄이 비밀 값에 따라 조기 종료하거나 분기하지 않는가?
 2. **비밀 의존 메모리 접근 제거**: 테이블 조회 기반 암호 구현 대신 비트슬라이스나 전용 명령어를 활용했는가?
 3. **하드웨어 대응**: 전력 마스킹, 셔플링, 차폐, 잡음 주입이 필요한 장치 환경인가?
 4. **격리 설계**: 캐시 공유, 고해상도 타이머, 공격자와 비밀 연산의 동시 실행을 줄였는가?
-5. <strong><a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계</strong>: TVLA (Test Vector Leakage Assessment) 같은 누설 평가나 실측 기반 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행했는가?
+5. <strong><a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 체계</strong>: TVLA (Test Vector Leakage Assessment) 같은 누설 평가나 실측 기반 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 수행했는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- "[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256이니 안전하다"처럼 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 강도만 보고 구현 누설을 무시하는 설계
-- 비밀 값에 따라 `if` 분기와 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스가 달라지는데도 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화라고 합리화하는 구현
-- 동일 서버에서 공격자 코드와 고가치 키 연산을 무분별하게 공존시키는 [멀티테넌트](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 배치
-- 기능 테스트만 통과하면 보안도 통과했다고 오해하는 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식
+- "[AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256이니 안전하다"처럼 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 강도만 보고 구현 누설을 무시하는 설계
+- 비밀 값에 따라 `if` 분기와 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) 인덱스가 달라지는데도 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화라고 합리화하는 구현
+- 동일 서버에서 공격자 코드와 고가치 키 연산을 무분별하게 공존시키는 [멀티테넌트](/studynote/05_database/05_distributed_nosql_newsql/310_multi_tenant_database_architecture/) 배치
+- 기능 테스트만 통과하면 보안도 통과했다고 오해하는 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 방식
 
-기술사 관점에서는 방어책을 한 줄로 외우기보다, 채널별로 방어 위치가 다르다는 점을 설명해야 한다. 소프트웨어는 상수 시간과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무관 접근, 하드웨어는 마스킹과 차폐, 시스템은 격리와 관찰 표면 축소를 맡는다. 이처럼 계층별 책임을 나눠 말해야 실무 답안이 된다.
+기술사 관점에서는 방어책을 한 줄로 외우기보다, 채널별로 방어 위치가 다르다는 점을 설명해야 한다. 소프트웨어는 상수 시간과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 무관 접근, 하드웨어는 마스킹과 차폐, 시스템은 격리와 관찰 표면 축소를 맡는다. 이처럼 계층별 책임을 나눠 말해야 실무 답안이 된다.
 
-- **📢 섹션 요약 비유**: 사이드 채널 방어는 두꺼운 자물쇠 하나 더 다는 일이 아니라, 발소리 줄이고, 창문 가리고, 벽 울림을 막고, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/) 사각지대까지 점검하는 집 전체 설계와 같다.
+- **📢 섹션 요약 비유**: 사이드 채널 방어는 두꺼운 자물쇠 하나 더 다는 일이 아니라, 발소리 줄이고, 창문 가리고, 벽 울림을 막고, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/) 사각지대까지 점검하는 집 전체 설계와 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-사이드 채널을 의식한 설계는 암호 키, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보, 기밀 모델 파라미터처럼 "값 자체보다 흔적이 더 쉽게 새는" 자산을 훨씬 안전하게 다루게 한다. 특히 [하드웨어 보안 모듈](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [신뢰 실행 환경](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), 브라우저 샌드박스, 클라우드 격리처럼 고신뢰를 요구하는 영역에서는 누설 최소화가 기본 전제가 된다. 덕분에 "기능은 맞지만 흔적은 새는" 구현을 미리 걸러낼 수 있다.
+사이드 채널을 의식한 설계는 암호 키, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 정보, 기밀 모델 파라미터처럼 "값 자체보다 흔적이 더 쉽게 새는" 자산을 훨씬 안전하게 다루게 한다. 특히 [하드웨어 보안 모듈](/studynote/01_computer_architecture/14_hardware_security_trends/475_hsm/), [신뢰 실행 환경](/studynote/01_computer_architecture/14_hardware_security_trends/478_tee/), 브라우저 샌드박스, 클라우드 격리처럼 고신뢰를 요구하는 영역에서는 누설 최소화가 기본 전제가 된다. 덕분에 "기능은 맞지만 흔적은 새는" 구현을 미리 걸러낼 수 있다.
 
-물론 완전한 제거는 어렵다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, 공유 캐시, 전력 효율, 고정밀 타이머, 패키징 제약이 모두 누설과 맞물리기 때문이다. 앞으로는 형식 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기반 누설 분석, [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 파형 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 코어·캐시 분할 같은 하드웨어 수준 완화가 더 중요해질 것이다. 그래도 이 분야의 가장 중요한 한 줄은 변하지 않는다. **보안은 출력만이 아니라, 계산 과정이 남기는 흔적까지 다뤄야 완성된다.**
+물론 완전한 제거는 어렵다. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화, 공유 캐시, 전력 효율, 고정밀 타이머, 패키징 제약이 모두 누설과 맞물리기 때문이다. 앞으로는 형식 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기반 누설 분석, [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 파형 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 코어·캐시 분할 같은 하드웨어 수준 완화가 더 중요해질 것이다. 그래도 이 분야의 가장 중요한 한 줄은 변하지 않는다. **보안은 출력만이 아니라, 계산 과정이 남기는 흔적까지 다뤄야 완성된다.**
 
 - **📢 섹션 요약 비유**: 사이드 채널 대응은 시험 정답지를 숨기는 것만으로 끝나지 않는다. 연필 소리, 종이 넘기는 박자, 책상 흔들림까지 줄여야 옆 사람이 답을 눈치채지 못한다.
 
@@ -154,11 +151,11 @@ tags = ["studynote-computer-architecture"]
 | 개념 | 연결 포인트 |
 | :-- | :-- |
 | 상수 시간 구현 (Constant-time Implementation) | 시간 차 기반 누설을 줄이는 가장 기본적인 소프트웨어 방어다. |
-| DPA ([Differential Power Analysis](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)) | 반복 측정과 통계 분석으로 전력 누설을 키 복원으로 바꾸는 대표 기법이다. |
+| DPA ([Differential Power Analysis](/studynote/01_computer_architecture/15_advanced_topics/778_dpa_resistant_logic/)) | 반복 측정과 통계 분석으로 전력 누설을 키 복원으로 바꾸는 대표 기법이다. |
 | Prime+Probe | 캐시 공유 환경에서 피해자의 캐시 사용 흔적을 간접 관측하는 기법이다. |
 | Masking | 중간값과 전력 패턴의 상관관계를 약하게 만들어 누설을 흐린다. |
 | TVLA (Test Vector Leakage Assessment) | 구현이 통계적으로 유의미한 누설을 남기는지 평가하는 실측 기법이다. |
-| Transient Execution | [멜트다운](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)·[스펙터](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)처럼 캐시 사이드 채널과 결합되는 현대 CPU 공격면이다. |
+| Transient Execution | [멜트다운](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/)·[스펙터](/studynote/01_computer_architecture/14_hardware_security_trends/483_spectre/)처럼 캐시 사이드 채널과 결합되는 현대 CPU 공격면이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -178,7 +175,7 @@ tags = ["studynote-computer-architecture"]
         +---------> 캐시 채널 · Transient Execution 분석
 ```
 
-이 흐름은 "[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 안전한가"에서 "구현이 무엇을 흘리는가"로, 다시 "하드웨어 전체를 누설 관점에서 설계하는가"로 보안 초점이 확장된 과정을 보여 준다.
+이 흐름은 "[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 안전한가"에서 "구현이 무엇을 흘리는가"로, 다시 "하드웨어 전체를 누설 관점에서 설계하는가"로 보안 초점이 확장된 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -192,7 +189,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 481 / 803
 
-<- **이전**: [480. Intel SGX](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)
-**다음**: [482. 멜트다운 (Meltdown)](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ->
+<- **이전**: [480. Intel SGX](/studynote/01_computer_architecture/14_hardware_security_trends/480_intel_sgx/)
+**다음**: [482. 멜트다운 (Meltdown)](/studynote/01_computer_architecture/14_hardware_security_trends/482_meltdown/) ->
 
 ---

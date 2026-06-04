@@ -1,27 +1,24 @@
-+++
-title = "527. 가상화 오버헤드 감소 (하드웨어 보조)"
-date = 2026-05-08
+---
+title: "527. 가상화 오버헤드 감소 (하드웨어 보조)"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 감소 (하드웨어 보조)는 CPU (Central Processing Unit)와 칩셋이 게스트 전용 실행 모드, 주소 변환 가속, 장치 접근 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 제공해 하이퍼바이저의 소프트웨어 개입을 줄이는 방식이다.
-> 2. **가치**: 가상 머신 ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))은 대부분의 일반 명령을 거의 직접 실행하고, 민감한 제어 경로만 제한적으로 하이퍼바이저를 거치므로 물리 서버에 가까운 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 강한 격리를 동시에 얻는다.
-> 3. **판단 포인트**: 효과는 "지원 여부"보다도 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 빈도, 메모리 번역 경로, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·I/O 처리 경로를 얼마나 짧게 설계했는가에서 갈린다.
+> 1. **본질**: [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 감소 (하드웨어 보조)는 CPU (Central Processing Unit)와 칩셋이 게스트 전용 실행 모드, 주소 변환 가속, 장치 접근 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 기능을 제공해 하이퍼바이저의 소프트웨어 개입을 줄이는 방식이다.
+> 2. **가치**: 가상 머신 ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))은 대부분의 일반 명령을 거의 직접 실행하고, 민감한 제어 경로만 제한적으로 하이퍼바이저를 거치므로 물리 서버에 가까운 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 강한 격리를 동시에 얻는다.
+> 3. **판단 포인트**: 효과는 "지원 여부"보다도 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 빈도, 메모리 번역 경로, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)·I/O 처리 경로를 얼마나 짧게 설계했는가에서 갈린다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) ([Hardware-Assisted Virtualization](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/))는 소프트웨어가 힘들게 흉내 내던 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 일부를 CPU와 칩셋이 직접 담당하도록 만든 구조다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 민감 명령이 항상 trap을 일으키지 않았고, 게스트 운영체제는 자신이 진짜 최고 권한이라고 믿고 동작했기 때문에 하이퍼바이저가 Binary Translation이나 [shadow page table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 같은 우회 기법을 써야 했다. 이 과정은 CPU 낭비뿐 아니라 문맥 전환, [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 교란, 메모리 관리 복잡도를 함께 키웠다.
+[하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) ([Hardware-Assisted Virtualization](/studynote/13_cloud_architecture/01_virtualization/021_hardware_assisted_virtualization/))는 소프트웨어가 힘들게 흉내 내던 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 기능 일부를 CPU와 칩셋이 직접 담당하도록 만든 구조다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) x86 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 민감 명령이 항상 trap을 일으키지 않았고, 게스트 운영체제는 자신이 진짜 최고 권한이라고 믿고 동작했기 때문에 하이퍼바이저가 Binary Translation이나 [shadow page table](/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 같은 우회 기법을 써야 했다. 이 과정은 CPU 낭비뿐 아니라 문맥 전환, [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) ([Translation Lookaside Buffer](/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/)) 교란, 메모리 관리 복잡도를 함께 키웠다.
 
-문제가 커진 이유는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 테스트 용도를 넘어 데이터센터의 기본 실행 환경이 되었기 때문이다. 서버 한 대에 수십 개 이상의 VM이 올라가면, 하이퍼바이저가 모든 privileged instruction과 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 변경을 소프트웨어로 처리하는 구조는 더 이상 확장되지 않는다. 즉 하드웨어 보조의 필요성은 "조금 더 빠르게"가 아니라, <strong>대규모 <a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>가 성립하려면 반드시 줄여야 하는 구조적 오버헤드</strong>에서 나왔다.
+문제가 커진 이유는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 테스트 용도를 넘어 데이터센터의 기본 실행 환경이 되었기 때문이다. 서버 한 대에 수십 개 이상의 VM이 올라가면, 하이퍼바이저가 모든 privileged instruction과 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 변경을 소프트웨어로 처리하는 구조는 더 이상 확장되지 않는다. 즉 하드웨어 보조의 필요성은 "조금 더 빠르게"가 아니라, <strong>대규모 <a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a>가 성립하려면 반드시 줄여야 하는 구조적 오버헤드</strong>에서 나왔다.
 
 이 그림은 하드웨어 지원이 없을 때 어떤 비용이 하이퍼바이저에 몰리는지 보여준다.
 
@@ -41,25 +38,25 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-결국 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 게스트를 무조건 더 자유롭게 만드는 기술이 아니라, 소프트웨어가 매번 개입하던 경계를 하드웨어 빠른 경로로 옮기는 기술이다. 이 관점을 잡아야 왜 이후에 EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables), [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 차례로 등장했는지도 자연스럽게 이어진다.
+결국 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 게스트를 무조건 더 자유롭게 만드는 기술이 아니라, 소프트웨어가 매번 개입하던 경계를 하드웨어 빠른 경로로 옮기는 기술이다. 이 관점을 잡아야 왜 이후에 EPT (Extended [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables), [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)), [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)가 차례로 등장했는지도 자연스럽게 이어진다.
 
-- **📢 섹션 요약 비유**: 예전 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 모든 외국어 대화를 통역사가 옆에서 실시간으로 고쳐 주는 방식이었다. 하드웨어 보조는 자주 쓰는 표현을 자동 통역기로 처리해 통역사가 꼭 필요한 순간에만 나서게 만드는 것과 같다.
+- **📢 섹션 요약 비유**: 예전 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 모든 외국어 대화를 통역사가 옆에서 실시간으로 고쳐 주는 방식이었다. 하드웨어 보조는 자주 쓰는 표현을 자동 통역기로 처리해 통역사가 꼭 필요한 순간에만 나서게 만드는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-대표 구현으로는 [Intel VT-x](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) ([Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology for x86)와 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) (AMD [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))가 있다. 인텔은 VMX ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions) root/non-root 모드를, AMD는 유사한 guest/host 실행 모드를 제공해 게스트가 일반 명령을 직접 실행하게 하면서도 민감 동작만 가로챈다. 이때 각 VM의 상태는 [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure) 또는 VMCB ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Block) 같은 제어 구조에 저장되어, [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry와 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 시 어떤 상태를 저장·복원할지 하드웨어가 빠르게 처리한다.
+대표 구현으로는 [Intel VT-x](/studynote/01_computer_architecture/15_advanced_topics/658_intel_vtx/) ([Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) Technology for x86)와 [AMD-V](/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/) (AMD [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/))가 있다. 인텔은 VMX ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Extensions) root/non-root 모드를, AMD는 유사한 guest/host 실행 모드를 제공해 게스트가 일반 명령을 직접 실행하게 하면서도 민감 동작만 가로챈다. 이때 각 VM의 상태는 [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure) 또는 VMCB ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Block) 같은 제어 구조에 저장되어, [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry와 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 시 어떤 상태를 저장·복원할지 하드웨어가 빠르게 처리한다.
 
-메모리 쪽에서는 EPT와 NPT (Nested [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables)가 핵심이다. 게스트 주소 번역은 GVA (Guest Virtual Address) -> GPA (Guest [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/)) -> [HPA](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) (Host [Physical Address](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))로 이어지며, 하드웨어가 이 2단계 변환을 직접 수행해 [shadow page table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 유지 비용을 크게 줄인다. I/O 쪽에서는 IOMMU가 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 주소를 검증해 장치가 잘못된 메모리를 침범하지 못하게 한다.
+메모리 쪽에서는 EPT와 NPT (Nested [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables)가 핵심이다. 게스트 주소 번역은 GVA (Guest Virtual Address) -> GPA (Guest [Physical Address](/studynote/02_operating_system/06_memory_management/323_physical_address/)) -> [HPA](/studynote/13_cloud_architecture/02_iaas_paas_saas/095_hpa_horizontal_pod_autoscaler_kubernetes/) (Host [Physical Address](/studynote/02_operating_system/06_memory_management/323_physical_address/))로 이어지며, 하드웨어가 이 2단계 변환을 직접 수행해 [shadow page table](/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 유지 비용을 크게 줄인다. I/O 쪽에서는 IOMMU가 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) ([Direct Memory Access](/studynote/01_computer_architecture/08_io_storage_systems/318_dma/)) 주소를 검증해 장치가 잘못된 메모리를 침범하지 못하게 한다.
 
 | 하드웨어 기능 | 줄여 주는 오버헤드 | 핵심 효과 |
 | :--- | :--- | :--- |
-| guest/host 실행 모드 | privileged [instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 에뮬레이션 | 일반 명령 직접 실행 |
-| [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) / VMCB | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 상태 저장·복원 소프트웨어 비용 | 빠른 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry / Exit |
-| EPT / NPT | [shadow page table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 메모리 번역 가속 |
-| APICv (Advanced Programmable [Interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소 |
-| [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) | 장치 [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 검증과 격리 | 안전한 장치 직결 경로 확보 |
+| guest/host 실행 모드 | privileged [instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 에뮬레이션 | 일반 명령 직접 실행 |
+| [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) / VMCB | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 상태 저장·복원 소프트웨어 비용 | 빠른 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Entry / Exit |
+| EPT / NPT | [shadow page table](/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 메모리 번역 가속 |
+| APICv (Advanced Programmable [Interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) Controller [virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 감소 |
+| [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) | 장치 [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 검증과 격리 | 안전한 장치 직결 경로 확보 |
 
 이 그림은 가상 CPU (virtual CPU, vCPU)가 어떤 경로에서는 바로 실행되고, 어떤 경로에서만 하이퍼바이저로 올라가는지를 보여준다.
 
@@ -77,51 +74,51 @@ tags = ["studynote-computer-architecture"]
 +----------------------------------------------------------------------------+
 ```
 
-여기서 중요한 사실은 하드웨어 보조가 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 자체를 없애는 것은 아니라는 점이다. 대신 "대부분의 정상 경로는 건드리지 않고, 정말 필요한 경로만 끊는다"는 쪽에 가깝다. 따라서 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 초점도 지원 유무가 아니라, 어떤 이벤트가 얼마나 자주 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit을 유발하는지에 맞춰져야 한다.
+여기서 중요한 사실은 하드웨어 보조가 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit 자체를 없애는 것은 아니라는 점이다. 대신 "대부분의 정상 경로는 건드리지 않고, 정말 필요한 경로만 끊는다"는 쪽에 가깝다. 따라서 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝의 초점도 지원 유무가 아니라, 어떤 이벤트가 얼마나 자주 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit을 유발하는지에 맞춰져야 한다.
 
-- **📢 섹션 요약 비유**: [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 고속도로에 하이패스를 다는 것과 같다. 요금소가 완전히 사라지는 것은 아니지만, 대부분의 차가 멈추지 않고 지나가게 만들어 정체를 크게 줄인다.
+- **📢 섹션 요약 비유**: [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 고속도로에 하이패스를 다는 것과 같다. 요금소가 완전히 사라지는 것은 아니지만, 대부분의 차가 멈추지 않고 지나가게 만들어 정체를 크게 줄인다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 방식은 크게 소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/), [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/), [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)로 나눠 볼 수 있다. 소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 좋지만 trap과 변환 비용이 크고, [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)는 게스트 운영체제를 수정해 hypercall을 쓰므로 효율은 좋아지지만 범용성이 떨어진다. 하드웨어 보조는 범용 운영체제를 거의 수정 없이 올릴 수 있으면서도 오버헤드를 많이 낮춘다.
+[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 방식은 크게 소프트웨어 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/), [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/), [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)로 나눠 볼 수 있다. 소프트웨어 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/)는 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)이 좋지만 trap과 변환 비용이 크고, [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)는 게스트 운영체제를 수정해 hypercall을 쓰므로 효율은 좋아지지만 범용성이 떨어진다. 하드웨어 보조는 범용 운영체제를 거의 수정 없이 올릴 수 있으면서도 오버헤드를 많이 낮춘다.
 
 | 방식 | 게스트 수정 | 강점 | 약점 | 오늘의 위치 |
 | :--- | :--- | :--- | :--- | :--- |
-| 소프트웨어 [전가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) | 불필요 | 높은 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | [trap](/knowledge-base/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) / emulate 비용 큼 | 역사적 의미가 큼 |
-| [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) | 필요 | 특정 경로 최적화 가능 | 게스트 수정 부담 | VirtIO 같은 장치 경로에서 계속 활용 |
-| 하드웨어 보조 | 불필요 | 범용성 + 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 여전히 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit와 I/O 병목 존재 | 클라우드 기본 |
+| 소프트웨어 [전가상화](/studynote/02_operating_system/01_overview_architecture/057_full_virtualization/) | 불필요 | 높은 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) | [trap](/studynote/02_operating_system/11_exam_summary/677_trap_based_system_call_implementation/) / emulate 비용 큼 | 역사적 의미가 큼 |
+| [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) | 필요 | 특정 경로 최적화 가능 | 게스트 수정 부담 | VirtIO 같은 장치 경로에서 계속 활용 |
+| 하드웨어 보조 | 불필요 | 범용성 + 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) | 여전히 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit와 I/O 병목 존재 | 클라우드 기본 |
 
-여기서 중요한 연결점은 "하드웨어 보조만으로 모든 오버헤드가 사라지지 않는다"는 사실이다. CPU 실행과 메모리 번역은 많이 좋아졌지만, 장치 I/O는 여전히 에뮬레이션 또는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버의 도움을 받는 경우가 많다. 그래서 실제 시스템은 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) + VirtIO (Virtual I/O) + 필요 시 [SR-IOV](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) 같은 혼합 구조를 취한다.
+여기서 중요한 연결점은 "하드웨어 보조만으로 모든 오버헤드가 사라지지 않는다"는 사실이다. CPU 실행과 메모리 번역은 많이 좋아졌지만, 장치 I/O는 여전히 에뮬레이션 또는 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 드라이버의 도움을 받는 경우가 많다. 그래서 실제 시스템은 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/) + VirtIO (Virtual I/O) + 필요 시 [SR-IOV](/studynote/02_operating_system/08_storage_and_io_systems/497_sr_iov_pcie_mapping/) (Single Root I/O [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/)) 같은 혼합 구조를 취한다.
 
-또한 컨테이너와의 경계도 분명히 해야 한다. 컨테이너는 같은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유해 가볍지만, VM은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)까지 분리된 더 강한 격리를 제공한다. [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 바로 이 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위 격리"를 부담 가능한 비용으로 만들어 준 핵심 기반이다.
+또한 컨테이너와의 경계도 분명히 해야 한다. 컨테이너는 같은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)을 공유해 가볍지만, VM은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)까지 분리된 더 강한 격리를 제공한다. [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)는 바로 이 "[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위 격리"를 부담 가능한 비용으로 만들어 준 핵심 기반이다.
 
-- **📢 섹션 요약 비유**: [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)가 규칙을 미리 배워 온 손님을 받는 식당이라면, 하드웨어 보조는 손님이 규칙을 몰라도 자동문과 안내 로봇이 알아서 처리해 주는 식당과 같다. 대신 주방과 배달 동선은 여전히 따로 최적화해야 한다.
+- **📢 섹션 요약 비유**: [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/)가 규칙을 미리 배워 온 손님을 받는 식당이라면, 하드웨어 보조는 손님이 규칙을 몰라도 자동문과 안내 로봇이 알아서 처리해 주는 식당과 같다. 대신 주방과 배달 동선은 여전히 따로 최적화해야 한다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 [하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)의 품질은 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 얼마나 줄이느냐로 드러난다. 잦은 타이머 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 에뮬레이션 장치 접근, 과도한 CPUID 노출, 잘못된 [페이지 크기](/knowledge-base/studynote/02_operating_system/06_memory_management/352_page_size/) 선택은 게스트를 자주 하이퍼바이저로 끌어올린다. 따라서 EPT/NPT 활성화, [Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 사용, APICv 활용, paravirtual clock과 [장치 드라이버](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 적용이 기본 튜닝 순서가 된다.
+실무에서 [하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)의 품질은 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 얼마나 줄이느냐로 드러난다. 잦은 타이머 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 에뮬레이션 장치 접근, 과도한 CPUID 노출, 잘못된 [페이지 크기](/studynote/02_operating_system/06_memory_management/352_page_size/) 선택은 게스트를 자주 하이퍼바이저로 끌어올린다. 따라서 EPT/NPT 활성화, [Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/) 사용, APICv 활용, paravirtual clock과 [장치 드라이버](/studynote/02_operating_system/08_storage_and_io_systems/495_device_driver/) 적용이 기본 튜닝 순서가 된다.
 
-또한 메모리와 I/O의 로컬리티도 중요하다. vCPU가 한 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 노드에 있고 메모리는 다른 노드에 있으며, 장치 DMA는 또 다른 소켓으로 향하면 하드웨어 보조가 있어도 실제 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나빠진다. 즉 기술사 답안에서는 "지원한다/안 한다"보다 <strong>Exit 빈도, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 배치, 장치 경로</strong>를 함께 써야 설계 감각이 드러난다.
+또한 메모리와 I/O의 로컬리티도 중요하다. vCPU가 한 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) ([Non-Uniform Memory Access](/studynote/02_operating_system/06_memory_management/377_numa_allocation/)) 노드에 있고 메모리는 다른 노드에 있으며, 장치 DMA는 또 다른 소켓으로 향하면 하드웨어 보조가 있어도 실제 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 나빠진다. 즉 기술사 답안에서는 "지원한다/안 한다"보다 <strong>Exit 빈도, <a href="/studynote/02_operating_system/06_memory_management/377_numa_allocation/">NUMA</a> 배치, 장치 경로</strong>를 함께 써야 설계 감각이 드러난다.
 
-### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. BIOS (Basic Input/Output System) / [UEFI](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)에서 VT-x 또는 [AMD-V](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/), IOMMU가 활성화되어 있는가?
-2. EPT/NPT와 [interrupt](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) 기능이 실제 하이퍼바이저에서 사용 중인가?
+1. BIOS (Basic Input/Output System) / [UEFI](/studynote/01_computer_architecture/15_advanced_topics/706_uefi/) (Unified Extensible [Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/) Interface)에서 VT-x 또는 [AMD-V](/studynote/01_computer_architecture/15_advanced_topics/659_amd_v/), IOMMU가 활성화되어 있는가?
+2. EPT/NPT와 [interrupt](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) 기능이 실제 하이퍼바이저에서 사용 중인가?
 3. PIO/MMIO (Programmed I/O / Memory-Mapped I/O) 에뮬레이션 비중이 과도하지 않은가?
-4. vCPU, 메모리, 장치가 같은 [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치되어 있는가?
+4. vCPU, 메모리, 장치가 같은 [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드에 가깝게 배치되어 있는가?
 5. Nested Virtualization이 정말 필요한 경우에만 켜져 있는가?
 
-### 피해야 할 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 피해야 할 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 하드웨어 보조만 켜면 I/O 병목까지 자동 해결된다고 믿는 설계
 - Exit-heavy 장치를 그대로 두고 CPU 오버커밋만 늘리는 운영
-- 강한 격리가 필요한데도 side-channel과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) escape 대응을 생략하는 보안 판단
+- 강한 격리가 필요한데도 side-channel과 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) escape 대응을 생략하는 보안 판단
 
-결국 하드웨어 보조는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 0으로 만드는 기능"이 아니라, [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 <strong>소프트웨어의 느린 경로에서 하드웨어의 예측 가능한 경로로 옮기는 기능</strong>이다. 이 점을 기억해야 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 판단이 동시에 선명해진다.
+결국 하드웨어 보조는 "[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 0으로 만드는 기능"이 아니라, [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 비용을 <strong>소프트웨어의 느린 경로에서 하드웨어의 예측 가능한 경로로 옮기는 기능</strong>이다. 이 점을 기억해야 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 보안 판단이 동시에 선명해진다.
 
 - **📢 섹션 요약 비유**: 같은 건물에 자동문을 달았다고 해서 동선 설계가 저절로 좋아지지는 않는다. 출입문은 빨라졌어도 엘리베이터와 복도가 막혀 있으면 전체 이동 시간은 여전히 느릴 수 있다.
 
@@ -129,11 +126,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[하드웨어 보조 가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)가 가져온 가장 큰 변화는 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 기본 전제를 바꿨다는 점이다. 예전에는 "[가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 편하지만 느리다"가 기본 인식이었다면, 이제는 "적절히 설계하면 VM도 거의 물리 장비처럼 쓸 수 있다"가 기본 전제가 되었다. 이 변화 덕분에 클라우드 멀티테넌시, 레거시 시스템 통합, 테스트 격리, 보안 경계 설정이 모두 현실적인 비용으로 가능해졌다.
+[하드웨어 보조 가상화](/studynote/02_operating_system/01_overview_architecture/059_hardware_assisted_virtualization/)가 가져온 가장 큰 변화는 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 기본 전제를 바꿨다는 점이다. 예전에는 "[가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 편하지만 느리다"가 기본 인식이었다면, 이제는 "적절히 설계하면 VM도 거의 물리 장비처럼 쓸 수 있다"가 기본 전제가 되었다. 이 변화 덕분에 클라우드 멀티테넌시, 레거시 시스템 통합, 테스트 격리, 보안 경계 설정이 모두 현실적인 비용으로 가능해졌다.
 
-물론 한계는 남아 있다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit는 여전히 비싸고, I/O [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 장치 종류에 따라 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 크며, side-channel과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) escape 대응은 계속 요구된다. 앞으로는 [기밀 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), 마이크로VM, 더 정교한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 장치 가속과 결합한 격리 구조가 중요해질 것이다.
+물론 한계는 남아 있다. [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit는 여전히 비싸고, I/O [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)는 장치 종류에 따라 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 차이가 크며, side-channel과 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) escape 대응은 계속 요구된다. 앞으로는 [기밀 컴퓨팅](/studynote/01_computer_architecture/15_advanced_topics/795_confidential_computing/), 마이크로VM, 더 정교한 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/), 장치 가속과 결합한 격리 구조가 중요해질 것이다.
 
-결론적으로 하드웨어 보조 기반의 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 감소는 "VM을 더 빨리 돌리는 기능"이면서 동시에 "[커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)까지 분리된 격리를 대규모로 감당 가능하게 만든 기능"이다. 이 개념은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 소프트웨어 묘기가 아니라 하드웨어-소프트웨어 공동 설계의 결과로 보는 관점과 함께 기억해야 한다.
+결론적으로 하드웨어 보조 기반의 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 오버헤드 감소는 "VM을 더 빨리 돌리는 기능"이면서 동시에 "[커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)까지 분리된 격리를 대규모로 감당 가능하게 만든 기능"이다. 이 개념은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 소프트웨어 묘기가 아니라 하드웨어-소프트웨어 공동 설계의 결과로 보는 관점과 함께 기억해야 한다.
 
 - **📢 섹션 요약 비유**: 결국 이 기술은 건물 전체에 전용 승강기를 설치한 것과 같다. 계단을 오르내리며 생기던 낭비는 크게 줄지만, 어느 층에 사람을 배치할지까지 잘 설계해야 진짜 효율이 난다.
 
@@ -143,12 +140,12 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [VMCS](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure) | [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 상태 저장·복원과 Exit 제어의 중심 구조다. |
-| EPT (Extended [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) / NPT (Nested [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) | [shadow page table](/knowledge-base/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 오버헤드를 크게 낮춘다. |
-| [IOMMU](/knowledge-base/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) | [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 격리와 장치 직결 경로의 안전성을 보장한다. |
-| APICv | [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 줄이는 대표 기능이다. |
-| VirtIO (Virtual I/O) | 하드웨어 보조만으로 남는 I/O 오버헤드를 줄이는 [반가상화](/knowledge-base/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 장치 경로다. |
-| Nested [Virtualization](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) | [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 위에 또 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 올리는 고급 활용이자 추가 오버헤드 원천이다. |
+| [VMCS](/studynote/01_computer_architecture/15_advanced_topics/529_vmcs/) ([Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Control Structure) | [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 상태 저장·복원과 Exit 제어의 중심 구조다. |
+| EPT (Extended [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) / NPT (Nested [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Tables) | [shadow page table](/studynote/02_operating_system/10_security/626_shadow_page_table_vs_ept/) 오버헤드를 크게 낮춘다. |
+| [IOMMU](/studynote/02_operating_system/10_security/627_iommu_dma_isolation/) (Input/Output [Memory Management Unit](/studynote/01_computer_architecture/07_virtual_memory_os_integration/284_mmu/)) | [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 격리와 장치 직결 경로의 안전성을 보장한다. |
+| APICv | [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 관련 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) Exit를 줄이는 대표 기능이다. |
+| VirtIO (Virtual I/O) | 하드웨어 보조만으로 남는 I/O 오버헤드를 줄이는 [반가상화](/studynote/02_operating_system/01_overview_architecture/058_paravirtualization/) 장치 경로다. |
+| Nested [Virtualization](/studynote/06_ict_convergence/03_cloud_infrastructure/190_virtualization_computing_architecture_cloud/) | [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 위에 또 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)를 올리는 고급 활용이자 추가 오버헤드 원천이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -171,7 +168,7 @@ APICv · IOMMU · 장치 가상화 가속
 마이크로VM · 기밀 컴퓨팅 · 고도화된 격리
 ```
 
-이 흐름은 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 병목이 CPU 실행에서 메모리, [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 장치 경로로 차례로 이동했고, 그때마다 하드웨어가 새로운 빠른 경로를 제공해 온 과정을 보여 준다.
+이 흐름은 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 병목이 CPU 실행에서 메모리, [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/), 장치 경로로 차례로 이동했고, 그때마다 하드웨어가 새로운 빠른 경로를 제공해 온 과정을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -185,7 +182,7 @@ APICv · IOMMU · 장치 가상화 가속
 
 **진행 상황**: 527 / 803
 
-<- **이전**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/)
-**다음**: [528. SR-IOV (Single Root I/O Virtualization)](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/528_sriov/) ->
+<- **이전**: [526. 비휘발성 메모리 마모 평준화 (Wear Leveling)](/studynote/01_computer_architecture/15_advanced_topics/526_wear_leveling/)
+**다음**: [528. SR-IOV (Single Root I/O Virtualization)](/studynote/01_computer_architecture/15_advanced_topics/528_sriov/) ->
 
 ---

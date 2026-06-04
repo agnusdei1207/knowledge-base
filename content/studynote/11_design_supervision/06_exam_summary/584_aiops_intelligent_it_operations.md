@@ -1,13 +1,10 @@
-+++
-title = "584. AIOps 지능형 IT 운영 자동화 (AIOps Intelligent IT Operations)"
-date = 2026-05-09
+---
+title: "584. AIOps 지능형 IT 운영 자동화 (AIOps Intelligent IT Operations)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ AIOps 표준 아키텍처는 Gartner가 제시한 **"3-Domain Model"** (Domain O
 
 **진행 상황**: 584 / 600
 
-<- **이전**: [583. MLOps 머신러닝 운영 자동화 파이프라인](/knowledge-base/studynote/11_design_supervision/06_exam_summary/584_mlops_machine_learning_operations_pipeli/)
-**다음**: [585. GitOps 선언적 인프라 관리 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/585_gitops_declarative_infrastructure_patter/) ->
+<- **이전**: [583. MLOps 머신러닝 운영 자동화 파이프라인](/studynote/11_design_supervision/06_exam_summary/584_mlops_machine_learning_operations_pipeli/)
+**다음**: [585. GitOps 선언적 인프라 관리 패턴](/studynote/11_design_supervision/06_exam_summary/585_gitops_declarative_infrastructure_patter/) ->
 
 ---

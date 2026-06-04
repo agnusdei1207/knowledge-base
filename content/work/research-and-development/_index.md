@@ -1,11 +1,12 @@
-+++
-title = "🔬 R&D 허브 (연구개발)"
+---
+title: "🔬 R&D 허브 (연구개발)"
+tags:
+  - "work"
+  - "research-and-development"
+---
 
-[extra]
-tags = ["work", "research-and-development"]
-+++
 
-> ⚠️ **참고:** 최상위 레벨에 별도의 [research-and-development](/knowledge-base/research-and-development/) 허브가 이미 존재하며, 거기에 Quartz 아키텍처 분석, N-Gram 링커, Graph DB 비교 등 핵심 R&D 자산이 정리되어 있습니다.
+> ⚠️ **참고:** 최상위 레벨에 별도의 [research-and-development](/research-and-development/) 허브가 이미 존재하며, 거기에 Quartz 아키텍처 분석, N-Gram 링커, Graph DB 비교 등 핵심 R&D 자산이 정리되어 있습니다.
 
 사내 업무 트랙(Work) 안의 R&D는 그 자산과 직접 연결되는 **프로덕트 적용 실험·검증**을 다룹니다.
 순수 기술 탐구보다는 "우리 제품/사업에 적용 가능한가"를 검증하는 데 초점을 둡니다.
@@ -28,7 +29,7 @@ tags = ["work", "research-and-development"]
 
 ## 🔗 인접 트랙과의 연결
 
-- 기술 구현: [Develop 허브](/knowledge-base/work/develop/)
-- 기획 트리거: [Planning 허브](/knowledge-base/work/planning/)
-- 상위 R&D 허브: [research-and-development](/knowledge-base/research-and-development/)
-- 사업 가치 연결: [Business 허브](/knowledge-base/work/business/)
+- 기술 구현: [Develop 허브](/work/develop/)
+- 기획 트리거: [Planning 허브](/work/planning/)
+- 상위 R&D 허브: [research-and-development](/research-and-development/)
+- 사업 가치 연결: [Business 허브](/work/business/)

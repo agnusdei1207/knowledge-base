@@ -1,13 +1,10 @@
-+++
-title = "480. CQRS 명령 조회 분리 패턴 심화 (CQRS Command Query Separation Advanced)"
-date = 2026-05-09
+---
+title: "480. CQRS 명령 조회 분리 패턴 심화 (CQRS Command Query Separation Advanced)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -202,7 +199,7 @@ OrderCreated
 
 **진행 상황**: 480 / 600
 
-<- **이전**: [479. 양파 아키텍처 계층 분리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/480_onion_architecture/)
-**다음**: [481. 감리 프로세스 자산 관리 체계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/481_audit_process_asset_management/) ->
+<- **이전**: [479. 양파 아키텍처 계층 분리](/studynote/11_design_supervision/06_exam_summary/480_onion_architecture/)
+**다음**: [481. 감리 프로세스 자산 관리 체계](/studynote/11_design_supervision/06_exam_summary/481_audit_process_asset_management/) ->
 
 ---

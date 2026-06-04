@@ -1,35 +1,32 @@
-+++
-title = "483. 액티브(Active) FTP vs 패시브(Passive) FTP 동작 원리 차이"
-date = 2026-05-08
+---
+title: "483. 액티브(Active) FTP vs 패시브(Passive) FTP 동작 원리 차이"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 액티브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 액티브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…를 이해하면 응답 시간과 [호환성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 액티브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 응용 계층과 웹/메일에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 액티브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…를 이해하면 응답 시간과 [호환성](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트와 서버가 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 조회(`LIST`)나 다운로드/업로드(`RETR/STOR`)를 위해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송용 파이프라인([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connection)을 생성할 때, 접속 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(SYN 패킷)를 누르는 주도권에 관한 네트워크 [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규약이다.
+- **개념**: [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트와 서버가 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록 조회(`LIST`)나 다운로드/업로드(`RETR/STOR`)를 위해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송용 파이프라인([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Connection)을 생성할 때, 접속 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(SYN 패킷)를 누르는 주도권에 관한 네트워크 [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규약이다.
 
-- **필요성**: [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 스펙이 처음 만들어진 1980년대에는 인터넷에 연결된 모든 컴퓨터가 서로를 찌를 수 있는 공인 IP를 갖고 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 없이 살던 평화로운 시대였다. 그래서 서버가 사용자 PC로 거꾸로 접속해 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져주는 설계(Active Mode)가 전혀 문제 되지 않았다. 그러나 1990년대 이후 해커의 등장으로 집집마다 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 세워지고, IP 부족 사태로 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/), 사설 IP) 안에 사람들이 숨기 시작하자, 서버가 밖에서 집 안쪽(클라이언트)으로 밀고 들어오는 연결은 100% 차단(Drop)되는 비극이 발생했다. 꽉 막힌 현관문을 안쪽에서 밖으로 밀고 나가는 새로운 길(Passive Mode)이 절실하게 필요했다.
+- **필요성**: [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 스펙이 처음 만들어진 1980년대에는 인터넷에 연결된 모든 컴퓨터가 서로를 찌를 수 있는 공인 IP를 갖고 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 없이 살던 평화로운 시대였다. 그래서 서버가 사용자 PC로 거꾸로 접속해 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 던져주는 설계(Active Mode)가 전혀 문제 되지 않았다. 그러나 1990년대 이후 해커의 등장으로 집집마다 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)이 세워지고, IP 부족 사태로 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/), 사설 IP) 안에 사람들이 숨기 시작하자, 서버가 밖에서 집 안쪽(클라이언트)으로 밀고 들어오는 연결은 100% 차단(Drop)되는 비극이 발생했다. 꽉 막힌 현관문을 안쪽에서 밖으로 밀고 나가는 새로운 길(Passive Mode)이 절실하게 필요했다.
 
-- **💡 비유**: <strong>액티브 모드</strong>는 짜장면 배달입니다. 내가 중국집(서버 21번)에 전화해서 "저희 집 302호(랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 배달해 주세요" 하면 오토바이(서버 20번)가 우리 집 아파트 현관으로 밀고 들어옵니다. 하지만 아파트 경비원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 외부 오토바이를 막아버리면 배달에 실패합니다.
-<strong>패시브 모드</strong>는 방문 포장(픽업)입니다. 내가 전화를 걸면 중국집이 "짜장면 다 됐으니 가게 옆 창고 5번 문(서버 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 가지러 오세요"라고 알려주고, 내가 직접 경비원을 뚫고 밖으로 나가서(아웃바운드) 짜장면을 받아오는 방식입니다.
+- **💡 비유**: <strong>액티브 모드</strong>는 짜장면 배달입니다. 내가 중국집(서버 21번)에 전화해서 "저희 집 302호(랜덤 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))로 배달해 주세요" 하면 오토바이(서버 20번)가 우리 집 아파트 현관으로 밀고 들어옵니다. 하지만 아파트 경비원([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 외부 오토바이를 막아버리면 배달에 실패합니다.
+<strong>패시브 모드</strong>는 방문 포장(픽업)입니다. 내가 전화를 걸면 중국집이 "짜장면 다 됐으니 가게 옆 창고 5번 문(서버 랜덤 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 가지러 오세요"라고 알려주고, 내가 직접 경비원을 뚫고 밖으로 나가서(아웃바운드) 짜장면을 받아오는 방식입니다.
 
 - **등장 배경**:
-  1. <strong><a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 통신 모델 (Active)</strong>: 클라이언트가 제어 통로(21번)로 텔넷 명령을 내리면, 서버가 20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 나와 클라이언트의 잉여 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 돌진하는 전통적 서버 푸시(Push) 철학의 산물.
-  2. <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> / Firewall의 역습</strong>: 클라이언트가 `192.168.x.x` 같은 사설 IP를 쓸 경우, 클라이언트가 서버에 "나 192.168.0.5 에 있으니 일로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쏴라"라고 [PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 명령을 날리면, 서버는 공인 인터넷 망에서 사설 IP를 찾지 못해 미아가 되어버린다.
-  3. **PASV 스펙의 등장**: 이 참사를 해결하기 위해 클라이언트가 `PASV` [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치면 서버가 "나의 공인 IP와 임시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)번호를 알려줄 테니, 네가 날 찔러"라고 응답하는 수동(Passive) 모드가 스펙(RFC 1579)에 추가되었다.
+  1. <strong><a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 통신 모델 (Active)</strong>: 클라이언트가 제어 통로(21번)로 텔넷 명령을 내리면, 서버가 20번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 나와 클라이언트의 잉여 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 돌진하는 전통적 서버 푸시(Push) 철학의 산물.
+  2. <strong><a href="/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a> / Firewall의 역습</strong>: 클라이언트가 `192.168.x.x` 같은 사설 IP를 쓸 경우, 클라이언트가 서버에 "나 192.168.0.5 에 있으니 일로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 쏴라"라고 [PORT](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 명령을 날리면, 서버는 공인 인터넷 망에서 사설 IP를 찾지 못해 미아가 되어버린다.
+  3. **PASV 스펙의 등장**: 이 참사를 해결하기 위해 클라이언트가 `PASV` [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 치면 서버가 "나의 공인 IP와 임시 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)번호를 알려줄 테니, 네가 날 찔러"라고 응답하는 수동(Passive) 모드가 스펙(RFC 1579)에 추가되었다.
 
 ```text
 +-------------------------------------------------------------+
@@ -40,13 +37,13 @@ tags = ["studynote-network"]
 |                                                             |
 | [Client PC (방화벽/NAT 굳게 닫힘)]                [FTP Server]|
 |   |                                                 |       |
-|   | 1. [TCP 1025 ➔ 21] 나 로그인 완료했어.            |       |
+|   | 1. [TCP 1025 -> 21] 나 로그인 완료했어.            |       |
 |   |----------------------------------------->|       |
 |   | 2. [명령] PORT 192,168,0,5, 4, 3 (내 포트는 1027야)|       |
 |   |----------------------------------------->|       |
 |   |                                                 |       |
 |   | 3. 서버가 무식하게 클라이언트로 역방향(Inbound) 돌격!    |       |
-| 💥방화벽 <------- 차단 (Drop) ----- [TCP 20 ➔ 1027] |       |
+| 💥방화벽 <------- 차단 (Drop) ----- [TCP 20 -> 1027] |       |
 | (외부 연결 거부)                                              |
 |                                                             |
 | ----------------------------------------------------------- |
@@ -55,7 +52,7 @@ tags = ["studynote-network"]
 |                                                             |
 | [Client PC (방화벽 아웃바운드는 허용됨)]           [FTP Server]|
 |   |                                                 |       |
-|   | 1. [TCP 1025 ➔ 21] 나 로그인 완료했어.            |       |
+|   | 1. [TCP 1025 -> 21] 나 로그인 완료했어.            |       |
 |   |----------------------------------------->|       |
 |   | 2. [명령] PASV (나 방화벽 있으니까 네가 포트 열어!)   |       |
 |   |----------------------------------------->|       |
@@ -64,38 +61,38 @@ tags = ["studynote-network"]
 |   |   * 195 * 256 + 80 = 포트 50000 번이 열렸구나!           |
 |   |                                                 |       |
 |   | 4. 클라이언트가 자발적으로 밖으로 나감 (Outbound 통과!)  |       |
-| 🚀 방화벽 통과 --------- [TCP 1028 ➔ 50000] ------>|       |
+| 🚀 방화벽 통과 --------- [TCP 1028 -> 50000] ------>|       |
 +-------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** Active 모드에서 가장 치명적인 순간은 3번 단계다. 서버의 20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 클라이언트의 1027번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 치고 들어오려 할 때, 클라이언트 앞단의 공유기나 Windows [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "내가 요청하지도 않은 외부의 불법 연결"로 간주하고 무자비하게 패킷을 드롭(Drop)시킨다. 사용자 화면에는 `Connecting...` 만 무한히 돌다 타임아웃이 난다.
-반면 하단의 Passive 모드에서는 클라이언트가 먼저 `PASV` 명령을 치면 서버가 "내 공인 IP와 랜덤 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(50000번)를 열어뒀어"라고 대답한다. 그러면 클라이언트가 안에서 밖으로(Outbound) 50000번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 찌르고 나간다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 철칙은 "안에서 밖으로 나가는 트래픽은 기본 허용"이므로 아무런 [저항](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 연결이 성사되고 짐마차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널) 파이프가 뚫리게 된다.
+**[다이어그램 해설]** Active 모드에서 가장 치명적인 순간은 3번 단계다. 서버의 20번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에서 클라이언트의 1027번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 치고 들어오려 할 때, 클라이언트 앞단의 공유기나 Windows [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)은 "내가 요청하지도 않은 외부의 불법 연결"로 간주하고 무자비하게 패킷을 드롭(Drop)시킨다. 사용자 화면에는 `Connecting...` 만 무한히 돌다 타임아웃이 난다.
+반면 하단의 Passive 모드에서는 클라이언트가 먼저 `PASV` 명령을 치면 서버가 "내 공인 IP와 랜덤 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(50000번)를 열어뒀어"라고 대답한다. 그러면 클라이언트가 안에서 밖으로(Outbound) 50000번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 찌르고 나간다. [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 철칙은 "안에서 밖으로 나가는 트래픽은 기본 허용"이므로 아무런 [저항](/studynote/01_computer_architecture/01_basic_electronics_logic/003_resistance/) 없이 연결이 성사되고 짐마차([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널) 파이프가 뚫리게 된다.
 
-- **📢 섹션 요약 비유**: 철통 보안 아파트([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))에 사는 내가 피자 배달 오토바이(서버 역방향 접속)를 안으로 들이려다 경비원에게 제지당하는 것이 Active 모드 실패의 전말이고, 내가 직접 1층 주차장(서버 임시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 내려가 받아오는 것이 Passive 모드의 해결책입니다.
+- **📢 섹션 요약 비유**: 철통 보안 아파트([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))에 사는 내가 피자 배달 오토바이(서버 역방향 접속)를 안으로 들이려다 경비원에게 제지당하는 것이 Active 모드 실패의 전말이고, 내가 직접 1층 주차장(서버 임시 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))으로 내려가 받아오는 것이 Passive 모드의 해결책입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 계산법 ([PORT](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / PASV 응답 포맷)
+### [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 계산법 ([PORT](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) / PASV 응답 포맷)
 
-FTP가 통신할 때 IP와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 알려주는 규격은 기괴하게도 6개의 숫자를 쉼표(,)로 이은 문자열 형태를 띤다.
+FTP가 통신할 때 IP와 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 알려주는 규격은 기괴하게도 6개의 숫자를 쉼표(,)로 이은 문자열 형태를 띤다.
 
 - 포맷 예시: `192,168,0,5, 4, 3`
 - 해석: 앞의 숫자 4개는 IP 주소 (`192.168.0.5`)
-- 뒤의 숫자 2개는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 나타내는 수학 공식: **(첫 번째 숫자 × 256) + (두 번째 숫자)**
-  - 위 예시의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/): `(4 × 256) + 3 = 1024 + 3 = 1027번 포트`
+- 뒤의 숫자 2개는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 번호를 나타내는 수학 공식: **(첫 번째 숫자 × 256) + (두 번째 숫자)**
+  - 위 예시의 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/): `(4 × 256) + 3 = 1024 + 3 = 1027번 포트`
 
-| 모드 | [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) ➔ Server) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 방향 (SYN 패킷) | 주요 사용 주체 | 문제점 |
+| 모드 | [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/) -> Server) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 방향 (SYN 패킷) | 주요 사용 주체 | 문제점 |
 |:---|:---|:---|:---|:---|
-| **Active (능동)** | `PORT 192,168...` | <strong>서버(<a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> 20)</strong> ➔ 클라이언트(임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) | 전통적인 유닉스 시스템 | <strong>클라이언트단 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong> 에 가로병목 |
-| **Passive (수동)**| `PASV` (서버에게 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개방 요구)| 클라이언트(임의의 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) ➔ <strong>서버(임의의 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> M)</strong> | 브라우저 및 현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트 기본값 | <strong>서버단 클라우드 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(AWS 등)</strong> 을 엄청나게 열어둬야 함 |
+| **Active (능동)** | `PORT 192,168...` | <strong>서버(<a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">Port</a> 20)</strong> -> 클라이언트(임의의 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) | 전통적인 유닉스 시스템 | <strong>클라이언트단 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>/<a href="/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/">NAT</a></strong> 에 가로병목 |
+| **Passive (수동)**| `PASV` (서버에게 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 개방 요구)| 클라이언트(임의의 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) N) -> <strong>서버(임의의 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> M)</strong> | 브라우저 및 현대 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트 기본값 | <strong>서버단 클라우드 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a>(AWS 등)</strong> 을 엄청나게 열어둬야 함 |
 
-### 공유기와 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))의 늪
+### 공유기와 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) ([Network Address Translation](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))의 늪
 
-Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어보면 참담하다. 클라이언트 PC의 실제 IP는 사설망(`192.168.0.5`)이다. 클라이언트가 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버에 `PORT 192,168,0,5, ...` 라고 자기 진짜 주소를 평문 텍스트에 박아서 보낸다.
-문제는 이 텍스트가 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 거쳐 인터넷으로 나갈 때, 공유기는 IP 헤더의 패킷 주소(공인 IP)는 바꿔주지만, <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 텍스트 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 덩어리(Payload) 안에 하드코딩된 사설 IP 문자열 <code>192,168,0,5</code>까지는 바꿔주지 않는다.</strong>
-서버는 이 텍스트를 보고 충실하게 `192.168.0.5`라는 전 세계에 수천만 개나 존재하는 가짜 주소로 역방향 연결을 시도하다가 허공에 패킷을 쏘고 장렬히 전사한다. 이 문제를 억지로 고치기 위해 나온 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 꼼수가 바로 <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">ALG</a>(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">Application Layer Gateway</a>)</strong> 칩이다.
+Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어보면 참담하다. 클라이언트 PC의 실제 IP는 사설망(`192.168.0.5`)이다. 클라이언트가 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 서버에 `PORT 192,168,0,5, ...` 라고 자기 진짜 주소를 평문 텍스트에 박아서 보낸다.
+문제는 이 텍스트가 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/))를 거쳐 인터넷으로 나갈 때, 공유기는 IP 헤더의 패킷 주소(공인 IP)는 바꿔주지만, <strong><a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 텍스트 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 덩어리(Payload) 안에 하드코딩된 사설 IP 문자열 <code>192,168,0,5</code>까지는 바꿔주지 않는다.</strong>
+서버는 이 텍스트를 보고 충실하게 `192.168.0.5`라는 전 세계에 수천만 개나 존재하는 가짜 주소로 역방향 연결을 시도하다가 허공에 패킷을 쏘고 장렬히 전사한다. 이 문제를 억지로 고치기 위해 나온 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 꼼수가 바로 <strong><a href="/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">ALG</a>(<a href="/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/">Application Layer Gateway</a>)</strong> 칩이다.
 
 ```text
 +-----------------------------------------------------------------+
@@ -109,20 +106,20 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 | --------------------- 공유기 (NAT / ALG 가동!) -------------------|
 |   | 공유기가 IP 헤더만 바꾸는 게 아니라, 똑똑하게 FTP 텍스트 속까지 뜯어본다! |
 |   | 💡 "어? FTP 명령어네? 사설 IP 적혀있네? 내 공인 IP로 글자 쓱 지우고 고쳐야지!"|
-|   | "PORT 192,168,0,5" ➔ "PORT 203,243,12,3" 로 위조(Spoofing)  |
+|   | "PORT 192,168,0,5" -> "PORT 203,243,12,3" 로 위조(Spoofing)  |
 | --------------------------------------------------------------- |
 |   |                                                             |
 |   v                                                             |
 | 서버 (서버는 공유기 공인 IP를 정상적으로 보고 해당 포트로 역방향 연결 성공!)     |
 |                                                                 |
 | ⚠️ 치명적 한계: 만약 FTP 통신이 암호화된 FTPS(TLS) 환경이라면?            |
-| 공유기(ALG)가 암호화된 터널 속의 글자를 못 읽어 고칠 수가 없다 ➔ 100% 접속 실패!|
+| 공유기(ALG)가 암호화된 터널 속의 글자를 못 읽어 고칠 수가 없다 -> 100% 접속 실패!|
 +-----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 초창기 똑똑한 공유기 벤더들은 FTP의 이 바보 같은 문제를 구제해주기 위해, 공유기가 패킷의 OSI 7계층(Payload)까지 뜯어보고 문자열을 강제로 치환해 주는 [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 기능을 넣었다. 하지만 이는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층 위반이라는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 나아가 보안이 중시되어 [FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)(SSL 얹기)를 쓰는 순간, 텍스트가 암호화되어 공유기가 텍스트를 고쳐줄 수 없게 되면서 Active 모드는 이중의 죽음을 맞이하게 된다.
+**[다이어그램 해설]** 초창기 똑똑한 공유기 벤더들은 FTP의 이 바보 같은 문제를 구제해주기 위해, 공유기가 패킷의 OSI 7계층(Payload)까지 뜯어보고 문자열을 강제로 치환해 주는 [ALG](/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 기능을 넣었다. 하지만 이는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 계층 위반이라는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)이다. 나아가 보안이 중시되어 [FTPS](/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/)(SSL 얹기)를 쓰는 순간, 텍스트가 암호화되어 공유기가 텍스트를 고쳐줄 수 없게 되면서 Active 모드는 이중의 죽음을 맞이하게 된다.
 
-- **📢 섹션 요약 비유**: 공유기가 멍청한 비서(Active 모드)의 실수(사설 주소 발송)를 몰래 수정액으로 지우고 회사 주소(공인 주소)로 고쳐서 살려주었지만, 비서가 편지를 금고([FTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))에 잠가버리자 더 이상 수정해 줄 수 없어 결국 우편 배달이 실패하는 구조입니다.
+- **📢 섹션 요약 비유**: 공유기가 멍청한 비서(Active 모드)의 실수(사설 주소 발송)를 몰래 수정액으로 지우고 회사 주소(공인 주소)로 고쳐서 살려주었지만, 비서가 편지를 금고([FTPS](/studynote/03_network/09_application_layer_web_email/486_ftps_ftp_over_ssl_tls/))에 잠가버리자 더 이상 수정해 줄 수 없어 결국 우편 배달이 실패하는 구조입니다.
 
 ---
 
@@ -130,18 +127,18 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 ### 딜레마: Active가 죽으면 Passive가 서버 인프라를 괴롭힌다
 
-현대 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트(FileZilla 등)는 접속 시 무조건 100% <strong>Passive 모드</strong>로 디폴트(Default) 동작한다. 클라이언트 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 우회할 유일한 수단이기 때문이다. 하지만 문제는 이 폭탄이 인프라 엔지니어(서버 관리자)에게 통째로 전가된다는 것이다.
+현대 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트(FileZilla 등)는 접속 시 무조건 100% <strong>Passive 모드</strong>로 디폴트(Default) 동작한다. 클라이언트 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)을 우회할 유일한 수단이기 때문이다. 하지만 문제는 이 폭탄이 인프라 엔지니어(서버 관리자)에게 통째로 전가된다는 것이다.
 
-| 항목 | 서버 측 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 세팅 (인바운드 룰) | 클라우드 보안 그룹(AWS SG) 관리 고통도 |
+| 항목 | 서버 측 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 세팅 (인바운드 룰) | 클라우드 보안 그룹(AWS SG) 관리 고통도 |
 |:---|:---|:---|
-| **Active 서버 세팅** | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21번 하나만 열어두면 끝. | **매우 낮음**. 서버는 들어오는 제어 채널만 받고 20번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 알아서 밖으로 나가면 되니까 아웃바운드 룰만 널널하면 끝. |
-| **Passive 서버 세팅**| [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21번 + <strong>수천 개의 랜덤 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 통째 오픈 필요</strong>. | **지옥 수준**. 서버가 클라이언트를 기다려야 하니, 50000~60000번대 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1만 개를 싹 다 인바운드로 뚫어두고 데몬 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에도 이 범위를 픽스해야 함. |
+| **Active 서버 세팅** | [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21번 하나만 열어두면 끝. | **매우 낮음**. 서버는 들어오는 제어 채널만 받고 20번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 알아서 밖으로 나가면 되니까 아웃바운드 룰만 널널하면 끝. |
+| **Passive 서버 세팅**| [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 21번 + <strong>수천 개의 랜덤 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> 통째 오픈 필요</strong>. | **지옥 수준**. 서버가 클라이언트를 기다려야 하니, 50000~60000번대 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1만 개를 싹 다 인바운드로 뚫어두고 데몬 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에도 이 범위를 픽스해야 함. |
 
-클라우드 시대에 "[방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 인바운드를 1만 개 열어둬라"라는 것은 보안팀의 뒷목을 잡게 하는 미친 짓이다. 랜섬웨어와 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝의 놀이터가 되기 십상이다. 결국 양쪽 다 고통스러운 이 구식 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 아키텍처는 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 22번 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 터널링이라는 구세주에게 자리를 통째로 내주게 된다.
+클라우드 시대에 "[방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 인바운드를 1만 개 열어둬라"라는 것은 보안팀의 뒷목을 잡게 하는 미친 짓이다. 랜섬웨어와 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캐닝의 놀이터가 되기 십상이다. 결국 양쪽 다 고통스러운 이 구식 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 아키텍처는 [SFTP](/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 22번 단일 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 터널링이라는 구세주에게 자리를 통째로 내주게 된다.
 
 ### 과목 융합 관점
 
-- <strong>보안 (<a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) &amp; 인프라</strong>: 클라우드 보안 그룹(SG)에서 Passive FTP를 띄우려면 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 좁히는 튜닝(예: `pasv_min_port=50000, pasv_max_port=50100`)을 반드시 거쳐야 한다. 그렇지 않으면 서버 OS 커널이 임의의 하이포트(High [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 1024~65535 사이에서 랜덤으로 뱉어버려, AWS 콘솔에서 전부 닫혀있는 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 계속 연결 타임아웃만 뜨는 지옥을 맛보게 된다.
+- <strong>보안 (<a href="/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/">Security</a>) &amp; 인프라</strong>: 클라우드 보안 그룹(SG)에서 Passive FTP를 띄우려면 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 좁히는 튜닝(예: `pasv_min_port=50000, pasv_max_port=50100`)을 반드시 거쳐야 한다. 그렇지 않으면 서버 OS 커널이 임의의 하이포트(High [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/))를 1024~65535 사이에서 랜덤으로 뱉어버려, AWS 콘솔에서 전부 닫혀있는 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)에 계속 연결 타임아웃만 뜨는 지옥을 맛보게 된다.
 
 - **📢 섹션 요약 비유**: 액티브 모드가 '손님(클라이언트) 문이 닫혀서 배달이 실패'하는 문제라면, 패시브 모드는 '손님이 오게 만들었더니 식당(서버)이 어느 문으로 들어올지 몰라 식당 셔터 1만 개를 다 열어두고 벌벌 떨어야 하는' 보안 딜레마다.
 
@@ -149,11 +146,11 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-1. <strong>시나리오 — AWS EC2에 <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 서버 배포 후 LIST <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 먹통</strong>: SI 신입 개발자가 EC2 인스턴스에 `vsftpd`를 설치하고 21번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열었다. [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트로 접속하면 `230 Login successful`까지는 잘 뜨는데, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록을 보는 `LIST` 명령을 치면 `Entering Passive Mode (13,125,55,10, 203,45)` 응답이 오고 클라이언트 창이 하얗게 멈춰버린다.
-   - **판단**: 100% <strong>Passive Mode 랜덤 <a href="/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 차단</strong> 문제다. 서버 데몬이 무작위 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) `(203 * 256) + 45 = 52013`번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오라고 던졌으나, AWS [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group에는 52013번 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 닫혀있어 클라이언트의 SYN 찌르기가 허공에 소멸한 것이다. 해결책은 `vsftpd.conf`에 `pasv_min_port=50000`, `pasv_max_port=50100`을 픽스하고, AWS SG에 50000-50100 대역을 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 인바운드로 열어주는 것이다. 추가로 사설 IP가 클라이언트에게 전달되는 것을 막기 위해 `pasv_address=내EC2공인IP` [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)도 박아주어야 완벽히 해결된다.
+1. <strong>시나리오 — AWS EC2에 <a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 서버 배포 후 LIST <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 먹통</strong>: SI 신입 개발자가 EC2 인스턴스에 `vsftpd`를 설치하고 21번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)를 열었다. [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 클라이언트로 접속하면 `230 Login successful`까지는 잘 뜨는데, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 목록을 보는 `LIST` 명령을 치면 `Entering Passive Mode (13,125,55,10, 203,45)` 응답이 오고 클라이언트 창이 하얗게 멈춰버린다.
+   - **판단**: 100% <strong>Passive Mode 랜덤 <a href="/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/">포트</a> <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 차단</strong> 문제다. 서버 데몬이 무작위 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) `(203 * 256) + 45 = 52013`번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 들어오라고 던졌으나, AWS [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Group에는 52013번 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 닫혀있어 클라이언트의 SYN 찌르기가 허공에 소멸한 것이다. 해결책은 `vsftpd.conf`에 `pasv_min_port=50000`, `pasv_max_port=50100`을 픽스하고, AWS SG에 50000-50100 대역을 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 인바운드로 열어주는 것이다. 추가로 사설 IP가 클라이언트에게 전달되는 것을 막기 위해 `pasv_address=내EC2공인IP` [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)도 박아주어야 완벽히 해결된다.
 
-2. <strong>시나리오 — 구형 사내 망 시스템의 Active <a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 연동 장애</strong>: 대기업의 구형 발주 시스템이 Active 모드로 강제 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)된 상태로 우리 회사망에 접속해 들어온다. 그런데 우리 회사가 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 장비를 최신 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 교체한 뒤부터 연결이 끊기기 시작했다.
-   - **판단**: 신규 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비에서 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)([Application Layer Gateway](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)) 기능이 기본 비활성화되어 있거나 패킷 치환 로직을 차단했기 때문이다. [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어에게 "Active [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 지원용 [ALG](/knowledge-base/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 모듈을 활성화해주세요"라고 요청해야 간신히 사설 IP 치환이 동작하며 통신이 복구된다. 하지만 진짜 아키텍트라면 이딴 짓을 하지 않고 당장 파트너사에게 [SFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 연동으로 인터페이스를 교체하라고 공문을 띄워야 한다.
+2. <strong>시나리오 — 구형 사내 망 시스템의 Active <a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 연동 장애</strong>: 대기업의 구형 발주 시스템이 Active 모드로 강제 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)된 상태로 우리 회사망에 접속해 들어온다. 그런데 우리 회사가 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 장비를 최신 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)으로 교체한 뒤부터 연결이 끊기기 시작했다.
+   - **판단**: 신규 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 장비에서 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [ALG](/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)([Application Layer Gateway](/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/)) 기능이 기본 비활성화되어 있거나 패킷 치환 로직을 차단했기 때문이다. [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) 엔지니어에게 "Active [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 지원용 [ALG](/studynote/03_network/06_network_layer_ip/310_alg_application_layer_gateway_nat_traversal/) 모듈을 활성화해주세요"라고 요청해야 간신히 사설 IP 치환이 동작하며 통신이 복구된다. 하지만 진짜 아키텍트라면 이딴 짓을 하지 않고 당장 파트너사에게 [SFTP](/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/) 연동으로 인터페이스를 교체하라고 공문을 띄워야 한다.
 
 ```text
   +-------------------------------------------------------------+
@@ -165,10 +162,10 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
   | 클라이언트 --(PASV 요청)---> [ AWS EC2 사설망 (172.31.0.5) ]      |
   |                                                             |
   |  ❌ 실패 1: 서버가 "내 사설IP(172.31.0.5)로 들어와"라고 대답함.       |
-  |  ➔ 인터넷 클라이언트가 "172.31.0.5"를 찾아갈 방법이 없어 통신 폭망.       |
+  |  -> 인터넷 클라이언트가 "172.31.0.5"를 찾아갈 방법이 없어 통신 폭망.       |
   |                                                             |
   |  ❌ 실패 2: 서버 커널이 "59483번 포트로 들어와"라고 마음대로 던짐.     |
-  |  ➔ AWS 보안 그룹은 21번만 열어뒀으니 클라이언트가 튕겨 나감.              |
+  |  -> AWS 보안 그룹은 21번만 열어뒀으니 클라이언트가 튕겨 나감.              |
   |                                                             |
   | [완벽한 해결책: vsftpd.conf 강제 제어 아키텍처]                     |
   |                                                             |
@@ -182,16 +179,16 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 +-------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 클라우드([퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))에서 가장 흔히 터지는 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 장애의 바이블이다. 클라우드 인스턴스는 태생이 [NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 뒤에 숨어있는 사설망 자원이므로 자기가 자기 진짜 공인 IP를 모른다. Passive 응답을 날릴 때 자신의 로컬 사설 IP인 172.x.x.x 대역을 던져버리는 어처구니없는 응답이 발생한다. 따라서 관리자가 데몬(Daemon) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "너의 밖에서 보이는 진짜 IP는 이거야"라고 하드코딩(`pasv_address`)을 해줘야만 이 거대한 미로 게임이 해결된다. 이것만 보더라도 FTP가 현대 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 생태계와 얼마나 지독하게 안 맞는 낡은 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인지 체감할 수 있다.
+**[다이어그램 해설]** 클라우드([퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/))에서 가장 흔히 터지는 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 장애의 바이블이다. 클라우드 인스턴스는 태생이 [NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 뒤에 숨어있는 사설망 자원이므로 자기가 자기 진짜 공인 IP를 모른다. Passive 응답을 날릴 때 자신의 로컬 사설 IP인 172.x.x.x 대역을 던져버리는 어처구니없는 응답이 발생한다. 따라서 관리자가 데몬(Daemon) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)에 "너의 밖에서 보이는 진짜 IP는 이거야"라고 하드코딩(`pasv_address`)을 해줘야만 이 거대한 미로 게임이 해결된다. 이것만 보더라도 FTP가 현대 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 생태계와 얼마나 지독하게 안 맞는 낡은 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/)인지 체감할 수 있다.
 
-### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **기술적**: 브라우저나 FileZilla 같은 클라이언트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 창을 유심히 살펴보았는가? `227 Entering Passive Mode` 텍스트 뒤에 괄호로 찍힌 IP가 사설 IP 대역(192, 172, [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))인지, 진짜 공인 IP 대역인지 패킷 구조를 해독할 줄 아는가?
-- **운영·보안적**: 오픈된 100개의 Passive 고포트(High [Port](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 대역이 다른 [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [트로이목마](/knowledge-base/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 의해 선점되어 사용되고 있지 않은지 `netstat`으로 시스템 무결성을 모니터링하고 있는가?
+### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **기술적**: 브라우저나 FileZilla 같은 클라이언트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 창을 유심히 살펴보았는가? `227 Entering Passive Mode` 텍스트 뒤에 괄호로 찍힌 IP가 사설 IP 대역(192, 172, [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))인지, 진짜 공인 IP 대역인지 패킷 구조를 해독할 줄 아는가?
+- **운영·보안적**: 오픈된 100개의 Passive 고포트(High [Port](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)) 대역이 다른 [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) [트로이목마](/studynote/09_security/15_malware_attack_vectors/726_trojan_horse/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)에 의해 선점되어 사용되고 있지 않은지 `netstat`으로 시스템 무결성을 모니터링하고 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 무지성 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 전체 개방 (Any Any Open)</strong>: Passive [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위가 왜 막히는지 윈인 파악도 안 해보고, 홧김에 AWS 인바운드 룰에 `0.0.0.0/0` [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 `1024~65535` 전체 다 뚫어버리는 정신 나간 아키텍처. 이는 대문 옆에 커다란 셔터를 24시간 활짝 열어놓고 해커들을 환영하는 백기 투항과 같다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- <strong><a href="/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/">FTP</a> 무지성 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 전체 개방 (Any Any Open)</strong>: Passive [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위가 왜 막히는지 윈인 파악도 안 해보고, 홧김에 AWS 인바운드 룰에 `0.0.0.0/0` [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위를 `1024~65535` 전체 다 뚫어버리는 정신 나간 아키텍처. 이는 대문 옆에 커다란 셔터를 24시간 활짝 열어놓고 해커들을 환영하는 백기 투항과 같다.
 
-- **📢 섹션 요약 비유**: 이삿짐센터(클라이언트)가 길을 잃지 않게 하려면, 우리 집(서버)의 정확한 '도로명 주소(공인 IP)'와 '비워둔 주차 구역 번호 10개(지정된 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위)'를 정확히 쪽지에 적어 보내야 짐이 안전하게 도착합니다. 주소를 잘못 적어주거나 주차장 전체를 무료 개방하면 대혼란이 열립니다.
+- **📢 섹션 요약 비유**: 이삿짐센터(클라이언트)가 길을 잃지 않게 하려면, 우리 집(서버)의 정확한 '도로명 주소(공인 IP)'와 '비워둔 주차 구역 번호 10개(지정된 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 범위)'를 정확히 쪽지에 적어 보내야 짐이 안전하게 도착합니다. 주소를 잘못 적어주거나 주차장 전체를 무료 개방하면 대혼란이 열립니다.
 
 ---
 
@@ -199,21 +196,21 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 | 구분 | Active Mode 환경 유지 | Passive Mode + 튜닝 적용 | 개선 효과 |
 |:---|:---|:---|:---|
-| **정량** | 개인 공유기([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 사용자 접속 차단율 99% | 클라이언트 아웃바운드 연결 허용 | 불특정 다수 대민 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) **접속 성공률 100% 도달** |
-| **정량** | [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Any 오픈 시 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)스캔 피격률 폭증 | 최소화된 지정 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(50000~50100) 오픈 | 클라우드 인스턴스 해킹 피격 표면적 **90% 이상 감축** |
-| **정성** | "목록이 안 뜹니다" CS 폭주 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 해결 불가 | 서버 측 데몬 통제로 원천 해결 | 네트워크 엔지니어와 개발팀 간의 장애 핑퐁 제거 및 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보 |
+| **정량** | 개인 공유기([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/)) 사용자 접속 차단율 99% | 클라이언트 아웃바운드 연결 허용 | 불특정 다수 대민 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) **접속 성공률 100% 도달** |
+| **정량** | [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) Any 오픈 시 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)스캔 피격률 폭증 | 최소화된 지정 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(50000~50100) 오픈 | 클라우드 인스턴스 해킹 피격 표면적 **90% 이상 감축** |
+| **정성** | "목록이 안 뜹니다" CS 폭주 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 해결 불가 | 서버 측 데몬 통제로 원천 해결 | 네트워크 엔지니어와 개발팀 간의 장애 핑퐁 제거 및 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 확보 |
 
 ### 미래 전망
-- **보안과 관리의 난해함으로 인한 퇴출**: Active와 Passive의 이 지긋지긋한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 방향성 싸움은 네트워크 엔지니어들의 10년짜리 골칫거리였다. 이 논쟁은 단일 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(22번) 위에서 제어와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 캡슐화되어 흐르는 <strong><a href="/knowledge-base/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a> 아키텍처</strong>로 넘어가면서 종지부를 찍었다. SFTP는 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 구멍 하나만 뚫으면 되므로 액티브/패시브라는 개념 자체가 존재하지 않는다.
-- <strong>현대 인프라의 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/">교훈</a></strong>: 비록 FTP는 사라져 가지만, "명령(제어)과 실제 거대한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널의 물리적 분리"라는 설계 사상은 현대 화상회의([WebRTC](/knowledge-base/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/))의 시그널링(제어) 서버와 미디어([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 서버 분리 아키텍처 등 고성능 네트워크 설계의 영원한 영감으로 남아있을 것이다.
+- **보안과 관리의 난해함으로 인한 퇴출**: Active와 Passive의 이 지긋지긋한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 방향성 싸움은 네트워크 엔지니어들의 10년짜리 골칫거리였다. 이 논쟁은 단일 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(22번) 위에서 제어와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 모두 캡슐화되어 흐르는 <strong><a href="/studynote/03_network/09_application_layer_web_email/485_sftp_ssh_file_transfer/">SFTP</a> 아키텍처</strong>로 넘어가면서 종지부를 찍었다. SFTP는 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)에 구멍 하나만 뚫으면 되므로 액티브/패시브라는 개념 자체가 존재하지 않는다.
+- <strong>현대 인프라의 <a href="/studynote/09_security/13_secops_ir_forensics/659_ir_lessons_learned/">교훈</a></strong>: 비록 FTP는 사라져 가지만, "명령(제어)과 실제 거대한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널의 물리적 분리"라는 설계 사상은 현대 화상회의([WebRTC](/studynote/03_network/09_application_layer_web_email/505_webrtc_web_real_time_communication/))의 시그널링(제어) 서버와 미디어([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 서버 분리 아키텍처 등 고성능 네트워크 설계의 영원한 영감으로 남아있을 것이다.
 
 ### 참고 표준
-- **RFC 1579**: Firewall-Friendly [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) (Passive Mode의 공식 등장을 알린 역사적 스펙)
-- **RFC 2428**: [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Extensions (보안과 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 충돌 지점 명세)
+- **RFC 1579**: Firewall-Friendly [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) (Passive Mode의 공식 등장을 알린 역사적 스펙)
+- **RFC 2428**: [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Extensions (보안과 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/)의 충돌 지점 명세)
 
-"누가 뚫고 들어갈 것인가." 액티브 모드와 패시브 모드의 대결은 단순히 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 메뉴 속 클릭 한 번의 문제가 아니다. 인터넷이 공공의 평화로운 망([NAT](/knowledge-base/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 없음)에서 살벌한 각자도생의 방어망(공유기, 클라우드 SG)으로 쪼개져 온 <strong>인터넷 30년 <a href="/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 진화사</strong>를 그대로 축약해 놓은 역사적 유물이다. [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열리고 닫히는 방향성(Inbound vs Outbound)의 철학을 뼛속 깊이 깨닫게 해주는 가장 훌륭한 네트워크 교육 교재라 할 수 있다.
+"누가 뚫고 들어갈 것인가." 액티브 모드와 패시브 모드의 대결은 단순히 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 메뉴 속 클릭 한 번의 문제가 아니다. 인터넷이 공공의 평화로운 망([NAT](/studynote/03_network/06_network_layer_ip/307_nat_network_address_translation_router_principles/) 없음)에서 살벌한 각자도생의 방어망(공유기, 클라우드 SG)으로 쪼개져 온 <strong>인터넷 30년 <a href="/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/">방화벽</a> 진화사</strong>를 그대로 축약해 놓은 역사적 유물이다. [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)가 열리고 닫히는 방향성(Inbound vs Outbound)의 철학을 뼛속 깊이 깨닫게 해주는 가장 훌륭한 네트워크 교육 교재라 할 수 있다.
 
-- **📢 섹션 요약 비유**: 옛날엔 모두 담장 없는 초가집이라 마당까지 차가 쑥쑥(액티브) 들어왔지만, 지금은 집마다 철문(공유기)과 아파트 경비원([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 생겨 배달원과 내가 중간 지점에서 만나야 하는(패시브) 팍팍한 보안의 시대로 세상이 변한 씁쓸한 흔적입니다.
+- **📢 섹션 요약 비유**: 옛날엔 모두 담장 없는 초가집이라 마당까지 차가 쑥쑥(액티브) 들어왔지만, 지금은 집마다 철문(공유기)과 아파트 경비원([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))이 생겨 배달원과 내가 중간 지점에서 만나야 하는(패시브) 팍팍한 보안의 시대로 세상이 변한 씁쓸한 흔적입니다.
 
 ---
 
@@ -221,10 +218,10 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
+| [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)) | 사용자 상태 유지와 요청 흐름을 묶는다. |
 | 캐시 (Cache) | 응답 속도와 백엔드 부하에 직접 영향을 준다. |
-| [TFTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [TFTP](/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -238,13 +235,13 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
     +---> [확장 B: 지능형 애플리케이션 전달]
 ```
 
-액티브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 FTP에서 출발해 현재 메커니즘을 정교화하고, 이후 TFTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+액티브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) vs 패시브 [FTP](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/) 동작 원리…는 FTP에서 출발해 현재 메커니즘을 정교화하고, 이후 TFTP와 지능형 애플리케이션 전달 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. FTP로 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받는 건 피자 배달이랑 똑같아요. <strong>액티브 모드</strong>는 우리 집에 "직접 갖다 주세요" 하는 건데, 아파트 경비 아저씨(우리 집 [방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))가 잡상인 출입 금지라며 오토바이를 막아버리면 굶어야 해요.
+1. FTP로 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 받는 건 피자 배달이랑 똑같아요. <strong>액티브 모드</strong>는 우리 집에 "직접 갖다 주세요" 하는 건데, 아파트 경비 아저씨(우리 집 [방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/))가 잡상인 출입 금지라며 오토바이를 막아버리면 굶어야 해요.
 2. 그래서 생긴 <strong>패시브 모드</strong>는 내가 경비 아저씨를 뚫고 1층 주차장으로 "가질러 나가는(아웃바운드)" 방법이에요! 안에서 밖으로 나가는 건 경비 아저씨도 안 막거든요.
-3. 하지만 이 방법은 피자집(서버) 문을 이리저리 다 열어둬야 해서, 피자집 도둑(해커)이 들까 봐 사장님(서버 관리자)이 문단속([방화벽](/knowledge-base/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/))하느라 엄청 머리가 아프답니다!
+3. 하지만 이 방법은 피자집(서버) 문을 이리저리 다 열어둬야 해서, 피자집 도둑(해커)이 들까 봐 사장님(서버 관리자)이 문단속([방화벽](/studynote/03_network/13_network_security_basics/690_firewall_generation_evolution/) [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/))하느라 엄청 머리가 아프답니다!
 
 ---
 
@@ -252,7 +249,7 @@ Active 모드가 실패하는 원인을 네트워크 헤더 관점에서 뜯어�
 
 **진행 상황**: 604 / 1120
 
-<- **이전**: [482. FTP (File Transfer Protocol)](/knowledge-base/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)
-**다음**: [484. TFTP (Trivial FTP)](/knowledge-base/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/) ->
+<- **이전**: [482. FTP (File Transfer Protocol)](/studynote/03_network/09_application_layer_web_email/482_ftp_file_transfer_protocol/)
+**다음**: [484. TFTP (Trivial FTP)](/studynote/03_network/09_application_layer_web_email/484_tftp_trivial_ftp/) ->
 
 ---

@@ -1,38 +1,35 @@
-+++
-title = "9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)"
-date = 2026-04-21
+---
+title: "9. 플로이드-워샬 (Floyd-Warshall) — 전체 쌍 최단 경로, O(V³)"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 플로이드-워샬 (Floyd-Warshall) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))으로 모든 정점 쌍 간 최단 거리를 O(V³)에 계산하는 전체 쌍 최단 경로 (All-Pairs [Shortest Path](/knowledge-base/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/), APSP) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 음수 간선을 허용하고, V×V 행렬 3중 루프라는 단순한 구현으로 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 쌍 경로를 한 번에 구한다.
-> 3. **판단 포인트**: V ≤ 500 수준의 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 적합하며, dp[k][k] < 0이면 음수 사이클이 존재함을 감지할 수 있다.
+> 1. **본질**: 플로이드-워샬 (Floyd-Warshall) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) ([Dynamic Programming](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/))으로 모든 정점 쌍 간 최단 거리를 O(V³)에 계산하는 전체 쌍 최단 경로 (All-Pairs [Shortest Path](/studynote/05_database/07_exam_summary/547_graph_shortest_path_db_mapping/), APSP) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 음수 간선을 허용하고, V×V 행렬 3중 루프라는 단순한 구현으로 밀집 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 쌍 경로를 한 번에 구한다.
+> 3. **판단 포인트**: V ≤ 500 수준의 밀집 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에 적합하며, dp[k][k] < 0이면 음수 사이클이 존재함을 감지할 수 있다.
 
 ## Ⅰ. 개요 및 필요성
 
-플로이드-워샬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 정점 쌍 (i, j)에 대해 i에서 j까지의 최단 경로를 계산한다. 핵심 아이디어는 "중간 경유 정점 k를 0~V-1까지 순서대로 고려하여 경로를 점진적으로 개선"하는 것이다.
+플로이드-워샬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)의 모든 정점 쌍 (i, j)에 대해 i에서 j까지의 최단 경로를 계산한다. 핵심 아이디어는 "중간 경유 정점 k를 0~V-1까지 순서대로 고려하여 경로를 점진적으로 개선"하는 것이다.
 
 | 특성 | 내용 |
 |:---|:---|
-| [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(V³) |
-| [공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V^) |
+| [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | O(V³) |
+| [공간 복잡도](/studynote/08_algorithm_stats/01_basics/003_space_complexity/) | O(V^) |
 | 음수 간선 | 허용 |
 | 음수 사이클 | 검출 가능 (직접 통과 불가) |
 | 출발점 | 모든 쌍 (All-Pairs) |
-| 적합 규모 | V ≤ 500 (밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) |
+| 적합 규모 | V ≤ 500 (밀집 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)) |
 
 📢 **섹션 요약 비유**: 플로이드-워샬은 중간 기착지를 한 도시씩 추가하며 "이 도시를 경유하면 더 빠르냐?"를 모든 출발-도착 쌍에 대해 반복하는 방법이다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 점화식 (Recurrence [Relation](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))
+### 점화식 (Recurrence [Relation](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/))
 
 ```
 dp[i][j] = i에서 j까지 정점 {0,...,k}만을 중간 경유할 때 최단 거리
@@ -49,7 +46,7 @@ for k in 0..V:
       dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
 ```
 
-### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 플로이드-워샬 행렬 갱신
+### [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — 플로이드-워샬 행렬 갱신
 
 ```
 +---------------------------------------------------------+
@@ -73,11 +70,11 @@ for k in 0..V:
 +---------------------------------------------------------+
 ```
 
-### [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단계별 동작
+### [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 단계별 동작
 
 | 단계 | k 값 | 설명 |
 |:---|:---:|:---|
-| 초기화 | — | 간선 있으면 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 없으면 ∞, 자기 자신 0 |
+| 초기화 | — | 간선 있으면 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/), 없으면 ∞, 자기 자신 0 |
 | k=0 반복 | 0 | 정점 0을 경유했을 때 모든 쌍 갱신 |
 | k=1 반복 | 1 | 정점 0,1을 경유했을 때 모든 쌍 갱신 |
 | ... | ... | ... |
@@ -96,16 +93,16 @@ if dist[i][i] < 0 for any i:
 
 ## Ⅲ. 비교 및 연결
 
-### 최단 경로 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
+### 최단 경로 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 비교
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 출발점 | 음수 간선 | 음수 사이클 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/) | 출발점 | 음수 간선 | 음수 사이클 |
 |:---|:---:|:---:|:---:|:---:|
-| [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) | O((V+E)log V) | 단일 | 불가 | 불가 |
-| [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) | O(VE) | 단일 | 가능 | 검출 |
+| [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) | O((V+E)log V) | 단일 | 불가 | 불가 |
+| [벨만-포드](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) | O(VE) | 단일 | 가능 | 검출 |
 | 플로이드-워샬 | O(V³) | 전체 쌍 | 가능 | 검출 |
-| [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(V+E) | 단일 | 불가 | 해당없음 |
+| [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) | O(V+E) | 단일 | 불가 | 해당없음 |
 
-### V=500일 때 플로이드-워샬 vs [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 반복
+### V=500일 때 플로이드-워샬 vs [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) 반복
 
 ```
 플로이드-워샬: 500³ = 125,000,000번 연산 (단 1회)
@@ -115,7 +112,7 @@ if dist[i][i] < 0 for any i:
 -> 밀집 그래프: 플로이드-워샬과 유사, 희소: 다익스트라×V가 유리
 ```
 
-📢 **섹션 요약 비유**: 플로이드-워샬과 [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 선택은 전국 도로 지도를 한 번에 완성하느냐(전체 쌍), 특정 도시에서 출발하는 지도만 그리느냐의 차이다.
+📢 **섹션 요약 비유**: 플로이드-워샬과 [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)의 선택은 전국 도로 지도를 한 번에 완성하느냐(전체 쌍), 특정 도시에서 출발하는 지도만 그리느냐의 차이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
@@ -126,7 +123,7 @@ if dist[i][i] < 0 for any i:
 - 플로이드-워샬 1회 실행 -> 이후 모든 배송 경로 O(1) 조회
 
 **시나리오 2**: 소셜 네트워크 친밀도 거리 계산
-- 모든 사용자 쌍 간 최단 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 거리
+- 모든 사용자 쌍 간 최단 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 거리
 - V가 수천 이하 소규모 네트워크에서 활용
 
 **시나리오 3**: 게임 NPC 이동 (소규모 격자)
@@ -138,28 +135,28 @@ if dist[i][i] < 0 for any i:
 | 상황 | 선택 | 이유 |
 |:---|:---|:---|
 | V ≤ 300, 전체 쌍 필요 | 플로이드-워샬 | O(V³) 수용 가능 |
-| V > 1,000, 전체 쌍 | [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)×V | O(V(V+E)log V) 더 효율적 |
+| V > 1,000, 전체 쌍 | [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)×V | O(V(V+E)log V) 더 효율적 |
 | 음수 간선 포함 | 플로이드-워샬 | 음수 간선 처리 가능 |
-| 음수 사이클 검출 필요 | 플로이드-워샬 | dist[i][i] < 0 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
-| 단일 출발 비음수 | [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) | O((V+E)log V) 최적 |
+| 음수 사이클 검출 필요 | 플로이드-워샬 | dist[i][i] < 0 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) |
+| 단일 출발 비음수 | [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) | O((V+E)log V) 최적 |
 
 📢 **섹션 요약 비유**: 플로이드-워샬은 항공사가 모든 도시 쌍 간 최단 환승 경로를 시즌 시작 전에 한 번에 계산해두는 것과 같다. 한 번의 큰 계산으로 이후 모든 질문에 즉시 답변한다.
 
 ## Ⅴ. 기대효과 및 결론
 
-플로이드-워샬 (Floyd-Warshall) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 V×V×V 3중 루프라는 단순한 구현으로 전체 쌍 최단 경로를 해결한다. 음수 간선 처리와 음수 사이클 검출이 가능하며, V ≤ 500 이하의 밀집 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 특히 효율적이다.
+플로이드-워샬 (Floyd-Warshall) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 V×V×V 3중 루프라는 단순한 구현으로 전체 쌍 최단 경로를 해결한다. 음수 간선 처리와 음수 사이클 검출이 가능하며, V ≤ 500 이하의 밀집 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 특히 효율적이다.
 
-**핵심 결론**: "모든 쌍 최단 경로가 필요하고 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 작다면 플로이드-워샬이 가장 단순하고 올바른 선택이다."
+**핵심 결론**: "모든 쌍 최단 경로가 필요하고 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 작다면 플로이드-워샬이 가장 단순하고 올바른 선택이다."
 
 📢 **섹션 요약 비유**: 플로이드-워샬은 작은 마을 지도를 직접 발로 뛰어 만드는 방법이다. 마을이 작다면 이 방법이 가장 직관적이고 정확하지만, 마을이 서울만큼 커지면 무리다.
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| [동적 프로그래밍](/knowledge-base/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임 | 점화식 기반 최단 경로 갱신 |
-| [다익스트라](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) ([Dijkstra](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) | 대안 | 단일 출발, 비음수 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
-| [벨만-포드](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) ([Bellman-Ford](/knowledge-base/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)) | 대안 | 단일 출발, 음수 간선 처리 |
+| [동적 프로그래밍](/studynote/08_algorithm_stats/01_basics/007_dynamic_programming/) (DP) | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 패러다임 | 점화식 기반 최단 경로 갱신 |
+| [다익스트라](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/) ([Dijkstra](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)) | 대안 | 단일 출발, 비음수 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) |
+| [벨만-포드](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/) ([Bellman-Ford](/studynote/08_algorithm_stats/11_graph_algorithms/170_bellman_ford/)) | 대안 | 단일 출발, 음수 간선 처리 |
 | 음수 사이클 (Negative Cycle) | 검출 대상 | dist[i][i] < 0 |
 | 인접 행렬 | 활용 자료구조 | O(1) 간선 비용 접근 |
 | 전이 폐쇄 (Transitive Closure) | 응용 | 도달 가능성 행렬 계산 |
@@ -182,13 +179,13 @@ if dist[i][i] < 0 for any i:
 [네트워크 라우팅 응용]
 ```
 
-플로이드-워셜은 모든 쌍 최단 경로를 동적 계획법으로 구하고 음수 사이클까지 탐지하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+플로이드-워셜은 모든 쌍 최단 경로를 동적 계획법으로 구하고 음수 사이클까지 탐지하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 🏙️ 10개의 도시가 있을 때, "A에서 B로 가려면 C를 거치면 더 빠를까?"를 모든 도시 조합에 대해 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 플로이드-워샬이다.
+1. 🏙️ 10개의 도시가 있을 때, "A에서 B로 가려면 C를 거치면 더 빠를까?"를 모든 도시 조합에 대해 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 플로이드-워샬이다.
 2. 🔄 중간 거점 도시를 하나씩 추가해가며 지도를 업데이트하기 때문에, V개 도시를 V번 검토하면 모든 경로가 완성된다.
-3. ⚠️ 자기 자신으로 돌아오는 경로가 음수라면 무한히 싼 경로가 존재한다는 뜻이므로, 그 경우는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 경고를 보낸다.
+3. ⚠️ 자기 자신으로 돌아오는 경로가 음수라면 무한히 싼 경로가 존재한다는 뜻이므로, 그 경우는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 경고를 보낸다.
 
 ---
 
@@ -196,7 +193,7 @@ if dist[i][i] < 0 for any i:
 
 **진행 상황**: 37 / 175
 
-<- **이전**: [7. 다익스트라 (Dijkstra) — 단일 출발 최단 경로, 비음수 가중치](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)
-**다음**: [A* 알고리즘 (A-Star Algorithm)](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/038_a_star_algorithm/) ->
+<- **이전**: [7. 다익스트라 (Dijkstra) — 단일 출발 최단 경로, 비음수 가중치](/studynote/08_algorithm_stats/03_graph_search/036_dijkstra/)
+**다음**: [A* 알고리즘 (A-Star Algorithm)](/studynote/08_algorithm_stats/03_graph_search/038_a_star_algorithm/) ->
 
 ---

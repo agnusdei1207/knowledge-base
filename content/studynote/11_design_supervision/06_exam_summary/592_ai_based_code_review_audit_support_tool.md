@@ -1,13 +1,10 @@
-+++
-title = "592. AI 기반 코드 리뷰 감리 지원 도구 (AI Based Code Review Audit Support Tool)"
-date = 2026-05-09
+---
+title: "592. AI 기반 코드 리뷰 감리 지원 도구 (AI Based Code Review Audit Support Tool)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ AI 기반 코드 리뷰 감리 지원 도구는 **① 인리포지션(Ingestion)
 
 **진행 상황**: 592 / 600
 
-<- **이전**: [591. 감리 자동화 도구 체크리스트 생성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/591_audit_automation_tool_checklist_generation/)
-**다음**: [593. 클라우드 환경 감리 가상화 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/593_cloud_environment_audit_virtualization/) ->
+<- **이전**: [591. 감리 자동화 도구 체크리스트 생성](/studynote/11_design_supervision/06_exam_summary/591_audit_automation_tool_checklist_generation/)
+**다음**: [593. 클라우드 환경 감리 가상화 검증](/studynote/11_design_supervision/06_exam_summary/593_cloud_environment_audit_virtualization/) ->
 
 ---

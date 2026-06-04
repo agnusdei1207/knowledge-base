@@ -1,13 +1,10 @@
-+++
-title = "527. 사이드카 패턴 프록시 서비스 확장 (Sidecar Pattern Proxy Service Extension)"
-date = 2026-05-09
+---
+title: "527. 사이드카 패턴 프록시 서비스 확장 (Sidecar Pattern Proxy Service Extension)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 527 / 800
 
-<- **이전**: [526. 서킷 브레이커 재시도 타임아웃 패턴](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/526_circuit_breaker_retry_timeout_pattern/)
-**다음**: [528. 앰배서더 패턴 외부 통신 프록시](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/528_ambassador_pattern_external_communication_pro/) ->
+<- **이전**: [526. 서킷 브레이커 재시도 타임아웃 패턴](/studynote/13_cloud_architecture/06_exam_summary/526_circuit_breaker_retry_timeout_pattern/)
+**다음**: [528. 앰배서더 패턴 외부 통신 프록시](/studynote/13_cloud_architecture/06_exam_summary/528_ambassador_pattern_external_communication_pro/) ->
 
 ---

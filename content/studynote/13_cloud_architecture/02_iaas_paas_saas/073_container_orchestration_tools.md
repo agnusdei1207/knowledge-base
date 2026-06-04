@@ -1,25 +1,22 @@
-+++
-title = "73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는 관리 시스템"
-date = 2026-04-07
+---
+title: "73. 오케스트레이션 (Orchestration) 도구 - 수백~수만 개의 컨테이너를 자동 배치, 스케일링, 로드밸런싱, 장애 복구(Self-healing)하는 관리 시스템"
+date: "2026-04-07"
+tags:
+  - "studynote-cloud"
+---
 
-[taxonomies]
-tags = ["studynote-cloud"]
-
-[extra]
-tags = ["studynote-cloud"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 오케스트레이션 도구는 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 배치, [스케일링](/knowledge-base/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 자동화하는 시스템이다.
+> 1. **본질**: 오케스트레이션 도구는 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 배치, [스케일링](/studynote/10_ai/03_llm_nlp/249_scaling_normalization_standardization/), [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 자동화하는 시스템이다.
 > 2. **가치**: 대규모 운영을 가능하게 한다.
-> 3. **판단**: 스케줄링, [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), self-healing이 핵심이다.
+> 3. **판단**: 스케줄링, [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/), self-healing이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수가 많아지면 수동 관리가 불가능하다.
+[컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 수가 많아지면 수동 관리가 불가능하다.
 
 오케스트레이션이 그 문제를 해결한다.
 
@@ -41,9 +38,9 @@ Service
 | :-- | :-- |
 | Scheduling | 배치 |
 | Scaling | 확장 |
-| Self-healing | 자동 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| Self-healing | 자동 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
 
-오케스트레이션은 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 생명주기를 자동으로 관리한다.
+오케스트레이션은 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)의 생명주기를 자동으로 관리한다.
 
 - **📢 섹션 요약 비유**: 악기를 배치하고 소리 안 나면 바로 교체하는 지휘다.
 
@@ -53,14 +50,14 @@ Service
 
 | 도구 | 특징 |
 | :-- | :-- |
-| [Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) | 표준적 |
-| [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Swarm | 단순 |
+| [Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/) | 표준적 |
+| [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) Swarm | 단순 |
 | Nomad | 범용 |
 
 | 개념 | 의미 |
 | :-- | :-- |
-| [Service Discovery](/knowledge-base/studynote/12_it_management/05_security_compliance/946_service_discovery/) | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 찾기 |
-| [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) | 부하 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) |
+| [Service Discovery](/studynote/12_it_management/05_security_compliance/946_service_discovery/) | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 찾기 |
+| [Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/) | 부하 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) |
 
 오케스트레이션은 런타임 위에서 시스템 전체를 조율한다.
 
@@ -70,22 +67,22 @@ Service
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 스케줄링을 자동화하는가?
 2. self-healing이 있는가?
-3. [서비스 디스커버리](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)를 지원하는가?
+3. [서비스 디스커버리](/studynote/04_software_engineering/05_devops_ci_cd/306_service_discovery_pattern/)를 지원하는가?
 4. 오토스케일을 쓰는가?
 5. 클러스터 상태를 관리하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 수동 배치만 하는 설계
-- [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 없는 운영
-- [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결을 무시하는 설계
+- [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 없는 운영
+- [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 연결을 무시하는 설계
 - 런타임과 혼동하는 설계
 
-기술사 관점에서는 오케스트레이션을 "대규모 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 운영의 자동 조율"로 설명해야 한다.
+기술사 관점에서는 오케스트레이션을 "대규모 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 운영의 자동 조율"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 큰 악단을 한 번에 맞추는 사람이다.
 
@@ -95,9 +92,9 @@ Service
 
 오케스트레이션은 운영 효율과 안정성을 높인다.
 
-결론적으로 오케스트레이션 도구는 대규모 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 자동 관리하는 시스템이다.
+결론적으로 오케스트레이션 도구는 대규모 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 자동 관리하는 시스템이다.
 
-- **📢 섹션 요약 비유**: [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 알아서 지휘하는 시스템이다.
+- **📢 섹션 요약 비유**: [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 알아서 지휘하는 시스템이다.
 
 ---
 
@@ -137,7 +134,7 @@ Kubernetes
 
 **진행 상황**: 72 / 371
 
-<- **이전**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/)
-**다음**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/) ->
+<- **이전**: [72. 컨테이너 런타임 (Container Runtime) - 실제 컨테이너를 구동하는 저수준 엔진 (containerd, CRI-O,](/studynote/13_cloud_architecture/02_iaas_paas_saas/072_container_runtime_containerd_crio_runc/)
+**다음**: [74. 쿠버네티스 (Kubernetes, K8s) - 컨테이너 오케스트레이션 플랫폼](/studynote/13_cloud_architecture/02_iaas_paas_saas/074_kubernetes_k8s_container_orchestration/) ->
 
 ---

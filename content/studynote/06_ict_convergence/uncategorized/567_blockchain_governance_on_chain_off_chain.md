@@ -1,13 +1,10 @@
-+++
-title = "567. 블록체인 거버넌스 온체인 오프체인 (Blockchain Governance On-chain Off-chain)"
-date = 2026-05-09
+---
+title: "567. 블록체인 거버넌스 온체인 오프체인 (Blockchain Governance On-chain Off-chain)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Discuss -> Signal -> Vote -> Execute -> Review
 
 **진행 상황**: 567 / 800
 
-<- **이전**: [566. 프라이빗 블록체인 Hyperledger Fabric](/knowledge-base/studynote/06_ict_convergence/uncategorized/566_private_blockchain_hyperledger_fabric/)
-**다음**: [568. 토큰 표준 ERC-20 ERC-721 ERC-1155](/knowledge-base/studynote/06_ict_convergence/uncategorized/568_token_standard_erc_20_erc_721_erc_1155/) ->
+<- **이전**: [566. 프라이빗 블록체인 Hyperledger Fabric](/studynote/06_ict_convergence/uncategorized/566_private_blockchain_hyperledger_fabric/)
+**다음**: [568. 토큰 표준 ERC-20 ERC-721 ERC-1155](/studynote/06_ict_convergence/uncategorized/568_token_standard_erc_20_erc_721_erc_1155/) ->
 
 ---

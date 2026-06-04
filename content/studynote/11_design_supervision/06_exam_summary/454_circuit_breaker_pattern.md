@@ -1,13 +1,10 @@
-+++
-title = "454. 서킷 브레이커 패턴 장애 격리 (Circuit Breaker Pattern Fault Isolation)"
-date = 2026-05-09
+---
+title: "454. 서킷 브레이커 패턴 장애 격리 (Circuit Breaker Pattern Fault Isolation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 454 / 600
 
-<- **이전**: [453. 이벤트 소싱 CQRS 설계 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/454_event_sourcing_cqrs/)
-**다음**: [455. 사가 패턴 분산 트랜잭션 보상](/knowledge-base/studynote/11_design_supervision/06_exam_summary/455_saga_pattern/) ->
+<- **이전**: [453. 이벤트 소싱 CQRS 설계 패턴](/studynote/11_design_supervision/06_exam_summary/454_event_sourcing_cqrs/)
+**다음**: [455. 사가 패턴 분산 트랜잭션 보상](/studynote/11_design_supervision/06_exam_summary/455_saga_pattern/) ->
 
 ---

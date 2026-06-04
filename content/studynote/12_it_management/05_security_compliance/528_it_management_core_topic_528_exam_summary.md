@@ -1,13 +1,10 @@
-+++
-title = "528. IT 경영 관리 핵심 토픽 528번 시험 요약 (IT Management Core Topic 528 Exam Summary)"
-date = 2026-05-09
+---
+title: "528. IT 경영 관리 핵심 토픽 528번 시험 요약 (IT Management Core Topic 528 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 528. IT 경영 관리 핵심 토픽 528번 시험 요약
 ## (정보관리기술사 시험 대비 — IT Management 통합 서머리)
@@ -181,7 +178,7 @@ IT 경영 관리(IT Management)는 단순한 시스템 운영을 넘어, **"IT �
 
 **진행 상황**: 528 / 800
 
-<- **이전**: [527. IT 경영 관리 핵심 토픽 527번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/527_it_management_core_topic_527_exam_summary/)
-**다음**: [529. IT 경영 관리 핵심 토픽 529번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/529_it_management_core_topic_529_exam_summary/) ->
+<- **이전**: [527. IT 경영 관리 핵심 토픽 527번 시험 요약](/studynote/12_it_management/05_security_compliance/527_it_management_core_topic_527_exam_summary/)
+**다음**: [529. IT 경영 관리 핵심 토픽 529번 시험 요약](/studynote/12_it_management/05_security_compliance/529_it_management_core_topic_529_exam_summary/) ->
 
 ---

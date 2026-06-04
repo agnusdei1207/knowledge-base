@@ -1,13 +1,10 @@
-+++
-title = "764. 임베디드 금융 BaaS 금융 서비스 내장 (Embedded Finance BaaS Banking as Service)"
-date = 2026-05-09
+---
+title: "764. 임베디드 금융 BaaS 금융 서비스 내장 (Embedded Finance BaaS Banking as Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -159,7 +156,7 @@ BaaS/임베디드 금융 시스템은 통상 **5계층 레이어드 아키텍처
 
 **진행 상황**: 764 / 800
 
-<- **이전**: [763. 오픈 뱅킹 마이데이터 API 생태계](/knowledge-base/studynote/06_ict_convergence/uncategorized/763_open_banking_mydata_api_ecosystem/)
-**다음**: [765. 슈퍼앱 플랫폼 전략 미니 프로그램](/knowledge-base/studynote/06_ict_convergence/uncategorized/765_super_app_platform_strategy_mini_program/) ->
+<- **이전**: [763. 오픈 뱅킹 마이데이터 API 생태계](/studynote/06_ict_convergence/uncategorized/763_open_banking_mydata_api_ecosystem/)
+**다음**: [765. 슈퍼앱 플랫폼 전략 미니 프로그램](/studynote/06_ict_convergence/uncategorized/765_super_app_platform_strategy_mini_program/) ->
 
 ---

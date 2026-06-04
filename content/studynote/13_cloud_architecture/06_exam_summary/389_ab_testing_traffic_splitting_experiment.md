@@ -1,13 +1,10 @@
-+++
-title = "389. A/B 테스팅 트래픽 분할 실험 (AB Testing Traffic Splitting Experiment)"
-date = 2026-05-09
+---
+title: "389. A/B 테스팅 트래픽 분할 실험 (AB Testing Traffic Splitting Experiment)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 389 / 800
 
-<- **이전**: [388. 롤링 업데이트 배포 전략 롤백](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/388_rolling_update_deployment_strategy_rollback/)
-**다음**: [390. 서비스 메시 Istio 트래픽 관리](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/390_service_mesh_istio_traffic_management/) ->
+<- **이전**: [388. 롤링 업데이트 배포 전략 롤백](/studynote/13_cloud_architecture/06_exam_summary/388_rolling_update_deployment_strategy_rollback/)
+**다음**: [390. 서비스 메시 Istio 트래픽 관리](/studynote/13_cloud_architecture/06_exam_summary/390_service_mesh_istio_traffic_management/) ->
 
 ---

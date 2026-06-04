@@ -1,27 +1,24 @@
-+++
-title = "172. 이분 매칭 (Bipartite Matching)"
-date = 2026-05-06
+---
+title: "172. 이분 매칭 (Bipartite Matching)"
+date: "2026-05-06"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 이분 매칭 (Bipartite Matching)은 두 개의 독립된 정점 집합 사이에서 서로 겹치지 않는 간선을 최대한 많이 선택하는 문제이며, "누구를 누구와 겹치지 않게 연결할 것인가"를 수학적으로 모델링한다.
 > 2. **가치**: 증대 경로 (Augmenting Path)를 이용하면 이미 잡힌 매칭을 일부 재배치해 전체 매칭 수를 늘릴 수 있어, 단순 탐욕 선택이 놓치는 전역 최적해에 도달할 수 있다.
-> 3. **판단 포인트**: 매칭 개수만 최대화할지, [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·비용까지 고려할지, 입력 규모가 큰지에 따라 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭, Hopcroft-Karp, 헝가리안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Hungarian [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), 최소 비용 [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)으로 선택이 달라진다.
+> 3. **판단 포인트**: 매칭 개수만 최대화할지, [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·비용까지 고려할지, 입력 규모가 큰지에 따라 [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭, Hopcroft-Karp, 헝가리안 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Hungarian [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)), 최소 비용 [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/)으로 선택이 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-이분 매칭은 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 <strong>서로 다른 두 집단 사이의 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/099_one_to_one_model/">일대일</a> 배정</strong>을 모델링할 때 자주 등장한다.
+이분 매칭은 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) 에서 한쪽 집합 `U` 와 다른쪽 집합 `V` 사이의 간선들 중, 끝점을 공유하지 않도록 최대한 많이 고르는 문제다. 구직자와 일자리, 학생과 기숙사 방, 광고 슬롯과 광고주처럼 <strong>서로 다른 두 집단 사이의 <a href="/studynote/02_operating_system/02_process_thread/099_one_to_one_model/">일대일</a> 배정</strong>을 모델링할 때 자주 등장한다.
 
-이 문제가 중요한 이유는 단순히 "연결 가능한가"보다 "얼마나 많이 충돌 없이 배정할 수 있는가"가 실무에서 더 중요하기 때문이다. 단순 탐욕법으로 눈앞의 짝만 먼저 정해 버리면, 뒤에서 더 좋은 배정을 막아 전체 개수가 줄어들 수 있다. 그래서 이분 매칭은 국소 선택보다 <strong>재배치가 가능한 구조</strong>를 보는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다.
+이 문제가 중요한 이유는 단순히 "연결 가능한가"보다 "얼마나 많이 충돌 없이 배정할 수 있는가"가 실무에서 더 중요하기 때문이다. 단순 탐욕법으로 눈앞의 짝만 먼저 정해 버리면, 뒤에서 더 좋은 배정을 막아 전체 개수가 줄어들 수 있다. 그래서 이분 매칭은 국소 선택보다 <strong>재배치가 가능한 구조</strong>를 보는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다.
 
 아래 예시는 왜 탐욕 선택만으로는 부족한지 보여 준다.
 
@@ -52,10 +49,10 @@ tags = ["studynote-algorithm"]
 | 왼쪽 집합 `U` | 배정을 요청하는 쪽 | 각 정점에서 매칭 시도 시작 |
 | 오른쪽 집합 `V` | 자원을 제공하는 쪽 | 각 자원은 최대 1개만 배정 |
 | `match[v]` | `v` 와 현재 연결된 `U` 정점 | 현재 매칭 상태 저장 |
-| 방문 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) | 한 번의 탐색 중 중복 방문 방지 | 무한 재귀와 중복 경로 차단 |
+| 방문 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) | 한 번의 탐색 중 중복 방문 방지 | 무한 재귀와 중복 경로 차단 |
 | 증대 경로 | 매칭 수를 1 늘릴 수 있는 교대 경로 | 최대 매칭 도달의 핵심 메커니즘 |
 
-[DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 구현은 보통 "왼쪽 정점 하나씩 시도"하는 구조를 가진다. 어떤 `U` 정점이 원하는 `V` 정점이 비어 있으면 바로 매칭하고, 이미 차 있으면 현재 주인에게 다른 자리를 찾아보라고 재귀적으로 요청한다. 이 과정이 성공하면 기존 매칭을 밀어내고 새 매칭을 늘릴 수 있다.
+[DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 구현은 보통 "왼쪽 정점 하나씩 시도"하는 구조를 가진다. 어떤 `U` 정점이 원하는 `V` 정점이 비어 있으면 바로 매칭하고, 이미 차 있으면 현재 주인에게 다른 자리를 찾아보라고 재귀적으로 요청한다. 이 과정이 성공하면 기존 매칭을 밀어내고 새 매칭을 늘릴 수 있다.
 
 아래 그림은 증대 경로를 따라 매칭 상태를 뒤집는 과정을 보여 준다.
 
@@ -70,7 +67,7 @@ tags = ["studynote-algorithm"]
 +----------------------------------------------------------------------+
 ```
 
-이 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭은 흔히 `O(VE)` 정도로 이해하며, 코딩 테스트와 중간 규모 배정 문제에서 많이 쓰인다. 더 큰 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 Hopcroft-Karp [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [너비 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search) 으로 여러 최단 증대 경로를 한꺼번에 찾고, [깊이 우선 탐색](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search) 으로 확장해 `O(E√V)`까지 줄여 준다.
+이 [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 최대 매칭은 흔히 `O(VE)` 정도로 이해하며, 코딩 테스트와 중간 규모 배정 문제에서 많이 쓰인다. 더 큰 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 Hopcroft-Karp [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 [너비 우선 탐색](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) ([BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/), Breadth-First Search) 으로 여러 최단 증대 경로를 한꺼번에 찾고, [깊이 우선 탐색](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) ([DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/), Depth-First Search) 으로 확장해 `O(E√V)`까지 줄여 준다.
 
 - **📢 섹션 요약 비유**: 이미 자리 잡은 친구에게 "네가 저쪽 자리로 옮길 수 있으면 이 친구도 앉을 수 있어"라고 차례로 묻는 과정이 증대 경로다. 한 명만 보는 게 아니라 줄줄이 자리를 재배치하는 것이 핵심이다.
 
@@ -78,19 +75,19 @@ tags = ["studynote-algorithm"]
 
 ## Ⅲ. 비교 및 연결
 
-이분 매칭은 여러 다른 최적화 문제와 경계가 맞닿아 있다. 최대 매칭 자체는 개수 극대화 문제이고, 여기에 비용이 붙으면 할당 문제로 바뀌며, 일반 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)까지 확장되면 더 복잡한 매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요해진다.
+이분 매칭은 여러 다른 최적화 문제와 경계가 맞닿아 있다. 최대 매칭 자체는 개수 극대화 문제이고, 여기에 비용이 붙으면 할당 문제로 바뀌며, 일반 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)까지 확장되면 더 복잡한 매칭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요해진다.
 
-| 기법 | 다루는 문제 | [시간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/002_time_complexity/)(대표) | 적합한 상황 |
+| 기법 | 다루는 문제 | [시간 복잡도](/studynote/08_algorithm_stats/01_basics/002_time_complexity/)(대표) | 적합한 상황 |
 | :--- | :--- | :--- | :--- |
 | 단순 탐욕 | 지역적으로 가능한 짝 선택 | 낮음 | 근사나 예비 필터링 정도 |
-| [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 이분 매칭 | 최대 매칭 개수 | `O(VE)` | 중간 규모, 구현 단순성 중시 |
-| Hopcroft-Karp | 최대 매칭 개수 | `O(E√V)` | 큰 희소 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
-| 헝가리안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 있는 완전 매칭 | `O(V^3)` | 비용 최소화/최대화가 중요할 때 |
-| [최대 유량](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 환원 | 일반 제약 포함 매칭 | 구현에 따라 큼 | 용량, 다중 제약 포함 모델링 |
+| [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 이분 매칭 | 최대 매칭 개수 | `O(VE)` | 중간 규모, 구현 단순성 중시 |
+| Hopcroft-Karp | 최대 매칭 개수 | `O(E√V)` | 큰 희소 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) |
+| 헝가리안 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) 있는 완전 매칭 | `O(V^3)` | 비용 최소화/최대화가 중요할 때 |
+| [최대 유량](/studynote/08_algorithm_stats/03_graph_search/043_max_flow/) 환원 | 일반 제약 포함 매칭 | 구현에 따라 큼 | 용량, 다중 제약 포함 모델링 |
 
-또한 이분 매칭은 쾨니그의 정리 (Kőnig's Theorem) 와 강하게 연결된다. 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 최대 매칭의 크기와 최소 정점 커버 (Minimum [Vertex Cover](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/)) 의 크기가 같기 때문이다. 이 성질은 단순 계산 기법을 넘어, 왜 매칭 문제가 커버 문제와 같은 구조를 갖는지 이론적 기반을 제공한다.
+또한 이분 매칭은 쾨니그의 정리 (Kőnig's Theorem) 와 강하게 연결된다. 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서는 최대 매칭의 크기와 최소 정점 커버 (Minimum [Vertex Cover](/studynote/08_algorithm_stats/06_np_theory/114_vertex_cover/)) 의 크기가 같기 때문이다. 이 성질은 단순 계산 기법을 넘어, 왜 매칭 문제가 커버 문제와 같은 구조를 갖는지 이론적 기반을 제공한다.
 
-홀의 결혼 정리 (Hall's Marriage Theorem) 도 중요한 연결점이다. 완전 매칭이 가능한지 여부를 집합 관점에서 판정해 주기 때문이다. 즉 이분 매칭은 단순 구현 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라, 배정 가능성·최대화·커버 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잇는 조합 최적화의 중심 주제다.
+홀의 결혼 정리 (Hall's Marriage Theorem) 도 중요한 연결점이다. 완전 매칭이 가능한지 여부를 집합 관점에서 판정해 주기 때문이다. 즉 이분 매칭은 단순 구현 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 아니라, 배정 가능성·최대화·커버 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 잇는 조합 최적화의 중심 주제다.
 
 - **📢 섹션 요약 비유**: 짝짓기 개수만 중요하면 이분 매칭으로 충분하지만, 누구를 누구와 짝지을 때 비용까지 따지면 더 정교한 게임 규칙이 필요하다. 운동회 자리 배치와 입시 배정이 다른 문제인 것과 같다.
 
@@ -100,9 +97,9 @@ tags = ["studynote-algorithm"]
 
 실무에서 이분 매칭은 생각보다 자주 나온다. 채용 플랫폼에서는 지원자와 면접 슬롯을, 광고 플랫폼에서는 사용자 세그먼트와 광고 슬롯을, 대학 시스템에서는 학생과 수강 좌석을, 클라우드 인프라에서는 작업과 서버 슬롯을 연결하는 문제로 나타난다. 공통점은 "한쪽 자원을 여러 명이 동시에 가질 수 없고, 가능한 배정을 최대화하고 싶다"는 점이다.
 
-이때 가장 먼저 판단해야 할 것은 문제가 정말 이분 구조인지다. 정점이 두 집단으로 깔끔하게 나뉘고 간선이 그 사이에만 존재해야 기본 이분 매칭 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 바로 적용할 수 있다. 같은 집단 내부 간선이 있거나 일반 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)라면 다른 접근이 필요하다.
+이때 가장 먼저 판단해야 할 것은 문제가 정말 이분 구조인지다. 정점이 두 집단으로 깔끔하게 나뉘고 간선이 그 사이에만 존재해야 기본 이분 매칭 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 바로 적용할 수 있다. 같은 집단 내부 간선이 있거나 일반 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)라면 다른 접근이 필요하다.
 
-아래 결정 흐름은 어떤 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할지 빠르게 정리해 준다.
+아래 결정 흐름은 어떤 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할지 빠르게 정리해 준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -120,22 +117,22 @@ tags = ["studynote-algorithm"]
 +----------------------------------------------------------------------+
 ```
 
-### 기술사 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 입력 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 진짜 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)인가?
+1. 입력 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 진짜 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)인가?
 2. 목적이 매칭 개수 최대화인지, 비용 최소화인지 구분했는가?
-3. [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 규모가 커서 Hopcroft-Karp가 필요한가?
+3. [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 규모가 커서 Hopcroft-Karp가 필요한가?
 4. 한 번의 배치인지, 요청이 순차 도착하는 온라인 문제인지 분리했는가?
-5. 구현에서 방문 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 매 탐색마다 올바르게 초기화하고 있는가?
+5. 구현에서 방문 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 매 탐색마다 올바르게 초기화하고 있는가?
 
-### 자주 나오는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 나오는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 일반 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 문제를 이분 매칭으로 단순화해 오답을 만드는 경우
-- [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 구현에서 방문 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)을 초기화하지 않아 증대 경로를 놓치는 경우
+- 일반 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 문제를 이분 매칭으로 단순화해 오답을 만드는 경우
+- [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/) 기반 구현에서 방문 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)을 초기화하지 않아 증대 경로를 놓치는 경우
 - 비용이 중요한데도 최대 개수 매칭만 구해 놓고 최적이라고 착각하는 경우
-- 큰 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 단순 DFS만 고집해 시간 초과가 나는 경우
+- 큰 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)에서 단순 DFS만 고집해 시간 초과가 나는 경우
 
-좋은 해법은 문제를 "[그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)"로 바꾸는 것에서 끝나지 않는다. 어떤 제약이 이분 구조를 만들고, 어떤 비용이 별도의 모델을 요구하는지까지 분해해야 진짜 적합한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할 수 있다.
+좋은 해법은 문제를 "[그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)"로 바꾸는 것에서 끝나지 않는다. 어떤 제약이 이분 구조를 만들고, 어떤 비용이 별도의 모델을 요구하는지까지 분해해야 진짜 적합한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 선택할 수 있다.
 
 - **📢 섹션 요약 비유**: 아이들을 반별로 짝지을 때는 그냥 많이 짝지으면 되지만, 공연 배역처럼 키와 역할비용까지 따지면 다른 규칙이 필요하다. 문제의 규칙을 먼저 알아야 알맞은 매칭법을 고를 수 있다.
 
@@ -143,11 +140,11 @@ tags = ["studynote-algorithm"]
 
 ## Ⅴ. 기대효과 및 결론
 
-이분 매칭을 이해하면 복잡한 배정 문제를 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 한 장으로 정리할 수 있다. 특히 증대 경로라는 개념은 "이미 정해진 배정도 다시 흔들 수 있다"는 관점을 주어, 탐욕 선택의 한계를 넘게 해 준다. 그래서 채용, 배차, 광고, 스케줄링 같은 다양한 문제를 정교하게 모델링하는 출발점이 된다.
+이분 매칭을 이해하면 복잡한 배정 문제를 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 한 장으로 정리할 수 있다. 특히 증대 경로라는 개념은 "이미 정해진 배정도 다시 흔들 수 있다"는 관점을 주어, 탐욕 선택의 한계를 넘게 해 준다. 그래서 채용, 배차, 광고, 스케줄링 같은 다양한 문제를 정교하게 모델링하는 출발점이 된다.
 
-한계도 있다. 기본 이분 매칭은 개수 최대화에 초점이 있으므로, 비용·선호도·실시간 도착 같은 요소가 추가되면 다른 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다. 또한 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 동적으로 변하는 온라인 환경에서는 고전적인 오프라인 최대 매칭만으로 충분하지 않을 수 있다.
+한계도 있다. 기본 이분 매칭은 개수 최대화에 초점이 있으므로, 비용·선호도·실시간 도착 같은 요소가 추가되면 다른 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 필요하다. 또한 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)가 동적으로 변하는 온라인 환경에서는 고전적인 오프라인 최대 매칭만으로 충분하지 않을 수 있다.
 
-따라서 이분 매칭은 "두 집단 사이에서 충돌 없이 최대한 많이 연결한다"는 중심 문장으로 기억하되, 실제 문제에서는 <strong>증대 경로 기반 최대 매칭인지, <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>·온라인·일반 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 확장인지</strong>를 먼저 구분하는 습관이 중요하다.
+따라서 이분 매칭은 "두 집단 사이에서 충돌 없이 최대한 많이 연결한다"는 중심 문장으로 기억하되, 실제 문제에서는 <strong>증대 경로 기반 최대 매칭인지, <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>·온라인·일반 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> 확장인지</strong>를 먼저 구분하는 습관이 중요하다.
 
 - **📢 섹션 요약 비유**: 이분 매칭은 자리가 부족한 교실에서 아이들을 최대한 많이 앉히기 위해, 이미 앉은 아이의 자리도 다시 조정해 보는 똑똑한 배치표와 같다.
 
@@ -157,13 +154,13 @@ tags = ["studynote-algorithm"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 이분 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/)) | 이분 매칭이 성립하는 기본 구조 |
+| 이분 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) (Bipartite [Graph](/studynote/12_it_management/03_ea_isp/888_graph/)) | 이분 매칭이 성립하는 기본 구조 |
 | 증대 경로 (Augmenting Path) | 매칭 수를 1씩 늘리는 핵심 메커니즘 |
 | 최대 매칭 (Maximum Matching) | 이 문서의 직접 문제 목표 |
-| 쾨니그의 정리 (Kőnig's Theorem) | 최대 매칭과 최소 정점 커버의 등가 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 쾨니그의 정리 (Kőnig's Theorem) | 최대 매칭과 최소 정점 커버의 등가 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 | 홀의 결혼 정리 (Hall's Marriage Theorem) | 완전 매칭 가능성의 이론적 판정 기준 |
-| Hopcroft-Karp | 대규모 이분 매칭을 위한 고속 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| 헝가리안 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 비용이 있는 이분 배정 문제의 대표 해법 |
+| Hopcroft-Karp | 대규모 이분 매칭을 위한 고속 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| 헝가리안 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 비용이 있는 이분 배정 문제의 대표 해법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -184,7 +181,7 @@ Maximum matching
     +- Hungarian / Min-Cost extensions
 ```
 
-이 흐름은 이분 구조 판정에서 출발해, 증대 경로 기반 최대 매칭으로 확장되고, 이후 이론과 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·대규모 처리 문제로 이어지는 발전 방향을 보여 준다.
+이 흐름은 이분 구조 판정에서 출발해, 증대 경로 기반 최대 매칭으로 확장되고, 이후 이론과 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)·대규모 처리 문제로 이어지는 발전 방향을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -198,7 +195,7 @@ Maximum matching
 
 **진행 상황**: 172 / 175
 
-<- **이전**: [171. 프림 알고리즘 (Prim's Algorithm)](/knowledge-base/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/)
-**다음**: [합병 정렬 (Merge Sort)](/knowledge-base/studynote/08_algorithm_stats/13_sorting_algorithms/173_merge_sort/) ->
+<- **이전**: [171. 프림 알고리즘 (Prim's Algorithm)](/studynote/08_algorithm_stats/12_graph_algorithms/171_prim_algorithm/)
+**다음**: [합병 정렬 (Merge Sort)](/studynote/08_algorithm_stats/13_sorting_algorithms/173_merge_sort/) ->
 
 ---

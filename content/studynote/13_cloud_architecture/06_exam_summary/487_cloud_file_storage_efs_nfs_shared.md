@@ -1,13 +1,10 @@
-+++
-title = "487. 클라우드 파일 스토리지 EFS NFS 공유 (Cloud File Storage EFS NFS Shared)"
-date = 2026-05-09
+---
+title: "487. 클라우드 파일 스토리지 EFS NFS 공유 (Cloud File Storage EFS NFS Shared)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 487 / 800
 
-<- **이전**: [486. 클라우드 블록 스토리지 EBS 디스크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/486_cloud_block_storage_ebs_disk/)
-**다음**: [488. 클라우드 데이터베이스 RDS Aurora 관리형](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/488_cloud_database_rds_aurora_managed/) ->
+<- **이전**: [486. 클라우드 블록 스토리지 EBS 디스크](/studynote/13_cloud_architecture/06_exam_summary/486_cloud_block_storage_ebs_disk/)
+**다음**: [488. 클라우드 데이터베이스 RDS Aurora 관리형](/studynote/13_cloud_architecture/06_exam_summary/488_cloud_database_rds_aurora_managed/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "388. 위협 모델링 STRIDE DREAD 설계 시점 분석 (Threat Modeling STRIDE DREAD PASTA)"
-date = 2026-05-09
+---
+title: "388. 위협 모델링 STRIDE DREAD 설계 시점 분석 (Threat Modeling STRIDE DREAD PASTA)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 388 / 400
 
-<- **이전**: [387. 취약점 관리 CVE CVSS 우선순위 기반 패치 (Vulnerability Management CVE CVSS Prioritization)](/knowledge-base/studynote/15_devops_sre/05_devsecops/387_vulnerability_management_cve/)
-**다음**: [389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)](/knowledge-base/studynote/15_devops_sre/05_devsecops/389_chaos_engineering_security/) ->
+<- **이전**: [387. 취약점 관리 CVE CVSS 우선순위 기반 패치 (Vulnerability Management CVE CVSS Prioritization)](/studynote/15_devops_sre/05_devsecops/387_vulnerability_management_cve/)
+**다음**: [389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)](/studynote/15_devops_sre/05_devsecops/389_chaos_engineering_security/) ->
 
 ---

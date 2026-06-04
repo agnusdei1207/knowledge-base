@@ -1,13 +1,10 @@
-+++
-title = "513. SAP S4HANA 클라우드 마이그레이션 (SAP S4HANA Cloud Migration)"
-date = 2026-05-09
+---
+title: "513. SAP S4HANA 클라우드 마이그레이션 (SAP S4HANA Cloud Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ SAP S/4HANA 클라우드 전환을 올바르게 적용하면 업무 처리 속�
 
 **진행 상황**: 513 / 800
 
-<- **이전**: [512. ERP 도입 방법론 단계별 구현 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/512_erp_implementation_methodology_phased_strateg/)
-**다음**: [514. SCM 공급망 관리 디지털 최적화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/514_scm_supply_chain_management_digital_optimizat/) ->
+<- **이전**: [512. ERP 도입 방법론 단계별 구현 전략](/studynote/07_enterprise_systems/06_exam_summary/512_erp_implementation_methodology_phased_strateg/)
+**다음**: [514. SCM 공급망 관리 디지털 최적화](/studynote/07_enterprise_systems/06_exam_summary/514_scm_supply_chain_management_digital_optimizat/) ->
 
 ---

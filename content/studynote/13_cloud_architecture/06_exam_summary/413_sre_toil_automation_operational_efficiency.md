@@ -1,13 +1,10 @@
-+++
-title = "413. SRE 토일 자동화 운영 효율 (SRE Toil Automation Operational Efficiency)"
-date = 2026-05-09
+---
+title: "413. SRE 토일 자동화 운영 효율 (SRE Toil Automation Operational Efficiency)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 413 / 800
 
-<- **이전**: [412. 카오스 엔지니어링 리트머스 장애 주입](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/412_chaos_engineering_litmus_fault_injection/)
-**다음**: [414. 플랫폼 엔지니어링 IDP 개발자 포탈](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/414_platform_engineering_idp_developer_portal/) ->
+<- **이전**: [412. 카오스 엔지니어링 리트머스 장애 주입](/studynote/13_cloud_architecture/06_exam_summary/412_chaos_engineering_litmus_fault_injection/)
+**다음**: [414. 플랫폼 엔지니어링 IDP 개발자 포탈](/studynote/13_cloud_architecture/06_exam_summary/414_platform_engineering_idp_developer_portal/) ->
 
 ---

@@ -1,22 +1,19 @@
-+++
-title = "235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)"
-date = 2026-04-21
+---
+title: "235. AI 튜링 테스트 (Turing Test) 전문가 시스템 (Expert System) 퍼지 논리 (Fuzzy Logic)"
+date: "2026-04-21"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: AI의 역사는 "규칙 기반(Rule-Based) -> 통계 학습 -> 딥러닝"의 패러다임 변화로 요약되며, 각 단계는 이전 방법의 한계를 극복하는 과정이었다.
-> 2. **가치**: [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)(Turing Test)는 AI의 지능을 행동적으로 정의했고, [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/))은 규칙 기반 AI의 전성기를 이끌었으며, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))는 불확실성과 모호성을 수치화하는 프레임워크를 제공했다.
-> 3. **판단 포인트**: [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 특정 과제에서 인간을 초월하지만 [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI, Artificial General Intelligence)은 아직 미실현 개념이며, 각 방법론의 적용 범위와 한계를 이해하는 것이 기술사 수준의 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단력이다.
+> 2. **가치**: [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/)(Turing Test)는 AI의 지능을 행동적으로 정의했고, [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)([Expert System](/studynote/10_ai/03_llm_nlp/233_expert_system/))은 규칙 기반 AI의 전성기를 이끌었으며, [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))는 불확실성과 모호성을 수치화하는 프레임워크를 제공했다.
+> 3. **판단 포인트**: [약인공지능](/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/)(Narrow [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/))은 특정 과제에서 인간을 초월하지만 [강인공지능](/studynote/10_ai/01_ai_basics/003_strong_ai_agi/)(AGI, Artificial General Intelligence)은 아직 미실현 개념이며, 각 방법론의 적용 범위와 한계를 이해하는 것이 기술사 수준의 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 판단력이다.
 
 ## Ⅰ. 개요 및 필요성
 
-### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사와 패러다임 변화
+### [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사와 패러다임 변화
 
 ```
 AI 발전 타임라인
@@ -43,11 +40,11 @@ AI 발전 타임라인
 -----------------------------------------------------------------
 ```
 
-📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 암기 달인(규칙 기반)에서 경험 학습자(ML), 그리고 직관적 천재(딥러닝)로 발전한 과정이다. 각 세대는 이전 세대의 "이것만큼은 못 하네"를 극복하며 진화했다.
+📢 **섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 암기 달인(규칙 기반)에서 경험 학습자(ML), 그리고 직관적 천재(딥러닝)로 발전한 과정이다. 각 세대는 이전 세대의 "이것만큼은 못 하네"를 극복하며 진화했다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/) (Turing Test)
+### [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/) (Turing Test)
 
 Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대화만으로 상대가 인간인지 기계인지 구별하지 못하면 그 기계는 "지능이 있다"고 판단한다.
 
@@ -65,14 +62,14 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 -> 기계 B는 인간과 동등한 지능을 보인다고 판정
 ```
 
-<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>의 한계:</strong>
+<strong><a href="/studynote/10_ai/01_ai_basics/002_turing_test/">튜링 테스트</a>의 한계:</strong>
 - **중국어 방 논증 (Chinese Room Argument, Searle, 1980)**: 규칙만 따라 중국어를 처리해도 중국어를 이해하는 것이 아님—행동적 테스트가 내적 이해를 보장하지 않음
 - **행동 기반 정의의 한계**: 수학·과학 능력은 뛰어나지만 감정·창의성은 시뮬레이션에 불과할 수 있음
-- <strong>현대 <a href="/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a></strong>: GPT-4는 사실상 [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)를 통과하지만 AGI로 보기 어렵다는 논쟁 지속
+- <strong>현대 <a href="/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/">LLM</a></strong>: GPT-4는 사실상 [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/)를 통과하지만 AGI로 보기 어렵다는 논쟁 지속
 
-### [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)) 구조
+### [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/studynote/10_ai/03_llm_nlp/233_expert_system/)) 구조
 
-1980년대 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전성기를 이끈 규칙 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이다.
+1980년대 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 전성기를 이끈 규칙 기반 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 시스템이다.
 
 ```
 +-----------------------------------------------------------+
@@ -101,16 +98,16 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 +-----------------------------------------------------------+
 ```
 
-### [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) 추론 방식
+### [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) 추론 방식
 
 | 추론 방식 | 방향 | 동작 원리 | 적합 상황 |
 |:---|:---|:---|:---|
-| 순방향 연쇄 ([Forward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 사실 -> 결론 | 알려진 사실에서 가능한 결론 도출 | 진단, 계획 |
-| 역방향 연쇄 ([Backward Chaining](/knowledge-base/studynote/10_ai/01_ai_basics/011_backward_chaining/)) | 결론 -> 사실 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 목표 결론을 증명할 사실 탐색 | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 |
+| 순방향 연쇄 ([Forward Chaining](/studynote/10_ai/01_ai_basics/010_forward_chaining/)) | 사실 -> 결론 | 알려진 사실에서 가능한 결론 도출 | 진단, 계획 |
+| 역방향 연쇄 ([Backward Chaining](/studynote/10_ai/01_ai_basics/011_backward_chaining/)) | 결론 -> 사실 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 목표 결론을 증명할 사실 탐색 | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 응답 |
 
-### [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))
+### [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/))
 
-전통 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "참(1) 또는 거짓(0)"이지만, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/), Lotfi Zadeh, 1965)는 <strong>소속 정도(Membership Degree)</strong>를 [0, 1] 연속 값으로 표현한다.
+전통 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 "참(1) 또는 거짓(0)"이지만, [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/), Lotfi Zadeh, 1965)는 <strong>소속 정도(Membership Degree)</strong>를 [0, 1] 연속 값으로 표현한다.
 
 ```
 전통 2값 논리 (Crisp Logic):
@@ -133,43 +130,43 @@ Alan Turing이 1950년 제안한 테스트로, 인간 심판관이 텍스트 대
 언어 변수 (Linguistic Variable): "차갑다", "따뜻하다", "뜨겁다"
 ```
 
-<strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/">퍼지 논리</a> 연산:</strong>
+<strong><a href="/studynote/10_ai/01_ai_basics/012_fuzzy_logic/">퍼지 논리</a> 연산:</strong>
 ```
 AND (교집합): μ_A∩B(x) = min(μ_A(x), μ_B(x))
 OR  (합집합): μ_A∪B(x) = max(μ_A(x), μ_B(x))
 NOT (여집합): μ_NOT_A(x) = 1 - μ_A(x)
 ```
 
-📢 **섹션 요약 비유**: [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 날씨를 "비다/맑다" 이진법 대신 "조금 흐리다(0.3), 꽤 맑다(0.7)"로 표현하는 것이다. 실세계의 모호함을 숫자로 담는다.
+📢 **섹션 요약 비유**: [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 날씨를 "비다/맑다" 이진법 대신 "조금 흐리다(0.3), 꽤 맑다(0.7)"로 표현하는 것이다. 실세계의 모호함을 숫자로 담는다.
 
 ## Ⅲ. 비교 및 연결
 
-### [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) vs [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI)
+### [약인공지능](/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) vs [강인공지능](/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI)
 
-| 구분 | [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI, Artificial General Intelligence) |
+| 구분 | [약인공지능](/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (Narrow [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | [강인공지능](/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI, Artificial General Intelligence) |
 |:---|:---|:---|
-| 정의 | 특정 과제에 특화된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 인간 수준의 범용 지능 |
+| 정의 | 특정 과제에 특화된 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | 인간 수준의 범용 지능 |
 | 현황 | 상용화 (AlphaGo, ChatGPT) | **미실현** (연구 단계) |
-| 학습 방식 | 특정 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 범용 학습·전이 가능 |
+| 학습 방식 | 특정 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) | 범용 학습·전이 가능 |
 | 의식·감정 | 없음 (시뮬레이션만) | 이론상 있어야 함 |
-| 예시 | 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 번역 | 인간 수준 일반 추론 |
+| 예시 | 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 번역 | 인간 수준 일반 추론 |
 
-### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 방법론 비교
+### [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 방법론 비교
 
-| 방법론 | [지식 표현](/knowledge-base/studynote/10_ai/01_ai_basics/007_knowledge_representation/) | 불확실성 처리 | 학습 필요 | 설명 가능성 |
+| 방법론 | [지식 표현](/studynote/10_ai/01_ai_basics/007_knowledge_representation/) | 불확실성 처리 | 학습 필요 | 설명 가능성 |
 |:---|:---|:---:|:---:|:---:|
-| [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) | IF-THEN 규칙 | ❌ (이진) | ❌ | ⭐⭐⭐ 높음 |
-| [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) | 소속 함수 | ✅ (점진적) | ❌ | ⭐⭐⭐ 높음 |
-| [머신러닝](/knowledge-base/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) | 통계 모델 | ✅ (확률적) | ✅ | ⭐⭐ 중간 |
-| 딥러닝 | 신경망 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | ✅ (고도) | ✅✅ | ⭐ 낮음(블랙박스) |
+| [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) | IF-THEN 규칙 | ❌ (이진) | ❌ | ⭐⭐⭐ 높음 |
+| [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) | 소속 함수 | ✅ (점진적) | ❌ | ⭐⭐⭐ 높음 |
+| [머신러닝](/studynote/10_ai/03_llm_nlp/241_machine_learning_basics/) | 통계 모델 | ✅ (확률적) | ✅ | ⭐⭐ 중간 |
+| 딥러닝 | 신경망 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) | ✅ (고도) | ✅✅ | ⭐ 낮음(블랙박스) |
 
-📢 **섹션 요약 비유**: [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 요리책(규칙)만 따라가는 요리사, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 "적당히 짜게"라는 요리책을 이해하는 요리사, 딥러닝은 수만 가지 요리를 먹어보고 직관적으로 요리하는 셰프다.
+📢 **섹션 요약 비유**: [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)은 요리책(규칙)만 따라가는 요리사, [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 "적당히 짜게"라는 요리책을 이해하는 요리사, 딥러닝은 수만 가지 요리를 먹어보고 직관적으로 요리하는 셰프다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)의 현재 위상
+### [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)의 현재 위상
 
-[전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 딥러닝에 자리를 내줬지만 여전히 유효한 분야가 있다:
+[전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)은 딥러닝에 자리를 내줬지만 여전히 유효한 분야가 있다:
 
 | 적합 영역 | 이유 |
 |:---|:---|
@@ -178,50 +175,50 @@ NOT (여집합): μ_NOT_A(x) = 1 - μ_A(x)
 | 설비 진단 (산업 현장) | 전문가 지식 명시적 표현 |
 | 금융 심사 규칙 | 신용 거절 이유 고객 설명 의무 |
 
-### [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) 적용 사례
+### [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) 적용 사례
 
-| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 적용 | 효과 |
+| [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) | 적용 | 효과 |
 |:---|:---|:---|
 | 에어컨 온도 제어 | "조금 더 차갑게" 제어 | 에너지 효율 향상 |
 | 세탁기 세탁 시간 | 세탁물 양·오염도 기반 | 최적 세탁 시간 |
 | 주식 거래 시스템 | 상승 가능성 점수화 | 투자 의사결정 보조 |
 | 카메라 자동 초점 | 흔들림 정도 판단 | 정밀 초점 조절 |
 
-📢 **섹션 요약 비유**: [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 "명확한 규칙이 있을 때"가 가장 유용하다. 의사가 "발열 38도 이상 + 기침 = 독감 가능"이라는 규칙을 코드로 옮기는 것처럼.
+📢 **섹션 요약 비유**: [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)은 "명확한 규칙이 있을 때"가 가장 유용하다. 의사가 "발열 38도 이상 + 기침 = 독감 가능"이라는 규칙을 코드로 옮기는 것처럼.
 
 ## Ⅴ. 기대효과 및 결론
 
-### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 패러다임별 강점·약점 요약
+### [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 패러다임별 강점·약점 요약
 
 | 패러다임 | 대표 방법 | 강점 | 약점 |
 |:---|:---|:---|:---|
-| 규칙 기반 | [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) | 설명 가능, 빠른 추론 | 지식 획득 병목, 조합 폭발 |
-| 모호성 처리 | [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) | 연속값 처리, 해석 용이 | 소속 함수 설계 어려움 |
-| 통계 학습 | [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [앙상블](/knowledge-base/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) | 견고, 범용성 | [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 필요 |
-| 표현 학습 | 딥러닝 | 고정밀, [피처](/knowledge-base/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 자동 추출 | 설명 불가, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·연산 과다 |
-| [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) | 범용 언어 이해 | [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)), 통제 어려움 |
+| 규칙 기반 | [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) | 설명 가능, 빠른 추론 | 지식 획득 병목, 조합 폭발 |
+| 모호성 처리 | [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) | 연속값 처리, 해석 용이 | 소속 함수 설계 어려움 |
+| 통계 학습 | [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/), [앙상블](/studynote/10_ai/03_llm_nlp/257_ensemble_learning/) | 견고, 범용성 | [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 엔지니어링 필요 |
+| 표현 학습 | 딥러닝 | 고정밀, [피처](/studynote/10_ai/03_llm_nlp/247_feature_label_variables/) 자동 추출 | 설명 불가, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)·연산 과다 |
+| [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) | 범용 언어 이해 | [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/)([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)), 통제 어려움 |
 
 ### 결론
 
-AI는 단일 패러다임으로 설명되지 않는다. [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)는 행동적 지능 정의의 출발점이고, [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 설명 가능성의 기준을 제시했으며, [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 불확실성의 수학화를 보여준다. 기술사는 각 방법론이 언제 적합한지 판단하는 능력—설명 가능성 요건, [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/), 실시간 요건, 규제 환경—을 갖춰야 한다.
+AI는 단일 패러다임으로 설명되지 않는다. [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/)는 행동적 지능 정의의 출발점이고, [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)은 설명 가능성의 기준을 제시했으며, [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 불확실성의 수학화를 보여준다. 기술사는 각 방법론이 언제 적합한지 판단하는 능력—설명 가능성 요건, [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/), 실시간 요건, 규제 환경—을 갖춰야 한다.
 
-📢 **섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 망치만 있던 공구함에 드라이버·스패너·전동공구가 추가된 것이다. 어떤 도구가 최신이라고 항상 최선이 아니다—나사를 조일 때는 드라이버가 최선이다.
+📢 **섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역사는 망치만 있던 공구함에 드라이버·스패너·전동공구가 추가된 것이다. 어떤 도구가 최신이라고 항상 최선이 아니다—나사를 조일 때는 드라이버가 최선이다.
 
 ### 📌 관련 개념 맵
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정의 기준 | [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/) (Turing Test) | 행동으로 지능 판단 |
+| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 정의 기준 | [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/) (Turing Test) | 행동으로 지능 판단 |
 | 반론 | 중국어 방 (Chinese Room) | 행동 ≠ 이해 |
-| 규칙 기반 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)) | IF-THEN 규칙 + 추론 엔진 |
-| 불확실성 처리 | [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ([Fuzzy Logic](/knowledge-base/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/)) | 소속 정도 [0,1] |
-| 현재 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [약인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (Narrow [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | 특정 과제 특화 |
-| 미래 목표 | [강인공지능](/knowledge-base/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI) | 범용 인간 수준 지능 (미실현) |
-| 설명 가능성 | [XAI](/knowledge-base/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ([Explainable AI](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) | 딥러닝 블랙박스 해소 시도 |
+| 규칙 기반 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/) ([Expert System](/studynote/10_ai/03_llm_nlp/233_expert_system/)) | IF-THEN 규칙 + 추론 엔진 |
+| 불확실성 처리 | [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/) ([Fuzzy Logic](/studynote/10_ai/03_llm_nlp/234_fuzzy_logic/)) | 소속 정도 [0,1] |
+| 현재 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) | [약인공지능](/studynote/10_ai/01_ai_basics/004_weak_ai_narrow_ai/) (Narrow [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) | 특정 과제 특화 |
+| 미래 목표 | [강인공지능](/studynote/10_ai/01_ai_basics/003_strong_ai_agi/) (AGI) | 범용 인간 수준 지능 (미실현) |
+| 설명 가능성 | [XAI](/studynote/12_it_management/05_security_compliance/227_xai_explainable_ai_lime_shap/) ([Explainable AI](/studynote/14_data_engineering/05_exam_keywords/255_xai_lime_shap_explainable_contribution/)) | 딥러닝 블랙박스 해소 시도 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [튜링 테스트](/knowledge-base/studynote/10_ai/01_ai_basics/002_turing_test/)는 "전화로 말해봐서 로봇인지 사람인지 구분 못 하면 그 로봇은 사람처럼 똑똑하다"고 보는 테스트다.
+1. [튜링 테스트](/studynote/10_ai/01_ai_basics/002_turing_test/)는 "전화로 말해봐서 로봇인지 사람인지 구분 못 하면 그 로봇은 사람처럼 똑똑하다"고 보는 테스트다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -237,8 +234,8 @@ AI는 단일 패러다임으로 설명되지 않는다. [튜링 테스트](/know
     v
 AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
 ```
-2. [전문가 시스템](/knowledge-base/studynote/10_ai/03_llm_nlp/233_expert_system/)은 의사 선생님이 알고 있는 진단 규칙("열이 38도 이상이고 기침이 있으면 독감 의심")을 컴퓨터에 입력해 컴퓨터가 의사처럼 진단하게 만든 것이다.
-3. [퍼지 논리](/knowledge-base/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 "뜨겁다/차갑다"처럼 딱 나누지 않고 "조금 뜨겁다(0.3), 꽤 뜨겁다(0.7)"처럼 정도로 표현해 세탁기나 에어컨이 더 똑똑하게 작동하게 한다.
+2. [전문가 시스템](/studynote/10_ai/03_llm_nlp/233_expert_system/)은 의사 선생님이 알고 있는 진단 규칙("열이 38도 이상이고 기침이 있으면 독감 의심")을 컴퓨터에 입력해 컴퓨터가 의사처럼 진단하게 만든 것이다.
+3. [퍼지 논리](/studynote/10_ai/01_ai_basics/012_fuzzy_logic/)는 "뜨겁다/차갑다"처럼 딱 나누지 않고 "조금 뜨겁다(0.3), 꽤 뜨겁다(0.7)"처럼 정도로 표현해 세탁기나 에어컨이 더 똑똑하게 작동하게 한다.
 
 ---
 
@@ -246,7 +243,7 @@ AGI 논의: 튜링 테스트 · 중국어 방 · 프레임 문제
 
 **진행 상황**: 235 / 258
 
-<- **이전**: [234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/234_master_data_management_mdm_golden_record_clean_room/)
-**다음**: [236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) ->
+<- **이전**: [234. 마스터 데이터 관리 (MDM, Master Data Management) 골든 레코드 클린 룸](/studynote/14_data_engineering/05_exam_keywords/234_master_data_management_mdm_golden_record_clean_room/)
+**다음**: [236. A* 휴리스틱 (Heuristic) 미니맥스 (Minimax) MCTS (Monte Carlo Tree Search)](/studynote/14_data_engineering/05_exam_keywords/236_a_star_heuristic_minimax_mcts_monte_carlo/) ->
 
 ---

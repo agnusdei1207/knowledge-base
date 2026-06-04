@@ -1,35 +1,32 @@
-+++
-title = "109. 홀수 패리티 (Odd Parity)"
-date = 2026-05-05
+---
+title: "109. 홀수 패리티 (Odd Parity)"
+date: "2026-05-05"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 홀수 패리티(Odd Parity)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에 1비트를 추가하여, 전체 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중 '1'의 개수가 항상 <strong>홀수</strong>가 되도록 맞추는 에러 검출 기법이다.
-> 2. **가치**: 송수신 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라인이 단선되거나 전원 차단으로 인해 모든 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `000...000`으로 읽히는 치명적인 '무반응(Dead)' 상태를 에러로 즉각 잡아낼 수 있다.
-> 3. **판단 포인트**: 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류(1-[bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)는 100% 감지하지만, 2개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 뒤집히면 에러를 놓치며 위치를 찾아 고칠 수 없는(No Correction) 한계가 있다.
+> 1. **본질**: 홀수 패리티(Odd Parity)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열에 1비트를 추가하여, 전체 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 중 '1'의 개수가 항상 <strong>홀수</strong>가 되도록 맞추는 에러 검출 기법이다.
+> 2. **가치**: 송수신 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 라인이 단선되거나 전원 차단으로 인해 모든 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 `000...000`으로 읽히는 치명적인 '무반응(Dead)' 상태를 에러로 즉각 잡아낼 수 있다.
+> 3. **판단 포인트**: 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류(1-[bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Error)는 100% 감지하지만, 2개의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 뒤집히면 에러를 놓치며 위치를 찾아 고칠 수 없는(No Correction) 한계가 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))는 전송되는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 붙이는 가장 가벼운 형태의 안전장치다. 그중 홀수 패리티는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1의 개수를 세어, 그 합이 홀수가 되도록 끝에 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(0 또는 1)를 추가한다.
+[패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)([Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/))는 전송되는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 붙이는 가장 가벼운 형태의 안전장치다. 그중 홀수 패리티는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 1의 개수를 세어, 그 합이 홀수가 되도록 끝에 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)(0 또는 1)를 추가한다.
 
-과거부터 통신 케이블은 전자기파 노이즈에 취약해 전송 중 0이 1로 뒤집히는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립([Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Flip)이 빈번했다. 복잡한 에러 검출 회로를 넣을 공간조차 없던 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 설계자들은, 단 1비트의 꼬리표만 달아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 검증하는 극강의 가성비 아키텍처를 고안했다. 특히 홀수 패리티는 회로가 완전히 죽어서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선이 0V(모든 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 0)로 떨어졌을 때를 에러로 식별할 수 있어 하드웨어 장애 진단에 탁월한 효과가 있었다.
+과거부터 통신 케이블은 전자기파 노이즈에 취약해 전송 중 0이 1로 뒤집히는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 플립([Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/) Flip)이 빈번했다. 복잡한 에러 검출 회로를 넣을 공간조차 없던 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 하드웨어 설계자들은, 단 1비트의 꼬리표만 달아 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 검증하는 극강의 가성비 아키텍처를 고안했다. 특히 홀수 패리티는 회로가 완전히 죽어서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 선이 0V(모든 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 0)로 떨어졌을 때를 에러로 식별할 수 있어 하드웨어 장애 진단에 탁월한 효과가 있었다.
 
-- **📢 섹션 요약 비유**: 홀수 패리티는 놀이공원 롤러코스터의 '안전바 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'과 같다. 탑승객(1)이 몇 명이든 전체 인원을 홀수로 맞추는 빈자리 인형(패리티)을 채워서, 도착했을 때 짝수가 되어 있다면 누군가 튕겨 나갔다는 사실을 즉시 알 수 있게 해준다.
+- **📢 섹션 요약 비유**: 홀수 패리티는 놀이공원 롤러코스터의 '안전바 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'과 같다. 탑승객(1)이 몇 명이든 전체 인원을 홀수로 맞추는 빈자리 인형(패리티)을 채워서, 도착했을 때 짝수가 되어 있다면 누군가 튕겨 나갔다는 사실을 즉시 알 수 있게 해준다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 홀수 패리티 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직
-하드웨어 관점에서 패리티 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 여러 개의 [논리 게이트](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 중 <strong>XOR / XNOR 게이트</strong>의 캐스케이드(Cascade) 연결로 구현된다.
+### 홀수 패리티 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 로직
+하드웨어 관점에서 패리티 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)은 여러 개의 [논리 게이트](/studynote/01_computer_architecture/01_basic_electronics_logic/027_logic_gates/) 중 <strong>XOR / XNOR 게이트</strong>의 캐스케이드(Cascade) 연결로 구현된다.
 
 ```text
 +--------------------------------------------------------+
@@ -48,7 +45,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------+
 ```
 
-송신 측의 패리티 발생기(Parity Generator)는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 XOR하여 짝/홀을 판별한 뒤 XNOR 게이트를 통해 최종 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 붙인다. 수신 측 패리티 검사기(Parity Checker)는 수신된 9비트 전체를 다시 XOR하여 1이 나오는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 단일 사이클 하드웨어로 동작한다.
+송신 측의 패리티 발생기(Parity Generator)는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)들을 XOR하여 짝/홀을 판별한 뒤 XNOR 게이트를 통해 최종 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)를 붙인다. 수신 측 패리티 검사기(Parity Checker)는 수신된 9비트 전체를 다시 XOR하여 1이 나오는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 단일 사이클 하드웨어로 동작한다.
 
 - **📢 섹션 요약 비유**: 패리티 검사기는 과일 상자에 들어있는 '무게 추'다. 모든 과일 상자의 무게가 홀수 kg이 되도록 출하 시 무게 추를 넣는다. 도착한 상자의 무게가 짝수 kg이라면 중간에 사과가 빠졌거나 돌멩이가 들어간 것이다.
 
@@ -56,29 +53,29 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-### 홀수 패리티 vs [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) ([Even Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/))
+### 홀수 패리티 vs [짝수 패리티](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) ([Even Parity](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/))
 패리티는 짝수와 홀수 두 가지 규격이 있으며, 용도에 따라 선택된다.
 
-| 항목 | [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) ([Even Parity](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)) | 홀수 패리티 (Odd Parity) | 아키텍처 판단 포인트 |
+| 항목 | [짝수 패리티](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) ([Even Parity](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)) | 홀수 패리티 (Odd Parity) | 아키텍처 판단 포인트 |
 |:---|:---|:---|:---|
 | **목표 상태** | 1의 개수를 짝수로 만듦 | 1의 개수를 홀수로 만듦 | XNOR 게이트 출력 여부 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> = <code>00000000</code> 일 때</strong> | [Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) = `0` | [Parity Bit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) = `1` | 통신 단절(Dead Line) 시 구별 가능성 |
-| **에러 감지 특징** | 단순 통신 및 메모리에 주로 사용 | **케이블 단선, 전원 장애** 감지에 탁월 | 상태 [무결성 보장](/knowledge-base/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> = <code>00000000</code> 일 때</strong> | [Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) = `0` | [Parity Bit](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/) = `1` | 통신 단절(Dead Line) 시 구별 가능성 |
+| **에러 감지 특징** | 단순 통신 및 메모리에 주로 사용 | **케이블 단선, 전원 장애** 감지에 탁월 | 상태 [무결성 보장](/studynote/05_database/07_exam_summary/442_consistency_integrity/) |
 
-통신선이 끊어지면 수신 측에는 `00000000` (1이 0개, 즉 짝수)이 들어온다. [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) 시스템은 이를 "1이 0개니까 짝수 맞네? 정상 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)!"라고 오판한다. 하지만 홀수 패리티 시스템은 1의 개수가 짝수(0)인 것을 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하자마자 즉각 에러로 처리한다. 이러한 물리적 페일세이프([Fail-safe](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) 특성 때문에 홀수 패리티가 특정 산업 표준에서 선호된다.
+통신선이 끊어지면 수신 측에는 `00000000` (1이 0개, 즉 짝수)이 들어온다. [짝수 패리티](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/) 시스템은 이를 "1이 0개니까 짝수 맞네? 정상 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)!"라고 오판한다. 하지만 홀수 패리티 시스템은 1의 개수가 짝수(0)인 것을 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하자마자 즉각 에러로 처리한다. 이러한 물리적 페일세이프([Fail-safe](/studynote/01_computer_architecture/13_reliability_power_management/459_fail_safe/)) 특성 때문에 홀수 패리티가 특정 산업 표준에서 선호된다.
 
-- **📢 섹션 요약 비유**: [짝수 패리티](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)는 방에 불을 끄는 규칙이고, 홀수 패리티는 항상 촛불 하나는 켜두는 규칙이다. 아예 전기가 나가버렸을 때, 불이 꺼져있는 게 정상인지 고장인지 알려면 항상 촛불을 켜두는 홀수 패리티 방식이 훨씬 안전하다.
+- **📢 섹션 요약 비유**: [짝수 패리티](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)는 방에 불을 끄는 규칙이고, 홀수 패리티는 항상 촛불 하나는 켜두는 규칙이다. 아예 전기가 나가버렸을 때, 불이 꺼져있는 게 정상인지 고장인지 알려면 항상 촛불을 켜두는 홀수 패리티 방식이 훨씬 안전하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">버스트 에러</a>(<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">Burst Error</a>) 노출 위험도</strong>: 전송 환경이 불안정하여 2비트, 4비트가 동시에 뒤집힐 가능성이 있는가? 짝수 개의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집히면 패리티는 에러를 놓치므로 CRC나 [해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)로 격상해야 한다.
-2. **UART 통신 규격 일치성**: 시리얼 통신(RS-232) 셋업 시 송신 측과 수신 측이 `9600-8-O-1` (Baudrate 9600, [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 8bit, **Odd Parity**, Stop 1) 규격으로 완벽히 일치하게 세팅되었는가?
+### 실무 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. <strong><a href="/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">버스트 에러</a>(<a href="/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/">Burst Error</a>) 노출 위험도</strong>: 전송 환경이 불안정하여 2비트, 4비트가 동시에 뒤집힐 가능성이 있는가? 짝수 개의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 뒤집히면 패리티는 에러를 놓치므로 CRC나 [해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/)로 격상해야 한다.
+2. **UART 통신 규격 일치성**: 시리얼 통신(RS-232) 셋업 시 송신 측과 수신 측이 `9600-8-O-1` (Baudrate 9600, [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 8bit, **Odd Parity**, Stop 1) 규격으로 완벽히 일치하게 세팅되었는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- <strong>단일 패리티로 자동 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> 없이) 시도</strong>: [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 '에러가 났다'는 사실만 알 뿐, 몇 번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 고장 났는지 주소를 가리키지 못한다. 따라서 재전송(Retransmission) 메커니즘 없이 패리티만 달아놓고 시스템이 알아서 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하길 기대하는 것은 가장 치명적인 아키텍처 결함이다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- <strong>단일 패리티로 자동 <a href="/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/">복구</a>(<a href="/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> 없이) 시도</strong>: [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 '에러가 났다'는 사실만 알 뿐, 몇 번째 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 고장 났는지 주소를 가리키지 못한다. 따라서 재전송(Retransmission) 메커니즘 없이 패리티만 달아놓고 시스템이 알아서 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)하길 기대하는 것은 가장 치명적인 아키텍처 결함이다.
 
 - **📢 섹션 요약 비유**: 홀수 패리티는 도둑이 들었음을 알리는 '도난 경보기'다. 경보기가 울리면 도둑이 들었다는 건 알지만, 도둑이 훔쳐 간 물건이 무엇인지 다시 채워 넣을 능력은 없다. 반드시 경찰(재전송 요청)을 불러야 한다.
 
@@ -86,11 +83,11 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅴ. 기대효과 및 결론
 
-홀수 패리티는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 단 1비트의 오버헤드만 추가하여 통신 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)의 가장 기본적인 방어선을 구축한다. 회로 기판 레벨(I2C, UART)에서 거의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay) 없이 광속으로 에러를 검출할 수 있는 압도적인 효율성을 지닌다.
+홀수 패리티는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조에 단 1비트의 오버헤드만 추가하여 통신 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)의 가장 기본적인 방어선을 구축한다. 회로 기판 레벨(I2C, UART)에서 거의 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(Delay) 없이 광속으로 에러를 검출할 수 있는 압도적인 효율성을 지닌다.
 
-하지만 현대의 고속 기가비트 네트워크나 대용량 메모리에서는 단일 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류보다 여러 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 깨지는 군집 에러([Burst Error](/knowledge-base/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))가 흔히 발생한다. 따라서 [패리티 비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 종단 간 통신의 메인 방어선에서는 물러났으며, 대신 CPU 내부 캐시([L1 Cache](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))나 간단한 제어 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))의 에러를 잡는 국소적인 하드웨어 모니터링 체계로 그 역할이 수렴되었다.
+하지만 현대의 고속 기가비트 네트워크나 대용량 메모리에서는 단일 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 오류보다 여러 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 동시에 깨지는 군집 에러([Burst Error](/studynote/03_network/04_data_link_layer_error/197_burst_error_detection_crc/))가 흔히 발생한다. 따라서 [패리티 비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/107_parity_bit/)는 종단 간 통신의 메인 방어선에서는 물러났으며, 대신 CPU 내부 캐시([L1 Cache](/studynote/01_computer_architecture/06_memory_hierarchy_cache/260_l1_cache/))나 간단한 제어 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)([Bus](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/))의 에러를 잡는 국소적인 하드웨어 모니터링 체계로 그 역할이 수렴되었다.
 
-- **📢 섹션 요약 비유**: 홀수 패리티는 성벽의 '가장 가벼운 보초병'이다. 강력한 대포([CRC](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))나 스스로 싸우는 장군([해밍 코드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))은 아니지만, 적이 한 명이라도 몰래 담을 넘으면 가장 빠르게 나팔을 불어 전체 시스템을 깨우는 필수적인 존재다.
+- **📢 섹션 요약 비유**: 홀수 패리티는 성벽의 '가장 가벼운 보초병'이다. 강력한 대포([CRC](/studynote/01_computer_architecture/02_data_representation_arithmetic/113_crc/))나 스스로 싸우는 장군([해밍 코드](/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/))은 아니지만, 적이 한 명이라도 몰래 담을 넘으면 가장 빠르게 나팔을 불어 전체 시스템을 깨우는 필수적인 존재다.
 
 ---
 
@@ -98,9 +95,9 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">짝수 패리티</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">Even Parity</a>)</strong> | 홀수 패리티의 반대 규격. 시스템의 기본 상태(0)를 긍정하는 통신에서 쓰이는 검출 방식 |
-| <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> (Automatic Repeat Request)</strong> | 패리티에서 에러를 검출했을 때, 스스로 고치지 못하므로 송신자에게 "다시 보내라"고 요구하는 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">Hamming Code</a>)</strong> | 패리티의 한계(검출만 가능)를 돌파하여, 어느 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 틀렸는지 찾아 스스로 고치는(Correction) 진화된 코드 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">짝수 패리티</a> (<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/">Even Parity</a>)</strong> | 홀수 패리티의 반대 규격. 시스템의 기본 상태(0)를 긍정하는 통신에서 쓰이는 검출 방식 |
+| <strong><a href="/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/">ARQ</a> (Automatic Repeat Request)</strong> | 패리티에서 에러를 검출했을 때, 스스로 고치지 못하므로 송신자에게 "다시 보내라"고 요구하는 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">해밍 코드</a> (<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/111_hamming_code/">Hamming Code</a>)</strong> | 패리티의 한계(검출만 가능)를 돌파하여, 어느 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 틀렸는지 찾아 스스로 고치는(Correction) 진화된 코드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -120,7 +117,7 @@ tags = ["studynote-computer-architecture"]
 해밍 코드 (Hamming Code) 및 CRC (오류 정정 및 버스트 에러 검출)
 ```
 
-이 흐름도는 "단순 검출 -> 시스템 장애 판별 지능화 -> 정정 불가의 한계 직면 -> 강력한 수학적 정정 코드로의 진화"라는 [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)([Error Control](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) 아키텍처의 발전 단계를 보여준다.
+이 흐름도는 "단순 검출 -> 시스템 장애 판별 지능화 -> 정정 불가의 한계 직면 -> 강력한 수학적 정정 코드로의 진화"라는 [오류 제어](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)([Error Control](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)) 아키텍처의 발전 단계를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -134,7 +131,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 109 / 803
 
-<- **이전**: [108. 짝수 패리티 (Even Parity)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)
-**다음**: [110. 해밍 거리 (Hamming Distance)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ->
+<- **이전**: [108. 짝수 패리티 (Even Parity)](/studynote/01_computer_architecture/02_data_representation_arithmetic/108_even_parity/)
+**다음**: [110. 해밍 거리 (Hamming Distance)](/studynote/01_computer_architecture/02_data_representation_arithmetic/110_hamming_distance/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "498. IT 경영 관리 핵심 토픽 498번 시험 요약 (IT Management Core Topic 498 Exam Summary)"
-date = 2026-05-09
+---
+title: "498. IT 경영 관리 핵심 토픽 498번 시험 요약 (IT Management Core Topic 498 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ ITIL 4는 2019년 출시되어 **Service Value System (SVS)** 중심으로 재�
 
 **진행 상황**: 498 / 800
 
-<- **이전**: [497. IT 경영 관리 핵심 토픽 497번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/497_it_management_core_topic_497_exam_summary/)
-**다음**: [499. IT 경영 관리 핵심 토픽 499번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/499_it_management_core_topic_499_exam_summary/) ->
+<- **이전**: [497. IT 경영 관리 핵심 토픽 497번 시험 요약](/studynote/12_it_management/05_security_compliance/497_it_management_core_topic_497_exam_summary/)
+**다음**: [499. IT 경영 관리 핵심 토픽 499번 시험 요약](/studynote/12_it_management/05_security_compliance/499_it_management_core_topic_499_exam_summary/) ->
 
 ---

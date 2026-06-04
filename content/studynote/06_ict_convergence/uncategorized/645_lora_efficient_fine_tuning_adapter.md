@@ -1,13 +1,10 @@
-+++
-title = "645. LoRA 효율적 파인 튜닝 어댑터 (LoRA Efficient Fine Tuning Adapter)"
-date = 2026-05-09
+---
+title: "645. LoRA 효율적 파인 튜닝 어댑터 (LoRA Efficient Fine Tuning Adapter)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -212,7 +209,7 @@ h = W₀ x + ΔW x = W₀ x + (α/r) · B · A · x
 
 **진행 상황**: 645 / 800
 
-<- **이전**: [644. 파인 튜닝 전이 학습 도메인 적응](/knowledge-base/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/)
-**다음**: [646. RAG 검색 증강 생성 벡터 검색](/knowledge-base/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/) ->
+<- **이전**: [644. 파인 튜닝 전이 학습 도메인 적응](/studynote/06_ict_convergence/uncategorized/644_fine_tuning_transfer_learning_domain_adaptati/)
+**다음**: [646. RAG 검색 증강 생성 벡터 검색](/studynote/06_ict_convergence/uncategorized/646_rag_retrieval_augmented_generation_vector_sea/) ->
 
 ---

@@ -1,175 +1,178 @@
-+++
-title = "489. 클라우드 NoSQL DynamoDB CosmosDB (Cloud NoSQL DynamoDB CosmosDB)"
-date = 2026-05-09
+---
+title: "489. 클라우드 NoSQL DynamoDB CosmosDB (Cloud NoSQL DynamoDB CosmosDB)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 NoSQL DynamoDB CosmosDB은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: AWS DynamoDB와 Azure CosmosDB는 파티션 키 기반의 수평적 샤딩(Partitioning)으로 무한 확장성을 확보하면서, DynamoDB는 결과적 일관성(Eventual Consistency) 중심의 Key-Value/Document 모델을, CosmosDB는 5단계 튜닝 가능한 일관성(Tunable Consistency) 위에 SQL/MongoDB/Cassandra/Gremlin/Table 5종 API를 노출하는 Multi-Model 글로벌 분산 데이터베이스이다.
+> 2. **가치**: 단일 리전에서 초당 1,000만+ 요청 처리(DynamoDB 사례: Prime Day 8,920만 req/s), CosmosDB는 멀티 리전 쓰기 99.999% SLA 및 p99 단위 10ms 미만 읽기/15ms 미만 쓰기 보장으로 CAP 트레이드오프를 SLA로 해소한다.
+> 3. **판단 포인트**: 핫 파티션(Hot Partition) 방지를 위한 파티션 키 설계(카디널리티, 스큐), 비용 모델(DynamoDB: WCU/RCU vs On-Demand, CosmosDB: RU/s vs Autoscale), 멀티 리전 트랜잭션 필요성, 일관성-지연시간-비용의 3차원 트레이드오프가 핵심 결정 변수이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 NoSQL DynamoDB CosmosDB은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+기존 RDBMS(Oracle, MySQL)는 ACID 트랜잭션과 정규화된 스키마로 데이터 무결성을 보장했지만, 빅데이터·IoT·소셜미디어 시대에 발생하는 **초대형 트래픽(VLDB, Velocity)**, **다양한 데이터 형태(Variety)**, **수평 확장 요구(Volume)** 에서는 Master-Slave 복제, Sharding, Read Replica 같은 수작업 확장이 한계에 부딪혔다. 2000년대 후반 등장한 NoSQL은 "일관성을 약화시켜 가용성과 분할 내성(Partition Tolerance)을 확보"하는 CAP 이론의 실용적 해석이었으나, 자체 운영 시 노드 추가/장애복구/리밸런싱/Cassandra의 Gossip 프로토콜 관리 같은 운영 부담이 막대했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud NoSQL DynamoDB CosmosDB 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+이 문제를 해결하기 위해 2012년 AWS가 DynamoDB를, 2017년 Microsoft가 CosmosDB를 출시하면서 **"운영 오버헤드 0"** 의 완전관리형(PaaS) NoSQL 시대가 열렸으며, 핵심 가치 제안은 다음 세 가지다:
+
+- **제로 운영(Zero Ops)**: 패치, 백업, 복제, 샤드 리밸런싱 모두 클라우드 제공자가 처리
+- **페이즈 단위 과금(Pay-per-Use)**: DynamoDB는 WCU/RCU 1시간 단위, CosmosDB는 RU(Request Unit) 초 단위
+- **글로벌 분산(Global Distribution)**: DynamoDB Global Tables, CosmosDB Turnkey Global Distribution으로 클릭 한 번에 멀티 리전 복제
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 NoSQL DynamoDB CosmosDB 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++---------------------------------------------------------------------+
+|  기존 RDBMS 시대 (2000s 초반)         |  클라우드 NoSQL 시대 (2012~)  |
++--------------------------------------+------------------------------+
+|  - 단일 인스턴스 + 수직 확장          |  - 무한 수평 확장 (Auto-Shard)|
+|  - 수동 Sharding (앱 코드 내 분기)    |  - 자동 분할 (Hash Partition) |
+|  - CAP 중 C+A 선택                   |  - AP 기본, 일관성 SLA 제공   |
+|  - 5,000 TPS 한계                    |  - 1,000만+ TPS              |
+|  - 라이선스 + HW + DBA 3중 비용      |  - 사용량 기반 종량제         |
++--------------------------------------+------------------------------+
+       v                        v                       v
+   [ Oracle RAC ]          [ Cassandra ]      [ DynamoDB / CosmosDB ]
+   수직 확장 한계         셀프 운영 부담       완전관리형 + 글로벌 분산
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+전통적 아키텍처의 한계: Cassandra는 자체 클러스터 운영 시 컴팩션(Compaction) 튜닝, 힙 메모리 관리(G1GC), vnode 설정 같은 깊은专业知识이 요구되었고, DynamoDB는 이를 AWS가 모두 자동화하여 개발자가 파티션 키와 접근 패턴에만 집중하도록 설계 철학을 전환했다.
 
-- **📢 섹션 요약 비유**: 클라우드 NoSQL DynamoDB CosmosDB은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 RDBMS가 "직접 운전해야 하는 대형 트럭"이라면, 클라우드 NoSQL은 "GPS·주유·정비 모두 자동화된 자율주행 택시"와 같다. 목적지(파티션 키)만 지정하면 자동으로 최적 경로(샤드)로 안내한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 NoSQL DynamoDB CosmosDB의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### DynamoDB 내부 아키텍처
+
+DynamoDB는 Amazon의 내부 Dynamo Paper(2007)에서 출발하여 **Sloppy Quorum + Hinted Handoff + Merkle Tree Anti-Entropy + Consistent Hashing** 4대 핵심 기법을 11년간 클라우드 규모로 재설계한 시스템이다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud NoSQL DynamoDB CosmosDB 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                              DynamoDB 요청 처리 흐름
+                              ━━━━━━━━━━━━━━━━━━━━━━
+   [Client App]
+       |
+       |  1. PutItem / GetItem / Query
+       v
+  +-------------+    2. 인증/스로틀링(5xx/ProvisionedThroughputExceeded)
+  | API Gateway |
+  +------+------+
+         |
+         v
+  +----------------+    3. 파티션 키 -> MD5 -> Consistent Hash Ring
+  |  Request Router|       위치 결정 (예: Partition 0xA3)
+  +--------+-------+
+           |
+           v
+  +-------------------------------------------------------------+
+  |  Partition (10GB or 3000 RCU/1000 WCU 단위로 자동 분할)       |
+  |  +----------+  +----------+  +----------+  +----------+    |
+  |  | Storage  |  |  Primary |  |   Replica|  |   Replica|    |
+  |  |  (SSD)   |◄-+   Node   +-►|  AZ-a    |  |  AZ-b    |    |
+  |  |  B-tree  |  |          |  |(Sync 복제)|  |(Async 복제)|    |
+  |  +----------+  +----+-----+  +----------+  +----------+    |
+  |                     |                                       |
+  |              4. Global Table 활성화 시                        |
+  |                     | 다른 리전으로 비동기 복제                |
+  +---------------------+---------------------------------------+
+                        v
+              +----------------------+
+              |   DynamoDB Streams   |  Kinesis 기반 변경 로그
+              |   (24h 보존)         |  Lambda 트리거
+              +----------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+### CosmosDB 내부 아키텍처
+
+CosmosDB는 **Multi-Master + Turnkey Global Distribution + 5단계 튜닝 가능 일관성** 을 차별화 요소로 내세우며, 내부적으로는 "물리적 파티션 -> 논리적 파티션"의 2단계 매핑과 **Conflict-Free Replicated Data Type(CRDT)** 기반의 자동 충돌 해결을 사용한다.
+
+```text
+                          CosmosDB 요청 처리 흐름
+                          ━━━━━━━━━━━━━━━━━━━━━━
+   [Client SDK (.NET/Node/Python)]
+       |  SQL/MongoDB/Cassandra/Gremlin/Table API
+       v
+  +--------------+    글로벌 계정 -> 데이터베이스 -> 컨테이너
+  |  Gateway     |    (개념적 계층; 실제 라우팅은 Partition Key 기반)
+  +------+-------+
+         v
+  +------------------------------------------------------------+
+  |            Frontend (5개 일관성 레벨 라우팅)                |
+  |  Strong -> Bounded Staleness -> Session -> Consistent Prefix |
+  |                                       -> Eventual           |
+  +--------+---------------------------------------------------+
+           v
+  +-----------------------------------------------------------+
+  |  Backend Partition (물리적: 10GB 단위 자동 분할)            |
+  |  +----------+  +----------+  +----------+                |
+  |  | Replica  |  | Replica  |  | Replica  |  (4-방향 복제) |
+  |  |  Set     |  |  Set     |  |  Set     |                |
+  |  | Region A |  | Region B |  | Region C |  Multi-Master  |
+  |  +----+-----+  +----+-----+  +----+-----+                |
+  |       |             |             |                      |
+  |  +----v-------------v-------------v--------------------+ |
+  |  | Conflict Resolution: Last-Writer-Wins(LWW) 또는     | |
+  |  | Custom Stored Procedure (CRDT 방식 병합)            | |
+  |  +----------------------------------------------------+ |
+  +-----------------------------------------------------------+
+           |
+           v
+  +------------------+
+  |   Change Feed    | -> Azure Functions / Synapse Link
+  |  (증분 변경 로그) |
+  +------------------+
+```
+
+### 핵심 구성 요소 비교
+
+| 구성 요소 | DynamoDB | CosmosDB |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **파티션 키 (Partition Key)** | 필수, MD5 해시 -> 3개 노드에 분산 저장 (Sloppy Quorum) | 필수, 10GB 초과 시 자동 Split, Logical Partition ↔ Physical Partition 분리 |
+| **정렬 키 (Sort Key)** | 옵션, 동일 파티션 내 범위 쿼리·계층 데이터 지원 | 없음(단일 키), 계층은 트리 구조로 모델링 |
+| **인덱스** | LSI(Local Secondary Index, 테이블당 5개, 생성 후 변경 불가), GSI(Global Secondary Index, 계정당 20개) | 자동 인덱싱 정책(Include/Exclude/IndexingMode) |
+| **일관성 모델** | Eventual(기본) / Strong(0.5배 RCU 비용) | 5단계: Strong, Bounded Staleness(K,L), Session, Consistent Prefix, Eventual |
+| **글로벌 분산** | Global Tables(2024 기준 20+ 리전), Multi-Active, DynamoDB Streams 기반 비동기 복제 | Turnkey Global Distribution, Multi-Master Writes, 99.999% SLA |
+| **캐시** | DAX(DynamoDB Accelerator, 10분 TTL, in-memory microsecond 응답) | 내장 캐시 없음, Azure Cache for Redis 별도 구성 |
+| **변경 캡처** | DynamoDB Streams(24h) + Kinesis Data Streams(365일) | Change Feed(컨테이너별 독립, TTL 기반 유지) |
+| **과금 단위** | WCU(1KB/s Write), RCU(4KB/s Strongly Consistent Read) | RU(Request Unit): 1KB Read=1RU, 1KB Write=5RU, 자동·고정 모드 |
+| **트랜잭션** | TransactGetItems(최대 100개), ACID, 2배 WCU/RCU | 스냅샷 격리(SI) Transactional Batch, 다중 문서 ACID |
+| **쿼리 언어** | PartiQL(2020~, SQL 호환) 또는 AWS SDK | SQL API(native), MongoDB/Cassandra/Gremlin/Table API |
+| **TTL** | 항목별 epoch timestamp, 백그라운드 정리(48h 이내) | 컨테이너 단위, PITR(Point-in-Time Restore)과 통합 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘·파라미터
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+- **DynamoDB 적응형 용량(Adaptive Capacity)**: 파티션별 RCU/WCU를 자동 모니터링하여 핫 파티션에 5분 내 최대 5분 전 트래픽의 2배까지 재할당, "예전에는 핫 파티션 분리 위해 사전 Shard 설계가 필수였으나 2018년 이후 자동화"
+- **DynamoDB RCU 계산**: `Strong Read 4KB/초 = 1 RCU`, `Eventually Consistent Read는 0.5 RCU`, `Transaction Read 2 RCU`
+- **DynamoDB 파티션 한도**: 파티션당 최대 3000 RCU + 1000 WCU, 10GB 저장 용량. 초과 시 자동 Split, 단 Split 직후 트래픽 쏠림 주의 필요
+- **CosmosDB RU 계산 공식**: `RU = (DocSize_KB / 4) × 1(Read) / 5(Write) / 2(Query) / N(여러 문서 Batch)`, Indexed 속성은 추가 RU 발생
+- **CosmosDB 일관성 토폴로지**: Strong(Quorum 4/4, 지연^, 가용성v) -> Eventual(Quorum 2/4, 지연v, 가용성^)까지 5단계 점진적 트레이드오프
+- **CosmosDB 멀티 리전 쓰기 충돌**: 기본 LWW(Last-Writer-Wins, _ts 타임스탬프), 사용자 정의 Stored Proc로 `setMerge`/`setUnion` 같은 CRDT 함수 가능
+
+- **📢 섹션 요약 비유**: DynamoDB는 "3개 우체통에 사본을 넣어두는 시스템"으로 한 개 우체국이 폭파되어도 배달이 가능하며, CosmosDB는 "전 세계 4개 우체국이 동시에 같은 문서를 작성해도 마지막에 누가 썼는지 자동으로 합쳐주는 시스템"이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-클라우드 NoSQL DynamoDB CosmosDB을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+### 주요 NoSQL 데이터베이스 비교
 
-| 구분 | 전통적 접근 | 클라우드 NoSQL DynamoDB CosmosDB |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 NoSQL DynamoDB CosmosDB은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 NoSQL DynamoDB CosmosDB은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 NoSQL DynamoDB CosmosDB을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 NoSQL DynamoDB CosmosDB을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 NoSQL DynamoDB CosmosDB 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 NoSQL DynamoDB CosmosDB은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 NoSQL DynamoDB CosmosDB의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 NoSQL DynamoDB CosmosDB의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 NoSQL DynamoDB CosmosDB 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 NoSQL DynamoDB CosmosDB은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | AWS DynamoDB | Azure CosmosDB | Cassandra (Astra) | MongoDB Atlas | Google Spanner |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **데이터 모델** | Key-Value + Document | Multi-Model (5종 API) | Wide-Column (CQL) | Document (BSON) | Relational + NewSQL |
+| **일관성** | Eventual / Strong (2종) | 5단계 튜닝 가능 | Eventual / Quorum 조절 | Read Concern 5종, Write Concern 2종 | Strong (TrueTime API) |
+| **트랜잭션** | 제한적(100개 항목) ACID | Multi-Document ACID | LWT(Lightweight) | Multi-Document ACID | 글로벌 ACID |
+| **확장 한계** | 무제한 (파티션 자동) | 무제한 (물리 파티션 자동) | 무제한 (Linear) | 샤딩 1024개 (2024 기준) | 무제한 (실질적 한계 큼) |
+| **글로벌 분산** | Global Tables (Multi-Active) | Turnkey Multi-Master | 자체 DC 간 복제 (복잡) | Global Clusters (제한적) | Multi-Region Strong |
+| **SLA** | 99.99% (단일 리전) | 99.999% (Multi-Region) | 99.
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 489 / 800
 
-<- **이전**: [488. 클라우드 데이터베이스 RDS Aurora 관리형](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/488_cloud_database_rds_aurora_managed/)
-**다음**: [490. 클라우드 그래프 DB Neptune 관계 분석](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/490_cloud_graph_db_neptune_relation_analysis/) ->
+<- **이전**: [488. 클라우드 데이터베이스 RDS Aurora 관리형](/studynote/13_cloud_architecture/06_exam_summary/488_cloud_database_rds_aurora_managed/)
+**다음**: [490. 클라우드 그래프 DB Neptune 관계 분석](/studynote/13_cloud_architecture/06_exam_summary/490_cloud_graph_db_neptune_relation_analysis/) ->
 
 ---

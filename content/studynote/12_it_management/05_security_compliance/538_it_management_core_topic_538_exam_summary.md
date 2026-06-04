@@ -1,13 +1,10 @@
-+++
-title = "538. IT 경영 관리 핵심 토픽 538번 시험 요약 (IT Management Core Topic 538 Exam Summary)"
-date = 2026-05-09
+---
+title: "538. IT 경영 관리 핵심 토픽 538번 시험 요약 (IT Management Core Topic 538 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 538. IT 경영 관리 핵심 토픽 — IT 거버넌스 및 전략적 IT 성과관리 (IT Governance & Strategic IT Performance Management)
 
@@ -176,7 +173,7 @@ COBIT 2019는 **13개 Enterprise Goal -> 13개 Alignment Goal -> 40개 Managemen
 
 **진행 상황**: 538 / 800
 
-<- **이전**: [537. IT 경영 관리 핵심 토픽 537번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/537_it_management_core_topic_537_exam_summary/)
-**다음**: [539. IT 경영 관리 핵심 토픽 539번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/539_it_management_core_topic_539_exam_summary/) ->
+<- **이전**: [537. IT 경영 관리 핵심 토픽 537번 시험 요약](/studynote/12_it_management/05_security_compliance/537_it_management_core_topic_537_exam_summary/)
+**다음**: [539. IT 경영 관리 핵심 토픽 539번 시험 요약](/studynote/12_it_management/05_security_compliance/539_it_management_core_topic_539_exam_summary/) ->
 
 ---

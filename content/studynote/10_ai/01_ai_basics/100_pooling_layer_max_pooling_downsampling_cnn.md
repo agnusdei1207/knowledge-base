@@ -1,34 +1,31 @@
-+++
-title = "100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보"
-date = 2026-04-10
+---
+title: "100. 풀링 층 (Pooling Layer) - 해상도 압축과 불변성 확보"
+date: "2026-04-10"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)(Conv Layer)이 추출한 고해상도 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 공간적으로 축소(Downsampling)하여 가장 두드러진 특징만 남기는 극단적인 [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/)기다.
-- **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량과 파라미터 연산량을 획기적으로 줄여 과적합([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하고, 피사체의 위치 변화에도 동일한 특징으로 인식하게 하는 공간 이동 불변성(Translation Invariance)을 부여한다.
-- **판단 포인트**: [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 가장 보편적으로 쓰이지만, 최근 모델에서는 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 넓히는 방식이나 네트워크 마지막 단에서 전역 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)(Global Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))으로 대체하는 추세가 늘고 있다.
+- **본질**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)(Conv Layer)이 추출한 고해상도 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)의 크기를 공간적으로 축소(Downsampling)하여 가장 두드러진 특징만 남기는 극단적인 [데이터 압축](/studynote/08_algorithm_stats/09_info_theory/159_compression/)기다.
+- **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 용량과 파라미터 연산량을 획기적으로 줄여 과적합([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))을 방지하고, 피사체의 위치 변화에도 동일한 특징으로 인식하게 하는 공간 이동 불변성(Translation Invariance)을 부여한다.
+- **판단 포인트**: [최대 풀링](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)([Max Pooling](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 가장 보편적으로 쓰이지만, 최근 모델에서는 [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 보폭([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 넓히는 방식이나 네트워크 마지막 단에서 전역 평균 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)(Global Average [Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))으로 대체하는 추세가 늘고 있다.
 
 ### Ⅰ. 개요 및 필요성
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 딥러닝 이미지 처리 신경망인 [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 해상도를 줄여 정보를 요약하는 계층이다.
-[합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)을 통과한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 고해상도의 무거운 상태이므로 그대로 다음 계층으로 전달하면 연산량이 폭발하고 메모리 한계를 초과하게 된다. 이를 방지하기 위해 일정한 구역 내에서 대표값만 추출하여 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 과정이 필수적이다. 만약 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 없다면 네트워크가 깊어질수록 파라미터 수가 기하급수적으로 늘어나 학습이 불가능해진다.
+[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층([Pooling Layer](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/))은 딥러닝 이미지 처리 신경망인 [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))에서 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)([Feature Map](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))의 해상도를 줄여 정보를 요약하는 계층이다.
+[합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)을 통과한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 고해상도의 무거운 상태이므로 그대로 다음 계층으로 전달하면 연산량이 폭발하고 메모리 한계를 초과하게 된다. 이를 방지하기 위해 일정한 구역 내에서 대표값만 추출하여 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 과정이 필수적이다. 만약 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)이 없다면 네트워크가 깊어질수록 파라미터 수가 기하급수적으로 늘어나 학습이 불가능해진다.
 
-- **📢 섹션 요약 비유**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 두꺼운 전공서적을 시험 직전에 꼭 필요한 핵심 키워드만 남기고 얇은 요약본으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하는 과정과 같다. 책 전체를 다 외우지 않아도 시험(다음 층의 판단)을 치르는 데는 충분하기 때문이다.
+- **📢 섹션 요약 비유**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 두꺼운 전공서적을 시험 직전에 꼭 필요한 핵심 키워드만 남기고 얇은 요약본으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하는 과정과 같다. 책 전체를 다 외우지 않아도 시험(다음 층의 판단)을 치르는 데는 충분하기 때문이다.
 
 ### Ⅱ. 아키텍처 및 핵심 원리
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층은 학습 가능한 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 없으며, 정해진 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)(보통 $2 \times 2$)와 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))에 따라 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위를 미끄러지며 대표값을 추출한다.
+[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층은 학습 가능한 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))가 없으며, 정해진 [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)(보통 $2 \times 2$)와 보폭([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))에 따라 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 위를 미끄러지며 대표값을 추출한다.
 
 | 구성 요소 | 역할 | 특징 |
 |---|---|---|
-| [최대 풀링](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) | 구역 내 가장 큰 값(가장 강한 특징)만 추출 | 가장 널리 쓰이며 강렬한 엣지(Edge)나 특징 보존에 유리함 |
-| 평균 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 구역 내 모든 값의 평균을 추출 | 특징이 부드러워지며, 주로 네트워크 마지막 단(GAP)에서 사용됨 |
-| [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/knowledge-base/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) | 추출을 수행할 구역의 크기 (보통 $2 \times 2$) | 크기가 클수록 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아지나 정보 손실도 커짐 |
-| 보폭 ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 윈도우가 한 번에 이동하는 칸 수 (보통 2) | 보폭을 [윈도우 크기](/knowledge-base/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 같게 하여 구역이 겹치지 않게 함 |
+| [최대 풀링](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ([Max Pooling](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/)) | 구역 내 가장 큰 값(가장 강한 특징)만 추출 | 가장 널리 쓰이며 강렬한 엣지(Edge)나 특징 보존에 유리함 |
+| 평균 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) (Average [Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)) | 구역 내 모든 값의 평균을 추출 | 특징이 부드러워지며, 주로 네트워크 마지막 단(GAP)에서 사용됨 |
+| [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/) ([Window Size](/studynote/03_network/04_data_link_layer_error/215_window_size_sender_receiver/)) | 추출을 수행할 구역의 크기 (보통 $2 \times 2$) | 크기가 클수록 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 높아지나 정보 손실도 커짐 |
+| 보폭 ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)) | 윈도우가 한 번에 이동하는 칸 수 (보통 2) | 보폭을 [윈도우 크기](/studynote/03_network/08_transport_layer/413_tcp_window_size_flow_control_16bit/)와 같게 하여 구역이 겹치지 않게 함 |
 
 ```text
 +-------------------------------------------------------------+
@@ -50,42 +47,42 @@ tags = ["studynote-ai"]
 |   * 4칸 중 가장 큰 숫자 1개만 살아남아 용량이 1/4로 줄어듦  |
 +-------------------------------------------------------------+
 ```
-위 다이어그램은 16개의 픽셀이 $2 \times 2$ 구역별로 묶여 가장 큰 값 하나씩만 추출됨으로써 총 4개의 픽셀로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되는 과정을 보여준다. 이 과정을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 $25\%$로 줄어든다.
+위 다이어그램은 16개의 픽셀이 $2 \times 2$ 구역별로 묶여 가장 큰 값 하나씩만 추출됨으로써 총 4개의 픽셀로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)되는 과정을 보여준다. 이 과정을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기는 $25\%$로 줄어든다.
 
-- **📢 섹션 요약 비유**: 전국 노래자랑 예선전([특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에 16명의 참가자가 4개 조(2x2 구역)로 나뉘어 대결할 때, 심사위원([Max Pooling](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 각 조에서 목소리가 제일 큰 1명만 결선으로 올려보내 방송 시간(연산량)을 $1/4$로 줄이는 룰과 같다.
+- **📢 섹션 요약 비유**: 전국 노래자랑 예선전([특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/))에 16명의 참가자가 4개 조(2x2 구역)로 나뉘어 대결할 때, 심사위원([Max Pooling](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/))이 각 조에서 목소리가 제일 큰 1명만 결선으로 올려보내 방송 시간(연산량)을 $1/4$로 줄이는 룰과 같다.
 
 ### Ⅲ. 비교 및 연결
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 핵심 효과는 '공간 이동 불변성(Translation Invariance)'이다.
+[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 핵심 효과는 '공간 이동 불변성(Translation Invariance)'이다.
 
-| 비교 항목 | 픽셀 단위 학습 ([풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 없음) | [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 계층 적용 후 |
+| 비교 항목 | 픽셀 단위 학습 ([풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 없음) | [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 계층 적용 후 |
 |---|---|---|
-| 인식 기준 | 고양이 귀가 정확한 픽셀 위치(X:[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), Y:15)에 있어야 함 | 해당 구역 어딘가에 고양이 귀 특징이 존재하기만 하면 됨 |
+| 인식 기준 | 고양이 귀가 정확한 픽셀 위치(X:[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/), Y:15)에 있어야 함 | 해당 구역 어딘가에 고양이 귀 특징이 존재하기만 하면 됨 |
 | 이동 왜곡 | 피사체가 3픽셀만 옆으로 이동해도 인식 실패 (오답) | 피사체가 약간 이동해도 동일하게 인식 성공 (강인함) |
 | 정보 밀도 | 미세한 노이즈까지 모두 저장하여 오버피팅 발생 쉬움 | 핵심 특징만 뭉툭하게 보존되어 거시적 형태 판단에 유리 |
 
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 적용하면 $2 \times 2$ 구역 안에서 특징(가장 큰 숫자)이 왼쪽 위에서 오른쪽 아래로 살짝 이동하더라도 어차피 1등으로 뽑혀 똑같은 값을 다음 층에 전달한다. 이 뭉툭한 시야 덕분에 CNN은 이미지가 찌그러지거나 이동해도 융통성 있게 사물을 인식할 수 있다.
+[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)을 적용하면 $2 \times 2$ 구역 안에서 특징(가장 큰 숫자)이 왼쪽 위에서 오른쪽 아래로 살짝 이동하더라도 어차피 1등으로 뽑혀 똑같은 값을 다음 층에 전달한다. 이 뭉툭한 시야 덕분에 CNN은 이미지가 찌그러지거나 이동해도 융통성 있게 사물을 인식할 수 있다.
 
-- **📢 섹션 요약 비유**: 저격수가 정확한 창문(픽셀 좌표)에 적이 나타나야만 쏘는 것이 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 없는 방식이라면, [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 "그 건물(구역) 안에 적이 있으면 건물 전체를 폭격"하는 방식으로 적이 약간 방을 옮겨도 명중시키는 융통성을 가진다.
+- **📢 섹션 요약 비유**: 저격수가 정확한 창문(픽셀 좌표)에 적이 나타나야만 쏘는 것이 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 없는 방식이라면, [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 "그 건물(구역) 안에 적이 있으면 건물 전체를 폭격"하는 방식으로 적이 약간 방을 옮겨도 명중시키는 융통성을 가진다.
 
 ### Ⅳ. 실무 적용 및 기술사 판단
-실제 딥러닝 아키텍처 설계 시 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 적용과 회피를 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 판단해야 한다.
+실제 딥러닝 아키텍처 설계 시 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)의 적용과 회피를 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적으로 판단해야 한다.
 
-1. **Max Pooling의 채택**: 이미지 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/knowledge-base/studynote/12_it_management/03_ea_isp/107_classification/))나 [객체 탐지](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))처럼 사물의 미세한 위치보다 "그게 무엇인지" 파악하는 것이 중요할 때 적극 사용한다.
-2. <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 층의 회피 (Strided <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>)</strong>: 최근 [ResNet](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 계열 등에서는 정보 유실을 막기 위해 [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층을 제거하고, 대신 [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 필터 이동 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 2로 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 연산과 해상도 축소를 동시에 해결하는 방식을 선호한다.
-3. <strong>GAP (Global Average <a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>) 적용</strong>: 네트워크 마지막에 Fully Connected Layer를 두면 파라미터가 수천만 개로 폭발하므로, 마지막 [특성 맵](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 전체의 평균을 하나의 숫자로 퉁치는 GAP를 적용하여 파라미터 수를 0으로 만들고 오버피팅을 방어한다.
+1. **Max Pooling의 채택**: 이미지 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)([Classification](/studynote/12_it_management/03_ea_isp/107_classification/))나 [객체 탐지](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/)([Object Detection](/studynote/10_ai/04_ai_ops_ethics/288_object_detection_yolo_rcnn/))처럼 사물의 미세한 위치보다 "그게 무엇인지" 파악하는 것이 중요할 때 적극 사용한다.
+2. <strong><a href="/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">풀링</a> 층의 회피 (Strided <a href="/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/">Convolution</a>)</strong>: 최근 [ResNet](/studynote/10_ai/04_ai_ops_ethics/287_resnet_skip_connection/) 계열 등에서는 정보 유실을 막기 위해 [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층을 제거하고, 대신 [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/)의 필터 이동 보폭([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))을 2로 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)하여 연산과 해상도 축소를 동시에 해결하는 방식을 선호한다.
+3. <strong>GAP (Global Average <a href="/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/">Pooling</a>) 적용</strong>: 네트워크 마지막에 Fully Connected Layer를 두면 파라미터가 수천만 개로 폭발하므로, 마지막 [특성 맵](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/) 전체의 평균을 하나의 숫자로 퉁치는 GAP를 적용하여 파라미터 수를 0으로 만들고 오버피팅을 방어한다.
 
-- **📢 섹션 요약 비유**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)와 같아서, 과일(결과물)을 맺게 하려면 잔가지(불필요한 픽셀)를 과감히 쳐내야 하지만, 최근에는 아예 처음부터 굵은 가지만 자라게 씨앗을 심는(Strided Conv) 농법이 유행하는 것과 같다.
+- **📢 섹션 요약 비유**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)와 같아서, 과일(결과물)을 맺게 하려면 잔가지(불필요한 픽셀)를 과감히 쳐내야 하지만, 최근에는 아예 처음부터 굵은 가지만 자라게 씨앗을 심는(Strided Conv) 농법이 유행하는 것과 같다.
 
 ### Ⅴ. 기대효과 및 결론
-[풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층은 딥러닝이 깊은(Deep) 신경망을 구성할 수 있게 해준 핵심 공신이다. 메모리와 연산량의 한계를 극복하게 해주며, 모델이 픽셀의 정확한 위치에 집착하지 않고 사물의 거시적 특징을 파악하게 만드는 강인함(Robustness)을 제공한다.
-비록 최근에는 정보 손실에 대한 우려로 Strided [Convolution](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 방식에 자리를 내주고 있지만, "해상도를 낮추어 불변성을 확보하고 연산량을 줄인다"는 핵심 철학은 여전히 모든 컴퓨터 비전 모델의 설계 근간으로 남아있다.
+[풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/) 층은 딥러닝이 깊은(Deep) 신경망을 구성할 수 있게 해준 핵심 공신이다. 메모리와 연산량의 한계를 극복하게 해주며, 모델이 픽셀의 정확한 위치에 집착하지 않고 사물의 거시적 특징을 파악하게 만드는 강인함(Robustness)을 제공한다.
+비록 최근에는 정보 손실에 대한 우려로 Strided [Convolution](/studynote/10_ai/04_ai_ops_ethics/284_convolution_stride_padding/) 방식에 자리를 내주고 있지만, "해상도를 낮추어 불변성을 확보하고 연산량을 줄인다"는 핵심 철학은 여전히 모든 컴퓨터 비전 모델의 설계 근간으로 남아있다.
 
-- **📢 섹션 요약 비유**: [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 해상도를 일부러 흐릿하게 만드는 모자이크 처리와 같다. 너무 선명하면 흠집(노이즈)에 집착하게 되지만, 살짝 흐릿하게 보면 전체적인 윤곽(핵심 특징)이 더 확실하게 보이는 역설적인 효과를 낸다.
+- **📢 섹션 요약 비유**: [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 해상도를 일부러 흐릿하게 만드는 모자이크 처리와 같다. 너무 선명하면 흠집(노이즈)에 집착하게 되지만, 살짝 흐릿하게 보면 전체적인 윤곽(핵심 특징)이 더 확실하게 보이는 역설적인 효과를 낸다.
 
 ### 📌 관련 개념 맵
-- **상위 개념**: [CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/knowledge-base/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))
-- **연관 개념**: [합성곱 층](/knowledge-base/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/) (Conv Layer), [스트라이드](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)), 오버피팅 ([Overfitting](/knowledge-base/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))
-- **파생 개념**: GAP (Global Average [Pooling](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)), 공간 이동 불변성 (Translation Invariance)
+- **상위 개념**: [CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/) ([Convolutional Neural Network](/studynote/12_it_management/02_itsm_itil/089_CNN_Convolutional/))
+- **연관 개념**: [합성곱 층](/studynote/10_ai/01_ai_basics/096_convolution_layer_filter_stride_padding/) (Conv Layer), [스트라이드](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/) ([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)), 오버피팅 ([Overfitting](/studynote/10_ai/03_llm_nlp/245_overfitting_variance/))
+- **파생 개념**: GAP (Global Average [Pooling](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)), 공간 이동 불변성 (Translation Invariance)
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -102,11 +99,11 @@ tags = ["studynote-ai"]
 Strided Convolution · 풀링 계층 생략 및 정보 손실 방지
 ```
 
-이 흐름도는 "특징 탐지 -> [데이터 압축](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) -> 파라미터 최소화 -> [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)과 연산의 통합"으로 진화하는 해상도 축소 기법의 발전 과정을 보여준다.
+이 흐름도는 "특징 탐지 -> [데이터 압축](/studynote/08_algorithm_stats/09_info_theory/159_compression/) -> 파라미터 최소화 -> [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)과 연산의 통합"으로 진화하는 해상도 축소 기법의 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 커다란 도화지에 그려진 그림을 작은 수첩에 옮겨 그리려면 가장 눈에 띄는 선들만 남기고 나머지는 지워야 해요.
-2. [풀링](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 돋보기로 그림을 보면서 제일 진한 색칠 하나만 남기고 주변의 연한 색은 버리는 똑똑한 지우개랍니다.
+2. [풀링](/studynote/10_ai/04_ai_ops_ethics/285_pooling_layer/)은 돋보기로 그림을 보면서 제일 진한 색칠 하나만 남기고 주변의 연한 색은 버리는 똑똑한 지우개랍니다.
 3. 이렇게 하면 수첩에도 그림이 다 들어가고, 친구 얼굴이 원래보다 조금 옆으로 치우쳐 그려져도 누구인지 똑같이 알아볼 수 있어요!
 
 ---
@@ -115,7 +112,7 @@ Strided Convolution · 풀링 계층 생략 및 정보 손실 방지
 
 **진행 상황**: 100 / 420
 
-<- **이전**: [99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체](/knowledge-base/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)
-**다음**: [101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교](/knowledge-base/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ->
+<- **이전**: [99. 특성 맵 (Feature Map) - CNN 필터 압축 지도의 실체](/studynote/10_ai/01_ai_basics/099_feature_map_activation_map_cnn_output/)
+**다음**: [101. 최대 풀링 (Max Pooling) / 평균 풀링 (Average Pooling) 비교](/studynote/10_ai/02_dl_architecture_new/101_max_pooling_average_pooling_global_average_pooling/) ->
 
 ---

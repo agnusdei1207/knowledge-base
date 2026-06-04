@@ -1,13 +1,10 @@
-+++
-title = "389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)"
-date = 2026-05-09
+---
+title: "389. 카오스 엔지니어링 보안 게임데이 장애 주입 (Chaos Engineering Security GameDay Fault Injection)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 389 / 400
 
-<- **이전**: [388. 위협 모델링 STRIDE DREAD 설계 시점 분석 (Threat Modeling STRIDE DREAD PASTA)](/knowledge-base/studynote/15_devops_sre/05_devsecops/388_threat_modeling_stride/)
-**다음**: [390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)](/knowledge-base/studynote/15_devops_sre/05_devsecops/390_cspm_cloud_posture/) ->
+<- **이전**: [388. 위협 모델링 STRIDE DREAD 설계 시점 분석 (Threat Modeling STRIDE DREAD PASTA)](/studynote/15_devops_sre/05_devsecops/388_threat_modeling_stride/)
+**다음**: [390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)](/studynote/15_devops_sre/05_devsecops/390_cspm_cloud_posture/) ->
 
 ---

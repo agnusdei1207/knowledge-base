@@ -1,13 +1,10 @@
-+++
-title = "404. API 보안 OAuth JWT 토큰 관리 (API Security OAuth JWT Token Management)"
-date = 2026-05-09
+---
+title: "404. API 보안 OAuth JWT 토큰 관리 (API Security OAuth JWT Token Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -140,7 +137,7 @@ JWT는 **Header.Payload.Signature**의 3-part Base64URL 인코딩 문자열로, 
 
 **진행 상황**: 404 / 800
 
-<- **이전**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/knowledge-base/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/)
-**다음**: [405. 모바일 보안 MDM MAM 앱 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/) ->
+<- **이전**: [403. 클라우드 네이티브 보안 CNAPP CWPP](/studynote/12_it_management/05_security_compliance/403_cloud_native_security_cnapp_cwpp/)
+**다음**: [405. 모바일 보안 MDM MAM 앱 보호](/studynote/12_it_management/05_security_compliance/405_mobile_security_mdm_mam_app_protection/) ->
 
 ---

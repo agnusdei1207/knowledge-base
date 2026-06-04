@@ -1,9 +1,9 @@
-+++
-title = "02. CI/CD 및 GitOps 아키텍처"
+---
+title: "02. CI/CD 및 GitOps 아키텍처"
+tags:
+  - "devops_sre"
+---
 
-[extra]
-tags = ["devops_sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

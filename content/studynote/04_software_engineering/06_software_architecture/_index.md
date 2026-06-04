@@ -1,6 +1,5 @@
-+++
-title = "06. Software Architecture"
-
-[extra]
-tags = ["software_engineering"]
-+++
+---
+title: "06. Software Architecture"
+tags:
+  - "software_engineering"
+---

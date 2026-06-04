@@ -1,13 +1,10 @@
-+++
-title = "535. 전문가 혼합 모델 (Mixture of Experts, MoE)"
-date = 2026-05-09
+---
+title: "535. 전문가 혼합 모델 (Mixture of Experts, MoE)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -51,9 +48,9 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
          Output (Token)
 ```
 
-1. <strong>Gating/<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a></strong>: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [Top-K](/knowledge-base/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)(보통 1~2개) 전문가에게 데이터를 전달한다.
+1. <strong>Gating/<a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a></strong>: 입력 토큰이 들어오면 게이팅 네트워크가 각 전문가의 적합도를 계산하고, 가장 높은 점수를 받은 [Top-K](/studynote/06_ict_convergence/05_data_science/414_llm_decoder_top_k_temperature/)(보통 1~2개) 전문가에게 데이터를 전달한다.
 2. **Experts (FFN)**: 각 전문가는 특화된 지식을 학습한 피드포워드 신경망(FFN)이다. 예를 들어, 수학 전문가, 코드 전문가, 인문학 전문가 등으로 자연스럽게 역할이 분담된다.
-3. **Sparsity**: 비활성화된 전문가는 연산에 참여하지 않으므로 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용량과 에너지를 대폭 절감한다.
+3. **Sparsity**: 비활성화된 전문가는 연산에 참여하지 않으므로 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 사용량과 에너지를 대폭 절감한다.
 
 - **📢 섹션 요약 비유**: 설계도와 배관도를 함께 보는 것처럼 내부 연결을 알아야 병목과 핵심 원리를 이해할 수 있다.
 
@@ -65,9 +62,9 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
 | :--- | :--- | :--- |
 | **연산 방식** | 모든 파라미터 활성화 | 필요한 전문가만 선택적 활성화 |
 | **확장성** | 연산 비용이 모델 크기에 비례 | 모델 크기 대비 연산 비용 저렴 |
-| **학습 난이도** | 상대적으로 쉬움 | 전문가 불균형([Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 해결 필요 |
+| **학습 난이도** | 상대적으로 쉬움 | 전문가 불균형([Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/)) 해결 필요 |
 | **추론 속도** | 파라미터 증가 시 급격히 저하 | 대규모 파라미터 대비 매우 빠름 |
-| **대표 사례** | GPT-3, Llama-2 | GPT-4, Mixtral-8x7B, [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
+| **대표 사례** | GPT-3, Llama-2 | GPT-4, Mixtral-8x7B, [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
 
 - **📢 섹션 요약 비유**: 비슷한 공구도 쓰임새가 다르듯, 비교를 해야 이 개념의 경계와 강점이 또렷해진다.
 
@@ -75,10 +72,10 @@ MoE는 다수의 전문가 층(Experts)과 이들을 제어하는 게이팅 네�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-기술사로서의 판단으로는, MoE는 초거대 AI의 <strong>'경제적 <a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/">지속 가능성</a>'</strong>을 담보하는 핵심 기술이다.
-1. <strong><a href="/knowledge-base/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
-2. <strong>인프라 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전문가들이 여러 GPU에 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 배치되므로, 노드 간 통신 병목을 줄이기 위한 <strong>Expert Parallelism</strong>과 고속 인터커넥트(NVLink) 환경이 필수적이다.
-3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> 기술과의 결합이 권장된다.
+기술사로서의 판단으로는, MoE는 초거대 AI의 <strong>'경제적 <a href="/studynote/04_software_engineering/06_software_architecture/386_sustainability_green_coding/">지속 가능성</a>'</strong>을 담보하는 핵심 기술이다.
+1. <strong><a href="/studynote/03_network/16_data_center_cloud/833_load_balancing_l4_l7_switch_traffic_distribution/">로드 밸런싱</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/">Load Balancing</a>)</strong>: 특정 전문가에게만 업무가 쏠리는 현상을 방지하기 위해 'Auxiliary Loss'를 도입하여 모든 전문가가 고르게 학습되도록 설계해야 한다.
+2. <strong>인프라 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>: 전문가들이 여러 GPU에 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 배치되므로, 노드 간 통신 병목을 줄이기 위한 <strong>Expert Parallelism</strong>과 고속 인터커넥트(NVLink) 환경이 필수적이다.
+3. **메모리 문제**: 연산은 적지만 전체 파라미터를 메모리에 올려야 하므로, VRAM 용량 확보를 위해 <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">양자화</a>(<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/">Quantization</a>)</strong> 기술과의 결합이 권장된다.
 
 - **📢 섹션 요약 비유**: 현장 체크리스트처럼 조건을 짚어야 기술이 장점이 아니라 실제 성과로 이어진다.
 
@@ -96,9 +93,9 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 부모 개념 | Deep [Learning](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/), [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
-| 연관 개념 | Sparsity, Gating Network, [Load Balancing](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/), Expert Parallelism |
-| 파생 기술 | [Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), Mixtral, Sparse Upcycling |
+| 부모 개념 | Deep [Learning](/studynote/03_network/05_lan_wan_l2_devices/240_switch_learning_forwarding_flooding/) [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/), [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) |
+| 연관 개념 | Sparsity, Gating Network, [Load Balancing](/studynote/02_operating_system/03_cpu_scheduling/196_hard_soft_real_time/), Expert Parallelism |
+| 파생 기술 | [Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) [Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/), Mixtral, Sparse Upcycling |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +115,7 @@ MoE는 AI의 대중화를 이끌 '고효율 아키텍처'의 표준이 될 것�
 
 **진행 상황**: 535 / 552
 
-<- **이전**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/)
-**다음**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/) ->
+<- **이전**: [534. CLIP 멀티모달 대조 학습 이미지-텍스트 정렬 (CLIP Multimodal Contrastive Image-Text Alignment)](/studynote/06_ict_convergence/04_ai_llm/534_clip_multimodal_contrastive_alignment/)
+**다음**: [536. 에이전틱 AI 워크플로우 (Agentic AI Workflows)](/studynote/06_ict_convergence/04_ai_llm/536_agentic_ai_workflows/) ->
 
 ---

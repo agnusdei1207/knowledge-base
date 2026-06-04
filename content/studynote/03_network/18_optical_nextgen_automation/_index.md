@@ -1,6 +1,5 @@
-+++
-title = "18. Optical Nextgen Automation"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "18. Optical Nextgen Automation"
+tags:
+  - "network"
+---

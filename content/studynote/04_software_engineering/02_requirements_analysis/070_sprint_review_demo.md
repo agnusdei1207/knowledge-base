@@ -1,24 +1,21 @@
-+++
-title = "70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백"
+---
+title: "70. 스프린트 리뷰 (Sprint Review) - 데모 및 피드백"
+tags:
+  - "software_engineering"
+---
 
-[taxonomies]
-tags = ["software_engineering"]
-
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 완성된 증분을 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 데모하고 피드백을 받는 이벤트다.
-> 2. **가치**: 제품 방향을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 다음 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)의 학습 재료를 얻는다.
+> 1. **본질**: [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 완성된 증분을 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)에게 데모하고 피드백을 받는 이벤트다.
+> 2. **가치**: 제품 방향을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 다음 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)의 학습 재료를 얻는다.
 > 3. **판단**: PPT가 아니라 실제 작동 소프트웨어를 보여 주는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 끝나면 결과를 공개해야 한다. 리뷰는 그 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 시간이다.
+[스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/)가 끝나면 결과를 공개해야 한다. 리뷰는 그 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)의 시간이다.
 
 실제 동작하는 소프트웨어를 보는 것이 가장 중요하다.
 
@@ -42,7 +39,7 @@ Feedback / Validation
 | Demo | 실제 시연 |
 | Feedback | 피드백 |
 
-리뷰는 시연과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중심이다. [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 반응을 통해 제품 방향을 조정한다.
+리뷰는 시연과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이 중심이다. [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)의 반응을 통해 제품 방향을 조정한다.
 
 - **📢 섹션 요약 비유**: 만든 것을 직접 보여 주고, 보는 사람이 의견을 주는 자리다.
 
@@ -52,16 +49,16 @@ Feedback / Validation
 
 | 이벤트 | 목적 | 차이 |
 | :-- | :-- | :-- |
-| [Sprint](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) [Review](/knowledge-base/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/피드백 | 외부 중심 |
-| [Retrospective](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) | 개선 | 내부 중심 |
+| [Sprint](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) [Review](/studynote/04_software_engineering/03_design_architecture/153_requirements_review_inspection_walkthrough/) | [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)/피드백 | 외부 중심 |
+| [Retrospective](/studynote/04_software_engineering/10_trends_pm_quality/796_retrospective/) | 개선 | 내부 중심 |
 | Planning | 계획 | 시작 단계 |
 
 | 산출물 | 의미 |
 | :-- | :-- |
 | Feedback | 학습 재료 |
-| [Product Backlog](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) Update | 다음 작업 반영 |
+| [Product Backlog](/studynote/04_software_engineering/02_requirements_analysis/066_product_backlog_grooming/) Update | 다음 작업 반영 |
 
-리뷰는 단순 발표가 아니라 실제 제품 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 그래서 데모 품질과 피드백 수집이 중요하다.
+리뷰는 단순 발표가 아니라 실제 제품 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)이다. 그래서 데모 품질과 피드백 수집이 중요하다.
 
 - **📢 섹션 요약 비유**: 작품 전시회에서 관객 반응을 보는 것이다.
 
@@ -69,22 +66,22 @@ Feedback / Validation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 실제 작동 결과를 보여 주는가?
-2. [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 피드백을 받는가?
+2. [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 피드백을 받는가?
 3. 백로그에 반영하는가?
 4. 데모가 PPT 중심으로 흐르지 않는가?
 5. 결과와 학습이 연결되는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 슬라이드만 보여 주는 설계
 - 피드백을 기록하지 않는 설계
 - 리뷰를 형식적으로만 하는 설계
-- [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 참여가 없는 설계
+- [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 참여가 없는 설계
 
-기술사 관점에서는 리뷰를 "실행 결과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 제품 학습의 장"으로 봐야 한다.
+기술사 관점에서는 리뷰를 "실행 결과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 제품 학습의 장"으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 결과를 보여 주고 다음 길을 찾는 자리다.
 
@@ -92,9 +89,9 @@ Feedback / Validation
 
 ## Ⅴ. 기대효과 및 결론
 
-[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 제품을 더 나은 방향으로 가게 만드는 피드백 루프다.
+[스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 제품을 더 나은 방향으로 가게 만드는 피드백 루프다.
 
-결론적으로 [스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 데모와 피드백을 통해 제품 가치를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자리다.
+결론적으로 [스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 데모와 피드백을 통해 제품 가치를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 자리다.
 
 - **📢 섹션 요약 비유**: 보여 주고, 듣고, 다음을 고치는 시간이다.
 
@@ -132,7 +129,7 @@ Product Learning
 
 만든 걸 직접 보여 줘요.
 본 사람이 의견을 말해 줘요.
-[스프린트](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 그런 시간이예요.
+[스프린트](/studynote/04_software_engineering/02_requirements_analysis/067_sprint_timebox/) 리뷰는 그런 시간이예요.
 
 ---
 
@@ -140,7 +137,7 @@ Product Learning
 
 **진행 상황**: 70 / 973
 
-<- **이전**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/)
-**다음**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/) ->
+<- **이전**: [69. 데일리 스탠드업 (Daily Scrum) - 진행 상황 공유, 장애 파악](/studynote/04_software_engineering/02_requirements_analysis/069_daily_standup_scrum/)
+**다음**: [71. 스프린트 회고 (Sprint Retrospective) - 프로세스 개선](/studynote/04_software_engineering/02_requirements_analysis/071_sprint_retrospective/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "507. 클라우드 네트워크 허브 스포크 토폴로지 (Cloud Network Hub Spoke Topology)"
-date = 2026-05-09
+---
+title: "507. 클라우드 네트워크 허브 스포크 토폴로지 (Cloud Network Hub Spoke Topology)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 507 / 800
 
-<- **이전**: [506. 멀티 어카운트 전략 AWS Organizations](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/506_multi_account_strategy_aws_organizations/)
-**다음**: [508. 클라우드 서비스 엔드포인트 프라이빗링크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/508_cloud_service_endpoint_private_link/) ->
+<- **이전**: [506. 멀티 어카운트 전략 AWS Organizations](/studynote/13_cloud_architecture/06_exam_summary/506_multi_account_strategy_aws_organizations/)
+**다음**: [508. 클라우드 서비스 엔드포인트 프라이빗링크](/studynote/13_cloud_architecture/06_exam_summary/508_cloud_service_endpoint_private_link/) ->
 
 ---

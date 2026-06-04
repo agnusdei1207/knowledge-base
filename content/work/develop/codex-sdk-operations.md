@@ -1,20 +1,17 @@
-+++
-title = "🧩 Codex SDK 문서 업무 운영안"
+---
+title: "🧩 Codex SDK 문서 업무 운영안"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 이 문서는 전 직원이 Codex를 업무 도구로 쓰는 상황에서, 내부적으로 Python Codex SDK를 어떻게 문서 업무 자동화에 활용할지 정리한 운영안입니다.
 
 관련 문서:
-- [claude-code-mcp](/knowledge-base/work/develop/claude-code-mcp/)
-- [knowledge-pipeline](/knowledge-base/work/develop/knowledge-pipeline/)
-- [mcp-client-setup](/knowledge-base/work/develop/mcp-client-setup/)
-- [operations](/knowledge-base/work/develop/operations/)
+- [claude-code-mcp](/work/develop/claude-code-mcp/)
+- [knowledge-pipeline](/work/develop/knowledge-pipeline/)
+- [mcp-client-setup](/work/develop/mcp-client-setup/)
+- [operations](/work/develop/operations/)
 
 ---
 

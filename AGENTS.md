@@ -17,3 +17,9 @@ Usage policy:
 - 과목 구성: 01~16번 폴더 (각 폴더에 세부 챕터 및 키워드 목록 포함)
 - 허브 문서: `content/studynote/_index.md`
 - 검색 예시: `search_docs("캐시 메모리")`, `get_doc("studynote/01_computer_architecture/_index")`
+
+## Quartz Migration
+
+- This repository is now a Quartz site. Do not reintroduce Zola, Pagefind, `templates/`, `static/assets/`, or `config.toml`.
+- Keep the Quartz implementation aligned with `../codex-skills`; project-specific changes should be limited to site metadata, CI/CD, deployment paths, and this repository's `content/`.
+- Use `npm run build` to verify the site.

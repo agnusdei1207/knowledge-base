@@ -1,31 +1,28 @@
-+++
-title = "602. 조치 결과 확인 (시정조치 확인 보고서 발행)"
-description = "정보시스템 감리의 최종 완성 단계인 조치 결과 확인의 목적, 확인 방법론 및 법적 효력을 심층 분석합니다."
-date = 2026-03-04
+---
+title: "602. 조치 결과 확인 (시정조치 확인 보고서 발행)"
+date: "2026-03-04"
+description: "정보시스템 감리의 최종 완성 단계인 조치 결과 확인의 목적, 확인 방법론 및 법적 효력을 심층 분석합니다."
+tags:
+  - "design_supervision"
+---
 
-[taxonomies]
-tags = ["design_supervision"]
 
-[extra]
-tags = ["design_supervision"]
-+++
-
-# 602. 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Follow-up Audit](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) / 시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - 보고서 발행
+# 602. 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) ([Follow-up Audit](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/) / 시정조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)) - 보고서 발행
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Follow-up Audit](/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/))은 [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에 명시된 '필수 시정 조치 사항'에 대해 피감리인(사업자)이 실제로 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 수정했는지 객관적으로 최종 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 활동입니다.
+> 1. **본질**: 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Follow-up Audit](/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/))은 [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에 명시된 '필수 시정 조치 사항'에 대해 피감리인(사업자)이 실제로 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)을 수정했는지 객관적으로 최종 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 활동입니다.
 > 2. **가치**: 감리가 단순한 '지적(Pointing)'에 머물지 않고 실제 '품질 개선(Improvement)'으로 이어지도록 강제하는 가장 강력한 통제 수단이자 프로젝트 검수(인수)의 필수 전제 조건입니다.
-> 3. **융합**: 소스코드 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리), [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)), [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 파이프라인 상의 재배포 및 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계와 직접적으로 맞물려 동작합니다.
+> 3. **융합**: 소스코드 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)([버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리), [회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/studynote/04_software_engineering/11_testing_validation/410_regression_test/)), [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 파이프라인 상의 재배포 및 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계와 직접적으로 맞물려 동작합니다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-과거 정보화 사업에서는 감리 법인이 화려하고 두꺼운 [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)를 제출하며 수백 개의 문제점을 지적했음에도, 오픈 직후 시스템이 다운되거나 해킹을 당하는 참사가 빈번했습니다. 원인은 단순했습니다. 지적만 하고 "진짜로 고쳤는지" [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정이 허술했기 때문입니다. 사업자는 바쁜 일정 탓에 "고치겠습니다"라고 답변서만 쓰고 실제 코드는 손대지 않는 이른바 '페이퍼 워크(Paper Work)'로 위기를 넘기려 했습니다.
+과거 정보화 사업에서는 감리 법인이 화려하고 두꺼운 [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)를 제출하며 수백 개의 문제점을 지적했음에도, 오픈 직후 시스템이 다운되거나 해킹을 당하는 참사가 빈번했습니다. 원인은 단순했습니다. 지적만 하고 "진짜로 고쳤는지" [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 과정이 허술했기 때문입니다. 사업자는 바쁜 일정 탓에 "고치겠습니다"라고 답변서만 쓰고 실제 코드는 손대지 않는 이른바 '페이퍼 워크(Paper Work)'로 위기를 넘기려 했습니다.
 
-이러한 도덕적 해이와 기술 부채의 누적을 막기 위해 행정안전부 정보시스템 감리기준은 <strong>조치 결과 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/">Follow-up Audit</a>)</strong>을 필수 단계로 법제화했습니다. 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 끝이 아니라, 사업자가 시정 조치 결과서를 제출하면 감리인이 다시 투입되어 "실제 시스템에 조치 사항이 반영되었는가?"를 증거 기반으로 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 최종적으로 '시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서'를 발행해야만 감리 과업이 완전히 종료됩니다.
+이러한 도덕적 해이와 기술 부채의 누적을 막기 위해 행정안전부 정보시스템 감리기준은 <strong>조치 결과 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a>(<a href="/studynote/11_design_supervision/01_audit_framework/601_follow_up_audit/">Follow-up Audit</a>)</strong>을 필수 단계로 법제화했습니다. 실지 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 끝이 아니라, 사업자가 시정 조치 결과서를 제출하면 감리인이 다시 투입되어 "실제 시스템에 조치 사항이 반영되었는가?"를 증거 기반으로 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 최종적으로 '시정조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서'를 발행해야만 감리 과업이 완전히 종료됩니다.
 
-이 도식은 지적 사항이 실제 조치 완료로 이어지는 생명주기(Lifecycle)와 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 병목 지점을 보여줍니다.
+이 도식은 지적 사항이 실제 조치 완료로 이어지는 생명주기(Lifecycle)와 조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 병목 지점을 보여줍니다.
 
 ```text
 [실지 감사]        [사업자 조치]              [조치 결과 확인 (Follow-up)]      [최종 결과]
@@ -36,23 +33,23 @@ tags = ["design_supervision"]
                                               형식적 조치 필터링 (병목 지점)
 ```
 
-이 흐름의 핵심은 감리인이 사업자가 제출한 '문서(조치 결과서)'만 믿고 승인(Pass) 버튼을 누르지 않는다는 점입니다. 반드시 ②실제 시스템을 직접 조회하거나 패킷을 까보고, ③수정으로 인해 다른 기능이 망가지지 않았는지([회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))까지 교차 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 합니다. 이 지점이 뚫리면 감리의 존재 이유는 사라집니다.
+이 흐름의 핵심은 감리인이 사업자가 제출한 '문서(조치 결과서)'만 믿고 승인(Pass) 버튼을 누르지 않는다는 점입니다. 반드시 ②실제 시스템을 직접 조회하거나 패킷을 까보고, ③수정으로 인해 다른 기능이 망가지지 않았는지([회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/))까지 교차 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 합니다. 이 지점이 뚫리면 감리의 존재 이유는 사라집니다.
 
-> 📢 **섹션 요약 비유**: 의사가 수술을 지시([감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/))하는 것만으로 치료가 끝나는 것이 아닙니다. 수술 후 환자가 회복실에 있을 때 직접 상처 부위를 열어보고 염증이 아물었는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 '경과 관찰(Follow-up)'이 있어야만 퇴원(프로젝트 종료)을 허락할 수 있습니다.
+> 📢 **섹션 요약 비유**: 의사가 수술을 지시([감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/))하는 것만으로 치료가 끝나는 것이 아닙니다. 수술 후 환자가 회복실에 있을 때 직접 상처 부위를 열어보고 염증이 아물었는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 '경과 관찰(Follow-up)'이 있어야만 퇴원(프로젝트 종료)을 허락할 수 있습니다.
 
 ---
 
 ### Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 단순히 O/X를 체크하는 작업이 아니라, 고도의 기술적 추적([Traceability](/knowledge-base/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 아키텍처를 기반으로 수행됩니다. 감리인은 사업자의 조치 내역을 3가지 차원에서 입체적으로 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)합니다.
+조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 단순히 O/X를 체크하는 작업이 아니라, 고도의 기술적 추적([Traceability](/studynote/12_it_management/05_security_compliance/228_blockchain_smart_contract_traceability/)) 아키텍처를 기반으로 수행됩니다. 감리인은 사업자의 조치 내역을 3가지 차원에서 입체적으로 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)합니다.
 
-| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 차원 | [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 내용 및 동작 방식 | 증빙 자료 ([객관적 증거](/knowledge-base/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)) | 조치 인정 기준 |
+| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 차원 | [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 내용 및 동작 방식 | 증빙 자료 ([객관적 증거](/studynote/11_design_supervision/01_audit_framework/628_objective_evidence_collection/)) | 조치 인정 기준 |
 |:---|:---|:---|:---|
-| <strong>코드 수준 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Level)</strong> | 지적된 소스코드의 수정 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)(SVN, Git) Commit Log, Diff 결과 | 보안 약점, 하드코딩 제거 등 명확한 로직 변경 |
-| **현상 수준 (UI/Behavior Level)** | 시스템 동작 시 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 재현되지 않음 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 테스트 캡처 화면, 직접 화면 시연 | 에러 메시지 미출력, 정상 기능 동작 완료 |
-| **운영 수준 (System/DB Level)** | 인프라 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 DB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜, 서버 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)(Conf) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덤프 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 충족, 암호화 저장, 권한 통제 적용 |
+| <strong>코드 수준 (<a href="/studynote/02_operating_system/02_process_thread/082_process_memory_structure/">Code</a> Level)</strong> | 지적된 소스코드의 수정 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)(SVN, Git) Commit Log, Diff 결과 | 보안 약점, 하드코딩 제거 등 명확한 로직 변경 |
+| **현상 수준 (UI/Behavior Level)** | 시스템 동작 시 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이 재현되지 않음 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 테스트 캡처 화면, 직접 화면 시연 | 에러 메시지 미출력, 정상 기능 동작 완료 |
+| **운영 수준 (System/DB Level)** | 인프라 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 및 DB [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 정합성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 플랜, 서버 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)(Conf) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 덤프 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지표 충족, 암호화 저장, 권한 통제 적용 |
 
-이 다이어그램은 [형상 관리 저장소](/knowledge-base/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/)(Git)를 활용하여 시정 조치를 완벽하게 추적하고 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 현대적 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 메커니즘을 보여줍니다.
+이 다이어그램은 [형상 관리 저장소](/studynote/11_design_supervision/01_audit_framework/070_configuration_management_git_ci_audit/)(Git)를 활용하여 시정 조치를 완벽하게 추적하고 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 현대적 조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 메커니즘을 보여줍니다.
 
 ```text
 [감리 지적] ID: AUDIT-01 "XSS 취약점 조치 필요"
@@ -72,40 +69,40 @@ tags = ["design_supervision"]
   4. 방어 확인 시 -> [적합] 판정
 ```
 
-이 동작 원리의 핵심은 지적 번호([AUDIT](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/)-01)와 소스코드의 변경 이력(Commit Log)이 강하게 결합([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))된다는 점입니다. 이런 배치는 사업자가 소스를 고치지도 않고 캡처 이미지만 조작하여 제출하는 행위를 원천 차단합니다. 실무에서는 [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/))의 변경 이력을 추적하는 것이 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 가장 확실하고 빠른 방법입니다.
+이 동작 원리의 핵심은 지적 번호([AUDIT](/studynote/12_it_management/05_security_compliance/363_audit/)-01)와 소스코드의 변경 이력(Commit Log)이 강하게 결합([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/))된다는 점입니다. 이런 배치는 사업자가 소스를 고치지도 않고 캡처 이미지만 조작하여 제출하는 행위를 원천 차단합니다. 실무에서는 [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/)([Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/))의 변경 이력을 추적하는 것이 조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 가장 확실하고 빠른 방법입니다.
 
-> 📢 **섹션 요약 비유**: 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정은 마치 자동차 리콜 사태 때 정비소에서 고장 난 부품을 떼어내고 새 부품 번호(Commit Hash)가 박힌 부품으로 교체한 뒤, 직접 시동을 걸어 소음이 나는지(재현 테스트) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 정비 명세서에 도장을 찍어주는 것과 완벽히 동일합니다.
+> 📢 **섹션 요약 비유**: 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 과정은 마치 자동차 리콜 사태 때 정비소에서 고장 난 부품을 떼어내고 새 부품 번호(Commit Hash)가 박힌 부품으로 교체한 뒤, 직접 시동을 걸어 소음이 나는지(재현 테스트) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고 정비 명세서에 도장을 찍어주는 것과 완벽히 동일합니다.
 
 ---
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-감리의 생명주기상 처음 진행되는 '실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)'와 마지막에 진행되는 '조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'은 그 성격과 접근 방식이 180도 다릅니다.
+감리의 생명주기상 처음 진행되는 '실지 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)'와 마지막에 진행되는 '조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)'은 그 성격과 접근 방식이 180도 다릅니다.
 
-| 비교 항목 | 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit Execution](/knowledge-base/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)) | 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Follow-up) | 판단 포인트 |
+| 비교 항목 | 실지 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) ([Audit Execution](/studynote/11_design_supervision/01_audit_framework/017_audit_execution/)) | 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) (Follow-up) | 판단 포인트 |
 |:---|:---|:---|:---|
-| **목적** | 시스템 전반의 '숨겨진 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)/[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)' 탐색 | 이미 식별된 특정 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 수정 완결성' 증명 | <strong>탐색 vs <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> |
-| <strong>범위 (<a href="/knowledge-base/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)</strong> | 감리 계획서에 명시된 전 영역 (넓음) | [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에 적시된 필수 조치 사항 (좁고 깊음) | **자원 집중도** |
-| **테스트 방식** | 블랙박스, [정적 분석](/knowledge-base/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 툴 등 전수 진단 위주 | 식별된 모듈에 대한 핀포인트(Pin-point) [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | **테스트의 성격** |
+| **목적** | 시스템 전반의 '숨겨진 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)/[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)' 탐색 | 이미 식별된 특정 '[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)의 수정 완결성' 증명 | <strong>탐색 vs <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong> |
+| <strong>범위 (<a href="/studynote/09_security/05_web_app_security/512_oauth_scope/">Scope</a>)</strong> | 감리 계획서에 명시된 전 영역 (넓음) | [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에 적시된 필수 조치 사항 (좁고 깊음) | **자원 집중도** |
+| **테스트 방식** | 블랙박스, [정적 분석](/studynote/04_software_engineering/06_software_architecture/331_static_analysis/) 툴 등 전수 진단 위주 | 식별된 모듈에 대한 핀포인트(Pin-point) [회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/) | **테스트의 성격** |
 | **실패 시 파급** | 보고서에 지적 사항으로 등재 (조치 기회 부여) | 최종 '부적합' 판정 -> 인수/오픈 불가, 지체상금 발생 | **의사결정의 무게** |
 
-[소프트웨어 품질 보증](/knowledge-base/studynote/04_software_engineering/06_software_architecture/365_sqa/)(QA)의 관점에서, 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 '[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Defect](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Fix [Verification](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))' 및 '[회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/))'와 완벽한 시너지를 내야 합니다. 특정 버그를 고치기 위해 코드를 수정하다가 다른 정상 모듈을 망가뜨리는 사이드 이펙트(Side Effect)가 빈번히 발생하기 때문입니다.
+[소프트웨어 품질 보증](/studynote/04_software_engineering/06_software_architecture/365_sqa/)(QA)의 관점에서, 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 '[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 수정 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)([Defect](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) Fix [Verification](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/))' 및 '[회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/)([Regression Test](/studynote/04_software_engineering/11_testing_validation/410_regression_test/))'와 완벽한 시너지를 내야 합니다. 특정 버그를 고치기 위해 코드를 수정하다가 다른 정상 모듈을 망가뜨리는 사이드 이펙트(Side Effect)가 빈번히 발생하기 때문입니다.
 
-따라서 감리인은 단순히 지적된 부분만 보는 것이 아니라, "수정된 코드가 배포된 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)" 전체가 기존의 정상 테스트 시나리오를 무사히 통과했는지 [통합 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)) 결과를 융합하여 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다.
+따라서 감리인은 단순히 지적된 부분만 보는 것이 아니라, "수정된 코드가 배포된 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)" 전체가 기존의 정상 테스트 시나리오를 무사히 통과했는지 [통합 테스트](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)([Integration Test](/studynote/04_software_engineering/12_testing_maintenance/400_integration_testing/)) 결과를 융합하여 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 합니다.
 
-> 📢 **섹션 요약 비유**: 실지 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 넓은 숲을 뒤져 어디에 산불 위험([결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))이 있는지 깃발을 꽂는 작업이라면, 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 그 깃발이 꽂힌 지점만 다시 찾아가 소방관(사업자)이 불씨를 완전히 껐는지 재 한 줌까지 파헤쳐보는 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살 작업입니다.
+> 📢 **섹션 요약 비유**: 실지 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)가 넓은 숲을 뒤져 어디에 산불 위험([결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/))이 있는지 깃발을 꽂는 작업이라면, 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 그 깃발이 꽂힌 지점만 다시 찾아가 소방관(사업자)이 불씨를 완전히 껐는지 재 한 줌까지 파헤쳐보는 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 사살 작업입니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-실무 현장에서 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단계는 사업의 오픈(Go-Live) 날짜가 임박하여 극도의 시간 압박 속에서 진행됩니다. 수석 감리원은 여기서 품질과 일정 사이의 뼈아픈 트레이드오프 결정을 내려야 합니다.
+실무 현장에서 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 단계는 사업의 오픈(Go-Live) 날짜가 임박하여 극도의 시간 압박 속에서 진행됩니다. 수석 감리원은 여기서 품질과 일정 사이의 뼈아픈 트레이드오프 결정을 내려야 합니다.
 
-1. <strong>시나리오: 사업자의 조치 포기 및 대안 제시 (<a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/">Workaround</a>)</strong>
-   - **상황**: DB 아키텍처 재설계가 필요한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지적 사항에 대해, 사업자가 일정을 맞출 수 없다며 하드웨어(CPU/Memory) 스케일업을 통한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해결을 대안으로 제시함.
-   - **판단**: 감리인은 시스템의 궁극적 목표(응답시간 3초 이내 충족)가 달성되었는지(효과성)에 초점을 맞춰야 합니다. 근본적인 아키텍처 수정(To-Be)이 가장 좋지만, 시간/비용의 제약상 하드웨어 증설로 당장의 목표 TPS가 달성된다면, 이를 '대체 조치([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/))'로 수용하고 '적합' 판정을 내릴 수 있습니다. 단, 시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서에 "근본 원인 제거가 아닌 인프라 증설로 갈음함"을 명시하여 향후 용량 한계 도달 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 발주자에게 고지해야 합니다.
+1. <strong>시나리오: 사업자의 조치 포기 및 대안 제시 (<a href="/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/">Workaround</a>)</strong>
+   - **상황**: DB 아키텍처 재설계가 필요한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 지적 사항에 대해, 사업자가 일정을 맞출 수 없다며 하드웨어(CPU/Memory) 스케일업을 통한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 해결을 대안으로 제시함.
+   - **판단**: 감리인은 시스템의 궁극적 목표(응답시간 3초 이내 충족)가 달성되었는지(효과성)에 초점을 맞춰야 합니다. 근본적인 아키텍처 수정(To-Be)이 가장 좋지만, 시간/비용의 제약상 하드웨어 증설로 당장의 목표 TPS가 달성된다면, 이를 '대체 조치([Workaround](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/))'로 수용하고 '적합' 판정을 내릴 수 있습니다. 단, 시정조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서에 "근본 원인 제거가 아닌 인프라 증설로 갈음함"을 명시하여 향후 용량 한계 도달 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 발주자에게 고지해야 합니다.
 
-2. <strong>시나리오: '적합/부적합' 판정의 법적 <a href="/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 방어</strong>
+2. <strong>시나리오: '적합/부적합' 판정의 법적 <a href="/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/">리스크</a> 방어</strong>
    - **상황**: 100개의 필수 조치 사항 중 98개는 완벽히 조치되었으나, 2개의 마이너한 UI/문구 오타가 미조치됨. 사업자는 내일이 오픈이라며 무조건 '전체 적합'을 찍어달라고 압박함.
    - **판단**: 감리인이 미조치 사항이 있음에도 거짓으로 '적합'을 줄 경우 법적 처벌(감리원 자격 취소)을 받을 수 있습니다. 이 경우, 해당 2건에 대해 "적합(단, 1주일 내 패치 배포 조건부)" 등의 임의적 판정을 내리는 것은 금물입니다. 있는 사실 그대로 <strong>"98건 적합, 2건 부적합"</strong>으로 명확히 끊고, 발주처 검수 위원회로 공을 넘겨 "비록 2건 미조치이나 오픈에는 지장이 없으므로 조건부 인수하겠다"는 발주자의 행정적 의사결정이 이루어지도록 역할을 분리해야 합니다.
 
@@ -126,35 +123,35 @@ tags = ["design_supervision"]
 
 이 의사결정 트리는 감리인이 시간 압박 속에서도 원칙(Principle)과 유연성(Flexibility)을 잃지 않고 공학적 판정을 내리도록 돕는 기준이 됩니다.
 
-<strong>조치 <a href="/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 실무 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
+<strong>조치 <a href="/studynote/04_software_engineering/12_testing_maintenance/396_validation/">확인</a> 실무 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>
 - [ ] 사업자가 제출한 조치 화면 캡처가 실제 운영(또는 Staging) 서버의 화면인지 URL/IP로 식별했는가?
 - [ ] 시큐어코딩 지적 조치 시, 임시방편(예외 무시 처리 등)으로 경고만 안 뜨게 편법을 썼는지 소스 리뷰를 병행했는가?
 
-> 📢 **섹션 요약 비유**: 감리인의 '적합' 판정 도장은 비행기 이륙 전 정비사의 최종 사인과 같습니다. 사소한 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이라도 눈감아준 채 도장을 찍으면 그 책임은 오롯이 정비사에게 돌아오며, 철저한 대안 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만이 파국을 막는 유일한 생명줄입니다.
+> 📢 **섹션 요약 비유**: 감리인의 '적합' 판정 도장은 비행기 이륙 전 정비사의 최종 사인과 같습니다. 사소한 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)이라도 눈감아준 채 도장을 찍으면 그 책임은 오롯이 정비사에게 돌아오며, 철저한 대안 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만이 파국을 막는 유일한 생명줄입니다.
 
 ---
 
 ### Ⅴ. 기대효과 및 결론 (Future & Standard)
 
-조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 성공적으로 완료되고 '시정조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서'가 발급되면, 정보시스템 감리의 전 사이클이 공식적으로 막을 내립니다.
+조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)이 성공적으로 완료되고 '시정조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 보고서'가 발급되면, 정보시스템 감리의 전 사이클이 공식적으로 막을 내립니다.
 
 | 기대 효과 구분 | 상세 내용 |
 |:---|:---|
 | **프로젝트 검수/인수** | 발주자가 사업자에게 잔금을 지급하고 시스템을 최종 인수하는 명확한 법적/행정적 근거 확보 |
-| **운영 안정성 보장** | 치명적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)들이 물리적으로 수정(Patch)된 상태에서 시스템이 오픈되므로, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애율 급감 |
-| **IT 거버넌스 완성** | 계획-수행-조치의 [PDCA](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/knowledge-base/studynote/09_security/17_framework_compliance/838_pdca_model/)) 품질 개선 사이클의 완벽한 폐쇄(Close) 구현 |
+| **운영 안정성 보장** | 치명적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)들이 물리적으로 수정(Patch)된 상태에서 시스템이 오픈되므로, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 장애율 급감 |
+| **IT 거버넌스 완성** | 계획-수행-조치의 [PDCA](/studynote/09_security/17_framework_compliance/838_pdca_model/) ([Plan-Do-Check-Act](/studynote/09_security/17_framework_compliance/838_pdca_model/)) 품질 개선 사이클의 완벽한 폐쇄(Close) 구현 |
 
-[클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [데브옵스](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 시대의 감리 조치 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은, 감리인이 직접 엑셀에 O/X를 치는 방식에서 점차 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 <strong>자동화된 상태 <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Automated Status Check)</strong>으로 발전하고 있습니다. 지적된 취약점이 수정되어 코드가 커밋되면, [소나큐브](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)([SonarQube](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)) 등의 도구가 이를 재분석하고 자동으로 Jira 티켓의 상태를 'Done'으로 변경하여 감리인에게 알림을 주는 실시간/상시 품질 보증 체계로 진화할 것입니다.
+[클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 및 [데브옵스](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)([DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/)) 시대의 감리 조치 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은, 감리인이 직접 엑셀에 O/X를 치는 방식에서 점차 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/)/CD 파이프라인의 <strong>자동화된 상태 <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a>(Automated Status Check)</strong>으로 발전하고 있습니다. 지적된 취약점이 수정되어 코드가 커밋되면, [소나큐브](/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)([SonarQube](/studynote/15_devops_sre/02_cicd_gitops/079_sonarqube/)) 등의 도구가 이를 재분석하고 자동으로 Jira 티켓의 상태를 'Done'으로 변경하여 감리인에게 알림을 주는 실시간/상시 품질 보증 체계로 진화할 것입니다.
 
-> 📢 **섹션 요약 비유**: 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 기나긴 마라톤(프로젝트)의 끝에서 결승선 테이프를 끊는 순간이며, 땀 흘려 고친 결과가 공식적인 메달(적합 판정)로 바뀌어 모든 참여자가 승리자가 되는 가장 값진 피날레입니다.
+> 📢 **섹션 요약 비유**: 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 기나긴 마라톤(프로젝트)의 끝에서 결승선 테이프를 끊는 순간이며, 땀 흘려 고친 결과가 공식적인 메달(적합 판정)로 바뀌어 모든 참여자가 승리자가 되는 가장 값진 피날레입니다.
 
 ---
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/) (Regression Testing) | 시정 조치로 인해 정상 작동하던 다른 코드가 망가지지 않았는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 필수 테스트
-* [감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/) ([Audit Report](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)) | 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 대상이 되는 '필수 시정 조치' 목록을 제공하는 선행 문서
-* [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [베이스라인](/knowledge-base/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) (Configuration [Baseline](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시, 수정 전후의 코드를 비교할 때 기준이 되는 통제선
-* [인수 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) (UAT, User Acceptance Testing) | 감리의 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 맞물려, 실제 발주처 사용자가 시스템을 승인하는 최종 관문
-* [워크어라운드](/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/) ([Workaround](/knowledge-base/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/)) | 근본적인 해결이 어려울 때 임시로 목표를 달성하는 우회 조치 방안
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+* [회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/) (Regression Testing) | 시정 조치로 인해 정상 작동하던 다른 코드가 망가지지 않았는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 필수 테스트
+* [감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/) ([Audit Report](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)) | 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)의 대상이 되는 '필수 시정 조치' 목록을 제공하는 선행 문서
+* [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) [베이스라인](/studynote/04_software_engineering/03_design_architecture/159_baseline_requirements_configuration_management/) (Configuration [Baseline](/studynote/04_software_engineering/01_overview_principles/025_baseline/)) | 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 시, 수정 전후의 코드를 비교할 때 기준이 되는 통제선
+* [인수 테스트](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/) (UAT, User Acceptance Testing) | 감리의 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)과 맞물려, 실제 발주처 사용자가 시스템을 승인하는 최종 관문
+* [워크어라운드](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/) ([Workaround](/studynote/12_it_management/02_itsm_itil/860_workaround_temporary_fix_incident/)) | 근본적인 해결이 어려울 때 임시로 목표를 달성하는 우회 조치 방안
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -173,12 +170,12 @@ tags = ["design_supervision"]
     v
 [조치 결과 확인 (Follow-up Action Verification) — 감리 완료 및 기준선 갱신]
 ```
-[감리 보고서](/knowledge-base/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에서 도출된 시정 조치 목록을 이행하고, [회귀 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 부작용을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 감리 완료를 공식 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 표준 프로세스다.
+[감리 보고서](/studynote/11_design_supervision/01_audit_framework/018_audit_report/)에서 도출된 시정 조치 목록을 이행하고, [회귀 테스트](/studynote/04_software_engineering/11_testing_validation/410_regression_test/)로 부작용을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한 뒤 감리 완료를 공식 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하는 것이 표준 프로세스다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 선생님(감리인)이 지난번에 "이 수학 문제 다 틀렸으니 다시 풀어와!" 하고 숙제를 돌려줬었죠?
-2. 조치 결과 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 학생이 다시 풀어온 공책을 보고, 진짜로 올바른 공식으로 제대로 고쳤는지 채점표에 마지막 동그라미를 쳐주는 시간이에요.
-3. 대충 숫자만 고쳐 쓴 건 아닌지 꼼꼼히 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해서, 완벽하게 다 맞았을 때만 "참 잘했어요!" 도장을 찍어준답니다.
+2. 조치 결과 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)은 학생이 다시 풀어온 공책을 보고, 진짜로 올바른 공식으로 제대로 고쳤는지 채점표에 마지막 동그라미를 쳐주는 시간이에요.
+3. 대충 숫자만 고쳐 쓴 건 아닌지 꼼꼼히 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해서, 완벽하게 다 맞았을 때만 "참 잘했어요!" 도장을 찍어준답니다.
 
 ---
 
@@ -186,7 +183,7 @@ tags = ["design_supervision"]
 
 **진행 상황**: 22 / 530
 
-<- **이전**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/)
-**다음**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/knowledge-base/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) ->
+<- **이전**: [020. 조치 결과 확인 및 시정 조치 검증 체계 (Action Result Verification)](/studynote/11_design_supervision/01_audit_framework/020_action_result_verification/)
+**다음**: [21. ISACA (Information Systems Audit and Control Association) - 정보시스템 감사 통제](/studynote/11_design_supervision/01_audit_framework/021_isaca_global_standard/) ->
 
 ---

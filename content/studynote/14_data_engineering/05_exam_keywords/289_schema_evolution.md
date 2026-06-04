@@ -1,13 +1,10 @@
-+++
-title = "289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)"
-date = 2026-05-09
+---
+title: "289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -29,7 +26,7 @@ Kafka·Pulsar·NATS JetStream 등 이벤트 스트리밍 플랫폼이 엔터프�
 
 **진행 상황**: 289 / 300
 
-<- **이전**: [288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/288_dbt_transformation/)
-**다음**: [290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/290_parquet_orc_columnar/) ->
+<- **이전**: [288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)](/studynote/14_data_engineering/05_exam_keywords/288_dbt_transformation/)
+**다음**: [290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)](/studynote/14_data_engineering/05_exam_keywords/290_parquet_orc_columnar/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "521. RPA 업무 자동화 봇 관리 전략 (RPA Business Automation Bot Management)"
-date = 2026-05-09
+---
+title: "521. RPA 업무 자동화 봇 관리 전략 (RPA Business Automation Bot Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ RPA 봇 관리을 올바르게 적용하면 업무 처리 속도, 통제 수준,
 
 **진행 상황**: 521 / 800
 
-<- **이전**: [520. 그룹웨어 협업 플랫폼 디지털 워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/520_groupware_collaboration_platform_digital_work/)
-**다음**: [522. 하이퍼오토메이션 AI 융합 프로세스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/522_hyperautomation_ai_convergence_process/) ->
+<- **이전**: [520. 그룹웨어 협업 플랫폼 디지털 워크](/studynote/07_enterprise_systems/06_exam_summary/520_groupware_collaboration_platform_digital_work/)
+**다음**: [522. 하이퍼오토메이션 AI 융합 프로세스](/studynote/07_enterprise_systems/06_exam_summary/522_hyperautomation_ai_convergence_process/) ->
 
 ---

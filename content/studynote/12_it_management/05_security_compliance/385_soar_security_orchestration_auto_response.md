@@ -1,13 +1,10 @@
-+++
-title = "385. SOAR 보안 오케스트레이션 자동 대응 (SOAR Security Orchestration Auto Response)"
-date = 2026-05-09
+---
+title: "385. SOAR 보안 오케스트레이션 자동 대응 (SOAR Security Orchestration Auto Response)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -180,7 +177,7 @@ Playbook은 내부적으로 **DAG(Directed Acyclic Graph)** 구조의 노드(작
 
 **진행 상황**: 385 / 800
 
-<- **이전**: [384. SIEM 보안 정보 이벤트 관리 상관 분석](/knowledge-base/studynote/12_it_management/05_security_compliance/384_siem_security_information_event_management/)
-**다음**: [386. 취약점 관리 CVE CVSS 패치 전략](/knowledge-base/studynote/12_it_management/05_security_compliance/386_vulnerability_management_cve_cvss_patching/) ->
+<- **이전**: [384. SIEM 보안 정보 이벤트 관리 상관 분석](/studynote/12_it_management/05_security_compliance/384_siem_security_information_event_management/)
+**다음**: [386. 취약점 관리 CVE CVSS 패치 전략](/studynote/12_it_management/05_security_compliance/386_vulnerability_management_cve_cvss_patching/) ->
 
 ---

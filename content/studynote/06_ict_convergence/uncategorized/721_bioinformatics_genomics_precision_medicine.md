@@ -1,13 +1,10 @@
-+++
-title = "721. 바이오인포매틱스 유전체 분석 정밀의료 (Bioinformatics Genomics Precision Medicine)"
-date = 2026-05-09
+---
+title: "721. 바이오인포매틱스 유전체 분석 정밀의료 (Bioinformatics Genomics Precision Medicine)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -193,7 +190,7 @@ NGS는 (a) 라이브러리 준비(Fragmentation -> End-repair -> Adapter ligatio
 
 **진행 상황**: 721 / 800
 
-<- **이전**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/knowledge-base/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/)
-**다음**: [722. 나노 기술 분자 컴퓨팅 나노센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/) ->
+<- **이전**: [720. 사이보그 기술 뇌-컴퓨터 인터페이스 BCI](/studynote/06_ict_convergence/uncategorized/720_cyborg_technology_brain_computer_interface_bc/)
+**다음**: [722. 나노 기술 분자 컴퓨팅 나노센서](/studynote/06_ict_convergence/uncategorized/722_nanotechnology_molecular_computing_nanosensor/) ->
 
 ---

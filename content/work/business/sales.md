@@ -1,20 +1,17 @@
-+++
-title = "🤝 영업 허브"
+---
+title: "🤝 영업 허브"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 고객 대화 포인트, 제안 메시지, 반대 의견 대응, 영업 단계별 메모를 연결하는 상위 문서입니다.
 
 관련 문서:
-- [business](/knowledge-base/work/business/)
-- [business-pipeline](/knowledge-base/work/business/business-pipeline/)
-- [go-to-market](/knowledge-base/work/business/go-to-market/)
-- [operations](/knowledge-base/work/develop/operations/)
+- [business](/work/business/)
+- [business-pipeline](/work/business/business-pipeline/)
+- [go-to-market](/work/business/go-to-market/)
+- [operations](/work/develop/operations/)
 
 ---
 
@@ -64,6 +61,6 @@ tags = ["work"]
 
 ## 4. 연결 문서
 
-- 시장 진입 가설: [go-to-market](/knowledge-base/work/business/go-to-market/)
-- 현재 파이프라인: [business-pipeline](/knowledge-base/work/business/business-pipeline/)
-- 운영 관점 FAQ: [operations](/knowledge-base/work/develop/operations/)
+- 시장 진입 가설: [go-to-market](/work/business/go-to-market/)
+- 현재 파이프라인: [business-pipeline](/work/business/business-pipeline/)
+- 운영 관점 FAQ: [operations](/work/develop/operations/)

@@ -1,18 +1,15 @@
-+++
-title = "114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT"
-date = 2026-04-19
+---
+title: "114. BPTT (Backpropagation Through Time) - 시간 축 역전파와 Truncated BPTT"
+date: "2026-04-19"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: BPTT([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) Through Time)는 RNN의 순환 구조를 <strong>시간 축으로 펼친(Unfolding) 후 일반 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>를 적용</strong>하는 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 펼친 길이 T에 비례하여 $O(T)$의 시간·메모리 비용이 발생한다.
-> 2. **가치**: 시퀀스 길이 T가 길수록 과거 정보를 반영할 수 있지만, [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발이 심해지고 메모리가 폭발하므로 실무에서는 <strong>Truncated BPTT(일정 길이 k로 잘라서 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>)</strong>를 사용한다.
-> 3. **판단 포인트**: Truncated BPTT의 절단 길이 k는 "기억 범위"를 결정하며, k가 너무 작으면 [장기 의존성](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습 실패, 너무 크면 메모리/시간 비용 폭발이라는 트레이드오프가 존재한다.
+> 1. **본질**: BPTT([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/) Through Time)는 RNN의 순환 구조를 <strong>시간 축으로 펼친(Unfolding) 후 일반 <a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>를 적용</strong>하는 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이며, 펼친 길이 T에 비례하여 $O(T)$의 시간·메모리 비용이 발생한다.
+> 2. **가치**: 시퀀스 길이 T가 길수록 과거 정보를 반영할 수 있지만, [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)/폭발이 심해지고 메모리가 폭발하므로 실무에서는 <strong>Truncated BPTT(일정 길이 k로 잘라서 <a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a>)</strong>를 사용한다.
+> 3. **판단 포인트**: Truncated BPTT의 절단 길이 k는 "기억 범위"를 결정하며, k가 너무 작으면 [장기 의존성](/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/) 학습 실패, 너무 크면 메모리/시간 비용 폭발이라는 트레이드오프가 존재한다.
 
 ---
 
@@ -45,9 +42,9 @@ tags = ["studynote-ai"]
 
 | 항목 | Full BPTT | Truncated BPTT |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 범위</strong> | 전체 시퀀스 T | **k 스텝만** |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 범위</strong> | 전체 시퀀스 T | **k 스텝만** |
 | **메모리** | $O(T)$ | $O(k)$ |
-| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/">장기 의존성</a></strong> | 이론적 가능 (소실 문제) | k 이내만 |
+| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/291_long_term_dependency/">장기 의존성</a></strong> | 이론적 가능 (소실 문제) | k 이내만 |
 | **실무** | 짧은 시퀀스만 | **대부분 사용** |
 
 - **📢 섹션 요약 비유**: Full BPTT는 1년 치 일기를 한번에 복습하는 것이고, Truncated BPTT는 최근 20일치만 복습하는 것이다.
@@ -56,26 +53,26 @@ tags = ["studynote-ai"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | BPTT ([RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)) | 일반 [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([FC](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)/[CNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) |
+| 비교 | BPTT ([RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)) | 일반 [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([FC](/studynote/01_computer_architecture/15_advanced_topics/696_fibre_channel_protocol/)/[CNN](/studynote/14_data_engineering/05_exam_keywords/243_cnn_stride_pooling_resnet_residual_yolo_object_detection/)) |
 |:---|:---|:---|
 | **축** | 시간 축 (T 단계) | 레이어 축 (L 층) |
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유</strong> | **$W_h$ 모든 시간 단계에서 공유** | 레이어별 독립 |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> 공유</strong> | **$W_h$ 모든 시간 단계에서 공유** | 레이어별 독립 |
 | **기울기 누적** | 시간 단계별 기울기 합산 | 레이어별 계산 |
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### Truncated BPTT [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
-- **k = 20~50**: 일반 NLP·음성 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/).
-- **k = 100~200**: 장거리 의존성이 중요한 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) (음악 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).
-- <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> + k = 35</strong>: PyTorch 기본 언어 모델 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/).
+### Truncated BPTT [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 가이드
+- **k = 20~50**: 일반 NLP·음성 [태스크](/studynote/02_operating_system/02_process_thread/150_task/).
+- **k = 100~200**: 장거리 의존성이 중요한 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) (음악 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)).
+- <strong><a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a> + k = 35</strong>: PyTorch 기본 언어 모델 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/).
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 학습의 유일한 방법이었으나, Transformer의 Self-Attention은 시간 축 펼침이 불필요하여 BPTT 자체가 필요 없다. 하지만 실시간 스트리밍·엣지 환경에서 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM이 여전히 사용되므로 BPTT의 원리 이해는 필수다.
+BPTT는 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 학습의 유일한 방법이었으나, Transformer의 Self-Attention은 시간 축 펼침이 불필요하여 BPTT 자체가 필요 없다. 하지만 실시간 스트리밍·엣지 환경에서 [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/)/LSTM이 여전히 사용되므로 BPTT의 원리 이해는 필수다.
 
 ---
 
@@ -83,11 +80,11 @@ BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong> | BPTT의 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>/폭발</strong> | BPTT에서 T가 클 때 발생하는 문제 |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> (<a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">Backpropagation</a>)</strong> | BPTT의 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| <strong><a href="/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/">기울기 소실</a>/폭발</strong> | BPTT에서 T가 클 때 발생하는 문제 |
 | **Truncated BPTT** | 메모리·기울기 문제 해결을 위한 절단 기법 |
-| <strong><a href="/knowledge-base/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | BPTT의 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)을 게이트로 완화 |
-| <strong><a href="/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong> | BPTT 불필요, Self-Attention으로 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 |
+| <strong><a href="/studynote/10_ai/04_ai_ops_ethics/292_lstm/">LSTM</a></strong> | BPTT의 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)을 게이트로 완화 |
+| <strong><a href="/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/">Transformer</a></strong> | BPTT 불필요, Self-Attention으로 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 학습 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +115,7 @@ BPTT는 [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244
 
 **진행 상황**: 114 / 420
 
-<- **이전**: [113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법](/knowledge-base/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)
-**다음**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/knowledge-base/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) ->
+<- **이전**: [113. 장기 의존성 문제 (Long-term Dependency in RNN) - 기울기 소실·폭발과 LSTM 해법](/studynote/10_ai/02_dl_architecture_new/113_long_term_dependency_rnn/)
+**다음**: [115. LSTM (Long Short-Term Memory) - 게이트 메커니즘과 장기 기억 보호](/studynote/10_ai/02_dl_architecture_new/115_lstm_long_short_term_memory/) ->
 
 ---

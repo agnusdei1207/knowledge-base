@@ -1,13 +1,10 @@
-+++
-title = "487. 가치 흐름 매핑 VSM 린 최적화 (Value Stream Mapping VSM Lean Optimization)"
-date = 2026-05-09
+---
+title: "487. 가치 흐름 매핑 VSM 린 최적화 (Value Stream Mapping VSM Lean Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ VSM/린 최적화을 제대로 적용하면 IT 투자가 업무 성과와 연결
 
 **진행 상황**: 487 / 800
 
-<- **이전**: [486. 비즈니스 프로세스 관리 BPM 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/486_business_process_management_bpm_automation/)
-**다음**: [488. OKR 목표 핵심 결과 성과 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/488_okr_objectives_key_results_performance/) ->
+<- **이전**: [486. 비즈니스 프로세스 관리 BPM 자동화](/studynote/07_enterprise_systems/06_exam_summary/486_business_process_management_bpm_automation/)
+**다음**: [488. OKR 목표 핵심 결과 성과 관리](/studynote/07_enterprise_systems/06_exam_summary/488_okr_objectives_key_results_performance/) ->
 
 ---

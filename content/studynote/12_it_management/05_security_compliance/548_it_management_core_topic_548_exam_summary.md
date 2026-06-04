@@ -1,13 +1,10 @@
-+++
-title = "548. IT 경영 관리 핵심 토픽 548번 시험 요약 (IT Management Core Topic 548 Exam Summary)"
-date = 2026-05-09
+---
+title: "548. IT 경영 관리 핵심 토픽 548번 시험 요약 (IT Management Core Topic 548 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 548. IT-Portfolio 기반 가치중심 투자관리 및 거버넌스 프레임워크 (Value-Driven IT Investment Management & Governance Framework)
 
@@ -99,7 +96,7 @@ Portfolio 구성의 3-Bucket 분류 (Gartner IT Spend Category)
 
 **진행 상황**: 548 / 800
 
-<- **이전**: [547. IT 경영 관리 핵심 토픽 547번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/547_it_management_core_topic_547_exam_summary/)
-**다음**: [549. IT 경영 관리 핵심 토픽 549번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/549_it_management_core_topic_549_exam_summary/) ->
+<- **이전**: [547. IT 경영 관리 핵심 토픽 547번 시험 요약](/studynote/12_it_management/05_security_compliance/547_it_management_core_topic_547_exam_summary/)
+**다음**: [549. IT 경영 관리 핵심 토픽 549번 시험 요약](/studynote/12_it_management/05_security_compliance/549_it_management_core_topic_549_exam_summary/) ->
 
 ---

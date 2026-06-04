@@ -1,13 +1,10 @@
-+++
-title = "656. 강화 학습 RLHF 인간 피드백 정렬 (Reinforcement Learning RLHF Human Feedback)"
-date = 2026-05-09
+---
+title: "656. 강화 학습 RLHF 인간 피드백 정렬 (Reinforcement Learning RLHF Human Feedback)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -188,7 +185,7 @@ RLHF는 단독으로 존재하지 않으며 SFT, DPO, RLAIF, Constitutional AI, 
 
 **진행 상황**: 656 / 800
 
-<- **이전**: [655. 연합 학습 프라이버시 보존 분산 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/)
-**다음**: [657. 지식 증류 모델 경량화 프루닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/) ->
+<- **이전**: [655. 연합 학습 프라이버시 보존 분산 학습](/studynote/06_ict_convergence/uncategorized/655_federated_learning_privacy_preserving/)
+**다음**: [657. 지식 증류 모델 경량화 프루닝](/studynote/06_ict_convergence/uncategorized/657_knowledge_distillation_model_pruning_compress/) ->
 
 ---

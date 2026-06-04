@@ -1,13 +1,10 @@
-+++
-title = "279. 브로드밴드통신망 (B-ISDN)"
-date = 2026-05-08
+---
+title: "279. 브로드밴드통신망 (B-ISDN)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,12 +16,12 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 광대역 종합 정보 통신망(Broadband ISDN). 기존 64Kbps 음성 위주의 N-ISDN(협대역 ISDN)을 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광통신 기반(155Mbps 이상)으로 확장하여, 화상 전화, VOD, [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷을 단일 회선으로 통합 제공하려 했던 ITU-T의 차세대 통신망 청사진이다.
-- **필요성**: 1980년대까지만 해도 집에 전화선 1가닥, 케이블 TV선 1가닥, [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 통신 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 1가닥이 흉측하게 다 따로 들어왔다. 통신사 입장에서도 이 3개의 망을 따로 유지 보수하는 것은 엄청난 낭비였다. "이걸 하나로 합치면 어떨까? 광케이블 하나만 집에 꽂아주면 거기서 전화, TV, 인터넷이 다 되게 하자!"라는 전 우주적인 망 통합의 필요성에서 기획되었다.
+- **개념**: 광대역 종합 정보 통신망(Broadband ISDN). 기존 64Kbps 음성 위주의 N-ISDN(협대역 ISDN)을 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 광통신 기반(155Mbps 이상)으로 확장하여, 화상 전화, VOD, [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 인터넷을 단일 회선으로 통합 제공하려 했던 ITU-T의 차세대 통신망 청사진이다.
+- **필요성**: 1980년대까지만 해도 집에 전화선 1가닥, 케이블 TV선 1가닥, [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 통신 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) 1가닥이 흉측하게 다 따로 들어왔다. 통신사 입장에서도 이 3개의 망을 따로 유지 보수하는 것은 엄청난 낭비였다. "이걸 하나로 합치면 어떨까? 광케이블 하나만 집에 꽂아주면 거기서 전화, TV, 인터넷이 다 되게 하자!"라는 전 우주적인 망 통합의 필요성에서 기획되었다.
 
 - **💡 비유**:
   - 과거: 전기 선, 수도관, 가스관을 집집마다 따로따로 3번 땅을 파서 묻는 비효율적인 공사.
-  - B-ISDN: <strong>"초대형 특수 만능 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>"</strong> 하나만 땅에 묻으면, 그 안에서 전기, 물, 가스가 알아서 척척 분리되어 쏟아져 나오는 미래 지향적 스마트 배관 시스템.
+  - B-ISDN: <strong>"초대형 특수 만능 <a href="/studynote/02_operating_system/02_process_thread/123_pipe/">파이프</a>"</strong> 하나만 땅에 묻으면, 그 안에서 전기, 물, 가스가 알아서 척척 분리되어 쏟아져 나오는 미래 지향적 스마트 배관 시스템.
 
 ```text
 [가상 회선 전송 방식 (연결형 패킷 교환]
@@ -41,19 +38,19 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 1. B-ISDN [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/) ([PRM](/knowledge-base/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/))
-B-ISDN은 OSI 7계층과 비슷하지만 멀티미디어 통합에 특화된 독자적인 3차원 [참조 모델](/knowledge-base/studynote/12_it_management/03_ea_isp/116_reference_model/)을 그렸다.
-- **물리 계층**: 광케이블([SONET](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))로 155.52 Mbps(STM-1) 이상의 엄청난 깡패 대역폭을 제공.
-- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> 계층</strong>: 53바이트 셀을 이용해 음성과 데이터를 스위칭하는 실질적 뼈대.
-- <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/">AAL</a> (Adaptation Layer)</strong>: IP 데이터나 음성 데이터를 [ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 크기에 맞게 썰어주는 변환 계층.
+### 1. B-ISDN [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/) ([PRM](/studynote/12_it_management/03_ea_isp/905_prm_performance_reference_model_it_roi/))
+B-ISDN은 OSI 7계층과 비슷하지만 멀티미디어 통합에 특화된 독자적인 3차원 [참조 모델](/studynote/12_it_management/03_ea_isp/116_reference_model/)을 그렸다.
+- **물리 계층**: 광케이블([SONET](/studynote/03_network/18_optical_nextgen_automation/896_sonet_synchronous_optical_networking_oc_ring/)/[SDH](/studynote/03_network/18_optical_nextgen_automation/895_sdh_synchronous_digital_hierarchy_stm1/))로 155.52 Mbps(STM-1) 이상의 엄청난 깡패 대역폭을 제공.
+- <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/">ATM</a> 계층</strong>: 53바이트 셀을 이용해 음성과 데이터를 스위칭하는 실질적 뼈대.
+- <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/275_aal_atm_adaptation_layer/">AAL</a> (Adaptation Layer)</strong>: IP 데이터나 음성 데이터를 [ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) 셀 크기에 맞게 썰어주는 변환 계층.
 
-### 2. 너무나도 완벽했던 B-ISDN의 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)
-ITU-T가 주도한 이 프로젝트는 수십 년간 통신망을 지배해 온 '전화국(Telco)' 출신 엘리트들이 설계했다. 이들은 <strong>"통신 품질(<a href="/knowledge-base/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)이 100% 보장되지 않으면 통신이 아니다"</strong>라는 완벽주의에 빠져 있었다.
-- 전화가 끊기지 않게 하려고 에러 제어, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 트래픽 셰이핑 등 온갖 복잡한 안전장치([ATM](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 우겨 넣었다.
-- 장비 가격이 수천만 원에서 수억 원에 달해, 각 가정집까지 B-ISDN [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 깔아주려면 국가 예산이 거덜 날 판이었다.
+### 2. 너무나도 완벽했던 B-ISDN의 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)
+ITU-T가 주도한 이 프로젝트는 수십 년간 통신망을 지배해 온 '전화국(Telco)' 출신 엘리트들이 설계했다. 이들은 <strong>"통신 품질(<a href="/studynote/03_network/07_network_layer_routing/388_qos_quality_of_service_best_effort_intserv_diffserv/">QoS</a>)이 100% 보장되지 않으면 통신이 아니다"</strong>라는 완벽주의에 빠져 있었다.
+- 전화가 끊기지 않게 하려고 에러 제어, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 트래픽 셰이핑 등 온갖 복잡한 안전장치([ATM](/studynote/03_network/05_lan_wan_l2_devices/272_atm_asynchronous_transfer_mode_53byte_cell/) [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/))를 우겨 넣었다.
+- 장비 가격이 수천만 원에서 수억 원에 달해, 각 가정집까지 B-ISDN [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 깔아주려면 국가 예산이 거덜 날 판이었다.
 
 ### 3. '대충 던지는' IP(인터넷) 망의 역전승
-B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니어([IETF](/knowledge-base/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))들이 주도하는 이더넷과 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP는 "품질 보장? 몰라! 선이 모자라서 끊기면 그냥 선을 더 두껍게 뚫어버려! ([Bandwidth](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 깡패 전술)"를 외치며 100Mbps, 1Gbps 랜카드와 라우터를 값싸게 찍어내기 시작했다.
+B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니어([IETF](/studynote/03_network/12_iot_wpan_edge/635_ietf_core_working_group_coap/))들이 주도하는 이더넷과 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/)/IP는 "품질 보장? 몰라! 선이 모자라서 끊기면 그냥 선을 더 두껍게 뚫어버려! ([Bandwidth](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 깡패 전술)"를 외치며 100Mbps, 1Gbps 랜카드와 라우터를 값싸게 찍어내기 시작했다.
 결국 비싼 B-ISDN 망을 까는 것보다, 싼 IP 라우터를 여러 개 달고 대역폭을 왕창 늘려버리는 것이 훨씬 싸고 빠르다는 것이 증명되며, 전 세계 융합망의 패권은 **All-IP (모든 것을 IP 패킷으로 퉁친다)** 아키텍처로 넘어가 버렸다.
 
 ```text
@@ -79,13 +76,13 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 ## Ⅲ. 비교 및 연결
 
-브로드밴드통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)이 기반 조건을 만든다면, 브로드밴드통신망은 그 위에서 핵심 메커니즘을 구현하고, [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+브로드밴드통신망을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)이 기반 조건을 만든다면, 브로드밴드통신망은 그 위에서 핵심 메커니즘을 구현하고, [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)의 기반 정리 | 브로드밴드통신망의 핵심 동작 | [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)의 확장 적용 |
+| 초점 | 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)의 기반 정리 | 브로드밴드통신망의 핵심 동작 | [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 브로드밴드통신망은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -93,18 +90,18 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 브로드밴드통신망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 수준의 기본 대책으로 충분한지, 아니면 브로드밴드통신망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 브로드밴드통신망을 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) 수준의 기본 대책으로 충분한지, 아니면 브로드밴드통신망이 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. 브로드밴드통신망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와의 연계 방식을 함께 검증한다.
+2. 브로드밴드통신망가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 브로드밴드통신망의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 브로드밴드통신망을 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -112,7 +109,7 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 ## Ⅴ. 기대효과 및 결론
 
-브로드밴드통신망은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+브로드밴드통신망은 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/), 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 브로드밴드통신망은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -122,10 +119,10 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
-| [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/) | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 포트로 전달하는 핵심 장비다. |
+| [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -139,12 +136,12 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-브로드밴드통신망는 가상 회선 전송 방식 (연결형 [패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [로컬 루프](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+브로드밴드통신망는 가상 회선 전송 방식 (연결형 [패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/276_packet_switching_vs_circuit_switching_message_switching/)에서 출발해 현재 메커니즘을 정교화하고, 이후 [로컬 루프](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/)와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -153,7 +150,7 @@ B-ISDN이 복잡한 설계도를 고치고 앉아있을 때, 컴퓨터 엔지니
 
 **진행 상황**: 400 / 1120
 
-<- **이전**: [278. 가상 회선 전송 방식 (연결형 패킷 교환](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/278_virtual_circuit_transmission_connection_oriented_packet_switching/)
-**다음**: [280. 로컬 루프 (Local Loop, 가입자 선로)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) ->
+<- **이전**: [278. 가상 회선 전송 방식 (연결형 패킷 교환](/studynote/03_network/05_lan_wan_l2_devices/278_virtual_circuit_transmission_connection_oriented_packet_switching/)
+**다음**: [280. 로컬 루프 (Local Loop, 가입자 선로)](/studynote/03_network/05_lan_wan_l2_devices/280_local_loop_subscriber_line/) ->
 
 ---

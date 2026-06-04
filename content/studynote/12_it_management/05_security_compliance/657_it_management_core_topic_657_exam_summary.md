@@ -1,13 +1,10 @@
-+++
-title = "657. IT 경영 관리 핵심 토픽 657번 시험 요약 (IT Management Core Topic 657 Exam Summary)"
-date = 2026-05-09
+---
+title: "657. IT 경영 관리 핵심 토픽 657번 시험 요약 (IT Management Core Topic 657 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 657. IT 경영 관리 핵심 토픽 657번 시험 요약
 
@@ -145,7 +142,7 @@ IT 경영 관리 영역에서 혼동하기 쉬운 **"거버넌스-관리-운영"
 
 **진행 상황**: 657 / 800
 
-<- **이전**: [656. IT 경영 관리 핵심 토픽 656번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/656_it_management_core_topic_656_exam_summary/)
-**다음**: [658. IT 경영 관리 핵심 토픽 658번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/658_it_management_core_topic_658_exam_summary/) ->
+<- **이전**: [656. IT 경영 관리 핵심 토픽 656번 시험 요약](/studynote/12_it_management/05_security_compliance/656_it_management_core_topic_656_exam_summary/)
+**다음**: [658. IT 경영 관리 핵심 토픽 658번 시험 요약](/studynote/12_it_management/05_security_compliance/658_it_management_core_topic_658_exam_summary/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot"
-date = 2026-05-08
+---
+title: "210. RPA (Robotic Process Automation) - Attended Bot과 Unattended Bot"
+date: "2026-05-08"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기존 시스템을 크게 바꾸지 않고 사용자 화면과 입력 동작을 소프트웨어 봇으로 자동화하는 비침습적 자동화 기술이다.
-> 2. **가치**: 반복적인 복사·입력·조회 작업을 빠르게 자동화해 단기 성과를 내기 좋으며, 특히 레거시 시스템처럼 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 연계가 어려운 환경에서 효과적이다.
-> 3. **판단 포인트**: 사람 판단이 중간에 필요한 업무는 Attended Bot, 야간 배치처럼 규칙 기반 대량 업무는 Unattended Bot이 적합하며, 사용자 인터페이스 (UI, User Interface) 변경과 운영 거버넌스 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 반드시 함께 관리해야 한다.
+> 1. **본질**: [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) ([Robotic Process Automation](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/))는 기존 시스템을 크게 바꾸지 않고 사용자 화면과 입력 동작을 소프트웨어 봇으로 자동화하는 비침습적 자동화 기술이다.
+> 2. **가치**: 반복적인 복사·입력·조회 작업을 빠르게 자동화해 단기 성과를 내기 좋으며, 특히 레거시 시스템처럼 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 연계가 어려운 환경에서 효과적이다.
+> 3. **판단 포인트**: 사람 판단이 중간에 필요한 업무는 Attended Bot, 야간 배치처럼 규칙 기반 대량 업무는 Unattended Bot이 적합하며, 사용자 인터페이스 (UI, User Interface) 변경과 운영 거버넌스 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 반드시 함께 관리해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇이 대신 수행하도록 만드는 자동화 방식이다. 핵심은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 애플리케이션 내부를 직접 바꾸지 않고, 화면 클릭, 입력, 복사, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리 같은 사용자 행동을 모방한다는 점이다. 그래서 기존 시스템 개조가 어렵거나 빠른 자동화가 필요한 기업 환경에서 많이 선택된다.
+RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇이 대신 수행하도록 만드는 자동화 방식이다. 핵심은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 애플리케이션 내부를 직접 바꾸지 않고, 화면 클릭, 입력, 복사, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 처리 같은 사용자 행동을 모방한다는 점이다. 그래서 기존 시스템 개조가 어렵거나 빠른 자동화가 필요한 기업 환경에서 많이 선택된다.
 
-이 기술이 주목받는 이유는 많은 기업의 핵심 업무가 여전히 엑셀, 메일, 웹 포털, 레거시 전산 화면 사이를 오가는 수작업으로 이루어지기 때문이다. 정식 시스템 통합은 안정적이지만 시간과 비용이 크고, [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 승인도 길다. 반면 RPA는 비교적 짧은 기간에 반복 업무를 줄일 수 있어 퀵 윈 (Quick Win) 확보에 유리하다.
+이 기술이 주목받는 이유는 많은 기업의 핵심 업무가 여전히 엑셀, 메일, 웹 포털, 레거시 전산 화면 사이를 오가는 수작업으로 이루어지기 때문이다. 정식 시스템 통합은 안정적이지만 시간과 비용이 크고, [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 승인도 길다. 반면 RPA는 비교적 짧은 기간에 반복 업무를 줄일 수 있어 퀵 윈 (Quick Win) 확보에 유리하다.
 
 - **📢 섹션 요약 비유**: 벽을 허물어 새 통로를 만드는 공사 대신, 먼저 짐을 옮겨 줄 사람 한 명을 더 두는 방식과 같다. 구조를 당장 못 바꾸더라도 반복 노동은 빠르게 줄일 수 있다.
 
@@ -29,14 +26,14 @@ RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 아키텍처는 보통 설계 도구, 실행 봇, 중앙 통제 서버로 나뉜다. 설계 도구에서는 화면 요소 선택자, 업무 규칙, 예외 처리, 자격증명 사용 방식을 정의한다. 실행 봇은 실제 업무를 수행하고, 중앙 통제 서버인 오케스트레이터 (Orchestrator)는 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 배포, [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)링, [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 자원 분배를 담당한다.
+[RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 아키텍처는 보통 설계 도구, 실행 봇, 중앙 통제 서버로 나뉜다. 설계 도구에서는 화면 요소 선택자, 업무 규칙, 예외 처리, 자격증명 사용 방식을 정의한다. 실행 봇은 실제 업무를 수행하고, 중앙 통제 서버인 오케스트레이터 (Orchestrator)는 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, 배포, [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)링, [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 자원 분배를 담당한다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
 | 스튜디오 (Studio) | 봇 시나리오 설계 | 화면 요소 선택, 예외 처리, 재시도 정의 |
 | 봇 런타임 (Bot Runtime) | 업무 자동 실행 | 입력 속도, 안정성, 자원 점유 관리 |
-| 오케스트레이터 (Orchestrator) | 중앙 통제·배포 | [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자격증명, 장애 대응 |
-| 가상 환경 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | 무인 실행 환경 | 격리, 확장성, 운영 표준화 |
+| 오케스트레이터 (Orchestrator) | 중앙 통제·배포 | [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)링, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 자격증명, 장애 대응 |
+| 가상 환경 ([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | 무인 실행 환경 | 격리, 확장성, 운영 표준화 |
 
 아래 그림은 Attended Bot과 Unattended Bot이 같은 플랫폼 위에서 다르게 배치되는 구조를 보여준다.
 
@@ -61,16 +58,16 @@ RPA는 사람이 화면에서 수행하던 반복 작업을 소프트웨어 봇�
 
 ## Ⅲ. 비교 및 연결
 
-Attended Bot과 Unattended Bot의 차이는 단순히 설치 위치가 아니라, 업무 개입 방식에 있다. Attended Bot은 사용자가 실행을 시작하고, 중간 판단이나 고객 응대처럼 사람 개입이 필요한 흐름에 적합하다. Unattended Bot은 사람 없이 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)이나 이벤트로 돌아가며, 대량 처리와 야간 배치에 유리하다.
+Attended Bot과 Unattended Bot의 차이는 단순히 설치 위치가 아니라, 업무 개입 방식에 있다. Attended Bot은 사용자가 실행을 시작하고, 중간 판단이나 고객 응대처럼 사람 개입이 필요한 흐름에 적합하다. Unattended Bot은 사람 없이 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/)이나 이벤트로 돌아가며, 대량 처리와 야간 배치에 유리하다.
 
 | 항목 | Attended Bot | Unattended Bot |
 | :--- | :--- | :--- |
-| 실행 주체 | 사용자 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)·이벤트 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
-| 주 사용처 | 콜센터, 상담, 예외 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 입력 | 정산, 대사, 야간 배치, 대량 조회 |
+| 실행 주체 | 사용자 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) | [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)·이벤트 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/) |
+| 주 사용처 | 콜센터, 상담, 예외 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 후 입력 | 정산, 대사, 야간 배치, 대량 조회 |
 | 장점 | 사람 판단과 결합 쉬움 | 24시간 운영, 확장성 우수 |
-| 약점 | 사용자 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 의존, 화면 점유 | 운영 통제·보안·가상환경 비용 필요 |
+| 약점 | 사용자 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 의존, 화면 점유 | 운영 통제·보안·가상환경 비용 필요 |
 
-또한 RPA는 시스템 통합과도 비교해야 한다. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계는 구조적으로 더 안정적이고 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)이 좋지만, 기존 시스템이 닫혀 있거나 개조 비용이 높으면 도입이 어렵다. 반대로 RPA는 빠르게 시작할 수 있지만 UI 변경에 약하다. 그래서 실무에서는 RPA를 영구 해법이라기보다, 표준 통합 전 단계의 [브리지](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 또는 자동화 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 한 축으로 보는 것이 적절하다.
+또한 RPA는 시스템 통합과도 비교해야 한다. [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계는 구조적으로 더 안정적이고 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)이 좋지만, 기존 시스템이 닫혀 있거나 개조 비용이 높으면 도입이 어렵다. 반대로 RPA는 빠르게 시작할 수 있지만 UI 변경에 약하다. 그래서 실무에서는 RPA를 영구 해법이라기보다, 표준 통합 전 단계의 [브리지](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/) 또는 자동화 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오의 한 축으로 보는 것이 적절하다.
 
 - **📢 섹션 요약 비유**: Attended Bot은 운전 옆자리에 앉아 네비게이션과 버튼 조작을 도와주는 조수이고, Unattended Bot은 밤새 물류창고를 혼자 도는 무인 운반차다. 둘 다 자동화지만 함께 일하는 방식이 다르다.
 
@@ -78,22 +75,22 @@ Attended Bot과 Unattended Bot의 차이는 단순히 설치 위치가 아니라
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 도입 판단에서 가장 중요한 것은 "규칙 기반 반복 업무인가"와 "화면 변경 위험을 감당할 수 있는가"다. 업무 규칙이 불명확하거나 예외 케이스가 너무 많으면 봇 유지비가 급격히 증가한다. 또한 외부 웹사이트 구조가 자주 바뀌는 업무는 안정성이 낮아, 차라리 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계나 업무 재설계가 낫다.
+[RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/) 도입 판단에서 가장 중요한 것은 "규칙 기반 반복 업무인가"와 "화면 변경 위험을 감당할 수 있는가"다. 업무 규칙이 불명확하거나 예외 케이스가 너무 많으면 봇 유지비가 급격히 증가한다. 또한 외부 웹사이트 구조가 자주 바뀌는 업무는 안정성이 낮아, 차라리 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 연계나 업무 재설계가 낫다.
 
-### 적용 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 적용 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 업무 절차가 표준화되어 있고 예외 유형이 제한적인가?
 2. 사람 판단이 필요한 시점이 명확한가, 완전 무인 처리 가능한가?
-3. 자격증명, 접속 권한, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로그를 중앙에서 관리할 수 있는가?
+3. 자격증명, 접속 권한, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)로그를 중앙에서 관리할 수 있는가?
 4. 화면 요소 변경 시 감지·수정 프로세스가 준비되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 프로세스 비효율을 그대로 둔 채 RPA로만 덮는 자동화
 - 봇 계정을 일반 사용자 계정처럼 관리해 보안 추적이 어려운 운영
 - 오케스트레이터 없이 봇을 개별 PC에 흩뿌려 장애·변경 이력을 통제하지 못하는 환경
 
-기술사 답안에서는 RPA의 장점을 말할 때 반드시 한계도 함께 적어야 한다. 비침습성과 빠른 도입은 강점이지만, UI 의존성과 유지보수 부담이 약점이다. 따라서 "단기 자동화는 [RPA](/knowledge-base/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/), 장기 안정화는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·시스템 통합 병행"이라는 균형 감각이 중요하다.
+기술사 답안에서는 RPA의 장점을 말할 때 반드시 한계도 함께 적어야 한다. 비침습성과 빠른 도입은 강점이지만, UI 의존성과 유지보수 부담이 약점이다. 따라서 "단기 자동화는 [RPA](/studynote/12_it_management/01_governance_strategy/060_rpa_hyperautomation/), 장기 안정화는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)·시스템 통합 병행"이라는 균형 감각이 중요하다.
 
 - **📢 섹션 요약 비유**: 테이프로 빠르게 응급수리를 하면 당장 물은 안 새지만, 배관이 오래되면 결국 근본 공사가 필요하다. RPA는 빠른 응급조치에 강하지만, 영구 배관 설계와 같은 것은 아니다.
 
@@ -101,13 +98,13 @@ Attended Bot과 Unattended Bot의 차이는 단순히 설치 위치가 아니라
 
 ## Ⅴ. 기대효과 및 결론
 
-RPA를 적절히 적용하면 처리시간 단축, 입력 오류 감소, 야간 무인 처리, 업무 가시성 향상 같은 효과를 얻을 수 있다. 특히 표준화된 백오피스 업무에서는 사람의 시간을 더 높은 판단 업무로 옮길 수 있다는 장점이 크다. 또한 업무 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 쌓이면서 후속 프로세스 개선과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응에도 도움이 된다.
+RPA를 적절히 적용하면 처리시간 단축, 입력 오류 감소, 야간 무인 처리, 업무 가시성 향상 같은 효과를 얻을 수 있다. 특히 표준화된 백오피스 업무에서는 사람의 시간을 더 높은 판단 업무로 옮길 수 있다는 장점이 크다. 또한 업무 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 쌓이면서 후속 프로세스 개선과 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 대응에도 도움이 된다.
 
-그러나 봇이 많아질수록 관리 비용과 통제 책임도 커진다. 화면 변경, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식 변화, 예외 상황 폭증이 누적되면 자동화가 오히려 운영 복잡도를 키울 수 있다. 따라서 RPA는 [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)), 작업 마이닝 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Mining), [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통합 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 함께 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 차원에서 설계해야 지속 가능하다.
+그러나 봇이 많아질수록 관리 비용과 통제 책임도 커진다. 화면 변경, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 방식 변화, 예외 상황 폭증이 누적되면 자동화가 오히려 운영 복잡도를 키울 수 있다. 따라서 RPA는 [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/) ([Process Mining](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)), 작업 마이닝 ([Task](/studynote/02_operating_system/02_process_thread/150_task/) Mining), [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 통합 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 함께 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 차원에서 설계해야 지속 가능하다.
 
-결론적으로 RPA는 "사람 흉내를 내는 자동화"가 아니라, 시스템 개조가 어려운 환경에서 시간을 사는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 자동화 수단이다. 기억할 핵심은 봇 종류보다도, 어떤 업무를 어떤 운영 통제 아래 자동화할지의 판단이다.
+결론적으로 RPA는 "사람 흉내를 내는 자동화"가 아니라, 시스템 개조가 어려운 환경에서 시간을 사는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 자동화 수단이다. 기억할 핵심은 봇 종류보다도, 어떤 업무를 어떤 운영 통제 아래 자동화할지의 판단이다.
 
-- **📢 섹션 요약 비유**: 청소기를 산다고 집안일이 끝나는 것은 아니다. 어느 방은 로봇청소기로 충분하고, 어느 방은 사람이 정리한 뒤 돌려야 하며, 배터리와 충전 [상태도](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 관리해야 한다.
+- **📢 섹션 요약 비유**: 청소기를 산다고 집안일이 끝나는 것은 아니다. 어느 방은 로봇청소기로 충분하고, 어느 방은 사람이 정리한 뒤 돌려야 하며, 배터리와 충전 [상태도](/studynote/01_computer_architecture/01_basic_electronics_logic/065_state_diagram/) 관리해야 한다.
 
 ---
 
@@ -115,11 +112,11 @@ RPA를 적절히 적용하면 처리시간 단축, 입력 오류 감소, 야간 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 통합 | 장기적으로 더 안정적인 시스템 간 연계 대안 |
+| [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) ([Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)) 통합 | 장기적으로 더 안정적인 시스템 간 연계 대안 |
 | 오케스트레이터 (Orchestrator) | 다수의 봇을 중앙에서 통제하는 핵심 구성 요소 |
-| 작업 마이닝 ([Task](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) Mining) | 자동화 후보 업무를 발굴하는 선행 분석 기법 |
-| 가상 머신 ([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | Unattended Bot의 표준 실행 환경 |
-| [하이퍼오토메이션](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/) ([Hyperautomation](/knowledge-base/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)) | RPA를 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), [프로세스 마이닝](/knowledge-base/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)과 결합하는 확장 방향 |
+| 작업 마이닝 ([Task](/studynote/02_operating_system/02_process_thread/150_task/) Mining) | 자동화 후보 업무를 발굴하는 선행 분석 기법 |
+| 가상 머신 ([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/), [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) | Unattended Bot의 표준 실행 환경 |
+| [하이퍼오토메이션](/studynote/07_enterprise_systems/01_strategy_governance/080_hyperautomation_rpa_ai/) ([Hyperautomation](/studynote/12_it_management/05_security_compliance/240_hyperautomation_hybrid_workforce/)) | RPA를 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/), [프로세스 마이닝](/studynote/12_it_management/03_ea_isp/913_process_mining_bpr_event_log_bottleneck_analysis/)과 결합하는 확장 방향 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +149,7 @@ RPA (Robotic Process Automation)
 
 **진행 상황**: 210 / 482
 
-<- **이전**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/)
-**다음**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/) ->
+<- **이전**: [209. IT 조직 진단 3P (People, Process, Platform/Technology)](/studynote/07_enterprise_systems/04_process_consulting/209_it_organization_assessment_3p_people_process_technology/)
+**다음**: [211. 데스크톱 애널리틱스 (Desktop Analytics) / 작업 마이닝 (Task Mining)](/studynote/07_enterprise_systems/04_process_consulting/211_desktop_analytics_task_mining_rpa_discovery/) ->
 
 ---

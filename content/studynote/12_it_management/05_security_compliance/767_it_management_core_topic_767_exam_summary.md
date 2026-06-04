@@ -1,13 +1,10 @@
-+++
-title = "767. IT 경영 관리 핵심 토픽 767번 시험 요약 (IT Management Core Topic 767 Exam Summary)"
-date = 2026-05-09
+---
+title: "767. IT 경영 관리 핵심 토픽 767번 시험 요약 (IT Management Core Topic 767 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 767. IT 경영 관리 핵심 토픽 767번 시험 요약 (IT Governance & Service Management)
 
@@ -171,7 +168,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 767 / 800
 
-<- **이전**: [766. IT 경영 관리 핵심 토픽 766번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/766_it_management_core_topic_766_exam_summary/)
-**다음**: [768. IT 경영 관리 핵심 토픽 768번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/768_it_management_core_topic_768_exam_summary/) ->
+<- **이전**: [766. IT 경영 관리 핵심 토픽 766번 시험 요약](/studynote/12_it_management/05_security_compliance/766_it_management_core_topic_766_exam_summary/)
+**다음**: [768. IT 경영 관리 핵심 토픽 768번 시험 요약](/studynote/12_it_management/05_security_compliance/768_it_management_core_topic_768_exam_summary/) ->
 
 ---

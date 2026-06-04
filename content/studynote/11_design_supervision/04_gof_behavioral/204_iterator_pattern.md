@@ -1,17 +1,14 @@
-+++
-title = "204. 이터레이터 패턴 (Iterator Pattern)"
-date = 2026-05-10
+---
+title: "204. 이터레이터 패턴 (Iterator Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/), 반복자) 패턴은 컬렉션(Collection)의 내부 구현(배열인지, 링크드리스트인지, 트리인지)을 완전히 숨긴 채 원소들을 순차적으로 접근하는 통일된 인터페이스를 제공한다.
+> 1. **본질**: [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/), 반복자) 패턴은 컬렉션(Collection)의 내부 구현(배열인지, 링크드리스트인지, 트리인지)을 완전히 숨긴 채 원소들을 순차적으로 접근하는 통일된 인터페이스를 제공한다.
 > 2. **가치**: `hasNext()` + `next()` 인터페이스 하나로 모든 종류의 컬렉션을 동일하게 순회할 수 있어, 알고리즘과 자료구조를 완전히 분리한다.
 > 3. **판단 포인트**: 컬렉션 구조를 바꾸더라도 순회 코드를 수정할 필요가 없어야 할 때, 또는 여러 순회 방식(깊이 우선, 너비 우선)을 동시에 지원해야 할 때 적용한다.
 
@@ -50,7 +47,7 @@ while (it.hasNext()) {
 
 Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코드는 동일</strong>하다.
 
-| 언어 | [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 인터페이스 | for-each 지원 |
+| 언어 | [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 인터페이스 | for-each 지원 |
 |:---|:---|:---|
 | Java | `Iterator<T>`: `hasNext()`, `next()` | `Iterable<T>` 구현 시 |
 | Python | `__iter__()`, `__next__()` | `for x in obj:` |
@@ -63,7 +60,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 +--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
+- **📢 섹션 요약 비유**: TV 리모컨 채널 버튼([Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) — 아날로그인지 디지털인지, 케이블인지 IPTV인지 몰라도 "다음 채널" 버튼은 항상 같은 방식으로 동작한다.
 
 ---
 
@@ -137,7 +134,7 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 |:---|:---|:---|
 | 핵심 역할 | 입력·상태·출력을 분리하는 책임 경계 | 구현보다 경계를 먼저 본다. |
 | 제어 지점 | 조건, 이벤트, 정책이 만나는 곳 | 병목과 결합이 생기는 곳이다. |
-| [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
+| [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 포인트 | 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·모니터링으로 확인할 지점 | 운영 가능성이 설계 품질을 결정한다. |
 
 ```text
 +--------------+    +--------------+    +--------------+
@@ -145,26 +142,26 @@ Collection이 배열이든, 링크드리스트든, 트리든 <strong>순회 코�
 +--------------+    +--------------+    +--------------+
 ```
 
-- **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/).
+- **📢 섹션 요약 비유**: 도서관 책 목록(Collection)을 검색할 때, 사서가 책장 어떻게 정리했는지 몰라도 "다음 책 주세요"라고 하면 된다 — 그것이 [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/).
 
 ---
 
 ## Ⅲ. 비교 및 연결
-| 항목 | 외부 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) | 내부 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
+| 항목 | 외부 [이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) | 내부 [이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
 |:---|:---|:---|
-| **제어권** | 클라이언트 | 컬렉션/[람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) |
+| **제어권** | 클라이언트 | 컬렉션/[람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/) |
 | **중간 탈출** | `break` 가능 | `anyMatch()` 등으로 제한적 |
-| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> | 어려움 | `parallelStream()` 용이 |
+| <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> | 어려움 | `parallelStream()` 용이 |
 | **코드 간결성** | 낮음 | 높음 |
-| **상태 저장** | [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 객체에 | 없음 ([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) |
+| **상태 저장** | [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 객체에 | 없음 ([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/)) |
 | **대표 사례** | Java `Iterator`, Python `for` | Java `Stream`, Python 컴프리헨션 |
 
-| 패턴 | Iterator와의 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 패턴 | Iterator와의 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
-| [Composite](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) ([컴포지트](/knowledge-base/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)) | Iterator가 순회하는 트리 구조 |
-| [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) | Iterator로 순회하며 각 요소에 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
-| [Factory Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([팩토리 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)) | `iterator()` 메서드가 ConcreteIterator를 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| [Memento](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) ([메멘토](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/)) | [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태 저장 후 복원 가능 |
+| [Composite](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/) ([컴포지트](/studynote/04_software_engineering/04_testing_quality/261_composite_pattern_tree_structure/)) | Iterator가 순회하는 트리 구조 |
+| [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) ([방문자](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/)) | Iterator로 순회하며 각 요소에 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
+| [Factory Method](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/) ([팩토리 메서드](/studynote/04_software_engineering/04_testing_quality/254_factory_method_pattern_subclass_creation/)) | `iterator()` 메서드가 ConcreteIterator를 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| [Memento](/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/) ([메멘토](/studynote/04_software_engineering/05_devops_ci_cd/274_memento_pattern/)) | [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태 저장 후 복원 가능 |
 
 - **📢 섹션 요약 비유**: Iterator는 "컨베이어 벨트 위의 상품 스캐너" — 상품이 박스에 담겼든 낱개든, 스캐너는 동일하게 바코드를 읽는다.
 
@@ -208,14 +205,14 @@ for _ in range(10):
 
 Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의 변형이다.
 
-- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴이 <strong>컬렉션 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>의 핵심 메커니즘임을 명시
+- [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 패턴이 <strong>컬렉션 <a href="/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/">추상화</a></strong>의 핵심 메커니즘임을 명시
 - Java `for-each` 루프가 내부적으로 `Iterable.iterator()`를 호출함 언급
-- 외부/내부 [이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)의 **트레이드오프** 비교 제시
+- 외부/내부 [이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)의 **트레이드오프** 비교 제시
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 해결하려는 변화 축이 분명한가?
-2. [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
-3. 테스트·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
+2. [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용보다 변경 절감 효과가 큰가?
+3. 테스트·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·운영 가시성이 확보되는가?
 4. 팀이 이 구조를 일관되게 유지할 수 있는가?
 
 - **📢 섹션 요약 비유**: Iterator는 "만능 자동 계산기" — 어떤 나라 화폐든 넣으면 원화로 환산해 준다. 화폐 종류(컬렉션 구현)에 상관없이 같은 버튼(hasNext/next)으로 작동한다.
@@ -225,34 +222,34 @@ Generator는 무한 수열을 메모리 효율적으로 구현하는 Iterator의
 ## Ⅴ. 기대효과 및 결론
 | 효과 | 설명 |
 |:---|:---|
-| 컬렉션-알고리즘 분리 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 변경 시 순회 코드 무수정 |
-| 다중 순회 지원 | 동일 컬렉션에 [DFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [BFS](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 등 여러 [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
-| [SRP](/knowledge-base/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 달성 | 컬렉션은 저장, Iterator는 순회 책임 분리 |
-| [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 가능 | Generator로 메모리 효율적 처리 |
+| 컬렉션-알고리즘 분리 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 구조 변경 시 순회 코드 무수정 |
+| 다중 순회 지원 | 동일 컬렉션에 [DFS](/studynote/08_algorithm_stats/03_graph_search/034_dfs/), [BFS](/studynote/08_algorithm_stats/03_graph_search/035_bfs/) 등 여러 [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
+| [SRP](/studynote/04_software_engineering/04_testing_quality/243_srp_single_responsibility_principle/) 달성 | 컬렉션은 저장, Iterator는 순회 책임 분리 |
+| [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) 가능 | Generator로 메모리 효율적 처리 |
 
-- [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태를 외부에서 관리하므로 <strong>멀티스레드 환경 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> 주의 필요
+- [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) 상태를 외부에서 관리하므로 <strong>멀티스레드 환경 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> 주의 필요
 - 컬렉션 수정 중 순회 시 `ConcurrentModificationException` 위험
 
-[Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴은 현대 프로그래밍 언어의 `for-each`, [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Generator 등 모든 순회 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 이론적 기반이다. 알고리즘과 자료구조를 분리하는 가장 근본적인 수단으로, 언어 내장 지원으로 자연스럽게 일상화된 패턴이다.
+[Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) ([이터레이터](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/)) 패턴은 현대 프로그래밍 언어의 `for-each`, [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/), Generator 등 모든 순회 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/)의 이론적 기반이다. 알고리즘과 자료구조를 분리하는 가장 근본적인 수단으로, 언어 내장 지원으로 자연스럽게 일상화된 패턴이다.
 
-확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
+확장 방향은 ① 선언형 API와의 결합, ② [관측 가능성](/studynote/04_software_engineering/02_requirements_analysis/111_observability_metrics_logs_traces/)([Observability](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)) 내장, ③ [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에 맞는 변형 패턴 적용이다.
 
-- **📢 섹션 요약 비유**: Iterator는 "지하철 개찰구" — 타는 사람이 학생인지 어른인지, 서울인지 부산인지 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 하나씩 통과시키는 통일된 메커니즘이다.
+- **📢 섹션 요약 비유**: Iterator는 "지하철 개찰구" — 타는 사람이 학생인지 어른인지, 서울인지 부산인지 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)없이 하나씩 통과시키는 통일된 메커니즘이다.
 
 ---
 
 ### 📌 관련 개념 맵
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
 | 상위 개념 | GoF Behavioral Pattern | 행동 패턴 그룹 |
 | 하위 개념 | ConcreteIterator | 구체적 순회 구현 |
-| 연관 개념 | [Composite Pattern](/knowledge-base/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | Iterator가 순회하는 트리 구조 |
-| 연관 개념 | Java [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | Iterator의 현대적 진화 |
-| 연관 개념 | Python Generator | [지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) [Iterator](/knowledge-base/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
-| 연관 개념 | [Visitor Pattern](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | Iterator로 순회하며 [Visitor](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
+| 연관 개념 | [Composite Pattern](/studynote/11_design_supervision/03_gof_creational_structural/154_composite_pattern/) | Iterator가 순회하는 트리 구조 |
+| 연관 개념 | Java [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/) [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | Iterator의 현대적 진화 |
+| 연관 개념 | Python Generator | [지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/) [Iterator](/studynote/04_software_engineering/04_testing_quality/270_iterator_pattern/) |
+| 연관 개념 | [Visitor Pattern](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) | Iterator로 순회하며 [Visitor](/studynote/04_software_engineering/05_devops_ci_cd/275_visitor_pattern/) 적용 |
 
 ### 📈 관련 키워드 및 발전 흐름도
-Collection [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) -> [이터레이터 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/397_process/) -> [Stream](/knowledge-base/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)/파이프라인
+Collection [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) -> [이터레이터 패턴](/studynote/11_design_supervision/06_exam_summary/397_process/) -> [Stream](/studynote/03_network/09_application_layer_web_email/467_http2_stream_multiplexing_tcp_hol/)/파이프라인
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 사탕 상자(컬렉션)에서 사탕을 꺼내는 방법이 상자마다 달라도, "다음 사탕 주세요"라는 말은 항상 같아요.
@@ -265,7 +262,7 @@ Collection [추상화](/knowledge-base/studynote/04_software_engineering/04_test
 
 **진행 상황**: 265 / 530
 
-<- **이전**: [203. 방문자 패턴 (Visitor Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/203_visitor_pattern/)
-**다음**: [205. 메멘토 패턴 (Memento Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/) ->
+<- **이전**: [203. 방문자 패턴 (Visitor Pattern)](/studynote/11_design_supervision/04_gof_behavioral/203_visitor_pattern/)
+**다음**: [205. 메멘토 패턴 (Memento Pattern)](/studynote/11_design_supervision/04_gof_behavioral/205_memento_pattern/) ->
 
 ---

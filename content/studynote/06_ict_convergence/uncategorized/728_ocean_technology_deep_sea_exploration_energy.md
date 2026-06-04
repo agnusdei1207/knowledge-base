@@ -1,13 +1,10 @@
-+++
-title = "728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)"
-date = 2026-05-09
+---
+title: "728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 728. 해양 기술 심해 탐사 해양 에너지 (Ocean Technology Deep Sea Exploration Energy)
 
@@ -150,7 +147,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 728 / 800
 
-<- **이전**: [727. 우주 기술 뉴스페이스 발사체 위성](/knowledge-base/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/)
-**다음**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/knowledge-base/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/) ->
+<- **이전**: [727. 우주 기술 뉴스페이스 발사체 위성](/studynote/06_ict_convergence/uncategorized/727_space_technology_newspace_launch_satellite/)
+**다음**: [729. 스마트 교통 ITS 자율주행 V2X 신호](/studynote/06_ict_convergence/uncategorized/729_smart_transportation_its_autonomous_v2x/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "666. 자연어 처리 NER 감성 분석 요약 (NLP NER Sentiment Analysis Summarization)"
-date = 2026-05-09
+---
+title: "666. 자연어 처리 NER 감성 분석 요약 (NLP NER Sentiment Analysis Summarization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -175,7 +172,7 @@ $$L_{total} = \alpha L_{NER} + \beta L_{Sentiment} + \gamma L_{Sum} + \lambda \|
 
 **진행 상황**: 666 / 800
 
-<- **이전**: [665. 이상 탐지 비지도 학습 오토인코더](/knowledge-base/studynote/06_ict_convergence/uncategorized/665_anomaly_detection_unsupervised_autoencoder/)
-**다음**: [667. 컴퓨터 비전 객체 탐지 세그멘테이션](/knowledge-base/studynote/06_ict_convergence/uncategorized/667_computer_vision_object_detection_segmentation/) ->
+<- **이전**: [665. 이상 탐지 비지도 학습 오토인코더](/studynote/06_ict_convergence/uncategorized/665_anomaly_detection_unsupervised_autoencoder/)
+**다음**: [667. 컴퓨터 비전 객체 탐지 세그멘테이션](/studynote/06_ict_convergence/uncategorized/667_computer_vision_object_detection_segmentation/) ->
 
 ---

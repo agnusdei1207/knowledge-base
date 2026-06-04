@@ -1,13 +1,10 @@
-+++
-title = "702. IT 경영 관리 핵심 토픽 702번 시험 요약 (IT Management Core Topic 702 Exam Summary)"
-date = 2026-05-09
+---
+title: "702. IT 경영 관리 핵심 토픽 702번 시험 요약 (IT Management Core Topic 702 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 702. IT 경영 관리 핵심 토픽 702번 시험 요약 (IT Management Core Topic 702 Exam Summary)
 
@@ -151,7 +148,7 @@ IT 투자 가치를 정량화하기 위해 Kaplan-Norton BSC를 IT에 적용한 
 
 **진행 상황**: 702 / 800
 
-<- **이전**: [701. IT 경영 관리 핵심 토픽 701번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/701_it_management_core_topic_701_exam_summary/)
-**다음**: [703. IT 경영 관리 핵심 토픽 703번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/703_it_management_core_topic_703_exam_summary/) ->
+<- **이전**: [701. IT 경영 관리 핵심 토픽 701번 시험 요약](/studynote/12_it_management/05_security_compliance/701_it_management_core_topic_701_exam_summary/)
+**다음**: [703. IT 경영 관리 핵심 토픽 703번 시험 요약](/studynote/12_it_management/05_security_compliance/703_it_management_core_topic_703_exam_summary/) ->
 
 ---

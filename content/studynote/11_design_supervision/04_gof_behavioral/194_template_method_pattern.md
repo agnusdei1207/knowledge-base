@@ -1,27 +1,24 @@
-+++
-title = "194. 템플릿 메서드 패턴 (Template Method Pattern)"
-date = 2026-05-10
+---
+title: "194. 템플릿 메서드 패턴 (Template Method Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/) ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 GoF 행위 패턴으로, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 골격(Skeleton)을 상위 클래스의 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)에 정의하고, [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 특정 단계를 서브클래스가 오버라이드하여 구체 구현을 제공하는 패턴이다.
-> 2. **가치**: [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공통 흐름은 상위 클래스에 두고 변하는 부분만 서브클래스에 위임하여 코드 중복을 제거한다. '[할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)([Hollywood Principle](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/): Don't [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you)'을 구현하여 상위 클래스가 하위 클래스를 제어한다.
-> 3. **판단 포인트**: [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 기반이므로 컴파일 타임에 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 고정된다. 런타임에 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 교체해야 한다면 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 구성 기반)이 더 적합하다. 스프링의 `JdbcTemplate`, `RestTemplate`이 대표적인 [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/) 구현이다.
+> 1. **본질**: [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/) ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 GoF 행위 패턴으로, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 골격(Skeleton)을 상위 클래스의 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)에 정의하고, [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 특정 단계를 서브클래스가 오버라이드하여 구체 구현을 제공하는 패턴이다.
+> 2. **가치**: [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 공통 흐름은 상위 클래스에 두고 변하는 부분만 서브클래스에 위임하여 코드 중복을 제거한다. '[할리우드 원칙](/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/)([Hollywood Principle](/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/): Don't [call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) us, we'll [call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) you)'을 구현하여 상위 클래스가 하위 클래스를 제어한다.
+> 3. **판단 포인트**: [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)(Inheritance) 기반이므로 컴파일 타임에 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 고정된다. 런타임에 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 교체해야 한다면 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/), 구성 기반)이 더 적합하다. 스프링의 `JdbcTemplate`, `RestTemplate`이 대표적인 [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/) 구현이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-여러 서브클래스가 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격을 갖지만 일부 단계만 다를 때, 각 서브클래스가 전체 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 중복 구현하면 코드 중복과 유지보수 어려움이 발생한다.
+여러 서브클래스가 동일한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격을 갖지만 일부 단계만 다를 때, 각 서브클래스가 전체 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 중복 구현하면 코드 중복과 유지보수 어려움이 발생한다.
 
-[템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/)은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 불변 부분(공통 흐름)을 `final` 메서드로 상위 클래스에 정의하고, 가변 부분을 추상 메서드(또는 훅 메서드)로 서브클래스에 위임한다.
+[템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/)은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 불변 부분(공통 흐름)을 `final` 메서드로 상위 클래스에 정의하고, 가변 부분을 추상 메서드(또는 훅 메서드)로 서브클래스에 위임한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -42,17 +39,17 @@ tags = ["studynote-design-supervision"]
 +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 레시피([템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 기본 단계(재료 준비, 가열, 담기)는 고정이지만, 각 요리사(서브클래스)가 자신만의 방식으로 특정 단계(가열 방법)를 구현한다.
+- **📢 섹션 요약 비유**: 레시피([템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 기본 단계(재료 준비, 가열, 담기)는 고정이지만, 각 요리사(서브클래스)가 자신만의 방식으로 특정 단계(가열 방법)를 구현한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스프링의 `JdbcTemplate`은 [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/)의 대표 구현이다. `JdbcTemplate.query()` 메서드가 DB 연결·SQL 실행·결과 처리·연결 반환의 골격을 정의하고, 개발자가 `RowMapper` 인터페이스로 결과 매핑 단계만 구현한다.
+스프링의 `JdbcTemplate`은 [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/)의 대표 구현이다. `JdbcTemplate.query()` 메서드가 DB 연결·SQL 실행·결과 처리·연결 반환의 골격을 정의하고, 개발자가 `RowMapper` 인터페이스로 결과 매핑 단계만 구현한다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격 정의 | JdbcTemplate.query() |
+| [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) | [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격 정의 | JdbcTemplate.query() |
 | 추상 메서드 | 서브클래스 필수 구현 | RowMapper.mapRow() |
 | 훅 메서드 | 서브클래스 선택적 오버라이드 | 기본 구현 있는 protected 메서드 |
 
@@ -72,31 +69,31 @@ tags = ["studynote-design-supervision"]
 +-------------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 햄버거 조리 매뉴얼([템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))이 굽기·조립·포장 단계를 정의하고, 패티 굽기 방식(추상 메서드)만 각 지점(서브클래스)이 결정한다.
+- **📢 섹션 요약 비유**: 햄버거 조리 매뉴얼([템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))이 굽기·조립·포장 단계를 정의하고, 패티 굽기 방식(추상 메서드)만 각 지점(서브클래스)이 결정한다.
 
 ---
 ## Ⅲ. 비교 및 연결
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반)와 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)(구성 기반)의 차이가 핵심이다.
+[템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)([상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반)와 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)(구성 기반)의 차이가 핵심이다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
-| 메커니즘 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (서브클래스 오버라이드) | 구성 (인터페이스 구현 주입) |
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 | 컴파일 타임 고정 | 런타임 교체 가능 |
-| [결합도](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | 높음 ([상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) | 낮음 (인터페이스) |
+| 메커니즘 | [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) (서브클래스 오버라이드) | 구성 (인터페이스 구현 주입) |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체 | 컴파일 타임 고정 | 런타임 교체 가능 |
+| [결합도](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) | 높음 ([상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/)) | 낮음 (인터페이스) |
 | 유연성 | 낮음 | 높음 |
 
-- **📢 섹션 요약 비유**: [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 부모님(상위 클래스)이 규칙을 정하고 자녀(서브클래스)가 세부를 결정하는 것이고, [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 팀장([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 팀원([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 자유롭게 교체하는 것이다.
+- **📢 섹션 요약 비유**: [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 부모님(상위 클래스)이 규칙을 정하고 자녀(서브클래스)가 세부를 결정하는 것이고, [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)은 팀장([Context](/studynote/02_operating_system/01_overview_architecture/033_context/))이 팀원([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))을 자유롭게 교체하는 것이다.
 
 ---
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-JUnit의 `TestCase` 클래스도 [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/) 구현이다. `setUp()` -> `testXxx()` -> `tearDown()` 순서로 테스트 생명주기가 고정되고, 개발자는 `testXxx()`만 구현한다. 스프링의 `AbstractController`, `AbstractFetchableItemsReader` 등 다양한 Template 클래스가 같은 방식으로 구현된다.
+JUnit의 `TestCase` 클래스도 [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/) 구현이다. `setUp()` -> `testXxx()` -> `tearDown()` 순서로 테스트 생명주기가 고정되고, 개발자는 `testXxx()`만 구현한다. 스프링의 `AbstractController`, `AbstractFetchableItemsReader` 등 다양한 Template 클래스가 같은 방식으로 구현된다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 여러 서브클래스가 동일한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격을 갖고 일부 단계만 다른가?
-2. [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)가 `final`로 선언되어 서브클래스가 오버라이드할 수 없는가?
-3. 런타임 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체가 필요한 경우 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)을 대신 고려했는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 여러 서브클래스가 동일한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격을 갖고 일부 단계만 다른가?
+2. [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)가 `final`로 선언되어 서브클래스가 오버라이드할 수 없는가?
+3. 런타임 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 교체가 필요한 경우 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)을 대신 고려했는가?
 4. 훅 메서드에 기본 구현이 제공되어 서브클래스가 선택적으로 오버라이드할 수 있는가?
 5. 상위 클래스가 서브클래스에 역방향(Callback)으로 의존하지 않는가?
 
@@ -106,11 +103,11 @@ JUnit의 `TestCase` 클래스도 [템플릿 메서드 패턴](/knowledge-base/st
 
 ## Ⅴ. 기대효과 및 결론
 
-[템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/)을 적용하면 공통 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격이 상위 클래스에 집중되어 코드 중복이 제거되고, 새 변형 추가 시 새 서브클래스만 추가하면 된다. 스프링의 다양한 Template 클래스가 이 패턴으로 복잡한 공통 처리([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 예외 처리, 자원 해제)를 추상화한다.
+[템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/)을 적용하면 공통 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 골격이 상위 클래스에 집중되어 코드 중복이 제거되고, 새 변형 추가 시 새 서브클래스만 추가하면 된다. 스프링의 다양한 Template 클래스가 이 패턴으로 복잡한 공통 처리([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/), 예외 처리, 자원 해제)를 추상화한다.
 
-한계는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반으로 런타임 교체가 불가능하고, 서브클래스 수가 많아지면 클래스 계층이 복잡해진다. 현대 언어에서는 함수형 인터페이스([람다](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))로 콜백을 주입하는 방식이 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 없이 같은 효과를 달성한다.
+한계는 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반으로 런타임 교체가 불가능하고, 서브클래스 수가 많아지면 클래스 계층이 복잡해진다. 현대 언어에서는 함수형 인터페이스([람다](/studynote/14_data_engineering/05_exam_keywords/216_lambda_kappa_architecture_batch_realtime/))로 콜백을 주입하는 방식이 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 없이 같은 효과를 달성한다.
 
-- **📢 섹션 요약 비유**: 스프링 JdbcTemplate은 DB 작업의 번거로운 공통 처리(연결·예외·반환)를 템플릿이 처리하고, 개발자는 핵심 로직([쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·결과 매핑)만 작성하면 된다.
+- **📢 섹션 요약 비유**: 스프링 JdbcTemplate은 DB 작업의 번거로운 공통 처리(연결·예외·반환)를 템플릿이 처리하고, 개발자는 핵심 로직([쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)·결과 매핑)만 작성하면 된다.
 
 ---
 
@@ -120,20 +117,20 @@ JUnit의 `TestCase` 클래스도 [템플릿 메서드 패턴](/knowledge-base/st
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [할리우드 원칙](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) | 상위 클래스가 서브클래스를 호출하는 역전 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
-| [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | 런타임 교체가 필요할 때 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)의 대안 |
-| JdbcTemplate | 스프링 [템플릿 메서드 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/392_process/)의 대표 구현 |
+| [할리우드 원칙](/studynote/11_design_supervision/02_architecture_principles/111_hollywood_principle/) | 상위 클래스가 서브클래스를 호출하는 역전 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | 런타임 교체가 필요할 때 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)의 대안 |
+| JdbcTemplate | 스프링 [템플릿 메서드 패턴](/studynote/11_design_supervision/06_exam_summary/392_process/)의 대표 구현 |
 | 훅 메서드 | 서브클래스가 선택적으로 오버라이드하는 기본 구현 메서드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-[GoF [Template Method](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)(1994)] -> [할리우드 원칙] -> [스프링 JdbcTemplate] -> [함수형 콜백 대체] -> [AOP 기반 공통 처리]
+[GoF [Template Method](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)(1994)] -> [할리우드 원칙] -> [스프링 JdbcTemplate] -> [함수형 콜백 대체] -> [AOP 기반 공통 처리]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 레시피처럼, 기본 단계(재료 준비->조리->담기)는 고정이지만 조리 방법만 바꿀 수 있어요.
-2. 스프링의 JdbcTemplate이 바로 이 패턴을 사용해요 - DB 연결·해제는 공통, [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과 처리만 개발자가 구현해요.
-3. 공통 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 한 곳에 모아서 코드 중복을 없애요!
+1. [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 레시피처럼, 기본 단계(재료 준비->조리->담기)는 고정이지만 조리 방법만 바꿀 수 있어요.
+2. 스프링의 JdbcTemplate이 바로 이 패턴을 사용해요 - DB 연결·해제는 공통, [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 결과 처리만 개발자가 구현해요.
+3. 공통 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 한 곳에 모아서 코드 중복을 없애요!
 
 ---
 
@@ -141,7 +138,7 @@ JUnit의 `TestCase` 클래스도 [템플릿 메서드 패턴](/knowledge-base/st
 
 **진행 상황**: 255 / 530
 
-<- **이전**: [193. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/193_strategy_pattern/)
-**다음**: [195. 팩터리 메서드 vs 템플릿 메서드 (Factory Method vs Template Method)](/knowledge-base/studynote/11_design_supervision/04_gof_behavioral/195_factory_vs_template_method/) ->
+<- **이전**: [193. 전략 패턴 (Strategy Pattern)](/studynote/11_design_supervision/04_gof_behavioral/193_strategy_pattern/)
+**다음**: [195. 팩터리 메서드 vs 템플릿 메서드 (Factory Method vs Template Method)](/studynote/11_design_supervision/04_gof_behavioral/195_factory_vs_template_method/) ->
 
 ---

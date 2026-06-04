@@ -1,13 +1,10 @@
-+++
-title = "699. 프라이버시 강화 기술 PETs 연합 분석 (Privacy Enhancing Technology PETs)"
-date = 2026-05-09
+---
+title: "699. 프라이버시 강화 기술 PETs 연합 분석 (Privacy Enhancing Technology PETs)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -123,7 +120,7 @@ PETs 연합 분석은 크게 **3계층(데이터 평면/연산 평면/조정 평
 
 **진행 상황**: 699 / 800
 
-<- **이전**: [698. 사이버 보안 위협 인텔리전스 CTI](/knowledge-base/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/)
-**다음**: [700. 디지털 자산 토큰화 실물 연동](/knowledge-base/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/) ->
+<- **이전**: [698. 사이버 보안 위협 인텔리전스 CTI](/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/)
+**다음**: [700. 디지털 자산 토큰화 실물 연동](/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/) ->
 
 ---

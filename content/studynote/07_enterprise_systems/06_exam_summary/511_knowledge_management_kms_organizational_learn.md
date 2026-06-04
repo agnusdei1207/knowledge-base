@@ -1,13 +1,10 @@
-+++
-title = "511. 지식 관리 KMS 조직 학습 혁신 (Knowledge Management KMS Organizational Learning)"
-date = 2026-05-09
+---
+title: "511. 지식 관리 KMS 조직 학습 혁신 (Knowledge Management KMS Organizational Learning)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ Policy -> Process -> System -> Data -> KPI
 
 **진행 상황**: 511 / 800
 
-<- **이전**: [510. IT 자산 관리 CMDB 구성 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/510_it_asset_management_cmdb_configuration/)
-**다음**: [512. ERP 도입 방법론 단계별 구현 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/512_erp_implementation_methodology_phased_strateg/) ->
+<- **이전**: [510. IT 자산 관리 CMDB 구성 관리](/studynote/07_enterprise_systems/06_exam_summary/510_it_asset_management_cmdb_configuration/)
+**다음**: [512. ERP 도입 방법론 단계별 구현 전략](/studynote/07_enterprise_systems/06_exam_summary/512_erp_implementation_methodology_phased_strateg/) ->
 
 ---

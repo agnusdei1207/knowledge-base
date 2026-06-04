@@ -1,13 +1,10 @@
-+++
-title = "752. IT 경영 관리 핵심 토픽 752번 시험 요약 (IT Management Core Topic 752 Exam Summary)"
-date = 2026-05-09
+---
+title: "752. IT 경영 관리 핵심 토픽 752번 시험 요약 (IT Management Core Topic 752 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -170,7 +167,7 @@ IT 경영관리 영역에서 자주 혼동되는 프레임워크 간 차이를 �
 
 **진행 상황**: 752 / 800
 
-<- **이전**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/)
-**다음**: [753. IT 경영 관리 핵심 토픽 753번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/753_it_management_core_topic_753_exam_summary/) ->
+<- **이전**: [751. IT 경영 관리 핵심 토픽 751번 시험 요약](/studynote/12_it_management/05_security_compliance/751_it_management_core_topic_751_exam_summary/)
+**다음**: [753. IT 경영 관리 핵심 토픽 753번 시험 요약](/studynote/12_it_management/05_security_compliance/753_it_management_core_topic_753_exam_summary/) ->
 
 ---

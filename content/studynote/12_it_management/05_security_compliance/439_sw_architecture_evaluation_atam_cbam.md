@@ -1,13 +1,10 @@
-+++
-title = "439. SW 아키텍처 평가 ATAM CBAM (SW Architecture Evaluation ATAM CBAM)"
-date = 2026-05-09
+---
+title: "439. SW 아키텍처 평가 ATAM CBAM (SW Architecture Evaluation ATAM CBAM)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -190,7 +187,7 @@ CBAM은 ATAM의 정성적 결과를 재무적 의사결정으로 전환하는 8�
 
 **진행 상황**: 439 / 800
 
-<- **이전**: [438. 품질 관리 ISO 25010 품질 특성](/knowledge-base/studynote/12_it_management/05_security_compliance/438_quality_management_iso_25010_characteristics/)
-**다음**: [440. IT 경영 관리 핵심 토픽 440번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/440_it_management_core_topic_440_exam_summary/) ->
+<- **이전**: [438. 품질 관리 ISO 25010 품질 특성](/studynote/12_it_management/05_security_compliance/438_quality_management_iso_25010_characteristics/)
+**다음**: [440. IT 경영 관리 핵심 토픽 440번 시험 요약](/studynote/12_it_management/05_security_compliance/440_it_management_core_topic_440_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "644. 파인 튜닝 전이 학습 도메인 적응 (Fine Tuning Transfer Learning Domain Adaptation)"
-date = 2026-05-09
+---
+title: "644. 파인 튜닝 전이 학습 도메인 적응 (Fine Tuning Transfer Learning Domain Adaptation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -183,7 +180,7 @@ def get_llrd_params(model, base_lr=1e-5, decay=0.95):
 
 **진행 상황**: 644 / 800
 
-<- **이전**: [643. BERT 양방향 인코더 사전 학습](/knowledge-base/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/)
-**다음**: [645. LoRA 효율적 파인 튜닝 어댑터](/knowledge-base/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/) ->
+<- **이전**: [643. BERT 양방향 인코더 사전 학습](/studynote/06_ict_convergence/uncategorized/643_bert_bidirectional_encoder_pre_training/)
+**다음**: [645. LoRA 효율적 파인 튜닝 어댑터](/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/) ->
 
 ---

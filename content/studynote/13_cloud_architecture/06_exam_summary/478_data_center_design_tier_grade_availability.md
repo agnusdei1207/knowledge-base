@@ -1,13 +1,10 @@
-+++
-title = "478. 데이터센터 설계 Tier 등급 가용성 (Data Center Design Tier Grade Availability)"
-date = 2026-05-09
+---
+title: "478. 데이터센터 설계 Tier 등급 가용성 (Data Center Design Tier Grade Availability)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 478 / 800
 
-<- **이전**: [477. 침수 냉각 액체 냉각 데이터센터](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/477_immersion_cooling_liquid_cooling_data_center/)
-**다음**: [479. 클라우드 네트워크 SDN NFV 가상화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/479_cloud_network_sdn_nfv_virtualization/) ->
+<- **이전**: [477. 침수 냉각 액체 냉각 데이터센터](/studynote/13_cloud_architecture/06_exam_summary/477_immersion_cooling_liquid_cooling_data_center/)
+**다음**: [479. 클라우드 네트워크 SDN NFV 가상화](/studynote/13_cloud_architecture/06_exam_summary/479_cloud_network_sdn_nfv_virtualization/) ->
 
 ---

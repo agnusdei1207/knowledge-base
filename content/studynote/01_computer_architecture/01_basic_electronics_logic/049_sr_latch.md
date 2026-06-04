@@ -1,18 +1,15 @@
-+++
-title = "049. SR 래치 — SR Latch"
-date = 2026-04-05
+---
+title: "049. SR 래치 — SR Latch"
+date: "2026-04-05"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. SR 래치(Set-Reset [Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 디지털 회로의 가장 기본적인 기억 소자 — NOR 또는 NAND 게이트 2개의 교차 결합(Cross-Coupling)으로 이전 상태를 유지하는 피드백 루프를 형성하며, 모든 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)과 메모리의 근간이다.
-> 2. 출력이 입력으로 피드백되는 순차 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/))의 핵심 원리 — 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))가 현재 입력만으로 출력을 결정하는 반면, SR 래치는 이전 상태를 기억하여 출력이 입력 변화 후에도 유지된다.
-> 3. S=1, R=1(또는 NAND에서 S=0, R=0)은 금지 조건(Forbidden [State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) — 두 출력이 동시에 같은 값이 되어 정의되지 않은 상태가 발생하며, 이 한계를 극복하기 위해 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)·JK [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 등이 개발되었다.
+> 1. SR 래치(Set-Reset [Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/))는 디지털 회로의 가장 기본적인 기억 소자 — NOR 또는 NAND 게이트 2개의 교차 결합(Cross-Coupling)으로 이전 상태를 유지하는 피드백 루프를 형성하며, 모든 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)과 메모리의 근간이다.
+> 2. 출력이 입력으로 피드백되는 순차 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Sequential Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/))의 핵심 원리 — 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)([Combinational Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/032_combinational_logic/))가 현재 입력만으로 출력을 결정하는 반면, SR 래치는 이전 상태를 기억하여 출력이 입력 변화 후에도 유지된다.
+> 3. S=1, R=1(또는 NAND에서 S=0, R=0)은 금지 조건(Forbidden [State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) — 두 출력이 동시에 같은 값이 되어 정의되지 않은 상태가 발생하며, 이 한계를 극복하기 위해 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)·JK [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 등이 개발되었다.
 
 ---
 
@@ -100,7 +97,7 @@ NOR SR에서 S=R=1:
   카운터 회로에 유용
 ```
 
-> 📢 **섹션 요약 비유**: 금지 조건 해결 = 혼선 방지 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — SR(둘 다 말할 수 있어 혼선), D(한 명만 말함 -> 혼선 없음), JK(둘 다 말하면 역할 바꾸기로 정의). 혼선 원천 차단이 핵심!
+> 📢 **섹션 요약 비유**: 금지 조건 해결 = 혼선 방지 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) — SR(둘 다 말할 수 있어 혼선), D(한 명만 말함 -> 혼선 없음), JK(둘 다 말하면 역할 바꾸기로 정의). 혼선 원천 차단이 핵심!
 
 ---
 
@@ -146,7 +143,7 @@ NOR SR에서 S=R=1:
 
 ---
 
-## Ⅳ. [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류 비교
+## Ⅳ. [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류 비교
 
 ```
 플립플롭 (Flip-Flop) 비교:
@@ -190,11 +187,11 @@ SR -> D -> JK -> T 변환:
   최대 클록 = 1 / (t_pd + t_su + 배선 지연)
 ```
 
-> 📢 **섹션 요약 비유**: [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류 = 직원 역할 분담 — D(단순 보조: 시키는 대로), JK(다재다능: 세 가지 역할), T(전문가: 토글만). CPU는 수십억 D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)으로 [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 구성!
+> 📢 **섹션 요약 비유**: [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 종류 = 직원 역할 분담 — D(단순 보조: 시키는 대로), JK(다재다능: 세 가지 역할), T(전문가: 토글만). CPU는 수십억 D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)으로 [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 구성!
 
 ---
 
-## Ⅴ. 실무 시나리오 — CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 설계
+## Ⅴ. 실무 시나리오 — CPU [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 설계
 
 ```
 8비트 레지스터 설계 (D 플립플롭 8개):
@@ -234,7 +231,7 @@ x86 CPU 레지스터:
   SRAM 셀 = 6개 트랜지스터로 1비트 SR 래치 구현
 ```
 
-> 📢 **섹션 요약 비유**: CPU [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) = 계산기 화면 — D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 64개가 RAX [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/). CLK마다 새 값 저장. 3GHz = 0.33ns마다 갱신. 현대 CPU는 수십억 개 래치로 고속 연산!
+> 📢 **섹션 요약 비유**: CPU [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) = 계산기 화면 — D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) 64개가 RAX [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/). CLK마다 새 값 저장. 3GHz = 0.33ns마다 갱신. 현대 CPU는 수십억 개 래치로 고속 연산!
 
 ---
 
@@ -291,8 +288,8 @@ NOR/NAND 교차 결합
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. SR 래치 = 두 경비원 규칙 — A가 "켜"(S) 외치면 A 켜지고 유지. B가 "꺼"(R) 외치면 꺼짐. 둘 다 외치면 싸움(금지 조건)!
-2. D [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) = 클록마다 [스냅샷](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) — 카메라(D FF)가 종(CLK) 울릴 때마다 현재 모습(D) 찍어 저장(Q). 3GHz = 초당 30억 장 촬영!
-3. [SRAM](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 캐시 = 빠른 메모 판 — L1 캐시는 6개 [트랜지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) SR 래치. DRAM보다 100배 빠르지만 비용도 100배. CPU 옆에 작게 두는 이유!
+2. D [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/) = 클록마다 [스냅샷](/studynote/13_cloud_architecture/01_virtualization/022_snapshot_backup_architecture/) — 카메라(D FF)가 종(CLK) 울릴 때마다 현재 모습(D) 찍어 저장(Q). 3GHz = 초당 30억 장 촬영!
+3. [SRAM](/studynote/01_computer_architecture/06_memory_hierarchy_cache/250_sram/) 캐시 = 빠른 메모 판 — L1 캐시는 6개 [트랜지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/014_transistor/) SR 래치. DRAM보다 100배 빠르지만 비용도 100배. CPU 옆에 작게 두는 이유!
 
 ---
 
@@ -300,7 +297,7 @@ NOR/NAND 교차 결합
 
 **진행 상황**: 49 / 803
 
-<- **이전**: [048. 래치 — Latch](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)
-**다음**: [D 래치 (D Latch)](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/) ->
+<- **이전**: [048. 래치 — Latch](/studynote/01_computer_architecture/01_basic_electronics_logic/048_latch/)
+**다음**: [D 래치 (D Latch)](/studynote/01_computer_architecture/01_basic_electronics_logic/050_d_latch/) ->
 
 ---

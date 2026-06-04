@@ -1,13 +1,10 @@
-+++
-title = "715. IT 경영 관리 핵심 토픽 715번 시험 요약 (IT Management Core Topic 715 Exam Summary)"
-date = 2026-05-09
+---
+title: "715. IT 경영 관리 핵심 토픽 715번 시험 요약 (IT Management Core Topic 715 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -209,7 +206,7 @@ Tier IV: 99.995% (연 26분 장애)
 
 **진행 상황**: 715 / 800
 
-<- **이전**: [714. IT 경영 관리 핵심 토픽 714번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/714_it_management_core_topic_714_exam_summary/)
-**다음**: [716. IT 경영 관리 핵심 토픽 716번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/716_it_management_core_topic_716_exam_summary/) ->
+<- **이전**: [714. IT 경영 관리 핵심 토픽 714번 시험 요약](/studynote/12_it_management/05_security_compliance/714_it_management_core_topic_714_exam_summary/)
+**다음**: [716. IT 경영 관리 핵심 토픽 716번 시험 요약](/studynote/12_it_management/05_security_compliance/716_it_management_core_topic_716_exam_summary/) ->
 
 ---

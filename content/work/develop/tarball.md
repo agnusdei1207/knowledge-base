@@ -1,18 +1,15 @@
-+++
-title = "📦 tarball이 뭔지 1분 만에 이해하기"
+---
+title: "📦 tarball이 뭔지 1분 만에 이해하기"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 > **결론부터: ZIP 같은 거예요. 끝.** (더 자세히 보고 싶으면 아래로)
 
 관련 문서:
-- [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/)
-- [tech-stack](/knowledge-base/work/develop/tech-stack/)
+- [quartz-deployment](/work/develop/quartz-deployment/)
+- [tech-stack](/work/develop/tech-stack/)
 
 ---
 
@@ -35,7 +32,7 @@ tags = ["work"]
 
 
 ```text
-← □ □ □ □ □ □ □ □ □ □
+<- □ □ □ □ □ □ □ □ □ □
   데이터가 이렇게 줄줄
   저장됨
 ```
@@ -64,7 +61,7 @@ tags = ["work"]
 | **GitHub 다운로드** | 가끔 | **거의 항상** |
 | 용량 효율 | 좋음 | 약간 더 좋음 |
 
-→ 둘 다 **같은 목적**. 환경에 따라 다 쓰는 것뿐.
+-> 둘 다 **같은 목적**. 환경에 따라 다 쓰는 것뿐.
 
 ---
 
@@ -76,9 +73,9 @@ tags = ["work"]
 curl -L https://github.com/누구/quartz/archive/refs/heads/v5.tar.gz -o quartz.tar.gz
 tar -xzf quartz.tar.gz
 ```
-→ 이게 **tarball 다운로드 + 압축 해제**.
+-> 이게 **tarball 다운로드 + 압축 해제**.
 
-### 2. 우리 [quartz-deployment](/knowledge-base/work/develop/quartz-deployment/) 스크립트
+### 2. 우리 [quartz-deployment](/work/develop/quartz-deployment/) 스크립트
 ```bash
 QUARTZ_TARBALL_URL="https://github.com/jackyzha0/quartz/archive/refs/heads/${QUARTZ_REF}.tar.gz"
 
@@ -90,7 +87,7 @@ curl -fsSL "$QUARTZ_TARBALL_URL" | tar -xz -C "$TMP_DIR" --strip-components=1
 3. 바로 `tar`한테 파이프 ( `|` )
 4. `tar`가 압축 풀어서 폴더에 풀어놓음
 
-→ **tarball 없으면 빌드 자동화가 안 돌아갑니다.** 핵심 부품.
+-> **tarball 없으면 빌드 자동화가 안 돌아갑니다.** 핵심 부품.
 
 ### 3. Docker 이미지, Node.js 패키지, Python 패키지
 - Docker 이미지는 사실 tarball이 여러 개 묶인 거
@@ -102,11 +99,11 @@ curl -fsSL "$QUARTZ_TARBALL_URL" | tar -xz -C "$TMP_DIR" --strip-components=1
 ## 📋 자주 보는 tarball 명령어 5개
 
 ```bash
-# 1. 만들기 (폴더 → tarball)
+# 1. 만들기 (폴더 -> tarball)
 tar -czf 이름.tar.gz 폴더명
 #    czf = Create, gZip, File
 
-# 2. 풀기 (tarball → 폴더)
+# 2. 풀기 (tarball -> 폴더)
 tar -xzf 이름.tar.gz
 #    xzf = eXtract, gZip, File
 

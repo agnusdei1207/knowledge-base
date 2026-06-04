@@ -1,13 +1,10 @@
-+++
-title = "578. IT 경영 관리 핵심 토픽 578번 시험 요약 (IT Management Core Topic 578 Exam Summary)"
-date = 2026-05-09
+---
+title: "578. IT 경영 관리 핵심 토픽 578번 시험 요약 (IT Management Core Topic 578 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 578. IT 경영 관리 핵심 토픽 578번 시험 요약 (IT Management Core Topic 578 Exam Summary)
 
@@ -175,7 +172,7 @@ COBIT 2019는 **Governance System**과 **Governance Framework**의 이중 구조
 
 **진행 상황**: 578 / 800
 
-<- **이전**: [577. IT 경영 관리 핵심 토픽 577번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/577_it_management_core_topic_577_exam_summary/)
-**다음**: [579. IT 경영 관리 핵심 토픽 579번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/579_it_management_core_topic_579_exam_summary/) ->
+<- **이전**: [577. IT 경영 관리 핵심 토픽 577번 시험 요약](/studynote/12_it_management/05_security_compliance/577_it_management_core_topic_577_exam_summary/)
+**다음**: [579. IT 경영 관리 핵심 토픽 579번 시험 요약](/studynote/12_it_management/05_security_compliance/579_it_management_core_topic_579_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "519. HRM 인적 자원 관리 HR 테크 (HRM Human Resource Management HR Tech)"
-date = 2026-05-09
+---
+title: "519. HRM 인적 자원 관리 HR 테크 (HRM Human Resource Management HR Tech)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -107,7 +104,7 @@ HRM/HR Tech을 올바르게 적용하면 업무 처리 속도, 통제 수준, �
 
 **진행 상황**: 519 / 800
 
-<- **이전**: [518. WMS 창고 관리 시스템 물류 자동화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/518_wms_warehouse_management_logistics_automation/)
-**다음**: [520. 그룹웨어 협업 플랫폼 디지털 워크](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/520_groupware_collaboration_platform_digital_work/) ->
+<- **이전**: [518. WMS 창고 관리 시스템 물류 자동화](/studynote/07_enterprise_systems/06_exam_summary/518_wms_warehouse_management_logistics_automation/)
+**다음**: [520. 그룹웨어 협업 플랫폼 디지털 워크](/studynote/07_enterprise_systems/06_exam_summary/520_groupware_collaboration_platform_digital_work/) ->
 
 ---

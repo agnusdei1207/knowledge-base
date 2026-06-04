@@ -1,13 +1,10 @@
-+++
-title = "505. COBIT 거버넌스 관리 프레임워크 (COBIT Governance Management Framework)"
-date = 2026-05-09
+---
+title: "505. COBIT 거버넌스 관리 프레임워크 (COBIT Governance Management Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -216,7 +213,7 @@ Step 7: KPI 임계치 + Risk Tolerance 설정
 
 **진행 상황**: 505 / 600
 
-<- **이전**: [504. FEAF 연방 EA 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/505_feaf_federal_ea_framework/)
-**다음**: [506. ITIL 서비스 관리 프레임워크](/knowledge-base/studynote/11_design_supervision/06_exam_summary/506_itil_service_management_framework/) ->
+<- **이전**: [504. FEAF 연방 EA 프레임워크](/studynote/11_design_supervision/06_exam_summary/505_feaf_federal_ea_framework/)
+**다음**: [506. ITIL 서비스 관리 프레임워크](/studynote/11_design_supervision/06_exam_summary/506_itil_service_management_framework/) ->
 
 ---

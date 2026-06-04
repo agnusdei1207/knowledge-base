@@ -1,13 +1,10 @@
-+++
-title = "423. 클라우드 DW 빅쿼리 레드시프트 스노우플레이크 (Cloud DW BigQuery Redshift Snowflake)"
-date = 2026-05-09
+---
+title: "423. 클라우드 DW 빅쿼리 레드시프트 스노우플레이크 (Cloud DW BigQuery Redshift Snowflake)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 423 / 800
 
-<- **이전**: [422. 데이터 레이크하우스 델타 아이스버그](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/422_data_lakehouse_delta_iceberg_architecture/)
-**다음**: [424. 클라우드 스트리밍 카프카 Kinesis 플링크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/424_cloud_streaming_kafka_kinesis_flink/) ->
+<- **이전**: [422. 데이터 레이크하우스 델타 아이스버그](/studynote/13_cloud_architecture/06_exam_summary/422_data_lakehouse_delta_iceberg_architecture/)
+**다음**: [424. 클라우드 스트리밍 카프카 Kinesis 플링크](/studynote/13_cloud_architecture/06_exam_summary/424_cloud_streaming_kafka_kinesis_flink/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "578. 블록체인 인터체인 코스모스 폴카닷 (Blockchain Interchain Cosmos Polkadot)"
-date = 2026-05-09
+---
+title: "578. 블록체인 인터체인 코스모스 폴카닷 (Blockchain Interchain Cosmos Polkadot)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Zone -> Relay -> Verify -> Message -> Settle
 
 **진행 상황**: 578 / 800
 
-<- **이전**: [577. 스테이블코인 알고리즘 담보 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/577_stablecoin_algorithm_collateral_model/)
-**다음**: [579. ZK Rollup 영지식 롤업 프로토콜](/knowledge-base/studynote/06_ict_convergence/uncategorized/579_zero_knowledge_rollup_zk_rollup_protocol/) ->
+<- **이전**: [577. 스테이블코인 알고리즘 담보 모델](/studynote/06_ict_convergence/uncategorized/577_stablecoin_algorithm_collateral_model/)
+**다음**: [579. ZK Rollup 영지식 롤업 프로토콜](/studynote/06_ict_convergence/uncategorized/579_zero_knowledge_rollup_zk_rollup_protocol/) ->
 
 ---

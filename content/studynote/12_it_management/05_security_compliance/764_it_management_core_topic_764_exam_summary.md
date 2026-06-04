@@ -1,13 +1,10 @@
-+++
-title = "764. IT 경영 관리 핵심 토픽 764번 시험 요약 (IT Management Core Topic 764 Exam Summary)"
-date = 2026-05-09
+---
+title: "764. IT 경영 관리 핵심 토픽 764번 시험 요약 (IT Management Core Topic 764 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -190,7 +187,7 @@ ISO 38500은 **"Evaluate -> Direct -> Monitor"**의 3단계 사이클을 **"Resp
 
 **진행 상황**: 764 / 800
 
-<- **이전**: [763. IT 경영 관리 핵심 토픽 763번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/763_it_management_core_topic_763_exam_summary/)
-**다음**: [765. IT 경영 관리 핵심 토픽 765번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/765_it_management_core_topic_765_exam_summary/) ->
+<- **이전**: [763. IT 경영 관리 핵심 토픽 763번 시험 요약](/studynote/12_it_management/05_security_compliance/763_it_management_core_topic_763_exam_summary/)
+**다음**: [765. IT 경영 관리 핵심 토픽 765번 시험 요약](/studynote/12_it_management/05_security_compliance/765_it_management_core_topic_765_exam_summary/) ->
 
 ---

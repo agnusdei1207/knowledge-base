@@ -1,13 +1,10 @@
-+++
-title = "706. 엔터프라이즈 시스템 핵심 토픽 706번 시험 요약 (Enterprise System Core Topic 706 Exam Summary)"
-date = 2026-05-09
+---
+title: "706. 엔터프라이즈 시스템 핵심 토픽 706번 시험 요약 (Enterprise System Core Topic 706 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 706 / 800
 
-<- **이전**: [705. 엔터프라이즈 시스템 핵심 토픽 705번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/705_enterprise_system_core_topic_705_exam_summary/)
-**다음**: [707. 엔터프라이즈 시스템 핵심 토픽 707번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/707_enterprise_system_core_topic_707_exam_summary/) ->
+<- **이전**: [705. 엔터프라이즈 시스템 핵심 토픽 705번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/705_enterprise_system_core_topic_705_exam_summary/)
+**다음**: [707. 엔터프라이즈 시스템 핵심 토픽 707번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/707_enterprise_system_core_topic_707_exam_summary/) ->
 
 ---

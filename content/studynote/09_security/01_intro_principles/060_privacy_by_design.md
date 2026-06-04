@@ -1,27 +1,24 @@
-+++
-title = "60. Privacy by Design (PbD) - 7대 기본 원칙"
-date = 2026-04-05
+---
+title: "60. Privacy by Design (PbD) - 7대 기본 원칙"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: Privacy by Design(PbD)은 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 사후 조치가 아니라 설계의 기본값으로 내재화하는 철학이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화와 생명주기 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 통해 유출 위험과 규제 리스크를 낮춘다.
+> 1. **본질**: Privacy by Design(PbD)은 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 사후 조치가 아니라 설계의 기본값으로 내재화하는 철학이다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화와 생명주기 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 통해 유출 위험과 규제 리스크를 낮춘다.
 > 3. **판단 포인트**: 기본값 프라이버시, 투명성, 사용자 통제권이 설계에 실제로 반영돼야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 기능이 아니라 아키텍처다. 수집 후에 막는 방식은 비용이 크고, 사고가 나면 되돌리기 어렵다.
+[개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)는 기능이 아니라 아키텍처다. 수집 후에 막는 방식은 비용이 크고, 사고가 나면 되돌리기 어렵다.
 
-GDPR의 [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) by Design and by Default는 이런 관점을 법으로 끌어올렸다. 이제 프라이버시는 출시 후 옵션이 아니라 처음부터 넣어야 하는 요구사항이다.
+GDPR의 [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) by Design and by Default는 이런 관점을 법으로 끌어올렸다. 이제 프라이버시는 출시 후 옵션이 아니라 처음부터 넣어야 하는 요구사항이다.
 
 - **📢 섹션 요약 비유**: 자물쇠를 나중에 다는 게 아니라, 문을 만들 때부터 자물쇠가 달려 있는 집이다.
 
@@ -43,12 +40,12 @@ PbD는 보통 7대 원칙으로 설명한다. 설계, 기본값, 생명주기, �
 
 | 원칙 | 의미 |
 | :-- | :-- |
-| Proactive | 사후가 아닌 선제적 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| Proactive | 사후가 아닌 선제적 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 | Default | 기본 설정이 안전해야 함 |
 | Embedded | 설계에 내재화 |
 | Positive-Sum | 기능과 프라이버시를 함께 달성 |
-| Lifecycle | 수집~파기까지 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
-| Visibility | 투명성과 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성 |
+| Lifecycle | 수집~파기까지 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| Visibility | 투명성과 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 가능성 |
 | User-Centric | 사용자 통제권 보장 |
 
 핵심은 "안전하게 쓰려면 사용자가 별도로 설정하지 않아도 안전해야 한다"는 점이다. 기본값이 이미 프라이버시 친화적이어야 한다.
@@ -61,11 +58,11 @@ PbD는 보통 7대 원칙으로 설명한다. 설계, 기본값, 생명주기, �
 
 | 방식 | 특징 | 한계 |
 | :-- | :-- | :-- |
-| [Bolt-on Security](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/) | 나중에 덧댐 | 구조적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 남음 |
-| [Security by Design](/knowledge-base/studynote/09_security/01_intro_principles/058_security_by_design/) | 설계에 포함 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 비용 필요 |
-| Privacy by Design | [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 기본값으로 설계 | 구현 난이도와 거버넌스 필요 |
+| [Bolt-on Security](/studynote/09_security/01_intro_principles/059_bolt_on_security/) | 나중에 덧댐 | 구조적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 남음 |
+| [Security by Design](/studynote/09_security/01_intro_principles/058_security_by_design/) | 설계에 포함 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계 비용 필요 |
+| Privacy by Design | [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 기본값으로 설계 | 구현 난이도와 거버넌스 필요 |
 
-PbD는 단순한 보안 강화가 아니라, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 활용의 철학을 바꾸는 것이다. 그래서 다크 패턴이나 과도한 옵트아웃 설계와 정면으로 충돌한다.
+PbD는 단순한 보안 강화가 아니라, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과 활용의 철학을 바꾸는 것이다. 그래서 다크 패턴이나 과도한 옵트아웃 설계와 정면으로 충돌한다.
 
 - **📢 섹션 요약 비유**: 처음부터 매운 재료를 빼고 요리하는 주방과 같다.
 
@@ -73,20 +70,20 @@ PbD는 단순한 보안 강화가 아니라, [데이터](/knowledge-base/studyno
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화, 목적 제한, 보관 기간 관리, 파기 자동화가 중요하다.
+실무에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 최소화, 목적 제한, 보관 기간 관리, 파기 자동화가 중요하다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 기본값이 가장 안전한 상태인가?
 2. 수집 목적과 사용 목적이 일치하는가?
-3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 종료 시 자동 파기가 되는가?
+3. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 생명주기 종료 시 자동 파기가 되는가?
 4. 사용자가 열람/삭제/이동을 통제할 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 필수 기능과 무관한 과도한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집
+- 필수 기능과 무관한 과도한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집
 - 동의 체크박스를 기본 선택으로 두는 설계
-- 삭제 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 무한 보관하는 설계
+- 삭제 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 없이 무한 보관하는 설계
 
 - **📢 섹션 요약 비유**: 필요 없는 물건을 처음부터 집에 들이지 않는 정리 습관이다.
 
@@ -94,9 +91,9 @@ PbD는 단순한 보안 강화가 아니라, [데이터](/knowledge-base/studyno
 
 ## Ⅴ. 기대효과 및 결론
 
-PbD는 규제 대응을 넘어서 고객 신뢰를 만드는 구조다. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계에서 반영할수록 나중에 드는 수정 비용이 줄어든다.
+PbD는 규제 대응을 넘어서 고객 신뢰를 만드는 구조다. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 설계에서 반영할수록 나중에 드는 수정 비용이 줄어든다.
 
-결국 [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 문서가 아니라 시스템 동작이어야 한다.
+결국 [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)는 문서가 아니라 시스템 동작이어야 한다.
 
 - **📢 섹션 요약 비유**: 문 앞에 경고문을 붙이는 것이 아니라, 문 자체가 함부로 열리지 않게 만드는 것이다.
 
@@ -142,7 +139,7 @@ Privacy by Design은 비밀을 처음부터 잘 지키는 노트예요.
 
 **진행 상황**: 60 / 1108
 
-<- **이전**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/knowledge-base/studynote/09_security/01_intro_principles/059_bolt_on_security/)
-**다음**: [61. Secure by Default (기본값 안전)](/knowledge-base/studynote/09_security/01_intro_principles/061_secure_by_default/) ->
+<- **이전**: [59. 사후 보안 (Bolt-on Security) - 완성 후 보안 추가](/studynote/09_security/01_intro_principles/059_bolt_on_security/)
+**다음**: [61. Secure by Default (기본값 안전)](/studynote/09_security/01_intro_principles/061_secure_by_default/) ->
 
 ---

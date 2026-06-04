@@ -1,13 +1,10 @@
-+++
-title = "541. 문제 관리 근본 원인 분석 RCA (Problem Management Root Cause Analysis)"
-date = 2026-05-09
+---
+title: "541. 문제 관리 근본 원인 분석 RCA (Problem Management Root Cause Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -148,7 +145,7 @@ Problem Management는 ITSM 내에서 Incident, Change, Knowledge, Service Contin
 
 **진행 상황**: 541 / 600
 
-<- **이전**: [540. 사고 관리 인시던트 대응 프로세스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/541_incident_management_response_process/)
-**다음**: [542. 변경 관리 CAB 영향 분석 승인](/knowledge-base/studynote/11_design_supervision/06_exam_summary/542_change_management_cab_impact_analysis/) ->
+<- **이전**: [540. 사고 관리 인시던트 대응 프로세스](/studynote/11_design_supervision/06_exam_summary/541_incident_management_response_process/)
+**다음**: [542. 변경 관리 CAB 영향 분석 승인](/studynote/11_design_supervision/06_exam_summary/542_change_management_cab_impact_analysis/) ->
 
 ---

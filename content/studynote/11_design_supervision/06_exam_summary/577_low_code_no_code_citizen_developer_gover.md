@@ -1,13 +1,10 @@
-+++
-title = "577. 로우코드 노코드 시민 개발자 거버넌스 (Low Code No Code Citizen Developer Governance)"
-date = 2026-05-09
+---
+title: "577. 로우코드 노코드 시민 개발자 거버넌스 (Low Code No Code Citizen Developer Governance)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ LCNC 플랫폼의 본질은 모든 애플리케이션이 **메타데이터**(테
 
 **진행 상황**: 577 / 600
 
-<- **이전**: [576. 메타버스 가상 공간 인터랙션 설계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/577_metaverse_virtual_space_interaction_desi/)
-**다음**: [578. RPA 프로세스 자동화 봇 관리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/578_rpa_process_automation_bot_management/) ->
+<- **이전**: [576. 메타버스 가상 공간 인터랙션 설계](/studynote/11_design_supervision/06_exam_summary/577_metaverse_virtual_space_interaction_desi/)
+**다음**: [578. RPA 프로세스 자동화 봇 관리](/studynote/11_design_supervision/06_exam_summary/578_rpa_process_automation_bot_management/) ->
 
 ---

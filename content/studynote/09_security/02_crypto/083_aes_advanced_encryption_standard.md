@@ -1,26 +1,23 @@
-+++
-title = "083. AES (Advanced Encryption Standard) — 128/192/256비트 키"
-date = 2026-04-05
+---
+title: "083. AES (Advanced Encryption Standard) — 128/192/256비트 키"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-- **본질**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 128비트 블록을 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/12/14라운드로 섞는 대칭키 블록 암호이며, Rijndael 설계를 표준화한 것이다.
-- **가치**: NIST (National Institute of Standards and Technology) 표준과 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) 덕분에 강한 보안성과 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 얻는다.
-- **판단 포인트**: [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어만 보고 안전하다고 끝내면 안 되고, ECB (Electronic Codebook)/[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/))/[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))/[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 같은 운용 모드와 [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/)/[IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)/키 관리가 실제 보안을 결정한다.
+- **본질**: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 128비트 블록을 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)/12/14라운드로 섞는 대칭키 블록 암호이며, Rijndael 설계를 표준화한 것이다.
+- **가치**: NIST (National Institute of Standards and Technology) 표준과 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) 덕분에 강한 보안성과 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 동시에 얻는다.
+- **판단 포인트**: [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어만 보고 안전하다고 끝내면 안 되고, ECB (Electronic Codebook)/[CBC](/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/studynote/09_security/02_crypto/089_cbc_mode/))/[CTR](/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))/[GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) 같은 운용 모드와 [nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/)/[IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)/키 관리가 실제 보안을 결정한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 56비트 [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/))가 더 이상 버티지 못하던 상황에서 나온 차세대 표준이다. 1990년대 후반에는 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅으로 DES를 짧은 시간에 깨는 것이 가능해졌고, 이에 따라 NIST (National Institute of Standards and Technology)는 공개 경쟁을 통해 새 표준을 뽑았다. 그 결과 2001년 Rijndael이 AES로 채택되었다.
+[AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) ([Advanced Encryption Standard](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))는 56비트 [DES](/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/studynote/09_security/02_crypto/086_des_data_encryption_standard/))가 더 이상 버티지 못하던 상황에서 나온 차세대 표준이다. 1990년대 후반에는 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 컴퓨팅으로 DES를 짧은 시간에 깨는 것이 가능해졌고, 이에 따라 NIST (National Institute of Standards and Technology)는 공개 경쟁을 통해 새 표준을 뽑았다. 그 결과 2001년 Rijndael이 AES로 채택되었다.
 
-핵심은 "키가 짧으면 시간이 문제를 해결한다"는 점이다. AES는 이 문제를 키 길이와 구조로 동시에 해결했다. 128비트 블록은 고정하고, 키는 128/192/256비트로 제공해 장기 보안 요구와 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구를 나눠 받는다.
+핵심은 "키가 짧으면 시간이 문제를 해결한다"는 점이다. AES는 이 문제를 키 길이와 구조로 동시에 해결했다. 128비트 블록은 고정하고, 키는 128/192/256비트로 제공해 장기 보안 요구와 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구를 나눠 받는다.
 
 ```text
 DES(56bit) -► 전수조사 취약 -► NIST 공모전 -► Rijndael -► AES
@@ -32,15 +29,15 @@ DES(56bit) -► 전수조사 취약 -► NIST 공모전 -► Rijndael -► AES
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-AES는 4x4 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 행렬([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 위에서 동작한다. 블록 크기는 128비트로 고정이고, 키 길이에 따라 라운드 수가 달라진다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128은 10라운드, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-192는 12라운드, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256은 14라운드를 수행한다.
+AES는 4x4 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 행렬([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) 위에서 동작한다. 블록 크기는 128비트로 고정이고, 키 길이에 따라 라운드 수가 달라진다. [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128은 10라운드, [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-192는 12라운드, [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256은 14라운드를 수행한다.
 
 | 키 길이 | 라운드 수 | 특징 |
 | :--- | :--- | :--- |
-| 128비트 | [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 일반 서비스의 기본값 |
+| 128비트 | [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 일반 서비스의 기본값 |
 | 192비트 | 12 | 중간 타협점 |
-| 256비트 | 14 | 장기 보안·고위험 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
+| 256비트 | 14 | 장기 보안·고위험 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) |
 
-라운드마다 수행하는 핵심 연산은 네 가지다. SubBytes는 S-Box로 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 비선형 치환하고, ShiftRows는 행을 밀어 확산을 돕는다. MixColumns는 GF(2^8) 곱셈으로 열을 섞고, AddRoundKey는 라운드 키를 XOR한다. 마지막 라운드에서는 MixColumns를 생략한다.
+라운드마다 수행하는 핵심 연산은 네 가지다. SubBytes는 S-Box로 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/)를 비선형 치환하고, ShiftRows는 행을 밀어 확산을 돕는다. MixColumns는 GF(2^8) 곱셈으로 열을 섞고, AddRoundKey는 라운드 키를 XOR한다. 마지막 라운드에서는 MixColumns를 생략한다.
 
 ```text
 +---------------------------------------------------------------------+
@@ -49,7 +46,7 @@ AES는 4x4 [바이트](/knowledge-base/studynote/01_computer_architecture/02_dat
 +---------------------------------------------------------------------+
 ```
 
-[AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions)는 이 과정을 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 가속한다. 그래서 같은 AES라도 소프트웨어만 쓰는 경우보다 훨씬 빠르고, [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화 같은 실무 환경에서 충분한 처리량을 낸다.
+[AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions)는 이 과정을 CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)로 가속한다. 그래서 같은 AES라도 소프트웨어만 쓰는 경우보다 훨씬 빠르고, [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화 같은 실무 환경에서 충분한 처리량을 낸다.
 
 - **📢 섹션 요약 비유**: 큐브의 색을 바꾸고, 줄을 밀고, 한 번 더 섞고, 마지막 열쇠를 꽂는 작업을 여러 번 반복하는 기계식 퍼즐이다.
 
@@ -57,35 +54,35 @@ AES는 4x4 [바이트](/knowledge-base/studynote/01_computer_architecture/02_dat
 
 ## Ⅲ. 비교 및 연결
 
-AES가 DES와 다른 점은 키 길이뿐 아니라 구조다. DES는 Feistel 구조였고, AES는 SPN (Substitution-Permutation Network) 구조다. SPN은 전체 블록을 한 번에 비선형 치환과 확산으로 섞기 때문에 하드웨어 구현과 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화에 유리하다.
+AES가 DES와 다른 점은 키 길이뿐 아니라 구조다. DES는 Feistel 구조였고, AES는 SPN (Substitution-Permutation Network) 구조다. SPN은 전체 블록을 한 번에 비선형 치환과 확산으로 섞기 때문에 하드웨어 구현과 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화에 유리하다.
 
-운용 모드도 핵심이다. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어는 한 블록을 변환할 뿐이므로, 여러 블록을 어떻게 엮을지는 모드가 정한다. ECB (Electronic Codebook)는 패턴을 그대로 노출해 구조화된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쓰면 안 되고, [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/))는 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)와 체인을 사용하지만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮다. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))은 스트림처럼 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉬우나 [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용이 치명적이며, [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)은 기밀성과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 함께 제공하는 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모드다.
+운용 모드도 핵심이다. [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 코어는 한 블록을 변환할 뿐이므로, 여러 블록을 어떻게 엮을지는 모드가 정한다. ECB (Electronic Codebook)는 패턴을 그대로 노출해 구조화된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 쓰면 안 되고, [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/studynote/09_security/02_crypto/089_cbc_mode/))는 [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)와 체인을 사용하지만 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성이 낮다. [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))은 스트림처럼 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 쉬우나 [nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용이 치명적이며, [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode)은 기밀성과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 함께 제공하는 [AEAD](/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) 모드다.
 
-| 모드 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 패턴 노출 | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 판단 |
+| 모드 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)성 | 패턴 노출 | [무결성](/studynote/09_security/01_intro_principles/003_integrity/) | 판단 |
 | :--- | :--- | :--- | :--- | :--- |
 | ECB | 높음 | 있음 | 없음 | 구조가 보이므로 회피 |
-| [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) | 낮음 | 적음 | 없음 | 레거시 사용 |
-| [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/) | 높음 | 없음 | 없음 | [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 관리 필수 |
-| [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) | 높음 | 없음 | 있음 | 실무 기본값 |
+| [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) | 낮음 | 적음 | 없음 | 레거시 사용 |
+| [CTR](/studynote/09_security/02_crypto/090_ctr_mode/) | 높음 | 없음 | 없음 | [nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 관리 필수 |
+| [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) | 높음 | 없음 | 있음 | 실무 기본값 |
 
-AES는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화, 디스크 암호화에서 흔히 쓰이지만, [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전체 보안을 다 해결하지는 않는다. 키 교환, [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 재전송 방지 같은 기능은 상위 계층이 맡아야 한다.
+AES는 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 암호화, 디스크 암호화에서 흔히 쓰이지만, [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 전체 보안을 다 해결하지는 않는다. 키 교환, [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/), 재전송 방지 같은 기능은 상위 계층이 맡아야 한다.
 
-- **📢 섹션 요약 비유**: 암호기계([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 자체도 중요하지만, 상자에 묶는 끈(모드)까지 제대로 써야 내용물이 안 새어난다.
+- **📢 섹션 요약 비유**: 암호기계([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)) 자체도 중요하지만, 상자에 묶는 끈(모드)까지 제대로 써야 내용물이 안 새어난다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 보통 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128-GCM이 기본 선택이다. 일반적인 웹/모바일 트래픽에서는 처리량과 보안의 균형이 좋고, [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI가 있으면 더 유리하다. 반면 장기 보존이 필요하거나, 키 노출 후 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 여지가 작거나, 양자 위협을 길게 보아야 하면 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256-GCM이 더 안전하다.
+실무에서는 보통 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-128-GCM이 기본 선택이다. 일반적인 웹/모바일 트래픽에서는 처리량과 보안의 균형이 좋고, [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI가 있으면 더 유리하다. 반면 장기 보존이 필요하거나, 키 노출 후 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 여지가 작거나, 양자 위협을 길게 보아야 하면 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256-GCM이 더 안전하다.
 
 체크리스트는 다음과 같다.
 1. ECB처럼 패턴이 드러나는 모드를 쓰고 있지 않은가?
-2. [CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)/GCM의 nonce가 절대 재사용되지 않는가?
-3. CBC의 [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)가 적절히 무작위인가?
+2. [CTR](/studynote/09_security/02_crypto/090_ctr_mode/)/GCM의 nonce가 절대 재사용되지 않는가?
+3. CBC의 [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) (Initialization Vector)가 적절히 무작위인가?
 4. 키가 코드에 하드코딩되지 않았는가?
-5. [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI가 가능한 환경에서 비활성화돼 있지 않은가?
+5. [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI가 가능한 환경에서 비활성화돼 있지 않은가?
 
-[Grover](/knowledge-base/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) 알고리즘은 양자 컴퓨터에서 전수조사의 효율을 사실상 제곱근으로 줄인다. 그래서 장기 기밀이나 미래 위험을 크게 보아야 할 상황에서는 [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256을 우선하는 편이 낫다. 하지만 알고리즘만 바꾼다고 끝나는 것은 아니고, 키 저장·회전·폐기 전략이 더 중요하다.
+[Grover](/studynote/09_security/19_ai_advanced_security/986_grover_algorithm_impact/) 알고리즘은 양자 컴퓨터에서 전수조사의 효율을 사실상 제곱근으로 줄인다. 그래서 장기 기밀이나 미래 위험을 크게 보아야 할 상황에서는 [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-256을 우선하는 편이 낫다. 하지만 알고리즘만 바꾼다고 끝나는 것은 아니고, 키 저장·회전·폐기 전략이 더 중요하다.
 
 - **📢 섹션 요약 비유**: 좋은 자물쇠도 번호를 아무 데나 적어 두면 소용이 없다. 열쇠 관리가 진짜 잠금의 절반이다.
 
@@ -93,20 +90,20 @@ AES는 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_t
 
 ## Ⅴ. 기대효과 및 결론
 
-AES의 강점은 표준화, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 구현 용이성이다. 하지만 "AES를 쓴다"가 곧 "안전하다"를 의미하지는 않는다. 모드, [nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/), [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 키 관리가 같이 맞아야 실무 보안이 완성된다.
+AES의 강점은 표준화, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), 구현 용이성이다. 하지만 "AES를 쓴다"가 곧 "안전하다"를 의미하지는 않는다. 모드, [nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/), [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/), 키 관리가 같이 맞아야 실무 보안이 완성된다.
 
-결론적으로 AES는 현대 대칭키 보안의 기준선이다. 앞으로도 [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보호의 기본 재료로 남겠지만, 양자 시대를 대비한 키 길이 선택과 [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) 중심 설계는 더 중요해질 것이다.
+결론적으로 AES는 현대 대칭키 보안의 기준선이다. 앞으로도 [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/), [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/), [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 보호의 기본 재료로 남겠지만, 양자 시대를 대비한 키 길이 선택과 [AEAD](/studynote/09_security/02_crypto/092_aead/) 중심 설계는 더 중요해질 것이다.
 
 ### 📌 관련 개념 맵
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [DES](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/knowledge-base/studynote/09_security/02_crypto/086_des_data_encryption_standard/)) | AES로 대체된 전신 |
+| [DES](/studynote/09_security/02_crypto/086_des_data_encryption_standard/) ([Data Encryption Standard](/studynote/09_security/02_crypto/086_des_data_encryption_standard/)) | AES로 대체된 전신 |
 | SPN (Substitution-Permutation Network) | AES의 내부 구조 |
-| ECB/[CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)/[CTR](/knowledge-base/studynote/09_security/02_crypto/090_ctr_mode/)/[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) | 블록을 연결하는 운용 모드 |
-| [AEAD](/knowledge-base/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 기밀성과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 함께 제공 |
-| [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) | 하드웨어 가속 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
-| [TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) / [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network) | 대표 사용처 |
+| ECB/[CBC](/studynote/09_security/02_crypto/089_cbc_mode/)/[CTR](/studynote/09_security/02_crypto/090_ctr_mode/)/[GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) | 블록을 연결하는 운용 모드 |
+| [AEAD](/studynote/09_security/02_crypto/092_aead/) (Authenticated Encryption with Associated [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) | 기밀성과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 함께 제공 |
+| [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/)-NI ([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) [New](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) Instructions) | 하드웨어 가속 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) |
+| [TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) (Transport Layer [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/)) / [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) (Virtual Private Network) | 대표 사용처 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +132,7 @@ AES (Advanced Encryption Standard)
 
 **진행 상황**: 83 / 1108
 
-<- **이전**: [82. Salsa20/ChaCha20 (Salsa20/ChaCha20)](/knowledge-base/studynote/09_security/02_crypto/082_salsa20_chacha20/)
-**다음**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/knowledge-base/studynote/09_security/02_crypto/084_aes_spn_structure/) ->
+<- **이전**: [82. Salsa20/ChaCha20 (Salsa20/ChaCha20)](/studynote/09_security/02_crypto/082_salsa20_chacha20/)
+**다음**: [084. AES SPN 구조 — SubBytes/ShiftRows/MixColumns/AddRoundKey](/studynote/09_security/02_crypto/084_aes_spn_structure/) ->
 
 ---

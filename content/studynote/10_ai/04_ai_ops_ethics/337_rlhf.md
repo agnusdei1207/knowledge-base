@@ -1,19 +1,16 @@
-+++
-title = "337. RLHF (Reinforcement Learning from Human Feedback)"
-date = 2026-05-09
+---
+title: "337. RLHF (Reinforcement Learning from Human Feedback)"
+date: "2026-05-09"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 는 사전 학습된 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 이 "사람이 선호하는 응답"을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 유도하는 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로, SFT (Supervised [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) -> 보상 모델 ([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습 -> [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 강화학습 순으로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
-> 2. **가치**: 언어 모델의 유해성 감소, 사실성 향상, 지시 따르기 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Following) 능력 향상을 동시에 달성해 ChatGPT, Claude, Gemini 의 공통 핵심 기술이 됐다.
-> 3. **판단 포인트**: [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 폭을 클리핑 ([Clipping](/knowledge-base/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) 으로 제한해 안정성을 확보하고, KL 패널티로 SFT 모델과 지나치게 멀어지는 것을 방지한다는 이중 안전장치를 반드시 서술해야 한다.
+> 1. **본질**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) ([Reinforcement Learning from Human Feedback](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/)) 는 사전 학습된 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) ([Large Language Model](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/)) 이 "사람이 선호하는 응답"을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하도록 유도하는 3단계 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인으로, SFT (Supervised [Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) -> 보상 모델 ([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습 -> [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 강화학습 순으로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/)된다.
+> 2. **가치**: 언어 모델의 유해성 감소, 사실성 향상, 지시 따르기 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Following) 능력 향상을 동시에 달성해 ChatGPT, Claude, Gemini 의 공통 핵심 기술이 됐다.
+> 3. **판단 포인트**: [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 업데이트 폭을 클리핑 ([Clipping](/studynote/06_ict_convergence/05_data_science/389_ppo_proximal_policy_optimization/)) 으로 제한해 안정성을 확보하고, KL 패널티로 SFT 모델과 지나치게 멀어지는 것을 방지한다는 이중 안전장치를 반드시 서술해야 한다.
 
 ---
 
@@ -21,12 +18,12 @@ tags = ["studynote-ai"]
 
 ### 정렬 (Alignment) 문제란?
 
-[GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 류 모델은 다음 토큰 예측 (Next Token Prediction) 으로 사전 학습되어 "그럴듯한 문장 완성"에는 탁월하지만, "도움이 되고, 해롭지 않고, 정직한 (HHH, Helpful·Harmless·Honest)" 응답을 보장하지 않는다. 이 불일치를 **정렬 문제 (Alignment Problem)** 라 한다.
+[GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/) 류 모델은 다음 토큰 예측 (Next Token Prediction) 으로 사전 학습되어 "그럴듯한 문장 완성"에는 탁월하지만, "도움이 되고, 해롭지 않고, 정직한 (HHH, Helpful·Harmless·Honest)" 응답을 보장하지 않는다. 이 불일치를 **정렬 문제 (Alignment Problem)** 라 한다.
 
-| 문제 유형 | 예시 | [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 해결 방식 |
+| 문제 유형 | 예시 | [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 해결 방식 |
 |:---|:---|:---|
 | 유해 콘텐츠 | 위험 물질 제조법 제공 | 보상 모델이 낮은 점수 부여 |
-| [환각](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/knowledge-base/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | 없는 논문 인용 | 정확한 응답 선호 학습 |
+| [환각](/studynote/06_ict_convergence/04_ai_llm/275_react_framework/) ([Hallucination](/studynote/12_it_management/05_security_compliance/345_llm_foundation_model_hallucination/)) | 없는 논문 인용 | 정확한 응답 선호 학습 |
 | 지시 무시 | "3줄 요약" 을 20줄 출력 | 형식 준수 응답 선호 |
 | 지나친 동의 | 틀린 전제에 동조 | 사실 기반 반박 학습 |
 
@@ -39,13 +36,13 @@ tags = ["studynote-ai"]
 +----------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 없는 [LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 은 "박학다식하지만 눈치 없는 천재"다. 질문에 뭐든 대답하지만, 상황과 예의를 모른다. [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 이 천재에게 "사회 교육"을 시키는 과정이다.
+- **📢 섹션 요약 비유**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 없는 [LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 은 "박학다식하지만 눈치 없는 천재"다. 질문에 뭐든 대답하지만, 상황과 예의를 모른다. [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 이 천재에게 "사회 교육"을 시키는 과정이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인
+### [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인
 
 ```
   +--------------------------------------------------------------+
@@ -64,7 +61,7 @@ tags = ["studynote-ai"]
   +--------------+------------------+----------------------------+
 ```
 
-### 보상 모델 ([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습
+### 보상 모델 ([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)) 학습
 
 - **입력**: (프롬프트, 응답) 쌍
 - **레이블**: 사람이 선택한 선호 응답 (A > B 형식 비교)
@@ -72,7 +69,7 @@ tags = ["studynote-ai"]
 - **손실 (Bradley-Terry 모델)**: `L = -E[log σ(r(x,y_w) - r(x,y_l))]`
   - y_w: 선호 응답 (winner), y_l: 비선호 응답 (loser)
 
-### [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 핵심 수식
+### [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 핵심 수식
 
 ```
   PPO Clipped Objective (클리핑 목적 함수):
@@ -90,66 +87,66 @@ tags = ["studynote-ai"]
 
 ### KL 패널티의 역할
 
-KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)) 을 패널티로 추가하지 않으면 모델이 보상 모델을 해킹 (Reward Hacking) — 보상 점수만 높지만 품질은 떨어지는 응답을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 현상이 발생한다. KL 패널티는 "SFT 모델에서 너무 멀어지면 불이익" 을 주어 안전망 역할을 한다.
+KL 발산 ([KL Divergence](/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/)) 을 패널티로 추가하지 않으면 모델이 보상 모델을 해킹 (Reward Hacking) — 보상 점수만 높지만 품질은 떨어지는 응답을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하는 현상이 발생한다. KL 패널티는 "SFT 모델에서 너무 멀어지면 불이익" 을 주어 안전망 역할을 한다.
 
-- **📢 섹션 요약 비유**: [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 는 "급격한 성격 변화를 막는 심리 치료"다. 한 번의 상담으로 너무 극단적으로 변하지 않도록 (클리핑), 원래 성격에서 너무 멀어지지 않도록 (KL 패널티) 두 가지 제동 장치를 건다.
+- **📢 섹션 요약 비유**: [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 는 "급격한 성격 변화를 막는 심리 치료"다. 한 번의 상담으로 너무 극단적으로 변하지 않도록 (클리핑), 원래 성격에서 너무 멀어지지 않도록 (KL 패널티) 두 가지 제동 장치를 건다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 대안 방법론 비교
+### [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 대안 방법론 비교
 
 | 방법 | 핵심 아이디어 | 장점 | 단점 |
 |:---|:---|:---|:---|
-| [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) + [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) | 보상 모델 + 강화학습 | 고품질 정렬 | 구현 복잡, Reward Hacking 취약 |
-| [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) | 직접 선호 최적화 | 단순 구현, 보상 모델 불필요 | [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 대비 표현력 제한 |
-| [RLAIF](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) (RL from [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 피드백 제공 | 확장성 높음 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향 전파 가능성 |
-| [Constitutional AI](/knowledge-base/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) (CAI) | 헌법 규칙 자기 비판 | 투명성 높음 | 규칙 설계 비용 |
+| [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) + [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) | 보상 모델 + 강화학습 | 고품질 정렬 | 구현 복잡, Reward Hacking 취약 |
+| [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) | 직접 선호 최적화 | 단순 구현, 보상 모델 불필요 | [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 대비 표현력 제한 |
+| [RLAIF](/studynote/06_ict_convergence/04_ai_llm/269_vector_database/) (RL from [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) Feedback) | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 피드백 제공 | 확장성 높음 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 편향 전파 가능성 |
+| [Constitutional AI](/studynote/09_security/19_ai_advanced_security/966_constitutional_ai/) (CAI) | 헌법 규칙 자기 비판 | 투명성 높음 | 규칙 설계 비용 |
 
 ### ChatGPT 구현 방식 (OpenAI InstructGPT)
 
-1. **SFT**: [GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 + 인간 작성 데모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (13K 개) 미세조정
-2. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a></strong>: 6B 파라미터 모델로 33K 비교 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습
-3. <strong><a href="/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a></strong>: SFT 모델을 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 적용, β=0.02 KL 패널티
+1. **SFT**: [GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)-3 + 인간 작성 데모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) (13K 개) 미세조정
+2. <strong><a href="/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/">Reward Model</a></strong>: 6B 파라미터 모델로 33K 비교 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 학습
+3. <strong><a href="/studynote/10_ai/05_data_science_ml/395_ppo_clipping/">PPO</a></strong>: SFT 모델을 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 적용, β=0.02 KL 패널티
 
-- **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) vs [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 는 "경기에서 심판(보상 모델)을 두고 반칙 시 벌점 주는 방식" vs "선수가 직접 좋아하는 플레이 스타일을 학습하는 방식"의 차이다. 심판이 있으면 정교하지만 복잡하고, 없으면 단순하지만 미묘한 조정이 어렵다.
+- **📢 섹션 요약 비유**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) vs [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 는 "경기에서 심판(보상 모델)을 두고 반칙 시 벌점 주는 방식" vs "선수가 직접 좋아하는 플레이 스타일을 학습하는 방식"의 차이다. 심판이 있으면 정교하지만 복잡하고, 없으면 단순하지만 미묘한 조정이 어렵다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 구현 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계
+### [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 구현 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 생태계
 
 | 도구 | 설명 |
 |:---|:---|
-| TRL ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [Reinforcement Learning](/knowledge-base/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) | HuggingFace [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
-| DeepSpeed-Chat | Microsoft 엔드투엔드 [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) |
-| OpenRLHF | [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 학습 프레임워크 |
-| LLaMA-Factory | SFT+[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 통합 파인튜닝 도구 |
+| TRL ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/) [Reinforcement Learning](/studynote/12_it_management/02_itsm_itil/878_reinforcement_learning/)) | HuggingFace [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) |
+| DeepSpeed-Chat | Microsoft 엔드투엔드 [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) |
+| OpenRLHF | [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 학습 프레임워크 |
+| LLaMA-Factory | SFT+[RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 통합 파인튜닝 도구 |
 
 ### 기술사 출제 포인트
 
-- [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 (SFT -> [Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) -> [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 순서와 각 단계의 목적 명시
-- [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 클리핑 목적 함수와 KL 패널티의 역할 구별
+- [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 (SFT -> [Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) -> [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) 순서와 각 단계의 목적 명시
+- [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 클리핑 목적 함수와 KL 패널티의 역할 구별
 - Reward Hacking 개념과 KL 패널티가 방지책이 되는 원리
-- [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) 와 비교: 보상 모델 유무
-- 인간 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용과 확장성 한계 언급
+- [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) 와 비교: 보상 모델 유무
+- 인간 피드백 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용과 확장성 한계 언급
 
-- **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 를 인턴으로 고용해 처음엔 교육(SFT), 다음엔 팀장 평가([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)), 마지막엔 실적 기반 성과급([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))" 을 주는 방식으로 점점 더 회사 문화에 맞게 만드는 과정이다.
+- **📢 섹션 요약 비유**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 "[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 를 인턴으로 고용해 처음엔 교육(SFT), 다음엔 팀장 평가([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)), 마지막엔 실적 기반 성과급([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/))" 을 주는 방식으로 점점 더 회사 문화에 맞게 만드는 과정이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 - **정렬 달성**: 지시 따르기, 유해성 감소, 사실성 향상 동시 실현
-- **확장성**: SFT [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수천 건으로도 큰 효과 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율 높음)
+- **확장성**: SFT [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수천 건으로도 큰 효과 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 효율 높음)
 - **산업 적용**: ChatGPT, Claude, Gemini, Llama 2 Chat 에 공통 적용
-- **한계**: 인간 피드백 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용, 평가자 편향, Reward Hacking
+- **한계**: 인간 피드백 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집 비용, 평가자 편향, Reward Hacking
 
-[RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 언어 모델을 "텍스트 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기"에서 "유용한 어시스턴트"로 전환하는 핵심 기술이다. 기술사 시험에서는 3단계 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인, [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 수식의 클리핑과 KL 패널티, [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 와의 비교를 명확히 서술하면 고득점이 가능하다.
+[RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 언어 모델을 "텍스트 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)기"에서 "유용한 어시스턴트"로 전환하는 핵심 기술이다. 기술사 시험에서는 3단계 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인, [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) 수식의 클리핑과 KL 패널티, [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) 와의 비교를 명확히 서술하면 고득점이 가능하다.
 
-- **📢 섹션 요약 비유**: [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 "백과사전 달달 외운 똑똑이"를 "사람들이 좋아하는 답을 주는 현명한 친구"로 바꾸는 사회화 프로세스다. 지식은 이미 있으니, 어떻게 말하는지를 훈련하는 것이 핵심이다.
+- **📢 섹션 요약 비유**: [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 는 "백과사전 달달 외운 똑똑이"를 "사람들이 좋아하는 답을 주는 현명한 친구"로 바꾸는 사회화 프로세스다. 지식은 이미 있으니, 어떻게 말하는지를 훈련하는 것이 핵심이다.
 
 ---
 
@@ -157,12 +154,12 @@ KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| SFT (Supervised [Fine-Tuning](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) | 지도 미세조정, 데모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 1단계 기반 모델 |
-| [Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) (보상 모델) | Bradley-Terry, 선호 학습 / [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 2단계 평가 함수 |
-| [PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 클리핑, KL 패널티 / [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 |
-| [DPO](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) | 보상 모델 제거 / [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 경량 대안 |
-| [KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) (KL 발산) | 정보 이론, 분포 차이 / Reward Hacking 방지 |
-| Alignment (정렬) | HHH, 안전 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / [RLHF](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 의 궁극 목표 |
+| SFT (Supervised [Fine-Tuning](/studynote/10_ai/04_ai_ops_ethics/304_fine_tuning/)) | 지도 미세조정, 데모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) / [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 1단계 기반 모델 |
+| [Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/) (보상 모델) | Bradley-Terry, 선호 학습 / [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 2단계 평가 함수 |
+| [PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/) ([Proximal Policy Optimization](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)) | 클리핑, KL 패널티 / [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 3단계 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 최적화 |
+| [DPO](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/) ([Direct Preference Optimization](/studynote/06_ict_convergence/04_ai_llm/270_embedding_model/)) | 보상 모델 제거 / [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 경량 대안 |
+| [KL Divergence](/studynote/08_algorithm_stats/09_info_theory/153_kl_divergence/) (KL 발산) | 정보 이론, 분포 차이 / Reward Hacking 방지 |
+| Alignment (정렬) | HHH, 안전 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) / [RLHF](/studynote/14_data_engineering/05_exam_keywords/250_rlhf_human_feedback_reinforcement_alignment_cot/) 의 궁극 목표 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -172,9 +169,9 @@ KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 📚 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 처음엔 책에서 배우고(SFT), 선생님이 좋은 답/나쁜 답을 골라주면([Reward Model](/knowledge-base/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)), 좋은 점수 받으려고 스스로 더 잘 말하는 방법을 연습해요([PPO](/knowledge-base/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)).
+1. 📚 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 처음엔 책에서 배우고(SFT), 선생님이 좋은 답/나쁜 답을 골라주면([Reward Model](/studynote/10_ai/05_data_science_ml/403_rlhf_reward_model/)), 좋은 점수 받으려고 스스로 더 잘 말하는 방법을 연습해요([PPO](/studynote/10_ai/05_data_science_ml/395_ppo_clipping/)).
 2. ⚖️ 너무 이상하게 변하지 않도록 "원래 너답게 말해!" 라는 규칙(KL 패널티)도 있어요.
-3. 🤝 이렇게 훈련하면 ChatGPT 처럼 사람이 원하는 걸 잘 도와주는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 돼요!
+3. 🤝 이렇게 훈련하면 ChatGPT 처럼 사람이 원하는 걸 잘 도와주는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 가 돼요!
 
 ---
 
@@ -182,7 +179,7 @@ KL 발산 ([KL Divergence](/knowledge-base/studynote/08_algorithm_stats/09_info_
 
 **진행 상황**: 337 / 420
 
-<- **이전**: [336. 텐서 코어 (Tensor Core)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/336_tensor_core/)
-**다음**: [338. vLLM과 PagedAttention (페이지드 어텐션)](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/) ->
+<- **이전**: [336. 텐서 코어 (Tensor Core)](/studynote/10_ai/04_ai_ops_ethics/336_tensor_core/)
+**다음**: [338. vLLM과 PagedAttention (페이지드 어텐션)](/studynote/10_ai/04_ai_ops_ethics/338_vllm_paged_attention/) ->
 
 ---

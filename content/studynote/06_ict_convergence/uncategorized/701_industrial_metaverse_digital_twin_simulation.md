@@ -1,13 +1,10 @@
-+++
-title = "701. 산업 메타버스 디지털 트윈 시뮬레이션 (Industrial Metaverse Digital Twin Simulation)"
-date = 2026-05-09
+---
+title: "701. 산업 메타버스 디지털 트윈 시뮬레이션 (Industrial Metaverse Digital Twin Simulation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -128,7 +125,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 701 / 800
 
-<- **이전**: [700. 디지털 자산 토큰화 실물 연동](/knowledge-base/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/)
-**다음**: [702. 생체 인증 FIDO2 패스키 인증 체계](/knowledge-base/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/) ->
+<- **이전**: [700. 디지털 자산 토큰화 실물 연동](/studynote/06_ict_convergence/uncategorized/700_digital_asset_tokenization_real_world_asset/)
+**다음**: [702. 생체 인증 FIDO2 패스키 인증 체계](/studynote/06_ict_convergence/uncategorized/702_biometric_auth_fido2_passkey_authentication/) ->
 
 ---

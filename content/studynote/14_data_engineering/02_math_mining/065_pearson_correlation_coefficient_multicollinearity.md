@@ -1,25 +1,22 @@
-+++
-title = "65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정"
-date = 2026-04-10
+---
+title: "65. 피어슨 상관 계수 (Pearson Correlation) - 선형적 비례 관계 측정"
+date: "2026-04-10"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [피어슨 상관](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) 계수([Pearson Correlation](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) Coefficient)는 두 변수의 선형적 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 -1부터 1까지의 값으로 나타낸다.
-> 2. **가치**: 상관이 높은 독립 변수들은 다중공선성([Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))을 유발해 회귀 분석을 불안정하게 만들 수 있다.
-> 3. **판단**: Pearson만 보지 말고 Spearman, 산점도, VIF([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor)까지 함께 봐야 한다.
+> 1. **본질**: [피어슨 상관](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) 계수([Pearson Correlation](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) Coefficient)는 두 변수의 선형적 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 -1부터 1까지의 값으로 나타낸다.
+> 2. **가치**: 상관이 높은 독립 변수들은 다중공선성([Multicollinearity](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/))을 유발해 회귀 분석을 불안정하게 만들 수 있다.
+> 3. **판단**: Pearson만 보지 말고 Spearman, 산점도, VIF([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/) Inflation Factor)까지 함께 봐야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서 변수 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 먼저 보는 것은 매우 중요하다. [피어슨 상관](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)은 가장 널리 쓰이는 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지표다.
+[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석에서 변수 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 먼저 보는 것은 매우 중요하다. [피어슨 상관](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)은 가장 널리 쓰이는 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 지표다.
 
 하지만 상관이 높다고 항상 인과가 있는 것은 아니며, 회귀 모델에서는 다중공선성이 문제를 일으킬 수 있다.
 
@@ -45,7 +42,7 @@ Interpretation
 | Range | -1 ~ 1 |
 | VIF | 다중공선성 정도 |
 
-피어슨 계수는 공분산을 표준편차로 정규화한 값이다. 따라서 스케일에 영향받지 않지만, 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 한정된다는 점이 중요하다.
+피어슨 계수는 공분산을 표준편차로 정규화한 값이다. 따라서 스케일에 영향받지 않지만, 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)에 한정된다는 점이 중요하다.
 
 - **📢 섹션 요약 비유**: 두 사람의 걸음이 얼마나 같은 방향인지 보는 자다.
 
@@ -55,15 +52,15 @@ Interpretation
 
 | 구분 | Pearson | Spearman | Kendall |
 | :-- | :-- | :-- | :-- |
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 선형 | 순위 기반 | 순위 기반 |
-| [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 | 큼 | 작음 | 작음 |
-| 용도 | 회귀/선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 단조 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 순위 안정성 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 선형 | 순위 기반 | 순위 기반 |
+| [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 영향 | 큼 | 작음 | 작음 |
+| 용도 | 회귀/선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 단조 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 순위 안정성 |
 
 | 문제 | 영향 |
 | :-- | :-- |
-| [Multicollinearity](/knowledge-base/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) | 계수 불안정, 해석 어려움 |
+| [Multicollinearity](/studynote/14_data_engineering/02_math_mining/080_multicollinearity_vif_variance_inflation_factor_regression/) | 계수 불안정, 해석 어려움 |
 | High Correlation | 변수 중복 가능성 |
-| Low Correlation | 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 약함 |
+| Low Correlation | 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 약함 |
 
 상관이 높다고 원인을 단정하면 안 되지만, 회귀 모델링에서는 꼭 점검해야 한다. 다중공선성은 모델 해석과 예측 안정성을 해친다.
 
@@ -73,22 +70,22 @@ Interpretation
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 산점도와 함께 상관을 봤는가?
-2. 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
-3. [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 상관을 왜곡하는지 봤는가?
+2. 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)했는가?
+3. [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/)가 상관을 왜곡하는지 봤는가?
 4. 다중공선성을 VIF 등으로 점검했는가?
 5. 변수 선택이나 차원 축소가 필요한가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 상관계수만 보고 인과를 말하는 설계
-- Pearson만 보고 비선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 놓치는 설계
+- Pearson만 보고 비선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 놓치는 설계
 - 다중공선성을 무시한 회귀 설계
-- [이상치](/knowledge-base/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 제거 없이 수치만 믿는 설계
+- [이상치](/studynote/14_data_engineering/02_math_mining/076_outlier_detection_iqr_dbscan_isolation_forest/) 제거 없이 수치만 믿는 설계
 
-기술사 관점에서는 Pearson을 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 정확한 정의"가 아니라 "선형성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도구"로 봐야 한다.
+기술사 관점에서는 Pearson을 "[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 정확한 정의"가 아니라 "선형성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) 도구"로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 두 선이 비슷한지 보는 도구지, 왜 그렇게 됐는지 알려 주는 마법은 아니다.
 
@@ -96,9 +93,9 @@ Interpretation
 
 ## Ⅴ. 기대효과 및 결론
 
-[피어슨 상관](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) 계수와 다중공선성을 함께 보면 변수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 더 안전하게 해석할 수 있다. 모델링 전 진단 도구로 매우 유용하다.
+[피어슨 상관](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/) 계수와 다중공선성을 함께 보면 변수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 더 안전하게 해석할 수 있다. 모델링 전 진단 도구로 매우 유용하다.
 
-결론적으로 Pearson은 선형 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 기본 지표이고, 다중공선성은 회귀 분석에서 반드시 함께 보는 경고 신호다.
+결론적으로 Pearson은 선형 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)의 기본 지표이고, 다중공선성은 회귀 분석에서 반드시 함께 보는 경고 신호다.
 
 - **📢 섹션 요약 비유**: 같은 방향으로 달리는 차가 많으면 어느 차를 먼저 봐야 할지 신중해야 한다.
 
@@ -136,7 +133,7 @@ Feature Selection
 
 두 장난감이 같이 움직이는지 보는 숫자예요.
 너무 비슷하면 하나만 남겨도 돼요.
-[피어슨 상관](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)은 그런 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보는 도구예요.
+[피어슨 상관](/studynote/14_data_engineering/05_exam_keywords/226_pearson_correlation_regression_r2_vif_multicollinearity/)은 그런 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 보는 도구예요.
 
 ---
 
@@ -144,7 +141,7 @@ Feature Selection
 
 **진행 상황**: 65 / 258
 
-<- **이전**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/knowledge-base/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)
-**다음**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/knowledge-base/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/) ->
+<- **이전**: [64. 왜도 (Skewness)와 첨도 (Kurtosis) - 데이터 분포 분석](/studynote/14_data_engineering/02_math_mining/064_skewness_kurtosis_log_transformation/)
+**다음**: [66. 스피어만 순위 상관 계수 (Spearman Rank Correlation)](/studynote/14_data_engineering/02_math_mining/066_spearman_rank_correlation_nonparametric_robustness/) ->
 
 ---

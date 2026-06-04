@@ -1,9 +1,9 @@
-+++
-title = "04. 클라우드 DevOps 및 관측성"
+---
+title: "04. 클라우드 DevOps 및 관측성"
+tags:
+  - "cloud_architecture"
+---
 
-[extra]
-tags = ["cloud_architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,28 +1,25 @@
-+++
-title = "96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리"
+---
+title: "96. 모놀리식 블록체인 (Monolithic Blockchain) - 모든 작업을 단일 체인(솔라나, 앱토스 등)에서 처리"
+tags:
+  - "ict_convergence"
+---
 
-[taxonomies]
-tags = ["ict_convergence"]
-
-[extra]
-tags = ["ict_convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Monolithic [Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)(저장), 합의, 실행 세 가지 핵심 기능을 단일 네트워크(Layer 1)가 모두 수행하는 일체형 구조다.
-> 2. **가치**: 레이어 간 통신 없이 자체 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고성능 하드웨어를 통해 압도적인 처리 속도(TPS)와 극도로 낮은 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 단일 환경에서 제공한다.
-> 3. **판단 포인트**: 처리량은 극대화되지만, 고사양 노드 요구로 인한 중앙화 우려와 단일 실패 지점(네트워크 셧다운) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 있어 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 철학과의 트레이드오프를 신중히 판단해야 한다.
+> 1. **본질**: 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Monolithic [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/)(저장), 합의, 실행 세 가지 핵심 기능을 단일 네트워크(Layer 1)가 모두 수행하는 일체형 구조다.
+> 2. **가치**: 레이어 간 통신 없이 자체 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고성능 하드웨어를 통해 압도적인 처리 속도(TPS)와 극도로 낮은 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)을 단일 환경에서 제공한다.
+> 3. **판단 포인트**: 처리량은 극대화되지만, 고사양 노드 요구로 인한 중앙화 우려와 단일 실패 지점(네트워크 셧다운) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)가 있어 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/) 철학과의 트레이드오프를 신중히 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Monolithic [Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 트랜잭션을 처리할 때 거치는 '실행 (Execution)', '합의 (Consensus)', '[데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) ([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'이라는 세 가지 주요 역할을 쪼개지 않고 단일 레이어에서 원스톱으로 처리하는 아키텍처다.
+모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) (Monolithic [Blockchain](/studynote/06_ict_convergence/01_blockchain/004_blockchain/))은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)이 트랜잭션을 처리할 때 거치는 '실행 (Execution)', '합의 (Consensus)', '[데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) ([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'이라는 세 가지 주요 역할을 쪼개지 않고 단일 레이어에서 원스톱으로 처리하는 아키텍처다.
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비트코인이나 이더리움은 이러한 통짜 구조로 시작했으나 트래픽이 폭증하며 속도가 극도로 느려졌다. 이를 극복하기 위해 등장한 솔라나(Solana) 같은 3세대 모놀리식 체인들은, 레이어를 분리(Layer 2)하는 대신 "단일 노드의 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 합의 알고리즘을 극한까지 끌어올려 혼자서 다 빠르게 처리하자"는 정면 돌파 방식을 택했다. 복잡한 구조 분할 없이 사용자에게 즉각적인 완결성([Finality](/knowledge-base/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 제공하기 위해 필요해진 구조다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비트코인이나 이더리움은 이러한 통짜 구조로 시작했으나 트래픽이 폭증하며 속도가 극도로 느려졌다. 이를 극복하기 위해 등장한 솔라나(Solana) 같은 3세대 모놀리식 체인들은, 레이어를 분리(Layer 2)하는 대신 "단일 노드의 하드웨어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 합의 알고리즘을 극한까지 끌어올려 혼자서 다 빠르게 처리하자"는 정면 돌파 방식을 택했다. 복잡한 구조 분할 없이 사용자에게 즉각적인 완결성([Finality](/studynote/06_ict_convergence/01_blockchain/065_consensus_finality_probabilistic_deterministic/))을 제공하기 위해 필요해진 구조다.
 
-- **📢 섹션 요약 비유**: 모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 주방장이 주문 접수, 요리, 배달을 혼자서 다 해내는 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 1인 달인 중국집'과 같다. 한 사람이 모든 걸 하니 중간에 소통할 필요 없이 눈 깜짝할 새 짜장면이 나온다.
+- **📢 섹션 요약 비유**: 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 주방장이 주문 접수, 요리, 배달을 혼자서 다 해내는 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 1인 달인 중국집'과 같다. 한 사람이 모든 걸 하니 중간에 소통할 필요 없이 눈 깜짝할 새 짜장면이 나온다.
 
 ---
 
@@ -32,9 +29,9 @@ tags = ["ict_convergence"]
 
 | 핵심 기능 요소 | 모놀리식에서의 처리 방식 (솔라나 예시) |
 | :--- | :--- |
-| **실행 (Execution)** | `Sealevel` 엔진을 통해 여러 [스마트 컨트랙트](/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 동시 실행 ([멀티스레딩](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)) |
+| **실행 (Execution)** | `Sealevel` 엔진을 통해 여러 [스마트 컨트랙트](/studynote/06_ict_convergence/01_blockchain/022_smart_contract/)를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 동시 실행 ([멀티스레딩](/studynote/01_computer_architecture/11_multicore_synchronization/397_multithreading/)) |
 | **합의 (Consensus)** | `PoH (Proof of History, 역사 증명)` 메커니즘으로 노드 간 통신 없이 자체 타이머로 시간 순서 합의 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>)</strong> | 거대한 상태([State](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각 고사양 노드가 직접 저장 및 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유지 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/">DA</a>)</strong> | 거대한 상태([State](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 각 고사양 노드가 직접 저장 및 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 유지 |
 
 ```text
 +--------------------------------------------------------------+
@@ -57,25 +54,25 @@ tags = ["ict_convergence"]
 +--------------------------------------------------------------+
 ```
 
-이 그림은 분업 없이 한 거대한 노드가 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고유 합의 알고리즘을 무기로 세 가지 역할을 한 방에 꿰뚫어 처리하는 모놀리식의 강력함을 보여준다.
+이 그림은 분업 없이 한 거대한 노드가 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 고유 합의 알고리즘을 무기로 세 가지 역할을 한 방에 꿰뚫어 처리하는 모놀리식의 강력함을 보여준다.
 
-- **📢 섹션 요약 비유**: 모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 외주 공장을 두지 않고, 공장 하나에 최고급 로봇 팔([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행)과 초정밀 메트로놈(PoH)을 달아 쉴 새 없이 제품을 찍어내는 거대한 '초대형 메가 팩토리'다.
+- **📢 섹션 요약 비유**: 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 외주 공장을 두지 않고, 공장 하나에 최고급 로봇 팔([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 실행)과 초정밀 메트로놈(PoH)을 달아 쉴 새 없이 제품을 찍어내는 거대한 '초대형 메가 팩토리'다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 기능이 분리된 [모듈러 블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/), 예: 이더리움 [롤업](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 생태계)과 뚜렷한 대비를 이룬다.
+모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 기능이 분리된 [모듈러 블록체인](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)([Modular Blockchain](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/), 예: 이더리움 [롤업](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) 생태계)과 뚜렷한 대비를 이룬다.
 
 | 항목 | 모놀리식 (Monolithic) | 모듈러 (Modular) |
 | :--- | :--- | :--- |
-| **아키텍처 구조** | 단일 레이어 통합 (All-in-One) | 실행, 합의, [DA](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어 분리 (L1/L2) |
+| **아키텍처 구조** | 단일 레이어 통합 (All-in-One) | 실행, 합의, [DA](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/) 레이어 분리 (L1/L2) |
 | **대표 사례** | Solana, Aptos, Sui | Ethereum + Arbitrum + Celestia |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (TPS)</strong> | 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의존, 매우 높음 | 레이어 간 병목 존재, 점진적 확장 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> (TPS)</strong> | 하드웨어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 의존, 매우 높음 | 레이어 간 병목 존재, 점진적 확장 |
 | **유지 비용** | 노드 구동 하드웨어 비용 극도로 높음 | 각 레이어별 역할 분담으로 분산됨 |
-| **트레이드오프** | 중앙화 우려 심화, 셧다운 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 구조 복잡성 증가, 완결성 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| **트레이드오프** | 중앙화 우려 심화, 셧다운 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) | 구조 복잡성 증가, 완결성 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
 
-모듈러 체인이 기능을 분리해 '[탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)'와 '보안'을 지키며 확장(Scaling)하는 반면, 모놀리식 체인은 극단적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 '탈중앙성'을 일부 타협하는 노선을 걷는다.
+모듈러 체인이 기능을 분리해 '[탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)'와 '보안'을 지키며 확장(Scaling)하는 반면, 모놀리식 체인은 극단적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 위해 '탈중앙성'을 일부 타협하는 노선을 걷는다.
 
 - **📢 섹션 요약 비유**: 모놀리식은 CPU 코어 하나(단일 체인)의 클럭을 미친 듯이 오버클러킹하는 방식이고, 모듈러는 코어를 여러 개 달아(레이어 분리) 일을 나누어 처리하는 멀티코어 방식이다.
 
@@ -83,25 +80,25 @@ tags = ["ict_convergence"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-웹3(Web3) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 디앱([DApp](/knowledge-base/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))을 기획할 때, 어떤 메인넷을 선택할지 결정하는 가장 중요한 잣대가 바로 모놀리식과 모듈러의 차이다.
+웹3(Web3) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)나 디앱([DApp](/studynote/06_ict_convergence/01_blockchain/032_dapp_decentralized_application/))을 기획할 때, 어떤 메인넷을 선택할지 결정하는 가장 중요한 잣대가 바로 모놀리식과 모듈러의 차이다.
 
-### 채택 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 민감도</strong>: HFT(고빈도 거래), 실시간 렌더링 게임, 오더북 기반 DEX 등 즉각적인 반응(수백 ms 이내 완결)이 필요한가? $\rightarrow$ **모놀리식 채택**
-2. **복잡도 회피**: L1에서 L2로 자산을 옮기기 위한 브릿지([Bridge](/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 설계나 유동성 파편화 이슈를 겪고 싶지 않은가? $\rightarrow$ **모놀리식 채택**
-3. <strong>무결성과 <a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong>: 엄청난 금액을 다루는 금융 인프라로서, 전 세계 수만 개의 노드가 참여하는 극도의 탈중앙성이 필요한가? $\rightarrow$ **모듈러(이더리움 생태계) 고려**
+### 채택 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a> 민감도</strong>: HFT(고빈도 거래), 실시간 렌더링 게임, 오더북 기반 DEX 등 즉각적인 반응(수백 ms 이내 완결)이 필요한가? $\rightarrow$ **모놀리식 채택**
+2. **복잡도 회피**: L1에서 L2로 자산을 옮기기 위한 브릿지([Bridge](/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/)) 설계나 유동성 파편화 이슈를 겪고 싶지 않은가? $\rightarrow$ **모놀리식 채택**
+3. <strong>무결성과 <a href="/studynote/06_ict_convergence/01_blockchain/010_decentralization/">탈중앙화</a></strong>: 엄청난 금액을 다루는 금융 인프라로서, 전 세계 수만 개의 노드가 참여하는 극도의 탈중앙성이 필요한가? $\rightarrow$ **모듈러(이더리움 생태계) 고려**
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 모놀리식 체인의 [단일 장애점](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 고려하지 않고 모든 핵심 비즈니스 로직을 단일 네트워크에 올인하는 설계 (네트워크 셧다운 시 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전면 마비)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 모놀리식 체인의 [단일 장애점](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)([SPOF](/studynote/01_computer_architecture/13_reliability_power_management/454_spof/)) [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)를 고려하지 않고 모든 핵심 비즈니스 로직을 단일 네트워크에 올인하는 설계 (네트워크 셧다운 시 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 전면 마비)
 
-- **📢 섹션 요약 비유**: F1 레이싱([초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 거래)을 하려면 승차감([탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/))을 포기하고 바닥에 딱 붙어 달리는 모놀리식 스포츠카를 타는 것이 맞다. 하지만 국빈을 안전하게 호송(거액 보관)하려면 무겁고 느리더라도 모듈러 방탄 장갑차를 타는 것이 맞다.
+- **📢 섹션 요약 비유**: F1 레이싱([초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 거래)을 하려면 승차감([탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/))을 포기하고 바닥에 딱 붙어 달리는 모놀리식 스포츠카를 타는 것이 맞다. 하지만 국빈을 안전하게 호송(거액 보관)하려면 무겁고 느리더라도 모듈러 방탄 장갑차를 타는 것이 맞다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 압도적인 속도와 저렴한 수수료를 통해 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 대중화(Mass Adoption)를 가장 앞장서서 이끄는 실용적 아키텍처다. 파편화 없는 단일 유동성과 즉각적인 완결성은 사용자에게 웹2 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 구별할 수 없는 쾌적한 UX를 제공한다.
+모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 압도적인 속도와 저렴한 수수료를 통해 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)의 대중화(Mass Adoption)를 가장 앞장서서 이끄는 실용적 아키텍처다. 파편화 없는 단일 유동성과 즉각적인 완결성은 사용자에게 웹2 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)와 구별할 수 없는 쾌적한 UX를 제공한다.
 
-하지만 극단적 하드웨어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구로 인한 소수 노드의 독점 우려와 네트워크 불안정성(Shutdown)은 뼈아픈 한계다. 결론적으로 모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 [블록체인 트릴레마](/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(확장성, 보안, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)) 속에서 '확장성'에 영혼을 건 강력한 돌파구이며, 미래에는 모듈러 기술과의 상호 이점을 흡수하는 방향으로 발전할 것이다.
+하지만 극단적 하드웨어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 요구로 인한 소수 노드의 독점 우려와 네트워크 불안정성(Shutdown)은 뼈아픈 한계다. 결론적으로 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 [블록체인 트릴레마](/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/)(확장성, 보안, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)) 속에서 '확장성'에 영혼을 건 강력한 돌파구이며, 미래에는 모듈러 기술과의 상호 이점을 흡수하는 방향으로 발전할 것이다.
 
 - **📢 섹션 요약 비유**: 모놀리식 구조는 모든 교통량을 1차선 쾌속 하이패스로 뚫어버린 아우토반이다. 엄청나게 빠르지만, 중간에 사고가 나면 차선 전체가 마비되는 위험을 항상 안고 달려야 한다.
 
@@ -112,9 +109,9 @@ tags = ["ict_convergence"]
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | **PoH (Proof of History)** | 모놀리식 체인(솔라나)이 통신 오버헤드를 줄이기 위해 채택한 핵심 시간 합의 기술 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행</strong> | 단일 노드 내에서 멀티코어를 활용해 트랜잭션을 동시에 처리하는 최적화 기법 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | 생성된 블록 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 누구나 접근할 수 있음을 보장하는 층, 모놀리식은 자체 해결 |
-| <strong><a href="/knowledge-base/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/">블록체인 트릴레마</a> (Trilemma)</strong> | 확장성, [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/), 보안의 세 가지 딜레마로, 모놀리식은 [탈중앙화](/knowledge-base/studynote/06_ict_convergence/01_blockchain/010_decentralization/)를 일부 희생함 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/022_smart_contract/">스마트 컨트랙트</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 실행</strong> | 단일 노드 내에서 멀티코어를 활용해 트랜잭션을 동시에 처리하는 최적화 기법 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/">데이터 가용성</a> (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> <a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">Availability</a>)</strong> | 생성된 블록 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 누구나 접근할 수 있음을 보장하는 층, 모놀리식은 자체 해결 |
+| <strong><a href="/studynote/06_ict_convergence/01_blockchain/040_blockchain_trilemma/">블록체인 트릴레마</a> (Trilemma)</strong> | 확장성, [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/), 보안의 세 가지 딜레마로, 모놀리식은 [탈중앙화](/studynote/06_ict_convergence/01_blockchain/010_decentralization/)를 일부 희생함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,7 +134,7 @@ tags = ["ict_convergence"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 모놀리식 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 요리사가 혼자서 주문을 받고, 요리하고, 서빙까지 순식간에 해치우는 식당이에요.
+1. 모놀리식 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)은 요리사가 혼자서 주문을 받고, 요리하고, 서빙까지 순식간에 해치우는 식당이에요.
 2. 여러 명이 일을 나누어 하는 식당(모듈러)보다 소통할 필요가 없어서 음식이 훨씬 빨리 나와요.
 3. 하지만 이 요리사가 아파서 쓰러지면 식당 전체가 아예 문을 닫아야 하는 단점도 있답니다!
 
@@ -147,7 +144,7 @@ tags = ["ict_convergence"]
 
 **진행 상황**: 96 / 552
 
-<- **이전**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/knowledge-base/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)
-**다음**: [97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) ->
+<- **이전**: [95. 모듈러 블록체인 (Modular Blockchain) - 실행(Execution), 합의(Consensus), 정산(Settlement),](/studynote/06_ict_convergence/01_blockchain/095_modular_blockchain_execution_da_consensus/)
+**다음**: [97. 타원곡선 디지털 서명 알고리즘 (ECDSA) 및 슈노르 서명 (Schnorr Signature - 다중 서명 병합 축소)](/studynote/06_ict_convergence/01_blockchain/097_ecdsa_schnorr_signature_bitcoin/) ->
 
 ---

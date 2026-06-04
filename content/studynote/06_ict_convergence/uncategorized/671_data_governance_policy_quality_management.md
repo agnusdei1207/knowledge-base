@@ -1,13 +1,10 @@
-+++
-title = "671. 데이터 거버넌스 정책 품질 관리 체계 (Data Governance Policy Quality Management)"
-date = 2026-05-09
+---
+title: "671. 데이터 거버넌스 정책 품질 관리 체계 (Data Governance Policy Quality Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -176,7 +173,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 671 / 800
 
-<- **이전**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/knowledge-base/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/)
-**다음**: [672. 데이터 메시 분산 데이터 소유권](/knowledge-base/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/) ->
+<- **이전**: [670. AutoML 자동 모델 선택 하이퍼파라미터](/studynote/06_ict_convergence/uncategorized/670_automl_auto_model_selection_hyperparameter/)
+**다음**: [672. 데이터 메시 분산 데이터 소유권](/studynote/06_ict_convergence/uncategorized/672_data_mesh_distributed_data_ownership/) ->
 
 ---

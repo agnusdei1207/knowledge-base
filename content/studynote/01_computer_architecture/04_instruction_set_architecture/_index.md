@@ -1,9 +1,9 @@
-+++
-title = "04. 명령어 세트 아키텍처 (ISA)"
+---
+title: "04. 명령어 세트 아키텍처 (ISA)"
+tags:
+  - "computer_architecture"
+---
 
-[extra]
-tags = ["computer_architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,13 +1,10 @@
-+++
-title = "376. 신원 관리 IAM 통합 인증 SSO (Identity Management IAM SSO Integration)"
-date = 2026-05-09
+---
+title: "376. 신원 관리 IAM 통합 인증 SSO (Identity Management IAM SSO Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -161,7 +158,7 @@ Signature: RSA-SHA256(base64url(header) + "." + base64url(payload), IdP_private_
 
 **진행 상황**: 376 / 800
 
-<- **이전**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/knowledge-base/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/)
-**다음**: [377. 다중 인증 MFA 생체 인증 패스키](/knowledge-base/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/) ->
+<- **이전**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/)
+**다음**: [377. 다중 인증 MFA 생체 인증 패스키](/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/) ->
 
 ---

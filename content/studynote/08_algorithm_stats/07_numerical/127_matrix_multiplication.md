@@ -1,19 +1,24 @@
-+++
-title = "행렬 곱셈 최적화 (Matrix Multiplication Optimization)"
-description = "나이브 O(N³) 행렬 곱셈, Strassen O(N^2.81) 알고리즘, 캐시 친화적 블록 행렬 곱셈, 딥러닝 가속을 다룬다."
-date = 2025-01-01
+---
+title: "행렬 곱셈 최적화 (Matrix Multiplication Optimization)"
+date: "2025-01-01"
+description: "나이브 O(N³) 행렬 곱셈, Strassen O(N^2.81) 알고리즘, 캐시 친화적 블록 행렬 곱셈, 딥러닝 가속을 다룬다."
+tags:
+  - "GEMM"
+  - "O(N^2.81)"
+  - "Strassen"
+  - "block matrix"
+  - "cache optimization"
+  - "cuBLAS"
+  - "deep learning"
+  - "matrix multiplication"
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["GEMM", "O(N^2.81)", "Strassen", "block matrix", "cache optimization", "cuBLAS", "deep learning", "matrix multiplication", "studynote-algorithm"]
-
-[extra]
-tags = ["GEMM", "O(N^2.81)", "Strassen", "block matrix", "cache optimization", "cuBLAS", "deep learning", "matrix multiplication", "studynote-algorithm"]
-+++
 
 > **핵심 인사이트 3줄**
 > 1. 나이브 행렬 곱셈 O(N³)은 Strassen(1969)의 분할정복으로 O(N^2.807)으로 개선됐으나, 실무에서는 캐시 효율을 극대화한 블록 행렬 곱셈(GEMM)이 더 중요하다.
-> 2. 딥러닝의 핵심 연산인 행렬 곱셈(matmul)은 GPU의 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)(FP16/INT8)를 통해 수천 배 가속된다.
-> 3. 현대 BLAS [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(OpenBLAS, cuBLAS, oneMKL)는 하드웨어 특성에 맞춘 극도로 최적화된 GEMM 커널을 제공하여 직접 구현보다 수십~수백 배 빠르다.
+> 2. 딥러닝의 핵심 연산인 행렬 곱셈(matmul)은 GPU의 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리와 [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/)(FP16/INT8)를 통해 수천 배 가속된다.
+> 3. 현대 BLAS [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)(OpenBLAS, cuBLAS, oneMKL)는 하드웨어 특성에 맞춘 극도로 최적화된 GEMM 커널을 제공하여 직접 구현보다 수십~수백 배 빠르다.
 
 ---
 
@@ -50,9 +55,9 @@ B 행렬을 전치(transpose)하면 j 방향 접근이 행 방향으로 바뀌�
 
 ---
 
-## Ⅱ. Strassen [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+## Ⅱ. Strassen [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
-### 2.1 [분할 정복](/knowledge-base/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)
+### 2.1 [분할 정복](/studynote/08_algorithm_stats/01_basics/005_divide_and_conquer/)
 
 2N×2N 행렬을 N×N 블록으로 분할:
 
@@ -80,7 +85,7 @@ C22 = M1-M2+M3+M6
 
 ### 2.2 실용성 한계
 
-- 수치 불안정성 ([부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오류 누적)
+- 수치 불안정성 ([부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 오류 누적)
 - 작은 N에서는 오버헤드로 나이브보다 느림
 - 현재 이론적 최선: Williams et al. (2024) O(N^2.371552)
 
@@ -88,7 +93,7 @@ C22 = M1-M2+M3+M6
 
 ---
 
-## Ⅲ. 블록 행렬 곱셈 (Cache [Blocking](/knowledge-base/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))
+## Ⅲ. 블록 행렬 곱셈 (Cache [Blocking](/studynote/02_operating_system/02_process_thread/122_sync_async_communication/))
 
 ### 3.1 캐시 계층 활용
 
@@ -99,7 +104,7 @@ L3 캐시: ~8MB, ~40 사이클
 메모리:  수 GB, ~100+ 사이클
 ```
 
-블록 크기 B를 L1/L2 캐시에 맞게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/):
+블록 크기 B를 L1/L2 캐시에 맞게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/):
 
 ```python
 def matmul_blocked(A, B, block_size=64):
@@ -120,9 +125,9 @@ def matmul_blocked(A, B, block_size=64):
 
 ---
 
-## Ⅳ. [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 행렬 곱셈
+## Ⅳ. [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) 가속 행렬 곱셈
 
-### 4.1 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화
+### 4.1 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화
 
 ```
 CPU (단일 코어 순차):
@@ -133,11 +138,11 @@ GPU (수천 코어 병렬):
   -> 이론상 N^ 병렬 처리
 ```
 
-### 4.2 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) (NVIDIA)
+### 4.2 [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) (NVIDIA)
 
-- FP32 연산 대비 FP16/BF16 -> ~2배, INT8 -> ~4배 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
-- A100 [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/): FP16 [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 312 TFLOPS
-- 딥러닝 matmul에서 Automatic Mixed [Precision](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(AMP)으로 활용
+- FP32 연산 대비 FP16/BF16 -> ~2배, INT8 -> ~4배 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)
+- A100 [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/): FP16 [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/) 312 TFLOPS
+- 딥러닝 matmul에서 Automatic Mixed [Precision](/studynote/14_data_engineering/05_exam_keywords/233_precision_recall_f1_roc_auc_threshold/)(AMP)으로 활용
 
 ### 4.3 BLAS GEMM 호출
 
@@ -155,25 +160,25 @@ C = torch.mm(A_gpu, B_gpu)  # cuBLAS 자동 활용
 
 ## Ⅴ. 현대 행렬 곱셈 표준 — GEMM
 
-### 5.1 BLAS GEMM [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
+### 5.1 BLAS GEMM [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/)
 
 ```
 C = α·op(A)·op(B) + β·C
 ```
 
 - op(): 전치(T), 켤레전치(H), 또는 그대로(N)
-- SGEMM: [단정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/), DGEMM: [배정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/), HGEMM: [반정밀도](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/)
+- SGEMM: [단정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/089_single_precision/), DGEMM: [배정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/090_double_precision/), HGEMM: [반정밀도](/studynote/01_computer_architecture/02_data_representation_arithmetic/091_half_precision/)
 
 ### 5.2 행렬 곱셈 복잡도 최선
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)          | 복잡도            | 비고                      |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)          | 복잡도            | 비고                      |
 |----------------|-----------------|--------------------------|
 | 나이브           | O(N³)           | 기본                     |
 | Strassen        | O(N^2.807)      | 실용성 제한              |
 | Williams(2024)  | O(N^2.371552)   | 이론적 최선              |
-| [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) BLAS        | O(N³/P)         | P개 코어 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)             |
+| [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/) BLAS        | O(N³/P)         | P개 코어 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)             |
 
-📢 **섹션 요약 비유**: BLAS GEMM은 수학 계산기 중 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) — 직접 3중 루프 짜는 것보다 항상 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 써라.
+📢 **섹션 요약 비유**: BLAS GEMM은 수학 계산기 중 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) — 직접 3중 루프 짜는 것보다 항상 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 써라.
 
 ---
 
@@ -221,7 +226,7 @@ Tensor Core FP16/INT8 (2017~)
 Williams et al. O(N^2.37) (2024)
 ```
 
-**핵심 키워드**: Strassen, GEMM, BLAS, 블록 행렬, [Tensor Core](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/), cuBLAS, AMP, 캐시 최적화
+**핵심 키워드**: Strassen, GEMM, BLAS, 블록 행렬, [Tensor Core](/studynote/01_computer_architecture/12_accelerators_ai_hardware/427_tensor_core/), cuBLAS, AMP, 캐시 최적화
 
 ---
 
@@ -237,7 +242,7 @@ Williams et al. O(N^2.37) (2024)
 
 **진행 상황**: 127 / 175
 
-<- **이전**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/knowledge-base/studynote/08_algorithm_stats/07_numerical/126_fft/)
-**다음**: [9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근](/knowledge-base/studynote/08_algorithm_stats/07_numerical/128_newton_raphson/) ->
+<- **이전**: [고속 푸리에 변환 (FFT, Fast Fourier Transform)](/studynote/08_algorithm_stats/07_numerical/126_fft/)
+**다음**: [9. 뉴턴-랩슨 (Newton-Raphson) — 수치 해법, 제곱근](/studynote/08_algorithm_stats/07_numerical/128_newton_raphson/) ->
 
 ---

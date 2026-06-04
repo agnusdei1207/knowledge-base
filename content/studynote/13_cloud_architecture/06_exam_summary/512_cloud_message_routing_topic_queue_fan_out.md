@@ -1,13 +1,10 @@
-+++
-title = "512. 클라우드 메시지 라우팅 토픽 큐 팬아웃 (Cloud Message Routing Topic Queue Fan-out)"
-date = 2026-05-09
+---
+title: "512. 클라우드 메시지 라우팅 토픽 큐 팬아웃 (Cloud Message Routing Topic Queue Fan-out)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 512 / 800
 
-<- **이전**: [511. 클라우드 이벤트 기반 아키텍처 패턴](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/511_cloud_event_based_architecture_pattern/)
-**다음**: [513. 클라우드 API 버전 관리 호환성 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/513_cloud_api_versioning_compatibility_strategy/) ->
+<- **이전**: [511. 클라우드 이벤트 기반 아키텍처 패턴](/studynote/13_cloud_architecture/06_exam_summary/511_cloud_event_based_architecture_pattern/)
+**다음**: [513. 클라우드 API 버전 관리 호환성 전략](/studynote/13_cloud_architecture/06_exam_summary/513_cloud_api_versioning_compatibility_strategy/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2 (ICT Convergence PE Architecture Master Map 2)"
-date = 2026-05-09
+---
+title: "792. ICT 융합 기술사 종합 아키텍처 마스터 맵 2 (ICT Convergence PE Architecture Master Map 2)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -129,7 +126,7 @@ ICT 융합 Master Map 2는 다음 6개의 **수평 계층(Horizontal Layer)**과
 
 **진행 상황**: 792 / 800
 
-<- **이전**: [791. ICT 융합 기술 최신 동향 기술사 마스터](/knowledge-base/studynote/06_ict_convergence/uncategorized/791_ict_convergence_latest_trends_pe_master/)
-**다음**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/knowledge-base/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/) ->
+<- **이전**: [791. ICT 융합 기술 최신 동향 기술사 마스터](/studynote/06_ict_convergence/uncategorized/791_ict_convergence_latest_trends_pe_master/)
+**다음**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "71. 다중화 (Multiplexing) 개념 및 특징"
-description = "다중화의 본질적 개념, 아키텍처(MUX/DeMUX) 구조, 프로토콜 레이어 융합 및 실무 경제성 분석"
-date = 2024-05-20
+---
+title: "71. 다중화 (Multiplexing) 개념 및 특징"
+date: "2024-05-20"
+description: "다중화의 본질적 개념, 아키텍처(MUX/DeMUX) 구조, 프로토콜 레이어 융합 및 실무 경제성 분석"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다중화는 하나의 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 신호가 공유하도록 묶는 기술이다.
+> 1. **본질**: 다중화는 하나의 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 신호가 공유하도록 묶는 기술이다.
 > 2. **가치**: 회선 효율을 높이고 비용을 줄인다.
 > 3. **판단**: MUX와 DeMUX의 역할, 그리고 시간/주파수/파장 분할을 구분해야 한다.
 
@@ -71,20 +68,20 @@ MUX는 여러 입력을 합치고, DeMUX는 다시 분리한다. 전송 대역�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [MUX](/knowledge-base/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)/DeMUX 구조를 아는가?
+1. [MUX](/studynote/03_network/19_frequent_topics_terms/944_mux_demux_multiplexer_demultiplexer_circuit_sharing/)/DeMUX 구조를 아는가?
 2. TDM/FDM/WDM 차이를 설명할 수 있는가?
 3. 자원 효율을 계산할 수 있는가?
-4. [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)/지연을 고려하는가?
-5. 전송 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞는가?
+4. [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)/지연을 고려하는가?
+5. 전송 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성에 맞는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 다중화를 단순 압축으로 보는 설계
 - 방식별 차이를 무시하는 설계
 - 회선 효율을 고려하지 않는 설계
-- 물리 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성을 무시하는 설계
+- 물리 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) 특성을 무시하는 설계
 
 기술사 관점에서는 다중화를 "전송 자원을 공유하는 효율화 기법"으로 설명해야 한다.
 
@@ -96,7 +93,7 @@ MUX는 여러 입력을 합치고, DeMUX는 다시 분리한다. 전송 대역�
 
 다중화는 회선과 대역 자원의 활용도를 높인다.
 
-결론적으로 다중화는 하나의 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 신호가 공유하게 하는 기술이다.
+결론적으로 다중화는 하나의 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)를 여러 신호가 공유하게 하는 기술이다.
 
 - **📢 섹션 요약 비유**: 길을 같이 쓰되, 규칙은 지켜야 한다.
 
@@ -142,7 +139,7 @@ Network Resource Sharing
 
 **진행 상황**: 71 / 1120
 
-<- **이전**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/knowledge-base/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/)
-**다음**: [72. 공간 분할 다중화 (SDM, Space Division Multiplexing)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) ->
+<- **이전**: [70. 주파수 도약 확산 스펙트럼 (FHSS, Frequency Hopping Spread Spectrum)](/studynote/03_network/01_data_communication/070_주파수_도약_확산_FHSS/)
+**다음**: [72. 공간 분할 다중화 (SDM, Space Division Multiplexing)](/studynote/03_network/02_multiplexing_multiple_access/072_공간_분할_다중화_SDM/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "692. 데이터 엔지니어링 아키텍처 종합 요약 (Data Engineering Architecture Summary)"
-date = 2026-05-09
+---
+title: "692. 데이터 엔지니어링 아키텍처 종합 요약 (Data Engineering Architecture Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -142,7 +139,7 @@ MySQL binlog -> Debezium Kafka Connect -> Kafka Topic -> Flink/Flink CDC -> Iceb
 
 **진행 상황**: 692 / 800
 
-<- **이전**: [691. 데이터 리터러시 조직 역량 교육](/knowledge-base/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/)
-**다음**: [693. 데이터 사이언스 기술사 마스터 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/) ->
+<- **이전**: [691. 데이터 리터러시 조직 역량 교육](/studynote/06_ict_convergence/uncategorized/691_data_literacy_organization_capability_educati/)
+**다음**: [693. 데이터 사이언스 기술사 마스터 정리](/studynote/06_ict_convergence/uncategorized/693_data_science_pe_master_summary/) ->
 
 ---

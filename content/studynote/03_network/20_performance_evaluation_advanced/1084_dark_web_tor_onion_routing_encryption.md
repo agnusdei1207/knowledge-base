@@ -1,25 +1,22 @@
-+++
-title = "1084. 다크 웹 Tor 통신 프로토콜 암호화층"
-date = 2026-05-08
+---
+title: "1084. 다크 웹 Tor 통신 프로토콜 암호화층"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층을 이해하면 측정 정확도과 모델 적합성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- VPN을 쓰면 내 패킷 내용물은 숨겨지지만, 결국 [VPN](/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버 로그를 뒤지거나 입구와 출구의 트래픽 흐름(Timing)을 대조하면 "A가 VPN을 거쳐 B 사이트로 갔네"라는 <strong>통신 경로(<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>)</strong>가 털립니다.
+- VPN을 쓰면 내 패킷 내용물은 숨겨지지만, 결국 [VPN](/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/) 서버 로그를 뒤지거나 입구와 출구의 트래픽 흐름(Timing)을 대조하면 "A가 VPN을 거쳐 B 사이트로 갔네"라는 <strong>통신 경로(<a href="/studynote/05_database/01_db_architecture_relational/012_metadata/">메타데이터</a>)</strong>가 털립니다.
 
 ```text
 [블록체인 가십 프로토콜 P2P 연결]
@@ -30,13 +27,13 @@ tags = ["studynote-network"]
     +---> [IPsec IKEv2 터널 협상]
 ```
 
-- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 미국 해군 연구소(NRL)가 스파이들의 통신을 숨기기 위해 개발한 <strong>'어니언 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Onion <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)' 기술을 기반으로, 전 세계 자원봉사자들의 컴퓨터(릴레이 노드)를 징검다리 삼아 패킷을 수차례 암호화/우회시켜 송신자와 수신자의 IP 추적을 완벽하게 끊어버리는 <a href="/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 익명 네트워크</strong>입니다. (우리가 흔히 말하는 다크 웹의 고속도로)
+- **개념**: 미국 해군 연구소(NRL)가 스파이들의 통신을 숨기기 위해 개발한 <strong>'어니언 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a>(Onion <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a>)' 기술을 기반으로, 전 세계 자원봉사자들의 컴퓨터(릴레이 노드)를 징검다리 삼아 패킷을 수차례 암호화/우회시켜 송신자와 수신자의 IP 추적을 완벽하게 끊어버리는 <a href="/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/">오픈소스</a> 익명 네트워크</strong>입니다. (우리가 흔히 말하는 다크 웹의 고속도로)
 
 ```text
 [블록체인 가십 프로토콜 P2P 연결]
@@ -47,7 +44,7 @@ tags = ["studynote-network"]
     +---> [IPsec IKEv2 터널 협상]
 ```
 
-- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
@@ -72,38 +69,38 @@ tags = ["studynote-network"]
 - **Exit 노드 도착**: 마지막 껍질을 깝니다. "오 드디어 다 깠다! 최종 목적지가 '마약 사이트'네! 근데 나한테 이거 던진 놈이 누군지(Middle)만 알지, 최초 발송자(철수)가 누군지는 죽어도 모르겠네!" **(최종 목적지는 알지만, 철수는 모름)**
 - **결과**: 경찰이 마약 사이트 서버를 털어서 접속자 IP를 까봐도, 찍혀있는 건 오직 'Exit 노드의 IP'뿐입니다. 철수의 IP는 우주 끝까지 은폐됩니다.
 
-다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결이 기반 조건을 만든다면, 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 그 위에서 핵심 메커니즘을 구현하고, [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결이 기반 조건을 만든다면, 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 그 위에서 핵심 메커니즘을 구현하고, [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 측정 정확도과 모델 적합성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 기반 정리 | 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 핵심 동작 | [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상의 확장 적용 |
+| 초점 | [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결의 기반 정리 | 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층의 핵심 동작 | [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 측정 정확도 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 - **미치도록 느린 속도**: 전 세계를 핑퐁 치며 3중 암호를 까느라 딜레이가 끔찍하여 유튜브 영상 시청은 불가능합니다.
-- **Exit 노드 스니핑**: 해커가 Exit 노드를 자원해서 운영합니다. 어차피 3중 껍질이 다 까진 <strong>쌩얼 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(평문)</strong>가 Exit 노드를 거쳐 목적지로 나가기 때문입니다. 철수가 1063번 [HTTPS](/knowledge-base/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화를 안 켜고 쌩 HTTP로 접속했다면, Exit 노드 주인(해커)은 철수의 비밀번호 텍스트를 고스란히 훔쳐볼 수 있습니다. (익명성은 지켜주지만, 페이로드 암호화는 내 책임입니다.)
+- **Exit 노드 스니핑**: 해커가 Exit 노드를 자원해서 운영합니다. 어차피 3중 껍질이 다 까진 <strong>쌩얼 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>(평문)</strong>가 Exit 노드를 거쳐 목적지로 나가기 때문입니다. 철수가 1063번 [HTTPS](/studynote/03_network/09_application_layer_web_email/471_https_http_over_tls/) 암호화를 안 켜고 쌩 HTTP로 접속했다면, Exit 노드 주인(해커)은 철수의 비밀번호 텍스트를 고스란히 훔쳐볼 수 있습니다. (익명성은 지켜주지만, 페이로드 암호화는 내 책임입니다.)
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 기존 <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong> 통신은 <strong>'비밀경찰 1명(<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 서버)에게 돈을 주고 심부름을 시키는 것'</strong>입니다. 경찰이 내 짐을 숨겨주긴 하지만, 경찰을 족치면 내가 누구에게 짐을 보냈는지 100% 다 불어버립니다(단일 지점 추적). <strong>Tor(어니언 <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 다크 웹)</strong>는 짐을 <strong>'자물쇠가 3개 달린 러시아 마트료시카 양파 상자'</strong>에 넣고, 서로 이름도 모르는 3명의 택배 기사(노드)를 랜덤으로 고용해 건네는 미친 릴레이입니다. 첫 번째 기사(Entry)는 겉 상자를 열어 두 번째 기사 주소만 봅니다(내가 누군지 알지만, 물건 내용은 모름). 두 번째 기사(Middle)는 중간 상자를 열어 세 번째 기사 주소만 봅니다. 마지막 세 번째 기사(Exit Node)가 제일 안쪽 상자를 열면 비로소 진짜 배달지(마약 사이트)와 물건이 나옵니다. 하지만 세 번째 기사는 나에게 물건을 건넨 두 번째 기사 얼굴만 알 뿐, 진짜 짐의 주인(나)이 누군지는 절대 알 길이 없습니다. 전 세계 경찰이 이 3명의 기사를 1초 만에 동시에 덮쳐서 퍼즐을 맞추지 않는 이상, 발신자와 수신자의 연결 고리를 물리학적으로 완벽하게 끊어버리는 궁극의 그림자 통신망입니다.
+- **📢 섹션 요약 비유**: 기존 <strong><a href="/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a></strong> 통신은 <strong>'비밀경찰 1명(<a href="/studynote/03_network/19_frequent_topics_terms/983_vpn_virtual_private_network/">VPN</a> 서버)에게 돈을 주고 심부름을 시키는 것'</strong>입니다. 경찰이 내 짐을 숨겨주긴 하지만, 경찰을 족치면 내가 누구에게 짐을 보냈는지 100% 다 불어버립니다(단일 지점 추적). <strong>Tor(어니언 <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">라우팅</a> 다크 웹)</strong>는 짐을 <strong>'자물쇠가 3개 달린 러시아 마트료시카 양파 상자'</strong>에 넣고, 서로 이름도 모르는 3명의 택배 기사(노드)를 랜덤으로 고용해 건네는 미친 릴레이입니다. 첫 번째 기사(Entry)는 겉 상자를 열어 두 번째 기사 주소만 봅니다(내가 누군지 알지만, 물건 내용은 모름). 두 번째 기사(Middle)는 중간 상자를 열어 세 번째 기사 주소만 봅니다. 마지막 세 번째 기사(Exit Node)가 제일 안쪽 상자를 열면 비로소 진짜 배달지(마약 사이트)와 물건이 나옵니다. 하지만 세 번째 기사는 나에게 물건을 건넨 두 번째 기사 얼굴만 알 뿐, 진짜 짐의 주인(나)이 누군지는 절대 알 길이 없습니다. 전 세계 경찰이 이 3명의 기사를 1초 만에 동시에 덮쳐서 퍼즐을 맞추지 않는 이상, 발신자와 수신자의 연결 고리를 물리학적으로 완벽하게 끊어버리는 궁극의 그림자 통신망입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 평가와 고급 분석을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 측정 정확도 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: 다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -111,10 +108,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
-| [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
-| [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) | 실제 전달 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 나타내는 대표 지표다. |
+| [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) | 사용자 체감 품질을 좌우한다. |
+| [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -128,7 +125,7 @@ tags = ["studynote-network"]
     +---> [확장 B: AI 기반 성능 예측]
 ```
 
-다크 웹 Tor 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층는 [블록체인 가십 프로토콜](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/knowledge-base/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/knowledge-base/studynote/09_security/03_network_security/280_ikev2/) 터널 협상와 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+다크 웹 Tor 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 암호화층는 [블록체인 가십 프로토콜](/studynote/03_network/18_optical_nextgen_automation/918_gossip_protocol_blockchain_epidemic_network/) [P2P](/studynote/03_network/18_optical_nextgen_automation/916_p2p_peer_to_peer_networking_super_node_gnutella/) 연결에서 출발해 현재 메커니즘을 정교화하고, 이후 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) [IKEv2](/studynote/09_security/03_network_security/280_ikev2/) 터널 협상와 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 예측 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -142,7 +139,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 192 / 1120
 
-<- **이전**: [1083. 블록체인 가십 프로토콜 P2P 연결](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1083_blockchain_gossip_protocol_p2p_network/)
-**다음**: [1085. IPsec IKEv2 터널 협상](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1085_ipsec_ikev2_tunnel_negotiation_vpn/) ->
+<- **이전**: [1083. 블록체인 가십 프로토콜 P2P 연결](/studynote/03_network/20_performance_evaluation_advanced/1083_blockchain_gossip_protocol_p2p_network/)
+**다음**: [1085. IPsec IKEv2 터널 협상](/studynote/03_network/20_performance_evaluation_advanced/1085_ipsec_ikev2_tunnel_negotiation_vpn/) ->
 
 ---

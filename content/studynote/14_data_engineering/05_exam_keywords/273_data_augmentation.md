@@ -1,13 +1,10 @@
-+++
-title = "273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)"
-date = 2026-05-09
+---
+title: "273. 데이터 증강 합성 데이터 생성 전략 (Data Augmentation Synthetic Data Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -199,7 +196,7 @@ $$
 
 **진행 상황**: 273 / 300
 
-<- **이전**: [272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/272_data_labeling/)
-**다음**: [274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/274_data_drift/) ->
+<- **이전**: [272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)](/studynote/14_data_engineering/05_exam_keywords/272_data_labeling/)
+**다음**: [274. 데이터 드리프트 모니터링 분포 변화 탐지 (Data Drift Monitoring Distribution Shift Detection)](/studynote/14_data_engineering/05_exam_keywords/274_data_drift/) ->
 
 ---

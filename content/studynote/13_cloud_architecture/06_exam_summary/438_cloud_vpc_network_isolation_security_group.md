@@ -1,13 +1,10 @@
-+++
-title = "438. 클라우드 VPC 네트워크 분리 보안 그룹 (Cloud VPC Network Isolation Security Group)"
-date = 2026-05-09
+---
+title: "438. 클라우드 VPC 네트워크 분리 보안 그룹 (Cloud VPC Network Isolation Security Group)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 438 / 800
 
-<- **이전**: [437. 클라우드 WAF 웹 방화벽 DDoS 보호](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/437_cloud_waf_web_firewall_ddos_protection/)
-**다음**: [439. 클라우드 VPN 하이브리드 연결 Direct Connect](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/439_cloud_vpn_hybrid_connection_direct_connect/) ->
+<- **이전**: [437. 클라우드 WAF 웹 방화벽 DDoS 보호](/studynote/13_cloud_architecture/06_exam_summary/437_cloud_waf_web_firewall_ddos_protection/)
+**다음**: [439. 클라우드 VPN 하이브리드 연결 Direct Connect](/studynote/13_cloud_architecture/06_exam_summary/439_cloud_vpn_hybrid_connection_direct_connect/) ->
 
 ---

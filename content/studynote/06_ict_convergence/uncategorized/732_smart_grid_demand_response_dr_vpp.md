@@ -1,13 +1,10 @@
-+++
-title = "732. 스마트 그리드 수요 반응 DR 가상발전 (Smart Grid Demand Response DR VPP)"
-date = 2026-05-09
+---
+title: "732. 스마트 그리드 수요 반응 DR 가상발전 (Smart Grid Demand Response DR VPP)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -125,7 +122,7 @@ VPP-DR 시스템은 일반적으로 **3계층(Tier)** 아키텍처로 구성된�
 
 **진행 상황**: 732 / 800
 
-<- **이전**: [731. 스마트 헬스 원격 모니터링 바이오센서](/knowledge-base/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/)
-**다음**: [733. 스마트 물관리 IoT 누수 탐지 수질](/knowledge-base/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/) ->
+<- **이전**: [731. 스마트 헬스 원격 모니터링 바이오센서](/studynote/06_ict_convergence/uncategorized/731_smart_health_remote_monitoring_biosensor/)
+**다음**: [733. 스마트 물관리 IoT 누수 탐지 수질](/studynote/06_ict_convergence/uncategorized/733_smart_water_management_iot_leak_detection/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "605. OTA 무선 업데이트 펌웨어 관리 (OTA Over-the-Air Update Firmware Management)"
-date = 2026-05-09
+---
+title: "605. OTA 무선 업데이트 펌웨어 관리 (OTA Over-the-Air Update Firmware Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ OTA 펌웨어 업데이트 관리은(는) 디지털 기술을 실제 업무와 �
 
 **진행 상황**: 605 / 800
 
-<- **이전**: [604. TinyML 초소형 임베디드 머신러닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/604_tinyml_ultra_small_ml_embedded/)
-**다음**: [606. MQTT CoAP IoT 프로토콜 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/606_mqtt_coap_iot_protocol_comparison/) ->
+<- **이전**: [604. TinyML 초소형 임베디드 머신러닝](/studynote/06_ict_convergence/uncategorized/604_tinyml_ultra_small_ml_embedded/)
+**다음**: [606. MQTT CoAP IoT 프로토콜 비교](/studynote/06_ict_convergence/uncategorized/606_mqtt_coap_iot_protocol_comparison/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "403. 클라우드 네이티브 보안 CNAPP CWPP (Cloud Native Security CNAPP CWPP)"
-date = 2026-05-09
+---
+title: "403. 클라우드 네이티브 보안 CNAPP CWPP (Cloud Native Security CNAPP CWPP)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -137,7 +134,7 @@ CWPP는 Gartner의 7계층 모델(2019년 정의, 2023년 개정)에 따라 진�
 
 **진행 상황**: 403 / 800
 
-<- **이전**: [402. DevSecOps 보안 내재화 파이프라인](/knowledge-base/studynote/12_it_management/05_security_compliance/402_devsecops_security_integration_pipeline/)
-**다음**: [404. API 보안 OAuth JWT 토큰 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/404_api_security_oauth_jwt_token_management/) ->
+<- **이전**: [402. DevSecOps 보안 내재화 파이프라인](/studynote/12_it_management/05_security_compliance/402_devsecops_security_integration_pipeline/)
+**다음**: [404. API 보안 OAuth JWT 토큰 관리](/studynote/12_it_management/05_security_compliance/404_api_security_oauth_jwt_token_management/) ->
 
 ---

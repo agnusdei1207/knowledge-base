@@ -1,13 +1,10 @@
-+++
-title = "647. IT 경영 관리 핵심 토픽 647번 시험 요약 (IT Management Core Topic 647 Exam Summary)"
-date = 2026-05-09
+---
+title: "647. IT 경영 관리 핵심 토픽 647번 시험 요약 (IT Management Core Topic 647 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -199,7 +196,7 @@ IT 경영 관리의 핵심 메커니즘은 **"전략의 연결(Strategic Alignme
 
 **진행 상황**: 647 / 800
 
-<- **이전**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/)
-**다음**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/) ->
+<- **이전**: [646. IT 경영 관리 핵심 토픽 646번 시험 요약](/studynote/12_it_management/05_security_compliance/646_it_management_core_topic_646_exam_summary/)
+**다음**: [648. IT 경영 관리 핵심 토픽 648번 시험 요약](/studynote/12_it_management/05_security_compliance/648_it_management_core_topic_648_exam_summary/) ->
 
 ---

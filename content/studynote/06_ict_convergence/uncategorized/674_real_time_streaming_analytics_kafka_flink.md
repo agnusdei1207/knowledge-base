@@ -1,13 +1,10 @@
-+++
-title = "674. 실시간 스트리밍 분석 Kafka Flink (Real-time Streaming Analytics Kafka Flink)"
-date = 2026-05-09
+---
+title: "674. 실시간 스트리밍 분석 Kafka Flink (Real-time Streaming Analytics Kafka Flink)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 # 674. 실시간 스트리밍 분석 - Kafka & Flink (Real-time Streaming Analytics)
 
@@ -116,7 +113,7 @@ Kafka는 단순한 메시지 큐가 아니라 **분산 커밋 로그(Distributed
 
 **진행 상황**: 674 / 800
 
-<- **이전**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/)
-**다음**: [675. 데이터 오케스트레이션 Airflow Dagster](/knowledge-base/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/) ->
+<- **이전**: [673. 데이터 레이크하우스 통합 분석 플랫폼](/studynote/06_ict_convergence/uncategorized/673_data_lakehouse_unified_analytics_platform/)
+**다음**: [675. 데이터 오케스트레이션 Airflow Dagster](/studynote/06_ict_convergence/uncategorized/675_data_orchestration_airflow_dagster/) ->
 
 ---

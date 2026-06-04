@@ -1,18 +1,15 @@
-+++
-title = "114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI"
-date = 2026-04-19
+---
+title: "114. AI 기반 CRM (AI-Powered CRM) - Salesforce Einstein·예측 분석·생성형 AI"
+date: "2026-04-19"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.
-> 2. **가치**: Salesforce Einstein이 대표적이며, "이 거래가 성사될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 85%", "이 고객은 다음 달 이탈 위험 72%"와 같은 <strong>예측 인사이트를 <a href="/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> 화면에 자동 표시</strong>한다.
-> 3. **판단 포인트**: [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 결합으로 <strong>상담 요약 자동 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·이메일 초안 작성·고객 질문 자동 응답</strong>이 가능해졌으며, 이는 CRM의 패러다임을 "도구"에서 "[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트"로 전환시키고 있다.
+> 1. **본질**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 CRM은 운영·분석·협업 CRM에 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>/ML 엔진을 내장</strong>하여, 리드 스코어링·이탈 예측·자동 응답·[감성 분석](/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/)을 **실시간·자동으로** 수행하는 차세대 CRM이다.
+> 2. **가치**: Salesforce Einstein이 대표적이며, "이 거래가 성사될 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 85%", "이 고객은 다음 달 이탈 위험 72%"와 같은 <strong>예측 인사이트를 <a href="/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/">CRM</a> 화면에 자동 표시</strong>한다.
+> 3. **판단 포인트**: [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)([GPT](/studynote/10_ai/04_ai_ops_ethics/302_gpt_autoregressive/)) 결합으로 <strong>상담 요약 자동 <a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>·이메일 초안 작성·고객 질문 자동 응답</strong>이 가능해졌으며, 이는 CRM의 패러다임을 "도구"에서 "[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 에이전트"로 전환시키고 있다.
 
 ---
 
@@ -32,33 +29,33 @@ tags = ["studynote-enterprise-systems"]
 +-------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 기존 CRM이 영업사원의 수첩을 디지털화한 것이라면, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 "오늘 김 사장에게 전화하세요, 계약 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 85%"라고 말하는 <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 비서</strong>다.
+- **📢 섹션 요약 비유**: 기존 CRM이 영업사원의 수첩을 디지털화한 것이라면, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 "오늘 김 사장에게 전화하세요, 계약 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 85%"라고 말하는 <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 비서</strong>다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 핵심 기능
+### [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) 핵심 기능
 
-| 기능 | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역할 | 비즈니스 효과 |
+| 기능 | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 역할 | 비즈니스 효과 |
 |:---|:---|:---|
-| **리드 스코어링** | ML로 가망->계약 전환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 | 영업 우선순위 자동 정렬 |
-| **이탈 예측** | XGBoost로 해지 위험 고객 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 선제적 리텐션 캠페인 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 이메일·전화 감정 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 불만 고객 즉시 에스컬레이션 |
+| **리드 스코어링** | ML로 가망->계약 전환 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 | 영업 우선순위 자동 정렬 |
+| **이탈 예측** | XGBoost로 해지 위험 고객 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 선제적 리텐션 캠페인 |
+| <strong><a href="/studynote/12_it_management/03_ea_isp/889_exploratory_data_analysis/">감성 분석</a></strong> | NLP로 이메일·전화 감정 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) | 불만 고객 즉시 에스컬레이션 |
 | **상담 요약** | GenAI로 통화 내용 자동 요약 | 상담원 후처리 시간 80% 감소 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong> | 고객 질문에 자동 응답·주문 처리 | CS 인건비 30% 절감 |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong> | 고객 질문에 자동 응답·주문 처리 | CS 인건비 30% 절감 |
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 영업팀의 <strong>자비스(Jarvis)</strong>다. "오늘 뭐 할까요?"라고 물으면 "A고객에게 전화, B고객에게 쿠폰, C고객 이탈 위험"이라고 알아서 정리해준다.
+- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 영업팀의 <strong>자비스(Jarvis)</strong>다. "오늘 뭐 할까요?"라고 물으면 "A고객에게 전화, B고객에게 쿠폰, C고객 이탈 위험"이라고 알아서 정리해준다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 전통 [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) |
+| 비교 | 전통 [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [CRM](/studynote/07_enterprise_systems/02_erp_systems/107_crm_customer_relationship_management/) |
 |:---|:---|:---|
 | **인사이트** | 수동 분석 (리포트) | **자동 예측 (실시간)** |
-| **행동 제안** | 없음 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 제공) | **"지금 전화하세요" 추천** |
-| **고객 응대** | 상담원 100% | <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 70% + 상담원 30%</strong> |
+| **행동 제안** | 없음 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)만 제공) | **"지금 전화하세요" 추천** |
+| **고객 응대** | 상담원 100% | <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 70% + 상담원 30%</strong> |
 
 ---
 
@@ -66,13 +63,13 @@ tags = ["studynote-enterprise-systems"]
 
 ### 도입 효과
 - **리드 스코어링**: 영업팀이 상위 20% 리드에 집중 -> 계약 전환율 30% 향상.
-- <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 상담</strong>: 단순 문의(주문 조회·배송 추적) -> [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 처리 -> 상담원은 복잡한 건만 처리.
+- <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 상담</strong>: 단순 문의(주문 조회·배송 추적) -> [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 자동 처리 -> 상담원은 복잡한 건만 처리.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 "[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보여주는 도구"에서 "행동을 제안하고 실행하는 에이전트"로 진화하고 있으며, Salesforce Einstein Copilot·HubSpot [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·Zoho Zia가 대표적이다.
+[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 "[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보여주는 도구"에서 "행동을 제안하고 실행하는 에이전트"로 진화하고 있으며, Salesforce Einstein Copilot·HubSpot [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·Zoho Zia가 대표적이다.
 
 ---
 
@@ -80,11 +77,11 @@ tags = ["studynote-enterprise-systems"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Salesforce Einstein** | [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM의 대표 제품 |
-| **리드 스코어링** | ML 기반 계약 전환 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 |
-| **이탈 예측** | 해지 위험 고객 선제 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>형 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (GenAI)</strong> | 상담 요약·이메일 초안 자동 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong> | 고객 질문 자동 응답·주문 처리 |
+| **Salesforce Einstein** | [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM의 대표 제품 |
+| **리드 스코어링** | ML 기반 계약 전환 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 예측 |
+| **이탈 예측** | 해지 위험 고객 선제 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) |
+| <strong><a href="/studynote/02_operating_system/02_process_thread/087_process_state_transition/">생성</a>형 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> (GenAI)</strong> | 상담 요약·이메일 초안 자동 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> 에이전트</strong> | 고객 질문 자동 응답·주문 처리 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -106,7 +103,7 @@ tags = ["studynote-enterprise-systems"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 옛날 CRM은 손님 정보를 **적어두기만** 하는 수첩이었어요.
-2. [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 <strong>"내일 이 손님이 안 올 것 같으니 쿠폰을 보내세요!"</strong>라고 말해줘요.
+2. [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) CRM은 수첩이 스스로 <strong>"내일 이 손님이 안 올 것 같으니 쿠폰을 보내세요!"</strong>라고 말해줘요.
 3. 심지어 <strong>AI가 직접 손님에게 답장</strong>을 보내주니까, 가게 사장님은 더 중요한 일에 집중할 수 있답니다!
 
 ---
@@ -115,7 +112,7 @@ tags = ["studynote-enterprise-systems"]
 
 **진행 상황**: 114 / 482
 
-<- **이전**: [113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/113_social_crm_listening_sentiment_analysis/)
-**다음**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) ->
+<- **이전**: [113. 소셜 CRM (Social CRM) - 소셜 리스닝·감성 분석·고객 참여 관리](/studynote/07_enterprise_systems/02_erp_systems/113_social_crm_listening_sentiment_analysis/)
+**다음**: [115. CDP (C고객 Data Platform) - 통합 고객 프로파일·Single C고객 View](/studynote/07_enterprise_systems/02_erp_systems/115_cdp_customer_data_platform_single_view/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "573. 블록체인 포렌식 트랜잭션 추적 (Blockchain Forensics Transaction Tracing)"
-date = 2026-05-09
+---
+title: "573. 블록체인 포렌식 트랜잭션 추적 (Blockchain Forensics Transaction Tracing)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Collect -> Cluster -> Tag -> Trace -> Report
 
 **진행 상황**: 573 / 800
 
-<- **이전**: [572. 메타 트랜잭션 가스리스 사용자 경험](/knowledge-base/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/)
-**다음**: [574. RegTech 규제 준수 자동화](/knowledge-base/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/) ->
+<- **이전**: [572. 메타 트랜잭션 가스리스 사용자 경험](/studynote/06_ict_convergence/uncategorized/572_meta_transaction_gasless_user_experience/)
+**다음**: [574. RegTech 규제 준수 자동화](/studynote/06_ict_convergence/uncategorized/574_regtech_regulatory_compliance_automation/) ->
 
 ---

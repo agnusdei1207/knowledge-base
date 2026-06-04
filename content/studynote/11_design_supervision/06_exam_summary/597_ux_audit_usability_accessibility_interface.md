@@ -1,13 +1,10 @@
-+++
-title = "597. UX 감리 사용성 접근성 인터페이스 평가 (UX Audit Usability Accessibility Interface)"
-date = 2026-05-09
+---
+title: "597. UX 감리 사용성 접근성 인터페이스 평가 (UX Audit Usability Accessibility Interface)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -129,7 +126,7 @@ UX 감리는 SW 품질 감리, UX 리서치, 접근성 감사와 그 영역을 �
 
 **진행 상황**: 597 / 600
 
-<- **이전**: [596. 성능 감리 부하 테스트 병목 진단](/knowledge-base/studynote/11_design_supervision/06_exam_summary/596_performance_audit_load_test_bottleneck/)
-**다음**: [598. 감리 보고서 작성 결과 분석 개선 권고](/knowledge-base/studynote/11_design_supervision/06_exam_summary/598_audit_report_writing_analysis_recommendation/) ->
+<- **이전**: [596. 성능 감리 부하 테스트 병목 진단](/studynote/11_design_supervision/06_exam_summary/596_performance_audit_load_test_bottleneck/)
+**다음**: [598. 감리 보고서 작성 결과 분석 개선 권고](/studynote/11_design_supervision/06_exam_summary/598_audit_report_writing_analysis_recommendation/) ->
 
 ---

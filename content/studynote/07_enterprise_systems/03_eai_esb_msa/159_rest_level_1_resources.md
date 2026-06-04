@@ -1,18 +1,15 @@
-+++
-title = "159. Level 1 - 리소스별 고유 URI 할당"
-date = 2026-05-05
+---
+title: "159. Level 1 - 리소스별 고유 URI 할당"
+date: "2026-05-05"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트
 
-> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 1은 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/knowledge-base/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 설계에서 애플리케이션 프로그래밍 인터페이스 ([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 다루는 대상을 <strong>행위가 아니라 리소스 (Resource) 중심으로 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>하기 시작한 단계</strong>다.
-> 2. **가치**: `orders`, `customers`, `payments`처럼 자원별 URI (Uniform Resource [Identifier](/knowledge-base/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 분리하면 시스템 구조가 드러나고, 이후 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드와 상태 코드 정비로 확장할 기반이 생긴다.
+> 1. **본질**: 리처드슨 성숙도 모델 ([Richardson Maturity Model](/studynote/07_enterprise_systems/03_eai_esb_msa/157_restful_api_richardson_maturity_model/))의 Level 1은 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) ([Representational State Transfer](/studynote/03_network/09_application_layer_web_email/477_rest_api_architecture/)) 설계에서 애플리케이션 프로그래밍 인터페이스 ([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/), [Application Programming Interface](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))가 다루는 대상을 <strong>행위가 아니라 리소스 (Resource) 중심으로 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a>하기 시작한 단계</strong>다.
+> 2. **가치**: `orders`, `customers`, `payments`처럼 자원별 URI (Uniform Resource [Identifier](/studynote/05_database/02_modeling_normalization/088_identifier_in_er_model/))를 분리하면 시스템 구조가 드러나고, 이후 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) ([HyperText Transfer Protocol](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/)) 메서드와 상태 코드 정비로 확장할 기반이 생긴다.
 > 3. **판단 포인트**: Level 1은 REST의 출발점이지만 아직 완성형은 아니며, URI만 명사형으로 바꾸고 모든 작업을 `POST`로 처리하면 설계 품질은 절반만 개선된다.
 
 ---
@@ -21,7 +18,7 @@ tags = ["studynote-enterprise-systems"]
 
 Level 1은 단일 엔드포인트에 모든 작업을 몰아넣는 Level 0에서 한 단계 올라가, 자원마다 고유한 URI를 부여하는 단계다. 여기서 중요한 변화는 API의 중심 질문이 "무슨 함수를 호출할까"에서 "어떤 자원을 다룰까"로 바뀐다는 점이다. 즉 주문, 사용자, 상품 같은 비즈니스 대상을 외부 인터페이스에 드러내기 시작한다.
 
-이 변화가 필요한 이유는 단일 URI 구조가 시스템 의미를 숨기기 때문이다. `POST /api`와 요청 바디 안의 `action`만으로는, 외부 소비자가 어떤 자원을 조작하는지 직관적으로 이해하기 어렵다. 반면 `POST /orders`, `POST /customers`, `POST /shipments`처럼 나누면 API의 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계가 훨씬 선명해진다.
+이 변화가 필요한 이유는 단일 URI 구조가 시스템 의미를 숨기기 때문이다. `POST /api`와 요청 바디 안의 `action`만으로는, 외부 소비자가 어떤 자원을 조작하는지 직관적으로 이해하기 어렵다. 반면 `POST /orders`, `POST /customers`, `POST /shipments`처럼 나누면 API의 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 경계가 훨씬 선명해진다.
 
 Level 1은 그래서 단순한 URL 정리 작업이 아니다. API를 비즈니스 자산 단위로 재구성하는 첫 단계이며, 이후 메서드 의미 분리와 상태 코드 설계를 가능하게 만드는 기초 공사다.
 
@@ -31,7 +28,7 @@ Level 1은 그래서 단순한 URL 정리 작업이 아니다. API를 비즈니�
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-Level 1의 핵심 원리는 "리소스를 URI로 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다"는 것이다. 보통 컬렉션과 개별 항목을 구분해 `/orders`와 `/orders/1001`처럼 설계한다. 아직 Level 2처럼 메서드 의미를 충분히 살리지 못할 수는 있지만, 적어도 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 외형만 봐도 어떤 자원을 다루는지는 드러난다.
+Level 1의 핵심 원리는 "리소스를 URI로 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다"는 것이다. 보통 컬렉션과 개별 항목을 구분해 `/orders`와 `/orders/1001`처럼 설계한다. 아직 Level 2처럼 메서드 의미를 충분히 살리지 못할 수는 있지만, 적어도 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 외형만 봐도 어떤 자원을 다루는지는 드러난다.
 
 아래 그림은 Level 0에서 Level 1로 넘어갈 때 무엇이 달라지는지 보여준다.
 
@@ -54,16 +51,16 @@ Level 1의 핵심 원리는 "리소스를 URI로 [식별](/knowledge-base/studyn
 +--------------------------------------------------------------------+
 ```
 
-이 단계에서 설계자는 보통 컬렉션 URI, 개별 리소스 URI, 하위 리소스 URI를 정의한다. 예를 들어 고객과 주문 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 `/customers/7/orders`처럼 표현할 수 있다. 이 구조는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서화, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 권한 모델링, [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)에 직접 도움이 된다. 왜냐하면 요청 경로만 보아도 시스템이 어떤 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 만졌는지 알 수 있기 때문이다.
+이 단계에서 설계자는 보통 컬렉션 URI, 개별 리소스 URI, 하위 리소스 URI를 정의한다. 예를 들어 고객과 주문 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 `/customers/7/orders`처럼 표현할 수 있다. 이 구조는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 문서화, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/), 권한 모델링, [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/)에 직접 도움이 된다. 왜냐하면 요청 경로만 보아도 시스템이 어떤 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 객체를 만졌는지 알 수 있기 때문이다.
 
 | URI 유형 | 예시 | 의미 |
 | :--- | :--- | :--- |
 | 컬렉션 | `/orders` | 주문 자원들의 집합 |
 | 단일 리소스 | `/orders/1001` | 특정 주문 1건 |
 | 하위 리소스 | `/customers/7/orders` | 고객 7에 속한 주문 목록 |
-| [상태 전이](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) URI | `/orders/1001/cancel` | Level 1에서 자주 보이는 절충형 표현 |
+| [상태 전이](/studynote/04_software_engineering/10_trends_pm_quality/632_state_transition_diagram_testing/) URI | `/orders/1001/cancel` | Level 1에서 자주 보이는 절충형 표현 |
 
-다만 Level 1은 URI 설계만 성숙해졌을 뿐, [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드·상태 코드·하이퍼미디어 활용은 아직 부족할 수 있다. 그래서 이 단계는 완성이라기보다, [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미를 바디 밖으로 끌어내기 시작한 상태라고 보는 것이 맞다.
+다만 Level 1은 URI 설계만 성숙해졌을 뿐, [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드·상태 코드·하이퍼미디어 활용은 아직 부족할 수 있다. 그래서 이 단계는 완성이라기보다, [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 의미를 바디 밖으로 끌어내기 시작한 상태라고 보는 것이 맞다.
 
 - **📢 섹션 요약 비유**: Level 1은 상자 겉면에 내용물을 적어 두는 단계와 같다. 아직 여는 방법까지 표준화된 것은 아니지만, 최소한 안에 무엇이 있는지는 밖에서 알 수 있다.
 
@@ -71,19 +68,19 @@ Level 1의 핵심 원리는 "리소스를 URI로 [식별](/knowledge-base/studyn
 
 ## Ⅲ. 비교 및 연결
 
-Level 1의 위치를 이해하려면 Level 0과 Level 2 사이에 놓고 봐야 한다. Level 0은 단일 URI와 액션 중심 [메시](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지로 이루어진 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/)) 스타일이다. Level 1은 자원을 URI로 분리하지만, 메서드 사용은 아직 거칠 수 있다. Level 2는 여기에 `GET`, `POST`, `PUT`, `PATCH`, `DELETE`와 상태 코드를 일관되게 도입한다.
+Level 1의 위치를 이해하려면 Level 0과 Level 2 사이에 놓고 봐야 한다. Level 0은 단일 URI와 액션 중심 [메시](/studynote/01_computer_architecture/10_parallel_processing_architecture/389_mesh_topology/)지로 이루어진 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) ([Remote Procedure Call](/studynote/02_operating_system/02_process_thread/126_rpc/)) 스타일이다. Level 1은 자원을 URI로 분리하지만, 메서드 사용은 아직 거칠 수 있다. Level 2는 여기에 `GET`, `POST`, `PUT`, `PATCH`, `DELETE`와 상태 코드를 일관되게 도입한다.
 
 | 항목 | Level 0 | Level 1 | Level 2 |
 | :--- | :--- | :--- | :--- |
 | URI 구조 | 단일 엔드포인트 | 자원별 분리 | 자원별 분리 |
-| 중심 사고 | 작업 호출 | 자원 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 자원 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) + 표준 행위 |
+| 중심 사고 | 작업 호출 | 자원 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | 자원 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) + 표준 행위 |
 | 메서드 활용 | POST 중심 | 제한적 또는 혼합 | 명확히 분리 |
 | 상태 코드 활용 | 약함 | 약함 또는 부분적 | 강함 |
-| 설계 [가독성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 낮음 | 중간 | 높음 |
+| 설계 [가독성](/studynote/04_software_engineering/06_software_architecture/333_readability_vs_efficiency/) | 낮음 | 중간 | 높음 |
 
-실무적으로 Level 1이 중요한 이유는, RESTful 설계의 모든 이점이 여기서 바로 완성되지는 않더라도 자원 경계를 명확히 드러내기 때문이다. [도메인 주도 설계](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/knowledge-base/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 관점에서도 `orders`, `invoices`, `members`처럼 경계가 드러나는 URI는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 책임을 정리하는 데 도움이 된다. 반면 `doCancelOrder`, `processInvoice` 같은 동사 중심 URI는 내부 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 함수를 외부에 그대로 노출하는 경향이 강하다.
+실무적으로 Level 1이 중요한 이유는, RESTful 설계의 모든 이점이 여기서 바로 완성되지는 않더라도 자원 경계를 명확히 드러내기 때문이다. [도메인 주도 설계](/studynote/12_it_management/05_security_compliance/310_architecture/) ([DDD](/studynote/12_it_management/05_security_compliance/310_architecture/), [Domain-Driven Design](/studynote/04_software_engineering/02_requirements_analysis/127_ddd_domain_driven_design/)) 관점에서도 `orders`, `invoices`, `members`처럼 경계가 드러나는 URI는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 책임을 정리하는 데 도움이 된다. 반면 `doCancelOrder`, `processInvoice` 같은 동사 중심 URI는 내부 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 함수를 외부에 그대로 노출하는 경향이 강하다.
 
-즉 Level 1은 REST의 완성형이 아니라, [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 사고방식에서 자원 중심 사고방식으로 넘어가는 다리다. 이 다리를 건너야 이후 Level 2, Level 3 논의도 의미를 가진다.
+즉 Level 1은 REST의 완성형이 아니라, [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) 사고방식에서 자원 중심 사고방식으로 넘어가는 다리다. 이 다리를 건너야 이후 Level 2, Level 3 논의도 의미를 가진다.
 
 - **📢 섹션 요약 비유**: Level 0이 모든 요청을 한 사람에게 구두로 전달하는 방식이라면, Level 1은 업무별 서류함이 생긴 상태이고, Level 2는 각 서류함마다 접수 규칙까지 붙은 상태다.
 
@@ -91,22 +88,22 @@ Level 1의 위치를 이해하려면 Level 0과 Level 2 사이에 놓고 봐야 
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 레거시 [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) API를 바로 Level 2나 Level 3로 끌어올리기 어려운 경우가 많다. 이때 가장 현실적인 첫 단계가 Level 1이다. 우선 자원 경계를 분리해 URI 체계를 정리하면, [라우팅](/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙과 문서 구조, 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), [로그 분석](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/) 축이 단번에 선명해진다. 이후 메서드와 상태 코드는 점진적으로 정리할 수 있다.
+실무에서는 레거시 [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) API를 바로 Level 2나 Level 3로 끌어올리기 어려운 경우가 많다. 이때 가장 현실적인 첫 단계가 Level 1이다. 우선 자원 경계를 분리해 URI 체계를 정리하면, [라우팅](/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/) 규칙과 문서 구조, 권한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), [로그 분석](/studynote/16_bigdata/05_analysis/119_log_analysis/) 축이 단번에 선명해진다. 이후 메서드와 상태 코드는 점진적으로 정리할 수 있다.
 
 하지만 Level 1에서 멈추면 반쪽짜리 개선에 머물 수 있다. URI는 자원형인데 모든 작업을 `POST`로만 받고, 실패도 전부 `200 OK`로 돌려주면 웹 인프라가 주는 이점을 충분히 누리지 못한다. 따라서 실무 판단은 "URI 분리만으로 끝낼 것인가"가 아니라, "Level 1을 발판으로 Level 2까지 갈 계획이 있는가"를 함께 봐야 한다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경로가 명사형 자원 중심으로 설계되었는가?
+1. [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 경로가 명사형 자원 중심으로 설계되었는가?
 2. 컬렉션과 개별 리소스 URI가 구분되는가?
-3. 동사형 URI가 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 구조를 흐리지 않는가?
-4. 다음 단계로 [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드와 상태 코드 정비 계획이 있는가?
+3. 동사형 URI가 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 구조를 흐리지 않는가?
+4. 다음 단계로 [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드와 상태 코드 정비 계획이 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - URI만 `/orders`로 바꾸고 실제 의미는 여전히 `action` 필드에 숨겨 두는 것
 - `/getOrders`, `/createOrder`, `/deleteOrder` 같은 동사형 경로를 리소스 설계라고 착각하는 것
-- Level 1 상태를 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 완성형처럼 홍보하는 것
+- Level 1 상태를 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 완성형처럼 홍보하는 것
 
 - **📢 섹션 요약 비유**: Level 1 도입은 사무실 서류함 이름을 붙이는 것과 같다. 이름표만 붙이고 여전히 모든 일을 같은 방식으로 처리하면 정리는 되었지만 운영 혁신은 아직 덜 끝난 셈이다.
 
@@ -114,11 +111,11 @@ Level 1의 위치를 이해하려면 Level 0과 Level 2 사이에 놓고 봐야 
 
 ## Ⅴ. 기대효과 및 결론
 
-Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 점이다. API를 처음 보는 사람도 URI만 보고 어떤 자원이 있는지 짐작할 수 있고, [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계와 문서 구조도 더 안정된다. 이는 장기적으로 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스, [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 권한 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 정비에 좋은 기반이 된다.
+Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 점이다. API를 처음 보는 사람도 URI만 보고 어떤 자원이 있는지 짐작할 수 있고, [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 경계와 문서 구조도 더 안정된다. 이는 장기적으로 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 거버넌스, [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 관리, 권한 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 정비에 좋은 기반이 된다.
 
-반면 한계도 명확하다. URI가 자원 중심이어도 메서드와 상태 코드가 미성숙하면 캐시, [멱등성](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 표준 오류 처리 같은 웹 아키텍처 이점을 충분히 살리기 어렵다. 그래서 Level 1은 목표라기보다 <strong><a href="/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a> 설계가 시작되었다는 <a href="/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>로 이해해야 한다.
+반면 한계도 명확하다. URI가 자원 중심이어도 메서드와 상태 코드가 미성숙하면 캐시, [멱등성](/studynote/13_cloud_architecture/04_devops_observability/171_idempotency_iac_terraform/), 표준 오류 처리 같은 웹 아키텍처 이점을 충분히 살리기 어렵다. 그래서 Level 1은 목표라기보다 <strong><a href="/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/">REST</a> 설계가 시작되었다는 <a href="/studynote/02_operating_system/02_process_thread/130_signal/">신호</a></strong>로 이해해야 한다.
 
-결론적으로 이 개념의 핵심은 "자원에게 이름을 붙여 외부에 드러낸다"는 데 있다. REST의 첫 성숙은 결국 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 예쁘게 포장하는 것이 아니라, 시스템의 대상을 리소스 단위로 재구성하는 데서 출발한다.
+결론적으로 이 개념의 핵심은 "자원에게 이름을 붙여 외부에 드러낸다"는 데 있다. REST의 첫 성숙은 결국 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/)을 예쁘게 포장하는 것이 아니라, 시스템의 대상을 리소스 단위로 재구성하는 데서 출발한다.
 
 - **📢 섹션 요약 비유**: Level 1은 도시 지도에 건물 이름을 적기 시작한 단계와 같다. 아직 교통법규까지 완성된 것은 아니지만, 어디가 무엇인지는 비로소 보이기 시작한다.
 
@@ -128,11 +125,11 @@ Level 1의 기대효과는 인터페이스 의미가 밖으로 드러난다는 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 리처드슨 성숙도 모델 | Level 1이 속한 [REST](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도 프레임워크 |
-| URI | 리소스를 외부에 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)시키는 핵심 수단 |
+| 리처드슨 성숙도 모델 | Level 1이 속한 [REST](/studynote/07_enterprise_systems/03_eai_esb_msa/156_rest_representational_state_transfer/) 성숙도 프레임워크 |
+| URI | 리소스를 외부에 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)시키는 핵심 수단 |
 | 컬렉션/리소스 | `/orders`와 `/orders/1001` 같은 구조의 기본 단위 |
-| [HTTP](/knowledge-base/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 | Level 2에서 본격적으로 의미가 강화되는 요소 |
-| [RPC](/knowledge-base/studynote/02_operating_system/02_process_thread/126_rpc/) 스타일 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | Level 1이 벗어나려는 출발점 |
+| [HTTP](/studynote/03_network/09_application_layer_web_email/461_http_stateless_connection_oriented/) 메서드 | Level 2에서 본격적으로 의미가 강화되는 요소 |
+| [RPC](/studynote/02_operating_system/02_process_thread/126_rpc/) 스타일 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) | Level 1이 벗어나려는 출발점 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +149,7 @@ Level 2
   (HTTP 메서드 · 상태 코드 정착)
 ```
 
-이 흐름도는 [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 [함수 호출](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 중심에서 자원 중심 구조로 이동한 뒤, 다시 표준 웹 의미를 채워 넣는 순서를 보여준다.
+이 흐름도는 [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 설계가 [함수 호출](/studynote/06_ict_convergence/04_ai_llm/294_function_calling_tool_use/) 중심에서 자원 중심 구조로 이동한 뒤, 다시 표준 웹 의미를 채워 넣는 순서를 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -166,7 +163,7 @@ Level 2
 
 **진행 상황**: 159 / 482
 
-<- **이전**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/)
-**다음**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/) ->
+<- **이전**: [158. Level 0 - 단일 URI, 단일 POST 메서드만 사용 (RPC 스타일)](/studynote/07_enterprise_systems/03_eai_esb_msa/158_rest_level_0_rpc_style/)
+**다음**: [160. Level 2 - HTTP 메서드의 적절한 분리 사용 (가장 대중적 단계)](/studynote/07_enterprise_systems/03_eai_esb_msa/160_rest_level_2_http_verbs/) ->
 
 ---

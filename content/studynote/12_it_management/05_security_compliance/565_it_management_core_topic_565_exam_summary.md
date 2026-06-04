@@ -1,13 +1,10 @@
-+++
-title = "565. IT 경영 관리 핵심 토픽 565번 시험 요약 (IT Management Core Topic 565 Exam Summary)"
-date = 2026-05-09
+---
+title: "565. IT 경영 관리 핵심 토픽 565번 시험 요약 (IT Management Core Topic 565 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -124,7 +121,7 @@ COBIT 2019에서는 거버넌스/관리 목표 달성도를 정량화하기 위�
 
 **진행 상황**: 565 / 800
 
-<- **이전**: [564. IT 경영 관리 핵심 토픽 564번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/564_it_management_core_topic_564_exam_summary/)
-**다음**: [566. IT 경영 관리 핵심 토픽 566번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/566_it_management_core_topic_566_exam_summary/) ->
+<- **이전**: [564. IT 경영 관리 핵심 토픽 564번 시험 요약](/studynote/12_it_management/05_security_compliance/564_it_management_core_topic_564_exam_summary/)
+**다음**: [566. IT 경영 관리 핵심 토픽 566번 시험 요약](/studynote/12_it_management/05_security_compliance/566_it_management_core_topic_566_exam_summary/) ->
 
 ---

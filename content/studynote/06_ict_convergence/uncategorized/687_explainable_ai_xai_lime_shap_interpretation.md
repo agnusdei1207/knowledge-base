@@ -1,13 +1,10 @@
-+++
-title = "687. 설명 가능 AI XAI LIME SHAP 해석 (Explainable AI XAI LIME SHAP Interpretation)"
-date = 2026-05-09
+---
+title: "687. 설명 가능 AI XAI LIME SHAP 해석 (Explainable AI XAI LIME SHAP Interpretation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ $T$=트리 수, $L$=리프 수, $D$=깊이. XGBoost/LightGBM/CatBoost 등 트리
 
 **진행 상황**: 687 / 800
 
-<- **이전**: [686. 자연어 생성 보고서 자동화 인사이트](/knowledge-base/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/)
-**다음**: [688. 인과 추론 도구 변수 반사실 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/) ->
+<- **이전**: [686. 자연어 생성 보고서 자동화 인사이트](/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/)
+**다음**: [688. 인과 추론 도구 변수 반사실 분석](/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/) ->
 
 ---

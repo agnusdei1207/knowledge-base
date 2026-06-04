@@ -1,13 +1,10 @@
-+++
-title = "579. 조달 관리 계약 유형 RFP RFI (Procurement Management Contract RFP RFI)"
-date = 2026-05-09
+---
+title: "579. 조달 관리 계약 유형 RFP RFI (Procurement Management Contract RFP RFI)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 579 / 800
 
-<- **이전**: [578. 이해관계자 관리 RACI 커뮤니케이션](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/578_stakeholder_management_raci_communication/)
-**다음**: [580. 통합 관리 변경 통제 위원회 CCB](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/580_integration_management_change_control_board/) ->
+<- **이전**: [578. 이해관계자 관리 RACI 커뮤니케이션](/studynote/07_enterprise_systems/06_exam_summary/578_stakeholder_management_raci_communication/)
+**다음**: [580. 통합 관리 변경 통제 위원회 CCB](/studynote/07_enterprise_systems/06_exam_summary/580_integration_management_change_control_board/) ->
 
 ---

@@ -1,28 +1,25 @@
-+++
-title = "219. 데커의 알고리즘 (Dekker's Algorithm)"
-date = 2026-05-09
+---
+title: "219. 데커의 알고리즘 (Dekker's Algorithm)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어의 도움(원자적 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 없이 오직 <strong>순수 소프트웨어(전역 변수 3개)만으로 두 개의 프로세스 간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>) <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 문제를 해결한 인류 최초의 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.
-> 2. **가치**: 데이크스트라가 제시한 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 3대 필수 조건인 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>), <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>), <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>를 수학적으로 완벽하게 충족시켜 컴퓨터 과학 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 이론의 뼈대를 세웠다.
-> 3. **융합**: '들어가겠다는 의사 표시(`flag`)'와 '누구의 차례인가(`turn`)'를 결합한 이 천재적인 아이디어는 이후 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 더 간결하게 진화하였으나, 현대의 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)(Out-of-order) CPU 환경에서는 [메모리 배리어](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 없이는 붕괴되는 고전적 한계를 지닌다.
+> 1. **본질**: 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 하드웨어의 도움(원자적 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)) 없이 오직 <strong>순수 소프트웨어(전역 변수 3개)만으로 두 개의 프로세스 간 <a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">Critical Section</a>) <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a> 문제를 해결한 인류 최초의 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이다.
+> 2. **가치**: 데이크스트라가 제시한 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)의 3대 필수 조건인 <strong><a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a>(<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>), <a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>), <a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>를 수학적으로 완벽하게 충족시켜 컴퓨터 과학 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/)([Concurrency](/studynote/05_database/05_distributed_nosql_newsql/266_other_transparency/)) 이론의 뼈대를 세웠다.
+> 3. **융합**: '들어가겠다는 의사 표시(`flag`)'와 '누구의 차례인가(`turn`)'를 결합한 이 천재적인 아이디어는 이후 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 더 간결하게 진화하였으나, 현대의 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)(Out-of-order) CPU 환경에서는 [메모리 배리어](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)([Memory Barrier](/studynote/01_computer_architecture/11_multicore_synchronization/416_memory_barrier/)) 없이는 붕괴되는 고전적 한계를 지닌다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 네덜란드의 수학자 T.J. Dekker가 1960년대 초반에 고안한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 두 개의 프로세스가 공유 자원에 접근할 때 충돌하지 않도록 조율하는 논리적 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(자물쇠) 코드다.
-- **필요성**: 당시 컴퓨터는 `TestAndSet` 같은 하드웨어 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 없었다. 프로그래머들은 변수를 이리저리 꼬아서 락을 만들려 했으나, 서로 무한 양보를 하다가 시스템이 멈추거나([교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)), 운 나쁜 하나가 영원히 못 들어가는([기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 버그가 속출했다. 이를 논리적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없이 100% 방어해 낼 '수학적 해답'이 컴퓨터 공학계의 최대 난제였다.
+- **개념**: 네덜란드의 수학자 T.J. Dekker가 1960년대 초반에 고안한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로, 두 개의 프로세스가 공유 자원에 접근할 때 충돌하지 않도록 조율하는 논리적 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)(자물쇠) 코드다.
+- **필요성**: 당시 컴퓨터는 `TestAndSet` 같은 하드웨어 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 없었다. 프로그래머들은 변수를 이리저리 꼬아서 락을 만들려 했으나, 서로 무한 양보를 하다가 시스템이 멈추거나([교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)), 운 나쁜 하나가 영원히 못 들어가는([기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 버그가 속출했다. 이를 논리적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 없이 100% 방어해 낼 '수학적 해답'이 컴퓨터 공학계의 최대 난제였다.
 
-- **등장 배경**: 에츠허르 데이크스트라가 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 문제를 학계에 던졌을 때, 수많은 학자들이 실패한 코드를 들고나왔다. 이때 데커가 `flag`(의사)와 `turn`(차례)이라는 두 가지 개념을 분리하여 교차시키는 방식을 제안했고, 데이크스트라가 이를 논문으로 발표하며 전 세계에 알려지게 되었다.
+- **등장 배경**: 에츠허르 데이크스트라가 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어 문제를 학계에 던졌을 때, 수많은 학자들이 실패한 코드를 들고나왔다. 이때 데커가 `flag`(의사)와 `turn`(차례)이라는 두 가지 개념을 분리하여 교차시키는 방식을 제안했고, 데이크스트라가 이를 논문으로 발표하며 전 세계에 알려지게 되었다.
 
 ```text
   [데커 알고리즘 이전의 실패 사례들 (왜 데커가 위대한가?)]
@@ -37,18 +34,18 @@ tags = ["studynote-operating-system"]
   P0: "나 깃발 들었어(Flag). 어? P1 너도 들었네? 그럼 누구 차례(Turn)지?"
   P0: "아, P1 차례구나. 그럼 내 깃발 내리고 P1 끝날 때까지 기다려줄게."
 ```
-**[다이어그램 해설]** [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 풀려면 두 가지 변수가 반드시 필요하다. "내가 하고 싶다"는 개인의 의지(`flag`)와, "만약 둘 다 하고 싶어 하면 누구를 먼저 시킬 것인가"라는 [중재자](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(`turn`)다. 데커는 이 두 변수를 엮어, 충돌이 났을 때만 양보(`turn` 검사)를 강제하는 기가 막힌 분기문(if-else)을 만들어냈다.
+**[다이어그램 해설]** [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 문제를 풀려면 두 가지 변수가 반드시 필요하다. "내가 하고 싶다"는 개인의 의지(`flag`)와, "만약 둘 다 하고 싶어 하면 누구를 먼저 시킬 것인가"라는 [중재자](/studynote/04_software_engineering/05_devops_ci_cd/273_mediator_pattern/)(`turn`)다. 데커는 이 두 변수를 엮어, 충돌이 났을 때만 양보(`turn` 검사)를 강제하는 기가 막힌 분기문(if-else)을 만들어냈다.
 
-- **📢 섹션 요약 비유**: 교차로에서 직진 차량과 좌회전 차량이 만났습니다. 눈치만 보면(Turn만 쓰면) 차가 없을 때도 기다려야 하고, 무대포로 직진하면(Flag만 쓰면) 사고가 납니다. 데커의 규칙은 "일단 직진해! 단, 차가 꼬이면 무조건 우측 차에게 양보해(Turn [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))!"라는 완벽한 교통 법규입니다.
+- **📢 섹션 요약 비유**: 교차로에서 직진 차량과 좌회전 차량이 만났습니다. 눈치만 보면(Turn만 쓰면) 차가 없을 때도 기다려야 하고, 무대포로 직진하면(Flag만 쓰면) 사고가 납니다. 데커의 규칙은 "일단 직진해! 단, 차가 꼬이면 무조건 우측 차에게 양보해(Turn [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))!"라는 완벽한 교통 법규입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 전체 소스 코드 (C언어 의사코드)
+### 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 전체 소스 코드 (C언어 의사코드)
 
-[알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프로세스 P0과 P1을 위해 공유 변수 3개를 사용한다.
-- `bool flag[2] = {false, false};` (각자 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 의사가 있는지 표시)
+[알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 프로세스 P0과 P1을 위해 공유 변수 3개를 사용한다.
+- `bool flag[2] = {false, false};` (각자 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 의사가 있는지 표시)
 - `int turn = 0;` (두 명이 겹쳤을 때, 누구에게 우선권이 있는지 표시)
 
 ```c
@@ -81,13 +78,13 @@ tags = ["studynote-operating-system"]
 ```
 
 ### 3대 필수 조건 증명 분석
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>
-   - P0과 P1이 동시에 `flag`를 `true`로 바꿨다고 치자. 둘 다 `while(flag[상대방] == true)`에 걸려서 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 멈칫한다.
-   - 이때 `turn` 변수는 무조건 0 아니면 1이다. 따라서 한 명은 `if (turn == 상대방)`에 걸려 자기 깃발을 내리게 되고, 깃발을 안내린 놈만 유유히 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어간다. **(완벽한 충돌 방어)**
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>
-   - P1이 아예 관심이 없어서 `flag[1] = false` 상태라면? P0은 첫 번째 `while` 문을 그냥 패스하고 바로 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)으로 직행한다. 남의 눈치를 볼 필요가 없다. **(관심 없는 놈이 남을 막지 않음)**
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>
-   - P0이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 쓰고 나오면서 `turn = 1`로 바꿔버린다. P0이 미친 척하고 바로 다시 `flag[0] = true`를 들더라도, `turn`이 1이기 때문에 무조건 P1에게 자리를 양보하게 된다. **(새치기 불가, 기아 방지)**
+1. <strong><a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">상호 배제</a> (<a href="/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/">Mutual Exclusion</a>)</strong>
+   - P0과 P1이 동시에 `flag`를 `true`로 바꿨다고 치자. 둘 다 `while(flag[상대방] == true)`에 걸려서 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 멈칫한다.
+   - 이때 `turn` 변수는 무조건 0 아니면 1이다. 따라서 한 명은 `if (turn == 상대방)`에 걸려 자기 깃발을 내리게 되고, 깃발을 안내린 놈만 유유히 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어간다. **(완벽한 충돌 방어)**
+2. <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">진행</a> (<a href="/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/">Progress</a>)</strong>
+   - P1이 아예 관심이 없어서 `flag[1] = false` 상태라면? P0은 첫 번째 `while` 문을 그냥 패스하고 바로 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)으로 직행한다. 남의 눈치를 볼 필요가 없다. **(관심 없는 놈이 남을 막지 않음)**
+3. <strong><a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">한정된 대기</a> (<a href="/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/">Bounded Waiting</a>)</strong>
+   - P0이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 쓰고 나오면서 `turn = 1`로 바꿔버린다. P0이 미친 척하고 바로 다시 `flag[0] = true`를 들더라도, `turn`이 1이기 때문에 무조건 P1에게 자리를 양보하게 된다. **(새치기 불가, 기아 방지)**
 
 - **📢 섹션 요약 비유**: 의자 뺏기 게임에서 둘이 동시에 의자를 잡았습니다. 그때 데커 심판이 "지금은 짝수 턴이니까 짝수 번호가 앉아! 홀수는 손 떼고 기다려!"라고 명확히 지시합니다. 홀수는 억울하지만 손을 떼고 기다립니다. 짝수 친구가 다 앉고 일어나면 "이제 홀수 턴이야!"라고 외쳐주기 때문에 홀수 친구도 무조건 앉을 수 있습니다.
 
@@ -97,29 +94,29 @@ tags = ["studynote-operating-system"]
 
 ### 데커(Dekker) vs 피터슨(Peterson)의 진화 대결
 
-데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 완벽했지만, 20년 뒤 게리 피터슨이 이걸 단 4줄로 압축해 버리면서 데커는 1인자의 자리를 내주게 된다.
+데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 완벽했지만, 20년 뒤 게리 피터슨이 이걸 단 4줄로 압축해 버리면서 데커는 1인자의 자리를 내주게 된다.
 
-| 비교 항목 | 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker, 1960년대) | 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson, 1981년) |
+| 비교 항목 | 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker, 1960년대) | 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson, 1981년) |
 |:---|:---|:---|
 | **코드의 복잡도** | 복잡함 (`while` 안에 `if` 안에 `while` 중첩) | **극강의 단순함** (`while` 1개로 끝) |
 | **양보(Turn)의 시점** | 💥 **충돌이 났을 때만** 마지못해 양보함 (이기적) | 🕊️ **처음부터** 턴을 상대방에게 무조건 넘기고 시작함 (이타적) |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 본질</strong> | "일단 내가 깃발 들고, 부딪히면 턴 봐서 양보할게" | "내가 깃발 들 건데, 일단 네가 먼저 들어가" |
+| <strong><a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>의 본질</strong> | "일단 내가 깃발 들고, 부딪히면 턴 봐서 양보할게" | "내가 깃발 들 건데, 일단 네가 먼저 들어가" |
 
 피터슨의 코드는 `flag[0] = true; turn = 1;` 이 두 줄로 시작한다. 내가 들어가고 싶지만 쿨하게 상대방에게 먼저 권리를 넘겨버리는 이타적인 코딩 덕분에, 데커의 복잡한 "깃발을 내렸다 다시 드는" 구질구질한 로직을 완전히 삭제할 수 있었다.
 
-### [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드: [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))의 본질적 한계
-데커든 피터슨이든 소프트웨어 락은 치명적인 단점이 있다. 바로 `while` 문을 돌면서 계속 대기하는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>, <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong>다. 만약 P1이 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 1초 동안 일을 한다면, 밖에 있는 P0은 CPU를 100% 혹사시키며 1초 동안 "턴이 바뀌었나? 깃발 내려갔나?"를 수백만 번 묻고 있어야 한다. 멀티코어가 귀하던 시절 이는 막대한 전력과 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 낭비였다.
+### [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 오버헤드: [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))의 본질적 한계
+데커든 피터슨이든 소프트웨어 락은 치명적인 단점이 있다. 바로 `while` 문을 돌면서 계속 대기하는 <strong><a href="/studynote/02_operating_system/04_synchronization/227_busy_waiting/">바쁜 대기</a> (<a href="/studynote/02_operating_system/04_synchronization/227_busy_waiting/">Busy Waiting</a>, <a href="/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)</strong>다. 만약 P1이 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 안에서 1초 동안 일을 한다면, 밖에 있는 P0은 CPU를 100% 혹사시키며 1초 동안 "턴이 바뀌었나? 깃발 내려갔나?"를 수백만 번 묻고 있어야 한다. 멀티코어가 귀하던 시절 이는 막대한 전력과 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 낭비였다.
 
-- **📢 섹션 요약 비유**: 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1분에 한 번씩 화장실 문을 두드리며 "나왔어요?"라고 묻는 피곤한 뺑뺑이([Busy Waiting](/knowledge-base/studynote/02_operating_system/04_synchronization/227_busy_waiting/))입니다. 이 고통을 해결하려면 내가 소파에 누워 자고 있을 때(Sleep), 화장실에서 나온 사람이 나를 깨워주는(Wakeup) 현대식 뮤텍스([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)) 호출기가 필요합니다.
+- **📢 섹션 요약 비유**: 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 1분에 한 번씩 화장실 문을 두드리며 "나왔어요?"라고 묻는 피곤한 뺑뺑이([Busy Waiting](/studynote/02_operating_system/04_synchronization/227_busy_waiting/))입니다. 이 고통을 해결하려면 내가 소파에 누워 자고 있을 때(Sleep), 화장실에서 나온 사람이 나를 깨워주는(Wakeup) 현대식 뮤텍스([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)) 호출기가 필요합니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. **아키텍처 설계 시 순수 소프트웨어 락 금지**: 2026년 현재, 실무 백엔드(C++, Java, Go)나 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 어디를 뒤져봐도 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 1줄도 나오지 않는다.
-   - **이유**: 현대 CPU는 '[비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)'을 한다. CPU가 볼 때 `flag[0] = true;` 와 `while(flag[1] == true)` 는 서로 상관없는 변수라, 속도를 높이기 위해 컴파일러나 CPU가 이 두 줄의 실행 순서를 마음대로 섞어버린다. 순서가 꼬이는 순간 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 즉시 붕괴하여 두 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충돌한다.
-   - **아키텍트 교정**: 만약 실무에서 [락-프리](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))하게 데커를 구현하려 든다면, 반드시 컴파일러 최적화를 막는 `volatile` 키워드와 함께 CPU [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서를 강제하는 <strong><code>Memory Barrier (FENCE)</code></strong> [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 변수 사이에 떡칠해야 한다. 이렇게 짤 바엔 그냥 하드웨어 [CAS](/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`std::atomic`)를 쓰는 것이 100배 안전하고 빠르다.
+1. **아키텍처 설계 시 순수 소프트웨어 락 금지**: 2026년 현재, 실무 백엔드(C++, Java, Go)나 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 소스 코드 어디를 뒤져봐도 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이나 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 단 1줄도 나오지 않는다.
+   - **이유**: 현대 CPU는 '[비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) (Out-of-Order Execution)'을 한다. CPU가 볼 때 `flag[0] = true;` 와 `while(flag[1] == true)` 는 서로 상관없는 변수라, 속도를 높이기 위해 컴파일러나 CPU가 이 두 줄의 실행 순서를 마음대로 섞어버린다. 순서가 꼬이는 순간 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 즉시 붕괴하여 두 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 충돌한다.
+   - **아키텍트 교정**: 만약 실무에서 [락-프리](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/)([Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/))하게 데커를 구현하려 든다면, 반드시 컴파일러 최적화를 막는 `volatile` 키워드와 함께 CPU [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 순서를 강제하는 <strong><code>Memory Barrier (FENCE)</code></strong> [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 변수 사이에 떡칠해야 한다. 이렇게 짤 바엔 그냥 하드웨어 [CAS](/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`std::atomic`)를 쓰는 것이 100배 안전하고 빠르다.
 
 ```text
   +-----------------------------------------------------------------+
@@ -140,21 +137,21 @@ tags = ["studynote-operating-system"]
   |          찰나의 틈 때문에 상호 배제가 완벽히 박살 난다.         |
   +-----------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 데커와 피터슨은 "모든 프로세스가 하나의 메인 메모리를 실시간으로 본다"는 고전적인 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)(싱글 코어) 위에서만 완벽한 논리다. 코어마다 독자적인 L1/L2 캐시를 가지는 현대 [SMP](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는, 내가 쓴 깃발(변수)이 상대방 코어에 전파되기까지의 딜레이(수 나노초) 동안 논리가 성립하지 않는다. 이론의 완벽함이 물리적 하드웨어의 발전 앞에서 수명을 다한 것이다.
+**[다이어그램 해설]** 데커와 피터슨은 "모든 프로세스가 하나의 메인 메모리를 실시간으로 본다"는 고전적인 [폰 노이만 아키텍처](/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/)(싱글 코어) 위에서만 완벽한 논리다. 코어마다 독자적인 L1/L2 캐시를 가지는 현대 [SMP](/studynote/02_operating_system/03_cpu_scheduling/195_real_time_scheduling/) 환경에서는, 내가 쓴 깃발(변수)이 상대방 코어에 전파되기까지의 딜레이(수 나노초) 동안 논리가 성립하지 않는다. 이론의 완벽함이 물리적 하드웨어의 발전 앞에서 수명을 다한 것이다.
 
-- **📢 섹션 요약 비유**: 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 봉화대(깃발)를 올려 적의 침입을 알리는 완벽한 전술입니다. 하지만 요즘(현대 CPU)은 스텔스기가 날아다니고 무전 방해(캐시 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 걸리기 때문에, 봉화대 전술을 쓰면 봉화가 타오르기도 전에 적이 이미 성벽([임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안으로 들어와 버리는 것과 같습니다.
+- **📢 섹션 요약 비유**: 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 봉화대(깃발)를 올려 적의 침입을 알리는 완벽한 전술입니다. 하지만 요즘(현대 CPU)은 스텔스기가 날아다니고 무전 방해(캐시 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))가 걸리기 때문에, 봉화대 전술을 쓰면 봉화가 타오르기도 전에 적이 이미 성벽([임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) 안으로 들어와 버리는 것과 같습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 학습함으로써 개발자는 [다중 스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서 발생할 수 있는 가장 기괴한 타이밍 꼬임 현상과, 이를 변수 몇 개로 통제하려 할 때 마주하게 되는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 및 [기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 수리적 딜레마를 완벽하게 통찰할 수 있는 운영체제적 뇌를 갖게 된다.
+데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 학습함으로써 개발자는 [다중 스레드](/studynote/02_operating_system/02_process_thread/095_multithreading_benefits/) 환경에서 발생할 수 있는 가장 기괴한 타이밍 꼬임 현상과, 이를 변수 몇 개로 통제하려 할 때 마주하게 되는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 및 [기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))의 수리적 딜레마를 완벽하게 통찰할 수 있는 운영체제적 뇌를 갖게 된다.
 
 ### 결론 및 미래 전망
-데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 라이트 형제의 최초의 비행기(플라이어 1호)와 같다. 지금은 아무도 그 비행기를 타고 하늘을 날지 않지만, 그 비행기가 없었다면 오늘의 보잉 747도 없었다. 이 순수 소프트웨어적 시도는 이후 하드웨어 칩 설계자들에게 "이걸 소프트웨어로 짜려니 너무 힘들다. CPU 안에 아예 락을 걸어주는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`TestAndSet`)를 만들어 주자!"라는 강력한 영감을 주었고, 오늘날의 뮤텍스와 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) 생태계를 탄생시킨 위대한 발사대 역할을 했다. 현대 컴퓨터 과학은 데커의 시대를 지나, 하드웨어가 1타 3피로 제어해 주는 [Lock-free](/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) / Wait-free 자료구조의 시대로 영원히 넘어가 버렸다.
+데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 라이트 형제의 최초의 비행기(플라이어 1호)와 같다. 지금은 아무도 그 비행기를 타고 하늘을 날지 않지만, 그 비행기가 없었다면 오늘의 보잉 747도 없었다. 이 순수 소프트웨어적 시도는 이후 하드웨어 칩 설계자들에게 "이걸 소프트웨어로 짜려니 너무 힘들다. CPU 안에 아예 락을 걸어주는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)(`TestAndSet`)를 만들어 주자!"라는 강력한 영감을 주었고, 오늘날의 뮤텍스와 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) 생태계를 탄생시킨 위대한 발사대 역할을 했다. 현대 컴퓨터 과학은 데커의 시대를 지나, 하드웨어가 1타 3피로 제어해 주는 [Lock-free](/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/) / Wait-free 자료구조의 시대로 영원히 넘어가 버렸다.
 
-- **📢 섹션 요약 비유**: 데커 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 부싯돌로 불을 피우는 원리를 완벽하게 증명한 인류 최초의 지혜입니다. 지금 우리는 100원짜리 라이터(하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/))를 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 부싯돌을 쓸 일은 없지만, 이 원리를 이해하는 자만이 불([동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 에러)이 왜 나고 어떻게 꺼야 하는지 아는 진정한 아키텍트가 될 수 있습니다.
+- **📢 섹션 요약 비유**: 데커 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 부싯돌로 불을 피우는 원리를 완벽하게 증명한 인류 최초의 지혜입니다. 지금 우리는 100원짜리 라이터(하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/))를 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 때문에 부싯돌을 쓸 일은 없지만, 이 원리를 이해하는 자만이 불([동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 에러)이 왜 나고 어떻게 꺼야 하는지 아는 진정한 아키텍트가 될 수 있습니다.
 
 ---
 
@@ -163,9 +160,9 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 코-스케줄링 (Co-scheduling / Gang Scheduling) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| 무중단 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 스케줄링 고려사항 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [경쟁 조건](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 무중단 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 스케줄링 고려사항 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [경쟁 조건](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/) ([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -183,9 +180,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
-2. 먼저 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us)을 이해하면 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 데커의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 잘 알면 나중에 무중단 [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 스케줄링 고려사항도 훨씬 쉽게 배울 수 있어요.
+1. 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
+2. 먼저 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us)을 이해하면 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 데커의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Dekker's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))을 잘 알면 나중에 무중단 [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 스케줄링 고려사항도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -193,7 +190,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 219 / 800
 
-<- **이전**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/)
-**다음**: [220. 피터슨 알고리즘 (Peterson's Algorithm)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/220_petersons_algorithm/) ->
+<- **이전**: [218. 소프트웨어적 동기화 해결책 (Software Synchronization Solutions)](/studynote/02_operating_system/03_cpu_scheduling/218_software_synchronization_solutions/)
+**다음**: [220. 피터슨 알고리즘 (Peterson's Algorithm)](/studynote/02_operating_system/03_cpu_scheduling/220_petersons_algorithm/) ->
 
 ---

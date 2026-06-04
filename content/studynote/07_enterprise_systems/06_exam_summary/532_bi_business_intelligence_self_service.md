@@ -1,13 +1,10 @@
-+++
-title = "532. BI 비즈니스 인텔리전스 셀프서비스 (BI Business Intelligence Self Service)"
-date = 2026-05-09
+---
+title: "532. BI 비즈니스 인텔리전스 셀프서비스 (BI Business Intelligence Self Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 532 / 800
 
-<- **이전**: [531. 마스터 데이터 관리 MDM 골든 레코드](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/531_master_data_management_mdm_golden_record/)
-**다음**: [533. 데이터 분석 대시보드 시각화 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/533_data_analytics_dashboard_visualization/) ->
+<- **이전**: [531. 마스터 데이터 관리 MDM 골든 레코드](/studynote/07_enterprise_systems/06_exam_summary/531_master_data_management_mdm_golden_record/)
+**다음**: [533. 데이터 분석 대시보드 시각화 전략](/studynote/07_enterprise_systems/06_exam_summary/533_data_analytics_dashboard_visualization/) ->
 
 ---

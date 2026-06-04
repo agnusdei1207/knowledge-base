@@ -1,9 +1,9 @@
-+++
-title = "01. 운영체제 개요 및 구조"
+---
+title: "01. 운영체제 개요 및 구조"
+tags:
+  - "operating_system"
+---
 
-[extra]
-tags = ["operating_system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

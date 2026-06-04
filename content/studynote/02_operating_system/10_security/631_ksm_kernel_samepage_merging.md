@@ -1,35 +1,32 @@
-+++
-title = "631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약"
-date = 2026-05-09
+---
+title: "631. 메모리 KSM (Kernel Samepage Merging) 가상머신 간 중복 메모리 통합 절약"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: KSM ([Kernel](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Samepage Merging)은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(ksmd)를 돌려 메모리의 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 주기적으로 스캔하고, 내용이 완전히 똑같은 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 찾아내어 하나의 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 통합(Merging)하는 메모리 중복 제거(Deduplication) 기술이다.
-> 2. **작동 원리**: 통합된 단일 물리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에는 <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> 속성이 부여된다. 여러 프로세스나 가상머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 이 공유 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽기만 할 때는 문제가 없지만, 어느 한쪽이 내용을 수정(Write)하려 하면 그 순간 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생하며 자신만의 새로운 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된다.
-> 3. **가치**: 동일한 OS(예: 수백 대의 Windows [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))나 [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 사용하는 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)(데스크톱 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)) 환경에서 KSM을 켜면 메모리 사용량을 30~50% 이상 절감할 수 있어, 클라우드 서버의 <strong>가상머신 집적도(Density)와 오버커밋(Overcommit) 한계를 극대화</strong>하는 핵심 경제성 엔진으로 작용한다.
+> 1. **본질**: KSM ([Kernel](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) Samepage Merging)은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 백그라운드 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(ksmd)를 돌려 메모리의 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 주기적으로 스캔하고, 내용이 완전히 똑같은 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들을 찾아내어 하나의 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 통합(Merging)하는 메모리 중복 제거(Deduplication) 기술이다.
+> 2. **작동 원리**: 통합된 단일 물리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에는 <strong><a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a> (<a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a>)</strong> 속성이 부여된다. 여러 프로세스나 가상머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))이 이 공유 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽기만 할 때는 문제가 없지만, 어느 한쪽이 내용을 수정(Write)하려 하면 그 순간 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 발생하며 자신만의 새로운 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)된다.
+> 3. **가치**: 동일한 OS(예: 수백 대의 Windows [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/))나 [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/)를 사용하는 [VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/)(데스크톱 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)) 환경에서 KSM을 켜면 메모리 사용량을 30~50% 이상 절감할 수 있어, 클라우드 서버의 <strong>가상머신 집적도(Density)와 오버커밋(Overcommit) 한계를 극대화</strong>하는 핵심 경제성 엔진으로 작용한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: KSM은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6.32에 처음 도입된 기능으로, 시스템의 램(RAM)을 효율적으로 사용하기 위해 서로 다른 프로세스나 가상머신([KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))이 사용하는 동일한 내용의 메모리 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(일반적으로 4KB 크기)를 찾아내어 물리 메모리 1개로 합치고 공유하게 만드는 기술이다.
+- **개념**: KSM은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 2.6.32에 처음 도입된 기능으로, 시스템의 램(RAM)을 효율적으로 사용하기 위해 서로 다른 프로세스나 가상머신([KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/))이 사용하는 동일한 내용의 메모리 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(일반적으로 4KB 크기)를 찾아내어 물리 메모리 1개로 합치고 공유하게 만드는 기술이다.
 
-- <strong>필요성 (<a href="/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경의 메모리 낭비 심각성)</strong>:
-  - [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 한 대에 똑같은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(예: 우분투 리눅스 20.04)를 가진 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 100대를 띄운다고 가정하자.
-  - 이 100대의 VM은 메모리에 각각 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, libc [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 빈 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Zero](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 등을 중복해서 적재한다. 이로 인해 물리 메모리는 순식간에 낭비되고 고갈된다. CPU는 시분할(Time-sharing)을 통해 100% 이상 오버커밋(Overcommit)이 쉽지만, 메모리는 고갈되면 즉시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 발동하거나 스왑(Swap) 지옥에 빠져 서버가 죽는다.
+- <strong>필요성 (<a href="/studynote/13_cloud_architecture/01_virtualization/015_virtualization/">가상화</a> 환경의 메모리 낭비 심각성)</strong>:
+  - [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 한 대에 똑같은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)(예: 우분투 리눅스 20.04)를 가진 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 100대를 띄운다고 가정하자.
+  - 이 100대의 VM은 메모리에 각각 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드, libc [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/), 빈 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)([Zero](/studynote/01_computer_architecture/15_advanced_topics/585_zero_skipping/) [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)) 등을 중복해서 적재한다. 이로 인해 물리 메모리는 순식간에 낭비되고 고갈된다. CPU는 시분할(Time-sharing)을 통해 100% 이상 오버커밋(Overcommit)이 쉽지만, 메모리는 고갈되면 즉시 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) Killer가 발동하거나 스왑(Swap) 지옥에 빠져 서버가 죽는다.
   - 메모리를 늘리는 것은 비싸므로, "어차피 똑같은 내용이라면 물리적으로 하나만 놔두고 다 같이 가리키게 만들자"는 아이디어가 소프트웨어적으로 구현된 것이 KSM이다.
 
 - **발전 과정**:
-  1. <strong>정적 메모리 공유 (<a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: fork() 시점에 부모와 자식만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유하는 전통적 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 방식 (관계없는 프로세스 간 공유 불가).
-  2. **KSM의 등장 (동적 스캐닝)**: 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 전혀 무관한 가상머신(QEMU/[KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 프로세스)들의 메모리를 해시로 비교하여 병합.
-  3. **UKSM (Ultra KSM)**: KSM의 느린 스캐닝 속도와 CPU 낭비를 개선하여 더 공격적으로 더 많은 메모리를 병합하는 파생 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등장.
+  1. <strong>정적 메모리 공유 (<a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a>)</strong>: fork() 시점에 부모와 자식만 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 공유하는 전통적 [COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 방식 (관계없는 프로세스 간 공유 불가).
+  2. **KSM의 등장 (동적 스캐닝)**: 백그라운드 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 서로 전혀 무관한 가상머신(QEMU/[KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 프로세스)들의 메모리를 해시로 비교하여 병합.
+  3. **UKSM (Ultra KSM)**: KSM의 느린 스캐닝 속도와 CPU 낭비를 개선하여 더 공격적으로 더 많은 메모리를 병합하는 파생 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 등장.
 
 - **📢 섹션 요약 비유**: 수백 명의 손님이 각자 똑같은 영화를 각자의 스마트폰에 다운로드(물리 할당)해서 보던 것을, 넷플릭스 스트리밍(KSM 병합)으로 바꿔 서버 저장 공간을 엄청나게 아껴주는 마법입니다.
 
@@ -41,16 +38,16 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 작동 방식 | 비유 |
 |:---|:---|:---|:---|
-| **ksmd (KSM Daemon)** | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 병합을 수행하는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | 주기적으로 깨어나 메모리를 스캔하고 잠듦 | 야간 순찰하며 청소하는 관리인 |
-| <strong>madvise() <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | KSM 스캔 대상을 지정하는 시스템 콜 | 앱(QEMU 등)이 `MADV_MERGEABLE` 플래그로 KSM에게 병합을 허락함 | "내 방은 검사해도 좋습니다" 팻말 |
-| <strong><a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (<a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)</strong> | 병합 후보 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 내용을 비교하는 자료구조 | [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내용으로 해시를 만들어 빠른 비교 (RB-Tree 사용) | 책 내용 지문(Fingerprint) 목록 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (<a href="/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>)</strong> | 병합된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 훼손되는 것을 막는 방어 기제 | 병합된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 Read-Only로 만들고, [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 시 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 통해 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 유리 덮인 원본 책 (낙서 불가) |
+| **ksmd (KSM Daemon)** | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 병합을 수행하는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 백그라운드 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) | 주기적으로 깨어나 메모리를 스캔하고 잠듦 | 야간 순찰하며 청소하는 관리인 |
+| <strong>madvise() <a href="/studynote/02_operating_system/01_overview_architecture/014_api_posix/">API</a></strong> | KSM 스캔 대상을 지정하는 시스템 콜 | 앱(QEMU 등)이 `MADV_MERGEABLE` 플래그로 KSM에게 병합을 허락함 | "내 방은 검사해도 좋습니다" 팻말 |
+| <strong><a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">해시 테이블</a> (<a href="/studynote/08_algorithm_stats/04_datastructure/067_hash_table/">Hash Table</a>)</strong> | 병합 후보 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)들의 내용을 비교하는 자료구조 | [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내용으로 해시를 만들어 빠른 비교 (RB-Tree 사용) | 책 내용 지문(Fingerprint) 목록 |
+| <strong><a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">COW</a> (<a href="/studynote/02_operating_system/09_file_system/542_cow_file_system/">Copy-on-Write</a>)</strong> | 병합된 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 훼손되는 것을 막는 방어 기제 | 병합된 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 Read-Only로 만들고, [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 시도 시 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 통해 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/) | 유리 덮인 원본 책 (낙서 불가) |
 
 ---
 
 ### KSM 병합 (Merging) 아키텍처 및 동작 프로세스
 
-KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이션(주로 가상머신인 QEMU)이 허락한(`madvise`) 메모리 영역([VMA](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/), [Virtual Memory Area](/knowledge-base/studynote/02_operating_system/07_virtual_memory/428_vma_struct/))만 스캔한다.
+KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이션(주로 가상머신인 QEMU)이 허락한(`madvise`) 메모리 영역([VMA](/studynote/02_operating_system/07_virtual_memory/428_vma_struct/), [Virtual Memory Area](/studynote/02_operating_system/07_virtual_memory/428_vma_struct/))만 스캔한다.
 
 ```text
   +-------------------------------------------------------------------+
@@ -91,7 +88,7 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** KSM의 핵심은 <strong>투명성(Transparency)</strong>이다. [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1과 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 2는 자신들의 메모리가 남과 공유되고 있다는 사실을 전혀 모른다. 그들은 평소처럼 자신의 가상 주소(VA)를 읽는다. 그러다 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 작업을 시도하면, 하드웨어 MMU가 권한 없음을 이유로 트랩을 발생시킨다. 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러가 이를 잡아서 KSM [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 로직을 실행하여 [복제](/knowledge-base/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 던져준다. 이 모든 과정이 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 모르게 물밑에서 밀리초 단위로 이뤄진다. 가장 큰 부하가 걸리는 곳은 `ksmd`가 램의 수백만 개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내용을 [바이트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 비교(`memcmp`)하고 [레드-블랙 트리](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree)를 유지하는 과정이다.
+**[다이어그램 해설]** KSM의 핵심은 <strong>투명성(Transparency)</strong>이다. [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 1과 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 2는 자신들의 메모리가 남과 공유되고 있다는 사실을 전혀 모른다. 그들은 평소처럼 자신의 가상 주소(VA)를 읽는다. 그러다 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write) 작업을 시도하면, 하드웨어 MMU가 권한 없음을 이유로 트랩을 발생시킨다. 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 핸들러가 이를 잡아서 KSM [COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 로직을 실행하여 [복제](/studynote/14_data_engineering/01_infrastructure/016_replication_factor/)본을 던져준다. 이 모든 과정이 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 모르게 물밑에서 밀리초 단위로 이뤄진다. 가장 큰 부하가 걸리는 곳은 `ksmd`가 램의 수백만 개 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 내용을 [바이트](/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/) 단위로 비교(`memcmp`)하고 [레드-블랙 트리](/studynote/08_algorithm_stats/04_datastructure/063_red_black_tree/)(RB-Tree)를 유지하는 과정이다.
 
 - **📢 섹션 요약 비유**: 공장 컨베이어벨트가 어떤 순서로 부품을 받아 가공하고 내보내는지 설계도를 펼쳐 보는 것과 같다.
 
@@ -103,20 +100,20 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 메모리 오버커밋이란 물리 메모리 용량보다 더 많은 메모리를 VM들에게 할당해 주는 기술이다.
 
-| 기법명 | KSM (Samepage Merging) | Memory [Ballooning](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ([벌루닝](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)) | [Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/) ([스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) |
+| 기법명 | KSM (Samepage Merging) | Memory [Ballooning](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ([벌루닝](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)) | [Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/) ([스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)) |
 |:---|:---|:---|:---|
-| **작동 원리** | 중복된 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나로 합침 | 안 쓰는 메모리를 뺏어서 남에게 줌 | 램에 있는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 쫓아냄 |
-| **적용 시점** | 백그라운드 (지속적 동작) | 동적 (메모리 부족 시 [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입) | 최후의 수단 (메모리 극단적 부족 시) |
+| **작동 원리** | 중복된 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 하나로 합침 | 안 쓰는 메모리를 뺏어서 남에게 줌 | 램에 있는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 쫓아냄 |
+| **적용 시점** | 백그라운드 (지속적 동작) | 동적 (메모리 부족 시 [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 개입) | 최후의 수단 (메모리 극단적 부족 시) |
 | **게스트 OS 개입**| **개입 없음 (투명함)** | 게스트 안에 Balloon 드라이버 설치 필수 | 개입 없음 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 페널티</strong> | CPU 사용률 증가 (ksmd 스캔 부하) | 약간의 게스트 OS 부하 | <strong>치명적인 시스템 마비 (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> |
-| **효율성** | 중복도가 높은 환경([VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/))에서 최고 | 게스트가 양보해야만 가능 | 느려서 기피 대상 1호 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 페널티</strong> | CPU 사용률 증가 (ksmd 스캔 부하) | 약간의 게스트 OS 부하 | <strong>치명적인 시스템 마비 (<a href="/studynote/02_operating_system/04_synchronization/257_thrashing/">Thrashing</a>)</strong> |
+| **효율성** | 중복도가 높은 환경([VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/))에서 최고 | 게스트가 양보해야만 가능 | 느려서 기피 대상 1호 |
 
 ### 과목 융합 관점
 
-- <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: KSM은 [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/)) 기반 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 극한을 보여준다. 물리 메모리와 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 매핑을 1:1에서 N:1로 비틀어버리는 이 기술은 역 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 [해시 테이블](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 검색 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 결합체다.
+- <strong><a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a> (OS)</strong>: KSM은 [페이징](/studynote/02_operating_system/04_synchronization/259_paging/)([Paging](/studynote/02_operating_system/04_synchronization/259_paging/)) 기반 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 극한을 보여준다. 물리 메모리와 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 매핑을 1:1에서 N:1로 비틀어버리는 이 기술은 역 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블과 [해시 테이블](/studynote/08_algorithm_stats/04_datastructure/067_hash_table/) 검색 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 결합체다.
 - **클라우드 (Cloud)**: 클라우드 수익 모델(Economics)의 핵심이다. 256GB 램을 가진 서버에 4GB 램을 할당한 VM을 64개만 팔면 본전이지만, KSM을 통해 128개를 팔 수 있다면 서버 투자비(CAPEX) 대비 이익이 2배로 뛴다.
 
-- **📢 섹션 요약 비유**: [벌루닝](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)이 세입자의 빈 방을 강제로 빼앗는 것이고, [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 세입자의 짐을 창고(디스크)에 던져버리는 것이라면, KSM은 세입자들이 각자 산 똑같은 가구들을 하나로 합쳐 거실에 놔주는 가장 평화로운 공간 절약술입니다.
+- **📢 섹션 요약 비유**: [벌루닝](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)이 세입자의 빈 방을 강제로 빼앗는 것이고, [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)이 세입자의 짐을 창고(디스크)에 던져버리는 것이라면, KSM은 세입자들이 각자 산 똑같은 가구들을 하나로 합쳐 거실에 놔주는 가장 평화로운 공간 절약술입니다.
 
 ---
 
@@ -124,12 +121,12 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 ### 실무 시나리오
 
-1. <strong>시나리오 — <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> (Virtual Desktop Infrastructure) 환경의 서버 밀도 증가</strong>: 10대의 물리 서버에서 1,000대의 Windows [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) VM을 돌려야 하는 사내 망 환경. OS 부팅 직후 메모리 사용량이 물리 서버 한계를 초과함.
-   - **대응**: 모든 VM이 같은 OS와 엑셀/[워드](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로그램을 사용하므로 메모리 내의 DLL 파일과 시스템 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 90% 이상 일치한다. `/sys/kernel/mm/ksm/run`에 `1`을 기록하여 KSM을 강제 활성화하고, QEMU 프로세스들이 KSM 대상이 되도록 설정한다. 결과적으로 Windows 10의 중복 코드가 수만 번 병합되어 전체 메모리 사용량이 40~50% 감소하며, 추가 하드웨어 증설 없이 [VDI](/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 구축을 완료할 수 있다.
+1. <strong>시나리오 — <a href="/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> (Virtual Desktop Infrastructure) 환경의 서버 밀도 증가</strong>: 10대의 물리 서버에서 1,000대의 Windows [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) VM을 돌려야 하는 사내 망 환경. OS 부팅 직후 메모리 사용량이 물리 서버 한계를 초과함.
+   - **대응**: 모든 VM이 같은 OS와 엑셀/[워드](/studynote/01_computer_architecture/02_data_representation_arithmetic/075_word/) 프로그램을 사용하므로 메모리 내의 DLL 파일과 시스템 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 코드가 90% 이상 일치한다. `/sys/kernel/mm/ksm/run`에 `1`을 기록하여 KSM을 강제 활성화하고, QEMU 프로세스들이 KSM 대상이 되도록 설정한다. 결과적으로 Windows 10의 중복 코드가 수만 번 병합되어 전체 메모리 사용량이 40~50% 감소하며, 추가 하드웨어 증설 없이 [VDI](/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/) 구축을 완료할 수 있다.
 
-2. **시나리오 — 클라우드 서버의 원인 불명 CPU 100% 장애 (ksmd 폭주)**: KSM을 켜둔 [KVM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경에서 VM들에 메모리 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 잦은 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)나 자바(Java) GC([가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 워크로드를 올렸더니, 물리 서버의 `ksmd` 프로세스가 CPU 코어 하나를 100% 장악하며 시스템 전체가 느려졌다.
-   - **원인 분석**: KSM은 '안 변하는' 메모리를 합치는 데 특화되어 있다. 하지만 DB나 Java 힙 메모리처럼 1초에도 수백 번씩 내용이 바뀌는(Volatile) 메모리를 KSM이 계속 스캔하고 합치려 시도한다. 기껏 합쳐놔도 1밀리초 뒤에 VM이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변경해 다시 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 나며 분리되는 '병합 $\leftrightarrow$ 분리'의 무한 루프([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/))에 빠진 것이다.
-   - **대응 (기술사적 가이드)**: 워크로드 특성 분석 후, 중복이 적고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 많은 서버(DB, 빅데이터 노드)에서는 KSM 기능을 완전히 끈다(`echo 0 > /sys/kernel/mm/ksm/run`). 또한 `pages_to_scan` 파라미터를 낮추거나 `sleep_millisecs`를 늘려 KSM의 스캔 속도를 늦춰 CPU 부하를 완화해야 한다.
+2. **시나리오 — 클라우드 서버의 원인 불명 CPU 100% 장애 (ksmd 폭주)**: KSM을 켜둔 [KVM](/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/) 환경에서 VM들에 메모리 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 잦은 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)(DB)나 자바(Java) GC([가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 워크로드를 올렸더니, 물리 서버의 `ksmd` 프로세스가 CPU 코어 하나를 100% 장악하며 시스템 전체가 느려졌다.
+   - **원인 분석**: KSM은 '안 변하는' 메모리를 합치는 데 특화되어 있다. 하지만 DB나 Java 힙 메모리처럼 1초에도 수백 번씩 내용이 바뀌는(Volatile) 메모리를 KSM이 계속 스캔하고 합치려 시도한다. 기껏 합쳐놔도 1밀리초 뒤에 VM이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 변경해 다시 [COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))가 나며 분리되는 '병합 $\leftrightarrow$ 분리'의 무한 루프([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/))에 빠진 것이다.
+   - **대응 (기술사적 가이드)**: 워크로드 특성 분석 후, 중복이 적고 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)가 많은 서버(DB, 빅데이터 노드)에서는 KSM 기능을 완전히 끈다(`echo 0 > /sys/kernel/mm/ksm/run`). 또한 `pages_to_scan` 파라미터를 낮추거나 `sleep_millisecs`를 늘려 KSM의 스캔 속도를 늦춰 CPU 부하를 완화해야 한다.
 
 ### 의사결정 및 튜닝 플로우
 
@@ -157,11 +154,11 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
   +-------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** KSM은 메모리를 대가로 CPU를 태우는 연금술이다. 메모리가 남는데 CPU가 부족한 서버에서 KSM을 켜는 것은 바보 짓이며, 반대로 CPU는 남아도는데 메모리가 부족해서 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 터질 것 같은 서버에서는 KSM이 구세주다. 기술사는 현재 인프라의 진짜 병목이 CPU인지 메모리인지(Trade-off)를 정확히 저울질하여 KSM 데몬의 스로틀링(Throttling) 값을 미세 튜닝해야 한다.
+**[다이어그램 해설]** KSM은 메모리를 대가로 CPU를 태우는 연금술이다. 메모리가 남는데 CPU가 부족한 서버에서 KSM을 켜는 것은 바보 짓이며, 반대로 CPU는 남아도는데 메모리가 부족해서 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)이 터질 것 같은 서버에서는 KSM이 구세주다. 기술사는 현재 인프라의 진짜 병목이 CPU인지 메모리인지(Trade-off)를 정확히 저울질하여 KSM 데몬의 스로틀링(Throttling) 값을 미세 튜닝해야 한다.
 
-### 도입 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- **보안/취약점 (중요)**: 최근 KSM의 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 동작 시 발생하는 미세한 시간 차이(Timing Channel)를 이용해, 공격자 VM이 다른 VM의 메모리 존재 여부([ASLR](/knowledge-base/studynote/02_operating_system/06_memory_management/374_aslr/) 우회)나 암호화 키를 유추하는 [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)([Side-Channel Attack](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/), 예: [Rowhammer](/knowledge-base/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) KSM)이 증명되었다. [퍼블릭 클라우드](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 환경이거나 보안이 중요한 금융망망에서는 <strong>KSM을 반드시 비활성화(Disable)</strong>해야 한다.
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 충돌</strong>: EPT [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위해 사용하는 2MB/1GB 단위의 [거대 페이지](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))는 크기가 너무 커서 완전히 내용이 똑같을 확률이 희박하므로 KSM과 호환되지 않는다 (병합 시 4KB로 쪼개져야 함). KSM과 THP(Transparent [Huge Pages](/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/)) 중 어느 것을 포기할지 선택해야 한다.
+### 도입 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- **보안/취약점 (중요)**: 최근 KSM의 [COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 동작 시 발생하는 미세한 시간 차이(Timing Channel)를 이용해, 공격자 VM이 다른 VM의 메모리 존재 여부([ASLR](/studynote/02_operating_system/06_memory_management/374_aslr/) 우회)나 암호화 키를 유추하는 [부채널 공격](/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)([Side-Channel Attack](/studynote/01_computer_architecture/14_hardware_security_trends/481_side_channel_attack/), 예: [Rowhammer](/studynote/01_computer_architecture/14_hardware_security_trends/484_rowhammer/) KSM)이 증명되었다. [퍼블릭 클라우드](/studynote/13_cloud_architecture/01_virtualization/007_public_cloud/) 환경이거나 보안이 중요한 금융망망에서는 <strong>KSM을 반드시 비활성화(Disable)</strong>해야 한다.
+- <strong><a href="/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a> 충돌</strong>: EPT [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 높이기 위해 사용하는 2MB/1GB 단위의 [거대 페이지](/studynote/02_operating_system/06_memory_management/371_huge_pages/)([Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))는 크기가 너무 커서 완전히 내용이 똑같을 확률이 희박하므로 KSM과 호환되지 않는다 (병합 시 4KB로 쪼개져야 함). KSM과 THP(Transparent [Huge Pages](/studynote/02_operating_system/06_memory_management/371_huge_pages/)) 중 어느 것을 포기할지 선택해야 한다.
 
 - **📢 섹션 요약 비유**: KSM은 '빈대 잡으려다 초가삼간 태우는' 짓이 될 수 있습니다. 매일 바뀌는 일기장(DB 메모리)을 굳이 합치겠다고 복사기(CPU)를 종일 돌리는 헛수고를 피하는 통찰력이 필요합니다.
 
@@ -173,18 +170,18 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 | 구분 | KSM 미적용 | KSM 적용 환경 | 개선 효과 |
 |:---|:---|:---|:---|
-| <strong>정량 (<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 환경)</strong> | 물리 램 256GB $\rightarrow$ 64개 [VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 구동 | 물리 램 256GB $\rightarrow$ <strong>100개 이상 <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 구동</strong> | 하드웨어 집적도 **40~50% 이상 향상** |
-| **정량 (메모리 단가)** | 노드당 $5,000 지출 | 노드당 메모리 증설 불필요 | [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 극적 절감 (CAPEX 감소) |
-| **정성 (운영 유연성)**| 메모리 100% 임박 시 [OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 불안 | 여유 [메모리 풀](/knowledge-base/studynote/02_operating_system/06_memory_management/369_memory_pool/) 확보 | [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 타겟 노드의 유연한 배치 공간 확보 |
+| <strong>정량 (<a href="/studynote/11_design_supervision/01_audit_framework/079_developer_cleanroom_vdi_security/">VDI</a> 환경)</strong> | 물리 램 256GB $\rightarrow$ 64개 [VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/) 구동 | 물리 램 256GB $\rightarrow$ <strong>100개 이상 <a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a> 구동</strong> | 하드웨어 집적도 **40~50% 이상 향상** |
+| **정량 (메모리 단가)** | 노드당 $5,000 지출 | 노드당 메모리 증설 불필요 | [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) 극적 절감 (CAPEX 감소) |
+| **정성 (운영 유연성)**| 메모리 100% 임박 시 [OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 불안 | 여유 [메모리 풀](/studynote/02_operating_system/06_memory_management/369_memory_pool/) 확보 | [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) 타겟 노드의 유연한 배치 공간 확보 |
 
 ### 미래 전망
-- <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 메모리와 KSM의 역할 분담</strong>: 차세대 [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 인프라에서는 메모리 부족 시 KSM으로 억지로 합치기보다는, [CXL](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀에서 램을 즉시 빌려오는(동적 할당) 방식을 선호할 가능성이 높다. 따라서 KSM은 [스케일 업](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-up](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))보다는 임베디드나 엣지(Edge) 컴퓨팅과 같은 제한된 환경에서 더욱 각광받을 것이다.
-- **하드웨어 가속 KSM**: CPU의 백그라운드 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`ksmd`)가 메모리를 비교하는 오버헤드를 줄이기 위해, 인텔 DSA나 DPU와 같은 하드웨어 가속기가 메모리 해싱과 병합 로직을 하드웨어 레벨에서 오프로딩하여 CPU 0% 점유율로 중복을 제거하는 기술이 개발되고 있다.
+- <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/">CXL</a> 메모리와 KSM의 역할 분담</strong>: 차세대 [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 인프라에서는 메모리 부족 시 KSM으로 억지로 합치기보다는, [CXL](/studynote/01_computer_architecture/12_accelerators_ai_hardware/441_cxl/) 풀에서 램을 즉시 빌려오는(동적 할당) 방식을 선호할 가능성이 높다. 따라서 KSM은 [스케일 업](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/)([Scale-up](/studynote/01_computer_architecture/15_advanced_topics/621_scale_up_system_bus/))보다는 임베디드나 엣지(Edge) 컴퓨팅과 같은 제한된 환경에서 더욱 각광받을 것이다.
+- **하드웨어 가속 KSM**: CPU의 백그라운드 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)(`ksmd`)가 메모리를 비교하는 오버헤드를 줄이기 위해, 인텔 DSA나 DPU와 같은 하드웨어 가속기가 메모리 해싱과 병합 로직을 하드웨어 레벨에서 오프로딩하여 CPU 0% 점유율로 중복을 제거하는 기술이 개발되고 있다.
 
 ### 결론
-메모리 병합(KSM) 기술은 "시분할(CPU)은 되는데 왜 공간분할(Memory)은 완벽히 포개어 접을 수 없을까?"라는 엔지니어의 상상력을 Copy-on-Write라는 OS의 고전적 마법으로 완벽히 구현해낸 걸작이다. 비록 보안 [부채널 공격](/knowledge-base/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)의 타겟이 되고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 워크로드에 취약하다는 단점이 있지만, 제약된 하드웨어 자원을 논리적 우회로를 통해 극대화한다는 점에서 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 철학(더 적은 자원으로 더 많은 것을)을 가장 잘 대변하는 매커니즘이다.
+메모리 병합(KSM) 기술은 "시분할(CPU)은 되는데 왜 공간분할(Memory)은 완벽히 포개어 접을 수 없을까?"라는 엔지니어의 상상력을 Copy-on-Write라는 OS의 고전적 마법으로 완벽히 구현해낸 걸작이다. 비록 보안 [부채널 공격](/studynote/02_operating_system/10_security/668_side_channel_attack_meltdown_spectre_kpti/)의 타겟이 되고 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) 워크로드에 취약하다는 단점이 있지만, 제약된 하드웨어 자원을 논리적 우회로를 통해 극대화한다는 점에서 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/)의 철학(더 적은 자원으로 더 많은 것을)을 가장 잘 대변하는 매커니즘이다.
 
-- **📢 섹션 요약 비유**: 마법의 복사기(KSM)가 만들어낸 환영([공유 메모리](/knowledge-base/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 덕분에, 여관 주인([하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))은 방 10개짜리 여관에 15명의 손님을 불만 없이 재울 수 있는 궁극의 운영 기술을 얻게 되었습니다.
+- **📢 섹션 요약 비유**: 마법의 복사기(KSM)가 만들어낸 환영([공유 메모리](/studynote/02_operating_system/02_process_thread/118_shared_memory/)) 덕분에, 여관 주인([하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/))은 방 10개짜리 여관에 15명의 손님을 불만 없이 재울 수 있는 궁극의 운영 기술을 얻게 되었습니다.
 
 ---
 
@@ -192,10 +189,10 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [라이브 마이그레이션](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/knowledge-base/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)) 메모리 더티 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프리-카피(Pre-copy) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [가상 스위치](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([vSwitch](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 패킷 오버헤드 [VNF](/knowledge-base/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 구조 적용 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [벌루닝](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ([Ballooning](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)) [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가상머신 동적 메모리 회수 기법 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [무정전 업데이트](/knowledge-base/studynote/02_operating_system/10_security/633_live_patching_ksplice/) (Ksplice 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없는 패치망 체계 구조) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [라이브 마이그레이션](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/) ([Live Migration](/studynote/02_operating_system/10_security/629_live_migration_pre_copy/)) 메모리 더티 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프리-카피(Pre-copy) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 방식 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [가상 스위치](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/) ([vSwitch](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)) 패킷 오버헤드 [VNF](/studynote/03_network/17_sdn_nfv/866_vnf_virtual_network_function_software_appliance/) 구조 적용 방식 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [벌루닝](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ([Ballooning](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/)) [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/) 가상머신 동적 메모리 회수 기법 구조 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [무정전 업데이트](/studynote/02_operating_system/10_security/633_live_patching_ksplice/) (Ksplice 등 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 재부팅 없는 패치망 체계 구조) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -213,7 +210,7 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 가상머신(컴퓨터 안의 가짜 컴퓨터들)은 가끔 똑같은 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 각자의 책상에 올려두고 자리(메모리)를 낭비해요.
+1. 가상머신(컴퓨터 안의 가짜 컴퓨터들)은 가끔 똑같은 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 각자의 책상에 올려두고 자리(메모리)를 낭비해요.
 2. 'KSM'이라는 똑똑한 청소 로봇은 밤마다 돌아다니면서 똑같은 책들을 다 치워버리고, 커다란 테이블 가운데에 책을 딱 1권만 놔둬서 다 같이 보게 만들어요.
 3. 그러다 누군가 그 책에 낙서를 하려고 하면, 로봇이 0.1초 만에 새 책을 복사해서 그 사람에게만 던져준답니다! 그래서 방(메모리)을 엄청 넓게 쓸 수 있어요.
 
@@ -223,7 +220,7 @@ KSM은 무작정 모든 메모리를 뒤지는 것이 아니라, 애플리케이
 
 **진행 상황**: 631 / 800
 
-<- **이전**: [630. 가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식](/knowledge-base/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)
-**다음**: [632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조](/knowledge-base/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ->
+<- **이전**: [630. 가상 스위치 (vSwitch) 패킷 오버헤드 VNF 구조 적용 방식](/studynote/02_operating_system/10_security/630_vswitch_vnf_overhead/)
+**다음**: [632. 벌루닝 (Ballooning) 하이퍼바이저 가상머신 동적 메모리 회수 기법 구조](/studynote/02_operating_system/10_security/632_memory_ballooning_hypervisor/) ->
 
 ---

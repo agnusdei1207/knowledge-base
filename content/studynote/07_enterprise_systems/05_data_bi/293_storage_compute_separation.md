@@ -1,26 +1,23 @@
-+++
-title = "293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)"
-date = 2026-03-04
+---
+title: "293. 스토리지와 컴퓨팅의 분리 (Separation of Compute and Storage)"
+date: "2026-03-04"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(Storage)와 연산 엔진(Compute)을 물리적/[논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [데이터 아키텍처](/knowledge-base/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
-> 2. **가치**: 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 연산 자원이 부족하면 CPU만 추가하고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 스토리지 비용만 지불함으로써 자원 활용 효율과 비용을 최적화한다.
-> 3. **판단 포인트**: 정적 워크로드보다는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입량과 분석 빈도의 변동성이 큰 현대 엔터프라이즈 환경에서 강력한 비용 절감 및 운영 유연성을 제공한다.
+> 1. **본질**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장소(Storage)와 연산 엔진(Compute)을 물리적/[논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적으로 독립시켜 각각 필요한 만큼 유연하게 확장하는 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) [데이터 아키텍처](/studynote/12_it_management/03_ea_isp/104_da_as_is_analysis/)다.
+> 2. **가치**: 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리 시 연산 자원이 부족하면 CPU만 추가하고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 스토리지 비용만 지불함으로써 자원 활용 효율과 비용을 최적화한다.
+> 3. **판단 포인트**: 정적 워크로드보다는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 유입량과 분석 빈도의 변동성이 큰 현대 엔터프라이즈 환경에서 강력한 비용 절감 및 운영 유연성을 제공한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 전통적인 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [하둡](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 시스템은 컴퓨팅 노드에 직접 스토리지가 붙어 있는 **공유 지스크(Shared-Nothing)** 구조를 취했다. 이는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접성([Data Locality](/knowledge-base/studynote/14_data_engineering/01_infrastructure/019_data_locality/))을 통해 네트워크 병목을 줄였으나, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 필요 없는 CPU 자원까지 함께 증설해야 하는 자원 낭비와 확장성 한계를 야기했다.
+과거의 전통적인 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/)나 [하둡](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)([Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/)) 시스템은 컴퓨팅 노드에 직접 스토리지가 붙어 있는 **공유 지스크(Shared-Nothing)** 구조를 취했다. 이는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 근접성([Data Locality](/studynote/14_data_engineering/01_infrastructure/019_data_locality/))을 통해 네트워크 병목을 줄였으나, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 늘어나면 필요 없는 CPU 자원까지 함께 증설해야 하는 자원 낭비와 확장성 한계를 야기했다.
 
-클라우드 환경의 발전으로 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 확보되면서, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 집중식 저가형 스토리지(S3 등)에 두고 연산 계층만 가변적으로 운영하는 방식이 필수적으로 등장하게 되었다.
+클라우드 환경의 발전으로 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 네트워크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 확보되면서, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 집중식 저가형 스토리지(S3 등)에 두고 연산 계층만 가변적으로 운영하는 방식이 필수적으로 등장하게 되었다.
 
 - **📢 섹션 요약 비유**: 식당 주방에 요리사(Compute)와 냉장고(Storage)가 한 몸으로 붙어 있는 것이 아니라, 큰 공동 창고에서 요리사들이 필요한 식재료만 가져와 요리하는 것과 같다.
 
@@ -28,7 +25,7 @@ tags = ["studynote-enterprise"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-이 아키텍처의 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층(Persistence Layer)은 영구적이고 안정적인 공유 스토리지를 활용하고, 연산 계층(Execution Layer)은 필요에 따라 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸되는 일시적(Ephemeral)인 구조를 갖는 것이다.
+이 아키텍처의 핵심은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 계층(Persistence Layer)은 영구적이고 안정적인 공유 스토리지를 활용하고, 연산 계층(Execution Layer)은 필요에 따라 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)되고 소멸되는 일시적(Ephemeral)인 구조를 갖는 것이다.
 
 ```text
 +---------------------------+      +---------------------------+
@@ -45,9 +42,9 @@ tags = ["studynote-enterprise"]
 
 | 구성 요소 | 특징 | 역할 |
 |:---|:---|:---|
-| 고성능 네트워크 | 10Gbps~100Gbps [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 원격 스토리지의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산 노드 메모리로 고속 전송 |
-| 공유 스토리지 | 무한 확장성, 저비용 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 영구 저장, 단일 진실 공급원(SSOT) 역할 |
-| [스테이트](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)리스 노드 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비소유, 수평 확장 | [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리 후 자원 즉시 반납, 비용 최적화의 핵심 |
+| 고성능 네트워크 | 10Gbps~100Gbps [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) | 원격 스토리지의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 연산 노드 메모리로 고속 전송 |
+| 공유 스토리지 | 무한 확장성, 저비용 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 영구 저장, 단일 진실 공급원(SSOT) 역할 |
+| [스테이트](/studynote/04_software_engineering/05_devops_ci_cd/272_state_pattern/)리스 노드 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 비소유, 수평 확장 | [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 처리 후 자원 즉시 반납, 비용 최적화의 핵심 |
 
 - **📢 섹션 요약 비유**: 개인 도서관에 책을 다 꽂아두는 대신, 국립 도서관(공유 스토리지)에서 필요한 책만 빌려와 내 책상(Compute)에서 읽고 다시 돌려주는 방식이다.
 
@@ -55,31 +52,31 @@ tags = ["studynote-enterprise"]
 
 ## Ⅲ. 비교 및 연결
 
-전통적인 결합형 구조(Coupled)와 [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 분리형 구조(Decoupled)의 차이는 경제성과 유연성에서 극명하게 갈린다.
+전통적인 결합형 구조(Coupled)와 [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/) 분리형 구조(Decoupled)의 차이는 경제성과 유연성에서 극명하게 갈린다.
 
 | 항목 | 결합형 (Coupled/Shared-Nothing) | 분리형 (Decoupled/Cloud-Native) |
 |:---|:---|:---|
 | 자원 확장 | 스토리지+연산 동시 증설 (비효율) | 각각 독립적으로 무한 확장 (효율) |
-| [데이터 가용성](/knowledge-base/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) | 노드 장애 시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요 | 스토리지 계층에서 고가용성 보장 |
+| [데이터 가용성](/studynote/06_ict_convergence/01_blockchain/094_data_availability_da_layer_celestia/) | 노드 장애 시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 필요 | 스토리지 계층에서 고가용성 보장 |
 | 비용 구조 | 하드웨어 선점형(CapEx 위주) | 사용한 만큼 지불(OpEx 위주) |
 
-이러한 분리는 스노우플레이크([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)), 구글 빅쿼리([BigQuery](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)), AWS 레드SHIFT(Redshift) RA3 노드 등 현대적인 클라우드 [DW](/knowledge-base/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 솔루션의 표준 아키텍처가 되었다.
+이러한 분리는 스노우플레이크([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/)), 구글 빅쿼리([BigQuery](/studynote/13_cloud_architecture/05_data_engineering/263_storage_compute_separation_bigquery/)), AWS 레드SHIFT(Redshift) RA3 노드 등 현대적인 클라우드 [DW](/studynote/12_it_management/05_security_compliance/209_data_warehouse_schema_on_write/) 솔루션의 표준 아키텍처가 되었다.
 
-- **📢 섹션 요약 비유**: 결합형은 일체형 PC처럼 부품 하나 바꾸기 힘든 구조라면, 분리형은 데스크탑 본체와 [모니터](/knowledge-base/studynote/02_operating_system/04_synchronization/229_monitor/)를 따로 사서 필요할 때마다 교체하는 조립 PC와 같다.
+- **📢 섹션 요약 비유**: 결합형은 일체형 PC처럼 부품 하나 바꾸기 힘든 구조라면, 분리형은 데스크탑 본체와 [모니터](/studynote/02_operating_system/04_synchronization/229_monitor/)를 따로 사서 필요할 때마다 교체하는 조립 PC와 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 <strong>워크로드의 동적 특성</strong>을 고려하여 도입을 결정한다. 24시간 일정한 부하가 걸리는 환경이라면 결합형이 네트워크 비용 면에서 유리할 수 있으나, 대부분의 기업 분석 환경처럼 특정 시간에만 부하가 몰리는 경우 분리형이 압도적인 [TCO](/knowledge-base/studynote/12_it_management/01_governance_strategy/016_tco/) 이점을 제공한다.
+실무에서는 <strong>워크로드의 동적 특성</strong>을 고려하여 도입을 결정한다. 24시간 일정한 부하가 걸리는 환경이라면 결합형이 네트워크 비용 면에서 유리할 수 있으나, 대부분의 기업 분석 환경처럼 특정 시간에만 부하가 몰리는 경우 분리형이 압도적인 [TCO](/studynote/12_it_management/01_governance_strategy/016_tco/) 이점을 제공한다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 속도가 연산량 증가 속도보다 훨씬 빠른가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 증가 속도가 연산량 증가 속도보다 훨씬 빠른가?
 2. 특정 시간대(결산, 이벤트)에만 연산 자원이 폭발적으로 필요한가?
-3. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 내구성을 스토리지 계층에 위임하여 운영 부하를 줄이고 싶은가?
+3. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)과 내구성을 스토리지 계층에 위임하여 운영 부하를 줄이고 싶은가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 네트워크 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 확보되지 않은 [온프레미스](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 환경에서 무리하게 스토리지를 분리하여 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 일으키는 경우.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 네트워크 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 확보되지 않은 [온프레미스](/studynote/07_enterprise_systems/01_strategy_governance/061_on_premise_legacy_infrastructure/) 환경에서 무리하게 스토리지를 분리하여 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목을 일으키는 경우.
 
 - **📢 섹션 요약 비유**: 에어컨을 살 때 실외기와 실내기를 분리하는 것과 같다. 실내기는 방마다 필요하지만 실외기는 하나로 통합 관리하는 것이 효율적이다.
 
@@ -87,11 +84,11 @@ tags = ["studynote-enterprise"]
 
 ## Ⅴ. 기대효과 및 결론
 
-스토리지와 컴퓨팅의 분리는 단순히 기술적 변화를 넘어, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 <strong>경제적 패러다임</strong>을 바꾼다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저렴하게 쌓아두고([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)), 연산은 필요할 때만 강력하게 투입하는 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능해지기 때문이다.
+스토리지와 컴퓨팅의 분리는 단순히 기술적 변화를 넘어, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 관리의 <strong>경제적 패러다임</strong>을 바꾼다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 저렴하게 쌓아두고([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)), 연산은 필요할 때만 강력하게 투입하는 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 가능해지기 때문이다.
 
-결론적으로, 이 아키텍처는 [데이터 레이크하우스](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 같은 차세대 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 근간이며, 기업이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모의 경제를 실현하기 위해 반드시 거쳐야 할 관문이다.
+결론적으로, 이 아키텍처는 [데이터 레이크하우스](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/)([Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/))와 같은 차세대 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 근간이며, 기업이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 규모의 경제를 실현하기 위해 반드시 거쳐야 할 관문이다.
 
-- **📢 섹션 요약 비유**: 넷플릭스처럼 영화 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내 폰에 다 저장하지 않고, 클라우드에 둔 뒤 보고 싶을 때만 스트리밍으로 보는 것이 훨씬 자유로운 것과 같다.
+- **📢 섹션 요약 비유**: 넷플릭스처럼 영화 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 내 폰에 다 저장하지 않고, 클라우드에 둔 뒤 보고 싶을 때만 스트리밍으로 보는 것이 훨씬 자유로운 것과 같다.
 
 ---
 
@@ -99,8 +96,8 @@ tags = ["studynote-enterprise"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [데이터 레이크](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/knowledge-base/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) | 분리형 아키텍처의 스토리지 계층으로 가장 많이 활용됨 |
-| 스노우플레이크 ([Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/)) | 스토리지/컴퓨팅 분리 아키텍처를 대중화시킨 선두 주자 |
+| [데이터 레이크](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/) ([Data Lake](/studynote/12_it_management/05_security_compliance/208_data_lake_schema_on_read/)) | 분리형 아키텍처의 스토리지 계층으로 가장 많이 활용됨 |
+| 스노우플레이크 ([Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/)) | 스토리지/컴퓨팅 분리 아키텍처를 대중화시킨 선두 주자 |
 | 오토스케일링 (Auto-scaling) | 분리된 컴퓨팅 노드를 부하에 따라 자동 증감시키는 기술 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -121,7 +118,7 @@ Snowflake/BigQuery 스토리지·컴퓨팅 독립 확장
 Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
 ```
 
-> **키워드**: [Storage-Compute Separation](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/), [Object Storage](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), S3, [Data Lakehouse](/knowledge-base/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Snowflake](/knowledge-base/studynote/05_database/04_transactions_concurrency/541_cassandra/), Elasticity
+> **키워드**: [Storage-Compute Separation](/studynote/07_enterprise_systems/06_exam_summary/391_storage_compute_separation/), [Object Storage](/studynote/02_operating_system/08_storage_and_io_systems/494_object_storage/), S3, [Data Lakehouse](/studynote/12_it_management/05_security_compliance/210_data_lakehouse_delta_lake/), [Snowflake](/studynote/05_database/04_transactions_concurrency/541_cassandra/), Elasticity
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. 가방에 장난감을 다 넣고 다니면 너무 무겁고 힘들어요.
@@ -134,7 +131,7 @@ Data Lakehouse (Delta Lake, Iceberg) - 통합 계층
 
 **진행 상황**: 293 / 482
 
-<- **이전**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/)
-**다음**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/) ->
+<- **이전**: [292. 클라우드 네이티브 DW (Snowflake, BigQuery, Redshift) 아키텍처](/studynote/07_enterprise_systems/05_data_bi/292_cloud_native_dw_snowflake_bigquery_redshift/)
+**다음**: [294. 제로 카피 클론 (Zero-Copy Cloning)](/studynote/07_enterprise_systems/05_data_bi/294_zero_copy_cloning/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "724. IT 경영 관리 핵심 토픽 724번 시험 요약 (IT Management Core Topic 724 Exam Summary)"
-date = 2026-05-09
+---
+title: "724. IT 경영 관리 핵심 토픽 724번 시험 요약 (IT Management Core Topic 724 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -147,7 +144,7 @@ COBIT 2019은 **Process Activity Rating**을 PAM(Process Assessment Model) ISO/I
 
 **진행 상황**: 724 / 800
 
-<- **이전**: [723. IT 경영 관리 핵심 토픽 723번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/723_it_management_core_topic_723_exam_summary/)
-**다음**: [725. IT 경영 관리 핵심 토픽 725번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/725_it_management_core_topic_725_exam_summary/) ->
+<- **이전**: [723. IT 경영 관리 핵심 토픽 723번 시험 요약](/studynote/12_it_management/05_security_compliance/723_it_management_core_topic_723_exam_summary/)
+**다음**: [725. IT 경영 관리 핵심 토픽 725번 시험 요약](/studynote/12_it_management/05_security_compliance/725_it_management_core_topic_725_exam_summary/) ->
 
 ---

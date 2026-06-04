@@ -1,13 +1,10 @@
-+++
-title = "330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)"
-date = 2026-05-08
+---
+title: "330. EUI-64 (MAC 기반 IPv6 호스트 주소 자동생성)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,10 +16,10 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 48비트 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 64비트 [IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 인터페이스 [식별자](/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Interface ID)로 확장 변환하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙.
-- **필요성**: [IPv4](/knowledge-base/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절엔 집 번호(Host ID)가 고작 `1~254` 였으므로 관리자가 수동으로 쳐 넣거나(Static IP) 공유기가 대충 남는 번호를 줬다([DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)). 그런데 IPv6는 집 번호 칸만 무려 64비트(약 1845경 개)다. 이걸 인간이 어떻게 일일이 타이핑하고, [DHCP](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 언제 수십억 대 기기를 관리하겠는가? "기계들아! 어차피 네 랜카드 안에 전 세계에서 너만 가진 유일한 번호([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 지져져 있잖아? <strong>그걸 그대로 재활용해서 네 스스로 집 번호를 조립(<a href="/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)해버려!</strong>"라는 자급자족의 사상에서 탄생했다.
+- **개념**: 48비트 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소를 64비트 [IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 인터페이스 [식별자](/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/)(Interface ID)로 확장 변환하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 규칙.
+- **필요성**: [IPv4](/studynote/03_network/06_network_layer_ip/286_ipv4_internet_protocol_version_4_rfc_791/) 시절엔 집 번호(Host ID)가 고작 `1~254` 였으므로 관리자가 수동으로 쳐 넣거나(Static IP) 공유기가 대충 남는 번호를 줬다([DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/)). 그런데 IPv6는 집 번호 칸만 무려 64비트(약 1845경 개)다. 이걸 인간이 어떻게 일일이 타이핑하고, [DHCP](/studynote/03_network/10_application_layer_dns_mgmt/522_dhcp_dynamic_host_configuration_protocol/) 서버가 언제 수십억 대 기기를 관리하겠는가? "기계들아! 어차피 네 랜카드 안에 전 세계에서 너만 가진 유일한 번호([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소)가 지져져 있잖아? <strong>그걸 그대로 재활용해서 네 스스로 집 번호를 조립(<a href="/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/">SLAAC</a>)해버려!</strong>"라는 자급자족의 사상에서 탄생했다.
 
-- **💡 비유**: [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 <strong>"주민등록번호 앞자리(생년월일)"</strong>라면, EUI-64는 뒤에 <strong>"성별과 지역 코드(FF:FE)"</strong>를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 <strong>"13자리 전체 주민등록번호(64비트)"</strong>를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
+- **💡 비유**: [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 6자리 짜리 <strong>"주민등록번호 앞자리(생년월일)"</strong>라면, EUI-64는 뒤에 <strong>"성별과 지역 코드(FF:FE)"</strong>를 자동으로 끼워 넣고 주민센터 도장(7번째 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전)을 쾅 찍어서 완벽한 <strong>"13자리 전체 주민등록번호(64비트)"</strong>를 손 댈 필요 없이 자동으로 발급해 주는 키오스크 기계입니다.
 
 ```text
 [링크 로컬 주소 / 사이트 로컬 주소]
@@ -33,30 +30,30 @@ tags = ["studynote-network"]
     +---> [SLAAC 무상태 주소 자동 설정]
 ```
 
-- **📢 섹션 요약 비유**: <strong> EUI-64는 핫도그 빵(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)의 한가운데를 나이프로 가르고 그 속에 </strong>고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
+- **📢 섹션 요약 비유**: <strong> EUI-64는 핫도그 빵(<a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a> 주소)의 한가운데를 나이프로 가르고 그 속에 </strong>고정된 소시지(FF:FE)** 하나를 쑥 밀어 넣어, 순식간에 속이 꽉 찬 "핫도그(64비트 인터페이스 ID)" 하나를 뚝딱 만들어내는 레시피입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-어떤 PC의 랜카드 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 <strong><code>00:1A:2B:3C:4D:5E</code></strong> (48비트)라고 가정하자.
+어떤 PC의 랜카드 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소가 <strong><code>00:1A:2B:3C:4D:5E</code></strong> (48비트)라고 가정하자.
 이 녀석이 EUI-64 규칙을 통해 64비트의 뒷부분 주소(인터페이스 ID)를 만들어내는 과정은 다음과 같다.
 
-### 1단계: 정중앙 절단 및 `FF:FE` 삽입 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
-- [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 앞 24비트(제조사 OUI, `00:1A:2B`)와 뒤 24비트(일련번호, `3C:4D:5E`) 사이를 반으로 쪼갠다.
+### 1단계: 정중앙 절단 및 `FF:FE` 삽입 ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))
+- [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소의 앞 24비트(제조사 OUI, `00:1A:2B`)와 뒤 24비트(일련번호, `3C:4D:5E`) 사이를 반으로 쪼갠다.
 - 그 한가운데 빈틈에 16비트 크기의 <strong><code>FF:FE</code></strong>를 강제로 밀어 넣는다.
 - **중간 결과**: `00:1A:2B:FF:FE:3C:4D:5E` (64비트 덩어리로 늘어남)
 
-### 2단계: 첫 번째 바이트의 7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(U/L [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 반전
+### 2단계: 첫 번째 바이트의 7번째 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(U/L [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/)) 반전
 이제 가장 중요한 '신분 보증' 작업이 남았다.
 - 맨 앞의 숫자 `00`을 2진수로 푼다. ---> `0000 0000`
-- 왼쪽에서부터 7번째 자리에 있는 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Universal/Local [Bit](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 찾는다.
-- 이 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 1로, 1이면 0으로 무조건 **뒤집는다(Flip/Invert)**.
+- 왼쪽에서부터 7번째 자리에 있는 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)(Universal/Local [Bit](/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/))를 찾는다.
+- 이 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 0이면 1로, 1이면 0으로 무조건 **뒤집는다(Flip/Invert)**.
 - `0000 00`<strong><code>0</code></strong>`0` ---> `0000 00`<strong><code>1</code></strong>`0` 으로 바뀐다!
 - 이를 다시 16진수로 돌리면 <strong><code>02</code></strong>가 된다.
-- (참고: 이 U/L [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1이 되면 "이 주소는 전 세계적으로 유일무이한 공장 출고([BIA](/knowledge-base/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)) MAC에서 파생된 진짜 글로벌 주소다"라는 것을 우주 만물에 증명하는 것이다).
+- (참고: 이 U/L [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 1이 되면 "이 주소는 전 세계적으로 유일무이한 공장 출고([BIA](/studynote/07_enterprise_systems/04_process_consulting/212_bia_business_impact_analysis_rto_rpo_dr/)) MAC에서 파생된 진짜 글로벌 주소다"라는 것을 우주 만물에 증명하는 것이다).
 
-### 3단계: 최종 완성 ([IPv6](/knowledge-base/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 포맷에 맞춤)
+### 3단계: 최종 완성 ([IPv6](/studynote/03_network/06_network_layer_ip/324_ipv6_128bit_next_generation_address/) 포맷에 맞춤)
 - **최종 결과**: `02:1A:2B:FF:FE:3C:4D:5E`
 - 이제 이걸 IPv6의 우아한 16비트 콜론 표기법으로 묶는다.
 - ---> <strong><code>021a:2bff:fe3c:4d5e</code></strong>
@@ -81,22 +78,22 @@ tags = ["studynote-network"]
 
 ### 3. 현대의 보안적 한계 (Privacy Extension)
 EUI-64는 천재적이지만 치명적인 프라이버시(해킹) 약점이 있다.
-[MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 평생 안 변하니까, 이 공식으로 만든 뒷자리(`021a:2bff...`) 역시 평생 안 변한다. 즉, 해커가 이 뒷자리만 알면 내가 회사에 출근했는지, 카페에 갔는지(앞자리 Prefix만 바뀜) IP 주소만 보고도 내 동선을 완벽히 추적(Tracking)할 수 있게 된다.
-- **해결책**: 현대의 윈도우나 맥북, 스마트폰은 해커 추적을 막기 위해 EUI-64 방식을 끄고(무시하고), 그냥 무작위 숫자로 뒷자리를 마구 섞어서(Randomized) 임시로 사용하는 <strong>사생활 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 확장(Privacy Extension)</strong> 기능이 강제로 켜져 있다.
+[MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소는 평생 안 변하니까, 이 공식으로 만든 뒷자리(`021a:2bff...`) 역시 평생 안 변한다. 즉, 해커가 이 뒷자리만 알면 내가 회사에 출근했는지, 카페에 갔는지(앞자리 Prefix만 바뀜) IP 주소만 보고도 내 동선을 완벽히 추적(Tracking)할 수 있게 된다.
+- **해결책**: 현대의 윈도우나 맥북, 스마트폰은 해커 추적을 막기 위해 EUI-64 방식을 끄고(무시하고), 그냥 무작위 숫자로 뒷자리를 마구 섞어서(Randomized) 임시로 사용하는 <strong>사생활 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 확장(Privacy Extension)</strong> 기능이 강제로 켜져 있다.
 
-- **📢 섹션 요약 비유**: <strong> EUI-64 <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 라면(<a href="/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)을 끓일 때 무조건 </strong>"가운데를 쪼개서 달걀(FF:FE)을 하나 탁 넣고, 마지막에 참기름(7번째 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒤집기)을 한 방울 떨어뜨리는 완벽하고 고정된 요리 공식"**입니다. 기계가 이 레시피만 외우고 있으면 인간 요리사(관리자) 없이도 알아서 한 끼(IP 주소)를 완벽히 차려 먹습니다.
+- **📢 섹션 요약 비유**: <strong> EUI-64 <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a>은 라면(<a href="/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/">MAC</a>)을 끓일 때 무조건 </strong>"가운데를 쪼개서 달걀(FF:FE)을 하나 탁 넣고, 마지막에 참기름(7번째 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 뒤집기)을 한 방울 떨어뜨리는 완벽하고 고정된 요리 공식"**입니다. 기계가 이 레시피만 외우고 있으면 인간 요리사(관리자) 없이도 알아서 한 끼(IP 주소)를 완벽히 차려 먹습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-EUI-64를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소가 기반 조건을 만든다면, EUI-64는 그 위에서 핵심 메커니즘을 구현하고, [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+EUI-64를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소가 기반 조건을 만든다면, EUI-64는 그 위에서 핵심 메커니즘을 구현하고, [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)은 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 주소 효율과 도달성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소의 기반 정리 | EUI-64의 핵심 동작 | [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)의 확장 적용 |
+| 초점 | [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소의 기반 정리 | EUI-64의 핵심 동작 | [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 주소 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: EUI-64는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -104,18 +101,18 @@ EUI-64를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 EUI-64를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소 수준의 기본 대책으로 충분한지, 아니면 EUI-64가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 EUI-64를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소 수준의 기본 대책으로 충분한지, 아니면 EUI-64가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 주소 효율 부족인지, 도달성 악화인지 먼저 분리한다.
-2. EUI-64가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와의 연계 방식을 함께 검증한다.
+2. EUI-64가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - EUI-64의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: EUI-64를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -123,7 +120,7 @@ EUI-64를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름�
 
 ## Ⅴ. 기대효과 및 결론
 
-EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/), 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 주소 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/), 대규모 주소 자동화, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 대규모 주소 자동화 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: EUI-64는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -133,10 +130,10 @@ EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| IP 주소 (Internet [Protocol](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
+| [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| IP 주소 (Internet [Protocol](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) Address) | 종단 위치를 논리적으로 식별한다. |
 | 서브넷 (Subnet) | 주소 공간을 쪼개 관리 단위를 만든다. |
-| [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -150,7 +147,7 @@ EUI-64는 네트워크 계층과 IP를 이해할 때 핵심 축을 잡아 주는
     +---> [확장 B: 대규모 주소 자동화]
 ```
 
-EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [SLAAC](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+EUI-64는 [링크 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/) / 사이트 로컬 주소에서 출발해 현재 메커니즘을 정교화하고, 이후 [SLAAC](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) 무상태 주소 자동 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)와 대규모 주소 자동화 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -164,7 +161,7 @@ EUI-64는 [링크 로컬 주소](/knowledge-base/studynote/03_network/06_network
 
 **진행 상황**: 451 / 1120
 
-<- **이전**: [329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소](/knowledge-base/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)
-**다음**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/knowledge-base/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) ->
+<- **이전**: [329. 링크 로컬 주소 (IPv6 Link Local, FE80::) / 사이트 로컬 주소](/studynote/03_network/06_network_layer_ip/329_ipv6_link_local_fe80_site_local/)
+**다음**: [331. SLAAC (Stateless Address Autoconfiguration) 무상태 주소 자동 설정](/studynote/03_network/06_network_layer_ip/331_slaac_stateless_address_autoconfiguration_ndp/) ->
 
 ---

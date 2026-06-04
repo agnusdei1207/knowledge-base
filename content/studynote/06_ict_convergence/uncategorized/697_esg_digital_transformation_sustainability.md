@@ -1,13 +1,10 @@
-+++
-title = "697. ESG 디지털 전환 지속가능 경영 (ESG Digital Transformation Sustainability)"
-date = 2026-05-09
+---
+title: "697. ESG 디지털 전환 지속가능 경영 (ESG Digital Transformation Sustainability)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -145,7 +142,7 @@ ESG DX의 기술 아키텍처는 국제 표준인 **GRI(Global Reporting Initiat
 
 **진행 상황**: 697 / 800
 
-<- **이전**: [696. 스마트 모빌리티 MaaS 통합 교통](/knowledge-base/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/)
-**다음**: [698. 사이버 보안 위협 인텔리전스 CTI](/knowledge-base/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/) ->
+<- **이전**: [696. 스마트 모빌리티 MaaS 통합 교통](/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/)
+**다음**: [698. 사이버 보안 위협 인텔리전스 CTI](/studynote/06_ict_convergence/uncategorized/698_cyber_security_threat_intelligence_cti/) ->
 
 ---

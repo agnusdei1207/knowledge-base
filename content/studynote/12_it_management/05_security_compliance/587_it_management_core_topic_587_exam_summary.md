@@ -1,13 +1,10 @@
-+++
-title = "587. IT 경영 관리 핵심 토픽 587번 시험 요약 (IT Management Core Topic 587 Exam Summary)"
-date = 2026-05-09
+---
+title: "587. IT 경영 관리 핵심 토픽 587번 시험 요약 (IT Management Core Topic 587 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -138,7 +135,7 @@ IT 경영 관리 영역은 다수의 글로벌 프레임워크가 공존하며, 
 
 **진행 상황**: 587 / 800
 
-<- **이전**: [586. IT 경영 관리 핵심 토픽 586번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/586_it_management_core_topic_586_exam_summary/)
-**다음**: [588. IT 경영 관리 핵심 토픽 588번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/588_it_management_core_topic_588_exam_summary/) ->
+<- **이전**: [586. IT 경영 관리 핵심 토픽 586번 시험 요약](/studynote/12_it_management/05_security_compliance/586_it_management_core_topic_586_exam_summary/)
+**다음**: [588. IT 경영 관리 핵심 토픽 588번 시험 요약](/studynote/12_it_management/05_security_compliance/588_it_management_core_topic_588_exam_summary/) ->
 
 ---

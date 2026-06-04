@@ -1,13 +1,10 @@
-+++
-title = "581. 디지털 트윈 산업 시뮬레이션 최적화 (Digital Twin Industrial Simulation Optimization)"
-date = 2026-05-09
+---
+title: "581. 디지털 트윈 산업 시뮬레이션 최적화 (Digital Twin Industrial Simulation Optimization)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Sense -> Model -> Simulate -> Optimize -> Control
 
 **진행 상황**: 581 / 800
 
-<- **이전**: [580. DeSci 탈중앙 과학 연구 공유](/knowledge-base/studynote/06_ict_convergence/uncategorized/580_decentralized_science_desci_research_sharing/)
-**다음**: [582. 자율주행 센서퓨전 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/582_autonomous_vehicle_sensor_fusion_architecture/) ->
+<- **이전**: [580. DeSci 탈중앙 과학 연구 공유](/studynote/06_ict_convergence/uncategorized/580_decentralized_science_desci_research_sharing/)
+**다음**: [582. 자율주행 센서퓨전 아키텍처](/studynote/06_ict_convergence/uncategorized/582_autonomous_vehicle_sensor_fusion_architecture/) ->
 
 ---

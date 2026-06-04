@@ -1,13 +1,10 @@
-+++
-title = "798. ICT 융합 기술 미래 비전 2030 전망 (ICT Convergence Future Vision 2030 Outlook)"
-date = 2026-05-09
+---
+title: "798. ICT 융합 기술 미래 비전 2030 전망 (ICT Convergence Future Vision 2030 Outlook)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ ICT 융합 2030은 단일 신기술이 아닌 다수 진보 기술의 **공진�
 
 **진행 상황**: 798 / 800
 
-<- **이전**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/)
-**다음**: [799. ICT 융합 기술사 최종 종합 마스터 맵](/knowledge-base/studynote/06_ict_convergence/uncategorized/799_ict_convergence_pe_final_master_map/) ->
+<- **이전**: [797. ICT 융합 기술사 합격 최종 키워드 정리](/studynote/06_ict_convergence/uncategorized/797_ict_pe_pass_final_keywords_summary/)
+**다음**: [799. ICT 융합 기술사 최종 종합 마스터 맵](/studynote/06_ict_convergence/uncategorized/799_ict_convergence_pe_final_master_map/) ->
 
 ---

@@ -1,175 +1,166 @@
-+++
-title = "456. 스트랭글러 패턴 레거시 전환 (Strangler Fig Pattern Legacy Migration)"
-date = 2026-05-09
+---
+title: "456. 스트랭글러 패턴 레거시 전환 (Strangler Fig Pattern Legacy Migration)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 스트랭글러 패턴 레거시 전환은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Martin Fowler가 2004년 명명한 Strangler Fig Pattern은 레거시 시스템(주로 Monolith, Mainframe)을 **Facade(API Gateway/Reverse Proxy) 기반의 점진적 트래픽 전환**으로 단계적으로 해체(Decomposition)하여 신규 MSA/Cloud-Native 시스템으로 무중단(Zero-Downtime) 치환하는 Evolutionary Migration 아키텍처 패턴이다.
+> 2. **가치**: "Big-Bang Cutover" 대비 다운타임 0% 달성, 비즈니스 연속성 100% 보장, 변경 가능 범위를 단위 마이크로서비스(2~6주 Sprint) 단위로 분할하여 PoC->Production 위험을 약 70% 이상 절감하며, 레거시 회수(Technical Debt Reduction) 효과를 점진적으로 실현한다.
+> 3. **판단 포인트**: 핵심 트레이드오프는 **① Facade의 라우팅 세분화 수준(Path/Header/Cookie/Payload) ② 데이터 이중 쓰기(Dual-Write) 시 일관성 보장 전략(Saga/CDC/Outbox) ③ 레거시 세션·인증 연동(JWT/SAML Bridge) 복잡도 ④ Strangling 기간 중 운영·관측(Observability) 이원화 비용**이며, 이를 ADR(Architecture Decision Record)로 명문화하여 이해관계자 합의하에 진행해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-스트랭글러 패턴 레거시 전환은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+금융·공공·통신·제조 등 대형 엔터프라이즈에서 20~30년 이상 운영된 COBOL Mainframe, JSP/EJB Monolith, Oracle Forms 기반 시스템은 **① 코드 수정 시 평균 4~8주 리드타임 ② 변경 실패율 60% 이상 ③ 신규 인력Pool 90% 이상 단절 ④ 라이선스 비용 연 5~15% 증가**라는 4대 Dead Sea Effect(죽음의 바닷효과)를 겪는다. 그러나 Big-Bang 방식의 재개발은 통상 18~36개월, 100~500억 원 투입되며, 프로젝트 실패율 68%(Standish Group CHAOS Report 2023 기준)에 달한다. 또한 메인프레임 인력의 평균 은퇴 연령이 55세임을 고려하면 **"지금 천천히 전환하지 못하면, 5년 후엔 할 수조차 없다"**는 Business Continuity Risk가 존재한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Strangler Fig Pattern Legacy Migration 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+Strangler Fig Pattern은 **"기존 시스템을 한 번에 죽이지 않고, 트래픽을 점진적으로 새 시스템으로 흡수시켜 서서히 질식(Strangle)시킨다"**는 생물학적 메타포에서 출발한다. 핵심 전제 3가지는 다음과 같다.
+
+| 전제 | 설명 |
+|:---|:---|
+| **점진성(Incrementality)** | 단일 배포 단위로 1~3개월 이내 완료 가능한 크기(Strangler Application)로 분해 |
+| **가역성(Reversibility)** | 신규 서비스 장애 시 트래픽을 1초 내 Legacy로 즉시 복귀(Rollback) 가능 |
+| **관측 가능성(Observability)** | 양쪽 시스템의 트랜잭션·로그·메트릭을 통합 OpenTelemetry 기반으로 상시 모니터링 |
 
 ```text
-+--------------------------------------------------------------+
-|                    스트랭글러 패턴 레거시 전환 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[클라이언트: Web/Mobile/3rd-Party]
+              | HTTPS / mTLS
+              v
+   +--------------------------+
+   |   Strangler Facade       |  <--- API Gateway / Reverse Proxy
+   |   (Kong / Envoy / Nginx  |      (Path/Header 기반 동적 라우팅)
+   |    / AWS API GW / Apigee)|
+   +------+----------+--------+
+          |          |
+   +------v-----+ +--v--------------------------+
+   |  Legacy    | |   New MSA / Cloud-Native    |
+   |  Monolith  | |  - Spring Boot / NestJS     |
+   |  (COBOL,   | |  - gRPC / GraphQL / REST    |
+   |   EJB, JSP)| |  - DB: PostgreSQL/DynamoDB  |
+   +------------+ +-----------------------------+
+          |                  |
+   +------v------------------v---------+
+   |   Cross-Store Data Sync Layer      |
+   |   (CDC: Debezium / SharePlex /     |
+   |    Outbox Pattern / ETL/Batch)     |
+   +------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+레거시 시스템의 **기술 부채(Technical Debt)**는 단순한 코드 품질 문제가 아니라, **① 자동화 부재(수동 배포) ② 테스트 커버리지 5% 미만 ③ 결합도(Coupling) 1.0에 근접 ④ 평균 MTTR(Mean Time To Recovery) 8시간 이상**이라는 운영 리스크로 구체화된다. Strangler Pattern은 이런 리스크를 **회피(Risk Transfer)**가 아닌 **흡수·환원(Risk Absorption)**하는 방식으로 해결한다.
 
-- **📢 섹션 요약 비유**: 스트랭글러 패턴 레거시 전환은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 낡은 시청사를 한 번에 부수지 않고, 출입구부터 차례로 신관으로 안내해 시민들은 불편 없이 출입하다가 어느 날 돌아보니 옛 건물이 사라져 있는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-스트랭글러 패턴 레거시 전환의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+Strangler Fig Pattern의 정통 아키텍처는 **4-Layer + 3-Phase** 구조로 정의된다. Martin Fowler의 원문(bliki)에서는 "Transform, Coexist, Eliminate"의 3단계를 제시하며, 이를 실무에선 **IT 현대화 방법론(ADM: Architecture Development Method, TOGAF)**의 Phase B~D와 매핑한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Strangler Fig Pattern Legacy Migration 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------+
+|  Layer 1: Edge / Facade  --- Kong / Envoy / Nginx-Istio /     |
+|                              AWS API GW / Apigee Hybrid       |
+|  +----------------------------------------------------------+  |
+|  | • Path-based Routing   : /v2/orders/* -> New Service     |  |
+|  | • Header-based         : X-Strangler-Canary: A/B        |  |
+|  | • Cookie-based         : sessionId=% -> % Routing        |  |
+|  | • Tenant-based         : /api/{tenant}/...              |  |
+|  | • JWT Claim            : iss, aud, scope, custom claim   |  |
+|  +----------------------------------------------------------+  |
++----------------------------------------------------------------+
+|  Layer 2: Anti-Corruption Layer (ACL)  --- Hexagonal/Ports   |
+|  +----------------------------------------------------------+  |
+|  |  Legacy Domain Model  <-->  Translation DTO  <-->  New      |  |
+|  |  (COBOL Copybook)         (MapStruct,        Domain     |  |
+|  |   VSAM/DB2 Schema)         OpenAPI Generator) Model     |  |
+|  +----------------------------------------------------------+  |
++----------------------------------------------------------------+
+|  Layer 3: Strangler Services (New MSA) -- 도메인 단위 분해    |
+|  +------------+ +------------+ +------------+ +------------+  |
+|  | User Svc   | | Order Svc  | | Payment Svc| | Product Svc|  |
+|  | (Spring)   | | (Node.js)  | | (Java/Go)  | | (Python)   |  |
+|  +------------+ +------------+ +------------+ +------------+  |
++----------------------------------------------------------------+
+|  Layer 4: Data Synchronization Plane                          |
+|  +----------------------------------------------------------+  |
+|  |  • CDC (Change Data Capture) : Debezium -> Kafka -> Sink  |  |
+|  |  • Dual-Write + Outbox       : Transactional Outbox      |  |
+|  |  • Event Replay              : Kafka Connect / Kinesis  |  |
+|  |  • Legacy Read Replica       : Oracle GoldenGate /      |  |
+|  |                                SharePlex / AWS DMS      |  |
+|  +----------------------------------------------------------+  |
++----------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 3-Phase Evolution (실무 적용 모델)
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|:---|:---|:---|
+| **Strangler Facade** | 트래픽 라우터, 인증 통합, Rate-Limit | Envoy xDS, Kong(OpenResty/Lua), Istio(Envoy wrapper), AWS API Gateway, Apigee Hybrid. Path/Header/Method/Body 매칭으로 Legacy/New 분기, 카나리 트래픽은 Envoy의 `weighted_clusters`(예: 95/5, 90/10) 또는 Istio VirtualService의 `weight: 90/10`을 사용해 점진적 비율 조절 |
+| **Anti-Corruption Layer (ACL)** | 레거시 도메인 ↔ 신규 도메인 번역기 | Hexagonal Architecture의 Port/Adapter, DDD Bounded Context 간 MapStruct, OpenAPI Generator, Avro Schema Registry, Adapter Pattern. 레거시 COBOL Copybook의 `PIC 9(7)V99`(7자리 정수+2자리 소수)를 Java `BigDecimal`로 변환 시 scale/precision 손실 방지를 위한 정밀 매핑 테이블 운영 |
+| **Strangler Services (New)** | 도메인 단위 신규 구현체 | Spring Boot 3.x / Quarkus / NestJS / Go-Kit / FastAPI. 데이터베이스는 Polyglot Persistence(PostgreSQL, MongoDB, DynamoDB, Cassandra). 통신은 동기(REST/gRPC), 비동기(Kafka, RabbitMQ, AWS SQS/SNS, Pulsar) 혼용 |
+| **Data Sync Plane** | 양쪽 데이터 일관성 유지 | **① CDC**: Debezium(Oracle/MySQL/PostgreSQL log tailing) -> Kafka -> Sink Connector. **② Outbox Pattern**: 동일 트랜잭션 내 Outbox 테이블에 이벤트 기록 -> CDC가 캡처. **③ Event Sourcing**: Aggregate 단위 Event Log 저장. **④ Bulk Backfill**: 초기 1회 Spark/Athena/Snowflake로 히스토리 마이그레이션 |
+| **Observability & Governance** | 양 시스템 통합 모니터링 | OpenTelemetry Collector로 양쪽 Trace/Metric/Log 수집 -> Jaeger/Tempo(분산 트레이싱) + Prometheus/Grafana(메트릭) + Loki/ELK(로그). Feature Flag(Unleash, LaunchDarkly)로 신규 기능 On/Off. **Span Correlation**: Facade에서 `traceparent`(W3C Trace Context)를 생성·전파하여 Legacy와 New를 단일 Trace로 연결 |
+| **Identity Federation** | 인증/세션 양 시스템 연동 | Legacy WAS 세션(Tomcat `JSESSIONID`/WebLogic `Cookie`/`HttpSession`)을 JWT(RS256, JWE)로 변환하는 **Token Bridge**(Spring Security `OAuth2ResourceServer` + Legacy `SessionRepository`). OAuth2/OIDC(Authorization Code + PKCE) ↔ 레거시 자체 인증 ID/PW 연동 시 `AuthenticationManager`에서 `AuthenticationProvider` 체이닝 |
+| **Migration Orchestrator** | 단계별 트래픽 이동·롤백 통제 | Argo Rollouts, Spinnaker, AWS CodeDeploy의 Blue/Green + Canary, Flagger(Progressive Delivery). 카나리 SLO 위반 시 자동 Rollback. 회귀 테스트는 Pact(Contract Test) + Shadow Traffic(미러링, `mirror_percentage: 5%`) + Chaos Engineering(LitmusChaos, Gremlin) |
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+### 라우팅 알고리즘 의사코드 (Envoy xDS 기반)
 
----
-
-## Ⅲ. 비교 및 연결
-
-스트랭글러 패턴 레거시 전환을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 스트랭글러 패턴 레거시 전환 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 스트랭글러 패턴 레거시 전환은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 스트랭글러 패턴 레거시 전환은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 스트랭글러 패턴 레거시 전환을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-스트랭글러 패턴 레거시 전환을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 스트랭글러 패턴 레거시 전환 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 스트랭글러 패턴 레거시 전환은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 스트랭글러 패턴 레거시 전환의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 스트랭글러 패턴 레거시 전환의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-스트랭글러 패턴 레거시 전환 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+```yaml
+# EnvoyFilter (Istio VirtualService와 동등)
+route_config:
+  virtual_hosts:
+  - name: legacy_fallback
+    domains: ["api.bank.local"]
+    routes:
+    - match:
+        prefix: "/v1/accounts/"
+        headers: [{name: ":authority", exact_match: "legacy.bank.local"}]
+      route_cluster: legacy_mainframe
+      timeout: 30s
+    - match:
+        prefix: "/v2/accounts/"
+        runtime_fraction:
+          default_value: 90
+          runtime_key: "routing.accounts.v2.weight"
+      route_cluster: new_accounts_msa
+      request_mirror_policies:
+      - cluster: new_accounts_shadow
+        runtime_fraction: {default_value: 5, runtime_key: "shadow.percent"}
+      retry_policy: {retry_on: "5xx,reset", num_retries: 2}
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 데이터 일관성 보장 메커니즘 상세
 
-1. 스트랭글러 패턴 레거시 전환은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| 전략 | 적용 시나리오 | 지연(latency) | 일관성 보장 | 도구/패턴 |
+|:---|:---|:---:|:---:|:---|
+| **Synchronous Dual-Write** | 트래픽 적은 마스터 데이터 | <50ms | At-Most-Once 위험 | Saga Orchestrator (Camunda 8 / Temporal) |
+| **Transactional Outbox** | 주문/결제 등 Critical 트랜잭션 | <200ms | At-Least-Once + Idempotency Key | Debezium + Kafka, Outbox 테이블 |
+| **CDC (Log-based)** | 대량·실시간 동기화 | <1s | Eventually Consistent | Debezium, Oracle GoldenGate, AWS DMS, Striim |
+| **Event Sourcing** | 도메인 이벤트 단위 보존 | 비동기 | Audit-grade | Axon, EventStoreDB, Kafka |
+| **API-led ETL** | 초기 Bulk Migration | 수 시간 | Snapshot + Delta | Informatica, Talend, Apache NiFi, Airbyte |
+| **Data Virtualization** | Read-only 통합 조회 | <500ms | 쿼리 시점 통합 | Denodo, Dremio, Starburst |
 
----
+### 핵심 알고리즘·파라미터 결정 공식
 
+- **카나리 진행 속도(SLO 기반 자동화)**:
+  $$P_{n+1} = P_n \times (1 + \alpha \cdot \mathbb{1}[\text{SLO}_{\text{error\_rate}} \leq \theta] - \beta \cdot \mathbb{1}[\text{SLO}_{\text{error\_rate}} > \theta])$$
+  여기서 $P_n$은 n단계 트래픽 비율, $\theta$는 허용 에러율 SLO(예: 0.1%), $\alpha=0.2$, $\beta=0.5$가 실무 표준 초기값이다.
+
+- **롤백 판정 임계치**: 신규 서비스의 p99 latency가 레거시 대비 **+20% 초과** 또는 에러율 **+0.5%p 초과** 시 자동 Rollback 트리거.
+
+- **DB 분리 전략(데이터베이스 Strangling)**: Chris Richardson의 **"Database per Service"** 원칙에 따라 우선 **단일 DB -> Schema 분리(Schema-per-Service) -> DB 분리(Private DB) -> DB 기술 교체(Polyglot)** 순서로 진행. 즉시 DB 분리 시 2PC(2-Phase Commit) 의존으로 가용성이 떨어지므로, **Trunk-based DB Refactoring + Expand/Contract Pattern**(칼럼 추가 -> 데이터 이관 -> 코드 전환 -> 칼럼 제거)을 사용한다.
+
+- **📢 섹션 요약 비유**: 새 심장(신규 서비스)을 이식할 때, **인공심장기(Bypass = Fac
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 456 / 600
 
-<- **이전**: [455. 사가 패턴 분산 트랜잭션 보상](/knowledge-base/studynote/11_design_supervision/06_exam_summary/456_saga_pattern/)
-**다음**: [457. API 게이트웨이 패턴 라우팅 인증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/457_api_gateway_pattern/) ->
+<- **이전**: [455. 사가 패턴 분산 트랜잭션 보상](/studynote/11_design_supervision/06_exam_summary/456_saga_pattern/)
+**다음**: [457. API 게이트웨이 패턴 라우팅 인증](/studynote/11_design_supervision/06_exam_summary/457_api_gateway_pattern/) ->
 
 ---

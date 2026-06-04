@@ -1,13 +1,10 @@
-+++
-title = "579. 하이퍼오토메이션 AI 융합 자동화 (Hyperautomation AI Convergence Automation)"
-date = 2026-05-09
+---
+title: "579. 하이퍼오토메이션 AI 융합 자동화 (Hyperautomation AI Convergence Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -123,7 +120,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 579 / 600
 
-<- **이전**: [578. RPA 프로세스 자동화 봇 관리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/579_rpa_process_automation_bot_management/)
-**다음**: [580. 컴포저블 아키텍처 모듈화 재사용](/knowledge-base/studynote/11_design_supervision/06_exam_summary/580_composable_architecture_modular_reuse/) ->
+<- **이전**: [578. RPA 프로세스 자동화 봇 관리](/studynote/11_design_supervision/06_exam_summary/579_rpa_process_automation_bot_management/)
+**다음**: [580. 컴포저블 아키텍처 모듈화 재사용](/studynote/11_design_supervision/06_exam_summary/580_composable_architecture_modular_reuse/) ->
 
 ---

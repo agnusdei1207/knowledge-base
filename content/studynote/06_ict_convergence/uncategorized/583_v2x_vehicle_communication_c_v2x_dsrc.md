@@ -1,13 +1,10 @@
-+++
-title = "583. V2X 차량 통신 C-V2X DSRC 비교 (V2X Vehicle Communication C-V2X DSRC)"
-date = 2026-05-09
+---
+title: "583. V2X 차량 통신 C-V2X DSRC 비교 (V2X Vehicle Communication C-V2X DSRC)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ V2X 차량 통신 C-V2X DSRC은(는) 현장의 상태를 데이터로 가시화�
 
 **진행 상황**: 583 / 800
 
-<- **이전**: [582. 자율주행 센서퓨전 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/582_autonomous_vehicle_sensor_fusion_architecture/)
-**다음**: [584. 스마트시티 도시 데이터 플랫폼](/knowledge-base/studynote/06_ict_convergence/uncategorized/584_smart_city_urban_data_platform/) ->
+<- **이전**: [582. 자율주행 센서퓨전 아키텍처](/studynote/06_ict_convergence/uncategorized/582_autonomous_vehicle_sensor_fusion_architecture/)
+**다음**: [584. 스마트시티 도시 데이터 플랫폼](/studynote/06_ict_convergence/uncategorized/584_smart_city_urban_data_platform/) ->
 
 ---

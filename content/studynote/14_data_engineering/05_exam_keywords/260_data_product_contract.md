@@ -1,13 +1,10 @@
-+++
-title = "260. 데이터 프로덕트 데이터 서비스 계약 (Data Product Data Contract SLA)"
-date = 2026-05-09
+---
+title: "260. 데이터 프로덕트 데이터 서비스 계약 (Data Product Data Contract SLA)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -213,7 +210,7 @@ tags = ["studynote-data-engineering"]
 
 **진행 상황**: 260 / 300
 
-<- **이전**: [259. 259. 데이터 패브릭 통합 메타데이터 자동화 (Data Fabric Unified Metadata Automation)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/259_data_fabric/)
-**다음**: [261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/261_data_catalog/) ->
+<- **이전**: [259. 259. 데이터 패브릭 통합 메타데이터 자동화 (Data Fabric Unified Metadata Automation)](/studynote/14_data_engineering/05_exam_keywords/259_data_fabric/)
+**다음**: [261. 데이터 카탈로그 메타데이터 검색 자동 분류 (Data Catalog Metadata Discovery Auto Classification)](/studynote/14_data_engineering/05_exam_keywords/261_data_catalog/) ->
 
 ---

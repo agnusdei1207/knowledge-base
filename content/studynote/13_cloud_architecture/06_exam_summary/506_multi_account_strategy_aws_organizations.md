@@ -1,13 +1,10 @@
-+++
-title = "506. 멀티 어카운트 전략 AWS Organizations (Multi Account Strategy AWS Organizations)"
-date = 2026-05-09
+---
+title: "506. 멀티 어카운트 전략 AWS Organizations (Multi Account Strategy AWS Organizations)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 506 / 800
 
-<- **이전**: [505. 클라우드 계정 관리 조직 랜딩 존](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/505_cloud_account_management_organization_landing/)
-**다음**: [507. 클라우드 네트워크 허브 스포크 토폴로지](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/507_cloud_network_hub_spoke_topology/) ->
+<- **이전**: [505. 클라우드 계정 관리 조직 랜딩 존](/studynote/13_cloud_architecture/06_exam_summary/505_cloud_account_management_organization_landing/)
+**다음**: [507. 클라우드 네트워크 허브 스포크 토폴로지](/studynote/13_cloud_architecture/06_exam_summary/507_cloud_network_hub_spoke_topology/) ->
 
 ---

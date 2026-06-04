@@ -1,28 +1,25 @@
-+++
-title = "189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링"
-date = 2026-05-08
+---
+title: "189. 복권 스케줄링 (Lottery Scheduling) - 확률적 스케줄링"
+date: "2026-05-08"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 복권 스케줄링 (Lottery Scheduling)은 각 프로세스에게 중요도에 비례하는 개수의 '복권(Tickets)'을 나누어주고, [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 <strong>무작위 난수(Random) 추첨을 통해 당첨된 복권을 가진 프로세스에게 CPU를 할당</strong>하는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 기반 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
-> 2. **가치**: 복권의 비율이 곧 CPU 점유 시간의 비율로 정확히 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 수렴(Law of Large Numbers)하므로, 몫(Share)을 보장하면서도 구현이 극도로 단순하고 우선순위 변경과 자원 분배가 티켓 양도만으로 즉시 적용되는 극한의 유연성을 제공한다.
-> 3. **융합**: 복잡한 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 관리와 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 오버헤드를 난수 발생기 하나로 박살 낸 혁신적 아키텍처로, [우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지나 클라우드 가상 머신([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 간의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 등 모듈형 시스템 자원 관리에 강력한 영감을 주었다.
+> 1. **본질**: 복권 스케줄링 (Lottery Scheduling)은 각 프로세스에게 중요도에 비례하는 개수의 '복권(Tickets)'을 나누어주고, [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 <strong>무작위 난수(Random) 추첨을 통해 당첨된 복권을 가진 프로세스에게 CPU를 할당</strong>하는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 기반 스케줄링 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 2. **가치**: 복권의 비율이 곧 CPU 점유 시간의 비율로 정확히 수학적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 수렴(Law of Large Numbers)하므로, 몫(Share)을 보장하면서도 구현이 극도로 단순하고 우선순위 변경과 자원 분배가 티켓 양도만으로 즉시 적용되는 극한의 유연성을 제공한다.
+> 3. **융합**: 복잡한 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/) 관리와 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 오버헤드를 난수 발생기 하나로 박살 낸 혁신적 아키텍처로, [우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 방지나 클라우드 가상 머신([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 간의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 등 모듈형 시스템 자원 관리에 강력한 영감을 주었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 1994년 Carl Waldspurger가 제안한 기법으로, 시스템 자원을 복권(Ticket)이라는 추상적 통화로 모델링한다. [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 개입 시 0에서 전체 복권 수 사이의 난수를 뽑아(추첨), 그 당첨 번호 구간을 보유한 프로세스에게 타임 슬라이스를 제공하는 선점형 스케줄링이다.
-- **필요성**: 기존의 [MLFQ](/knowledge-base/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)(다단계 큐)나 보장 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 공정성을 맞추기 위해 프로세스별 누적 시간을 일일이 장부에 기록하고, 트리 구조를 업데이트하며, [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 주기마다 큐 전체를 뒤엎는 등 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 극심했다. "이런 더럽고 복잡한 연산 없이, 그저 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(Random)에 맡기면 알아서 대수의 법칙에 의해 지분만큼 CPU를 공평하게 먹지 않을까?"라는 천재적인 귀차니즘에서 출발했다.
+- **개념**: 1994년 Carl Waldspurger가 제안한 기법으로, 시스템 자원을 복권(Ticket)이라는 추상적 통화로 모델링한다. [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 개입 시 0에서 전체 복권 수 사이의 난수를 뽑아(추첨), 그 당첨 번호 구간을 보유한 프로세스에게 타임 슬라이스를 제공하는 선점형 스케줄링이다.
+- **필요성**: 기존의 [MLFQ](/studynote/02_operating_system/11_exam_summary/691_mlfq_multi_level_feedback_queue/)(다단계 큐)나 보장 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 공정성을 맞추기 위해 프로세스별 누적 시간을 일일이 장부에 기록하고, 트리 구조를 업데이트하며, [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 주기마다 큐 전체를 뒤엎는 등 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 극심했다. "이런 더럽고 복잡한 연산 없이, 그저 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(Random)에 맡기면 알아서 대수의 법칙에 의해 지분만큼 CPU를 공평하게 먹지 않을까?"라는 천재적인 귀차니즘에서 출발했다.
 
-- **등장 배경**: 수학의 몬테카를로(Monte Carlo) 시뮬레이션 기법이 컴퓨터 과학 전반에 퍼지면서, 결정론적(Deterministic)이고 복잡한 코드를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적(Probabilistic)이고 무식하게 단순한 코드로 대체하려는 시도가 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계에도 이식되어 탄생했다.
+- **등장 배경**: 수학의 몬테카를로(Monte Carlo) 시뮬레이션 기법이 컴퓨터 과학 전반에 퍼지면서, 결정론적(Deterministic)이고 복잡한 코드를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적(Probabilistic)이고 무식하게 단순한 코드로 대체하려는 시도가 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 설계에도 이식되어 탄생했다.
 
 ```text
   [복권 스케줄링의 비례 할당 추첨 메커니즘]
@@ -38,30 +35,30 @@ tags = ["studynote-operating-system"]
    2. 73번 복권은 누가 가졌는가? ---> P2 보유 확인.
    3. P2에게 CPU 타임 퀀텀 10ms 할당 및 실행! (종료 후 다시 추첨)
 ```
-**[다이어그램 해설]** [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 P1이 60%라는 걸 기억하거나 지난번에 누가 덜 썼는지 계산할 필요가 1도 없다. 그저 무식하게 1부터 100까지 룰렛을 돌리고 당첨자에게 CPU를 주면 끝이다. 시행 횟수([문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수백, 수만 번을 넘어가면 통계학의 대수의 법칙에 의해 P1은 정확히 전체 시간의 60%를, P3는 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 CPU를 보장받게 된다.
+**[다이어그램 해설]** [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)는 P1이 60%라는 걸 기억하거나 지난번에 누가 덜 썼는지 계산할 필요가 1도 없다. 그저 무식하게 1부터 100까지 룰렛을 돌리고 당첨자에게 CPU를 주면 끝이다. 시행 횟수([문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))가 수백, 수만 번을 넘어가면 통계학의 대수의 법칙에 의해 P1은 정확히 전체 시간의 60%를, P3는 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)%의 CPU를 보장받게 된다.
 
-- **📢 섹션 요약 비유**: 주식 회사의 의결권 행사와 같습니다. 지분이 60%인 대주주(P1)는 주총에서 60표를 던지고, 소액주주(P3)는 10표를 던집니다. 매번 투표(추첨)를 할 때마다 대주주의 의견이 통과될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 60%이므로, 장기적으로 회사는 대주주의 뜻(60% CPU 점유)대로 굴러가게 됩니다.
+- **📢 섹션 요약 비유**: 주식 회사의 의결권 행사와 같습니다. 지분이 60%인 대주주(P1)는 주총에서 60표를 던지고, 소액주주(P3)는 10표를 던집니다. 매번 투표(추첨)를 할 때마다 대주주의 의견이 통과될 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 60%이므로, 장기적으로 회사는 대주주의 뜻(60% CPU 점유)대로 굴러가게 됩니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 기아 방지와 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 내재화
-복권 스케줄링의 가장 아름다운 부분은 그 지긋지긋한 '[기아 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'와 '[에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 처리를 코딩 한 줄 없이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 타파했다는 점이다.
-- 아무리 티켓이 1장(1%)뿐인 최하위 찌꺼기 프로세스라 할지라도, 난수가 뽑힐 수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 항상 0보다 크다 ($P > 0$).
-- 즉, 추첨 횟수가 수천 번 반복되면 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 언젠가 무조건 당첨되므로, <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>가 수학적으로 구조적 원천 차단</strong>된다. [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 점수를 더해주고 큐를 올리는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 단 1바이트도 필요 없다.
+### 기아 방지와 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 내재화
+복권 스케줄링의 가장 아름다운 부분은 그 지긋지긋한 '[기아 상태](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))'와 '[에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/))' 처리를 코딩 한 줄 없이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 타파했다는 점이다.
+- 아무리 티켓이 1장(1%)뿐인 최하위 찌꺼기 프로세스라 할지라도, 난수가 뽑힐 수학적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)은 항상 0보다 크다 ($P > 0$).
+- 즉, 추첨 횟수가 수천 번 반복되면 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적으로 언젠가 무조건 당첨되므로, <strong><a href="/studynote/02_operating_system/05_deadlock/314_starvation_prevention/">기아 상태</a>가 수학적으로 구조적 원천 차단</strong>된다. [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 점수를 더해주고 큐를 올리는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 오버헤드가 단 1바이트도 필요 없다.
 
-### 복권의 모듈화 [속성](/knowledge-base/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Ticket Properties)
+### 복권의 모듈화 [속성](/studynote/05_database/02_modeling_normalization/082_attribute_types_er_model/) (Ticket Properties)
 이 아키텍처는 유연성을 극대화하기 위해 복권이라는 화폐에 3가지 엄청난 권한을 부여했다.
 
 1. **복권 양도 (Ticket Transfer)**
    - 클라이언트 프로세스가 서버 프로세스(DB)에 작업을 요청하고 기다릴 때, 멍청하게 기다리는 대신 자신의 티켓을 임시로 DB 서버 프로세스에 몰아준다(양도).
-   - DB 서버는 티켓 부자가 되어 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 치솟으므로 순식간에 내 작업을 끝내주고 다시 티켓을 반환한다. ([우선순위 역전](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제의 가장 우아하고 즉각적인 해결책)
+   - DB 서버는 티켓 부자가 되어 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 치솟으므로 순식간에 내 작업을 끝내주고 다시 티켓을 반환한다. ([우선순위 역전](/studynote/02_operating_system/03_cpu_scheduling/205_priority_inversion/) 문제의 가장 우아하고 즉각적인 해결책)
 2. **복권 인플레이션 (Ticket Inflation)**
-   - 서로 신뢰하는 [협력적 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) 집단 내에서는, 내가 지금 CPU가 미친 듯이 급하면 내 스스로 복권 발행량을 1,000장으로 인쇄(인플레이션)하여 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 셀프 부스트 시킨 뒤, 작업이 끝나면 복권을 소각할 수 있다.
+   - 서로 신뢰하는 [협력적 프로세스](/studynote/02_operating_system/02_process_thread/116_cooperating_independent_process/) 집단 내에서는, 내가 지금 CPU가 미친 듯이 급하면 내 스스로 복권 발행량을 1,000장으로 인쇄(인플레이션)하여 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 셀프 부스트 시킨 뒤, 작업이 끝나면 복권을 소각할 수 있다.
 3. **복권 통화 (Ticket Currency)**
    - 시스템 전체에 '글로벌 복권'이 1만 장 있고, 유저 A(지분 5000장)와 유저 B(5000장)가 있다 치자.
-   - 유저 A는 자기 돈(5000장) 안에서 자기가 띄운 프로세스들에게 맘대로 A국가 통화를 만들어 100달러, 200달러 뿌린다. [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 알아서 이 A 통화를 글로벌 티켓 비율로 환전하여 추첨에 반영한다.
+   - 유저 A는 자기 돈(5000장) 안에서 자기가 띄운 프로세스들에게 맘대로 A국가 통화를 만들어 100달러, 200달러 뿌린다. [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 알아서 이 A 통화를 글로벌 티켓 비율로 환전하여 추첨에 반영한다.
 
 ```text
   +---------------------------------------------------------------------------+
@@ -82,26 +79,26 @@ tags = ["studynote-operating-system"]
   |          오직 '화폐 양도'라는 자본주의 경제 원리만으로 데드락을 뚫어버림. |
   +---------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 복권 모델은 단순한 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 넘어, 시스템 자원을 '티켓'이라는 객체 지향적이고 이동 가능한 캡슐(Currency)로 추상화했다는 데에 위대함이 있다. 이 유동성(Liquidity) 덕분에 프로세스들끼리 서로 돕고 합치며 동적으로 시스템의 흐름을 뚫어내는 거대한 경제 체제가 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 형성된다.
+**[다이어그램 해설]** 복권 모델은 단순한 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 넘어, 시스템 자원을 '티켓'이라는 객체 지향적이고 이동 가능한 캡슐(Currency)로 추상화했다는 데에 위대함이 있다. 이 유동성(Liquidity) 덕분에 프로세스들끼리 서로 돕고 합치며 동적으로 시스템의 흐름을 뚫어내는 거대한 경제 체제가 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 안에 형성된다.
 
-- **📢 섹션 요약 비유**: 급한 서류를 퀵 아저씨(P_DB)에게 맡겼는데 아저씨가 오토바이(CPU)가 없어서 배달을 못 갑니다. 내 페라리 키(티켓 양도)를 임시로 던져주고 "이거 타고 당장 배달 끝내고 키 돌려줘!"라고 하는 완벽한 자본주의적 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해법입니다.
+- **📢 섹션 요약 비유**: 급한 서류를 퀵 아저씨(P_DB)에게 맡겼는데 아저씨가 오토바이(CPU)가 없어서 배달을 못 갑니다. 내 페라리 키(티켓 양도)를 임시로 던져주고 "이거 타고 당장 배달 끝내고 키 돌려줘!"라고 하는 완벽한 자본주의적 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 해법입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 결정론적 스케줄링 (보장/비례) vs [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)론적 스케줄링 (복권)
+### 결정론적 스케줄링 (보장/비례) vs [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)론적 스케줄링 (복권)
 
 | 비교 항목 | 보장 / 비례 스케줄링 (CFS 등) | 복권 스케줄링 (Lottery) |
 |:---|:---|:---|
-| **설계 철학** | **결정론적 (Deterministic)** - 1ms의 오차도 허용 안 함 | <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 (Probabilistic)</strong> - 대충 주사위 던지면 결국 맞음 |
+| **설계 철학** | **결정론적 (Deterministic)** - 1ms의 오차도 허용 안 함 | <strong><a href="/studynote/08_algorithm_stats/08_stats/130_probability/">확률</a>론적 (Probabilistic)</strong> - 대충 주사위 던지면 결국 맞음 |
 | **단기 공정성** | **매우 높음**. 10ms 단위에서도 칼같이 비율 유지 | **매우 낮음**. 운 나쁘면 10연꽝 당해서 순간 렉(Jitter) 발생 |
 | **장기 공정성** | 완벽히 수렴함 | 대수의 법칙에 의해 완벽히 수렴함 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 오버헤드</strong> | 크다. 매번 나눗셈과 트리 정렬(O(log N)) 필요 | **제로(0)에 가깝다**. 난수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 O(N) 탐색 또는 트리 O(log N) 끝. |
+| <strong><a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a> 오버헤드</strong> | 크다. 매번 나눗셈과 트리 정렬(O(log N)) 필요 | **제로(0)에 가깝다**. 난수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 후 O(N) 탐색 또는 트리 O(log N) 끝. |
 | **상태 보관(History)**| 각 프로세스의 과거 실행량(vruntime)을 꼼꼼히 기록해야 함 | **과거 기억(Memoryless)** 따윈 전혀 안 함. 그냥 지금 추첨함. |
 
 ### 복권 스케줄링의 치명적 한계 (운빨 좆망겜의 비애)
-장기적으로는 무조건 수렴하지만, 컴퓨터는 마이크로초(μs) 단위로 살아가는 생물이다. 아무리 티켓을 99장 가진 VIP라도, 재수가 없어서 난수 발생기가 1번(1장짜리 천민)을 3번 연속으로 뽑아버리면, 마우스 렌더링(VIP)이 순간적으로 30ms 동안 멈추는 <strong><a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>(Jitter)</strong> 현상이 터진다. 사용자는 1시간 평균 공정성 따위는 관심 없고 "방금 왜 화면이 멈칫했냐"에 분노하므로, 이 예측 불가능한 단기 편차(Short-term unfairness) 때문에 범용 데스크톱 OS에는 도입될 수 없었다.
+장기적으로는 무조건 수렴하지만, 컴퓨터는 마이크로초(μs) 단위로 살아가는 생물이다. 아무리 티켓을 99장 가진 VIP라도, 재수가 없어서 난수 발생기가 1번(1장짜리 천민)을 3번 연속으로 뽑아버리면, 마우스 렌더링(VIP)이 순간적으로 30ms 동안 멈추는 <strong><a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> <a href="/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/">스파이크</a>(Jitter)</strong> 현상이 터진다. 사용자는 1시간 평균 공정성 따위는 관심 없고 "방금 왜 화면이 멈칫했냐"에 분노하므로, 이 예측 불가능한 단기 편차(Short-term unfairness) 때문에 범용 데스크톱 OS에는 도입될 수 없었다.
 
 - **📢 섹션 요약 비유**: 복권 스케줄링은 동전 던지기와 같습니다. 1만 번 던지면 앞뒤가 50%씩 나오지만, 재수 없으면 앞면만 10번 연속 나오는 순간(단기 편차)이 반드시 터집니다. 전투기 브레이크를 동전 던지기 결과로 밟을 수는 없는 노릇입니다.
 
@@ -110,8 +107,8 @@ tags = ["studynote-operating-system"]
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>가상 머신 (<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> (Xen, <a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>)</strong>: 복권 스케줄링 철학은 CPU [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 떠나 [가상화](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라에서 꽃을 피웠다. [하이퍼바이저](/knowledge-base/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 내부에 떠 있는 게스트 OS([VM](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들이 "내가 CPU 더 쓸 거야!"라고 싸울 때, 각 VM에게 돈 낸 만큼의 티켓([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 주고 추첨을 통해 물리 CPU를 던져준다. 이 환경은 ms 단위의 렉보다는 전체적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 보장이 중요하므로 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매우 가볍고 효과적으로 동작한다.
-2. <strong>보폭 스케줄링 (<a href="/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a> Scheduling)으로의 진화</strong>: 복권 스케줄링의 "단기 운빨 망겜" 현상을 극복하기 위해 나온 실무적 대안이다. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(난수)을 완전히 버리고, 복권 티켓 수의 역수를 보폭([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 삼아, 패스(Pass) 값이 가장 작은 녀석을 확정적으로 뽑는 결정론적(Deterministic) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 업그레이드되었다. 티켓이 많으면 보폭이 짧아 자주 결승선을 통과하므로, 복권의 '비율 할당' 장점은 살리면서 단기적인 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter) [스파이크](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 완벽히 억제해 냈다.
+1. <strong>가상 머신 (<a href="/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/">VM</a>) <a href="/studynote/02_operating_system/01_overview_architecture/054_hypervisor/">하이퍼바이저</a> <a href="/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/">자원 할당</a> (Xen, <a href="/studynote/01_computer_architecture/15_advanced_topics/713_kvm_over_ip/">KVM</a>)</strong>: 복권 스케줄링 철학은 CPU [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)를 떠나 [가상화](/studynote/13_cloud_architecture/01_virtualization/015_virtualization/) 인프라에서 꽃을 피웠다. [하이퍼바이저](/studynote/02_operating_system/01_overview_architecture/054_hypervisor/)는 내부에 떠 있는 게스트 OS([VM](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/))들이 "내가 CPU 더 쓸 거야!"라고 싸울 때, 각 VM에게 돈 낸 만큼의 티켓([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))을 주고 추첨을 통해 물리 CPU를 던져준다. 이 환경은 ms 단위의 렉보다는 전체적인 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 보장이 중요하므로 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 기반 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 매우 가볍고 효과적으로 동작한다.
+2. <strong>보폭 스케줄링 (<a href="/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/">Stride</a> Scheduling)으로의 진화</strong>: 복권 스케줄링의 "단기 운빨 망겜" 현상을 극복하기 위해 나온 실무적 대안이다. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(난수)을 완전히 버리고, 복권 티켓 수의 역수를 보폭([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/))으로 삼아, 패스(Pass) 값이 가장 작은 녀석을 확정적으로 뽑는 결정론적(Deterministic) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 업그레이드되었다. 티켓이 많으면 보폭이 짧아 자주 결승선을 통과하므로, 복권의 '비율 할당' 장점은 살리면서 단기적인 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(Jitter) [스파이크](/studynote/04_software_engineering/02_requirements_analysis/129_spike_agile_technical_investigation/)를 완벽히 억제해 냈다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -131,21 +128,21 @@ tags = ["studynote-operating-system"]
   |                 순식간에 티켓 양도로 데드락 탈출(우선순위 상속) 가능|
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 아키텍트는 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 자원을 나눌 때 무조건 복잡하고 무거운 로직(CFS)을 고집할 필요가 없다. 넷플릭스 영상 인코딩 배치 팜처럼 1시간에 걸친 평균 처리 비율만 맞으면 되는 곳에서는, 무상태([Stateless](/knowledge-base/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 아무것도 기억할 필요 없이 룰렛만 돌려대는 Lottery [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 방식이 메모리와 디스패치 오버헤드 측면에서 압도적인 ROI를 낸다.
+**[다이어그램 해설]** 아키텍트는 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 자원을 나눌 때 무조건 복잡하고 무거운 로직(CFS)을 고집할 필요가 없다. 넷플릭스 영상 인코딩 배치 팜처럼 1시간에 걸친 평균 처리 비율만 맞으면 되는 곳에서는, 무상태([Stateless](/studynote/15_devops_sre/05_devsecops/239_stateless_redis/))로 아무것도 기억할 필요 없이 룰렛만 돌려대는 Lottery [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 방식이 메모리와 디스패치 오버헤드 측면에서 압도적인 ROI를 낸다.
 
-- **📢 섹션 요약 비유**: 주사위(Lottery) 굴리기는 너무 가볍고 재밌지만 도박이라서 순간적으로 돈을 크게 잃을(Jitter) 수 있습니다. 반면 매일 가계부를 쓰고 정산하는 것([Stride](/knowledge-base/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)/CFS)은 완벽하지만 머리가 깨지게 아픕니다(오버헤드). 워크로드의 성격에 맞춰 주사위를 굴릴지, 가계부를 쓸지 정하는 것이 아키텍처입니다.
+- **📢 섹션 요약 비유**: 주사위(Lottery) 굴리기는 너무 가볍고 재밌지만 도박이라서 순간적으로 돈을 크게 잃을(Jitter) 수 있습니다. 반면 매일 가계부를 쓰고 정산하는 것([Stride](/studynote/10_ai/01_ai_basics/097_stride_convolutional_neural_network_downsampling/)/CFS)은 완벽하지만 머리가 깨지게 아픕니다(오버헤드). 워크로드의 성격에 맞춰 주사위를 굴릴지, 가계부를 쓸지 정하는 것이 아키텍처입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-우선순위 관리, [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 연산, 기아 방지 로직 등 수천 줄의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) C 코드를 <strong>"티켓 분배와 난수 추출"</strong>이라는 철학 하나로 싹 밀어버리고 수십 줄로 압축시킴으로써, 마이크로커널이나 유니커널처럼 극도로 얇은 OS 환경에서 제격인 가벼운 비례 할당 인프라를 구축할 수 있다.
+우선순위 관리, [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) 연산, 기아 방지 로직 등 수천 줄의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) C 코드를 <strong>"티켓 분배와 난수 추출"</strong>이라는 철학 하나로 싹 밀어버리고 수십 줄로 압축시킴으로써, 마이크로커널이나 유니커널처럼 극도로 얇은 OS 환경에서 제격인 가벼운 비례 할당 인프라를 구축할 수 있다.
 
 ### 결론 및 미래 전망
-복권 스케줄링은 그 자체로 상용 OS에 탑재된 적은 거의 없는 '학술적 미완의 천재' [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하지만 '자원을 티켓(화폐)으로 추상화하여 시장 경제 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)(양도, 인플레이션)로 스케줄링을 풀어낸다'는 철학은 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역사에 거대한 충격을 주었다. 향후 탈중앙화된 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(Web3) 네트워크의 [합의 알고리즘](/knowledge-base/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(PoS 등 지분 기반 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 추첨)이나 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 클라우드의 테넌트별 [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 경매(Auction) 시스템에서, 이 복권 스케줄링의 위대한 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 통화(Currency) 철학은 21세기형 아키텍처로 화려하게 부활하여 적용되고 있다.
+복권 스케줄링은 그 자체로 상용 OS에 탑재된 적은 거의 없는 '학술적 미완의 천재' [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하지만 '자원을 티켓(화폐)으로 추상화하여 시장 경제 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)(양도, 인플레이션)로 스케줄링을 풀어낸다'는 철학은 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 역사에 거대한 충격을 주었다. 향후 탈중앙화된 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)(Web3) 네트워크의 [합의 알고리즘](/studynote/06_ict_convergence/01_blockchain/011_consensus_algorithm/)(PoS 등 지분 기반 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 추첨)이나 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 클라우드의 테넌트별 [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 경매(Auction) 시스템에서, 이 복권 스케줄링의 위대한 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 통화(Currency) 철학은 21세기형 아키텍처로 화려하게 부활하여 적용되고 있다.
 
-- **📢 섹션 요약 비유**: 컴퓨터라는 깡통에 "수학적 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"과 "자본주의 시장 경제(티켓 거래)"의 영혼을 불어넣어, 공무원([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 통제하는 공산당식 분배가 아니라 보이지 않는 손(난수와 지분)이 알아서 자원을 척척 나누게 만든 위대한 사상적 혁명입니다.
+- **📢 섹션 요약 비유**: 컴퓨터라는 깡통에 "수학적 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"과 "자본주의 시장 경제(티켓 거래)"의 영혼을 불어넣어, 공무원([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/))이 통제하는 공산당식 분배가 아니라 보이지 않는 손(난수와 지분)이 알아서 자원을 척척 나누게 만든 위대한 사상적 혁명입니다.
 
 ---
 
@@ -153,10 +150,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [HRN](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) (Highest Response Ratio Next) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [보장 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/) ([Guaranteed Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [공평 몫 스케줄링](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/) ([Fair-share Scheduling](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [HRN](/studynote/02_operating_system/03_cpu_scheduling/187_hrn_scheduling/) (Highest Response Ratio Next) 스케줄링 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [보장 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/) ([Guaranteed Scheduling](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [공평 몫 스케줄링](/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/) ([Fair-share Scheduling](/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 스케줄링 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -175,8 +172,8 @@ tags = ["studynote-operating-system"]
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 반장 선거할 때 투표함에 중요한 친구(VIP)는 이름표를 100장 넣게 해 주고, 안 중요한 친구는 이름표를 1장만 넣게 해요.
-2. 컴퓨터 선생님([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))은 누가 얼마나 기다렸는지 머리 아프게 안 따지고, 그냥 눈 감고 투표함에서 아무 이름표나 무작위로 확 뽑아서(난수 발생) 그 친구한테 CPU를 줘요.
-3. 1만 번을 뽑으면 결국 이름표 100장 넣은 친구가 1장 넣은 친구보다 딱 100배 더 많이 뽑히게 되니까([확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)의 마법), 엄청 멍청해 보이지만 결국엔 완벽하게 공평해지는 <strong>복권 스케줄링</strong>이랍니다!
+2. 컴퓨터 선생님([스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/))은 누가 얼마나 기다렸는지 머리 아프게 안 따지고, 그냥 눈 감고 투표함에서 아무 이름표나 무작위로 확 뽑아서(난수 발생) 그 친구한테 CPU를 줘요.
+3. 1만 번을 뽑으면 결국 이름표 100장 넣은 친구가 1장 넣은 친구보다 딱 100배 더 많이 뽑히게 되니까([확률](/studynote/08_algorithm_stats/08_stats/130_probability/)의 마법), 엄청 멍청해 보이지만 결국엔 완벽하게 공평해지는 <strong>복권 스케줄링</strong>이랍니다!
 
 ---
 
@@ -184,7 +181,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 189 / 800
 
-<- **이전**: [188. 보장 스케줄링 (Guaranteed Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)
-**다음**: [190. 공평 몫 스케줄링 (Fair-share Scheduling)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/) ->
+<- **이전**: [188. 보장 스케줄링 (Guaranteed Scheduling)](/studynote/02_operating_system/03_cpu_scheduling/188_guaranteed_scheduling/)
+**다음**: [190. 공평 몫 스케줄링 (Fair-share Scheduling)](/studynote/02_operating_system/03_cpu_scheduling/190_fair_share_scheduling/) ->
 
 ---

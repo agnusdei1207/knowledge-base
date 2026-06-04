@@ -1,13 +1,10 @@
-+++
-title = "636. 엣지 클라우드 MEC CDN 분산 컴퓨팅 (Edge Cloud MEC CDN Distributed Computing)"
-date = 2026-05-09
+---
+title: "636. 엣지 클라우드 MEC CDN 분산 컴퓨팅 (Edge Cloud MEC CDN Distributed Computing)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -129,7 +126,7 @@ ETSI GS MEC 003 V3.x 표준을 기반으로 한 4계층 참조 아키텍처가 �
 
 **진행 상황**: 636 / 800
 
-<- **이전**: [635. GPU 클라우드 AI 인프라 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/635_gpu_cloud_ai_infrastructure_optimization/)
-**다음**: [637. 스팟 인스턴스 리저브드 비용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/637_spot_instance_reserved_cost_strategy/) ->
+<- **이전**: [635. GPU 클라우드 AI 인프라 최적화](/studynote/06_ict_convergence/uncategorized/635_gpu_cloud_ai_infrastructure_optimization/)
+**다음**: [637. 스팟 인스턴스 리저브드 비용 전략](/studynote/06_ict_convergence/uncategorized/637_spot_instance_reserved_cost_strategy/) ->
 
 ---

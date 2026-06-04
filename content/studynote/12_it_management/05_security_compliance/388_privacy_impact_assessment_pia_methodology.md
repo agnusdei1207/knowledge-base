@@ -1,13 +1,10 @@
-+++
-title = "388. 개인정보 영향 평가 PIA 방법론 (Privacy Impact Assessment PIA Methodology)"
-date = 2026-05-09
+---
+title: "388. 개인정보 영향 평가 PIA 방법론 (Privacy Impact Assessment PIA Methodology)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -175,7 +172,7 @@ PIA는 단순히 "위험이 있다/없다"가 아니라, **5개 차원**에서 �
 
 **진행 상황**: 388 / 800
 
-<- **이전**: [387. 보안 감사 컴플라이언스 체크리스트](/knowledge-base/studynote/12_it_management/05_security_compliance/387_security_audit_compliance_checklist/)
-**다음**: [389. 정보보안 관리체계 ISMS 인증 심사](/knowledge-base/studynote/12_it_management/05_security_compliance/389_isms_information_security_management/) ->
+<- **이전**: [387. 보안 감사 컴플라이언스 체크리스트](/studynote/12_it_management/05_security_compliance/387_security_audit_compliance_checklist/)
+**다음**: [389. 정보보안 관리체계 ISMS 인증 심사](/studynote/12_it_management/05_security_compliance/389_isms_information_security_management/) ->
 
 ---

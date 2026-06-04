@@ -1,175 +1,166 @@
-+++
-title = "526. 린 스타트업 MVP 가설 검증 (Lean Startup MVP Hypothesis Validation)"
-date = 2026-05-09
+---
+title: "526. 린 스타트업 MVP 가설 검증 (Lean Startup MVP Hypothesis Validation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 린 스타트업 MVP 가설 검증은(는) 시험 빈출 핵심 요약 및 융합 토픽 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 린 스타트업 MVP 가설 검증은 Eric Ries의 Build-Measure-Learn 피드백 루프 위에서 "가설(Hypothesis) -> 실험(Experiment) -> 학습(Learning)"의 과학적 방법론을 제품 개발에 적용한 것으로, Minimum Viable Product를 통해 가치假设(Value Hypothesis)과 성장假设(Growth Hypothesis)을 정량·정성 데이터로 검증하는 린 실험 엔지니어링(Lean Experimentation Engineering) 패러다임이다.
+> 2. **가치**: 전통적 폭포수(Waterfall) 대비 Time-to-Learn 60~80% 단축, 실패 비용 70% 이상 절감, Product-Market Fit(PMF) 도달 시간 평균 12~18개월 -> 6~9개월로 단축하며, Sean Ellis Test 40% 기준선과 NPS, Cohort Retention Curve의 객관적 데이터 기반 의사결정을 가능하게 한다.
+> 3. **판단 포인트**: 핵심 트레이드오프는 (1) Fidelity(충실도) vs Speed(속도), (2) Vanity Metrics(허영 지표) vs Actionable Metrics(실행 지표), (3) Smoke Test/Fake Door/Concierge/Wizard of Oz/Piecemeal MVP 중 어떤 형태로 가설을 최소 비용으로 검증할지, (4) Pivot vs Persevere 결정 시점, (5) Innovation Accounting의 Cohort 분석 적용 범위 — 기술사적 판단 기준은 "학습 가치(Learning per Dollar) 극대화"와 "Cognitive Bias 제거"이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-린 스타트업 MVP 가설 검증은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 신제품 개발(New Product Development, NPD)은 Booz Allen Hamilton의 Stage-Gate 모델, Cooper의 Cooper Stage-Gate Process, NASA의 V-Model처럼 시장 출시 전 완벽한 요구사항·설계·테스트를 완료하는 직선형(Linear) 프로세스였다. 하지만 Moore(1991)의 Crossing the Chasm, Christensen(1997)의 Innovator's Dilemma가 보여주듯, 고객 니즈 불확실성(Customer Uncertainty)과 기술 불확실성(Technology Uncertainty)이 높은 도메인에서는 70% 이상의 신제품이 시장 출시 후 2년 내 시장에서 퇴출되는 통계(Schoenwald, 2001)가 반복되었다. 이는 곧 수십억 달러 규모의 시장 출시 후 실패 비용(Sunk Cost)을 의미한다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Lean Startup MVP Hypothesis Validation 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+린 스타트업(Leean Startup) 방법론은 Ries(2011)의 『The Lean Startup』에서 "Entrepreneurship is management"이라는 대전제 아래, **불확실성을 위험(Risk)이 아닌 실험(Experiment)으로 전환**하는 사고의 전환을 제시했다. 핵심은 3가지: (1) **Entrepreneurs are everywhere** (대기업 내부 R&D, 공공 R&D 모두 적용 가능), (2) **Entrepreneurship is management** (체계적 관리 가능), (3) **Validated Learning** (검증된 학습이 진정한 KPI).
+
+이 방법론이 필요한 기술적·조직적 이유는 다음 4가지 **Pain Point**에 있다:
+
+- **P1: 계획 함정(Planning Fallacy)**: 사업계획서 기반 5년 예측의 정확도는 평균 30% 미만(Philip Tetlock, Superforecasting, 2015)
+- **P2: 시장 미스매치(Market Mismatch)**: 기능 우선순위(FEATURE)가 아닌 문제-해결(Problem-Solution Fit)부터 검증 필요
+- **P3: 스케일 함정(Scaling Trap)**: PMF 전 scale-up은 LTV/CAC 비율을 1:1 이하로 악화시킴
+- **P4: 조직 학습 부재(Organizational Learning Deficit)**: 직관(Intuition)에 의존한 결정이 Peter Drucker의 "Culture eats strategy for breakfast"를 야기
 
 ```text
-+--------------------------------------------------------------+
-|                    린 스타트업 MVP 가설 검증 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+       [전통 폭포수 모델]              [린 스타트업 모델]
+       (Linear & Deterministic)       (Iterative & Probabilistic)
+
+  Idea ---> Plan ---> Build ---> Test ---> Product     Idea ---> Build ---> Measure ---> Learn
+           |              |           |              ^                                |
+           v              v           v              |         +------PIVOT------+    |
+       (12~24개월)    (6~12개월)   (출시 후 확인)    +---------+                  |    |
+           |              |           |                        v                  v    |
+           v              v           v                     Measure            Persevere
+       Plan-Driven     Spec-Driven  Market Test          (실험 데이터)        (스케일 가속)
+       High Risk       High Cost   Late Feedback         ^
+       (~$1M~10M)      (~$500K)    (Sunk Cost)          |
+           |              |           |                  |
+           +--------------+-----------+-- 단방향 진행, 피드백 없음 --+
+                                                                       [Build-Measure-Learn Loop]
+                                                                       [반복 회당 2~8주]
+                                                                       [비용 5~20% 수준]
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**Old vs New Paradigm 대비**:
 
-- **📢 섹션 요약 비유**: 린 스타트업 MVP 가설 검증은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 차원 | 전통적 NPD (1990s) | 린 스타트업 (2010s~) |
+|------|-------------------|----------------------|
+| 불확실성 처리 | Buffer & Plan (방어) | Experiment & Adapt (공격) |
+| 의사결정 주체 | CEO/임원 직관 | Cross-functional 팀 + 데이터 |
+| 실패 비용 | 시장 출시 후 | Build 전 (Indoor) |
+| 시장 학습 | VoC(목소리) 조사 | A/B Test, Cohort 분석 |
+| KPI | Revenue, Market Share | Validated Learning, Innovation $ |
+| 조직 구조 | Functional Silo | Cross-functional Squad |
+| 데이터 빈도 | Quarterly/Annual | Daily/Weekly Cohort |
+
+- **📢 섹션 요약 비유**: 전통적 NPD가 **"지도 없이 망원경으로만 별을 보며 우주선을 쏘는 행성 간 임무(예: 보이저 1호)"** 라면, 린 스타트업은 **"궤도에 진입할 때마다 궤도수정(Orbit Correction Maneuver)을 반복하는 스페이스X 팰컨 9의 자동 비행 제어 시스템(Autonomous Flight Termination System, AFTS)"** 입니다. 절대 궤도가 아닌, 상대 궤도의 미세 조정이 누적되어 정밀 착륙을 만듭니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-린 스타트업 MVP 가설 검증의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+린 스타트업의 핵심 아키텍처는 **Build-Measure-Learn 피드백 루프**를 3계층의 의사결정 프레임워크로 구체화한 것이다. Steve Blank의 Customer Development Model, Ash Maurya의 Running Lean Canvas, Alex Osterwalder의 Business Model Canvas, Marty Cagan의 Silicon Valley Product Group(SVPG) 프레임워크가 기술적 토대를 형성한다.
 
 ```text
-+--------------------------------------------------------------+
-|              Lean Startup MVP Hypothesis Validation 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+       +--------------------------------------------------------------------------+
+       |                      L1: Strategic Layer (전략 계층)                      |
+       |                                                                          |
+       |   +------------------+         +------------------+                     |
+       |   |  VISION          |         |  LEAP-OF-FAITH   |                     |
+       |   |  "왜 이 사업인가" |<---------|  ASSUMPTIONS      |                     |
+       |   |  (North Star)    |         |  (위험 가정)      |                     |
+       |   +--------+---------+         +--------+---------+                     |
+       |            v                            v                              |
+       |   +------------------+         +------------------+                     |
+       |   |  STRATEGY        |         |  HYPOTHESES      |                     |
+       |   |  (Product/Eng    |--------->|  (가설 진술문)    |                     |
+       |   |   /Marketing)    |         |  If-Then 형식    |                     |
+       |   +--------+---------+         +--------+---------+                     |
+       |            v                            v                              |
+       |            +--------------+-------------+                              |
+       +--------------------------+-----------------------------------------------+
+                                  |
+       +--------------------------+-----------------------------------------------+
+       |                          v        L2: Tactical Layer (전술 계층)         |
+       |                                                                          |
+       |   +--------------------------------------------------------------+      |
+       |   |              EXPERIMENT DESIGN (실험 설계)                    |      |
+       |   |                                                              |      |
+       |   |   +------------+  +------------+  +------------+             |      |
+       |   |   |  1.BUILD   |->->|  2.MEASURE |->->|  3.LEARN   |             |      |
+       |   |   |            |  |            |  |            |             |      |
+       |   |   | - Code     |  | - Metrics  |  | - Pivot?   |             |      |
+       |   |   | - Mockup   |  | - Cohort   |  | - Persevere|             |      |
+       |   |   | - Concierge|  | - Survey   |  | - Kill     |             |      |
+       |   |   +------------+  +------------+  +------------+             |      |
+       |   |                                                              |      |
+       |   |   Iterations: 2~8주, 3~5회 반복, 총 6~9개월                  |      |
+       |   +--------------------------------------------------------------+      |
+       |                          |                                              |
+       +--------------------------+----------------------------------------------+
+                                  |
+       +--------------------------+-----------------------------------------------+
+       |                          v        L3: Operational Layer (운영 계층)       |
+       |                                                                          |
+       |   +------------+  +------------+  +------------+  +------------+         |
+       |   | Metrics    |  |  Analytics |  |  Experi-   |  |  Decision  |         |
+       |   | Framework  |--|  Pipeline  |--|  mentation |--|  Engine    |         |
+       |   | (AARRR)    |  | (GA4/      |  |  Platform  |  |  (PMF      |         |
+       |   |            |  |  Mixpanel) |  |  (Optimizely|  |  Score)    |         |
+       |   |            |  |            |  |   /Statsig)|  |            |         |
+       |   +------------+  +------------+  +------------+  +------------+         |
+       |                                                                          |
+       +--------------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **가설 정의 (Hypothesis Statement)** | 실험의 출발점. "We believe that [user] has [problem]. If we [build/change X], then we will see [metric Y] improve by Z%" 형식 | Ries의 Leap-of-Faith Assumption (위험 가정) 식별 -> Maurya의 IF-THEN 가설 진술로 변환. 3-Tier: Desirability/Feasibility/Viability |
+| **MVP 유형 선택** | 학습 가치 극대화 & 엔지니어링 비용 최소화의 최적점 탐색 | 5종 분류: (1) Smoke Test/Landing Page (비용 0), (2) Wizard of Oz (수동 운영), (3) Concierge MVP (1:1 수동 서비스), (4) Piecemeal MVP (기존 도구 조합), (5) High-Fidelity Prototype. Alvarez(2014) 분류 체계 |
+| **실험 설계 (Experiment Design)** | 가설 검증을 위한 측정 가능 변수 통제 | A/B Test (Statistical Power ≥ 80%, p-value < 0.05, MDE 5%), Sequential Test, Multi-armed Bandit, Bayesian A/B (Convert.com, VWO) |
+| **측정 (Measure)** | 정량/정성 데이터 수집 | OMTM (One Metric That Matters) 정의, AARRR Pirate Metrics (Acquisition/Activation/Retention/Revenue/Referral), Cohort Analysis, Funnel Analysis, Heuristic Evaluation |
+| **학습 (Learn / Pivot-or-Persevere)** | 데이터 기반 의사결정 | Innovation Accounting (Cagan & Jones), PMF Score (Sean Ellis Survey), Retention Curve (flatten at 0% -> bad, >20% -> good, >40% -> strong), K-Factor 계산 |
+| **Pivot vs Persevere 결정** | 자원 재배분 의사결정 | 6가지 Pivot 유형 (Ries): (1) Zoom-in Pivot, (2) Zoom-out Pivot, (3) Customer Segment Pivot, (4) Customer Need Pivot, (5) Platform Pivot, (6) Business Architecture Pivot, (7) Value Capture Pivot, (8) Engine of Growth Pivot, (9) Channel Pivot, (10) Technology Pivot |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 알고리즘 및 지표 공식**:
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Sean Ellis PMF Score**: `PMF Score = (% of "Very Disappointed" users) / (Total Respondents) × 100`
+   - 기준선: ≥ 40% = Strong PMF, 25~40% = Approaching, < 25% = No PMF
+2. **Cohort Retention Curve**: 7일 후 Retention ≥ 20% (소셜), ≥ 35% (SaaS), ≥ 50% (게임/엔터테인먼트) — flatten 임계점
+3. **K-Factor (Viral Coefficient)**: `K = i × c` (i = invitations sent per user, c = conversion rate). K > 1 = Viral, K = 1 = Steady, K < 1 = Negative
+4. **LTV/CAC Ratio**: LTV (Lifetime Value) / CAC (Customer Acquisition Cost) ≥ 3.0 = Healthy, 1.0~3.0 = Risky, < 1.0 = Bankruptcy trajectory
+5. **Smoke Test Conversion Rate**: Landing Page 방문자 대비 사전 등록 비율. SaaS 기준 15~25% 우수, e-commerce 2~5%
+6. **Statistical Significance**: `Z = (p₁ - p₂) / √(p(1-p)(1/n₁ + 1/n₂))`, p-value < 0.05, Power ≥ 80% (sample size: evanmiller.org/ab-testing/)
+
+- **📢 섹션 요약 비유**: Build-Measure-Learn 루프는 **드론(DJI Phantom)의 PID 제어기**와 같습니다. PID 제어기는 실시간으로 **비행 상태(Build) -> 센서 측정(Measure) -> 오차 보정(Learn/PID 계산) -> 모터 조정(Pivot/Persevere)**을 100Hz로 반복하여 목표 위치에 도달합니다. 린 스타트업의 OMTM이 Setpoint, MVP가 Plant, A/B Test가 Disturbance, Cohort 분석이 Error Signal입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-린 스타트업 MVP 가설 검증을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 린 스타트업 MVP 가설 검증 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 린 스타트업 MVP 가설 검증은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 린 스타트업 MVP 가설 검증은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 린 스타트업 MVP 가설 검증을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-린 스타트업 MVP 가설 검증을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 린 스타트업 MVP 가설 검증 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 린 스타트업 MVP 가설 검증은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 린 스타트업 MVP 가설 검증의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 린 스타트업 MVP 가설 검증의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-린 스타트업 MVP 가설 검증 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 린 스타트업 MVP 가설 검증은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| 구분 | **린 스타트업 (Lean Startup)** | **Agile (Scrum/XP)** | **Design Thinking (IDEO/Stanford d.school)** | **Stage-Gate (Cooper)** |
+|------|-------------------------------|----------------------|---------------------------------------------|-------------------------|
+| **핵심 목적** | 불확실성 하 비즈니스 모델 검증 (Validated Learning) | 작동하는 소프트웨어의 빠른 인도 (Working Software) | 사용자 공감 기반 문제 발견 (Empathy & Problem) | 시장 출시 리스크 관리 (Stage Review) |
+| **출발점** | 가설 (Hypothesis) | 사용자 스토리 (User Story) | 사용자 페인포인트 (User Pain Point) | 비즈니스 케이스 (Business Case) |
+| **반복 주기** | 4~8주 (Build-Measure-Learn) | 1~4주 (Sprint) | 1~3주 (Prototype-Test-Iterate) | 3~6개월 (Stage-Gate) |
+| **측정 지표** | Innovation $, Cohort Retention, PMF Score, K-Factor | Velocity, Burndown, Defect Rate | Usability Score, SUS, Task Success | NPV, IRR, 시장점유율 |
+| **실패 허용** | Fail Fast, Fail Cheap, Fail Smart (학습 자산화) | Sprint 실패 -> Retrospective (공정 개선) | Prototype 실패 -> Iteration (무비용) | Gate 실패 -> Kill or Redevelop (고비용) |
+| **적용 단계** | 0->1 (Pre-PMF) | 1->N (Post-PMF Engineering) | 0->1 (Discovery Phase) | 1->N (Scaling Phase) |
+| **조직 형태** | Founder + Cross-functional Squad | Scrum Team (3~9명) | Multidisciplinary Team | Functional Department |
+| **결정론 vs 확률론** | 확률론적 (Probabilistic, Bayesian) | 실행 중심 (Execution-focused) | 발견 중심 (Discovery-focused) | 결정론적 (Deterministic) |
+| **고객 참여** | Continuous Discovery (Piens, etc.) | Sprint Review (주기적) | Ethnography, Interview, Empathy Map | VoC, Focus Group (사전) |
+| **
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 526 / 600
 
-<- **이전**: [525. 디자인 씽킹 공감 정의 아이디어](/knowledge-base/studynote/11_design_supervision/06_exam_summary/526_design_thinking_empathize_define_ideate/)
-**다음**: [527. 기술 부채 관리 리팩터링 전략](/knowledge-base/studynote/11_design_supervision/06_exam_summary/527_technical_debt_management_refactoring_st/) ->
+<- **이전**: [525. 디자인 씽킹 공감 정의 아이디어](/studynote/11_design_supervision/06_exam_summary/526_design_thinking_empathize_define_ideate/)
+**다음**: [527. 기술 부채 관리 리팩터링 전략](/studynote/11_design_supervision/06_exam_summary/527_technical_debt_management_refactoring_st/) ->
 
 ---

@@ -1,28 +1,25 @@
-+++
-title = "63. DPCM (Differential PCM) - 차분 펄스 부호 변조"
-description = "인접한 표본 간의 높은 상관성을 활용하여 데이터 전송량을 절감하는 예측 부호화 기반의 차분 펄스 부호 변조 원리"
-date = 2024-05-15
+---
+title: "63. DPCM (Differential PCM) - 차분 펄스 부호 변조"
+date: "2024-05-15"
+description: "인접한 표본 간의 높은 상관성을 활용하여 데이터 전송량을 절감하는 예측 부호화 기반의 차분 펄스 부호 변조 원리"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: DPCM(Differential Pulse [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 현재 샘플을 그대로 보내지 않고, 이전 샘플과의 차이만 보내는 예측 부호화 방식이다.
-> 2. **가치**: 인접 샘플의 상관성이 큰 음성·오디오 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 전송 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 줄이면서도 품질을 유지할 수 있다.
-> 3. **판단**: 예측기, [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)기, 피드백 경로를 함께 이해해야 DPCM의 장점과 오차 전파 한계를 설명할 수 있다.
+> 1. **본질**: DPCM(Differential Pulse [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 현재 샘플을 그대로 보내지 않고, 이전 샘플과의 차이만 보내는 예측 부호화 방식이다.
+> 2. **가치**: 인접 샘플의 상관성이 큰 음성·오디오 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에서 전송 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 줄이면서도 품질을 유지할 수 있다.
+> 3. **판단**: 예측기, [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/)기, 피드백 경로를 함께 이해해야 DPCM의 장점과 오차 전파 한계를 설명할 수 있다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)(Pulse [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 모든 샘플 값을 그대로 전송하므로 단순하지만 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 많다. DPCM은 인접 샘플이 비슷하다는 점을 이용해 "변화량"만 보내 효율을 높인다.
+[PCM](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/)(Pulse [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)은 모든 샘플 값을 그대로 전송하므로 단순하지만 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수가 많다. DPCM은 인접 샘플이 비슷하다는 점을 이용해 "변화량"만 보내 효율을 높인다.
 
-음성, 오디오, 영상처럼 연속성이 강한 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서 DPCM의 장점이 크다. 결국 핵심은 "절대값"보다 "차이값"이 더 작다는 점이다.
+음성, 오디오, 영상처럼 연속성이 강한 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에서 DPCM의 장점이 크다. 결국 핵심은 "절대값"보다 "차이값"이 더 작다는 점이다.
 
 - **📢 섹션 요약 비유**: 매번 편지를 통째로 보내지 않고, 바뀐 부분만 메모해서 보내는 방식이다.
 
@@ -53,12 +50,12 @@ Feedback
 | 구성 요소 | 역할 |
 | :-- | :-- |
 | Predictor | 다음 샘플을 추정 |
-| [Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) | 실제값과 예측값의 차이 계산 |
+| [Subtractor](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) | 실제값과 예측값의 차이 계산 |
 | Quantizer | 차이값을 이산화 |
-| [Encoder](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) |
+| [Encoder](/studynote/01_computer_architecture/01_basic_electronics_logic/040_encoder/) | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)열로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) |
 | Feedback | 복원된 값을 예측기에 반영 |
 
-예측이 잘 맞을수록 차이값이 작아지고 전송 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 줄어든다. 반대로 예측이 틀리면 오차가 누적될 수 있다.
+예측이 잘 맞을수록 차이값이 작아지고 전송 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)가 줄어든다. 반대로 예측이 틀리면 오차가 누적될 수 있다.
 
 - **📢 섹션 요약 비유**: 친구가 말하려는 내용을 미리 맞히고, 달라진 부분만 받아 적는 방식이다.
 
@@ -68,11 +65,11 @@ Feedback
 
 | 방식 | 전송 대상 | 장점 | 단점 |
 | :-- | :-- | :-- | :-- |
-| [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 원래 샘플값 | 단순, 안정적 | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 큼 |
-| DPCM | 샘플 차이값 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 오차 전파 가능 |
-| [ADPCM](/knowledge-base/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) | 차이값 + 적응형 스텝 | 더 높은 효율 | 구현 복잡 |
+| [PCM](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 원래 샘플값 | 단순, 안정적 | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수 큼 |
+| DPCM | 샘플 차이값 | [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효율 | 오차 전파 가능 |
+| [ADPCM](/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) | 차이값 + 적응형 스텝 | 더 높은 효율 | 구현 복잡 |
 
-DPCM은 "샘플 간 상관성"이라는 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 특성에 의존한다. 상관성이 낮은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에서는 이득이 줄고, 예측이 틀리면 품질 저하가 나타날 수 있다.
+DPCM은 "샘플 간 상관성"이라는 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 특성에 의존한다. 상관성이 낮은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에서는 이득이 줄고, 예측이 틀리면 품질 저하가 나타날 수 있다.
 
 - **📢 섹션 요약 비유**: 앞사람 말을 잘 맞히면 메모가 짧아지고, 틀리면 다시 묻는 일이 늘어난다.
 
@@ -80,22 +77,22 @@ DPCM은 "샘플 간 상관성"이라는 [신호](/knowledge-base/studynote/02_op
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 연속성과 상관성이 충분한가?
-2. 예측기 모델이 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 특성과 맞는가?
-3. [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차와 SNR을 고려했는가?
+1. [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 연속성과 상관성이 충분한가?
+2. 예측기 모델이 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 특성과 맞는가?
+3. [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 오차와 SNR을 고려했는가?
 4. 피드백 경로의 오차 전파를 이해하는가?
-5. [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) 대비 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 절감 효과를 정량화했는가?
+5. [PCM](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) 대비 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 절감 효과를 정량화했는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 상관성이 낮은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 DPCM을 억지로 적용하는 설계
-- [양자화](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 단계와 오차 전파를 무시하는 설계
+- 상관성이 낮은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에 DPCM을 억지로 적용하는 설계
+- [양자화](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) 단계와 오차 전파를 무시하는 설계
 - 피드백 오차가 누적되는 구조를 검토하지 않는 설계
-- PCM과 DPCM의 차이를 단순 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수만으로 설명하는 설계
+- PCM과 DPCM의 차이를 단순 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 수만으로 설명하는 설계
 
-기술사 관점에서는 DPCM을 단순 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라 "예측 기반 전송"으로 봐야 한다. 예측이 맞을수록 효율이 올라가고, 틀리면 품질이 흔들린다.
+기술사 관점에서는 DPCM을 단순 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)이 아니라 "예측 기반 전송"으로 봐야 한다. 예측이 맞을수록 효율이 올라가고, 틀리면 품질이 흔들린다.
 
 - **📢 섹션 요약 비유**: 정답을 미리 맞히면 말해야 할 글자가 줄어드는 퀴즈 게임이다.
 
@@ -103,9 +100,9 @@ DPCM은 "샘플 간 상관성"이라는 [신호](/knowledge-base/studynote/02_op
 
 ## Ⅴ. 기대효과 및 결론
 
-DPCM은 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 중복을 줄여 대역폭을 절약하는 대표적 예다. 그래서 음성 통신과 저비트 전송에서 오래 활용됐다.
+DPCM은 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 중복을 줄여 대역폭을 절약하는 대표적 예다. 그래서 음성 통신과 저비트 전송에서 오래 활용됐다.
 
-결론적으로 DPCM은 "전체를 보내지 말고 차이를 보내자"는 아주 직관적인 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 전략이다.
+결론적으로 DPCM은 "전체를 보내지 말고 차이를 보내자"는 아주 직관적인 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 전략이다.
 
 - **📢 섹션 요약 비유**: 이미 알고 있는 부분은 빼고, 새로 바뀐 부분만 전하는 편지가 더 짧다.
 
@@ -151,7 +148,7 @@ DPCM은 그런 식으로 소리를 보내는 방법이에요.
 
 **진행 상황**: 63 / 1120
 
-<- **이전**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/knowledge-base/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/)
-**다음**: [64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조](/knowledge-base/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) ->
+<- **이전**: [62. 펄스 부호 변조 (PCM, Pulse Code Modulation) 처리 과정](/studynote/03_network/01_data_communication/062_펄스_부호_변조_PCM_과정/)
+**다음**: [64. ADPCM (Adaptive DPCM) - 적응형 차분 펄스 부호 변조](/studynote/03_network/01_data_communication/064_ADPCM_적응형_차분_펄스_부호_변조/) ->
 
 ---

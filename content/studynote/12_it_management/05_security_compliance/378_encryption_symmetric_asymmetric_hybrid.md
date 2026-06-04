@@ -1,13 +1,10 @@
-+++
-title = "378. 암호화 기술 대칭 비대칭 하이브리드 (Encryption Symmetric Asymmetric Hybrid)"
-date = 2026-05-09
+---
+title: "378. 암호화 기술 대칭 비대칭 하이브리드 (Encryption Symmetric Asymmetric Hybrid)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -152,7 +149,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 378 / 800
 
-<- **이전**: [377. 다중 인증 MFA 생체 인증 패스키](/knowledge-base/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/)
-**다음**: [379. PKI 공개키 인프라 인증서 관리](/knowledge-base/studynote/12_it_management/05_security_compliance/379_pki_public_key_infrastructure_certificate/) ->
+<- **이전**: [377. 다중 인증 MFA 생체 인증 패스키](/studynote/12_it_management/05_security_compliance/377_multi_factor_authentication_mfa_biometric/)
+**다음**: [379. PKI 공개키 인프라 인증서 관리](/studynote/12_it_management/05_security_compliance/379_pki_public_key_infrastructure_certificate/) ->
 
 ---

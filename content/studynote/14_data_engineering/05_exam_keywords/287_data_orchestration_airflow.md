@@ -1,13 +1,10 @@
-+++
-title = "287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)"
-date = 2026-05-09
+---
+title: "287. 데이터 오케스트레이션 Airflow DAG 워크플로 (Data Orchestration Airflow DAG Workflow)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -197,7 +194,7 @@ Scheduler는 **DAG Parsing -> DagRun 생성 -> TaskInstance 스케줄 -> Executo
 
 **진행 상황**: 287 / 300
 
-<- **이전**: [286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/286_edge_data_processing/)
-**다음**: [288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/288_dbt_transformation/) ->
+<- **이전**: [286. 엣지 데이터 처리 분산 파이프라인 설계 (Edge Data Processing Distributed Pipeline)](/studynote/14_data_engineering/05_exam_keywords/286_edge_data_processing/)
+**다음**: [288. dbt 데이터 변환 모델링 테스트 문서화 (dbt Data Transformation Modeling Testing)](/studynote/14_data_engineering/05_exam_keywords/288_dbt_transformation/) ->
 
 ---

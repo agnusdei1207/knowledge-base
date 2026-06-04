@@ -1,18 +1,15 @@
-+++
-title = "003. 소수 판별 — Primality Test"
-date = 2026-04-05
+---
+title: "003. 소수 판별 — Primality Test"
+date: "2026-04-05"
+tags:
+  - "studynote-algorithm-stats"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm-stats"]
-
-[extra]
-tags = ["studynote-algorithm-stats"]
-+++
 
 > **핵심 인사이트**
 > 1. 소수 판별(Primality Test)의 기본 최적화는 √N까지만 나눗셈을 시도하는 것 — N이 합성수라면 N=a×b에서 min(a,b) ≤ √N이 항상 성립하므로, √N 이하의 약수가 없으면 소수다.
-> 2. 밀러-라빈 테스트(Miller-Rabin Test)는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 소수 판별의 표준 — O(k log^N)의 빠른 복잡도로 대용량 수(256~4096 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))의 소수 여부를 검사하며, k번 반복으로 2^(-2k)의 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 달성한다.
-> 3. 결정론적 밀러-라빈(Deterministic Miller-Rabin)이 실무의 답 — 특정 범위의 수에 대해 고정된 베이스 집합을 사용하면 오류 없는 결정론적 판별이 가능하며, 2^64 미만 수에 대해 {2,3,5,7,[11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/),13,17,19,23,29,31,37} 7개면 충분하다.
+> 2. 밀러-라빈 테스트(Miller-Rabin Test)는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 소수 판별의 표준 — O(k log^N)의 빠른 복잡도로 대용량 수(256~4096 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))의 소수 여부를 검사하며, k번 반복으로 2^(-2k)의 오류 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 달성한다.
+> 3. 결정론적 밀러-라빈(Deterministic Miller-Rabin)이 실무의 답 — 특정 범위의 수에 대해 고정된 베이스 집합을 사용하면 오류 없는 결정론적 판별이 가능하며, 2^64 미만 수에 대해 {2,3,5,7,[11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/),13,17,19,23,29,31,37} 7개면 충분하다.
 
 ---
 
@@ -109,7 +106,7 @@ Python 구현:
   = a^25 계산 후 2번 제곱
 ```
 
-> 📢 **섹션 요약 비유**: 페르마 테스트 = 대략적 소수 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 소수면 항상 통과. 단, [카마이클 수](/knowledge-base/studynote/09_security/03_network_security/115_carmichael_number/)(가짜 소수)가 항상 통과. 의심스럽지만 완벽하지 않은 검사!
+> 📢 **섹션 요약 비유**: 페르마 테스트 = 대략적 소수 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 소수면 항상 통과. 단, [카마이클 수](/studynote/09_security/03_network_security/115_carmichael_number/)(가짜 소수)가 항상 통과. 의심스럽지만 완벽하지 않은 검사!
 
 ---
 
@@ -177,7 +174,7 @@ Python 구현:
       return True
 ```
 
-> 📢 **섹션 요약 비유**: 밀러-라빈 = 강화된 신분증 검사 — 페르마(기본 신분증 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에서 발전해 [카마이클 수](/knowledge-base/studynote/09_security/03_network_security/115_carmichael_number/)(정교한 위조 신분증)도 잡아냄. k번 반복으로 오류 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^(-9)!
+> 📢 **섹션 요약 비유**: 밀러-라빈 = 강화된 신분증 검사 — 페르마(기본 신분증 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/))에서 발전해 [카마이클 수](/studynote/09_security/03_network_security/115_carmichael_number/)(정교한 위조 신분증)도 잡아냄. k번 반복으로 오류 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^(-9)!
 
 ---
 
@@ -221,11 +218,11 @@ Python 내장:
   AKS: O(log^6(N)) - 실용적으로 느림
 ```
 
-> 📢 **섹션 요약 비유**: 소수 판별 선택 = 신분증 검사 강도 — 일반인(코딩테스트): 사진 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(√N). 공항 출국([RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/)): 지문+얼굴+[데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 대조(밀러-라빈). AKS는 완벽하지만 공항에서도 너무 오래 걸려 안 씀!
+> 📢 **섹션 요약 비유**: 소수 판별 선택 = 신분증 검사 강도 — 일반인(코딩테스트): 사진 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)(√N). 공항 출국([RSA](/studynote/09_security/03_network_security/110_rsa/)): 지문+얼굴+[데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 대조(밀러-라빈). AKS는 완벽하지만 공항에서도 너무 오래 걸려 안 씀!
 
 ---
 
-## Ⅴ. 실무 시나리오 — [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
+## Ⅴ. 실무 시나리오 — [RSA](/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)
 
 ```
 RSA-2048 키 쌍 생성에서의 소수 판별:
@@ -272,7 +269,7 @@ OpenSSL 소수 생성:
   내부: BN_generate_prime_ex() -> 밀러-라빈
 ```
 
-> 📢 **섹션 요약 비유**: [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 + 신원 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 1024비트 랜덤수(복권) 뽑기 -> 빠른 필터(가짜 당첨 70% 제거) -> 밀러-라빈 20라운드(진짜 당첨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 평균 240번 시도!
+> 📢 **섹션 요약 비유**: [RSA](/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 + 신원 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 1024비트 랜덤수(복권) 뽑기 -> 빠른 필터(가짜 당첨 70% 제거) -> 밀러-라빈 20라운드(진짜 당첨 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)). 평균 240번 시도!
 
 ---
 
@@ -328,9 +325,9 @@ Post-Quantum 연구
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. √N까지 검사 = 책 절반만 뒤지기 — 약수는 항상 짝으로 존재. 작은 쪽이 √N 이하. √N까지만 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 충분!
-2. 밀러-라빈 = 강화 신분증 검사 — 15~20번 다른 방법으로 검사. 가짜 신분증(합성수) 통과 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 10억분의 1!
-3. [RSA](/knowledge-base/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 랜덤 숫자 뽑고 빠른 필터 후 밀러-라빈 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/). 평균 240번 시도로 1024비트 소수 발견!
+1. √N까지 검사 = 책 절반만 뒤지기 — 약수는 항상 짝으로 존재. 작은 쪽이 √N 이하. √N까지만 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하면 충분!
+2. 밀러-라빈 = 강화 신분증 검사 — 15~20번 다른 방법으로 검사. 가짜 신분증(합성수) 통과 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 10억분의 1!
+3. [RSA](/studynote/09_security/03_network_security/110_rsa/) 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) = 복권 당첨 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) — 랜덤 숫자 뽑고 빠른 필터 후 밀러-라빈 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/). 평균 240번 시도로 1024비트 소수 발견!
 
 ---
 
@@ -338,7 +335,7 @@ Post-Quantum 연구
 
 **진행 상황**: 122 / 175
 
-<- **이전**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/knowledge-base/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/)
-**다음**: [004. 빠른 거듭제곱 — Fast Exponentiation](/knowledge-base/studynote/08_algorithm_stats/07_numerical/123_fast_exponentiation/) ->
+<- **이전**: [002. 에라토스테네스의 체 — Sieve of Eratosthenes](/studynote/08_algorithm_stats/07_numerical/121_sieve_of_eratosthenes/)
+**다음**: [004. 빠른 거듭제곱 — Fast Exponentiation](/studynote/08_algorithm_stats/07_numerical/123_fast_exponentiation/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "744. IT 경영 관리 핵심 토픽 744번 시험 요약 (IT Management Core Topic 744 Exam Summary)"
-date = 2026-05-09
+---
+title: "744. IT 경영 관리 핵심 토픽 744번 시험 요약 (IT Management Core Topic 744 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 744. IT 거버넌스(Information Technology Governance) — 기술사 시험 심화 정리
 
@@ -146,7 +143,7 @@ COBIT 2019는 **40개의 Governance/Management Objectives**를 **5개 도메인(
 
 **진행 상황**: 744 / 800
 
-<- **이전**: [743. IT 경영 관리 핵심 토픽 743번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/743_it_management_core_topic_743_exam_summary/)
-**다음**: [745. IT 경영 관리 핵심 토픽 745번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/745_it_management_core_topic_745_exam_summary/) ->
+<- **이전**: [743. IT 경영 관리 핵심 토픽 743번 시험 요약](/studynote/12_it_management/05_security_compliance/743_it_management_core_topic_743_exam_summary/)
+**다음**: [745. IT 경영 관리 핵심 토픽 745번 시험 요약](/studynote/12_it_management/05_security_compliance/745_it_management_core_topic_745_exam_summary/) ->
 
 ---

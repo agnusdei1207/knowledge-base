@@ -1,13 +1,10 @@
-+++
-title = "646. RAG 검색 증강 생성 벡터 검색 (RAG Retrieval Augmented Generation Vector Search)"
-date = 2026-05-09
+---
+title: "646. RAG 검색 증강 생성 벡터 검색 (RAG Retrieval Augmented Generation Vector Search)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -172,7 +169,7 @@ $$\text{cos}(\mathbf{q}, \mathbf{c}) = \frac{\mathbf{q} \cdot \mathbf{c}}{\|\mat
 
 **진행 상황**: 646 / 800
 
-<- **이전**: [645. LoRA 효율적 파인 튜닝 어댑터](/knowledge-base/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/)
-**다음**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/knowledge-base/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/) ->
+<- **이전**: [645. LoRA 효율적 파인 튜닝 어댑터](/studynote/06_ict_convergence/uncategorized/645_lora_efficient_fine_tuning_adapter/)
+**다음**: [647. 프롬프트 엔지니어링 체인 오브 쏘트](/studynote/06_ict_convergence/uncategorized/647_prompt_engineering_chain_of_thought/) ->
 
 ---

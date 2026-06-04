@@ -1,22 +1,19 @@
-+++
-title = "043. 보호와 보안 (Protection & Security)"
-date = 2026-04-05
+---
+title: "043. 보호와 보안 (Protection & Security)"
+date: "2026-04-05"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 > **핵심 인사이트**
-> 1. OS에서 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)([Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/))는 "합법적인 사용자가 리소스에 올바르게 접근하도록 제어"하는 메커니즘이고, 보안([Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 "외부 위협으로부터 시스템을 방어"하는 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) — 두 개념은 목적과 대상이 다르며 계층적으로 보안이 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)를 포함한다.
-> 2. [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)([Protection Domain](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/))과 접근 행렬([Access Matrix](/knowledge-base/studynote/02_operating_system/10_security/573_access_matrix/))은 OS [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)의 이론적 기반으로, 주체(Subject)-객체(Object)-권한(Right)의 삼각 관계를 체계적으로 모델링하며 [ACL](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([Access Control List](/knowledge-base/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))과 Capability List로 구현된다.
-> 3. 링 구조(Ring [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))는 x86 CPU의 권한 레벨(Ring 0~3)을 통해 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring 0)과 사용자 프로그램(Ring 3)을 분리하는 하드웨어 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘으로, 특권 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행, 메모리 접근, I/O 제어를 계층적으로 제어한다.
+> 1. OS에서 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)([Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/))는 "합법적인 사용자가 리소스에 올바르게 접근하도록 제어"하는 메커니즘이고, 보안([Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/))은 "외부 위협으로부터 시스템을 방어"하는 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) — 두 개념은 목적과 대상이 다르며 계층적으로 보안이 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)를 포함한다.
+> 2. [보호 도메인](/studynote/02_operating_system/10_security/572_protection_domain/)([Protection Domain](/studynote/02_operating_system/10_security/572_protection_domain/))과 접근 행렬([Access Matrix](/studynote/02_operating_system/10_security/573_access_matrix/))은 OS [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)의 이론적 기반으로, 주체(Subject)-객체(Object)-권한(Right)의 삼각 관계를 체계적으로 모델링하며 [ACL](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/)([Access Control List](/studynote/02_operating_system/09_file_system/549_acl_access_control_list/))과 Capability List로 구현된다.
+> 3. 링 구조(Ring [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))는 x86 CPU의 권한 레벨(Ring 0~3)을 통해 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(Ring 0)과 사용자 프로그램(Ring 3)을 분리하는 하드웨어 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 메커니즘으로, 특권 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 실행, 메모리 접근, I/O 제어를 계층적으로 제어한다.
 
 ---
 
-## Ⅰ. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) vs 보안 개념 구분
+## Ⅰ. [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) vs 보안 개념 구분
 
 ```
 보호 (Protection):
@@ -46,11 +43,11 @@ OS 보안 요구사항 (CIA):
   A - Availability (가용성): 서비스 지속 제공
 ```
 
-> 📢 **섹션 요약 비유**: [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) vs 보안은 건물 내부 잠금 vs 외벽 보안 — [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 내부 회의실 문 잠금(내부 격리), 보안은 외부 침입자 방어(외벽, [CCTV](/knowledge-base/studynote/09_security/18_iot_ot_physical/933_cctv/)).
+> 📢 **섹션 요약 비유**: [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) vs 보안은 건물 내부 잠금 vs 외벽 보안 — [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)는 내부 회의실 문 잠금(내부 격리), 보안은 외부 침입자 방어(외벽, [CCTV](/studynote/09_security/18_iot_ot_physical/933_cctv/)).
 
 ---
 
-## Ⅱ. [보호 도메인](/knowledge-base/studynote/02_operating_system/10_security/572_protection_domain/)과 접근 행렬
+## Ⅱ. [보호 도메인](/studynote/02_operating_system/10_security/572_protection_domain/)과 접근 행렬
 
 ```
 보호 도메인 (Protection Domain):
@@ -90,7 +87,7 @@ OS 보안 요구사항 (CIA):
 
 ---
 
-## Ⅲ. 링 구조 (Ring [Architecture](/knowledge-base/studynote/12_it_management/05_security_compliance/319_architecture/))
+## Ⅲ. 링 구조 (Ring [Architecture](/studynote/12_it_management/05_security_compliance/319_architecture/))
 
 ```
 x86 CPU 링 구조 (Privilege Levels):
@@ -169,11 +166,11 @@ OS 보안 위협 분류:
   암호화: 파일 시스템 암호화 (BitLocker, LUKS)
 ```
 
-> 📢 **섹션 요약 비유**: OS 보안 위협은 건물 침입 방법 — 정문 뚫기([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회), 창문 깨기([버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/)), 청소부 위장([트로이 목마](/knowledge-base/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)), 열쇠 복사(자격증명 도용).
+> 📢 **섹션 요약 비유**: OS 보안 위협은 건물 침입 방법 — 정문 뚫기([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 우회), 창문 깨기([버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/)), 청소부 위장([트로이 목마](/studynote/02_operating_system/10_security/586_trojan_horse_wrapper/)), 열쇠 복사(자격증명 도용).
 
 ---
 
-## Ⅴ. 실무 시나리오 — Linux [SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/)/[AppArmor](/knowledge-base/studynote/02_operating_system/10_security/584_apparmor/)
+## Ⅴ. 실무 시나리오 — Linux [SELinux](/studynote/02_operating_system/10_security/583_selinux/)/[AppArmor](/studynote/02_operating_system/10_security/584_apparmor/)
 
 ```
 Linux 강제 접근 제어 (MAC) 구현:
@@ -270,9 +267,9 @@ eBPF: 커널 내 보안 프로그램 실행
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)는 내부 자물쇠, 보안은 외벽 경비원 — 집 안에서 방마다 잠금([보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)), 집 전체를 지키는 경비원(보안)처럼 서로 역할이 달라요!
+1. [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)는 내부 자물쇠, 보안은 외벽 경비원 — 집 안에서 방마다 잠금([보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)), 집 전체를 지키는 경비원(보안)처럼 서로 역할이 달라요!
 2. 링 구조는 군대 계급 — Ring 0은 사령관(모든 명령 가능), Ring 3은 일반 병사. 사령관 명령을 병사가 내리면 즉시 경고!
-3. SELinux는 초엄격 출입증 시스템 — root 계정을 가져도 출입증([SELinux](/knowledge-base/studynote/02_operating_system/10_security/583_selinux/) [컨텍스트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/))이 없으면 들어갈 수 없어요.
+3. SELinux는 초엄격 출입증 시스템 — root 계정을 가져도 출입증([SELinux](/studynote/02_operating_system/10_security/583_selinux/) [컨텍스트](/studynote/02_operating_system/01_overview_architecture/033_context/))이 없으면 들어갈 수 없어요.
 
 ---
 
@@ -280,7 +277,7 @@ eBPF: 커널 내 보안 프로그램 실행
 
 **진행 상황**: 43 / 800
 
-<- **이전**: [042. 회계 및 로깅 (Accounting and Logging)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/)
-**다음**: [044. 셸 — Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/) ->
+<- **이전**: [042. 회계 및 로깅 (Accounting and Logging)](/studynote/02_operating_system/01_overview_architecture/042_accounting_logging/)
+**다음**: [044. 셸 — Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "685. 공간 데이터 GIS 위치 기반 분석 (Spatial Data GIS Location Based Analysis)"
-date = 2026-05-09
+---
+title: "685. 공간 데이터 GIS 위치 기반 분석 (Spatial Data GIS Location Based Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -160,7 +157,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 685 / 800
 
-<- **이전**: [684. 그래프 분석 소셜 네트워크 중심성](/knowledge-base/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/)
-**다음**: [686. 자연어 생성 보고서 자동화 인사이트](/knowledge-base/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/) ->
+<- **이전**: [684. 그래프 분석 소셜 네트워크 중심성](/studynote/06_ict_convergence/uncategorized/684_graph_analysis_social_network_centrality/)
+**다음**: [686. 자연어 생성 보고서 자동화 인사이트](/studynote/06_ict_convergence/uncategorized/686_nlg_report_automation_insight_generation/) ->
 
 ---

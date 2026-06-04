@@ -1,13 +1,10 @@
-+++
-title = "708. IT 경영 관리 핵심 토픽 708번 시험 요약 (IT Management Core Topic 708 Exam Summary)"
-date = 2026-05-09
+---
+title: "708. IT 경영 관리 핵심 토픽 708번 시험 요약 (IT Management Core Topic 708 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -179,7 +176,7 @@ IT 경영 관리 영역에서 자주 혼동되는 핵심 개념 쌍을 명확히
 
 **진행 상황**: 708 / 800
 
-<- **이전**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/)
-**다음**: [709. IT 경영 관리 핵심 토픽 709번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/709_it_management_core_topic_709_exam_summary/) ->
+<- **이전**: [707. IT 경영 관리 핵심 토픽 707번 시험 요약](/studynote/12_it_management/05_security_compliance/707_it_management_core_topic_707_exam_summary/)
+**다음**: [709. IT 경영 관리 핵심 토픽 709번 시험 요약](/studynote/12_it_management/05_security_compliance/709_it_management_core_topic_709_exam_summary/) ->
 
 ---

@@ -1,31 +1,28 @@
-+++
-title = "454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복"
-date = 2026-05-09
+---
+title: "454. 버퍼링 (Buffering) - 송수신자 간 데이터 전송 속도 차이, 전송 단위 차이 극복"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 버퍼링(Buffering)은 초당 기가바이트를 쏘는 CPU와 초당 몇 킬로바이트를 뱉는 키보드/디스크처럼, <strong>장치 간의 압도적인 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도 차이(Speed Mismatch)와 전송 단위(크기) 차이를 극복하기 위해 물리 램(RAM)의 일정 구역을 임시 저수지로 사용하는 기법</strong>이다.
-> 2. **가치**: 1바이트씩 1만 번을 통신하며 터지는 끔찍한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 10KB 통짜 1번의 덩어리 전송([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))으로 묶어냄으로써, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a> <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>의 낭비를 막고 CPU 가동률을 극단적으로 <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>한다.
-> 3. **융합(차이)**: 한 번 쓴 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다음에도 빨리 읽기 위해 '보관'하는 [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))과 달리, 버퍼링은 오직 <strong>목적지로 넘어가기 전 잠시 '조립하고 통과(Transit)'하는 정거장</strong>이며, 도착 즉시 쿨하게 증발해 버리는 철저한 일회성 소모품으로 작동한다.
+> 1. **본질**: 버퍼링(Buffering)은 초당 기가바이트를 쏘는 CPU와 초당 몇 킬로바이트를 뱉는 키보드/디스크처럼, <strong>장치 간의 압도적인 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 전송 속도 차이(Speed Mismatch)와 전송 단위(크기) 차이를 극복하기 위해 물리 램(RAM)의 일정 구역을 임시 저수지로 사용하는 기법</strong>이다.
+> 2. **가치**: 1바이트씩 1만 번을 통신하며 터지는 끔찍한 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍을 10KB 통짜 1번의 덩어리 전송([Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))으로 묶어냄으로써, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/">시스템 버스</a> <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>의 낭비를 막고 CPU 가동률을 극단적으로 <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>한다.
+> 3. **융합(차이)**: 한 번 쓴 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다음에도 빨리 읽기 위해 '보관'하는 [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/))과 달리, 버퍼링은 오직 <strong>목적지로 넘어가기 전 잠시 '조립하고 통과(Transit)'하는 정거장</strong>이며, 도착 즉시 쿨하게 증발해 버리는 철저한 일회성 소모품으로 작동한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 버퍼(Buffer)는 라틴어로 '충격을 완화하는 쇳덩이'를 뜻한다. 송신자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미친 듯이 쏟아내는데 수신자가 받아먹는 입이 너무 작을 때, 그 중간 램 메모리에 거대한 물통(버퍼)을 파놓고 일단 물을 가득 받아둔 뒤, 수신자의 입 크기에 맞춰 쫄쫄 흘려보내 주는(또는 그 반대) 임시 메모리 저장소다.
-- **필요성**: 인터넷에서 10GB짜리 영화를 다운받아 하드디스크에 쓴다고 치자. 1Gbps 광랜카드(송신자)는 1초에 125MB를 미친 듯이 쏟아낸다. 하지만 구형 하드디스크(수신자)는 1초에 50MB밖에 기록하지 못한다. 만약 중간에 버퍼가 없다면? 랜카드는 자기가 받은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 75MB를 디스크가 다 쓸 때까지 램 밖으로 버리거나(Packet Drop), 네트워크 상대방에게 "야 너무 빨라! 1초만 멈춰!"라고 소리쳐야 한다. 다운로드 속도가 바닥을 긴다. 이 <strong>'생태계 교란종 급의 속도 불균형'</strong>을 막기 위해, 랜카드가 일단 거대한 램(버퍼)에 125MB를 와다다 부어놓고 랜카드는 쿨하게 퇴근하고, 디스크는 밤을 새워서라도 그 버퍼 물통에서 50MB씩 천천히 퍼먹도록 하는 완충 지대가 절대적으로 필요했다.
+- **개념**: 버퍼(Buffer)는 라틴어로 '충격을 완화하는 쇳덩이'를 뜻한다. 송신자가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 미친 듯이 쏟아내는데 수신자가 받아먹는 입이 너무 작을 때, 그 중간 램 메모리에 거대한 물통(버퍼)을 파놓고 일단 물을 가득 받아둔 뒤, 수신자의 입 크기에 맞춰 쫄쫄 흘려보내 주는(또는 그 반대) 임시 메모리 저장소다.
+- **필요성**: 인터넷에서 10GB짜리 영화를 다운받아 하드디스크에 쓴다고 치자. 1Gbps 광랜카드(송신자)는 1초에 125MB를 미친 듯이 쏟아낸다. 하지만 구형 하드디스크(수신자)는 1초에 50MB밖에 기록하지 못한다. 만약 중간에 버퍼가 없다면? 랜카드는 자기가 받은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 75MB를 디스크가 다 쓸 때까지 램 밖으로 버리거나(Packet Drop), 네트워크 상대방에게 "야 너무 빨라! 1초만 멈춰!"라고 소리쳐야 한다. 다운로드 속도가 바닥을 긴다. 이 <strong>'생태계 교란종 급의 속도 불균형'</strong>을 막기 위해, 랜카드가 일단 거대한 램(버퍼)에 125MB를 와다다 부어놓고 랜카드는 쿨하게 퇴근하고, 디스크는 밤을 새워서라도 그 버퍼 물통에서 50MB씩 천천히 퍼먹도록 하는 완충 지대가 절대적으로 필요했다.
 
 - **등장 배경 및 병목의 파괴**:
   1. **Speed Mismatch (속도 불일치)**: CPU(나노초)와 I/O 디바이스(밀리초) 간 100만 배의 속도 갭이 발생.
   2. **Size Mismatch (크기 불일치)**: 네트워크는 1500바이트로 들어오는데, 하드디스크는 4000바이트 덩어리로 써야 하는 규격 불일치.
-  3. **메모리(RAM)의 중간 관리자 등극**: 속도도 중간, 크기도 자유자재인 램(RAM)을 중간 기착지로 삼아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립하고 해체하는 패킹(Packing/Unpacking) 허브로 삼음.
+  3. **메모리(RAM)의 중간 관리자 등극**: 속도도 중간, 크기도 자유자재인 램(RAM)을 중간 기착지로 삼아 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 조립하고 해체하는 패킹(Packing/Unpacking) 허브로 삼음.
 
 ```text
 +--------------------------------------------------------------------------+
@@ -48,55 +45,55 @@ tags = ["studynote-operating-system"]
 |   ✅ 결과: 양쪽 기계가 각자의 최고 스피드로 일하면서 렉이 완벽히 사라짐. |
 +--------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 버퍼의 핵심은 <strong>"<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 모아서 한 방에 처리한다(<a href="/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)"</strong>는 데 있다. 네트워크 카드가 패킷 1바이트를 받을 때마다 CPU를 찌르면([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 서버가 터진다. 그래서 랜카드 칩셋 내부에 작은 1500바이트 '하드웨어 버퍼'를 파놓고 거기가 다 찰 때까지 꾹 참았다가, 다 차면 CPU에 딱 1번 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 날려 1500바이트를 덩어리째 램으로 넘긴다. (수천 번의 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉을 1번으로 퉁치는 마술이다).
+**[다이어그램 해설]** 버퍼의 핵심은 <strong>"<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 모아서 한 방에 처리한다(<a href="/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/">Batching</a>)"</strong>는 데 있다. 네트워크 카드가 패킷 1바이트를 받을 때마다 CPU를 찌르면([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 서버가 터진다. 그래서 랜카드 칩셋 내부에 작은 1500바이트 '하드웨어 버퍼'를 파놓고 거기가 다 찰 때까지 꾹 참았다가, 다 차면 CPU에 딱 1번 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)를 날려 1500바이트를 덩어리째 램으로 넘긴다. (수천 번의 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 렉을 1번으로 퉁치는 마술이다).
 
-- **📢 섹션 요약 비유**: 비 오는 날 양동이를 받쳐두는 것과 같습니다. 하늘에서 비([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 한 방울씩 무작위로 떨어지는데, 내가 빗방울 떨어질 때마다 컵으로 1개씩 받아 마시려면(버퍼 없음) 하루 종일 비만 맞아야 합니다. 마당에 큰 양동이(버퍼)를 놔두고 하늘이 쏟아붓든 말든 나는 방에 들어가 자다가, 양동이가 다 차면 그때 나와서 시원하게 벌컥 마시는([인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 게 최고입니다.
+- **📢 섹션 요약 비유**: 비 오는 날 양동이를 받쳐두는 것과 같습니다. 하늘에서 비([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 한 방울씩 무작위로 떨어지는데, 내가 빗방울 떨어질 때마다 컵으로 1개씩 받아 마시려면(버퍼 없음) 하루 종일 비만 맞아야 합니다. 마당에 큰 양동이(버퍼)를 놔두고 하늘이 쏟아붓든 말든 나는 방에 들어가 자다가, 양동이가 다 차면 그때 나와서 시원하게 벌컥 마시는([인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)) 게 최고입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### Copy-Semantics ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조립의 흑마술)
+### Copy-Semantics ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 조립의 흑마술)
 
-버퍼는 단순히 기다리는 용도만 있는 게 아니다. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 덩치(Size)를 억지로 맞춰주는 용접공</strong> 역할을 한다.
-- 유저 앱은 `write()` 함수로 "1바이트"만 하드디스크에 적어달라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 던진다.
+버퍼는 단순히 기다리는 용도만 있는 게 아니다. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 덩치(Size)를 억지로 맞춰주는 용접공</strong> 역할을 한다.
+- 유저 앱은 `write()` 함수로 "1바이트"만 하드디스크에 적어달라고 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 던진다.
 - 하지만 하드디스크는 물리적으로 4096바이트(4KB 블록) 덩어리가 아니면 아예 기록 자체가 불가능한 깡통이다.
 - 크기가 안 맞다! 어떻게 할까?
-- OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 램에 <strong>4KB짜리 블록 버퍼(Block Buffer)</strong>를 열어둔다. 유저가 던진 1바이트를 버퍼 맨 앞칸에 살포시 얹어둔다. 유저에게는 "디스크에 잘 적었다!"라고 뻥을 친다.
-- 이후 유저가 1바이트씩 4095번을 더 던져서 마침내 4KB 덩어리가 예쁘게 완성되면! 그제야 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 4KB 버퍼 덩어리를 하드디스크에 한 방에 쾅 찍어 누른다. 규격 불일치를 완벽하게 해소한 버퍼링의 묘미다.
+- OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 램에 <strong>4KB짜리 블록 버퍼(Block Buffer)</strong>를 열어둔다. 유저가 던진 1바이트를 버퍼 맨 앞칸에 살포시 얹어둔다. 유저에게는 "디스크에 잘 적었다!"라고 뻥을 친다.
+- 이후 유저가 1바이트씩 4095번을 더 던져서 마침내 4KB 덩어리가 예쁘게 완성되면! 그제야 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 4KB 버퍼 덩어리를 하드디스크에 한 방에 쾅 찍어 누른다. 규격 불일치를 완벽하게 해소한 버퍼링의 묘미다.
 
 ---
 
-### [버퍼 오버플로우](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/))의 재앙
+### [버퍼 오버플로우](/studynote/02_operating_system/10_security/591_buffer_overflow/) ([Buffer Overflow](/studynote/02_operating_system/10_security/591_buffer_overflow/))의 재앙
 
 버퍼는 램의 공간이므로 무한하지 않다. 양동이(버퍼)가 넘치면 지옥이 열린다.
-- **오버런(Overrun)**: 10Gbps 랜카드가 초당 1GB씩 램 버퍼에 물을 쏟아붓는데, 구형 CPU나 하드디스크가 초당 500MB밖에 못 퍼내면? 0.1초 만에 램 버퍼가 꽉 찬다. 더 이상 담을 곳이 없어 넘쳐흐른 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷들은 그대로 공중으로 증발(Drop)하여 파일이 깨져버린다.
-- <strong>해킹의 통로 (<a href="/knowledge-base/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a> Attack)</strong>: 해커가 게시판 이름칸(버퍼 20바이트)에 1만 바이트짜리 악성 스크립트를 쑤셔 넣는다. 버퍼 물통이 넘쳐서 그 옆에 있던 CPU 리턴 주소(Return Address) 메모리를 덮어써 버리고, 해커의 좀비 코드가 실행되는 전 세계 1위의 해킹 취약점이 바로 이 물리적 버퍼의 한계에서 기인한다.
+- **오버런(Overrun)**: 10Gbps 랜카드가 초당 1GB씩 램 버퍼에 물을 쏟아붓는데, 구형 CPU나 하드디스크가 초당 500MB밖에 못 퍼내면? 0.1초 만에 램 버퍼가 꽉 찬다. 더 이상 담을 곳이 없어 넘쳐흐른 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷들은 그대로 공중으로 증발(Drop)하여 파일이 깨져버린다.
+- <strong>해킹의 통로 (<a href="/studynote/02_operating_system/10_security/591_buffer_overflow/">Buffer Overflow</a> Attack)</strong>: 해커가 게시판 이름칸(버퍼 20바이트)에 1만 바이트짜리 악성 스크립트를 쑤셔 넣는다. 버퍼 물통이 넘쳐서 그 옆에 있던 CPU 리턴 주소(Return Address) 메모리를 덮어써 버리고, 해커의 좀비 코드가 실행되는 전 세계 1위의 해킹 취약점이 바로 이 물리적 버퍼의 한계에서 기인한다.
 
-- **📢 섹션 요약 비유**: 믹서기(버퍼)에 사과를 넣고 갈아야 하는데, 사과가 들어오는 속도보다 믹서기 모터가 도는 속도가 느리면 믹서기 밖으로 사과가 튀어나와 주방이 엉망(오버런)이 됩니다. 더 무서운 건 나쁜 놈이 믹서기 통 크기를 넘어서 돌멩이를 왕창 쑤셔 넣어 믹서기 자체를 터뜨리고 주방을 장악하는([오버플로우](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해킹) 짓입니다.
+- **📢 섹션 요약 비유**: 믹서기(버퍼)에 사과를 넣고 갈아야 하는데, 사과가 들어오는 속도보다 믹서기 모터가 도는 속도가 느리면 믹서기 밖으로 사과가 튀어나와 주방이 엉망(오버런)이 됩니다. 더 무서운 건 나쁜 놈이 믹서기 통 크기를 넘어서 돌멩이를 왕창 쑤셔 넣어 믹서기 자체를 터뜨리고 주방을 장악하는([오버플로우](/studynote/01_computer_architecture/02_data_representation_arithmetic/095_overflow/) 해킹) 짓입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) vs 버퍼링 (Buffering)
+### 비교 1: [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) vs 버퍼링 (Buffering)
 
 IT 면접에서 100만 번쯤 등장하는 가장 중요하고 헷갈리는 두 개념의 완벽한 해부다.
 
-| 비교 척도 | 버퍼링 (Buffering) | [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) |
+| 비교 척도 | 버퍼링 (Buffering) | [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) |
 |:---|:---|:---|
 | **설계 철학** | "목적지로 가기 전, 잠시 뭉쳐서 **통과(Transit)하는 정거장**" | "다음에 또 올지 모르니, 목적지 다 갔어도 **남겨두는(Retain) 저장소**" |
 | **속도 매커니즘** | 느린 놈과 빠른 놈 사이의 <strong>충격(속도 차이)을 완화</strong>시킴 | 느린 디스크에 가는 것 자체를 막아 **절대적 속도를 끌어올림** |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 운명</strong> | 읽거나 쓰면 버퍼에서 **즉시 증발(Flush/Drop) 됨** | 다 썼어도 나중을 위해 램에 <strong>끈질기게 살아남음 (<a href="/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 노림)</strong> |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 운명</strong> | 읽거나 쓰면 버퍼에서 **즉시 증발(Flush/Drop) 됨** | 다 썼어도 나중을 위해 램에 <strong>끈질기게 살아남음 (<a href="/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/">Hit</a> 노림)</strong> |
 | **실생활 비유** | 고속도로 톨게이트 (잠시 멈춰서 돈 내고 바로 지나감) | 맛집 레시피 노트 (한 번 배워두고 평생 우려먹음) |
 
-*(※ 단, 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 워낙 천재적이라 이 두 개를 섞어버렸다. 버퍼링하려고 램에 모아둔 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 디스크에 쓰고 나서도 지우지 않고 냅둬서 자연스럽게 '[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시'로 둔갑시켜버리는 궁극의 하이브리드를 쓴다.)*
+*(※ 단, 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 워낙 천재적이라 이 두 개를 섞어버렸다. 버퍼링하려고 램에 모아둔 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를, 디스크에 쓰고 나서도 지우지 않고 냅둬서 자연스럽게 '[페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 캐시'로 둔갑시켜버리는 궁극의 하이브리드를 쓴다.)*
 
 ### 유튜브 렉의 진실 (Streaming Buffer)
 유튜브에서 동영상을 볼 때 밑에 '회색 바(Buffer)'가 흰색 재생 바보다 앞서가는 것을 본 적이 있을 것이다.
 - 통신사 인터넷 속도는 1초엔 엄청 빨랐다가 2초엔 뚝 끊기는 등 널뛰기(Jitter)가 심하다.
 - 영상을 1초 받고 1초 틀고를 반복하면 시청자는 렉 때문에 폰을 부술 것이다.
-- **스트리밍 버퍼**: 폰의 램에 30초 분량의 영상(물통)을 미리 받아두는 버퍼를 뚫어놓는다. 인터넷이 10초 동안 끊겨서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 들어와도, 물통에 이미 30초 치 물이 찰랑찰랑 차 있으니까 시청자는 10초의 인터넷 끊김을 1도 체감하지 못하고 영상을 부드럽게 본다. 속도 차이뿐 아니라 <strong>'네트워크의 불안정성(<a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 기복)'을 평탄화(Smoothing)해 주는 것이 버퍼링의 진짜 힘이다.</strong>
+- **스트리밍 버퍼**: 폰의 램에 30초 분량의 영상(물통)을 미리 받아두는 버퍼를 뚫어놓는다. 인터넷이 10초 동안 끊겨서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 안 들어와도, 물통에 이미 30초 치 물이 찰랑찰랑 차 있으니까 시청자는 10초의 인터넷 끊김을 1도 체감하지 못하고 영상을 부드럽게 본다. 속도 차이뿐 아니라 <strong>'네트워크의 불안정성(<a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 기복)'을 평탄화(Smoothing)해 주는 것이 버퍼링의 진짜 힘이다.</strong>
 
 ```text
 +----------+------------+------------+---------------------------------------+
@@ -107,7 +104,7 @@ IT 면접에서 100만 번쯤 등장하는 가장 중요하고 헷갈리는 두 
 | 영상 스트리밍| 🟢 방어 (다운로드)| ❌ (스트림임) | 🟢 (네트워크 끊김 커버) |
 +----------+------------+------------+---------------------------------------+
 ```
-**[매트릭스 해설]** 컴퓨터 안팎으로 버퍼가 없는 곳은 없다. CPU 내부의 Store Buffer, 하드디스크 칩셋에 붙은 256MB 캐시 버퍼, OS 램의 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache, 유저 앱의 스트림 버퍼까지. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나가는 모든 관절마다 이 스펀지(Buffer)를 끼워 넣지 않으면 기계는 물리적 충격을 버티지 못하고 바스라진다.
+**[매트릭스 해설]** 컴퓨터 안팎으로 버퍼가 없는 곳은 없다. CPU 내부의 Store Buffer, 하드디스크 칩셋에 붙은 256MB 캐시 버퍼, OS 램의 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache, 유저 앱의 스트림 버퍼까지. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 지나가는 모든 관절마다 이 스펀지(Buffer)를 끼워 넣지 않으면 기계는 물리적 충격을 버티지 못하고 바스라진다.
 
 - **📢 섹션 요약 비유**: 수도관에서 물이 콸콸 나오다 끊기다(네트워크 렉)를 반복합니다. 만약 샤워기에 수도관을 직결하면 샤워하다 화상을 입거나 얼어 죽습니다. 옥상에 거대한 물탱크(버퍼)를 설치하고 물을 항상 80% 채워두면, 수도관 물이 끊겨도 샤워기에서는 아주 일정한 수압과 온도로 물이 쏟아져 나와 평화롭게 샤워(영상 시청)를 할 수 있는 위대한 쿠션 장치입니다.
 
@@ -120,18 +117,18 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 1. `printf("Hello World");` 를 쳤다.
 2. 코드가 무한루프에 빠지며 죽었다.
 3. 터미널 화면을 봤는데 "Hello World"가 안 찍혀있다! "어? `printf` 전에서 죽었나?" 하고 밤새워 위쪽 코드만 100번 디버깅한다.
-4. **진실 (Line Buffering)**: `printf`는 유저 랩에 있는 '표준 입출력 버퍼(stdio buffer)'에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣고 끝난다. 이 버퍼는 꽉 차거나, 혹은 <strong>엔터키(<code>\n</code>)</strong>를 만나야만 비로소 OS 터미널 장치로 글자를 진짜로 쏘아내며(Flush) 화면에 뿌린다.
+4. **진실 (Line Buffering)**: `printf`는 유저 랩에 있는 '표준 입출력 버퍼(stdio buffer)'에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 밀어 넣고 끝난다. 이 버퍼는 꽉 차거나, 혹은 <strong>엔터키(<code>\n</code>)</strong>를 만나야만 비로소 OS 터미널 장치로 글자를 진짜로 쏘아내며(Flush) 화면에 뿌린다.
 5. "Hello World" 뒤에 `\n`이 없어서, 버퍼에 갇힌 채로 화면에 안 나가고 대기하다가 앱이 죽으면서 램과 함께 증발해 버린 것이다.
 6. **해결책**: 고수들은 디버깅할 때 반드시 `printf("Hello World\n");` 처럼 엔터를 쳐서 버퍼를 터뜨리거나, `fflush(stdout);`를 수동으로 쳐서 <strong>"버퍼에 모으지 말고 즉시 화면에 쏴라!(No Buffering)"</strong>라고 강제 명령을 내려 이런 어처구니없는 착각을 막는다.
 
-### Nagle [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 게임 서버의 반응성 튜닝
-리눅스 네트워크 스택에는 버퍼링의 끝판왕인 <strong>Nagle <a href="/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이 디폴트로 켜져 있다.
+### Nagle [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 게임 서버의 반응성 튜닝
+리눅스 네트워크 스택에는 버퍼링의 끝판왕인 <strong>Nagle <a href="/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/">알고리즘</a></strong>이 디폴트로 켜져 있다.
 - 1바이트짜리 작은 패킷을 계속 쏘면, 패킷 포장지(헤더 40바이트) 낭비가 너무 심하다.
-- Nagle은 "보낼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1바이트야? 당장 안 보내고 램 버퍼에 가둬놔! 나중에 1500바이트 꽉 차면 한 방에 보내서 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 아낄게!" 라며 고집을 피운다.
-- **FPS 게임 서버의 참사**: 총을 쐈는데(1바이트 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)), Nagle이 이걸 버퍼에 가두고 안 보내서 0.2초 뒤에 총알이 나간다(환장할 핑 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
-- **실무 튜닝**: 게임 서버나 주식 트레이딩 서버 개발자는 소켓을 열자마자 `TCP_NODELAY` 옵션을 켜서 Nagle 버퍼링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 강제로 박살 내고, "[대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비돼도 좋으니까 1바이트 생기자마자 버퍼링하지 말고 즉시 쏴!" 라며 반응성([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 쥐어짠다.
+- Nagle은 "보낼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 1바이트야? 당장 안 보내고 램 버퍼에 가둬놔! 나중에 1500바이트 꽉 차면 한 방에 보내서 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 아낄게!" 라며 고집을 피운다.
+- **FPS 게임 서버의 참사**: 총을 쐈는데(1바이트 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)), Nagle이 이걸 버퍼에 가두고 안 보내서 0.2초 뒤에 총알이 나간다(환장할 핑 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)).
+- **실무 튜닝**: 게임 서버나 주식 트레이딩 서버 개발자는 소켓을 열자마자 `TCP_NODELAY` 옵션을 켜서 Nagle 버퍼링 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 강제로 박살 내고, "[대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비돼도 좋으니까 1바이트 생기자마자 버퍼링하지 말고 즉시 쏴!" 라며 반응성([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 쥐어짠다.
 
-- **📢 섹션 요약 비유**: 택시 기사(Nagle [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 손님 1명 탔다고 출발하지 않고, 기름값 아끼려고 "4명 꽉 찰 때까지(버퍼 100%) 문 닫고 기다리세요!" 하고 10분을 버팁니다. 요금 낭비를 막는 덴 최고지만, 당장 회사에 지각하게 생긴 손님(게임 패킷)은 기사 멱살을 잡고 `TCP_NODELAY` 현금을 쥐여주며 "지금 당장 출발해!"라고 소리쳐야 하는 통신 튜닝입니다.
+- **📢 섹션 요약 비유**: 택시 기사(Nagle [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))가 손님 1명 탔다고 출발하지 않고, 기름값 아끼려고 "4명 꽉 찰 때까지(버퍼 100%) 문 닫고 기다리세요!" 하고 10분을 버팁니다. 요금 낭비를 막는 덴 최고지만, 당장 회사에 지각하게 생긴 손님(게임 패킷)은 기사 멱살을 잡고 `TCP_NODELAY` 현금을 쥐여주며 "지금 당장 출발해!"라고 소리쳐야 하는 통신 튜닝입니다.
 
 ---
 
@@ -141,15 +138,15 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 
 | 구분 | 내용 |
 |:---|:---|
-| **CPU와 I/O 디바이스의 독립(Decoupling)**| 각 장치가 자신의 최고 속도(Max Speed)로 멈춤 없이 작동하게 하여, [시스템 버스](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스루풋([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 한계치까지 확장 |
-| <strong>I/O <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 오버헤드 99% 증발</strong> | 1바이트마다 터지던 1000번의 트랩을, 4KB 청크 단위로 묶어([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 단 1번의 덩어리 전송 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 퉁쳐버리는 마법 |
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규격 브릿지(<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>)</strong> | 1바이트 통신(키보드)과 4KB 통신(하드디스크) 등 이기종의 물리적 전송 단위 차이를 램의 소프트웨어 메모리로 완벽하게 호환 |
+| **CPU와 I/O 디바이스의 독립(Decoupling)**| 각 장치가 자신의 최고 속도(Max Speed)로 멈춤 없이 작동하게 하여, [시스템 버스](/studynote/01_computer_architecture/03_architecture_basics_performance/127_system_bus/)의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스루풋([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 한계치까지 확장 |
+| <strong>I/O <a href="/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/">인터럽트</a> 오버헤드 99% 증발</strong> | 1바이트마다 터지던 1000번의 트랩을, 4KB 청크 단위로 묶어([Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/)) 단 1번의 덩어리 전송 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/)로 퉁쳐버리는 마법 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 규격 브릿지(<a href="/studynote/04_software_engineering/04_testing_quality/260_bridge_pattern_abstraction_implementation/">Bridge</a>)</strong> | 1바이트 통신(키보드)과 4KB 통신(하드디스크) 등 이기종의 물리적 전송 단위 차이를 램의 소프트웨어 메모리로 완벽하게 호환 |
 
 ### 결론 및 미래 전망
 
-버퍼링 (Buffering)은 속도, 크기, 타이밍이 전부 제각각인 하드웨어 야생 동물들을 운영체제라는 하나의 거대한 동물원으로 묶어내기 위해 반드시 필요한 "쿠션이자 완충 지대"다. 인간 사회로 치면 우체국 수발실이나 물류 터미널 창고와 같다. 버퍼가 없으면 모든 통신은 즉각 만나서 손에서 손으로 줘야 하는 동기적([Synchronous](/knowledge-base/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 생지옥으로 변모한다. 비록 버퍼에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사(Memcpy)하는 행위 자체가 현대의 100Gbps+ 네트워크 시대에는 치명적인 CPU 병목(오버헤드)으로 지목받으며 Zero-Copy나 [RDMA](/knowledge-base/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)(원격 다이렉트 메모리) 같은 버퍼 우회 기술에 자리를 위협받고 있지만, "모아서 한 번에 보낸다([Batching](/knowledge-base/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))"는 이 원초적이고 직관적인 최적화 철학은 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 설계의 가장 깊은 DNA로 영원히 살아남을 것이다.
+버퍼링 (Buffering)은 속도, 크기, 타이밍이 전부 제각각인 하드웨어 야생 동물들을 운영체제라는 하나의 거대한 동물원으로 묶어내기 위해 반드시 필요한 "쿠션이자 완충 지대"다. 인간 사회로 치면 우체국 수발실이나 물류 터미널 창고와 같다. 버퍼가 없으면 모든 통신은 즉각 만나서 손에서 손으로 줘야 하는 동기적([Synchronous](/studynote/03_network/01_data_communication/010_동기식_비동기식_전송/)) 생지옥으로 변모한다. 비록 버퍼에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 복사(Memcpy)하는 행위 자체가 현대의 100Gbps+ 네트워크 시대에는 치명적인 CPU 병목(오버헤드)으로 지목받으며 Zero-Copy나 [RDMA](/studynote/02_operating_system/10_security/639_rdma_kernel_bypass/)(원격 다이렉트 메모리) 같은 버퍼 우회 기술에 자리를 위협받고 있지만, "모아서 한 번에 보낸다([Batching](/studynote/05_database/06_dw_olap_trends/389_bulk_insert_batching_optimization/))"는 이 원초적이고 직관적인 최적화 철학은 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/) 설계의 가장 깊은 DNA로 영원히 살아남을 것이다.
 
-- **📢 섹션 요약 비유**: 자동차([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)에 서스펜션 스프링(버퍼)이 없다면, 아스팔트의 1mm 작은 파임(속도 기복)에도 탑승자(CPU)의 척추가 부러지고 차체가 박살 날 것입니다. 스프링이 충격을 다 먹어주고 꿀렁거리며 튕겨내 주는(버퍼링) 덕분에, 시속 100km로 돌을 밟아도 차가 뒤집히지 않고 목적지까지 매끄럽게 질주할 수 있는 위대한 완충 장치입니다.
+- **📢 섹션 요약 비유**: 자동차([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송)에 서스펜션 스프링(버퍼)이 없다면, 아스팔트의 1mm 작은 파임(속도 기복)에도 탑승자(CPU)의 척추가 부러지고 차체가 박살 날 것입니다. 스프링이 충격을 다 먹어주고 꿀렁거리며 튕겨내 주는(버퍼링) 덕분에, 시속 100km로 돌을 밟아도 차가 뒤집히지 않고 목적지까지 매끄럽게 질주할 수 있는 위대한 완충 장치입니다.
 
 ---
 
@@ -157,10 +154,10 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [DMA](/knowledge-base/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 산란-수집 ([Scatter-Gather](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| I/O 서브시스템의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [이중 버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ([Double Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [캐싱](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [DMA](/studynote/02_operating_system/11_exam_summary/746_io_direct_memory_access_dma/) 산란-수집 ([Scatter-Gather](/studynote/02_operating_system/08_storage_and_io_systems/452_dma_scatter_gather/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| I/O 서브시스템의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [이중 버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ([Double Buffering](/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [캐싱](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/) ([Caching](/studynote/02_operating_system/08_storage_and_io_systems/456_caching/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -178,9 +175,9 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 버퍼링 (Buffering)은 컴퓨터가 디스크와 장치가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
-2. 먼저 I/O 서브시스템의 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)을 이해하면 버퍼링 (Buffering)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 버퍼링 (Buffering)을 잘 알면 나중에 [이중 버퍼링](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ([Double Buffering](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/))도 훨씬 쉽게 배울 수 있어요.
+1. 버퍼링 (Buffering)은 컴퓨터가 디스크와 장치가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 주고받는 길을 정리하는 방법이에요.
+2. 먼저 I/O 서브시스템의 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)을 이해하면 버퍼링 (Buffering)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 버퍼링 (Buffering)을 잘 알면 나중에 [이중 버퍼링](/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ([Double Buffering](/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -188,7 +185,7 @@ C언어 프로그래머들이 가장 환장하는 버그다.
 
 **진행 상황**: 454 / 800
 
-<- **이전**: [453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/453_io_subsystem_kernel_services/)
-**다음**: [455. 이중 버퍼링 (Double Buffering)](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ->
+<- **이전**: [453. I/O 서브시스템의 커널 서비스 (I/O Subsystem Kernel Services)](/studynote/02_operating_system/08_storage_and_io_systems/453_io_subsystem_kernel_services/)
+**다음**: [455. 이중 버퍼링 (Double Buffering)](/studynote/02_operating_system/08_storage_and_io_systems/455_double_buffering/) ->
 
 ---

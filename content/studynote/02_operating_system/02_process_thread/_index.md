@@ -1,9 +1,9 @@
-+++
-title = "02. 프로세스 및 스레드 관리"
+---
+title: "02. 프로세스 및 스레드 관리"
+tags:
+  - "operating_system"
+---
 
-[extra]
-tags = ["operating_system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

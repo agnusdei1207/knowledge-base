@@ -1,27 +1,24 @@
-+++
-title = "803. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)"
-date = 2026-05-08
+---
+title: "803. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 소프트웨어의 규모가 커지면 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)([Test Case](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/))의 수도 수만 개로 증가한다. 코드를 한 줄 고칠 때마다 수만 개의 테스트를 모두 실행하는 것은 논리적으로는 가장 완벽한 방어책이지만, 물리적인 시간과 비용 측면에서는 재앙에 가깝다. 이 딜레마를 해결하기 위해 '전체 재테스트 (Retest All)'와 '선택적 테스트 (Selective Testing)' [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 대립한다.
-- **필요성**: 만약 테스트 실행에 5시간이 걸린다면, 개발자는 코드를 수정한 후 결과를 확인하기 위해 다음 날까지 기다려야 한다. 이는 개발자의 몰입([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) Flow)을 깨뜨리고, 하루에 여러 번 배포해야 하는 현대의 [마이크로서비스 아키텍처](/knowledge-base/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservices Architecture](/knowledge-base/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/), [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 환경에 정면으로 위배된다.
-- **테스트 최적화의 목표**: 따라서 시스템의 핵심은 "[결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출률(Fault [Detection](/knowledge-base/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Rate)은 100%에 가깝게 유지하면서, 테스트 실행 시간([Execution Time](/knowledge-base/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))은 최소화하는 스위트를 동적으로 구성"하는 것이다.
+- **개념**: 소프트웨어의 규모가 커지면 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)([Test Case](/studynote/04_software_engineering/11_testing_validation/833_test_case/))의 수도 수만 개로 증가한다. 코드를 한 줄 고칠 때마다 수만 개의 테스트를 모두 실행하는 것은 논리적으로는 가장 완벽한 방어책이지만, 물리적인 시간과 비용 측면에서는 재앙에 가깝다. 이 딜레마를 해결하기 위해 '전체 재테스트 (Retest All)'와 '선택적 테스트 (Selective Testing)' [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 대립한다.
+- **필요성**: 만약 테스트 실행에 5시간이 걸린다면, 개발자는 코드를 수정한 후 결과를 확인하기 위해 다음 날까지 기다려야 한다. 이는 개발자의 몰입([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) Flow)을 깨뜨리고, 하루에 여러 번 배포해야 하는 현대의 [마이크로서비스 아키텍처](/studynote/04_software_engineering/04_testing_quality/213_msa_microservices_architecture/) ([Microservices Architecture](/studynote/13_cloud_architecture/03_msa_serverless/122_msa_microservices_architecture/), [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/)) 환경에 정면으로 위배된다.
+- **테스트 최적화의 목표**: 따라서 시스템의 핵심은 "[결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 검출률(Fault [Detection](/studynote/09_security/19_ai_advanced_security/961_deepfake_detection/) Rate)은 100%에 가깝게 유지하면서, 테스트 실행 시간([Execution Time](/studynote/02_operating_system/06_memory_management/327_execution_time_binding/))은 최소화하는 스위트를 동적으로 구성"하는 것이다.
 
 - **📢 섹션 요약 비유**: 마치 공항에서 모든 승객의 짐을 하나하나 다 열어보는 것(Retest All)이 가장 안전하지만 비행기가 지연되는 문제가 발생하므로, 폭발물 탐지견과 X-ray 스캐너를 통해 의심스러운 짐만 골라내어 정밀 검사(Selective)하는 것과 같습니다.
 
@@ -42,7 +39,7 @@ tags = ["studynote-software-engineering"]
 +-------------------------------------------------------------+
 ```
 
-이 다이어그램은 리그레션 테스트 자동화 및 선택적 수가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
+이 다이어그램은 리그레션 테스트 자동화 및 선택적 수가 입력 요구사항을 받아 핵심 처리 과정을 거쳐 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)된 결과물을 산출하는 흐름을 보여준다.
 
 ---
 
@@ -52,11 +49,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **정의**: 기존에 만들어진 모든 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 예외 없이 다시 실행하는 가장 직관적이고 무식(Brute-force)하지만 확실한 방법이다.
+- **정의**: 기존에 만들어진 모든 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 예외 없이 다시 실행하는 가장 직관적이고 무식(Brute-force)하지만 확실한 방법이다.
 - **적용 시기**:
-  - 운영 체제(OS)나 [데이터베이스 관리 시스템](/knowledge-base/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/)([DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/)), 컴파일러 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 업그레이드했을 때.
+  - 운영 체제(OS)나 [데이터베이스 관리 시스템](/studynote/05_database/01_db_architecture_relational/003_dbms_database_management_system/)([DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/)), 컴파일러 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)을 업그레이드했을 때.
   - 전역 변수(Global Variable)나 코어 프레임워크, 공통 유틸리티 등 파급 효과를 가늠하기 힘든 근본적인 변경이 일어났을 때.
-  - 메이저 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 전날 밤, 최종 승인(Sign-off)을 위한 나이트리 빌드(Nightly Build) 시.
+  - 메이저 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 릴리즈 전날 밤, 최종 승인(Sign-off)을 위한 나이트리 빌드(Nightly Build) 시.
 
 ```text
 +--------------------------------------------------------+
@@ -77,7 +74,7 @@ tags = ["studynote-software-engineering"]
 ```
 
 **[다이어그램 해설]**
-이 방식은 변경된 코드와 전혀 연관이 없는 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) C와 D의 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)까지 모조리 실행한다. 안전성 측면에서는 이보다 좋을 수 없으나, 리소스가 막대하게 소모된다. 실무에서는 이러한 전체 테스트를 개발자가 코드를 커밋할 때마다 수행하지 않고, 하루 일과가 끝난 자정(Midnight)에 스케줄링하여 수행하는 나이트리 빌드(Nightly Build) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 우회하여 사용한다.
+이 방식은 변경된 코드와 전혀 연관이 없는 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) C와 D의 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)까지 모조리 실행한다. 안전성 측면에서는 이보다 좋을 수 없으나, 리소스가 막대하게 소모된다. 실무에서는 이러한 전체 테스트를 개발자가 코드를 커밋할 때마다 수행하지 않고, 하루 일과가 끝난 자정(Midnight)에 스케줄링하여 수행하는 나이트리 빌드(Nightly Build) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 우회하여 사용한다.
 
 - **📢 섹션 요약 비유**: 집에 도둑이 들었을지 모른다는 생각에, 방 하나에만 창문이 열려 있었음에도 불구하고 지하실부터 다락방까지 집 안의 모든 구석을 플래시를 켜고 샅샅이 뒤지는 가장 보수적인 순찰 방식입니다.
 
@@ -97,11 +94,11 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-- **정의**: 변경된 코드와 수학적, 논리적 의존성(Dependency)이 있는 부분만을 도출하여 연관된 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)만 선별적으로 실행하는 최적화 기법이다.
+- **정의**: 변경된 코드와 수학적, 논리적 의존성(Dependency)이 있는 부분만을 도출하여 연관된 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)만 선별적으로 실행하는 최적화 기법이다.
 - **동작 메커니즘**:
-  1. <strong>코드 변경 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> (Change <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">Identification</a>)</strong>: Git Diff 등을 통해 이전 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 비교하여 정확히 어느 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 어느 함수가 변경되었는지 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
-  2. **영향도 분석 (Impact Analysis)**: 컴파일러의 콜 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/knowledge-base/studynote/12_it_management/03_ea_isp/888_graph/))나 AST (Abstract Syntax Tree)를 분석하여 변경된 함수를 호출하는 모든 상위 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 추적한다.
-  3. <strong><a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/">테스트 케이스</a> 매핑 (<a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/">Test Case</a> <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 도출된 영향 반경 내의 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)들의 교집합을 추출한다.
+  1. <strong>코드 변경 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a> (Change <a href="/studynote/03_network/06_network_layer_ip/289_identification_flags_fragmentation_offset/">Identification</a>)</strong>: Git Diff 등을 통해 이전 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/)과 비교하여 정확히 어느 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/), 어느 함수가 변경되었는지 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)한다.
+  2. **영향도 분석 (Impact Analysis)**: 컴파일러의 콜 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/)([Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) [Graph](/studynote/12_it_management/03_ea_isp/888_graph/))나 AST (Abstract Syntax Tree)를 분석하여 변경된 함수를 호출하는 모든 상위 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)을 추적한다.
+  3. <strong><a href="/studynote/04_software_engineering/11_testing_validation/833_test_case/">테스트 케이스</a> 매핑 (<a href="/studynote/04_software_engineering/11_testing_validation/833_test_case/">Test Case</a> <a href="/studynote/05_database/01_db_architecture_relational/010_schema_mapping/">Mapping</a>)</strong>: 도출된 영향 반경 내의 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)들을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)들의 교집합을 추출한다.
 
 ```text
 +-------------------------------------------------------------+
@@ -126,9 +123,9 @@ tags = ["studynote-software-engineering"]
 ```
 
 **[다이어그램 해설]**
-할인 로직(`CalculateDiscount`)을 수정했을 때, 시스템은 이 함수를 참조하는 `Cart(장바구니)`와 `Payment(결제)` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 영향을 받을 것이라 판단한다. 반면 할인 로직과 전혀 무관한 `UserProfile(사용자 프로필)` [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 영향도 분석에서 배제된다. 결과적으로 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 테스트 중 Cart와 Payment에 관련된 1,000개의 테스트만 선별되어 실행되므로, 개발자는 5시간이 아닌 30분 만에 안전성 피드백을 받을 수 있다.
+할인 로직(`CalculateDiscount`)을 수정했을 때, 시스템은 이 함수를 참조하는 `Cart(장바구니)`와 `Payment(결제)` [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이 영향을 받을 것이라 판단한다. 반면 할인 로직과 전혀 무관한 `UserProfile(사용자 프로필)` [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)은 영향도 분석에서 배제된다. 결과적으로 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000개의 테스트 중 Cart와 Payment에 관련된 1,000개의 테스트만 선별되어 실행되므로, 개발자는 5시간이 아닌 30분 만에 안전성 피드백을 받을 수 있다.
 
-- **📢 섹션 요약 비유**: 수돗물 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 하나를 교체했을 때, 도시 전체의 수도관을 점검하는 대신 그 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)와 직접 연결된 아파트 단지들의 수압과 녹물 여부만 빠르게 점검하여 효율성을 극대화하는 방식입니다.
+- **📢 섹션 요약 비유**: 수돗물 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 하나를 교체했을 때, 도시 전체의 수도관을 점검하는 대신 그 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)와 직접 연결된 아파트 단지들의 수압과 녹물 여부만 빠르게 점검하여 효율성을 극대화하는 방식입니다.
 
 ---
 
@@ -140,18 +137,18 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **정의**: 선택적 테스트로 걸러낸 스위트조차 너무 클 경우, 비즈니스 리스크와 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 이력을 바탕으로 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)에 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(우선순위)를 부여하여 가장 중요한 것부터 실행하는 기법이다.
-- <strong>우선순위 산정 기준 (<a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>)</strong>:
+- **정의**: 선택적 테스트로 걸러낸 스위트조차 너무 클 경우, 비즈니스 리스크와 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 발생 이력을 바탕으로 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)에 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)(우선순위)를 부여하여 가장 중요한 것부터 실행하는 기법이다.
+- <strong>우선순위 산정 기준 (<a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/567_metrics_time_series_prometheus_grafana/">Metrics</a>)</strong>:
   1. **비즈니스 크리티컬리티 (Business Criticality)**: 결제, 로그인, 회원가입 등 시스템 마비 시 회사에 즉각적인 금전적 손실을 가져오는 핵심 흐름 (P0).
-  2. <strong><a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/">결함 밀도</a> (<a href="/knowledge-base/studynote/04_software_engineering/06_software_architecture/355_defect_density/">Defect Density</a>)</strong>: 과거에 버그가 자주 발생했던 취약한 컴포넌트를 테스트하는 케이스.
-  3. <strong><a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">코드 커버리지</a> (<a href="/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">Code Coverage</a>)</strong>: 한 번 실행했을 때 최대한 많은 소스 코드를 훑고 지나가는 굵직한 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/).
+  2. <strong><a href="/studynote/04_software_engineering/06_software_architecture/355_defect_density/">결함 밀도</a> (<a href="/studynote/04_software_engineering/06_software_architecture/355_defect_density/">Defect Density</a>)</strong>: 과거에 버그가 자주 발생했던 취약한 컴포넌트를 테스트하는 케이스.
+  3. <strong><a href="/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">코드 커버리지</a> (<a href="/studynote/15_devops_sre/02_cicd_gitops/078_code_coverage/">Code Coverage</a>)</strong>: 한 번 실행했을 때 최대한 많은 소스 코드를 훑고 지나가는 굵직한 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/).
 
 | 우선순위 | 유형 (Tier) | 실행 시점 | 포함되는 내용 |
 |:---:|:---|:---|:---|
-| **Tier 0** | **Smoke Test (BVT)** | 매 커밋 직후 (1분 내) | 서버 기동, 로그인, 메인 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로딩 등 최중요 기능. 실패 시 즉각 빌드 파기. |
-| **Tier 1** | **Core Regression** | 코드 병합 시 (10분 내) | 결제, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 등 주요 비즈니스 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/). |
-| **Tier 2** | **Full Selective** | 일 1~2회 (1시간 내) | 변경점과 연관된 모든 엣지 케이스(Edge Case) 및 UI [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/). |
-| **Tier 3** | **Retest All** | 릴리즈 전날 (밤새) | 100% 전체 테스트, [스트레스 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/839_stress_test/). |
+| **Tier 0** | **Smoke Test (BVT)** | 매 커밋 직후 (1분 내) | 서버 기동, 로그인, 메인 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 로딩 등 최중요 기능. 실패 시 즉각 빌드 파기. |
+| **Tier 1** | **Core Regression** | 코드 병합 시 (10분 내) | 결제, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 저장 등 주요 비즈니스 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/). |
+| **Tier 2** | **Full Selective** | 일 1~2회 (1시간 내) | 변경점과 연관된 모든 엣지 케이스(Edge Case) 및 UI [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/). |
+| **Tier 3** | **Retest All** | 릴리즈 전날 (밤새) | 100% 전체 테스트, [스트레스 테스트](/studynote/04_software_engineering/11_testing_validation/839_stress_test/). |
 
 - **📢 섹션 요약 비유**: 응급실에서 환자가 몰려올 때 접수 순서가 아니라 생명이 위독한 정도(우선순위)에 따라 중증 외상 환자(Tier 0)부터 먼저 치료하여 최악의 사태를 막는 트리아지(Triage) 시스템과 같습니다.
 
@@ -165,22 +162,22 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-선택적 테스트와 우선순위 기반 테스트는 인간이 직접 계산해서 실행할 수 없다. 이는 최신 [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 프레임워크와 결합될 때만 의미가 있다.
+선택적 테스트와 우선순위 기반 테스트는 인간이 직접 계산해서 실행할 수 없다. 이는 최신 [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) ([Continuous Integration](/studynote/15_devops_sre/01_culture_methodology/019_continuous_integration/)) 프레임워크와 결합될 때만 의미가 있다.
 
-1. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (Distributed Parallel Execution)</strong>:
-   - 선택된 테스트 스위트가 여전히 크다면, [쿠버네티스](/knowledge-base/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/knowledge-base/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))나 AWS EC2와 같은 클라우드 인프라를 활용하여 수십 대의 컨테이너에 [테스트 케이스](/knowledge-base/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 쪼개어 동시에 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행한다. 1시간 걸릴 테스트를 10대의 노드로 나누어 6분 만에 완료하는 기법이다.
+1. <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 (Distributed Parallel Execution)</strong>:
+   - 선택된 테스트 스위트가 여전히 크다면, [쿠버네티스](/studynote/06_ict_convergence/03_cloud_infrastructure/196_kubernetes_k8s_container_orchestration/) ([Kubernetes](/studynote/12_it_management/05_security_compliance/205_kubernetes_container_orchestration/))나 AWS EC2와 같은 클라우드 인프라를 활용하여 수십 대의 컨테이너에 [테스트 케이스](/studynote/04_software_engineering/11_testing_validation/833_test_case/)를 쪼개어 동시에 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 실행한다. 1시간 걸릴 테스트를 10대의 노드로 나누어 6분 만에 완료하는 기법이다.
 
 2. **플래키 테스트 (Flaky Test) 격리**:
-   - 코드가 정상인데도 네트워크 지연이나 DB 타이밍 이슈로 인해 무작위로 실패하는 테스트를 플래키 테스트라고 한다. 자동화의 신뢰도를 갉아먹는 주범이므로, [CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 실패한 테스트를 자동으로 2~3회 재시도(Retry)하고, 그래도 실패하면 해당 테스트를 격리(Quarantine)하여 신뢰성을 유지해야 한다.
+   - 코드가 정상인데도 네트워크 지연이나 DB 타이밍 이슈로 인해 무작위로 실패하는 테스트를 플래키 테스트라고 한다. 자동화의 신뢰도를 갉아먹는 주범이므로, [CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 실패한 테스트를 자동으로 2~3회 재시도(Retry)하고, 그래도 실패하면 해당 테스트를 격리(Quarantine)하여 신뢰성을 유지해야 한다.
 
-- **📢 섹션 요약 비유**: 아무리 훌륭한 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)법이 있어도 사람이 손으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면 느립니다. 이 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 우편물 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 컨베이어 벨트([CI](/knowledge-base/studynote/12_it_management/02_itsm_itil/874_configuration_item/) [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인)에 올려, 기계가 초당 수천 개의 테스트를 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 실행하도록 만드는 공장화 작업입니다.
+- **📢 섹션 요약 비유**: 아무리 훌륭한 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)법이 있어도 사람이 손으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하면 느립니다. 이 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)들을 우편물 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 컨베이어 벨트([CI](/studynote/12_it_management/02_itsm_itil/874_configuration_item/) [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인)에 올려, 기계가 초당 수천 개의 테스트를 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 실행하도록 만드는 공장화 작업입니다.
 
 ---
 
 ## 👶 어린이를 위한 3줄 비유 설명
 1. 매일 아침 학교에 가기 전에 가방을 챙길 때, 가방 안의 모든 책과 연필을 다 꺼내서 확인하는 건 너무 오래 걸려요(전체 테스트).
 2. 그래서 오늘 시간표에 바뀐 과목표만 보고, 수학이랑 미술 시간표가 바뀌었으면 그 두 과목의 준비물만 쏙쏙 확인하는 게 훨씬 빠르겠죠? (선택적 테스트).
-3. <strong>리그레션 테스트 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 컴퓨터 프로그램이 고장나지 않았는지 확인할 때, 무식하게 다 검사할지 똑똑하게 바뀐 부분만 골라서 검사할지 작전을 짜는 거랍니다!
+3. <strong>리그레션 테스트 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>은 컴퓨터 프로그램이 고장나지 않았는지 확인할 때, 무식하게 다 검사할지 똑똑하게 바뀐 부분만 골라서 검사할지 작전을 짜는 거랍니다!
 
 ---
 
@@ -192,10 +189,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 적용 결과는 QA 활동을 통해 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective) 적용 결과는 QA 활동을 통해 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -215,13 +212,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -229,7 +226,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 414 / 973
 
-<- **이전**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/knowledge-base/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/)
-**다음**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/) ->
+<- **이전**: [411. 리그레션 테스트 자동화 및 선택적 수행 (Retest All vs Selective)](/studynote/04_software_engineering/11_testing_validation/411_regression_retest_all_selective/)
+**다음**: [412. 블랙박스 테스트 (Black-box Test) - 입력/출력 기반 명세 검증](/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/) ->
 
 ---

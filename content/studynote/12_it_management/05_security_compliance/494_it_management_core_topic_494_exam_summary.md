@@ -1,13 +1,10 @@
-+++
-title = "494. IT 경영 관리 핵심 토픽 494번 시험 요약 (IT Management Core Topic 494 Exam Summary)"
-date = 2026-05-09
+---
+title: "494. IT 경영 관리 핵심 토픽 494번 시험 요약 (IT Management Core Topic 494 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -141,7 +138,7 @@ IT 경영 관리에서 혼동하기 쉬운 주요 개념들을 명확히 구분�
 
 **진행 상황**: 494 / 800
 
-<- **이전**: [493. IT 경영 관리 핵심 토픽 493번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/493_it_management_core_topic_493_exam_summary/)
-**다음**: [495. IT 경영 관리 핵심 토픽 495번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/495_it_management_core_topic_495_exam_summary/) ->
+<- **이전**: [493. IT 경영 관리 핵심 토픽 493번 시험 요약](/studynote/12_it_management/05_security_compliance/493_it_management_core_topic_493_exam_summary/)
+**다음**: [495. IT 경영 관리 핵심 토픽 495번 시험 요약](/studynote/12_it_management/05_security_compliance/495_it_management_core_topic_495_exam_summary/) ->
 
 ---

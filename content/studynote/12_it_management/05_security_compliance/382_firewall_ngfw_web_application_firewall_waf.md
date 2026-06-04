@@ -1,13 +1,10 @@
-+++
-title = "382. 방화벽 차세대 NGFW 웹 방화벽 WAF (Firewall NGFW Web Application Firewall WAF)"
-date = 2026-05-09
+---
+title: "382. 방화벽 차세대 NGFW 웹 방화벽 WAF (Firewall NGFW Web Application Firewall WAF)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -164,7 +161,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 382 / 800
 
-<- **이전**: [381. 침입 탐지 IDS 침입 방지 IPS 비교](/knowledge-base/studynote/12_it_management/05_security_compliance/381_intrusion_detection_ids_prevention_ips/)
-**다음**: [383. DLP 데이터 유출 방지 엔드포인트 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/383_dlp_data_loss_prevention_endpoint_protection/) ->
+<- **이전**: [381. 침입 탐지 IDS 침입 방지 IPS 비교](/studynote/12_it_management/05_security_compliance/381_intrusion_detection_ids_prevention_ips/)
+**다음**: [383. DLP 데이터 유출 방지 엔드포인트 보호](/studynote/12_it_management/05_security_compliance/383_dlp_data_loss_prevention_endpoint_protection/) ->
 
 ---

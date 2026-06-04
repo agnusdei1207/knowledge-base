@@ -1,13 +1,10 @@
-+++
-title = "714. 시계열 분석 ARIMA Prophet 예측 (Time Series Analysis ARIMA Prophet Forecast)"
-date = 2026-05-09
+---
+title: "714. 시계열 분석 ARIMA Prophet 예측 (Time Series Analysis ARIMA Prophet Forecast)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -156,7 +153,7 @@ $$y(t) = g(t) + s(t) + h(t) + \epsilon_t$$
 
 **진행 상황**: 714 / 800
 
-<- **이전**: [713. 인과 추론 반사실 분석 개입 효과](/knowledge-base/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/)
-**다음**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/knowledge-base/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/) ->
+<- **이전**: [713. 인과 추론 반사실 분석 개입 효과](/studynote/06_ict_convergence/uncategorized/713_causal_inference_counterfactual_intervention/)
+**다음**: [715. 자연어 처리 감성 분석 텍스트 마이닝](/studynote/06_ict_convergence/uncategorized/715_nlp_sentiment_analysis_text_mining/) ->
 
 ---

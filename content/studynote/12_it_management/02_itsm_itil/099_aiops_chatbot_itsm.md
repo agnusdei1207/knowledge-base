@@ -1,26 +1,23 @@
-+++
-title = "99. 챗봇 및 AI옵스(AIOps) 결합 ITSM"
-date = 2026-05-09
+---
+title: "99. 챗봇 및 AI옵스(AIOps) 결합 ITSM"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM의 본질은 티켓(요청) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 유사 인시던트 자동 매핑, 장애 전조 예측 자동화를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.
-> 3. **판단 포인트**: 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
+> 1. **본질**: 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM의 본질은 티켓(요청) 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 유사 인시던트 자동 매핑, 장애 전조 예측 자동화를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 운영 통제까지 포함한 실행 체계로 만드는 데 있다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.
+> 3. **판단 포인트**: 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 도입 자체보다 범위, 책임, 측정 기준을 어떻게 연결하느냐에 따라 성과가 달라진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 티켓(요청) 자동 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/), 유사 인시던트 자동 매핑, 장애 전조 예측 자동화에 놓이며, 핵심은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.
+챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 조직이 당면한 요구를 반복 가능하고 설명 가능한 운영 체계로 바꾸기 위해 사용하는 핵심 관리 개념이다. 실무 초점은 티켓(요청) 자동 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/), 유사 인시던트 자동 매핑, 장애 전조 예측 자동화에 놓이며, 핵심은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 모델, 평가, 배포, 책임 통제가 함께 굴러가야 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 실험을 넘어 운영 자산이 된다.
 
-이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 챗봇 인터페이스, 지식·추천 엔진, [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
+이 개념이 중요한 이유는 현장의 속도와 통제가 자주 충돌하기 때문이다. 기준이 없으면 부서별로 다른 판단이 누적되어 중복 투자, 운영 공백, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/) 리스크가 커지고, 반대로 지나치게 경직된 통제는 변화 대응 속도를 떨어뜨린다. 실무에서는 보통 챗봇 인터페이스, 지식·추천 엔진, [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 같은 세부 축이 함께 굴러가야 관리 체계가 실제 효과를 낸다.
 
 ```text
 +--------------------------------------------------------------+
@@ -30,21 +27,21 @@ tags = ["studynote-it-management"]
 +--------------------------------------------------------------+
 ```
 
-이 그림은 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
+이 그림은 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 단순 규정이 아니라 요구를 기준으로 번역하고, 실행 결과를 다시 개선으로 환류시키는 관리 루프임을 보여 준다.
 
-- **📢 섹션 요약 비유**: 똑똑한 비서를 두더라도 메모, [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 책임 규칙이 있어야 실수를 줄일 수 있는 것과 같다.
+- **📢 섹션 요약 비유**: 똑똑한 비서를 두더라도 메모, [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 책임 규칙이 있어야 실수를 줄일 수 있는 것과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 제대로 작동하려면 목표 정의, 역할 분담, 실행 절차, 측정·개선이 끊기지 않아야 한다. 조직은 보통 이 네 요소를 기준으로 체계를 설계하며, 어느 한 축이 빠지면 선언적 문서만 남거나 현장 통제가 과도하게 비대해진다.
+챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 제대로 작동하려면 목표 정의, 역할 분담, 실행 절차, 측정·개선이 끊기지 않아야 한다. 조직은 보통 이 네 요소를 기준으로 체계를 설계하며, 어느 한 축이 빠지면 선언적 문서만 남거나 현장 통제가 과도하게 비대해진다.
 
 | 구성 축 | 설명 | 판단 포인트 |
 |:---|:---|:---|
 | 챗봇 인터페이스 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 범위와 기준선이 흔들리면 후속 통제도 불안정해진다. |
 | 지식·추천 엔진 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 책임 경계와 운영 절차가 연결돼야 재현성이 생긴다. |
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
+| [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다. | 측정 가능한 산출물과 증적이 있어야 설명 가능성이 높아진다. |
 | 자동화 실행 | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다. | 변화·예외를 다시 체계에 반영해야 장기적으로 유지된다. |
 
 ```text
@@ -63,15 +60,15 @@ tags = ["studynote-it-management"]
 
 ## Ⅲ. 비교 및 연결
 
-챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 인접한 관리 개념들과 함께 볼 때 더 분명해진다. 상위 거버넌스는 방향을 주고, 하위 운영 체계는 실행을 맡으며, [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)와 측정 체계는 결과를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
 | 비교 대상 | 차이점 | 연결 포인트 |
 |:---|:---|:---|
-| [MLOps](/knowledge-base/studynote/12_it_management/05_security_compliance/348_mlops/) | 모델 학습과 배포 자동화를 다룬다 | 현재 주제는 생성형 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 또는 운영 거버넌스 관점이 더 강함 |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 | 학습·추론용 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인을 구축한다 | 현재 주제는 모델 활용과 책임 통제에 초점 |
-| [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 | 윤리·보안·품질 기준을 정한다 | 현재 주제는 이를 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영으로 연결 |
+| [MLOps](/studynote/12_it_management/05_security_compliance/348_mlops/) | 모델 학습과 배포 자동화를 다룬다 | 현재 주제는 생성형 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 또는 운영 거버넌스 관점이 더 강함 |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 엔지니어링 | 학습·추론용 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파이프라인을 구축한다 | 현재 주제는 모델 활용과 책임 통제에 초점 |
+| [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 거버넌스 | 윤리·보안·품질 기준을 정한다 | 현재 주제는 이를 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 운영으로 연결 |
 
-실무에서는 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 단독 프레임워크로 보기보다, 정책-운영-[감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/knowledge-base/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
+실무에서는 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 단독 프레임워크로 보기보다, 정책-운영-[감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)-자동화 사이를 연결하는 [허브](/studynote/03_network/03_physical_layer_media/152_hub_dummy_switching_intelligent/) 개념으로 이해하는 편이 정확하다. 특히 조직 규모가 커질수록 사람의 기억보다 표준과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 의존하는 운영이 중요해진다.
 
 - **📢 섹션 요약 비유**: 똑똑한 도서관 사서가 질문에 맞는 책을 골라 주는 과정과 비슷하다.
 
@@ -79,32 +76,32 @@ tags = ["studynote-it-management"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
+실무에서 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 적용할 때는 개념 정의보다 운영 경계를 먼저 그리는 것이 중요하다. 어떤 시스템, 어떤 조직, 어떤 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 어떤 외부 공급자까지 책임 범위에 포함할지 정하지 않으면 통제가 빈틈없이 작동하기 어렵다. 또한 수작업 문서 관리에만 의존하면 운영 부담이 커지므로, 승인 흐름, [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 증적 수집, 예외 보고를 가능한 한 도구와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 연결해야 한다.
 
-### 실무 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 적용 범위와 제외 범위가 명확하며 챗봇 인터페이스 관점의 경계가 실제 운영에 반영되어 있는가?
 2. 지식·추천 엔진와 관련된 책임자, 승인권자, 실행 주체가 충돌 없이 정의되어 있는가?
-3. [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
+3. [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 결과를 보여 주는 증적과 지표가 정기적으로 축적되는가?
 4. 자동화 실행 결과가 다음 변경·투자·교육 계획으로 환류되는가?
 
-### 자주 발생하는 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### 자주 발생하는 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 도구 도입이나 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 취득만으로 체계가 완성됐다고 보는 접근
+- 도구 도입이나 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 취득만으로 체계가 완성됐다고 보는 접근
 - 책임 구조 없이 현장 실무자에게만 통제 부담을 전가하는 운영
 - 지표는 많지만 실제 의사결정에 쓰이지 않는 형식적 보고 체계
 
-- **📢 섹션 요약 비유**: 프롬프트만 잘 쓰는 것보다 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 수정하는 습관이 더 중요하다.
+- **📢 섹션 요약 비유**: 프롬프트만 잘 쓰는 것보다 결과를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하고 수정하는 습관이 더 중요하다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/knowledge-base/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
+챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM가 정착되면 조직은 속도와 통제를 동시에 관리할 수 있다. 의사결정 기준이 명확해져 중복 작업과 책임 공백이 줄고, 운영 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 축적되면서 개선 우선순위도 더 선명해진다. 또한 외부 [감사](/studynote/02_operating_system/10_security/606_auditing_linux_auditd/)나 규제 대응에서도 "무엇을 했는가"보다 "어떻게 반복적으로 관리하는가"를 설명하기 쉬워진다.
 
 다만 모든 상황에 동일한 강도로 적용하면 비용이 커질 수 있다. 따라서 중요도와 위험 수준에 따라 적용 강도를 차등화하고, 자동화·분석 도구와 결합해 운영 부담을 줄이는 방향으로 발전시키는 것이 바람직하다.
 
-- **📢 섹션 요약 비유**: 잘 훈련된 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 운영은 빠른 답을 주면서도 항상 교사가 한 번 더 확인해 주는 수업과 같다.
+- **📢 섹션 요약 비유**: 잘 훈련된 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 운영은 빠른 답을 주면서도 항상 교사가 한 번 더 확인해 주는 수업과 같다.
 
 ---
 
@@ -113,7 +110,7 @@ tags = ["studynote-it-management"]
 |:---|:---|
 | 챗봇 인터페이스 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 지식·추천 엔진 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
+| [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 | 핵심 관리 축으로 작동하며 다른 요소를 연결한다 |
 | 자동화 실행 | 현장 절차와 책임 흐름을 정렬해 반복 운영을 가능하게 한다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -127,10 +124,10 @@ tags = ["studynote-it-management"]
     +---> [AIOps 분석]
 ```
 
-이 흐름은 선행 요구를 기준으로 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 정착시키고, 이후 지식·추천 엔진와 [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 같은 확장 축으로 고도화하는 전개를 보여 준다.
+이 흐름은 선행 요구를 기준으로 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM를 정착시키고, 이후 지식·추천 엔진와 [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 분석 같은 확장 축으로 고도화하는 전개를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 챗봇 및 AI옵스([AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
+1. 챗봇 및 AI옵스([AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 결합 ITSM는 모두가 같은 규칙으로 일하게 해 주는 반장 약속표예요.
 2. 약속만 적어 두는 것이 아니라 누가 지켰는지 확인하고 고치는 방법까지 함께 정해요.
 3. 그래서 일이 많아져도 서로 부딪히지 않고 더 안전하게 움직일 수 있어요.
 
@@ -140,7 +137,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 181 / 587
 
-<- **이전**: [98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신](/knowledge-base/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/)
-**다음**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) ->
+<- **이전**: [98. 셀프 서비스 포털 (Self-Service Portal) - 헬프데스크 혁신](/studynote/12_it_management/02_itsm_itil/882_self_service_portal_helpdesk_automation/)
+**다음**: [99. 챗봇 및 AI옵스(AIOps) 결합 ITSM - 지능형 IT 서비스 자동화](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) ->
 
 ---

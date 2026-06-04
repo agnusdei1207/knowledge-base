@@ -1,13 +1,10 @@
-+++
-title = "558. 디지털 윤리 AI 책임 프레임워크 (Digital Ethics AI Responsibility Framework)"
-date = 2026-05-09
+---
+title: "558. 디지털 윤리 AI 책임 프레임워크 (Digital Ethics AI Responsibility Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 558 / 800
 
-<- **이전**: [557. IT 인력 양성 리스킬링 업스킬링](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/557_it_workforce_development_reskilling_upskillin/)
-**다음**: [559. 지속가능 IT ESG 그린 컴퓨팅](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/559_sustainable_it_esg_green_computing/) ->
+<- **이전**: [557. IT 인력 양성 리스킬링 업스킬링](/studynote/07_enterprise_systems/06_exam_summary/557_it_workforce_development_reskilling_upskillin/)
+**다음**: [559. 지속가능 IT ESG 그린 컴퓨팅](/studynote/07_enterprise_systems/06_exam_summary/559_sustainable_it_esg_green_computing/) ->
 
 ---

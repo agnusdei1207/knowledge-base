@@ -1,25 +1,22 @@
-+++
-title = "626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)"
-date = 2026-05-08
+---
+title: "626. 엣지 컴퓨팅 (Edge Computing, 포그 컴퓨팅 구분)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 이해하면 전력 효율과 현장 반응성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 이해하면 전력 효율과 현장 반응성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 [데이터센터](/knowledge-base/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(Cloud)로 쫙 빨아들여 분석하는 기존 방식은, 수십억 개의 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 내뿜는 폭발적인 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양(트래픽)을 감당하지 못해 인터넷망을 마비시키고, 수백 밀리초(ms)의 [전송 지연](/knowledge-base/studynote/03_network/01_data_communication/017_전송_지연/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 유발하여 실시간 자율주행이나 공장 자동화 로봇 제어에 쓸 수 없게 되었습니다.
+- 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 중앙 [데이터센터](/studynote/03_network/16_data_center_cloud/801_data_center_3_tier_architecture_core_aggregation_access/)(Cloud)로 쫙 빨아들여 분석하는 기존 방식은, 수십억 개의 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/) 센서가 내뿜는 폭발적인 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)양(트래픽)을 감당하지 못해 인터넷망을 마비시키고, 수백 밀리초(ms)의 [전송 지연](/studynote/03_network/01_data_communication/017_전송_지연/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/))을 유발하여 실시간 자율주행이나 공장 자동화 로봇 제어에 쓸 수 없게 되었습니다.
 
 ```text
 [oneM2M 아키텍처]
@@ -30,15 +27,15 @@ tags = ["studynote-network"]
     +---> [MEC]
 ```
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저 멀리 중앙 클라우드까지 보내지 않고, <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 처음 발생하는 센서 바로 옆이나 현장 근처의 끝자락(Edge, 엣지 서버나 게이트웨이 장비)에서 즉각적으로 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 분석과 연산을 처리해 버리는 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 방식</strong>입니다.
+- **개념**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 저 멀리 중앙 클라우드까지 보내지 않고, <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>가 처음 발생하는 센서 바로 옆이나 현장 근처의 끝자락(Edge, 엣지 서버나 게이트웨이 장비)에서 즉각적으로 <a href="/studynote/10_ai/03_llm_nlp/231_ai_turing_test/">인공지능</a> 분석과 연산을 처리해 버리는 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 컴퓨팅 방식</strong>입니다.
 - **장점**:
-  1. <strong>초저지연 (Ultra-Low <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 현장에서 바로 결정을 내리므로 자율주행차 브레이크 제어처럼 1ms 찰나의 반응 속도를 보장합니다.
+  1. <strong>초저지연 (Ultra-Low <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">Latency</a>)</strong>: 현장에서 바로 결정을 내리므로 자율주행차 브레이크 제어처럼 1ms 찰나의 반응 속도를 보장합니다.
   2. **통신망 부하 감소**: 쓸데없는 고화질 영상 원본은 현장에서 다 처리하고 버린 뒤, "10시 5분에 불량품 1개 발생함"이라는 10바이트짜리 요약 결과 텍스트만 중앙 클라우드로 보내므로 인터넷 트래픽이 획기적으로 줍니다.
   3. **보안 및 프라이버시**: 병원의 환자 얼굴 영상이나 공장의 극비 설계도가 현장 밖(외부 인터넷)으로 빠져나가지 않으므로 원천적인 보안이 달성됩니다.
 
@@ -51,49 +48,49 @@ tags = ["studynote-network"]
     +---> [MEC]
 ```
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
+- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 내부 원리는 기계의 톱니바퀴처럼 맞물려 돌아간다. 한 부분이 어긋나면 전체 효과가 떨어진다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
 개념은 비슷하지만, 어디서 연산을 처리하느냐에 따른 뉘앙스 차이가 있습니다.
-- <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (Edge)</strong>: 연산 주체가 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 생산하는 장비 그 자체(예: 스마트폰 <a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a>, 테슬라 자율주행 칩)나 바로 앞의 게이트웨이</strong>에 극단적으로 치우쳐 있는 형태입니다. (말단에서 즉결 처분)
-- <strong><a href="/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">포그 컴퓨팅</a> (Fog)</strong>: 클라우드(구름)가 너무 멀리 떠 있다면, 포그(안개)는 우리 주변 길바닥에 깔려 있다는 비유([Cisco](/knowledge-base/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 주도). 엣지 장비 하나에 책임을 다 떠넘기지 않고, <strong>동네 기지국, 동네 라우터, 여러 엣지 노드들이 LAN망 내에서 구름처럼 서로 연합하여 중간 규모의 연산을 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>하는 구조입니다. (중간 관리자들의 연합)
+- <strong><a href="/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/">엣지 컴퓨팅</a> (Edge)</strong>: 연산 주체가 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 생산하는 장비 그 자체(예: 스마트폰 <a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a> <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/">반도체</a>, 테슬라 자율주행 칩)나 바로 앞의 게이트웨이</strong>에 극단적으로 치우쳐 있는 형태입니다. (말단에서 즉결 처분)
+- <strong><a href="/studynote/06_ict_convergence/02_iot_mobility/106_fog_computing_cisco_architecture/">포그 컴퓨팅</a> (Fog)</strong>: 클라우드(구름)가 너무 멀리 떠 있다면, 포그(안개)는 우리 주변 길바닥에 깔려 있다는 비유([Cisco](/studynote/03_network/10_application_layer_dns_mgmt/539_netflow_sflow_traffic_monitoring/) 주도). 엣지 장비 하나에 책임을 다 떠넘기지 않고, <strong>동네 기지국, 동네 라우터, 여러 엣지 노드들이 LAN망 내에서 구름처럼 서로 연합하여 중간 규모의 연산을 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 처리</strong>하는 구조입니다. (중간 관리자들의 연합)
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. oneM2M 아키텍처가 기반 조건을 만든다면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 그 위에서 핵심 메커니즘을 구현하고, MEC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. oneM2M 아키텍처가 기반 조건을 만든다면, [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 그 위에서 핵심 메커니즘을 구현하고, MEC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 전력 효율과 현장 반응성에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | oneM2M 아키텍처의 기반 정리 | [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 핵심 동작 | MEC의 확장 적용 |
+| 초점 | oneM2M 아키텍처의 기반 정리 | [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)의 핵심 동작 | MEC의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 전력 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
+- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 클라우드를 죽이는 기술이 아닙니다.
+[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)이 클라우드를 죽이는 기술이 아닙니다.
 - <strong>엣지(Edge)</strong>는 1초가 급한 "앞차 브레이크 밟았음, 우리도 서야 해!"라는 즉각적인 실시간 판단을 도맡습니다.
-- <strong>클라우드(Cloud)</strong>는 엣지가 버린 수천만 대의 주행 기록을 한 달에 한 번씩 넘겨받아 거대한 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 딥러닝 모델을 천천히 똑똑하게 학습시킨 뒤, 그 똑똑해진 뇌([AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 다시 엣지 장비로 다운로드(배포)해 주는 거대한 훈련소 역할을 하며 공생합니다.
+- <strong>클라우드(Cloud)</strong>는 엣지가 버린 수천만 대의 주행 기록을 한 달에 한 번씩 넘겨받아 거대한 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/)([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)) 딥러닝 모델을 천천히 똑똑하게 학습시킨 뒤, 그 똑똑해진 뇌([AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))를 다시 엣지 장비로 다운로드(배포)해 주는 거대한 훈련소 역할을 하며 공생합니다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
 3. 인접 기술과의 연계를 배포 전에 점검한다.
 
-- **📢 섹션 요약 비유**: 클라우드가 서울 '대법원'이라면, [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 동네마다 있는 '즉결 심판소(파출소)'입니다. 동네에서 자전거 도둑을 잡았는데([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생), 재판을 받기 위해 대법원까지 왕복 10시간([지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생)을 끌고 가는 것은 낭비입니다. 동네 파출소(Edge)에서 5분 만에 즉결 심판([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리)을 내려 훈방 조치하고, 대법원(클라우드)에는 저녁에 "오늘 좀도둑 1명 잡았음"이라고 장부 요약본만 팩스로 보내는 효율적인 권한 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템입니다.
+- **📢 섹션 요약 비유**: 클라우드가 서울 '대법원'이라면, [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 동네마다 있는 '즉결 심판소(파출소)'입니다. 동네에서 자전거 도둑을 잡았는데([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 발생), 재판을 받기 위해 대법원까지 왕복 10시간([지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 발생)을 끌고 가는 것은 낭비입니다. 동네 파출소(Edge)에서 5분 만에 즉결 심판([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 처리)을 내려 훈방 조치하고, 대법원(클라우드)에는 저녁에 "오늘 좀도둑 1명 잡았음"이라고 장부 요약본만 팩스로 보내는 효율적인 권한 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 시스템입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [IoT](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/knowledge-base/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/), 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 [IoT](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/), [WPAN](/studynote/03_network/12_iot_wpan_edge/604_wpan_wireless_personal_area_network/), 엣지를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 전력 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/), 자율형 엣지 협업, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자율형 엣지 협업 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
+- **📢 섹션 요약 비유**: [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
 ---
 
@@ -102,9 +99,9 @@ tags = ["studynote-network"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | oneM2M 아키텍처 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| 저전력 통신 (Low [Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
-| [센서 네트워크](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
-| [MEC](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 저전력 통신 (Low [Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Communication) | 배터리 수명과 직접 연결된다. |
+| [센서 네트워크](/studynote/06_ict_convergence/02_iot_mobility/103_wsn_sensor_network/) (Sensor Network) | 수많은 단말의 연결 구조를 결정한다. |
+| [MEC](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -118,7 +115,7 @@ tags = ["studynote-network"]
     +---> [확장 B: 자율형 엣지 협업]
 ```
 
-[엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)는 oneM2M 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+[엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)는 oneM2M 아키텍처에서 출발해 현재 메커니즘을 정교화하고, 이후 MEC와 자율형 엣지 협업 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -132,7 +129,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 747 / 1120
 
-<- **이전**: [625. oneM2M 아키텍처 (국제 표준 통합 M2M 구조화 플랫폼)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/625_onem2m_international_iot_platform/)
-**다음**: [627. MEC (Multi-access Edge Computing / Mobile Edge Computing)](/knowledge-base/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) ->
+<- **이전**: [625. oneM2M 아키텍처 (국제 표준 통합 M2M 구조화 플랫폼)](/studynote/03_network/12_iot_wpan_edge/625_onem2m_international_iot_platform/)
+**다음**: [627. MEC (Multi-access Edge Computing / Mobile Edge Computing)](/studynote/03_network/12_iot_wpan_edge/627_mec_multi_access_edge_computing_5g/) ->
 
 ---

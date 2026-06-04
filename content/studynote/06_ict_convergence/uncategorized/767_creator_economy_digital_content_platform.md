@@ -1,13 +1,10 @@
-+++
-title = "767. 크리에이터 경제 디지털 콘텐츠 플랫폼 (Creator Economy Digital Content Platform)"
-date = 2026-05-09
+---
+title: "767. 크리에이터 경제 디지털 콘텐츠 플랫폼 (Creator Economy Digital Content Platform)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 767 / 800
 
-<- **이전**: [766. 구독 경제 SaaS 리커링 수익 모델](/knowledge-base/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/)
-**다음**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/knowledge-base/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/) ->
+<- **이전**: [766. 구독 경제 SaaS 리커링 수익 모델](/studynote/06_ict_convergence/uncategorized/766_subscription_economy_saas_recurring_revenue/)
+**다음**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/) ->
 
 ---

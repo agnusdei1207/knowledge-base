@@ -1,13 +1,10 @@
-+++
-title = "724. 배터리 기술 고체 전지 에너지 저장 (Battery Technology Solid State Energy Storage)"
-date = 2026-05-09
+---
+title: "724. 배터리 기술 고체 전지 에너지 저장 (Battery Technology Solid State Energy Storage)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ Q_capacity = 1 / (Σ m_i / C_i)  (Cathode, Anode, SSE, CC 질량 가중)
 
 **진행 상황**: 724 / 800
 
-<- **이전**: [723. 3D 프린팅 적층 제조 산업 응용](/knowledge-base/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/)
-**다음**: [725. 수소 경제 그린 수소 연료 전지](/knowledge-base/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/) ->
+<- **이전**: [723. 3D 프린팅 적층 제조 산업 응용](/studynote/06_ict_convergence/uncategorized/723_3d_printing_additive_manufacturing_industry/)
+**다음**: [725. 수소 경제 그린 수소 연료 전지](/studynote/06_ict_convergence/uncategorized/725_hydrogen_economy_green_hydrogen_fuel_cell/) ->
 
 ---

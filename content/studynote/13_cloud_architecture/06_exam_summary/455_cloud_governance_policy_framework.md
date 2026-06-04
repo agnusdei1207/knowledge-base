@@ -1,13 +1,10 @@
-+++
-title = "455. 클라우드 거버넌스 정책 프레임워크 (Cloud Governance Policy Framework)"
-date = 2026-05-09
+---
+title: "455. 클라우드 거버넌스 정책 프레임워크 (Cloud Governance Policy Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 455 / 800
 
-<- **이전**: [454. CNCF 프로젝트 생태계 기술 지형도](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/454_cncf_project_ecosystem_technology_landscape/)
-**다음**: [456. 클라우드 컴플라이언스 규제 인증](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/456_cloud_compliance_regulation_certification/) ->
+<- **이전**: [454. CNCF 프로젝트 생태계 기술 지형도](/studynote/13_cloud_architecture/06_exam_summary/454_cncf_project_ecosystem_technology_landscape/)
+**다음**: [456. 클라우드 컴플라이언스 규제 인증](/studynote/13_cloud_architecture/06_exam_summary/456_cloud_compliance_regulation_certification/) ->
 
 ---

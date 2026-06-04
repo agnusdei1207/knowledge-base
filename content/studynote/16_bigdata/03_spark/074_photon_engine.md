@@ -1,26 +1,23 @@
-+++
-title = "23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진"
-date = 2026-04-29
+---
+title: "23. Photon 엔진 (Databricks) — 네이티브 벡터화 실행 엔진"
+date: "2026-04-29"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Photon 엔진은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution 엔진)으로, Apache Spark의 JVM(Java [Virtual Machine](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.
-> 2. **가치**: Photon은 Databricks Runtime에 투명하게 통합되어 기존 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 코드 변경 없이 I/O 집약적 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 대용량 집계(Aggregation), 조인([Join](/knowledge-base/studynote/05_database/04_transactions_concurrency/521_join/)) 연산의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 대폭 향상시키고 [클라우드 컴퓨팅](/knowledge-base/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 비용을 절감한다.
-> 3. **판단 포인트**: Photon은 CPU 계산 집약적 연산(필터, 정렬, 해시 집계)에서 극적인 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 보이지만, UDF (User-Defined Function, [사용자 정의 함수](/knowledge-base/studynote/05_database/03_relational_model/187_user_defined_function_udf/))나 Python 기반 연산은 여전히 JVM으로 [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)되므로 Photon 이점을 극대화하려면 네이티브 SQL/DataFrame [API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용이 필수다.
+> 1. **본질**: Photon 엔진은 Databricks가 개발한 C++ 기반 네이티브 벡터화 실행 엔진(Vectorized Execution 엔진)으로, Apache Spark의 JVM(Java [Virtual Machine](/studynote/01_computer_architecture/15_advanced_topics/598_vm_migration_nic/)) 오버헤드를 제거하고 CPU [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (Single [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Multiple [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 활용하여 SQL/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)프레임 연산을 최대 12배 가속화한다.
+> 2. **가치**: Photon은 Databricks Runtime에 투명하게 통합되어 기존 [Spark SQL](/studynote/16_bigdata/03_spark/056_spark_sql/) 코드 변경 없이 I/O 집약적 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/)(Extract-Transform-Load), 대용량 집계(Aggregation), 조인([Join](/studynote/05_database/04_transactions_concurrency/521_join/)) 연산의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 대폭 향상시키고 [클라우드 컴퓨팅](/studynote/02_operating_system/01_overview_architecture/052_cloud_computing_os/) 비용을 절감한다.
+> 3. **판단 포인트**: Photon은 CPU 계산 집약적 연산(필터, 정렬, 해시 집계)에서 극적인 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상을 보이지만, UDF (User-Defined Function, [사용자 정의 함수](/studynote/05_database/03_relational_model/187_user_defined_function_udf/))나 Python 기반 연산은 여전히 JVM으로 [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)되므로 Photon 이점을 극대화하려면 네이티브 SQL/DataFrame [API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/) 사용이 필수다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-Photon 엔진은 Databricks가 2021년 공개한 C++ 네이티브 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 엔진으로, Apache Spark의 기본 Tungsten 실행 엔진을 대체하는 Databricks Runtime의 핵심 가속화 구성 요소다.
+Photon 엔진은 Databricks가 2021년 공개한 C++ 네이티브 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/) 실행 엔진으로, Apache Spark의 기본 Tungsten 실행 엔진을 대체하는 Databricks Runtime의 핵심 가속화 구성 요소다.
 
-Spark는 JVM 위에서 실행되기 때문에 [가비지 컬렉션](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC, [Garbage Collection](/knowledge-base/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 오버헤드, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 객체 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용이 누적되어 CPU 효율이 저하된다. 특히 최신 클라우드 서버의 64코어 CPU와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 JVM이 100% 활용하지 못하는 것이 핵심 문제였다. Photon은 C++로 직접 하드웨어를 제어하여 이 격차를 메운다.
+Spark는 JVM 위에서 실행되기 때문에 [가비지 컬렉션](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)(GC, [Garbage Collection](/studynote/02_operating_system/06_memory_management/380_garbage_collection/)) 오버헤드, [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/studynote/09_security/11_iam_access_control/568_jit_access/)) 컴파일 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 객체 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)화 비용이 누적되어 CPU 효율이 저하된다. 특히 최신 클라우드 서버의 64코어 CPU와 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) SSD의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 JVM이 100% 활용하지 못하는 것이 핵심 문제였다. Photon은 C++로 직접 하드웨어를 제어하여 이 격차를 메운다.
 
 ```text
 +--------------------------------------------------------------+
@@ -50,12 +47,12 @@ Spark는 JVM 위에서 실행되기 때문에 [가비지 컬렉션](/knowledge-b
 
 ### 벡터화 실행(Vectorized Execution)의 원리
 
-Photon의 핵심은 컬럼형(Columnar) [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)와 [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 활용이다.
+Photon의 핵심은 컬럼형(Columnar) [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/)와 [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 활용이다.
 
-| 처리 방식 | 단위 | CPU 명령 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
+| 처리 방식 | 단위 | CPU 명령 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) |
 |:---|:---|:---|:---|
 | **행 단위(Row-at-a-time)** | 1 행씩 처리 | 스칼라 연산 | 느림 |
-| **벡터화(Vectorized)** | 1024행 [배치 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) | [SIMD](/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (AVX-512) | 최대 16배 빠름 |
+| **벡터화(Vectorized)** | 1024행 [배치 처리](/studynote/13_cloud_architecture/05_data_engineering/228_batch_processing_hadoop_spark/) | [SIMD](/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/) (AVX-512) | 최대 16배 빠름 |
 
 ```text
 +----------------------------------------------------------+
@@ -72,16 +69,16 @@ Photon의 핵심은 컬럼형(Columnar) [배치 처리](/knowledge-base/studynot
 +----------------------------------------------------------+
 ```
 
-### Photon 지원 연산 vs [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
+### Photon 지원 연산 vs [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)
 
-| Photon 지원 (빠름) | JVM [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) (기존 속도) |
+| Photon 지원 (빠름) | JVM [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/) (기존 속도) |
 |:---|:---|
-| [SELECT](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/), WHERE, [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/), ORDER BY | Python UDF, Pandas UDF |
-| [Hash Join](/knowledge-base/studynote/05_database/03_relational_model/174_hash_join/), [Sort Merge Join](/knowledge-base/studynote/05_database/03_relational_model/173_sort_merge_join/) | ML [라이브러리](/knowledge-base/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부 연산 |
+| [SELECT](/studynote/05_database/04_transactions_concurrency/520_select/), WHERE, [GROUP BY](/studynote/05_database/04_transactions_concurrency/522_group_by/), ORDER BY | Python UDF, Pandas UDF |
+| [Hash Join](/studynote/05_database/03_relational_model/174_hash_join/), [Sort Merge Join](/studynote/05_database/03_relational_model/173_sort_merge_join/) | ML [라이브러리](/studynote/04_software_engineering/06_software_architecture/336_library_vs_framework/) 내부 연산 |
 | COUNT, SUM, AVG, MIN, MAX | 스트리밍 상태 저장(Stateful) |
-| [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) 읽기/[쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 복잡한 중첩 구조 타입 일부 |
+| [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/) 읽기/[쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/) | 복잡한 중첩 구조 타입 일부 |
 
-- **📢 섹션 요약 비유**: Photon은 공장에서 1개씩 용접하던 것을 1024개를 한 번에 찍는 금형으로 바꾼 것과 같다. 같은 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 훨씬 빠른 속도로 처리하지만, 특수 주문(Python UDF)은 여전히 손으로 한다.
+- **📢 섹션 요약 비유**: Photon은 공장에서 1개씩 용접하던 것을 1024개를 한 번에 찍는 금형으로 바꾼 것과 같다. 같은 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 훨씬 빠른 속도로 처리하지만, 특수 주문(Python UDF)은 여전히 손으로 한다.
 
 ---
 
@@ -90,35 +87,35 @@ Photon의 핵심은 컬럼형(Columnar) [배치 처리](/knowledge-base/studynot
 | 엔진 | 언어 | 벡터화 | Spark 호환 | 주요 플랫폼 |
 |:---|:---|:---|:---|:---|
 | **Photon** | C++ | ✅ (AVX-512) | ✅ (Databricks) | Databricks |
-| **Spark Tungsten** | JVM | 부분적 | ✅ | [Apache Spark](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) |
+| **Spark Tungsten** | JVM | 부분적 | ✅ | [Apache Spark](/studynote/14_data_engineering/05_exam_keywords/206_spark_inmemory_rdd_lazy_evaluation_lineage/) |
 | **DuckDB** | C++ | ✅ | ❌ | 단일 노드 분석 |
 | **Velox** | C++ | ✅ | 일부 | Meta, Presto |
 | **Apache Arrow** | C++ | ✅ (컬럼형 포맷) | ✅ (PySpark) | 크로스 플랫폼 |
 
-Photon은 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/) ([오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/))와 긴밀하게 통합되어 Delta Lake의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스킵([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skipping)·Z-Ordering과 결합 시 I/O와 CPU 비용을 동시에 절감하는 시너지를 발휘한다.
+Photon은 [Delta Lake](/studynote/16_bigdata/07_data_lake/147_delta_lake/) ([오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/))와 긴밀하게 통합되어 Delta Lake의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스킵([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Skipping)·Z-Ordering과 결합 시 I/O와 CPU 비용을 동시에 절감하는 시너지를 발휘한다.
 
-- **📢 섹션 요약 비유**: Photon은 Ferrari 엔진(C++ [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), Spark API는 자동차 핸들(사용 편의성)이다. 엔진을 교체해도 핸들 조작법은 동일하므로 운전자(개발자)는 코드 변경 없이 속도 향상을 누린다.
+- **📢 섹션 요약 비유**: Photon은 Ferrari 엔진(C++ [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)), Spark API는 자동차 핸들(사용 편의성)이다. 엔진을 교체해도 핸들 조작법은 동일하므로 운전자(개발자)는 코드 변경 없이 속도 향상을 누린다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: 일 단위 대규모 [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 비용 최적화
-일 1TB의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집계하는 Databricks [ETL](/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 잡의 클라우드 비용이 과다하다.
+### 실무 시나리오: 일 단위 대규모 [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 비용 최적화
+일 1TB의 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 집계하는 Databricks [ETL](/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/) 잡의 클라우드 비용이 과다하다.
 
-1. **현황**: Spark 기본 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) (Tungsten), DBU(Databricks Unit) 비용 월 $50,000.
+1. **현황**: Spark 기본 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) (Tungsten), DBU(Databricks Unit) 비용 월 $50,000.
 2. **Photon 활성화**: Databricks Runtime에서 Photon 옵션 활성화 (코드 변경 없음).
-3. **병목 분석**: [GROUP BY](/knowledge-base/studynote/05_database/04_transactions_concurrency/522_group_by/) + 집계 연산이 전체 실행 시간의 60% 차지.
+3. **병목 분석**: [GROUP BY](/studynote/05_database/04_transactions_concurrency/522_group_by/) + 집계 연산이 전체 실행 시간의 60% 차지.
 4. **결과**: 집계 연산 8배 가속 -> 전체 잡 시간 50% 단축 -> DBU 비용 45% 절감.
 5. **추가 최적화**: Python UDF를 SQL 네이티브 함수로 교체 -> 추가 20% 단축.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-- Databricks Runtime 9.1 LTS 이상에서 Photon 지원 (클러스터 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 활성화).
-- `EXPLAIN` 명령으로 [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 내 Photon 연산자 포함 여부 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+- Databricks Runtime 9.1 LTS 이상에서 Photon 지원 (클러스터 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)에서 활성화).
+- `EXPLAIN` 명령으로 [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/) 내 Photon 연산자 포함 여부 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/).
 - Python UDF 최소화 — 가능하면 `pyspark.sql.functions` 네이티브 함수 사용.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- Photon을 활성화한 후 Python UDF가 포함된 [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 개선됐다고 착각하는 오류. Python UDF 단계는 여전히 JVM [폴백](/knowledge-base/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 발생하며, Photon의 이점은 네이티브 SQL/DF 연산 구간에서만 적용된다. [실행 계획](/knowledge-base/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 반드시 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- Photon을 활성화한 후 Python UDF가 포함된 [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/)의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 개선됐다고 착각하는 오류. Python UDF 단계는 여전히 JVM [폴백](/studynote/07_enterprise_systems/03_eai_esb_msa/171_fallback_resilience_pattern/)이 발생하며, Photon의 이점은 네이티브 SQL/DF 연산 구간에서만 적용된다. [실행 계획](/studynote/05_database/03_relational_model/166_execution_plan_optimizer_navigation_tree/)을 반드시 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다.
 
 - **📢 섹션 요약 비유**: Photon을 켜놓고 Python UDF를 계속 쓰는 건, 고속도로에 포르쉐를 올려놓고 속도 제한 구간(UDF)에서 계속 서행하는 것과 같다. 고속 구간(네이티브 SQL)에서만 진가를 발휘한다.
 
@@ -128,13 +125,13 @@ Photon은 [Delta Lake](/knowledge-base/studynote/16_bigdata/07_data_lake/147_del
 
 | 기대효과 | 내용 | 수치 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 속도 향상</strong> | 집계·조인 연산 가속 | 최대 12배 향상 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/215_etl_vs_elt_pipeline/">ETL</a> 속도 향상</strong> | 집계·조인 연산 가속 | 최대 12배 향상 |
 | **비용 절감** | 잡 실행 시간 단축 -> DBU 절감 | 40~50% 절감 |
-| **코드 변경 없음** | 기존 [Spark SQL](/knowledge-base/studynote/16_bigdata/03_spark/056_spark_sql/) 그대로 | 마이그레이션 비용 0 |
+| **코드 변경 없음** | 기존 [Spark SQL](/studynote/16_bigdata/03_spark/056_spark_sql/) 그대로 | 마이그레이션 비용 0 |
 
-Photon은 Databricks [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 핵심 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 레이어로, Unity Catalog와의 통합으로 보안 접근 제어([ABAC](/knowledge-base/studynote/09_security/11_iam_access_control/572_abac/))와 고성능 실행을 동시에 달성하는 방향으로 발전하고 있다. [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영의 Velox와 Apache Gluten 프로젝트가 유사한 C++ 네이티브 실행 가속을 Apache Spark에 이식하는 경쟁이 활발하다.
+Photon은 Databricks [Lakehouse](/studynote/16_bigdata/07_data_lake/146_lakehouse/) 아키텍처의 핵심 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 레이어로, Unity Catalog와의 통합으로 보안 접근 제어([ABAC](/studynote/09_security/11_iam_access_control/572_abac/))와 고성능 실행을 동시에 달성하는 방향으로 발전하고 있다. [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 진영의 Velox와 Apache Gluten 프로젝트가 유사한 C++ 네이티브 실행 가속을 Apache Spark에 이식하는 경쟁이 활발하다.
 
-- **📢 섹션 요약 비유**: Photon 엔진은 스포츠카에 터보 엔진을 달아주는 것이다. 차의 겉모습([API](/knowledge-base/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 그대로지만, 내부 엔진(C++ 벡터화)이 바뀌면서 같은 연료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 훨씬 빠르게 목적지에 도달한다.
+- **📢 섹션 요약 비유**: Photon 엔진은 스포츠카에 터보 엔진을 달아주는 것이다. 차의 겉모습([API](/studynote/02_operating_system/01_overview_architecture/014_api_posix/))은 그대로지만, 내부 엔진(C++ 벡터화)이 바뀌면서 같은 연료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))로 훨씬 빠르게 목적지에 도달한다.
 
 ---
 
@@ -142,10 +139,10 @@ Photon은 Databricks [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_la
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **Apache Arrow** | 컬럼형 인메모리 포맷; Photon의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 기반 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a> (벡터 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)</strong> | Photon이 1024행을 동시 처리하는 CPU 수준 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
-| <strong><a href="/knowledge-base/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong> | Photon과 통합된 [오픈 테이블 포맷](/knowledge-base/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/); [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스킵 최적화 |
-| **Velox** | Meta의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) C++ 벡터화 엔진; Photon의 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 대안 |
+| **Apache Arrow** | 컬럼형 인메모리 포맷; Photon의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 교환 기반 |
+| <strong><a href="/studynote/01_computer_architecture/10_parallel_processing_architecture/370_simd/">SIMD</a> (벡터 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>)</strong> | Photon이 1024행을 동시 처리하는 CPU 수준 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 |
+| <strong><a href="/studynote/16_bigdata/07_data_lake/147_delta_lake/">Delta Lake</a></strong> | Photon과 통합된 [오픈 테이블 포맷](/studynote/14_data_engineering/01_infrastructure/054_open_table_format_iceberg_delta_hudi/); [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 스킵 최적화 |
+| **Velox** | Meta의 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) C++ 벡터화 엔진; Photon의 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) 대안 |
 | **JVM GC** | Photon이 제거한 Java 메모리 관리 오버헤드 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -165,13 +162,13 @@ Photon은 Databricks [Lakehouse](/knowledge-base/studynote/16_bigdata/07_data_la
     v
 [Velox / Apache Gluten — 오픈소스 생태계 C++ 실행 가속]
 ```
-JVM 기반 Tungsten에서 컬럼형 Arrow, C++ Photon을 거쳐 [오픈소스](/knowledge-base/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) Velox/Gluten으로 확장되는 빅데이터 실행 엔진 가속화의 흐름이다.
+JVM 기반 Tungsten에서 컬럼형 Arrow, C++ Photon을 거쳐 [오픈소스](/studynote/12_it_management/05_security_compliance/191_oss_license_compliance/) Velox/Gluten으로 확장되는 빅데이터 실행 엔진 가속화의 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. Photon 엔진은 자동차 엔진을 낡은 것에서 <strong>슈퍼카 엔진</strong>으로 바꿔주는 것과 같아요!
 2. 자동차 겉모습(코드)은 그대로인데, 엔진만 바꿨더니 같은 길을 10배나 빠르게 달릴 수 있게 돼요.
-3. 덕분에 수억 개의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 시간이 확 줄어들고, 클라우드 비용도 많이 절약할 수 있답니다!
+3. 덕분에 수억 개의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처리하는 시간이 확 줄어들고, 클라우드 비용도 많이 절약할 수 있답니다!
 
 ---
 
@@ -179,7 +176,7 @@ JVM 기반 Tungsten에서 컬럼형 Arrow, C++ Photon을 거쳐 [오픈소스](/
 
 **진행 상황**: 74 / 262
 
-<- **이전**: [22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스](/knowledge-base/studynote/16_bigdata/03_spark/073_delta_lake_on_spark/)
-**다음**: [24. Apache Spark 3.5 주요 개선 사항](/knowledge-base/studynote/16_bigdata/03_spark/075_spark_35_improvements/) ->
+<- **이전**: [22. Delta Lake on Spark — ACID 트랜잭션 지원 레이크하우스](/studynote/16_bigdata/03_spark/073_delta_lake_on_spark/)
+**다음**: [24. Apache Spark 3.5 주요 개선 사항](/studynote/16_bigdata/03_spark/075_spark_35_improvements/) ->
 
 ---

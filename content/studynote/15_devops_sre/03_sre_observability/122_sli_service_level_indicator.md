@@ -1,18 +1,15 @@
-+++
-title = "122. SLI (Service Level Indicator) - 서비스 수준 측정 지표"
-date = 2026-04-19
+---
+title: "122. SLI (Service Level Indicator) - 서비스 수준 측정 지표"
+date: "2026-04-19"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.
-> 2. **가치**: "[서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/)(계약)의 계층적 [신뢰성](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
-> 3. **판단 포인트**: [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(성공 요청/전체)·레이턴시(p99 < 200ms 요청/전체)·에러율(5xx 에러/전체)이 3대 SLI이며, <strong>사용자에게 의미 있는 지표</strong>를 선택하는 것이 핵심이다.
+> 1. **본질**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)([Service Level Indicator](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/))는 <strong>사용자 경험 관점에서 <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/">서비스</a> 품질을 정량적으로 측정</strong>하는 지표이며, "좋은 이벤트 수 / 전체 이벤트 수"의 <strong>비율(0~100%)</strong>로 표현된다.
+> 2. **가치**: "[서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 잘 돌아가고 있다"를 주관이 아닌 <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>로 판단</strong>할 수 있으며, [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)->[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)(목표)->[Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)(허용 범위)->[SLA](/studynote/12_it_management/02_itsm_itil/869_sla/)(계약)의 계층적 [신뢰성](/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/) 관리 체계의 출발점이다.
+> 3. **판단 포인트**: [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)(성공 요청/전체)·레이턴시(p99 < 200ms 요청/전체)·에러율(5xx 에러/전체)이 3대 SLI이며, <strong>사용자에게 의미 있는 지표</strong>를 선택하는 것이 핵심이다.
 
 ---
 
@@ -41,15 +38,15 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 3대 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
+### 3대 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)
 
-| [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 측정 | 공식 |
+| [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | 측정 | 공식 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | 성공 요청 비율 | 성공/전체 × 100% |
+| <strong><a href="/studynote/01_computer_architecture/13_reliability_power_management/452_availability/">가용성</a></strong> | 성공 요청 비율 | 성공/전체 × 100% |
 | **레이턴시** | 기준 이내 요청 비율 | (p99 < 200ms)/전체 |
 | **에러율** | 에러 미발생 비율 | (1 - 5xx/전체) × 100% |
 
-### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 선택 원칙
+### [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 선택 원칙
 - **사용자 관점**: 서버 CPU 사용률은 SLI가 아니다. 사용자가 느끼는 <strong>응답 속도·에러</strong>가 SLI다.
 - **비율**: 항상 0~100%로 표현하여 SLO와 비교 가능.
 
@@ -59,9 +56,9 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) |
+| 비교 | [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) | [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) | [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) |
 |:---|:---|:---|:---|
-| **정의** | 측정 지표 | <strong>목표 <a href="/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a></strong> | 계약 |
+| **정의** | 측정 지표 | <strong>목표 <a href="/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/">임계치</a></strong> | 계약 |
 | **주체** | 엔지니어 | 팀 합의 | **고객 계약** |
 | **예** | 99.95% | ≥ 99.9% | 위반 시 크레딧 |
 
@@ -69,16 +66,16 @@ tags = ["studynote-devops-sre"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 측정 도구
-- <strong><a href="/knowledge-base/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a> + <a href="/knowledge-base/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a></strong>: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 대시보드.
-- <strong>Datadog <a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong>: 자동 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 추적·알림.
-- **OpenSLO**: [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/SLO를 YAML로 정의하는 표준.
+### [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 측정 도구
+- <strong><a href="/studynote/15_devops_sre/03_sre_observability/136_prometheus/">Prometheus</a> + <a href="/studynote/16_bigdata/08_visualization/168_grafana/">Grafana</a></strong>: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 대시보드.
+- <strong>Datadog <a href="/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong>: 자동 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 추적·알림.
+- **OpenSLO**: [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/SLO를 YAML로 정의하는 표준.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 선택이 [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[Error Budget](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)·운영 의사결정의 품질을 결정한다.
+SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/) 선택이 [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/)·[Error Budget](/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/)·운영 의사결정의 품질을 결정한다.
 
 ---
 
@@ -86,11 +83,11 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 측정 (비율) |
-| <strong><a href="/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong> | SLI의 목표 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong> | 100% - [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) |
-| <strong><a href="/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | [SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 고객 계약 |
-| **OpenSLO** | [SLI](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/knowledge-base/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) YAML 표준 |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/">SLI</a></strong> | [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 수준 측정 (비율) |
+| <strong><a href="/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/">SLO</a></strong> | SLI의 목표 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/101_error_budget_sre/">Error Budget</a></strong> | 100% - [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) |
+| <strong><a href="/studynote/12_it_management/02_itsm_itil/869_sla/">SLA</a></strong> | [SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) 기반 고객 계약 |
+| **OpenSLO** | [SLI](/studynote/04_software_engineering/02_requirements_analysis/102_sli_slo_service_level_indicator_objective/)/[SLO](/studynote/13_cloud_architecture/04_devops_observability/181_slo_service_level_objective/) YAML 표준 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -111,7 +108,7 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. SLI는 학교 <strong>시험 점수</strong>예요. "우리 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 몇 점인지" 알 수 있어요.
+1. SLI는 학교 <strong>시험 점수</strong>예요. "우리 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)가 몇 점인지" 알 수 있어요.
 2. SLO는 <strong>합격 기준(90점)</strong>이에요. 점수가 기준 이하면 <strong>공부(안정화)에 집중</strong>해야 해요.
 3. 중요한 건 **학생(사용자)이 느끼는** 점수이지, 선생님(서버) 기분이 아니에요!
 
@@ -121,7 +118,7 @@ SLI는 <strong>SRE의 모든 판단의 출발점</strong>이며, 올바른 [SLI]
 
 **진행 상황**: 122 / 373
 
-<- **이전**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/knowledge-base/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
-**다음**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/knowledge-base/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ->
+<- **이전**: [121. SRE 철학 (Site Reliability 엔진ering Philosophy) - 신뢰성 엔지니어링의 핵심 원칙](/studynote/15_devops_sre/03_sre_observability/121_sre_philosophy/)
+**다음**: [123. SLO (Service Level Objective) - 서비스 수준 목표 설정과 Error Budget](/studynote/15_devops_sre/03_sre_observability/123_slo_service_level_objective/) ->
 
 ---

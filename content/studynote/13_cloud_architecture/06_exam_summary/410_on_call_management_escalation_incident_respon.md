@@ -1,13 +1,10 @@
-+++
-title = "410. 온콜 관리 에스컬레이션 인시던트 대응 (On-Call Management Escalation Incident Response)"
-date = 2026-05-09
+---
+title: "410. 온콜 관리 에스컬레이션 인시던트 대응 (On-Call Management Escalation Incident Response)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 410 / 800
 
-<- **이전**: [409. SLO SLI 에러 버짓 신뢰성 목표](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/409_slo_sli_error_budget_reliability_target/)
-**다음**: [411. 포스트모템 장애 분석 재발 방지](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/411_postmortem_failure_analysis_prevention/) ->
+<- **이전**: [409. SLO SLI 에러 버짓 신뢰성 목표](/studynote/13_cloud_architecture/06_exam_summary/409_slo_sli_error_budget_reliability_target/)
+**다음**: [411. 포스트모템 장애 분석 재발 방지](/studynote/13_cloud_architecture/06_exam_summary/411_postmortem_failure_analysis_prevention/) ->
 
 ---

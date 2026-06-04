@@ -1,13 +1,10 @@
-+++
-title = "546. 가용성 관리 MTBF MTTR 고가용성 (Availability Management MTBF MTTR HA)"
-date = 2026-05-09
+---
+title: "546. 가용성 관리 MTBF MTTR 고가용성 (Availability Management MTBF MTTR HA)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 546 / 600
 
-<- **이전**: [545. 용량 관리 수요 예측 확장 계획](/knowledge-base/studynote/11_design_supervision/06_exam_summary/546_capacity_management_demand_forecasting/)
-**다음**: [547. IT 자산 관리 라이프사이클 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/547_it_asset_management_lifecycle_optimizati/) ->
+<- **이전**: [545. 용량 관리 수요 예측 확장 계획](/studynote/11_design_supervision/06_exam_summary/546_capacity_management_demand_forecasting/)
+**다음**: [547. IT 자산 관리 라이프사이클 최적화](/studynote/11_design_supervision/06_exam_summary/547_it_asset_management_lifecycle_optimizati/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "486. 사용성 감리 UX 인터페이스 검증 (Usability Audit UX Interface Validation)"
-date = 2026-05-09
+---
+title: "486. 사용성 감리 UX 인터페이스 검증 (Usability Audit UX Interface Validation)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 486 / 600
 
-<- **이전**: [485. 품질 감리 메트릭 정량적 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/486_quality_audit_metric_quantitative_evalua/)
-**다음**: [487. 데이터 감리 무결성 정합성 검증](/knowledge-base/studynote/11_design_supervision/06_exam_summary/487_data_audit_integrity_consistency_validat/) ->
+<- **이전**: [485. 품질 감리 메트릭 정량적 평가](/studynote/11_design_supervision/06_exam_summary/486_quality_audit_metric_quantitative_evalua/)
+**다음**: [487. 데이터 감리 무결성 정합성 검증](/studynote/11_design_supervision/06_exam_summary/487_data_audit_integrity_consistency_validat/) ->
 
 ---

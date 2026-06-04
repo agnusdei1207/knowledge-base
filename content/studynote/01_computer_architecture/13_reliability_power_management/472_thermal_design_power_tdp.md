@@ -1,13 +1,10 @@
-+++
-title = "472. 열 설계 전력 (TDP, Thermal Design Power)"
-date = 2026-05-09
+---
+title: "472. 열 설계 전력 (TDP, Thermal Design Power)"
+date: "2026-05-09"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ TDP는 동일 칩셋 내에서도 라인업별, 세대별로 의미가 달라지
 
 **진행 상황**: 472 / 803
 
-<- **이전**: [471. 전원 게이팅 (Power Gating)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)
-**다음**: [473. 열 쓰로틀링 (Thermal Throttling)](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ->
+<- **이전**: [471. 전원 게이팅 (Power Gating)](/studynote/01_computer_architecture/13_reliability_power_management/471_power_gating/)
+**다음**: [473. 열 쓰로틀링 (Thermal Throttling)](/studynote/01_computer_architecture/13_reliability_power_management/473_thermal_throttling/) ->
 
 ---

@@ -1,38 +1,35 @@
-+++
-title = "12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합"
-date = 2026-04-21
+---
+title: "12. 팀 정렬 (Timsort) — Python/Java 기본, 합병+삽입 혼합"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Timsort는 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 자연스럽게 존재하는 정렬된 구간(Run)을 탐지하고, 병합 정렬과 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 결합해 현실적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 최고 성능을 발휘하는 적응형 정렬이다.
-> 2. **가치**: Python, Java, Android, Swift의 표준 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 채택되었으며, 완전 정렬된 입력에서 O(n), 일반 경우 O(n log n) 최악 보장, 완전한 안정성을 제공한다.
-> 3. **판단 포인트**: 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완전 무작위가 아니라 부분적으로 정렬된 경우가 많기 때문에 Timsort의 Run 탐지가 다른 O(n log n) 정렬보다 현실적으로 빠른 이유다.
+> 1. **본질**: Timsort는 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 자연스럽게 존재하는 정렬된 구간(Run)을 탐지하고, 병합 정렬과 [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)을 결합해 현실적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 최고 성능을 발휘하는 적응형 정렬이다.
+> 2. **가치**: Python, Java, Android, Swift의 표준 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 채택되었으며, 완전 정렬된 입력에서 O(n), 일반 경우 O(n log n) 최악 보장, 완전한 안정성을 제공한다.
+> 3. **판단 포인트**: 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 완전 무작위가 아니라 부분적으로 정렬된 경우가 많기 때문에 Timsort의 Run 탐지가 다른 O(n log n) 정렬보다 현실적으로 빠른 이유다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-순수 이론 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 현실 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 간극을 좁힌 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 <strong>Timsort</strong>다. 2002년 [Tim](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Peters가 Python용으로 개발했으며, <strong>자연 Run (Natural Run)</strong>이라는 개념을 도입했다. 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 이미 정렬되어 있는 연속 구간을 찾아 이용하면, 완전 무작위 입력을 가정한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 훨씬 빠르게 동작한다.
+순수 이론 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 현실 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 사이의 간극을 좁힌 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 <strong>Timsort</strong>다. 2002년 [Tim](/studynote/01_computer_architecture/15_advanced_topics/737_thermal_paste_tim/) Peters가 Python용으로 개발했으며, <strong>자연 Run (Natural Run)</strong>이라는 개념을 도입했다. 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 이미 정렬되어 있는 연속 구간을 찾아 이용하면, 완전 무작위 입력을 가정한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)보다 훨씬 빠르게 동작한다.
 
 ### 핵심 개념: Run
 
-- **Run**: 입력 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 이미 오름차순(또는 내림차순)으로 정렬된 연속 구간
-- **최소 Run 크기 (minRun)**: 보통 32~64, 너무 짧은 Run은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로 확장
+- **Run**: 입력 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)에서 이미 오름차순(또는 내림차순)으로 정렬된 연속 구간
+- **최소 Run 크기 (minRun)**: 보통 32~64, 너무 짧은 Run은 [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로 확장
 
 | 언어/플랫폼 | 채택 현황 |
 |:---|:---|
 | Python | 기본 정렬 (list.sort(), sorted()) |
 | Java | Arrays.sort() (Object), Collections.sort() |
 | Android | Arrays.sort() |
-| Swift | [Array](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/).sort() |
+| Swift | [Array](/studynote/08_algorithm_stats/04_datastructure/055_array/).sort() |
 
-📢 **섹션 요약 비유**: Timsort는 이미 정리된 책상에서 청소를 시작하는 사람과 같다. 이미 쌓여 있는 책 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)(Run)를 굳이 흩뜨리지 않고, 그대로 활용하면서 깔끔하게 정리한다.
+📢 **섹션 요약 비유**: Timsort는 이미 정리된 책상에서 청소를 시작하는 사람과 같다. 이미 쌓여 있는 책 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)(Run)를 굳이 흩뜨리지 않고, 그대로 활용하면서 깔끔하게 정리한다.
 
 ---
 
@@ -69,7 +66,7 @@ tags = ["studynote-algorithm"]
 +----------------------------------------------------------+
 ```
 
-### [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Run 병합 과정
+### [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 — Run 병합 과정
 
 ```
 입력: [3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]
@@ -91,15 +88,15 @@ Run 탐지:
   B > C?    -> 2 > 1 ✅  (유지, 병합 불필요)
 ```
 
-### 시간/[공간 복잡도](/knowledge-base/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
+### 시간/[공간 복잡도](/studynote/08_algorithm_stats/01_basics/003_space_complexity/)
 
 | 항목 | 복잡도 | 조건 |
 |:---|:---:|:---|
 | 최선 시간 | **O(n)** | 이미 정렬된 입력 |
 | 평균/최악 시간 | **O(n log n)** | 병합 정렬 기반 |
-| 공간 | O(n) | 병합 보조 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/) |
+| 공간 | O(n) | 병합 보조 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/) |
 | 안정 정렬 | ✅ | 안정성 완전 보장 |
-| 적응형 (Adaptive) | ✅ | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 빠름 |
+| 적응형 (Adaptive) | ✅ | 부분 정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 빠름 |
 
 ### Galloping Mode (갤로핑 모드)
 
@@ -111,17 +108,17 @@ Run 탐지:
 
 ## Ⅲ. 비교 및 연결
 
-### 정렬 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 특성 비교
+### 정렬 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 특성 비교
 
-| [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최선 | 최악 | 안정 | 적응형 | 표준 채택 |
+| [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 최선 | 최악 | 안정 | 적응형 | 표준 채택 |
 |:---|:---:|:---:|:---:|:---:|:---|
 | 병합 정렬 | O(n log n) | O(n log n) | ✅ | ❌ | Java(primitive 제외) |
-| [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(n^) | ❌ | ❌ | C qsort |
-| [힙 정렬](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | O(n log n) | ❌ | ❌ | — |
+| [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/) | O(n log n) | O(n^) | ❌ | ❌ | C qsort |
+| [힙 정렬](/studynote/08_algorithm_stats/04_datastructure/080_heap_sort/) | O(n log n) | O(n log n) | ❌ | ❌ | — |
 | **Timsort** | **O(n)** | **O(n log n)** | **✅** | **✅** | Python, Java |
-| [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) | O(n log n) | O(n log n) | ❌ | ❌ | C++ STL |
+| [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/) | O(n log n) | O(n log n) | ❌ | ❌ | C++ STL |
 
-📢 **섹션 요약 비유**: 이론 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 Timsort의 차이는 교과서 요리법과 숙련된 요리사의 방법 차이다. 교과서는 항상 같은 순서를 따르지만, 숙련된 요리사는 미리 손질된 재료(Run)를 최대한 활용한다.
+📢 **섹션 요약 비유**: 이론 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 Timsort의 차이는 교과서 요리법과 숙련된 요리사의 방법 차이다. 교과서는 항상 같은 순서를 따르지만, 숙련된 요리사는 미리 손질된 재료(Run)를 최대한 활용한다.
 
 ---
 
@@ -129,9 +126,9 @@ Run 탐지:
 
 ### Python/Java에서 Timsort가 기본인 이유
 
-1. <strong>현실 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 특성</strong>: 완전 무작위 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 드물고, 부분 정렬이나 역방향 구간이 흔함
-2. **안정 정렬 요구**: [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 다중 키 정렬, UI 리스트 정렬에서 안정성 필수
-3. **O(n log n) 최악 보장**: [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 최악 케이스를 피함
+1. <strong>현실 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>의 특성</strong>: 완전 무작위 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 드물고, 부분 정렬이나 역방향 구간이 흔함
+2. **안정 정렬 요구**: [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 다중 키 정렬, UI 리스트 정렬에서 안정성 필수
+3. **O(n log n) 최악 보장**: [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 최악 케이스를 피함
 
 ### 기술사 관점의 판단 기준
 
@@ -149,36 +146,36 @@ Run 탐지:
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: Timsort를 선택하는 것은 만능 스위스 군용 칼을 고르는 것과 같다. 완벽하지 않지만, 일상적 상황(부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 안정성 요구)에서 어떤 단일 도구보다 탁월한 실용성을 제공한다.
+📢 **섹션 요약 비유**: Timsort를 선택하는 것은 만능 스위스 군용 칼을 고르는 것과 같다. 완벽하지 않지만, 일상적 상황(부분 정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 안정성 요구)에서 어떤 단일 도구보다 탁월한 실용성을 제공한다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong>이다. 이론적 O(n log n)을 보장하면서, 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴을 활용해 평균적으로 그 이상의 성능을 발휘한다. Python과 Java의 기본 정렬로서 수십억 사용자의 일상 컴퓨팅을 지원하고 있다.
+Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong>이다. 이론적 O(n log n)을 보장하면서, 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패턴을 활용해 평균적으로 그 이상의 성능을 발휘한다. Python과 Java의 기본 정렬로서 수십억 사용자의 일상 컴퓨팅을 지원하고 있다.
 
 ### 효과 정리
 
 | 효과 | 내용 |
 |:---|:---|
-| 현실 적응성 | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 O(n) 수렴 |
+| 현실 적응성 | 부분 정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 O(n) 수렴 |
 | 안정성 | 완전한 안정 정렬 보장 |
-| 최악 보장 | O(n log n)으로 [퀵 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 위험 없음 |
+| 최악 보장 | O(n log n)으로 [퀵 정렬](/studynote/08_algorithm_stats/03_graph_search/047_quick_sort/)의 O(n^) 위험 없음 |
 | 표준화 | Python, Java, Android 공식 채택 |
 
-📢 **섹션 요약 비유**: Timsort는 미슐랭 셰프와 같다. 어떤 재료([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 와도 훌륭한 요리(정렬)를 만들 수 있지만, 특히 신선한 재료(이미 부분 정렬된 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 있을 때 진가를 발휘한다.
+📢 **섹션 요약 비유**: Timsort는 미슐랭 셰프와 같다. 어떤 재료([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 와도 훌륭한 요리(정렬)를 만들 수 있지만, 특히 신선한 재료(이미 부분 정렬된 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 있을 때 진가를 발휘한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| 개념 | 연결 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 |:---|:---|:---|
-| 병합 정렬 ([Merge Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Run 병합 방식의 근원 |
-| [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 서브루틴 | 소규모 Run 확장/정렬 |
-| 적응형 정렬 (Adaptive Sort) | -> 특성 | 부분 정렬 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 |
+| 병합 정렬 ([Merge Sort](/studynote/08_algorithm_stats/03_graph_search/044_merge_sort/)) | -> 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | Run 병합 방식의 근원 |
+| [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/) ([Insertion Sort](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)) | -> 서브루틴 | 소규모 Run 확장/정렬 |
+| 적응형 정렬 (Adaptive Sort) | -> 특성 | 부분 정렬 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 활용 |
 | 안정 정렬 (Stable Sort) | -> 성질 | 동일 키 원소 순서 보존 |
-| [Introsort](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) | 비교 대상 | C++ STL 기반, 비안정 |
+| [Introsort](/studynote/08_algorithm_stats/02_sorting/020_introsort/) | 비교 대상 | C++ STL 기반, 비안정 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -198,12 +195,12 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 [적응형 정렬 (Adaptive Sort) — 실세계 데이터에 맞춘 최적화]
 ```
 
-이 흐름은 작은 구간은 [삽입 정렬](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로, 길게 정렬된 구간은 자연 런과 갤럽 모드로 살리고, 마지막에 병합해 실데이터에 강한 적응형 정렬로 완성되는 과정을 보여준다.
+이 흐름은 작은 구간은 [삽입 정렬](/studynote/08_algorithm_stats/03_graph_search/052_insertion_sort_algorithm/)로, 길게 정렬된 구간은 자연 런과 갤럽 모드로 살리고, 마지막에 병합해 실데이터에 강한 적응형 정렬로 완성되는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 📚 **책장 정리 달인**: 이미 제목순으로 꽂혀 있는 책들(Run)은 건드리지 않고, 섞인 책들만 끼워 넣으면 훨씬 빠르게 전체를 정리할 수 있어요!
-🔀 **카드 병합 마법**: 두 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)의 카드를 합칠 때 한쪽이 계속 낮은 숫자라면, 그 [더미](/knowledge-base/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 통째로 꺼내는 편이 하나씩 비교하는 것보다 훨씬 빠르죠.
+🔀 **카드 병합 마법**: 두 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)의 카드를 합칠 때 한쪽이 계속 낮은 숫자라면, 그 [더미](/studynote/04_software_engineering/11_testing_validation/851_dummy_test_double/)를 통째로 꺼내는 편이 하나씩 비교하는 것보다 훨씬 빠르죠.
 ⚡ **똑똑한 청소부**: 방이 거의 정리되어 있으면 청소를 금방 끝내지만, 완전 어수선하면 시간이 걸려요 — Timsort는 정리 상태에 따라 속도를 조절해요!
 
 ---
@@ -212,7 +209,7 @@ Timsort는 <strong>이론과 현실의 간극을 메운 실용적 걸작</strong
 
 **진행 상황**: 19 / 175
 
-<- **이전**: [11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포](/knowledge-base/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)
-**다음**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/knowledge-base/studynote/08_algorithm_stats/02_sorting/020_introsort/) ->
+<- **이전**: [11. 버킷 정렬 (Bucket Sort) — O(n) 평균, 균등 분포](/studynote/08_algorithm_stats/02_sorting/018_bucket_sort/)
+**다음**: [13. 인트로 정렬 (Introsort) — 퀵+힙+삽입 혼합, C++ STL](/studynote/08_algorithm_stats/02_sorting/020_introsort/) ->
 
 ---

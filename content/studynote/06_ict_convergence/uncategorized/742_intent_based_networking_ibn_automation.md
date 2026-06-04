@@ -1,13 +1,10 @@
-+++
-title = "742. 인텐트 기반 네트워킹 IBN 자동화 (Intent Based Networking IBN Automation)"
-date = 2026-05-09
+---
+title: "742. 인텐트 기반 네트워킹 IBN 자동화 (Intent Based Networking IBN Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -103,7 +100,7 @@ IBN은 네트워크 자동화의 최종 형태라기보다, 의도 선언과 상
 
 **진행 상황**: 742 / 800
 
-<- **이전**: [741. 소프트웨어 정의 모든것 SDx 추상화](/knowledge-base/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/)
-**다음**: [743. 네트워크 자동화 NetDevOps Ansible](/knowledge-base/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/) ->
+<- **이전**: [741. 소프트웨어 정의 모든것 SDx 추상화](/studynote/06_ict_convergence/uncategorized/741_software_defined_everything_sdx_abstraction/)
+**다음**: [743. 네트워크 자동화 NetDevOps Ansible](/studynote/06_ict_convergence/uncategorized/743_network_automation_netdevops_ansible/) ->
 
 ---

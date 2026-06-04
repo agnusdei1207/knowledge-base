@@ -1,31 +1,28 @@
-+++
-title = "6. 정보화 전략 계획 (ISP, Information Strategy Planning) - 전사 비즈니스 목표 달성을 위한 중장기 정보화 마스터플랜"
-description = "기업의 비즈니스 전략과 IT 전략을 정렬시키고 중장기 IT 발전 방향을 제시하는 정보화 전략 계획"
-date = 2026-04-05
+---
+title: "6. 정보화 전략 계획 (ISP, Information Strategy Planning) - 전사 비즈니스 목표 달성을 위한 중장기 정보화 마스터플랜"
+date: "2026-04-05"
+description: "기업의 비즈니스 전략과 IT 전략을 정렬시키고 중장기 IT 발전 방향을 제시하는 정보화 전략 계획"
+tags:
+  - "it_management"
+---
 
-[taxonomies]
-tags = ["it_management"]
 
-[extra]
-tags = ["it_management"]
-+++
-
-# [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/): Information [Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)
+# [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) ([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/): Information [Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) Planning)
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 기업의 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 달성하기 위해 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립하고, 중장기적으로 정보화를 어떻게 발전시킬 것인지를규화하는 체계적인 과정이다.
+> 1. **본질**: [정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 기업의 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 달성하기 위해 IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립하고, 중장기적으로 정보화를 어떻게 발전시킬 것인지를규화하는 체계적인 과정이다.
 > 2. **가치**: 비즈니스-IT 정렬을 확보하여 IT 투자가 비즈니스 가치에 기여하도록 하고, 전사적 관점에서 중복 투자를 방지하며 기술을 체계적으로 발전시킨다.
-> 3. **산출물**: 비지니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석, IT 현황 평가, Gap 분석, IT 로드맵, 투자 우선순위로 구성된다.
+> 3. **산출물**: 비지니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 분석, IT 현황 평가, Gap 분석, IT 로드맵, 투자 우선순위로 구성된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-[정보화 전략 계획](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 기업의 장기적인 비지니스 목표를 달성하기 위해 정보기술 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 체계적으로 수립하는プロセス이다. ISP는 1980년대 후반 미국에서 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) 개념과 함께 발전하기 시작했으며, Gartner는 "ISP는 비즈니스와 IT 사이의 간극을 메우는 브릿지"라고 정의했다.
+[정보화 전략 계획](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/)([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 기업의 장기적인 비지니스 목표를 달성하기 위해 정보기술 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 체계적으로 수립하는プロセス이다. ISP는 1980년대 후반 미국에서 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/)([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) 개념과 함께 발전하기 시작했으며, Gartner는 "ISP는 비즈니스와 IT 사이의 간극을 메우는 브릿지"라고 정의했다.
 
-ISP가 필요한 이유는 세 가지로 요약된다. 첫째, 비즈니스 환경의 변화에 대응하기 위해서이다. [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/), 글로벌 경쟁, 규제 변화 등 외부 환경이 빠르게 변하면서 이에 대응할 수 있는 장기적 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적으로 요구된다. 둘째, IT 투자 비용의 증가에 대응하기 위해서이다. 기업 내 IT 투자가 급증하면서 이러한 투자가 비즈니스 가치에 실제로 기여하는지 систематически 평가하고 관리할 필요성이 대두되었다. 셋째, 비즈니스-IT 정렬의 필요성이다. 많은 기업에서 IT 부서는 "기술 중심"의 사고를, 비즈니스 부서는 "업무 중심"의 사고를 하여 서로 다른 방향을 향하는 문제가 발생한다. ISP는 이러한 정렬 문제를 해결하기 위한 기반을 제공한다.
+ISP가 필요한 이유는 세 가지로 요약된다. 첫째, 비즈니스 환경의 변화에 대응하기 위해서이다. [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/), 글로벌 경쟁, 규제 변화 등 외부 환경이 빠르게 변하면서 이에 대응할 수 있는 장기적 IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 필수적으로 요구된다. 둘째, IT 투자 비용의 증가에 대응하기 위해서이다. 기업 내 IT 투자가 급증하면서 이러한 투자가 비즈니스 가치에 실제로 기여하는지 систематически 평가하고 관리할 필요성이 대두되었다. 셋째, 비즈니스-IT 정렬의 필요성이다. 많은 기업에서 IT 부서는 "기술 중심"의 사고를, 비즈니스 부서는 "업무 중심"의 사고를 하여 서로 다른 방향을 향하는 문제가 발생한다. ISP는 이러한 정렬 문제를 해결하기 위한 기반을 제공한다.
 
-특히 금융권에서는 금융 당국이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립을 의무화하고 있으며, 공공부문에서는 기획재정부의「정보시스템 통합관리지침」을 통해 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립을 요구하고 있다. 이러한 규제적 요구와 함께, 기업 내부적으로도 ISP는 IT 거버넌스의 핵심 산출물로 기능한다.
+특히 금융권에서는 금융 당국이 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립을 의무화하고 있으며, 공공부문에서는 기획재정부의「정보시스템 통합관리지침」을 통해 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립을 요구하고 있다. 이러한 규제적 요구와 함께, 기업 내부적으로도 ISP는 IT 거버넌스의 핵심 산출물로 기능한다.
 
 ```text
 이 도식은 ISP가 비즈니스 전략과 IT 실행 사이에서果たす 역할을 보여준다.
@@ -58,9 +55,9 @@ ISP가 필요한 이유는 세 가지로 요약된다. 첫째, 비즈니스 환�
         [비즈니스 가치 실현]
 ```
 
-이 도식에서 보는 바와 같이, ISP는 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT 투자를 연결하는 핵심 메커니즘이다. [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 없이 IT 투자가 이루어지면, 기술 트렌드에 휘둘리거나 일회성 프로젝트로 끝나는 문제가 발생한다. 반면 체계적인 ISP가 있으면, 장기적인 관점에서 필요한 기술을 순차적으로 도입하여 비즈니스 가치를 극대화할 수 있다.
+이 도식에서 보는 바와 같이, ISP는 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT 투자를 연결하는 핵심 메커니즘이다. [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 없이 IT 투자가 이루어지면, 기술 트렌드에 휘둘리거나 일회성 프로젝트로 끝나는 문제가 발생한다. 반면 체계적인 ISP가 있으면, 장기적인 관점에서 필요한 기술을 순차적으로 도입하여 비즈니스 가치를 극대화할 수 있다.
 
-📢 **섹션 요약 비유**: ISP는 '국가의 5개년 경제 발전 계획'의 IT 버전이라고 생각하면 됩니다. 국가가 장기적인 경제 목표를 세우고 그에 필요한 산업 발전 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립하듯, 기업도 비즈니스 목표 달성을 위한 IT 발전 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 ISP를 통해 수립합니다.
+📢 **섹션 요약 비유**: ISP는 '국가의 5개년 경제 발전 계획'의 IT 버전이라고 생각하면 됩니다. 국가가 장기적인 경제 목표를 세우고 그에 필요한 산업 발전 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 수립하듯, 기업도 비즈니스 목표 달성을 위한 IT 발전 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 ISP를 통해 수립합니다.
 
 ---
 
@@ -68,21 +65,21 @@ ISP가 필요한 이유는 세 가지로 요약된다. 첫째, 비즈니스 환�
 
 ISP는 체계적인 방법론에 따라 수립되며, 일반적으로 다음의 단계로 구성된다.
 
-#### [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립 단계
+#### [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립 단계
 
 | 단계 | 활동 | 주요 산출물 |
 |:---|:---|:---|
-| **1단계: 준비 및 계획** | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 팀 구성, 일정 계획, 방법론 정의 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 계획서 |
-| <strong>2단계: 비즈니스 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 분석</strong> | 비즈니스 model 분석, [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/) 도출 | 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
-| **3단계: IT 현황 평가** | [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 분석, 애플리케이션-portfolio 평가, 인프라 현황 | [As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진 |
-| **4단계: Gap 분석** | 비즈니스 요구와 IT 현황 간 [차이 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) | Gap 분석 보고서 |
-| <strong>5단계: IT <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong> | 목표 아키텍처(To-Be) 설계, IT 투자 계획 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
-| **6단계: 로드맵 수립** | 우선순위 기반 [이행 계획 수립](/knowledge-base/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/) | IT 로드맵 |
-| **7단계: 승인 및 관리** | 경영진 승인, 이행상황 관리 | [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 최종 보고서 |
+| **1단계: 준비 및 계획** | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 팀 구성, 일정 계획, 방법론 정의 | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 계획서 |
+| <strong>2단계: 비즈니스 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 분석</strong> | 비즈니스 model 분석, [핵심 성공 요인](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/) 도출 | 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
+| **3단계: IT 현황 평가** | [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 분석, 애플리케이션-portfolio 평가, 인프라 현황 | [As-Is](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/) [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 청사진 |
+| **4단계: Gap 분석** | 비즈니스 요구와 IT 현황 간 [차이 분석](/studynote/12_it_management/03_ea_isp/891_gap_analysis_task_identification/) | Gap 분석 보고서 |
+| <strong>5단계: IT <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 수립</strong> | 목표 아키텍처(To-Be) 설계, IT 투자 계획 | IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 문서 |
+| **6단계: 로드맵 수립** | 우선순위 기반 [이행 계획 수립](/studynote/12_it_management/03_ea_isp/108_implementation_planning_roi/) | IT 로드맵 |
+| **7단계: 승인 및 관리** | 경영진 승인, 이행상황 관리 | [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 최종 보고서 |
 
 #### 비즈니스-IT 정렬 프레임워크
 
-ISP의 핵심은 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 정렬(Alignment)을확보하는 것이다. 이 정렬을 위해 다음과 같은 프레임워크를 활용한다.
+ISP의 핵심은 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)의 정렬(Alignment)을확보하는 것이다. 이 정렬을 위해 다음과 같은 프레임워크를 활용한다.
 
 ```text
 이 도식은 비즈니스-IT 정렬을 위한 다층 프레임워크를 보여준다.
@@ -114,9 +111,9 @@ ISP의 핵심은 비즈니스 [전략](/knowledge-base/studynote/04_software_eng
 +-------------------------------------------------------------+
 ```
 
-이 다층 프레임워크에서 각 레이어는 상위 레이어의 요구를 충족시키기 위해 설계된다. 비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어에서 도출된 [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/)([CSF](/knowledge-base/studynote/12_it_management/01_governance_strategy/017_csf/))이 IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어의 IT 핵심 Initiative로 변환되고, 이는 다시 프로젝트 포트폴리오와 연결된다. 만약 이러한 연결 고리가 단절되면, IT 투자가 비즈니스 가치에 기여하지 않는 '기술 중심' 투자가 되어버린다.
+이 다층 프레임워크에서 각 레이어는 상위 레이어의 요구를 충족시키기 위해 설계된다. 비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어에서 도출된 [핵심 성공 요인](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/)([CSF](/studynote/12_it_management/01_governance_strategy/017_csf/))이 IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 레이어의 IT 핵심 Initiative로 변환되고, 이는 다시 프로젝트 포트폴리오와 연결된다. 만약 이러한 연결 고리가 단절되면, IT 투자가 비즈니스 가치에 기여하지 않는 '기술 중심' 투자가 되어버린다.
 
-📢 **섹션 요약 비유**: 비즈니스-IT 정렬 프레임워크는 '인체 구조'와 같습니다.대뇌(경영진)가 신체 목표(비즈니스 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))를 설정하면,척수([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 이를 신경 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)(IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))로 변환하여수，족(프로젝트/시스템)에 전달하고, 각말단는 그 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)에 따라 행동합니다. 만약 신경전도가 원활하지 않으면대뇌의명령이정しく수，족에 전달되지 않아신체가동かない 것처럼, ISP의 정렬이 부실하면ビジネス전략이IT에 제대로 반영되지 않습니다.
+📢 **섹션 요약 비유**: 비즈니스-IT 정렬 프레임워크는 '인체 구조'와 같습니다.대뇌(경영진)가 신체 목표(비즈니스 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))를 설정하면,척수([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))가 이를 신경 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)(IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/))로 변환하여수，족(프로젝트/시스템)에 전달하고, 각말단는 그 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)에 따라 행동합니다. 만약 신경전도가 원활하지 않으면대뇌의명령이정しく수，족에 전달되지 않아신체가동かない 것처럼, ISP의 정렬이 부실하면ビジネス전략이IT에 제대로 반영되지 않습니다.
 
 ---
 
@@ -128,17 +125,17 @@ ISP의 핵심 산출물과 각 산출물의 의미 및 상호관계를 분석한
 
 | Deliverable | 설명 | 활용 주체 |
 |:---|:---|:---|
-| ** бизне스가전략 분석서** | 비즈니스 모델, 경쟁 환경, [핵심 성공 요인](/knowledge-base/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/), 목표 mercado share 등 | 이사회, CIO, 사업부서 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 현재 애플리케이션, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, 기술 현황 | IT 아키텍처팀, 프로젝트팀 |
-| <strong>To-Be <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 목표 아키텍처 (3-5년 후 목표 상태) | CIO, IT전략팀 |
-| **Gap 분석 보고서** | As-Is와 To-Be 간 차이, Gap 우선순위 | CIO, [PMO](/knowledge-base/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) |
-| <strong>IT <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 문서</strong> | IT 비지니스 모델, [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향, 원칙 | CIO, IT 경영진 |
+| ** бизне스가전략 분석서** | 비즈니스 모델, 경쟁 환경, [핵심 성공 요인](/studynote/12_it_management/01_governance_strategy/812_csf_critical_success_factor/), 목표 mercado share 등 | 이사회, CIO, 사업부서 |
+| <strong><a href="/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/">As-Is</a> <a href="/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 현재 애플리케이션, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 인프라, 기술 현황 | IT 아키텍처팀, 프로젝트팀 |
+| <strong>To-Be <a href="/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/">EA</a> 청사진</strong> | 목표 아키텍처 (3-5년 후 목표 상태) | CIO, IT전략팀 |
+| **Gap 분석 보고서** | As-Is와 To-Be 간 차이, Gap 우선순위 | CIO, [PMO](/studynote/04_software_engineering/01_overview_principles/059_pmo_project_management_office/) |
+| <strong>IT <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a> 문서</strong> | IT 비지니스 모델, [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향, 원칙 | CIO, IT 경영진 |
 | **IT 로드맵** | Initiative 우선순위, 일정, 예산 요약 | CIO, CFO, 프로젝트팀 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 최종 보고서</strong> | 경영진 승인용 요약 보고서 | 이사회, 경영진 |
+| <strong><a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 최종 보고서</strong> | 경영진 승인용 요약 보고서 | 이사회, 경영진 |
 
 #### ISP와 ISMP의 차이
 
-실무에서 ISP와 혼동되는 개념이 [정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))이다. 양자의 관계를명확히 한다.
+실무에서 ISP와 혼동되는 개념이 [정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))이다. 양자의 관계를명확히 한다.
 
 ```text
 이 도식은 ISP와 ISMP의 차이와 관계를 보여준다.
@@ -164,25 +161,25 @@ ISP의 핵심 산출물과 각 산출물의 의미 및 상호관계를 분석한
 
 ISP가 "어디로 가야 하는가(방향)"에 초점을 맞춘다면, ISMP는 "무엇을, いつ까지에(프로그램/일정)"에 초점을 맞춘다. 따라서 ISP가 변경되면 ISMP도 함께 업데이트되어야 한다.
 
-📢 **섹션 요약 비유**: ISP와 ISMP의 관계는 '종합 교통 계획'과 '[버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도'의 관계와 같습니다. 종합 교통 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 도시의 장래 교통 목표(철도, 도로, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비율)를 설정하고 전체 예산을 배분하는 반면, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도([ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 구체적으로 어느 동네에 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장을 놓을지, [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 간격을 얼마나 둘지 등을상세히계화합니다.
+📢 **섹션 요약 비유**: ISP와 ISMP의 관계는 '종합 교통 계획'과 '[버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도'의 관계와 같습니다. 종합 교통 계획([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))은 도시의 장래 교통 목표(철도, 도로, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 비율)를 설정하고 전체 예산을 배분하는 반면, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 노선도([ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/))는 구체적으로 어느 동네에 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 정류장을 놓을지, [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/) 간격을 얼마나 둘지 등을상세히계화합니다.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
-[ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립 시 흔히 발생하는 문제와 이를 해결하기 위한 방법을 분석한다.
+[ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립 시 흔히 발생하는 문제와 이를 해결하기 위한 방법을 분석한다.
 
 #### 주요 문제 시나리오
 
-<strong>시나리오 1: 경영진의 관심 부족으로 인한 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 실효성 저하</strong>
-* **상황**: ISP가 수립되었지만, 경영진이 수립 과정에적겁참여하지 않아 수립된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비즈니스 실제와 괴리됨.
-* **해결**: [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 단계에서부터 경영진의 참여를 의무화하고, 각 단계별 Milestone에서 경영진 검토를 실시
+<strong>시나리오 1: 경영진의 관심 부족으로 인한 <a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 실효성 저하</strong>
+* **상황**: ISP가 수립되었지만, 경영진이 수립 과정에적겁참여하지 않아 수립된 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 비즈니스 실제와 괴리됨.
+* **해결**: [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 추진 단계에서부터 경영진의 참여를 의무화하고, 각 단계별 Milestone에서 경영진 검토를 실시
 
 **시나리오 2: ISP와 실제 프로젝트 사이의Gap**
 * **상황**: ISP는 잘 수립되었지만, 실제 프로젝트는 ISP와 무관하게 사업부서의요구로 추진됨.
 * **해결**: ISP의 Initiative를 프로젝트 포트폴리오 관리(PPM)에 обяза적으로 연계하고, 거버넌스를 통해승인 프로세스 강화
 
-<strong>시나리오 3: 빈번한 환경 변화로 인한 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 불용</strong>
+<strong>시나리오 3: 빈번한 환경 변화로 인한 <a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a> 불용</strong>
 * **상황**: 수립된 ISP가 시장 환경 변화로 인해 불과 1년 만에 obsolete화됨.
 * **해결**: ISP를 annually 검토하고 갱신하는process를제도화하고, major 환경 변화 시 부분적update를 실시
 
@@ -212,9 +209,9 @@ ISP가 "어디로 가야 하는가(방향)"에 초점을 맞춘다면, ISMP는 "
 [ISP 갱신 또는 업데이트]
 ```
 
-ISP의 실효성을 확보하기 위해서는 수립보다 이행 관리가경중요하다. 많은 기업이 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립에는 많은 resource를투입하지만, 수립된 후의 관리는 게을리하는 경향이 있다. 이를 방지하기 위해quarterly 또는monthly 기반의 이행 상황 검토가 필요하다.
+ISP의 실효성을 확보하기 위해서는 수립보다 이행 관리가경중요하다. 많은 기업이 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 수립에는 많은 resource를투입하지만, 수립된 후의 관리는 게을리하는 경향이 있다. 이를 방지하기 위해quarterly 또는monthly 기반의 이행 상황 검토가 필요하다.
 
-📢 **섹션 요약 비유**: ISP와 이행 관리는 '운동 계획 세우기'와 같습니다. 운동 계획([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))을 세우는 것은 쉽지만, 그 계획대로 매일 운동(이행)하는 것은 어렵습니다. PT 트레이너([ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 관리자)가매주진척를 검사하고 고무시키듯, ISP도 정기적인 검토와 조정이 필요합니다.
+📢 **섹션 요약 비유**: ISP와 이행 관리는 '운동 계획 세우기'와 같습니다. 운동 계획([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/))을 세우는 것은 쉽지만, 그 계획대로 매일 운동(이행)하는 것은 어렵습니다. PT 트레이너([ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 관리자)가매주진척를 검사하고 고무시키듯, ISP도 정기적인 검토와 조정이 필요합니다.
 
 ---
 
@@ -226,24 +223,24 @@ ISP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기�
 
 | 구분 | 기대효과 내용 | 측정 지표 예시 |
 |:---|:---|:---|
-| **정량적** | IT 투자 효율성 향상 (중복 투자 감소), 프로젝트성공솔 향상, 이행 시간 단축 | IT 투자 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), 중복 프로젝트 수, 프로젝트준시 완료율 |
-| **정성적** | 비즈니스-IT 정렬 강화, 전사적 아키텍처정합, 경영진의 IT에 대한 [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 | 비즈니스-IT 정렬 지수, [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 준수율, 경영진 만족도 |
+| **정량적** | IT 투자 효율성 향상 (중복 투자 감소), 프로젝트성공솔 향상, 이행 시간 단축 | IT 투자 [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/), 중복 프로젝트 수, 프로젝트준시 완료율 |
+| **정성적** | 비즈니스-IT 정렬 강화, 전사적 아키텍처정합, 경영진의 IT에 대한 [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) 향상 | 비즈니스-IT 정렬 지수, [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 준수율, 경영진 만족도 |
 
 #### ISP의 미래 방향
 
-* <strong><a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a></strong>: 전통적인 1년 단위 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 갱신 주기를타파하고,Quarterly 또는 더 빈번한 업데이트를 통해환경 변화에 민첩하게 대응
-* <strong><a href="/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>과의 통합</strong>: [디지털 전환](/knowledge-base/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 ISP를일체화하여,デジタル 트랜스포메이션을 ISP의 핵심 요소로 포함
-* <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a></strong>: Big [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통해 의사결정의객관성 강화
+* <strong><a href="/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/">애자일</a> <a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a></strong>: 전통적인 1년 단위 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 갱신 주기를타파하고,Quarterly 또는 더 빈번한 업데이트를 통해환경 변화에 민첩하게 대응
+* <strong><a href="/studynote/12_it_management/01_governance_strategy/055_digital_transformation/">디지털 전환</a>과의 통합</strong>: [디지털 전환](/studynote/12_it_management/01_governance_strategy/055_digital_transformation/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 ISP를일체화하여,デジタル 트랜스포메이션을 ISP의 핵심 요소로 포함
+* <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 기반 <a href="/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/">ISP</a></strong>: Big [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석을 통해 의사결정의객관성 강화
 
 📢 **섹션 요약 비유**: ISP는 기업의 '도항시스템(네비게이션)'과 같습니다.도항시스템 없이는목적지에 도착할 수 없지만, 교통 상황(환경 변화)이 변하면도항시스템도 실시간으로갱신되어야 합니다. 마찬가지로 ISP도 일회성 문서가 아니라 지속적인갱신과 관리가 필요한 living document입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-* [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/knowledge-base/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) | 기업의 비즈니스, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 기술가구를체계적으로 модели링한 청사진.
-* [ISMP](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([정보시스템 마스터플랜](/knowledge-base/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)) | ISP에서 도출된 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 바탕으로 시스템 개발 우선순위와 일정을 구체화한계화.
-* Gap 분석 | [현재 상태](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)([As-Is](/knowledge-base/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 목표 상태(To-Be) 간의 차이를 분석하는방법론.
-* IT 로드맵 | IT [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 달성을 위한 구체적인Initiative, 일정, 예산을 보여주는 계획.
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+* [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) ([Enterprise Architecture](/studynote/12_it_management/01_governance_strategy/806_ea_enterprise_architecture/)) | 기업의 비즈니스, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 애플리케이션, 기술가구를체계적으로 модели링한 청사진.
+* [ISMP](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/) ([정보시스템 마스터플랜](/studynote/12_it_management/03_ea_isp/893_ismp_rfp_fp/)) | ISP에서 도출된 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 방향을 바탕으로 시스템 개발 우선순위와 일정을 구체화한계화.
+* Gap 분석 | [현재 상태](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/)([As-Is](/studynote/04_software_engineering/03_design_architecture/178_as_is_to_be_analysis/))와 목표 상태(To-Be) 간의 차이를 분석하는방법론.
+* IT 로드맵 | IT [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 달성을 위한 구체적인Initiative, 일정, 예산을 보여주는 계획.
 * IT 투자의사결정 | IT 거버넌스 내에서 IT 투자의 우선순위와 배분을 결정하는プロセス.
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -273,7 +270,7 @@ ISP를 체계적으로 수립하고 이행하면 다음과 같은 효과를 기�
 
 **진행 상황**: 7 / 587
 
-<- **이전**: [5. COBIT 2019 프레임워크 - 40개 거버넌스 및 관리 목표 도메인 (EDM, APO, BAI, DSS, MEA)](/knowledge-base/studynote/12_it_management/01_governance_strategy/005_cobit_2019/)
-**다음**: [006. ISP (Information Strategy Planning, 정보화 전략 계획)](/knowledge-base/studynote/12_it_management/01_governance_strategy/802_isp_information_strategy_planning/) ->
+<- **이전**: [5. COBIT 2019 프레임워크 - 40개 거버넌스 및 관리 목표 도메인 (EDM, APO, BAI, DSS, MEA)](/studynote/12_it_management/01_governance_strategy/005_cobit_2019/)
+**다음**: [006. ISP (Information Strategy Planning, 정보화 전략 계획)](/studynote/12_it_management/01_governance_strategy/802_isp_information_strategy_planning/) ->
 
 ---

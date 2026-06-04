@@ -1,28 +1,25 @@
-+++
-title = "232. 비선점 (No Preemption)"
-date = 2026-05-09
+---
+title: "232. 비선점 (No Preemption)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 발생시키는 4대 필요조건 중 하나로, <strong>프로세스가 쥐고 있는 자원(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 다른 프로세스나 <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 강제로 빼앗을 수 없고 오직 스스로 반납할 때까지 기다려야만 하는 규칙</strong>을 뜻한다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))을 지키기 위해서는 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내의 작업 도중 락이 뜯겨나가는 것을 막아야 하므로 "[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)"은 동기화의 1원칙인 '[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)'를 지탱하는 절대적 권리다.
-> 3. **융합**: 하지만 이 불가침의 권리가 데드락의 원흉이 되므로, 실무에서는 데드락 감지 시 희생자(Victim)를 골라 락을 강제로 뺏어버리거나(DB [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)), 락을 얻지 못하면 내가 쥐고 있던 락마저 모두 자진 반납(선점 허용 효과)하는 로직으로 융합/타파된다.
+> 1. **본질**: [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))를 발생시키는 4대 필요조건 중 하나로, <strong>프로세스가 쥐고 있는 자원(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)을 다른 프로세스나 <a href="/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/">운영체제</a>가 강제로 빼앗을 수 없고 오직 스스로 반납할 때까지 기다려야만 하는 규칙</strong>을 뜻한다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Integrity](/studynote/09_security/01_intro_principles/003_integrity/))을 지키기 위해서는 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 내의 작업 도중 락이 뜯겨나가는 것을 막아야 하므로 "[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)"은 동기화의 1원칙인 '[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)'를 지탱하는 절대적 권리다.
+> 3. **융합**: 하지만 이 불가침의 권리가 데드락의 원흉이 되므로, 실무에서는 데드락 감지 시 희생자(Victim)를 골라 락을 강제로 뺏어버리거나(DB [Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)), 락을 얻지 못하면 내가 쥐고 있던 락마저 모두 자진 반납(선점 허용 효과)하는 로직으로 융합/타파된다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 한 프로세스가 할당받은 자원([Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/), [Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) 등)을 스스로 다 썼다고 선언(Unlock)하기 전까지는, 그 누구도(심지어 최고 권한을 가진 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)라도) 그 자원을 강제로 회수해 갈 수 없는 상태를 말한다.
-- **필요성**: 은행 계좌에서 돈을 빼고 더하는 연산을 하고 있는데, 갑자기 경찰(OS)이 나타나서 "급한 놈이 있으니 네가 쓰던 도마(메모리) 뺏어갈게" 하고 뺏어가면 돈 계산이 반 토막 난 채로 허공에 뜬다. [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지는 것을 막으려면 "내가 자물쇠를 풀기 전까진 절대 건드리지 마!"라는 절대적인 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 특권이 반드시 필요하다.
+- **개념**: 한 프로세스가 할당받은 자원([Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/), [Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/) 등)을 스스로 다 썼다고 선언(Unlock)하기 전까지는, 그 누구도(심지어 최고 권한을 가진 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)라도) 그 자원을 강제로 회수해 갈 수 없는 상태를 말한다.
+- **필요성**: 은행 계좌에서 돈을 빼고 더하는 연산을 하고 있는데, 갑자기 경찰(OS)이 나타나서 "급한 놈이 있으니 네가 쓰던 도마(메모리) 뺏어갈게" 하고 뺏어가면 돈 계산이 반 토막 난 채로 허공에 뜬다. [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지는 것을 막으려면 "내가 자물쇠를 풀기 전까진 절대 건드리지 마!"라는 절대적인 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 특권이 반드시 필요하다.
 
-- **등장 배경**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 달성하기 위해 자물쇠를 만들었더니, 이 자물쇠가 너무 튼튼한 나머지 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 터졌다. 에드워드 코프만이 데드락을 분석해 보니, "아무리 꼬여도 결국 문을 부수고(선점) 들어가면 데드락이 풀리네? 그런데 못 부수니까([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 데드락이 유지되는구나"라고 깨닫고 이를 4대 필요조건의 하나로 명시했다.
+- **등장 배경**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))를 달성하기 위해 자물쇠를 만들었더니, 이 자물쇠가 너무 튼튼한 나머지 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/))이 터졌다. 에드워드 코프만이 데드락을 분석해 보니, "아무리 꼬여도 결국 문을 부수고(선점) 들어가면 데드락이 풀리네? 그런데 못 부수니까([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 데드락이 유지되는구나"라고 깨닫고 이를 4대 필요조건의 하나로 명시했다.
 
 ```text
   [비선점(No Preemption)이 교착 상태(Deadlock)를 유지하는 메커니즘]
@@ -39,63 +36,63 @@ tags = ["studynote-operating-system"]
   🚨 결과: 누구도 강제로 뺏을 수 없고(No Preemption),
           누구도 스스로 놓지 않으므로(Hold) 시스템은 무한 정지(Deadlock) 상태로 굳어짐.
 ```
-**[다이어그램 해설]** "[문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 선점"과 헷갈리면 안 된다. CPU는 선점당해서 다른 놈이 연산할 수 있다. 하지만 <strong>"자원(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)"</strong>은 선점당하지 않는다. A가 CPU를 뺏겨 대기실로 쫓겨날 때도 Mutex_1이라는 자물쇠는 A의 주머니 속에 그대로 들어있다. 이것이 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)의 핵심이다.
+**[다이어그램 해설]** "[문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))의 선점"과 헷갈리면 안 된다. CPU는 선점당해서 다른 놈이 연산할 수 있다. 하지만 <strong>"자원(<a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>)"</strong>은 선점당하지 않는다. A가 CPU를 뺏겨 대기실로 쫓겨날 때도 Mutex_1이라는 자물쇠는 A의 주머니 속에 그대로 들어있다. 이것이 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)의 핵심이다.
 
-- **📢 섹션 요약 비유**: 수술실에서 의사가 메스를 쥐고 수술 중입니다. 바깥에서 아무리 급한 환자가 와도 수술 중인 의사의 손에서 메스를 강제로 뺏으면(선점) 환자 배를 가른 채로 죽게 됩니다. 그래서 병원(OS)은 수술이 끝날 때까지 메스(자원)를 절대 뺏을 수 없는 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 규칙을 지켜야만 합니다.
+- **📢 섹션 요약 비유**: 수술실에서 의사가 메스를 쥐고 수술 중입니다. 바깥에서 아무리 급한 환자가 와도 수술 중인 의사의 손에서 메스를 강제로 뺏으면(선점) 환자 배를 가른 채로 죽게 됩니다. 그래서 병원(OS)은 수술이 끝날 때까지 메스(자원)를 절대 뺏을 수 없는 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 규칙을 지켜야만 합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 조건을 파괴하는 예방(Prevention) 설계
+### [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 조건을 파괴하는 예방(Prevention) 설계
 
-데드락을 막기 위해 4가지 조건 중 하나를 깨야 할 때, [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 조건을 깨부수는 아키텍처적 접근은 아주 과격하고 치명적이다.
+데드락을 막기 위해 4가지 조건 중 하나를 깨야 할 때, [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 조건을 깨부수는 아키텍처적 접근은 아주 과격하고 치명적이다.
 
 #### 1. 자발적 반납 (Voluntary Preemption)
-- **로직**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 쥐고 있는 상태에서 자원 2를 달라고 요청했는데 거절당했다(누가 쓰고 있다).
+- **로직**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) A가 자원 1을 쥐고 있는 상태에서 자원 2를 달라고 요청했는데 거절당했다(누가 쓰고 있다).
 - **파괴 동작**: A는 멍청하게 기다리지 않는다. 자원 2를 못 얻으면, **"내가 쥐고 있던 자원 1마저도 스스로 토해내고(반납)"** 빈손으로 대기 큐의 맨 뒤로 굴러 떨어진다.
 - **효과**: A가 1을 토해냈으므로, 1을 기다리던 B가 1을 먹고 살아서 데드락이 스르륵 풀린다. (사실상 선점을 허용한 것과 같은 효과).
-- **치명적 문제점**: CPU 레지스터나 단순 DB 커넥션 같은 건 토해내도 다시 잡으면 그만이지만, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 테이프 드라이브에 절반쯤 쓰다가 뺏기면(반납하면) [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음부터 다시 써야 하거나 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 쓰레기가 된다. 따라서 쉽게 쓸 수 있는 기법이 아니다.
+- **치명적 문제점**: CPU 레지스터나 단순 DB 커넥션 같은 건 토해내도 다시 잡으면 그만이지만, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이나 테이프 드라이브에 절반쯤 쓰다가 뺏기면(반납하면) [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 처음부터 다시 써야 하거나 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)이 쓰레기가 된다. 따라서 쉽게 쓸 수 있는 기법이 아니다.
 
-#### 2. 강제 뺏기 (Forced Preemption / [Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))
-- **로직**: [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 데드락을 감지하면, 중요도가 낮은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나를 골라 총으로 쏴 죽인다(Kill).
-- **파괴 동작**: [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 죽으면서 쥐고 있던 락이 바닥에 떨어지므로(강제 선점), 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 그 락을 줍고 살아난다.
-- **치명적 문제점**: 죽은 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쓰던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/))해야 한다. DB는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)가 있어서 가능하지만, 일반 C/C++ 프로그램 메모리에서 중간에 뻗은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 건 불가능에 가깝다.
+#### 2. 강제 뺏기 (Forced Preemption / [Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))
+- **로직**: [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)가 데드락을 감지하면, 중요도가 낮은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 하나를 골라 총으로 쏴 죽인다(Kill).
+- **파괴 동작**: [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 죽으면서 쥐고 있던 락이 바닥에 떨어지므로(강제 선점), 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 그 락을 줍고 살아난다.
+- **치명적 문제점**: 죽은 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 쓰던 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/))해야 한다. DB는 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)가 있어서 가능하지만, 일반 C/C++ 프로그램 메모리에서 중간에 뻗은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)하는 건 불가능에 가깝다.
 
-- **📢 섹션 요약 비유**: [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 룰을 깨는 것은 "식사 중인 손님의 밥그릇을 빼앗는 행위"입니다. 그냥 빼앗으면 손님이 화를 냅니다([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴). 빼앗으려면 "지금까지 먹은 밥값은 안 받을 테니 다음에 다시 처음부터 드세요"라는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/knowledge-base/studynote/02_operating_system/05_deadlock/313_rollback/)) 보상 시스템이 반드시 있어야만 시스템이 망가지지 않습니다.
+- **📢 섹션 요약 비유**: [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 룰을 깨는 것은 "식사 중인 손님의 밥그릇을 빼앗는 행위"입니다. 그냥 빼앗으면 손님이 화를 냅니다([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 파괴). 빼앗으려면 "지금까지 먹은 밥값은 안 받을 테니 다음에 다시 처음부터 드세요"라는 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/)([Rollback](/studynote/02_operating_system/05_deadlock/313_rollback/)) 보상 시스템이 반드시 있어야만 시스템이 망가지지 않습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) vs [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
+### [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) vs [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))
 
-두 가지 모두 데드락의 원인이지만 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 관점이 다르다.
+두 가지 모두 데드락의 원인이지만 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하려는 관점이 다르다.
 
-| 특성 | [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) | [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) |
+| 특성 | [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) ([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)) | [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 공유 자원의 **'공간(Space)'** | 프로세스의 **'시간적 주권(Time & Ownership)'** |
+| <strong><a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a> 대상</strong> | 공유 자원의 **'공간(Space)'** | 프로세스의 **'시간적 주권(Time & Ownership)'** |
 | **개념** | "내가 방에 들어가면 넌 못 들어와" | "내가 방에 들어간 이상, 네가 날 강제로 끌어낼 순 없어" |
-| **데드락 타파 난이도** | **불가능** (공유를 허용하면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨짐) | **조건부 가능** ([롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술이나 [타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 쓰면 뺏을 수 있음) |
-| **하드웨어 매핑** | `TestAndSet`의 락킹([Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 자체 | 락킹된 객체를 OS가 뺏지 못하게 막는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) |
+| **데드락 타파 난이도** | **불가능** (공유를 허용하면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨짐) | **조건부 가능** ([롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술이나 [타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/)을 쓰면 뺏을 수 있음) |
+| **하드웨어 매핑** | `TestAndSet`의 락킹([Locking](/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) 자체 | 락킹된 객체를 OS가 뺏지 못하게 막는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) |
 
-### CPU 선점(Preemption)과 자원 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))의 엇갈림
+### CPU 선점(Preemption)과 자원 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))의 엇갈림
 가장 헷갈리기 쉬운 개념이다.
-- [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/">선점형 스케줄링</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/">Preemptive Scheduling</a>)"</strong>을 쓴다. 즉, P1이 돌고 있어도 타이머가 끝나면 P1을 강제로 내쫓고 P2에게 <strong>CPU 코어</strong>를 줄 수 있다.
-- 하지만 P1이 쫓겨날 때, P1이 주머니에 쥐고 있던 <strong>"<a href="/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 락(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)"</strong>은 P2에게 뺏기지 않는다. (자원의 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a></strong>).
-- 그래서 P2가 CPU를 잡아봤자 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락이 없어서 진행을 못 하고, P1도 CPU가 없어서 락을 못 푸는 데드락 지옥이 펼쳐지는 것이다.
+- [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 <strong>"<a href="/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/">선점형 스케줄링</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/166_preemptive_scheduling/">Preemptive Scheduling</a>)"</strong>을 쓴다. 즉, P1이 돌고 있어도 타이머가 끝나면 P1을 강제로 내쫓고 P2에게 <strong>CPU 코어</strong>를 줄 수 있다.
+- 하지만 P1이 쫓겨날 때, P1이 주머니에 쥐고 있던 <strong>"<a href="/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/">파일</a> 락(<a href="/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)"</strong>은 P2에게 뺏기지 않는다. (자원의 <strong><a href="/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a></strong>).
+- 그래서 P2가 CPU를 잡아봤자 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 락이 없어서 진행을 못 하고, P1도 CPU가 없어서 락을 못 푸는 데드락 지옥이 펼쳐지는 것이다.
 
-- **📢 섹션 요약 비유**: 회사에서 사장님(OS)은 내 자리(CPU)를 뺏고 다른 직원을 앉힐 순 있습니다(선점형 [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)). 하지만 내가 주머니에 넣고 퇴근한 회사 금고 열쇠(자원)는 사장님이라도 뺏을 수 없습니다([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)). 다음날 내가 출근해서 금고를 열어줄 때까지 회사는 마비됩니다.
+- **📢 섹션 요약 비유**: 회사에서 사장님(OS)은 내 자리(CPU)를 뺏고 다른 직원을 앉힐 순 있습니다(선점형 [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/)). 하지만 내가 주머니에 넣고 퇴근한 회사 금고 열쇠(자원)는 사장님이라도 뺏을 수 없습니다([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)). 다음날 내가 출근해서 금고를 열어줄 때까지 회사는 마비됩니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong>RDBMS의 데드락 탐지기 (<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Detector)</strong>: MySQL(InnoDB) 같은 DB 엔진은 OS와 달리 데드락을 가만히 두지 않는다.
-   - DB는 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 꼬여 데드락이 터지면, '[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))' 조건을 강제로 부숴버린다.
-   - **실무 동작**: 두 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 더 가벼운 놈([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 적은 놈)을 <strong>Victim(희생자)</strong>으로 선정하고, 그 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제로 `KILL` 시켜버린다(강제 선점). 희생자가 쥐고 있던 락은 해제되고, 살아남은 놈은 락을 얻어 커밋된다. DB는 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술이 완벽하기에 가능한 극단적 아키텍처다.
-2. <strong>Java / C#의 <code>tryLock()</code> 을 통한 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 룰의 자발적 파기</strong>: 애플리케이션 레벨에서는 남의 락을 뺏을(Kill) 권한이 없다. 따라서 "내가 가진 걸 스스로 놓는" 기법을 쓴다.
+1. <strong>RDBMS의 데드락 탐지기 (<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a> Detector)</strong>: MySQL(InnoDB) 같은 DB 엔진은 OS와 달리 데드락을 가만히 두지 않는다.
+   - DB는 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)이 꼬여 데드락이 터지면, '[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))' 조건을 강제로 부숴버린다.
+   - **실무 동작**: 두 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 중 더 가벼운 놈([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)가 적은 놈)을 <strong>Victim(희생자)</strong>으로 선정하고, 그 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/)을 강제로 `KILL` 시켜버린다(강제 선점). 희생자가 쥐고 있던 락은 해제되고, 살아남은 놈은 락을 얻어 커밋된다. DB는 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 기술이 완벽하기에 가능한 극단적 아키텍처다.
+2. <strong>Java / C#의 <code>tryLock()</code> 을 통한 <a href="/studynote/02_operating_system/05_deadlock/285_no_preemption/">비선점</a> 룰의 자발적 파기</strong>: 애플리케이션 레벨에서는 남의 락을 뺏을(Kill) 권한이 없다. 따라서 "내가 가진 걸 스스로 놓는" 기법을 쓴다.
    - **아키텍트 결단**: 개발자는 `lock.lock()` 대신 `lock.tryLock(3 seconds)`를 쓴다. 3초간 기다려보고 남의 락을 못 얻으면? `finally` 구문을 태워서 **"내가 쥐고 있던 락마저 스스로 언락(Unlock)"** 해버린다. (자발적 선점 허용). 이를 통해 시스템은 데드락의 늪에 빠지지 않고 자연스럽게 호흡(Retry)하게 된다.
 
 ```text
@@ -120,22 +117,22 @@ tags = ["studynote-operating-system"]
   |       +--> 후속: 1초 대기 후 (Backoff) 처음부터 다시 시도(Retry).    |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 클라우드 백엔드나 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 데드락을 피하는 가장 세련된 방법이 바로 하단의 **'백오프 앤 리트라이(Backoff & Retry)'** 패턴이다. 이 패턴의 본질은 코프만의 3번 조건([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))과 2번 조건([점유 대기](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/))을 프로그래머가 스스로 파괴하여 시스템의 혈을 뚫어주는 데 있다.
+**[다이어그램 해설]** 클라우드 백엔드나 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 데드락을 피하는 가장 세련된 방법이 바로 하단의 **'백오프 앤 리트라이(Backoff & Retry)'** 패턴이다. 이 패턴의 본질은 코프만의 3번 조건([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/))과 2번 조건([점유 대기](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/))을 프로그래머가 스스로 파괴하여 시스템의 혈을 뚫어주는 데 있다.
 
-- **📢 섹션 요약 비유**: 뽑기 기계에서 인형 2개를 뽑아야 성공입니다. 1개를 뽑았는데 2번째 인형이 다른 집게랑 엉켰습니다. 이때 1번 인형을 꽉 쥐고([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 1시간을 멈춰있는 게 아니라, 그냥 1번 인형을 툭 놔버리고(자발적 포기) 처음부터 다시 동전을 넣고 뽑는 것이 가장 빨리 게임을 끝내는 비법입니다.
+- **📢 섹션 요약 비유**: 뽑기 기계에서 인형 2개를 뽑아야 성공입니다. 1개를 뽑았는데 2번째 인형이 다른 집게랑 엉켰습니다. 이때 1번 인형을 꽉 쥐고([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 1시간을 멈춰있는 게 아니라, 그냥 1번 인형을 툭 놔버리고(자발적 포기) 처음부터 다시 동전을 넣고 뽑는 것이 가장 빨리 게임을 끝내는 비법입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 조건을 시스템 설계에서 의도적으로 완화([타임아웃](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 킬)하면, 영원히 멈추는 데드락([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 대신 잠시 버벅거리다 재시도하는 [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))이나 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 형태로 장애가 다운그레이드되어, 시스템의 '100% 무중단 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'을 확보할 수 있다.
+[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 조건을 시스템 설계에서 의도적으로 완화([타임아웃](/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/), [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/), [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 킬)하면, 영원히 멈추는 데드락([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 대신 잠시 버벅거리다 재시도하는 [라이브락](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)([Livelock](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/))이나 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 형태로 장애가 다운그레이드되어, 시스템의 '100% 무중단 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))'을 확보할 수 있다.
 
 ### 결론 및 미래 전망
-[비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 [폰 노이만 아키텍처](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) 동기화의 뼈대다. 이 권리를 포기하는 것은 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 코드를 짜야 하는 엄청난 오버헤드를 동반하므로 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)은 이 조건을 깨는 것을 포기했다.
-그러나 미래의 인프라는 OS가 아닌 <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB)와 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메시지 큐(<a href="/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)</strong>가 중심이 된다. 이들은 내부적으로 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)와 [보상 트랜잭션](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)(Compensation)이라는 무기를 통해 완벽한 [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 환경을 구축해 두었다. 따라서 미래의 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어는 락을 무식하게 쥐고 버티는([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 낡은 코딩에서 벗어나, 언제든 락을 뺏기고(선점당하고) 뒤로 돌아가 재시도(Retry)하는 유연한 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">낙관적 동시성 제어</a>(<a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">Optimistic Concurrency Control</a>, OCC)</strong> 패러다임으로 완벽히 이동하고 있다.
+[비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 걸어 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)하는 [폰 노이만 아키텍처](/studynote/01_computer_architecture/03_architecture_basics_performance/124_von_neumann/) 동기화의 뼈대다. 이 권리를 포기하는 것은 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 코드를 짜야 하는 엄청난 오버헤드를 동반하므로 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(OS)은 이 조건을 깨는 것을 포기했다.
+그러나 미래의 인프라는 OS가 아닌 <strong><a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a>(DB)와 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 메시지 큐(<a href="/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/">Kafka</a>)</strong>가 중심이 된다. 이들은 내부적으로 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)([Undo](/studynote/11_design_supervision/06_exam_summary/393_undo/) Log)와 [보상 트랜잭션](/studynote/04_software_engineering/09_cloud_native_ai_architecture/551_compensating_transaction_logical_rollback/)(Compensation)이라는 무기를 통해 완벽한 [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/) 환경을 구축해 두었다. 따라서 미래의 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 제어는 락을 무식하게 쥐고 버티는([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/)) 낡은 코딩에서 벗어나, 언제든 락을 뺏기고(선점당하고) 뒤로 돌아가 재시도(Retry)하는 유연한 <strong><a href="/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">낙관적 동시성 제어</a>(<a href="/studynote/05_database/04_transactions_concurrency/223_optimistic_concurrency_control_validation/">Optimistic Concurrency Control</a>, OCC)</strong> 패러다임으로 완벽히 이동하고 있다.
 
-- **📢 섹션 요약 비유**: 옛날 은행은 도둑이 들면 셔터를 내리고([비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) 데드락) 경찰이 올 때까지 며칠씩 문을 닫았습니다. 현대의 은행은 도둑이 들면 일단 돈을 내어주고(선점 허용), 나중에 CCTV와 보험([트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/knowledge-base/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))으로 피해를 완벽히 복구하며 은행 문은 계속 열어두는 유연한 비즈니스로 진화했습니다.
+- **📢 섹션 요약 비유**: 옛날 은행은 도둑이 들면 셔터를 내리고([비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) 데드락) 경찰이 올 때까지 며칠씩 문을 닫았습니다. 현대의 은행은 도둑이 들면 일단 돈을 내어주고(선점 허용), 나중에 CCTV와 보험([트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) [롤백](/studynote/15_devops_sre/02_cicd_gitops/098_rollback_strategy_pipeline_error_threshold/))으로 피해를 완벽히 복구하며 은행 문은 계속 열어두는 유연한 비즈니스로 진화했습니다.
 
 ---
 
@@ -144,9 +141,9 @@ tags = ["studynote-operating-system"]
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 원자적 변수 (Atomic Variable) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) / [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [세마포어](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/knowledge-base/studynote/02_operating_system/04_synchronization/224_semaphore/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [뮤텍스 락](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ([Mutex Lock](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) / [Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [세마포어](/studynote/02_operating_system/04_synchronization/224_semaphore/) ([Semaphore](/studynote/02_operating_system/04_synchronization/224_semaphore/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -164,9 +161,9 @@ tags = ["studynote-operating-system"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
-2. 먼저 [뮤텍스 락](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ([Mutex Lock](/knowledge-base/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) / [Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) [Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 이해하면 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [비선점](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/knowledge-base/studynote/02_operating_system/05_deadlock/285_no_preemption/))을 잘 알면 나중에 [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/))도 훨씬 쉽게 배울 수 있어요.
+1. [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))은 컴퓨터가 여러 친구가 동시에 만져도 부딪히지 않게 순서를 맞추는 규칙이에요.
+2. 먼저 [뮤텍스 락](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) ([Mutex Lock](/studynote/02_operating_system/11_exam_summary/699_mutex_lock_sleep_wait/) / [Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) [Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 이해하면 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [비선점](/studynote/02_operating_system/05_deadlock/285_no_preemption/) ([No Preemption](/studynote/02_operating_system/05_deadlock/285_no_preemption/))을 잘 알면 나중에 [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/) ([Spinlock](/studynote/02_operating_system/04_synchronization/222_spinlock/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -174,7 +171,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 232 / 800
 
-<- **이전**: [231. 점유 대기 (Hold and Wait)](/knowledge-base/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)
-**다음**: [233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음](/knowledge-base/studynote/02_operating_system/04_synchronization/233_circular_wait/) ->
+<- **이전**: [231. 점유 대기 (Hold and Wait)](/studynote/02_operating_system/04_synchronization/231_hold_and_wait/)
+**다음**: [233. 스핀락 (Spinlock) - 바쁜 대기(Busy Waiting), 다중 코어에서 문맥 교환 오버헤드 없음](/studynote/02_operating_system/04_synchronization/233_circular_wait/) ->
 
 ---

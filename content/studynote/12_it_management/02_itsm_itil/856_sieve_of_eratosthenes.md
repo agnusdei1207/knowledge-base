@@ -1,12 +1,9 @@
-+++
-title = "856. 에라토스테네스의 체 (Sieve of Eratosthenes)"
+---
+title: "856. 에라토스테네스의 체 (Sieve of Eratosthenes)"
+tags:
+  - "it_management"
+---
 
-[taxonomies]
-tags = ["it_management"]
-
-[extra]
-tags = ["it_management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -49,7 +46,7 @@ Primes remain
 
 | 방법 | 장점 | 단점 |
 | :-- | :-- | :-- |
-| Trial [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) | 쉽다 | 느리다 |
+| Trial [Division](/studynote/05_database/07_exam_summary/411_division_operation/) | 쉽다 | 느리다 |
 | Sieve | 빠르다 | 메모리 사용 |
 
 | 활용 | 의미 |
@@ -65,7 +62,7 @@ Primes remain
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 배수를 지우는 원리를 아는가?
 2. 시간/공간 복잡도를 아는가?
@@ -73,14 +70,14 @@ Primes remain
 4. 작은 수부터 반복하는 이유를 아는가?
 5. 시험/코딩 문제에서 적용할 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 수 하나씩 나눠보는 방식만 고집하는 설계
 - 메모리 크기를 고려하지 않는 설계
 - 소수/합성수 개념을 혼동하는 설계
 - 체의 반복 규칙을 잘못 적용하는 설계
 
-기술사 관점에서는 이 알고리즘을 "배수 제거를 통한 소수 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"으로 설명해야 한다.
+기술사 관점에서는 이 알고리즘을 "배수 제거를 통한 소수 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)"으로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 겹치는 것을 지워 소수만 남긴다.
 
@@ -134,7 +131,7 @@ Efficient Filtering
 
 **진행 상황**: 128 / 587
 
-<- **이전**: [72. 서비스 데스크 (Service Desk)](/knowledge-base/studynote/12_it_management/02_itsm_itil/072_service_desk/)
-**다음**: [73. 골드바흐 추측 (Goldbach's Conjecture)](/knowledge-base/studynote/12_it_management/02_itsm_itil/073_goldbach_conjecture/) ->
+<- **이전**: [72. 서비스 데스크 (Service Desk)](/studynote/12_it_management/02_itsm_itil/072_service_desk/)
+**다음**: [73. 골드바흐 추측 (Goldbach's Conjecture)](/studynote/12_it_management/02_itsm_itil/073_goldbach_conjecture/) ->
 
 ---

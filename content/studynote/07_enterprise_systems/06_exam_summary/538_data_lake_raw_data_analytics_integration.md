@@ -1,13 +1,10 @@
-+++
-title = "538. 데이터 레이크 원시 데이터 분석 통합 (Data Lake Raw Data Analytics Integration)"
-date = 2026-05-09
+---
+title: "538. 데이터 레이크 원시 데이터 분석 통합 (Data Lake Raw Data Analytics Integration)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 538 / 800
 
-<- **이전**: [537. 데이터 웨어하우스 클라우드 현대화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/537_data_warehouse_cloud_modernization/)
-**다음**: [539. 데이터 카탈로그 메타데이터 관리 검색](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/539_data_catalog_metadata_management_discovery/) ->
+<- **이전**: [537. 데이터 웨어하우스 클라우드 현대화](/studynote/07_enterprise_systems/06_exam_summary/537_data_warehouse_cloud_modernization/)
+**다음**: [539. 데이터 카탈로그 메타데이터 관리 검색](/studynote/07_enterprise_systems/06_exam_summary/539_data_catalog_metadata_management_discovery/) ->
 
 ---

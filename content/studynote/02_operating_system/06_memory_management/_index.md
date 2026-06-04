@@ -1,9 +1,9 @@
-+++
-title = "06. 메모리 관리 (Memory Management)"
+---
+title: "06. 메모리 관리 (Memory Management)"
+tags:
+  - "operating_system"
+---
 
-[extra]
-tags = ["operating_system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

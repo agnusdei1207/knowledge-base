@@ -1,13 +1,10 @@
-+++
-title = "505. IT 경영 관리 핵심 토픽 505번 시험 요약 (IT Management Core Topic 505 Exam Summary)"
-date = 2026-05-09
+---
+title: "505. IT 경영 관리 핵심 토픽 505번 시험 요약 (IT Management Core Topic 505 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 📘 기술사 시험 요약 노트 — 505. IT 경영 관리 핵심 토픽
 
@@ -223,7 +220,7 @@ Fit Score = Σ(Wi × Ci) / ΣWi
 
 **진행 상황**: 505 / 800
 
-<- **이전**: [504. IT 경영 관리 핵심 토픽 504번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/504_it_management_core_topic_504_exam_summary/)
-**다음**: [506. IT 경영 관리 핵심 토픽 506번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/506_it_management_core_topic_506_exam_summary/) ->
+<- **이전**: [504. IT 경영 관리 핵심 토픽 504번 시험 요약](/studynote/12_it_management/05_security_compliance/504_it_management_core_topic_504_exam_summary/)
+**다음**: [506. IT 경영 관리 핵심 토픽 506번 시험 요약](/studynote/12_it_management/05_security_compliance/506_it_management_core_topic_506_exam_summary/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "568. 관측 가능성 메트릭 로그 트레이스 (Observability Metrics Logs Traces)"
-date = 2026-05-09
+---
+title: "568. 관측 가능성 메트릭 로그 트레이스 (Observability Metrics Logs Traces)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -147,7 +144,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 568 / 600
 
-<- **이전**: [567. 멱등성 설계 중복 요청 처리](/knowledge-base/studynote/11_design_supervision/06_exam_summary/568_idempotency_design_duplicate_request_han/)
-**다음**: [569. SRE 에러 버짓 토일 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/569_sre_error_budget_toil_automation/) ->
+<- **이전**: [567. 멱등성 설계 중복 요청 처리](/studynote/11_design_supervision/06_exam_summary/568_idempotency_design_duplicate_request_han/)
+**다음**: [569. SRE 에러 버짓 토일 자동화](/studynote/11_design_supervision/06_exam_summary/569_sre_error_budget_toil_automation/) ->
 
 ---

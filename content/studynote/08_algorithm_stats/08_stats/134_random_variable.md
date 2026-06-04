@@ -1,27 +1,24 @@
-+++
-title = "5. 확률 변수 (Random Variable) — 이산/연속"
-date = 2026-04-21
+---
+title: "5. 확률 변수 (Random Variable) — 이산/연속"
+date: "2026-04-21"
+tags:
+  - "studynote-algorithm"
+---
 
-[taxonomies]
-tags = ["studynote-algorithm"]
-
-[extra]
-tags = ["studynote-algorithm"]
-+++
 
 ## 핵심 인사이트
 
-> [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable) 는 "실험의 결과를 숫자로 번역하는 함수"다 — 동전 앞뒷면이라는 질적 결과를 0/1 이라는 수치로 바꿔야 수학을 적용할 수 있다.
-> 이산 (Discrete) 과 연속 (Continuous) 의 차이는 단순히 "정수 vs 실수"가 아니라, PMF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function) 와 PDF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function) 라는 서로 다른 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 표현 방식의 차이다.
-> ML 모델의 출력(예: [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)), 몬테카를로 시뮬레이션, 변분 추론 (Variational Inference) 은 모두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 개념 위에 구축된다.
+> [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable) 는 "실험의 결과를 숫자로 번역하는 함수"다 — 동전 앞뒷면이라는 질적 결과를 0/1 이라는 수치로 바꿔야 수학을 적용할 수 있다.
+> 이산 (Discrete) 과 연속 (Continuous) 의 차이는 단순히 "정수 vs 실수"가 아니라, PMF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function) 와 PDF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function) 라는 서로 다른 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 표현 방식의 차이다.
+> ML 모델의 출력(예: [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)), 몬테카를로 시뮬레이션, 변분 추론 (Variational Inference) 은 모두 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 개념 위에 구축된다.
 
 ---
 
-## Ⅰ. [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 정의와 구분
+## Ⅰ. [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수의 정의와 구분
 
 ### 형식적 정의
 
-[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X 는 표본공간 (Sample Space) Ω 에서 실수로의 **측도 가능 함수 (Measurable Function)**:
+[확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X 는 표본공간 (Sample Space) Ω 에서 실수로의 **측도 가능 함수 (Measurable Function)**:
 
 ```
 X: Ω -> ℝ
@@ -34,21 +31,21 @@ X: Ω -> ℝ
 
 ### 이산 vs 연속 비교
 
-| 구분 | 이산 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | 연속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 |
+| 구분 | 이산 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | 연속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 |
 |:---:|:---:|:---:|
 | 값의 범위 | 셀 수 있는 유한·가산 집합 | 실수 구간 (연속체) |
-| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 표현 | PMF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function) | PDF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function) |
-| 특정 값 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) | P(X=x) > 0 가능 | P(X=x) = 0 (점 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 없음) |
-| 합산 방식 | Σ P(X=xᵢ) = 1 | ∫ f(x)[dx](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) = 1 |
-| 예시 | 주사위 눈, [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 개수 | 키, 온도, 시간 |
+| [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 표현 | PMF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function) | PDF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function) |
+| 특정 값 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) | P(X=x) > 0 가능 | P(X=x) = 0 (점 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 없음) |
+| 합산 방식 | Σ P(X=xᵢ) = 1 | ∫ f(x)[dx](/studynote/04_software_engineering/10_trends_pm_quality/726_platform_engineering_idp_dx/) = 1 |
+| 예시 | 주사위 눈, [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/) 개수 | 키, 온도, 시간 |
 
-📢 **섹션 요약 비유**: 이산 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 계단처럼 값이 뚝뚝 끊기는 엘리베이터이고, 연속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 부드럽게 이어지는 에스컬레이터다 — 타는 방법(계산법)이 다르다.
+📢 **섹션 요약 비유**: 이산 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 계단처럼 값이 뚝뚝 끊기는 엘리베이터이고, 연속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 부드럽게 이어지는 에스컬레이터다 — 타는 방법(계산법)이 다르다.
 
 ---
 
-## Ⅱ. 이산 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 — PMF와 CDF
+## Ⅱ. 이산 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 — PMF와 CDF
 
-### PMF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 질량 함수)
+### PMF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Mass Function, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 질량 함수)
 
 ```
 P(X=x) = pₓ  (각 이산 값에서의 확률 질량)
@@ -58,7 +55,7 @@ P(X=x) = pₓ  (각 이산 값에서의 확률 질량)
   2. Σₓ pₓ = 1  (정규화)
 ```
 
-<strong>PMF 막대 <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (주사위 예시)</strong>:
+<strong>PMF 막대 <a href="/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/">그래프</a> (주사위 예시)</strong>:
 
 ```
   P(X=x)
@@ -97,11 +94,11 @@ F(x)
 
 ---
 
-## Ⅲ. 연속 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 — PDF와 구간 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)
+## Ⅲ. 연속 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 — PDF와 구간 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)
 
-### PDF ([Probability](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function, [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도 함수)
+### PDF ([Probability](/studynote/08_algorithm_stats/08_stats/130_probability/) Density Function, [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 밀도 함수)
 
-연속형에서는 특정 점의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이므로, 구간에서의 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)로 정의:
+연속형에서는 특정 점의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이 0이므로, 구간에서의 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)로 정의:
 
 ```
 P(a ≤ X ≤ b) = ∫ₐᵇ f(x) dx
@@ -140,28 +137,28 @@ F(x) = P(X ≤ x) = ∫₋∞^x f(t) dt
 역관계: f(x) = F'(x) = dF/dx (미분)
 ```
 
-📢 **섹션 요약 비유**: PDF의 값이 "[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아니라 "밀도"인 이유는, 키 175.000...cm 가 될 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 0이지만 175~176cm 구간에 있을 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)은 존재하기 때문이다 — 선이 아닌 면적이 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)이다.
+📢 **섹션 요약 비유**: PDF의 값이 "[확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"이 아니라 "밀도"인 이유는, 키 175.000...cm 가 될 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)은 0이지만 175~176cm 구간에 있을 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)은 존재하기 때문이다 — 선이 아닌 면적이 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)이다.
 
 ---
 
-## Ⅳ. [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/)과 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) (간략 개요)
+## Ⅳ. [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/)과 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) (간략 개요)
 
-### [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) (Expectation) E[X]
+### [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) (Expectation) E[X]
 
 ```
 이산: E[X] = Σₓ x · P(X=x)
 연속: E[X] = ∫ x · f(x) dx
 ```
 
-### [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)) Var[X]
+### [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) ([Variance](/studynote/08_algorithm_stats/08_stats/136_variance/)) Var[X]
 
 ```
 Var[X] = E[(X-μ)^] = E[X^] - (E[X])^   (계산 공식)
 ```
 
-### [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환 (Transformation)
+### [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환 (Transformation)
 
-Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수를 만들 수 있다:
+Y = g(X) 로 새로운 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수를 만들 수 있다:
 
 ```
 이산: P(Y=y) = Σ_{x: g(x)=y} P(X=x)
@@ -172,7 +169,7 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
    (균등 분포 -> 지수 분포 변환 — 역변환 샘플링에 사용)
 ```
 
-📢 **섹션 요약 비유**: [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환은 "섭씨온도 데이터를 화씨로 바꾸는 것"처럼, 숫자 척도를 바꿔도 내부 분포 구조를 보존하는 함수 합성이다.
+📢 **섹션 요약 비유**: [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 변환은 "섭씨온도 데이터를 화씨로 바꾸는 것"처럼, 숫자 척도를 바꿔도 내부 분포 구조를 보존하는 함수 합성이다.
 
 ---
 
@@ -180,7 +177,7 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### 결합 분포 (Joint Distribution)
 
-두 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X, Y 의 동시 분포:
+두 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 X, Y 의 동시 분포:
 
 ```
 이산: P(X=x, Y=y) = p_{x,y}
@@ -210,9 +207,9 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 ### 몬테카를로 시뮬레이션 (Monte Carlo Simulation)
 
-[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수를 활용한 수치 계산 기법:
+[확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수를 활용한 수치 계산 기법:
 
-1. **목표**: 복잡한 적분 또는 [기댓값](/knowledge-base/studynote/08_algorithm_stats/08_stats/135_expected_value/) 계산 `E[g(X)] = ∫ g(x)f(x)dx`
+1. **목표**: 복잡한 적분 또는 [기댓값](/studynote/08_algorithm_stats/08_stats/135_expected_value/) 계산 `E[g(X)] = ∫ g(x)f(x)dx`
 2. **방법**: X ~ f(x) 에서 N개 샘플 x₁,...,x_N 추출 후 평균화
    ```
    E[g(X)] ≈ (1/N) Σᵢ g(xᵢ)   (대수의 법칙으로 수렴)
@@ -235,20 +232,20 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 +-----------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 몬테카를로는 "눈 감고 다트를 수천 번 던져서 원의 넓이를 측정하는 것"이다 — 수학으로 풀기 힘든 문제를 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 샘플링으로 근사한다.
+📢 **섹션 요약 비유**: 몬테카를로는 "눈 감고 다트를 수천 번 던져서 원의 넓이를 측정하는 것"이다 — 수학으로 풀기 힘든 문제를 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 샘플링으로 근사한다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | 연결 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | 연결 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|:---|
-| [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 변수 -> 분포로 특성화 |
-| PMF | 이항 분포, 포아송 분포 | 이산형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
-| PDF | [정규 분포](/knowledge-base/studynote/08_algorithm_stats/08_stats/138_normal_distribution/), 지수 분포 | 연속형 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
+| [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 | 변수 -> 분포로 특성화 |
+| PMF | 이항 분포, 포아송 분포 | 이산형 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
+| PDF | [정규 분포](/studynote/08_algorithm_stats/08_stats/138_normal_distribution/), 지수 분포 | 연속형 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포의 기본 |
 | CDF | 분위수 (Quantile), 백분위수 | 역함수로 분위수 계산 |
-| 결합 분포 | 공분산, 상관 계수 | 두 변수 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 표현 |
-| 몬테카를로 | [MCMC](/knowledge-base/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) ([Markov Chain](/knowledge-base/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo) | 고차원 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 추론 |
+| 결합 분포 | 공분산, 상관 계수 | 두 변수 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 표현 |
+| 몬테카를로 | [MCMC](/studynote/06_ict_convergence/05_data_science/376_mcmc_markov_chain_monte_carlo/) ([Markov Chain](/studynote/08_algorithm_stats/08_stats/140_markov_chain/) Monte Carlo) | 고차원 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 추론 |
 
 ---
 
@@ -270,11 +267,11 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 [결합 분포 (Joint Distribution)]
 ```
 
-이 흐름도는 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable)에서 출발해 결합 분포 (Joint Distribution)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
+이 흐름도는 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수 (Random Variable)에서 출발해 결합 분포 (Joint Distribution)까지 이어지며, 중간 단계가 기초 개념을 실무 구조로 발전시키는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-- [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 "동전 뒤집기 결과를 앞면=1, 뒷면=0으로 번역하는 기계"야 — 결과를 숫자로 바꿔야 계산할 수 있어.
+- [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 변수는 "동전 뒤집기 결과를 앞면=1, 뒷면=0으로 번역하는 기계"야 — 결과를 숫자로 바꿔야 계산할 수 있어.
 - 이산형은 계단처럼 뚝뚝 끊기고, 연속형은 온도처럼 부드럽게 이어지는 차이야.
 - 몬테카를로는 "무작위로 수천 번 해보고 통계로 답을 구하는" 게임이야 — 직접 계산 못 해도 많이 해보면 답이 나와.
 
@@ -284,7 +281,7 @@ Y = g(X) 로 새로운 [확률](/knowledge-base/studynote/08_algorithm_stats/08_
 
 **진행 상황**: 134 / 175
 
-<- **이전**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/knowledge-base/studynote/08_algorithm_stats/08_stats/133_independence/)
+<- **이전**: [4. 독립 사건 (Independence) / 상호 배타적 사건 (Mutual Exclusivity)](/studynote/08_algorithm_stats/08_stats/133_independence/)
 **다음**: [[135_expected_value|6. 기댓값 (Expected Value, E[X]) — 확률 가중 평균]] ->
 
 ---

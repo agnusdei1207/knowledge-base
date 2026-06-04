@@ -1,6 +1,5 @@
-+++
-title = "06. Network Layer Ip"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "06. Network Layer Ip"
+tags:
+  - "network"
+---

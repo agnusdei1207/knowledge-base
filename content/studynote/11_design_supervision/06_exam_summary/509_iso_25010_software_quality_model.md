@@ -1,13 +1,10 @@
-+++
-title = "509. ISO 25010 소프트웨어 품질 모델 (ISO 25010 Software Quality Model)"
-date = 2026-05-09
+---
+title: "509. ISO 25010 소프트웨어 품질 모델 (ISO 25010 Software Quality Model)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -124,7 +121,7 @@ ISO/IEC 25010의 구조는 **3계층 모델**이다: 최상위 **품질 특성(Q
 
 **진행 상황**: 509 / 600
 
-<- **이전**: [508. ISO 27001 정보보안 관리체계](/knowledge-base/studynote/11_design_supervision/06_exam_summary/509_iso_27001_isms_standard/)
-**다음**: [510. CMMI 프로세스 성숙도 모델](/knowledge-base/studynote/11_design_supervision/06_exam_summary/510_cmmi_process_maturity_model/) ->
+<- **이전**: [508. ISO 27001 정보보안 관리체계](/studynote/11_design_supervision/06_exam_summary/509_iso_27001_isms_standard/)
+**다음**: [510. CMMI 프로세스 성숙도 모델](/studynote/11_design_supervision/06_exam_summary/510_cmmi_process_maturity_model/) ->
 
 ---

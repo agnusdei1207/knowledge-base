@@ -1,13 +1,10 @@
-+++
-title = "271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)"
-date = 2026-05-09
+---
+title: "271. 피처 스토어 ML 특성 관리 재사용 (Feature Store ML Feature Management Feast)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -209,7 +206,7 @@ Feature Store 생태계는 **① 오픈소스(Feast, Hopsworks) ② 상용 SaaS(
 
 **진행 상황**: 271 / 300
 
-<- **이전**: [270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/270_time_series_database/)
-**다음**: [272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/272_data_labeling/) ->
+<- **이전**: [270. 시계열 데이터베이스 IoT 모니터링 저장 (Time Series Database InfluxDB Prometheus)](/studynote/14_data_engineering/05_exam_keywords/270_time_series_database/)
+**다음**: [272. 데이터 레이블링 어노테이션 능동 학습 (Data Labeling Annotation Active Learning)](/studynote/14_data_engineering/05_exam_keywords/272_data_labeling/) ->
 
 ---

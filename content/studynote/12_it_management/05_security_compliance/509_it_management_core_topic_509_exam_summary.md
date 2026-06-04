@@ -1,13 +1,10 @@
-+++
-title = "509. IT 경영 관리 핵심 토픽 509번 시험 요약 (IT Management Core Topic 509 Exam Summary)"
-date = 2026-05-09
+---
+title: "509. IT 경영 관리 핵심 토픽 509번 시험 요약 (IT Management Core Topic 509 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -140,7 +137,7 @@ ITIL 4(2019)는 기존 ITIL v3의 26 프로세스를 **34개 Practice**(14 Gener
 
 **진행 상황**: 509 / 800
 
-<- **이전**: [508. IT 경영 관리 핵심 토픽 508번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/508_it_management_core_topic_508_exam_summary/)
-**다음**: [510. IT 경영 관리 핵심 토픽 510번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/510_it_management_core_topic_510_exam_summary/) ->
+<- **이전**: [508. IT 경영 관리 핵심 토픽 508번 시험 요약](/studynote/12_it_management/05_security_compliance/508_it_management_core_topic_508_exam_summary/)
+**다음**: [510. IT 경영 관리 핵심 토픽 510번 시험 요약](/studynote/12_it_management/05_security_compliance/510_it_management_core_topic_510_exam_summary/) ->
 
 ---

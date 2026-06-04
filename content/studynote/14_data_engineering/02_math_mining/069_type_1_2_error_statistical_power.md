@@ -1,19 +1,16 @@
-+++
-title = "69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리"
-date = 2026-04-10
+---
+title: "69. 1종 오류와 2종 오류, 검정력(Power) - 오판의 리스크 관리"
+date: "2026-04-10"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 1종 오류(Type I)는 참인 H0를 기각하는 오류이고, 2종 오류(Type II)는 거짓인 H0를 기각하지 못하는 오류다.
 > 2. **가치**: 검정력(Power)은 실제 효과를 발견할 확률로, 표본 설계와 직접 연결된다.
-> 3. **판단**: 오류는 서로 trade-off [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라서 한쪽만 줄이려 하면 다른 쪽이 커질 수 있다.
+> 3. **판단**: 오류는 서로 trade-off [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)라서 한쪽만 줄이려 하면 다른 쪽이 커질 수 있다.
 
 ---
 
@@ -57,13 +54,13 @@ Error / Power
 | Type II | 거짓인데 기각 실패 |
 | Power | 진짜 효과 탐지 능력 |
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 설명 |
 | :-- | :-- |
 | α ^ | Type I ^ |
 | 표본 수 ^ | Power ^ |
 | 효과 크기 ^ | Power ^ |
 
-이 개념은 통계적 판단을 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리로 보는 관점을 제공한다.
+이 개념은 통계적 판단을 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리로 보는 관점을 제공한다.
 
 - **📢 섹션 요약 비유**: 문지기가 너무 엄하면 억울하고, 너무 느슨하면 놓친다.
 
@@ -71,7 +68,7 @@ Error / Power
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 오류 유형을 구분하는가?
 2. 검정력을 설계에 반영하는가?
@@ -79,14 +76,14 @@ Error / Power
 4. α와 power의 trade-off를 아는가?
 5. 실험 목표에 맞는 기준을 세우는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - Type I과 Type II를 혼동하는 설계
 - Power를 무시하고 실험하는 설계
 - 표본 수 없이 결론을 내리는 설계
 - α만 낮추면 안전하다고 생각하는 설계
 
-기술사 관점에서는 오류와 검정력을 "통계적 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리"로 설명해야 한다.
+기술사 관점에서는 오류와 검정력을 "통계적 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 틀릴 확률을 줄이려면 시험 설계가 좋아야 한다.
 
@@ -94,9 +91,9 @@ Error / Power
 
 ## Ⅴ. 기대효과 및 결론
 
-오류와 검정력을 이해하면 실험 결과를 더 신뢰할 수 있다. 그래서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정이 안정된다.
+오류와 검정력을 이해하면 실험 결과를 더 신뢰할 수 있다. 그래서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 의사결정이 안정된다.
 
-결론적으로 1종/2종 오류와 검정력은 통계적 오판 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)의 핵심 개념이다.
+결론적으로 1종/2종 오류와 검정력은 통계적 오판 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/)의 핵심 개념이다.
 
 - **📢 섹션 요약 비유**: 맞고 틀림을 숫자로 관리하는 것이다.
 
@@ -142,7 +139,7 @@ Decision Quality
 
 **진행 상황**: 69 / 258
 
-<- **이전**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/knowledge-base/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)
-**다음**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/knowledge-base/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) ->
+<- **이전**: [68. 유의 수준(Alpha)과 유의 확률(p-value) - 귀무 가설 기각의 마지노선](/studynote/14_data_engineering/02_math_mining/068_significance_level_alpha_p_value_hypothesis/)
+**다음**: [70. T-검정 (t-Test) - 두 집단 간 평균 차이 통계적 검증](/studynote/14_data_engineering/02_math_mining/070_t_test_independent_paired_mean_difference/) ->
 
 ---

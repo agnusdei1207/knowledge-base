@@ -1,13 +1,10 @@
-+++
-title = "448. 클라우드 평가 TCO ROI 비용 분석 (Cloud Assessment TCO ROI Cost Analysis)"
-date = 2026-05-09
+---
+title: "448. 클라우드 평가 TCO ROI 비용 분석 (Cloud Assessment TCO ROI Cost Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 448 / 800
 
-<- **이전**: [447. 리테인 현행 유지 하이브리드 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/447_retain_hybrid_strategy_assessment/)
-**다음**: [449. 벤더 락인 방지 멀티클라우드 전략](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/449_vendor_lock_in_prevention_multi_cloud_strateg/) ->
+<- **이전**: [447. 리테인 현행 유지 하이브리드 전략](/studynote/13_cloud_architecture/06_exam_summary/447_retain_hybrid_strategy_assessment/)
+**다음**: [449. 벤더 락인 방지 멀티클라우드 전략](/studynote/13_cloud_architecture/06_exam_summary/449_vendor_lock_in_prevention_multi_cloud_strateg/) ->
 
 ---

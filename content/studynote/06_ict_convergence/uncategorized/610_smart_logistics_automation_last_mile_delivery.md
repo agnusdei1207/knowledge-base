@@ -1,13 +1,10 @@
-+++
-title = "610. 스마트 물류 자동화 라스트마일 배송 (Smart Logistics Automation Last Mile Delivery)"
-date = 2026-05-09
+---
+title: "610. 스마트 물류 자동화 라스트마일 배송 (Smart Logistics Automation Last Mile Delivery)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -132,7 +129,7 @@ $$\min Z = \sum_{k \in K}\sum_{(i,j)\in A} c_{ij} x_{ijk} + \sum_{i \in N} p_i(T
 
 **진행 상황**: 610 / 800
 
-<- **이전**: [609. 스마트 농업 정밀 농업 센서 네트워크](/knowledge-base/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/)
-**다음**: [611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐](/knowledge-base/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/) ->
+<- **이전**: [609. 스마트 농업 정밀 농업 센서 네트워크](/studynote/06_ict_convergence/uncategorized/609_smart_agriculture_precision_farming_sensor/)
+**다음**: [611. 서버리스 컴퓨팅 FaaS 이벤트 드리븐](/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/) ->
 
 ---

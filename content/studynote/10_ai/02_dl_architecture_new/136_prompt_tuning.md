@@ -1,18 +1,15 @@
-+++
-title = "136. Prompt Tuning - 소프트 프롬프트로 LLM 적응"
-date = 2026-04-19
+---
+title: "136. Prompt Tuning - 소프트 프롬프트로 LLM 적응"
+date: "2026-04-19"
+tags:
+  - "studynote-ai"
+---
 
-[taxonomies]
-tags = ["studynote-ai"]
-
-[extra]
-tags = ["studynote-ai"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: Prompt Tuning은 <strong>모델 <a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 동결하고, 입력 앞에 붙이는 연속(Soft) 프롬프트 벡터만 학습</strong>하여 특정 작업에 적응하는 [PEFT](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 기법이며, 학습 파라미터가 전체의 <strong>0.01% 미만</strong>이다.
-> 2. **가치**: 모델 자체를 건드리지 않으므로 <strong>하나의 모델로 수천 개의 다른 프롬프트(=<a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)</strong>를 동시에 서빙할 수 있으며, 배포·관리가 극도로 효율적이다.
-> 3. **판단 포인트**: 모델 규모가 클수록(10B+) Prompt Tuning이 Full FT에 근접한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내며, 소규모 모델에서는 LoRA가 더 효과적이다.
+> 1. **본질**: Prompt Tuning은 <strong>모델 <a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a>를 동결하고, 입력 앞에 붙이는 연속(Soft) 프롬프트 벡터만 학습</strong>하여 특정 작업에 적응하는 [PEFT](/studynote/10_ai/04_ai_ops_ethics/306_peft_lora/) 기법이며, 학습 파라미터가 전체의 <strong>0.01% 미만</strong>이다.
+> 2. **가치**: 모델 자체를 건드리지 않으므로 <strong>하나의 모델로 수천 개의 다른 프롬프트(=<a href="/studynote/04_software_engineering/04_testing_quality/259_adapter_pattern_interface_wrapper/">어댑터</a>)</strong>를 동시에 서빙할 수 있으며, 배포·관리가 극도로 효율적이다.
+> 3. **판단 포인트**: 모델 규모가 클수록(10B+) Prompt Tuning이 Full FT에 근접한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 내며, 소규모 모델에서는 LoRA가 더 효과적이다.
 
 ---
 
@@ -40,7 +37,7 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 |:---|:---|
 | **Prompt Tuning** | 소프트 프롬프트 학습 |
 | **Prefix Tuning** | Prompt Tuning 변형 |
-| <strong><a href="/knowledge-base/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a></strong> | 더 높은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 대안 |
+| <strong><a href="/studynote/03_network/12_iot_wpan_edge/617_lora_lorawan_css_chirp_spread_spectrum/">LoRA</a></strong> | 더 높은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 대안 |
 | **Hard Prompt** | 사람이 작성 (고정) |
 | **Soft Prompt** | 학습 가능 (연속) |
 
@@ -53,7 +50,7 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. Prompt Tuning은 <strong>자물쇠(<a href="/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)는 그대로 두고 열쇠(프롬프트)만 만드는</strong> 거예요.
+1. Prompt Tuning은 <strong>자물쇠(<a href="/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/">AI</a>)는 그대로 두고 열쇠(프롬프트)만 만드는</strong> 거예요.
 2. 열쇠 하나로 <strong>하나의 문제</strong>를 풀 수 있어요. 열쇠가 100개면 100개 문제!
 3. 자물쇠를 바꾸는 것(Full FT)보다 **열쇠만 만드는 게** 훨씬 빨라요!
 
@@ -63,7 +60,7 @@ Prompt Tuning은 <strong>다작업 서빙에 최적</strong>이며, 대규모 �
 
 **진행 상황**: 136 / 420
 
-<- **이전**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/knowledge-base/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/)
-**다음**: [137. BERT (Bidirectional Encoder Representations from Transformers)](/knowledge-base/studynote/10_ai/02_dl_architecture_new/137_bert/) ->
+<- **이전**: [135. LoRA (Low-Rank Adaptation) - 효율적 LLM 미세 조정의 표준](/studynote/10_ai/02_dl_architecture_new/135_lora_low_rank_adaptation/)
+**다음**: [137. BERT (Bidirectional Encoder Representations from Transformers)](/studynote/10_ai/02_dl_architecture_new/137_bert/) ->
 
 ---

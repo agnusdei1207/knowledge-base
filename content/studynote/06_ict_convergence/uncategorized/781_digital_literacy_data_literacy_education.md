@@ -1,13 +1,10 @@
-+++
-title = "781. 디지털 리터러시 데이터 리터러시 교육 (Digital Literacy Data Literacy Education)"
-date = 2026-05-09
+---
+title: "781. 디지털 리터러시 데이터 리터러시 교육 (Digital Literacy Data Literacy Education)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -115,7 +112,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 781 / 800
 
-<- **이전**: [780. 규제 샌드박스 혁신 규제 완화 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/)
-**다음**: [782. IT 인재 양성 리스킬링 디지털 전환](/knowledge-base/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/) ->
+<- **이전**: [780. 규제 샌드박스 혁신 규제 완화 전략](/studynote/06_ict_convergence/uncategorized/780_regulatory_sandbox_innovation_regulation/)
+**다음**: [782. IT 인재 양성 리스킬링 디지털 전환](/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/) ->
 
 ---

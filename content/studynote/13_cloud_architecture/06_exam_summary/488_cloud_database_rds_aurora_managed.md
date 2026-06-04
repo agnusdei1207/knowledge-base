@@ -1,175 +1,187 @@
-+++
-title = "488. 클라우드 데이터베이스 RDS Aurora 관리형 (Cloud Database RDS Aurora Managed)"
-date = 2026-05-09
+---
+title: "488. 클라우드 데이터베이스 RDS Aurora 관리형 (Cloud Database RDS Aurora Managed)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
 
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
+# 488. 클라우드 데이터베이스 RDS / Aurora 관리형 (Cloud Database RDS & Aurora Managed)
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 데이터베이스 RDS Aurora 관리형은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: Amazon RDS는 클라우드 상에서 관계형 데이터베이스의 **프로비저닝·패치·백업·HA·모니터링 자동화**를 추상화한 PaaS형 관리형 서비스이고, **Aurora**는 RDS 계열 중에서도 컴퓨팅과 스토리지를 분리하여 **6-way Quorum 기반 분산 스토리지 볼륨(`aurora-volume`)** 위에서 로그 단위 Push 복제와 `Voter`/`Acceptor`로 구성된 합의 모델을 통해 단일 노드처럼 보이는 MySQL/PostgreSQL 호환 엔진을 제공한다.
+> 2. **가치**: Aurora는 동일 하드웨어 대비 상용 DB 대비 약 5배, MySQL/PostgreSQL 표준 대비 약 3~5배의 처리량을 제공하며(Percona/Amazon 내부 벤치마크), Replica 추가가 **스토리지 복제 없이** Read Replica EndPoint 확장으로 수초 내 완료되고, RPO 1초 미만·RTO 1분 이내의 Cross-Region DR(Global Database)을 구성 가능하다.
+> 3. **판단 포인트**: "**언제 표준 RDS(MySQL/PostgreSQL/Oracle)인가, 언제 Aurora인가, 언제 Aurora Serverless v2인가, 언제 RDS Proxy+Lambda Chassis 패턴인가, 언제 Self-managed on EC2/EKS+ EBS로 회귀하는가**"의 결정 트리와, **Aurora의 비동기 Quorum 복제 특성상 발생하는 Replica Lag·Read-after-Write 일관성·Cross-AZ Latency 비용(쓰기 시 6중 Quorum 4-of-6 commit)** 을 트래픽 프로파일로 환산하는 것이 핵심 판단 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 데이터베이스 RDS Aurora 관리형은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+### 1. 배경: 왜 "관리형"이 필요한가
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Database RDS Aurora Managed 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 On-Premise 또는 EC2 Self-managed RDBMS 운영에서는 DBA/Infra 엔지니어가 다음을 직접 수행해야 했다.
+
+- **운영 부담**: MySQL/PostgreSQL/Oracle/MS-SQL 바이너리 설치, OS 커널 파라미터 튜닝(`vm.swappiness`, `dirty_ratio`, XFS/ext4 블록 정렬), 엔진 업그레이드, 보안 패치, CVE 대응
+- **HA 직접 설계**: `MHA`, `Orchestrator`, `Patroni`, `MySQL Group Replication`, `Pacemaker + Corosync`, DataGuard, AlwaysOn AG 등 별도 솔루션
+- **백업·복구**: `xtrabackup`, `pg_basebackup`, `RMAN`, PITR을 위한 binlog/WAL 아카이빙, S3로의 전송 및 retention 관리
+- **스케일링**: Vertical scale(스케일 업) 시 maintenance window + 다운타임, Read scale-out 시 binlog 복제 지연, 스토리지扩容의 shard/re-partition 이슈
+- **모니터링**: `information_schema`, `performance_schema`, `pg_stat_statements`, `slow_log`, `alert log`를 Nagios/Zabbix/Prometheus로 통합
+
+**RDS는 "데이터베이스 엔진은 그대로 두고, 운영 계층(Control Plane)을 AWS API/IaC로 추상화"** 했고, **Aurora는 "엔진은 MySQL/PostgreSQL 인터페이스를 유지하되, 스토리지 계층을 클라우드 분산 스토리지로 재설계"** 한 것이다. 즉, RDS = *관리형*, Aurora = *관리형 + 분산 스토리지*의 차이가 핵심이다.
+
+### 2. 시스템 개념도
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 데이터베이스 RDS Aurora 관리형 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+                         AWS Management Console / CLI / CDK / Terraform
+                                          |
+                                          v
+            +-------------------------------------------------------------+
+            |                  RDS Control Plane (Regional)               |
+            |   - 프로비저닝·엔진 패치·백업·스냅샷·SG·Parameter Group    |
+            |   - Event Notification · Performance Insights · Enhanced  |
+            |     Monitoring · RDS Proxy · Auto Scaling                  |
+            +------------------------------+------------------------------+
+                                           |  (API: CreateDBInstance, Modify…)
+                                           v
+       +----------------------------------------------------------------------+
+       |                       Data Plane (VPC, 고객 계정)                    |
+       |                                                                      |
+       |   +------------+  Writer Endpoint  +------------+  Reader Endpoint    |
+       |   | App/Tier A +-----------------►|  Primary   |◄---------+          |
+       |   +-----+------+                  |  (Writer)  |          |          |
+       |         |                         +-----+------+          |          |
+       |         |                               | (InnoDB redo log|          |
+       |         |                               |  records push)  |          |
+       |         |                               v                  |          |
+       |   +-----+------+               +------------------+   +---+----+     |
+       |   | App/Tier B |               | Aurora Storage   |   |Replica |     |
+       |   | (ReadOnly) |               |   Volume         |   | AUR1~N |     |
+       |   +-----+------+               |  (6-way quorum)  |   +---+----+     |
+       |         |                      |  3 AZ × 2 copies |       | (read    |
+       |         |                      |  + 1 S3 backup   |       |  page)   |
+       |         |                      |  10GB segment    |       |          |
+       |         |                      +--------+---------+       |          |
+       |         |                               |                  |          |
+       |         |       +---------------+       |                  |          |
+       |         +------►| Custom EndPt  |◄------+                  |          |
+       |                 |  (r5.4xl)     |                          |          |
+       |                 +---------------+--------------------------+          |
+       +----------------------------------------------------------------------+
+                                          |
+                                          |  Cross-Region Async Log Recv
+                                          v
+                                +--------------------+
+                                | Aurora Global DB   |
+                                |  Secondary Region  |
+                                |  (RPO < 1s)        |
+                                +--------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+### 3. 도입 필요성: 전통 운영 vs RDS/Aurora
 
-- **📢 섹션 요약 비유**: 클라우드 데이터베이스 RDS Aurora 관리형은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 항목 | EC2 Self-managed | Amazon RDS (표준) | Amazon Aurora |
+|---|---|---|---|
+| 엔진 패치 | DBA 수동 | 자동 minor / Maintenance window major | 엔진 코드 패치 포함, Zero-downtime patching(zDP) 일부 지원 |
+| HA | DRBD / MHA / Patroni 직접 | Multi-AZ (Synchronous, Storage-level replication) | Shared-storage 6-way quorum (Storage-level replication) |
+| Failover 시간 | 30s~수분 | 60~120s (DNS endpoint switch) | 보통 30s 이내, 종종 10s 이내 (Writer Endpoint 즉시) |
+| Read Replica | binlog async | binlog async (lag 발생) | 스토리지 공유(Reader는 log apply만), lag 10~100ms 수준 |
+| 스케일링 | Scale up = downtime | Storage Online扩容, Compute는 window | Compute 무중단 scaling, Read Replica 추가 수초 |
+| 백업 | 자체 crontab | Automated Snapshot + PITR (binlog 보관) | Continuous backup to S3, Backtrack(rewind) 가능 |
+
+- **📢 섹션 요약 비유**: 일반 RDBMS가 **"한 가게의 단일 요리사"** 라면, RDS는 **"프랜차이즈 본사가 주문·재료·POS를 관리하는 식당 체인"**, Aurora는 **"한 거대한 주방의 위성 셰프들이 같은 냉장고(Storage Volume)에서 재료를 가져다 쓰는 시스템"** 과 같다. 요리사 한 명이 아프면(노드 장애) 냉장고에서 재료를 그대로 가져와 요리를 계속할 수 있다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 데이터베이스 RDS Aurora 관리형의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. RDS의 표준 아키텍처 (Multi-AZ)
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Database RDS Aurora Managed 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+   AZ-a (Primary)                    AZ-b (Standby)
+   +--------------+                  +--------------+
+   | RDS Primary  |  --- Sync ---►   | RDS Standby  |
+   | (r6g.xlarge) |  storage rep     | (r6g.xlarge) |
+   |   + EBS gp3  |                  |   + EBS gp3  |
+   +------+-------+                  +------+-------+
+          |                                 |
+          +--------------+------------------+
+                         | (장애 시 CNAME swap: ~60s)
+                         v
+              Endpoint: mydb.cluster-xxxx.rds.amazonaws.com:3306
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+- **동기식 블록 복제**(EBS snapshot-level, 또는 MySQL Group Replication)에 의존하므로 추가 스토리지 비용(Standby의 전체 EBS)이 발생하고, **Failover = DNS TTL 만료 + Warm-up**이 필요.
+- Read Replica는 binlog async 복제 -> **lag 존재**, 이 lag는 동일 Aurora 대비 수십 배 크다.
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2. Aurora의 핵심: Storage-Compute Decoupling + Quorum
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-클라우드 데이터베이스 RDS Aurora 관리형을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 데이터베이스 RDS Aurora 관리형 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 데이터베이스 RDS Aurora 관리형은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 데이터베이스 RDS Aurora 관리형은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 데이터베이스 RDS Aurora 관리형을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 데이터베이스 RDS Aurora 관리형을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 데이터베이스 RDS Aurora 관리형 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 데이터베이스 RDS Aurora 관리형은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 데이터베이스 RDS Aurora 관리형의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 데이터베이스 RDS Aurora 관리형의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+Aurora는 **InnoDB의 redo log(record 단위)** 만 스토리지로 보내고, **데이터 페이지 자체는 복제하지 않는다.** 이것이 5~10배 성능 향상의 본질이다.
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 데이터베이스 RDS Aurora 관리형 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+ +--------------------------------------------------------------+
+ |                       Aurora Primary                         |
+ |  - InnoDB log records (4KB-512B, log records)                |
+ |  - 큐: PG (Protection Group, 10GB) 단위로 Quorum 커밋        |
+ |  - VDL: Volume Durable Link                                  |
+ +--------------------------+-----------------------------------+
+                            |  (TCP, intra-AZ < 1ms)
+                            v
+ +--------------------------------------------------------------+
+ |           Aurora Storage Nodes (Protection Group = 6 노드)   |
+ |  +-----+  +-----+  +-----+  +-----+  +-----+  +-----+      |
+ |  |AZ-a |  |AZ-a |  |AZ-b |  |AZ-b |  |AZ-c |  |AZ-c |      |
+ |  |N1   |  |N2   |  |N3   |  |N4   |  |N5   |  |N6   |      |
+ |  +-----+  +-----+  +-----+  +-----+  +-----+  +-----+      |
+ |  Read Quorum:  3/6  (V = 10G, R = 6, W = 4, R = 3)         |
+ |  Write Quorum: 4/6  (W + R > N -> 4+3=7 > 6)                 |
+ |                                                              |
+ |  - Segment: 10GB Protection Group                             |
+ |  - LSN: Log Sequence Number (monotonic, per segment)         |
+ |  - S3: 30초~수 분 단위로 segment snapshot + manifest          |
+ +--------------------------------------------------------------+
+                            ^
+                            |  (read-only: same volume, page fetch)
+                            |
+                     +------+------+
+                     |  Replica    |  -- Reader Endpoint / Custom EP
+                     |  (Aurora 1)  |
+                     +-------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+- **Write Quorum(4/6)** + **Read Quorum(3/6)** 이므로 정상 시점에 **AZ-a, AZ-b만 살아도 Write 가능**(최소 4 노드, 3개 AZ에 분산) -> 한 AZ 전체 장애에도 운영 지속.
+- **Anti-entropy**: 손실 segment는 gossip 프로토콜 + Merkle tree로 background repair.
+- **S3 backing**: S3는 11 9s 내구성(11×9s)의 cold archive 역할, segment가 6 노드 모두 손실되어도 S3에서 재구성.
 
-1. 클라우드 데이터베이스 RDS Aurora 관리형은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+### 3. Read Replica의 본질적 차이
 
----
+| 구분 | RDS Read Replica (MySQL) | Aurora Replica |
+|---|---|---|
+| 복제 메커니즘 | binlog dump -> SQL apply | **같은 Storage Volume을 read** + Replica는 `redo log`만 apply |
+| 스토리지 | Replica도 자체 EBS | **스토리지 비용 추가 없음** (Primary와 공유) |
+| Lag 원인 | binlog dump 단위 (수 MB/s) + single thread apply | log apply만 (보통 10~30ms) |
+| 추가 비용 | Replica 인스턴스 + EBS × 2(AZ별) | Replica 인스턴스 비용만 |
 
+### 4. Aurora 주요 컴포넌트 상세
+
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+|---|---|---|
+| **Aurora Volume (V)** | 가상 디스크 볼륨, 64TB까지 자동 확장, 10GB 단위 Protection Group | `Protection Group`은 6개 storage node에 분할 배치. 데이터는 6-way mirror, S3로 30초 단위 snapshot push. 공간 자동 10GB 단위 grow, 진짜 `thin-provisioned` |
+| **InnoDB Layer (Aurora MySQL)** | SQL 파서·옵티마이저·트랜잭션 | 표준 InnoDB 코드베이스에 **스토리지 엔진(`aurora`)** 만 교체. Redo log를 그대로 Aurora Volume의 log record로 변환하여 push |
+| **PostgreSQL Engine (Aurora PG)** | SQL 파싱·계획·실행 | PostgreSQL 15/16/17 호환, `pg_wal`을 Aurora log API로 라우팅 |
+| **Reader Endpoint / Custom Endpoint** | 부하분산, 라우팅 | DNS 기반, **Writer Endpoint는 단일 Primary**, Reader Endpoint는 replica 셋을 round-robin 또는 `lag-min` 라우팅. Custom Endpoint는 특정 replica subset 지정 |
+| **Backtrack** | 시간 되감기 (Aurora MySQL) | Target Retention(72h 등) 내 임의 시점으로 `rewind`. 데이터 페이지 in-place restore, binlog replay가 아님. 즉, **`DROP TABLE` 복구에 유용하지만 schema 변경에는 무력** |
+| **Global Database** | Cross-Region DR | 전용 Aurora storage 기반 **cross-region log streaming** (일반 snapshot copy와 다름). RPO < 1s, RTO < 1m. Secondary는 보통 1개(여러 가능) |
+| **Aurora Serverless v2** | ACU(1 ACU ≈ 2GB RAM) 기반 auto-scaling | Compute와 storage가 분리되어 있어, 0.5~128 ACU 사이를 수초~수 분 단위로 auto scale. Cold start 없음(v1과 차이) |
+| **Parallel Query** | OLTP 워크로드에 MPP 가속 | Query 일부를 storage node로 push down (predicate/project pushdown), 노드별 100GB+ 임시 결과 셋, MySQL 8.x 호환 Aurora에서 사용 |
+| **Aurora Machine Learning** | SageMaker / Bedrock 통합 | SQL `SELECT … FROM ML_PREDICT(…)` 형태, 2024~ Bedrock(Claude/Titan) LLM 통합, SageMaker endpoint 호출(데이터 외부 이동 없이 VPC endpoint) |
+| **RDS Proxy** | 커넥션 풀링·Lambda·Burst 대응 | TCP 레벨 풀링. Aurora MySQL은 **"RDS Proxy for MySQL"** 명칭으로 pgBouncer-like 역할, IAM auth, Secrets Manager 통합. v2: native pooling |
+| **Performance Insights** | DB 워크로드 시각화 | `pg_stat_statements`/`performance_schema` 기반, **top SQL**, **wait events**, **DB load** 시계열, 7일~2년 보존(긴 보존 시
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 488 / 800
 
-<- **이전**: [487. 클라우드 파일 스토리지 EFS NFS 공유](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/487_cloud_file_storage_efs_nfs_shared/)
-**다음**: [489. 클라우드 NoSQL DynamoDB CosmosDB](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/489_cloud_nosql_dynamodb_cosmosdb/) ->
+<- **이전**: [487. 클라우드 파일 스토리지 EFS NFS 공유](/studynote/13_cloud_architecture/06_exam_summary/487_cloud_file_storage_efs_nfs_shared/)
+**다음**: [489. 클라우드 NoSQL DynamoDB CosmosDB](/studynote/13_cloud_architecture/06_exam_summary/489_cloud_nosql_dynamodb_cosmosdb/) ->
 
 ---

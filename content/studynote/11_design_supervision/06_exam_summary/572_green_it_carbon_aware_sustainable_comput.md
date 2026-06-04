@@ -1,13 +1,10 @@
-+++
-title = "572. 그린 IT 탄소 인식 컴퓨팅 지속가능성 (Green IT Carbon Aware Sustainable Computing)"
-date = 2026-05-09
+---
+title: "572. 그린 IT 탄소 인식 컴퓨팅 지속가능성 (Green IT Carbon Aware Sustainable Computing)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -162,7 +159,7 @@ OUTPUT: (r*, t*) maximizing Carbon_Avoidance within SLA
 
 **진행 상황**: 572 / 600
 
-<- **이전**: [571. FinOps 클라우드 비용 최적화 전략](/knowledge-base/studynote/11_design_supervision/06_exam_summary/572_finops_cloud_cost_optimization_strategy/)
-**다음**: [573. 양자 내성 암호 포스트 양자 전환](/knowledge-base/studynote/11_design_supervision/06_exam_summary/573_post_quantum_cryptography_pqc_migration/) ->
+<- **이전**: [571. FinOps 클라우드 비용 최적화 전략](/studynote/11_design_supervision/06_exam_summary/572_finops_cloud_cost_optimization_strategy/)
+**다음**: [573. 양자 내성 암호 포스트 양자 전환](/studynote/11_design_supervision/06_exam_summary/573_post_quantum_cryptography_pqc_migration/) ->
 
 ---

@@ -1,27 +1,24 @@
-+++
-title = "119. CDMA2000 1x / EV-DO (Evolution-Data Optimized)"
-date = 2026-05-08
+---
+title: "119. CDMA2000 1x / EV-DO (Evolution-Data Optimized)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO를 이해하면 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 충돌 가능성 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/) 및 다중접속에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO를 이해하면 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)과 충돌 가능성 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-1990년대 후반, 2G(IS-95) [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 망은 무선 음성 통화의 대중화를 이끌었으나, 최대 64kbps 수준의 전송 속도로는 모바일 인터넷, 이메일, 멀티미디어 다운로드라는 새로운 비즈니스 요구를 수용할 수 없었다. 음성을 주축으로 하되 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '덤으로' 얹어 보내는 기존 주파수 분할 기반의 채널 할당 방식은 버스트(Bursty)한 웹 트래픽을 처리하는 데 치명적인 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비와 병목을 유발했다.
+1990년대 후반, 2G(IS-95) [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 망은 무선 음성 통화의 대중화를 이끌었으나, 최대 64kbps 수준의 전송 속도로는 모바일 인터넷, 이메일, 멀티미디어 다운로드라는 새로운 비즈니스 요구를 수용할 수 없었다. 음성을 주축으로 하되 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 '덤으로' 얹어 보내는 기존 주파수 분할 기반의 채널 할당 방식은 버스트(Bursty)한 웹 트래픽을 처리하는 데 치명적인 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 낭비와 병목을 유발했다.
 
-이를 극복하기 위해 기존 1.25MHz [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/))을 그대로 유지하면서 음성 통화 용량과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도를 2배 이상 끌어올린 <strong>CDMA2000 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/">1x</a></strong>가 등장했다. 그러나 음성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)(Carrier) 내에서 자원을 두고 다투는 구조적 한계는 여전했다. 이에 퀄컴(Qualcomm)을 중심으로 주파수 대역 하나를 오직 '순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Only)' 전송용으로 완전히 분리독립시키는 혁명적 발상을 도입했는데, 이것이 바로 <strong>CDMA2000 <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/">1x</a> EV-DO (Evolution-<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Optimized)</strong> 이다. EV-DO는 음성을 과감히 버리고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 올인함으로써 무선망에서 수 Mbps급의 다운로드 속도를 달성하며 진정한 스마트폰 시대의 인프라를 완성했다.
+이를 극복하기 위해 기존 1.25MHz [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)([1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/))을 그대로 유지하면서 음성 통화 용량과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 속도를 2배 이상 끌어올린 <strong>CDMA2000 <a href="/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/">1x</a></strong>가 등장했다. 그러나 음성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 하나의 [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)(Carrier) 내에서 자원을 두고 다투는 구조적 한계는 여전했다. 이에 퀄컴(Qualcomm)을 중심으로 주파수 대역 하나를 오직 '순수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)([Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) Only)' 전송용으로 완전히 분리독립시키는 혁명적 발상을 도입했는데, 이것이 바로 <strong>CDMA2000 <a href="/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/">1x</a> EV-DO (Evolution-<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Optimized)</strong> 이다. EV-DO는 음성을 과감히 버리고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에 올인함으로써 무선망에서 수 Mbps급의 다운로드 속도를 달성하며 진정한 스마트폰 시대의 인프라를 완성했다.
 
 ```text
 [이동통신망 트래픽 처리 패러다임의 혁신 과정]
@@ -37,23 +34,23 @@ tags = ["studynote-network"]
       => 완벽한 망 분리를 통해 데이터 다운로드 성능 폭발적 증가!
 ```
 
-이 도식의 핵심은 EV-DO가 '음성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리'라는 아키텍처적 결단을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 완전히 새롭게 재설계했다는 점이다. 이런 배치는 기존 음성망의 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 소프트 핸드오버나 전력 제어 오버헤드를 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망에서 제거할 수 있게 했기 때문이며, 따라서 채널의 최대 출력을 특정 단말 한 곳에 몰아주어 순간적인 다운로드 속도를 극대화하는 데 결정적인 영향을 준다. 실무에서는 이 분리 설계 덕분에 통신사들이 기존 망을 유지하면서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 장비만 점진적으로 증설(Overlay)하는 비용 효율적 진화 전략을 택할 수 있었다.
+이 도식의 핵심은 EV-DO가 '음성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 분리'라는 아키텍처적 결단을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송의 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인을 완전히 새롭게 재설계했다는 점이다. 이런 배치는 기존 음성망의 [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 소프트 핸드오버나 전력 제어 오버헤드를 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)망에서 제거할 수 있게 했기 때문이며, 따라서 채널의 최대 출력을 특정 단말 한 곳에 몰아주어 순간적인 다운로드 속도를 극대화하는 데 결정적인 영향을 준다. 실무에서는 이 분리 설계 덕분에 통신사들이 기존 망을 유지하면서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 장비만 점진적으로 증설(Overlay)하는 비용 효율적 진화 전략을 택할 수 있었다.
 
-- **📢 섹션 요약 비유**: 승용차(음성)와 짐을 실은 대형 트럭([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 같은 차선(CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/))을 달리며 서로 답답해하다가, 아예 화물 전용 고속도로(EV-DO)를 옆에 새로 뚫어 화물차들만 최고 속도로 달리게 만든 교통망 분리 혁신과 같습니다.
+- **📢 섹션 요약 비유**: 승용차(음성)와 짐을 실은 대형 트럭([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))이 같은 차선(CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/))을 달리며 서로 답답해하다가, 아예 화물 전용 고속도로(EV-DO)를 옆에 새로 뚫어 화물차들만 최고 속도로 달리게 만든 교통망 분리 혁신과 같습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링크([Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Link)와 상향 링크(Reverse Link)의 구조가 완전히 비대칭적으로 설계된 것이 가장 큰 특징이다.
+EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링크([Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Link)와 상향 링크(Reverse Link)의 구조가 완전히 비대칭적으로 설계된 것이 가장 큰 특징이다.
 
 | 구성 요소 | 역할 | 내부 동작 메커니즘 | 비유 |
 |:---|:---|:---|:---|
 | **AMC (적응형 변조 및 코딩)** | 전파 환경에 맞춘 속도 조절 | 단말이 기지국 전파 상태(DRC)를 보고하면, QPSK~16QAM 등으로 동적 변조 변경 | 날씨에 맞춘 자동차 기어 변속 |
-| <strong>Proportional Fair <a href="/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 기지국의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배 타워 | 전파가 좋은 단말에게 우선 배정하되, 불량한 단말이 굶지 않도록 공정성 보장 | 우수 학생 우선순위 + 낙오 방지 학습 |
-| <strong>TDM (<a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/">시분할 다중화</a>) 다운링크</strong> | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 일괄 전송망 | [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 코드가 아닌 시간(Time Slot) 단위로 쪼개 기지국 전체 파워를 한 단말에 몰아줌 | 한 명씩 무대에 올려 독점 발표 |
-| <strong>DRC (<a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Rate Control) 채널</strong> | 속도 요청 피드백 라인 | 단말이 매 슬롯(1.67ms)마다 수신 가능한 최고 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이트를 기지국에 요구 | 뷔페 리필 접시 요청 벨 |
-| <strong><a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/">HARQ</a> (<a href="/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/">Hybrid ARQ</a>)</strong> | 고속 물리계층 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 패킷 오류 시 버리지 않고 재전송된 패킷과 결합하여 복호화 성공률 극대화 | 찢어진 문서 두 장 겹쳐서 글씨 읽기 |
+| <strong>Proportional Fair <a href="/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/">스케줄러</a></strong> | 기지국의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분배 타워 | 전파가 좋은 단말에게 우선 배정하되, 불량한 단말이 굶지 않도록 공정성 보장 | 우수 학생 우선순위 + 낙오 방지 학습 |
+| <strong>TDM (<a href="/studynote/03_network/02_multiplexing_multiple_access/075_시분할_다중화_TDM/">시분할 다중화</a>) 다운링크</strong> | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 패킷 일괄 전송망 | [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 코드가 아닌 시간(Time Slot) 단위로 쪼개 기지국 전체 파워를 한 단말에 몰아줌 | 한 명씩 무대에 올려 독점 발표 |
+| <strong>DRC (<a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">Data</a> Rate Control) 채널</strong> | 속도 요청 피드백 라인 | 단말이 매 슬롯(1.67ms)마다 수신 가능한 최고 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 레이트를 기지국에 요구 | 뷔페 리필 접시 요청 벨 |
+| <strong><a href="/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/">HARQ</a> (<a href="/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/">Hybrid ARQ</a>)</strong> | 고속 물리계층 에러 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) | 패킷 오류 시 버리지 않고 재전송된 패킷과 결합하여 복호화 성공률 극대화 | 찢어진 문서 두 장 겹쳐서 글씨 읽기 |
 
 **EV-DO TDM 방식의 다운링크 핵심 스케줄링 메커니즘**
 
@@ -70,23 +67,23 @@ EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링�
             EV-DO는 특정 짧은 순간 기지국의 최대 전력을 한 사람에게 100% 쏟아붓는다.
 ```
 
-이 스케줄링 메커니즘의 핵심은 다운링크에서 기존의 코드 분할([CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))을 포기하고 시분할(TDM) 구조로 전환했다는 점이다. 이런 배치는 기지국이 여러 단말에 전력을 쪼개어 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 송출할 때 발생하는 '전력 간섭 및 누수'를 제거하기 때문이며, 특정 순간 채널 환경이 가장 좋은 단말에게 최대 전력과 고차 변조(AMC)를 몰아주어 시스템 전체의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 폭발적으로 증가시키는 데 결정적인 영향을 준다. 실무에서는 Proportional Fair(비례 공정) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 튜닝하여, 전파 음영 지역에 있는 사용자 B가 타임 슬롯을 아예 할당받지 못해 연결이 끊기는([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상을 방지하는 것이 최우선 과제이다.
+이 스케줄링 메커니즘의 핵심은 다운링크에서 기존의 코드 분할([CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))을 포기하고 시분할(TDM) 구조로 전환했다는 점이다. 이런 배치는 기지국이 여러 단말에 전력을 쪼개어 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 송출할 때 발생하는 '전력 간섭 및 누수'를 제거하기 때문이며, 특정 순간 채널 환경이 가장 좋은 단말에게 최대 전력과 고차 변조(AMC)를 몰아주어 시스템 전체의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))을 폭발적으로 증가시키는 데 결정적인 영향을 준다. 실무에서는 Proportional Fair(비례 공정) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 튜닝하여, 전파 음영 지역에 있는 사용자 B가 타임 슬롯을 아예 할당받지 못해 연결이 끊기는([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/)) 현상을 방지하는 것이 최우선 과제이다.
 
-- **📢 섹션 요약 비유**: 수돗물을 10명에게 졸졸졸 동시에 나눠주던 방식(기존 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))에서, 가장 물을 잘 받을 수 있는 사람부터 순서대로 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 구멍을 활짝 열어 1초씩 수압을 100% 쏟아부어주는 방식(EV-DO TDM)으로 진화한 물탱크 시스템입니다.
+- **📢 섹션 요약 비유**: 수돗물을 10명에게 졸졸졸 동시에 나눠주던 방식(기존 [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/))에서, 가장 물을 잘 받을 수 있는 사람부터 순서대로 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 구멍을 활짝 열어 1초씩 수압을 100% 쏟아부어주는 방식(EV-DO TDM)으로 진화한 물탱크 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-3G 시장을 양분했던 [CDMA](/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 진영의 EV-DO와 유럽/GSM 기반의 [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) 진영 아키텍처를 비교 분석한다.
+3G 시장을 양분했던 [CDMA](/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/) 진영의 EV-DO와 유럽/GSM 기반의 [W-CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) 진영 아키텍처를 비교 분석한다.
 
-| 비교 항목 | CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO (Rev.A) | [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSDPA | 기술적 의미 |
+| 비교 항목 | CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO (Rev.A) | [W-CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSDPA | 기술적 의미 |
 |:---|:---|:---|:---|
-| <strong>주파수 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | **1.25 MHz** (협대역, 기존 2G 호환) | **5 MHz** (광대역 광역 통신) | 인프라 재활용 vs 스펙트럼 확장성 |
-| **칩 레이트 (Chip Rate)** | 1.2288 Mcps | 3.84 Mcps | [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 차이에서 오는 다중경로 분해능 |
-| **망 분리 아키텍처** | 음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **완전 분리** (물리적 타 [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)) | 음성/[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **혼합 전송** (논리적 분할) | 간섭 제어의 복잡도 여부 |
-| <strong>다운링크 <a href="/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a></strong> | **TDM** (순간 독점 점유) | <strong><a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a></strong> (코드 동시 전송) | 스케줄링 철학의 차이 |
-| <strong>기지국 간 <a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 필수 (GPS 위성 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요) | 불필요 (비동기식, GPS 의존 없음) | 국가 인프라 [종속성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 지하/터널 구축 난이도 |
+| <strong>주파수 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a></strong> | **1.25 MHz** (협대역, 기존 2G 호환) | **5 MHz** (광대역 광역 통신) | 인프라 재활용 vs 스펙트럼 확장성 |
+| **칩 레이트 (Chip Rate)** | 1.2288 Mcps | 3.84 Mcps | [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 차이에서 오는 다중경로 분해능 |
+| **망 분리 아키텍처** | 음성/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **완전 분리** (물리적 타 [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)) | 음성/[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) **혼합 전송** (논리적 분할) | 간섭 제어의 복잡도 여부 |
+| <strong>다운링크 <a href="/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/">다중화</a></strong> | **TDM** (순간 독점 점유) | <strong><a href="/studynote/03_network/19_frequent_topics_terms/957_cdma_code_division_multiple_access_dsss_orthogonality/">CDMA</a></strong> (코드 동시 전송) | 스케줄링 철학의 차이 |
+| <strong>기지국 간 <a href="/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/">동기화</a></strong> | 필수 (GPS 위성 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 필요) | 불필요 (비동기식, GPS 의존 없음) | 국가 인프라 [종속성](/studynote/15_devops_sre/01_culture_methodology/008_dependencies/), 지하/터널 구축 난이도 |
 
 ```text
 +-------------- 3G 패킷 스케줄링 트레이드오프 매트릭스 -------------+
@@ -107,15 +104,15 @@ EV-DO 시스템은 3GPP2 표준 그룹에 의해 제정되었으며, 하향 링�
 +-------------------------------------------------------------------+
 ```
 
-이 매트릭스의 핵심은 EV-DO 망이 다운로드 속도와 효율성 면에서 선도적이었지만, 음성과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망을 하드웨어적으로 철저히 분리한 탓에 "음성 통화 중 인터넷 검색 불가능([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 칩셋 한계)"이라는 치명적 트레이드오프를 가졌다는 점이다. 반면 W-CDMA는 한 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/) 안에서 유연하게 쪼개 쓰므로 동시 작업이 가능했다. 따라서 트래픽이 순수 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위주로 폭발하던 시기에는 EV-DO가 유리했지만, 글로벌 스케일 에코시스템 확장에서는 불리했다. 실무에서는 통신사가 추가 1.25MHz 주파수를 확보할 수 있느냐 여부가 EV-DO 도입의 가장 중요한 물리적 진입 장벽이었다.
+이 매트릭스의 핵심은 EV-DO 망이 다운로드 속도와 효율성 면에서 선도적이었지만, 음성과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 망을 하드웨어적으로 철저히 분리한 탓에 "음성 통화 중 인터넷 검색 불가능([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 칩셋 한계)"이라는 치명적 트레이드오프를 가졌다는 점이다. 반면 W-CDMA는 한 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/) 안에서 유연하게 쪼개 쓰므로 동시 작업이 가능했다. 따라서 트래픽이 순수 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 위주로 폭발하던 시기에는 EV-DO가 유리했지만, 글로벌 스케일 에코시스템 확장에서는 불리했다. 실무에서는 통신사가 추가 1.25MHz 주파수를 확보할 수 있느냐 여부가 EV-DO 도입의 가장 중요한 물리적 진입 장벽이었다.
 
-- **📢 섹션 요약 비유**: EV-DO는 '음성용 피처폰'과 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)용 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)' 두 개의 심장을 무식하게 따로 달아 속도를 높인 괴물급 스포츠카라면, W-CDMA는 하나의 심장으로 에어컨과 주행을 부드럽게 조율하는 고급 세단 모델에 비유할 수 있습니다.
+- **📢 섹션 요약 비유**: EV-DO는 '음성용 피처폰'과 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)용 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)' 두 개의 심장을 무식하게 따로 달아 속도를 높인 괴물급 스포츠카라면, W-CDMA는 하나의 심장으로 에어컨과 주행을 부드럽게 조율하는 고급 세단 모델에 비유할 수 있습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-EV-DO 망을 최적화하고 운용하던 실무 엔지니어들은 기지국 핑퐁 현상과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 튜닝이라는 중대한 도전에 직면했다.
+EV-DO 망을 최적화하고 운용하던 실무 엔지니어들은 기지국 핑퐁 현상과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 튜닝이라는 중대한 도전에 직면했다.
 
 **실무 시나리오 및 운영 플로우**
 ```text
@@ -135,30 +132,30 @@ EV-DO 망을 최적화하고 운용하던 실무 엔지니어들은 기지국 �
    |       |             셀 전체 시스템 스루풋을 극대화하는 쪽으로 스케줄링 파라미터(Tuning) 수정.
 ```
 
-이 운영 플로우의 핵심은 EV-DO 망의 속도 저하가 물리적인 '[신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 약화' 때문인지, 아니면 소프트웨어적인 '공정성 분배 오버헤드' 때문인지를 분리하여 판단해야 한다는 점이다. Proportional Fair [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 극단적인 환경에서 속도가 느린 단말기를 구제하느라 시스템 전체의 타임 슬롯을 낭비하는 '하향 평준화'를 유발할 수 있다. 실무에서는 도심 핫스팟 지역의 경우 공정성을 다소 희생하더라도 전체 통신망의 평균 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 C/I (Carrier-to-Interference) 기반의 Maximum [Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 스케줄링 비중을 상향 조정하는 판단을 내려야만 고객 불만을 잠재울 수 있다.
+이 운영 플로우의 핵심은 EV-DO 망의 속도 저하가 물리적인 '[신호](/studynote/02_operating_system/02_process_thread/130_signal/) 약화' 때문인지, 아니면 소프트웨어적인 '공정성 분배 오버헤드' 때문인지를 분리하여 판단해야 한다는 점이다. Proportional Fair [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 극단적인 환경에서 속도가 느린 단말기를 구제하느라 시스템 전체의 타임 슬롯을 낭비하는 '하향 평준화'를 유발할 수 있다. 실무에서는 도심 핫스팟 지역의 경우 공정성을 다소 희생하더라도 전체 통신망의 평균 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)을 높이는 C/I (Carrier-to-Interference) 기반의 Maximum [Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 스케줄링 비중을 상향 조정하는 판단을 내려야만 고객 불만을 잠재울 수 있다.
 
-<strong>도입 및 최적화 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
-- [ ] 1.25MHz [반송파](/knowledge-base/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)를 EV-DO 전용으로 전환할 때 기존 음성([1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)) 고객의 호 차단율([Call](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop Rate) 영향도 평가를 거쳤는가?
-- [ ] GPS 위성 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 장애 시 기지국 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 무너지는 사태에 대비한 홀드오버(Holdover) 오실레이터 장비가 탑재되었는가?
-- [ ] [HARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/) 재전송 프로세스가 상위 계층인 TCP의 혼잡 제어(Time-out) 타이머와 충돌하지 않도록 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 튜닝이 되었는가?
+<strong>도입 및 최적화 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>:
+- [ ] 1.25MHz [반송파](/studynote/03_network/01_data_communication/054_반송파_Carrier_Wave/)를 EV-DO 전용으로 전환할 때 기존 음성([1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/)) 고객의 호 차단율([Call](/studynote/01_computer_architecture/04_instruction_set_architecture/189_subroutine_call_return/) Drop Rate) 영향도 평가를 거쳤는가?
+- [ ] GPS 위성 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 장애 시 기지국 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)가 무너지는 사태에 대비한 홀드오버(Holdover) 오실레이터 장비가 탑재되었는가?
+- [ ] [HARQ](/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/) 재전송 프로세스가 상위 계층인 TCP의 혼잡 제어(Time-out) 타이머와 충돌하지 않도록 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 튜닝이 되었는가?
 
-- **📢 섹션 요약 비유**: 급식소(기지국)에서 밥을 제일 늦게 먹는 아이(전파 불량 단말)를 끝까지 기다려주다 보면 뒤에 줄 선 수백 명의 아이들(우수 단말들)이 다 굶게 되므로, 영양사는 전체 식사 속도와 개별 배려 사이에서 냉정하게 줄서기 규칙([스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 튜닝)을 바꿔야만 급식 대란을 막을 수 있습니다.
+- **📢 섹션 요약 비유**: 급식소(기지국)에서 밥을 제일 늦게 먹는 아이(전파 불량 단말)를 끝까지 기다려주다 보면 뒤에 줄 선 수백 명의 아이들(우수 단말들)이 다 굶게 되므로, 영양사는 전체 식사 속도와 개별 배려 사이에서 냉정하게 줄서기 규칙([스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 튜닝)을 바꿔야만 급식 대란을 막을 수 있습니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) EV-DO는 '[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특화 무선망 설계'라는 거대한 기술적 화두를 제시하며 4G 올-아이피 시대를 여는 징검다리가 되었다.
+CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) EV-DO는 '[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 특화 무선망 설계'라는 거대한 기술적 화두를 제시하며 4G 올-아이피 시대를 여는 징검다리가 되었다.
 
 | 구분 | 기대 효과 및 기술적 의의 |
 |:---|:---|
 | **스루풋 혁신** | AMC 및 TDM 다운링크 방식을 통해 1.25MHz 협대역에서 최대 3.1Mbps(Rev.A 기준) 고속 달성 |
 | **비대칭 패러다임** | 다운로드가 업로드보다 압도적으로 많은 웹 트래픽 특성을 반영한 비대칭 무선 링크 아키텍처 정립 |
-| <strong>4G <a href="/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 유산</strong> | EV-DO에서 완성된 AMC(적응형 변조), [HARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/)(물리계층 재전송), PF [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 기술은 그대로 4G [LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/OFDMA의 핵심 기술 근간으로 이식됨 |
+| <strong>4G <a href="/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/">LTE</a> 유산</strong> | EV-DO에서 완성된 AMC(적응형 변조), [HARQ](/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/)(물리계층 재전송), PF [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 기술은 그대로 4G [LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/)/OFDMA의 핵심 기술 근간으로 이식됨 |
 
-결론적으로, EV-DO 아키텍처는 음성 중심 통신망의 잔재를 과감히 도려내고 '패킷 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'만을 위한 최적의 고속도로를 설계한 혁명적 시도였다. 비록 글로벌 이동통신 표준 전쟁의 최종 승자는 [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)(LTE로 진화) 진영이 차지하였으나, EV-DO가 선도적으로 고안한 동적 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 제어 메커니즘과 스케줄링 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현대 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [자원 할당](/knowledge-base/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 기술의 뼈대 속에 영구히 살아 숨쉬고 있다. 향후에는 지능형 자원 스케줄링 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+결론적으로, EV-DO 아키텍처는 음성 중심 통신망의 잔재를 과감히 도려내고 '패킷 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)'만을 위한 최적의 고속도로를 설계한 혁명적 시도였다. 비록 글로벌 이동통신 표준 전쟁의 최종 승자는 [W-CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)(LTE로 진화) 진영이 차지하였으나, EV-DO가 선도적으로 고안한 동적 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 채널 제어 메커니즘과 스케줄링 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 현대 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) [자원 할당](/studynote/02_operating_system/01_overview_architecture/041_resource_allocation/) 기술의 뼈대 속에 영구히 살아 숨쉬고 있다. 향후에는 지능형 자원 스케줄링 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
-- **📢 섹션 요약 비유**: EV-DO는 비록 역사 속으로 사라진 비운의 독자 규격 모델이지만, 이 모델이 최초로 보여준 '화물 전용 스피드 터보 엔진'의 설계 도면은 이후 전 세계 모든 슈퍼카([LTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 만드는 표준 교과서가 되었습니다.
+- **📢 섹션 요약 비유**: EV-DO는 비록 역사 속으로 사라진 비운의 독자 규격 모델이지만, 이 모델이 최초로 보여준 '화물 전용 스피드 터보 엔진'의 설계 도면은 이후 전 세계 모든 슈퍼카([LTE](/studynote/03_network/15_nextgen_communication_architecture/752_lte_long_term_evolution_4g/), [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/))를 만드는 표준 교과서가 되었습니다.
 
 ---
 
@@ -166,11 +163,11 @@ CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communicat
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) ([Wideband CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)) | [3GPP](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 진영의 주력 기술로, EV-DO(3GPP2)와 글로벌 3G 표준 패권을 놓고 다툰 핵심 경쟁 기술 |
-| AMC (Adaptive Modulation and Coding) | EV-DO가 전파 상태에 따라 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도를 변속하기 위해 적극 채용한 적응형 무선 제어 기술 |
-| [HARQ](/knowledge-base/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/) (Hybrid Automatic Repeat reQuest) | EV-DO 물리 계층에서 패킷 에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빠르게 처리해 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보장하는 혼합 재전송 기술 |
-| Proportional Fair Scheduler | EV-DO 기지국이 단말들에게 타임 슬롯을 분배할 때 효율성과 공정성을 동시에 잡기 위해 도입한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
-| All-IP Network | EV-DO의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전용 구조 철학이 4G로 넘어가 음성([VoLTE](/knowledge-base/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))까지 포함하여 완성시킨 차세대 패킷 망 패러다임 |
+| [W-CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) ([Wideband CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/)) | [3GPP](/studynote/03_network/15_nextgen_communication_architecture/751_3gpp_3rd_generation_partnership_project/) 진영의 주력 기술로, EV-DO(3GPP2)와 글로벌 3G 표준 패권을 놓고 다툰 핵심 경쟁 기술 |
+| AMC (Adaptive Modulation and Coding) | EV-DO가 전파 상태에 따라 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송 속도를 변속하기 위해 적극 채용한 적응형 무선 제어 기술 |
+| [HARQ](/studynote/03_network/04_data_link_layer_error/205_harq_hybrid_arq_chase_combining/) (Hybrid Automatic Repeat reQuest) | EV-DO 물리 계층에서 패킷 에러 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)를 빠르게 처리해 고속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보장하는 혼합 재전송 기술 |
+| Proportional Fair Scheduler | EV-DO 기지국이 단말들에게 타임 슬롯을 분배할 때 효율성과 공정성을 동시에 잡기 위해 도입한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) |
+| All-IP Network | EV-DO의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전용 구조 철학이 4G로 넘어가 음성([VoLTE](/studynote/03_network/15_nextgen_communication_architecture/758_volte_voice_over_lte_sip_qos/))까지 포함하여 완성시킨 차세대 패킷 망 패러다임 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -184,13 +181,13 @@ CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communicat
     +---> [확장 B: 지능형 자원 스케줄링]
 ```
 
-CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 PAMA에서 출발해 현재 메커니즘을 정교화하고, 이후 [W-CDMA](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSPA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+CDMA2000 [1x](/studynote/03_network/11_wireless_mobile_communication/584_802_1x_pnac_eap_radius/) / EV-DO는 PAMA에서 출발해 현재 메커니즘을 정교화하고, 이후 [W-CDMA](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) / HSPA와 지능형 자원 스케줄링 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 옛날 핸드폰은 전화 통화가 주인공이라서 인터넷을 쓰려고 하면 너무 좁은 길을 써야 해서 답답했어요.
 2. EV-DO는 인터넷 전용으로 아주 넓고 매끄러운 1차선 고속도로를 새로 뚫어준 똑똑한 기술이에요.
-3. 이 길 위에서는 기지국 아저씨가 가장 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 좋은 친구부터 돌아가며 번개처럼 빨리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴주기 때문에 영화도 금방 다운받을 수 있게 되었답니다!
+3. 이 길 위에서는 기지국 아저씨가 가장 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 좋은 친구부터 돌아가며 번개처럼 빨리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 쏴주기 때문에 영화도 금방 다운받을 수 있게 되었답니다!
 
 ---
 
@@ -198,7 +195,7 @@ CDMA2000 [1x](/knowledge-base/studynote/03_network/11_wireless_mobile_communicat
 
 **진행 상황**: 240 / 1120
 
-<- **이전**: [118. PAMA (Pre-Assigned Multiple Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/118_pama/)
-**다음**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) ->
+<- **이전**: [118. PAMA (Pre-Assigned Multiple Access)](/studynote/03_network/02_multiplexing_multiple_access/118_pama/)
+**다음**: [120. W-CDMA (Wideband CDMA) / HSPA (High Speed Packet Access)](/studynote/03_network/02_multiplexing_multiple_access/120_wcdma_hspa/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "762. CBDC 중앙은행 디지털 화폐 설계 (CBDC Central Bank Digital Currency Policy)"
-date = 2026-05-09
+---
+title: "762. CBDC 중앙은행 디지털 화폐 설계 (CBDC Central Bank Digital Currency Policy)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ CBDC 시스템은 **발행·유통·결제·환매(상환)** 4계층 책임 모�
 
 **진행 상황**: 762 / 800
 
-<- **이전**: [761. NFT 디지털 자산 토큰화 소유권](/knowledge-base/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/)
-**다음**: [763. 오픈 뱅킹 마이데이터 API 생태계](/knowledge-base/studynote/06_ict_convergence/uncategorized/763_open_banking_mydata_api_ecosystem/) ->
+<- **이전**: [761. NFT 디지털 자산 토큰화 소유권](/studynote/06_ict_convergence/uncategorized/761_nft_digital_asset_tokenization_ownership/)
+**다음**: [763. 오픈 뱅킹 마이데이터 API 생태계](/studynote/06_ict_convergence/uncategorized/763_open_banking_mydata_api_ecosystem/) ->
 
 ---

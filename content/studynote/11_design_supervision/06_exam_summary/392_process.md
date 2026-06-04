@@ -1,25 +1,22 @@
-+++
-title = "392. 템플릿 메서드 패턴 (Template Method Pattern)"
-date = 2026-05-10
+---
+title: "392. 템플릿 메서드 패턴 (Template Method Pattern)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 상위 클래스에 두고 세부 단계를 하위 클래스가 재정의하게 하는 행동 패턴이다.
-> 2. **가치**: 공통 절차 재사용과 순서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다.
-> 3. **판단 포인트**: [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 재사용이며, 조합 기반 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)과의 차이를 같이 설명하면 좋다.
+> 1. **본질**: [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 상위 클래스에 두고 세부 단계를 하위 클래스가 재정의하게 하는 행동 패턴이다.
+> 2. **가치**: 공통 절차 재사용과 순서 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다.
+> 3. **판단 포인트**: [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 재사용이며, 조합 기반 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)과의 차이를 같이 설명하면 좋다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 상위 클래스에 두고 세부 단계를 하위 클래스가 재정의하게 하는 행동 패턴이다. 처리 순서는 같지만 일부 단계만 달라지는 로직을 매번 복사하면 중복과 순서 오류가 늘어난다. 이 개념이 필요한 이유는 고정된 처리 순서와 변경 가능한 단계를 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 공통 순서가 여러 구현에서 조금씩 달라져 버그와 규칙 불일치가 생긴다.
+[템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 뼈대를 상위 클래스에 두고 세부 단계를 하위 클래스가 재정의하게 하는 행동 패턴이다. 처리 순서는 같지만 일부 단계만 달라지는 로직을 매번 복사하면 중복과 순서 오류가 늘어난다. 이 개념이 필요한 이유는 고정된 처리 순서와 변경 가능한 단계를 구분하는 일을 시스템 수준의 규칙으로 끌어올리기 위해서다. 반대로 이를 무시하면 공통 순서가 여러 구현에서 조금씩 달라져 버그와 규칙 불일치가 생긴다.
 
 아래 그림은 왜 이 주제가 “문제 인식 -> 설계 규칙 -> 안정화 결과”의 흐름으로 이해되어야 하는지를 압축한다.
 
@@ -37,13 +34,13 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 핵심 원리는 "고정된 처리 순서와 변경 가능한 단계를 구분하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 상위 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다. 동시에 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다.
+[템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 핵심 원리는 "고정된 처리 순서와 변경 가능한 단계를 구분하는 일"을 구현 규칙으로 고정하는 데 있다. 실제 설계에서는 상위 클래스가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다. 동시에 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
 | 핵심 문제 | 고정된 처리 순서와 변경 가능한 단계를 구분하는 일 | 이 축이 흔들리면 설계 목적이 사라진다 |
-| 구현 방식 | 상위 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
-| 트레이드오프 | [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
+| 구현 방식 | 상위 클래스가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다 | 코드·계층·배포 단위에 일관되게 반영해야 한다 |
+| 트레이드오프 | [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다 | 복잡도와 운영 비용을 함께 관리해야 한다 |
 
 다음 그림은 입력, 경계, 핵심 규칙, 결과가 어디서 갈리는지 보여 준다.
 
@@ -53,7 +50,7 @@ tags = ["studynote-design-supervision"]
 +----------+   +----------+   +----------+   +----------+
 ```
 
-이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
+이때 중요한 것은 도구 이름보다 경계와 책임의 방향이다. 동일한 기술을 써도 이 방향이 다르면 [유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/), 테스트성, 운영 난도가 크게 달라진다.
 
 - **📢 섹션 요약 비유**: 조립식 부품처럼 협력 관계가 정리되면 기능을 더해도 기본 골격은 유지된다.
 
@@ -61,15 +58,15 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅲ. 비교 및 연결
 
-기술사 답안에서는 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **패턴 적용 상태** 와 **즉흥 구현 상태** 를 대비해 핵심 차이를 정리한다.
+기술사 답안에서는 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 단독 정의보다 대안 구조와 함께 써야 경계가 살아난다. 여기서는 **패턴 적용 상태** 와 **즉흥 구현 상태** 를 대비해 핵심 차이를 정리한다.
 
 | 비교 축 | A | B |
 |:---|:---|:---|
 | 변경 대응 | 패턴 적용 상태는 고정된 처리 순서와 변경 가능한 단계를 구분하는 일에 맞춰 영향 범위를 줄인다 | 즉흥 구현 상태는 변경이 주변 모듈로 번지기 쉽다 |
-| 구조 안정성 | 패턴 적용 상태는 상위 클래스가 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
-| 운영 결과 | 패턴 적용 상태는 공통 절차 재사용과 순서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다 | 즉흥 구현 상태는 공통 순서가 여러 구현에서 조금씩 달라져 버그와 규칙 불일치가 생긴다 |
+| 구조 안정성 | 패턴 적용 상태는 상위 클래스가 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 흐름을 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)로 정의하고, 훅 메서드나 추상 메서드로 변동 단계를 열어 둔다 | 즉흥 구현 상태는 책임과 의존이 섞여 규칙이 흐려진다 |
+| 운영 결과 | 패턴 적용 상태는 공통 절차 재사용과 순서 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다 | 즉흥 구현 상태는 공통 순서가 여러 구현에서 조금씩 달라져 버그와 규칙 불일치가 생긴다 |
 
-연결 개념으로는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 훅 메서드 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
+연결 개념으로는 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/), 훅 메서드 같은 주변 주제를 함께 써 주면, 단순 암기보다 적용 맥락이 살아난다.
 
 - **📢 섹션 요약 비유**: 전용 공구와 즉흥 수리를 비교하면 패턴이 줄이는 복잡도가 분명해진다.
 
@@ -77,11 +74,11 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 무조건 채택하기보다 [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 재사용이며, 조합 기반 [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)과의 차이를 같이 설명하면 좋다. 아래 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
+실무에서는 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 무조건 채택하기보다 [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/)는 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반 재사용이며, 조합 기반 [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)과의 차이를 같이 설명하면 좋다. 아래 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)는 설계 감리 시 최소한으로 확인해야 할 질문이다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 1. 반복되는 변화 축이 실제로 존재하는가?
-2. 패턴이 줄이는 복잡도보다 추가 [추상화](/knowledge-base/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용이 작은가?
+2. 패턴이 줄이는 복잡도보다 추가 [추상화](/studynote/04_software_engineering/04_testing_quality/198_abstraction_control_data_process/) 비용이 작은가?
 3. 클라이언트가 다시 구체 구현에 묶이지 않는가?
 4. 테스트와 디버깅 관점에서 협력 구조를 설명할 수 있는가?
 
@@ -93,7 +90,7 @@ tags = ["studynote-design-supervision"]
 
 ## Ⅴ. 기대효과 및 결론
 
-[템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 기대효과는 분명하다. 공통 절차 재사용과 순서 [일관성](/knowledge-base/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다. 다만 [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다. 결국 기억할 관점은 고정된 처리 순서와 변경 가능한 단계를 구분하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
+[템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))의 기대효과는 분명하다. 공통 절차 재사용과 순서 [일관성](/studynote/05_database/04_transactions_concurrency/194_consistency_database_integrity/) 유지에 유리하다. 다만 [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) 기반이라 런타임 조합 유연성이 낮고, 계층이 깊어지면 이해가 어려워질 수 있다. 결국 기억할 관점은 고정된 처리 순서와 변경 가능한 단계를 구분하는 일을 구조 규칙으로 만드는 데 있다는 점이다.
 
 - **📢 섹션 요약 비유**: 현장 표준 공법서처럼, 패턴은 이름보다 어떤 문제를 반복해서 줄여 주는지가 핵심이다.
 
@@ -103,16 +100,16 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [상속](/knowledge-base/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| 훅 메서드 | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| [전략 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
-| DRY | [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [상속](/studynote/04_software_engineering/04_testing_quality/234_uml_class_relationships_generalization_dependency/) | [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| 훅 메서드 | [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| [전략 패턴](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/) | [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
+| DRY | [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))을 설계하고 감리할 때 함께 보는 연관 개념 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 [절차 복사 구현] -> [템플릿 메서드] -> [공통 뼈대 재사용]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. [템플릿 메서드](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/knowledge-base/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 요리 레시피는 같고 마지막 양념만 집마다 다르게 넣는 것처럼 약속을 먼저 정하는 거예요.
+1. [템플릿 메서드](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/) 패턴 ([Template Method Pattern](/studynote/04_software_engineering/04_testing_quality/269_template_method_pattern/))은 요리 레시피는 같고 마지막 양념만 집마다 다르게 넣는 것처럼 약속을 먼저 정하는 거예요.
 2. 그러면 서로 다른 사람이 해도 같은 규칙으로 움직일 수 있어요.
 3. 그래서 규모가 커질수록 고정된 처리 순서와 변경 가능한 단계를 구분하는 일이 더 중요해져요.
 
@@ -122,7 +119,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 470 / 530
 
-<- **이전**: [391. 전략 패턴 (Strategy Pattern)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
-**다음**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/knowledge-base/studynote/11_design_supervision/06_exam_summary/393_undo/) ->
+<- **이전**: [391. 전략 패턴 (Strategy Pattern)](/studynote/11_design_supervision/06_exam_summary/391_strategy_pattern_summary/)
+**다음**: [393. 커맨드 패턴과 실행 취소 (Command Pattern and Undo)](/studynote/11_design_supervision/06_exam_summary/393_undo/) ->
 
 ---

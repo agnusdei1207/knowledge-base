@@ -1,13 +1,10 @@
-+++
-title = "778. 기술 사업화 스타트업 생태계 VC (Technology Commercialization Startup Ecosystem)"
-date = 2026-05-09
+---
+title: "778. 기술 사업화 스타트업 생태계 VC (Technology Commercialization Startup Ecosystem)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -56,7 +53,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 778 / 800
 
-<- **이전**: [777. 개방형 혁신 오픈 이노베이션 협업](/knowledge-base/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/)
-**다음**: [779. IP 지식 재산권 특허 전략 라이선스](/knowledge-base/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/) ->
+<- **이전**: [777. 개방형 혁신 오픈 이노베이션 협업](/studynote/06_ict_convergence/uncategorized/777_open_innovation_open_source_collaboration/)
+**다음**: [779. IP 지식 재산권 특허 전략 라이선스](/studynote/06_ict_convergence/uncategorized/779_ip_intellectual_property_patent_strategy/) ->
 
 ---

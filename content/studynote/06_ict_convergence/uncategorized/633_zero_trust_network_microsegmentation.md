@@ -1,13 +1,10 @@
-+++
-title = "633. 제로 트러스트 네트워크 마이크로세그먼트 (Zero Trust Network Microsegmentation)"
-date = 2026-05-09
+---
+title: "633. 제로 트러스트 네트워크 마이크로세그먼트 (Zero Trust Network Microsegmentation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -121,7 +118,7 @@ Kubernetes에서는 NetworkPolicy, Cilium/eBPF, Istio authorization policy가 �
 
 **진행 상황**: 633 / 800
 
-<- **이전**: [632. 클라우드 보안 CSPM CWPP CNAPP](/knowledge-base/studynote/06_ict_convergence/uncategorized/632_cloud_security_cspm_cwpp_cnapp/)
-**다음**: [634. 클라우드 데이터 레이크 아키텍처 설계](/knowledge-base/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/) ->
+<- **이전**: [632. 클라우드 보안 CSPM CWPP CNAPP](/studynote/06_ict_convergence/uncategorized/632_cloud_security_cspm_cwpp_cnapp/)
+**다음**: [634. 클라우드 데이터 레이크 아키텍처 설계](/studynote/06_ict_convergence/uncategorized/634_cloud_data_lake_architecture_design/) ->
 
 ---

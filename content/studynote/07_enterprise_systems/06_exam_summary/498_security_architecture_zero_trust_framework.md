@@ -1,13 +1,10 @@
-+++
-title = "498. 보안 아키텍처 제로 트러스트 프레임워크 (Security Architecture Zero Trust Framework)"
-date = 2026-05-09
+---
+title: "498. 보안 아키텍처 제로 트러스트 프레임워크 (Security Architecture Zero Trust Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 498 / 800
 
-<- **이전**: [497. 애플리케이션 아키텍처 서비스 포트폴리오](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/497_application_architecture_service_portfolio/)
-**다음**: [499. 클라우드 아키텍처 하이브리드 멀티 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/499_cloud_architecture_hybrid_multi_strategy/) ->
+<- **이전**: [497. 애플리케이션 아키텍처 서비스 포트폴리오](/studynote/07_enterprise_systems/06_exam_summary/497_application_architecture_service_portfolio/)
+**다음**: [499. 클라우드 아키텍처 하이브리드 멀티 전략](/studynote/07_enterprise_systems/06_exam_summary/499_cloud_architecture_hybrid_multi_strategy/) ->
 
 ---

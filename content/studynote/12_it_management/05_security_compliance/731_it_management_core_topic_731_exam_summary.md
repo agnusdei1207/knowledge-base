@@ -1,13 +1,10 @@
-+++
-title = "731. IT 경영 관리 핵심 토픽 731번 시험 요약 (IT Management Core Topic 731 Exam Summary)"
-date = 2026-05-09
+---
+title: "731. IT 경영 관리 핵심 토픽 731번 시험 요약 (IT Management Core Topic 731 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -146,7 +143,7 @@ IT 경영 관리 731번의 핵심 메커니즘은 **"EDM( Evaluate-Direct-Monito
 
 **진행 상황**: 731 / 800
 
-<- **이전**: [730. IT 경영 관리 핵심 토픽 730번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/730_it_management_core_topic_730_exam_summary/)
-**다음**: [732. IT 경영 관리 핵심 토픽 732번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/732_it_management_core_topic_732_exam_summary/) ->
+<- **이전**: [730. IT 경영 관리 핵심 토픽 730번 시험 요약](/studynote/12_it_management/05_security_compliance/730_it_management_core_topic_730_exam_summary/)
+**다음**: [732. IT 경영 관리 핵심 토픽 732번 시험 요약](/studynote/12_it_management/05_security_compliance/732_it_management_core_topic_732_exam_summary/) ->
 
 ---

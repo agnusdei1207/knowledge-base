@@ -1,31 +1,28 @@
-+++
-title = "424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)"
-date = 2026-05-09
+---
+title: "424. ZRAM / 커널 스왑 압축 기술 (Zram Swap Compression)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ZRAM([커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술)은 물리 램(RAM)이 꽉 차서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 스왑(Swap) [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 쫓아내야 할 때, <strong>디스크로 내보내지 않고 CPU의 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(LZ4/Zstd) 연산을 이용해 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 1/3 크기로 찌그러뜨려 램(RAM) 내부의 숨겨진 가상 <a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a>(ZRAM)에 욱여넣는 극한의 인메모리(In-Memory) 생존 기술</strong>이다.
-> 2. **가치**: 엄청나게 느리고 플래시 수명(TBW)을 갉아먹는 '디스크 I/O (8ms)' 페널티를, 최신 멀티 코어 CPU의 눈부신 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 연산 속도(나노초 단위)로 교환(Trade-off)하여, <strong>스마트폰(Android/iOS)이나 저사양 PC의 체감 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a> 램 용량을 물리적 크기의 1.5배 이상으로 뻥튀기</strong> 시킨다.
-> 3. **융합**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)) 뼈대 아키텍처를 그대로 유지한 채, 그 저장소의 타겟만 디스크에서 램의 특정 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [블록 장치](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)([Block Device](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))로 꺾어주는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 융합 기술로, 현대 모바일 OS 메모리 관리의 절대적인 심장 엔진이 되었다.
+> 1. **본질**: ZRAM([커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술)은 물리 램(RAM)이 꽉 차서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 디스크 스왑(Swap) [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 쫓아내야 할 때, <strong>디스크로 내보내지 않고 CPU의 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(LZ4/Zstd) 연산을 이용해 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 1/3 크기로 찌그러뜨려 램(RAM) 내부의 숨겨진 가상 <a href="/studynote/02_operating_system/07_virtual_memory/390_swap_space/">스왑 공간</a>(ZRAM)에 욱여넣는 극한의 인메모리(In-Memory) 생존 기술</strong>이다.
+> 2. **가치**: 엄청나게 느리고 플래시 수명(TBW)을 갉아먹는 '디스크 I/O (8ms)' 페널티를, 최신 멀티 코어 CPU의 눈부신 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 연산 속도(나노초 단위)로 교환(Trade-off)하여, <strong>스마트폰(Android/iOS)이나 저사양 PC의 체감 <a href="/studynote/02_operating_system/11_exam_summary/675_multitasking_terminology_preemptive/">멀티태스킹</a> 램 용량을 물리적 크기의 1.5배 이상으로 뻥튀기</strong> 시킨다.
+> 3. **융합**: [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)([Swapping](/studynote/02_operating_system/06_memory_management/335_swapping/)) 뼈대 아키텍처를 그대로 유지한 채, 그 저장소의 타겟만 디스크에서 램의 특정 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [블록 장치](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/)([Block Device](/studynote/02_operating_system/08_storage_and_io_systems/442_block_device/))로 꺾어주는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/) 융합 기술로, 현대 모바일 OS 메모리 관리의 절대적인 심장 엔진이 되었다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: ZRAM은 리눅스 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 블록 디바이스 [모듈](/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다. 물리 램 8GB짜리 폰에서 2GB를 뚝 떼어내서 "여기는 램이 아니라 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(디스크)이다!"라고 속인다. 램이 모자라서 카카오톡 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out) 시키면, 진짜 하드디스크로 안 가고 CPU가 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 70% [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 이 2GB짜리 ZRAM 공간에 밀어 넣는다.
-- **필요성**: 안드로이드 폰이나 아이폰을 쓸 때, 램이 꽉 찼다고 백그라운드에 켜둔 인스타그램을 하드디스크(내장 eMMC/UFS [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/))로 스왑 해버리면 두 가지 재앙이 터진다. 첫째, [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)는 읽고 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(I/O)가 잦아지면 수명이 닳아버려 1년 뒤에 폰 메인보드가 죽는다. 둘째, 다시 인스타를 켤 때 [플래시 메모리](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)에서 퍼오는 속도가 너무 느려서 화면이 몇 초간 멈춘다. 애플과 구글 공학자들은 분노했다. "차라리 CPU 힘이 남아도니 램 안에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽉꽉 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)시켜서 램 용량을 마법처럼 늘리자! 디스크는 절대 건드리지 마!" 이것이 ZRAM의 탄생 배경이다.
+- **개념**: ZRAM은 리눅스 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 블록 디바이스 [모듈](/studynote/04_software_engineering/04_testing_quality/192_module_independence/)이다. 물리 램 8GB짜리 폰에서 2GB를 뚝 떼어내서 "여기는 램이 아니라 스왑 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)(디스크)이다!"라고 속인다. 램이 모자라서 카카오톡 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [스왑 아웃](/studynote/02_operating_system/06_memory_management/336_swap_out_in/)(Swap-out) 시키면, 진짜 하드디스크로 안 가고 CPU가 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 돌려 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 70% [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)한 뒤 이 2GB짜리 ZRAM 공간에 밀어 넣는다.
+- **필요성**: 안드로이드 폰이나 아이폰을 쓸 때, 램이 꽉 찼다고 백그라운드에 켜둔 인스타그램을 하드디스크(내장 eMMC/UFS [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/))로 스왑 해버리면 두 가지 재앙이 터진다. 첫째, [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)는 읽고 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(I/O)가 잦아지면 수명이 닳아버려 1년 뒤에 폰 메인보드가 죽는다. 둘째, 다시 인스타를 켤 때 [플래시 메모리](/studynote/01_computer_architecture/06_memory_hierarchy_cache/256_flash_memory/)에서 퍼오는 속도가 너무 느려서 화면이 몇 초간 멈춘다. 애플과 구글 공학자들은 분노했다. "차라리 CPU 힘이 남아도니 램 안에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꽉꽉 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)시켜서 램 용량을 마법처럼 늘리자! 디스크는 절대 건드리지 마!" 이것이 ZRAM의 탄생 배경이다.
 
 - **등장 배경 및 모바일 아키텍처의 혁명**:
-  1. **임베디드/모바일의 딜레마**: 램은 비싸서 조금 꽂았고, 내장 스토리지는 마모(Wear-out) 문제로 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)이 원천 금지됨.
-  2. <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러의 잦은 등장</strong>: 램이 차면 무조건 백그라운드 앱을 쏴 죽이는 바람에, 폰에서 앱 리프레시(다시 로딩)가 너무 잦아 유저 불만 폭주.
-  3. <strong>CPU <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 비약적 발전</strong>: ARM 코어가 너무 좋아져서 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산을 하는 데 걸리는 0.001초의 딜레이가 플래시 I/O [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(10초)보다 1만 배 유리하다는 손익분기점을 돌파함.
+  1. **임베디드/모바일의 딜레마**: 램은 비싸서 조금 꽂았고, 내장 스토리지는 마모(Wear-out) 문제로 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)이 원천 금지됨.
+  2. <strong><a href="/studynote/02_operating_system/02_process_thread/157_oom_killer/">OOM</a> 킬러의 잦은 등장</strong>: 램이 차면 무조건 백그라운드 앱을 쏴 죽이는 바람에, 폰에서 앱 리프레시(다시 로딩)가 너무 잦아 유저 불만 폭주.
+  3. <strong>CPU <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>의 비약적 발전</strong>: ARM 코어가 너무 좋아져서 램 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산을 하는 데 걸리는 0.001초의 딜레이가 플래시 I/O [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)(10초)보다 1만 배 유리하다는 손익분기점을 돌파함.
 
 ```text
 +------------------------------------------------------------------------+
@@ -50,57 +47,57 @@ tags = ["studynote-operating-system"]
 |          램의 1GB 공간만 차지하며 좀비처럼 램 안에 살아남음!           |
 +------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 이 아키텍처의 본질은 전형적인 <strong>"공간(Space)을 얻기 위해 CPU 연산력(Compute)을 지불한다"</strong>는 공학적 트레이드오프(Trade-off)다. CPU는 놀고 있고 램만 쪼들리는 현대 모바일 생태계의 불균형을, CPU의 멱살을 잡고 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 노가다를 시킴으로써 램 용량 확장으로 치환해 버리는 완벽한 밸런싱 기술이다.
+**[다이어그램 해설]** 이 아키텍처의 본질은 전형적인 <strong>"공간(Space)을 얻기 위해 CPU 연산력(Compute)을 지불한다"</strong>는 공학적 트레이드오프(Trade-off)다. CPU는 놀고 있고 램만 쪼들리는 현대 모바일 생태계의 불균형을, CPU의 멱살을 잡고 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 노가다를 시킴으로써 램 용량 확장으로 치환해 버리는 완벽한 밸런싱 기술이다.
 
-- **📢 섹션 요약 비유**: 이삿짐 차(RAM)가 꽉 찼을 때, 짐을 버리고 왕복(디스크 스왑)하는 게 아닙니다. 이삿짐센터 아저씨(CPU)가 땀을 뻘뻘 흘리며 침대와 소파를 다 뜯어 분해하고([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)) 테트리스를 해서 트럭 한 대에 억지로 우겨넣고 출발하는 겁니다. 땀(연산)은 나지만 기름값(디스크 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 완벽히 아꼈습니다.
+- **📢 섹션 요약 비유**: 이삿짐 차(RAM)가 꽉 찼을 때, 짐을 버리고 왕복(디스크 스왑)하는 게 아닙니다. 이삿짐센터 아저씨(CPU)가 땀을 뻘뻘 흘리며 침대와 소파를 다 뜯어 분해하고([압축](/studynote/02_operating_system/06_memory_management/347_compaction/)) 테트리스를 해서 트럭 한 대에 억지로 우겨넣고 출발하는 겁니다. 땀(연산)은 나지만 기름값(디스크 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))은 완벽히 아꼈습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 (LZO -> LZ4 -> Zstd)
+### [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 진화 (LZO -> LZ4 -> Zstd)
 
-ZRAM은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램에서 램으로 옮기며 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제를 하기 때문에 '[압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 푸는 속도'가 곧 메모리 접근 속도([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) EAT)가 된다. 따라서 무조건 속도가 생명이다.
+ZRAM은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 램에서 램으로 옮기며 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/해제를 하기 때문에 '[압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 푸는 속도'가 곧 메모리 접근 속도([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) EAT)가 된다. 따라서 무조건 속도가 생명이다.
 
-1. **LZO**: [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ZRAM에 쓰였다. 빠르지만 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 좀 아쉬웠다.
-2. **LZ4**: **현재 안드로이드 및 수많은 리눅스 기기의 абсолют(절대) 표준이다.** [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 중간(약 50~60%)이지만, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 푸는 속도(Decompression)가 단일 코어에서 무려 초당 3GB~4GB에 달하는 미친 칩셋 최적화를 보여준다.
-3. **Zstd**: 페이스북이 만든 최신 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). LZ4보다 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률은 더 높은데 푸는 속도도 빨라서 최신 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 ZRAM에서 적극 채용되고 있다.
+1. **LZO**: [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) ZRAM에 쓰였다. 빠르지만 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 좀 아쉬웠다.
+2. **LZ4**: **현재 안드로이드 및 수많은 리눅스 기기의 абсолют(절대) 표준이다.** [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률은 중간(약 50~60%)이지만, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 푸는 속도(Decompression)가 단일 코어에서 무려 초당 3GB~4GB에 달하는 미친 칩셋 최적화를 보여준다.
+3. **Zstd**: 페이스북이 만든 최신 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/). LZ4보다 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률은 더 높은데 푸는 속도도 빨라서 최신 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)의 ZRAM에서 적극 채용되고 있다.
 
 ---
 
-### 하드웨어 MMU와의 은밀한 결탁 ([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))
+### 하드웨어 MMU와의 은밀한 결탁 ([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))
 
-ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/) 시스템(PTE)에 완전히 기생하여 투명하게 동작한다.
-- 10번 가상 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램이 모자라 쫓겨난다.
-- [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CPU(LZ4)를 시켜 4KB [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1KB로 찌그러뜨리고 ZRAM 구역(블록 번호 5번)에 던져 넣는다.
-- 그리고 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)의 <strong><code>Invalid(I)</code> 비트를 켜고, 빈자리에 "얘 디스크 말고 ZRAM 5번 블록에 있어"라고 주소를 적어놓는다.</strong> (기가 막힌 속임수다).
-- 나중에 앱이 10번 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 터치하면 [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 트랩이 뜬다.
-- OS가 깨어나서 PTE를 보니 "아하 ZRAM에 있네!" -> ZRAM 5번 블록에서 1KB를 꺼냄 -> CPU로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 풀어 4KB 원본을 만듦 -> 빈 램에 꽂아주고 실행.
-- 유저 앱은 자기 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크에 다녀왔는지, 찌그러졌다 펴졌는지 1도 모른 채 완벽하게 속아 넘어간다.
+ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [페이징](/studynote/02_operating_system/04_synchronization/259_paging/) 시스템(PTE)에 완전히 기생하여 투명하게 동작한다.
+- 10번 가상 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 램이 모자라 쫓겨난다.
+- [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 CPU(LZ4)를 시켜 4KB [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 1KB로 찌그러뜨리고 ZRAM 구역(블록 번호 5번)에 던져 넣는다.
+- 그리고 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 엔트리(PTE)의 <strong><code>Invalid(I)</code> 비트를 켜고, 빈자리에 "얘 디스크 말고 ZRAM 5번 블록에 있어"라고 주소를 적어놓는다.</strong> (기가 막힌 속임수다).
+- 나중에 앱이 10번 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 터치하면 [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 트랩이 뜬다.
+- OS가 깨어나서 PTE를 보니 "아하 ZRAM에 있네!" -> ZRAM 5번 블록에서 1KB를 꺼냄 -> CPU로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 풀어 4KB 원본을 만듦 -> 빈 램에 꽂아주고 실행.
+- 유저 앱은 자기 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 디스크에 다녀왔는지, 찌그러졌다 펴졌는지 1도 모른 채 완벽하게 속아 넘어간다.
 
-- **📢 섹션 요약 비유**: 마술사가 모자 속 비둘기([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보자기로 덮어 꾹 눌러 작은 공([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/))으로 만든 뒤 숨겼습니다. 관객(유저 앱)이 비둘기를 찾으면, 마술사는 0.1초 만에 공을 펴서 다시 비둘기로 만들어 보여줍니다. 관객은 비둘기가 한 번도 공으로 찌그러진 적 없이 모자(램) 안에 계속 있었던 것처럼 감쪽같이 속습니다.
+- **📢 섹션 요약 비유**: 마술사가 모자 속 비둘기([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 보자기로 덮어 꾹 눌러 작은 공([압축](/studynote/02_operating_system/06_memory_management/347_compaction/))으로 만든 뒤 숨겼습니다. 관객(유저 앱)이 비둘기를 찾으면, 마술사는 0.1초 만에 공을 펴서 다시 비둘기로 만들어 보여줍니다. 관객은 비둘기가 한 번도 공으로 찌그러진 적 없이 모자(램) 안에 계속 있었던 것처럼 감쪽같이 속습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: 고전 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) vs 인메모리 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)(ZRAM)
+### 비교 1: 고전 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)/[SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/)) vs 인메모리 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)(ZRAM)
 
 모바일이 PC의 아키텍처를 뒤엎고 독자 노선을 걷게 된 분기점이다.
 
-| 비교 항목 | 고전적 Swap [Partition](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ([PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 서버) | ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑 (모바일, [Mac](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) |
+| 비교 항목 | 고전적 Swap [Partition](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/) ([PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), 서버) | ZRAM / [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑 (모바일, [Mac](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) |
 |:---|:---|:---|
-| **물리적 저장소** | 느리고 수명이 닳는 하드디스크 / [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | **속도가 빛처럼 빠른 물리 램(RAM) 내부** |
-| <strong>I/O <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | 1~8 밀리초 (수십만 클럭 버려짐) | <strong>수십 마이크로초 단위 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 해제 연산만 소요)</strong> |
-| **CPU 점유율** | 디스크를 기다리느라 CPU는 놀고 있음 | [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제를 하느라 **CPU가 100% 팽팽하게 일함** |
-| **스토리지 수명** | 잦은 [쓰기](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)로 NAND 플래시 수명 파괴 | 램에서만 돌기 때문에 <strong>스토리지 수명 100% <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> |
+| **물리적 저장소** | 느리고 수명이 닳는 하드디스크 / [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) | **속도가 빛처럼 빠른 물리 램(RAM) 내부** |
+| <strong>I/O <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/">지연 시간</a></strong> | 1~8 밀리초 (수십만 클럭 버려짐) | <strong>수십 마이크로초 단위 (<a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a> 해제 연산만 소요)</strong> |
+| **CPU 점유율** | 디스크를 기다리느라 CPU는 놀고 있음 | [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/해제를 하느라 **CPU가 100% 팽팽하게 일함** |
+| **스토리지 수명** | 잦은 [쓰기](/studynote/13_cloud_architecture/05_data_engineering/289_cqrs_db/)(Write)로 NAND 플래시 수명 파괴 | 램에서만 돌기 때문에 <strong>스토리지 수명 100% <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> |
 
 ### ZSWAP vs ZCACHE vs ZRAM (리눅스의 3파전)
 
-리눅스 진영에는 비슷한 듯 다른 3가지 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑 기술이 존재한다. 면접이나 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝 시 차이를 알아야 한다.
-- **ZRAM**: 아예 램의 일부분을 가짜 하드디스크(블록 디바이스)로 만들어서, 스왑 용도로만 쓰는 독립된 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/). (가장 대중적, 안드로이드 기본)
-- **ZSWAP**: 진짜 하드디스크 스왑 [파티션](/knowledge-base/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 넘어가기 '직전'에, 램에 마련된 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 캐시에 일단 찌그러뜨려 놓고 버티는 방파제. (ZRAM처럼 가짜 디스크를 만들지 않고 스왑 과정 중간에 끼어드는 구조). 캐시가 꽉 차면 찌그러진 상태로 진짜 디스크로 밀어냄. (현대 서버 리눅스 대세)
-- **ZCACHE**: 스왑 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 일반 [파일 지원 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/)([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)까지 모조리 다 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 극단적 캐시 기술. (너무 불안정해서 사장됨).
+리눅스 진영에는 비슷한 듯 다른 3가지 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 스왑 기술이 존재한다. 면접이나 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝 시 차이를 알아야 한다.
+- **ZRAM**: 아예 램의 일부분을 가짜 하드디스크(블록 디바이스)로 만들어서, 스왑 용도로만 쓰는 독립된 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/). (가장 대중적, 안드로이드 기본)
+- **ZSWAP**: 진짜 하드디스크 스왑 [파티션](/studynote/02_operating_system/09_file_system/514_partition_slice_volume/)으로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 넘어가기 '직전'에, 램에 마련된 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 캐시에 일단 찌그러뜨려 놓고 버티는 방파제. (ZRAM처럼 가짜 디스크를 만들지 않고 스왑 과정 중간에 끼어드는 구조). 캐시가 꽉 차면 찌그러진 상태로 진짜 디스크로 밀어냄. (현대 서버 리눅스 대세)
+- **ZCACHE**: 스왑 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)뿐만 아니라 일반 [파일 지원 메모리](/studynote/02_operating_system/07_virtual_memory/392_file_backed_memory/)([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Cache)까지 모조리 다 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 버리는 극단적 캐시 기술. (너무 불안정해서 사장됨).
 
 ```text
 +----------+------------+------------+-------------------------------+
@@ -110,9 +107,9 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 | ZSWAP    | 있음 (방파제 역할)| 스왑 파이프라인 | 🟡 일부 서버 사용 |
 +----------+------------+------------+-------------------------------+
 ```
-**[매트릭스 해설]** "디스크가 아예 없는 모바일 환경"에서는 ZRAM이 신이다. 램을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해서 용량을 2배로 뻥튀기하는 것 외엔 살길이 없다. 반면 "스왑 디스크가 빵빵하게 꽂힌 엔터프라이즈 서버"에서는 ZSWAP을 써서, 일단 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)으로 버티다가 한계가 오면 스왑 디스크로 안전하게 이관하는 2중 안전장치를 택한다.
+**[매트릭스 해설]** "디스크가 아예 없는 모바일 환경"에서는 ZRAM이 신이다. 램을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해서 용량을 2배로 뻥튀기하는 것 외엔 살길이 없다. 반면 "스왑 디스크가 빵빵하게 꽂힌 엔터프라이즈 서버"에서는 ZSWAP을 써서, 일단 램 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)으로 버티다가 한계가 오면 스왑 디스크로 안전하게 이관하는 2중 안전장치를 택한다.
 
-- **📢 섹션 요약 비유**: ZRAM은 집(램)에 창고(디스크)가 없어서, 안 쓰는 옷을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 빨아들여 침대 밑(램 내부 가짜 창고)에 억지로 숨기는 눈물겨운 원룸살이입니다. 반면 ZSWAP은 마당에 거대한 창고(진짜 스왑)가 있지만, 거기까지 걸어가기 귀찮으니 일단 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)팩에 넣어서 현관에 쌓아두다가(방파제) 현관이 꽉 차면 창고로 갖다 버리는 저택의 정리법입니다.
+- **📢 섹션 요약 비유**: ZRAM은 집(램)에 창고(디스크)가 없어서, 안 쓰는 옷을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)팩으로 빨아들여 침대 밑(램 내부 가짜 창고)에 억지로 숨기는 눈물겨운 원룸살이입니다. 반면 ZSWAP은 마당에 거대한 창고(진짜 스왑)가 있지만, 거기까지 걸어가기 귀찮으니 일단 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)팩에 넣어서 현관에 쌓아두다가(방파제) 현관이 꽉 차면 창고로 갖다 버리는 저택의 정리법입니다.
 
 ---
 
@@ -122,18 +119,18 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 1. **맥북 사용자의 미스터리**:
    - 윈도우 노트북은 8GB 램으로 크롬 탭 20개만 띄워도 버벅대며 죽으려 한다.
    - 하지만 애플 실리콘(M1, M2)을 단 기본형 맥북 8GB는 크롬 탭 50개, 카톡, 엑셀을 다 띄워도 마우스가 미끄러지듯 부드럽게 돌아간다. 애플 유저들은 "애플의 램 8GB는 윈도우 16GB와 같다"며 램크루지 쉴드를 친다.
-2. <strong>환상의 정체 (Memory <a href="/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong>:
-   - 이것이 마법이 아니라 바로 macOS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 극단적으로 깊게 박혀있는 <strong>'메모리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(ZRAM의 애플 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)'</strong> 아키텍처의 힘이다.
-   - macOS는 램이 부족해지면 절대 디스크([SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 먼저 [스왑 아웃](/knowledge-base/studynote/02_operating_system/06_memory_management/336_swap_out_in/)하지 않는다. 백그라운드에 있는 안 쓰는 크롬 탭 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CPU로 미친 듯이 쥐어짜서(WKdm [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 램의 절반 크기로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 보관한다.
-   - 애플 칩(M 시리즈)의 무식한 깡패 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전성비 덕분에, 이 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산이 돌아가는 동안에도 CPU 팬이 돌지 않고 유저는 렉을 1도 체감하지 못한다.
+2. <strong>환상의 정체 (Memory <a href="/studynote/08_algorithm_stats/09_info_theory/159_compression/">Compression</a>)</strong>:
+   - 이것이 마법이 아니라 바로 macOS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 극단적으로 깊게 박혀있는 <strong>'메모리 <a href="/studynote/02_operating_system/06_memory_management/347_compaction/">압축</a>(ZRAM의 애플 <a href="/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/">버전</a>)'</strong> 아키텍처의 힘이다.
+   - macOS는 램이 부족해지면 절대 디스크([SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))로 먼저 [스왑 아웃](/studynote/02_operating_system/06_memory_management/336_swap_out_in/)하지 않는다. 백그라운드에 있는 안 쓰는 크롬 탭 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 CPU로 미친 듯이 쥐어짜서(WKdm [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 램의 절반 크기로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 보관한다.
+   - 애플 칩(M 시리즈)의 무식한 깡패 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 전성비 덕분에, 이 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/해제 연산이 돌아가는 동안에도 CPU 팬이 돌지 않고 유저는 렉을 1도 체감하지 못한다.
 3. **가혹한 진실 (한계 돌파 시)**:
-   - 하지만 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 효율을 넘어설 정도로 무거운 영상 편집이나 3D 렌더링(이미 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고도로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)되어 있어 ZRAM [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)률이 0%에 수렴하는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 돌리는 순간, [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 꼼수는 깨지고 결국 진짜 [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 스왑으로 넘어가며 맥북 8GB의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 처참하게 곤두박질친다(Swap Insane). 물리 법칙은 결코 속일 수 없다는 실무의 냉혹한 결론이다.
+   - 하지만 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 효율을 넘어설 정도로 무거운 영상 편집이나 3D 렌더링(이미 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 고도로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)되어 있어 ZRAM [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)률이 0%에 수렴하는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 돌리는 순간, [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 꼼수는 깨지고 결국 진짜 [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/) 스왑으로 넘어가며 맥북 8GB의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 처참하게 곤두박질친다(Swap Insane). 물리 법칙은 결코 속일 수 없다는 실무의 냉혹한 결론이다.
 
-### ZRAM의 [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 배터리 광탈과 발열
+### ZRAM의 [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/): 배터리 광탈과 발열
 스마트폰에서 ZRAM을 너무 크게(예: 램 8GB 중 4GB) 잡아놓으면 어떻게 될까?
-앱을 켤 때마다 램 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)을 풀고 닫을 때마다 다시 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(LZ4)하느라, 폰의 CPU가 24시간 내내 풀로드(Full Load)로 일하게 된다. 결과적으로 앱 리프레시는 줄어들어 쾌적해 보이지만, <strong>스마트폰이 손난로처럼 뜨거워지고 배터리가 3시간 만에 광탈</strong>해 버린다. 제조사(삼성, 애플) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝 엔지니어들이 가장 피 말리게 테스트하는 영역이 바로 이 ZRAM의 용량(Size)과 Swappiness 파라미터 간의 황금비율이다.
+앱을 켤 때마다 램 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)을 풀고 닫을 때마다 다시 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(LZ4)하느라, 폰의 CPU가 24시간 내내 풀로드(Full Load)로 일하게 된다. 결과적으로 앱 리프레시는 줄어들어 쾌적해 보이지만, <strong>스마트폰이 손난로처럼 뜨거워지고 배터리가 3시간 만에 광탈</strong>해 버린다. 제조사(삼성, 애플) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 튜닝 엔지니어들이 가장 피 말리게 테스트하는 영역이 바로 이 ZRAM의 용량(Size)과 Swappiness 파라미터 간의 황금비율이다.
 
-- **📢 섹션 요약 비유**: 맥북 8GB의 비밀은 집이 넓은 게 아니라, 청소의 달인([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 집안의 모든 물건을 진공 팩으로 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 구석에 완벽하게 테트리스를 해놓은 것입니다. 손님이 볼 땐 마법처럼 넓어 보이지만, 사실 청소의 달인은 백그라운드에서 땀을 뻘뻘 흘리며(CPU 발열) 짐을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)하고 푸는 막노동을 하고 있는 중입니다.
+- **📢 섹션 요약 비유**: 맥북 8GB의 비밀은 집이 넓은 게 아니라, 청소의 달인([압축](/studynote/02_operating_system/06_memory_management/347_compaction/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))이 집안의 모든 물건을 진공 팩으로 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 구석에 완벽하게 테트리스를 해놓은 것입니다. 손님이 볼 땐 마법처럼 넓어 보이지만, 사실 청소의 달인은 백그라운드에서 땀을 뻘뻘 흘리며(CPU 발열) 짐을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)하고 푸는 막노동을 하고 있는 중입니다.
 
 ---
 
@@ -143,15 +140,15 @@ ZRAM은 별도의 복잡한 메모리 장부를 만들지 않고, 기존 [가상
 
 | 구분 | 내용 |
 |:---|:---|
-| **디스크 I/O 완전 봉쇄** | [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 시 플래시 스토리지를 긁는 8ms 페널티를 나노초 단위의 CPU [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 연산으로 상쇄하여 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 로켓 상승 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 극대화</strong>| 물리 램 8GB로 12GB어치의 백그라운드 앱 생존([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/) 회피)을 보장하여, 모바일 환경의 치명적인 단점인 '앱 리프레시' 현상을 절반 이하로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
-| <strong>스토리지 수명(TBW) <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>| 잦은 [스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/335_swapping/)으로 인한 낸드 플래시(eMMC, UFS)의 셀(Cell) 마모를 원천 차단하여, 스마트폰과 태블릿의 메인보드 하드웨어 수명을 연장 |
+| **디스크 I/O 완전 봉쇄** | [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) 시 플래시 스토리지를 긁는 8ms 페널티를 나노초 단위의 CPU [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 해제 연산으로 상쇄하여 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 로켓 상승 |
+| <strong><a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 극대화</strong>| 물리 램 8GB로 12GB어치의 백그라운드 앱 생존([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/) 회피)을 보장하여, 모바일 환경의 치명적인 단점인 '앱 리프레시' 현상을 절반 이하로 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/) |
+| <strong>스토리지 수명(TBW) <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong>| 잦은 [스와핑](/studynote/02_operating_system/06_memory_management/335_swapping/)으로 인한 낸드 플래시(eMMC, UFS)의 셀(Cell) 마모를 원천 차단하여, 스마트폰과 태블릿의 메인보드 하드웨어 수명을 연장 |
 
 ### 결론 및 미래 전망
 
-ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술은 "남는 CPU 연산력을 제물로 바쳐, 부족한 물리 램 용량을 소환해 낸다"는 컴퓨터 구조론의 가장 현대적이고 파격적인 연금술이다. 1990년대 CPU가 느릴 때는 상상도 못 했던 짓이, 멀티코어와 깡패 같은 M1, 스냅드래곤 칩셋이 넘쳐나는 현대에 와서 가장 훌륭한 자원 밸런싱 아키텍처로 만개했다. 이 기술 덕분에 인류는 램 용량 증설 비용을 아끼며 스마트폰 폼팩터의 물리적 한계를 극복할 수 있었다. 앞으로 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산을 위한 NPU와 하드웨어 가속기가 발전하면, CPU를 괴롭히지 않고도 메모리 컨트롤러 자체가 백그라운드에서 하드웨어적으로 투명하게 램을 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)/해제하는 인메모리 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 칩(In-Memory [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/) Chip)의 시대로 진화하여, [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간은 물리 램의 2~3배를 디폴트로 품게 될 것이다.
+ZRAM 및 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술은 "남는 CPU 연산력을 제물로 바쳐, 부족한 물리 램 용량을 소환해 낸다"는 컴퓨터 구조론의 가장 현대적이고 파격적인 연금술이다. 1990년대 CPU가 느릴 때는 상상도 못 했던 짓이, 멀티코어와 깡패 같은 M1, 스냅드래곤 칩셋이 넘쳐나는 현대에 와서 가장 훌륭한 자원 밸런싱 아키텍처로 만개했다. 이 기술 덕분에 인류는 램 용량 증설 비용을 아끼며 스마트폰 폼팩터의 물리적 한계를 극복할 수 있었다. 앞으로 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 연산을 위한 NPU와 하드웨어 가속기가 발전하면, CPU를 괴롭히지 않고도 메모리 컨트롤러 자체가 백그라운드에서 하드웨어적으로 투명하게 램을 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)/해제하는 인메모리 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 칩(In-Memory [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/) Chip)의 시대로 진화하여, [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간은 물리 램의 2~3배를 디폴트로 품게 될 것이다.
 
-- **📢 섹션 요약 비유**: 돈(램)이 없어서 창고(디스크)를 빌려야 했던 가난한 세입자가, 남는 근육(강력한 CPU [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 써서 모든 가구를 가루로 빻고 조립하는 초능력([압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술)을 깨우치면서 창고 임대료(디스크 수명과 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 한 푼도 내지 않고 좁은 단칸방에서 대궐처럼 살게 된 마법 같은 생존기입니다.
+- **📢 섹션 요약 비유**: 돈(램)이 없어서 창고(디스크)를 빌려야 했던 가난한 세입자가, 남는 근육(강력한 CPU [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/))을 써서 모든 가구를 가루로 빻고 조립하는 초능력([압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술)을 깨우치면서 창고 임대료(디스크 수명과 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/))를 한 푼도 내지 않고 좁은 단칸방에서 대궐처럼 살게 된 마법 같은 생존기입니다.
 
 ---
 
@@ -159,10 +156,10 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [페이지 고정](/knowledge-base/studynote/02_operating_system/07_virtual_memory/422_page_pinning_locking/) ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pinning / [Locking](/knowledge-base/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [대형 페이지](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) (Large [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Transparent Hugepage)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/knowledge-base/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [페이지 고정](/studynote/02_operating_system/07_virtual_memory/422_page_pinning_locking/) ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Pinning / [Locking](/studynote/05_database/04_transactions_concurrency/213_locking_mechanism_concurrency_control/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [대형 페이지](/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) (Large [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Transparent Hugepage)의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 환경의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 스케줄링 ([NUMA](/studynote/02_operating_system/06_memory_management/377_numa_allocation/) 노드 별 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 할당 / numactl) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -176,13 +173,13 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
     +---> [NUMA 환경의 가상 메모리 스케줄링 (NUMA 노드 별 페이지 할당 / numactl)]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [대형 페이지](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) (Large [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Transparent Hugepage)의 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점을 이해하면 ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 ZRAM / [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/knowledge-base/studynote/08_algorithm_stats/09_info_theory/159_compression/))을 잘 알면 나중에 [OOM Killer](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘도 훨씬 쉽게 배울 수 있어요.
+1. ZRAM / [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [대형 페이지](/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/) (Large [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) / Transparent Hugepage)의 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 이점을 이해하면 ZRAM / [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 ZRAM / [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 스왑 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/) 기술 (Zram Swap [Compression](/studynote/08_algorithm_stats/09_info_theory/159_compression/))을 잘 알면 나중에 [OOM Killer](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ([Out-of-Memory](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/)) 작동 우선순위 점수 (oom_score) 매커니즘도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -190,7 +187,7 @@ ZRAM 및 [커널](/knowledge-base/studynote/02_operating_system/01_overview_arch
 
 **진행 상황**: 424 / 800
 
-<- **이전**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/knowledge-base/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/)
-**다음**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ->
+<- **이전**: [423. 대형 페이지 (Large Page / Transparent Hugepage)의 가상 메모리 성능 이점](/studynote/02_operating_system/07_virtual_memory/423_large_page_performance/)
+**다음**: [425. OOM Killer (Out-of-Memory) 작동 우선순위 점수 (oom_score) 매커니즘](/studynote/02_operating_system/07_virtual_memory/425_oom_killer_score/) ->
 
 ---

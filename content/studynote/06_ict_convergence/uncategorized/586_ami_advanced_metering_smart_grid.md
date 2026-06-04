@@ -1,13 +1,10 @@
-+++
-title = "586. AMI 지능형 검침 인프라 스마트 그리드 (AMI Advanced Metering Smart Grid)"
-date = 2026-05-09
+---
+title: "586. AMI 지능형 검침 인프라 스마트 그리드 (AMI Advanced Metering Smart Grid)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ AMI 지능형 검침 스마트그리드은(는) 현장의 상태를 데이터로
 
 **진행 상황**: 586 / 800
 
-<- **이전**: [585. 스마트팩토리 산업 IoT IIoT 아키텍처](/knowledge-base/studynote/06_ict_convergence/uncategorized/585_smart_factory_industrial_iot_iiot_architectur/)
-**다음**: [587. 드론 UAV 무인항공 제어 시스템](/knowledge-base/studynote/06_ict_convergence/uncategorized/587_drone_uav_unmanned_aerial_control_system/) ->
+<- **이전**: [585. 스마트팩토리 산업 IoT IIoT 아키텍처](/studynote/06_ict_convergence/uncategorized/585_smart_factory_industrial_iot_iiot_architectur/)
+**다음**: [587. 드론 UAV 무인항공 제어 시스템](/studynote/06_ict_convergence/uncategorized/587_drone_uav_unmanned_aerial_control_system/) ->
 
 ---

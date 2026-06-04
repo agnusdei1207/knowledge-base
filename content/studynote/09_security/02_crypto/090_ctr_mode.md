@@ -1,42 +1,39 @@
-+++
-title = "090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능"
-date = 2026-04-05
+---
+title: "090. CTR (Counter) — 난수 대신 카운터, 병렬 처리 가능"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: CTR ([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드는 평문을 직접 암호화하는 대신, 변화하는 '[카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값'을 암호화하여 거대한 난수(Keystream)를 만들고 이를 평문과 XOR 연산하는 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 운영 모드다.
-> 2. **가치**: 이전 블록의 결과에 얽매이지 않고 각 블록을 완전히 독립적으로 처리하므로, 멀티코어 환경에서 무한대의 '[초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리'가 가능해져 네트워크 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 돌파했다.
-> 3. **판단 포인트**: 빠르고 유연하지만, 동일한 키와 초기화 벡터([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/))의 조합을 단 한 번이라도 재사용하면 원본 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통째로 뚫리는 치명적 약점이 있으므로 [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 관리에 목숨을 걸어야 한다.
+> 1. **본질**: CTR ([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/)) 모드는 평문을 직접 암호화하는 대신, 변화하는 '[카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값'을 암호화하여 거대한 난수(Keystream)를 만들고 이를 평문과 XOR 연산하는 [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 운영 모드다.
+> 2. **가치**: 이전 블록의 결과에 얽매이지 않고 각 블록을 완전히 독립적으로 처리하므로, 멀티코어 환경에서 무한대의 '[초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리'가 가능해져 네트워크 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 한계를 돌파했다.
+> 3. **판단 포인트**: 빠르고 유연하지만, 동일한 키와 초기화 벡터([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/))의 조합을 단 한 번이라도 재사용하면 원본 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 통째로 뚫리는 치명적 약점이 있으므로 [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 관리에 목숨을 걸어야 한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-과거의 대표적 암호 운영 모드인 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)) 모드는 보안성은 좋았으나 치명적인 단점이 있었다. 앞 블록의 암호화 결과가 뒤 블록의 입력으로 들어가야 하는 쇠사슬 구조 탓에 릴레이 달리기처럼 한 번에 하나씩([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리)만 작업해야 했다.
+과거의 대표적 암호 운영 모드인 [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) ([Cipher Block Chaining](/studynote/09_security/02_crypto/089_cbc_mode/)) 모드는 보안성은 좋았으나 치명적인 단점이 있었다. 앞 블록의 암호화 결과가 뒤 블록의 입력으로 들어가야 하는 쇠사슬 구조 탓에 릴레이 달리기처럼 한 번에 하나씩([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리)만 작업해야 했다.
 
-하지만 [5G](/knowledge-base/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대와 고화질 스트리밍 등 실시간 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 일상이 되면서, CPU 코어가 아무리 많아도 하나만 일하게 만드는 [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 방식은 심각한 병목 현상을 유발했다. 이 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리의 저주를 풀고 모든 코어가 100% 동시에 암호화에 참여하게 만들기 위해 발상을 뒤집은 CTR 모드가 등장했다.
+하지만 [5G](/studynote/07_enterprise_systems/09_digital_transformation/418_5g_embb_urllc_mmtc_slicing/) 시대와 고화질 스트리밍 등 실시간 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송이 일상이 되면서, CPU 코어가 아무리 많아도 하나만 일하게 만드는 [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 방식은 심각한 병목 현상을 유발했다. 이 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 처리의 저주를 풀고 모든 코어가 100% 동시에 암호화에 참여하게 만들기 위해 발상을 뒤집은 CTR 모드가 등장했다.
 
-- **📢 섹션 요약 비유**: [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드가 학생 1명이 수학 문제를 다 풀 때까지 나머지 9명이 줄 서서 기다리는 방식이라면, CTR 모드는 10명의 학생에게 1번부터 10번 문제지를 동시에 나눠주고 5분 만에 끝내버리는 쾌속 시스템이다.
+- **📢 섹션 요약 비유**: [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 모드가 학생 1명이 수학 문제를 다 풀 때까지 나머지 9명이 줄 서서 기다리는 방식이라면, CTR 모드는 10명의 학생에게 1번부터 10번 문제지를 동시에 나눠주고 5분 만에 끝내버리는 쾌속 시스템이다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-CTR 모드의 핵심 발상의 전환은 "평문을 암호화 기계([AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))에 넣지 않는다"는 것이다. 대신 고정된 [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) (Number Used Once)와 1씩 증가하는 Counter를 합친 값을 암호화하여 '키 스트림 (Keystream)'이라는 쓰레기 난수를 공장처럼 찍어낸다.
+CTR 모드의 핵심 발상의 전환은 "평문을 암호화 기계([AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))에 넣지 않는다"는 것이다. 대신 고정된 [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) (Number Used Once)와 1씩 증가하는 Counter를 합친 값을 암호화하여 '키 스트림 (Keystream)'이라는 쓰레기 난수를 공장처럼 찍어낸다.
 
 그 후, 폭포수처럼 쏟아지는 이 난수와 진짜 평문을 그저 `XOR ⊕` 연산으로 비벼주기만 하면 암호화가 끝난다. 복호화 역시 똑같은 난수를 다시 만들어 암호문에 `XOR` 하면 원본 평문으로 즉시 돌아온다. ($A \oplus B = C \rightarrow C \oplus B = A$)
 
 | 주요 요소 | 역할 | 작동 원리 |
 | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> + <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a></strong> | 매 블록마다 유일한 값 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `Nonce 12바이트 + 0001`, `Nonce + 0002` 형태로 증가 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/">암호화 알고리즘</a> (<a href="/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong> | 난수 발생기 역할 수행 | [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값을 받아 예측 불가능한 난수(키 스트림)를 뿜어냄 |
+| <strong><a href="/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> + <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a></strong> | 매 블록마다 유일한 값 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) | `Nonce 12바이트 + 0001`, `Nonce + 0002` 형태로 증가 |
+| <strong><a href="/studynote/04_software_engineering/08_security_compliance_devsecops/504_cryptography_algorithms_aes_rsa_sha/">암호화 알고리즘</a> (<a href="/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/">AES</a>)</strong> | 난수 발생기 역할 수행 | [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) 값을 받아 예측 불가능한 난수(키 스트림)를 뿜어냄 |
 | **XOR 연산** | 평문 덮어쓰기 (암복호화 동일) | `평문 ⊕ 키 스트림 = 암호문`, `암호문 ⊕ 키 스트림 = 평문` |
 
 ```text
@@ -61,26 +58,26 @@ CTR 모드의 핵심 발상의 전환은 "평문을 암호화 기계([AES](/know
 +--------------------------------------------------------------+
 ```
 
-이 그림의 하드웨어적 위력은 복호화 칩(Inverse [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))을 아예 만들 필요가 없다는 데 있다. 암호화할 때나 복호화할 때나 '[Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [AES](/knowledge-base/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 칩' 하나만 돌려서 난수를 뽑아 XOR만 하면 되므로, 하드웨어 면적이 극단적으로 줄어든다.
+이 그림의 하드웨어적 위력은 복호화 칩(Inverse [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/))을 아예 만들 필요가 없다는 데 있다. 암호화할 때나 복호화할 때나 '[Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) [AES](/studynote/03_network/13_network_security_basics/656_aes_advanced_encryption_standard_rijndael/) 칩' 하나만 돌려서 난수를 뽑아 XOR만 하면 되므로, 하드웨어 면적이 극단적으로 줄어든다.
 
-- **📢 섹션 요약 비유**: 수백 명의 페인트공에게 벽돌 번호([Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 나눠주면, 옆 사람이 벽돌을 다 칠할 때까지 기다리지 않고 100명이 동시에 벽에 달라붙어 순식간에 페인트칠을 끝내는 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 공사판이다.
+- **📢 섹션 요약 비유**: 수백 명의 페인트공에게 벽돌 번호([Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 나눠주면, 옆 사람이 벽돌을 다 칠할 때까지 기다리지 않고 100명이 동시에 벽에 달라붙어 순식간에 페인트칠을 끝내는 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) 공사판이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-CTR 모드를 이해하기 위해서는 기존 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 방식과 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 경계를 비교해야 한다.
+CTR 모드를 이해하기 위해서는 기존 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/) 방식과 [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) 방식의 경계를 비교해야 한다.
 
-| 항목 | [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)형 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)) | CTR 모드 ([스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)형 변환) |
+| 항목 | [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 모드 ([직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/)형 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)) | CTR 모드 ([스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)형 변환) |
 | :--- | :--- | :--- |
-| <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> | 불가능 (앞 블록 대기 필수) | <strong>무한대 <a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong> |
-| <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 16바이트 크기 맞춤 필수 (강제 채움) | <strong>필요 없음 (XOR이라 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 단위 처리 가능)</strong> |
-| **치명적 약점** | [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) | [Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용 시 평문 평탄화 노출 |
-| <strong>복호화 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong> | 암호화 칩과 별도의 복호화 칩 필요 | 암호화 칩 하나로 모두 해결 (XOR 대칭성) |
+| <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리</strong> | 불가능 (앞 블록 대기 필수) | <strong>무한대 <a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a> 처리 가능</strong> |
+| <strong><a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)</strong> | 16바이트 크기 맞춤 필수 (강제 채움) | <strong>필요 없음 (XOR이라 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/074_byte/">바이트</a> 단위 처리 가능)</strong> |
+| **치명적 약점** | [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) | [Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 재사용 시 평문 평탄화 노출 |
+| <strong>복호화 <a href="/studynote/04_software_engineering/04_testing_quality/192_module_independence/">모듈</a></strong> | 암호화 칩과 별도의 복호화 칩 필요 | 암호화 칩 하나로 모두 해결 (XOR 대칭성) |
 
-가장 극적인 차이는 <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)의 종말</strong>이다. CTR은 [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)처럼 동작하기 때문에 3바이트 평문이 오면 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 난수 16바이트 중 3바이트만 잘라서 쓴다. 즉, 억지로 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 늘리는 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 없어지면서, 해커가 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 에러를 역이용하던 '[패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격'의 위협 자체가 원천 소멸해버렸다.
+가장 극적인 차이는 <strong><a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">패딩</a>(<a href="/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/">Padding</a>)의 종말</strong>이다. CTR은 [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)처럼 동작하기 때문에 3바이트 평문이 오면 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)된 난수 16바이트 중 3바이트만 잘라서 쓴다. 즉, 억지로 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 늘리는 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 없어지면서, 해커가 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 에러를 역이용하던 '[패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격'의 위협 자체가 원천 소멸해버렸다.
 
-- **📢 섹션 요약 비유**: CBC가 정해진 크기의 블록 장난감을 조립해야 해서 빈칸을 억지로 찰흙([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))으로 채우는 방식이라면, CTR 모드는 원하는 만큼만 쭉 짜서 쓰는 튜브형 물감(스트림)이다.
+- **📢 섹션 요약 비유**: CBC가 정해진 크기의 블록 장난감을 조립해야 해서 빈칸을 억지로 찰흙([패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/))으로 채우는 방식이라면, CTR 모드는 원하는 만큼만 쭉 짜서 쓰는 튜브형 물감(스트림)이다.
 
 ---
 
@@ -88,24 +85,24 @@ CTR 모드를 이해하기 위해서는 기존 [블록 암호](/knowledge-base/s
 
 CTR 모드는 빠르고 완벽해 보이지만, 운용자의 사소한 실수 한 번에 모든 보안이 붕괴되는 유리검이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> + <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> 조합의 유일성 보장</strong>: 동일한 비밀키 환경에서 똑같은 Nonce를 두 번 이상 사용하지 않도록 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)/소프트웨어 아키텍처가 통제하고 있는가?
-2. <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 추가</strong>: CTR 자체는 암호화만 할 뿐 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조(Tampering)를 감지하지 못하므로, 반드시 [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Message Authentication Code](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 뒤에 붙여서 사용하고 있는가? (보통 이를 합친 [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드를 채택)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. <strong><a href="/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> + <a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a> 조합의 유일성 보장</strong>: 동일한 비밀키 환경에서 똑같은 Nonce를 두 번 이상 사용하지 않도록 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)/소프트웨어 아키텍처가 통제하고 있는가?
+2. <strong><a href="/studynote/09_security/01_intro_principles/003_integrity/">무결성</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a> 추가</strong>: CTR 자체는 암호화만 할 뿐 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 변조(Tampering)를 감지하지 못하므로, 반드시 [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) ([Message Authentication Code](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 뒤에 붙여서 사용하고 있는가? (보통 이를 합친 [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) 모드를 채택)
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (절대 금기 사항)
-- <strong><a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> 재사용 (Never Reuse <a href="/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a>)</strong>: 내일 또 다른 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(P2)을 보낼 때 똑같은 Nonce를 써버리면 대참사가 난다. 해커가 암호문 1과 암호문 2를 엑스오어($C_1 \oplus C_2$) 해버리면 마법의 방패(난수)가 증발하고 평문 두 개가 섞인 값($P_1 \oplus P_2$)이 그대로 튀어나와 원본이 통째로 털린다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/) (절대 금기 사항)
+- <strong><a href="/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a> 재사용 (Never Reuse <a href="/studynote/09_security/05_web_app_security/519_oidc_nonce/">Nonce</a>)</strong>: 내일 또 다른 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)(P2)을 보낼 때 똑같은 Nonce를 써버리면 대참사가 난다. 해커가 암호문 1과 암호문 2를 엑스오어($C_1 \oplus C_2$) 해버리면 마법의 방패(난수)가 증발하고 평문 두 개가 섞인 값($P_1 \oplus P_2$)이 그대로 튀어나와 원본이 통째로 털린다.
 
-- **📢 섹션 요약 비유**: CTR 모드는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100배인 F1 레이싱카지만, 핸들([Nonce](/knowledge-base/studynote/09_security/05_web_app_security/519_oidc_nonce/) 규칙)을 한 번이라도 잘못 꺾으면 차가 바로 폭발하는 위험한 설계다. 규칙 엄수가 생명이다.
+- **📢 섹션 요약 비유**: CTR 모드는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 100배인 F1 레이싱카지만, 핸들([Nonce](/studynote/09_security/05_web_app_security/519_oidc_nonce/) 규칙)을 한 번이라도 잘못 꺾으면 차가 바로 폭발하는 위험한 설계다. 규칙 엄수가 생명이다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-CTR 모드는 암호학에서 블록 간의 구속구(체인)를 끊어내고 완벽한 자유([병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)를 쟁취한 해방자다. [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이라는 두 가지 큰 골칫거리를 우아하게 해결하며 최신 네트워크 환경의 표준으로 자리 잡았다.
+CTR 모드는 암호학에서 블록 간의 구속구(체인)를 끊어내고 완벽한 자유([병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리)를 쟁취한 해방자다. [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 병목과 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이라는 두 가지 큰 골칫거리를 우아하게 해결하며 최신 네트워크 환경의 표준으로 자리 잡았다.
 
-현재 실무에서는 단순 CTR 모드보다, 이 빠르고 유연한 CTR 모드 위에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 위조되지 않았음을 확인하는 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 기술을 덧붙인 <strong><a href="/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>으로 진화하여 거의 모든 최신 웹 보안([TLS](/knowledge-base/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3, [IPSec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))의 황제로 군림하고 있다.
+현재 실무에서는 단순 CTR 모드보다, 이 빠르고 유연한 CTR 모드 위에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 중간에 위조되지 않았음을 확인하는 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 태그([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/)) 기술을 덧붙인 <strong><a href="/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/">GCM</a> (Galois/<a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a> Mode)</strong>으로 진화하여 거의 모든 최신 웹 보안([TLS](/studynote/02_operating_system/11_exam_summary/694_thread_local_storage_tls/) 1.3, [IPSec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/))의 황제로 군림하고 있다.
 
-- **📢 섹션 요약 비유**: CTR 모드는 세계에서 가장 빠른 스포츠카 모델(엔진)이다. 현재는 이 차에 튼튼한 장갑과 도난 방지 알람([인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 추가로 달아 '[GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)'이라는 최고급 방탄차로 만들어 타고 다닌다.
+- **📢 섹션 요약 비유**: CTR 모드는 세계에서 가장 빠른 스포츠카 모델(엔진)이다. 현재는 이 차에 튼튼한 장갑과 도난 방지 알람([인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/))을 추가로 달아 '[GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/)'이라는 최고급 방탄차로 만들어 타고 다닌다.
 
 ---
 
@@ -113,10 +110,10 @@ CTR 모드는 암호학에서 블록 간의 구속구(체인)를 끊어내고 �
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/) 모드 | 병목 현상을 유발하여 CTR 모드의 탄생 배경이 된 [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 운영 모드 |
-| [스트림 암호](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) ([Stream Cipher](/knowledge-base/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)) | CTR 모드가 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 마치 연속된 물줄기처럼 처리하게 만든 암호화 방식 |
-| [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/knowledge-base/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) | [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 이용한 공격으로, [패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 없는 CTR 모드에서는 불가능함 |
-| [GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) | CTR 모드의 [초고속](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기능([MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 합친 궁극의 진화형 |
+| [CBC](/studynote/09_security/02_crypto/089_cbc_mode/) 모드 | 병목 현상을 유발하여 CTR 모드의 탄생 배경이 된 [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 운영 모드 |
+| [스트림 암호](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/) ([Stream Cipher](/studynote/03_network/13_network_security_basics/654_stream_cipher_rc4_chacha20/)) | CTR 모드가 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)를 마치 연속된 물줄기처럼 처리하게 만든 암호화 방식 |
+| [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) 오라클 공격 ([Padding](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/) [Oracle](/studynote/05_database/03_relational_model/188_pl_sql_t_sql_procedural/)) | [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)의 [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)을 이용한 공격으로, [패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)이 없는 CTR 모드에서는 불가능함 |
+| [GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/) (Galois/[Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/) Mode) | CTR 모드의 [초고속](/studynote/06_ict_convergence/02_iot_mobility/148_5g_embb_urllc_mmtc/) [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 기능([MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/))을 합친 궁극의 진화형 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -136,13 +133,13 @@ Nonce 재사용 위험성 대두 및 무결성 검증 필요성
 GCM (Galois/Counter Mode) 완성을 통한 TLS 표준 장악
 ```
 
-이 흐름도는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계를 극복하기 위해 [블록 암호](/knowledge-base/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)가 스트림 형태로 진화하고, 보안의 취약점을 보완하며 최종 완성형([GCM](/knowledge-base/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))으로 나아가는 과정을 보여준다.
+이 흐름도는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 한계를 극복하기 위해 [블록 암호](/studynote/03_network/13_network_security_basics/655_block_cipher_des_3des_feistel/)가 스트림 형태로 진화하고, 보안의 취약점을 보완하며 최종 완성형([GCM](/studynote/03_network/13_network_security_basics/659_gcm_galois_counter_mode_aead/))으로 나아가는 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 이전의 암호화([CBC](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/))는 요리사 100명이 줄을 서서 1번이 끝날 때까지 99명이 기다려야 했어요.
-2. CTR 암호화는 100명의 요리사에게 각자 번호표([카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 주고 "다 같이 시작!" 해서 100배 빨리 요리를 끝내는 방법이에요!
-3. 게다가 복잡하게 음식을 남기거나 억지로 채워 넣을([패딩](/knowledge-base/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 필요도 없어서 컴퓨터가 너무너무 좋아하는 천재적인 아이디어랍니다.
+1. 이전의 암호화([CBC](/studynote/09_security/02_crypto/089_cbc_mode/))는 요리사 100명이 줄을 서서 1번이 끝날 때까지 99명이 기다려야 했어요.
+2. CTR 암호화는 100명의 요리사에게 각자 번호표([카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 주고 "다 같이 시작!" 해서 100배 빨리 요리를 끝내는 방법이에요!
+3. 게다가 복잡하게 음식을 남기거나 억지로 채워 넣을([패딩](/studynote/10_ai/01_ai_basics/098_padding_convolutional_neural_network_same_valid/)) 필요도 없어서 컴퓨터가 너무너무 좋아하는 천재적인 아이디어랍니다.
 
 ---
 
@@ -150,7 +147,7 @@ GCM (Galois/Counter Mode) 완성을 통한 TLS 표준 장악
 
 **진행 상황**: 90 / 1108
 
-<- **이전**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/knowledge-base/studynote/09_security/02_crypto/089_cbc_mode/)
-**다음**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/knowledge-base/studynote/09_security/02_crypto/091_gcm_mode/) ->
+<- **이전**: [089. CBC (Cipher Block Chaining) — 초기화 벡터(IV) 필요, 체인 의존성](/studynote/09_security/02_crypto/089_cbc_mode/)
+**다음**: [091. GCM (Galois/Counter Mode) — AEAD, 인증 암호화](/studynote/09_security/02_crypto/091_gcm_mode/) ->
 
 ---

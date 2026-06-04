@@ -1,13 +1,10 @@
-+++
-title = "523. 이벤트 소싱 이벤트 스토어 리플레이 (Event Sourcing Event Store Replay)"
-date = 2026-05-09
+---
+title: "523. 이벤트 소싱 이벤트 스토어 리플레이 (Event Sourcing Event Store Replay)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 523 / 800
 
-<- **이전**: [522. 클라우드 트랜잭션 사가 보상 패턴](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/522_cloud_transaction_saga_compensation_pattern/)
-**다음**: [524. CQRS 명령 조회 분리 읽기 모델](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/524_cqrs_command_query_read_model_separation/) ->
+<- **이전**: [522. 클라우드 트랜잭션 사가 보상 패턴](/studynote/13_cloud_architecture/06_exam_summary/522_cloud_transaction_saga_compensation_pattern/)
+**다음**: [524. CQRS 명령 조회 분리 읽기 모델](/studynote/13_cloud_architecture/06_exam_summary/524_cqrs_command_query_read_model_separation/) ->
 
 ---

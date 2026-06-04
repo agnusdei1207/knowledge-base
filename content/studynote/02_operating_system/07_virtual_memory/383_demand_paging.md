@@ -1,31 +1,28 @@
-+++
-title = "383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재"
-date = 2026-05-09
+---
+title: "383. 요구 페이징 (Demand Paging) - 필요한 페이지만 메모리에 적재"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 프로세스를 시작할 때 거대한 프로그램 전체를 램(RAM)에 미리 올려두는 짓을 금지하고, <strong>CPU가 코드를 실행하다가 정말로 "필요해서 달라고 요구(Demand)"하는 그 순간에만, 딱 그 4KB <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 조각 하나만 디스크에서 램으로 가져오는 극한의 게으른(<a href="/knowledge-base/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>) 적재 기법</strong>이다.
-> 2. **가치**: 한 번도 쓰이지 않을 방어용 예외 처리 코드나 환경 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터가 아까운 물리 램을 낭비하는 것을 원천 차단하여, <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 한계(동시 실행 앱 개수)를 극적으로 늘리고 프로그램의 <a href="/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 부팅 속도를 빛처럼 빠르게 만든다.</strong>
-> 3. **융합**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/">유효-무효 비트</a>(Valid/Invalid <a href="/knowledge-base/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>를 덫으로 깔아두고, CPU가 이 덫을 밟았을 때 발생하는 <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>) <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">하드웨어 인터럽트</a></strong>와 OS의 스왑(Swap) I/O가 융합된 현대 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 최강 심장 엔진이다.
+> 1. **본질**: [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 프로세스를 시작할 때 거대한 프로그램 전체를 램(RAM)에 미리 올려두는 짓을 금지하고, <strong>CPU가 코드를 실행하다가 정말로 "필요해서 달라고 요구(Demand)"하는 그 순간에만, 딱 그 4KB <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> 조각 하나만 디스크에서 램으로 가져오는 극한의 게으른(<a href="/studynote/06_ict_convergence/05_data_science/380_computational_graph_lazy_eager_execution/">Lazy</a>) 적재 기법</strong>이다.
+> 2. **가치**: 한 번도 쓰이지 않을 방어용 예외 처리 코드나 환경 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/) 데이터가 아까운 물리 램을 낭비하는 것을 원천 차단하여, <strong><a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>의 한계(동시 실행 앱 개수)를 극적으로 늘리고 프로그램의 <a href="/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/">초기</a> 부팅 속도를 빛처럼 빠르게 만든다.</strong>
+> 3. **융합**: [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 <strong><a href="/studynote/02_operating_system/07_virtual_memory/386_valid_invalid_bit/">유효-무효 비트</a>(Valid/Invalid <a href="/studynote/08_algorithm_stats/04_datastructure/086_fenwick_tree/">Bit</a>)</strong>를 덫으로 깔아두고, CPU가 이 덫을 밟았을 때 발생하는 <strong><a href="/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a>(<a href="/studynote/02_operating_system/07_virtual_memory/387_page_fault/">Page Fault</a>) <a href="/studynote/02_operating_system/01_overview_architecture/017_hardware_interrupt/">하드웨어 인터럽트</a></strong>와 OS의 스왑(Swap) I/O가 융합된 현대 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시스템의 최강 심장 엔진이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: "요구될 때까지 절대 주지 않는다." 프로그램이 10GB라도, 처음 실행할 때는 첫 번째 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어있는 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장만 메모리에 올린다. 실행하다가 램에 없는 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 건드리면([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), 그때서야 OS가 하드디스크에서 그 조각을 떼어다 빈 램에 꽂아주고 실행을 이어가게 하는 [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/)) 메모리 로딩 기술이다.
-- **필요성**: 수백 MB짜리 MS 워드를 켠다고 치자. 폰트 세팅 코드, 표 그리기 코드, 오류 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 코드 등 90%의 기능은 사용자가 1시간 동안 문서를 타자 치는 동안 한 번도 실행되지 않는다. 만약 옛날 방식([표준 스와핑](/knowledge-base/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)/정적 로딩)처럼 워드를 켤 때 500MB를 통째로 램에 퍼 올리면 부팅에만 수십 초가 걸리고, 쓰지도 않는 코드 때문에 다른 프로그램이 램에 들어오지 못한다. "안 쓰는 건 아예 램 근처에도 얼씬 못 하게 막자!"라는 자원 절약의 끝판왕 논리가 필요했다.
+- **개념**: "요구될 때까지 절대 주지 않는다." 프로그램이 10GB라도, 처음 실행할 때는 첫 번째 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 들어있는 4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장만 메모리에 올린다. 실행하다가 램에 없는 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 건드리면([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)), 그때서야 OS가 하드디스크에서 그 조각을 떼어다 빈 램에 꽂아주고 실행을 이어가게 하는 [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/)([Just-In-Time](/studynote/09_security/11_iam_access_control/568_jit_access/)) 메모리 로딩 기술이다.
+- **필요성**: 수백 MB짜리 MS 워드를 켠다고 치자. 폰트 세팅 코드, 표 그리기 코드, 오류 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 코드 등 90%의 기능은 사용자가 1시간 동안 문서를 타자 치는 동안 한 번도 실행되지 않는다. 만약 옛날 방식([표준 스와핑](/studynote/02_operating_system/06_memory_management/337_standard_vs_paging_swapping/)/정적 로딩)처럼 워드를 켤 때 500MB를 통째로 램에 퍼 올리면 부팅에만 수십 초가 걸리고, 쓰지도 않는 코드 때문에 다른 프로그램이 램에 들어오지 못한다. "안 쓰는 건 아예 램 근처에도 얼씬 못 하게 막자!"라는 자원 절약의 끝판왕 논리가 필요했다.
 
 - **등장 배경 및 아키텍처 혁명**:
-  1. <strong>사전 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a>)의 패배</strong>: 예전엔 "어차피 쓸 거 미리 다 올려두면 안 끊기고 좋잖아?"라는 예측 로딩을 시도했으나, 인간은 예측 불가능해서 안 쓸 코드를 올려 램을 낭비하는 부작용이 훨씬 컸다.
-  2. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>와 결합</strong>: 물리 램 크기에 얽매이지 않게 되자, "차라리 디스크를 거대한 램처럼 쓰고, 진짜 램은 자주 쓰는 것만 담아두는 L3 캐시처럼 쓰자"는 인식의 대전환이 일어났다.
-  3. **게으른 스와퍼 (Pager)**: 프로세스 전체를 밀어 넣는 스와퍼(Swapper) 대신, 낱장 4KB씩만 퍼 나르는 <strong>페이저(Pager)</strong>라는 전문 꾼이 도입되어 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)을 완성했다.
+  1. <strong>사전 <a href="/studynote/02_operating_system/04_synchronization/259_paging/">페이징</a>(<a href="/studynote/02_operating_system/07_virtual_memory/385_prepaging/">Prepaging</a>)의 패배</strong>: 예전엔 "어차피 쓸 거 미리 다 올려두면 안 끊기고 좋잖아?"라는 예측 로딩을 시도했으나, 인간은 예측 불가능해서 안 쓸 코드를 올려 램을 낭비하는 부작용이 훨씬 컸다.
+  2. <strong><a href="/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/">가상 메모리</a>와 결합</strong>: 물리 램 크기에 얽매이지 않게 되자, "차라리 디스크를 거대한 램처럼 쓰고, 진짜 램은 자주 쓰는 것만 담아두는 L3 캐시처럼 쓰자"는 인식의 대전환이 일어났다.
+  3. **게으른 스와퍼 (Pager)**: 프로세스 전체를 밀어 넣는 스와퍼(Swapper) 대신, 낱장 4KB씩만 퍼 나르는 <strong>페이저(Pager)</strong>라는 전문 꾼이 도입되어 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)을 완성했다.
 
 ```text
 +------------------------------------------------------------------------+
@@ -45,7 +42,7 @@ tags = ["studynote-operating-system"]
 |       디스크에서 가져와서 램에 쏙 끼워 넣고(Demand) 실행함.            |
 +------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** "게으른 자가 세상을 지배한다." 이 아키텍처는 IT 설계의 핵심인 [Lazy Evaluation](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([지연 평가](/knowledge-base/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))의 정수다. 당장 닥치기 전까지는 절대 램에 올리지 않는다. 램 용량을 방어하고 켰을 때의 반응성(Responsiveness)을 극한으로 끌어올린 대가로, 실행 도중에 필연적으로 뚝뚝 끊기는 잔렉([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 감수하겠다는 트레이드오프다.
+**[다이어그램 해설]** "게으른 자가 세상을 지배한다." 이 아키텍처는 IT 설계의 핵심인 [Lazy Evaluation](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/)([지연 평가](/studynote/14_data_engineering/01_infrastructure/023_lazy_evaluation/))의 정수다. 당장 닥치기 전까지는 절대 램에 올리지 않는다. 램 용량을 방어하고 켰을 때의 반응성(Responsiveness)을 극한으로 끌어올린 대가로, 실행 도중에 필연적으로 뚝뚝 끊기는 잔렉([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))을 감수하겠다는 트레이드오프다.
 
 - **📢 섹션 요약 비유**: 두꺼운 만화책 50권을 가방(램)에 다 넣고 무겁게 학교에 가는 게 아니라, 무조건 오늘 수업 시간에 몰래 읽을 1권만 가방에 넣고, 다 읽으면 다음 날 2권을 가져오는 스마트한 책가방 다이어트입니다.
 
@@ -53,20 +50,20 @@ tags = ["studynote-operating-system"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 심장: Valid-Invalid (유효/무효) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
+### [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 심장: Valid-Invalid (유효/무효) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)
 
-[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)이 작동하려면 CPU가 "이 데이터가 램에 있는지 디스크에 있는지"를 기계적으로 깨달아야 한다. 이를 위해 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 안에 1비트짜리 폭탄 스위치를 달아놓았다.
+[요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)이 작동하려면 CPU가 "이 데이터가 램에 있는지 디스크에 있는지"를 기계적으로 깨달아야 한다. 이를 위해 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)(PTE) 안에 1비트짜리 폭탄 스위치를 달아놓았다.
 
-- <strong><code>Valid (V)</code></strong>: "안심해, 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지금 물리 램(RAM)에 올라와 있어. 바로 꺼내 써!"
-- <strong><code>Invalid (I)</code></strong>: "멈춰! 이 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지금 램에 없고 디스크(Backing Store)에 잠들어 있거나 아예 불법 주소야!"
+- <strong><code>Valid (V)</code></strong>: "안심해, 이 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지금 물리 램(RAM)에 올라와 있어. 바로 꺼내 써!"
+- <strong><code>Invalid (I)</code></strong>: "멈춰! 이 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 지금 램에 없고 디스크(Backing Store)에 잠들어 있거나 아예 불법 주소야!"
 
-프로그램이 막 켜진 직후엔, [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)의 수만 개 엔트리가 <strong>전부 <code>Invalid (I)</code>로 떡칠</strong>되어 있다(게으름의 극치).
+프로그램이 막 켜진 직후엔, [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)의 수만 개 엔트리가 <strong>전부 <code>Invalid (I)</code>로 떡칠</strong>되어 있다(게으름의 극치).
 
 ---
 
-### [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([페이지 부재](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 처리 6단계 파이프라인
+### [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) ([페이지 부재](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 처리 6단계 파이프라인
 
-CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟는 순간 터지는 이 거대한 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 랩소디가 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 코어 엔진이다.
+CPU가 `I(Invalid)` [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 밟는 순간 터지는 이 거대한 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 랩소디가 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 코어 엔진이다.
 
 ```text
 +-----------------------------------------------------------------------------+
@@ -94,33 +91,33 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 +-----------------------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 이 6단계는 컴퓨터 아키텍처에서 가장 정교하게 짜인 타이밍 예술이다. `4번(디스크 I/O)` 과정은 너무나 느리기 때문에 CPU는 절대 기다려 주지 않고 재빠르게 [문맥 교환](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 하여 남의 일을 돕는다. `6번(재실행)`의 위대함은 프로그래머의 개입이 전혀 없다는 것이다. C언어나 Java 개발자는 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault라는 에러를 코드에서 예외 처리할 필요가 없다. 하드웨어가 멈추고 OS가 뒤에서 수습한 뒤 몰래 다시 돌려주기 때문에, 개발자 눈에는 그저 '[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리가 아주 살짝 느려진 것'으로만 보일 뿐 완벽히 투명(Transparent)하게 굴러간다.
+**[다이어그램 해설]** 이 6단계는 컴퓨터 아키텍처에서 가장 정교하게 짜인 타이밍 예술이다. `4번(디스크 I/O)` 과정은 너무나 느리기 때문에 CPU는 절대 기다려 주지 않고 재빠르게 [문맥 교환](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/)([Context Switch](/studynote/02_operating_system/03_cpu_scheduling/211_context_switch/))을 하여 남의 일을 돕는다. `6번(재실행)`의 위대함은 프로그래머의 개입이 전혀 없다는 것이다. C언어나 Java 개발자는 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault라는 에러를 코드에서 예외 처리할 필요가 없다. 하드웨어가 멈추고 OS가 뒤에서 수습한 뒤 몰래 다시 돌려주기 때문에, 개발자 눈에는 그저 '[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리가 아주 살짝 느려진 것'으로만 보일 뿐 완벽히 투명(Transparent)하게 굴러간다.
 
-- **📢 섹션 요약 비유**: 식당에서 손님이 "콜라 주세요!" 했는데 냉장고에 콜라가 없어서 알바가 편의점까지 뛰어가 사오는 과정([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))입니다. 손님은 잠시 기다리며 폰을 보고 있고(CPU 딴일), 알바가 편의점(디스크)에서 콜라를 사와 냉장고(램)에 채운 뒤 식탁에 올려주면, 손님은 다시 밥 먹기([명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재실행)를 이어가는 완벽한 대리 서비스입니다.
+- **📢 섹션 요약 비유**: 식당에서 손님이 "콜라 주세요!" 했는데 냉장고에 콜라가 없어서 알바가 편의점까지 뛰어가 사오는 과정([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))입니다. 손님은 잠시 기다리며 폰을 보고 있고(CPU 딴일), 알바가 편의점(디스크)에서 콜라를 사와 냉장고(램)에 채운 뒤 식탁에 올려주면, 손님은 다시 밥 먹기([명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 재실행)를 이어가는 완벽한 대리 서비스입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))의 극단
+### 비교 1: [순수 요구 페이징](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))의 극단
 
-[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 철학을 광기로 끌어올린 세팅이다.
-- <strong>일반 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a></strong>: 그래도 앱 켤 때 `main()` 함수가 있는 첫 번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장 정도는 예의상 램에 올려주고 시작한다.
-- <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/">순수 요구 페이징</a> (Pure)</strong>: **"절대 단 1바이트도 미리 주지 마라."** 램에 아~~무것도 안 올린 상태에서 그냥 무지성으로 프로그램의 0번 줄 주소(Program [Counter](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 돌려버린다.
-- **결과**: 첫 번째 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽자마자 0.0001초 만에 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 펑! 터진다. 디스크에서 1장 가져온다. 다음 줄 읽으려니 데이터가 없어서 또 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 펑! 터진다.
+[요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)의 철학을 광기로 끌어올린 세팅이다.
+- <strong>일반 <a href="/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a></strong>: 그래도 앱 켤 때 `main()` 함수가 있는 첫 번째 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1장 정도는 예의상 램에 올려주고 시작한다.
+- <strong><a href="/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/">순수 요구 페이징</a> (Pure)</strong>: **"절대 단 1바이트도 미리 주지 마라."** 램에 아~~무것도 안 올린 상태에서 그냥 무지성으로 프로그램의 0번 줄 주소(Program [Counter](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/))를 돌려버린다.
+- **결과**: 첫 번째 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 읽자마자 0.0001초 만에 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 펑! 터진다. 디스크에서 1장 가져온다. 다음 줄 읽으려니 데이터가 없어서 또 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 펑! 터진다.
 - **특징**: 프로그램 부팅 직후에 소나기처럼 폴트가 터지며 엄청나게 버벅대지만, 딱 자기가 쓰는 10여 장의 가성비 핵심 코드만 램에 쪽 빨아먹고 평온을 찾는 메모리 최적화의 끝판왕 기법이다. (다음 키워드에서 상세 서술)
 
-### [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault의 속도 페널티 (EAT 붕괴의 주범)
+### [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault의 속도 페널티 (EAT 붕괴의 주범)
 
-[TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss가 나면 100ns(램 읽기)가 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되지만, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 나면 차원이 다른 재앙이 온다.
+[TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) Miss가 나면 100ns(램 읽기)가 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)되지만, [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault가 나면 차원이 다른 재앙이 온다.
 - 메모리 1번 읽기: 약 **100 나노초**
-- 디스크([HDD](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 1번 읽기([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리): 약 **8 밀리초 (8,000,000 나노초)**
-- [Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 한 번 터질 때마다 시스템은 **8만 배나 느려진다!**
+- 디스크([HDD](/studynote/02_operating_system/08_storage_and_io_systems/465_hdd_structure/)) 1번 읽기([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 처리): 약 **8 밀리초 (8,000,000 나노초)**
+- [Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/) 한 번 터질 때마다 시스템은 **8만 배나 느려진다!**
 
-> <strong>EAT (실질 접근 시간) = (1 - p) × 메모리 시간 + p × <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 시간</strong>
-  (*p = [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)*)
+> <strong>EAT (실질 접근 시간) = (1 - p) × 메모리 시간 + p × <a href="/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/">페이지 폴트</a> 시간</strong>
+  (*p = [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/) [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)*)
 
-수학적으로 계산해 보면, [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 <strong>10만 번 중에 단 1번(p=0.00001)</strong>만 터져도 컴퓨터의 체감 속도는 <strong>반토막(2배 느려짐)</strong>이 난다. 즉 OS는 이 `p` 값을 100만 분의 1 이하로 [억제](/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하지 못하면([Thrashing](/knowledge-base/studynote/02_operating_system/04_synchronization/257_thrashing/)) 서버가 다운되는 운명을 맞이한다.
+수학적으로 계산해 보면, [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)가 <strong>10만 번 중에 단 1번(p=0.00001)</strong>만 터져도 컴퓨터의 체감 속도는 <strong>반토막(2배 느려짐)</strong>이 난다. 즉 OS는 이 `p` 값을 100만 분의 1 이하로 [억제](/studynote/09_security/13_secops_ir_forensics/656_ir_containment/)하지 못하면([Thrashing](/studynote/02_operating_system/04_synchronization/257_thrashing/)) 서버가 다운되는 운명을 맞이한다.
 
 ```text
 +----------+------------+------------+-----------------------+
@@ -130,28 +127,28 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 | PageFault| 디스크 읽음  | ~8,000,000ns| ☠️ 시스템 렉 ☠️    |
 +----------+------------+------------+-----------------------+
 ```
-**[매트릭스 해설]** [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 메모리 절약이라는 달콤한 사탕 뒤에, 디스크 I/O라는 맹독을 숨기고 있다. 따라서 현대 OS 설계자들은 폴트 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) `p`를 줄이기 위해 목숨을 걸고 '[페이지 교체 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)'을 고도화시켰다.
+**[매트릭스 해설]** [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 메모리 절약이라는 달콤한 사탕 뒤에, 디스크 I/O라는 맹독을 숨기고 있다. 따라서 현대 OS 설계자들은 폴트 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) `p`를 줄이기 위해 목숨을 걸고 '[페이지 교체 알고리즘](/studynote/02_operating_system/07_virtual_memory/401_page_replacement_algorithms/)([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 등)'을 고도화시켰다.
 
-- **📢 섹션 요약 비유**: 수첩을 까먹어서 책상(램)에서 찾는 것([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 미스)은 10초면 되지만, 책상에도 없어서 10km 밖 창고(디스크)까지 차를 몰고 가서 가져오는 것([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/))은 하루 종일 걸리는 끔찍한 시간 낭비입니다.
+- **📢 섹션 요약 비유**: 수첩을 까먹어서 책상(램)에서 찾는 것([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 미스)은 10초면 되지만, 책상에도 없어서 10km 밖 창고(디스크)까지 차를 몰고 가서 가져오는 것([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/))은 하루 종일 걸리는 끔찍한 시간 낭비입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [Docker](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 Copy-on-Write의 융합
-[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 `fork()`로 자식을 낳을 때 그 위력이 폭발한다.
-1. **상황**: 클라우드 서버에서 똑같은 1GB짜리 Node.js [도커](/knowledge-base/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 10개 띄운다.
-2. <strong><a href="/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a> 시절</strong>: 10GB 램이 날아가며 띄우는 데 5분이 걸렸다.
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>의 마술</strong>:
-   - [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개를 켤 때, OS는 물리 램에 코드를 전혀 올리지 않고 그냥 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 10개만 찍어낸다. ([생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 0.1초 컷).
-   - 각 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 부팅되며 첫 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때마다, 우수수 터지는 [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 통해 딱 필요한 기본 코어 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 몇 장만 램에 공유(Shared) 형태로 올라온다.
-   - 누군가 변수를 고치려(Write) 할 때 비로소 램 한 장(4KB)을 몰래 복사해 준다([Copy-on-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)).
-4. **결과**: [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) 덕분에 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개를 띄워도 램은 1GB 언저리만 쓰며 1초 만에 서버들이 구동된다. 현대 클라우드 오토스케일링([Auto Scaling](/knowledge-base/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/))이 10초 만에 서버 수백 대를 찍어낼 수 있는 밑바탕이 바로 이 '게으른 복사'와 '게으른 할당' 덕분이다.
+### 실무 시나리오: [Docker](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)와 Copy-on-Write의 융합
+[요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/)은 `fork()`로 자식을 낳을 때 그 위력이 폭발한다.
+1. **상황**: 클라우드 서버에서 똑같은 1GB짜리 Node.js [도커](/studynote/02_operating_system/01_overview_architecture/063_docker_architecture/) [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)를 10개 띄운다.
+2. <strong><a href="/studynote/02_operating_system/09_file_system/523_contiguous_allocation/">연속 할당</a> 시절</strong>: 10GB 램이 날아가며 띄우는 데 5분이 걸렸다.
+3. <strong><a href="/studynote/02_operating_system/04_synchronization/255_demand_paging/">요구 페이징</a>의 마술</strong>:
+   - [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개를 켤 때, OS는 물리 램에 코드를 전혀 올리지 않고 그냥 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 10개만 찍어낸다. ([생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시간 0.1초 컷).
+   - 각 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)가 부팅되며 첫 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 실행할 때마다, 우수수 터지는 [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Fault를 통해 딱 필요한 기본 코어 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 몇 장만 램에 공유(Shared) 형태로 올라온다.
+   - 누군가 변수를 고치려(Write) 할 때 비로소 램 한 장(4KB)을 몰래 복사해 준다([Copy-on-Write](/studynote/02_operating_system/09_file_system/542_cow_file_system/)).
+4. **결과**: [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) 덕분에 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 10개를 띄워도 램은 1GB 언저리만 쓰며 1초 만에 서버들이 구동된다. 현대 클라우드 오토스케일링([Auto Scaling](/studynote/13_cloud_architecture/01_virtualization/030_auto_scaling/))이 10초 만에 서버 수백 대를 찍어낼 수 있는 밑바탕이 바로 이 '게으른 복사'와 '게으른 할당' 덕분이다.
 
-### Mapped [File](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([mmap](/knowledge-base/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))을 활용한 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재
-백엔드 개발자가 수 기가바이트의 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 C나 파이썬으로 분석할 때, [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열자마자 `read()`로 변수에 다 때려 넣으면 램이 터진다([OOM](/knowledge-base/studynote/02_operating_system/02_process_thread/157_oom_killer/)). 대신 `mmap()` 함수를 쓰면, OS는 "응 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 주소 올려놨어~" 하고 거짓말([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))을 친다. 개발자가 5,000번째 줄을 파싱하려고 포인터로 찌르면, 딱 그 줄이 있는 4KB 부분만 하드에서 퍼 올려 읽게 해준다. 램 10MB만으로 100GB [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 스무스하게 요리할 수 있는 실무 최강의 스킬이다.
+### Mapped [File](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) ([mmap](/studynote/02_operating_system/11_exam_summary/749_memory_mapped_file_mmap/))을 활용한 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 적재
+백엔드 개발자가 수 기가바이트의 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 C나 파이썬으로 분석할 때, [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 열자마자 `read()`로 변수에 다 때려 넣으면 램이 터진다([OOM](/studynote/02_operating_system/02_process_thread/157_oom_killer/)). 대신 `mmap()` 함수를 쓰면, OS는 "응 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에 [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/) 주소 올려놨어~" 하고 거짓말([요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/))을 친다. 개발자가 5,000번째 줄을 파싱하려고 포인터로 찌르면, 딱 그 줄이 있는 4KB 부분만 하드에서 퍼 올려 읽게 해준다. 램 10MB만으로 100GB [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)을 스무스하게 요리할 수 있는 실무 최강의 스킬이다.
 
-- **📢 섹션 요약 비유**: 식당에서 10명분 코스 요리를 한 번에 다 시켜서 테이블을 터뜨리는(일반 적재) 게 아니라, 한입 먹고 다음 요리 시키고, 한입 먹고 또 시키는 파인다이닝 코스([요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))를 통해 좁은 테이블(램) 하나로도 산더미 같은 요리를 다 소화해 내는 식사법입니다.
+- **📢 섹션 요약 비유**: 식당에서 10명분 코스 요리를 한 번에 다 시켜서 테이블을 터뜨리는(일반 적재) 게 아니라, 한입 먹고 다음 요리 시키고, 한입 먹고 또 시키는 파인다이닝 코스([요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/))를 통해 좁은 테이블(램) 하나로도 산더미 같은 요리를 다 소화해 내는 식사법입니다.
 
 ---
 
@@ -162,14 +159,14 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 | 구분 | 내용 |
 |:---|:---|
 | **메모리(RAM) 용량 초월** | 시스템에 16GB 램이 꽂혀있어도 100GB짜리 어플리케이션을 아무 무리 없이 구동시키는 물리적 한계 돌파 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 극대화</strong>| 앱 하나당 필수적인 조각([Working Set](/knowledge-base/studynote/02_operating_system/04_synchronization/265_working_set/))만 램에 올리므로, 동시에 실행할 수 있는 백그라운드 앱의 개수가 수십 배 증가 |
-| <strong>I/O 병목 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | 한 번도 쓰지 않을 수백 MB의 오류 처리 코드를 평생 디스크에서 퍼오지 않게 방어하여 부팅 I/O 버스를 대폭 절약 |
+| <strong><a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a> 극대화</strong>| 앱 하나당 필수적인 조각([Working Set](/studynote/02_operating_system/04_synchronization/265_working_set/))만 램에 올리므로, 동시에 실행할 수 있는 백그라운드 앱의 개수가 수십 배 증가 |
+| <strong>I/O 병목 <a href="/studynote/09_security/13_secops_ir_forensics/656_ir_containment/">억제</a></strong> | 한 번도 쓰지 않을 수백 MB의 오류 처리 코드를 평생 디스크에서 퍼오지 않게 방어하여 부팅 I/O 버스를 대폭 절약 |
 
 ### 결론 및 미래 전망
 
-[요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 "모든 것을 완벽하게 준비하고 시작한다"는 구시대적 완벽주의를 깨부수고, "일단 대충 부딪혀보고 터지면 그때그때 땜빵하며 나아간다"는 실용주의(Pragmatism)가 시스템 공학에서 거둔 가장 위대한 승리다. [페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 어마어마한 예외 상황(Exception)을 일상적인 정상 루틴으로 편입시킴으로써 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시대를 활짝 열었다. 비록 너무 게으른 탓에 툭툭 끊기는 렉(Jitter)을 유발하긴 하지만, 현대의 SSD와 [NVMe](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술이 디스크 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(8ms -> 0.01ms)을 극단적으로 단축하면서 이 약점마저 메워지고 있다. 앞으로 모바일과 엣지(Edge) 디바이스 환경에서 램을 쥐어짜야 하는 상황이 가속화될수록, 이 게으름의 미학은 운영체제의 가장 깊숙하고 영원한 생존 본능으로 남을 것이다.
+[요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 "모든 것을 완벽하게 준비하고 시작한다"는 구시대적 완벽주의를 깨부수고, "일단 대충 부딪혀보고 터지면 그때그때 땜빵하며 나아간다"는 실용주의(Pragmatism)가 시스템 공학에서 거둔 가장 위대한 승리다. [페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)라는 어마어마한 예외 상황(Exception)을 일상적인 정상 루틴으로 편입시킴으로써 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 시대를 활짝 열었다. 비록 너무 게으른 탓에 툭툭 끊기는 렉(Jitter)을 유발하긴 하지만, 현대의 SSD와 [NVMe](/studynote/02_operating_system/08_storage_and_io_systems/482_nvme/) 기술이 디스크 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)(8ms -> 0.01ms)을 극단적으로 단축하면서 이 약점마저 메워지고 있다. 앞으로 모바일과 엣지(Edge) 디바이스 환경에서 램을 쥐어짜야 하는 상황이 가속화될수록, 이 게으름의 미학은 운영체제의 가장 깊숙하고 영원한 생존 본능으로 남을 것이다.
 
-- **📢 섹션 요약 비유**: 짐을 쌀 때 여행 가서 입을 옷 한 달 치를 바리바리 싸 들고 공항에서 허리 부러지는(사전 적재) 대신, 일단 여권 하나만 달랑 들고 가서(게으른 할당) 현지에서 필요할 때마다 속옷을 하나씩 사 입는([페이지 폴트](/knowledge-base/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)) 극단적 미니멀리즘 여행객의 성공담입니다.
+- **📢 섹션 요약 비유**: 짐을 쌀 때 여행 가서 입을 옷 한 달 치를 바리바리 싸 들고 공항에서 허리 부러지는(사전 적재) 대신, 일단 여권 하나만 달랑 들고 가서(게으른 할당) 현지에서 필요할 때마다 속옷을 하나씩 사 입는([페이지 폴트](/studynote/02_operating_system/11_exam_summary/720_page_fault_isr/)) 극단적 미니멀리즘 여행객의 성공담입니다.
 
 ---
 
@@ -177,10 +174,10 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 개념 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [선행 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/) ([Prepaging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) ([Virtual Memory](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)) 개념 | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ([Virtual Address Space](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [순수 요구 페이징](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [선행 페이징](/studynote/02_operating_system/07_virtual_memory/385_prepaging/) ([Prepaging](/studynote/02_operating_system/07_virtual_memory/385_prepaging/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -198,9 +195,9 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 [가상 주소 공간](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ([Virtual Address Space](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))을 이해하면 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [요구 페이징](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/knowledge-base/studynote/02_operating_system/04_synchronization/255_demand_paging/))을 잘 알면 나중에 [순수 요구 페이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))도 훨씬 쉽게 배울 수 있어요.
+1. [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 [가상 주소 공간](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/) ([Virtual Address Space](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/))을 이해하면 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [요구 페이징](/studynote/02_operating_system/04_synchronization/255_demand_paging/) ([Demand Paging](/studynote/02_operating_system/04_synchronization/255_demand_paging/))을 잘 알면 나중에 [순수 요구 페이징](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ([Pure Demand Paging](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/))도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -208,7 +205,7 @@ CPU가 `I(Invalid)` [비트](/knowledge-base/studynote/01_computer_architecture/
 
 **진행 상황**: 383 / 800
 
-<- **이전**: [382. 가상 주소 공간 (Virtual Address Space)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)
-**다음**: [384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림](/knowledge-base/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ->
+<- **이전**: [382. 가상 주소 공간 (Virtual Address Space)](/studynote/02_operating_system/07_virtual_memory/382_virtual_address_space/)
+**다음**: [384. 순수 요구 페이징 (Pure Demand Paging) - 시작할 때 아무것도 안 올림](/studynote/02_operating_system/07_virtual_memory/384_pure_demand_paging/) ->
 
 ---

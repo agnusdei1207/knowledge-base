@@ -1,13 +1,10 @@
-+++
-title = "604. TinyML 초소형 머신러닝 임베디드 (TinyML Ultra Small ML Embedded)"
-date = 2026-05-09
+---
+title: "604. TinyML 초소형 머신러닝 임베디드 (TinyML Ultra Small ML Embedded)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ TinyML 초소형 임베디드 머신러닝은(는) 디지털 기술을 실제 �
 
 **진행 상황**: 604 / 800
 
-<- **이전**: [603. 엣지 AI 온디바이스 경량 추론](/knowledge-base/studynote/06_ict_convergence/uncategorized/603_edge_ai_on_device_inference_lightweight/)
-**다음**: [605. OTA 펌웨어 업데이트 관리](/knowledge-base/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/) ->
+<- **이전**: [603. 엣지 AI 온디바이스 경량 추론](/studynote/06_ict_convergence/uncategorized/603_edge_ai_on_device_inference_lightweight/)
+**다음**: [605. OTA 펌웨어 업데이트 관리](/studynote/06_ict_convergence/uncategorized/605_ota_over_the_air_update_firmware_management/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "581. 제로 트러스트 아키텍처 감리 관점 (Zero Trust Architecture Audit Perspective)"
-date = 2026-05-09
+---
+title: "581. 제로 트러스트 아키텍처 감리 관점 (Zero Trust Architecture Audit Perspective)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -185,7 +182,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 581 / 600
 
-<- **이전**: [580. 컴포저블 아키텍처 모듈화 재사용](/knowledge-base/studynote/11_design_supervision/06_exam_summary/581_composable_architecture_modular_reuse/)
-**다음**: [582. 데이터 옵스 데이터 파이프라인 자동화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/582_dataops_data_pipeline_automation/) ->
+<- **이전**: [580. 컴포저블 아키텍처 모듈화 재사용](/studynote/11_design_supervision/06_exam_summary/581_composable_architecture_modular_reuse/)
+**다음**: [582. 데이터 옵스 데이터 파이프라인 자동화](/studynote/11_design_supervision/06_exam_summary/582_dataops_data_pipeline_automation/) ->
 
 ---

@@ -1,25 +1,22 @@
-+++
-title = "643. AIOps 기반 하드웨어 이상 탐지"
-date = 2026-05-08
+---
+title: "643. AIOps 기반 하드웨어 이상 탐지"
+date: "2026-05-08"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([Artificial Intelligence](/knowledge-base/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations, [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 기반 하드웨어 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 대규모 시계열 텔레메트리에서 정상 패턴을 학습하고, [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)만으로는 못 잡는 미세한 장비 이상을 점수화하는 기술이다.
-> 2. **가치**: 정정 가능한 오류, [전압](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 흔들림, 팬 편차, 저장장치 마모 같은 약한 신호를 조합해 장애 전 교체와 격리를 가능하게 하므로 가동 중단과 불필요한 부품 교체를 함께 줄인다.
-> 3. **판단 포인트**: 모델보다 더 중요한 것은 <strong>동종 장비별 <a href="/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>, 계절성·워크로드 문맥, 사람 승인 절차</strong>이며, 이 세 가지가 없으면 자동화는 오경보 공장으로 바뀐다.
+> 1. **본질**: [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 기반 운영 ([Artificial Intelligence](/studynote/10_ai/01_ai_basics/001_artificial_intelligence/) for IT Operations, [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/)) 기반 하드웨어 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 대규모 시계열 텔레메트리에서 정상 패턴을 학습하고, [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)만으로는 못 잡는 미세한 장비 이상을 점수화하는 기술이다.
+> 2. **가치**: 정정 가능한 오류, [전압](/studynote/01_computer_architecture/01_basic_electronics_logic/001_voltage/) 흔들림, 팬 편차, 저장장치 마모 같은 약한 신호를 조합해 장애 전 교체와 격리를 가능하게 하므로 가동 중단과 불필요한 부품 교체를 함께 줄인다.
+> 3. **판단 포인트**: 모델보다 더 중요한 것은 <strong>동종 장비별 <a href="/studynote/04_software_engineering/01_overview_principles/025_baseline/">기준선</a>, 계절성·워크로드 문맥, 사람 승인 절차</strong>이며, 이 세 가지가 없으면 자동화는 오경보 공장으로 바뀐다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반 하드웨어 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 "평소와 다르다"를 기계가 먼저 알아채게 만드는 운영 방식이다. 기존 운영은 온도 80도, 디스크 사용률 90%처럼 고정 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 경보를 울렸다. 그러나 실제 장애는 그보다 훨씬 앞선 시점에, 여러 지표가 조금씩 어긋나는 형태로 시작되는 경우가 많다.
+[AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반 하드웨어 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 "평소와 다르다"를 기계가 먼저 알아채게 만드는 운영 방식이다. 기존 운영은 온도 80도, 디스크 사용률 90%처럼 고정 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)를 넘으면 경보를 울렸다. 그러나 실제 장애는 그보다 훨씬 앞선 시점에, 여러 지표가 조금씩 어긋나는 형태로 시작되는 경우가 많다.
 
 예를 들어 메모리 오류 정정 카운터는 천천히 늘고, 팬 회전수는 살짝 흔들리며, 같은 세대 장비 대비 소비 전력도 미세하게 높아지는 상황을 생각해 볼 수 있다. 사람 눈에는 각각 사소해 보이지만, 장비가 수천 대를 넘으면 이런 조합을 사람이 계속 추적하기 어렵다. 바로 여기서 AIOps가 필요한데, 단일 알람이 아니라 "정상 상태의 패턴" 자체를 학습해 벗어남을 찾아내기 때문이다.
 
@@ -31,12 +28,12 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 파이프라인은 데이터를 많이 모으는 것보다 "같은 종류의 장비끼리 공정하게 비교할 수 있게 만드는 것"이 핵심이다. 중앙처리장치 세대가 다르고 냉각 조건이 다르면 정상 전력 범위도 달라지므로, 원시 텔레메트리를 그대로 모델에 넣기보다 장비군별 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 시간축 특징으로 바꿔야 한다.
+[AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 파이프라인은 데이터를 많이 모으는 것보다 "같은 종류의 장비끼리 공정하게 비교할 수 있게 만드는 것"이 핵심이다. 중앙처리장치 세대가 다르고 냉각 조건이 다르면 정상 전력 범위도 달라지므로, 원시 텔레메트리를 그대로 모델에 넣기보다 장비군별 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)과 시간축 특징으로 바꿔야 한다.
 
 | 단계 | 핵심 작업 | 설계 포인트 |
 | :--- | :--- | :--- |
-| 수집 | 센서·[로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·이력 취합 | 시간 정렬, 누락 보정 |
-| 특징 추출 | 변화율, 편차, 동종 대비 차이 계산 | 장비군별 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) 분리 |
+| 수집 | 센서·[로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·이력 취합 | 시간 정렬, 누락 보정 |
+| 특징 추출 | 변화율, 편차, 동종 대비 차이 계산 | 장비군별 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) 분리 |
 | 모델링 | 정상 패턴 학습, 이상 점수 계산 | 계절성·워크로드 문맥 반영 |
 | 설명 | 어떤 신호가 점수를 올렸는지 제시 | 블랙박스 완화 |
 | 대응 | 티켓, 드레인, 교체, 격리 | 자동화 범위 단계적 확대 |
@@ -57,7 +54,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-실제 모델은 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/knowledge-base/studynote/16_bigdata/05_analysis/111_anomaly_detection/))만으로 끝나지 않는다. 같은 그래픽 처리 장치 ([GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 노드라도 훈련 작업 중인지 유휴 상태인지에 따라 정상 범위가 바뀌므로, 워크로드 문맥을 함께 입력해야 한다. 또한 자동인코더 ([Autoencoder](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)), 격리 포리스트 ([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest), 시계열 예측 모델 등 어떤 알고리즘을 쓰더라도, 결과를 사람에게 설명할 수 있어야 운영 신뢰를 얻는다.
+실제 모델은 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) ([Anomaly Detection](/studynote/16_bigdata/05_analysis/111_anomaly_detection/))만으로 끝나지 않는다. 같은 그래픽 처리 장치 ([GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/)) 노드라도 훈련 작업 중인지 유휴 상태인지에 따라 정상 범위가 바뀌므로, 워크로드 문맥을 함께 입력해야 한다. 또한 자동인코더 ([Autoencoder](/studynote/10_ai/04_ai_ops_ethics/335_autoencoder/)), 격리 포리스트 ([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/) Forest), 시계열 예측 모델 등 어떤 알고리즘을 쓰더라도, 결과를 사람에게 설명할 수 있어야 운영 신뢰를 얻는다.
 
 - **📢 섹션 요약 비유**: 아이들 키 성장을 볼 때 어제보다 1cm 컸는지만 보는 게 아니라, 같은 나이 평균과 계절, 운동량까지 같이 보는 것과 같다. AIOps도 숫자 하나보다 맥락 속 변화량을 본다.
 
@@ -65,34 +62,34 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 알람을 완전히 대체하기보다, 그 위에 더 높은 차원의 판단을 얹는다. 급격한 과열처럼 명확한 사건은 여전히 규칙 기반 경보가 빠르지만, 장기적인 열화와 복합 증상은 AIOps가 더 잘 잡는다.
+AIOps는 전통적 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) 알람을 완전히 대체하기보다, 그 위에 더 높은 차원의 판단을 얹는다. 급격한 과열처럼 명확한 사건은 여전히 규칙 기반 경보가 빠르지만, 장기적인 열화와 복합 증상은 AIOps가 더 잘 잡는다.
 
 | 방식 | 판단 기준 | 강점 | 약점 |
 | :--- | :--- | :--- | :--- |
-| 정적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) | 정해진 숫자 초과 | 단순하고 빠름 | 문맥 반영 약함 |
-| 통계 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/) | 평균·[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 이탈 | 장비군 특성 반영 가능 | 다변량 설명 한계 |
-| [AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) | 다변량 패턴 이탈 | 조기 탐지, 예측 정비 | 학습·운영 복잡도 |
+| 정적 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/) | 정해진 숫자 초과 | 단순하고 빠름 | 문맥 반영 약함 |
+| 통계 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/) | 평균·[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 이탈 | 장비군 특성 반영 가능 | 다변량 설명 한계 |
+| [AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) | 다변량 패턴 이탈 | 조기 탐지, 예측 정비 | 학습·운영 복잡도 |
 
-이 기술은 [옵저버빌리티](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 하드웨어 텔레메트리의 상위 계층으로 보는 것이 맞다. 텔레메트리가 몸에서 나오는 신호라면, AIOps는 그 신호를 읽고 의미를 만드는 해석 엔진이다. 또한 [구성 관리](/knowledge-base/studynote/12_it_management/02_itsm_itil/873_configuration_management/) [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Configuration Management Database](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/), [CMDB](/knowledge-base/studynote/12_it_management/02_itsm_itil/875_cmdb/))나 정비 티켓 시스템과 연결돼야 실제 운영 가치가 생긴다. 이상 점수만 높고 현장 대응 체계가 없으면 좋은 그래프만 남고 운영은 바뀌지 않는다.
+이 기술은 [옵저버빌리티](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/) 하드웨어 텔레메트리의 상위 계층으로 보는 것이 맞다. 텔레메트리가 몸에서 나오는 신호라면, AIOps는 그 신호를 읽고 의미를 만드는 해석 엔진이다. 또한 [구성 관리](/studynote/12_it_management/02_itsm_itil/873_configuration_management/) [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) ([Configuration Management Database](/studynote/12_it_management/02_itsm_itil/875_cmdb/), [CMDB](/studynote/12_it_management/02_itsm_itil/875_cmdb/))나 정비 티켓 시스템과 연결돼야 실제 운영 가치가 생긴다. 이상 점수만 높고 현장 대응 체계가 없으면 좋은 그래프만 남고 운영은 바뀌지 않는다.
 
-- **📢 섹션 요약 비유**: 정적 [임계치](/knowledge-base/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)는 온도계의 빨간 줄이고, AIOps는 여러 검사 결과를 함께 보고 위험도를 판단하는 의사다. 빨간 줄은 즉시 위험을 잡고, 의사는 큰 병이 오기 전 징후를 읽는다.
+- **📢 섹션 요약 비유**: 정적 [임계치](/studynote/03_network/08_transport_layer/431_ssthresh_slow_start_threshold/)는 온도계의 빨간 줄이고, AIOps는 여러 검사 결과를 함께 보고 위험도를 판단하는 의사다. 빨간 줄은 즉시 위험을 잡고, 의사는 큰 병이 오기 전 징후를 읽는다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-대표 사례는 저장장치 교체 최적화다. 예전에는 [솔리드 스테이트 드라이브](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([Solid State Drive](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [SSD](/knowledge-base/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 보수적으로 일괄 교체하거나, 반대로 완전히 죽을 때까지 쓰는 극단이 많았다. AIOps는 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 변화율, [쓰기 증폭](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/), 오류 재시도, 온도 추세를 함께 보고 개별 장치의 열화 속도를 예측해, 꼭 필요한 장비만 선별 교체하게 만든다.
+대표 사례는 저장장치 교체 최적화다. 예전에는 [솔리드 스테이트 드라이브](/studynote/02_operating_system/08_storage_and_io_systems/475_ssd_structure/) ([Solid State Drive](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/), [SSD](/studynote/01_computer_architecture/08_io_storage_systems/327_ssd/))를 보수적으로 일괄 교체하거나, 반대로 완전히 죽을 때까지 쓰는 극단이 많았다. AIOps는 자기 모니터링 분석 및 보고 기술 (Self-Monitoring, Analysis and Reporting Technology, SMART) 변화율, [쓰기 증폭](/studynote/02_operating_system/08_storage_and_io_systems/480_write_amplification/), 오류 재시도, 온도 추세를 함께 보고 개별 장치의 열화 속도를 예측해, 꼭 필요한 장비만 선별 교체하게 만든다.
 
-또 다른 사례는 대형 학습 클러스터의 노드 격리다. 특정 노드에서 교정 가능한 메모리 오류가 급증하고 전력 변동폭이 커지는 패턴이 반복되면, 모델은 장애 전 위험 점수를 높인다. 이때 운영자는 학습 작업을 다른 노드로 넘기고 정비 일정을 잡아 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 장애를 흡수할 수 있다.
+또 다른 사례는 대형 학습 클러스터의 노드 격리다. 특정 노드에서 교정 가능한 메모리 오류가 급증하고 전력 변동폭이 커지는 패턴이 반복되면, 모델은 장애 전 위험 점수를 높인다. 이때 운영자는 학습 작업을 다른 노드로 넘기고 정비 일정을 잡아 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 중단 없이 장애를 흡수할 수 있다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 장비 세대·랙 위치·워크로드 종류별로 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 분리했는가?
-2. [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 워밍업 기간 없이 바로 자동 격리를 걸지 않는가?
+1. 장비 세대·랙 위치·워크로드 종류별로 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)을 분리했는가?
+2. [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 워밍업 기간 없이 바로 자동 격리를 걸지 않는가?
 3. 이상 점수의 근거 신호를 사람이 읽을 수 있게 남기는가?
-4. 자동 조치는 드레인, [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한, 티켓 생성처럼 점진적으로 확장하는가?
+4. 자동 조치는 드레인, [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 제한, 티켓 생성처럼 점진적으로 확장하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 서로 다른 세대의 장비를 하나의 모델로 뭉뚱그려 정상 범위를 왜곡하는 경우
 - 정상 데이터가 충분히 쌓이기 전에 모델을 운영 경보에 직접 연결하는 경우
@@ -105,9 +102,9 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 ## Ⅴ. 기대효과 및 결론
 
-[AIOps](/knowledge-base/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반 하드웨어 [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 운영팀이 모든 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 눈으로 훑지 않아도 되게 만들고, 부품 수명 관리와 예비품 운영도 더 정교하게 만든다. 특히 장애 한 번의 비용이 큰 데이터센터에서는 조기 탐지로 얻는 이익이 매우 크다. 단순한 알람 수 감소보다, 불필요한 현장 출동과 예측 실패를 줄이는 효과가 더 본질적이다.
+[AIOps](/studynote/12_it_management/02_itsm_itil/883_aiops_chatbot_itsm_automation/) 기반 하드웨어 [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/)는 운영팀이 모든 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)를 눈으로 훑지 않아도 되게 만들고, 부품 수명 관리와 예비품 운영도 더 정교하게 만든다. 특히 장애 한 번의 비용이 큰 데이터센터에서는 조기 탐지로 얻는 이익이 매우 크다. 단순한 알람 수 감소보다, 불필요한 현장 출동과 예측 실패를 줄이는 효과가 더 본질적이다.
 
-하지만 이 기술은 만능 예언기가 아니다. 센서 품질이 낮거나, 워크로드가 급격히 변하거나, 모델이 오래된 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 묶이면 개념 드리프트가 쉽게 생긴다. 따라서 AIOps는 "AI가 다 알아서 해 주는 자동 정비"가 아니라, <strong>사람의 운영 경험을 데이터와 모델로 증폭하는 보조 지능</strong>으로 기억해야 현실적이다.
+하지만 이 기술은 만능 예언기가 아니다. 센서 품질이 낮거나, 워크로드가 급격히 변하거나, 모델이 오래된 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)에 묶이면 개념 드리프트가 쉽게 생긴다. 따라서 AIOps는 "AI가 다 알아서 해 주는 자동 정비"가 아니라, <strong>사람의 운영 경험을 데이터와 모델로 증폭하는 보조 지능</strong>으로 기억해야 현실적이다.
 
 - **📢 섹션 요약 비유**: AIOps는 미래를 맞히는 수정 구슬이 아니라, 경험 많은 정비사의 감각을 수천 대 장비에 동시에 펼쳐 놓는 확대경과 같다. 잘 쓰면 먼저 보이지만, 잘못 쓰면 왜곡도 함께 커진다.
 
@@ -118,9 +115,9 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 | 개념 | 연결 포인트 |
 | :--- | :--- |
 | 하드웨어 텔레메트리 (Hardware Telemetry) | AIOps가 학습하고 추론하는 원재료를 제공한다 |
-| [시계열 데이터베이스](/knowledge-base/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) ([Time-series Database](/knowledge-base/studynote/11_design_supervision/06_exam_summary/340_process/)) | 고해상도 장비 신호를 시간축으로 저장하고 조회한다 |
-| 특징 저장소 ([Feature Store](/knowledge-base/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) | 모델 입력용 파생 지표를 재사용 가능하게 관리한다 |
-| 예측 정비 (Predictive Maintenance) | [이상 탐지](/knowledge-base/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 결과가 실제 부품 교체와 정비 정책으로 이어지는 단계다 |
+| [시계열 데이터베이스](/studynote/14_data_engineering/01_infrastructure/057_tsdb_downsampling_retention_policy/) ([Time-series Database](/studynote/11_design_supervision/06_exam_summary/340_process/)) | 고해상도 장비 신호를 시간축으로 저장하고 조회한다 |
+| 특징 저장소 ([Feature Store](/studynote/14_data_engineering/04_mlops/165_feature_store_training_serving_consistency/)) | 모델 입력용 파생 지표를 재사용 가능하게 관리한다 |
+| 예측 정비 (Predictive Maintenance) | [이상 탐지](/studynote/09_security/05_web_app_security/236_anomaly_based_detection_zero_day_false_positive/) 결과가 실제 부품 교체와 정비 정책으로 이어지는 단계다 |
 | 사람 승인 절차 (Human in the Loop) | 오경보와 과잉 자동화를 제어하는 안전장치다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -155,7 +152,7 @@ AIOps는 전통적 [임계치](/knowledge-base/studynote/03_network/08_transport
 
 **진행 상황**: 644 / 803
 
-<- **이전**: [642. 옵저버빌리티 (Observability) HW 텔레메트리](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
-**다음**: [644. 제로 트러스트 (Zero Trust) 아키텍처의 하드웨어 루트 오브 트러스트](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/644_zero_trust_hardware_rot/) ->
+<- **이전**: [642. 옵저버빌리티 (Observability) HW 텔레메트리](/studynote/01_computer_architecture/15_advanced_topics/642_observability_telemetry/)
+**다음**: [644. 제로 트러스트 (Zero Trust) 아키텍처의 하드웨어 루트 오브 트러스트](/studynote/01_computer_architecture/15_advanced_topics/644_zero_trust_hardware_rot/) ->
 
 ---

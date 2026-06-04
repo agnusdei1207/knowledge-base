@@ -1,18 +1,15 @@
-+++
-title = "206. 클라이언트-서버 아키텍처 (Client-Server)"
-date = 2026-05-08
+---
+title: "206. 클라이언트-서버 아키텍처 (Client-Server)"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
@@ -22,7 +19,7 @@ tags = ["studynote-software-engineering"]
 - **과거 (Host-Terminal)**: 서버가 1부터 100까지(화면 픽셀 그리기, 마우스 커서 움직이기, 연산하기, DB 검색하기) 모든 걸 다 짊어졌습니다. 직원(터미널)은 뇌가 없는 그냥 유리 모니터였습니다.
 - 서버에 부하가 극단적으로 집중되어, 서버가 죽으면 회사 전체가 셧다운 되었습니다.
 
-- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 다음은 클라이언트-서버 아키텍처 (Clien의 핵심 구조와 흐름을 보여주는 다이어그램이다.
 
@@ -47,14 +44,14 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-- **개념**: 일을 시키며 서비스를 요청하는 <strong>'고객(<a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)'</strong>과, 요청을 받아 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내주거나 무거운 연산을 대신해 주는 **'종업원(Server)'** 두 개의 독립된 컴포넌트로 역할(관심사)을 완벽하게 찢어버린(2-Tier) [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처입니다.
+- **개념**: 일을 시키며 서비스를 요청하는 <strong>'고객(<a href="/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>)'</strong>과, 요청을 받아 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 꺼내주거나 무거운 연산을 대신해 주는 **'종업원(Server)'** 두 개의 독립된 컴포넌트로 역할(관심사)을 완벽하게 찢어버린(2-Tier) [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 아키텍처입니다.
 - 인터넷 생태계(웹 브라우저 ➜ 웹 서버)를 탄생시킨 가장 위대하고 흔한 아키텍처 패턴입니다.
 
-- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 | 항목 | 설명 | 비고 |
 | :--- | :--- | :--- |
-| 핵심 특성 | 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
+| 핵심 특성 | 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 핵심 특성과 동작 방식 | 필수 이해 요소 |
 | 적용 범위 | 어떤 프로젝트·상황에서 활용하는지 | 선택 기준 |
 | 제약 조건 | 적용 시 주의해야 할 전제·한계 | 트레이드오프 |
 
@@ -64,9 +61,9 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅲ. 비교 및 연결
 
-클라이언트 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 성능이 좋아지면서, 계산 짐을 누가 더 짊어질지 두 가지 파벌로 나뉩니다.
+클라이언트 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 성능이 좋아지면서, 계산 짐을 누가 더 짊어질지 두 가지 파벌로 나뉩니다.
 
-- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -74,12 +71,12 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-- **3-Tier로의 분화**: 클라이언트가 서버 1대랑 통신했더니 씬 클라이언트의 서버가 다 터져 죽었습니다. 그래서 서버 딴을 **[클라이언트] ➜ [웹 서버(UI)] ➜ [WAS(비즈니스 로직)] ➜ [DB 서버]** 처럼 뒤쪽 종업원들을 3명, 4명으로 쪼개는 N-Tier(1066번 [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 등) 아키텍처로 무한 증식해 나갔습니다.
-- 최근엔 폰(클라이언트) 성능이 아이폰 15처럼 미치도록 좋아져서, 다시 서버의 짐을 폰으로 떠넘기는(온디바이스 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [엣지 컴퓨팅](/knowledge-base/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) Thick Client로의 회귀가 살짝 유행하고 있습니다.
+- **3-Tier로의 분화**: 클라이언트가 서버 1대랑 통신했더니 씬 클라이언트의 서버가 다 터져 죽었습니다. 그래서 서버 딴을 **[클라이언트] ➜ [웹 서버(UI)] ➜ [WAS(비즈니스 로직)] ➜ [DB 서버]** 처럼 뒤쪽 종업원들을 3명, 4명으로 쪼개는 N-Tier(1066번 [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 등) 아키텍처로 무한 증식해 나갔습니다.
+- 최근엔 폰(클라이언트) 성능이 아이폰 15처럼 미치도록 좋아져서, 다시 서버의 짐을 폰으로 떠넘기는(온디바이스 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/), [엣지 컴퓨팅](/studynote/12_it_management/05_security_compliance/235_edge_computing_smart_factory/)) Thick Client로의 회귀가 살짝 유행하고 있습니다.
 
-> 📢 **섹션 요약 비유**: 기존 <strong>메인프레임 중앙 집중형</strong>은 <strong>'미슐랭 3스타 천재 셰프 1명(서버)' 혼자서 홀 서빙, 양파 까기, 고기 굽기, 돈 계산을 다 하는 1인 식당</strong>입니다. 손님이 3명만 넘어가도 셰프는 과로사로 쓰러집니다. 이를 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/)시킨 <strong>클라이언트-서버(C/S) 아키텍처</strong>는 <strong>'손님(클라이언트)'과 '주방장(서버)'의 역할 분담 혁명</strong>입니다. 여기서 짐을 누가 지느냐에 따라 두 식당으로 나뉩니다. <strong>Thick <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(뚱뚱한 클라이언트)</strong>는 '샤브샤브 고기구이 집'입니다. 주방장(서버)은 그냥 날고기와 버너([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 테이블에 띡 던져주고 쿨하게 주방으로 갑니다. 손님(내 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 직접 불을 켜고 고기를 굽고 자르고 미친 듯이 요리(연산)를 다 해야 합니다. 주방장은 천 명의 손님이 와도 고기만 던져주면 되니 하나도 안 피곤하지만, 손님은 직접 굽느라 힘듭니다. 반면 <strong>Thin <a href="/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(가벼운 클라이언트)</strong>는 '파인다이닝 코스 요리'입니다. 손님(내 크롬 브라우저)은 가만히 앉아서 포크(마우스)만 들고 입만 쩍 벌리고 있으면, 주방장(서버)이 주방에서 썰고 볶고 지지고 다 해서 완벽한 요리(결과 화면)를 입안으로 쏙 넣어줍니다. 손님은 엄청 편하고 앱 업데이트를 할 필요가 없지만, 셰프(서버)는 주방에서 코피를 쏟으며 트래픽 부하와 싸워야 하는 인터넷 통신망의 영원한 역할 분담 저울질입니다.
+> 📢 **섹션 요약 비유**: 기존 <strong>메인프레임 중앙 집중형</strong>은 <strong>'미슐랭 3스타 천재 셰프 1명(서버)' 혼자서 홀 서빙, 양파 까기, 고기 굽기, 돈 계산을 다 하는 1인 식당</strong>입니다. 손님이 3명만 넘어가도 셰프는 과로사로 쓰러집니다. 이를 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/)시킨 <strong>클라이언트-서버(C/S) 아키텍처</strong>는 <strong>'손님(클라이언트)'과 '주방장(서버)'의 역할 분담 혁명</strong>입니다. 여기서 짐을 누가 지느냐에 따라 두 식당으로 나뉩니다. <strong>Thick <a href="/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(뚱뚱한 클라이언트)</strong>는 '샤브샤브 고기구이 집'입니다. 주방장(서버)은 그냥 날고기와 버너([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))만 테이블에 띡 던져주고 쿨하게 주방으로 갑니다. 손님(내 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/))이 직접 불을 켜고 고기를 굽고 자르고 미친 듯이 요리(연산)를 다 해야 합니다. 주방장은 천 명의 손님이 와도 고기만 던져주면 되니 하나도 안 피곤하지만, 손님은 직접 굽느라 힘듭니다. 반면 <strong>Thin <a href="/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/">Client</a>(가벼운 클라이언트)</strong>는 '파인다이닝 코스 요리'입니다. 손님(내 크롬 브라우저)은 가만히 앉아서 포크(마우스)만 들고 입만 쩍 벌리고 있으면, 주방장(서버)이 주방에서 썰고 볶고 지지고 다 해서 완벽한 요리(결과 화면)를 입안으로 쏙 넣어줍니다. 손님은 엄청 편하고 앱 업데이트를 할 필요가 없지만, 셰프(서버)는 주방에서 코피를 쏟으며 트래픽 부하와 싸워야 하는 인터넷 통신망의 영원한 역할 분담 저울질입니다.
 
-- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
+- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은(는) 복잡한 공사 현장에서 설계도와 공정표를 기반으로 팀을 이끄는 현장 감독과 같다. 원칙 없이 무작정 짓기 시작하면 결국 재공사가 필요하듯, 소프트웨어도 올바른 원칙 위에서만 품질과 효율이 보장된다.
 
 ---
 
@@ -87,21 +84,21 @@ tags = ["studynote-software-engineering"]
 
 ## Ⅴ. 기대효과 및 결론
 
-클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)을(를) 올바르게 적용하면 [소프트웨어 품질](/knowledge-base/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
+클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)을(를) 올바르게 적용하면 [소프트웨어 품질](/studynote/04_software_engineering/06_software_architecture/339_software_quality_definition/)·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·팀 생산성이 동시에 향상된다. 그러나 도입에는 학습 비용과 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 투자가 필요하며, 조직 전체의 공감과 훈련이 선행되어야 한다.
 
 **한계와 전제 조건**:
 - 소규모 프로젝트에서는 오버헤드가 발생할 수 있다
 - 팀 전체의 충분한 교육과 실습 기간이 필요하다
-- 도구 지원 환경 구축에 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
+- 도구 지원 환경 구축에 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 비용이 발생한다
 
 **미래 발전 방향**:
-- [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/knowledge-base/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
-- [클라우드 네이티브](/knowledge-base/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/knowledge-base/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
+- [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·[LLM](/studynote/06_ict_convergence/04_ai_llm/263_llm_large_language_model/) 기반 자동화 도구와의 통합으로 적용 효율 향상
+- [클라우드 네이티브](/studynote/04_software_engineering/11_testing_validation/923_cloud_native_architecture/)·[DevOps](/studynote/04_software_engineering/uncategorized/652_devops_calms_culture/) 환경에서의 진화적 적용
 - 정량적 측정 체계의 고도화를 통한 의사결정 지원 강화
 
-클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
+클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 '어떻게 빠르게 짜는가'가 아니라 '어떻게 오래 유지할 수 있는 소프트웨어를 짜는가'에 대한 답이다. 단기 속도보다 장기 지속 가능성을 추구하는 관점으로 기억해야 한다.
 
-- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
+- **📢 섹션 요약 비유**: 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 기대효과는 마라톤 훈련과 같다. 처음에는 느리고 고통스럽지만, 올바른 훈련 원칙을 지킨 선수만이 결승선에서 최고의 기록을 낼 수 있다. [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 원칙도 단기 편의보다 장기 완성도를 위한 투자다.
 
 ---
 
@@ -111,10 +108,10 @@ tags = ["studynote-software-engineering"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
-| 품질 보증 (QA, Quality Assurance) | 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| 품질 보증 (QA, Quality Assurance) | 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server) 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -134,13 +131,13 @@ tags = ["studynote-software-engineering"]
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 클라이언트-서버 아키텍처 ([Client](/knowledge-base/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
+1. 클라이언트-서버 아키텍처 ([Client](/studynote/11_design_supervision/01_audit_framework/003_audit_stakeholders/)-Server)은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -148,7 +145,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 206 / 973
 
-<- **이전**: [205. 계층형 아키텍처 (Layered Architecture) - 관심사 분리 (Presentation, Business, Data)](/knowledge-base/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/)
-**다음**: [207. 파이프-필터 아키텍처 (Pipe-Filter) - 데이터 스트림 처리](/knowledge-base/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) ->
+<- **이전**: [205. 계층형 아키텍처 (Layered Architecture) - 관심사 분리 (Presentation, Business, Data)](/studynote/04_software_engineering/04_testing_quality/205_layered_architecture_separation_of_concerns/)
+**다음**: [207. 파이프-필터 아키텍처 (Pipe-Filter) - 데이터 스트림 처리](/studynote/04_software_engineering/04_testing_quality/207_pipe_filter_architecture_data_stream/) ->
 
 ---

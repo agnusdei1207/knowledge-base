@@ -1,13 +1,10 @@
-+++
-title = "1027. 수중 음파 통신망 (IoUT)"
-date = 2026-05-08
+---
+title: "1027. 수중 음파 통신망 (IoUT)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -21,7 +18,7 @@ tags = ["studynote-network"]
 
 지상에서 스마트폰과 Wi-Fi를 연결해 주는 무선 전파(RF)나 빛(가시광선)은 물속에 들어가는 순간 물 분자에 에너지를 빼앗겨 몇 미터도 채 가지 못하고 소멸해 버린다. 육지의 통신 기술이 바닷속에서는 완벽한 무용지물이 되는 것이다.
 
-하지만 지구 면적의 70%를 차지하는 해양을 탐사하고 보호하기 위해 잠수함, 무인 잠수정(AUV), 해저 센서들을 하나로 연결해야 할 필요성이 급증했다. 과학자들은 해양 생물들이 수십 km 밖에서도 소리로 대화한다는 점에 착안하여, 전파 대신 <strong>음파(Acoustic <a href="/knowledge-base/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">Wave</a>)</strong>를 사용하여 바닷속 [사물인터넷](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(IoUT)을 구축하는 수중 음파 통신망을 탄생시켰다.
+하지만 지구 면적의 70%를 차지하는 해양을 탐사하고 보호하기 위해 잠수함, 무인 잠수정(AUV), 해저 센서들을 하나로 연결해야 할 필요성이 급증했다. 과학자들은 해양 생물들이 수십 km 밖에서도 소리로 대화한다는 점에 착안하여, 전파 대신 <strong>음파(Acoustic <a href="/studynote/03_network/11_wireless_mobile_communication/590_wave_ieee_802_11p_dsrc_v2x/">Wave</a>)</strong>를 사용하여 바닷속 [사물인터넷](/studynote/06_ict_convergence/02_iot_mobility/101_iot_concept/)(IoUT)을 구축하는 수중 음파 통신망을 탄생시켰다.
 
 ```text
 [스마트 그리드 통신 인프라망]

@@ -1,25 +1,22 @@
-+++
-title = "74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
-date = 2026-04-07
+---
+title: "74. zkEVM (Zero-Knowledge Ethereum Virtual Machine)"
+date: "2026-04-07"
+tags:
+  - "studynote-blockchain"
+---
 
-[taxonomies]
-tags = ["studynote-blockchain"]
-
-[extra]
-tags = ["studynote-blockchain"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: zkEVM은 제로 지식 증명을 활용해 이더리움 실행을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 가상 머신이다.
+> 1. **본질**: zkEVM은 제로 지식 증명을 활용해 이더리움 실행을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 가상 머신이다.
 > 2. **가치**: 확장성과 프라이버시를 동시에 노린다.
-> 3. **판단**: [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성과 증명 비용의 균형이 중요하다.
+> 3. **판단**: [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성과 증명 비용의 균형이 중요하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-[블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 빠르고 비공개로 만들고 싶다.
+[블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/)을 빠르고 비공개로 만들고 싶다.
 
 zkEVM이 그 방향을 제시한다.
 
@@ -38,7 +35,7 @@ Verification
 | 요소 | 의미 |
 | :-- | :-- |
 | Zero-Knowledge | 내용 숨김 |
-| [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | 실행 호환 |
+| [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | 실행 호환 |
 | Proof | 증명 |
 
 zkEVM은 이더리움 실행을 증명으로 대체해 효율과 프라이버시를 높인다.
@@ -49,15 +46,15 @@ zkEVM은 이더리움 실행을 증명으로 대체해 효율과 프라이버시
 
 ## Ⅲ. 비교 및 연결
 
-| 구분 | L1 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | zkEVM |
+| 구분 | L1 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) | zkEVM |
 | :-- | :-- | :-- |
 | 실행 | 온체인 | 증명 기반 |
 | 확장성 | 제한 | 향상 |
 
 | 관련 | 의미 |
 | :-- | :-- |
-| [Rollup](/knowledge-base/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) | 확장 |
-| Privacy | [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) |
+| [Rollup](/studynote/06_ict_convergence/01_blockchain/042_rollup_l2_solution/) | 확장 |
+| Privacy | [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) |
 
 zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
@@ -67,22 +64,22 @@ zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성을 이해하는가?
+1. [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성을 이해하는가?
 2. 증명 비용을 아는가?
 3. 프라이버시와 확장성을 구분하는가?
 4. Rollup과 연결하는가?
-5. [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 실행을 구별하는가?
+5. [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 실행을 구별하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - zkEVM을 단순 암호화로 보는 설계
-- [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성을 무시하는 설계
+- [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 호환성을 무시하는 설계
 - 증명 비용을 무시하는 설계
 - 프라이버시만 보고 확장성을 놓치는 설계
 
-기술사 관점에서는 zkEVM을 "제로 지식 기반 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술"로 설명해야 한다.
+기술사 관점에서는 zkEVM을 "제로 지식 기반 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기술"로 설명해야 한다.
 
 - **📢 섹션 요약 비유**: 계산 과정을 숨기고 결과만 증명한다.
 
@@ -90,9 +87,9 @@ zkEVM은 확장성과 호환성을 동시에 노리는 기술이다.
 
 ## Ⅴ. 기대효과 및 결론
 
-zkEVM은 [블록체인](/knowledge-base/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성과 프라이버시를 높인다.
+zkEVM은 [블록체인](/studynote/06_ict_convergence/01_blockchain/004_blockchain/) 확장성과 프라이버시를 높인다.
 
-결론적으로 zkEVM은 제로 지식 증명으로 [EVM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기술이다.
+결론적으로 zkEVM은 제로 지식 증명으로 [EVM](/studynote/12_it_management/04_sdlc_testing/152_evm_earned_value_management/) 실행을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 기술이다.
 
 - **📢 섹션 요약 비유**: 보이지 않아도 믿을 수 있는 계산이다.
 
@@ -134,7 +131,7 @@ zkEVM은 그런 기술이에요.
 
 **진행 상황**: 74 / 552
 
-<- **이전**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)
-**다음**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/knowledge-base/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/) ->
+<- **이전**: [73. ERC-1155 (다중 토큰 표준 - NFT와 FT 동시 발행 가능, 게임 아이템에 유리)](/studynote/06_ict_convergence/01_blockchain/073_erc_1155_multi_token_standard/)
+**다음**: [75. 분산 스토리지 보상 시스템 (Filecoin, Arweave)](/studynote/06_ict_convergence/01_blockchain/075_distributed_storage_filecoin_arweave/) ->
 
 ---

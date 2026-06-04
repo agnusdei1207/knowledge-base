@@ -1,13 +1,10 @@
-+++
-title = "290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)"
-date = 2026-05-09
+---
+title: "290. 파케이 ORC 열 지향 저장 포맷 최적화 (Parquet ORC Columnar Storage Format)"
+date: "2026-05-09"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -174,7 +171,7 @@ Parquet와 ORC 모두 **인코딩(Encoding) -> 압축(Compression)** 2단계 파
 
 **진행 상황**: 290 / 300
 
-<- **이전**: [289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/289_schema_evolution/)
-**다음**: [291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/291_iceberg_hudi_delta/) ->
+<- **이전**: [289. 스키마 진화 호환성 레지스트리 관리 (Schema Evolution Compatibility Registry)](/studynote/14_data_engineering/05_exam_keywords/289_schema_evolution/)
+**다음**: [291. 아이스버그 후디 델타 레이크 테이블 형식 (Iceberg Hudi Delta Lake Table Format)](/studynote/14_data_engineering/05_exam_keywords/291_iceberg_hudi_delta/) ->
 
 ---

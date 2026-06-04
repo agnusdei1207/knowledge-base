@@ -1,18 +1,15 @@
-+++
-title = "239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)"
-date = 2026-04-21
+---
+title: "239. 퍼셉트론 (Perceptron) MLP 은닉층 가중치 활성화 시그모이드 (Sigmoid)"
+date: "2026-04-21"
+tags:
+  - "studynote-data-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-data-engineering"]
-
-[extra]
-tags = ["studynote-data-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)([Single-Layer Perceptron](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/))은 선형 결정 경계만 학습할 수 있어 XOR 문제를 풀 수 없지만, [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer Perceptron)은 은닉층(Hidden Layer)을 통해 비선형 함수를 근사한다.
-> 2. **가치**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 미분의 연쇄 법칙(Chain Rule)을 이용해 각 [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 손실 기여도를 효율적으로 계산하며, 이것이 딥러닝의 핵심 학습 메커니즘이다.
-> 3. **판단 포인트**: [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 출력을 (0,1)로 제한해 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 해석에 유용하지만 깊은 네트워크에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 야기하므로, 은닉층에는 ReLU가 더 적합하다.
+> 1. **본질**: [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)([Single-Layer Perceptron](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/))은 선형 결정 경계만 학습할 수 있어 XOR 문제를 풀 수 없지만, [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)(MLP, Multi-Layer Perceptron)은 은닉층(Hidden Layer)을 통해 비선형 함수를 근사한다.
+> 2. **가치**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 미분의 연쇄 법칙(Chain Rule)을 이용해 각 [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))의 손실 기여도를 효율적으로 계산하며, 이것이 딥러닝의 핵심 학습 메커니즘이다.
+> 3. **판단 포인트**: [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 출력을 (0,1)로 제한해 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 해석에 유용하지만 깊은 네트워크에서 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/)([Vanishing Gradient](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/)) 문제를 야기하므로, 은닉층에는 ReLU가 더 적합하다.
 
 ## Ⅰ. 개요 및 필요성
 
@@ -38,7 +35,7 @@ tags = ["studynote-data-engineering"]
   인공 뉴런의 핵심: 활성화 함수로 비선형 변환
 ```
 
-### [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 한계 — XOR 문제
+### [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 한계 — XOR 문제
 
 ```
 AND 문제: 선형 분리 가능 ✅
@@ -58,11 +55,11 @@ Minsky & Papert (1969): 단층 퍼셉트론으로
 XOR 풀 수 없음 -> 첫 번째 AI 겨울
 ```
 
-📢 **섹션 요약 비유**: [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로 직선만 그을 수 있는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다. 모든 문제가 직선 하나로 풀린다면 좋겠지만, XOR처럼 곡선이 필요한 문제는 손이 묶인다.
+📢 **섹션 요약 비유**: [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로 직선만 그을 수 있는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)기다. 모든 문제가 직선 하나로 풀린다면 좋겠지만, XOR처럼 곡선이 필요한 문제는 손이 묶인다.
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer Perceptron) 구조
+### [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/) (MLP, Multi-Layer Perceptron) 구조
 
 ```
 +-------------------------------------------------------+
@@ -85,11 +82,11 @@ XOR 풀 수 없음 -> 첫 번째 AI 겨울
 
 ### 보편 근사 정리 (Universal Approximation Theorem)
 
-> 하나 이상의 은닉층과 비선형 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 가진 MLP는 임의의 연속 함수를 원하는 정밀도로 근사할 수 있다.
+> 하나 이상의 은닉층과 비선형 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)를 가진 MLP는 임의의 연속 함수를 원하는 정밀도로 근사할 수 있다.
 
 이것이 딥러닝이 이론적으로 어떤 문제든 풀 수 있다는 근거다.
 
-### [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))와 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))
+### [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/))와 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/))
 
 ```
 가중치 W: 입력 신호의 중요도 조절
@@ -104,7 +101,7 @@ XOR 풀 수 없음 -> 첫 번째 AI 겨울
 학습 목표: W, b를 반복 조정해 손실 L(ŷ, y)을 최소화
 ```
 
-### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) — [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/))
+### [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) — [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/))
 
 ```
 σ(x) = 1 / (1 + e^(-x))
@@ -137,7 +134,7 @@ XOR 풀 수 없음 -> 첫 번째 AI 겨울
   ❌ 지수 연산으로 계산 비용 높음
 ```
 
-### [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
+### [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)
 
 ```
 순전파 (Forward Pass):
@@ -154,36 +151,36 @@ XOR 풀 수 없음 -> 첫 번째 AI 겨울
   여기서 η = 학습률 (Learning Rate)
 ```
 
-<strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 흐름 다이어그램:</strong>
+<strong><a href="/studynote/10_ai/03_llm_nlp/272_backpropagation/">역전파</a> 흐름 다이어그램:</strong>
 ```
 순전파:   x -> W₁ -> a₁ -> W₂ -> ŷ -> L (손실 계산)
                ^                        |
 역전파:   ∂L/∂W₁ <----------------------+ (기울기 역방향 전달)
 ```
 
-📢 **섹션 요약 비유**: [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리 실패 후 원인을 찾는 것이다. "음식이 짜다(손실 크다)" -> "어디서 소금이 많이 들어갔나?" -> 각 조리 단계를 거슬러 올라가며 원인을 찾는다.
+📢 **섹션 요약 비유**: [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리 실패 후 원인을 찾는 것이다. "음식이 짜다(손실 크다)" -> "어디서 소금이 많이 들어갔나?" -> 각 조리 단계를 거슬러 올라가며 원인을 찾는다.
 
 ## Ⅲ. 비교 및 연결
 
-### [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
+### [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 비교
 
-| 함수 | 공식 | 범위 | [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 주요 용도 |
+| 함수 | 공식 | 범위 | [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) | 주요 용도 |
 |:---|:---|:---:|:---:|:---|
-| [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | 1/(1+e^-x) | (0,1) | ❌ 발생 | 이진 출력층 |
-| [하이퍼볼릭 탄젠트](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) ([Tanh](/knowledge-base/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)) | (e^x-e^-x)/(e^x+e^-x) | (-1,1) | ❌ 발생 | [RNN](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 은닉층 |
-| [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(0,x) | [0,∞) | ✅ 해결 | 일반 은닉층 |
-| Leaky [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(αx,x) | (-∞,∞) | ✅ 해결 | 죽은 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 방지 |
-| [소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)) | exp(x_i)/Σexp(x_j) | (0,1) | - | 다중 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층 |
+| [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | 1/(1+e^-x) | (0,1) | ❌ 발생 | 이진 출력층 |
+| [하이퍼볼릭 탄젠트](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/) ([Tanh](/studynote/10_ai/01_ai_basics/070_hyperbolic_tangent_tanh_activation/)) | (e^x-e^-x)/(e^x+e^-x) | (-1,1) | ❌ 발생 | [RNN](/studynote/14_data_engineering/05_exam_keywords/244_rnn_time_series_lstm_cell_gate_long_term_dependency/) 은닉층 |
+| [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(0,x) | [0,∞) | ✅ 해결 | 일반 은닉층 |
+| Leaky [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) | max(αx,x) | (-∞,∞) | ✅ 해결 | 죽은 [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 방지 |
+| [소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/) ([Softmax](/studynote/10_ai/03_llm_nlp/270_softmax/)) | exp(x_i)/Σexp(x_j) | (0,1) | - | 다중 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 출력층 |
 
-### 단층 vs [다층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)
+### 단층 vs [다층 퍼셉트론](/studynote/10_ai/03_llm_nlp/266_mlp_hidden_layers/)
 
-| 항목 | [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | MLP (다층) |
+| 항목 | [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | MLP (다층) |
 |:---|:---|:---|
 | 결정 경계 | 선형 (직선·초평면) | 비선형 (곡면) |
 | XOR 해결 | ❌ 불가 | ✅ 가능 |
 | 표현력 | 낮음 | 높음 |
-| 학습 규칙 | 퍼셉트론 학습 규칙 | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
-| 활성화 | [계단 함수](/knowledge-base/studynote/10_ai/01_ai_basics/068_step_function_activation/) | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)·[ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) |
+| 학습 규칙 | 퍼셉트론 학습 규칙 | [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) |
+| 활성화 | [계단 함수](/studynote/10_ai/01_ai_basics/068_step_function_activation/) | [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)·[ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) |
 
 📢 **섹션 요약 비유**: MLP의 은닉층은 레고 블록의 중간 연결 부품이다. 블록(입력)을 직접 작품(출력)에 붙이기 어려울 때, 중간 부품이 변환을 담당해 복잡한 형태를 만든다.
 
@@ -224,43 +221,43 @@ XOR 풀 수 없음 -> 첫 번째 AI 겨울
 ### 기술사 판단 포인트
 
 1. **은닉층 깊이 vs 너비**: 깊이(층 수)는 추상 표현 학습, 너비(뉴런 수)는 세부 패턴 수용
-2. <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a> 사용 주의</strong>: 은닉층에는 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 권장, 출력층에만 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[소프트맥스](/knowledge-base/studynote/10_ai/03_llm_nlp/270_softmax/)
-3. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 너무 크면 발산, 너무 작으면 수렴 느림 -> [Adam](/knowledge-base/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
-4. <strong><a href="/knowledge-base/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong>: 0으로 초기화 금지 -> He/Xavier 초기화 사용
+2. <strong><a href="/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/">시그모이드</a> 사용 주의</strong>: 은닉층에는 [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 권장, 출력층에만 [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)/[소프트맥스](/studynote/10_ai/03_llm_nlp/270_softmax/)
+3. <strong><a href="/studynote/10_ai/01_ai_basics/080_gradient_descent_learning_rate/">학습률</a> <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>: 너무 크면 발산, 너무 작으면 수렴 느림 -> [Adam](/studynote/10_ai/03_llm_nlp/277_adam_optimizer/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/) 권장
+4. <strong><a href="/studynote/10_ai/01_ai_basics/087_weight_initialization_xavier_he_glorot/">가중치 초기화</a></strong>: 0으로 초기화 금지 -> He/Xavier 초기화 사용
 
 📢 **섹션 요약 비유**: 은닉층은 화가가 스케치를 하기 전 밑그림을 그리는 과정이다. 바로 최종 그림을 그리는 것보다, 중간 단계를 거치면 훨씬 복잡한 그림이 가능해진다.
 
 ## Ⅴ. 기대효과 및 결론
 
-### XOR 문제: 모델별 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
+### XOR 문제: 모델별 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교
 
 | 모델 | XOR 정확도 | 이유 |
 |:---|:---:|:---|
-| [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | 50% (랜덤) | 선형 분리 불가 |
+| [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) | 50% (랜덤) | 선형 분리 불가 |
 | MLP (1 은닉층, 2 뉴런) | 100% | 비선형 경계 학습 |
-| [SVM](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) (RBF [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | 100% | [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 비선형 처리 |
+| [SVM](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/) (RBF [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)) | 100% | [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)로 비선형 처리 |
 
 ### 결론
 
-[단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 XOR 한계를 극복한 MLP는 딥러닝의 시작점이다. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(1986, Rumelhart et al.)은 연쇄 법칙을 이용해 다층 네트워크를 효율적으로 학습시키는 핵심 돌파구였다. 그러나 [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 깊은 네트워크에서 [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 야기하며, 이것이 [ReLU](/knowledge-base/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 현대 [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 개발의 동기가 되었다.
+[단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)의 XOR 한계를 극복한 MLP는 딥러닝의 시작점이다. [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(1986, Rumelhart et al.)은 연쇄 법칙을 이용해 다층 네트워크를 효율적으로 학습시키는 핵심 돌파구였다. 그러나 [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/)는 깊은 네트워크에서 [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 문제를 야기하며, 이것이 [ReLU](/studynote/10_ai/03_llm_nlp/269_relu_activation/) 등 현대 [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) 개발의 동기가 되었다.
 
 📢 **섹션 요약 비유**: 퍼셉트론에서 MLP로의 발전은 자동차에 기어박스를 달아 직선만 가던 차가 굽은 길도 달릴 수 있게 된 것과 같다. 은닉층이 그 기어박스 역할이다.
 
 ### 📌 관련 개념 맵
 
-| [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
+| [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | 개념 | 설명 |
 |:---|:---|:---|
-| 기원 | [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) ([Single-Layer Perceptron](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)) | 선형 분리, XOR 불가 |
+| 기원 | [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/) ([Single-Layer Perceptron](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)) | 선형 분리, XOR 불가 |
 | 한계 극복 | MLP (Multi-Layer Perceptron) | 은닉층으로 비선형 학습 |
 | 핵심 기능 | 은닉층 (Hidden Layer) | 비선형 특징 변환 |
-| 학습 파라미터 | [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) / 편향 ([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 경사 하강법으로 업데이트 |
-| [활성화 함수](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | [시그모이드](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/knowledge-base/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | (0,1) 출력, [기울기 소실](/knowledge-base/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 단점 |
-| 학습 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 연쇄 법칙으로 기울기 계산 |
+| 학습 파라미터 | [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/) ([Weight](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)) / 편향 ([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/)) | 경사 하강법으로 업데이트 |
+| [활성화 함수](/studynote/14_data_engineering/03_ml_dl_llm/129_activation_function/) | [시그모이드](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/) ([Sigmoid](/studynote/10_ai/03_llm_nlp/268_sigmoid_vanishing_gradient/)) | (0,1) 출력, [기울기 소실](/studynote/10_ai/01_ai_basics/088_vanishing_gradient_relu_skip_connection/) 단점 |
+| 학습 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/) ([Backpropagation](/studynote/10_ai/03_llm_nlp/272_backpropagation/)) | 연쇄 법칙으로 기울기 계산 |
 | 이론적 근거 | 보편 근사 정리 | MLP는 임의 함수 근사 가능 |
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [단층 퍼셉트론](/knowledge-base/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로만 선을 그어 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것이다—XOR처럼 곡선이 필요한 문제는 못 풀지만, 은닉층을 추가한 MLP는 곡선도 그릴 수 있다.
+1. [단층 퍼셉트론](/studynote/10_ai/03_llm_nlp/265_single_layer_perceptron_xor/)은 자로만 선을 그어 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하는 것이다—XOR처럼 곡선이 필요한 문제는 못 풀지만, 은닉층을 추가한 MLP는 곡선도 그릴 수 있다.
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -275,8 +272,8 @@ MLP (다층 퍼셉트론): 은닉층 + 비선형 활성화 함수
     v
 CNN · RNN · Transformer -> 딥러닝 시대
 ```
-2. [가중치](/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 선생님 말씀 중 중요한 것에 귀를 쫑긋 세우는 것(w 큼)이고, 편향은 기본적으로 긍정적이거나 부정적인 선입견(b)이다.
-3. [역전파](/knowledge-base/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리가 실패했을 때 "마지막에 소금을 넣었나, 그 전에 간장을 넣었나" 거슬러 올라가며 잘못된 단계를 찾아 고치는 과정이다.
+2. [가중치](/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/)는 선생님 말씀 중 중요한 것에 귀를 쫑긋 세우는 것(w 큼)이고, 편향은 기본적으로 긍정적이거나 부정적인 선입견(b)이다.
+3. [역전파](/studynote/10_ai/03_llm_nlp/272_backpropagation/)는 요리가 실패했을 때 "마지막에 소금을 넣었나, 그 전에 간장을 넣었나" 거슬러 올라가며 잘못된 단계를 찾아 고치는 과정이다.
 
 ---
 
@@ -284,7 +281,7 @@ CNN · RNN · Transformer -> 딥러닝 시대
 
 **진행 상황**: 239 / 258
 
-<- **이전**: [238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
-**다음**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) ->
+<- **이전**: [238. SVM (Support Vector Machine) 마진 커널 트릭 나이브 베이즈 (Naive Bayes)](/studynote/14_data_engineering/05_exam_keywords/238_svm_margin_kernel_trick_naive_bayes/)
+**다음**: [240. ReLU 기울기 소실 (Vanishing Gradient) 복원 소프트맥스 역전파 연쇄 법칙](/studynote/14_data_engineering/05_exam_keywords/240_relu_vanishing_gradient_softmax_backprop_chain/) ->
 
 ---

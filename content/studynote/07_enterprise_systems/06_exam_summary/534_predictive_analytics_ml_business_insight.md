@@ -1,13 +1,10 @@
-+++
-title = "534. 예측 분석 머신러닝 비즈니스 인사이트 (Predictive Analytics ML Business Insight)"
-date = 2026-05-09
+---
+title: "534. 예측 분석 머신러닝 비즈니스 인사이트 (Predictive Analytics ML Business Insight)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 534 / 800
 
-<- **이전**: [533. 데이터 분석 대시보드 시각화 전략](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/533_data_analytics_dashboard_visualization/)
-**다음**: [535. 처방 분석 최적화 의사결정 지원](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/535_prescriptive_analytics_optimization_decision/) ->
+<- **이전**: [533. 데이터 분석 대시보드 시각화 전략](/studynote/07_enterprise_systems/06_exam_summary/533_data_analytics_dashboard_visualization/)
+**다음**: [535. 처방 분석 최적화 의사결정 지원](/studynote/07_enterprise_systems/06_exam_summary/535_prescriptive_analytics_optimization_decision/) ->
 
 ---

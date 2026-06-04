@@ -1,9 +1,9 @@
-+++
-title = "08. 입출력 시스템 및 저장장치 구조"
+---
+title: "08. 입출력 시스템 및 저장장치 구조"
+tags:
+  - "computer_architecture"
+---
 
-[extra]
-tags = ["computer_architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

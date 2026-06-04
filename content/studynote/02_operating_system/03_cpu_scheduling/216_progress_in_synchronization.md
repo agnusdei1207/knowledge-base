@@ -1,28 +1,25 @@
-+++
-title = "216. 진행 (Progress)"
-date = 2026-05-09
+---
+title: "216. 진행 (Progress)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 진행 (Progress)은 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 갖춰야 할 3대 필수 조건 중 두 번째로, <strong>"<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>이 비어 있고 들어가길 원하는 프로세스들이 있다면, 그중 하나는 반드시 무한한 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 없이 진입해야 한다"</strong>는 활력(Liveness) 보장 원칙이다.
-> 2. **가치**: 락([Lock](/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/))을 너무 강하게 걸거나 설계가 잘못되어 프로세스들이 서로 "네가 먼저 가"라며 양보만 하다가 아무도 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 시스템이 영원히 멈추는 <strong><a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)나 <a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">라이브락</a>(<a href="/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">Livelock</a>)을 수학적으로 원천 금지</strong>한다.
-> 3. **융합**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '안전성'을 위한 브레이크라면, 진행(Progress)은 시스템의 '생산성'을 위한 엑셀레이터다. 이 둘 사이의 모순을 해결하기 위해 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 `turn`이라는 양보 변수를 통해 진행 조건을 완벽히 충족시켰다.
+> 1. **본질**: 진행 (Progress)은 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 갖춰야 할 3대 필수 조건 중 두 번째로, <strong>"<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a>이 비어 있고 들어가길 원하는 프로세스들이 있다면, 그중 하나는 반드시 무한한 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 없이 진입해야 한다"</strong>는 활력(Liveness) 보장 원칙이다.
+> 2. **가치**: 락([Lock](/studynote/05_database/04_transactions_concurrency/510_lock/))을 너무 강하게 걸거나 설계가 잘못되어 프로세스들이 서로 "네가 먼저 가"라며 양보만 하다가 아무도 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어가지 못하고 시스템이 영원히 멈추는 <strong><a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">교착 상태</a>(<a href="/studynote/02_operating_system/05_deadlock/281_deadlock_definition/">Deadlock</a>)나 <a href="/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">라이브락</a>(<a href="/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/">Livelock</a>)을 수학적으로 원천 금지</strong>한다.
+> 3. **융합**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 '안전성'을 위한 브레이크라면, 진행(Progress)은 시스템의 '생산성'을 위한 엑셀레이터다. 이 둘 사이의 모순을 해결하기 위해 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 `turn`이라는 양보 변수를 통해 진행 조건을 완벽히 충족시켰다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) Problem)를 해결하는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 정당성을 인정받기 위한 데이크스트라의 3대 조건([상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), 진행, [한정된 대기](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)) 중 하나다.
-- **필요성**: 개발자가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지는 것([Race Condition](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 너무 무서운 나머지, "아무도 못 들어가게 문을 철저히 잠가버리자"라고 코드를 짜면 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안전하겠지만 프로그램은 0%에서 평생 멈춰있는다. 또한, 남을 배려한답시고 서로 양보만 하는 로직을 짜면 핑퐁 치다가 아무도 문을 열지 못한다. 즉, "들어갈 놈이 있으면 반드시 누군가는 들어간다"는 강제적 전진(Progress)의 보증 수표가 필요했다.
+- **개념**: [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) 문제([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) Problem)를 해결하는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 정당성을 인정받기 위한 데이크스트라의 3대 조건([상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/), 진행, [한정된 대기](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/)) 중 하나다.
+- **필요성**: 개발자가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 깨지는 것([Race Condition](/studynote/02_operating_system/03_cpu_scheduling/213_race_condition/))이 너무 무서운 나머지, "아무도 못 들어가게 문을 철저히 잠가버리자"라고 코드를 짜면 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 안전하겠지만 프로그램은 0%에서 평생 멈춰있는다. 또한, 남을 배려한답시고 서로 양보만 하는 로직을 짜면 핑퐁 치다가 아무도 문을 열지 못한다. 즉, "들어갈 놈이 있으면 반드시 누군가는 들어간다"는 강제적 전진(Progress)의 보증 수표가 필요했다.
 
-- **등장 배경**: [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만 만족하는 초창기 소프트웨어 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 두 프로세스가 거의 0.0001초 차이로 동시에 접근할 때, 서로의 락 변수를 보고 "어? 쟤가 쓰려나 보다" 하고 둘 다 멈춰버리는 [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 버그를 빈번하게 일으켰다. 학계는 이런 '멈춤' 자체를 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실패로 규정하고 '진행(Progress)'이라는 엄격한 평가 잣대를 추가했다.
+- **등장 배경**: [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만 만족하는 초창기 소프트웨어 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)들은 두 프로세스가 거의 0.0001초 차이로 동시에 접근할 때, 서로의 락 변수를 보고 "어? 쟤가 쓰려나 보다" 하고 둘 다 멈춰버리는 [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) 버그를 빈번하게 일으켰다. 학계는 이런 '멈춤' 자체를 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실패로 규정하고 '진행(Progress)'이라는 엄격한 평가 잣대를 추가했다.
 
 ```text
   [진행(Progress) 조건이 깨진 최악의 소프트웨어 락 (Strict Alternation)]
@@ -40,7 +37,7 @@ tags = ["studynote-operating-system"]
   3. P0이 다시 임계 구역에 들어가고 싶은데, turn이 1이라 평생 무한 루프를 돈다!
   -> 결과: 방(임계 구역)이 텅텅 비어있는데, P0 혼자 못 들어가고 굶어 죽음 (진행 실패).
 ```
-**[다이어그램 해설]** 이 코드는 "[상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)"는 완벽히 만족한다(절대 둘이 동시에 못 들어감). 하지만 "진행" 조건에서 0점을 받는다. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 의사가 없는 프로세스(P1)가, 들어가고 싶어 하는 프로세스(P0)의 진입을 막아버렸기 때문이다. 진행 조건의 핵심은 <strong>"<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 밖에서 놀고 있는 놈이, 들어가려는 놈을 방해하면 안 된다"</strong>는 것이다.
+**[다이어그램 해설]** 이 코드는 "[상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)"는 완벽히 만족한다(절대 둘이 동시에 못 들어감). 하지만 "진행" 조건에서 0점을 받는다. [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)에 들어갈 의사가 없는 프로세스(P1)가, 들어가고 싶어 하는 프로세스(P0)의 진입을 막아버렸기 때문이다. 진행 조건의 핵심은 <strong>"<a href="/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/">임계 구역</a> 밖에서 놀고 있는 놈이, 들어가려는 놈을 방해하면 안 된다"</strong>는 것이다.
 
 - **📢 섹션 요약 비유**: 화장실을 "남자 한 번, 여자 한 번" 교대로만 쓰게 법을 만들었습니다(Strict Alternation). 여자가 화장실을 다 쓰고 나왔는데, 기다리는 여자는 100명이고 남자는 단 한 명도 없습니다. 화장실이 비어있음에도 남자 차례라는 이유로 100명의 여자가 바지에 오줌을 싸는 멍청한 규칙이 바로 진행(Progress) 조건에 실패한 것입니다.
 
@@ -49,14 +46,14 @@ tags = ["studynote-operating-system"]
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 데이크스트라의 '진행(Progress)' 엄밀한 수학적 정의
-1. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 실행 중인 프로세스가 없을 때 (즉, 방이 비었을 때)
-2. [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)으로 진입하고자 하는 프로세스들이 존재한다면 (대기자가 있다면)
+1. [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)을 실행 중인 프로세스가 없을 때 (즉, 방이 비었을 때)
+2. [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)으로 진입하고자 하는 프로세스들이 존재한다면 (대기자가 있다면)
 3. **나머지 구역(Remainder Section)에서 실행 중이 아닌 프로세스들만** 다음 진입 후보 결정에 참여해야 하며,
 4. 이 결정은 **유한한 시간 내에(without indefinite postponement)** 무조건 이루어져야 한다.
 
 이 복잡한 정의의 핵심은 3번이다. "나 화장실 안 갈 건데?" 하는 놈의 의사는 무시하고, "나 화장실 갈래!"라고 손든 놈들끼리만 합의해서 문을 열고 들어가라는 뜻이다.
 
-### 진행 조건을 완벽히 충족시킨 피터슨의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
+### 진행 조건을 완벽히 충족시킨 피터슨의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) (Peterson's [Algorithm](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/))
 
 피터슨은 `flag`(의사 표현)와 `turn`(양보) 변수를 결합하여 이 문제를 뚫어냈다.
 
@@ -80,43 +77,43 @@ tags = ["studynote-operating-system"]
   |   4. P0 즉시 임계 구역 진입 완료! ✅ (진행 조건 100% 만족)           |
   +----------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 앞선 교대(Strict Alternation) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실패를 완벽히 극복했다. P1이 화장실 갈 생각이 없으면(`flag[1] == false`), P0은 `turn`이 1이든 0이든 상관없이 무사통과한다. 즉, **"관심 없는 놈이 남의 발목을 잡지 못하게"** 설계된 완벽한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+**[다이어그램 해설]** 앞선 교대(Strict Alternation) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)의 실패를 완벽히 극복했다. P1이 화장실 갈 생각이 없으면(`flag[1] == false`), P0은 `turn`이 1이든 0이든 상관없이 무사통과한다. 즉, **"관심 없는 놈이 남의 발목을 잡지 못하게"** 설계된 완벽한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
-- **📢 섹션 요약 비유**: P0과 P1이 문 앞에서 마주쳤을 때 "먼저 가시죠(turn)"라고 양보합니다. 그런데 P1이 "아, 저 화장실 안 가요([flag](/knowledge-base/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)=false)"라고 하면, P0은 예의 차릴 필요 없이 그냥 문 열고 들어가면 됩니다. 불필요한 양보로 인한 무한 대기가 사라졌습니다.
+- **📢 섹션 요약 비유**: P0과 P1이 문 앞에서 마주쳤을 때 "먼저 가시죠(turn)"라고 양보합니다. 그런데 P1이 "아, 저 화장실 안 가요([flag](/studynote/03_network/04_data_link_layer_error/186_character_stuffing_dle_stx_etx/)=false)"라고 하면, P0은 예의 차릴 필요 없이 그냥 문 열고 들어가면 됩니다. 불필요한 양보로 인한 무한 대기가 사라졌습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 진행(Progress)의 실패 사례: 데드락 vs [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
+### 진행(Progress)의 실패 사례: 데드락 vs [라이브락](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)
 
-진행 조건이 깨지는 방식은 크게 두 가지로 나뉜다. 둘 다 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 0이 되는 재앙이다.
+진행 조건이 깨지는 방식은 크게 두 가지로 나뉜다. 둘 다 시스템의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 0이 되는 재앙이다.
 
-| 비교 항목 | [교착 상태](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/knowledge-base/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) | [라이브락](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/knowledge-base/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) |
+| 비교 항목 | [교착 상태](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/) ([Deadlock](/studynote/02_operating_system/05_deadlock/281_deadlock_definition/)) | [라이브락](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/) ([Livelock](/studynote/02_operating_system/05_deadlock/315_livelock_vs_deadlock/)) |
 |:---|:---|:---|
 | **상태** | 차들이 사거리에서 꼬리를 물고 **완전히 멈춰버림 (Sleep)** | 두 사람이 복도에서 마주쳐 계속 서로 피해주느라 **계속 움직이는데 앞으로 못 감 (Busy)** |
 | **CPU 사용량** | 0% (대기 상태이므로 자원 소모 없음) | **100% (양보 연산을 하느라 CPU가 불탐)** |
-| **발생 원인** | [Mutex](/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/)/Semaphore를 잘못된 순서로 획득 시 | [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 로직에서 너무 과도한 양보(`yield`)를 코딩했을 때 |
+| **발생 원인** | [Mutex](/studynote/02_operating_system/04_synchronization/223_mutex/)/Semaphore를 잘못된 순서로 획득 시 | [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 로직에서 너무 과도한 양보(`yield`)를 코딩했을 때 |
 | **진행(Progress) 조건**| ❌ 파괴됨. 방이 비었는데도 못 들어감 | ❌ 파괴됨. 계속 시도하지만 영원히 못 들어감 |
 
-### [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))와의 아슬아슬한 줄타기
-- [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만 너무 챙기면: "위험하니까 그냥 시스템 전원 끄자!" --> [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 100% 달성, 진행 0%.
-- 진행만 너무 챙기면: "일단 다 들어가고 봐!" --> 진행 100% 달성, [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 0% ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 박살).
+### [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)([Mutual Exclusion](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/))와의 아슬아슬한 줄타기
+- [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)만 너무 챙기면: "위험하니까 그냥 시스템 전원 끄자!" --> [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 100% 달성, 진행 0%.
+- 진행만 너무 챙기면: "일단 다 들어가고 봐!" --> 진행 100% 달성, [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/) 0% ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 박살).
 OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(Safety)</strong>과 <strong>활력(Liveness)</strong>을 동시에 달성하는 것이다.
 
-- **📢 섹션 요약 비유**: 은행 금고를 설계할 때 [상호 배제](/knowledge-base/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)(안전)만 생각하면 금고에 콘크리트를 부어버리면 됩니다. 도둑은 절대 못 털지만, 은행 직원도 돈을 못 꺼냅니다(진행 불가). 열쇠를 3개 만들어서 3명이 동시에 돌려야만 열리게(안전+진행) 만드는 것이 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)입니다.
+- **📢 섹션 요약 비유**: 은행 금고를 설계할 때 [상호 배제](/studynote/02_operating_system/05_deadlock/283_mutual_exclusion/)(안전)만 생각하면 금고에 콘크리트를 부어버리면 됩니다. 도둑은 절대 못 털지만, 은행 직원도 돈을 못 꺼냅니다(진행 불가). 열쇠를 3개 만들어서 3명이 동시에 돌려야만 열리게(안전+진행) 만드는 것이 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> (<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)에서의 진행 보장 구조</strong>: 멀티코어 환경에서 널리 쓰이는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스핀락](/knowledge-base/studynote/02_operating_system/04_synchronization/222_spinlock/)은 하드웨어 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 `TestAndSet`을 쓴다.
-   - **원리**: `while(TestAndSet(&lock))` 구조는 락이 풀리는(0이 되는) 순간, 뺑뺑이 돌던 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 누군가 찰나의 순간에 1을 밀어 넣고 즉시 방으로 들어간다.
-   - **실무 평가**: 락이 풀리면 "반드시 누군가는 즉시 들어간다"는 사실이 하드웨어적으로 보장되므로 진행(Progress) 조건이 완벽히 충족된다. (단, 누가 들어갈지는 몰라서 기아([Starvation](/knowledge-base/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))는 발생할 수 있다.)
-2. <strong><a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)에서의 <a href="/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락(Distributed <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) <a href="/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a></strong>: [MSA](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 Redis나 Zookeeper를 써서 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 걸었다. 서버 A가 락을 쥐었는데 갑자기 서버 A의 랜선이 뽑혀 죽어버렸다.
+1. <strong><a href="/studynote/02_operating_system/04_synchronization/222_spinlock/">스핀락</a> (<a href="/studynote/02_operating_system/04_synchronization/222_spinlock/">Spinlock</a>)에서의 진행 보장 구조</strong>: 멀티코어 환경에서 널리 쓰이는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) [스핀락](/studynote/02_operating_system/04_synchronization/222_spinlock/)은 하드웨어 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)인 `TestAndSet`을 쓴다.
+   - **원리**: `while(TestAndSet(&lock))` 구조는 락이 풀리는(0이 되는) 순간, 뺑뺑이 돌던 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) 중 누군가 찰나의 순간에 1을 밀어 넣고 즉시 방으로 들어간다.
+   - **실무 평가**: 락이 풀리면 "반드시 누군가는 즉시 들어간다"는 사실이 하드웨어적으로 보장되므로 진행(Progress) 조건이 완벽히 충족된다. (단, 누가 들어갈지는 몰라서 기아([Starvation](/studynote/02_operating_system/05_deadlock/314_starvation_prevention/))는 발생할 수 있다.)
+2. <strong><a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 시스템(<a href="/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/">MSA</a>)에서의 <a href="/studynote/08_algorithm_stats/08_stats/136_variance/">분산</a> 락(Distributed <a href="/studynote/05_database/04_transactions_concurrency/510_lock/">Lock</a>) <a href="/studynote/04_software_engineering/09_cloud_native_ai_architecture/573_timeout_retry_backoff_strategy/">타임아웃</a></strong>: [MSA](/studynote/01_computer_architecture/15_advanced_topics/619_msa_traffic_hardware/) 환경에서 Redis나 Zookeeper를 써서 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 걸었다. 서버 A가 락을 쥐었는데 갑자기 서버 A의 랜선이 뽑혀 죽어버렸다.
    - **재앙**: 서버 A는 영원히 락 해제(`unlock()`) 신호를 보내지 못한다. 방은 사실상 비었는데 서버 B와 C는 영원히 기다린다. 진행(Progress) 조건이 외부 요인에 의해 파괴된 것이다.
-   - **아키텍트 조치**: [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 설계할 때는 <strong>반드시 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (Time-To-Live, 만료 시간)</strong>을 세팅해야 한다. "서버 A가 5초 동안 락을 안 풀면, A가 죽은 걸로 간주하고 락을 강제로 부숴라!"라고 설정해야만 [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 데드락을 막고 시스템 진행(Progress)을 복구시킬 수 있다.
+   - **아키텍트 조치**: [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 락을 설계할 때는 <strong>반드시 <a href="/studynote/03_network/06_network_layer_ip/294_ttl_time_to_live_looping_prevention/">TTL</a> (Time-To-Live, 만료 시간)</strong>을 세팅해야 한다. "서버 A가 5초 동안 락을 안 풀면, A가 죽은 걸로 간주하고 락을 강제로 부숴라!"라고 설정해야만 [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서의 데드락을 막고 시스템 진행(Progress)을 복구시킬 수 있다.
 
 ```text
   +-----------------------------------------------------------------------+
@@ -141,22 +138,22 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
   |             -> 순환 대기(Circular Wait)가 원천 차단됨.                 |
   +-----------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** "진행(Progress)"을 잃어버리는 가장 흔한 개발자의 실수가 락의 획득 순서([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))를 꼬아버리는 것이다. 데드락이 터지는 순간 시스템의 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 영구적으로 0이 된다. 이를 막기 위해 C++나 Java 시니어 개발자들은 여러 개의 락을 잡을 때 메모리 주소값 순서 등 "무조건 한 방향으로만 락을 획득한다"는 룰을 세워 진행 조건을 철통방어한다.
+**[다이어그램 해설]** "진행(Progress)"을 잃어버리는 가장 흔한 개발자의 실수가 락의 획득 순서([Lock Ordering](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))를 꼬아버리는 것이다. 데드락이 터지는 순간 시스템의 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/))은 영구적으로 0이 된다. 이를 막기 위해 C++나 Java 시니어 개발자들은 여러 개의 락을 잡을 때 메모리 주소값 순서 등 "무조건 한 방향으로만 락을 획득한다"는 룰을 세워 진행 조건을 철통방어한다.
 
-- **📢 섹션 요약 비유**: 골목길에서 양쪽 차가 빵빵거리며 서로 안 비키는 상황(데드락, 진행 불가)을 막으려면, 법으로 "무조건 남쪽에서 오는 차가 먼저 통과한다"라는 서열([Lock Ordering](/knowledge-base/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))을 강제해 줘야 도로에 차가 원활하게 흐릅니다.
+- **📢 섹션 요약 비유**: 골목길에서 양쪽 차가 빵빵거리며 서로 안 비키는 상황(데드락, 진행 불가)을 막으려면, 법으로 "무조건 남쪽에서 오는 차가 먼저 통과한다"라는 서열([Lock Ordering](/studynote/02_operating_system/05_deadlock/317_lockdep_lock_ordering/))을 강제해 줘야 도로에 차가 원활하게 흐릅니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-진행(Progress) 조건을 완벽하게 충족하는 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 적용하면, 시스템은 어떤 극악의 타이밍과 [인터럽트](/knowledge-base/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍 속에서도 절대 멈춰 서지(Freeze) 않고, 초당 수십만 건의 트랜잭션을 끝없이 쳐내는 100%의 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 활력(Liveness)을 유지할 수 있다.
+진행(Progress) 조건을 완벽하게 충족하는 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 메커니즘을 적용하면, 시스템은 어떤 극악의 타이밍과 [인터럽트](/studynote/02_operating_system/01_overview_architecture/016_interrupt_mechanism/) 폭풍 속에서도 절대 멈춰 서지(Freeze) 않고, 초당 수십만 건의 트랜잭션을 끝없이 쳐내는 100%의 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/)([Availability](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/))과 활력(Liveness)을 유지할 수 있다.
 
 ### 결론 및 미래 전망
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학자들은 피터슨 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)처럼 소프트웨어 코드를 비틀어 진행 조건을 만족시키려 했으나, 최신 CPU의 난해함(캐시, [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)) 앞에서 모두 무너졌다. 현재는 <strong>OS <a href="/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)과 하드웨어 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a>)의 결합</strong>만이 진행 조건을 완벽히 보장하는 유일한 수단으로 인정받는다.
-미래에는 락을 걸어서 남을 대기(Block)시키는 방식 자체를 혐오하는 <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">락-프리</a>(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a>) 및 웨이트-프리(Wait-Free)</strong> [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 클라우드 백엔드의 표준이 되고 있다. 웨이트-프리 자료구조는 다른 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 무슨 짓을 하든 상관없이 '내 연산은 무조건 유한한 스텝 내에 끝난다'는 궁극의 진행(Progress)을 보장하는 현대 [동시성](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 최고봉이다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 과학자들은 피터슨 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)처럼 소프트웨어 코드를 비틀어 진행 조건을 만족시키려 했으나, 최신 CPU의 난해함(캐시, [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/)) 앞에서 모두 무너졌다. 현재는 <strong>OS <a href="/studynote/02_operating_system/01_overview_architecture/022_kernel_role/">커널</a>(<a href="/studynote/02_operating_system/04_synchronization/223_mutex/">Mutex</a>)과 하드웨어 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a>(<a href="/studynote/02_operating_system/11_exam_summary/768_cas_compare_and_swap_lock_free/">CAS</a>)의 결합</strong>만이 진행 조건을 완벽히 보장하는 유일한 수단으로 인정받는다.
+미래에는 락을 걸어서 남을 대기(Block)시키는 방식 자체를 혐오하는 <strong><a href="/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">락-프리</a>(<a href="/studynote/02_operating_system/04_synchronization/256_lock_free_data_structures/">Lock-Free</a>) 및 웨이트-프리(Wait-Free)</strong> [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 클라우드 백엔드의 표준이 되고 있다. 웨이트-프리 자료구조는 다른 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/)가 무슨 짓을 하든 상관없이 '내 연산은 무조건 유한한 스텝 내에 끝난다'는 궁극의 진행(Progress)을 보장하는 현대 [동시성](/studynote/15_devops_sre/01_culture_methodology/014_concurrency/) 프로그래밍의 최고봉이다.
 
-- **📢 섹션 요약 비유**: 옛날엔 사거리에서 경찰(소프트웨어)이 손짓으로 통제하다가 교통 마비가 왔고, 신호등(하드웨어 락)을 세워 통제해도 기다리는 시간은 있었습니다. 미래의 웨이트-프리 도로는 아예 차들이 하늘을 날아 겹쳐서 지나가게(충돌 무시 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 만들어, 누구도 브레이크를 밟지 않고 끝없이 직진(Progress)하는 환상적인 인프라입니다.
+- **📢 섹션 요약 비유**: 옛날엔 사거리에서 경찰(소프트웨어)이 손짓으로 통제하다가 교통 마비가 왔고, 신호등(하드웨어 락)을 세워 통제해도 기다리는 시간은 있었습니다. 미래의 웨이트-프리 도로는 아예 차들이 하늘을 날아 겹쳐서 지나가게(충돌 무시 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)) 만들어, 누구도 브레이크를 밟지 않고 끝없이 직진(Progress)하는 환상적인 인프라입니다.
 
 ---
 
@@ -165,9 +162,9 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
 | 개념 | 연결 포인트 |
 |:---|:---|
 | 동적 우선순위 승급 (Priority Boost) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제 | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | 코-스케줄링 (Co-scheduling / Gang Scheduling) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/knowledge-base/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 스케줄링 ([cgroups](/studynote/02_operating_system/01_overview_architecture/062_cgroups/) cpu.shares, cpu.cfs_quota_us) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,7 +183,7 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 진행 (Progress)은 컴퓨터가 누가 먼저 CPU를 쓰면 좋은지 줄을 세우는 방법이에요.
-2. 먼저 [태스크](/knowledge-base/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제을 이해하면 진행 (Progress)이 왜 필요한지 더 쉽게 보여요.
+2. 먼저 [태스크](/studynote/02_operating_system/02_process_thread/150_task/) 스케줄링의 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/) ([Cache Coherence](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/)) 문제을 이해하면 진행 (Progress)이 왜 필요한지 더 쉽게 보여요.
 3. 그래서 진행 (Progress)을 잘 알면 나중에 코-스케줄링 (Co-scheduling / Gang Scheduling)도 훨씬 쉽게 배울 수 있어요.
 
 ---
@@ -195,7 +192,7 @@ OS 설계의 핵심은 이 두 극단적인 목표 사이에서 <strong>안전(S
 
 **진행 상황**: 216 / 800
 
-<- **이전**: [215. 상호 배제 (Mutual Exclusion, Mutex)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/215_mutual_exclusion/)
-**다음**: [217. 한정된 대기 (Bounded Waiting)](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ->
+<- **이전**: [215. 상호 배제 (Mutual Exclusion, Mutex)](/studynote/02_operating_system/03_cpu_scheduling/215_mutual_exclusion/)
+**다음**: [217. 한정된 대기 (Bounded Waiting)](/studynote/02_operating_system/03_cpu_scheduling/217_bounded_waiting/) ->
 
 ---

@@ -1,9 +1,9 @@
-+++
-title = "08. 소프트웨어 보안 및 DevSecOps"
+---
+title: "08. 소프트웨어 보안 및 DevSecOps"
+tags:
+  - "software_engineering"
+---
 
-[extra]
-tags = ["software_engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

@@ -1,16 +1,13 @@
-+++
-title = "🌐 Quartz를 이용한 사내 위키 웹 사이트 배포 가이드"
+---
+title: "🌐 Quartz를 이용한 사내 위키 웹 사이트 배포 가이드"
+tags:
+  - "work"
+---
 
-[taxonomies]
-tags = ["work"]
-
-[extra]
-tags = ["work"]
-+++
 
 Quartz는 마크다운 저장소를 활용해 초고속 웹 브라우저 뷰어를 만들어주는 최적의 동반자입니다.
 
-[GitHub에서 이 문서 수정](https://github.com/agnusdei1207/knowledge-base/edit/main/content/quartz-deployment.md)
+[GitHub에서 이 문서 수정](https://github.com/agnusdei1207/edit/main/content/quartz-deployment.md)
 
 ---
 
@@ -18,7 +15,7 @@ Quartz는 마크다운 저장소를 활용해 초고속 웹 브라우저 뷰어�
 
 GitHub Pages를 통해 별도의 웹서버를 구축하지 않고도 무료로 실시간 위키 사이트를 배포할 수 있습니다.
 
-1. **레포지토리 설정 변경:** 
+1. **레포지토리 설정 변경:**
    * GitHub 레포지토리 Settings -> Pages 탭 진입
    * Build and deployment -> Source를 <strong>GitHub Actions</strong>로 변경
 2. **GitHub Workflow 파일 생성:**

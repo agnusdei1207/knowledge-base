@@ -1,13 +1,10 @@
-+++
-title = "594. IT 경영 관리 핵심 토픽 594번 시험 요약 (IT Management Core Topic 594 Exam Summary)"
-date = 2026-05-09
+---
+title: "594. IT 경영 관리 핵심 토픽 594번 시험 요약 (IT Management Core Topic 594 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 594. IT 경영 관리 핵심 토픽 — 시험 요약
 
@@ -132,7 +129,7 @@ IT 경영 관리(IT Management, IT Governance & Management)는 **1999년 IT 거�
 
 **진행 상황**: 594 / 800
 
-<- **이전**: [593. IT 경영 관리 핵심 토픽 593번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/593_it_management_core_topic_593_exam_summary/)
-**다음**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/) ->
+<- **이전**: [593. IT 경영 관리 핵심 토픽 593번 시험 요약](/studynote/12_it_management/05_security_compliance/593_it_management_core_topic_593_exam_summary/)
+**다음**: [595. IT 경영 관리 핵심 토픽 595번 시험 요약](/studynote/12_it_management/05_security_compliance/595_it_management_core_topic_595_exam_summary/) ->
 
 ---

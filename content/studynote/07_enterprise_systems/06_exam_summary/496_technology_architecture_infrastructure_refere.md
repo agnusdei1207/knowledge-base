@@ -1,13 +1,10 @@
-+++
-title = "496. 기술 아키텍처 인프라 참조 모델 (Technology Architecture Infrastructure Reference)"
-date = 2026-05-09
+---
+title: "496. 기술 아키텍처 인프라 참조 모델 (Technology Architecture Infrastructure Reference)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -112,7 +109,7 @@ Risk/Cost             Architecture     KPI
 
 **진행 상황**: 496 / 800
 
-<- **이전**: [495. 데이터 아키텍처 전사 데이터 모델](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/495_data_architecture_enterprise_data_model/)
-**다음**: [497. 애플리케이션 아키텍처 서비스 포트폴리오](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/497_application_architecture_service_portfolio/) ->
+<- **이전**: [495. 데이터 아키텍처 전사 데이터 모델](/studynote/07_enterprise_systems/06_exam_summary/495_data_architecture_enterprise_data_model/)
+**다음**: [497. 애플리케이션 아키텍처 서비스 포트폴리오](/studynote/07_enterprise_systems/06_exam_summary/497_application_architecture_service_portfolio/) ->
 
 ---

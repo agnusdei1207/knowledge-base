@@ -1,27 +1,24 @@
-+++
-title = "779. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준"
-date = 2026-05-08
+---
+title: "779. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준"
+date: "2026-05-08"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준은(는) [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
-> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/knowledge-base/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
+> 1. **본질**: ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준은(는) [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 핵심 개념으로, 복잡한 시스템을 체계적으로 설계·관리하기 위한 원칙과 기법이다.
+> 2. **가치**: 이 개념을 올바르게 적용하면 소프트웨어의 품질·[유지보수성](/studynote/04_software_engineering/06_software_architecture/346_maintainability_portability/)·재사용성이 향상되고, 개발 생산성과 팀 협업 효율이 높아진다.
 > 3. **판단 포인트**: 도입 시에는 비용·복잡도·조직 성숙도를 함께 고려해야 하며, 맹목적 적용보다 프로젝트 특성에 맞는 선택적 적용이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-소프트웨어 개발 분야에서는 코드를 짜는 언어(Java)나 설계하는 방식([UML](/knowledge-base/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))에 대한 표준이 일찍부터 자리 잡았다. 그런데 정작 품질의 마지노선인 '테스팅(Testing)' 분야는 오랫동안 무법지대였다.
+소프트웨어 개발 분야에서는 코드를 짜는 언어(Java)나 설계하는 방식([UML](/studynote/04_software_engineering/04_testing_quality/232_uml_unified_modeling_language_overview/))에 대한 표준이 일찍부터 자리 잡았다. 그런데 정작 품질의 마지노선인 '테스팅(Testing)' 분야는 오랫동안 무법지대였다.
 
-회사마다 테스트 계획서 양식이 달랐고, 영국 회사와 인도 하청업체가 쓰는 테스팅 용어가 달라 의사소통이 마비되었다. "[블랙박스 테스트](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)"라는 단어 하나를 두고도 서로 다른 의미로 해석했다.
+회사마다 테스트 계획서 양식이 달랐고, 영국 회사와 인도 하청업체가 쓰는 테스팅 용어가 달라 의사소통이 마비되었다. "[블랙박스 테스트](/studynote/04_software_engineering/12_testing_maintenance/804_black_box_testing/)"라는 단어 하나를 두고도 서로 다른 의미로 해석했다.
 
 이 난장판을 끝내기 위해, 세계 3대 표준화 기구인 ISO, IEC, IEEE가 합심하여 기존의 낡은 표준들을 모두 폐기하고 2013년에 새롭게 제정한 통합 테스팅 표준이 바로 <strong>ISO/IEC/IEEE 29119</strong>다. 이 표준의 탄생으로 전 세계 테스터들은 마침내 하나의 통일된 교과서를 갖게 되었다.
 
@@ -74,14 +71,14 @@ ISO 29119 시리즈는 테스팅의 모든 것을 다루기 위해 5개(최근 �
 
 테스팅 표준과 성숙도 모델은 목적이 다르다. ISO 29119와 TMMi를 혼동하면 안 된다.
 
-| 비교 항목 | ISO/IEC/IEEE 29119 | [TMMi](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/) (Test [Maturity Model](/knowledge-base/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) |
+| 비교 항목 | ISO/IEC/IEEE 29119 | [TMMi](/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/) (Test [Maturity Model](/studynote/12_it_management/01_governance_strategy/011_maturity_model/) integration) |
 |:---|:---|:---|
 | **본질** | 테스팅의 **실무 표준 방법론** (How to test) | 테스팅 조직의 **역량 평가 모델** (How mature) |
 | **초점** | 문서를 어떻게 쓰고, 기법을 어떻게 적용할지 | 프로세스가 조직에 얼마나 내재화되어 있는지 |
 | **적용 결과** | "우리는 국제 표준 문서 양식과 기법을 씁니다." | "우리 회사의 QA 조직은 레벨 3 수준입니다." |
 | **비유** | 요리 학교의 '표준 레시피 북' | 미슐랭 가이드의 '별점 심사표' |
 
-실무에서는 <strong>ISO 29119에 정의된 프로세스와 문서 양식을 도입하여 훈련하면, 자연스럽게 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/">TMMi</a> 레벨 3 이상의 심사를 통과</strong>할 수 있는 튼튼한 토대가 마련된다.
+실무에서는 <strong>ISO 29119에 정의된 프로세스와 문서 양식을 도입하여 훈련하면, 자연스럽게 <a href="/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/">TMMi</a> 레벨 3 이상의 심사를 통과</strong>할 수 있는 튼튼한 토대가 마련된다.
 
 - **📢 섹션 요약 비유**: 요리사 자격증을 따려면 칼질은 어떻게 하고 양파는 어떻게 써는지 정확한 규칙(ISO 29119)을 알아야 한다. 이 규칙을 매일 식당에서 100% 지키고 있는지 검사하러 나오는 심사관이 TMMi다.
 
@@ -109,7 +106,7 @@ ISO 29119의 문서를 무작정 모든 프로젝트에 100% 적용하려고 하
 
 ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거나 새로운 QA 담당자가 입사해도 1시간 안에 기존의 테스트 문서를 읽고 다음 테스트를 진행할 수 있다. 완벽한 커뮤니케이션 프로토콜이 생기기 때문이다.
 
-결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 <strong>'테스트를 대하는 과학적 태도(<a href="/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)'</strong>다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
+결론적으로 기술 리더는 "우리 회사는 애자일이라서 문서 안 써요"라는 핑계를 용납해서는 안 된다. ISO 29119가 제시하는 것은 낡은 엑셀 문서가 아니라 <strong>'테스트를 대하는 과학적 태도(<a href="/studynote/12_it_management/05_security_compliance/943_process/">Process</a>)'</strong>다. 테스트는 감(Feeling)으로 클릭해보는 것이 아니라, 리스크를 분석하고 전략을 세우는 가장 고도화된 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)의 정수임을 잊지 말아야 한다.
 
 - **📢 섹션 요약 비유**: 이 표준은 오케스트라의 공통 악보다. 바이올린(개발자)과 첼로(QA)가 서로 다른 동네에서 왔더라도, 같은 악보(ISO 29119)를 펼쳐놓으면 지휘자(아키텍트)의 손짓 한 번에 완벽한 화음(품질)을 만들어 낼 수 있다.
 
@@ -125,10 +122,10 @@ ISO 29119를 조직에 정착시키면, 갑자기 외주(SI) 업체가 바뀌거
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
-| [소프트웨어 생명주기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/knowledge-base/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
+| [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/) ([Software 엔진ering](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준의 상위 학문 체계이며 품질·생산성 향상의 공통 목표를 공유한다 |
+| [소프트웨어 생명주기](/studynote/04_software_engineering/01_overview_principles/003_sdlc/) ([SDLC](/studynote/12_it_management/04_sdlc_testing/131_sdlc_system_development_life_cycle_waterfall_agile/), Software Development Life Cycle) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준은 SDLC의 특정 단계에서 핵심적으로 적용된다 |
 | 품질 보증 (QA, Quality Assurance) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 적용 결과는 QA 활동을 통해 검증되고 측정된다 |
-| [형상 관리](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/knowledge-base/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/knowledge-base/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
+| [형상 관리](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/) ([SCM](/studynote/12_it_management/04_sdlc_testing/167_scm_software_configuration_management/), [Software Configuration Management](/studynote/04_software_engineering/01_overview_principles/020_software_configuration_management/)) | ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준에서 생성된 산출물은 SCM을 통해 체계적으로 관리된다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -148,13 +145,13 @@ ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립
 지속적 개선 및 DevOps·MLOps 통합
 ```
 
-이 흐름은 [소프트웨어 위기](/knowledge-base/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
+이 흐름은 [소프트웨어 위기](/studynote/04_software_engineering/01_overview_principles/002_software_crisis/) 인식 -> 체계적 방법론 개발 -> 표준화 -> 현대적 플랫폼 적용으로 이어지는 발전 과정을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준은 레고 블록으로 성을 만들 때처럼, 규칙을 정하고 역할을 나누어 함께 작업하는 방법이에요.
 2. 혼자서 막 만들면 나중에 무너지거나 고치기 어렵지만, 약속을 지키면 누구나 쉽게 고치고 더 크게 만들 수 있어요.
-3. 그래서 [소프트웨어 공학](/knowledge-base/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
+3. 그래서 [소프트웨어 공학](/studynote/04_software_engineering/01_overview_principles/001_software_engineering_definition/)은 프로그래머들이 좋은 프로그램을 빠르고 안전하게 만들 수 있게 도와주는 '규칙 모음집'이에요.
 
 ---
 
@@ -162,7 +159,7 @@ ISO/IEC/IEEE 29119 소프트웨어 테스팅 국제 표준 개념 정립
 
 **진행 상황**: 952 / 973
 
-<- **이전**: [778. 소프트웨어 테스트 성숙도 모델 (TMMi)](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/)
-**다음**: [780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합](/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ->
+<- **이전**: [778. 소프트웨어 테스트 성숙도 모델 (TMMi)](/studynote/04_software_engineering/10_trends_pm_quality/778_tmmi_test_maturity_model_integration/)
+**다음**: [780. 클라우드 보안 형상 관리 (CSPM) 데브옵스 결합](/studynote/04_software_engineering/10_trends_pm_quality/780_cspm_cloud_security_posture_management/) ->
 
 ---

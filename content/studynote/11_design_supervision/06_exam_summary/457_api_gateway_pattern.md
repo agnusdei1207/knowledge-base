@@ -1,13 +1,10 @@
-+++
-title = "457. API 게이트웨이 패턴 라우팅 인증 (API Gateway Pattern Routing Authentication)"
-date = 2026-05-09
+---
+title: "457. API 게이트웨이 패턴 라우팅 인증 (API Gateway Pattern Routing Authentication)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -168,7 +165,7 @@ API 게이트웨이의 내부 아키텍처는 **Reactive/Event-Loop 기반 비�
 
 **진행 상황**: 457 / 600
 
-<- **이전**: [456. 스트랭글러 패턴 레거시 전환](/knowledge-base/studynote/11_design_supervision/06_exam_summary/457_strangler_pattern/)
-**다음**: [458. 서비스 디스커버리 레지스트리 패턴](/knowledge-base/studynote/11_design_supervision/06_exam_summary/458_service_discovery/) ->
+<- **이전**: [456. 스트랭글러 패턴 레거시 전환](/studynote/11_design_supervision/06_exam_summary/457_strangler_pattern/)
+**다음**: [458. 서비스 디스커버리 레지스트리 패턴](/studynote/11_design_supervision/06_exam_summary/458_service_discovery/) ->
 
 ---

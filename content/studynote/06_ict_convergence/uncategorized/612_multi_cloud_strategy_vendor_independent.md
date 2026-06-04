@@ -1,13 +1,10 @@
-+++
-title = "612. 멀티클라우드 전략 벤더 독립 아키텍처 (Multi Cloud Strategy Vendor Independent)"
-date = 2026-05-09
+---
+title: "612. 멀티클라우드 전략 벤더 독립 아키텍처 (Multi Cloud Strategy Vendor Independent)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Assess -> Classify -> Design -> Operate -> Optimize
 
 **진행 상황**: 612 / 800
 
-<- **이전**: [611. 서버리스 컴퓨팅 FaaS 이벤트 기반](/knowledge-base/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/)
-**다음**: [613. 하이브리드 클라우드 온프레미스 통합](/knowledge-base/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/) ->
+<- **이전**: [611. 서버리스 컴퓨팅 FaaS 이벤트 기반](/studynote/06_ict_convergence/uncategorized/611_serverless_computing_faas_event_driven/)
+**다음**: [613. 하이브리드 클라우드 온프레미스 통합](/studynote/06_ict_convergence/uncategorized/613_hybrid_cloud_on_premise_integration/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "715. 자연어 처리 감성 분석 텍스트 마이닝 (NLP Sentiment Analysis Text Mining)"
-date = 2026-05-09
+---
+title: "715. 자연어 처리 감성 분석 텍스트 마이닝 (NLP Sentiment Analysis Text Mining)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -168,7 +165,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 715 / 800
 
-<- **이전**: [714. 시계열 분석 ARIMA Prophet 예측](/knowledge-base/studynote/06_ict_convergence/uncategorized/714_time_series_analysis_arima_prophet_forecast/)
-**다음**: [716. 추천 시스템 협업 필터링 콘텐츠 기반](/knowledge-base/studynote/06_ict_convergence/uncategorized/716_recommendation_collaborative_content_based/) ->
+<- **이전**: [714. 시계열 분석 ARIMA Prophet 예측](/studynote/06_ict_convergence/uncategorized/714_time_series_analysis_arima_prophet_forecast/)
+**다음**: [716. 추천 시스템 협업 필터링 콘텐츠 기반](/studynote/06_ict_convergence/uncategorized/716_recommendation_collaborative_content_based/) ->
 
 ---

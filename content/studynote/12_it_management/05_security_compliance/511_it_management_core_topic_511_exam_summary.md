@@ -1,13 +1,10 @@
-+++
-title = "511. IT 경영 관리 핵심 토픽 511번 시험 요약 (IT Management Core Topic 511 Exam Summary)"
-date = 2026-05-09
+---
+title: "511. IT 경영 관리 핵심 토픽 511번 시험 요약 (IT Management Core Topic 511 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -151,7 +148,7 @@ AG02(IT 비즈니스 민첩성) --Primary---> EG01(경쟁제품) 5점
 
 **진행 상황**: 511 / 800
 
-<- **이전**: [510. IT 경영 관리 핵심 토픽 510번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/510_it_management_core_topic_510_exam_summary/)
-**다음**: [512. IT 경영 관리 핵심 토픽 512번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/512_it_management_core_topic_512_exam_summary/) ->
+<- **이전**: [510. IT 경영 관리 핵심 토픽 510번 시험 요약](/studynote/12_it_management/05_security_compliance/510_it_management_core_topic_510_exam_summary/)
+**다음**: [512. IT 경영 관리 핵심 토픽 512번 시험 요약](/studynote/12_it_management/05_security_compliance/512_it_management_core_topic_512_exam_summary/) ->
 
 ---

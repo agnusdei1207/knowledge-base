@@ -1,13 +1,10 @@
-+++
-title = "576. 메타버스 가상 공간 인터랙션 설계 (Metaverse Virtual Space Interaction Design)"
-date = 2026-05-09
+---
+title: "576. 메타버스 가상 공간 인터랙션 설계 (Metaverse Virtual Space Interaction Design)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -133,7 +130,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 576 / 600
 
-<- **이전**: [575. 디지털 트윈 시뮬레이션 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/576_digital_twin_simulation_optimization/)
-**다음**: [577. 로우코드 노코드 시민 개발자 거버넌스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/577_low_code_no_code_citizen_developer_gover/) ->
+<- **이전**: [575. 디지털 트윈 시뮬레이션 최적화](/studynote/11_design_supervision/06_exam_summary/576_digital_twin_simulation_optimization/)
+**다음**: [577. 로우코드 노코드 시민 개발자 거버넌스](/studynote/11_design_supervision/06_exam_summary/577_low_code_no_code_citizen_developer_gover/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "459. CWPP 워크로드 보호 런타임 보안 (CWPP Workload Protection Runtime Security)"
-date = 2026-05-09
+---
+title: "459. CWPP 워크로드 보호 런타임 보안 (CWPP Workload Protection Runtime Security)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 459 / 800
 
-<- **이전**: [458. CSPM 클라우드 형상 관리 자동 교정](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/458_cspm_cloud_posture_management_auto_remediatio/)
-**다음**: [460. CNAPP 네이티브 보안 통합 플랫폼](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/460_cnapp_native_security_unified_platform/) ->
+<- **이전**: [458. CSPM 클라우드 형상 관리 자동 교정](/studynote/13_cloud_architecture/06_exam_summary/458_cspm_cloud_posture_management_auto_remediatio/)
+**다음**: [460. CNAPP 네이티브 보안 통합 플랫폼](/studynote/13_cloud_architecture/06_exam_summary/460_cnapp_native_security_unified_platform/) ->
 
 ---

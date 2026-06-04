@@ -1,26 +1,23 @@
-+++
-title = "101. 3초과 코드 (Excess-3 Code)"
-date = 2026-04-19
+---
+title: "101. 3초과 코드 (Excess-3 Code)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 3초과 코드(Excess-3 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 기본 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)([Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) 코드의 각 10진수 값에 미리 $+3$ (`0011`)을 더해 저장하는 비가중치(Unweighted) 인코딩 방식이다.
-> 2. **가치**: 값의 배열을 중앙으로 이동시킴으로써, 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전시키는 것(NOT 연산)만으로 10진수의 9의 보수가 생성되는 '자기 보수(Self-Complementing)' 특성을 확보한다.
-> 3. **판단 포인트**: 복잡한 [감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) 하드웨어 없이 인버터 하나로 뺄셈을 고속 처리할 수 있어 시스템 비용을 줄여주지만, 덧셈 시에는 보정 작업이 필요하므로 뺄셈 위주의 연산이나 센서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 적합하다.
+> 1. **본질**: 3초과 코드(Excess-3 [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 기본 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)([Binary Coded Decimal](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) 코드의 각 10진수 값에 미리 $+3$ (`0011`)을 더해 저장하는 비가중치(Unweighted) 인코딩 방식이다.
+> 2. **가치**: 값의 배열을 중앙으로 이동시킴으로써, 단순히 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전시키는 것(NOT 연산)만으로 10진수의 9의 보수가 생성되는 '자기 보수(Self-Complementing)' 특성을 확보한다.
+> 3. **판단 포인트**: 복잡한 [감산기](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/) 하드웨어 없이 인버터 하나로 뺄셈을 고속 처리할 수 있어 시스템 비용을 줄여주지만, 덧셈 시에는 보정 작업이 필요하므로 뺄셈 위주의 연산이나 센서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송에 적합하다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-3초과 코드 (Excess-3 [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 10진수 $0 \sim 9$를 표현하는 4비트 2진수 값에 무조건 $+3$(`0011`)을 더해서 사용하는 코드 체계다. 일반적인 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)([Binary Coded Decimal](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) 체계에서는 뺄셈을 수행하기 위해 10진수의 '9의 보수'를 구해야 하는데, 이는 단순히 2진수 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(NOT)한다고 얻어지지 않아 매우 복잡한 감산 회로가 별도로 필요했다.
+3초과 코드 (Excess-3 [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/))는 10진수 $0 \sim 9$를 표현하는 4비트 2진수 값에 무조건 $+3$(`0011`)을 더해서 사용하는 코드 체계다. 일반적인 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)([Binary Coded Decimal](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/)) 체계에서는 뺄셈을 수행하기 위해 10진수의 '9의 보수'를 구해야 하는데, 이는 단순히 2진수 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(NOT)한다고 얻어지지 않아 매우 복잡한 감산 회로가 별도로 필요했다.
 
-[초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 아키텍트들은 하드웨어 설계 비용을 줄이고 연산 속도를 높이기 위해 고민했다. 그 결과, 숫자 배열을 인위적으로 3칸 밀어 올려 $0$을 `0011`로, $9$를 `1100`으로 매핑하면, 1과 0의 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 뒤집어도 정확히 9의 보수가 튀어나오는 마법 같은 대칭성이 생김을 발견했다. 이로 인해 거대하고 무거운 뺄셈 회로 모듈을 제거할 수 있게 되었다.
+[초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 컴퓨터 아키텍트들은 하드웨어 설계 비용을 줄이고 연산 속도를 높이기 위해 고민했다. 그 결과, 숫자 배열을 인위적으로 3칸 밀어 올려 $0$을 `0011`로, $9$를 `1100`으로 매핑하면, 1과 0의 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)만 뒤집어도 정확히 9의 보수가 튀어나오는 마법 같은 대칭성이 생김을 발견했다. 이로 인해 거대하고 무거운 뺄셈 회로 모듈을 제거할 수 있게 되었다.
 
 - **📢 섹션 요약 비유**: 3초과 코드는 '암호화된 거울 글씨'와 같다. 원래 글자에 규칙(+3)을 더해 적어두면 평소엔 이상해 보이지만, 거울(NOT 게이트)에 비추는 순간 복잡한 계산 없이 내가 원하던 반대말(9의 보수)이 즉시 완성되어 보이는 원리다.
 
@@ -28,7 +25,7 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-3초과 코드의 가장 핵심적인 작동 원리는 **'자기 보수(Self-Complementing)'** 메커니즘이다. 이를 통해 연산 장치([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내에서 뺄셈기가 어떻게 단순화되는지 살펴본다.
+3초과 코드의 가장 핵심적인 작동 원리는 **'자기 보수(Self-Complementing)'** 메커니즘이다. 이를 통해 연산 장치([ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/), [Arithmetic Logic Unit](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 내에서 뺄셈기가 어떻게 단순화되는지 살펴본다.
 
 ```text
 +--------------------------------------------------------------+
@@ -48,7 +45,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------+
 ```
 
-이 다이어그램은 덧셈 연산기만으로 뺄셈을 수행할 수 있게 하는 핵심 과정을 보여준다. 단순히 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(`~`)시키는 가장 가벼운 게이트 연산만으로 원래 숫자의 9의 보수를 얻어낸다. 덧셈 시에는 $A(+3) + B(+3) = A+B(+6)$이 되므로 자리올림 발생 여부에 따라 $+3$ 또는 $-3$을 보정하는 추가 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로가 필요하다.
+이 다이어그램은 덧셈 연산기만으로 뺄셈을 수행할 수 있게 하는 핵심 과정을 보여준다. 단순히 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/)를 반전(`~`)시키는 가장 가벼운 게이트 연산만으로 원래 숫자의 9의 보수를 얻어낸다. 덧셈 시에는 $A(+3) + B(+3) = A+B(+6)$이 되므로 자리올림 발생 여부에 따라 $+3$ 또는 $-3$을 보정하는 추가 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 회로가 필요하다.
 
 - **📢 섹션 요약 비유**: 큐브를 맞출 때 복잡한 회전 공식을 외우지 않기 위해, 처음부터 큐브를 특수한 대칭 위치(+3)로 미리 세팅해 놓는 것과 같다. 그러면 큐브를 단순히 한 바퀴만 휙 뒤집어도(NOT 연산) 반대쪽 면의 색깔이 완벽하게 맞아떨어진다.
 
@@ -56,16 +53,16 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅲ. 비교 및 연결
 
-자기 보수라는 특성과 함께, 일반 [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 코드와 비교하여 얻는 물리적 시스템 혜택은 명확하다.
+자기 보수라는 특성과 함께, 일반 [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) 코드와 비교하여 얻는 물리적 시스템 혜택은 명확하다.
 
-| 비교 항목 | [BCD](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (8421) | Excess-3 (3초과 코드) | 시스템 적용 시 차이 |
+| 비교 항목 | [BCD](/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/) (8421) | Excess-3 (3초과 코드) | 시스템 적용 시 차이 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> (<a href="/knowledge-base/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)</strong> | 있음 (8, 4, 2, 1) | **없음 (비가중치)** | 자릿수 계산이 불가하며 패턴 매핑으로만 동작 |
+| <strong><a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">가중치</a> (<a href="/studynote/10_ai/03_llm_nlp/267_weight_bias_activation/">Weight</a>)</strong> | 있음 (8, 4, 2, 1) | **없음 (비가중치)** | 자릿수 계산이 불가하며 패턴 매핑으로만 동작 |
 | **코드 범위** | `0000` $\sim$ `1001` | **`0011` $\sim$ `1100`** | 양 끝단(`0000`, `1111`) 미사용으로 오류 탐지율 증가 |
-| **자기 보수성** | 불가능 | **가능 (NOT 연산으로 9의 보수 도출)** | [감산기](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)([Subtractor](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)) 하드웨어 설계 면적 대폭 절감 |
+| **자기 보수성** | 불가능 | **가능 (NOT 연산으로 9의 보수 도출)** | [감산기](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)([Subtractor](/studynote/01_computer_architecture/01_basic_electronics_logic/037_subtractor/)) 하드웨어 설계 면적 대폭 절감 |
 | **덧셈 연산** | 자리올림 시 +6 보정 | **자리올림 발생 여부에 따라 보정(+3/-3)** | 덧셈 보정 회로는 분기 예측이 필요하여 다소 복잡해짐 |
 
-3초과 코드는 하위 `0000`, `0001`, `0010` 및 상위 `1101`, `1110`, `1111`을 사용하지 않는다. 기계적 [결함](/knowledge-base/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인해 전선이 단선되어 0V(`0000`)가 입력되거나 합선으로 인해 5V(`1111`)가 연속 입력될 때, 이를 즉각 무효 구역(Invalid)으로 인지하여 시스템의 오류를 감지할 수 있다.
+3초과 코드는 하위 `0000`, `0001`, `0010` 및 상위 `1101`, `1110`, `1111`을 사용하지 않는다. 기계적 [결함](/studynote/04_software_engineering/06_software_architecture/352_defect_definition/)으로 인해 전선이 단선되어 0V(`0000`)가 입력되거나 합선으로 인해 5V(`1111`)가 연속 입력될 때, 이를 즉각 무효 구역(Invalid)으로 인지하여 시스템의 오류를 감지할 수 있다.
 
 - **📢 섹션 요약 비유**: 일반 전화기는 말이 없으면 통신이 끊긴 건지 상대가 조용한 건지 알 수 없지만, 3초과 코드는 백그라운드에 항상 미세한 '백색 소음(+3)'을 틀어두어 소리가 아예 안 나면(0000) 즉시 선이 끊겼음을 알 수 있게 하는 안전장치와 같다.
 
@@ -73,14 +70,14 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무 설계에서는 연산의 종류와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 요구 수준에 따라 3초과 코드의 도입 여부를 판단해야 한다.
+실무 설계에서는 연산의 종류와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 요구 수준에 따라 3초과 코드의 도입 여부를 판단해야 한다.
 
-### 판단 포인트 및 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>) 통신 채널 설계</strong>: 열악한 환경(고온, 진동)의 산업용 센서 통신에서 단선(0V)과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) '0'을 명확히 구분해야 할 때 3초과 코드를 적용한다. `0000`이 수신되면 즉시 하드웨어 인터럽트를 발생시켜 시스템을 정지시키는 안전 로직을 구현할 수 있다.
-2. **연산 비율 분석**: 산술 연산([ALU](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 설계 시 덧셈 비중이 압도적으로 높다면 일반 2의 보수나 BCD를 사용해야 한다. 3초과 코드는 더할 때마다 오프셋이 누적($+6$, $+9$)되어 덧셈 보정 회로가 복잡해지므로, 뺄셈이나 비교 연산이 주를 이루는 특정 [하드웨어 가속기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)(Accelerator) 모듈에 국한하여 적용하는 것이 유리하다.
+### 판단 포인트 및 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>) 통신 채널 설계</strong>: 열악한 환경(고온, 진동)의 산업용 센서 통신에서 단선(0V)과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) '0'을 명확히 구분해야 할 때 3초과 코드를 적용한다. `0000`이 수신되면 즉시 하드웨어 인터럽트를 발생시켜 시스템을 정지시키는 안전 로직을 구현할 수 있다.
+2. **연산 비율 분석**: 산술 연산([ALU](/studynote/01_computer_architecture/02_data_representation_arithmetic/117_alu/)) 설계 시 덧셈 비중이 압도적으로 높다면 일반 2의 보수나 BCD를 사용해야 한다. 3초과 코드는 더할 때마다 오프셋이 누적($+6$, $+9$)되어 덧셈 보정 회로가 복잡해지므로, 뺄셈이나 비교 연산이 주를 이루는 특정 [하드웨어 가속기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/417_hardware_accelerator/)(Accelerator) 모듈에 국한하여 적용하는 것이 유리하다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- 덧셈 [누산기](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)([Accumulator](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)) 등 범용 수학 연산 코어의 기본 인코딩으로 3초과 코드를 채택하는 것. 덧셈을 연속 수행할 때마다 생기는 잉여 오프셋을 쳐내느라 파이프라인의 성능이 급격히 저하된다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- 덧셈 [누산기](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)([Accumulator](/studynote/01_computer_architecture/04_instruction_set_architecture/161_accumulator/)) 등 범용 수학 연산 코어의 기본 인코딩으로 3초과 코드를 채택하는 것. 덧셈을 연속 수행할 때마다 생기는 잉여 오프셋을 쳐내느라 파이프라인의 성능이 급격히 저하된다.
 
 - **📢 섹션 요약 비유**: 3초과 코드는 키를 잴 때 항상 '3cm 굽이 있는 신발'을 신게 하는 것이다. 둘의 키 차이(뺄셈)를 잴 때는 굽이 똑같아 완벽하지만, 두 사람의 키를 합할 때(덧셈)는 총 6cm를 다시 빼줘야 하는 골칫거리가 생기는 것과 같다.
 
@@ -90,7 +87,7 @@ tags = ["studynote-computer-architecture"]
 
 3초과 코드(Excess-3)는 숫자의 본래 값을 인위적으로 비틀어버리는(+3) 발상의 전환을 통해, 복잡한 하드웨어 뺄셈기를 간단한 인버터 하나로 대체하는 위대한 혁신을 보여주었다. 더불어 극단값(`0000`, `1111`) 회피를 통한 하드웨어 에러 감지 기능까지 부수적으로 확보했다.
 
-비록 덧셈 연산 시의 보정 오버헤드 때문에 현대의 범용 CPU에서는 주류가 되지 못했지만, "기준점을 이동시켜 시스템 설계를 단순화한다"는 이 철학은 훗날 [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)([IEEE 754](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/))의 지수 편향([Bias](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) 127) 이론 등 컴퓨터 구조 전반에 깊은 영감을 남겼다. 설계자는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식을 융통성 있게 변경하여 물리적 제약을 극복하는 전략적 무기로 이를 이해해야 한다.
+비록 덧셈 연산 시의 보정 오버헤드 때문에 현대의 범용 CPU에서는 주류가 되지 못했지만, "기준점을 이동시켜 시스템 설계를 단순화한다"는 이 철학은 훗날 [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/)([IEEE 754](/studynote/01_computer_architecture/02_data_representation_arithmetic/088_ieee_754/))의 지수 편향([Bias](/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/) 127) 이론 등 컴퓨터 구조 전반에 깊은 영감을 남겼다. 설계자는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 표현 방식을 융통성 있게 변경하여 물리적 제약을 극복하는 전략적 무기로 이를 이해해야 한다.
 
 - **📢 섹션 요약 비유**: 두꺼운 나무를 자르기(뺄셈) 위해 무거운 전기톱을 개발하는 대신, 나무를 얇게 접어서(+3) 가위로 한 번만 잘라도(NOT 연산) 원하는 모양이 나오도록 문제지 자체를 바꿔버린 위대한 마술 종이접기와 같다.
 
@@ -100,10 +97,10 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (8421 <a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">Binary Coded Decimal</a>)</strong> | 인간의 10진법을 2진수로 나타내는 기본 코드로, 3초과 코드가 +3 오프셋을 더하기 전의 원형 상태 |
-| **자기 보수성 (Self-Complementing)** | [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전(1의 보수)만으로 10진수의 9의 보수가 도출되는 특성으로, Excess-3의 핵심 존재 이유 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong> | `0000`과 `1111`을 사용하지 않아 단선(0V) 및 합선(5V) 에러를 하드웨어 레벨에서 즉각 감지하는 능력 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">편향 지수</a> (<a href="/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a> Exponent)</strong> | [부동소수점](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표현 시 음수를 피하기 위해 무조건 특정한 값을 더해 저장하는 방식으로, 3초과 코드의 사상과 일치함 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">BCD</a> (8421 <a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/098_bcd/">Binary Coded Decimal</a>)</strong> | 인간의 10진법을 2진수로 나타내는 기본 코드로, 3초과 코드가 +3 오프셋을 더하기 전의 원형 상태 |
+| **자기 보수성 (Self-Complementing)** | [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전(1의 보수)만으로 10진수의 9의 보수가 도출되는 특성으로, Excess-3의 핵심 존재 이유 |
+| <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/296_fault_tolerance_architecture/">결함 허용</a> (<a href="/studynote/02_operating_system/11_exam_summary/800_system_architecture_fault_tolerance_dual/">Fault Tolerance</a>)</strong> | `0000`과 `1111`을 사용하지 않아 단선(0V) 및 합선(5V) 에러를 하드웨어 레벨에서 즉각 감지하는 능력 |
+| <strong><a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">편향 지수</a> (<a href="/studynote/01_computer_architecture/02_data_representation_arithmetic/094_bias/">Bias</a> Exponent)</strong> | [부동소수점](/studynote/01_computer_architecture/02_data_representation_arithmetic/087_floating_point/) 표현 시 음수를 피하기 위해 무조건 특정한 값을 더해 저장하는 방식으로, 3초과 코드의 사상과 일치함 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -127,8 +124,8 @@ Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/knowledge-base/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 편지예요!
-2. 이 편지를 거울에 비추면([비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전) 복잡한 뺄셈 계산기를 안 쓰고도 마법처럼 정답(9의 보수)이 딱 튀어나온답니다.
+1. 3초과 코드는 원래 숫자에 무조건 "3"을 몰래 더해놓고 쓰는 비밀 [스파이](/studynote/04_software_engineering/11_testing_validation/853_spy_test_double/) 편지예요!
+2. 이 편지를 거울에 비추면([비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 반전) 복잡한 뺄셈 계산기를 안 쓰고도 마법처럼 정답(9의 보수)이 딱 튀어나온답니다.
 3. 또 편지에 0000 같은 빈칸이 없어서, 선이 끊어져서 아무 신호도 안 오면 "앗, 고장 났네!" 하고 금방 눈치챌 수 있게 도와줘요.
 
 ---
@@ -137,7 +134,7 @@ Excess-3 (3초과 코드) 도입 · +3 오프셋 매핑
 
 **진행 상황**: 101 / 803
 
-<- **이전**: [100. 언팩드 BCD (Unpacked BCD)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/)
-**다음**: [102. 그레이 코드 (Gray Code)](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) ->
+<- **이전**: [100. 언팩드 BCD (Unpacked BCD)](/studynote/01_computer_architecture/02_data_representation_arithmetic/100_unpacked_bcd/)
+**다음**: [102. 그레이 코드 (Gray Code)](/studynote/01_computer_architecture/02_data_representation_arithmetic/102_gray_code/) ->
 
 ---

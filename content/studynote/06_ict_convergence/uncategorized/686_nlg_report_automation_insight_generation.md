@@ -1,13 +1,10 @@
-+++
-title = "686. 자연어 생성 보고서 자동화 인사이트 (NLG Report Automation Insight Generation)"
-date = 2026-05-09
+---
+title: "686. 자연어 생성 보고서 자동화 인사이트 (NLG Report Automation Insight Generation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -157,7 +154,7 @@ NLG 보고서 자동화는 인접 기술인 BI Self-Service, 검색 기반 분�
 
 **진행 상황**: 686 / 800
 
-<- **이전**: [685. 공간 데이터 GIS 위치 기반 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/)
-**다음**: [687. 설명 가능 AI XAI LIME SHAP 해석](/knowledge-base/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/) ->
+<- **이전**: [685. 공간 데이터 GIS 위치 기반 분석](/studynote/06_ict_convergence/uncategorized/685_spatial_data_gis_location_based_analysis/)
+**다음**: [687. 설명 가능 AI XAI LIME SHAP 해석](/studynote/06_ict_convergence/uncategorized/687_explainable_ai_xai_lime_shap_interpretation/) ->
 
 ---

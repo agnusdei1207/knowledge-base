@@ -1,13 +1,10 @@
-+++
-title = "769. 순환 경제 자원 재활용 디지털 추적 (Circular Economy Resource Recycling Digital)"
-date = 2026-05-09
+---
+title: "769. 순환 경제 자원 재활용 디지털 추적 (Circular Economy Resource Recycling Digital)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -109,7 +106,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 769 / 800
 
-<- **이전**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/knowledge-base/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/)
-**다음**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/) ->
+<- **이전**: [768. 공유 경제 P2P 마켓플레이스 신뢰](/studynote/06_ict_convergence/uncategorized/768_sharing_economy_p2p_marketplace_trust/)
+**다음**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/) ->
 
 ---

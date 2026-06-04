@@ -1,13 +1,10 @@
-+++
-title = "457. IT 경영 관리 핵심 토픽 457번 시험 요약 (IT Management Core Topic 457 Exam Summary)"
-date = 2026-05-09
+---
+title: "457. IT 경영 관리 핵심 토픽 457번 시험 요약 (IT Management Core Topic 457 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -191,7 +188,7 @@ PMBOK 7th(2021)는 **6th의 49개 프로세스 + 5개 프로세스그룹 + 10개
 
 **진행 상황**: 457 / 800
 
-<- **이전**: [456. IT 경영 관리 핵심 토픽 456번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/456_it_management_core_topic_456_exam_summary/)
-**다음**: [458. IT 경영 관리 핵심 토픽 458번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/458_it_management_core_topic_458_exam_summary/) ->
+<- **이전**: [456. IT 경영 관리 핵심 토픽 456번 시험 요약](/studynote/12_it_management/05_security_compliance/456_it_management_core_topic_456_exam_summary/)
+**다음**: [458. IT 경영 관리 핵심 토픽 458번 시험 요약](/studynote/12_it_management/05_security_compliance/458_it_management_core_topic_458_exam_summary/) ->
 
 ---

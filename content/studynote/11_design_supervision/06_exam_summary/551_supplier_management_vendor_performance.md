@@ -1,13 +1,10 @@
-+++
-title = "551. 공급업체 관리 벤더 성과 평가 (Supplier Management Vendor Performance)"
-date = 2026-05-09
+---
+title: "551. 공급업체 관리 벤더 성과 평가 (Supplier Management Vendor Performance)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 551 / 600
 
-<- **이전**: [550. IT 재무 관리 FinOps 비용 최적화](/knowledge-base/studynote/11_design_supervision/06_exam_summary/551_it_financial_management_finops_cost_opti/)
-**다음**: [552. 정보 보안 거버넌스 정책 수립](/knowledge-base/studynote/11_design_supervision/06_exam_summary/552_information_security_governance_policy/) ->
+<- **이전**: [550. IT 재무 관리 FinOps 비용 최적화](/studynote/11_design_supervision/06_exam_summary/551_it_financial_management_finops_cost_opti/)
+**다음**: [552. 정보 보안 거버넌스 정책 수립](/studynote/11_design_supervision/06_exam_summary/552_information_security_governance_policy/) ->
 
 ---

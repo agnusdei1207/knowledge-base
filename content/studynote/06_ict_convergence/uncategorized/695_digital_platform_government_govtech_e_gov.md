@@ -1,13 +1,10 @@
-+++
-title = "695. 디지털 플랫폼 정부 GovTech 전자정부 (Digital Platform Government GovTech e-Gov)"
-date = 2026-05-09
+---
+title: "695. 디지털 플랫폼 정부 GovTech 전자정부 (Digital Platform Government GovTech e-Gov)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -128,7 +125,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 695 / 800
 
-<- **이전**: [694. ICT 융합 기술 최신 동향 2025](/knowledge-base/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/)
-**다음**: [696. 스마트 모빌리티 MaaS 통합 교통](/knowledge-base/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/) ->
+<- **이전**: [694. ICT 융합 기술 최신 동향 2025](/studynote/06_ict_convergence/uncategorized/694_ict_convergence_technology_trends_2025/)
+**다음**: [696. 스마트 모빌리티 MaaS 통합 교통](/studynote/06_ict_convergence/uncategorized/696_smart_mobility_maas_integrated_transportation/) ->
 
 ---

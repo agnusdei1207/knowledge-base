@@ -1,13 +1,10 @@
-+++
-title = "524. Nexus 다중 팀 스크럼 조율 (Nexus Multi Team Scrum Coordination)"
-date = 2026-05-09
+---
+title: "524. Nexus 다중 팀 스크럼 조율 (Nexus Multi Team Scrum Coordination)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -217,7 +214,7 @@ Nexus는 Scrum의 3개 pillar(Transparency / Inspection / Adaptation)에 다음 
 
 **진행 상황**: 524 / 600
 
-<- **이전**: [523. LeSS 대규모 스크럼](/knowledge-base/studynote/11_design_supervision/06_exam_summary/524_less_large_scale_scrum/)
-**다음**: [525. 디자인 씽킹 공감 정의 아이디어](/knowledge-base/studynote/11_design_supervision/06_exam_summary/525_design_thinking_empathize_define_ideate/) ->
+<- **이전**: [523. LeSS 대규모 스크럼](/studynote/11_design_supervision/06_exam_summary/524_less_large_scale_scrum/)
+**다음**: [525. 디자인 씽킹 공감 정의 아이디어](/studynote/11_design_supervision/06_exam_summary/525_design_thinking_empathize_define_ideate/) ->
 
 ---

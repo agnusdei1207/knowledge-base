@@ -1,13 +1,10 @@
-+++
-title = "771. IT 경영 관리 핵심 토픽 771번 시험 요약 (IT Management Core Topic 771 Exam Summary)"
-date = 2026-05-09
+---
+title: "771. IT 경영 관리 핵심 토픽 771번 시험 요약 (IT Management Core Topic 771 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -123,7 +120,7 @@ IT 경영 관리 아키텍처는 **거버넌스 계층 -> 관리 계층 -> 운�
 
 **진행 상황**: 771 / 800
 
-<- **이전**: [770. IT 경영 관리 핵심 토픽 770번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/770_it_management_core_topic_770_exam_summary/)
-**다음**: [772. IT 경영 관리 핵심 토픽 772번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/772_it_management_core_topic_772_exam_summary/) ->
+<- **이전**: [770. IT 경영 관리 핵심 토픽 770번 시험 요약](/studynote/12_it_management/05_security_compliance/770_it_management_core_topic_770_exam_summary/)
+**다음**: [772. IT 경영 관리 핵심 토픽 772번 시험 요약](/studynote/12_it_management/05_security_compliance/772_it_management_core_topic_772_exam_summary/) ->
 
 ---

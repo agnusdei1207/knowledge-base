@@ -1,13 +1,10 @@
-+++
-title = "436. 테스트 관리 품질 보증 자동화 (Test Management Quality Assurance Automation)"
-date = 2026-05-09
+---
+title: "436. 테스트 관리 품질 보증 자동화 (Test Management Quality Assurance Automation)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -173,7 +170,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 436 / 800
 
-<- **이전**: [435. 요구사항 관리 추적 변경 제어](/knowledge-base/studynote/12_it_management/05_security_compliance/435_requirements_management_traceability/)
-**다음**: [437. 비용 산정 FP COCOMO COSMIC](/knowledge-base/studynote/12_it_management/05_security_compliance/437_cost_estimation_fp_cocomo_cosmic/) ->
+<- **이전**: [435. 요구사항 관리 추적 변경 제어](/studynote/12_it_management/05_security_compliance/435_requirements_management_traceability/)
+**다음**: [437. 비용 산정 FP COCOMO COSMIC](/studynote/12_it_management/05_security_compliance/437_cost_estimation_fp_cocomo_cosmic/) ->
 
 ---

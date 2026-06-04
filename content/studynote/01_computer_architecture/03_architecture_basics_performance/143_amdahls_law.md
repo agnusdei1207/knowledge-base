@@ -1,27 +1,24 @@
-+++
-title = "143. 암달의 법칙 (Amdahl's Law)"
-date = 2026-04-19
+---
+title: "143. 암달의 법칙 (Amdahl's Law)"
+date: "2026-04-19"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 암달의 법칙 (Amdahl's Law)은 시스템의 한 부분만 빨라져도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 그 부분이 원래 차지하던 실행 시간 비중에 의해 제한된다는 법칙이다.
-> 2. **가치**: 이 법칙은 "코어를 더 넣으면 얼마나 빨라질까"를 감이 아니라 수식으로 판단하게 해 주며, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화보다 먼저 순차 병목을 찾아야 하는 이유를 설명한다.
-> 3. **판단 포인트**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 자원을 늘릴수록 중요한 것은 총 코어 수가 아니라, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가능한 구간과 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드가 전체 시간에서 몇 퍼센트를 차지하는가이다.
+> 1. **본질**: 암달의 법칙 (Amdahl's Law)은 시스템의 한 부분만 빨라져도 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 향상은 그 부분이 원래 차지하던 실행 시간 비중에 의해 제한된다는 법칙이다.
+> 2. **가치**: 이 법칙은 "코어를 더 넣으면 얼마나 빨라질까"를 감이 아니라 수식으로 판단하게 해 주며, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화보다 먼저 순차 병목을 찾아야 하는 이유를 설명한다.
+> 3. **판단 포인트**: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 처리 자원을 늘릴수록 중요한 것은 총 코어 수가 아니라, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 불가능한 구간과 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 오버헤드가 전체 시간에서 몇 퍼센트를 차지하는가이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-암달의 법칙 (Amdahl's Law)은 <strong>전체 작업 중 개선 가능한 부분의 비율이 전체 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상의 상한선을 결정한다</strong>는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 원리다. 이 법칙이 중요한 이유는 컴퓨터 시스템의 병목이 보통 가장 느린 부분에 숨어 있기 때문이다. 중앙처리장치 (Central Processing Unit, CPU) 코어를 늘리거나 그래픽처리장치 ([Graphics Processing Unit](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 붙여도, 초기화·[직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 계산·입출력·락 대기처럼 동시에 처리할 수 없는 구간이 남아 있으면 전체 시간은 그 구간 때문에 멈춘다.
+암달의 법칙 (Amdahl's Law)은 <strong>전체 작업 중 개선 가능한 부분의 비율이 전체 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상의 상한선을 결정한다</strong>는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석 원리다. 이 법칙이 중요한 이유는 컴퓨터 시스템의 병목이 보통 가장 느린 부분에 숨어 있기 때문이다. 중앙처리장치 (Central Processing Unit, CPU) 코어를 늘리거나 그래픽처리장치 ([Graphics Processing Unit](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/), [GPU](/studynote/01_computer_architecture/12_accelerators_ai_hardware/418_gpu/))를 붙여도, 초기화·[직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 계산·입출력·락 대기처럼 동시에 처리할 수 없는 구간이 남아 있으면 전체 시간은 그 구간 때문에 멈춘다.
 
-즉 암달의 법칙은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증설" 자체를 부정하는 것이 아니라, <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 비율과 순차 구간의 잔존량을 먼저 측정하라</strong>고 요구한다. 그래서 이 법칙은 멀티코어 설계, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램 튜닝, 가속기 도입, 클라우드 [스케일 아웃](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 판단의 공통 기준으로 쓰인다.
+즉 암달의 법칙은 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증설" 자체를 부정하는 것이 아니라, <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 비율과 순차 구간의 잔존량을 먼저 측정하라</strong>고 요구한다. 그래서 이 법칙은 멀티코어 설계, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램 튜닝, 가속기 도입, 클라우드 [스케일 아웃](/studynote/14_data_engineering/05_exam_keywords/202_scale_out_distributed_horizontal_expansion/) 판단의 공통 기준으로 쓰인다.
 
 - **📢 섹션 요약 비유**: 주방에 요리사 10명을 더 넣어도 마지막 plating을 셰프 1명이 해야 한다면, 식당 전체 주문 속도는 그 마지막 한 사람의 손속도에 묶인다.
 
@@ -29,19 +26,19 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-암달의 법칙의 핵심은 전체 실행 시간을 <strong>순차 구간</strong>과 <strong><a href="/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 구간</strong>으로 나누는 데 있다. [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율을 `P`, 사용한 프로세서 수를 `N`이라고 하면 전체 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 다음처럼 표현된다.
+암달의 법칙의 핵심은 전체 실행 시간을 <strong>순차 구간</strong>과 <strong><a href="/studynote/05_database/07_exam_summary/430_index_fast_full_scan/">병렬</a>화 가능한 구간</strong>으로 나누는 데 있다. [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율을 `P`, 사용한 프로세서 수를 `N`이라고 하면 전체 [속도 향상도](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 다음처럼 표현된다.
 
 \[
-[Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) = \frac{1}{(1-P) + \frac{P}{N}}
+[Speedup](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) = \frac{1}{(1-P) + \frac{P}{N}}
 \]
 
-여기서 `(1 - P)`는 아무리 자원을 추가해도 남는 순차 비율이다. 따라서 `N`이 무한히 커져도 최대 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 아래 한계를 넘지 못한다.
+여기서 `(1 - P)`는 아무리 자원을 추가해도 남는 순차 비율이다. 따라서 `N`이 무한히 커져도 최대 [속도 향상도](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)는 아래 한계를 넘지 못한다.
 
 \[
-Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) = \frac{1}{1-P}
+Max\ [Speedup](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) = \frac{1}{1-P}
 \]
 
-예를 들어 전체 작업의 90%만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능하다면, 코어를 아무리 많이 추가해도 최대 속도 향상은 10배다. 95% [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화라면 상한은 20배다. 이 계산은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어의 가치를 평가할 때 "몇 개 넣을 수 있느냐"보다 "얼마나 순차 비율을 줄였느냐"가 더 중요함을 보여 준다.
+예를 들어 전체 작업의 90%만 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능하다면, 코어를 아무리 많이 추가해도 최대 속도 향상은 10배다. 95% [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화라면 상한은 20배다. 이 계산은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 하드웨어의 가치를 평가할 때 "몇 개 넣을 수 있느냐"보다 "얼마나 순차 비율을 줄였느냐"가 더 중요함을 보여 준다.
 
 ```text
 +----------------------------------------------------------------------+
@@ -60,14 +57,14 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 +----------------------------------------------------------------------+
 ```
 
-이 그림의 요점은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 계속 쪼갤 수 있어도, 순차 구간은 전체 시간의 바닥처럼 남는다는 점이다. 실제 시스템에서는 여기에 [캐시 일관성](/knowledge-base/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용까지 추가되므로 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 이론치보다 더 낮아지는 경우가 많다.
+이 그림의 요점은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 계속 쪼갤 수 있어도, 순차 구간은 전체 시간의 바닥처럼 남는다는 점이다. 실제 시스템에서는 여기에 [캐시 일관성](/studynote/01_computer_architecture/11_multicore_synchronization/402_cache_coherence/), [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 비용까지 추가되므로 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 이론치보다 더 낮아지는 경우가 많다.
 
-| [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 비율 `P` | 이론적 최대 [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) | 의미 |
+| [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능 비율 `P` | 이론적 최대 [속도 향상도](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) | 의미 |
 | :--- | :---: | :--- |
-| 0.50 | 2배 | 절반만 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화되면 자원 증설 효과가 매우 빨리 포화된다. |
-| 0.80 | 5배 | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 커 보여도 순차 20%가 큰 벽으로 남는다. |
+| 0.50 | 2배 | 절반만 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화되면 자원 증설 효과가 매우 빨리 포화된다. |
+| 0.80 | 5배 | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 커 보여도 순차 20%가 큰 벽으로 남는다. |
 | 0.90 | 10배 | 고성능 서버에서도 순차 구간 제거가 계속 중요하다. |
-| 0.99 | 100배 | 거의 완벽한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 되어야 대규모 확장이 의미를 가진다. |
+| 0.99 | 100배 | 거의 완벽한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화가 되어야 대규모 확장이 의미를 가진다. |
 
 - **📢 섹션 요약 비유**: 큰 물탱크를 아무리 넓혀도 배수구가 좁으면 전체 배수 속도는 결국 그 배수구 굵기에 의해 정해진다.
 
@@ -75,16 +72,16 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ## Ⅲ. 비교 및 연결
 
-암달의 법칙을 제대로 이해하려면 <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">속도 향상도</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">Speedup</a>)</strong>, <strong><a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong>, <strong>구스타프슨의 법칙 (Gustafson's Law)</strong>과 함께 봐야 한다. 암달의 법칙은 고정된 문제 크기에서 "얼마나 더 빨라질 수 있는가"를 묻는 반면, 구스타프슨의 법칙은 자원이 늘 때 "더 큰 문제를 같은 시간 안에 처리할 수 있는가"를 본다.
+암달의 법칙을 제대로 이해하려면 <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">속도 향상도</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/">Speedup</a>)</strong>, <strong><a href="/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">컴퓨터 성능 방정식</a> (<a href="/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/">Performance Equation</a>)</strong>, <strong>구스타프슨의 법칙 (Gustafson's Law)</strong>과 함께 봐야 한다. 암달의 법칙은 고정된 문제 크기에서 "얼마나 더 빨라질 수 있는가"를 묻는 반면, 구스타프슨의 법칙은 자원이 늘 때 "더 큰 문제를 같은 시간 안에 처리할 수 있는가"를 본다.
 
 | 비교 항목 | 암달의 법칙 (Amdahl's Law) | 구스타프슨의 법칙 (Gustafson's Law) |
 | :--- | :--- | :--- |
 | 문제 크기 가정 | 고정된 작업량 | 프로세서 수에 따라 작업량 확대 가능 |
 | 핵심 질문 | 한 작업을 얼마나 더 빨리 끝낼 수 있는가 | 더 큰 작업을 얼마나 효율적으로 처리할 수 있는가 |
-| 강조점 | 순차 병목의 제거 | 확장 가능한 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업의 확대 |
-| 잘 맞는 관점 | 지연시간 ([Latency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 중심 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 중심 대규모 연산 |
+| 강조점 | 순차 병목의 제거 | 확장 가능한 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 작업의 확대 |
+| 잘 맞는 관점 | 지연시간 ([Latency](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/)) 중심 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) | [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) ([Throughput](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)) 중심 대규모 연산 |
 
-이 차이는 설계 의사결정을 바꾼다. 예를 들어 사용자 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄여야 하는 온라인 [트랜잭션](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 (Online [Transaction](/knowledge-base/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/knowledge-base/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 암달의 법칙 관점이 더 중요하다. 반대로 과학 계산이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 키우며 많은 자원을 계속 활용하는 환경은 구스타프슨의 법칙 설명력이 더 크다. 즉 둘은 서로 반박하는 법칙이라기보다, <strong>문제의 크기를 고정해서 볼 것인가 확장해서 볼 것인가</strong>의 차이다.
+이 차이는 설계 의사결정을 바꾼다. 예를 들어 사용자 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)을 줄여야 하는 온라인 [트랜잭션](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) 처리 (Online [Transaction](/studynote/05_database/04_transactions_concurrency/191_transaction_concept_states/) Processing, [OLTP](/studynote/05_database/06_dw_olap_trends/327_hint_handoff/)) [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)는 암달의 법칙 관점이 더 중요하다. 반대로 과학 계산이나 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 크기를 키우며 많은 자원을 계속 활용하는 환경은 구스타프슨의 법칙 설명력이 더 크다. 즉 둘은 서로 반박하는 법칙이라기보다, <strong>문제의 크기를 고정해서 볼 것인가 확장해서 볼 것인가</strong>의 차이다.
 
 - **📢 섹션 요약 비유**: 암달은 "피자 1판을 더 빨리 굽는 법"을 묻고, 구스타프슨은 "오븐이 많아졌으니 피자 100판 주문을 동시에 받을 수 있는가"를 묻는다.
 
@@ -92,24 +89,24 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 암달의 법칙은 단순 수식 암기가 아니라 <strong>투자 우선순위를 정하는 기준</strong>으로 써야 한다. 핵심은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 추가 전에 순차 병목을 계측하고, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 이후에는 오버헤드가 새 병목이 되는지 확인하는 것이다.
+실무에서 암달의 법칙은 단순 수식 암기가 아니라 <strong>투자 우선순위를 정하는 기준</strong>으로 써야 한다. 핵심은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 추가 전에 순차 병목을 계측하고, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 이후에는 오버헤드가 새 병목이 되는지 확인하는 것이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. 전체 실행 시간 중 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율 `P`를 실제 측정으로 구했는가?
-2. 순차 구간의 실체가 초기화, 입출력, 락, 단일 [스레드](/knowledge-base/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 무엇인지 분해했는가?
-3. 코어 수 증가에 따라 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용과 메모리 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 새로 생기지 않는가?
-4. 목표가 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 개선인지, [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확대인지 먼저 구분했는가?
+1. 전체 실행 시간 중 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 가능한 비율 `P`를 실제 측정으로 구했는가?
+2. 순차 구간의 실체가 초기화, 입출력, 락, 단일 [스레드](/studynote/02_operating_system/02_process_thread/092_thread_lwp/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 중 무엇인지 분해했는가?
+3. 코어 수 증가에 따라 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) 비용과 메모리 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/) 병목이 새로 생기지 않는가?
+4. 목표가 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 개선인지, [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 확대인지 먼저 구분했는가?
 
 ### 실무 판단 예시
 
-- 웹 서버에서 요청 처리의 15%가 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) [직렬](/knowledge-base/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간이라면, 애플리케이션 서버 코어만 늘려서는 기대한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오지 않는다. 이때는 코어 증설보다 질의 구조 개선, 캐시 도입, 락 범위 축소가 먼저다.
-- [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 가속기를 붙이는 경우에도 호스트 중앙처리장치 (Central Processing Unit, CPU)와 장치 사이 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 시간이 크면 전체 향상은 제한된다. 따라서 가속기 자체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 구조를 함께 설계해야 한다.
+- 웹 서버에서 요청 처리의 15%가 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) [직렬](/studynote/03_network/03_physical_layer_media/149_serial_communication_rs232_rs485/) 구간이라면, 애플리케이션 서버 코어만 늘려서는 기대한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 나오지 않는다. 이때는 코어 증설보다 질의 구조 개선, 캐시 도입, 락 범위 축소가 먼저다.
+- [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 연산 가속기를 붙이는 경우에도 호스트 중앙처리장치 (Central Processing Unit, CPU)와 장치 사이 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 복사 시간이 크면 전체 향상은 제한된다. 따라서 가속기 자체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)보다 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 이동 구조를 함께 설계해야 한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- **측정 없이 코어만 늘리는 설계**: [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 비율을 모르는 상태에서 인프라만 키우면 비용은 선형으로 증가하지만 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 빠르게 포화된다.
-- **락 경합을 숨긴 채 멀티스레드화하는 설계**: 코드 겉모습은 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이지만 [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 크면 실제로는 대부분 줄 서는 구조가 된다.
+- **측정 없이 코어만 늘리는 설계**: [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화 비율을 모르는 상태에서 인프라만 키우면 비용은 선형으로 증가하지만 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)은 빠르게 포화된다.
+- **락 경합을 숨긴 채 멀티스레드화하는 설계**: 코드 겉모습은 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)이지만 [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/))이 크면 실제로는 대부분 줄 서는 구조가 된다.
 
 - **📢 섹션 요약 비유**: 차가 막히는 원인이 톨게이트인데 도로 차선만 늘리는 것은, 병목 위치를 잘못 본 대표적인 예다.
 
@@ -117,9 +114,9 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 ## Ⅴ. 기대효과 및 결론
 
-암달의 법칙을 이해하면 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 더 냉정하게 볼 수 있다. 이 법칙은 "[병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화는 중요하지만 만능은 아니다"라는 사실을 분명히 보여 주며, 병목 제거와 구조 개선이 왜 하드웨어 증설보다 먼저 검토되어야 하는지 설명한다. 특히 멀티코어, [분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 가속기 활용이 일반화된 지금도 이 법칙은 여전히 유효하다.
+암달의 법칙을 이해하면 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 개선을 더 냉정하게 볼 수 있다. 이 법칙은 "[병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/)화는 중요하지만 만능은 아니다"라는 사실을 분명히 보여 주며, 병목 제거와 구조 개선이 왜 하드웨어 증설보다 먼저 검토되어야 하는지 설명한다. 특히 멀티코어, [분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 처리, 가속기 활용이 일반화된 지금도 이 법칙은 여전히 유효하다.
 
-다만 암달의 법칙은 **문제 크기가 고정되어 있다는 전제** 위에서 가장 강하게 작동한다. 그래서 대규모 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 [인공지능](/knowledge-base/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 문제 자체가 커지는 환경에서는 구스타프슨의 법칙과 함께 봐야 균형 잡힌 판단이 가능하다. 결국 이 개념은 "코어를 몇 개 더 살까"보다 <strong>"전체 시간에서 끝까지 남는 비병렬 구간을 얼마나 줄일 수 있는가"</strong>로 기억하는 것이 맞다.
+다만 암달의 법칙은 **문제 크기가 고정되어 있다는 전제** 위에서 가장 강하게 작동한다. 그래서 대규모 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석이나 [인공지능](/studynote/10_ai/03_llm_nlp/231_ai_turing_test/) 학습처럼 문제 자체가 커지는 환경에서는 구스타프슨의 법칙과 함께 봐야 균형 잡힌 판단이 가능하다. 결국 이 개념은 "코어를 몇 개 더 살까"보다 <strong>"전체 시간에서 끝까지 남는 비병렬 구간을 얼마나 줄일 수 있는가"</strong>로 기억하는 것이 맞다.
 
 - **📢 섹션 요약 비유**: 줄다리기에서 힘센 사람을 더 데려오는 것보다, 묶인 매듭 하나를 먼저 풀어 주는 편이 전체 움직임을 더 크게 바꾼다.
 
@@ -129,11 +126,11 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [속도 향상도](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ([Speedup](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)) | 암달의 법칙은 특정 개선이 전체적으로 몇 배 빨라질 수 있는지 상한을 계산하는 틀이다. |
-| [컴퓨터 성능 방정식](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/) ([Performance Equation](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/)) | 전체 실행 시간을 세부 요소로 분해하는 미시 관점이라면, 암달의 법칙은 개선 가능 비율로 상한을 보는 거시 관점이다. |
-| [임계 구역](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) | [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램에서 순차 비율을 키우는 대표 원인으로, 락 경합이 심할수록 암달의 한계가 빨리 드러난다. |
-| 구스타프슨의 법칙 (Gustafson's Law) | 고정 문제 크기 대신 확장 문제 크기를 가정해, [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증가의 다른 해석을 제공한다. |
-| [이기종 컴퓨팅](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/) ([Heterogeneous Computing](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/)) | 순차 구간은 강한 코어가 맡고 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 많은 코어가 맡도록 역할을 나누는 설계와 연결된다. |
+| [속도 향상도](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ([Speedup](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/)) | 암달의 법칙은 특정 개선이 전체적으로 몇 배 빨라질 수 있는지 상한을 계산하는 틀이다. |
+| [컴퓨터 성능 방정식](/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/) ([Performance Equation](/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/)) | 전체 실행 시간을 세부 요소로 분해하는 미시 관점이라면, 암달의 법칙은 개선 가능 비율로 상한을 보는 거시 관점이다. |
+| [임계 구역](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/) ([Critical Section](/studynote/02_operating_system/03_cpu_scheduling/214_critical_section/)) | [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 프로그램에서 순차 비율을 키우는 대표 원인으로, 락 경합이 심할수록 암달의 한계가 빨리 드러난다. |
+| 구스타프슨의 법칙 (Gustafson's Law) | 고정 문제 크기 대신 확장 문제 크기를 가정해, [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 자원 증가의 다른 해석을 제공한다. |
+| [이기종 컴퓨팅](/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/) ([Heterogeneous Computing](/studynote/01_computer_architecture/12_accelerators_ai_hardware/439_heterogeneous_computing/)) | 순차 구간은 강한 코어가 맡고 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 구간은 많은 코어가 맡도록 역할을 나누는 설계와 연결된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -158,7 +155,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 대규모 병렬 처리 · 가속기 · 분산 확장 전략
 ```
 
-이 흐름은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 "측정"하는 단계에서 출발해, "부분 개선의 효과 계산"을 거쳐, "확장 전략의 재해석"으로 이어지는 사고의 순서를 보여 준다.
+이 흐름은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 "측정"하는 단계에서 출발해, "부분 개선의 효과 계산"을 거쳐, "확장 전략의 재해석"으로 이어지는 사고의 순서를 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -172,7 +169,7 @@ Max\ [Speedup](/knowledge-base/studynote/01_computer_architecture/03_architectur
 
 **진행 상황**: 143 / 803
 
-<- **이전**: [142. 컴퓨터 성능 방정식 (Performance Equation)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/)
-**다음**: [144. 속도 향상도 (Speedup)](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ->
+<- **이전**: [142. 컴퓨터 성능 방정식 (Performance Equation)](/studynote/01_computer_architecture/03_architecture_basics_performance/142_performance_equation/)
+**다음**: [144. 속도 향상도 (Speedup)](/studynote/01_computer_architecture/03_architecture_basics_performance/144_speedup/) ->
 
 ---

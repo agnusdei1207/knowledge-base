@@ -1,9 +1,9 @@
-+++
-title = "03. CPU 스케줄링 알고리즘"
+---
+title: "03. CPU 스케줄링 알고리즘"
+tags:
+  - "operating_system"
+---
 
-[extra]
-tags = ["operating_system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 

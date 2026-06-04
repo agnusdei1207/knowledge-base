@@ -1,13 +1,10 @@
-+++
-title = "761. IT 경영 관리 핵심 토픽 761번 시험 요약 (IT Management Core Topic 761 Exam Summary)"
-date = 2026-05-09
+---
+title: "761. IT 경영 관리 핵심 토픽 761번 시험 요약 (IT Management Core Topic 761 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ IT 경영 관리 영역에서 자주 혼동되는 **"거버넌스/관리/운영"
 
 **진행 상황**: 761 / 800
 
-<- **이전**: [760. IT 경영 관리 핵심 토픽 760번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/760_it_management_core_topic_760_exam_summary/)
-**다음**: [762. IT 경영 관리 핵심 토픽 762번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/762_it_management_core_topic_762_exam_summary/) ->
+<- **이전**: [760. IT 경영 관리 핵심 토픽 760번 시험 요약](/studynote/12_it_management/05_security_compliance/760_it_management_core_topic_760_exam_summary/)
+**다음**: [762. IT 경영 관리 핵심 토픽 762번 시험 요약](/studynote/12_it_management/05_security_compliance/762_it_management_core_topic_762_exam_summary/) ->
 
 ---

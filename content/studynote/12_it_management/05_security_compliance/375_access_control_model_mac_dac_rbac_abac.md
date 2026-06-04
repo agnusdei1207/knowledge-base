@@ -1,13 +1,10 @@
-+++
-title = "375. 접근 제어 모델 MAC DAC RBAC ABAC (Access Control Model MAC DAC RBAC ABAC)"
-date = 2026-05-09
+---
+title: "375. 접근 제어 모델 MAC DAC RBAC ABAC (Access Control Model MAC DAC RBAC ABAC)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -194,7 +191,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 375 / 800
 
-<- **이전**: [374. 정보보안 정책 수립 거버넌스 프레임워크](/knowledge-base/studynote/12_it_management/05_security_compliance/374_infosec_policy_governance_framework/)
-**다음**: [376. 신원 관리 IAM 통합 인증 SSO](/knowledge-base/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/) ->
+<- **이전**: [374. 정보보안 정책 수립 거버넌스 프레임워크](/studynote/12_it_management/05_security_compliance/374_infosec_policy_governance_framework/)
+**다음**: [376. 신원 관리 IAM 통합 인증 SSO](/studynote/12_it_management/05_security_compliance/376_identity_management_iam_sso_integration/) ->
 
 ---

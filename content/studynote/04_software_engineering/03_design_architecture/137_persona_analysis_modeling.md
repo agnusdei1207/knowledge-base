@@ -1,13 +1,10 @@
-+++
-title = "137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출"
-date = 2026-04-19
+---
+title: "137. 페르소나 분석 & 모델링 - 사용자 중심 요구 도출"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 페르소나는 <strong>타겟 사용자 그룹을 대표하는 가상의 인물상</strong>을 상세히 정의(이름·나이·직업·목표·불편)하여, 모든 설계 의사결정에서 "이 사용자라면 어떻게 사용할까?"를 판단 기준으로 삼는 기법이다.
@@ -26,7 +23,7 @@ tags = ["studynote-software-engineering"]
   -> 이 사용자를 기준으로 UI/기능 설계
 ```
 
-- **📢 섹션 요약 비유**: 페르소나는 <strong>영화 주인공 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다. 주인공이 명확해야 스토리(설계)가 일관된다.
+- **📢 섹션 요약 비유**: 페르소나는 <strong>영화 주인공 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이다. 주인공이 명확해야 스토리(설계)가 일관된다.
 
 ---
 
@@ -42,7 +39,7 @@ tags = ["studynote-software-engineering"]
 |:---|:---|
 | **페르소나** | 가상 사용자 프로필 |
 | **시나리오** | 페르소나의 사용 맥락 |
-| <strong><a href="/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a></strong> | 페르소나 기반 요구 |
+| <strong><a href="/studynote/04_software_engineering/02_requirements_analysis/081_user_story_invest/">User Story</a></strong> | 페르소나 기반 요구 |
 | **UCD** | 사용자 중심 설계 |
 | **Journey Map** | 페르소나 경험 여정 |
 
@@ -55,8 +52,8 @@ tags = ["studynote-software-engineering"]
 ```
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 페르소나는 <strong>영화 주인공 <a href="/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이에요. "누구를 위해 만드는지" 정해요.
-2. "35세 워킹맘 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 씨"처럼 **구체적으로** 정하면 좋은 제품이 나와요.
+1. 페르소나는 <strong>영화 주인공 <a href="/studynote/15_devops_sre/01_culture_methodology/009_config/">설정</a></strong>이에요. "누구를 위해 만드는지" 정해요.
+2. "35세 워킹맘 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) 씨"처럼 **구체적으로** 정하면 좋은 제품이 나와요.
 3. "모든 사람을 위해"는 결국 **아무도 만족 못 하는** 제품이 된답니다!
 
 ---
@@ -65,7 +62,7 @@ tags = ["studynote-software-engineering"]
 
 **진행 상황**: 137 / 973
 
-<- **이전**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/)
-**다음**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/knowledge-base/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/) ->
+<- **이전**: [136. 브레인스토밍 & JAD - 그룹 기반 요구 도출 기법](/studynote/04_software_engineering/03_design_architecture/136_brainstorming_jad_requirements/)
+**다음**: [138. 프로토타이핑 - Throwaway vs Evolutionary 프로토타입](/studynote/04_software_engineering/03_design_architecture/138_prototyping_throwaway_evolutionary/) ->
 
 ---

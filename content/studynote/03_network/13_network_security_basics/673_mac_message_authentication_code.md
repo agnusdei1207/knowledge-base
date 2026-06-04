@@ -1,18 +1,15 @@
-+++
-title = "673. MAC (Message Authentication Code) 변수 및 기능"
-date = 2026-05-08
+---
+title: "673. MAC (Message Authentication Code) 변수 및 기능"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
-> 2. **가치**: MAC 변수 및 기능을 이해하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
+> 1. **본질**: MAC 변수 및 기능은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본에서 핵심 동작과 제약을 이해하게 해 주는 개념이다.
+> 2. **가치**: MAC 변수 및 기능을 이해하면 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 사이의 균형을 더 정확히 볼 수 있다.
 > 3. **판단 포인트**: 설계 시에는 개념 자체보다 적용 조건, 운영 복잡도, 인접 기술과의 경계를 함께 판단해야 한다.
 
 ---
@@ -21,7 +18,7 @@ tags = ["studynote-network"]
 
 - 앨리스가 밥에게 `[1만 원 송금]` 이라는 평문과 그것을 믹서기에 간 해시값 `[AB12]`를 같이 보냅니다.
 - 중간에서 훔쳐본 해커 다스가 평문을 `[100만 원 송금]`으로 쓱 조작합니다. 그리고 다스가 직접 해시 믹서기에 이 가짜 평문을 돌려 새로운 해시값 `[XX99]`를 뽑아냅니다.
-- 다스가 `[100만 원 송금]` + 가짜 해시값 `[XX99]`를 밥에게 보냅니다. 밥은 평문을 믹서기에 돌려보니 똑같이 `[XX99]`가 나오므로 "아, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 지켜졌네! 조작 안 됐어!"라고 완벽하게 속아버립니다. (단순 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증의 실패)
+- 다스가 `[100만 원 송금]` + 가짜 해시값 `[XX99]`를 밥에게 보냅니다. 밥은 평문을 믹서기에 돌려보니 똑같이 `[XX99]`가 나오므로 "아, [무결성](/studynote/09_security/01_intro_principles/003_integrity/)이 지켜졌네! 조작 안 됐어!"라고 완벽하게 속아버립니다. (단순 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 검증의 실패)
 
 ```text
 [무결성 및 출처 인증용 서명 데이터 코드 제…]
@@ -32,15 +29,15 @@ tags = ["studynote-network"]
     +---> [HMAC 통신 기반 IPsec 등 활용 구조]
 ```
 
-- **📢 섹션 요약 비유**: MAC 변수 및 기능은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
+- **📢 섹션 요약 비유**: MAC 변수 및 기능은 왜 필요한지 보여주는 교통 규칙 표지판과 같다. 문제가 생긴 배경을 알면 이후 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 쉬워진다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-위의 해커 기만술을 완벽히 차단하기 위해 <strong>'비밀키(<a href="/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong>라는 변수를 추가한 기술입니다.
+위의 해커 기만술을 완벽히 차단하기 위해 <strong>'비밀키(<a href="/studynote/04_software_engineering/08_security_compliance_devsecops/514_secret_management_vault_kms/">Secret</a> <a href="/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/">Key</a>)'</strong>라는 변수를 추가한 기술입니다.
 
-- **개념**: 메시지의 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)(안 깨졌나?)과 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(진짜 앨리스가 보냈나?)을 '동시에' 보장하기 위해, <strong>송신자와 수신자가 사전에 공유한 비밀키(K)를 원본 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 함께 섞어서 만들어낸 짧은 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>용 블록(꼬리표)</strong>입니다.
+- **개념**: 메시지의 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)(안 깨졌나?)과 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)(진짜 앨리스가 보냈나?)을 '동시에' 보장하기 위해, <strong>송신자와 수신자가 사전에 공유한 비밀키(K)를 원본 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>와 함께 섞어서 만들어낸 짧은 <a href="/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/">인증</a>용 블록(꼬리표)</strong>입니다.
 - **동작 원리 (앨리스 ➜ 밥)**:
   1. 앨리스와 밥은 사전에 둘만 아는 비밀번호(K)를 나눠 가집니다.
   2. 앨리스는 `[1만 원 송금]` 메시지와 비밀키 `K`를 합쳐서(섞어서) MAC 생성기(믹서기)에 넣고 돌립니다. 그 결과물인 꼬리표 `MAC_A`를 만듭니다.
@@ -66,13 +63,13 @@ tags = ["studynote-network"]
 - 해커 다스가 중간에 메시지를 `[100만 원 송금]`으로 바꾸는 것까진 가능합니다.
 - 하지만 다스는 **앨리스와 밥이 공유한 비밀키(K)를 모르기 때문에, 조작된 메시지에 맞는 '합격용 가짜 MAC 꼬리표'를 절대로 만들어낼 수 없습니다.** 결국 밥이 가짜 편지를 받아 계산해 보면 MAC 값이 달라서 즉시 해킹 시도를 적발하고 폐기해 버립니다.
 
-MAC 변수 및 기능을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…가 기반 조건을 만든다면, MAC 변수 및 기능은 그 위에서 핵심 메커니즘을 구현하고, [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+MAC 변수 및 기능을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…가 기반 조건을 만든다면, MAC 변수 및 기능은 그 위에서 핵심 메커니즘을 구현하고, [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/)과 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…의 기반 정리 | MAC 변수 및 기능의 핵심 동작 | [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조의 확장 적용 |
-| 자원 관점 | 기본 조건 확보 | [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 초점 | [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…의 기반 정리 | MAC 변수 및 기능의 핵심 동작 | [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조의 확장 적용 |
+| 자원 관점 | 기본 조건 확보 | [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 최적화 | 규모와 범위 확대 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능은 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -82,9 +79,9 @@ MAC 변수 및 기능을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 
 
 - MAC은 대칭키(비밀키)를 씁니다. 즉, 열쇠 하나를 앨리스와 밥 <strong>두 명이 똑같이 공유</strong>하고 있습니다.
 - 만약 앨리스가 "나 그런 송금 메시지 보낸 적 없는데? 밥 네가 나랑 똑같은 열쇠 가지고 있으니까, 네가 스스로 조작해서 MAC 만든 거 아냐?"라고 우기면(부인), 제3자인 판사는 이 MAC 도장을 앨리스가 찍은 건지 밥이 찍은 건지 구별할 방법이 없습니다.
-- 따라서 MAC은 고속 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증엔 좋지만, <strong>법적인 부인 방지(Non-repudiation) 기능은 제공하지 못하며, 이를 원하면 비대칭키 기반의 '<a href="/knowledge-base/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/knowledge-base/studynote/09_security/03_network_security/110_rsa/">RSA</a>)'을 써야 합니다.</strong>
+- 따라서 MAC은 고속 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 검증엔 좋지만, <strong>법적인 부인 방지(Non-repudiation) 기능은 제공하지 못하며, 이를 원하면 비대칭키 기반의 '<a href="/studynote/03_network/19_frequent_topics_terms/988_digital_signature/">전자 서명</a>(<a href="/studynote/09_security/03_network_security/110_rsa/">RSA</a>)'을 써야 합니다.</strong>
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 요구사항과 병목 지점을 먼저 수치화한다.
 2. 운영 복잡도와 도입 효과를 함께 검증한다.
@@ -96,7 +93,7 @@ MAC 변수 및 기능을 볼 때는 앞뒤 개념과의 경계를 함께 봐야 
 
 ## Ⅴ. 기대효과 및 결론
 
-MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/knowledge-base/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+MAC 변수 및 기능은 [네트워크 보안](/studynote/03_network/20_performance_evaluation_advanced/1117_network_security_zero_trust_policy/) 기본을 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 [기밀성](/studynote/09_security/01_intro_principles/002_confidentiality/) 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조, 자동화된 신뢰 체계, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 자동화된 신뢰 체계 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: MAC 변수 및 기능은 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -106,10 +103,10 @@ MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_netw
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/knowledge-base/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
-| 암호화 (Encryption) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 못하게 보호한다. |
-| [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제… | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) ([Authentication](/studynote/02_operating_system/10_security/604_authentication_factors/)) | 통신 상대가 진짜인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다. |
+| 암호화 (Encryption) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 읽지 못하게 보호한다. |
+| [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조 | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -123,12 +120,12 @@ MAC 변수 및 기능은 [네트워크 보안](/knowledge-base/studynote/03_netw
     +---> [확장 B: 자동화된 신뢰 체계]
 ```
 
-MAC 변수 및 기능는 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…에서 출발해 현재 메커니즘을 정교화하고, 이후 [HMAC](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+MAC 변수 및 기능는 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 및 출처 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)용 서명 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 코드 제…에서 출발해 현재 메커니즘을 정교화하고, 이후 [HMAC](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) 통신 기반 [IPsec](/studynote/01_computer_architecture/15_advanced_topics/589_ipsec_offload/) 등 활용 구조와 자동화된 신뢰 체계 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 비밀 편지를 보낼 때는 자물쇠와 비밀번호가 필요해요.
-2. 이 개념은 누가 진짜 친구인지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
+2. 이 개념은 누가 진짜 친구인지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)하고, 편지가 바뀌지 않았는지도 살펴봐요.
 3. 그래서 나쁜 사람이 중간에 훔쳐보거나 바꾸기 어려워져요.
 
 ---
@@ -137,7 +134,7 @@ MAC 변수 및 기능는 [무결성](/knowledge-base/studynote/09_security/01_in
 
 **진행 상황**: 794 / 1120
 
-<- **이전**: [672. 무결성 및 출처 인증용 서명 데이터 코드 제어](/knowledge-base/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/)
-**다음**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/knowledge-base/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ->
+<- **이전**: [672. 무결성 및 출처 인증용 서명 데이터 코드 제어](/studynote/03_network/13_network_security_basics/672_integrity_origin_authentication_code/)
+**다음**: [674. HMAC (Hash-based MAC) 통신 기반 IPsec 등 활용 구조](/studynote/03_network/13_network_security_basics/674_hmac_hash_based_mac_ipsec/) ->
 
 ---

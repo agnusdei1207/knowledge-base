@@ -1,13 +1,10 @@
-+++
-title = "384. SIEM 보안 정보 이벤트 관리 상관 분석 (SIEM Security Information Event Management)"
-date = 2026-05-09
+---
+title: "384. SIEM 보안 정보 이벤트 관리 상관 분석 (SIEM Security Information Event Management)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -149,7 +146,7 @@ SIEM 상관 분석의 핵심은 **이벤트 정규화(Event Normalization)** -> 
 
 **진행 상황**: 384 / 800
 
-<- **이전**: [383. DLP 데이터 유출 방지 엔드포인트 보호](/knowledge-base/studynote/12_it_management/05_security_compliance/383_dlp_data_loss_prevention_endpoint_protection/)
-**다음**: [385. SOAR 보안 오케스트레이션 자동 대응](/knowledge-base/studynote/12_it_management/05_security_compliance/385_soar_security_orchestration_auto_response/) ->
+<- **이전**: [383. DLP 데이터 유출 방지 엔드포인트 보호](/studynote/12_it_management/05_security_compliance/383_dlp_data_loss_prevention_endpoint_protection/)
+**다음**: [385. SOAR 보안 오케스트레이션 자동 대응](/studynote/12_it_management/05_security_compliance/385_soar_security_orchestration_auto_response/) ->
 
 ---

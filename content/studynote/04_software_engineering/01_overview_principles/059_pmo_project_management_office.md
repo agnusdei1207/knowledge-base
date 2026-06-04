@@ -1,18 +1,15 @@
-+++
-title = "59. PMO (Project Management Office) - 전사 프로젝트 관리 조직"
-date = 2026-04-19
+---
+title: "59. PMO (Project Management Office) - 전사 프로젝트 관리 조직"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: PMO([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Office)는 프로젝트 관리 방식과 기준을 전사적으로 표준화하는 조직이다.
-> 2. **가치**: 개별 PM의 역량 편차를 줄이고, 자원 배분과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제를 조직 차원에서 가능하게 한다.
+> 1. **본질**: PMO([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Office)는 프로젝트 관리 방식과 기준을 전사적으로 표준화하는 조직이다.
+> 2. **가치**: 개별 PM의 역량 편차를 줄이고, 자원 배분과 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 통제를 조직 차원에서 가능하게 한다.
 > 3. **판단 포인트**: 지원형, 통제형, 지시형 중 어디까지 권한을 줄지 정해야 PMO가 관료조직으로 변질되지 않는다.
 
 ---
@@ -45,9 +42,9 @@ PMO
 
 | 기능 | 설명 |
 | :-- | :-- |
-| 표준화 | [WBS](/knowledge-base/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 보고서, [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대장, 승인 절차를 통일 |
+| 표준화 | [WBS](/studynote/12_it_management/04_sdlc_testing/149_wbs_work_breakdown_structure/), 보고서, [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대장, 승인 절차를 통일 |
 | 포트폴리오 관리 | 여러 프로젝트의 우선순위와 자원을 조정 |
-| 모니터링 | [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용 초과, 품질 문제를 대시보드로 추적 |
+| 모니터링 | [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/), 비용 초과, 품질 문제를 대시보드로 추적 |
 | 멘토링 | PM에게 방법론과 협상, 추적 역량을 지원 |
 
 PMO의 핵심은 "같이 일하는 방법"을 맞추는 데 있다. 같은 도구를 쓰고 같은 언어로 보고해야 조직 전체가 비교 가능해진다.
@@ -63,10 +60,10 @@ PMO는 영향력 수준에 따라 세 가지로 나뉜다.
 | 유형 | 특징 | 적합한 상황 |
 | :-- | :-- | :-- |
 | 지원형(Supportive) | 템플릿과 조언만 제공 | 성숙한 팀이 많을 때 |
-| 통제형(Controlling) | 준수 여부를 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 규율이 필요한 조직 |
+| 통제형(Controlling) | 준수 여부를 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 규율이 필요한 조직 |
 | 지시형(Directive) | PMO가 직접 개입 | 대규모, 고위험 포트폴리오 |
 
-PMO는 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)과도 다르다. PM이 개별 프로젝트의 실행 책임자라면, PMO는 여러 프로젝트가 같은 기준으로 움직이게 하는 상위 조정자다. EPMO(Enterprise [Project](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) Office)로 올라가면 범위가 더 넓어져 기업 전략과의 정렬이 강해진다.
+PMO는 PM([Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) Manager)과도 다르다. PM이 개별 프로젝트의 실행 책임자라면, PMO는 여러 프로젝트가 같은 기준으로 움직이게 하는 상위 조정자다. EPMO(Enterprise [Project](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) Office)로 올라가면 범위가 더 넓어져 기업 전략과의 정렬이 강해진다.
 
 - **📢 섹션 요약 비유**: 선장(PM) 하나를 돕는 조타수가 아니라, 함대 전체의 항로를 정하는 작전 사령부에 가깝다.
 
@@ -76,13 +73,13 @@ PMO는 PM([Project](/knowledge-base/studynote/05_database/01_db_architecture_rel
 
 PMO를 도입할 때는 "통제"보다 "재사용 가능한 운영 체계"를 먼저 설계해야 한다. 너무 강한 통제는 보고만 늘리고 실제 성과는 줄일 수 있다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 프로젝트 보고 형식이 제각각이라 비교가 안 되는가?
 2. 자원 충돌과 우선순위 조정이 자주 필요한가?
-3. PM 교육과 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 노하우를 조직 자산으로 남길 필요가 있는가?
+3. PM 교육과 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 관리 노하우를 조직 자산으로 남길 필요가 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 숫자만 맞추는 형식적 보고
 - PM의 자율성을 완전히 없애는 과도한 중앙집중
@@ -93,7 +90,7 @@ PMO를 도입할 때는 "통제"보다 "재사용 가능한 운영 체계"를 �
 - 신규 PM 양성
 - 공통 템플릿 배포
 - 포트폴리오 우선순위 조정
-- 일정/비용/[리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대시보드 운영
+- 일정/비용/[리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) 대시보드 운영
 
 - **📢 섹션 요약 비유**: 모두에게 같은 지도와 규칙을 주되, 운전대까지 빼앗아 버리면 도로 위에서 아무도 제대로 움직일 수 없다.
 
@@ -151,7 +148,7 @@ PMO는 여러 반의 숙제를 한곳에서 정리해 주는 선생님 방 같�
 
 **진행 상황**: 59 / 973
 
-<- **이전**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/knowledge-base/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)
-**다음**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/knowledge-base/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/) ->
+<- **이전**: [58. 방법론 테일러링 (Tailoring) - 표준 프로세스를 프로젝트에 맞게 최적화](/studynote/04_software_engineering/01_overview_principles/058_methodology_tailoring/)
+**다음**: [60. 브레인스토밍 4원칙 (Brainstorming 4 Principles)](/studynote/04_software_engineering/01_overview_principles/060_brainstorming_4_principles/) ->
 
 ---

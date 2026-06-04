@@ -1,13 +1,10 @@
-+++
-title = "484. 성능 감리 벤치마크 기준 설정 (Performance Audit Benchmark Setting)"
-date = 2026-05-09
+---
+title: "484. 성능 감리 벤치마크 기준 설정 (Performance Audit Benchmark Setting)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -143,7 +140,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 484 / 600
 
-<- **이전**: [483. 보안 감리 취약점 진단 방법론](/knowledge-base/studynote/11_design_supervision/06_exam_summary/484_security_audit_vulnerability_assessment/)
-**다음**: [485. 품질 감리 메트릭 정량적 평가](/knowledge-base/studynote/11_design_supervision/06_exam_summary/485_quality_audit_metric_quantitative_evalua/) ->
+<- **이전**: [483. 보안 감리 취약점 진단 방법론](/studynote/11_design_supervision/06_exam_summary/484_security_audit_vulnerability_assessment/)
+**다음**: [485. 품질 감리 메트릭 정량적 평가](/studynote/11_design_supervision/06_exam_summary/485_quality_audit_metric_quantitative_evalua/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "475. 애그리게이트 루트 일관성 경계 (Aggregate Root Consistency Boundary)"
-date = 2026-05-09
+---
+title: "475. 애그리게이트 루트 일관성 경계 (Aggregate Root Consistency Boundary)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -26,7 +23,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 475 / 600
 
-<- **이전**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/knowledge-base/studynote/11_design_supervision/06_exam_summary/475_bounded_context/)
-**다음**: [476. 유비쿼터스 언어 도메인 모델링](/knowledge-base/studynote/11_design_supervision/06_exam_summary/476_ubiquitous_language/) ->
+<- **이전**: [474. 바운디드 컨텍스트 컨텍스트 매핑](/studynote/11_design_supervision/06_exam_summary/475_bounded_context/)
+**다음**: [476. 유비쿼터스 언어 도메인 모델링](/studynote/11_design_supervision/06_exam_summary/476_ubiquitous_language/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "398. 클라우드 이벤트 EventBridge 비동기 통신 (Cloud Event EventBridge Async Communication)"
-date = 2026-05-09
+---
+title: "398. 클라우드 이벤트 EventBridge 비동기 통신 (Cloud Event EventBridge Async Communication)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 398 / 800
 
-<- **이전**: [397. Knative 쿠버네티스 서버리스 프레임워크](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/397_knative_kubernetes_serverless_framework/)
-**다음**: [399. 클라우드 큐 서비스 SQS SNS Pub/Sub](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/399_cloud_queue_service_sqs_sns_pubsub/) ->
+<- **이전**: [397. Knative 쿠버네티스 서버리스 프레임워크](/studynote/13_cloud_architecture/06_exam_summary/397_knative_kubernetes_serverless_framework/)
+**다음**: [399. 클라우드 큐 서비스 SQS SNS Pub/Sub](/studynote/13_cloud_architecture/06_exam_summary/399_cloud_queue_service_sqs_sns_pubsub/) ->
 
 ---

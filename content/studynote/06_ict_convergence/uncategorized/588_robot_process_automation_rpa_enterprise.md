@@ -1,13 +1,10 @@
-+++
-title = "588. 로봇 프로세스 자동화 RPA 엔터프라이즈 (Robot Process Automation RPA Enterprise)"
-date = 2026-05-09
+---
+title: "588. 로봇 프로세스 자동화 RPA 엔터프라이즈 (Robot Process Automation RPA Enterprise)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ RPA 엔터프라이즈 업무 자동화은(는) 현장의 상태를 데이터로
 
 **진행 상황**: 588 / 800
 
-<- **이전**: [587. 드론 UAV 무인항공 제어 시스템](/knowledge-base/studynote/06_ict_convergence/uncategorized/587_drone_uav_unmanned_aerial_control_system/)
-**다음**: [589. 웨어러블 헬스케어 모니터링](/knowledge-base/studynote/06_ict_convergence/uncategorized/589_wearable_device_healthcare_monitoring/) ->
+<- **이전**: [587. 드론 UAV 무인항공 제어 시스템](/studynote/06_ict_convergence/uncategorized/587_drone_uav_unmanned_aerial_control_system/)
+**다음**: [589. 웨어러블 헬스케어 모니터링](/studynote/06_ict_convergence/uncategorized/589_wearable_device_healthcare_monitoring/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "575. 비용 관리 EVM 획득가치 분석 (Cost Management EVM Earned Value Analysis)"
-date = 2026-05-09
+---
+title: "575. 비용 관리 EVM 획득가치 분석 (Cost Management EVM Earned Value Analysis)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 575 / 800
 
-<- **이전**: [574. 품질 관리 6시그마 TQM PDCA](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/574_quality_management_six_sigma_tqm_pdca/)
-**다음**: [576. 일정 관리 CPM PERT 간트 차트](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/576_schedule_management_cpm_pert_gantt/) ->
+<- **이전**: [574. 품질 관리 6시그마 TQM PDCA](/studynote/07_enterprise_systems/06_exam_summary/574_quality_management_six_sigma_tqm_pdca/)
+**다음**: [576. 일정 관리 CPM PERT 간트 차트](/studynote/07_enterprise_systems/06_exam_summary/576_schedule_management_cpm_pert_gantt/) ->
 
 ---

@@ -1,6 +1,5 @@
-+++
-title = "01. Data Communication"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "01. Data Communication"
+tags:
+  - "network"
+---

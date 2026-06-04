@@ -1,13 +1,10 @@
-+++
-title = "395. 클라우드 보안 인증 CSAP FedRAMP (Cloud Security Certification CSAP FedRAMP)"
-date = 2026-05-09
+---
+title: "395. 클라우드 보안 인증 CSAP FedRAMP (Cloud Security Certification CSAP FedRAMP)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -144,7 +141,7 @@ FedRAMP은 NIST RMF(Risk Management Framework)와 1:1 매핑되는 **7단계 인
 
 **진행 상황**: 395 / 800
 
-<- **이전**: [394. 데이터 3법 가명정보 결합 활용](/knowledge-base/studynote/12_it_management/05_security_compliance/394_data_3_acts_pseudonymization_combination/)
-**다음**: [396. 제로 트러스트 보안 모델 NIST 800-207](/knowledge-base/studynote/12_it_management/05_security_compliance/396_zero_trust_security_model_nist_800_207/) ->
+<- **이전**: [394. 데이터 3법 가명정보 결합 활용](/studynote/12_it_management/05_security_compliance/394_data_3_acts_pseudonymization_combination/)
+**다음**: [396. 제로 트러스트 보안 모델 NIST 800-207](/studynote/12_it_management/05_security_compliance/396_zero_trust_security_model_nist_800_207/) ->
 
 ---

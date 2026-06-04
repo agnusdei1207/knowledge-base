@@ -1,13 +1,10 @@
-+++
-title = "691. IT 경영 관리 핵심 토픽 691번 시험 요약 (IT Management Core Topic 691 Exam Summary)"
-date = 2026-05-09
+---
+title: "691. IT 경영 관리 핵심 토픽 691번 시험 요약 (IT Management Core Topic 691 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -134,7 +131,7 @@ IT 경영 관리 영역에서 자주 혼동되는 유사/대안 프레임워크�
 
 **진행 상황**: 691 / 800
 
-<- **이전**: [690. IT 경영 관리 핵심 토픽 690번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/690_it_management_core_topic_690_exam_summary/)
-**다음**: [692. IT 경영 관리 핵심 토픽 692번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/692_it_management_core_topic_692_exam_summary/) ->
+<- **이전**: [690. IT 경영 관리 핵심 토픽 690번 시험 요약](/studynote/12_it_management/05_security_compliance/690_it_management_core_topic_690_exam_summary/)
+**다음**: [692. IT 경영 관리 핵심 토픽 692번 시험 요약](/studynote/12_it_management/05_security_compliance/692_it_management_core_topic_692_exam_summary/) ->
 
 ---

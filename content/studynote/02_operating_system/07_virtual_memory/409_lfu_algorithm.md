@@ -1,31 +1,28 @@
-+++
-title = "409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체"
-date = 2026-05-09
+---
+title: "409. LFU (Least Frequently Used) 알고리즘 - 참조 횟수가 가장 적은 페이지 교체"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 램(RAM)에 빈 공간이 없을 때, 과거부터 현재까지 <strong>가장 적게 <a href="/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>된(호출된 횟수가 제일 적은) <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 "앞으로도 안 쓸 잉여 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>"로 간주하고 디스크로 쫓아내는 빈도(Frequency) 기반의 타겟팅 기법</strong>이다.
-> 2. **가치**: "자주 불리는 놈은 핵심 코어 변수다"라는 상식적이고 강력한 장기적 통계 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 바탕으로 하며, 주기적으로 뺑글뺑글 도는 고정된 루프 패턴이나 캐시 DB 환경에서 가장 합리적인 생존 곡선을 그려낸다.
-> 3. **융합(한계)**: 하지만 초반에만 미친 듯이 불리고 나중엔 평생 안 쓰이는 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드(Init)가 램에 영원히 알박기하는 <strong>'과거의 망령' 오류</strong>를 피할 수 없어, 카운트를 주기적으로 반토막 내는 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong> 기법과 융합해야만 실무에 간신히 써먹을 수 있는 2군 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
+> 1. **본질**: [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 램(RAM)에 빈 공간이 없을 때, 과거부터 현재까지 <strong>가장 적게 <a href="/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/">참조</a>된(호출된 횟수가 제일 적은) <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>를 "앞으로도 안 쓸 잉여 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>"로 간주하고 디스크로 쫓아내는 빈도(Frequency) 기반의 타겟팅 기법</strong>이다.
+> 2. **가치**: "자주 불리는 놈은 핵심 코어 변수다"라는 상식적이고 강력한 장기적 통계 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)를 바탕으로 하며, 주기적으로 뺑글뺑글 도는 고정된 루프 패턴이나 캐시 DB 환경에서 가장 합리적인 생존 곡선을 그려낸다.
+> 3. **융합(한계)**: 하지만 초반에만 미친 듯이 불리고 나중엔 평생 안 쓰이는 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드(Init)가 램에 영원히 알박기하는 <strong>'과거의 망령' 오류</strong>를 피할 수 없어, 카운트를 주기적으로 반토막 내는 <strong><a href="/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>)</strong> 기법과 융합해야만 실무에 간신히 써먹을 수 있는 2군 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 `Count(호출 횟수)`라는 정수형 꼬리표를 달아둔다. CPU가 해당 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽거나 쓸 때마다 하드웨어나 OS가 이 카운트를 1씩 덧셈(+)한다. 램이 꽉 차서 희생양을 찾아야 할 때, OS는 램에 있는 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 카운트 숫자를 쭉 훑어보고 <strong>가장 숫자(빈도)가 작은 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a></strong>를 가차 없이 스왑 디스크로 던져버린다.
-- **필요성**: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 최소 사용)는 훌륭했지만 맹점이 있었다. 내가 평생 매일 100번씩 쓰던 핵심 문서 A가 있는데, 방금 지나가던 똥개(순차 스캔 프로세스)가 쓰레기 문서 B를 단 한 번 터치했다는 이유로 B가 '최근 사용' 타이틀을 달고 램에 남아 내 소중한 A를 밖으로 내쫓는 어이없는 일이 벌어졌다(Cache Pollution). "야, 방금 한 번 터치된 게 뭐가 중요해? 지금까지 쌓아온 '조회수(단골 지표)'를 봐야 진짜 쓸모 있는 놈을 고르지!"라는 아주 합리적이고 자본주의적인 누적 통계 철학이 LFU를 낳았다.
+- **개념**: [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)마다 `Count(호출 횟수)`라는 정수형 꼬리표를 달아둔다. CPU가 해당 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 읽거나 쓸 때마다 하드웨어나 OS가 이 카운트를 1씩 덧셈(+)한다. 램이 꽉 차서 희생양을 찾아야 할 때, OS는 램에 있는 모든 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 카운트 숫자를 쭉 훑어보고 <strong>가장 숫자(빈도)가 작은 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a></strong>를 가차 없이 스왑 디스크로 던져버린다.
+- **필요성**: [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 최소 사용)는 훌륭했지만 맹점이 있었다. 내가 평생 매일 100번씩 쓰던 핵심 문서 A가 있는데, 방금 지나가던 똥개(순차 스캔 프로세스)가 쓰레기 문서 B를 단 한 번 터치했다는 이유로 B가 '최근 사용' 타이틀을 달고 램에 남아 내 소중한 A를 밖으로 내쫓는 어이없는 일이 벌어졌다(Cache Pollution). "야, 방금 한 번 터치된 게 뭐가 중요해? 지금까지 쌓아온 '조회수(단골 지표)'를 봐야 진짜 쓸모 있는 놈을 고르지!"라는 아주 합리적이고 자본주의적인 누적 통계 철학이 LFU를 낳았다.
 
 - **등장 배경 및 카운팅의 한계 노출**:
-  1. <strong><a href="/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 캐시 오염의 극복</strong>: 한 번 읽고 버리는 스캔 작업에 램 전체가 털리는 현상을 막기 위해 빈도수 개념이 제안됨.
-  2. **하드웨어 덧셈기의 부재**: 매 클럭마다 메모리 1장씩 카운트를 +1 하려면 MMU에 엄청난 덧셈기 회로와 [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 공간이 필요해 하드웨어 벤더가 거부함.
-  3. **과거의 망령 (알박기 현상)**: 한때 잘 나갔던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 평생 램을 차지하는 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 맹점이 터지며 범용 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 버림받음.
+  1. <strong><a href="/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/">LRU</a> 캐시 오염의 극복</strong>: 한 번 읽고 버리는 스캔 작업에 램 전체가 털리는 현상을 막기 위해 빈도수 개념이 제안됨.
+  2. **하드웨어 덧셈기의 부재**: 매 클럭마다 메모리 1장씩 카운트를 +1 하려면 MMU에 엄청난 덧셈기 회로와 [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/) 공간이 필요해 하드웨어 벤더가 거부함.
+  3. **과거의 망령 (알박기 현상)**: 한때 잘 나갔던 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 평생 램을 차지하는 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)적 맹점이 터지며 범용 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에서 버림받음.
 
 ```text
 +--------------------------------------------------------------------------+
@@ -51,19 +48,19 @@ tags = ["studynote-operating-system"]
 |    정작 지금 0.1초마다 계속 써야 하는 Main()은 쫓겨나서 게임이 멈춤.     |
 +--------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 이 현상을 전문 용어로 '페이즈 트랜지션(Phase Transition, 국면 전환) 적응 실패'라고 부른다. 프로그램은 로딩 페이즈, 사냥 페이즈, 보스전 페이즈 등 국면이 계속 바뀐다. LFU는 이 과거의 낡은 계급장(카운트)을 영원히 숭배하기 때문에, 현재 페이즈에 필요한 신흥 세력(카운트가 낮은 새 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들을 무참히 학살해 버려 시스템을 뇌사 상태로 몰고 간다.
+**[다이어그램 해설]** 이 현상을 전문 용어로 '페이즈 트랜지션(Phase Transition, 국면 전환) 적응 실패'라고 부른다. 프로그램은 로딩 페이즈, 사냥 페이즈, 보스전 페이즈 등 국면이 계속 바뀐다. LFU는 이 과거의 낡은 계급장(카운트)을 영원히 숭배하기 때문에, 현재 페이즈에 필요한 신흥 세력(카운트가 낮은 새 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))들을 무참히 학살해 버려 시스템을 뇌사 상태로 몰고 간다.
 
-- **📢 섹션 요약 비유**: 왕년에 잘 나갔던 90년대 아이돌(Init 함수)이 누적 음반 판매량(카운트)이 높다는 이유로 현재 음악방송 1위 자리를 영원히 독차지하고 방을 안 빼서, 지금 한창 뜨고 있는 괴물 신인(Main 함수)들이 방송에 아예 나오지도 못하고 쫓겨나는([Page Fault](/knowledge-base/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 최악의 고인물 생태계입니다.
+- **📢 섹션 요약 비유**: 왕년에 잘 나갔던 90년대 아이돌(Init 함수)이 누적 음반 판매량(카운트)이 높다는 이유로 현재 음악방송 1위 자리를 영원히 독차지하고 방을 안 빼서, 지금 한창 뜨고 있는 괴물 신인(Main 함수)들이 방송에 아예 나오지도 못하고 쫓겨나는([Page Fault](/studynote/02_operating_system/07_virtual_memory/387_page_fault/)) 최악의 고인물 생태계입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### [MFU](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) - 역발상의 미학
+### [MFU](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) - 역발상의 미학
 
-LFU의 단점([초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 찌꺼기 알박기)에 열받은 일부 공학자들은, 홧김에 완전히 반대되는 기괴한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 툭 던졌다. 그것이 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/">MFU</a>(가장 많이 불린 놈을 죽이자)</strong>다.
-- <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a></strong>: "카운트가 가장 작다는 것은, 방금 막 램에 올라와서 이제부터 본격적으로 쓰일 싱싱한 놈이라는 뜻이다! 그러니까 카운트 적은 놈은 무조건 살려두고, 차라리 카운트가 미친 듯이 높은 놈(다 단물 빠진 놈)을 죽이자!"
-- **결과**: 이론적으론 그럴싸하지만, 실제로 돌려보면 미친 듯이 많이 쓰이는 핵심 코어 반복문(for 루프)을 사살해 버려 시스템이 그 자리에서 멈춰버린다. 결국 MFU나 LFU나 둘 다 순수 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 사용 기반)의 발끝에도 못 미치는 성적을 내며 교과서의 실험적 챕터로만 남게 되었다.
+LFU의 단점([초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 찌꺼기 알박기)에 열받은 일부 공학자들은, 홧김에 완전히 반대되는 기괴한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 툭 던졌다. 그것이 <strong><a href="/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/">MFU</a>(가장 많이 불린 놈을 죽이자)</strong>다.
+- <strong><a href="/studynote/09_security/04_endpoint_security/369_logic_bomb/">논리</a></strong>: "카운트가 가장 작다는 것은, 방금 막 램에 올라와서 이제부터 본격적으로 쓰일 싱싱한 놈이라는 뜻이다! 그러니까 카운트 적은 놈은 무조건 살려두고, 차라리 카운트가 미친 듯이 높은 놈(다 단물 빠진 놈)을 죽이자!"
+- **결과**: 이론적으론 그럴싸하지만, 실제로 돌려보면 미친 듯이 많이 쓰이는 핵심 코어 반복문(for 루프)을 사살해 버려 시스템이 그 자리에서 멈춰버린다. 결국 MFU나 LFU나 둘 다 순수 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)(최근 사용 기반)의 발끝에도 못 미치는 성적을 내며 교과서의 실험적 챕터로만 남게 되었다.
 
 ---
 
@@ -71,33 +68,33 @@ LFU의 단점([초기](/knowledge-base/studynote/03_network/08_transport_layer/4
 
 LFU가 멸종한 결정적 이유는 '과거의 망령' 때문만이 아니다. **하드웨어가 못 버텼다.**
 - 램을 1바이트 읽을 때마다 64비트 정수형 덧셈기(Adder)가 카운트를 `+1` 쳐야 한다.
-- 카운트 변수가 램 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 있으니, 메모리 한 번 읽으려고 장부에 덧셈하러 램을 한 번 더 써야(Write) 하는 끔찍한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낭비가 터진다.
+- 카운트 변수가 램 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 테이블에 있으니, 메모리 한 번 읽으려고 장부에 덧셈하러 램을 한 번 더 써야(Write) 하는 끔찍한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 낭비가 터진다.
 - 쫓아낼 놈을 찾을 때도, 누가 가장 숫자가 적은지(Min 값) 찾으려면 400만 개의 배열을 몽땅 스캔해야 한다.
-- 트랜지스터와 클럭을 목숨처럼 아끼는 인텔/ARM 하드웨어 설계자 입장에서, 단 1비트의 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))만으로 해결되는 [Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)(근사 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 두고 이 무거운 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 덧셈 회로를 CPU에 넣어줄 이유가 단 하나도 없었다.
+- 트랜지스터와 클럭을 목숨처럼 아끼는 인텔/ARM 하드웨어 설계자 입장에서, 단 1비트의 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)([참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/) [비트](/studynote/01_computer_architecture/02_data_representation_arithmetic/073_bit/))만으로 해결되는 [Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/)(근사 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))을 두고 이 무거운 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 덧셈 회로를 CPU에 넣어줄 이유가 단 하나도 없었다.
 
-- **📢 섹션 요약 비유**: 도서관에서 책이 얼마나 많이 빌려 갔는지([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 확인하려고 모든 책 100만 권 뒤에 바를 정(정)자를 매번 연필로 그려 넣으려니 사서가 과로사합니다. 그래서 그냥 "최근 한 달 내에 빌려 간 적 있음/없음(1비트)" 딱지만 붙여서 관리하는 게 훨씬 속 편하고 빠른 겁니다.
+- **📢 섹션 요약 비유**: 도서관에서 책이 얼마나 많이 빌려 갔는지([LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 확인하려고 모든 책 100만 권 뒤에 바를 정(정)자를 매번 연필로 그려 넣으려니 사서가 과로사합니다. 그래서 그냥 "최근 한 달 내에 빌려 간 적 있음/없음(1비트)" 딱지만 붙여서 관리하는 게 훨씬 속 편하고 빠른 겁니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 비교 1: [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (시간 중심) vs [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) (빈도 중심)
+### 비교 1: [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) (시간 중심) vs [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) (빈도 중심)
 
 캐시 아키텍처의 영원한 맞수다. 결국 시간(Time)이 빈도(Frequency)를 이겼다.
 
-| 비교 척도 | [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) | [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) |
+| 비교 척도 | [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) ([Least Recently Used](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/)) | [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) |
 |:---|:---|:---|
 | **심판 기준** | "언제" 마지막으로 썼는가? (Recency) | "몇 번"이나 썼는가? (Frequency) |
 | **국면 전환(Phase)**| 과거 쓰레기를 0.1초 만에 바로 손절함 **(최상)** | 과거 누적 카운트에 발목 잡혀 손절 못 함 **(최악)** |
 | **캐시 오염 방어** | 스캔 공격에 취약 (한 번 터치에 VIP 됨) | **스캔 공격에 강함** (한 번 터치된 건 바로 쫓아냄) |
-| **하드웨어 구현** | 1비트([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))로 근사치 퉁치기 쉬움 | 매번 덧셈을 누적해야 해서 회로가 너무 무거움 |
+| **하드웨어 구현** | 1비트([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))로 근사치 퉁치기 쉬움 | 매번 덧셈을 누적해야 해서 회로가 너무 무거움 |
 
-### LFU의 구원자: [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법과의 융합
-LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공학자들은 <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(<a href="/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>, 나이 먹기)</strong>이라는 흑마술을 LFU의 카운터에 접목시켰다.
-- **원리**: OS가 1초마다 램을 스캔하면서, 모든 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 카운트 값을 무조건 **절반으로 나누기(/2, Right Shift 연산)** 해버린다.
-- `Init()` 함수가 초반에 카운트 [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000을 찍었더라도, 1초 뒤엔 5,000, 2초 뒤엔 2,500, 10초 뒤엔 거의 0으로 쪼그라든다.
+### LFU의 구원자: [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기법과의 융합
+LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공학자들은 <strong><a href="/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(<a href="/studynote/02_operating_system/03_cpu_scheduling/182_aging/">Aging</a>, 나이 먹기)</strong>이라는 흑마술을 LFU의 카운터에 접목시켰다.
+- **원리**: OS가 1초마다 램을 스캔하면서, 모든 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)의 카운트 값을 무조건 **절반으로 나누기(/2, Right Shift 연산)** 해버린다.
+- `Init()` 함수가 초반에 카운트 [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/),000을 찍었더라도, 1초 뒤엔 5,000, 2초 뒤엔 2,500, 10초 뒤엔 거의 0으로 쪼그라든다.
 - 반면 `Main()` 함수는 계속 불리므로 깎이는 와중에도 계속 +100씩 더해져 높은 카운트를 유지한다.
-- **결과**: 과거의 영광(카운트)이 시간의 흐름에 따라 서서히 부식되어 사라진다. 이 [Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 기법 덕분에 LFU는 극적인 환골탈태를 이루며 캐시 시스템 실무에 간신히 명함을 내밀 수 있게 되었다. (자세한 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 다음 키워드에서 서술).
+- **결과**: 과거의 영광(카운트)이 시간의 흐름에 따라 서서히 부식되어 사라진다. 이 [Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/) 기법 덕분에 LFU는 극적인 환골탈태를 이루며 캐시 시스템 실무에 간신히 명함을 내밀 수 있게 되었다. (자세한 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)은 다음 키워드에서 서술).
 
 ```text
 +----------+------------+------------+-----------------------------------+
@@ -108,29 +105,29 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 | 에이징 LFU| 즉시 쓰레기통 | 천천히 깎여서 버림| 완벽한 중용의 달성     |
 +----------+------------+------------+-----------------------------------+
 ```
-**[매트릭스 해설]** 순수 LFU는 단점이 명확해서 실무에서 절대 쓰이지 않는다. 우리가 면접이나 아키텍처 문서에서 "LFU를 씁니다"라고 말할 때는, 100% 무조건 이 'Aging이 가미된 쇠퇴형 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)'를 의미하는 것이다.
+**[매트릭스 해설]** 순수 LFU는 단점이 명확해서 실무에서 절대 쓰이지 않는다. 우리가 면접이나 아키텍처 문서에서 "LFU를 씁니다"라고 말할 때는, 100% 무조건 이 'Aging이 가미된 쇠퇴형 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)'를 의미하는 것이다.
 
-- **📢 섹션 요약 비유**: 평생 모은 재산(카운트)을 영원히 인정해 주면 부자들은 일 안 하고(알박기) 놀고먹습니다(순수 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)). 그래서 정부(OS)가 매년 재산의 절반을 세금([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))으로 뜯어가 버립니다. 그러면 왕년의 부자도 돈이 깎여 쫓겨나지 않기 위해 다시 뼈 빠지게 일(현재의 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))을 해야만 살아남는 완벽한 자본주의 세금 제도의 완성입니다.
+- **📢 섹션 요약 비유**: 평생 모은 재산(카운트)을 영원히 인정해 주면 부자들은 일 안 하고(알박기) 놀고먹습니다(순수 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)). 그래서 정부(OS)가 매년 재산의 절반을 세금([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/))으로 뜯어가 버립니다. 그러면 왕년의 부자도 돈이 깎여 쫓겨나지 않기 위해 다시 뼈 빠지게 일(현재의 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/))을 해야만 살아남는 완벽한 자본주의 세금 제도의 완성입니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 실무 시나리오: [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/) 4.0 이후의 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 도입
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(메인 램)에서는 LFU가 멸종했지만, <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 같은 인메모리 캐시 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>에서는 이야기가 완전히 다르다.
-1. **LRU의 패배**: 넷플릭스 썸네일을 캐싱할 때 LRU를 쓰면, 아무도 안 보는 비인기 영화 썸네일을 누군가 실수로 1번 클릭했다는 이유로([Hit](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)), 1억 명이 매일 보는 '오징어 게임' 썸네일을 쫓아내고 1열을 차지하는 캐시 오염(Cache Pollution)이 터진다.
-2. <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 4.0의 <a href="/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 등판</strong>:
+### 실무 시나리오: [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/) 4.0 이후의 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) 캐시 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 도입
+[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)(메인 램)에서는 LFU가 멸종했지만, <strong><a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 같은 인메모리 캐시 <a href="/studynote/05_database/01_db_architecture_relational/002_database_definition/">데이터베이스</a></strong>에서는 이야기가 완전히 다르다.
+1. **LRU의 패배**: 넷플릭스 썸네일을 캐싱할 때 LRU를 쓰면, 아무도 안 보는 비인기 영화 썸네일을 누군가 실수로 1번 클릭했다는 이유로([Hit](/studynote/01_computer_architecture/06_memory_hierarchy_cache/263_cache_hit_miss/)), 1억 명이 매일 보는 '오징어 게임' 썸네일을 쫓아내고 1열을 차지하는 캐시 오염(Cache Pollution)이 터진다.
+2. <strong><a href="/studynote/05_database/04_transactions_concurrency/542_redis/">Redis</a> 4.0의 <a href="/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/">LFU</a> 등판</strong>:
    - Redis는 이 캐시 오염을 막기 위해 4.0 버전부터 <strong><code>volatile-lfu</code>, <code>allkeys-lru</code> 옵션</strong>을 전격 도입했다.
    - 8비트(0~255)짜리 초경량 카운터를 달아놓고 빈도수를 잰다. 아무리 최근에 1번 불렸어도 카운트가 1이므로, 카운트가 255인 '오징어 게임' 썸네일 앞에서는 명함도 못 내밀고 방을 빼야 한다.
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(Decay) 파라미터 튜닝</strong>:
-   - 알박기를 막기 위해 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/).conf에 `lfu-decay-time` (기본값 1분)이라는 세팅을 열어두었다.
+3. <strong><a href="/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/">에이징</a>(Decay) 파라미터 튜닝</strong>:
+   - 알박기를 막기 위해 [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/).conf에 `lfu-decay-time` (기본값 1분)이라는 세팅을 열어두었다.
    - 1분이 지날 때마다 조회수 카운트를 깎아내려, 유행이 지난 옛날 명작이 램을 영원히 독식하는 걸 강제로 막아낸다. 백엔드 엔지니어의 가장 화려한 캐시 튜닝 기술이다.
 
 ### W-TinyLFU (Caffeine Cache의 흑마술)
-자바(Java) 백엔드 생태계에서 가장 유명한 로컬 캐시 라이브러리인 <strong>Caffeine Cache</strong>는 LFU와 LRU를 끔찍하게 섞어버린 W-TinyLFU [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓴다.
-새로 들어온 뜨내기([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))와 오랫동안 버틴 단골([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))을 필터 큐에서 싸움 붙여, 빈도수가 압도적인 놈만 메인 램에 남기고 나머지는 가차 없이 쳐내는 현존 인류 최고의 캐시 교체 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)(99%+)을 보여주는 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하드웨어의 제약이 없는 유저 랜드(User-space) 애플리케이션에서는 이처럼 빈도수([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 기반의 통계적 튜닝이 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 끝판왕으로 군림하고 있다.
+자바(Java) 백엔드 생태계에서 가장 유명한 로컬 캐시 라이브러리인 <strong>Caffeine Cache</strong>는 LFU와 LRU를 끔찍하게 섞어버린 W-TinyLFU [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 쓴다.
+새로 들어온 뜨내기([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))와 오랫동안 버틴 단골([LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))을 필터 큐에서 싸움 붙여, 빈도수가 압도적인 놈만 메인 램에 남기고 나머지는 가차 없이 쳐내는 현존 인류 최고의 캐시 교체 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)(99%+)을 보여주는 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이다. 하드웨어의 제약이 없는 유저 랜드(User-space) 애플리케이션에서는 이처럼 빈도수([LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) 기반의 통계적 튜닝이 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 끝판왕으로 군림하고 있다.
 
-- **📢 섹션 요약 비유**: 멜론이나 유튜브 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(실무 캐시)이 "방금 막 올라온 1회 재생 신곡([LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))"을 메인에 안 띄우고, "누적 1억 번 재생된 차트 1위 곡([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))"을 메인에 고정하는 이유와 같습니다. 단, 철 지난 벚꽃엔딩이 한여름에도 1위를 차지하는 알박기를 막기 위해 발매일이 지나면 점수를 깎아내리는([에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)) 로직이 반드시 필요합니다.
+- **📢 섹션 요약 비유**: 멜론이나 유튜브 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)(실무 캐시)이 "방금 막 올라온 1회 재생 신곡([LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/))"을 메인에 안 띄우고, "누적 1억 번 재생된 차트 1위 곡([LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))"을 메인에 고정하는 이유와 같습니다. 단, 철 지난 벚꽃엔딩이 한여름에도 1위를 차지하는 알박기를 막기 위해 발매일이 지나면 점수를 깎아내리는([에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)) 로직이 반드시 필요합니다.
 
 ---
 
@@ -140,15 +137,15 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 
 | 구분 | 내용 |
 |:---|:---|
-| **캐시 스캔 오염 원천 방어** | 대용량 배치(Batch) 작업이 램을 한 번 쓱 훑고 지나가더라도, 카운트가 낮아 기존 핵심 캐시 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대 밀어내지 못함 |
-| <strong>스테디셀러 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 0.1초 단위의 최근성(Recency)은 밀려도 하루 종일 꾸준히 불리는 코어 [데이터베이스](/knowledge-base/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인덱스가 램에서 쫓겨나지 않게 철통 방어 |
-| **User-Space 캐시 혁명** | 하드웨어 MMU를 벗어난 [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached, [CDN](/knowledge-base/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 환경에서 가장 합리적인 트래픽 예측 지표(조회수)로 활약 |
+| **캐시 스캔 오염 원천 방어** | 대용량 배치(Batch) 작업이 램을 한 번 쓱 훑고 지나가더라도, 카운트가 낮아 기존 핵심 캐시 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 절대 밀어내지 못함 |
+| <strong>스테디셀러 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> <a href="/studynote/02_operating_system/10_security/571_protection_vs_security/">보호</a></strong> | 0.1초 단위의 최근성(Recency)은 밀려도 하루 종일 꾸준히 불리는 코어 [데이터베이스](/studynote/05_database/01_db_architecture_relational/002_database_definition/) 인덱스가 램에서 쫓겨나지 않게 철통 방어 |
+| **User-Space 캐시 혁명** | 하드웨어 MMU를 벗어난 [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/), Memcached, [CDN](/studynote/03_network/09_application_layer_web_email/506_cdn_content_delivery_network_edge_caching/) 환경에서 가장 합리적인 트래픽 예측 지표(조회수)로 활약 |
 
 ### 결론 및 미래 전망
 
-[LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "자주 찾는 것이 귀한 것이다"라는 자본주의의 절대 진리를 메모리 관리에 이식한 직관적인 모델이다. 초창기 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들은 하드웨어 덧셈기의 부재와 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드의 영구 알박기(망령) 현상에 질려 이 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 매몰차게 버렸고, 그 왕관을 1비트로 퉁치는 가벼운 [LRU](/knowledge-base/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사([Clock](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))에 넘겨주었다. 그러나 시대가 흘러 메모리 용량이 테라바이트로 팽창하고 웹 캐시 히트율 1%가 수억 원의 서버비를 좌우하는 빅데이터 시대가 열리자, 소프트웨어 엔지니어들은 [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/))이라는 약을 발라 LFU를 무덤에서 파내어 웹/캐시 생태계의 제왕으로 부활시켰다. 램을 직접 다루는 OS [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에선 영원히 버려진 돌멩이겠지만, 애플리케이션과 클라우드 아키텍처 위에서는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 가장 정밀하고 강력한 무기로 끝없이 진화해 나갈 것이다.
+[LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 "자주 찾는 것이 귀한 것이다"라는 자본주의의 절대 진리를 메모리 관리에 이식한 직관적인 모델이다. 초창기 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 학자들은 하드웨어 덧셈기의 부재와 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/)화 코드의 영구 알박기(망령) 현상에 질려 이 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 매몰차게 버렸고, 그 왕관을 1비트로 퉁치는 가벼운 [LRU](/studynote/02_operating_system/04_synchronization/262_lru_page_replacement/) 근사([Clock](/studynote/01_computer_architecture/01_basic_electronics_logic/045_clock/))에 넘겨주었다. 그러나 시대가 흘러 메모리 용량이 테라바이트로 팽창하고 웹 캐시 히트율 1%가 수억 원의 서버비를 좌우하는 빅데이터 시대가 열리자, 소프트웨어 엔지니어들은 [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/)([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/))이라는 약을 발라 LFU를 무덤에서 파내어 웹/캐시 생태계의 제왕으로 부활시켰다. 램을 직접 다루는 OS [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 레벨에선 영원히 버려진 돌멩이겠지만, 애플리케이션과 클라우드 아키텍처 위에서는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 다루는 가장 정밀하고 강력한 무기로 끝없이 진화해 나갈 것이다.
 
-- **📢 섹션 요약 비유**: "누적 조회수 1억 회([LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))"라는 지표는 인간의 마음을 가장 잘 나타내는 절대 지표입니다. 옛날엔 그 조회수를 매번 노트에 적느라 팔이 부러져서(하드웨어 오버헤드) 포기했지만, 지금은 서버 메모리가 빵빵하고 컴퓨터가 알아서 세어주니(애플리케이션 캐시) 이보다 더 확실하고 돈이 되는 캐시 선별법은 없는 것입니다.
+- **📢 섹션 요약 비유**: "누적 조회수 1억 회([LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/))"라는 지표는 인간의 마음을 가장 잘 나타내는 절대 지표입니다. 옛날엔 그 조회수를 매번 노트에 적느라 팔이 부러져서(하드웨어 오버헤드) 포기했지만, 지금은 서버 메모리가 빵빵하고 컴퓨터가 알아서 세어주니(애플리케이션 캐시) 이보다 더 확실하고 돈이 되는 캐시 선별법은 없는 것입니다.
 
 ---
 
@@ -156,10 +153,10 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Second-Chance / [Clock Algorithm](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [MFU](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [에이징](/knowledge-base/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기반 [페이지 교체](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) 로직 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [2차 기회 알고리즘](/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) (Second-Chance / [Clock Algorithm](/studynote/01_computer_architecture/07_virtual_memory_os_integration/302_clock_algorithm/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| 개선된 [2차 기회 알고리즘](/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [MFU](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [에이징](/studynote/02_operating_system/07_virtual_memory/411_aging_algorithm/) ([Aging](/studynote/02_operating_system/03_cpu_scheduling/182_aging/)) 기반 [페이지 교체](/studynote/02_operating_system/04_synchronization/260_page_replacement/) 로직 | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -177,9 +174,9 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
-2. 먼저 개선된 [2차 기회 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)을 이해하면 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 왜 필요한지 더 쉽게 보여요.
-3. 그래서 [LFU](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/knowledge-base/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 잘 알면 나중에 [MFU](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 훨씬 쉽게 배울 수 있어요.
+1. [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)은 컴퓨터가 메모리를 더 크게 보이게 하고 부족함을 숨기는 방법이에요.
+2. 먼저 개선된 [2차 기회 알고리즘](/studynote/02_operating_system/07_virtual_memory/407_second_chance_algorithm/)을 이해하면 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)이 왜 필요한지 더 쉽게 보여요.
+3. 그래서 [LFU](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/) ([Least Frequently Used](/studynote/02_operating_system/04_synchronization/263_lfu_page_replacement/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)을 잘 알면 나중에 [MFU](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ([Most Frequently Used](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/)) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)도 훨씬 쉽게 배울 수 있어요.
 
 ---
 
@@ -187,7 +184,7 @@ LFU의 '고인물 알박기' 문제를 해결하기 위해, 소프트웨어 공�
 
 **진행 상황**: 409 / 800
 
-<- **이전**: [408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)](/knowledge-base/studynote/02_operating_system/07_virtual_memory/408_enhanced_second_chance_algorithm/)
-**다음**: [410. MFU (Most Frequently Used) 알고리즘](/knowledge-base/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ->
+<- **이전**: [408. 개선된 2차 기회 알고리즘 (Enhanced Second Chance Algorithm)](/studynote/02_operating_system/07_virtual_memory/408_enhanced_second_chance_algorithm/)
+**다음**: [410. MFU (Most Frequently Used) 알고리즘](/studynote/02_operating_system/07_virtual_memory/410_mfu_algorithm/) ->
 
 ---

@@ -1,25 +1,22 @@
-+++
-title = "56. 표본화 (Sampling)"
-date = 2026-05-01
+---
+title: "56. 표본화 (Sampling)"
+date: "2026-05-01"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
 > 1. **본질**: 표본화는 연속 신호를 일정한 시간 간격으로 샘플링해 이산 신호로 바꾸는 과정이다.
 > 2. **가치**: Nyquist (나이퀴스트) 조건을 만족해야 원신호 복원이 가능하다.
-> 3. **판단 포인트**: 샘플링 주파수가 낮으면 [aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ([에일리어싱](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/))이 발생한다.
+> 3. **판단 포인트**: 샘플링 주파수가 낮으면 [aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ([에일리어싱](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/))이 발생한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-아날로그 신호를 디지털로 바꾸려면 먼저 표본을 떠야 한다. 표본화는 [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) (Pulse [Code](/knowledge-base/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)의 첫 단계다.
+아날로그 신호를 디지털로 바꾸려면 먼저 표본을 떠야 한다. 표본화는 [PCM](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) (Pulse [Code](/studynote/02_operating_system/02_process_thread/082_process_memory_structure/) Modulation)의 첫 단계다.
 
 음성, 영상, 센서 신호를 디지털 시스템으로 처리하려면 필수다.
 
@@ -39,7 +36,7 @@ Analog Signal -> Sampling -> Discrete-Time Samples
 | :--- | :--- | :--- |
 | Sampling Rate | 초당 샘플 수 | Hz |
 | Nyquist Rate | 최소 조건 | 2fmax |
-| Anti-[aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) Filter | 사전 필터 | 고주파 제거 |
+| Anti-[aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) Filter | 사전 필터 | 고주파 제거 |
 
 핵심은 충분히 빠르게 샘플링해야 원신호 정보가 겹치지 않는다는 점이다.
 
@@ -54,7 +51,7 @@ Analog Signal -> Sampling -> Discrete-Time Samples
 | 단계 | 무엇을 이산화하나 |
 | :--- | :--- |
 | Sampling | 시간 |
-| [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 진폭 |
+| [Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 진폭 |
 | Encoding | 비트화 |
 
 Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘못 보이게 된다.
@@ -67,14 +64,14 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 실무에서는 센서, 음성, 이미지 처리에서 샘플링 주파수와 필터를 맞춘다. 디지털 신호처리(DSP) 설계에서 기본이다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 샘플링 주파수가 충분한가?
-2. anti-[aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) filter가 있는가?
+2. anti-[aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) filter가 있는가?
 3. 복원 조건을 만족하는가?
 4. 시간축과 진폭축을 구분하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 너무 낮은 샘플링 주파수
 - 필터 없이 직접 샘플링
@@ -102,9 +99,9 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 | :--- | :--- |
 | Sampling Rate | 주기 |
 | Nyquist | 복원 조건 |
-| Anti-[aliasing](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) | 사전 필터 |
-| [Quantization](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 다음 단계 |
-| [PCM](/knowledge-base/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 디지털화 |
+| Anti-[aliasing](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) | 사전 필터 |
+| [Quantization](/studynote/01_computer_architecture/12_accelerators_ai_hardware/434_quantization/) | 다음 단계 |
+| [PCM](/studynote/03_network/19_frequent_topics_terms/943_pcm_pulse_code_modulation_sampling_quantization/) | 디지털화 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -135,7 +132,7 @@ Nyquist 조건을 넘기지 못하면 aliasing으로 인해 저주파처럼 잘�
 
 **진행 상황**: 56 / 1120
 
-<- **이전**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/knowledge-base/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/)
-**다음**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/knowledge-base/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ->
+<- **이전**: [55. 아날로그 연속파 변조 (AM/FM/PM)](/studynote/03_network/01_data_communication/055_아날로그_연속파_변조_AM_FM_PM/)
+**다음**: [57. 에일리어싱 (Aliasing) - 표본화 주파수 부족시 발생](/studynote/03_network/01_data_communication/057_에일리어싱_Aliasing/) ->
 
 ---

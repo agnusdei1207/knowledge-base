@@ -1,13 +1,10 @@
-+++
-title = "268. 프레임 릴레이 (Frame Relay)"
-date = 2026-05-08
+---
+title: "268. 프레임 릴레이 (Frame Relay)"
+date: "2026-05-08"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -19,7 +16,7 @@ tags = ["studynote-network"]
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: X.25를 대체하기 위해 1990년대 등장한 OSI 2계층([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크) 통신 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). T1(1.544Mbps)에서 T3(45Mbps) 급의 고속 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 목표로 설계되었다.
+- **개념**: X.25를 대체하기 위해 1990년대 등장한 OSI 2계층([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 링크) 통신 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/). T1(1.544Mbps)에서 T3(45Mbps) 급의 고속 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 목표로 설계되었다.
 - **필요성**: X.25는 매 라우터를 지날 때마다 에러를 검사하고 응답(ACK)하느라 아무리 장비가 좋아도 속도를 내지 못했다(오버헤드 심각). 시대가 변해 튼튼한 광케이블이 깔리자, "선로가 좋아서 어차피 에러도 안 나는데, 톨게이트마다 세워서 검사하지 말고 그냥 논스톱으로 쏴버리자!"라는 발상의 전환이 필요해졌다.
 
 - **💡 비유**:
@@ -35,20 +32,20 @@ tags = ["studynote-network"]
     +---> [PVC / SVC]
 ```
 
-- **📢 섹션 요약 비유**: ** 프레임 릴레이는 느리고 꼼꼼했던 우체국 시스템(X.25)에서 불필요한 **"수취 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 서명 절차(에러 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"를 아예 없애버리고 배달 스피드에만 목숨을 건 로켓 배송 시스템**입니다.
+- **📢 섹션 요약 비유**: ** 프레임 릴레이는 느리고 꼼꼼했던 우체국 시스템(X.25)에서 불필요한 **"수취 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)증 서명 절차(에러 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/))"를 아예 없애버리고 배달 스피드에만 목숨을 건 로켓 배송 시스템**입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
 ### 1. X.25와의 결정적 차이점 (에러 제어의 생략)
-- 프레임 릴레이망 내부에 있는 통신사 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 2계층 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임을 받으면 목적지 주소([DLCI](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/270_dlci_data_link_connection_identifier/))만 재빨리 읽고 다음 [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 토스(Relay)해 버린다.
-- 윈도우 슬라이딩 기반의 [흐름 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)([Flow Control](/knowledge-base/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))나 에러 발생 시 재전송([ARQ](/knowledge-base/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))을 요청하는 메커니즘이 **망 내부에는 아예 없다**.
-- 만약 프레임이 깨졌다면 그냥 버린다(Drop). 그러면 최종 수신지 컴퓨터의 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4계층 모듈이 "어? 3번 패킷 안 왔네? 다시 보내!"라고 출발지 컴퓨터에게 직접 요청한다. <strong>통신망의 책임을 엔드포인트(단말기)로 전가한 것</strong>이 고속화의 핵심이다.
+- 프레임 릴레이망 내부에 있는 통신사 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)들은 2계층 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 프레임을 받으면 목적지 주소([DLCI](/studynote/03_network/05_lan_wan_l2_devices/270_dlci_data_link_connection_identifier/))만 재빨리 읽고 다음 [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)로 토스(Relay)해 버린다.
+- 윈도우 슬라이딩 기반의 [흐름 제어](/studynote/03_network/04_data_link_layer_error/213_flow_control_buffer_overflow/)([Flow Control](/studynote/03_network/08_transport_layer/421_tcp_flow_control_sliding_window_algorithm/))나 에러 발생 시 재전송([ARQ](/studynote/03_network/19_frequent_topics_terms/949_arq_automatic_repeat_request_go_back_n_selective/))을 요청하는 메커니즘이 **망 내부에는 아예 없다**.
+- 만약 프레임이 깨졌다면 그냥 버린다(Drop). 그러면 최종 수신지 컴퓨터의 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) 4계층 모듈이 "어? 3번 패킷 안 왔네? 다시 보내!"라고 출발지 컴퓨터에게 직접 요청한다. <strong>통신망의 책임을 엔드포인트(단말기)로 전가한 것</strong>이 고속화의 핵심이다.
 
-### 2. 가상 회선(Virtual Circuit)을 통한 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)
-물리적인 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [Serial](/knowledge-base/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 0/0) 하나에 논리적인 길을 여러 개 뚫을 수 있다.
-예를 들어, 본사 라우터 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개에 지사 A로 가는 길(가상 회선 100번), 지사 B로 가는 길(가상 회선 200번)을 소프트웨어적으로 생성할 수 있다.
+### 2. 가상 회선(Virtual Circuit)을 통한 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)
+물리적인 라우터 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)(예: [Serial](/studynote/03_network/01_data_communication/009_직렬_전송_vs_병렬_전송/) 0/0) 하나에 논리적인 길을 여러 개 뚫을 수 있다.
+예를 들어, 본사 라우터 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 1개에 지사 A로 가는 길(가상 회선 100번), 지사 B로 가는 길(가상 회선 200번)을 소프트웨어적으로 생성할 수 있다.
 비싼 전용선을 지사마다 물리적으로 깔 필요 없이, 통신사 클라우드까지만 선 하나를 꽂으면 내부에서 통신사가 길을 갈라주므로 <strong>구축 비용이 파격적으로 절감</strong>되었다.
 
 ```text
@@ -66,25 +63,25 @@ tags = ["studynote-network"]
  +-------------------------------------------------------------+
 ```
 
-### 3. 통신 요금 체계의 혁신: [CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ([Committed Information Rate](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))
-전용선은 무조건 고정 요금이지만, 프레임 릴레이는 <strong><a href="/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/">CIR</a> (보장 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>이라는 요금제를 도입했다.
-- 사용자가 통신사와 "최소 2Mbps는 무조건 보장해 줘([CIR](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))"라고 계약한다.
-- 평소에는 2Mbps로 쓰다가, 새벽에 망에 남는 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 널널하면 통신사가 임시로 4Mbps까지 쏠 수 있게 유도리를 부려준다(Burst).
-- 사용자는 싼 맛에 샀지만 트래픽이 널널할 땐 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 쓸 수 있는 엄청난 가성비를 누렸다.
+### 3. 통신 요금 체계의 혁신: [CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/) ([Committed Information Rate](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))
+전용선은 무조건 고정 요금이지만, 프레임 릴레이는 <strong><a href="/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/">CIR</a> (보장 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>)</strong>이라는 요금제를 도입했다.
+- 사용자가 통신사와 "최소 2Mbps는 무조건 보장해 줘([CIR](/studynote/03_network/05_lan_wan_l2_devices/271_cir_fecn_becn_congestion_notification/))"라고 계약한다.
+- 평소에는 2Mbps로 쓰다가, 새벽에 망에 남는 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 널널하면 통신사가 임시로 4Mbps까지 쏠 수 있게 유도리를 부려준다(Burst).
+- 사용자는 싼 맛에 샀지만 트래픽이 널널할 땐 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)을 왕창 쓸 수 있는 엄청난 가성비를 누렸다.
 
-- **📢 섹션 요약 비유**: ** 프레임 릴레이는 아파트에서 각 세대로 들어가는 **"수도관 배관 공사(Virtual Circuit)"**와 같습니다. 메인 상수도관(물리 선로) 하나만 아파트에 끌어오면, 내부에서 파이프를 가상으로 쪼개서 수십 가구에 물([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 동시에 저렴하게 공급할 수 있습니다.
+- **📢 섹션 요약 비유**: ** 프레임 릴레이는 아파트에서 각 세대로 들어가는 **"수도관 배관 공사(Virtual Circuit)"**와 같습니다. 메인 상수도관(물리 선로) 하나만 아파트에 끌어오면, 내부에서 파이프를 가상으로 쪼개서 수십 가구에 물([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))을 동시에 저렴하게 공급할 수 있습니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-프레임 릴레이를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25가 기반 조건을 만든다면, 프레임 릴레이는 그 위에서 핵심 메커니즘을 구현하고, [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
+프레임 릴레이를 볼 때는 앞뒤 개념과의 경계를 함께 봐야 전체 흐름이 선명해진다. 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25가 기반 조건을 만든다면, 프레임 릴레이는 그 위에서 핵심 메커니즘을 구현하고, [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC는 이를 더 확장된 적용 단계로 연결한다. 따라서 단일 정의보다 스위칭 효율과 브로드캐스트 범위에 어떤 차이를 만드는지 비교하는 것이 중요하다.
 
 | 관점 | 선행 개념 | 현재 개념 | 확장 개념 |
 |:---|:---|:---|:---|
-| 초점 | 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25의 기반 정리 | 프레임 릴레이의 핵심 동작 | [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC의 확장 적용 |
+| 초점 | 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25의 기반 정리 | 프레임 릴레이의 핵심 동작 | [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC의 확장 적용 |
 | 자원 관점 | 기본 조건 확보 | 스위칭 효율 최적화 | 규모와 범위 확대 |
-| 판단 포인트 | 도입 가능성 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
+| 판단 포인트 | 도입 가능성 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/) | 현재 메커니즘의 적합성 판단 | 운영·확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 연결 |
 
 - **📢 섹션 요약 비유**: 프레임 릴레이는 비슷한 기술들 사이의 차선을 구분하는 분기점과 같다. 어디서 갈라지는지 알아야 헷갈리지 않는다.
 
@@ -92,18 +89,18 @@ tags = ["studynote-network"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 프레임 릴레이를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25 수준의 기본 대책으로 충분한지, 아니면 프레임 릴레이가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
+실무에서는 프레임 릴레이를 단독 개념으로 외우기보다 어떤 병목을 줄이기 위한 선택인지 먼저 따져야 한다. 특히 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25 수준의 기본 대책으로 충분한지, 아니면 프레임 릴레이가 제공하는 메커니즘이 실제로 필요한지 구분해야 한다. 이후 확장 단계에서는 [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 같은 후속 기술, 자동화 체계, 표준 호환성까지 함께 검토해야 한다.
 
-### 실무 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 실무 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 현재 문제의 핵심이 스위칭 효율 부족인지, 브로드캐스트 범위 악화인지 먼저 분리한다.
-2. 프레임 릴레이가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
-3. 도입 후에는 인접 기술인 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와의 연계 방식을 함께 검증한다.
+2. 프레임 릴레이가 추가하는 복잡도와 운영 이득이 균형을 이루는지 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)한다.
+3. 도입 후에는 인접 기술인 [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와의 연계 방식을 함께 검증한다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 프레임 릴레이의 장점만 보고 트래픽 패턴이나 운영 비용을 무시한 채 과도 도입하는 설계
-- 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25와의 경계를 정리하지 않아 중복 투자나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
+- 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25와의 경계를 정리하지 않아 중복 투자나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 충돌을 만드는 설계
 
 - **📢 섹션 요약 비유**: 프레임 릴레이를 실제로 쓰는 판단은 도구 상자를 고르는 일과 비슷하다. 좋아 보이는 도구보다 지금 문제에 맞는 도구가 중요하다.
 
@@ -111,7 +108,7 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-프레임 릴레이는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
+프레임 릴레이는 LAN/WAN과 2계층 장비를 이해할 때 핵심 축을 잡아 주는 개념이다. 올바르게 적용하면 스위칭 효율 개선과 구조적 단순화에 기여하지만, 조건을 잘못 잡으면 오히려 복잡도와 운영 부담이 커질 수 있다. 앞으로는 [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC, 지능형 캠퍼스 패브릭, 자동화 운영과의 결합을 통해 더 정교하게 발전할 가능성이 크다. 따라서 이 개념은 정의 자체보다 “언제 쓰고 언제 다른 방법으로 넘길 것인가”의 관점으로 기억하는 것이 좋다. 향후에는 지능형 캠퍼스 패브릭 같은 자동화 흐름과 결합되어 더 정교한 형태로 확장될 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 프레임 릴레이는 큰 흐름 속에서 기억해야 오래 남는다. 지금의 장점과 다음 확장 방향을 같이 보면 전체 그림이 선명해진다.
 
@@ -121,10 +118,10 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
-| [MAC](/knowledge-base/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/knowledge-base/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
-| [스위치](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
-| [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
+| 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25 | 현재 개념이 등장하기 전에 갖춰야 할 배경이나 인접 선행 개념이다. |
+| [MAC](/studynote/03_network/13_network_security_basics/673_mac_message_authentication_code/) 주소 ([Media](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) [Access Control](/studynote/02_operating_system/09_file_system/547_access_control_rwx/) Address) | 2계층 전달 대상을 식별하는 기본 주소다. |
+| [스위치](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/) ([Switch](/studynote/03_network/05_lan_wan_l2_devices/238_switch_operation_principles/)) | 프레임을 적절한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)로 전달하는 핵심 장비다. |
+| [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC | 현재 개념이 확장되거나 적용 단계로 이어질 때 자주 함께 언급된다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -138,12 +135,12 @@ tags = ["studynote-network"]
     +---> [확장 B: 지능형 캠퍼스 패브릭]
 ```
 
-프레임 릴레이는 다이얼업 [다중화](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25에서 출발해 현재 메커니즘을 정교화하고, 이후 [PVC](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
+프레임 릴레이는 다이얼업 [다중화](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/), X.25에서 출발해 현재 메커니즘을 정교화하고, 이후 [PVC](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) / SVC와 지능형 캠퍼스 패브릭 같은 확장 흐름으로 이어진다고 보면 기억이 오래간다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 학교 우편함에 이름표가 붙어 있어야 편지가 엉뚱한 곳에 가지 않아요.
-2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
+2. 이 개념은 어느 교실로 보내야 할지 알아보는 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 규칙과 같아요.
 3. 그래서 같은 건물 안에서도 편지가 더 빠르고 질서 있게 움직여요.
 
 ---
@@ -152,7 +149,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 389 / 1120
 
-<- **이전**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/)
-**다음**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) ->
+<- **이전**: [267. 다이얼업 다중화, X.25 (패킷 교환 망 원조)](/studynote/03_network/05_lan_wan_l2_devices/267_dial_up_multiplexing_x25_packet_switching/)
+**다음**: [269. PVC (Permanent Virtual Circuit) / SVC (Switched Virtual Circuit)](/studynote/03_network/05_lan_wan_l2_devices/269_pvc_vs_svc_virtual_circuits/) ->
 
 ---

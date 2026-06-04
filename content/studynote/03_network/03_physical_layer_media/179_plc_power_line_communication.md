@@ -1,16 +1,13 @@
-+++
-title = "179. 전력선 통신 (PLC, Power Line Communication)"
+---
+title: "179. 전력선 통신 (PLC, Power Line Communication)"
+tags:
+  - "network"
+---
 
-[taxonomies]
-tags = ["network"]
-
-[extra]
-tags = ["network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Line Communication)는 50/60Hz 전력을 보내는 기존 전력선 위에 더 높은 주파수의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 중첩해, 전력망 자체를 통신 매질로 재활용하는 기술이다.
+> 1. **본질**: [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/) Line Communication)는 50/60Hz 전력을 보내는 기존 전력선 위에 더 높은 주파수의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 중첩해, 전력망 자체를 통신 매질로 재활용하는 기술이다.
 > 2. **가치**: 새 케이블 포설 없이도 계량기, 건물 내부 네트워크, 산업 설비 같은 곳에 통신 경로를 빠르게 만들 수 있어, 배선 비용이 큰 환경에서 특히 유리하다.
 > 3. **판단 포인트**: 전력선은 본래 통신용으로 설계된 선이 아니므로 노이즈, 감쇠, 변압기 차단, 전파 누설 문제가 크며, 따라서 PLC는 "대체재"보다 "제약 조건이 맞을 때 강한 특수 해법"으로 보는 편이 정확하다.
 
@@ -18,11 +15,11 @@ tags = ["network"]
 
 ## Ⅰ. 개요 및 필요성
 
-전력선 통신은 **이미 깔려 있는 전기선을 통신선처럼 활용하자** 는 발상에서 출발한다. 건물 전체에 전력선은 거의 반드시 존재하므로, 새로운 [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) ([Unshielded Twisted Pair](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))나 광케이블을 깔기 어려운 곳에서는 매우 매력적이다. 특히 계량기 원격 검침, 노후 건물의 실내 네트워크 확장, 산업 설비 모니터링처럼 "배선 공사 비용이 통신 장비 비용보다 더 큰" 상황에서 가치가 크다.
+전력선 통신은 **이미 깔려 있는 전기선을 통신선처럼 활용하자** 는 발상에서 출발한다. 건물 전체에 전력선은 거의 반드시 존재하므로, 새로운 [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/) ([Unshielded Twisted Pair](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/))나 광케이블을 깔기 어려운 곳에서는 매우 매력적이다. 특히 계량기 원격 검침, 노후 건물의 실내 네트워크 확장, 산업 설비 모니터링처럼 "배선 공사 비용이 통신 장비 비용보다 더 큰" 상황에서 가치가 크다.
 
-이 기술이 필요한 이유는 통신 품질만큼이나 <strong>설치 현실성</strong>이 중요하기 때문이다. 광케이블과 Ethernet은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋지만, 이미 사람이 살고 있는 건물이나 광범위한 배전망에 새로 포설하려면 공사비와 시간이 많이 든다. PLC는 전력선이라는 기존 인프라를 활용해 그 부담을 크게 줄인다. 즉 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술이라기보다, <strong>인프라 재사용으로 총구축비를 낮추는 기술</strong>에 가깝다.
+이 기술이 필요한 이유는 통신 품질만큼이나 <strong>설치 현실성</strong>이 중요하기 때문이다. 광케이블과 Ethernet은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 좋지만, 이미 사람이 살고 있는 건물이나 광범위한 배전망에 새로 포설하려면 공사비와 시간이 많이 든다. PLC는 전력선이라는 기존 인프라를 활용해 그 부담을 크게 줄인다. 즉 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 최적화 기술이라기보다, <strong>인프라 재사용으로 총구축비를 낮추는 기술</strong>에 가깝다.
 
-다만 전력선은 원래 깨끗한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 목적으로 만든 선이 아니다. 냉장고, 전자레인지, 모터, 스위칭 전원 장치가 붙을 때마다 임피던스가 흔들리고 잡음이 유입된다. 그래서 PLC를 이해할 때는 "왜 되느냐"만큼 "왜 어려우냐"를 함께 봐야 한다.
+다만 전력선은 원래 깨끗한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 목적으로 만든 선이 아니다. 냉장고, 전자레인지, 모터, 스위칭 전원 장치가 붙을 때마다 임피던스가 흔들리고 잡음이 유입된다. 그래서 PLC를 이해할 때는 "왜 되느냐"만큼 "왜 어려우냐"를 함께 봐야 한다.
 
 - **📢 섹션 요약 비유**: PLC는 새 도로를 까는 대신, 이미 다니는 전기 화물차 도로 위에 작은 택배 오토바이를 함께 달리게 하는 방식과 같다. 길은 이미 있지만, 원래 조용한 택배 도로가 아니어서 계속 흔들리고 시끄럽다.
 
@@ -30,17 +27,17 @@ tags = ["network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-PLC의 핵심 원리는 <strong>저주파 전력과 고주파 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 같은 구리선에 공존시키는 것</strong>이다. 전력은 50/60Hz 대역으로 흐르고, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수 kHz에서 수십 MHz까지의 더 높은 주파수 대역을 사용한다. 송신기는 결합 회로를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 얹고, 수신기는 필터를 이용해 전력 성분과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성분을 다시 분리한다.
+PLC의 핵심 원리는 <strong>저주파 전력과 고주파 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a>를 같은 구리선에 공존시키는 것</strong>이다. 전력은 50/60Hz 대역으로 흐르고, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 수 kHz에서 수십 MHz까지의 더 높은 주파수 대역을 사용한다. 송신기는 결합 회로를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 얹고, 수신기는 필터를 이용해 전력 성분과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 성분을 다시 분리한다.
 
 | 구성 요소 | 역할 | 핵심 포인트 |
 | :--- | :--- | :--- |
-| [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부호화·복조 | 채널 상태에 따라 변조 방식을 조절 |
-| 결합 회로 ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Circuit) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 안전하게 주입 | 전력 성분과 장비 보호를 동시에 고려 |
-| 필터 | 전력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역 분리 | 저역통과/대역통과 설계가 품질 좌우 |
+| [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부호화·복조 | 채널 상태에 따라 변조 방식을 조절 |
+| 결합 회로 ([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Circuit) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 안전하게 주입 | 전력 성분과 장비 보호를 동시에 고려 |
+| 필터 | 전력과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 대역 분리 | 저역통과/대역통과 설계가 품질 좌우 |
 | 전력선 채널 | 실제 전송 매질 | 부하 변화와 잡음으로 특성이 계속 바뀜 |
-| [오류 제어](/knowledge-base/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)/적응형 변조 | 잡음 환경에서 통신 유지 | OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 등이 자주 쓰임 |
+| [오류 제어](/studynote/03_network/04_data_link_layer_error/188_error_control_overview/)/적응형 변조 | 잡음 환경에서 통신 유지 | OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) 등이 자주 쓰임 |
 
-아래 그림은 전력과 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 선에서 어떻게 공존하는지 보여 준다.
+아래 그림은 전력과 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 한 선에서 어떻게 공존하는지 보여 준다.
 
 ```text
 +--------------------------------------------------------------------+
@@ -62,28 +59,28 @@ PLC의 핵심 원리는 <strong>저주파 전력과 고주파 <a href="/knowledg
 
 | 구분 | 대역/속도 감각 | 장점 | 주 용도 |
 | :--- | :--- | :--- | :--- |
-| 협대역 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Narrowband [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 수 kHz ~ 수백 kHz, kbps ~ 수백 kbps | 비교적 긴 거리, 높은 내잡음성 | [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)), 배전망 제어 |
-| 광대역 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Broadband [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 수 MHz ~ 수십 MHz, 수십 ~ 수백 Mbps급 | 건물 내부에서 더 높은 전송률 | 홈 네트워크, 건물 내 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확장 |
+| 협대역 [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Narrowband [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 수 kHz ~ 수백 kHz, kbps ~ 수백 kbps | 비교적 긴 거리, 높은 내잡음성 | [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)), 배전망 제어 |
+| 광대역 [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Broadband [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 수 MHz ~ 수십 MHz, 수십 ~ 수백 Mbps급 | 건물 내부에서 더 높은 전송률 | 홈 네트워크, 건물 내 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 확장 |
 
-즉 PLC는 "전력선에 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 태운다" 한 줄로 끝나는 기술이 아니다. 실제 구현은 채널 적응, 오류 정정, 다중 반사 경로 대응, 필터 설계가 함께 맞물린다. 전력선 채널은 부하가 켜지고 꺼질 때마다 성격이 바뀌므로, 안정적 PLC는 물리계층 적응 능력이 핵심이다.
+즉 PLC는 "전력선에 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 태운다" 한 줄로 끝나는 기술이 아니다. 실제 구현은 채널 적응, 오류 정정, 다중 반사 경로 대응, 필터 설계가 함께 맞물린다. 전력선 채널은 부하가 켜지고 꺼질 때마다 성격이 바뀌므로, 안정적 PLC는 물리계층 적응 능력이 핵심이다.
 
-- **📢 섹션 요약 비유**: PLC는 한 도로에서 [버스](/knowledge-base/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(전력)와 오토바이([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 차선을 나눠 달리게 하는 것과 같다. 차선 분리와 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 조절이 정교해야 둘 다 사고 없이 움직일 수 있다.
+- **📢 섹션 요약 비유**: PLC는 한 도로에서 [버스](/studynote/01_computer_architecture/09_system_bus_interconnects/344_bus/)(전력)와 오토바이([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 차선을 나눠 달리게 하는 것과 같다. 차선 분리와 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 조절이 정교해야 둘 다 사고 없이 움직일 수 있다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-PLC를 제대로 이해하려면 "같은 유선"이라도 **전용 통신선과 재사용 전력선은 출발점부터 다르다** 는 점을 봐야 한다. UTP나 동축 케이블은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 위해 임피던스와 차폐를 고려해 설계되지만, 전력선은 전력 공급이 목적이라 채널 품질이 훨씬 거칠다. 그래서 PLC는 설치 편의성과 공사비에서는 강하지만, 순수 링크 품질에서는 전용 통신 매질보다 불리하다.
+PLC를 제대로 이해하려면 "같은 유선"이라도 **전용 통신선과 재사용 전력선은 출발점부터 다르다** 는 점을 봐야 한다. UTP나 동축 케이블은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 전송을 위해 임피던스와 차폐를 고려해 설계되지만, 전력선은 전력 공급이 목적이라 채널 품질이 훨씬 거칠다. 그래서 PLC는 설치 편의성과 공사비에서는 강하지만, 순수 링크 품질에서는 전용 통신 매질보다 불리하다.
 
-| 비교 축 | [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) | [UTP](/knowledge-base/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)/[Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) | Wi-Fi |
+| 비교 축 | [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) | [UTP](/studynote/03_network/03_physical_layer_media/124_unshielded_twisted_pair/)/[Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/) | Wi-Fi |
 | :--- | :--- | :--- | :--- |
-| 장점 | 기존 전력선 재활용 | 안정적 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 낮은 잡음 | 배선이 거의 불필요 |
+| 장점 | 기존 전력선 재활용 | 안정적 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/), 낮은 잡음 | 배선이 거의 불필요 |
 | 약점 | 잡음·변압기·누설 문제 | 신규 배선 필요 | 간섭, 벽 투과 손실 |
-| 적합 환경 | 재배선이 어려운 유선 대안 | [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성이 최우선인 구간 | 이동성과 신속 배치가 중요한 구간 |
+| 적합 환경 | 재배선이 어려운 유선 대안 | [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)과 안정성이 최우선인 구간 | 이동성과 신속 배치가 중요한 구간 |
 
-또한 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 안에서도 협대역과 광대역의 철학이 다르다. 협대역 PLC는 "느려도 멀리, 안정적으로"가 중요해 계량·제어용에 강하고, 광대역 PLC는 "짧은 거리라도 좀 더 빠르게"가 중요해 실내 네트워크 보강에 쓰인다. 그래서 같은 PLC라도 목표가 AMI인지, 홈 네트워크인지에 따라 설계와 기대 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 달라진다.
+또한 [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 안에서도 협대역과 광대역의 철학이 다르다. 협대역 PLC는 "느려도 멀리, 안정적으로"가 중요해 계량·제어용에 강하고, 광대역 PLC는 "짧은 거리라도 좀 더 빠르게"가 중요해 실내 네트워크 보강에 쓰인다. 그래서 같은 PLC라도 목표가 AMI인지, 홈 네트워크인지에 따라 설계와 기대 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 달라진다.
 
-PLC는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), 홈 네트워크, 산업용 센서 네트워크와 연결되지만, 어디까지나 <strong>보완 기술</strong>로 보는 편이 정확하다. 변압기를 잘 통과하지 못하고, 전기적 노이즈 환경에 민감하며, EMC (Electromagnetic [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 규제도 고려해야 하기 때문이다. 따라서 "전용 통신망을 대체한다"보다 "기존 전력 인프라 덕분에 빠르게 붙일 수 있다"는 장점에 무게를 두어야 한다.
+PLC는 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/), 홈 네트워크, 산업용 센서 네트워크와 연결되지만, 어디까지나 <strong>보완 기술</strong>로 보는 편이 정확하다. 변압기를 잘 통과하지 못하고, 전기적 노이즈 환경에 민감하며, EMC (Electromagnetic [Compatibility](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) 규제도 고려해야 하기 때문이다. 따라서 "전용 통신망을 대체한다"보다 "기존 전력 인프라 덕분에 빠르게 붙일 수 있다"는 장점에 무게를 두어야 한다.
 
 - **📢 섹션 요약 비유**: PLC는 사람들로 붐비는 화물 통로를 잠깐 빌려 쓰는 배달 서비스와 같다. 전용 배달로는 아니지만, 새 통로를 만들기 어려울 때는 꽤 유용한 우회로가 된다.
 
@@ -91,7 +88,7 @@ PLC는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 PLC를 채택할지 판단할 때는 "선이 이미 있다"는 이유만으로 결정하면 안 된다. <strong>같은 변압기/분전반 구간 안에서 통신해야 하는지, 잡음원이 얼마나 많은지, 필요한 속도와 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 목표가 무엇인지</strong> 를 먼저 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 원격 검침은 수 kbps 수준이어도 충분하므로 협대역 PLC가 실용적이지만, [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요한 기업 업무망 주회선으로 PLC를 택하는 것은 위험하다.
+실무에서 PLC를 채택할지 판단할 때는 "선이 이미 있다"는 이유만으로 결정하면 안 된다. <strong>같은 변압기/분전반 구간 안에서 통신해야 하는지, 잡음원이 얼마나 많은지, 필요한 속도와 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a> 목표가 무엇인지</strong> 를 먼저 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)해야 한다. 예를 들어 원격 검침은 수 kbps 수준이어도 충분하므로 협대역 PLC가 실용적이지만, [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 [대역폭](/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/)이 중요한 기업 업무망 주회선으로 PLC를 택하는 것은 위험하다.
 
 대표적인 적합 사례는 다음과 같다.
 
@@ -120,19 +117,19 @@ PLC는 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot
 +--------------------------------------------------------------------+
 ```
 
-실무 판단의 핵심은 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치보다 <strong>환경 적합성</strong>이다. PLC는 조건이 맞으면 매우 경제적이지만, 조건이 틀리면 링크 품질이 들쭉날쭉해 운영 비용이 더 커질 수 있다. 따라서 현장 시험, 분전 구조 [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 잡음 계측, 규제 검토가 선행되어야 한다.
+실무 판단의 핵심은 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 수치보다 <strong>환경 적합성</strong>이다. PLC는 조건이 맞으면 매우 경제적이지만, 조건이 틀리면 링크 품질이 들쭉날쭉해 운영 비용이 더 커질 수 있다. 따라서 현장 시험, 분전 구조 [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/), 잡음 계측, 규제 검토가 선행되어야 한다.
 
-- **📢 섹션 요약 비유**: [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 도입 판단은 오래된 건물 계단을 엘리베이터 대신 임시 운반로로 써도 되는지 보는 일과 같다. 짐이 가볍고 계단이 안정적이면 쓸 만하지만, 무겁고 흔들리면 오히려 사고가 난다.
+- **📢 섹션 요약 비유**: [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) 도입 판단은 오래된 건물 계단을 엘리베이터 대신 임시 운반로로 써도 되는지 보는 일과 같다. 짐이 가볍고 계단이 안정적이면 쓸 만하지만, 무겁고 흔들리면 오히려 사고가 난다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-PLC의 가장 큰 효과는 <strong>기존 전력 인프라를 활용해 통신 연결을 빠르게 만들 수 있다는 점</strong>이다. 배선 공사 시간이 줄고, 계량기·가정·산업 설비처럼 이미 전력이 들어가는 지점에 통신을 붙이기 쉬워진다. 그래서 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)와 건물 내 보완망 같은 분야에서는 여전히 실용적인 선택지다.
+PLC의 가장 큰 효과는 <strong>기존 전력 인프라를 활용해 통신 연결을 빠르게 만들 수 있다는 점</strong>이다. 배선 공사 시간이 줄고, 계량기·가정·산업 설비처럼 이미 전력이 들어가는 지점에 통신을 붙이기 쉬워진다. 그래서 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/)와 건물 내 보완망 같은 분야에서는 여전히 실용적인 선택지다.
 
-하지만 PLC는 목적이 분명할 때 빛난다. 전력선은 잡음과 감쇠가 큰 비정상적인 통신 채널이므로, 광케이블·[Ethernet](/knowledge-base/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·전용 무선망처럼 예측 가능한 품질을 기대하면 실망하기 쉽다. 따라서 PLC는 범용 백본이 아니라, <strong>"새 선을 깔기 어렵고, 요구 <a href="/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 제한적이며, 전력선 환경을 통제할 수 있을 때" 강한 기술</strong>로 기억하는 것이 맞다.
+하지만 PLC는 목적이 분명할 때 빛난다. 전력선은 잡음과 감쇠가 큰 비정상적인 통신 채널이므로, 광케이블·[Ethernet](/studynote/03_network/05_lan_wan_l2_devices/230_ethernet_structure_and_principles_ieee_802_3/)·전용 무선망처럼 예측 가능한 품질을 기대하면 실망하기 쉽다. 따라서 PLC는 범용 백본이 아니라, <strong>"새 선을 깔기 어렵고, 요구 <a href="/studynote/01_computer_architecture/03_architecture_basics_performance/140_bandwidth/">대역폭</a>이 제한적이며, 전력선 환경을 통제할 수 있을 때" 강한 기술</strong>로 기억하는 것이 맞다.
 
-앞으로도 PLC는 단독 해법보다는 하이브리드 구조에서 가치가 크다. 예를 들어 백본은 광케이블로 구성하고, 마지막 구간이나 검침 구간만 PLC를 쓰는 방식이다. 즉 PLC의 핵심은 최고 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라, <strong>기존 인프라를 통신 자원으로 전환하는 경제성</strong>에 있다.
+앞으로도 PLC는 단독 해법보다는 하이브리드 구조에서 가치가 크다. 예를 들어 백본은 광케이블로 구성하고, 마지막 구간이나 검침 구간만 PLC를 쓰는 방식이다. 즉 PLC의 핵심은 최고 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 아니라, <strong>기존 인프라를 통신 자원으로 전환하는 경제성</strong>에 있다.
 
 - **📢 섹션 요약 비유**: PLC는 새 다리를 짓는 대신, 이미 있는 철길 옆 보행로를 잠시 통신 길로 빌려 쓰는 방법과 같다. 최고속 도로는 아니지만, 상황이 맞으면 매우 빠르게 길을 열 수 있다.
 
@@ -142,13 +139,13 @@ PLC의 가장 큰 효과는 <strong>기존 전력 인프라를 활용해 통신 
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 협대역 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Narrowband [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 스마트 미터링과 제어 중심의 저속·장거리 계열이다 |
-| 광대역 [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Broadband [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 건물 내부 네트워크 확장에 쓰이는 고속 계열이다 |
-| 결합 회로 ([Coupling](/knowledge-base/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Circuit) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 안전하게 주입하는 핵심 인터페이스다 |
-| OFDM (Orthogonal Frequency [Division](/knowledge-base/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/knowledge-base/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) | 잡음이 심한 채널에 적응하기 위해 자주 쓰이는 변조 방식이다 |
-| [AMI](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)) | PLC가 널리 적용되는 대표적인 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 활용 사례다 |
-| 변압기 ([Transformer](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | [PLC](/knowledge-base/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)의 도달 범위를 제한하는 대표적 물리 장벽이다 |
-| EMC (Electromagnetic [Compatibility](/knowledge-base/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) | 전파 누설과 간섭 문제를 규제 관점에서 다루는 기준이다 |
+| 협대역 [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Narrowband [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 스마트 미터링과 제어 중심의 저속·장거리 계열이다 |
+| 광대역 [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) (Broadband [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/)) | 건물 내부 네트워크 확장에 쓰이는 고속 계열이다 |
+| 결합 회로 ([Coupling](/studynote/04_software_engineering/04_testing_quality/195_coupling_levels/) Circuit) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 전력선에 안전하게 주입하는 핵심 인터페이스다 |
+| OFDM (Orthogonal Frequency [Division](/studynote/05_database/07_exam_summary/411_division_operation/) [Multiplexing](/studynote/03_network/02_multiplexing_multiple_access/071_다중화_Multiplexing/)) | 잡음이 심한 채널에 적응하기 위해 자주 쓰이는 변조 방식이다 |
+| [AMI](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/) ([Advanced Metering Infrastructure](/studynote/06_ict_convergence/02_iot_mobility/162_ami_advanced_metering_infrastructure/)) | PLC가 널리 적용되는 대표적인 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) 활용 사례다 |
+| 변압기 ([Transformer](/studynote/14_data_engineering/05_exam_keywords/246_transformer_self_attention_parallel_positional_encoding/)) | [PLC](/studynote/09_security/18_iot_ot_physical/896_plc_programmable_logic_controller/) [신호](/studynote/02_operating_system/02_process_thread/130_signal/)의 도달 범위를 제한하는 대표적 물리 장벽이다 |
+| EMC (Electromagnetic [Compatibility](/studynote/04_software_engineering/06_software_architecture/344_compatibility_usability/)) | 전파 누설과 간섭 문제를 규제 관점에서 다루는 기준이다 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -180,7 +177,7 @@ PLC (Power Line Communication)
 
 **진행 상황**: 300 / 1120
 
-<- **이전**: [178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)](/knowledge-base/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)
-**다음**: [180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON](/knowledge-base/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/) ->
+<- **이전**: [178. 스몰셀 (Small Cell) / 매크로셀 (Macro Cell) / 펨토셀 (Femto Cell)](/studynote/03_network/03_physical_layer_media/178_small_cell_macro_femto/)
+**다음**: [180. xPON (Passive Optical Network) - EPON, GPON, 10G-PON](/studynote/03_network/03_physical_layer_media/180_xpon_epon_gpon_10gpon/) ->
 
 ---

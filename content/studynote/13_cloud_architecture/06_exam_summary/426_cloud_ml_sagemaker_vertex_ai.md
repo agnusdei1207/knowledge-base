@@ -1,175 +1,194 @@
-+++
-title = "426. 클라우드 ML 세이지메이커 버텍스 AI (Cloud ML SageMaker Vertex AI)"
-date = 2026-05-09
+---
+title: "426. 클라우드 ML 세이지메이커 버텍스 AI (Cloud ML SageMaker Vertex AI)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 ML 세이지메이커 버텍스 AI은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: AWS SageMaker와 GCP Vertex AI는 데이터 준비->모델 학습->튜닝->배포->모니터링으로 이어지는 end-to-end MLOps 파이프라인을 매니지드 서비스로 제공하며, SageMaker Studio/Studio Lab IDE, SageMaker Pipelines(SageMaker Airflow/Kubernetes 기반 오케스트레이션), Feature Store(Online/Offline Store 분리), Multi-Model Endpoints, SageMaker Neo(런타임 최적화) 및 Vertex AI Workbench(managed JupyterLab), Vertex AI Pipelines(Kubeflow Pipelines v2 호환), Vertex AI Feature Store(Online serving via Bigtable, Offline via BigQuery), Vector Search(전 ScaNN 기반), Model Garden, GenAI Studio(파운데이션 모델 튜닝)로 구성된다.
+> 2. **가치**: 자체 인프라 대비 학습 시간 70~90% 단축(Spot Instance + SageMaker Training Compiler / Vertex AI Reduction Server), GPU/TPU 비용 50% 이상 절감(예: ml.p4d.24xlarge vs 직접 구매 A100), Feature Store를 통한 학습-서빙 데이터 스큐(TSBS, Training-Serving Bias) 제거, MLOps 자동화로 모델 재학습·드리프트 감지·A/B 트래픽 분배(Canary/Shadow)를 코드형 IaC(CloudFormation/Terraform/Pulumi)로 일관성 있게 운영 가능.
+> 3. **판단 포인트**: 멀티클라우드·하이브리드 전략 시 인터롭 표준(ModelCard, ModelBiasReport, Open Inference Protocol), 데이터 주권(리전/CMK/VPC Service Controls)·규제 컴플라이언스(IRAP, ISO 27001, K-ISMS-P), Feature Store의 Online/Offline 일관성 보장 방식(SageMaker는 In-memory/Redis, Vertex는 Bigtable), 컴퓨팅 선택(SageMaker ml.trn1/inf2(Tranium) vs Vertex A3/H3(GB200 NVL72)), 그리고 GenAI 시대의 RAG(Vector Search vs pgvector vs OpenSearch)·파인튜닝 전략(LoRA/QLoRA vs Vertex GenAI Studio Tuning) 결정이 핵심 트레이드오프.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 ML 세이지메이커 버텍스 AI은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
-
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud ML SageMaker Vertex AI 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+엔터프라이즈 ML 워크로드는 ① 데이터 양의 폭증(PB급 Lake on S3/GCS), ② 모델 복잡도의 기하급수적 증가(Billion~Trillion 파라미터, MoE, Diffusion), ③ 운영 부담(재학습·드리프트·규제 대응)이라는 3중 압력을 받는다. 전통적 On-Premise ML Stack(Spark + GPU 서버 + Airflow + MLflow + Flask serving)은 ML플래폼 엔지니어 1인당 관리 모델 수 5~10개가 한계였으며, 2017년 AWS SageMaker 등장으로 "managed Jupyter + Training Jobs + Endpoints" 표준이 정립되었고, GCP는 AI Platform(2017)->Vertex AI(2021)로 통합·재편되어 SageMaker Studio와 대등한 통합 플랫폼으로 격상되었다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 ML 세이지메이커 버텍스 AI 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++--------------------------------------------------------------------------+
+|            On-Premise ML vs Cloud Managed ML(SageMaker / Vertex)         |
++--------------------------------------------------------------------------+
+|                                                                          |
+|  [전통적 On-Premise ML]                      [Cloud Managed ML]          |
+|  +-------------------+                      +-----------------------+    |
+|  | Data Lake (HDFS)  |                      | S3 / GCS / BigQuery   |    |
+|  |   v               |                      |   v (Native)          |    |
+|  | Spark/Hadoop      |   ------->            | Glue / Dataflow       |    |
+|  |   v               |                      |   v                   |    |
+|  | GPU Server Farm   |   Managed            | Training Job (Spot)   |    |
+|  | (수동 프로비저닝) |   Service화          | ml.p5/p4d/H100/A100   |    |
+|  |   v               |                      |   v                   |    |
+|  | Airflow + MLflow  |                      | Pipelines(KFP/StepFn) |    |
+|  |   v               |                      |   v                   |    |
+|  | Flask + Gunicorn  |                      | Endpoint(Auto-Scale)  |    |
+|  |   v               |                      |   v                   |    |
+|  | Grafana/Prometheus|                      | Model Monitor/CloudMon|    |
+|  +-------------------+                      +-----------------------+    |
+|   - 6~12개월 구축, MLOps 인력 5명+ 필요      - 클릭 5회로 프로덕션 배포   |
+|   - 활용률 30% 이하 (자원 낭비)              - 활용률 70%+ (Auto-Scale) |
+|   - 재현성/감사 추적 어려움                 - Lineage(Feature->Model)  |
++--------------------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**필요성 정량 지표**:
+- IDC 2024 보고서 — Fortune 500 기업의 73%가 최소 1개 이상의 Cloud ML Platform 운영 중
+- ML 모델 평균 배포 사이클 — On-Prem 90일 vs SageMaker/Vertex 14일
+- GPU 인스턴스 CapEx(OpEx 전환) — H100 80GB 1장당 1,200만원(2024) -> ml.p5.48xlarge 시간당 $98.32로 즉시 사용
 
-- **📢 섹션 요약 비유**: 클라우드 ML 세이지메이커 버텍스 AI은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 데이터·모델·배포가 한꺼번에 폭증하는데, 옛날 방식으로는 "매번 수제로 요리하는 셰프"였다면, SageMaker/Vertex AI는 **"주방·냉장고·오븐·서빙까지 전부 갖춘 스마트 주방"** — 레시피(파이프라인)만 주면 자동으로 음식(모델)이 만들어지고 손님(추론 요청)에게 서빙된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 ML 세이지메이커 버텍스 AI의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### A. AWS SageMaker 핵심 컴포넌트 아키텍처
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud ML SageMaker Vertex AI 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                    +-------------------------------------+
+                    |  SageMaker Studio / Studio Lab     |  IDE: JupyterLab + IDE
+                    |  (Web-based, SSO/IAM 통합)           |  + Experiments + Trials
+                    +------------+------------------------+
+                                 | SDK(boto3) / Python / Autopilot UI
+                                 v
+        +--------------------------------------------------------+
+        |                  SageMaker Studio Domain              |
+        |  +----------+  +----------+  +---------+  +--------+ |
+        |  | Data Wrgl|  | Ground   |  |Feature  |  |Clarify | |  데이터·윤리
+        |  | (Wrangler|  | Truth    |  |Store    |  |(Bias/  | |
+        |  | + EMR)   |  |(Labeling)|  |(Online/ |  |Explain.)| |
+        |  +----+-----+  +----+-----+  |Offline) |  +---+----+ |
+        |       |              |        +----+----+      |      |
+        +-------+--------------+-------------+-----------+------+
+                |              |             |           |
+        +-------v--------------v-------------v-----------v------+
+        |              SageMaker Pipelines (Step Functions)     |
+        |  Processing -> Training(Tuning) -> Model Eval ->       |
+        |  Register -> Condition -> Deploy -> Monitor            |
+        +-------+--------------+-------------+------------------+
+                |              |             |
+                v              v             v
+        +-------------+  +--------------+  +----------------+
+        |  Training   |  |   Inference  |  |   Model        |
+        |  Job (Spot) |  |   Endpoint   |  |   Registry     |
+        |             |  | +----------+ |  |  (Lineage)     |
+        | - Distributed| | |Real-Time | |  |  + Model Cards |
+        |  (DDP/FSDP) |  | +----------+ |  |  (Gov/Reg)     |
+        | - Training  |  | |Batch Trnf| |  +----------------+
+        |  Compiler  |  | +----------+ |
+        | - Debugger  |  | |Multi-Model| |
+        | - Profiler  |  | +----------+ |
+        | - Heterog.  |  | |Asynchron.| |
+        |  Cluster    |  | +----------+ |
+        |             |  | |Serverless| |
+        |             |  | +----------+ |
+        |             |  | |SageMaker | |
+        |             |  | |Neo(opt)  | |
+        |             |  | +----------+ |
+        |             |  | |Inf2(TRN) | |
+        +-------------+  | +----------+ |
+                         +----------------+
+                                 |
+                                 v
+        +--------------------------------------------------+
+        |  Model Monitor (Drift / Bias / Feature Attribution|
+        |  Data Quality / Model Quality / Bias Drift         |
+        |  -> CloudWatch / EventBridge -> 자동 재학습 트리거   |
+        +--------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-클라우드 ML 세이지메이커 버텍스 AI을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 ML 세이지메이커 버텍스 AI |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 ML 세이지메이커 버텍스 AI은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 ML 세이지메이커 버텍스 AI은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 ML 세이지메이커 버텍스 AI을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 ML 세이지메이커 버텍스 AI을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 ML 세이지메이커 버텍스 AI 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 ML 세이지메이커 버텍스 AI은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 ML 세이지메이커 버텍스 AI의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 ML 세이지메이커 버텍스 AI의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### B. GCP Vertex AI 핵심 컴포넌트 아키텍처
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 ML 세이지메이커 버텍스 AI 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+                       +--------------------------+
+                       |  Vertex AI Workbench     |  Managed JupyterLab
+                       |  (User-managed / Mngd)   |  + Colab Enterprise
+                       +------------+-------------+
+                                    | SDK(google-cloud-aiplatform)
+                                    v
+        +------------------------------------------------------+
+        |                Vertex AI Platform (Unified)          |
+        |  +----------+  +----------+  +----------+ +--------+|
+        |  |  Datasets|  | Feature  |  |  Model   | |Vector  ||
+        |  |  (CSV/   |  |  Store   |  | Registry | |Search  ||
+        |  |   TFRec) |  |(Bigtable/|  |(Mgnd/OSS)| |(ScaNN) ||
+        |  +----+-----+  | BigQuery)|  +----+-----+ +---+----+|
+        |       |        +----+-----+       |           |     |
+        +-------+-------------+-------------+-----------+-----+
+                |             |             |           |
+        +-------v-------------v-------------v-----------v-----+
+        |          Vertex AI Pipelines (Kubeflow v2)         |
+        |  Kubeflow DSL / TFX / Custom Components             |
+        |  (Google Cloud Build + Artifact Registry 실행)       |
+        +-------+-------------+-------------------------------+
+                |             |
+                v             v
+        +--------------+  +---------------------+
+        |  Training    |  |  Prediction Endpoints|
+        |  - Custom    |  |  - Online Predict    |
+        |  - AutoML    |  |  - Batch Predict     |
+        |  - GenAI     |  |  - Private Endpoint  |
+        |    Tuning    |  |  - GenAI Endpoints   |
+        |  - Reduction |  |  - Vector Search     |
+        |    Server    |  |  - Matching Engine   |
+        |  - TPU v5e/  |  +----------+----------+
+        |    H100/A100 |             |
+        |  - A3 (GB200)|             v
+        +--------------+  +----------------------+
+                          | Vertex AI Model      |
+                          | Monitoring           |
+                          | (Drift / Skew /      |
+                          |  Feature Attribution)|
+                          +----------------------+
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### C. 구성 요소별 세부 명세
 
-1. 클라우드 ML 세이지메이커 버텍스 AI은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Data Wrangler / Vertex Datasets** | 데이터 전처리·EDA | SageMaker: 300+ 변환(스크립트 자동 생성, Quick Model); Vertex: BigQuery/Federated Query로 SQL-기반 변환 + Data Labeling(외부 인력/AI-Assisted) |
+| **Ground Truth / Vertex Data Labeling** | 라벨링 작업 관리 | Active Learning 라운드, 객체 분할(3D/2D), Vertex는 Gemini 기반 AI-Assisted Pre-Labeling 지원 |
+| **Feature Store (Online/Offline)** | 피처 중앙 관리·서빙 | SageMaker: Online은 In-memory Dict(밀리초) / ElastiCache Redis, Offline은 S3+Iceberg; Vertex: Online은 Bigtable(10ms p99), Offline은 BigQuery(SQL 조인) |
+| **Pipelines** | 워크플로우 오케스트레이션 | SageMaker: Step Functions 기반 DAG(SageMaker Airflow Operator 연동); Vertex: Kubeflow Pipelines v2 SDK + Argo Workflows, 재시도/캐싱(lineage-aware caching) |
+| **Training Compute** | 분산 학습 | SageMaker: DDP/FSDP/SM Distributed Data Parallel + Training Compiler(XLA, 30~50% 학습 시간 단축), Heterogeneous Cluster(Head:CPU, Worker:GPU); Vertex: Reduction Server(NCCL 플러그인, 100Gbps), TPU v5e/v6, A3(H100), A3 Mega(GB200 NVL72) |
+| **Hyperparameter Tuning** | 자동 하이퍼파라미터 탐색 | SageMaker: Bayesian/Random + Warm Start + Hyperband; Vertex: Vertex AI Vizier(Bayesian + Transfer Tuning + Multi-Objective) |
+| **AutoML** | 자동 모델 탐색·학습 | SageMaker Autopilot: 최대 50개 모델 동시 탐색 + 앙상블; Vertex AutoML: Tabular/Timeseries/Image/Text/Video 도메인 특화, AutoGluon/H2O 백엔드 + LLM AutoML |
+| **Endpoints** | 추론 서빙 | SageMaker: Real-time, Async(청크+S3), Batch(완전 관리), Multi-Model(동적 로딩 1k+ 모델), Serverless(콜드 스타트 1~3s), Neo 컴파일(10x throughput, 1/10 메모리); Vertex: Online/Batch/Private Service Access, GenAI Endpoints(Claude/Gemini/Llama), Vector Search(ANN, ScaNN) |
+| **Model Registry** | 모델 버전·메타데이터 관리 | SageMaker: Model Group/Version + Model Card(책임 있는 AI), Approval workflow; Vertex: Model Registry + Evaluation(MaaS) + Model Garden(200+ 파운데이션 모델) |
+| **Model Monitor** | 드리프트 감지·자동 재학습 | SageMaker: Data/Model/Bias/Feature-Attribution Drift -> CloudWatch -> EventBridge Lambda -> SageMaker Pipeline Trigger; Vertex: Drift Detection(Skew) + Auto-Restart Training Trigger + Explainable AI |
+| **Neo / Optimization** | 런타임 최적화 | SageMaker Neo: XGBoost/TF/PyTorch/MXNet -> CPU/GPU/Inf1(ML Inf)/Inf2(AWS Trainium) 타겟 컴파일; Vertex는 TF-TRT/Torch-TensorRT/OpenXLA 호환 |
 
----
+### D. 핵심 알고리즘 / 메커니즘
 
+**1) SageMaker Heterogeneous Cluster**
+```
+[Head Node (ml.m5.xlarge)] -- step 데이터 broadcast / gradient reduce --+
+   | Param Server, Gang Scheduling, EFA(400Gbps)                          |
+   v                                                                      |
+[GPU Worker Nodes (ml.p5.48xlarge × 8)] ---- AllReduce(8x H100) ----------+
+```
+EFA(Elastic Fabric Adapter) + NCCL AllReduce로 8K GPU까지 선형 확장. Training Compiler는 XLA 그래프 최적화(연산자 융합, 메모리 계획)로 동일 epoch 대비 30~50% 시간 단축.
+
+**2) Vertex AI Reduction Server**
+- 표준 NCCL AllReduce는 NIC 대역폭에서 병목 -> Vertex는 **커널 우회 커스텀 AllReduce**를 제공해 Gradient 전송 단계에서 1
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 426 / 800
 
-<- **이전**: [425. 클라우드 ETL 글루 데이터플로 데이터퓨전](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/425_cloud_etl_glue_dataflow_datafusion/)
-**다음**: [427. GPU 인스턴스 AI 학습 추론 최적화](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/427_gpu_instance_ai_training_inference/) ->
+<- **이전**: [425. 클라우드 ETL 글루 데이터플로 데이터퓨전](/studynote/13_cloud_architecture/06_exam_summary/425_cloud_etl_glue_dataflow_datafusion/)
+**다음**: [427. GPU 인스턴스 AI 학습 추론 최적화](/studynote/13_cloud_architecture/06_exam_summary/427_gpu_instance_ai_training_inference/) ->
 
 ---

@@ -1,28 +1,25 @@
-+++
-title = "259. 페이징 (Paging)"
-date = 2026-05-09
+---
+title: "259. 페이징 (Paging)"
+date: "2026-05-09"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 페이징 (Paging)은 프로세스가 사용하는 논리적 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 물리적 RAM 공간을 <strong>모두 동일한 크기(보통 4KB)의 고정된 블록(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> / Frame)으로 잘게 썰어서 1:1로 매핑</strong>시키는 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 절대적인 메모리 관리 기법이다.
-> 2. **가치**: 메모리를 깍두기처럼 똑같은 크기로 썰어버림으로써 남는 빈 공간을 찾기 위한 복잡한 연산을 없애고, 빈 곳이 생기는 즉시 순서와 상관없이 아무 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 끼워 넣을 수 있어 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>) 문제를 100% 원천 차단</strong>했다.
-> 3. **융합**: 하지만 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 수백만 개로 쪼개지면 이를 관리하는 지도([Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)) 자체가 너무 무거워지므로, 하드웨어 주소 변환 캐시인 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong>와 <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/">다단계 페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">Hierarchical Paging</a>)</strong> 기법이 필수적으로 융합되어 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 막아낸다.
+> 1. **본질**: 페이징 (Paging)은 프로세스가 사용하는 논리적 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)와 물리적 RAM 공간을 <strong>모두 동일한 크기(보통 4KB)의 고정된 블록(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a> / Frame)으로 잘게 썰어서 1:1로 매핑</strong>시키는 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 절대적인 메모리 관리 기법이다.
+> 2. **가치**: 메모리를 깍두기처럼 똑같은 크기로 썰어버림으로써 남는 빈 공간을 찾기 위한 복잡한 연산을 없애고, 빈 곳이 생기는 즉시 순서와 상관없이 아무 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)나 끼워 넣을 수 있어 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>) 문제를 100% 원천 차단</strong>했다.
+> 3. **융합**: 하지만 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)가 수백만 개로 쪼개지면 이를 관리하는 지도([Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/)) 자체가 너무 무거워지므로, 하드웨어 주소 변환 캐시인 <strong><a href="/studynote/02_operating_system/06_memory_management/357_tlb/">TLB</a>(<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/291_tlb/">Translation Lookaside Buffer</a>)</strong>와 <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/289_multilevel_page_table/">다단계 페이지 테이블</a>(<a href="/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">Hierarchical Paging</a>)</strong> 기법이 필수적으로 융합되어 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 저하를 막아낸다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 `페이지(Page)`라는 고정 크기 블록으로 나누고, 물리 메모리를 `프레임(Frame)`이라는 똑같은 크기의 블록으로 나누어, <strong>OS가 찢어진 <a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들을 흩어져 있는 빈 프레임에 테트리스처럼 욱여넣고 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>로 길을 연결해 주는 기술</strong>이다.
-- **필요성**: 페이징이 없던 시절([연속 메모리 할당](/knowledge-base/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/))에는 100MB짜리 프로그램을 띄우려면 RAM에 100MB의 '빈 연속 공간'이 있어야만 했다. 하지만 10MB, 20MB짜리 프로그램들이 켜졌다 꺼졌다를 반복하며 RAM은 치즈처럼 구멍이 숭숭 뚫렸고, 빈 공간을 다 합치면 200MB인데 정작 100MB짜리 연속 공간이 없어서 프로그램을 실행 못 하는 끔찍한 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>가 발생했다. 이를 막으려면 애초에 프로그램을 "연속적으로 올리지 않겠다"는 발상의 전환이 필요했다.
+- **개념**: [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)를 `페이지(Page)`라는 고정 크기 블록으로 나누고, 물리 메모리를 `프레임(Frame)`이라는 똑같은 크기의 블록으로 나누어, <strong>OS가 찢어진 <a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a>들을 흩어져 있는 빈 프레임에 테트리스처럼 욱여넣고 <a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>로 길을 연결해 주는 기술</strong>이다.
+- **필요성**: 페이징이 없던 시절([연속 메모리 할당](/studynote/02_operating_system/06_memory_management/338_contiguous_memory_allocation/))에는 100MB짜리 프로그램을 띄우려면 RAM에 100MB의 '빈 연속 공간'이 있어야만 했다. 하지만 10MB, 20MB짜리 프로그램들이 켜졌다 꺼졌다를 반복하며 RAM은 치즈처럼 구멍이 숭숭 뚫렸고, 빈 공간을 다 합치면 200MB인데 정작 100MB짜리 연속 공간이 없어서 프로그램을 실행 못 하는 끔찍한 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">External Fragmentation</a>)</strong>가 발생했다. 이를 막으려면 애초에 프로그램을 "연속적으로 올리지 않겠다"는 발상의 전환이 필요했다.
 
-- **등장 배경**: 1960년대 초반 Ferranti Atlas 컴퓨터에서 처음 개념이 증명되었으며, 이후 프로세스가 메모리의 연속성에 얽매이지 않고 남는 자원을 극한으로 활용하려는 [다중 프로그래밍](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 핵심 도구로 모든 범용 OS를 지배하게 되었다.
+- **등장 배경**: 1960년대 초반 Ferranti Atlas 컴퓨터에서 처음 개념이 증명되었으며, 이후 프로세스가 메모리의 연속성에 얽매이지 않고 남는 자원을 극한으로 활용하려는 [다중 프로그래밍](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/)([Multiprogramming](/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/))의 핵심 도구로 모든 범용 OS를 지배하게 되었다.
 
 ```text
   [연속 할당의 한계(외부 단편화) vs 페이징의 불연속 매핑 마법]
@@ -37,26 +34,26 @@ tags = ["studynote-operating-system"]
   - CPU가 P3를 실행할 때, "페이지 테이블"이라는 내비게이션을 보고
     이리저리 흩어진 조각들을 순서대로 찾아가며 완벽하게 실행해 낸다.
 ```
-**[다이어그램 해설]** 페이징은 인간의 직관(연속성)을 철저히 파괴하고 기계의 효율성(파편화 허용)을 극대화한 시스템이다. 메모리가 물리적으로 찢어져 있어도, CPU 입장에서는 <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>이 가리키는 주소로 가면 무조건 다음 코드가 있다"</strong>는 논리적 연속성(Logical Contiguity)만 보장되면 그만이기 때문이다.
+**[다이어그램 해설]** 페이징은 인간의 직관(연속성)을 철저히 파괴하고 기계의 효율성(파편화 허용)을 극대화한 시스템이다. 메모리가 물리적으로 찢어져 있어도, CPU 입장에서는 <strong>"<a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>이 가리키는 주소로 가면 무조건 다음 코드가 있다"</strong>는 논리적 연속성(Logical Contiguity)만 보장되면 그만이기 때문이다.
 
-- **📢 섹션 요약 비유**: 영화 필름을 통째로 1개 영화관에서 틀면 다른 영화를 못 틉니다([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)). 하지만 영화를 1초 단위 필름 조각([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 다 잘라서 전국 100개 영화관(Frame)에 흩뿌려 놓고, 관객의 눈앞에 특수 안경([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))을 씌워 그 조각들을 원래 순서대로 이어지게 보여주면(논리적 연속), 공간 낭비 0%로 모든 관객이 영화를 볼 수 있습니다.
+- **📢 섹션 요약 비유**: 영화 필름을 통째로 1개 영화관에서 틀면 다른 영화를 못 틉니다([연속 할당](/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)). 하지만 영화를 1초 단위 필름 조각([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 다 잘라서 전국 100개 영화관(Frame)에 흩뿌려 놓고, 관객의 눈앞에 특수 안경([페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/))을 씌워 그 조각들을 원래 순서대로 이어지게 보여주면(논리적 연속), 공간 낭비 0%로 모든 관객이 영화를 볼 수 있습니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 페이징의 3대 핵심 구조체 ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), Frame, [Page Table](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))
+### 페이징의 3대 핵심 구조체 ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/), Frame, [Page Table](/studynote/02_operating_system/06_memory_management/353_page_table/))
 
-1. <strong><a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (<a href="/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong>: 개발자가 짠 프로그램([가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))을 일정한 크기로 자른 조각. (예: [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 0, [Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1...)
-2. **프레임 (Frame)**: 실제 물리적 RAM을 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 똑같은 크기로 자른 빈 방. (예: Frame 3, Frame [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)...)
-3. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>)</strong>: "[Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1번은 Frame 10번에 있다"라고 매핑해 두는 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 속의 1차원 [배열](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/055_array/)(지도).
+1. <strong><a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">페이지</a> (<a href="/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/">Page</a>)</strong>: 개발자가 짠 프로그램([가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/))을 일정한 크기로 자른 조각. (예: [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 0, [Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1...)
+2. **프레임 (Frame)**: 실제 물리적 RAM을 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)와 똑같은 크기로 자른 빈 방. (예: Frame 3, Frame [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)...)
+3. <strong><a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a> (<a href="/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>)</strong>: "[Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 1번은 Frame 10번에 있다"라고 매핑해 두는 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 메모리 속의 1차원 [배열](/studynote/08_algorithm_stats/04_datastructure/055_array/)(지도).
 
 ### CPU 주소 변환 (Address Translation)의 수학적 원리
-CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</strong>만 본다. [MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 장치) 하드웨어가 이 가상 주소를 쪼개서 진짜 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)</strong>로 변환한다.
+CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</strong>만 본다. [MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)(메모리 관리 장치) 하드웨어가 이 가상 주소를 쪼개서 진짜 <strong><a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">물리 주소</a>(<a href="/studynote/02_operating_system/06_memory_management/323_physical_address/">Physical Address</a>)</strong>로 변환한다.
 
 가상 주소는 두 부분으로 나뉜다: **$v = (p, d)$**
-- **$p$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)**: [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/)에서 내가 찾을 조각의 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호. (책의 몇 번째 '장'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
-- **$d$ ([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset)**: 그 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각 안에서의 변위(떨어진 거리). (그 '장' 안에서 몇 번째 '줄'[인가](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
+- **$p$ ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Number)**: [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/)에서 내가 찾을 조각의 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 번호. (책의 몇 번째 '장'[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
+- **$d$ ([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) Offset)**: 그 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 조각 안에서의 변위(떨어진 거리). (그 '장' 안에서 몇 번째 '줄'[인가](/studynote/04_software_engineering/08_security_compliance_devsecops/509_authorization_models_rbac_abac/)?)
 
 ```text
   +------------------------------------------------------------------------+
@@ -80,48 +77,48 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
   |  4. RAM의 0x9234 번지에 꽂혀있는 진짜 데이터를 가져와 CPU에 바침.      |
   +------------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** 여기서 가장 소름 돋는 점은 **오프셋($d$)은 절대 변하지 않는다**는 것이다. [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에서 1페이지의 50번째 줄에 있던 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 메모리 프레임으로 통째로 이사 가도 여전히 그 프레임의 50번째 줄에 있다. 박스 채로 짐을 옮겼기 때문이다. MMU는 단지 "박스 번호(p)"를 "트럭 번호(f)"로 치환하는 단순 문자열 치환 놀이만 할 뿐이다.
+**[다이어그램 해설]** 여기서 가장 소름 돋는 점은 **오프셋($d$)은 절대 변하지 않는다**는 것이다. [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)에서 1페이지의 50번째 줄에 있던 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는, 물리 메모리 프레임으로 통째로 이사 가도 여전히 그 프레임의 50번째 줄에 있다. 박스 채로 짐을 옮겼기 때문이다. MMU는 단지 "박스 번호(p)"를 "트럭 번호(f)"로 치환하는 단순 문자열 치환 놀이만 할 뿐이다.
 
-- **📢 섹션 요약 비유**: CPU가 "아파트 1동 302호(가상 주소)로 배달해 줘!"라고 요청하면, 경비실([MMU](/knowledge-base/studynote/02_operating_system/06_memory_management/328_mmu/)) 장부([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 봅니다. "1동 사람들은 이번 달에 물리적으로 9동 건물(프레임)로 이사 갔지. 하지만 호수는 똑같이 302호를 쓰니까, 최종 주소는 9동 302호([물리 주소](/knowledge-base/studynote/02_operating_system/06_memory_management/323_physical_address/))다!" 하고 찾아가는 완벽한 포워딩 시스템입니다.
+- **📢 섹션 요약 비유**: CPU가 "아파트 1동 302호(가상 주소)로 배달해 줘!"라고 요청하면, 경비실([MMU](/studynote/02_operating_system/06_memory_management/328_mmu/)) 장부([페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/))를 봅니다. "1동 사람들은 이번 달에 물리적으로 9동 건물(프레임)로 이사 갔지. 하지만 호수는 똑같이 302호를 쓰니까, 최종 주소는 9동 302호([물리 주소](/studynote/02_operating_system/06_memory_management/323_physical_address/))다!" 하고 찾아가는 완벽한 포워딩 시스템입니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-### 페이징(Paging) vs 세그먼테이션([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/))
+### 페이징(Paging) vs 세그먼테이션([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/))
 
-[운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리의 영원한 라이벌이자 시험 단골 문제다.
+[운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/) 메모리 관리의 영원한 라이벌이자 시험 단골 문제다.
 
-| 비교 항목 | 페이징 (Paging) | 세그먼테이션 ([Segmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
+| 비교 항목 | 페이징 (Paging) | 세그먼테이션 ([Segmentation](/studynote/02_operating_system/06_memory_management/364_segmentation/)) |
 |:---|:---|:---|
-| **분할 방식** | **고정 크기 (Fixed Size)**, 무식하게 4KB로 깍두기 썰기 | **가변 크기 (Variable)**, 논리적 덩어리(코드, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙)로 의미 있게 자름 |
-| <strong><a href="/knowledge-base/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 문제</strong> | ❌ <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(Internal) 발생</strong> (4KB보다 작은 놈도 4KB를 줌) | 🚨 <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(External) 발생</strong> (남은 빈 공간 모양이 다 달라서 할당 불가) |
-| **보안 및 공유** | 1개 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 코드와 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 들어갈 수 있어 보안 권한(R/W) 주기 불편함 | 코드 세그먼트(Read Only), [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(R/W)가 완벽히 분리되어 권한 관리가 예술임 |
+| **분할 방식** | **고정 크기 (Fixed Size)**, 무식하게 4KB로 깍두기 썰기 | **가변 크기 (Variable)**, 논리적 덩어리(코드, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/), 힙)로 의미 있게 자름 |
+| <strong><a href="/studynote/03_network/06_network_layer_ip/291_fragmentation_and_reassembly_process/">단편화</a> 문제</strong> | ❌ <strong><a href="/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>(Internal) 발생</strong> (4KB보다 작은 놈도 4KB를 줌) | 🚨 <strong><a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>(External) 발생</strong> (남은 빈 공간 모양이 다 달라서 할당 불가) |
+| **보안 및 공유** | 1개 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 코드와 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 섞여 들어갈 수 있어 보안 권한(R/W) 주기 불편함 | 코드 세그먼트(Read Only), [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(R/W)가 완벽히 분리되어 권한 관리가 예술임 |
 | **현대 OS 선택** | 🏆 **압도적 승리 (Linux, Windows 100% 채택)** | 사실상 멸종. (가끔 페이징 위에 보안용으로 살짝 얹어서 쓰긴 함) |
 
-왜 페이징이 이겼을까? <strong>"<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>가 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>보다 100배 더 끔찍한 버그이기 때문"</strong>이다. [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 기껏해야 박스 빈 공간(수 KB) 낭비로 끝나지만, [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 램이 10GB 남아도 5GB짜리 게임이 안 켜져서 서버가 뻗는 파국을 낳는다. 현대 OS는 의미 따위 개나 주고 일단 물리적으로 똑같이 썰어버리는 평등주의(페이징)를 택했다.
+왜 페이징이 이겼을까? <strong>"<a href="/studynote/02_operating_system/06_memory_management/342_external_fragmentation/">외부 단편화</a>가 <a href="/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/">내부 단편화</a>보다 100배 더 끔찍한 버그이기 때문"</strong>이다. [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)는 기껏해야 박스 빈 공간(수 KB) 낭비로 끝나지만, [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)는 램이 10GB 남아도 5GB짜리 게임이 안 켜져서 서버가 뻗는 파국을 낳는다. 현대 OS는 의미 따위 개나 주고 일단 물리적으로 똑같이 썰어버리는 평등주의(페이징)를 택했다.
 
-### [내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))의 현실
-페이징을 쓰면 프로세스의 마지막 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 항상 4KB를 다 채우지 못하고 빈 공간이 남는다.
-만약 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB인데 프로세스 크기가 10KB라면?
+### [내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/) ([Internal Fragmentation](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/))의 현실
+페이징을 쓰면 프로세스의 마지막 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)는 항상 4KB를 다 채우지 못하고 빈 공간이 남는다.
+만약 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB인데 프로세스 크기가 10KB라면?
 - 10KB = 4KB + 4KB + 2KB.
-- 총 3개의 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(12KB)를 받아야 하고, 마지막 3번째 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 2KB가 낭비된다.
+- 총 3개의 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)(12KB)를 받아야 하고, 마지막 3번째 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에서 2KB가 낭비된다.
 - **현실**: 요즘 서버 램이 64GB, 128GB 시대다. 프로세스 100개 띄워봤자 프로세스당 최대 4KB씩 낭비되니 총 400KB 버리는 셈이다. 이 정도 세금은 현대 하드웨어 인프라에서 완벽히 무시할 수 있다.
 
-- **📢 섹션 요약 비유**: 이삿짐을 쌀 때, 냉장고 모양 박스, TV 모양 박스(세그먼테이션)를 맞춤 제작하면 짐은 안전하지만 트럭에 실을 때 모양이 안 맞아 빈 공간([외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생겨 짐을 다 못 싣습니다. 우체국 4호 박스(페이징)로 통일해서 다 때려 부수어 넣으면, 박스 안이 좀 비어도([내부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) 트럭을 천장까지 테트리스로 꽉 채워(효율 100%) 나를 수 있습니다.
+- **📢 섹션 요약 비유**: 이삿짐을 쌀 때, 냉장고 모양 박스, TV 모양 박스(세그먼테이션)를 맞춤 제작하면 짐은 안전하지만 트럭에 실을 때 모양이 안 맞아 빈 공간([외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/))이 생겨 짐을 다 못 싣습니다. 우체국 4호 박스(페이징)로 통일해서 다 때려 부수어 넣으면, 박스 안이 좀 비어도([내부 단편화](/studynote/02_operating_system/06_memory_management/341_internal_fragmentation/)) 트럭을 천장까지 테트리스로 꽉 채워(효율 100%) 나를 수 있습니다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
 ### 실무 시나리오
-1. <strong><a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>) 크기 오버헤드의 절망과 극복</strong>:
-   - **사건**: 32비트 OS(4GB 주소 공간)에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB라면, 프로세스 1개당 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 항목이 100만 개($2^{20}$) 필요하다. 이 테이블(4MB)을 메모리에 올려둬야 한다. 만약 크롬 탭(프로세스)을 100개 띄우면? <strong>순수하게 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(지도) 용량으로만 램 400MB가 증발한다!</strong> 64비트 시대엔 지도가 테라바이트급이 되어 불가능해졌다.
-   - <strong>아키텍트 혁명 (<a href="/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">다단계 페이징</a>, <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">Hierarchical Paging</a>)</strong>: 지도를 1장으로 안 만들고 책처럼 쪼갰다. 1단계 책갈피([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [Directory](/knowledge-base/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))만 램에 올리고, 유저가 안 쓰는 빈 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간에 대한 상세 지도는 아예 만들지조차 않는다. 이 기법 덕분에 64비트 OS에서도 [페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/) 용량을 수 KB 수준으로 다이어트시켜 현대 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 구원투수가 되었다.
-2. <strong>Transparent <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a> (THP)의 양날의 검</strong>: 대규모 램을 쓰는 실무 백엔드(DB, [Hadoop](/knowledge-base/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [Redis](/knowledge-base/studynote/05_database/04_transactions_concurrency/542_redis/))의 핵심 튜닝 요소다.
-   - **원리**: 4KB로 쪼개면 128GB 램에서 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 개수가 수천만 개가 되어 [TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 미스가 폭발한다. 리눅스는 이를 막으려고 백그라운드에서 4KB [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 512개를 뭉쳐서 <strong>2MB짜리 <a href="/knowledge-base/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>(<a href="/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)</strong>로 몰래 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)(THP)해 버린다.
-   - **장애 발생**: Redis가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(`BGSAVE`)할 때 [COW](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Copy-On-Write](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 터진다. 원래 4KB만 복사하면 될 걸, THP가 켜져 있으면 2MB를 통째로 복사하느라 레이턴시가 미친 듯이 튀어 서버가 1초씩 멈춘다(Jitter).
-   - **실무 조치**: 고성능 인메모리 DB를 돌리는 K8s 노드나 베어메탈 서버에서는 무조건 `echo never > /sys/kernel/mm/transparent_hugepage/enabled` 를 때려서 OS의 오지랖(THP)을 강제로 끄는 것이 첫 번째 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 세팅이다.
+1. <strong><a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(<a href="/studynote/02_operating_system/06_memory_management/353_page_table/">Page Table</a>) 크기 오버헤드의 절망과 극복</strong>:
+   - **사건**: 32비트 OS(4GB 주소 공간)에서 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기가 4KB라면, 프로세스 1개당 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 항목이 100만 개($2^{20}$) 필요하다. 이 테이블(4MB)을 메모리에 올려둬야 한다. 만약 크롬 탭(프로세스)을 100개 띄우면? <strong>순수하게 <a href="/studynote/02_operating_system/06_memory_management/353_page_table/">페이지 테이블</a>(지도) 용량으로만 램 400MB가 증발한다!</strong> 64비트 시대엔 지도가 테라바이트급이 되어 불가능해졌다.
+   - <strong>아키텍트 혁명 (<a href="/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">다단계 페이징</a>, <a href="/studynote/02_operating_system/06_memory_management/361_hierarchical_paging/">Hierarchical Paging</a>)</strong>: 지도를 1장으로 안 만들고 책처럼 쪼갰다. 1단계 책갈피([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) [Directory](/studynote/02_operating_system/09_file_system/506_directory_structure_symbol_table/))만 램에 올리고, 유저가 안 쓰는 빈 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 공간에 대한 상세 지도는 아예 만들지조차 않는다. 이 기법 덕분에 64비트 OS에서도 [페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/) 용량을 수 KB 수준으로 다이어트시켜 현대 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)의 구원투수가 되었다.
+2. <strong>Transparent <a href="/studynote/02_operating_system/06_memory_management/371_huge_pages/">Huge Pages</a> (THP)의 양날의 검</strong>: 대규모 램을 쓰는 실무 백엔드(DB, [Hadoop](/studynote/03_network/16_data_center_cloud/843_hadoop_rack_awareness_data_replication_topology/), [Redis](/studynote/05_database/04_transactions_concurrency/542_redis/))의 핵심 튜닝 요소다.
+   - **원리**: 4KB로 쪼개면 128GB 램에서 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 개수가 수천만 개가 되어 [TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) 캐시 미스가 폭발한다. 리눅스는 이를 막으려고 백그라운드에서 4KB [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 512개를 뭉쳐서 <strong>2MB짜리 <a href="/studynote/02_operating_system/06_memory_management/371_huge_pages/">거대 페이지</a>(<a href="/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/">Huge Page</a>)</strong>로 몰래 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)(THP)해 버린다.
+   - **장애 발생**: Redis가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(`BGSAVE`)할 때 [COW](/studynote/02_operating_system/09_file_system/542_cow_file_system/)([Copy-On-Write](/studynote/02_operating_system/09_file_system/542_cow_file_system/))가 터진다. 원래 4KB만 복사하면 될 걸, THP가 켜져 있으면 2MB를 통째로 복사하느라 레이턴시가 미친 듯이 튀어 서버가 1초씩 멈춘다(Jitter).
+   - **실무 조치**: 고성능 인메모리 DB를 돌리는 K8s 노드나 베어메탈 서버에서는 무조건 `echo never > /sys/kernel/mm/transparent_hugepage/enabled` 를 때려서 OS의 오지랖(THP)을 강제로 끄는 것이 첫 번째 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 튜닝 세팅이다.
 
 ```text
   +---------------------------------------------------------------------+
@@ -146,22 +143,22 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
   |             JVM이나 DB가 날아다니는 최강의 엔터프라이즈 셋팅.       |
   +---------------------------------------------------------------------+
 ```
-**[다이어그램 해설]** [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 페이징은 너무 위대해서 개발자를 바보로 만들었다. 4KB 단위의 쪼개짐이 내 애플리케이션 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 어떤 오버헤드를 가져오는지 잊게 만들었기 때문이다. 하드코어 인프라 아키텍트는 4KB의 족쇄를 풀고, OS에게 "내 DB는 무조건 1GB 단위([Huge Page](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))로 썰어서 던져줘라!"라고 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 수동 제어(Manual Override)를 걸어 궁극의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 탈환한다.
+**[다이어그램 해설]** [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/) 페이징은 너무 위대해서 개발자를 바보로 만들었다. 4KB 단위의 쪼개짐이 내 애플리케이션 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)에 어떤 오버헤드를 가져오는지 잊게 만들었기 때문이다. 하드코어 인프라 아키텍트는 4KB의 족쇄를 풀고, OS에게 "내 DB는 무조건 1GB 단위([Huge Page](/studynote/01_computer_architecture/15_advanced_topics/517_huge_page/))로 썰어서 던져줘라!"라고 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 단위의 수동 제어(Manual Override)를 걸어 궁극의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 탈환한다.
 
-- **📢 섹션 요약 비유**: 4KB 페이징은 모래알입니다. 100kg의 짐을 모래알로 옮기려면 숟가락으로 수만 번 퍼 날라야 합니다([TLB](/knowledge-base/studynote/02_operating_system/06_memory_management/357_tlb/) Miss). THP는 일꾼(OS)이 몰래 모래를 벽돌(2MB)로 뭉치는 건데, 일꾼이 지쳐서 쓰러집니다(Jitter). 명시적 Huge Page는 아예 처음부터 10kg짜리 거대 바위로 세팅해서 10번 만에 짐을 다 나르는 전문가의 건축법입니다.
+- **📢 섹션 요약 비유**: 4KB 페이징은 모래알입니다. 100kg의 짐을 모래알로 옮기려면 숟가락으로 수만 번 퍼 날라야 합니다([TLB](/studynote/02_operating_system/06_memory_management/357_tlb/) Miss). THP는 일꾼(OS)이 몰래 모래를 벽돌(2MB)로 뭉치는 건데, 일꾼이 지쳐서 쓰러집니다(Jitter). 명시적 Huge Page는 아예 처음부터 10kg짜리 거대 바위로 세팅해서 10번 만에 짐을 다 나르는 전문가의 건축법입니다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
 ### 기대효과
-페이징 기법을 통해 [운영체제](/knowledge-base/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [외부 단편화](/knowledge-base/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(메모리 낭비)를 100% 근절하고, 어떤 크기의 프로그램이든 디스크의 스왑(Swap) 공간과 연계하여 램에 욱여넣을 수 있는 <strong>궁극의 <a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/knowledge-base/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>) 환경</strong>과 프로세스 간 메모리 100% 격리([Isolation](/knowledge-base/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 제공한다.
+페이징 기법을 통해 [운영체제](/studynote/02_operating_system/01_overview_architecture/001_operating_system_purpose/)는 [외부 단편화](/studynote/02_operating_system/06_memory_management/342_external_fragmentation/)(메모리 낭비)를 100% 근절하고, 어떤 크기의 프로그램이든 디스크의 스왑(Swap) 공간과 연계하여 램에 욱여넣을 수 있는 <strong>궁극의 <a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">다중 프로그래밍</a>(<a href="/studynote/02_operating_system/11_exam_summary/673_multiprogramming_bottleneck_resource/">Multiprogramming</a>) 환경</strong>과 프로세스 간 메모리 100% 격리([Isolation](/studynote/05_database/04_transactions_concurrency/195_isolation_concurrency_control/))를 제공한다.
 
 ### 결론 및 미래 전망
-페이징은 현대 컴퓨터 공학에서 단 1개의 예외도 없이 적용되는 [가상 메모리](/knowledge-base/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유일무이한 황제다. 스마트폰, 윈도우 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), K8s 클러스터 등 모든 시스템이 이 4KB 깍두기 썰기 법칙 위에서 동작한다.
-미래에는 메모리 용량이 테라바이트를 넘어가면서 4KB라는 크기 자체가 너무 작다는 비판을 받고 있다. 따라서 기본 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 4KB에서 16KB(최신 Apple M 시리즈 칩), 64KB(ARM 아키텍처)로 점진적으로 키우는 하드웨어적 진화가 일어나고 있으며, 소프트웨어적으로는 eBPF를 통해 애플리케이션이 자신의 메모리 접근 패턴을 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 알려주어 OS가 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프리패칭([Prefetching](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))을 AI처럼 동적으로 최적화하는 **지능형 페이징(Intelligent Paging)** 시대로 나아가고 있다.
+페이징은 현대 컴퓨터 공학에서 단 1개의 예외도 없이 적용되는 [가상 메모리](/studynote/02_operating_system/07_virtual_memory/381_virtual_memory/)의 유일무이한 황제다. 스마트폰, 윈도우 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/), K8s 클러스터 등 모든 시스템이 이 4KB 깍두기 썰기 법칙 위에서 동작한다.
+미래에는 메모리 용량이 테라바이트를 넘어가면서 4KB라는 크기 자체가 너무 작다는 비판을 받고 있다. 따라서 기본 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 크기를 4KB에서 16KB(최신 Apple M 시리즈 칩), 64KB(ARM 아키텍처)로 점진적으로 키우는 하드웨어적 진화가 일어나고 있으며, 소프트웨어적으로는 eBPF를 통해 애플리케이션이 자신의 메모리 접근 패턴을 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)에 알려주어 OS가 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 프리패칭([Prefetching](/studynote/01_computer_architecture/06_memory_hierarchy_cache/280_prefetching/))을 AI처럼 동적으로 최적화하는 **지능형 페이징(Intelligent Paging)** 시대로 나아가고 있다.
 
-- **📢 섹션 요약 비유**: 4KB 페이징은 지난 40년간 인류의 물류([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 책임진 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 표준 규격입니다. 하지만 화물선(RAM)이 너무 거대해져 4KB 박스로는 싣고 내리는 데 한계가 오자, 규격 자체를 16KB, 64KB의 슈퍼 [컨테이너](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 키워서 물류 속도를 다시 한번 퀀텀 점프시키려는 것이 미래의 컴퓨터 아키텍처입니다.
+- **📢 섹션 요약 비유**: 4KB 페이징은 지난 40년간 인류의 물류([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 책임진 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/) 박스 표준 규격입니다. 하지만 화물선(RAM)이 너무 거대해져 4KB 박스로는 싣고 내리는 데 한계가 오자, 규격 자체를 16KB, 64KB의 슈퍼 [컨테이너](/studynote/04_software_engineering/09_cloud_native_ai_architecture/561_container_based_deployment/)로 키워서 물류 속도를 다시 한번 퀀텀 점프시키려는 것이 미래의 컴퓨터 아키텍처입니다.
 
 ---
 
@@ -169,10 +166,10 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| 웨이트-프리 (Wait-free) [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [스케줄러](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 일드 (sched_yield) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| 웨이트-프리 (Wait-free) [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [스케줄러](/studynote/13_cloud_architecture/02_iaas_paas_saas/079_kube_scheduler_pod_placement/) 일드 (sched_yield) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
 | ABA 문제 해결책 | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| 장벽 (Barrier) [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| 장벽 (Barrier) [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -186,13 +183,13 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
     +---> [장벽 (Barrier) 동기화]
 ```
 
-이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/knowledge-base/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
+이 흐름도는 선행 개념에서 현재 개념으로 넘어온 뒤, 구현 세분화와 후속 확장으로 이어지는 학습 순서를 [압축](/studynote/02_operating_system/06_memory_management/347_compaction/)해 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 거대한 1000피스짜리 레고(프로그램)를 완성 채로 좁은 책상(RAM)에 올리려면 자리가 부족해서 아예 올릴 수가 없어요. ([연속 할당](/knowledge-base/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 실패)
-2. 그래서 <strong>페이징(Paging)</strong>이라는 마법을 써요! 완성된 레고를 똑같은 크기의 4칸짜리 블록([Page](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 250개 다 쪼개버리는 거예요.
-3. 그리고 책상 빈 곳 여기저기에 쪼개진 블록들을 막 쑤셔 넣고, 설명서([페이지 테이블](/knowledge-base/studynote/02_operating_system/06_memory_management/353_page_table/))를 보면서 "원래 1번 블록이 저기 있고 2번 블록이 저 구석에 있네" 하고 눈으로만 이어 붙여서 노는 아주 똑똑한 방법이랍니다!
+1. 거대한 1000피스짜리 레고(프로그램)를 완성 채로 좁은 책상(RAM)에 올리려면 자리가 부족해서 아예 올릴 수가 없어요. ([연속 할당](/studynote/02_operating_system/09_file_system/523_contiguous_allocation/)의 실패)
+2. 그래서 <strong>페이징(Paging)</strong>이라는 마법을 써요! 완성된 레고를 똑같은 크기의 4칸짜리 블록([Page](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/))으로 250개 다 쪼개버리는 거예요.
+3. 그리고 책상 빈 곳 여기저기에 쪼개진 블록들을 막 쑤셔 넣고, 설명서([페이지 테이블](/studynote/02_operating_system/06_memory_management/353_page_table/))를 보면서 "원래 1번 블록이 저기 있고 2번 블록이 저 구석에 있네" 하고 눈으로만 이어 붙여서 노는 아주 똑똑한 방법이랍니다!
 
 ---
 
@@ -200,7 +197,7 @@ CPU는 프로그램 코드에 적힌 <strong>가상 주소(Logical Address)</str
 
 **진행 상황**: 259 / 800
 
-<- **이전**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/knowledge-base/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
-**다음**: [260. 페이지 교체 (Page Replacement)](/knowledge-base/studynote/02_operating_system/04_synchronization/260_page_replacement/) ->
+<- **이전**: [258. 다중 프로그래밍 정도 (Degree of Multiprogramming)](/studynote/02_operating_system/04_synchronization/258_degree_of_multiprogramming/)
+**다음**: [260. 페이지 교체 (Page Replacement)](/studynote/02_operating_system/04_synchronization/260_page_replacement/) ->
 
 ---

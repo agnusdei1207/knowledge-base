@@ -1,13 +1,10 @@
-+++
-title = "573. 리스크 관리 정량적 정성적 분석 (Risk Management Quantitative Qualitative)"
-date = 2026-05-09
+---
+title: "573. 리스크 관리 정량적 정성적 분석 (Risk Management Quantitative Qualitative)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 573 / 800
 
-<- **이전**: [572. 프로젝트 관리 PMBOK 7판 원칙](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/572_project_management_pmbok_7th_principles/)
-**다음**: [574. 품질 관리 6시그마 TQM PDCA](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/574_quality_management_six_sigma_tqm_pdca/) ->
+<- **이전**: [572. 프로젝트 관리 PMBOK 7판 원칙](/studynote/07_enterprise_systems/06_exam_summary/572_project_management_pmbok_7th_principles/)
+**다음**: [574. 품질 관리 6시그마 TQM PDCA](/studynote/07_enterprise_systems/06_exam_summary/574_quality_management_six_sigma_tqm_pdca/) ->
 
 ---

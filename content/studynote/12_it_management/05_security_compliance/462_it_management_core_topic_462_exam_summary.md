@@ -1,13 +1,10 @@
-+++
-title = "462. IT 경영 관리 핵심 토픽 462번 시험 요약 (IT Management Core Topic 462 Exam Summary)"
-date = 2026-05-09
+---
+title: "462. IT 경영 관리 핵심 토픽 462번 시험 요약 (IT Management Core Topic 462 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 # 462. IT 경영 관리 핵심 토픽 — 462번 시험 요약
 
@@ -150,7 +147,7 @@ PMBOK 7th + ANSI EIA 748의 EVM은 3개 기준값 **PV(Planned Value)·EV(Earned
 
 **진행 상황**: 462 / 800
 
-<- **이전**: [461. IT 경영 관리 핵심 토픽 461번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/461_it_management_core_topic_461_exam_summary/)
-**다음**: [463. IT 경영 관리 핵심 토픽 463번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/463_it_management_core_topic_463_exam_summary/) ->
+<- **이전**: [461. IT 경영 관리 핵심 토픽 461번 시험 요약](/studynote/12_it_management/05_security_compliance/461_it_management_core_topic_461_exam_summary/)
+**다음**: [463. IT 경영 관리 핵심 토픽 463번 시험 요약](/studynote/12_it_management/05_security_compliance/463_it_management_core_topic_463_exam_summary/) ->
 
 ---

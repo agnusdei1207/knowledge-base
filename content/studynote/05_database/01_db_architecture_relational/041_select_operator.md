@@ -1,18 +1,15 @@
-+++
-title = "041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합"
-date = 2026-03-19
+---
+title: "041. 셀렉트 연산자 (Select Operator, σ) — 수평적 부분집합"
+date: "2026-03-19"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 > **핵심 인사이트**
-> 1. 셀렉트 연산(σ, [Select](/knowledge-base/studynote/05_database/04_transactions_concurrency/520_select/)/Restriction)은 [관계 대수](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 단항 수평 필터링 연산으로, SQL WHERE 절의 수학적 기반이며 조건을 만족하는 [튜플](/knowledge-base/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(행)만 결과 [릴레이션](/knowledge-base/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 반환한다.
-> 2. 셀렉트는 가장 선택적(Selective)인 조건을 먼저 적용하면 중간 결과의 크기를 최소화할 수 있어, [DBMS](/knowledge-base/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/knowledge-base/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 최적화 규칙 중 하나인 "조건 밀어내기(Predicate Pushdown)"의 이론적 근거가 된다.
-> 3. 셀렉트 조건의 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)([Selectivity](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/))는 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용 여부를 결정하는 핵심 지표로, [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 낮을수록(결과 행이 적을수록) [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스캔이 유리하고 [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높으면 풀 테이블 스캔이 오히려 효율적이다.
+> 1. 셀렉트 연산(σ, [Select](/studynote/05_database/04_transactions_concurrency/520_select/)/Restriction)은 [관계 대수](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/)의 단항 수평 필터링 연산으로, SQL WHERE 절의 수학적 기반이며 조건을 만족하는 [튜플](/studynote/05_database/02_modeling_normalization/063_relation_tuple_cardinality/)(행)만 결과 [릴레이션](/studynote/05_database/02_modeling_normalization/061_relation_schema_instance/)으로 반환한다.
+> 2. 셀렉트는 가장 선택적(Selective)인 조건을 먼저 적용하면 중간 결과의 크기를 최소화할 수 있어, [DBMS](/studynote/05_database/04_transactions_concurrency/502_dbms/) [옵티마이저](/studynote/05_database/03_relational_model/163_optimizer_sql_execution_plan_generator/)의 핵심 최적화 규칙 중 하나인 "조건 밀어내기(Predicate Pushdown)"의 이론적 근거가 된다.
+> 3. 셀렉트 조건의 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)([Selectivity](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/))는 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 활용 여부를 결정하는 핵심 지표로, [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 낮을수록(결과 행이 적을수록) [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 스캔이 유리하고 [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)가 높으면 풀 테이블 스캔이 오히려 효율적이다.
 
 ---
 
@@ -79,7 +76,7 @@ SQL 대응:
 
 ---
 
-## Ⅲ. [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)와 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)
+## Ⅲ. [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)와 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)
 
 ```
 선택도 (Selectivity):
@@ -110,7 +107,7 @@ SQL 대응:
   -> Index Scan vs Full Scan 확인
 ```
 
-> 📢 **섹션 요약 비유**: [선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)는 도서관 색인 사용 기준 — 책이 1만 권인데 한 권 찾기([선택도](/knowledge-base/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 낮음)는 색인 유리, 절반 찾기(높음)는 전체 훑기 빠름.
+> 📢 **섹션 요약 비유**: [선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/)는 도서관 색인 사용 기준 — 책이 1만 권인데 한 권 찾기([선택도](/studynote/05_database/03_relational_model/170_selectivity_cardinality_distribution_tuning/) 낮음)는 색인 유리, 절반 찾기(높음)는 전체 훑기 빠름.
 
 ---
 
@@ -236,8 +233,8 @@ ML 기반 선택도 추정
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 셀렉트 연산은 학생 명단에서 "성적이 90점 이상인 학생만 보여줘"처럼 조건에 맞는 행만 골라내는 필터예요.
-2. 10만 명 중 10명을 찾을 때 [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 쓰면 빠르고, 10만 명 중 5만 명을 찾을 때는 그냥 전체 훑는 게 더 빠를 수 있어요.
-3. 빅데이터에서는 필터 조건을 최대한 일찍 적용해서 처리할 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이는 게 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이에요!
+2. 10만 명 중 10명을 찾을 때 [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/)를 쓰면 빠르고, 10만 명 중 5만 명을 찾을 때는 그냥 전체 훑는 게 더 빠를 수 있어요.
+3. 빅데이터에서는 필터 조건을 최대한 일찍 적용해서 처리할 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 줄이는 게 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심이에요!
 
 ---
 
@@ -245,7 +242,7 @@ ML 기반 선택도 추정
 
 **진행 상황**: 41 / 600
 
-<- **이전**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/knowledge-base/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/)
-**다음**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/knowledge-base/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) ->
+<- **이전**: [040. 순수 관계 연산자 (Pure Relational Operators) — σ, π, ⋈, ÷](/studynote/05_database/01_db_architecture_relational/040_pure_relational_operators/)
+**다음**: [042. 프로젝트 연산 (Project) — 관계 대수 열 추출](/studynote/05_database/01_db_architecture_relational/042_relational_algebra_project/) ->
 
 ---

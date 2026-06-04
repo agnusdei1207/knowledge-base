@@ -1,13 +1,10 @@
-+++
-title = "545. IT 경영 관리 핵심 토픽 545번 시험 요약 (IT Management Core Topic 545 Exam Summary)"
-date = 2026-05-09
+---
+title: "545. IT 경영 관리 핵심 토픽 545번 시험 요약 (IT Management Core Topic 545 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -154,7 +151,7 @@ COBIT 2019 기반 IT 거버넌스 시스템은 **Governance System(거버넌스 
 
 **진행 상황**: 545 / 800
 
-<- **이전**: [544. IT 경영 관리 핵심 토픽 544번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/544_it_management_core_topic_544_exam_summary/)
-**다음**: [546. IT 경영 관리 핵심 토픽 546번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/546_it_management_core_topic_546_exam_summary/) ->
+<- **이전**: [544. IT 경영 관리 핵심 토픽 544번 시험 요약](/studynote/12_it_management/05_security_compliance/544_it_management_core_topic_544_exam_summary/)
+**다음**: [546. IT 경영 관리 핵심 토픽 546번 시험 요약](/studynote/12_it_management/05_security_compliance/546_it_management_core_topic_546_exam_summary/) ->
 
 ---

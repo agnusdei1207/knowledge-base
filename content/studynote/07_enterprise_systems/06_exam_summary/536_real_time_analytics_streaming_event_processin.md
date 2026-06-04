@@ -1,13 +1,10 @@
-+++
-title = "536. 실시간 분석 스트리밍 이벤트 처리 (Real-time Analytics Streaming Event Processing)"
-date = 2026-05-09
+---
+title: "536. 실시간 분석 스트리밍 이벤트 처리 (Real-time Analytics Streaming Event Processing)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 536 / 800
 
-<- **이전**: [535. 처방 분석 최적화 의사결정 지원](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/535_prescriptive_analytics_optimization_decision/)
-**다음**: [537. 데이터 웨어하우스 클라우드 현대화](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/537_data_warehouse_cloud_modernization/) ->
+<- **이전**: [535. 처방 분석 최적화 의사결정 지원](/studynote/07_enterprise_systems/06_exam_summary/535_prescriptive_analytics_optimization_decision/)
+**다음**: [537. 데이터 웨어하우스 클라우드 현대화](/studynote/07_enterprise_systems/06_exam_summary/537_data_warehouse_cloud_modernization/) ->
 
 ---

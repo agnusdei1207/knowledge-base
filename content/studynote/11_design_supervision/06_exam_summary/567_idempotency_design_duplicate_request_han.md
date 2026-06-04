@@ -1,13 +1,10 @@
-+++
-title = "567. 멱등성 설계 중복 요청 처리 (Idempotency Design Duplicate Request Handling)"
-date = 2026-05-09
+---
+title: "567. 멱등성 설계 중복 요청 처리 (Idempotency Design Duplicate Request Handling)"
+date: "2026-05-09"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -204,7 +201,7 @@ def handle_request(idempotency_key, request_body):
 
 **진행 상황**: 567 / 600
 
-<- **이전**: [566. 데이터 일관성 패턴 최종 일관성](/knowledge-base/studynote/11_design_supervision/06_exam_summary/567_data_consistency_pattern_eventual_consis/)
-**다음**: [568. 관측 가능성 메트릭 로그 트레이스](/knowledge-base/studynote/11_design_supervision/06_exam_summary/568_observability_metrics_logs_traces/) ->
+<- **이전**: [566. 데이터 일관성 패턴 최종 일관성](/studynote/11_design_supervision/06_exam_summary/567_data_consistency_pattern_eventual_consis/)
+**다음**: [568. 관측 가능성 메트릭 로그 트레이스](/studynote/11_design_supervision/06_exam_summary/568_observability_metrics_logs_traces/) ->
 
 ---

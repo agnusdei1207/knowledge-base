@@ -1,13 +1,10 @@
-+++
-title = "570. 모빌리티 MaaS 자율주행 서비스 (Mobility MaaS Autonomous Driving Service)"
-date = 2026-05-09
+---
+title: "570. 모빌리티 MaaS 자율주행 서비스 (Mobility MaaS Autonomous Driving Service)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 570 / 800
 
-<- **이전**: [569. 리테일테크 스마트 유통 커머스](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/569_retailtech_smart_distribution_commerce/)
-**다음**: [571. 에너지테크 스마트 그리드 탈탄소](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/571_energytech_smart_grid_decarbonization/) ->
+<- **이전**: [569. 리테일테크 스마트 유통 커머스](/studynote/07_enterprise_systems/06_exam_summary/569_retailtech_smart_distribution_commerce/)
+**다음**: [571. 에너지테크 스마트 그리드 탈탄소](/studynote/07_enterprise_systems/06_exam_summary/571_energytech_smart_grid_decarbonization/) ->
 
 ---

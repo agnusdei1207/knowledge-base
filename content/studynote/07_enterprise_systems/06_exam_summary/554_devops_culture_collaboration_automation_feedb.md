@@ -1,13 +1,10 @@
-+++
-title = "554. DevOps 문화 협업 자동화 피드백 (DevOps Culture Collaboration Automation Feedback)"
-date = 2026-05-09
+---
+title: "554. DevOps 문화 협업 자동화 피드백 (DevOps Culture Collaboration Automation Feedback)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 554 / 800
 
-<- **이전**: [553. 애자일 전환 조직 문화 변혁 관리](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/553_agile_transformation_culture_change_managemen/)
-**다음**: [555. 디지털 혁신 리더십 CxO 역할](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/555_digital_innovation_leadership_cxo_role/) ->
+<- **이전**: [553. 애자일 전환 조직 문화 변혁 관리](/studynote/07_enterprise_systems/06_exam_summary/553_agile_transformation_culture_change_managemen/)
+**다음**: [555. 디지털 혁신 리더십 CxO 역할](/studynote/07_enterprise_systems/06_exam_summary/555_digital_innovation_leadership_cxo_role/) ->
 
 ---

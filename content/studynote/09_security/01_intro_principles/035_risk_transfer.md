@@ -1,22 +1,19 @@
-+++
-title = "035. 위험 전가 (Risk Transfer)"
-date = 2026-03-03
+---
+title: "035. 위험 전가 (Risk Transfer)"
+date: "2026-03-03"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 > **핵심 인사이트**
-> 1. [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)([Risk Transfer](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/))는 조직이 특정 위험의 재정적 결과를 보험, 계약, 아웃소싱 등을 통해 제3자에게 이전하는 위험 처리([Risk Response](/knowledge-base/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
-> 2. 위험 자체가 사라지는 게 아니라 재정적 책임만 이전되므로, [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))과 이전 비용(보험료, 계약 비용)을 반드시 고려해야 한다.
-> 3. 사이버보험([Cyber Insurance](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/))은 [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)의 현대적 형태로, [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·[데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 침해 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용과 법적 비용을 보장한다.
+> 1. [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)([Risk Transfer](/studynote/09_security/01_intro_principles/051_risk_transfer/))는 조직이 특정 위험의 재정적 결과를 보험, 계약, 아웃소싱 등을 통해 제3자에게 이전하는 위험 처리([Risk Response](/studynote/04_software_engineering/01_overview_principles/042_risk_response_strategies/)) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다.
+> 2. 위험 자체가 사라지는 게 아니라 재정적 책임만 이전되므로, [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))과 이전 비용(보험료, 계약 비용)을 반드시 고려해야 한다.
+> 3. 사이버보험([Cyber Insurance](/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/))은 [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)의 현대적 형태로, [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/)·[데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 침해 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용과 법적 비용을 보장한다.
 
 ---
 
-## I. 위험 처리 4대 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## I. 위험 처리 4대 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 위험 식별 완료
@@ -28,18 +25,18 @@ tags = ["studynote-security"]
 +---> 위험 전가 (Transfer) <- 제3자에게 재정 책임 이전
 ```
 
-| [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)     | 위험 제거 | 비용    | 적합 상황              |
+| [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)     | 위험 제거 | 비용    | 적합 상황              |
 |---------|---------|---------|----------------------|
-| 수용     | 없음    | 없음    | 낮은 영향/[확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)         |
+| 수용     | 없음    | 없음    | 낮은 영향/[확률](/studynote/08_algorithm_stats/08_stats/130_probability/)         |
 | 회피     | 완전    | 높음    | 치명적 위험            |
 | 경감     | 부분    | 중간    | 기술적 대응 가능       |
-| **전가** | 재정적  | 보험료  | 재정 [리스크](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 전문 영역 |
+| **전가** | 재정적  | 보험료  | 재정 [리스크](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/), 전문 영역 |
 
 > 📢 **섹션 요약 비유**: 불이 났을 때 혼자 감당하기 힘들면 화재보험 — 위험 자체는 사라지지 않지만 손실 부담을 나눈다.
 
 ---
 
-## II. [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/) 수단
+## II. [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/) 수단
 
 ```
 위험 전가 방법
@@ -63,7 +60,7 @@ tags = ["studynote-security"]
 
 ---
 
-## III. 사이버보험 ([Cyber Insurance](/knowledge-base/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/)) 심화
+## III. 사이버보험 ([Cyber Insurance](/studynote/09_security/20_extra_exam_prep/1027_cyber_insurance/)) 심화
 
 ```
 보장 범위:
@@ -82,15 +79,15 @@ tags = ["studynote-security"]
 | 항목            | 내용                              |
 |----------------|----------------------------------|
 | 보험료 결정 요소 | 매출, 산업, 보안 성숙도, 청구 이력  |
-| 언더라이팅     | [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/) 필수, [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) [확인](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/396_validation/)       |
-| 제외 사항       | 국가 주도 공격([War](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/) exclusion), 내부 부정 |
+| 언더라이팅     | [MFA](/studynote/09_security/11_iam_access_control/552_mfa/) 필수, [EDR](/studynote/09_security/04_endpoint_security/325_edr/), [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) [확인](/studynote/04_software_engineering/12_testing_maintenance/396_validation/)       |
+| 제외 사항       | 국가 주도 공격([War](/studynote/01_computer_architecture/05_control_unit_pipelining/226_war/) exclusion), 내부 부정 |
 | 지급 조건       | 인시던트 응답 절차 준수 여부        |
 
-> 📢 **섹션 요약 비유**: 사이버보험은 해커가 침입하더라도 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)비용을 보험사가 낸다는 계약 — 단, 문단속([MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)·[백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))을 안 했으면 보장 안 된다.
+> 📢 **섹션 요약 비유**: 사이버보험은 해커가 침입하더라도 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)비용을 보험사가 낸다는 계약 — 단, 문단속([MFA](/studynote/09_security/11_iam_access_control/552_mfa/)·[백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/))을 안 했으면 보장 안 된다.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 아웃소싱을 통한 [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 아웃소싱을 통한 [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)
 
 ```
 On-Premise          Cloud (IaaS/PaaS/SaaS)
@@ -105,25 +102,25 @@ SOC 운영, 위협 탐지, 인시던트 대응 위탁
 
 | 아웃소싱 유형 | 전가 대상 위험          | 주의점               |
 |-------------|------------------------|---------------------|
-| [SaaS](/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/) 이용    | 인프라·앱 취약점        | [데이터 주권](/knowledge-base/studynote/09_security/16_data_privacy/809_data_sovereignty/) 이슈     |
-| MSSP 위탁    | 보안 운영·탐지 실패     | [SLA](/knowledge-base/studynote/12_it_management/02_itsm_itil/869_sla/) 검토, 의존성     |
+| [SaaS](/studynote/12_it_management/05_security_compliance/951_saas/) 이용    | 인프라·앱 취약점        | [데이터 주권](/studynote/09_security/16_data_privacy/809_data_sovereignty/) 이슈     |
+| MSSP 위탁    | 보안 운영·탐지 실패     | [SLA](/studynote/12_it_management/02_itsm_itil/869_sla/) 검토, 의존성     |
 | 클라우드     | 하드웨어 장애, 재해     | 공유 책임 범위 명확화|
 
 > 📢 **섹션 요약 비유**: 요리는 직접 하되, 식재료 보관과 화재 예방은 전문 주방 업체에 맡기는 것 — 역할 분리가 책임 분리다.
 
 ---
 
-## V. 실무 시나리오 — [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대비
+## V. 실무 시나리오 — [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대비
 
-| 구분         | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)              | 세부 내용                          |
+| 구분         | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)              | 세부 내용                          |
 |-------------|------------------|-----------------------------------|
-| 예방         | [위험 경감](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)         | [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/), 패치, [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [MFA](/knowledge-base/studynote/09_security/11_iam_access_control/552_mfa/)               |
-| 보험         | [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)         | 사이버보험 ([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응 특약)    |
-| 지불 결정    | [위험 수용](/knowledge-base/studynote/09_security/01_intro_principles/037_risk_acceptance/)/전가     | 보험사·법무팀과 협의, FBI 신고     |
-| [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)         | [위험 경감](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)+전가     | [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복원 + 포렌식 비용 보험 청구  |
-| 재발 방지    | [위험 경감](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/)         | 취약점 패치, [제로 트러스트](/knowledge-base/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 전환    |
+| 예방         | [위험 경감](/studynote/09_security/01_intro_principles/036_risk_mitigation/)         | [EDR](/studynote/09_security/04_endpoint_security/325_edr/), 패치, [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/), [MFA](/studynote/09_security/11_iam_access_control/552_mfa/)               |
+| 보험         | [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)         | 사이버보험 ([랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 대응 특약)    |
+| 지불 결정    | [위험 수용](/studynote/09_security/01_intro_principles/037_risk_acceptance/)/전가     | 보험사·법무팀과 협의, FBI 신고     |
+| [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/)         | [위험 경감](/studynote/09_security/01_intro_principles/036_risk_mitigation/)+전가     | [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 복원 + 포렌식 비용 보험 청구  |
+| 재발 방지    | [위험 경감](/studynote/09_security/01_intro_principles/036_risk_mitigation/)         | 취약점 패치, [제로 트러스트](/studynote/02_operating_system/10_security/667_zero_trust_runtime_integrity_measurement/) 전환    |
 
-> 📢 **섹션 요약 비유**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 예방(경감) + 보험(전가) + [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(경감)의 3중 안전망으로 대비 — 하나만으로는 부족하다.
+> 📢 **섹션 요약 비유**: [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/)는 예방(경감) + 보험(전가) + [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/)(경감)의 3중 안전망으로 대비 — 하나만으로는 부족하다.
 
 ---
 
@@ -174,8 +171,8 @@ MFA, EDR, 백업 미비시 보험 거절/보험료 상승
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. [위험 전가](/knowledge-base/studynote/09_security/01_intro_principles/051_risk_transfer/)는 사고가 났을 때의 돈 걱정을 보험회사에 넘기는 거예요.
-2. 해킹 당했을 때 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용을 사이버보험이 대신 내주는 것도 같은 원리예요.
+1. [위험 전가](/studynote/09_security/01_intro_principles/051_risk_transfer/)는 사고가 났을 때의 돈 걱정을 보험회사에 넘기는 거예요.
+2. 해킹 당했을 때 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 비용을 사이버보험이 대신 내주는 것도 같은 원리예요.
 3. 하지만 문단속(보안)을 안 했으면 보험도 안 나오니까, 예방이 먼저예요!
 
 ---
@@ -184,7 +181,7 @@ MFA, EDR, 백업 미비시 보험 거절/보험료 상승
 
 **진행 상황**: 35 / 1108
 
-<- **이전**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/knowledge-base/studynote/09_security/01_intro_principles/034_risk_avoidance/)
-**다음**: [036. 위험 경감 (Risk Mitigation)](/knowledge-base/studynote/09_security/01_intro_principles/036_risk_mitigation/) ->
+<- **이전**: [위험 회피 전략 심화 (Risk Avoidance & Treatment)](/studynote/09_security/01_intro_principles/034_risk_avoidance/)
+**다음**: [036. 위험 경감 (Risk Mitigation)](/studynote/09_security/01_intro_principles/036_risk_mitigation/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)"
-date = 2026-05-09
+---
+title: "391. CWPP 클라우드 워크로드 보호 플랫폼 (Cloud Workload Protection Platform CWPP)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 391 / 400
 
-<- **이전**: [390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)](/knowledge-base/studynote/15_devops_sre/05_devsecops/390_cspm_cloud_posture/)
-**다음**: [392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/392_cnapp_cloud_native/) ->
+<- **이전**: [390. 클라우드 보안 형상 관리 CSPM 자동 교정 (Cloud Security Posture Management CSPM)](/studynote/15_devops_sre/05_devsecops/390_cspm_cloud_posture/)
+**다음**: [392. CNAPP 클라우드 네이티브 보안 통합 플랫폼 (Cloud Native Application Protection Platform CNAPP)](/studynote/15_devops_sre/05_devsecops/392_cnapp_cloud_native/) ->
 
 ---

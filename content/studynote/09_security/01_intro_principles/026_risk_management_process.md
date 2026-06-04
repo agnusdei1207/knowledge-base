@@ -1,18 +1,15 @@
-+++
-title = "26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계"
-date = 2026-04-29
+---
+title: "26. 위험 관리 프로세스 (Risk Management Process) — 정보보안 위험 식별·평가·처리 체계"
+date: "2026-04-29"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정보보안 위험 관리([Risk Management](/knowledge-base/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 자산(Asset)에 대한 위협(Threat)이 취약점(Vulnerability)을 통해 발생시킬 수 있는 위험([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·분석·평가하고, 허용 가능한 수준으로 낮추기 위한 통제(Control)를 선택·구현·모니터링하는 지속적 프로세스다.
+> 1. **본질**: 정보보안 위험 관리([Risk Management](/studynote/09_security/17_framework_compliance/841_iso_27005_risk_management/))는 자산(Asset)에 대한 위협(Threat)이 취약점(Vulnerability)을 통해 발생시킬 수 있는 위험([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/))을 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)·분석·평가하고, 허용 가능한 수준으로 낮추기 위한 통제(Control)를 선택·구현·모니터링하는 지속적 프로세스다.
 > 2. **가치**: 위험 관리 없이는 조직이 가장 중요한 자산을 보호하는 데 투자를 집중하지 못하고 모든 곳에 균등하게(=비효율적으로) 보안 투자를 분산시킨다. 위험 관리는 제한된 보안 예산을 "가장 높은 위험"에 우선 배분하는 경제적 의사결정 프레임워크다.
-> 3. **판단 포인트**: [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에서 위험 관리는 핵심 요건(2.1.2 위험 관리)으로, 연 1회 이상 위험 평가를 수행하고 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))에 대한 경영진 승인이 필수다. 위험 = 발생 가능성(Likelihood) × 영향도(Impact) 공식과 위험 처리 4가지 방안(수용/전가/감소/회피)을 정확히 이해해야 한다.
+> 3. **판단 포인트**: [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/)에서 위험 관리는 핵심 요건(2.1.2 위험 관리)으로, 연 1회 이상 위험 평가를 수행하고 [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))에 대한 경영진 승인이 필수다. 위험 = 발생 가능성(Likelihood) × 영향도(Impact) 공식과 위험 처리 4가지 방안(수용/전가/감소/회피)을 정확히 이해해야 한다.
 
 ---
 
@@ -78,33 +75,33 @@ tags = ["studynote-security"]
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | [정성적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) | [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) |
+| 항목 | [정성적 위험 분석](/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) | [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) |
 |:---|:---|:---|
-| **방법** | 높음/중간/낮음 레벨 | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO |
+| **방법** | 높음/중간/낮음 레벨 | [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO |
 | **특징** | 주관적, 빠름 | 객관적, 시간·비용 높음 |
-| **적합성** | 중소 조직, [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 금융·대기업, 정밀 분석 |
+| **적합성** | 중소 조직, [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) | 금융·대기업, 정밀 분석 |
 
-[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = Annual Loss Expectancy, SLE = Single Loss Expectancy, ARO = Annual Rate of Occurrence
+[ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = Annual Loss Expectancy, SLE = Single Loss Expectancy, ARO = Annual Rate of Occurrence
 
-- **📢 섹션 요약 비유**: 정성적 분석은 날씨 예보(비올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) "높음"), 정량적 분석은 보험 계리사(연간 예상 손실액 정확히 계산)이다. 정확할수록 계산이 복잡하다.
+- **📢 섹션 요약 비유**: 정성적 분석은 날씨 예보(비올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) "높음"), 정량적 분석은 보험 계리사(연간 예상 손실액 정확히 계산)이다. 정확할수록 계산이 복잡하다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 위험 관리 수행 절차
-1. <strong>자산 <a href="/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 정보 자산 목록(서버, DB, 문서) 작성 + 중요도 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/).
-2. **위협·취약점 분석**: [CVE](/knowledge-base/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) [취약점 스캔](/knowledge-base/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/), 위협 인텔리전스 [참조](/knowledge-base/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/).
+### [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) 위험 관리 수행 절차
+1. <strong>자산 <a href="/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/">식별</a></strong>: 정보 자산 목록(서버, DB, 문서) 작성 + 중요도 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/).
+2. **위협·취약점 분석**: [CVE](/studynote/09_security/04_endpoint_security/409_cve_lifecycle/) [취약점 스캔](/studynote/09_security/13_secops_ir_forensics/675_vulnerability_scanning/), 위협 인텔리전스 [참조](/studynote/05_database/05_distributed_nosql_newsql/316_reference_pattern_nosql/).
 3. **위험 평가**: 3×3 또는 5×5 위험 매트릭스로 위험 수준 결정.
-4. **위험 처리**: [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 목록 -> [CISO](/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 보고 -> 경영진 승인.
+4. **위험 처리**: [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 목록 -> [CISO](/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/) 보고 -> 경영진 승인.
 5. **모니터링**: 연 1회 재평가 + 중요 변경 시 수시 평가.
 
-### [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) ([Residual Risk](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/))
+### [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) ([Residual Risk](/studynote/09_security/01_intro_principles/038_residual_risk/))
 - 모든 통제 적용 후에도 남아있는 위험.
-- 조직은 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)을 "수용"할지 추가 통제를 적용할지 결정해야 함.
-- [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/) 심사에서 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)에 대한 경영진 서명된 수용 결정서가 필수.
+- 조직은 [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)을 "수용"할지 추가 통제를 적용할지 결정해야 함.
+- [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/) 심사에서 [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)에 대한 경영진 서명된 수용 결정서가 필수.
 
-- **📢 섹션 요약 비유**: [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)은 안전벨트를 매도 교통사고에서 완벽히 안전하지 않은 것과 같다. 최대한 통제(안전벨트)를 갖추고 남은 위험을 경영진이 인식하고 수용한다.
+- **📢 섹션 요약 비유**: [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)은 안전벨트를 매도 교통사고에서 완벽히 안전하지 않은 것과 같다. 최대한 통제(안전벨트)를 갖추고 남은 위험을 경영진이 인식하고 수용한다.
 
 ---
 
@@ -113,12 +110,12 @@ tags = ["studynote-security"]
 | 기대효과 | 내용 |
 |:---|:---|
 | **합리적 투자** | 최고 위험에 보안 예산 우선 배분 |
-| **법적 증적** | [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/), [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위험 관리 의무 이행 |
-| **경영진 참여** | [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 수용으로 [보안 거버넌스](/knowledge-base/studynote/09_security/01_intro_principles/006_security_governance/) 확립 |
+| **법적 증적** | [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/), [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) 위험 관리 의무 이행 |
+| **경영진 참여** | [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 수용으로 [보안 거버넌스](/studynote/09_security/01_intro_principles/006_security_governance/) 확립 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지속적 위험 평가(Continuous [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)는 취약점 스캐너, 위협 인텔리전스, [SIEM](/knowledge-base/studynote/09_security/13_secops_ir_forensics/624_siem/) 이상 탐지를 통합하여 실시간으로 위험 수준을 업데이트하는 자동화된 위험 관리 플랫폼으로 발전하고 있다.
+[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지속적 위험 평가(Continuous [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)는 취약점 스캐너, 위협 인텔리전스, [SIEM](/studynote/09_security/13_secops_ir_forensics/624_siem/) 이상 탐지를 통합하여 실시간으로 위험 수준을 업데이트하는 자동화된 위험 관리 플랫폼으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: 전통 위험 관리는 연 1회 건강검진이고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지속적 위험 평가는 스마트워치로 24시간 건강을 모니터링하는 것이다. 실시간 이상 감지로 더 빠른 대응이 가능하다.
+- **📢 섹션 요약 비유**: 전통 위험 관리는 연 1회 건강검진이고, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 지속적 위험 평가는 스마트워치로 24시간 건강을 모니터링하는 것이다. 실시간 이상 감지로 더 빠른 대응이 가능하다.
 
 ---
 
@@ -128,9 +125,9 @@ tags = ["studynote-security"]
 |:---|:---|
 | **자산·위협·취약점** | 위험 계산의 3요소 |
 | **위험 처리 4방안** | 수용/전가/감소/회피 |
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/">잔여 위험</a></strong> | 통제 후 남은 위험, 경영진 수용 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 위험 관리 의무화 [인증](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a>/SLE/ARO</strong> | [정량적 위험 분석](/knowledge-base/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 공식 |
+| <strong><a href="/studynote/09_security/01_intro_principles/038_residual_risk/">잔여 위험</a></strong> | 통제 후 남은 위험, 경영진 수용 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/171_isms_p/">ISMS-P</a></strong> | 위험 관리 의무화 [인증](/studynote/04_software_engineering/05_devops_ci_cd/303_authentication_authorization_patterns/) 체계 |
+| <strong><a href="/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a>/SLE/ARO</strong> | [정량적 위험 분석](/studynote/09_security/01_intro_principles/028_quantitative_risk_analysis/) 공식 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -152,7 +149,7 @@ tags = ["studynote-security"]
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 위험 관리는 어떤 사고가 일어날 수 있는지 미리 찾아서([위험 식별](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)), 얼마나 위험한지 점수를 매기고(위험 평가), 어떻게 막을지 결정하는 과정이에요!
+1. 위험 관리는 어떤 사고가 일어날 수 있는지 미리 찾아서([위험 식별](/studynote/09_security/01_intro_principles/027_risk_identification/)), 얼마나 위험한지 점수를 매기고(위험 평가), 어떻게 막을지 결정하는 과정이에요!
 2. 방법은 4가지예요: 안전장치 설치(감소), 보험 가입(전가), "이 정도는 괜찮아"(수용), 위험한 일 자체를 안 하기(회피).
 3. 보안 예산이 한정되어 있으니 가장 위험한 것부터 먼저 막는 게 중요하답니다!
 
@@ -162,7 +159,7 @@ tags = ["studynote-security"]
 
 **진행 상황**: 26 / 1108
 
-<- **이전**: [25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드](/knowledge-base/studynote/09_security/01_intro_principles/025_security_procedure_manual/)
-**다음**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/) ->
+<- **이전**: [25. 보안 절차 매뉴얼 (Security Procedure Manual) — 정책의 실행 가이드](/studynote/09_security/01_intro_principles/025_security_procedure_manual/)
+**다음**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/studynote/09_security/01_intro_principles/027_risk_identification/) ->
 
 ---

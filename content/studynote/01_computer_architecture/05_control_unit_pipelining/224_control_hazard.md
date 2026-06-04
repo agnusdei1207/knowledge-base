@@ -1,27 +1,24 @@
-+++
-title = "224. 제어 해저드 (Control Hazard / Branch Hazard)"
-date = 2026-04-20
+---
+title: "224. 제어 해저드 (Control Hazard / Branch Hazard)"
+date: "2026-04-20"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 제어 해저드 (Control Hazard)는 분기 명령의 실제 다음 주소가 아직 확정되지 않았는데도 파이프라인이 먼저 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오면서 생기는 <strong><a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름의 불확실성</strong>이다.
-> 2. **가치**: [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)보다 빈도가 높고, 파이프라인이 깊을수록 한 번의 오예측이 더 많은 단계를 비우게 하므로 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 좌우한다.
-> 3. **판단 포인트**: 핵심은 분기 결과를 늦게 확정하는 구조를 얼마나 앞당기고, 그럼에도 남는 공백을 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))과 파이프라인 플러시 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Flush)로 얼마나 싸게 처리하느냐이다.
+> 1. **본질**: 제어 해저드 (Control Hazard)는 분기 명령의 실제 다음 주소가 아직 확정되지 않았는데도 파이프라인이 먼저 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오면서 생기는 <strong><a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 흐름의 불확실성</strong>이다.
+> 2. **가치**: [데이터 해저드](/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)보다 빈도가 높고, 파이프라인이 깊을수록 한 번의 오예측이 더 많은 단계를 비우게 하므로 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)을 크게 좌우한다.
+> 3. **판단 포인트**: 핵심은 분기 결과를 늦게 확정하는 구조를 얼마나 앞당기고, 그럼에도 남는 공백을 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/))과 파이프라인 플러시 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Flush)로 얼마나 싸게 처리하느냐이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-제어 해저드는 분기나 점프처럼 <strong>다음 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">프로그램 카운터</a> (Program <a href="/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>, <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong> 를 바꾸는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 때문에 생기는 파이프라인 위험이다. 순차 실행만 가정하면 인출 단계는 늘 `PC+4`를 따라가면 되지만, 실제 프로그램은 `if`, `loop`, `call`, `return`처럼 흐름을 꺾는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 매우 자주 사용한다. 문제는 이 분기 조건이 보통 해독 단계나 실행 단계까지 가야 확정된다는 점이다. 그 사이 파이프라인은 “일단 다음 줄을 읽자”라고 움직이기 때문에, 맞을 수도 틀릴 수도 있는 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 선행 진입한다.
+제어 해저드는 분기나 점프처럼 <strong>다음 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">프로그램 카운터</a> (Program <a href="/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/">Counter</a>, <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/">PC</a>)</strong> 를 바꾸는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 때문에 생기는 파이프라인 위험이다. 순차 실행만 가정하면 인출 단계는 늘 `PC+4`를 따라가면 되지만, 실제 프로그램은 `if`, `loop`, `call`, `return`처럼 흐름을 꺾는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 매우 자주 사용한다. 문제는 이 분기 조건이 보통 해독 단계나 실행 단계까지 가야 확정된다는 점이다. 그 사이 파이프라인은 “일단 다음 줄을 읽자”라고 움직이기 때문에, 맞을 수도 틀릴 수도 있는 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)가 선행 진입한다.
 
-이 현상이 중요한 이유는 파이프라인의 목표가 <strong>클럭마다 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 하나를 계속 투입하는 것</strong>이기 때문이다. 분기마다 멈추면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)의 효과가 줄고, 오예측마다 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버리느라 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 특히 분기 명령 비율이 15~25% 수준인 일반 코드에서는, 제어 해저드 대응이 약하면 산술 논리를 아무리 빨리 만들어도 전체 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기대만큼 오르지 않는다.
+이 현상이 중요한 이유는 파이프라인의 목표가 <strong>클럭마다 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 하나를 계속 투입하는 것</strong>이기 때문이다. 분기마다 멈추면 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수준 병렬성 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)-Level Parallelism, ILP)의 효과가 줄고, 오예측마다 잘못 들어온 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 버리느라 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 떨어진다. 특히 분기 명령 비율이 15~25% 수준인 일반 코드에서는, 제어 해저드 대응이 약하면 산술 논리를 아무리 빨리 만들어도 전체 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 기대만큼 오르지 않는다.
 
 ```text
 +--------------------------------------------------------------------------+
@@ -34,7 +31,7 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------------------+
 ```
 
-이 그림의 핵심은 CPU (Central Processing Unit)가 게으르지 않아서 문제가 생기는 것이 아니라, **너무 성실하게 미리 가져오기 때문에** 문제가 생긴다는 점이다. 따라서 제어 해저드는 “분기 명령이 느리다”의 문제가 아니라, “분기 결과가 확정되기 전까지도 파이프라인을 유지하고 싶다”는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 욕심에서 생긴 구조적 비용으로 봐야 한다.
+이 그림의 핵심은 CPU (Central Processing Unit)가 게으르지 않아서 문제가 생기는 것이 아니라, **너무 성실하게 미리 가져오기 때문에** 문제가 생긴다는 점이다. 따라서 제어 해저드는 “분기 명령이 느리다”의 문제가 아니라, “분기 결과가 확정되기 전까지도 파이프라인을 유지하고 싶다”는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 욕심에서 생긴 구조적 비용으로 봐야 한다.
 
 - **📢 섹션 요약 비유**: 고속도로에서 내비게이션 안내가 아직 안 나왔는데도 차가 계속 달리면, 일단 직진 차선으로 들어가게 된다. 안내가 맞으면 그대로 가고, 틀리면 급히 차선을 바꾸며 손해를 보는 것이 제어 해저드다.
 
@@ -42,14 +39,14 @@ tags = ["studynote-computer-architecture"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-5단 파이프라인을 기준으로 보면 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch, IF) 단계는 새 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고, 해독 ([Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decode, ID) 단계는 분기 종류와 피연산자를 해석하며, 실행 (Execute, EX) 단계는 비교와 목표 주소 계산을 수행한다. 제어 해저드는 바로 이 시간차에서 생긴다. 분기 결과를 EX에서 확정한다면, 그때까지 IF는 최소 두 번 이상 다음 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 추가로 가져오게 된다. 결과가 “분기함”으로 나오면 그 사이 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 모두 잘못된 경로에 있던 것이므로 무효화해야 한다.
+5단 파이프라인을 기준으로 보면 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Fetch, IF) 단계는 새 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 가져오고, 해독 ([Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Decode, ID) 단계는 분기 종류와 피연산자를 해석하며, 실행 (Execute, EX) 단계는 비교와 목표 주소 계산을 수행한다. 제어 해저드는 바로 이 시간차에서 생긴다. 분기 결과를 EX에서 확정한다면, 그때까지 IF는 최소 두 번 이상 다음 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 추가로 가져오게 된다. 결과가 “분기함”으로 나오면 그 사이 들어온 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)는 모두 잘못된 경로에 있던 것이므로 무효화해야 한다.
 
 | 단계 | 분기와 관련된 일 | 늦어질 때 생기는 비용 |
 | :--- | :--- | :--- |
-| IF | 현재 [PC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 | 잘못된 경로 선행 인출 |
-| ID | 분기 종류 해석, [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기 | 비교 준비 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| EX | 조건 비교, 목표 주소 계산 | 실제 분기 확정 시점 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
-| 이후 단계 | 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 제거 | 플러시 비용 확대 |
+| IF | 현재 [PC](/studynote/01_computer_architecture/04_instruction_set_architecture/164_pc/) 기준 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 인출 | 잘못된 경로 선행 인출 |
+| ID | 분기 종류 해석, [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/) 읽기 | 비교 준비 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| EX | 조건 비교, 목표 주소 계산 | 실제 분기 확정 시점 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) |
+| 이후 단계 | 잘못 들어온 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 제거 | 플러시 비용 확대 |
 
 ```text
 +--------------------------------------------------------------------------+
@@ -66,61 +63,61 @@ tags = ["studynote-computer-architecture"]
 +--------------------------------------------------------------------------+
 ```
 
-그래서 하드웨어는 두 방향으로 대응한다. 첫째, 비교기와 분기 목표 주소 계산기를 앞당겨 ID 단계에서 가능한 한 빨리 결과를 확정한다. 둘째, 그래도 남는 공백은 예측으로 메운다. 전자는 <strong>분기 패널티 자체를 줄이는 구조 개선</strong>이고, 후자는 <strong>남는 패널티를 평균적으로 덜 느끼게 만드는 운영 <a href="/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 현대 프로세서는 둘 다 함께 쓴다.
+그래서 하드웨어는 두 방향으로 대응한다. 첫째, 비교기와 분기 목표 주소 계산기를 앞당겨 ID 단계에서 가능한 한 빨리 결과를 확정한다. 둘째, 그래도 남는 공백은 예측으로 메운다. 전자는 <strong>분기 패널티 자체를 줄이는 구조 개선</strong>이고, 후자는 <strong>남는 패널티를 평균적으로 덜 느끼게 만드는 운영 <a href="/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/">전략</a></strong>이다. 현대 프로세서는 둘 다 함께 쓴다.
 
-- **📢 섹션 요약 비유**: 갈림길 표지판을 더 멀리서 보이게 만드는 것이 분기 확정 시점 앞당기기이고, 표지판이 안 보일 때 평소 습관대로 먼저 길을 고르는 것이 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이다.
+- **📢 섹션 요약 비유**: 갈림길 표지판을 더 멀리서 보이게 만드는 것이 분기 확정 시점 앞당기기이고, 표지판이 안 보일 때 평소 습관대로 먼저 길을 고르는 것이 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-제어 해저드 대응은 크게 **멈추기**, **미리 배치하기**, <strong>예측하기</strong>로 발전해 왔다. 단순 스톨 (Stall)은 정확하지만 매번 기다려야 해서 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 낮다. [지연 분기](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) ([Delayed Branch](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/))는 컴파일러가 분기 뒤의 빈 칸을 유용한 명령으로 채워 하드웨어 부담을 줄였지만, 깊은 파이프라인과 [비순차 실행](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 구조에서는 유지가 어려웠다. 결국 현재의 표준은 정적 예측보다 더 정교한 동적 예측 ([Dynamic Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/))이다.
+제어 해저드 대응은 크게 **멈추기**, **미리 배치하기**, <strong>예측하기</strong>로 발전해 왔다. 단순 스톨 (Stall)은 정확하지만 매번 기다려야 해서 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/)이 낮다. [지연 분기](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) ([Delayed Branch](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/))는 컴파일러가 분기 뒤의 빈 칸을 유용한 명령으로 채워 하드웨어 부담을 줄였지만, 깊은 파이프라인과 [비순차 실행](/studynote/01_computer_architecture/05_control_unit_pipelining/238_out_of_order_execution/) 구조에서는 유지가 어려웠다. 결국 현재의 표준은 정적 예측보다 더 정교한 동적 예측 ([Dynamic Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/))이다.
 
 | 방식 | 핵심 아이디어 | 장점 | 한계 |
 | :--- | :--- | :--- | :--- |
-| 스톨 (Stall) | 결과 나올 때까지 인출 중지 | 구현 단순, 항상 안전 | 분기마다 [처리량](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 급감 |
-| [지연 분기](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) ([Delayed Branch](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/)) | 분기 뒤 슬롯을 컴파일러가 활용 | [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [RISC](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)에 효율적 | 슬롯 채우기 어려움, 이식성 낮음 |
-| 정적 예측 ([Static Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/)) | 항상 taken / not taken 같은 고정 규칙 | 하드웨어 단순 | 코드 패턴 변화에 약함 |
-| 동적 예측 ([Dynamic Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/)) | 과거 분기 이력으로 미래 추정 | 높은 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 현대 CPU 표준 | 테이블 면적·전력 증가 |
+| 스톨 (Stall) | 결과 나올 때까지 인출 중지 | 구현 단순, 항상 안전 | 분기마다 [처리량](/studynote/01_computer_architecture/03_architecture_basics_performance/139_throughput/) 급감 |
+| [지연 분기](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) ([Delayed Branch](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/)) | 분기 뒤 슬롯을 컴파일러가 활용 | [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) [RISC](/studynote/01_computer_architecture/04_instruction_set_architecture/195_risc/) (Reduced [Instruction](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) Set Computer)에 효율적 | 슬롯 채우기 어려움, 이식성 낮음 |
+| 정적 예측 ([Static Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/232_static_prediction/)) | 항상 taken / not taken 같은 고정 규칙 | 하드웨어 단순 | 코드 패턴 변화에 약함 |
+| 동적 예측 ([Dynamic Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/233_dynamic_prediction/)) | 과거 분기 이력으로 미래 추정 | 높은 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/), 현대 CPU 표준 | 테이블 면적·전력 증가 |
 
-다른 해저드와의 경계도 중요하다. [데이터 해저드](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/))는 값이 아직 준비되지 않아 생기고, 구조 해저드 ([Structural Hazard](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))는 자원이 동시에 필요해서 생긴다. 반면 제어 해저드는 <strong>값보다 흐름, 자원보다 경로</strong>의 문제다. 따라서 전달 경로 (Forwarding)만 잘 만들어서는 해결되지 않으며, 분기 대상 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)), 패턴 이력 테이블 (Pattern History Table, PHT), 반환 주소 [스택](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Return Address [Stack](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/057_stack/), [RAS](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/449_ras/)) 같은 전용 장치가 추가된다.
+다른 해저드와의 경계도 중요하다. [데이터 해저드](/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/) ([Data Hazard](/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/))는 값이 아직 준비되지 않아 생기고, 구조 해저드 ([Structural Hazard](/studynote/01_computer_architecture/05_control_unit_pipelining/222_structural_hazard/))는 자원이 동시에 필요해서 생긴다. 반면 제어 해저드는 <strong>값보다 흐름, 자원보다 경로</strong>의 문제다. 따라서 전달 경로 (Forwarding)만 잘 만들어서는 해결되지 않으며, 분기 대상 버퍼 (Branch Target Buffer, [BTB](/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)), 패턴 이력 테이블 (Pattern History Table, PHT), 반환 주소 [스택](/studynote/08_algorithm_stats/04_datastructure/057_stack/) (Return Address [Stack](/studynote/08_algorithm_stats/04_datastructure/057_stack/), [RAS](/studynote/01_computer_architecture/13_reliability_power_management/449_ras/)) 같은 전용 장치가 추가된다.
 
-이 비교를 통해 드러나는 핵심은 제어 해저드가 단순히 파이프라인 한 단의 문제가 아니라, 컴파일러·[명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))·마이크로아키텍처가 함께 조정해야 하는 <strong>교차 계층 문제</strong>라는 점이다. 그래서 오래된 ISA에서는 [지연 분기](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) 흔적이 보이고, 현대 고성능 코어에서는 복잡한 [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기가 큰 비중을 차지한다.
+이 비교를 통해 드러나는 핵심은 제어 해저드가 단순히 파이프라인 한 단의 문제가 아니라, 컴파일러·[명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 집합 구조 ([Instruction Set Architecture](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/), [ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/))·마이크로아키텍처가 함께 조정해야 하는 <strong>교차 계층 문제</strong>라는 점이다. 그래서 오래된 ISA에서는 [지연 분기](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/) 흔적이 보이고, 현대 고성능 코어에서는 복잡한 [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)기가 큰 비중을 차지한다.
 
-- **📢 섹션 요약 비유**: 멈추기는 신호가 바뀔 때까지 정지선에서 기다리는 방식이고, [지연 분기](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/)는 기다리는 동안 트렁크 정리를 하는 방식이며, 동적 예측은 평소 교통 패턴을 보고 신호를 미리 짐작해 출발하는 방식이다.
+- **📢 섹션 요약 비유**: 멈추기는 신호가 바뀔 때까지 정지선에서 기다리는 방식이고, [지연 분기](/studynote/01_computer_architecture/05_control_unit_pipelining/230_delayed_branch/)는 기다리는 동안 트렁크 정리를 하는 방식이며, 동적 예측은 평소 교통 패턴을 보고 신호를 미리 짐작해 출발하는 방식이다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 중요한 질문은 “분기를 없앨 수 있는가”보다 “분기 비용을 어디까지 감당할 것인가”이다. 고성능 서버용 CPU는 수만~수십만 엔트리의 예측 구조를 써서 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 극대화하고, 모바일이나 임베디드 코어는 면적·전력·발열을 고려해 더 단순한 예측기를 택하기도 한다. 즉 정답은 하나가 아니라 목표 PPA ([Power](/knowledge-base/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area)에 따라 달라진다.
+실무에서 중요한 질문은 “분기를 없앨 수 있는가”보다 “분기 비용을 어디까지 감당할 것인가”이다. 고성능 서버용 CPU는 수만~수십만 엔트리의 예측 구조를 써서 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)을 극대화하고, 모바일이나 임베디드 코어는 면적·전력·발열을 고려해 더 단순한 예측기를 택하기도 한다. 즉 정답은 하나가 아니라 목표 PPA ([Power](/studynote/14_data_engineering/02_math_mining/069_type_1_2_error_statistical_power/), [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/), Area)에 따라 달라진다.
 
-### 설계 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. <strong>분기 확정 시점</strong>을 EX에서 ID로 당길 수 있는가, 아니면 타이밍 여유가 부족한가?
 2. <strong>오예측 패널티</strong>가 몇 사이클인가? 파이프라인 깊이가 깊을수록 예측기 투자가 더 정당화된다.
-3. <strong>코드 패턴</strong>이 루프 중심인지, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존적 분기가 많은지에 따라 2비트 포화 [카운터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 지역/전역 이력, 하이브리드 예측기 중 무엇이 유리한가?
+3. <strong>코드 패턴</strong>이 루프 중심인지, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존적 분기가 많은지에 따라 2비트 포화 [카운터](/studynote/01_computer_architecture/01_basic_electronics_logic/059_counter/), 지역/전역 이력, 하이브리드 예측기 중 무엇이 유리한가?
 4. <strong>컴파일러 최적화</strong>에서 분기 없는 조건 이동 (Conditional Move)이나 루프 전개로 분기 빈도를 낮출 수 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 오예측 패널티가 큰데도 “분기 비율이 높지 않겠지”라고 가정하고 예측기 투자를 생략하는 설계
-- 분기 타깃 계산이 늦은데도 [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/) 없이 방향 예측만 강화하는 설계
+- 분기 타깃 계산이 늦은데도 [BTB](/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/) 없이 방향 예측만 강화하는 설계
 - 보안 이슈를 무시하고 투기 실행 (Speculative Execution) 범위를 과도하게 넓히는 설계
 
-실제 기술사 답안에서는 단순히 “[분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)을 사용한다”로 끝내면 부족하다. **왜 예측이 필요한지**, **예측 실패 시 무엇을 희생하는지**, <strong><a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상과 전력·보안 비용 사이에서 어떤 균형을 잡는지</strong>까지 말해야 설계 관점의 답이 된다.
+실제 기술사 답안에서는 단순히 “[분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)을 사용한다”로 끝내면 부족하다. **왜 예측이 필요한지**, **예측 실패 시 무엇을 희생하는지**, <strong><a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a> 향상과 전력·보안 비용 사이에서 어떤 균형을 잡는지</strong>까지 말해야 설계 관점의 답이 된다.
 
-- **📢 섹션 요약 비유**: 비싼 내비게이션은 길을 더 잘 맞히지만 배터리도 더 먹고 가격도 높다. 도시형 경차와 장거리 화물차가 같은 내비게이션 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 쓰지 않는 것처럼, CPU도 목표에 따라 분기 대응 수준이 달라진다.
+- **📢 섹션 요약 비유**: 비싼 내비게이션은 길을 더 잘 맞히지만 배터리도 더 먹고 가격도 높다. 도시형 경차와 장거리 화물차가 같은 내비게이션 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)을 쓰지 않는 것처럼, CPU도 목표에 따라 분기 대응 수준이 달라진다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
 
-제어 해저드를 잘 다루면 파이프라인은 분기 많은 프로그램에서도 높은 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율을 유지할 수 있다. 같은 클럭 주파수에서도 평균 사이클당 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([Instructions Per Cycle](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/), [IPC](/knowledge-base/studynote/02_operating_system/02_process_thread/117_ipc/))가 올라가고, 특히 반복문과 함수 호출이 많은 일반 애플리케이션에서 체감 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 커진다. 다시 말해 제어 해저드 대응은 “예외 상황 처리”가 아니라, 현실적인 프로그램을 빠르게 돌리기 위한 핵심 기반이다.
+제어 해저드를 잘 다루면 파이프라인은 분기 많은 프로그램에서도 높은 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 처리율을 유지할 수 있다. 같은 클럭 주파수에서도 평균 사이클당 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/) 수 ([Instructions Per Cycle](/studynote/01_computer_architecture/03_architecture_basics_performance/135_ipc/), [IPC](/studynote/02_operating_system/02_process_thread/117_ipc/))가 올라가고, 특히 반복문과 함수 호출이 많은 일반 애플리케이션에서 체감 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)이 커진다. 다시 말해 제어 해저드 대응은 “예외 상황 처리”가 아니라, 현실적인 프로그램을 빠르게 돌리기 위한 핵심 기반이다.
 
-다만 한계도 분명하다. 예측기는 완벽할 수 없고, 분기 패턴이 불규칙하면 [적중률](/knowledge-base/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 급락할 수 있다. 또한 깊은 투기 실행은 보안 취약점과 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도를 키운다. 그래서 미래 방향은 예측기만 무한히 키우는 것이 아니라, 분기 없는 코드 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 조건부 실행, 더 짧은 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 경로, 보안 제약을 고려한 제한적 투기처럼 <strong><a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 비용 자체를 줄이는 방향</strong>과 함께 가야 한다.
+다만 한계도 분명하다. 예측기는 완벽할 수 없고, 분기 패턴이 불규칙하면 [적중률](/studynote/01_computer_architecture/06_memory_hierarchy_cache/264_hit_ratio/)이 급락할 수 있다. 또한 깊은 투기 실행은 보안 취약점과 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 복잡도를 키운다. 그래서 미래 방향은 예측기만 무한히 키우는 것이 아니라, 분기 없는 코드 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/), 조건부 실행, 더 짧은 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 경로, 보안 제약을 고려한 제한적 투기처럼 <strong><a href="/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a> 비용 자체를 줄이는 방향</strong>과 함께 가야 한다.
 
-결국 제어 해저드는 “분기 때문에 파이프라인이 멈춘다”로만 외우면 얕다. 더 정확한 기억법은 <strong>“미래의 <a href="/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 경로를 아직 모르는데도 <a href="/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 위해 먼저 움직여야 할 때 생기는 비용, 그리고 그 비용을 예측과 <a href="/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>으로 관리하는 기술”</strong> 이다.
+결국 제어 해저드는 “분기 때문에 파이프라인이 멈춘다”로만 외우면 얕다. 더 정확한 기억법은 <strong>“미래의 <a href="/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/">명령어</a> 경로를 아직 모르는데도 <a href="/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/">성능</a>을 위해 먼저 움직여야 할 때 생기는 비용, 그리고 그 비용을 예측과 <a href="/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/">회복</a>으로 관리하는 기술”</strong> 이다.
 
 - **📢 섹션 요약 비유**: 날씨를 100% 맞힐 수는 없지만, 우산 예보와 빠른 대피 계획이 있으면 비 오는 날의 손해를 크게 줄일 수 있다. 제어 해저드 대응도 맞히는 능력과 틀렸을 때 복구하는 능력을 함께 갖추는 일이다.
 
@@ -130,11 +127,11 @@ tags = ["studynote-computer-architecture"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 파이프라인 플러시 ([Pipeline](/knowledge-base/studynote/12_it_management/02_itsm_itil/082_pipeline/) Flush) | 오예측 시 잘못 들어온 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 무효화하는 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 절차 |
-| [분기 예측](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) | 분기 결과 확정 전에도 인출을 계속하기 위한 핵심 보조 기술 |
-| 분기 대상 버퍼 (Branch Target Buffer, [BTB](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)) | 분기 방향뿐 아니라 목표 주소까지 빠르게 제공해 IF [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄임 |
-| 투기 실행 (Speculative Execution) | 예측을 믿고 실제 확정 전에 [명령어](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행하는 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| 조건부 이동 (Conditional Move) | 분기 자체를 줄여 제어 해저드 빈도를 낮추는 소프트웨어/[ISA](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 기법 |
+| 파이프라인 플러시 ([Pipeline](/studynote/12_it_management/02_itsm_itil/082_pipeline/) Flush) | 오예측 시 잘못 들어온 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 무효화하는 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/) 절차 |
+| [분기 예측](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/) ([Branch Prediction](/studynote/01_computer_architecture/05_control_unit_pipelining/231_branch_prediction/)) | 분기 결과 확정 전에도 인출을 계속하기 위한 핵심 보조 기술 |
+| 분기 대상 버퍼 (Branch Target Buffer, [BTB](/studynote/01_computer_architecture/05_control_unit_pipelining/234_btb/)) | 분기 방향뿐 아니라 목표 주소까지 빠르게 제공해 IF [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 줄임 |
+| 투기 실행 (Speculative Execution) | 예측을 믿고 실제 확정 전에 [명령어](/studynote/01_computer_architecture/04_instruction_set_architecture/158_instruction/)를 먼저 실행하는 확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| 조건부 이동 (Conditional Move) | 분기 자체를 줄여 제어 해저드 빈도를 낮추는 소프트웨어/[ISA](/studynote/01_computer_architecture/04_instruction_set_architecture/157_isa/) 기법 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -157,7 +154,7 @@ tags = ["studynote-computer-architecture"]
 투기 실행 (Speculative Execution) · 하이브리드 예측기
 ```
 
-이 흐름은 제어 해저드 대응이 단순 정지에서 출발해, 예측과 [회복](/knowledge-base/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)을 결합한 적극적 실행 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전해 왔음을 보여준다.
+이 흐름은 제어 해저드 대응이 단순 정지에서 출발해, 예측과 [회복](/studynote/05_database/04_transactions_concurrency/233_recovery_database_restoration_overview/)을 결합한 적극적 실행 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로 발전해 왔음을 보여준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -171,7 +168,7 @@ tags = ["studynote-computer-architecture"]
 
 **진행 상황**: 224 / 803
 
-<- **이전**: [223. 데이터 해저드 (Data Hazard)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)
-**다음**: [225. RAW (Read After Write)](/knowledge-base/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) ->
+<- **이전**: [223. 데이터 해저드 (Data Hazard)](/studynote/01_computer_architecture/05_control_unit_pipelining/223_data_hazard/)
+**다음**: [225. RAW (Read After Write)](/studynote/01_computer_architecture/05_control_unit_pipelining/225_raw/) ->
 
 ---

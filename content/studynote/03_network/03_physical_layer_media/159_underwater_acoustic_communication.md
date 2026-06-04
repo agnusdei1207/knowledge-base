@@ -1,25 +1,22 @@
-+++
-title = "159. 음향 통신 (수중 음파 통신)"
-date = 2026-05-05
+---
+title: "159. 음향 통신 (수중 음파 통신)"
+date: "2026-05-05"
+tags:
+  - "studynote-network"
+---
 
-[taxonomies]
-tags = ["studynote-network"]
-
-[extra]
-tags = ["studynote-network"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 음향 통신 (수중 음파 통신)은 물속에서 전자기파보다 훨씬 멀리 전달되는 음파를 이용해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 통신 방식이다.
-> 2. **가치**: 잠수함, AUV (Autonomous Underwater Vehicle), ROV (Remotely Operated Vehicle), 해저 센서처럼 물속 장비를 장거리로 연결할 수 있는 사실상 가장 현실적인 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다.
-> 3. **판단 포인트**: 수중 음향 통신은 느리고 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크며 다중 경로와 도플러 왜곡이 심하므로, 지상 무선망의 속도·[프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 가정을 그대로 가져오면 실패한다.
+> 1. **본질**: 음향 통신 (수중 음파 통신)은 물속에서 전자기파보다 훨씬 멀리 전달되는 음파를 이용해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 보내는 통신 방식이다.
+> 2. **가치**: 잠수함, AUV (Autonomous Underwater Vehicle), ROV (Remotely Operated Vehicle), 해저 센서처럼 물속 장비를 장거리로 연결할 수 있는 사실상 가장 현실적인 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)다.
+> 3. **판단 포인트**: 수중 음향 통신은 느리고 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크며 다중 경로와 도플러 왜곡이 심하므로, 지상 무선망의 속도·[프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/) 가정을 그대로 가져오면 실패한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-수중 음향 통신은 바닷물이나 호수 같은 수중 환경에서 음파를 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)로 사용해 정보를 주고받는 기술이다. 지상에서는 RF (Radio Frequency) 전파와 광통신이 널리 쓰이지만, 물속에서는 전자기파가 빠르게 감쇠하고 빛도 탁도와 산란에 매우 민감하다. 그래서 장거리 수중 통신에서는 소리가 가장 실용적인 선택지가 된다.
+수중 음향 통신은 바닷물이나 호수 같은 수중 환경에서 음파를 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)로 사용해 정보를 주고받는 기술이다. 지상에서는 RF (Radio Frequency) 전파와 광통신이 널리 쓰이지만, 물속에서는 전자기파가 빠르게 감쇠하고 빛도 탁도와 산란에 매우 민감하다. 그래서 장거리 수중 통신에서는 소리가 가장 실용적인 선택지가 된다.
 
 이 기술이 필요한 이유는 해양 환경이 지상 통신의 전제를 거의 모두 무너뜨리기 때문이다. 잠수함 간 메시지, 해저 지진·쓰나미 센서의 경보 전달, 해양 자원 탐사 장비의 상태 보고, 무인 잠수정 군집 제어는 모두 물속에서 이뤄진다. 그런데 유선 케이블은 범위와 기동성에 한계가 있고, RF는 매우 짧은 거리 또는 초저주파 특수 장비가 아니면 효율이 떨어진다. 결국 수중에서 “멀리, 현실적으로, 에너지 예산 안에서” 통신하려면 음향 채널을 이해해야 한다.
 
@@ -29,7 +26,7 @@ tags = ["studynote-network"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-수중 음향 통신 시스템은 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 음파로 바꾸는 수중 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) (Acoustic Modem), 실제로 물을 진동시키는 트랜스듀서 (Transducer), 음파를 받는 하이드로폰 (Hydrophone), 채널 왜곡을 보정하는 복조·등화 회로로 구성된다. 물속에서 소리의 속도는 대략 1,500m/s 수준으로 공기보다 빠르지만, 전파에 비하면 매우 느리다. 이 때문에 전송 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크고, 해수면·해저 반사, 수온·염분 변화, 상대 이동에 따른 [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)가 품질을 크게 흔든다.
+수중 음향 통신 시스템은 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 음파로 바꾸는 수중 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) (Acoustic Modem), 실제로 물을 진동시키는 트랜스듀서 (Transducer), 음파를 받는 하이드로폰 (Hydrophone), 채널 왜곡을 보정하는 복조·등화 회로로 구성된다. 물속에서 소리의 속도는 대략 1,500m/s 수준으로 공기보다 빠르지만, 전파에 비하면 매우 느리다. 이 때문에 전송 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)이 크고, 해수면·해저 반사, 수온·염분 변화, 상대 이동에 따른 [도플러 효과](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)가 품질을 크게 흔든다.
 
 ### 대표 운용 특성
 
@@ -59,7 +56,7 @@ tags = ["studynote-network"]
 +----------------------------------------------------------------------------+
 ```
 
-이 그림의 핵심은 수신기가 “한 번의 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)”를 받는 것이 아니라, 시간차를 두고 여러 경로의 복사본을 함께 받는다는 점이다. 예를 들어 15km 떨어진 두 장비 사이에서는 편도 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 약 10초 수준이 될 수 있고, 반사파가 겹치면 심벌 간 간섭 (Inter-Symbol Interference)이 발생한다. 그래서 수중 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 단순 변조기보다 채널 추정, [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 전방 오류 정정 (FEC, [Forward](/knowledge-base/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction), 적응형 등화가 훨씬 중요하다.
+이 그림의 핵심은 수신기가 “한 번의 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)”를 받는 것이 아니라, 시간차를 두고 여러 경로의 복사본을 함께 받는다는 점이다. 예를 들어 15km 떨어진 두 장비 사이에서는 편도 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)만 약 10초 수준이 될 수 있고, 반사파가 겹치면 심벌 간 간섭 (Inter-Symbol Interference)이 발생한다. 그래서 수중 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)은 단순 변조기보다 채널 추정, [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/), 전방 오류 정정 (FEC, [Forward](/studynote/10_ai/03_llm_nlp/235_forward_backward_chaining/) Error Correction), 적응형 등화가 훨씬 중요하다.
 
 - **📢 섹션 요약 비유**: 수중 음향 채널은 큰 동굴 안에서 말을 전달하는 것과 같다. 상대는 내 목소리뿐 아니라 벽에 부딪혀 돌아온 메아리까지 함께 듣기 때문에, 천천히 또렷하게 말해야 한다.
 
@@ -67,37 +64,37 @@ tags = ["studynote-network"]
 
 ## Ⅲ. 비교 및 연결
 
-수중 환경에서는 음향 통신만 있는 것이 아니다. 짧은 거리에서는 수중 광통신도 쓰이고, 특수 목적에서는 초저주파 RF가 제한적으로 쓰인다. 중요한 것은 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 강점이 다르다는 점이다.
+수중 환경에서는 음향 통신만 있는 것이 아니다. 짧은 거리에서는 수중 광통신도 쓰이고, 특수 목적에서는 초저주파 RF가 제한적으로 쓰인다. 중요한 것은 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)별 강점이 다르다는 점이다.
 
 | 항목 | 수중 음향 통신 | 수중 광통신 | 수중 RF 통신 |
 | :--- | :--- | :--- | :--- |
-| 주 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) | 음파 | 빛 | 전자기파 |
+| 주 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/) | 음파 | 빛 | 전자기파 |
 | 대표 장점 | 장거리 전송 | 높은 전송률 | 특정 근거리/특수 환경 활용 |
 | 대표 한계 | 저속, 고지연, 메아리 | 탁도·정렬·가시선 민감 | 감쇠 큼, 거리 제한 심함 |
-| 적합한 용도 | 잠수함, 해저 센서, AUV | 도킹, 근거리 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프로드 | 특수 제어, 극단적 근거리 |
+| 적합한 용도 | 잠수함, 해저 센서, AUV | 도킹, 근거리 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오프로드 | 특수 제어, 극단적 근거리 |
 
-즉 수중 음향 통신은 “가장 빠른 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)”가 아니라 “가장 멀리 가는 현실적 [매체](/knowledge-base/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)”다. 반대로 수중 광통신은 짧은 거리에서 고속 전송에 유리해, AUV 도킹이나 수중 로봇 간 근거리 링크에 적합하다. 따라서 실제 해양 시스템은 음향·광·유선 링크를 계층적으로 조합하는 하이브리드 구조를 자주 사용한다. 네트워크 계층에서도 긴 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 간헐 연결을 고려한 DTN (Delay Tolerant Networking) 사고방식이 중요해진다.
+즉 수중 음향 통신은 “가장 빠른 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)”가 아니라 “가장 멀리 가는 현실적 [매체](/studynote/03_network/03_physical_layer_media/121_transmission_media_guided_unguided/)”다. 반대로 수중 광통신은 짧은 거리에서 고속 전송에 유리해, AUV 도킹이나 수중 로봇 간 근거리 링크에 적합하다. 따라서 실제 해양 시스템은 음향·광·유선 링크를 계층적으로 조합하는 하이브리드 구조를 자주 사용한다. 네트워크 계층에서도 긴 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)과 간헐 연결을 고려한 DTN (Delay Tolerant Networking) 사고방식이 중요해진다.
 
-- **📢 섹션 요약 비유**: 수중 음향 통신이 멀리 들리는 북소리라면, 수중 광통신은 가까이서 빠르게 주고받는 손전등 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)다. 둘 다 필요하지만 쓰는 거리가 다르다.
+- **📢 섹션 요약 비유**: 수중 음향 통신이 멀리 들리는 북소리라면, 수중 광통신은 가까이서 빠르게 주고받는 손전등 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)다. 둘 다 필요하지만 쓰는 거리가 다르다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서는 전송률보다 링크 예측 가능성과 에너지 효율이 더 중요할 때가 많다. 해저 센서망은 수 초~수십 초 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감수하고도 경보 메시지를 확실히 보내야 하고, AUV는 배터리 예산 안에서 위치·상태 패킷을 주기적으로 전송해야 한다. 따라서 주파수 선택, 변조 방식, 패킷 길이, 재전송 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/), 수면/해저 반사 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)이 모두 설계 판단 요소가 된다.
+실무에서는 전송률보다 링크 예측 가능성과 에너지 효율이 더 중요할 때가 많다. 해저 센서망은 수 초~수십 초 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)을 감수하고도 경보 메시지를 확실히 보내야 하고, AUV는 배터리 예산 안에서 위치·상태 패킷을 주기적으로 전송해야 한다. 따라서 주파수 선택, 변조 방식, 패킷 길이, 재전송 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/), 수면/해저 반사 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/)이 모두 설계 판단 요소가 된다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. **요구 범위가 거리 중심인가, 속도 중심인가?** 장거리일수록 낮은 주파수와 낮은 전송률을 감수해야 한다.
-2. <strong>왕복 <a href="/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 <a href="/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>이 감당하는가?</strong> 지상 [TCP](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Transmission Control Protocol](/knowledge-base/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))식 즉시 ACK 가정은 비효율적일 수 있다.
-3. **다중 경로와 도플러를 보정할 수 있는가?** 이동체 통신일수록 [동기화](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 등화가 중요하다.
+2. <strong>왕복 <a href="/studynote/03_network/01_data_communication/015_지연_데이터_관점/">지연</a>을 <a href="/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/">프로토콜</a>이 감당하는가?</strong> 지상 [TCP](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/) ([Transmission Control Protocol](/studynote/03_network/08_transport_layer/405_tcp_transmission_control_protocol_connection_oriented/))식 즉시 ACK 가정은 비효율적일 수 있다.
+3. **다중 경로와 도플러를 보정할 수 있는가?** 이동체 통신일수록 [동기화](/studynote/02_operating_system/03_cpu_scheduling/212_synchronization_mechanisms/)와 등화가 중요하다.
 4. **배터리와 송신 전력을 고려했는가?** 수중 장비는 교체 주기가 길어 에너지 예산이 핵심이다.
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
-- 수중 링크에 지상 무선 LAN 수준의 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·대역폭을 기대하는 설계
-- 반사 [환경 분석](/knowledge-base/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 없이 단순 거리 계산만으로 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 선택하는 판단
-- 제어 메시지와 대용량 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 처리해 링크를 포화시키는 운영
+- 수중 링크에 지상 무선 LAN 수준의 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/)·대역폭을 기대하는 설계
+- 반사 [환경 분석](/studynote/12_it_management/03_ea_isp/102_environmental_analysis_pest_5forces_value_chain/) 없이 단순 거리 계산만으로 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/)을 선택하는 판단
+- 제어 메시지와 대용량 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 같은 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/)으로 처리해 링크를 포화시키는 운영
 
 - **📢 섹션 요약 비유**: 수중 음향 통신 설계는 산길에서 트럭을 모는 일과 같다. 고속도로처럼 빨리 달리는 것보다, 천천히 가더라도 전복되지 않고 목적지에 도착하는 것이 더 중요하다.
 
@@ -105,9 +102,9 @@ tags = ["studynote-network"]
 
 ## Ⅴ. 기대효과 및 결론
 
-수중 음향 통신은 해양 감시, 자원 탐사, 국방, 환경 모니터링, 해양 로봇 협업의 기반이 된다. 이 기술이 있어야 해저 센서가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리고, 무인 잠수정이 명령을 받고, 사람이 직접 닿기 어려운 환경에서도 장비 상태를 확인할 수 있다. 특히 장거리 무선 수중 링크가 가능하다는 점에서 해양 정보화의 핵심 인프라다.
+수중 음향 통신은 해양 감시, 자원 탐사, 국방, 환경 모니터링, 해양 로봇 협업의 기반이 된다. 이 기술이 있어야 해저 센서가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 올리고, 무인 잠수정이 명령을 받고, 사람이 직접 닿기 어려운 환경에서도 장비 상태를 확인할 수 있다. 특히 장거리 무선 수중 링크가 가능하다는 점에서 해양 정보화의 핵심 인프라다.
 
-다만 이 기술은 본질적으로 저대역폭·고지연 채널 위에 서 있다. 따라서 지상 통신처럼 “빠른 인터넷”으로 기억하기보다, <strong>“열악한 수중 채널에서 <a href="/knowledge-base/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 정보를 운반하는 해양 특화 통신”</strong>으로 이해해야 한다. 앞으로는 적응형 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 하이브리드 수중 네트워크, 협업형 AUV 군집과 결합해 더 실용적인 형태로 발전할 가능성이 크다.
+다만 이 기술은 본질적으로 저대역폭·고지연 채널 위에 서 있다. 따라서 지상 통신처럼 “빠른 인터넷”으로 기억하기보다, <strong>“열악한 수중 채널에서 <a href="/studynote/04_software_engineering/10_trends_pm_quality/642_reliability_mtbf_mttr_mttf_availability/">신뢰성</a> 있게 정보를 운반하는 해양 특화 통신”</strong>으로 이해해야 한다. 앞으로는 적응형 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/), 하이브리드 수중 네트워크, 협업형 AUV 군집과 결합해 더 실용적인 형태로 발전할 가능성이 크다.
 
 - **📢 섹션 요약 비유**: 수중 음향 통신은 물속 우편배달부와 같다. 편지는 천천히 오지만, 멀고 위험한 곳까지 끝내 전달해 준다는 점이 가장 중요하다.
 
@@ -117,11 +114,11 @@ tags = ["studynote-network"]
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| 수중 [모뎀](/knowledge-base/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) (Acoustic Modem) | 디지털 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 음파로 변조·복조하는 핵심 장비 |
-| 트랜스듀서 (Transducer) | 전기 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 물속 진동으로 바꾸는 송신 소자 |
-| 하이드로폰 (Hydrophone) | 수중 음향 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 수신하는 센서 |
-| [도플러 효과](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ([Doppler Effect](/knowledge-base/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)) | 송수신기 상대 이동으로 주파수 왜곡이 발생 |
-| 다중 경로 ([Multipath](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) | 수면·해저 반사로 여러 경로 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 중첩 |
+| 수중 [모뎀](/studynote/03_network/03_physical_layer_media/146_modem_modulator_demodulator/) (Acoustic Modem) | 디지털 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 음파로 변조·복조하는 핵심 장비 |
+| 트랜스듀서 (Transducer) | 전기 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 물속 진동으로 바꾸는 송신 소자 |
+| 하이드로폰 (Hydrophone) | 수중 음향 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 수신하는 센서 |
+| [도플러 효과](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/) ([Doppler Effect](/studynote/03_network/03_physical_layer_media/169_doppler_effect_fast_fading/)) | 송수신기 상대 이동으로 주파수 왜곡이 발생 |
+| 다중 경로 ([Multipath](/studynote/02_operating_system/08_storage_and_io_systems/500_multipath_io/)) | 수면·해저 반사로 여러 경로 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 중첩 |
 | UASN (Underwater Acoustic Sensor Network) | 수중 음향 센서망으로 확장된 응용 구조 |
 
 ### 📈 관련 키워드 및 발전 흐름도
@@ -139,12 +136,12 @@ tags = ["studynote-network"]
 해저 센서망 · AUV / ROV 제어 · 하이브리드 수중 네트워크
 ```
 
-이 흐름은 수중 음향 통신이 단순한 대체 기술이 아니라, 수중 환경의 물리 제약에서 출발해 전용 장비와 [프로토콜](/knowledge-base/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 해양 응용망으로 확장되는 기술임을 보여 준다.
+이 흐름은 수중 음향 통신이 단순한 대체 기술이 아니라, 수중 환경의 물리 제약에서 출발해 전용 장비와 [프로토콜](/studynote/03_network/06_network_layer_ip/295_protocol_field_tcp_udp_icmp/), 해양 응용망으로 확장되는 기술임을 보여 준다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 바닷속에서는 무전기 소리가 멀리 잘 안 가서, 컴퓨터가 소리 파동으로 이야기해요.
-2. 그래서 잠수함이나 바닷속 로봇은 북소리처럼 천천히 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받아요.
+2. 그래서 잠수함이나 바닷속 로봇은 북소리처럼 천천히 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)를 주고받아요.
 3. 조금 느리지만 멀리까지 들을 수 있어서 바닷속에서는 아주 중요한 방법이에요.
 
 ---
@@ -153,7 +150,7 @@ tags = ["studynote-network"]
 
 **진행 상황**: 280 / 1120
 
-<- **이전**: [158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi](/knowledge-base/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/)
-**다음**: [160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)](/knowledge-base/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) ->
+<- **이전**: [158. 가시광 통신 (VLC, Visible Light Communication) / Li-Fi](/studynote/03_network/03_physical_layer_media/158_vlc_lifi_visible_light/)
+**다음**: [160. 지상파 (Ground Wave) / 천파 (Sky Wave) / 공간파 (Space Wave)](/studynote/03_network/03_physical_layer_media/160_radio_propagation_ground_sky_space/) ->
 
 ---

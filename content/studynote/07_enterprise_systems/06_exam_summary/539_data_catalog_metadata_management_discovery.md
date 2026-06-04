@@ -1,13 +1,10 @@
-+++
-title = "539. 데이터 카탈로그 메타데이터 관리 검색 (Data Catalog Metadata Management Discovery)"
-date = 2026-05-09
+---
+title: "539. 데이터 카탈로그 메타데이터 관리 검색 (Data Catalog Metadata Management Discovery)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 539 / 800
 
-<- **이전**: [538. 데이터 레이크 원시 데이터 분석 통합](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/538_data_lake_raw_data_analytics_integration/)
-**다음**: [540. 데이터 품질 관리 프로파일링 클렌징](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/540_data_quality_management_profiling_cleansing/) ->
+<- **이전**: [538. 데이터 레이크 원시 데이터 분석 통합](/studynote/07_enterprise_systems/06_exam_summary/538_data_lake_raw_data_analytics_integration/)
+**다음**: [540. 데이터 품질 관리 프로파일링 클렌징](/studynote/07_enterprise_systems/06_exam_summary/540_data_quality_management_profiling_cleansing/) ->
 
 ---

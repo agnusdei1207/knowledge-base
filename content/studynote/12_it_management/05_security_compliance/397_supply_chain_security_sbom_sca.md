@@ -1,13 +1,10 @@
-+++
-title = "397. 공급망 보안 SBOM 소프트웨어 구성 분석 (Supply Chain Security SBOM SCA)"
-date = 2026-05-09
+---
+title: "397. 공급망 보안 SBOM 소프트웨어 구성 분석 (Supply Chain Security SBOM SCA)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -85,7 +82,7 @@ SBOM/SCA 시스템은 **4계층**으로 분리된다. ① *표준화 계층*(SPD
 
 **진행 상황**: 397 / 800
 
-<- **이전**: [396. 제로 트러스트 보안 모델 NIST 800-207](/knowledge-base/studynote/12_it_management/05_security_compliance/396_zero_trust_security_model_nist_800_207/)
-**다음**: [398. 랜섬웨어 대응 전략 백업 복구](/knowledge-base/studynote/12_it_management/05_security_compliance/398_ransomware_response_strategy_backup_recovery/) ->
+<- **이전**: [396. 제로 트러스트 보안 모델 NIST 800-207](/studynote/12_it_management/05_security_compliance/396_zero_trust_security_model_nist_800_207/)
+**다음**: [398. 랜섬웨어 대응 전략 백업 복구](/studynote/12_it_management/05_security_compliance/398_ransomware_response_strategy_backup_recovery/) ->
 
 ---

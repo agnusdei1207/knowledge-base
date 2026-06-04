@@ -1,6 +1,5 @@
-+++
-title = "02. Multiplexing Multiple Access"
-
-[extra]
-tags = ["network"]
-+++
+---
+title: "02. Multiplexing Multiple Access"
+tags:
+  - "network"
+---

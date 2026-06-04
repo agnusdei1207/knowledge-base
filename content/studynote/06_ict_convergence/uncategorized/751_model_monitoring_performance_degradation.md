@@ -1,13 +1,10 @@
-+++
-title = "751. 모델 모니터링 성능 저하 알림 재학습 (Model Monitoring Performance Degradation)"
-date = 2026-05-09
+---
+title: "751. 모델 모니터링 성능 저하 알림 재학습 (Model Monitoring Performance Degradation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -205,7 +202,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 751 / 800
 
-<- **이전**: [750. 데이터 드리프트 개념 드리프트 탐지](/knowledge-base/studynote/06_ict_convergence/uncategorized/750_data_drift_concept_drift_detection/)
-**다음**: [752. 설명 가능 AI XAI 모델 해석 투명성](/knowledge-base/studynote/06_ict_convergence/uncategorized/752_explainable_ai_xai_interpretability_transpare/) ->
+<- **이전**: [750. 데이터 드리프트 개념 드리프트 탐지](/studynote/06_ict_convergence/uncategorized/750_data_drift_concept_drift_detection/)
+**다음**: [752. 설명 가능 AI XAI 모델 해석 투명성](/studynote/06_ict_convergence/uncategorized/752_explainable_ai_xai_interpretability_transpare/) ->
 
 ---

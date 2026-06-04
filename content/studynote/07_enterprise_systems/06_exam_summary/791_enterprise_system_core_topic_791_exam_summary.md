@@ -1,13 +1,10 @@
-+++
-title = "791. 엔터프라이즈 시스템 핵심 토픽 791번 시험 요약 (Enterprise System Core Topic 791 Exam Summary)"
-date = 2026-05-09
+---
+title: "791. 엔터프라이즈 시스템 핵심 토픽 791번 시험 요약 (Enterprise System Core Topic 791 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-enterprise-systems"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise-systems"]
-
-[extra]
-tags = ["studynote-enterprise-systems"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 791 / 800
 
-<- **이전**: [790. 엔터프라이즈 시스템 핵심 토픽 790번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/790_enterprise_system_core_topic_790_exam_summary/)
-**다음**: [792. 엔터프라이즈 시스템 핵심 토픽 792번 시험 요약](/knowledge-base/studynote/07_enterprise_systems/06_exam_summary/792_enterprise_system_core_topic_792_exam_summary/) ->
+<- **이전**: [790. 엔터프라이즈 시스템 핵심 토픽 790번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/790_enterprise_system_core_topic_790_exam_summary/)
+**다음**: [792. 엔터프라이즈 시스템 핵심 토픽 792번 시험 요약](/studynote/07_enterprise_systems/06_exam_summary/792_enterprise_system_core_topic_792_exam_summary/) ->
 
 ---

@@ -1,25 +1,22 @@
-+++
-title = "110. 고아 프로세스 (Orphan Process) - 부모가 먼저 종료된 상태 (init 프로세스가 입양)"
-date = 2026-05-08
+---
+title: "110. 고아 프로세스 (Orphan Process) - 부모가 먼저 종료된 상태 (init 프로세스가 입양)"
+date: "2026-05-08"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))는 부모 프로세스가 자식보다 먼저 종료되었을 때, 부모를 잃은 자식 프로세스를 의미한다. 운영체제는 이러한 고아를 init 프로세스(PID 1) 또는 subreaper가 새 부모로 입양하여 좀비화를 방지한다.
-> 2. **가치**: 고아 프로세스는 [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)와 달리 시스템에 해가 되지 않는다. init이 주기적으로 wait()를 호출하여 고아의 종료 상태를 수집하므로 PID 자원 누수가 발생하지 않는다.
-> 3. **윙합**: 셸([Shell](/knowledge-base/studynote/02_operating_system/01_overview_architecture/044_shell/))에서 백그라운드 작업(예: `명령 &`)을 실행하고 셸을 종료하면 해당 작업 프로세스가 고아가 된다. systemd-subreaper가 현대 리눅스에서 init을 대체하는 역할을 담당한다.
+> 1. **본질**: 고아 프로세스(Orphan [Process](/studynote/12_it_management/05_security_compliance/943_process/))는 부모 프로세스가 자식보다 먼저 종료되었을 때, 부모를 잃은 자식 프로세스를 의미한다. 운영체제는 이러한 고아를 init 프로세스(PID 1) 또는 subreaper가 새 부모로 입양하여 좀비화를 방지한다.
+> 2. **가치**: 고아 프로세스는 [좀비 프로세스](/studynote/02_operating_system/02_process_thread/109_zombie_process/)와 달리 시스템에 해가 되지 않는다. init이 주기적으로 wait()를 호출하여 고아의 종료 상태를 수집하므로 PID 자원 누수가 발생하지 않는다.
+> 3. **윙합**: 셸([Shell](/studynote/02_operating_system/01_overview_architecture/044_shell/))에서 백그라운드 작업(예: `명령 &`)을 실행하고 셸을 종료하면 해당 작업 프로세스가 고아가 된다. systemd-subreaper가 현대 리눅스에서 init을 대체하는 역할을 담당한다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-- **개념**: 부모 프로세스가 자식보다 먼저 exit()를 호출하거나 시그널에 의해 강제 종료되면, 자식 프로세스는 부모를 잃게 된다. 이 상태의 자식을 고아 프로세스(Orphan [Process](/knowledge-base/studynote/12_it_management/05_security_compliance/943_process/))라 부르며, PPID ([Parent Process](/knowledge-base/studynote/02_operating_system/02_process_thread/105_parent_child_process/) ID)는 1(init) 또는 subreaper로 변경된다.
+- **개념**: 부모 프로세스가 자식보다 먼저 exit()를 호출하거나 시그널에 의해 강제 종료되면, 자식 프로세스는 부모를 잃게 된다. 이 상태의 자식을 고아 프로세스(Orphan [Process](/studynote/12_it_management/05_security_compliance/943_process/))라 부르며, PPID ([Parent Process](/studynote/02_operating_system/02_process_thread/105_parent_child_process/) ID)는 1(init) 또는 subreaper로 변경된다.
 
 - **필요성**: 부모가 없는 자식은 종료 시 상태를 수집해줄 프로세스가 필요하다. 부모가 없으면 자식이 종료된 후에 PCB가 수집되지 않아 좀비가 될 수 있다. Linux는 고아를 자동으로 init에 입양시켜 이 문제를 해결한다.
 
@@ -45,7 +42,7 @@ tags = ["studynote-operating-system"]
 +----------------------------------------------------------------+
 ```
 
-**[다이어그램 해설]** 부모 종료 시 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자식의 PPID를 1(init)로 재설정한다. init 프로세스는 부패 루프에서 waitpid(-1, &status, WNOHANG)을 호출하여 종료된 고아의 상태를 비동기적으로 수집한다. 따라서 고아 프로세스는 좀비가 되지 않으며, 시스템에 어떠런 자원 누수도 유발하지 않는다. PR_SET_CHILD_SUBREAPER가 설정된 경우, init 대신 subreaper 프로세스가 새 부모 역할을 대신한다.
+**[다이어그램 해설]** 부모 종료 시 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)은 자식의 PPID를 1(init)로 재설정한다. init 프로세스는 부패 루프에서 waitpid(-1, &status, WNOHANG)을 호출하여 종료된 고아의 상태를 비동기적으로 수집한다. 따라서 고아 프로세스는 좀비가 되지 않으며, 시스템에 어떠런 자원 누수도 유발하지 않는다. PR_SET_CHILD_SUBREAPER가 설정된 경우, init 대신 subreaper 프로세스가 새 부모 역할을 대신한다.
 
 - **📢 섹션 요약 비결**: 고아 프로세스는 "부모님이 일찍 귀가한 아이"와 같습니다. 담임선생님(init)이 아이를 돌봐주므로 문제가 되지 않습니다.
 
@@ -57,18 +54,18 @@ tags = ["studynote-operating-system"]
 
 | 요소명 | 역할 | 특징 |
 |:---|:---|:---|
-| **PPID 재설정** | 고아의 새 부모 지정 | forget_original_parent() [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 |
+| **PPID 재설정** | 고아의 새 부모 지정 | forget_original_parent() [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 함수 |
 | **init (PID 1)** | 기본 입양자 | wait() 루프로 좀비 수집 |
 | **subreaper** | 커스텀 입양자 | PR_SET_CHILD_SUBREAPER, systemd 활용 |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 리더</strong> | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 내 입양자 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더가 종료되면 SIGHUP 전송 |
+| <strong><a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 리더</strong> | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 내 입양자 | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더가 종료되면 SIGHUP 전송 |
 
-- **📢 섹션 요약 비유**: 고아 입양은 "아동 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 시스템"과 같습니다. 부모가 돌볼 수 없는 상황에서 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)자를 지정합니다.
+- **📢 섹션 요약 비유**: 고아 입양은 "아동 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 시스템"과 같습니다. 부모가 돌볼 수 없는 상황에서 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/)이 자동으로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)자를 지정합니다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 항목 | [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) | 고아 프로세스 |
+| 비교 항목 | [좀비 프로세스](/studynote/02_operating_system/02_process_thread/109_zombie_process/) | 고아 프로세스 |
 |:---|:---|:---|
 | **발생 원인** | 자식 종료 후 부모가 wait() 미호출 | 부모가 자식보다 먼저 종료 |
 | **PCB 유지** | 유지됨 (PID 고갈 원인) | 유지되지 않음 (init이 수집) |
@@ -82,8 +79,8 @@ tags = ["studynote-operating-system"]
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
-- **SIGHUP 누락**: 부모가 [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더일 때 종료하면 고아 자식에게 SIGHUP이 전송된다. 이를 처리하지 않으면 자식이 종료될 수 있다.
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+- **SIGHUP 누락**: 부모가 [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 리더일 때 종료하면 고아 자식에게 SIGHUP이 전송된다. 이를 처리하지 않으면 자식이 종료될 수 있다.
 
 - **📢 섹션 요약 비유**: 셸에서 백그라운드 작업 실행 후 터미널을 닫으면 고아가 발생합니다. `nohup` 명령어는 이 문제를 회피하는 전통적 해결책입니다.
 
@@ -91,7 +88,7 @@ tags = ["studynote-operating-system"]
 
 ## Ⅴ. 기대효과 및 결론
 
-- **📢 섹션 요약 비유**: 고아 프로세스는 OS의 "안전망"입니다. 부모가 실종되어도 자식은 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/)받으며, 이 설계 덕분에 데몬 시스템이 안정적으로 동작합니다.
+- **📢 섹션 요약 비유**: 고아 프로세스는 OS의 "안전망"입니다. 부모가 실종되어도 자식은 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/)받으며, 이 설계 덕분에 데몬 시스템이 안정적으로 동작합니다.
 
 ---
 
@@ -99,10 +96,10 @@ tags = ["studynote-operating-system"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [연쇄적 종료](/knowledge-base/studynote/02_operating_system/02_process_thread/108_cascading_termination/) ([Cascading Termination](/knowledge-base/studynote/02_operating_system/02_process_thread/108_cascading_termination/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
-| [좀비 프로세스](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
-| [스레드 취소](/knowledge-base/studynote/02_operating_system/02_process_thread/111_thread_cancellation/) ([Thread Cancellation](/knowledge-base/studynote/02_operating_system/02_process_thread/111_thread_cancellation/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
-| [취소 점](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/) ([Cancellation Point](/knowledge-base/studynote/02_operating_system/02_process_thread/112_cancellation_point/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
+| [연쇄적 종료](/studynote/02_operating_system/02_process_thread/108_cascading_termination/) ([Cascading Termination](/studynote/02_operating_system/02_process_thread/108_cascading_termination/)) | 현재 개념으로 들어오기 전에 함께 이해하면 경계가 선명해지는 기반 개념이다. |
+| [좀비 프로세스](/studynote/02_operating_system/02_process_thread/109_zombie_process/) ([Zombie Process](/studynote/02_operating_system/02_process_thread/109_zombie_process/)) | 현재 개념이 등장하게 만든 직접적인 선행 흐름이다. |
+| [스레드 취소](/studynote/02_operating_system/02_process_thread/111_thread_cancellation/) ([Thread Cancellation](/studynote/02_operating_system/02_process_thread/111_thread_cancellation/)) | 현재 개념이 구현·세분화될 때 바로 연결되는 후속 개념이다. |
+| [취소 점](/studynote/02_operating_system/02_process_thread/112_cancellation_point/) ([Cancellation Point](/studynote/02_operating_system/02_process_thread/112_cancellation_point/)) | 확장 학습이나 심화 비교로 이어지는 다음 단계의 키워드다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -130,7 +127,7 @@ tags = ["studynote-operating-system"]
 
 **진행 상황**: 110 / 800
 
-<- **이전**: [109. 좀비 프로세스 (Zombie Process) - 종료되었으나 부모가 wait()하지 않은 상태](/knowledge-base/studynote/02_operating_system/02_process_thread/109_zombie_process/)
-**다음**: [111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소](/knowledge-base/studynote/02_operating_system/02_process_thread/111_thread_cancellation/) ->
+<- **이전**: [109. 좀비 프로세스 (Zombie Process) - 종료되었으나 부모가 wait()하지 않은 상태](/studynote/02_operating_system/02_process_thread/109_zombie_process/)
+**다음**: [111. 스레드 취소 (Thread Cancellation) - 비동기식 취소, 지연 취소](/studynote/02_operating_system/02_process_thread/111_thread_cancellation/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)"
-date = 2026-05-09
+---
+title: "379. 정책 코드화 OPA Rego 거버넌스 자동화 (Policy as Code OPA Rego Kyverno)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 379 / 400
 
-<- **이전**: [378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)](/knowledge-base/studynote/15_devops_sre/05_devsecops/378_runtime_security_ebpf/)
-**다음**: [380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)](/knowledge-base/studynote/15_devops_sre/05_devsecops/380_dast_penetration_testing/) ->
+<- **이전**: [378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)](/studynote/15_devops_sre/05_devsecops/378_runtime_security_ebpf/)
+**다음**: [380. 침투 테스트 자동화 DAST 동적 분석 (Automated Penetration Testing DAST ZAP)](/studynote/15_devops_sre/05_devsecops/380_dast_penetration_testing/) ->
 
 ---

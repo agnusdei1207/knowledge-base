@@ -1,25 +1,22 @@
-+++
-title = "82. MRP (Material Requirements Planning)"
-date = 2026-05-08
+---
+title: "82. MRP (Material Requirements Planning)"
+date: "2026-05-08"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: MRP (Material Requirements Planning)는 완제품 계획을 기준으로 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)), 재고, 리드타임을 역산해 "무엇을 언제 얼마나 확보할지" 계산하는 자재 소요 계획 체계다.
+> 1. **본질**: MRP (Material Requirements Planning)는 완제품 계획을 기준으로 [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)), 재고, 리드타임을 역산해 "무엇을 언제 얼마나 확보할지" 계산하는 자재 소요 계획 체계다.
 > 2. **가치**: 종속 수요를 경험이 아니라 계산으로 다루므로, 재고 과잉과 결품을 동시에 줄이고 생산 일정의 예측 가능성을 높인다.
-> 3. **판단 포인트**: MRP는 로직이 아니라 입력 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 질에서 무너진다. [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), 재고 기록, 리드타임이 틀리면 결과도 정확히 틀린다.
+> 3. **판단 포인트**: MRP는 로직이 아니라 입력 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)의 질에서 무너진다. [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), 재고 기록, 리드타임이 틀리면 결과도 정확히 틀린다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-MRP는 제조업에서 완제품 생산 계획으로부터 하위 부품과 원자재의 소요량을 계산하는 계획 기법이다. 자동차 100대를 만들기로 했다면 바퀴, 엔진, [볼트](/knowledge-base/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 수요는 독립적으로 생기는 것이 아니라 완제품 계획에 종속되어 결정된다. 이런 종속 수요를 단순 재주문점 방식으로 관리하면 필요 없는 시점에 재고가 쌓이거나, 반대로 조립 직전에 핵심 부품이 없어 생산이 멈추는 문제가 생긴다.
+MRP는 제조업에서 완제품 생산 계획으로부터 하위 부품과 원자재의 소요량을 계산하는 계획 기법이다. 자동차 100대를 만들기로 했다면 바퀴, 엔진, [볼트](/studynote/15_devops_sre/05_devsecops/236_vault_dynamic_secrets_ttl/) 수요는 독립적으로 생기는 것이 아니라 완제품 계획에 종속되어 결정된다. 이런 종속 수요를 단순 재주문점 방식으로 관리하면 필요 없는 시점에 재고가 쌓이거나, 반대로 조립 직전에 핵심 부품이 없어 생산이 멈추는 문제가 생긴다.
 
 MRP는 바로 이 문제를 해결하기 위해 등장했다. 핵심은 "완성 시점"에서 거꾸로 계산해 발주와 생산 준비 시점을 정하는 데 있다. 그래서 MRP는 재고관리 기법이면서 동시에 시간축을 다루는 계획 시스템이다.
 
@@ -34,10 +31,10 @@ MRP는 세 가지 입력을 바탕으로 동작한다. 첫째 MPS (Master Produc
 | 입력 요소 | 의미 | 계산에서의 역할 |
 | :--- | :--- | :--- |
 | MPS (Master Production Schedule) | 완제품 생산 일정 | 언제 완제품이 필요한지 결정 |
-| [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) | 부품 구조와 소요 수량 | 완제품을 하위 품목으로 전개 |
+| [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) | 부품 구조와 소요 수량 | 완제품을 하위 품목으로 전개 |
 | Inventory Record | 현재고, 입고 예정, 리드타임 | 순소요량과 발주시점 계산 |
 
-아래 흐름은 MRP의 핵심인 [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 전개와 리드타임 역산을 보여준다.
+아래 흐름은 MRP의 핵심인 [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 전개와 리드타임 역산을 보여준다.
 
 ```text
 +--------------------------------------------------------------+
@@ -67,16 +64,16 @@ MRP는 세 가지 입력을 바탕으로 동작한다. 첫째 MPS (Master Produc
 
 ## Ⅲ. 비교 및 연결
 
-MRP를 이해하려면 [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) (Reorder Point) 방식과 비교하는 것이 가장 빠르다. ROP는 재고가 일정 수준 이하로 떨어지면 주문하는 방식이고, MRP는 생산 계획에 맞춰 미래 소요를 미리 계산한다. 즉 ROP가 과거 소비 패턴 중심이라면, MRP는 계획된 생산 구조 중심이다.
+MRP를 이해하려면 [ROP](/studynote/02_operating_system/10_security/596_return_oriented_programming/) (Reorder Point) 방식과 비교하는 것이 가장 빠르다. ROP는 재고가 일정 수준 이하로 떨어지면 주문하는 방식이고, MRP는 생산 계획에 맞춰 미래 소요를 미리 계산한다. 즉 ROP가 과거 소비 패턴 중심이라면, MRP는 계획된 생산 구조 중심이다.
 
-| 항목 | [ROP](/knowledge-base/studynote/02_operating_system/10_security/596_return_oriented_programming/) (Reorder Point) | MRP | [MRP II](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) |
+| 항목 | [ROP](/studynote/02_operating_system/10_security/596_return_oriented_programming/) (Reorder Point) | MRP | [MRP II](/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) |
 | :--- | :--- | :--- | :--- |
 | 수요 관점 | 독립 수요 중심 | 종속 수요 중심 | 종속 수요 + 능력 |
-| 기준 | 재고 수준, 평균 사용량 | MPS, [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), 재고, 리드타임 | MRP + 설비·인력 능력 |
+| 기준 | 재고 수준, 평균 사용량 | MPS, [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/), 재고, 리드타임 | MRP + 설비·인력 능력 |
 | 강점 | 단순, 운영 쉬움 | 재고 최적화, 납기 예측 | 실행 가능성 향상 |
-| 약점 | 과잉재고 위험 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류에 취약 | 구축 복잡도 증가 |
+| 약점 | 과잉재고 위험 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 오류에 취약 | 구축 복잡도 증가 |
 
-또한 MRP는 ERP의 제조 핵심 엔진으로 이어지고, [JIT](/knowledge-base/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just In Time](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/)), [APS](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/) ([Advanced Planning and Scheduling](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/)), [S&OP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/) ([Sales and Operations Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/))와도 연결된다. 따라서 MRP는 단독 기법이기보다 제조 계획 체계의 출발점으로 보는 편이 정확하다.
+또한 MRP는 ERP의 제조 핵심 엔진으로 이어지고, [JIT](/studynote/09_security/11_iam_access_control/568_jit_access/) ([Just In Time](/studynote/07_enterprise_systems/02_erp_systems/102_jit_just_in_time_kanban/)), [APS](/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/) ([Advanced Planning and Scheduling](/studynote/07_enterprise_systems/02_erp_systems/104_aps_advanced_planning_scheduling/)), [S&OP](/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/) ([Sales and Operations Planning](/studynote/07_enterprise_systems/02_erp_systems/103_snop_sales_and_operations_planning/))와도 연결된다. 따라서 MRP는 단독 기법이기보다 제조 계획 체계의 출발점으로 보는 편이 정확하다.
 
 - **📢 섹션 요약 비유**: ROP가 물이 줄면 자동으로 다시 채우는 물탱크라면, MRP는 내일 쓸 물의 양을 미리 계산해 시간 맞춰 보내는 배수 계획표에 가깝다.
 
@@ -84,16 +81,16 @@ MRP를 이해하려면 [ROP](/knowledge-base/studynote/02_operating_system/10_se
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-실무에서 MRP는 계산식보다 운영 규율이 더 중요하다. BOM이 오래되었거나 실재고 반영이 늦으면 결품과 과잉재고가 동시에 생긴다. 또 구매 리드타임을 고정값처럼 다루면 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변동이 큰 환경에서는 계획이 쉽게 깨진다.
+실무에서 MRP는 계산식보다 운영 규율이 더 중요하다. BOM이 오래되었거나 실재고 반영이 늦으면 결품과 과잉재고가 동시에 생긴다. 또 구매 리드타임을 고정값처럼 다루면 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 변동이 큰 환경에서는 계획이 쉽게 깨진다.
 
-### 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 설계 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 정확도와 설계 변경 절차(ECO, 엔진ering Change Order)가 관리되는가?
+1. [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) 정확도와 설계 변경 절차(ECO, 엔진ering Change Order)가 관리되는가?
 2. 실재고와 시스템 재고를 맞추기 위한 바코드·실사·입출고 통제가 있는가?
 3. 리드타임과 최소발주량, 로트사이징 규칙이 주기적으로 보정되는가?
 4. 병목 공정이 있다면 CRP나 MRP II로 능력 검토를 연결하는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 
 - 리드타임을 현실과 무관한 고정값으로 두는 것
 - 불량·폐기·대체자재를 시스템에 늦게 반영하는 것
@@ -105,7 +102,7 @@ MRP를 이해하려면 [ROP](/knowledge-base/studynote/02_operating_system/10_se
 
 ## Ⅴ. 기대효과 및 결론
 
-MRP를 제대로 운용하면 재고 회전율 향상, 결품 감소, 구매 시점 최적화, 납기 준수율 개선이라는 효과를 기대할 수 있다. 특히 완제품 계획과 부품 조달이 같은 시간축 위에서 연결되므로, 생산 관리가 경험 의존에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 이동한다. 제조 복잡도가 높은 산업일수록 이 효과는 더 크게 나타난다.
+MRP를 제대로 운용하면 재고 회전율 향상, 결품 감소, 구매 시점 최적화, 납기 준수율 개선이라는 효과를 기대할 수 있다. 특히 완제품 계획과 부품 조달이 같은 시간축 위에서 연결되므로, 생산 관리가 경험 의존에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반으로 이동한다. 제조 복잡도가 높은 산업일수록 이 효과는 더 크게 나타난다.
 
 하지만 MRP는 만능이 아니다. 수요가 지나치게 불확실하거나, 리드타임 변동이 크거나, 능력 제약이 심한 환경에서는 보완 기법이 필요하다. 결국 MRP는 "재고를 줄이는 공식"이 아니라 <strong>종속 수요를 시간 기반으로 계산하는 제조 계획의 기본 언어</strong>로 기억하는 것이 맞다.
 
@@ -117,11 +114,11 @@ MRP를 제대로 운용하면 재고 회전율 향상, 결품 감소, 구매 시
 
 | 개념 | 연결 포인트 |
 | :--- | :--- |
-| [BOM](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) | MRP 계산의 구조 입력 |
+| [BOM](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/) ([Bill of Materials](/studynote/07_enterprise_systems/02_erp_systems/124_bom_bill_of_materials/)) | MRP 계산의 구조 입력 |
 | MPS (Master Production Schedule) | 완제품 기준 일정 |
 | CRP (Capacity Requirements Planning) | 능력 제약 검토 |
-| [MRP II](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) ([Manufacturing Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/)) | 자재 계획을 자원 계획으로 확장 |
-| [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | MRP를 전사 통합으로 확장 |
+| [MRP II](/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) ([Manufacturing Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/)) | 자재 계획을 자원 계획으로 확장 |
+| [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) ([Enterprise Resource Planning](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)) | MRP를 전사 통합으로 확장 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -153,7 +150,7 @@ APS / Demand-driven planning / Intelligent planning
 
 **진행 상황**: 82 / 482
 
-<- **이전**: [81. ERP (Enterprise Resource Planning)](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)
-**다음**: [83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) ->
+<- **이전**: [81. ERP (Enterprise Resource Planning)](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/)
+**다음**: [83. MRP II (Manufacturing Resource Planning) - 자재뿐 아니라 설비, 인력 등 생산 자원 전체 포괄](/studynote/07_enterprise_systems/02_erp_systems/083_mrp_2_manufacturing_resource_planning/) ->
 
 ---

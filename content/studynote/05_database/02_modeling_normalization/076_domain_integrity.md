@@ -1,26 +1,23 @@
-+++
-title = "76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함"
+---
+title: "76. 도메인 무결성 (Domain Integrity) - 속성 값은 정의된 도메인에 속해야 함"
+tags:
+  - "database"
+---
 
-[taxonomies]
-tags = ["database"]
-
-[extra]
-tags = ["database"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Integrity](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/))은 각 컬럼이 허용된 값의 범위와 형식만 받도록 막는 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 첫 번째 방어선이다.
-> 2. **가치**: [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 길이, NOT NULL, CHECK, DEFAULT 같은 제약이 먼저 걸려야 애플리케이션 실수보다 앞서 잘못된 값을 차단할 수 있다.
-> 3. **판단 포인트**: [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 엔터티 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)([Entity Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/))·[참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)([Referential Integrity](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/))과 다르므로, 컬럼 규칙을 행 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)과 외래키 규칙과 섞어 쓰면 설계가 흐려진다.
+> 1. **본질**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [Integrity](/studynote/09_security/01_intro_principles/003_integrity/))은 각 컬럼이 허용된 값의 범위와 형식만 받도록 막는 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)베이스의 첫 번째 방어선이다.
+> 2. **가치**: [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 길이, NOT NULL, CHECK, DEFAULT 같은 제약이 먼저 걸려야 애플리케이션 실수보다 앞서 잘못된 값을 차단할 수 있다.
+> 3. **판단 포인트**: [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 엔터티 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)([Entity Integrity](/studynote/05_database/02_modeling_normalization/074_entity_integrity_primary_key/))·[참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)([Referential Integrity](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/))과 다르므로, 컬럼 규칙을 행 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/)과 외래키 규칙과 섞어 쓰면 설계가 흐려진다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-RDBMS(Relational [Database](/knowledge-base/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/knowledge-base/studynote/12_it_management/05_security_compliance/1013_management/) System)에서 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 "테이블에 넣기 전부터 이미 걸러졌는가"로 결정된다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 속성이 가질 수 있는 합법적인 값 집합을 정의하고, INSERT/UPDATE 시 그 범위를 벗어나는 값을 거부한다. 즉, 컬럼 단위의 품질 보증이다.
+RDBMS(Relational [Database](/studynote/05_database/04_transactions_concurrency/501_database/) [Management](/studynote/12_it_management/05_security_compliance/1013_management/) System)에서 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질은 "테이블에 넣기 전부터 이미 걸러졌는가"로 결정된다. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 속성이 가질 수 있는 합법적인 값 집합을 정의하고, INSERT/UPDATE 시 그 범위를 벗어나는 값을 거부한다. 즉, 컬럼 단위의 품질 보증이다.
 
-애플리케이션에서만 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 화면과 API가 바뀔 때마다 규칙이 빠져나간다. 반면 DB 제약은 입력 경로가 여러 개여도 마지막에 한 번 더 막아 준다. 그래서 정합성 사고를 줄이려면 비즈니스 규칙을 가능한 한 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에 내려야 한다.
+애플리케이션에서만 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하면 화면과 API가 바뀔 때마다 규칙이 빠져나간다. 반면 DB 제약은 입력 경로가 여러 개여도 마지막에 한 번 더 막아 준다. 그래서 정합성 사고를 줄이려면 비즈니스 규칙을 가능한 한 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 계층에 내려야 한다.
 
 ```text
 INSERT / UPDATE
@@ -31,7 +28,7 @@ INSERT / UPDATE
    +- 실패 -> 오류 / 롤백
 ```
 
-이 그림처럼 [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 "저장 직전의 관문"이다. 이 관문이 없으면 잘못된 값이 보고서와 집계까지 번진다.
+이 그림처럼 [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 "저장 직전의 관문"이다. 이 관문이 없으면 잘못된 값이 보고서와 집계까지 번진다.
 
 - **📢 섹션 요약 비유**: 장난감 상자에 자동차만 넣기로 했다면 공룡 장난감은 처음부터 못 들어가야 한다. 한 번 섞이면 정리하는 데 훨씬 더 많은 시간이 든다.
 
@@ -39,15 +36,15 @@ INSERT / UPDATE
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)을 강제하는 대표 수단은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 크기, NOT NULL, CHECK, DEFAULT, 코드 테이블이다. 이들 제약은 서로 역할이 다르므로 한 가지로 모든 규칙을 대신하려고 하면 안 된다.
+[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)을 강제하는 대표 수단은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입, 크기, NOT NULL, CHECK, DEFAULT, 코드 테이블이다. 이들 제약은 서로 역할이 다르므로 한 가지로 모든 규칙을 대신하려고 하면 안 된다.
 
 | 제약 | 막는 것 | 예시 |
 | :-- | :-- | :-- |
-| [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 | 형식이 다른 값 | `INT`, `DATE`, `VARCHAR` |
+| [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 타입 | 형식이 다른 값 | `INT`, `DATE`, `VARCHAR` |
 | 길이 | 너무 긴 값 | `VARCHAR(20)` |
 | NOT NULL | 필수 값 누락 | 비밀번호, 주문일 |
 | CHECK | 허용 범위 위반 | `age >= 0`, `score BETWEEN 0 AND 100` |
-| DEFAULT | 값 미입력 | 상태값, [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시각 |
+| DEFAULT | 값 미입력 | 상태값, [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/) 시각 |
 | 코드 테이블 | 허용 목록 통제 | 성별, 상태, 등급 코드 |
 
 ```text
@@ -69,15 +66,15 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 ## Ⅲ. 비교 및 연결
 
-[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 엔터티 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)과 [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)과 다르다. 엔터티 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 "행 자체가 누구인가"를, [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)은 "행끼리의 연결이 끊어지지 않았는가"를, [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 "각 칸의 값이 맞는가"를 본다.
+[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 엔터티 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)과 [참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)과 다르다. 엔터티 [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 "행 자체가 누구인가"를, [참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)은 "행끼리의 연결이 끊어지지 않았는가"를, [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 "각 칸의 값이 맞는가"를 본다.
 
-| [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 종류 | 대상 | 핵심 제약 | 예 |
+| [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 종류 | 대상 | 핵심 제약 | 예 |
 | :-- | :-- | :-- | :-- |
-| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 컬럼 값 | 타입, 길이, 범위 | 나이는 음수 불가 |
-| 엔터티 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) | 행 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(Primary [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | PK는 NULL 불가 |
-| [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) | 테이블 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(Foreign [Key](/knowledge-base/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 주문은 고객이 있어야 함 |
+| [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/) | 컬럼 값 | 타입, 길이, 범위 | 나이는 음수 불가 |
+| 엔터티 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) | 행 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/) | Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(Primary [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | PK는 NULL 불가 |
+| [참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) | 테이블 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) | Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)(Foreign [Key](/studynote/05_database/02_modeling_normalization/067_db_key_uniqueness_minimality/)) | 주문은 고객이 있어야 함 |
 
-이 셋을 분리해야 하는 이유는 장애의 성격이 다르기 때문이다. 컬럼 값이 틀린 문제를 외래키 문제로 해결할 수 없고, 반대로 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 붕괴를 타입 제약으로 막을 수도 없다.
+이 셋을 분리해야 하는 이유는 장애의 성격이 다르기 때문이다. 컬럼 값이 틀린 문제를 외래키 문제로 해결할 수 없고, 반대로 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 붕괴를 타입 제약으로 막을 수도 없다.
 
 - **📢 섹션 요약 비유**: 사람의 이름표, 나이, 가족관계는 모두 다른 규칙으로 관리해야 한다. 이름표가 정상이더라도 나이가 틀릴 수 있고, 가족관계가 끊길 수도 있다.
 
@@ -85,20 +82,20 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/))에서 먼저 선언하고, 애플리케이션에서 다시 한 번 확인하는 방식이 가장 안전하다. 특히 숫자 범위, 날짜 형식, 상태값처럼 명확한 규칙은 DB에서 강제하는 편이 좋다.
+[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/studynote/05_database/01_db_architecture_relational/020_ddl/))에서 먼저 선언하고, 애플리케이션에서 다시 한 번 확인하는 방식이 가장 안전하다. 특히 숫자 범위, 날짜 형식, 상태값처럼 명확한 규칙은 DB에서 강제하는 편이 좋다.
 
-### [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. 컬럼 타입과 길이가 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위를 반영하는가?
+### [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. 컬럼 타입과 길이가 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 범위를 반영하는가?
 2. 필수 입력값에 NOT NULL이 선언되어 있는가?
 3. 범위·상태 규칙이 CHECK 또는 코드 테이블로 강제되는가?
-4. 애플리케이션 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 DB 제약이 중복되더라도 일관적인가?
-5. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) 변경 시 마이그레이션 절차가 정의되어 있는가?
+4. 애플리케이션 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)과 DB 제약이 중복되더라도 일관적인가?
+5. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) 변경 시 마이그레이션 절차가 정의되어 있는가?
 
-### [안티패턴](/knowledge-base/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
+### [안티패턴](/studynote/04_software_engineering/02_requirements_analysis/128_water_scrum_fall_anti_pattern/)
 - 모든 값을 `VARCHAR(255)`로 받는 설계
-- 애플리케이션 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 믿고 DB 제약을 비우는 설계
+- 애플리케이션 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)만 믿고 DB 제약을 비우는 설계
 - 코드 값이 문자열 상수로 흩어져 있는 설계
-- 비즈니스 규칙을 [트리거](/knowledge-base/studynote/05_database/04_transactions_concurrency/507_acid_properties/)/코드/화면에 제각각 넣는 설계
+- 비즈니스 규칙을 [트리거](/studynote/05_database/04_transactions_concurrency/507_acid_properties/)/코드/화면에 제각각 넣는 설계
 
 - **📢 섹션 요약 비유**: 교실 출입문에 "학생만 입장"이라고 써 놓고 실제로는 아무나 들어오게 두면 규칙이 무너진다. 문 앞에서 바로 걸러야 한다.
 
@@ -106,9 +103,9 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 ## Ⅴ. 기대효과 및 결론
 
-[도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)이 잘 잡히면 [데이터 정제](/knowledge-base/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 비용이 줄고, 집계와 분석의 신뢰도가 올라가며, 예외 처리가 단순해진다. 운영 현장에서는 "나중에 고치자"보다 "처음부터 못 들어오게 하자"가 더 싸다.
+[도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)이 잘 잡히면 [데이터 정제](/studynote/07_enterprise_systems/05_data_bi/266_data_cleansing/) 비용이 줄고, 집계와 분석의 신뢰도가 올라가며, 예외 처리가 단순해진다. 운영 현장에서는 "나중에 고치자"보다 "처음부터 못 들어오게 하자"가 더 싸다.
 
-다만 규칙을 과도하게 좁히면 새로운 코드값이나 [정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경을 흡수하기 어려워진다. 그래서 좋은 설계는 엄격함과 변경 가능성의 균형을 잡는다. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 결국 "컬럼이 자기 정체성을 잃지 않게 하는 규칙"으로 기억하면 된다.
+다만 규칙을 과도하게 좁히면 새로운 코드값이나 [정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 변경을 흡수하기 어려워진다. 그래서 좋은 설계는 엄격함과 변경 가능성의 균형을 잡는다. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 결국 "컬럼이 자기 정체성을 잃지 않게 하는 규칙"으로 기억하면 된다.
 
 - **📢 섹션 요약 비유**: 문이 너무 넓으면 잡동사니가 들어오고, 너무 좁으면 필요한 것도 못 들어온다. 딱 맞는 문 크기를 정하는 일이 핵심이다.
 
@@ -116,12 +113,12 @@ CHECK는 단순한 범위 규칙에 강하고, 코드 테이블은 재사용 가
 
 | 개념 | 연결 포인트 |
 | :-- | :-- |
-| [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)([domain](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/)) | 허용 가능한 값의 집합 |
-| [DDL](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/020_ddl/)) | 제약을 선언하는 구문 |
-| [DML](/knowledge-base/studynote/12_it_management/02_itsm_itil/867_dml/)([Data Manipulation Language](/knowledge-base/studynote/05_database/01_db_architecture_relational/021_dml/)) | INSERT/UPDATE [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 |
+| [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/)([domain](/studynote/05_database/02_modeling_normalization/064_relation_domain/)) | 허용 가능한 값의 집합 |
+| [DDL](/studynote/05_database/01_db_architecture_relational/020_ddl/)([Data Definition Language](/studynote/05_database/01_db_architecture_relational/020_ddl/)) | 제약을 선언하는 구문 |
+| [DML](/studynote/12_it_management/02_itsm_itil/867_dml/)([Data Manipulation Language](/studynote/05_database/01_db_architecture_relational/021_dml/)) | INSERT/UPDATE [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 대상 |
 | CHECK | 범위/조건 제약 |
 | 코드 테이블 | 재사용 가능한 값 목록 |
-| [참조 무결성](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) | 테이블 간 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 안정성 |
+| [참조 무결성](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/) | 테이블 간 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 안정성 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -141,13 +138,13 @@ CHECK / DEFAULT / 코드 테이블
 엔터티·참조 무결성과 결합
 ```
 
-이 흐름은 "값 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이 "[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"보다 먼저라는 점을 보여준다. 이후에는 애플리케이션과 DB의 이중 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 장기적으로 유지한다.
+이 흐름은 "값 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"이 "[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)"보다 먼저라는 점을 보여준다. 이후에는 애플리케이션과 DB의 이중 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)을 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 품질을 장기적으로 유지한다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. 색연필 상자에는 색연필만 들어가야 해요.
 2. 연필이나 지우개가 들어오면 정리가 어려워져요.
-3. [도메인](/knowledge-base/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/)은 상자 입구에서 물건을 가려내는 규칙이에요.
+3. [도메인](/studynote/05_database/02_modeling_normalization/064_relation_domain/) [무결성](/studynote/09_security/01_intro_principles/003_integrity/)은 상자 입구에서 물건을 가려내는 규칙이에요.
 
 ---
 
@@ -155,7 +152,7 @@ CHECK / DEFAULT / 코드 테이블
 
 **진행 상황**: 76 / 600
 
-<- **이전**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/knowledge-base/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)
-**다음**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/knowledge-base/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/) ->
+<- **이전**: [75. 참조 무결성 (Referential Integrity) - 외래 키 값은 참조하는 릴레이션의 기본키 값이거나 NULL이어야 함](/studynote/05_database/02_modeling_normalization/075_referential_integrity_foreign_key_cascade/)
+**다음**: [77. 사용자 정의 무결성 (User-defined Integrity) - 업무 규칙에 따른 제약 (CHECK 제약조건 등)](/studynote/05_database/02_modeling_normalization/077_user_defined_integrity_check_trigger/) ->
 
 ---

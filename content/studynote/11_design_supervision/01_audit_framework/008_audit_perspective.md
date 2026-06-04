@@ -1,25 +1,22 @@
-+++
-title = "8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance) 관점 점검"
-description = "절차, 산출물, 성과 관점을 중심으로 한 정보시스템 감리의 3대 관점 체계와 실무 적용"
-date = 2026-04-05
+---
+title: "8. 감리 관점 (Audit Perspective) - 절차(Procedure), 산출물(Deliverable), 성과(Performance) 관점 점검"
+date: "2026-04-05"
+description: "절차, 산출물, 성과 관점을 중심으로 한 정보시스템 감리의 3대 관점 체계와 실무 적용"
+tags:
+  - "design_supervision"
+---
 
-[taxonomies]
-tags = ["design_supervision"]
-
-[extra]
-tags = ["design_supervision"]
-+++
 
 # 08. 감리 관점
 
 #### 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 감리 관점([Audit](/knowledge-base/studynote/12_it_management/05_security_compliance/363_audit/) Perspective)은 감리를 수행할 때 어떤 기준으로 시스템을 점검할 것인지를정의하는 세 가지 축으로, 절차(Procedure), 산출물(Product), 성과([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 관점으로 구성된다.
+> 1. **본질**: 감리 관점([Audit](/studynote/12_it_management/05_security_compliance/363_audit/) Perspective)은 감리를 수행할 때 어떤 기준으로 시스템을 점검할 것인지를정의하는 세 가지 축으로, 절차(Procedure), 산출물(Product), 성과([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)) 관점으로 구성된다.
 > 2. **가치**: 이 세 가지 관점은 시스템의 불동한 측면을 비추는 삼つ의렌즈로서, 어느 하나만으로는システム전체의 реаль상을파악할 수 없고, 세 관점을 통합해야완정적인평가가 가능하다.
-> 3. **융합**: 절차 관점에서 발견된 문제가 산출물 관점의 부실로 이어지고, 이는 최종 성과(고객 만족도, 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등)의 저하로 직결되는인과관계를 분석하는 데 활용된다.
+> 3. **융합**: 절차 관점에서 발견된 문제가 산출물 관점의 부실로 이어지고, 이는 최종 성과(고객 만족도, 시스템 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/) 등)의 저하로 직결되는인과관계를 분석하는 데 활용된다.
 
 ---
 
-### Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+### Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
 정보시스템 감리에서 관점(Perspective)이란 시스템을 바라보는 세 가지 다른 각도이다. 마치동일한 물체를 위에서 보기, 옆에서 보기, 아래에서 보기 등으로 나누어 관찰하는 것과 같다. 한 가지 관점만으로는システム의전체상을파악할 수 없으며, 반드시 여러 관점을 종합해야 실제 문제가 무엇인지 정확히 알 수 있다.
 
@@ -87,9 +84,9 @@ tags = ["design_supervision"]
 
 | 관점 | 영문 | 정의 | 주요 점검 항목 | 산출물 예시 |
 |:---|:---|:---|:---|:---|
-| **절차 관점** | Procedure Perspective | 사업의과정이 표준과 방법론에 부합하는지 점검 | 방법론 준수 여부, 산출물 관리 절차, 변경 [관리 프로세스](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/), 테스트 프로세스 | 프로세스 준수 점검리스트, 테스트 수행 기록 |
-| **산출물 관점** | Product Perspective | 만들어진 결과물이 요구사항과 설계에 부합하는지 점검 | 요구사항 충족 여부, 문서 완결성, 코드 품질, DB 설계 충실성 | 요구사항 충족률, 코드 품질 측정 결과, ERD [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과 |
-| **성과 관점** | [Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Perspective | 시스템이 실제 가치를 창출하고 있는지, 고객 만족도와 목표 달성 여부 | 시스템 [가용성](/knowledge-base/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 사용자 만족도, [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 달성 | [성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 결과, UAT 통과율, 만족도 조사 결과 |
+| **절차 관점** | Procedure Perspective | 사업의과정이 표준과 방법론에 부합하는지 점검 | 방법론 준수 여부, 산출물 관리 절차, 변경 [관리 프로세스](/studynote/15_devops_sre/01_culture_methodology/018_admin_processes/), 테스트 프로세스 | 프로세스 준수 점검리스트, 테스트 수행 기록 |
+| **산출물 관점** | Product Perspective | 만들어진 결과물이 요구사항과 설계에 부합하는지 점검 | 요구사항 충족 여부, 문서 완결성, 코드 품질, DB 설계 충실성 | 요구사항 충족률, 코드 품질 측정 결과, ERD [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 결과 |
+| **성과 관점** | [Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Perspective | 시스템이 실제 가치를 창출하고 있는지, 고객 만족도와 목표 달성 여부 | 시스템 [가용성](/studynote/01_computer_architecture/13_reliability_power_management/452_availability/), [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/), 사용자 만족도, [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 달성 | [성능 테스트](/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 결과, UAT 통과율, 만족도 조사 결과 |
 
 감리 관점별발현문제의전형적인 원인-결과 체인을 분석하면 다음과 같다.
 
@@ -118,7 +115,7 @@ tags = ["design_supervision"]
    (예: 성능 테스트 미흡 -> 시스템 아키텍처 문제로 판단)
 ```
 
-이 분석의 핵심은 세 관점의문제가독립적이지 않고상호 연결되어 있다는 점이다. 절차 관점의 문제방과가 산출물 관점의 부실로, 산출물 관점의 부실이 성과 관점의 저하로 이어지는 인과[관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)련조을 따라가면, 문제의 근본 원인(Root Cause)에 도달할 수 있다.
+이 분석의 핵심은 세 관점의문제가독립적이지 않고상호 연결되어 있다는 점이다. 절차 관점의 문제방과가 산출물 관점의 부실로, 산출물 관점의 부실이 성과 관점의 저하로 이어지는 인과[관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)련조을 따라가면, 문제의 근본 원인(Root Cause)에 도달할 수 있다.
 
 📢 **섹션 요약 비유**: 감리 관점의연결고리는 <strong>'물고기 먹물 연쇄'</strong>와 같습니다. 바닷물 오염(절차 문제)이 해조류(산출물)에영향되고, 해조류문제를섭입한 물고기(성과 문제)가인사망(고객 피해)에까지 이어지듯이, 감리에서도 작은 문제가 큰 재앙으로 확대되는プロセス을/를분석합니다.
 
@@ -126,17 +123,17 @@ tags = ["design_supervision"]
 
 ### Ⅲ. 융합 비교 및 다각도 분석 (Comparison & Synergy)
 
-세 감리 관점 사이의장소와단소, 그리고상호보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 분석해보자.
+세 감리 관점 사이의장소와단소, 그리고상호보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 분석해보자.
 
 **[감리 3관점 비교 매트릭스]**
 
 | 관점 | 장점 | 단점 | 최적 활용 상황 |
 |:---|:---|:---|:---|
 | **절차 관점** | 사전 예방 가능, 문제 조기 발견, 과정 관리 용이 | 결과물의질 보장은 어려움, 과도한 문서화 부담 | 개발 경험이 부족한 사업자, 처음 진행하는 유형의 사업 |
-| **산출물 관점** | 결과물 기준 명확, 요구사항 대비 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이, 객관적 판단 가능 | 과정의질은 반영 못함, inúmer 문서 검토 필요 | 대기업 사업자, 체계적인 산출물 관리 환경 |
-| **성과 관점** | 실제 가치 창출 파악 가능, 고객 목소리 직접 반영 | 측정 어려움, 장기간 소요, 외부 변수 영향 | 사용자 중심 프로젝트, 공공 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 대상 사업 |
+| **산출물 관점** | 결과물 기준 명확, 요구사항 대비 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 용이, 객관적 판단 가능 | 과정의질은 반영 못함, inúmer 문서 검토 필요 | 대기업 사업자, 체계적인 산출물 관리 환경 |
+| **성과 관점** | 실제 가치 창출 파악 가능, 고객 목소리 직접 반영 | 측정 어려움, 장기간 소요, 외부 변수 영향 | 사용자 중심 프로젝트, 공공 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 대상 사업 |
 
-세 관점의상호보완 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 3중 방어선 구조로 시각화하면 다음과 같다.
+세 관점의상호보완 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/)를 3중 방어선 구조로 시각화하면 다음과 같다.
 
 ```text
 [감리 관점 3중 방어선 구조]
@@ -161,11 +158,11 @@ tags = ["design_supervision"]
 
 이 구조의 핵심은 세 관점이 순차적으로 방어선 역할을 한다는 점이다. 절차 관점에서 놓친 문제를 산출물 관점에서 발견하고, 산출물 관점에서도 놓친 문제가 성과 관점에서 최종적으로 포착된다. 삼중 보안을 통해 시스템 전체의 문제 발생 가능성을최소화하는 구조다.
 
-📢 **섹션 요약 비유**: 감리 관점의 3중 방어선 구조는 <strong>'방역 시스템'</strong>과 같습니다. 1차 방어선인 예방접종(절차)으로 병을 막고, 2차 방어선인 건강검진(산출물)으로 [초기](/knowledge-base/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 질환을 발견하며, 3차 방어선인 응급실 치료(성과)로 이미 진행된 질병을 치료하는 것처럼, 삼단계의フィルター를 통해 시스템 전체의건전성을수ります.
+📢 **섹션 요약 비유**: 감리 관점의 3중 방어선 구조는 <strong>'방역 시스템'</strong>과 같습니다. 1차 방어선인 예방접종(절차)으로 병을 막고, 2차 방어선인 건강검진(산출물)으로 [초기](/studynote/03_network/08_transport_layer/459_quic_fec_forward_error_correction/) 질환을 발견하며, 3차 방어선인 응급실 치료(성과)로 이미 진행된 질병을 치료하는 것처럼, 삼단계의フィルター를 통해 시스템 전체의건전성을수ります.
 
 ---
 
-### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
+### Ⅳ. 실무 적용 및 기술사적 판단 ([Strategy](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) & Decision)
 
 실제 감리 현장에서 감리 관점을 적용할 때의 판단 사례를 살펴보자.
 
@@ -175,11 +172,11 @@ tags = ["design_supervision"]
 
 **2. 관점 우선순위 판단: "어떤 관점을 먼저 적용해야 하나?"**
 *   **상황**: 감리 일정이 제한적인 상황에서, 세 관점을 모두 적용하기 어렵다. 어느 관점을 우선해야 하는가?
-*   **기술사적 판단**: 프로젝트의 특성에 따라 우선순위가 달라진다. (1) 신규 사업으로 체계가 아직 정착되지 않았다면 절차 관점을 우선하여 과정의 문제를 방지하고, (2) 대규모 시스템으로 산출물 관리가 복잡하다면 산출물 관점을 우선하여 요구사항 충족 여부를 확인하며, (3) 사용자에게 직접 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하는 시스템이라면 성과 관점을우선하여 고객 만족도를 먼저 파악해야 한다. 일반적으로는 절차 -> 산출물 -> 성과 순으로 진행하는 것이 효율적이다.
+*   **기술사적 판단**: 프로젝트의 특성에 따라 우선순위가 달라진다. (1) 신규 사업으로 체계가 아직 정착되지 않았다면 절차 관점을 우선하여 과정의 문제를 방지하고, (2) 대규모 시스템으로 산출물 관리가 복잡하다면 산출물 관점을 우선하여 요구사항 충족 여부를 확인하며, (3) 사용자에게 직접 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)하는 시스템이라면 성과 관점을우선하여 고객 만족도를 먼저 파악해야 한다. 일반적으로는 절차 -> 산출물 -> 성과 순으로 진행하는 것이 효율적이다.
 
 **3. 복합 관점 판단: "이 결함은 어느 관점에서 지적해야 하는가?"**
-*   **상황**: 시스템의 [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 5초로,RFP에 명시된 2초 이내의 요구사항을 충족하지 못했다. 그러나 코드는 잘 작성되었고, 개발 프로세스도 표준을 따랐다.
-*   **기술사적 판단**: 이 결함은 성과 관점에서 반드시 지적해야 한다. [응답 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 미달은 산출물(코드)적인 문제는 아닐 수 있지만(코드는 잘 작성되어 있음), 시스템 전체의 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(성과) 관점에서는중대な 문제다. 또한 이러한 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 근본 원인을 분석하면, 절차 관점([성능 테스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 미실시)이나 산출물 관점(비효율적 DB [쿼리](/knowledge-base/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에서의 문제로 기인했을 가능성도 배제할 수 없다. 따라서 감리인은 세 관점을 모두 적용하여 복합적인 분석을 실시해야 한다.
+*   **상황**: 시스템의 [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/)이 5초로,RFP에 명시된 2초 이내의 요구사항을 충족하지 못했다. 그러나 코드는 잘 작성되었고, 개발 프로세스도 표준을 따랐다.
+*   **기술사적 판단**: 이 결함은 성과 관점에서 반드시 지적해야 한다. [응답 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/138_response_time/) 미달은 산출물(코드)적인 문제는 아닐 수 있지만(코드는 잘 작성되어 있음), 시스템 전체의 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)(성과) 관점에서는중대な 문제다. 또한 이러한 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 문제의 근본 원인을 분석하면, 절차 관점([성능 테스트](/studynote/04_software_engineering/11_testing_validation/837_performance_test_types/) 미실시)이나 산출물 관점(비효율적 DB [쿼리](/studynote/10_ai/04_ai_ops_ethics/298_qkv_attention/))에서의 문제로 기인했을 가능성도 배제할 수 없다. 따라서 감리인은 세 관점을 모두 적용하여 복합적인 분석을 실시해야 한다.
 
 ```text
 [응답 시간 초과 결함에 대한 3관점 分析]
@@ -207,22 +204,22 @@ tags = ["design_supervision"]
 |:---|:---|:---|
 | **다면적 평가 실시** | 시스템의 모든 측면을 관통하는 종합 평가 가능 | 관점별복개솔 100% |
 | **문제 원인 규명 정확도 향상** | 관점 간 불일치를 분석하여 근본 원인 파악 | Root Cause 분석 정확도 90% 이상 |
-| **감리 결과의 신빙성 확보** | 다양한 관점에서 평가하여 결과의 공정성 증대 | [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 만족도 90% 이상 |
-| **사후 관리 역량 강화** | 성과 관점의 도입으로 실제 가치 창출 여부 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 성과 측정 가능율 80% 이상 |
+| **감리 결과의 신빙성 확보** | 다양한 관점에서 평가하여 결과의 공정성 증대 | [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 만족도 90% 이상 |
+| **사후 관리 역량 강화** | 성과 관점의 도입으로 실제 가치 창출 여부 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 성과 측정 가능율 80% 이상 |
 
 **미래 전망:**
-미래에는 성과 관점의 중요성이 더욱 커질 전망이다. [애자일](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론의 확산과 함께 '동작하는 소프트웨어(Working Software)' 중심의 인식이 확산되면서, 산출물보다성과(실제 가치)를 중시하는추향이 강화되고 있다. 또한 [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/빅데이터 기술의 발전으로 사용자의행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(성과 지표)를실시간으로 수집하고 분석하는 것이 가능해짐에 따라, 성과 관점의 측정 정확도와 즉시성이 크게 향상될 것으로 기대된다.
+미래에는 성과 관점의 중요성이 더욱 커질 전망이다. [애자일](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)([Agile](/studynote/15_devops_sre/01_culture_methodology/004_agile_relation/)) 방법론의 확산과 함께 '동작하는 소프트웨어(Working Software)' 중심의 인식이 확산되면서, 산출물보다성과(실제 가치)를 중시하는추향이 강화되고 있다. 또한 [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)/빅데이터 기술의 발전으로 사용자의행동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(성과 지표)를실시간으로 수집하고 분석하는 것이 가능해짐에 따라, 성과 관점의 측정 정확도와 즉시성이 크게 향상될 것으로 기대된다.
 
-📢 **섹션 요약 비유**: 미래의 성과 관점 강화는 <strong>'스포츠 <a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학의 발전'</strong>과 같습니다. 예전에는 경기 녹화본(산출물)과 경기 기록지(절차)만 있었지만, 이제는 GPS 추적, 심박수 측정, 플레이스루 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 선수 성과를실시간으로 수집분석하여 코칭에 활용하듯이, 감리에서도 성과 관점의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과분석능력이 크게 발전할 것입니다.
+📢 **섹션 요약 비유**: 미래의 성과 관점 강화는 <strong>'스포츠 <a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 과학의 발전'</strong>과 같습니다. 예전에는 경기 녹화본(산출물)과 경기 기록지(절차)만 있었지만, 이제는 GPS 추적, 심박수 측정, 플레이스루 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 등 선수 성과를실시간으로 수집분석하여 코칭에 활용하듯이, 감리에서도 성과 관점의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집과분석능력이 크게 발전할 것입니다.
 
 ---
 
-### 📌 관련 개념 맵 ([Knowledge Graph](/knowledge-base/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
-*   절차 관점 (Procedure Perspective) | 사업 수행 과정이 표준과 방법론에 부합하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
-*   산출물 관점 (Product Perspective) | 만들어진 결과물이 요구사항과 설계에 부합하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
-*   성과 관점 ([Performance](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Perspective) | 시스템이 실제 가치를 창출하고 고객 만족도를 달성하는지 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
+### 📌 관련 개념 맵 ([Knowledge Graph](/studynote/14_data_engineering/03_ml_dl_llm/160_knowledge_graph_graphrag_integration/))
+*   절차 관점 (Procedure Perspective) | 사업 수행 과정이 표준과 방법론에 부합하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
+*   산출물 관점 (Product Perspective) | 만들어진 결과물이 요구사항과 설계에 부합하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
+*   성과 관점 ([Performance](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) Perspective) | 시스템이 실제 가치를 창출하고 고객 만족도를 달성하는지 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 관점
 *   Root Cause Analysis | 문제의 표면적 원인이 아닌 최근본적인 원인을 규명하는 분석 방법
-*   UAT (User [Acceptance Test](/knowledge-base/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) | 사용자가 직접 수행하는 인수 테스트로, 성과 관점의 핵심 산출물 중 하나
+*   UAT (User [Acceptance Test](/studynote/04_software_engineering/12_testing_maintenance/406_acceptance_test_uat/)) | 사용자가 직접 수행하는 인수 테스트로, 성과 관점의 핵심 산출물 중 하나
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -242,7 +239,7 @@ tags = ["design_supervision"]
 [UAT (User Acceptance Test) — 사용자 인수 테스트]
 ```
 
-IT 감리 관점이 절차 중심에서 산출물·성과 중심으로 다원화하여 실질적 가치 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 발전한 흐름이다.
+IT 감리 관점이 절차 중심에서 산출물·성과 중심으로 다원화하여 실질적 가치 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 체계로 발전한 흐름이다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 1. **개념**: 감리 세 관점은 LEGO 작품 만들기를검사하는 것과 같아요. 선생님이 "열심히 만든다"는 과정(절차)을 보고, "정말 예쁘게 완성했다"는 결과물(산출물)을 보고,최후에 "와, 이걸로 놀았을 때 정말 fun었어"라는 행복(성과)을 물어보는 거예요.
@@ -255,7 +252,7 @@ IT 감리 관점이 절차 중심에서 산출물·성과 중심으로 다원화
 
 **진행 상황**: 8 / 530
 
-<- **이전**: [7. 감리 영역 (Audit Domain) - 사업 관리, 응용 시스템, 데이터베이스, 시스템 아키텍처/보안](/knowledge-base/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)
-**다음**: [9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구사항 정의, 설계, 종료/구현)](/knowledge-base/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) ->
+<- **이전**: [7. 감리 영역 (Audit Domain) - 사업 관리, 응용 시스템, 데이터베이스, 시스템 아키텍처/보안](/studynote/11_design_supervision/01_audit_framework/007_audit_domain/)
+**다음**: [9. 감리 단계 (Audit Phase) - 사업의 진행 단계 (요구사항 정의, 설계, 종료/구현)](/studynote/11_design_supervision/01_audit_framework/009_audit_phase/) ->
 
 ---

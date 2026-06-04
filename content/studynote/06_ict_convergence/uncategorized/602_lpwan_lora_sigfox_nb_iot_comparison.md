@@ -1,13 +1,10 @@
-+++
-title = "602. LPWAN LoRa Sigfox NB-IoT 비교 (LPWAN LoRa Sigfox NB-IoT Comparison)"
-date = 2026-05-09
+---
+title: "602. LPWAN LoRa Sigfox NB-IoT 비교 (LPWAN LoRa Sigfox NB-IoT Comparison)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ LPWAN LoRa Sigfox NB-IoT 비교은(는) 디지털 기술을 실제 업무와 공
 
 **진행 상황**: 602 / 800
 
-<- **이전**: [601. 에너지 하베스팅 저전력 IoT 전원](/knowledge-base/studynote/06_ict_convergence/uncategorized/601_energy_harvesting_low_power_iot_supply/)
-**다음**: [603. 엣지 AI 온디바이스 경량 추론](/knowledge-base/studynote/06_ict_convergence/uncategorized/603_edge_ai_on_device_inference_lightweight/) ->
+<- **이전**: [601. 에너지 하베스팅 저전력 IoT 전원](/studynote/06_ict_convergence/uncategorized/601_energy_harvesting_low_power_iot_supply/)
+**다음**: [603. 엣지 AI 온디바이스 경량 추론](/studynote/06_ict_convergence/uncategorized/603_edge_ai_on_device_inference_lightweight/) ->
 
 ---

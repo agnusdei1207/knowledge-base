@@ -1,22 +1,19 @@
-+++
-title = "045. 클럭 — Clock Signal"
-date = 2026-04-05
+---
+title: "045. 클럭 — Clock Signal"
+date: "2026-04-05"
+tags:
+  - "studynote-computer-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-computer-architecture"]
-
-[extra]
-tags = ["studynote-computer-architecture"]
-+++
 
 > **핵심 인사이트**
-> 1. 클럭(Clock)은 디지털 시스템의 심장박동 — 모든 순차 회로([플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [레지스터](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), CPU)가 클럭 에지(Rising/Falling Edge)에 동기화되어 동작하며, 클럭 없이는 연산의 순서와 타이밍을 보장할 수 없다.
-> 2. [클럭 주파수](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)([Clock Frequency](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))는 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 — GHz 단위 주파수는 초당 사이클 수이며, [클럭 주기](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)(T=1/f) 안에 모든 조합 [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 완료되어야 하므로 주파수 ^ = [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ^이지만 발열·소비전력도 ^
-> 3. 클럭 스큐([Clock Skew](/knowledge-base/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 셋업/홀드 타임은 고속 설계의 핵심 제약 — 클럭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/)가 칩 전체에 동시 도달하지 않아 발생하는 타이밍 오류로, 현대 VLSI 설계에서 클럭 트리 합성(CTS)으로 해결한다.
+> 1. 클럭(Clock)은 디지털 시스템의 심장박동 — 모든 순차 회로([플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/), [레지스터](/studynote/01_computer_architecture/01_basic_electronics_logic/057_register/), CPU)가 클럭 에지(Rising/Falling Edge)에 동기화되어 동작하며, 클럭 없이는 연산의 순서와 타이밍을 보장할 수 없다.
+> 2. [클럭 주파수](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/)([Clock Frequency](/studynote/01_computer_architecture/03_architecture_basics_performance/132_clock_frequency/))는 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/)의 핵심 — GHz 단위 주파수는 초당 사이클 수이며, [클럭 주기](/studynote/01_computer_architecture/03_architecture_basics_performance/133_clock_cycle_time/)(T=1/f) 안에 모든 조합 [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/) 연산이 완료되어야 하므로 주파수 ^ = [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) ^이지만 발열·소비전력도 ^
+> 3. 클럭 스큐([Clock Skew](/studynote/05_database/06_dw_olap_trends/388_spanner_truetime_clock_skew/))와 셋업/홀드 타임은 고속 설계의 핵심 제약 — 클럭 [신호](/studynote/02_operating_system/02_process_thread/130_signal/)가 칩 전체에 동시 도달하지 않아 발생하는 타이밍 오류로, 현대 VLSI 설계에서 클럭 트리 합성(CTS)으로 해결한다.
 
 ---
 
-## Ⅰ. 클럭 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) 기초
+## Ⅰ. 클럭 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) 기초
 
 ```
 클럭 신호 파형:
@@ -40,7 +37,7 @@ LOW  (0) ---+   +---+   +---
   이상적: 50% (HIGH = LOW 시간)
 ```
 
-> 📢 **섹션 요약 비유**: 클럭은 지휘자의 박자 — 오케스트라(디지털 회로)가 지휘자 박자에 맞춰 동시에 연주하듯, 모든 [플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 클럭 에지에 맞춰 동작해요.
+> 📢 **섹션 요약 비유**: 클럭은 지휘자의 박자 — 오케스트라(디지털 회로)가 지휘자 박자에 맞춰 동시에 연주하듯, 모든 [플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/)이 클럭 에지에 맞춰 동작해요.
 
 ---
 
@@ -74,7 +71,7 @@ Critical Path (임계 경로):
       T_min = 2.7ns -> f_max = 370 MHz
 ```
 
-> 📢 **섹션 요약 비유**: 셋업/홀드 타임은 사진 찍기 규칙 — 셔터(클럭 에지) 전에 피사체([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 멈춰야 하고(셋업), 셔터 후에도 잠깐 유지해야(홀드) 블러 없는 사진이 나와요.
+> 📢 **섹션 요약 비유**: 셋업/홀드 타임은 사진 찍기 규칙 — 셔터(클럭 에지) 전에 피사체([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))가 멈춰야 하고(셋업), 셔터 후에도 잠깐 유지해야(홀드) 블러 없는 사진이 나와요.
 
 ---
 
@@ -117,7 +114,7 @@ Critical Path (임계 경로):
   로컬 클럭: 특정 도메인 독립 (클럭 게이팅, 다중 클럭 도메인)
 ```
 
-> 📢 **섹션 요약 비유**: 클럭 스큐는 마라톤 출발 [지연](/knowledge-base/studynote/03_network/01_data_communication/015_지연_데이터_관점/) — 같은 총소리(클럭)에 일부 선수([플립플롭](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))가 늦게 듣는 현상. CTS는 각 선수 바로 앞에 스피커를 두는 것!
+> 📢 **섹션 요약 비유**: 클럭 스큐는 마라톤 출발 [지연](/studynote/03_network/01_data_communication/015_지연_데이터_관점/) — 같은 총소리(클럭)에 일부 선수([플립플롭](/studynote/01_computer_architecture/01_basic_electronics_logic/051_flip_flop/))가 늦게 듣는 현상. CTS는 각 선수 바로 앞에 스피커를 두는 것!
 
 ---
 
@@ -161,7 +158,7 @@ DVFS (Dynamic Voltage Frequency Scaling):
 
 ---
 
-## Ⅴ. 실무 시나리오 — 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭 설계
+## Ⅴ. 실무 시나리오 — 모바일 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭 설계
 
 ```
 Qualcomm Snapdragon SoC 클럭 구조:
@@ -196,7 +193,7 @@ Qualcomm Snapdragon SoC 클럭 구조:
   공정 코너: SS(Slow-Slow), FF(Fast-Fast), TT
 ```
 
-> 📢 **섹션 요약 비유**: 모바일 [SoC](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭은 [스마트 그리드](/knowledge-base/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) — 필요한 곳에 필요한 만큼 전기(클럭) 공급, 안 쓰는 구역은 차단, 과부하 시 자동 감압(스로틀링)!
+> 📢 **섹션 요약 비유**: 모바일 [SoC](/studynote/01_computer_architecture/03_architecture_basics_performance/131_soc/) 클럭은 [스마트 그리드](/studynote/06_ict_convergence/02_iot_mobility/161_smart_grid_architecture/) — 필요한 곳에 필요한 만큼 전기(클럭) 공급, 안 쓰는 구역은 차단, 과부하 시 자동 감압(스로틀링)!
 
 ---
 
@@ -250,7 +247,7 @@ UCIe 인터페이스 클럭
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. 클럭은 심장박동 — 심장이 뛸 때마다(클럭 에지) 몸(디지털 회로)이 움직여요. 빠를수록(GHz) 더 많은 일을 해요!
-2. 셋업 타임은 준비 완료 [신호](/knowledge-base/studynote/02_operating_system/02_process_thread/130_signal/) — 시험 시작(클럭) 전에 답안지([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 써놔야 하는 시간. 늦으면 답이 엉켜요.
+2. 셋업 타임은 준비 완료 [신호](/studynote/02_operating_system/02_process_thread/130_signal/) — 시험 시작(클럭) 전에 답안지([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))를 써놔야 하는 시간. 늦으면 답이 엉켜요.
 3. 클럭 게이팅은 에너지 절약 — 안 쓰는 방 전등 끄듯, 동작 안 하는 회로의 클럭을 꺼서 배터리를 아껴요!
 
 ---
@@ -259,7 +256,7 @@ UCIe 인터페이스 클럭
 
 **진행 상황**: 45 / 803
 
-<- **이전**: [044. 순서 논리 회로 — Sequential Logic](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/)
-**다음**: [046. 에지 트리거 — Edge Trigger](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/) ->
+<- **이전**: [044. 순서 논리 회로 — Sequential Logic](/studynote/01_computer_architecture/01_basic_electronics_logic/044_sequential_logic/)
+**다음**: [046. 에지 트리거 — Edge Trigger](/studynote/01_computer_architecture/01_basic_electronics_logic/046_edge_trigger/) ->
 
 ---

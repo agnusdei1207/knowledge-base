@@ -1,13 +1,10 @@
-+++
-title = "628. SRE 에러 버짓 신뢰성 목표 설정 (SRE Error Budget Reliability Target Setting)"
-date = 2026-05-09
+---
+title: "628. SRE 에러 버짓 신뢰성 목표 설정 (SRE Error Budget Reliability Target Setting)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ SRE 에러버짓 신뢰성 목표 설정은(는) 클라우드 네이티브 환�
 
 **진행 상황**: 623 / 800
 
-<- **이전**: [622. 카오스 엔지니어링 Litmus](/knowledge-base/studynote/06_ict_convergence/uncategorized/627_chaos_engineering_litmus_gremlin/)
-**다음**: [624. FinOps 클라우드 비용 최적화 태깅](/knowledge-base/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/) ->
+<- **이전**: [622. 카오스 엔지니어링 Litmus](/studynote/06_ict_convergence/uncategorized/627_chaos_engineering_litmus_gremlin/)
+**다음**: [624. FinOps 클라우드 비용 최적화 태깅](/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/) ->
 
 ---

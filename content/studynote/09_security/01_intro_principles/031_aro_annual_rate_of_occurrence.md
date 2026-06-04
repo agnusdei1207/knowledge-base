@@ -1,18 +1,15 @@
-+++
-title = "31. ARO와 위험 정량화 — 연간 발생률의 의미"
-date = 2026-04-29
+---
+title: "31. ARO와 위험 정량화 — 연간 발생률의 의미"
+date: "2026-04-29"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: ARO(Annual Rate of Occurrence, 연간 발생률)는 특정 위협이 1년 동안 발생할 것으로 예상되는 횟수다. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO 공식에서 핵심 변수로, 정확한 ARO 산정이 정량적 위험 분석의 신뢰성을 결정한다.
-> 2. **가치**: ARO은 과거 사고 통계·산업 벤치마크·전문가 판단으로 추정한다. ARO = 1이면 매년 한 번, ARO = 0.1이면 10년에 한 번 발생 예상이다. 소수점 ARO가 가능하며 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)적 개념이다.
-> 3. **판단 포인트**: ARO 추정의 가장 큰 도전은 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족이다. 조직 내부 사고 이력, NIST [NVD](/knowledge-base/studynote/09_security/13_secops_ir_forensics/651_nvd/)(국가 취약점 DB), IC3(인터넷 범죄 신고센터), 산업별 사고 리포트(Verizon DBIR)를 ARO 추정의 주요 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로 활용한다.
+> 1. **본질**: ARO(Annual Rate of Occurrence, 연간 발생률)는 특정 위협이 1년 동안 발생할 것으로 예상되는 횟수다. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) = SLE × ARO 공식에서 핵심 변수로, 정확한 ARO 산정이 정량적 위험 분석의 신뢰성을 결정한다.
+> 2. **가치**: ARO은 과거 사고 통계·산업 벤치마크·전문가 판단으로 추정한다. ARO = 1이면 매년 한 번, ARO = 0.1이면 10년에 한 번 발생 예상이다. 소수점 ARO가 가능하며 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)적 개념이다.
+> 3. **판단 포인트**: ARO 추정의 가장 큰 도전은 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 부족이다. 조직 내부 사고 이력, NIST [NVD](/studynote/09_security/13_secops_ir_forensics/651_nvd/)(국가 취약점 DB), IC3(인터넷 범죄 신고센터), 산업별 사고 리포트(Verizon DBIR)를 ARO 추정의 주요 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스로 활용한다.
 
 ---
 
@@ -41,17 +38,17 @@ ALE 계산:
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 위협 발생 가능성 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준
+### 위협 발생 가능성 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 기준
 
 | 발생 빈도 | ARO 범위 | 설명 |
 |:---|:---|:---|
-| **매우 빈번** | ARO ≥ [10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 일상적 위협 (스팸, [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔) |
-| **빈번** | ARO 1~[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 연간 수회 ([피싱](/knowledge-base/studynote/09_security/15_malware_attack_vectors/752_phishing/), DDoS 소규모) |
-| **가능** | ARO 0.1~1 | 수년에 한 번 ([랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 침해) |
+| **매우 빈번** | ARO ≥ [10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 일상적 위협 (스팸, [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/) 스캔) |
+| **빈번** | ARO 1~[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/) | 연간 수회 ([피싱](/studynote/09_security/15_malware_attack_vectors/752_phishing/), DDoS 소규모) |
+| **가능** | ARO 0.1~1 | 수년에 한 번 ([랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/), 침해) |
 | **드문** | ARO 0.01~0.1 | 수십 년에 한 번 (대형 재해) |
 | **매우 드문** | ARO < 0.01 | 극히 드문 사고 |
 
-### 신뢰할 수 있는 ARO [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스
+### 신뢰할 수 있는 ARO [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스
 
 ```text
 외부 데이터:
@@ -71,26 +68,26 @@ ALE 계산:
   - 위협 모델링 (STRIDE)
 ```
 
-- **📢 섹션 요약 비유**: ARO [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스는 의료 통계다. 내 개인 병원 기록(내부 사고 이력)과 국가 통계청 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(NIST, Verizon DBIR)를 결합해 정확한 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정한다.
+- **📢 섹션 요약 비유**: ARO [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스는 의료 통계다. 내 개인 병원 기록(내부 사고 이력)과 국가 통계청 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(NIST, Verizon DBIR)를 결합해 정확한 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 추정한다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-| 비교 | 정량적 (ARO/[ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)) | 정성적 (매트릭스) |
+| 비교 | 정량적 (ARO/[ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)) | 정성적 (매트릭스) |
 |:---|:---|:---|
 | ARO | 숫자로 표현 | 높음/중간/낮음 |
-| [신뢰도](/knowledge-base/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | 전문가 주관 |
-| [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산 | 가능 | 어려움 |
+| [신뢰도](/studynote/14_data_engineering/02_math_mining/085_confidence_association_rule_conditional_probability/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | 전문가 주관 |
+| [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 계산 | 가능 | 어려움 |
 | 소통 | 경영진에게 설득력 | 직관적 이해 |
 
-- **📢 섹션 요약 비유**: 정량적·정성적 위험 분석은 날씨 예보 방식이다. 정량적("강수 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 70%")은 정확하지만 계산이 필요하고, 정성적("비 올 것 같다")은 직관적이지만 부정확할 수 있다.
+- **📢 섹션 요약 비유**: 정량적·정성적 위험 분석은 날씨 예보 방식이다. 정량적("강수 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 70%")은 정확하지만 계산이 필요하고, 정성적("비 올 것 같다")은 직관적이지만 부정확할 수 있다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### 위험 등록부([Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/knowledge-base/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))
+### 위험 등록부([Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) [Register](/studynote/01_computer_architecture/04_instruction_set_architecture/175_register_addressing/))
 
 ```text
 | 위협 ID | 위협 유형      | ARO  | AV    | EF  | SLE    | ALE    | 우선순위 |
@@ -102,7 +99,7 @@ ALE 계산:
 ALE 높은 순서로 보안 투자 우선순위 결정
 ```
 
-- **📢 섹션 요약 비유**: 위험 등록부는 의료 우선순위 목록이다. 응급 환자(높은 [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)) 순서로 치료 우선순위를 정하듯, 위험 등록부는 보안 투자 순서를 [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기준으로 결정한다.
+- **📢 섹션 요약 비유**: 위험 등록부는 의료 우선순위 목록이다. 응급 환자(높은 [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)) 순서로 치료 우선순위를 정하듯, 위험 등록부는 보안 투자 순서를 [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기준으로 결정한다.
 
 ---
 
@@ -110,13 +107,13 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 | 기대효과 | 내용 |
 |:---|:---|
-| **객관적 우선순위** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 순위 결정 |
+| **객관적 우선순위** | [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기반 투자 순위 결정 |
 | **경영진 설득** | 금액으로 표현된 위험 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/">CISO</a> 도구</strong> | 보안 예산 정당화 |
+| <strong><a href="/studynote/12_it_management/05_security_compliance/173_ciso_role_and_responsibility/">CISO</a> 도구</strong> | 보안 예산 정당화 |
 
-[TARA](/knowledge-base/studynote/09_security/18_iot_ot_physical/925_tara/)(Threat Agent [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)와 [CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/)(Common Vulnerability Scoring System)는 ARO 추정을 정교화하는 현대 프레임워크다. CVSS가 취약점의 악용 가능성(Exploitability)을 수치화하여 ARO 추정의 객관성을 높이고, [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위협 인텔리전스가 실시간 ARO를 동적으로 업데이트하는 방향으로 발전하고 있다.
+[TARA](/studynote/09_security/18_iot_ot_physical/925_tara/)(Threat Agent [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Assessment)와 [CVSS](/studynote/09_security/04_endpoint_security/407_cvss_scoring/)(Common Vulnerability Scoring System)는 ARO 추정을 정교화하는 현대 프레임워크다. CVSS가 취약점의 악용 가능성(Exploitability)을 수치화하여 ARO 추정의 객관성을 높이고, [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 기반 위협 인텔리전스가 실시간 ARO를 동적으로 업데이트하는 방향으로 발전하고 있다.
 
-- **📢 섹션 요약 비유**: [CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/) 기반 ARO는 날씨 예보 고도화다. 경험적 추측(전통 ARO)에서 위성 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석([CVSS](/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/)/위협 인텔리전스)을 통한 정확한 강수 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)(ARO) 예측으로 발전한다.
+- **📢 섹션 요약 비유**: [CVSS](/studynote/09_security/04_endpoint_security/407_cvss_scoring/) 기반 ARO는 날씨 예보 고도화다. 경험적 추측(전통 ARO)에서 위성 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 분석([CVSS](/studynote/09_security/04_endpoint_security/407_cvss_scoring/)/위협 인텔리전스)을 통한 정확한 강수 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)(ARO) 예측으로 발전한다.
 
 ---
 
@@ -124,11 +121,11 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong>SLE·<a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | ARO를 활용한 정량적 위험 계산 |
+| <strong>SLE·<a href="/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | ARO를 활용한 정량적 위험 계산 |
 | **FAIR** | ARO 개념 확장한 현대 위험 분석 |
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a></strong> | 취약점 악용 가능성 -> ARO 추정 |
-| **Verizon DBIR** | ARO 추정 외부 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 |
-| <strong><a href="/knowledge-base/studynote/09_security/18_iot_ot_physical/925_tara/">TARA</a></strong> | 위협 에이전트 기반 ARO 분석 |
+| <strong><a href="/studynote/09_security/04_endpoint_security/407_cvss_scoring/">CVSS</a></strong> | 취약점 악용 가능성 -> ARO 추정 |
+| **Verizon DBIR** | ARO 추정 외부 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소스 |
+| <strong><a href="/studynote/09_security/18_iot_ot_physical/925_tara/">TARA</a></strong> | 위협 에이전트 기반 ARO 분석 |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -151,7 +148,7 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 ### 👶 어린이를 위한 3줄 비유 설명
 
 1. ARO는 "1년에 몇 번 사고가 날까?" 예측이에요 — 0.1이면 10년에 한 번이에요!
-2. ARO × 피해액(SLE) = 연간 예상 손실([ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/))로 보안 투자 가치를 계산해요!
+2. ARO × 피해액(SLE) = 연간 예상 손실([ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/))로 보안 투자 가치를 계산해요!
 3. Verizon DBIR 같은 통계 자료를 보면 실제 해킹 사고가 얼마나 자주 발생하는지 알 수 있어요!
 
 ---
@@ -160,7 +157,7 @@ ALE 높은 순서로 보안 투자 우선순위 결정
 
 **진행 상황**: 31 / 1108
 
-<- **이전**: [30. SLE·ALE — 단일·연간 손실 기대값](/knowledge-base/studynote/09_security/01_intro_principles/030_sle_single_loss_expectancy/)
-**다음**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) ->
+<- **이전**: [30. SLE·ALE — 단일·연간 손실 기대값](/studynote/09_security/01_intro_principles/030_sle_single_loss_expectancy/)
+**다음**: [ALE (Annual Loss Expectancy, 연간 예상 손실)](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) ->
 
 ---

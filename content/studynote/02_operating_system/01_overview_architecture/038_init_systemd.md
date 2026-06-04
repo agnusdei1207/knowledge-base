@@ -1,18 +1,15 @@
-+++
-title = "038. init과 systemd — 부팅 초기화 시스템"
-date = 2026-03-03
+---
+title: "038. init과 systemd — 부팅 초기화 시스템"
+date: "2026-03-03"
+tags:
+  - "studynote-operating-system"
+---
 
-[taxonomies]
-tags = ["studynote-operating-system"]
-
-[extra]
-tags = ["studynote-operating-system"]
-+++
 
 > **핵심 인사이트**
-> 1. init(PID 1)은 [커널](/knowledge-base/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부팅 후 처음 실행되는 프로세스로 모든 다른 프로세스의 조상이며, 전통적인 SysV init은 순차적 런레벨(Runlevel) 기반 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작으로 부팅이 느린 한계가 있었다.
-> 2. systemd는 의존성 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 부팅, [소켓](/knowledge-base/studynote/02_operating_system/02_process_thread/125_socket/)/[D-Bus](/knowledge-base/studynote/02_operating_system/02_process_thread/134_dbus/) 활성화, cgroup 자원 제어, 저널 로깅을 통합 제공하는 현대적 초기화 시스템으로, 부팅 시간을 수 분에서 수 초로 단축했다.
-> 3. systemd vs sysvinit의 핵심 차이: SysV는 "스크립트 실행 순서", systemd는 "의존성 [그래프](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시작" — 현재 RHEL/Ubuntu/Debian 등 거의 모든 주요 Linux 배포판이 systemd를 채택했다.
+> 1. init(PID 1)은 [커널](/studynote/02_operating_system/01_overview_architecture/022_kernel_role/) 부팅 후 처음 실행되는 프로세스로 모든 다른 프로세스의 조상이며, 전통적인 SysV init은 순차적 런레벨(Runlevel) 기반 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 시작으로 부팅이 느린 한계가 있었다.
+> 2. systemd는 의존성 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 부팅, [소켓](/studynote/02_operating_system/02_process_thread/125_socket/)/[D-Bus](/studynote/02_operating_system/02_process_thread/134_dbus/) 활성화, cgroup 자원 제어, 저널 로깅을 통합 제공하는 현대적 초기화 시스템으로, 부팅 시간을 수 분에서 수 초로 단축했다.
+> 3. systemd vs sysvinit의 핵심 차이: SysV는 "스크립트 실행 순서", systemd는 "의존성 [그래프](/studynote/08_algorithm_stats/04_datastructure/070_graph_datastructure/) 기반 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 시작" — 현재 RHEL/Ubuntu/Debian 등 거의 모든 주요 Linux 배포판이 systemd를 채택했다.
 
 ---
 
@@ -104,11 +101,11 @@ systemd 핵심 개선:
 | 5       | graphical.target         |
 | 6       | reboot.target            |
 
-> 📢 **섹션 요약 비유**: systemd는 프로젝트 매니저 — 의존 [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 있는 것만 순서 지키고, 독립적인 것은 동시에 시작.
+> 📢 **섹션 요약 비유**: systemd는 프로젝트 매니저 — 의존 [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) 있는 것만 순서 지키고, 독립적인 것은 동시에 시작.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). systemd 유닛 종류
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). systemd 유닛 종류
 
 ```
 주요 유닛 파일 (.service, .socket, .timer, ...):
@@ -135,11 +132,11 @@ systemd 핵심 개선:
   journalctl -u nginx -f  (실시간 로그)
 ```
 
-> 📢 **섹션 요약 비유**: .timer는 cron의 systemd [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — crontab 대신 유닛 파일로 [스케줄](/knowledge-base/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 관리, journald로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 통합.
+> 📢 **섹션 요약 비유**: .timer는 cron의 systemd [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) — crontab 대신 유닛 파일로 [스케줄](/studynote/05_database/04_transactions_concurrency/208_schedule_history_transaction_execution_order/) 관리, journald로 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)도 통합.
 
 ---
 
-## V. 실무 시나리오 — 부팅 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석
+## V. 실무 시나리오 — 부팅 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 분석
 
 ```
 부팅 분석 명령:
@@ -165,7 +162,7 @@ systemd 핵심 개선:
   불필요한 서비스 disable
 ```
 
-> 📢 **섹션 요약 비유**: systemd-analyze blame은 부팅 시간 낭비 범인 찾기 — 가장 오래 걸린 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 찾아 비활성화.
+> 📢 **섹션 요약 비유**: systemd-analyze blame은 부팅 시간 낭비 범인 찾기 — 가장 오래 걸린 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 찾아 비활성화.
 
 ---
 
@@ -220,8 +217,8 @@ tini, dumb-init: 컨테이너용 경량 init
 ## 👶 어린이를 위한 3줄 비유 설명
 
 1. init은 컴퓨터가 켜질 때 제일 먼저 시작되는 특별한 프로그램으로, 나머지 모든 프로그램의 부모예요.
-2. 옛날 방식(SysV)은 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하나씩 순서대로 켰지만, systemd는 상관없는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들을 동시에 켜서 부팅을 몇 배 빠르게 해요.
-3. systemd는 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리, [로그 수집](/knowledge-base/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 자원 제한을 모두 통합해서 현대 Linux 서버의 핵심 관리자가 됐어요!
+2. 옛날 방식(SysV)은 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 하나씩 순서대로 켰지만, systemd는 상관없는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)들을 동시에 켜서 부팅을 몇 배 빠르게 해요.
+3. systemd는 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/) 관리, [로그 수집](/studynote/09_security/13_secops_ir_forensics/626_log_collection/), 자원 제한을 모두 통합해서 현대 Linux 서버의 핵심 관리자가 됐어요!
 
 ---
 
@@ -229,7 +226,7 @@ tini, dumb-init: 컨테이너용 경량 init
 
 **진행 상황**: 38 / 800
 
-<- **이전**: [037. 시스템 데몬 (System Daemon)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/037_system_daemon/)
-**다음**: [039. OS 서비스 (Operating System Services)](/knowledge-base/studynote/02_operating_system/01_overview_architecture/039_os_services/) ->
+<- **이전**: [037. 시스템 데몬 (System Daemon)](/studynote/02_operating_system/01_overview_architecture/037_system_daemon/)
+**다음**: [039. OS 서비스 (Operating System Services)](/studynote/02_operating_system/01_overview_architecture/039_os_services/) ->
 
 ---

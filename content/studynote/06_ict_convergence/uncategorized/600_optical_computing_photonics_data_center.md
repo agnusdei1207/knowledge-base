@@ -1,13 +1,10 @@
-+++
-title = "600. 광 컴퓨팅 포토닉스 데이터 센터 (Optical Computing Photonics Data Center)"
-date = 2026-05-09
+---
+title: "600. 광 컴퓨팅 포토닉스 데이터 센터 (Optical Computing Photonics Data Center)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Modulate -> Transmit -> Interfere -> Detect -> Convert
 
 **진행 상황**: 600 / 800
 
-<- **이전**: [599. 뉴로모픽 칩 신경망 하드웨어](/knowledge-base/studynote/06_ict_convergence/uncategorized/599_neuromorphic_chip_neural_network_hardware/)
-**다음**: [601. 에너지 하베스팅 저전력 IoT 전원](/knowledge-base/studynote/06_ict_convergence/uncategorized/601_energy_harvesting_low_power_iot_supply/) ->
+<- **이전**: [599. 뉴로모픽 칩 신경망 하드웨어](/studynote/06_ict_convergence/uncategorized/599_neuromorphic_chip_neural_network_hardware/)
+**다음**: [601. 에너지 하베스팅 저전력 IoT 전원](/studynote/06_ict_convergence/uncategorized/601_energy_harvesting_low_power_iot_supply/) ->
 
 ---

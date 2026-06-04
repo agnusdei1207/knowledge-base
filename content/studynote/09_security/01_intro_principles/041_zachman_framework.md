@@ -1,18 +1,15 @@
-+++
-title = "041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처"
-date = 2026-04-05
+---
+title: "041. 자크만 프레임워크 (Zachman Framework) — 엔터프라이즈 아키텍처"
+date: "2026-04-05"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 > **핵심 인사이트**
-> 1. 자크만 프레임워크([Zachman Framework](/knowledge-base/studynote/12_it_management/03_ea_isp/112_zachman_framework/))는 엔터프라이즈 아키텍처([EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 6가지 관점([이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/))×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 누락을 방지하는 메타프레임워크다.
-> 2. 보안 관점에서 자크만 프레임워크는 [ISMS-P](/knowledge-base/studynote/12_it_management/05_security_compliance/171_isms_p/)(정보보호 관리체계)·[SABSA](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/)(Sherwood Applied Business [Security Architecture](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)) 등 [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계에서 각 계층의 보안 요구사항을 빠짐없이 도출하는 구조화 도구로 활용된다.
-> 3. 자크만 프레임워크는 프로세스(방법론)가 아닌 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계(Taxonomy/Ontology)로, [TOGAF](/knowledge-base/studynote/12_it_management/03_ea_isp/113_togaf/)·DoDAF 등 실제 [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 방법론과 결합하여 아키텍처 산출물의 완전성(Completeness)을 검증하는 기준으로 사용된다.
+> 1. 자크만 프레임워크([Zachman Framework](/studynote/12_it_management/03_ea_isp/112_zachman_framework/))는 엔터프라이즈 아키텍처([EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/))를 6가지 관점([이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/))×6가지 질문(What/How/Where/Who/When/Why)의 36셀 매트릭스로 체계화한 온톨로지로, 아키텍처 산출물을 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)하고 누락을 방지하는 메타프레임워크다.
+> 2. 보안 관점에서 자크만 프레임워크는 [ISMS-P](/studynote/12_it_management/05_security_compliance/171_isms_p/)(정보보호 관리체계)·[SABSA](/studynote/09_security/01_intro_principles/042_sabsa/)(Sherwood Applied Business [Security Architecture](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/)) 등 [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 설계에서 각 계층의 보안 요구사항을 빠짐없이 도출하는 구조화 도구로 활용된다.
+> 3. 자크만 프레임워크는 프로세스(방법론)가 아닌 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계(Taxonomy/Ontology)로, [TOGAF](/studynote/12_it_management/03_ea_isp/113_togaf/)·DoDAF 등 실제 [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 방법론과 결합하여 아키텍처 산출물의 완전성(Completeness)을 검증하는 기준으로 사용된다.
 
 ---
 
@@ -41,7 +38,7 @@ tags = ["studynote-security"]
   각 셀 = 특정 관점에서 특정 측면의 아키텍처 산출물
 ```
 
-> 📢 **섹션 요약 비유**: 자크만은 건물 설계 도면 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 — 건축주(경영자)부터 배관공(기술자)까지, 구조(What)부터 일정(When)까지 모든 관점의 도면을 체계화.
+> 📢 **섹션 요약 비유**: 자크만은 건물 설계 도면 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/) 체계 — 건축주(경영자)부터 배관공(기술자)까지, 구조(What)부터 일정(When)까지 모든 관점의 도면을 체계화.
 
 ---
 
@@ -79,7 +76,7 @@ Row 3 × Where (아키텍트 × 네트워크):
 
 ---
 
-## Ⅲ. [보안 아키텍처](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 적용 ([SABSA](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/))
+## Ⅲ. [보안 아키텍처](/studynote/04_software_engineering/05_devops_ci_cd/302_security_architecture_design/) 적용 ([SABSA](/studynote/09_security/01_intro_principles/042_sabsa/))
 
 ```
 SABSA (Sherwood Applied Business Security Architecture):
@@ -106,11 +103,11 @@ ISMS-P 연계:
   계층별 보안 아키텍처 완전성 검증
 ```
 
-> 📢 **섹션 요약 비유**: SABSA는 자크만을 보안 렌즈로 본 것 — 건물 보안 도면 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)처럼, 비즈니스부터 기술까지 모든 보안 관점을 체계화.
+> 📢 **섹션 요약 비유**: SABSA는 자크만을 보안 렌즈로 본 것 — 건물 보안 도면 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)처럼, 비즈니스부터 기술까지 모든 보안 관점을 체계화.
 
 ---
 
-## Ⅳ. [EA](/knowledge-base/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 방법론과 자크만
+## Ⅳ. [EA](/studynote/12_it_management/03_ea_isp/110_enterprise_architecture_ea/) 방법론과 자크만
 
 ```
 EA 방법론과 자크만 관계:
@@ -141,11 +138,11 @@ EA 4대 도메인 (TOGAF):
   ISP/BPR 산출물 = 자크만 셀 매핑 가능
 ```
 
-> 📢 **섹션 요약 비유**: 자크만 + TOGAF는 설계 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) + 건축 시공 순서 — [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)로 빠진 도면 없는지 확인하고, TOGAF로 순서대로 [진행](/knowledge-base/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/).
+> 📢 **섹션 요약 비유**: 자크만 + TOGAF는 설계 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/) + 건축 시공 순서 — [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)로 빠진 도면 없는지 확인하고, TOGAF로 순서대로 [진행](/studynote/02_operating_system/03_cpu_scheduling/216_progress_in_synchronization/).
 
 ---
 
-## Ⅴ. 실무 시나리오 — [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 산출물 자크만 매핑
+## Ⅴ. 실무 시나리오 — [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 산출물 자크만 매핑
 
 ```
 정보화 전략 계획(ISP) 자크만 매핑:
@@ -175,7 +172,7 @@ To-Be 아키텍처 설계:
   감리원이 ISP 완전성 검증에 자크만 활용
 ```
 
-> 📢 **섹션 요약 비유**: 자크만으로 [ISP](/knowledge-base/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
+> 📢 **섹션 요약 비유**: 자크만으로 [ISP](/studynote/12_it_management/03_ea_isp/885_isp_information_strategy_planning_4_steps/) 검토는 36칸 빙고 게임 — 모든 칸이 채워져야 아키텍처가 완전하고, 빈 칸이 있으면 누락된 산출물.
 
 ---
 
@@ -231,8 +228,8 @@ EA 법제화 (전자정부법)
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. 자크만 프레임워크는 IT 시스템을 6가지 관점(경영자, 설계자, 개발자 등)과 6가지 질문(무엇, 어떻게, 어디서, 누가, 언제, 왜)으로 나눈 36칸 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)예요.
-2. 이 36칸을 모두 채우면 "이 IT 시스템에 대해 모든 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 필요한 정보를 가지고 있다"는 것을 보장할 수 있어요.
+1. 자크만 프레임워크는 IT 시스템을 6가지 관점(경영자, 설계자, 개발자 등)과 6가지 질문(무엇, 어떻게, 어디서, 누가, 언제, 왜)으로 나눈 36칸 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)예요.
+2. 이 36칸을 모두 채우면 "이 IT 시스템에 대해 모든 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/)가 필요한 정보를 가지고 있다"는 것을 보장할 수 있어요.
 3. 보안 분야에서도 이 틀을 써서 비즈니스 레벨부터 기술 레벨까지 빠짐없이 보안 요구사항을 정리해요!
 
 ---
@@ -241,7 +238,7 @@ EA 법제화 (전자정부법)
 
 **진행 상황**: 41 / 1108
 
-<- **이전**: [040. 상속된 위험 (Inherited Risk)](/knowledge-base/studynote/09_security/01_intro_principles/040_inherited_risk/)
-**다음**: [042. SABSA (Sherwood Applied Business Security Architecture)](/knowledge-base/studynote/09_security/01_intro_principles/042_sabsa/) ->
+<- **이전**: [040. 상속된 위험 (Inherited Risk)](/studynote/09_security/01_intro_principles/040_inherited_risk/)
+**다음**: [042. SABSA (Sherwood Applied Business Security Architecture)](/studynote/09_security/01_intro_principles/042_sabsa/) ->
 
 ---

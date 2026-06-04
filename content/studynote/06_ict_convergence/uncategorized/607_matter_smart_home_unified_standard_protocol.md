@@ -1,13 +1,10 @@
-+++
-title = "607. Matter 스마트홈 통합 표준 프로토콜 (Matter Smart Home Unified Standard Protocol)"
-date = 2026-05-09
+---
+title: "607. Matter 스마트홈 통합 표준 프로토콜 (Matter Smart Home Unified Standard Protocol)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Matter 스마트홈 통합 표준 프로토콜은(는) 디지털 기술을 실�
 
 **진행 상황**: 607 / 800
 
-<- **이전**: [606. MQTT CoAP IoT 프로토콜 비교](/knowledge-base/studynote/06_ict_convergence/uncategorized/606_mqtt_coap_iot_protocol_comparison/)
-**다음**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/knowledge-base/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/) ->
+<- **이전**: [606. MQTT CoAP IoT 프로토콜 비교](/studynote/06_ict_convergence/uncategorized/606_mqtt_coap_iot_protocol_comparison/)
+**다음**: [608. 디지털 헬스 원격의료 PHR 건강데이터](/studynote/06_ict_convergence/uncategorized/608_digital_health_telemedicine_phr_health_data/) ->
 
 ---

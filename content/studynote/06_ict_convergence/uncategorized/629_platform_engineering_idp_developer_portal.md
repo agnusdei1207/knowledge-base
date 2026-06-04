@@ -1,13 +1,10 @@
-+++
-title = "629. 플랫폼 엔지니어링 IDP 개발자 포탈 (Platform Engineering IDP Developer Portal)"
-date = 2026-05-09
+---
+title: "629. 플랫폼 엔지니어링 IDP 개발자 포탈 (Platform Engineering IDP Developer Portal)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -167,7 +164,7 @@ IDP는 통상 **3-Layer Paved Road** 아키텍처로 구성된다. 최하단의 
 
 **진행 상황**: 629 / 800
 
-<- **이전**: [628. SRE 에러 버짓 신뢰성 목표 설정](/knowledge-base/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
-**다음**: [630. FinOps 클라우드 비용 최적화 태깅](/knowledge-base/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/) ->
+<- **이전**: [628. SRE 에러 버짓 신뢰성 목표 설정](/studynote/06_ict_convergence/uncategorized/628_sre_error_budget_reliability_target_setting/)
+**다음**: [630. FinOps 클라우드 비용 최적화 태깅](/studynote/06_ict_convergence/uncategorized/630_finops_cloud_cost_optimization_tagging/) ->
 
 ---

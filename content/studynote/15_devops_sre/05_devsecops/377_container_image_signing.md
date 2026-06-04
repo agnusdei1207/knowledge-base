@@ -1,13 +1,10 @@
-+++
-title = "377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)"
-date = 2026-05-09
+---
+title: "377. 컨테이너 이미지 서명 공증 무결성 검증 (Container Image Signing Cosign Notary Sigstore)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 377 / 400
 
-<- **이전**: [376. 시크릿 관리 볼트 키 로테이션 자동화 (Secret Management Vault KMS Key Rotation)](/knowledge-base/studynote/15_devops_sre/05_devsecops/376_secret_management_vault/)
-**다음**: [378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)](/knowledge-base/studynote/15_devops_sre/05_devsecops/378_runtime_security_ebpf/) ->
+<- **이전**: [376. 시크릿 관리 볼트 키 로테이션 자동화 (Secret Management Vault KMS Key Rotation)](/studynote/15_devops_sre/05_devsecops/376_secret_management_vault/)
+**다음**: [378. 런타임 보안 eBPF 커널 수준 위협 탐지 (Runtime Security eBPF Falco Tetragon)](/studynote/15_devops_sre/05_devsecops/378_runtime_security_ebpf/) ->
 
 ---

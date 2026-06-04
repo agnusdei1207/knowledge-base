@@ -1,18 +1,15 @@
-+++
-title = "037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준"
-date = 2026-03-03
+---
+title: "037. B+트리 (B+ Tree) — 데이터베이스 인덱스 표준"
+date: "2026-03-03"
+tags:
+  - "studynote-database"
+---
 
-[taxonomies]
-tags = ["studynote-database"]
-
-[extra]
-tags = ["studynote-database"]
-+++
 
 > **핵심 인사이트**
-> 1. B+트리는 B트리의 변형으로, 모든 실제 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(레코드 포인터)를 리프 노드에만 저장하고, 내부 노드는 순수하게 탐색 키만 보유하는 구조다 — 이 분리 덕분에 내부 노드 팬아웃(Fan-out)이 극대화된다.
-> 2. 리프 노드들이 [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결되어 있어 범위 탐색(BETWEEN, ORDER BY, LIKE 'prefix%')이 O(log n + k)로 매우 효율적이며, 이것이 B트리 대신 B+트리가 RDBMS [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 표준이 된 이유다.
-> 3. MySQL InnoDB의 [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)는 B+트리 리프 노드가 실제 행 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 저장하는 방식으로, [기본 키](/knowledge-base/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)로 검색할 때 추가 I/O 없이 단일 B+트리 탐색으로 완료된다.
+> 1. B+트리는 B트리의 변형으로, 모든 실제 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)(레코드 포인터)를 리프 노드에만 저장하고, 내부 노드는 순수하게 탐색 키만 보유하는 구조다 — 이 분리 덕분에 내부 노드 팬아웃(Fan-out)이 극대화된다.
+> 2. 리프 노드들이 [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결되어 있어 범위 탐색(BETWEEN, ORDER BY, LIKE 'prefix%')이 O(log n + k)로 매우 효율적이며, 이것이 B트리 대신 B+트리가 RDBMS [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 표준이 된 이유다.
+> 3. MySQL InnoDB의 [클러스터드 인덱스](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)는 B+트리 리프 노드가 실제 행 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 직접 저장하는 방식으로, [기본 키](/studynote/05_database/02_modeling_normalization/070_primary_key_alternate_key/)로 검색할 때 추가 I/O 없이 단일 B+트리 탐색으로 완료된다.
 
 ---
 
@@ -35,11 +32,11 @@ B트리 vs B+트리:
 
 | 구분        | B트리           | B+트리              |
 |-----------|----------------|---------------------|
-| 내부 노드   | 키 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터| 키만               |
-| 리프 노드   | 키 + [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터| 키 + 모든 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터|
-| 리프 연결   | 없음            | [연결 리스트](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결   |
+| 내부 노드   | 키 + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터| 키만               |
+| 리프 노드   | 키 + [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터| 키 + 모든 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 포인터|
+| 리프 연결   | 없음            | [연결 리스트](/studynote/08_algorithm_stats/04_datastructure/056_linked_list/)로 연결   |
 | 범위 탐색   | 중위 순회 필요   | 리프 스캔으로 빠름   |
-| 팬아웃     | 낮음 ([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차지)| 높음 (키만 저장)    |
+| 팬아웃     | 낮음 ([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 차지)| 높음 (키만 저장)    |
 
 > 📢 **섹션 요약 비유**: B트리는 빌딩 각 층에 물건이 있는 구조, B+트리는 로비(리프)에만 물건이 있고 중간 층은 안내판(키)만 — 로비에서 연결 통로로 물건 연속 탐색이 쉽다.
 
@@ -74,7 +71,7 @@ B트리 vs B+트리:
 
 ---
 
-## III. InnoDB [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)
+## III. InnoDB [클러스터드 인덱스](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)
 
 ```
 MySQL InnoDB 구조:
@@ -99,11 +96,11 @@ MySQL InnoDB 구조:
   (name도 세컨더리 인덱스에 포함시키면 PK 탐색 불필요)
 ```
 
-> 📢 **섹션 요약 비유**: [클러스터드 인덱스](/knowledge-base/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)는 책의 내용 자체가 목차 순서대로 묶인 것 — 목차([인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))와 내용이 일치해서 찾으면 바로 읽을 수 있다.
+> 📢 **섹션 요약 비유**: [클러스터드 인덱스](/studynote/05_database/03_relational_model/159_clustered_index_physical_sort/)는 책의 내용 자체가 목차 순서대로 묶인 것 — 목차([인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/))와 내용이 일치해서 찾으면 바로 읽을 수 있다.
 
 ---
 
-## [IV](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 높이와 I/O 효율성
+## [IV](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/). 높이와 I/O 효율성
 
 ```
 B+트리 높이 계산 (실제 데이터베이스):
@@ -124,7 +121,7 @@ B+트리 높이 계산 (실제 데이터베이스):
 
 ---
 
-## V. 실무 시나리오 — [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 최적화
+## V. 실무 시나리오 — [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계 최적화
 
 ```
 문제: 사용자 테이블 (1억 행)
@@ -143,7 +140,7 @@ B+트리 높이 계산 (실제 데이터베이스):
   idx_name: (name) - Q5 접두사 탐색 (LIKE 'x%' 가능)
 ```
 
-> 📢 **섹션 요약 비유**: [인덱스](/knowledge-base/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 도서관 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/) 설계 — 자주 찾는 기준(저자, 제목, 연도)으로 [카탈로그](/knowledge-base/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 만들어야 효율적이다.
+> 📢 **섹션 요약 비유**: [인덱스](/studynote/05_database/03_relational_model/154_database_index_b_tree_search_optimization/) 설계는 도서관 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/) 설계 — 자주 찾는 기준(저자, 제목, 연도)으로 [카탈로그](/studynote/05_database/07_exam_summary/394_catalog_metadata/)를 만들어야 효율적이다.
 
 ---
 
@@ -199,9 +196,9 @@ Cassandra, RocksDB, LevelDB
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. B+트리는 도서관 서가처럼 큰 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)->중간 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)->실제 책 순서로 3단계로 나눠 빠르게 찾는 구조예요.
-2. 실제 책([데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 맨 아래 단에만 있고, 연속된 칸들이 연결되어 있어 "20세~30세" 같은 범위 검색도 빠르답니다.
-3. MySQL이 수억 개 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 3번만에 원하는 행을 찾을 수 있는 비결이 바로 이 B+트리예요!
+1. B+트리는 도서관 서가처럼 큰 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)->중간 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)->실제 책 순서로 3단계로 나눠 빠르게 찾는 구조예요.
+2. 실제 책([데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/))은 맨 아래 단에만 있고, 연속된 칸들이 연결되어 있어 "20세~30세" 같은 범위 검색도 빠르답니다.
+3. MySQL이 수억 개 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)에서 3번만에 원하는 행을 찾을 수 있는 비결이 바로 이 B+트리예요!
 
 ---
 
@@ -209,7 +206,7 @@ Cassandra, RocksDB, LevelDB
 
 **진행 상황**: 37 / 600
 
-<- **이전**: [036. B-트리 (B-Tree)](/knowledge-base/studynote/05_database/01_db_architecture_relational/036_b_tree/)
-**다음**: [038. 관계 대수 (Relational Algebra)](/knowledge-base/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) ->
+<- **이전**: [036. B-트리 (B-Tree)](/studynote/05_database/01_db_architecture_relational/036_b_tree/)
+**다음**: [038. 관계 대수 (Relational Algebra)](/studynote/05_database/01_db_architecture_relational/038_relational_algebra/) ->
 
 ---

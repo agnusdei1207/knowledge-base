@@ -1,13 +1,10 @@
-+++
-title = "783. 기술 부채 관리 현대화 전략 우선순위 (Tech Debt Management Modernization Priority)"
-date = 2026-05-09
+---
+title: "783. 기술 부채 관리 현대화 전략 우선순위 (Tech Debt Management Modernization Priority)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -163,7 +160,7 @@ Priority Score (PS) = (Business Impact × 0.35)
 
 **진행 상황**: 783 / 800
 
-<- **이전**: [782. IT 인재 양성 리스킬링 디지털 전환](/knowledge-base/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/)
-**다음**: [784. 벤더 독립 오픈 표준 이식성 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/784_vendor_independence_open_standard_portability/) ->
+<- **이전**: [782. IT 인재 양성 리스킬링 디지털 전환](/studynote/06_ict_convergence/uncategorized/782_it_talent_development_reskilling_digital/)
+**다음**: [784. 벤더 독립 오픈 표준 이식성 전략](/studynote/06_ict_convergence/uncategorized/784_vendor_independence_open_standard_portability/) ->
 
 ---

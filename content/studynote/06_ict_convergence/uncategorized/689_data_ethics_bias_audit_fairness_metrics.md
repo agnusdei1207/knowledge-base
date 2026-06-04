@@ -1,13 +1,10 @@
-+++
-title = "689. 데이터 윤리 편향 감사 공정성 지표 (Data Ethics Bias Audit Fairness Metrics)"
-date = 2026-05-09
+---
+title: "689. 데이터 윤리 편향 감사 공정성 지표 (Data Ethics Bias Audit Fairness Metrics)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -139,7 +136,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 689 / 800
 
-<- **이전**: [688. 인과 추론 도구 변수 반사실 분석](/knowledge-base/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/)
-**다음**: [690. 오픈 데이터 공공 데이터 활용 전략](/knowledge-base/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/) ->
+<- **이전**: [688. 인과 추론 도구 변수 반사실 분석](/studynote/06_ict_convergence/uncategorized/688_causal_inference_instrumental_counterfactual/)
+**다음**: [690. 오픈 데이터 공공 데이터 활용 전략](/studynote/06_ict_convergence/uncategorized/690_open_data_public_data_utilization_strategy/) ->
 
 ---

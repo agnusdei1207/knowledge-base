@@ -1,13 +1,10 @@
-+++
-title = "593. 메타버스 가상 세계 경제 인터랙션 (Metaverse Virtual World Economy Interaction)"
-date = 2026-05-09
+---
+title: "593. 메타버스 가상 세계 경제 인터랙션 (Metaverse Virtual World Economy Interaction)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Core flow: Identity -> Space -> Asset -> Interaction -> Economy
 
 **진행 상황**: 593 / 800
 
-<- **이전**: [592. 혼합현실 MR 공간 컴퓨팅](/knowledge-base/studynote/06_ict_convergence/uncategorized/592_mixed_reality_mr_spatial_computing/)
-**다음**: [594. 5G 네트워크 슬라이싱 초저지연](/knowledge-base/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/) ->
+<- **이전**: [592. 혼합현실 MR 공간 컴퓨팅](/studynote/06_ict_convergence/uncategorized/592_mixed_reality_mr_spatial_computing/)
+**다음**: [594. 5G 네트워크 슬라이싱 초저지연](/studynote/06_ict_convergence/uncategorized/594_5g_network_slicing_ultra_low_latency/) ->
 
 ---

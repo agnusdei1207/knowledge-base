@@ -1,6 +1,5 @@
-+++
-title = "Uncategorized"
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
+---
+title: "Uncategorized"
+tags:
+  - "studynote-software-engineering"
+---

@@ -1,13 +1,10 @@
-+++
-title = "794. ICT 융합 기술 디지털 전환 융합 마스터 (ICT Digital Transformation Convergence Master)"
-date = 2026-05-09
+---
+title: "794. ICT 융합 기술 디지털 전환 융합 마스터 (ICT Digital Transformation Convergence Master)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -187,7 +184,7 @@ ICT 융합 DX 아키텍처는 **데이터 수집 -> 전송 -> 저장 -> 처리 -
 
 **진행 상황**: 794 / 800
 
-<- **이전**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/knowledge-base/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/)
-**다음**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/knowledge-base/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/) ->
+<- **이전**: [793. ICT 융합 시험 빈출 핵심 100선 요약](/studynote/06_ict_convergence/uncategorized/793_ict_convergence_exam_top_100_summary/)
+**다음**: [795. ICT 융합 기술사 논술 키워드 최종 정리](/studynote/06_ict_convergence/uncategorized/795_ict_pe_essay_keywords_final_summary/) ->
 
 ---

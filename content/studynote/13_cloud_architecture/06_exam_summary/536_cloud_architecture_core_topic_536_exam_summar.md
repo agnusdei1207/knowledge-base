@@ -1,13 +1,10 @@
-+++
-title = "536. 클라우드 아키텍처 핵심 토픽 536번 시험 요약 (Cloud Architecture Core Topic 536 Exam Summary)"
-date = 2026-05-09
+---
+title: "536. 클라우드 아키텍처 핵심 토픽 536번 시험 요약 (Cloud Architecture Core Topic 536 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 536 / 800
 
-<- **이전**: [535. 클라우드 아키텍처 핵심 토픽 535번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/535_cloud_architecture_core_topic_535_exam_summar/)
-**다음**: [537. 클라우드 아키텍처 핵심 토픽 537번 시험 요약](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/537_cloud_architecture_core_topic_537_exam_summar/) ->
+<- **이전**: [535. 클라우드 아키텍처 핵심 토픽 535번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/535_cloud_architecture_core_topic_535_exam_summar/)
+**다음**: [537. 클라우드 아키텍처 핵심 토픽 537번 시험 요약](/studynote/13_cloud_architecture/06_exam_summary/537_cloud_architecture_core_topic_537_exam_summar/) ->
 
 ---

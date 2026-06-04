@@ -1,6 +1,5 @@
-+++
-title = "07. Object Oriented"
-
-[extra]
-tags = ["software_engineering"]
-+++
+---
+title: "07. Object Oriented"
+tags:
+  - "software_engineering"
+---

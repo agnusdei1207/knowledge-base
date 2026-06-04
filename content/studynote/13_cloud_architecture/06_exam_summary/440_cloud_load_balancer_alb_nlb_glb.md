@@ -1,175 +1,94 @@
-+++
-title = "440. 클라우드 로드밸런서 ALB NLB GLB (Cloud Load Balancer ALB NLB GLB)"
-date = 2026-05-09
+---
+title: "440. 클라우드 로드밸런서 ALB NLB GLB (Cloud Load Balancer ALB NLB GLB)"
+date: "2026-05-09"
+tags:
+  - "studynote-cloud-architecture"
+---
 
-[taxonomies]
-tags = ["studynote-cloud-architecture"]
-
-[extra]
-tags = ["studynote-cloud-architecture"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 클라우드 로드밸런서 ALB NLB GLB은(는) 클라우드 아키텍처 시험 핵심 요약 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: ALB는 OSI 7계층의 리버스 프록시 기반 HTTP/HTTPS/gRPC 라우터(콘텐츠 기반 스위칭), NLB는 L4에서 5-tuple 해시 기반 connection-level pass-through(초저지연·원본 IP 보존), GLB는 GENEVE(UDP 6081) 터널로 투명한 인라인 가상 어플라이언스 체이닝(Firewall/IDS/IPS) — 세 로드밸런서는 L7/L4/L3-투명-인라인이라는 명확한 **계층 분업**으로 한 개의 LB가 모든 트래픽을 처리하던 모놀리식 한계를 해체한 구조다.
+> 2. **가치**: 단일 ALB로 100개 이상의 Target Group·마이크로서비스 라우팅·WAF 통합 처리, 단일 NLB로 수백만 RPS·정적 IP·PrivateLink 종단 처리, GLB로 페어 단위(Active-Passive)·3AZ 스패닝으로 어플라이언스 HA/스케일아웃 처리 — 이를 통해 TPS 100배 변동에도 AZ 장애 시 RTO≈0·P95 지연 ms 단위 안정화가 가능하다.
+> 3. **판단 포인트**: (a) **프로토콜 종속성**(HTTP/REST->ALB, TCP/UDP·초저지연·EKS NTP->NLB, 트래픽 미러링·차세대 FW->GLB), (b) **클라이언트 IP 보존 필요성**(NLB는 `client_ip preservation` 기본, ALB는 `X-Forwarded-For` 헤더 의존), (c) **TLS 오프로드 vs 패스스루**(ALB는 종단 처리로 백엔드 부담v, NLB는 종단 처리 시 ALB로 위임), (d) **정적 IP/DNS 친화성**(NLB는 EIP 1개당 1 AZ, ALB는 FQDN only), (e) **비용 모델**(ALB는 LCU, NLB는 NLCU+시간, GLB는 GLCU).
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-클라우드 로드밸런서 ALB NLB GLB은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+클라우드 환경으로 워크로드가 이전되면서, 단일 EC2 인스턴스 또는 단일 VM에 L4/L7 처리를 모두 떠안기던 **클래식(HAProxy/Nginx + iptables) 아키텍처**는 다음과 같은 한계에 부딪혔다. (1) 인스턴스 장애 시 DNS TTL 갱신까지 수 분의 다운타임, (2) 컨테이너·마이크로서비스의 **수시 스케일 아웃/인**에 따른 엔드포인트 변동 추적 불가, (3) AZ 간 트래픽 균등 분산 미흡으로 인한 핫스팟, (4) DDoS·L7 공격(예: Slowloris, HTTP Flood) 흡수 기능 부재. AWS는 2009년 **ELB(Classic Load Balancer, CLB)** 로 시작해 2016년 **ALB(L7)·NLB(L4)**, 2020년 **GLB(Gateway Load Balancer)** 를 라인업에 추가하며, **계층별로 책임을 분담**하는 *Specialty LB* 패러다임을 완성했다. 이는 전통적인 F5 LTM/LTM+ASM 단일 어플라이언스 모델과 대비되는데, 컨트롤 플레인(LB의 라우팅 규칙)과 데이터 플레인(실제 트래픽 포워딩)을 API로 완전히 분리해 **DevOps 친화적 선언적 구성(Terraform/CloudFormation/CDK)** 이 가능해졌다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Cloud Load Balancer ALB NLB GLB 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+핵심적으로, ALB/NLB/GLB는 동일한 AWS **Elastic Load Balancing(ELB) 서비스**의 *SKU(Same control plane, different data plane)* 라고 보면 된다. AWS 내부적으로는 모두 **Midoshim(미도시) + Rubix(루빅스)** 라는 Envoy 기반 프록시 위에 올라가지만, **데이터 경로 자체**가 다르다. ALB는 요청 단위로 파싱·라우팅·종단 처리하는 *reverse proxy*, NLB는 SYN을 가로채 트래픽을 그대로 흘려보내는 *flow-based forwarder*, GLB는 패킷을 가로채지 않고 GENEVE 캡슐화로 미러링하는 *transparent inline gateway* 다.
 
 ```text
-+--------------------------------------------------------------+
-|                    클라우드 로드밸런서 ALB NLB GLB 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+                  [ 클라이언트(브라우저/모바일/IoT) ]
+                              |  HTTPS
+                              v
+        +--------------------------------------------------+
+        |  AWS Global Accelerator / Route 53 (Anycast IP)  |  <- 글로벌 GSLB(별도 토픽)
+        +--------------------------------------------------+
+                              |
+        +---------------------+---------------------+
+        v                     v                     v
+   +---------+           +---------+           +---------+
+   |   ALB   |           |   NLB   |           |   GLB   |
+   | (L7)    |           | (L4)    |           | (L3-투명)|
+   | HTTP/2  |           | TCP/UDP |           | GENEVE  |
+   | gRPC/WS |           | TLS     |           | 6081    |
+   +----+----+           +----+----+           +----+----+
+        |                     |                     |
+   +----+----+           +----+----+           +----+----+
+   |  ECS/   |           |  EKS/   |           | 3rd-Party|
+   | EKS Pod |           | EC2/ALB |           | Firewall|
+   | Lambda  |           | RDS Proxy|           | IDS/IPS |
+   +---------+           +---------+           +---------+
+        |                     |                     |
+   +----+---------------------+---------------------+----+
+   | VPC 내부 Target Group(Instance | IP | Lambda | ALB)|
+   +-----------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+전통적 온프레미스 HAProxy/Nginx+F5 조합과 비교하면, 클라우드 LB는 (1) **API·IaC 완전 통합**, (2) **컨트롤 플레인 무상·자동화**, (3) **리전·AZ 페일오버 자동화**, (4) **WAF·Shield·Cognito·ACM과의 1급 통합**이라는 차이를 가진다. 다만 이 모든 기능을 무료로 누가 주는 것은 아니며, **LCU/NLCU/GLCU**라는 사용량 기반 요금이 발생한다(아래 Ⅴ절에서 정량 분석).
 
-- **📢 섹션 요약 비유**: 클라우드 로드밸런서 ALB NLB GLB은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: "은행 창구"에 비유하면, ALB는 **"어떤 업무(예금/대출/신용카드)인지 보고 적절한 담당자에게 배분하는 스마트 안내원"**, NLB는 **"VIP 전용 출입구에서 들어온 손님을 별도 체크 없이 즉시 안내하는 1차 게이트"**, GLB는 **"은행 건물 뒤편의 보안검색대(X-ray·폭발물 탐지)를 투명하게 통과시킨 뒤 본 창구로 보내는 보안 게이트"** 이다. 손님은 GLB의 존재를 의식하지 못한 채 본 창구(ALB/NLB)에 도착한다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-클라우드 로드밸런서 ALB NLB GLB의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1. ALB(Application Load Balancer) — L7 리버스 프록시
+
+ALB는 클라이언트의 **HTTP/1.1, HTTP/2, gRPC, WebSocket** 요청을 파싱해 Host 헤더, Path, HTTP Method, Query String, Header 값, Source IP, ASNUM 같은 속성을 기반으로 Target Group을 결정한다. **Listener 1개당 1~100개 Rule**을 가질 수 있고, **Priority 순서**대로 평가된다. AWS NLB와 달리 ALB는 **HTTPS 종단(TLS Termination)** 을 LB가 직접 수행한다. 즉, ALB는 자체 ACM 인증서를 부착해 TLS 핸드셰이크를 끝내고, 평문 HTTP로 백엔드에 전달하는 **SSL 오프로드**가 디폴트다. 백엔드까지 TLS로 보호하려면 **Target Group의 `protocol: HTTPS` 지정 + 인증서 설치**로 양방향 TLS(mTLS) 구성이 가능하다.
+
+라우팅 규칙은 **조건부**로 평가된다. `path-pattern`은 `/api/*`, `/static/*` 식의 prefix·exact 매치, `host-header`는 다중 도메인(예: `api.example.com`, `admin.example.com`) 라우팅, `http-header`는 `User-Agent: *Mobile*` 같은 임의 헤더 기반, `query-string`, `http-request-method`는 GET/POST 분기, **Lambda 호출 규칙**(`forward` 액션을 `aws:lambda` 로 지정하면 Target Group 없이 Lambda 동기 호출)까지 지원한다. 가장 강력한 기능은 **`weighted target group`** 으로, `/api/v1`(90%) + `/api/v2`(10%) 형태로 **카나리/블루-그린 배포**가 LB 단 한 곳에서 정의된다. 이때의 트래픽은 Sticky Session(쿠키 기반 `AWSALB`·`AWSALBAPP`)으로 사용자별 일관성 있게 유지할 수 있다.
+
+헬스 체크는 **Active** 방식이다. 지정한 Protocol/Port/Path(예: HTTP 8080 `/health`)에 주기적 GET을 보내 200 OK를 기대하며, 임계값(Healthy/UnhealthyThresholdCount, 기본 2·2), Interval(기본 30s), Timeout(기본 5s)을 조정한다. ECS·EKS 환경에서는 **Dynamic Port Mapping**이 핵심이다. 컨테이너가 임의 포트(32768~60999)로 매핑되어도 ALB는 `instance:port`가 아닌 `ip:port`로 Target을 등록하므로(`target_type=ip`), 노드 재스케줄 시 0-downtime 마이그레이션이 가능하다.
 
 ```text
-+--------------------------------------------------------------+
-|              Cloud Load Balancer ALB NLB GLB 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+    Client -> ALB(1) -> Target Group A (EC2/ECS)
+            |     (2) -> Target Group B (Lambda)
+            |     (3) -> Target Group C (EKS IP)
+            |
+   [Listener :80/:443, Rules]
+   1) IF  host = api.x.com  AND path /v1/*   -> TG-A(weight 90)
+                                            -> TG-B(weight 10)  [Blue-Green]
+   2) IF  host = admin.x.com AND path /*     -> TG-C(EC2 ASG)
+   3) DEFAULT                                -> TG-D(Static S3 via Lambda@Edge)
+   4) IF  http-header X-Debug = true         -> Fixed-Response 200 "Debug On"
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+성능 최적화 핵심: ALB는 **connection multiplexing**을 수행한다. 클라이언트 ↔ ALB 사이는 6개의 HTTP/2 멀티플렉스드 스트림이지만, ALB ↔ 백엔드 사이는 1:1의 HTTP/1.1 커넥션을 재사용해 백엔드 소켓 자원을 보존한다. 또한 **Cross-Zone Load Balancing**이 ALB는 디폴트로 활성화되어 있어, AZ-A LB 노드가 모든 AZ의 백엔드로 균등 라우팅한다(요금 무료). 보안 측면에서 ALB는 **SG(Security Group)** 부착이 가능해 클라이언트 IP 화이트리스트를 인그레스 단에서 강제할 수 있다(단, 클라이언트 IP는 ALB의 프라이빗 IP이므로 실제 화이트리스트는 X-Forwarded-For 헤더 기반으로 WAF에서 처리).
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 2. NLB(Network Load Balancer) — L4 flow-based forwarder
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+NLB는 TCP/UDP/TLS 트래픽을 **L4 헤더(5-tuple: src_ip, src_port, dst_ip, dst_port, protocol)** 만 보고 해시 테이블을 조회해 동일 흐름은 동일 백엔드로 **pin** 한다. SYN만 보고 라우팅한 뒤, 그 커넥션의 후속 패킷은 **stateful flow cache**를 통해 동일 백엔드로 직행한다. 이 때문에 **마이크로초 단위 지연**이 가능하며, ALB 대비 10~100배 처리량 확장이 가능하다(NLB 단일 노드 수백만 RPS, ALB 단일 노드 수만 RPS).
 
----
-
-## Ⅲ. 비교 및 연결
-
-클라우드 로드밸런서 ALB NLB GLB을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 클라우드 로드밸런서 ALB NLB GLB |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 클라우드 로드밸런서 ALB NLB GLB은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 클라우드 로드밸런서 ALB NLB GLB은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 클라우드 로드밸런서 ALB NLB GLB을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-클라우드 로드밸런서 ALB NLB GLB을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 클라우드 로드밸런서 ALB NLB GLB 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 클라우드 로드밸런서 ALB NLB GLB은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 클라우드 로드밸런서 ALB NLB GLB의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 클라우드 로드밸런서 ALB NLB GLB의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-클라우드 로드밸런서 ALB NLB GLB 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 클라우드 로드밸런서 ALB NLB GLB은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+NLB의 가장 큰 차별점은 **클라이언트 소스 IP 보존**이다. ALB처럼 `X-Forwarded-For` 헤더에 의존하지 않고, 백엔드가 직접 클라이언트의 진짜 IP를 본다. 이를 위해 (a) **Target Group의 `preserve_client_ip.enabled=true`** 와 (b) **백엔드 ENI의 `src/dst check` 비
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 440 / 800
 
-<- **이전**: [439. 클라우드 VPN 하이브리드 연결 Direct Connect](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/439_cloud_vpn_hybrid_connection_direct_connect/)
-**다음**: [441. 클라우드 마이그레이션 6R 전략 방법론](/knowledge-base/studynote/13_cloud_architecture/06_exam_summary/441_cloud_migration_6r_strategy_methodology/) ->
+<- **이전**: [439. 클라우드 VPN 하이브리드 연결 Direct Connect](/studynote/13_cloud_architecture/06_exam_summary/439_cloud_vpn_hybrid_connection_direct_connect/)
+**다음**: [441. 클라우드 마이그레이션 6R 전략 방법론](/studynote/13_cloud_architecture/06_exam_summary/441_cloud_migration_6r_strategy_methodology/) ->
 
 ---

@@ -1,13 +1,10 @@
-+++
-title = "384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)"
-date = 2026-05-09
+---
+title: "384. RASP 런타임 자가 보호 인라인 방어 (Runtime Application Self-Protection RASP)"
+date: "2026-05-09"
+tags:
+  - "studynote-devops-sre"
+---
 
-[taxonomies]
-tags = ["studynote-devops-sre"]
-
-[extra]
-tags = ["studynote-devops-sre"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -169,7 +166,7 @@ AI/ML 기반 지능화
 
 **진행 상황**: 384 / 400
 
-<- **이전**: [383. IAST 인터랙티브 보안 테스트 런타임 분석 (Interactive Application Security Testing IAST)](/knowledge-base/studynote/15_devops_sre/05_devsecops/383_iast_interactive_testing/)
-**다음**: [385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)](/knowledge-base/studynote/15_devops_sre/05_devsecops/385_security_gate_cicd/) ->
+<- **이전**: [383. IAST 인터랙티브 보안 테스트 런타임 분석 (Interactive Application Security Testing IAST)](/studynote/15_devops_sre/05_devsecops/383_iast_interactive_testing/)
+**다음**: [385. 보안 게이트 CI CD 파이프라인 품질 관문 (Security Gate CI CD Pipeline Quality Gate)](/studynote/15_devops_sre/05_devsecops/385_security_gate_cicd/) ->
 
 ---

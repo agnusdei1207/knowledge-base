@@ -1,27 +1,24 @@
-+++
-title = "11. 분기 한정 (Branch and Bound) — 최적화 탐색"
+---
+title: "11. 분기 한정 (Branch and Bound) — 최적화 탐색"
+tags:
+  - "algorithm_stats"
+---
 
-[taxonomies]
-tags = ["algorithm_stats"]
 
-[extra]
-tags = ["algorithm_stats"]
-+++
-
-# [11](/knowledge-base/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 분기 한정 (Branch and Bound)
+# [11](/studynote/03_network/06_network_layer_ip/308_static_dynamic_nat_pat_port_address_translation/). 분기 한정 (Branch and Bound)
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 분기 한정(Branch and Bound)은 조합 최적화 문제에서 가능한 모든 solutions를 체계적으로 탐색하되, 현재 발견된최우해보다 좋을 가능성이 없는 하위 문제의 하위 트리를 잘라냄으로써( bound + [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 효율적으로 최적해를 찾는 기법이다.
-> 2. **가치**: 완전 탐색 대비 최소 10배에서 수천 배 빠르게 최적해를 찾을 수 있으며, [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)의 확장판으로서 최적화 문제(순회 salesman, 배낭 등)에서 정확한 해 보장하면서도 실용적 시간 내에 동작한다.
-> 3. **융합**: 분기 한정은 운송 최적화(차량 경로 문제, VRP), 스케줄링(작업 할당), 네트워크 설계(최소 비용 신장 트리 확장), 조합 경매(최적 입찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 등 실세계의 최적화 문제에 필수적으로 적용된다.
+> 1. **본질**: 분기 한정(Branch and Bound)은 조합 최적화 문제에서 가능한 모든 solutions를 체계적으로 탐색하되, 현재 발견된최우해보다 좋을 가능성이 없는 하위 문제의 하위 트리를 잘라냄으로써( bound + [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 효율적으로 최적해를 찾는 기법이다.
+> 2. **가치**: 완전 탐색 대비 최소 10배에서 수천 배 빠르게 최적해를 찾을 수 있으며, [백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/)의 확장판으로서 최적화 문제(순회 salesman, 배낭 등)에서 정확한 해 보장하면서도 실용적 시간 내에 동작한다.
+> 3. **융합**: 분기 한정은 운송 최적화(차량 경로 문제, VRP), 스케줄링(작업 할당), 네트워크 설계(최소 비용 신장 트리 확장), 조합 경매(최적 입찰 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)) 등 실세계의 최적화 문제에 필수적으로 적용된다.
 
 ---
 
-## Ⅰ. 개요 및 필요성 ([Context](/knowledge-base/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
+## Ⅰ. 개요 및 필요성 ([Context](/studynote/02_operating_system/01_overview_architecture/033_context/) & Necessity)
 
-분기 한정(Branch and Bound)은 1960년대 Land과 Doig, 그리고 Lawler와 Wood 등에 의해 개발된 조합 최적화(combinatorial optimization)를 위한 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크이다. [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/))이 <strong>존재성문제(답이 있는가?)</strong>에 초점을 맞춘다면, 분기 한정은 <strong>최적화 문제(어떤 답이 가장 좋은가?)</strong>에 초점을 맞춘다. 이 차이는 근본적인데, [백트래킹](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)은 해를 하나 찾으면 종료할 수 있지만, 분기 한정은 <strong>최적해</strong>를 찾아야 하므로 더 많은 탐색이 필요하다.
+분기 한정(Branch and Bound)은 1960년대 Land과 Doig, 그리고 Lawler와 Wood 등에 의해 개발된 조합 최적화(combinatorial optimization)를 위한 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 프레임워크이다. [백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/)([Backtracking](/studynote/08_algorithm_stats/01_basics/010_backtracking/))이 <strong>존재성문제(답이 있는가?)</strong>에 초점을 맞춘다면, 분기 한정은 <strong>최적화 문제(어떤 답이 가장 좋은가?)</strong>에 초점을 맞춘다. 이 차이는 근본적인데, [백트래킹](/studynote/08_algorithm_stats/01_basics/010_backtracking/)은 해를 하나 찾으면 종료할 수 있지만, 분기 한정은 <strong>최적해</strong>를 찾아야 하므로 더 많은 탐색이 필요하다.
 
-분기 한정의 핵심 가치는 <strong>하한(lower bound)과 상한(upper bound)</strong>을리용하여 탐색 공간을 줄이는 것이다. 현재 발견된 가장 좋은 해(상한: Upper Bound)보다 어떤 하위 트리가 반드시 나쁠 수밖에 없음을 보여줄 수 있으면(하한: Lower Bound ≥ 상한), 그 하위 트리 전체를 탐색할 필요가 없이 잘라낼(bounding + [pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 수 있다.
+분기 한정의 핵심 가치는 <strong>하한(lower bound)과 상한(upper bound)</strong>을리용하여 탐색 공간을 줄이는 것이다. 현재 발견된 가장 좋은 해(상한: Upper Bound)보다 어떤 하위 트리가 반드시 나쁠 수밖에 없음을 보여줄 수 있으면(하한: Lower Bound ≥ 상한), 그 하위 트리 전체를 탐색할 필요가 없이 잘라낼(bounding + [pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 수 있다.
 
 > 이 도식은 분기 한정의 작동을 보여준다.
 
@@ -82,9 +79,9 @@ tags = ["algorithm_stats"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리 (Deep Dive)
 
-분기 한정의 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조는 <strong>탐색 트리 순회 + Bound 기반 <a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a></strong>로 구성된다. 탐색 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로는 <strong>깊이 우선(<a href="/knowledge-base/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> Branch and Bound)</strong>, **너비 우선(LIFO Branch and Bound)**, <strong>최고 하한 우선(Best-First Branch and Bound)</strong>이 있다. 최고 하한 우선은 각 노드의 하한을 [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([priority queue](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))에 저장하고, 가장 하한이 낮은 노드부터 탐색하는 방식으로, 가장 빨리 최적해에 도달할 가능성이 높다.
+분기 한정의 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 구조는 <strong>탐색 트리 순회 + Bound 기반 <a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a></strong>로 구성된다. 탐색 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)으로는 <strong>깊이 우선(<a href="/studynote/02_operating_system/04_synchronization/261_fifo_page_replacement/">FIFO</a> Branch and Bound)</strong>, **너비 우선(LIFO Branch and Bound)**, <strong>최고 하한 우선(Best-First Branch and Bound)</strong>이 있다. 최고 하한 우선은 각 노드의 하한을 [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)([priority queue](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/))에 저장하고, 가장 하한이 낮은 노드부터 탐색하는 방식으로, 가장 빨리 최적해에 도달할 가능성이 높다.
 
-<strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">외판원 문제</a>(Traveling Salesman Problem, <a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">TSP</a>)</strong>에 분기 한정을 적용하는 것이 가장 대표적인 사례이다. TSP에서 분기 한정의 bound 함수는 <strong>1-트리(1-Tree) 바운드</strong>를리용한다. 첫 번째 정점을 고정하고 나머지 정점들로 구성된 [최소 신장 트리](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/)([MST](/knowledge-base/studynote/08_algorithm_stats/03_graph_search/041_mst/))의 길이에 두 배 가장 짧은 두 엣지를 더한 값이 하한이 된다. 이 하한을 통해 현재최우해보다 나을 가능성이 없는 분기를 pruning한다.
+<strong><a href="/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">외판원 문제</a>(Traveling Salesman Problem, <a href="/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">TSP</a>)</strong>에 분기 한정을 적용하는 것이 가장 대표적인 사례이다. TSP에서 분기 한정의 bound 함수는 <strong>1-트리(1-Tree) 바운드</strong>를리용한다. 첫 번째 정점을 고정하고 나머지 정점들로 구성된 [최소 신장 트리](/studynote/08_algorithm_stats/03_graph_search/041_mst/)([MST](/studynote/08_algorithm_stats/03_graph_search/041_mst/))의 길이에 두 배 가장 짧은 두 엣지를 더한 값이 하한이 된다. 이 하한을 통해 현재최우해보다 나을 가능성이 없는 분기를 pruning한다.
 
 ```text
 [TSP에 적용: 최고 하한 우선 분기 한정]
@@ -133,20 +130,20 @@ tags = ["algorithm_stats"]
 +------------------------------------------------------+
 ```
 
-- **관찰**: TSP에서 n=20만 되어도 가능한 경로는 19!/2 ≈ 6×[10](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^16개나 되지만, 분기 한정을 적용하면 실제 탐색은 수백만 분기 내에서 최적해 발견이 가능하다.
+- **관찰**: TSP에서 n=20만 되어도 가능한 경로는 19!/2 ≈ 6×[10](/studynote/02_operating_system/08_storage_and_io_systems/489_raid_10_hybrid/)^16개나 되지만, 분기 한정을 적용하면 실제 탐색은 수백만 분기 내에서 최적해 발견이 가능하다.
 - **원인**: Bound 함수를 통해 대부분의 하위 트리가 상한에 도달하기 전에 pruning되기 때문이다.
 - **결과**: 이러한 효율성으로 인해 TSP의 정확한 해를 구하는 데 분기 한정이 필수적으로 사용된다.
 - **판단**: 분기 한정의 효율은 bound 함수의 정확도에직접결정되므로, 문제 도메인에 맞는 최적의 bound 설계가 핵심이다.
 
-📢 **섹션 요약 비유**: 분기 한정은 려유사의 выбор과 같습니다. 예산(상한)이 정해져 있을 때, 파리의 숙소가 주당 200만원 이상이면(하한 >= 상한) 유럽 전체려유규화에서 제외하고([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), 예산 범위 내에서 가장 좋은 조합을 찾을 때까지 지역별,/숙소별 조합을 분기하며 탐색합니다.
+📢 **섹션 요약 비유**: 분기 한정은 려유사의 выбор과 같습니다. 예산(상한)이 정해져 있을 때, 파리의 숙소가 주당 200만원 이상이면(하한 >= 상한) 유럽 전체려유규화에서 제외하고([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), 예산 범위 내에서 가장 좋은 조합을 찾을 때까지 지역별,/숙소별 조합을 분기하며 탐색합니다.
 
 ---
 
 ## Ⅲ. 구현 및 실무 응용 (Implementation & Practice)
 
-분기 한정의 실무 적용은 <strong>정수 <a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">선형 프로그래밍</a>(Integer <a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">Linear Programming</a>, ILP)</strong>과 <strong>차량 경로 문제(Vehicle <a href="/knowledge-base/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Problem, VRP)</strong>에서 가장 두드러진다. ILP 솔버(여: CPLEX, Gurobi)는 내부적으로 분기 한정을 사용하여 정수 제약이 있는 최적화 문제의 최적해를 찾는다. VRP는 화물 차량이 다수의 고객을 방문하면서 최소한의 총 이동 거리나 비용을달성하는 문제로, 분기 한정의 대표적인 실응용 사례이다.
+분기 한정의 실무 적용은 <strong>정수 <a href="/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">선형 프로그래밍</a>(Integer <a href="/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">Linear Programming</a>, ILP)</strong>과 <strong>차량 경로 문제(Vehicle <a href="/studynote/03_network/07_network_layer_routing/339_routing_overview_best_path_selection/">Routing</a> Problem, VRP)</strong>에서 가장 두드러진다. ILP 솔버(여: CPLEX, Gurobi)는 내부적으로 분기 한정을 사용하여 정수 제약이 있는 최적화 문제의 최적해를 찾는다. VRP는 화물 차량이 다수의 고객을 방문하면서 최소한의 총 이동 거리나 비용을달성하는 문제로, 분기 한정의 대표적인 실응용 사례이다.
 
-<strong>실무 분기 한정 구현 패턴</strong>은 다음과 같다. [우선순위 큐](/knowledge-base/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)(최소 힙)에 (node, lower_bound)를 저장한다. 큐가 empty일 때까지: 가장 작은 lower_bound 노드를 pop한다. 그 노드의 lower_bound가 현재 upper_bound 이상이면 skip([pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)). 그렇지 않으면 branch하여 하위 노드들을 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 각 하위 노드의 bound를 계산하여 큐에 삽입한다. 완전한 해를 발견하면 upper_bound를 업데이트한다.
+<strong>실무 분기 한정 구현 패턴</strong>은 다음과 같다. [우선순위 큐](/studynote/08_algorithm_stats/04_datastructure/083_priority_queue/)(최소 힙)에 (node, lower_bound)를 저장한다. 큐가 empty일 때까지: 가장 작은 lower_bound 노드를 pop한다. 그 노드의 lower_bound가 현재 upper_bound 이상이면 skip([pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)). 그렇지 않으면 branch하여 하위 노드들을 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)하고, 각 하위 노드의 bound를 계산하여 큐에 삽입한다. 완전한 해를 발견하면 upper_bound를 업데이트한다.
 
 ```text
 [분기 한정 구현 패턴]
@@ -196,15 +193,15 @@ tags = ["algorithm_stats"]
 +------------------------------------------------------+
 ```
 
-📢 **섹션 요약 비유**: 분기 한정은박매에서 입찰 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같습니다. 내 최고 예상가(상한)이 1,000만원일 때,박매[사가](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 제시한최저 경매가(하한)가 1,100만원이면(하한 >= 상한) 입찰을 포기하고([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), 그 이하이면 다음박매를 계속 진행하며, 더 높은 입찰자가 나타나면 상한을 갱신해 갑니다.
+📢 **섹션 요약 비유**: 분기 한정은박매에서 입찰 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)과 같습니다. 내 최고 예상가(상한)이 1,000만원일 때,박매[사가](/studynote/04_software_engineering/05_devops_ci_cd/312_saga_pattern_choreography_orchestration/) 제시한최저 경매가(하한)가 1,100만원이면(하한 >= 상한) 입찰을 포기하고([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)), 그 이하이면 다음박매를 계속 진행하며, 더 높은 입찰자가 나타나면 상한을 갱신해 갑니다.
 
 ---
 
 ## Ⅳ. 품질 관리 및 테스트 (Quality & Testing)
 
-분기 한정의 품질 관리에서 가장 중요한 것은 <strong>bound 함수의 <a href="/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> <a href="/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이다. Bound가 너무 느슨하면(실제보다 훨씬 낮음) [pruning](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 효과가 거의 없고, bound가 너무 tight하면(실제보다 훨씬 높음) 잘못된 경로까지 탐색하게 되어 최적해를 놓칠 수 있다. 따라서 bound 함수의 수학적 근거가 정확한지 반드시 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
+분기 한정의 품질 관리에서 가장 중요한 것은 <strong>bound 함수의 <a href="/studynote/16_bigdata/01_intro/002_bigdata_5v/">정확성</a> <a href="/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/">검증</a></strong>이다. Bound가 너무 느슨하면(실제보다 훨씬 낮음) [pruning](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/) 효과가 거의 없고, bound가 너무 tight하면(실제보다 훨씬 높음) 잘못된 경로까지 탐색하게 되어 최적해를 놓칠 수 있다. 따라서 bound 함수의 수학적 근거가 정확한지 반드시 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)해야 한다.
 
-<strong>품질 관리 <a href="/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. Bound 함수가 항상 하한(최소 비용의의하한)을 정확히 제공해야 한다. Upper bound 업데이트가 올바르게 이루어져야 한다. 분기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 탐색 효율에 미치는 영향을 분석해야 한다. 가장 작은 하한을 가진 노드부터 탐색하는 Best-First [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실제로 효율적인지 확인해야 한다.
+<strong>품질 관리 <a href="/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/">체크리스트</a></strong>는 다음과 같다. Bound 함수가 항상 하한(최소 비용의의하한)을 정확히 제공해야 한다. Upper bound 업데이트가 올바르게 이루어져야 한다. 분기 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 탐색 효율에 미치는 영향을 분석해야 한다. 가장 작은 하한을 가진 노드부터 탐색하는 Best-First [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 실제로 효율적인지 확인해야 한다.
 
 📢 **섹션 요약 비유**: 분기 한정의 품질 관리는 시험문제의 배점 기준표 설정과 같습니다. 문제별 예상 점수(하한)가 실제 배점(실제)과 괴리가 크면(부정확한 bound) 시험의공평성이훼손되듯이, bound가 부정확하면 최적해에 도달하지 못하거나 비효율적 탐색을 하게 됩니다.
 
@@ -212,15 +209,15 @@ tags = ["algorithm_stats"]
 
 ## Ⅴ. 최신 트렌드 및 결론 (Trends & Conclusion)
 
-분기 한정의 최신 동향은 **분기 절단 평면(Branch and Cut)**, **분기 가격(Branch and Price)**, **동시 분기 한정(Parallel Branch and Bound)** 등 전통적 방법을 hybrid로 확장한 것이다. Branch and Cut은 ILP에 유효한 부등식(valid inequalities)을 추가하여 bound를 강화하는 기법이고, Branch and Price는 열 [생성](/knowledge-base/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Column Generation)과 결합하여 대규모 조합 최적화에 적용된다. 또한 멀티코어/[분산](/knowledge-base/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [병렬](/knowledge-base/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분기 한정은 탐색 트리의 서로 다른 부분을 동시에 탐색하여 최적해 발견 속도를 높인다.
+분기 한정의 최신 동향은 **분기 절단 평면(Branch and Cut)**, **분기 가격(Branch and Price)**, **동시 분기 한정(Parallel Branch and Bound)** 등 전통적 방법을 hybrid로 확장한 것이다. Branch and Cut은 ILP에 유효한 부등식(valid inequalities)을 추가하여 bound를 강화하는 기법이고, Branch and Price는 열 [생성](/studynote/02_operating_system/02_process_thread/087_process_state_transition/)(Column Generation)과 결합하여 대규모 조합 최적화에 적용된다. 또한 멀티코어/[분산](/studynote/08_algorithm_stats/08_stats/136_variance/) 환경에서 [병렬](/studynote/05_database/07_exam_summary/430_index_fast_full_scan/) 분기 한정은 탐색 트리의 서로 다른 부분을 동시에 탐색하여 최적해 발견 속도를 높인다.
 
-분기 한정은 조합 최적화의 정확한 해를 찾는 가장 강력한 범용 방법론이다. NP-어려움 문제에서도 입력이 충분히 작으면 최적해를 찾을 수 있으며, 근사 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 달리 최적해 보장을 제공한다. 기술사 시험에서는 bound 기반 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)의 작동 원리와 최적화 문제 적용에서의 역할을 설명할 수 있는 능력을 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
+분기 한정은 조합 최적화의 정확한 해를 찾는 가장 강력한 범용 방법론이다. NP-어려움 문제에서도 입력이 충분히 작으면 최적해를 찾을 수 있으며, 근사 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)과 달리 최적해 보장을 제공한다. 기술사 시험에서는 bound 기반 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)의 작동 원리와 최적화 문제 적용에서의 역할을 설명할 수 있는 능력을 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)한다.
 
-📢 **섹션 요약 비유**: 분기 한정은 탐험대의 지도 제작과 같습니다. 미답사 지역을 탐사할 때(분기), 각 지역 도착 시 "이 지역에서 얻을 수 있는 정보의 최소량(하한)"을 미리 estimation하여, 이미 완성된 지도(현재최우해)보다 나을 정보가 없다면(하한 >= 상한) 해당 지역 탐사를 취소하고([가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 다른 지역을 탐사합니다.
+📢 **섹션 요약 비유**: 분기 한정은 탐험대의 지도 제작과 같습니다. 미답사 지역을 탐사할 때(분기), 각 지역 도착 시 "이 지역에서 얻을 수 있는 정보의 최소량(하한)"을 미리 estimation하여, 이미 완성된 지도(현재최우해)보다 나을 정보가 없다면(하한 >= 상한) 해당 지역 탐사를 취소하고([가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)) 다른 지역을 탐사합니다.
 
 ---
 
-## 핵심 인사이트 [ASCII](/knowledge-base/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/knowledge-base/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
+## 핵심 인사이트 [ASCII](/studynote/01_computer_architecture/02_data_representation_arithmetic/103_ascii/) 다이어그램 ([Concept](/studynote/14_data_engineering/02_math_mining/120_concept/) Map)
 
 ```text
 [분기 한정 (Branch and Bound) 핵심 개념 맵]
@@ -266,11 +263,11 @@ tags = ["algorithm_stats"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| **분기 (Branching)** | 탐색 트리를 자식 노드로 확장하여 가능한 해 공간을 나누는 분기 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
-| **한정 (Bounding)** | 각 노드의 최적값 상·하한을 계산해 유망하지 않은 가지를 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)하는 기법 |
-| <strong><a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong> | 현재 최적해보다 나은 해를 기대할 수 없는 노드를 조기 탈락시키는 핵심 연산 |
-| <strong><a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">외판원 문제</a> (<a href="/knowledge-base/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">TSP</a> — Travelling Salesman Problem)</strong> | 분기 한정법으로 접근하는 대표적 [NP-Hard](/knowledge-base/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) 조합 최적화 문제 |
-| <strong>정수 계획법 (ILP — Integer <a href="/knowledge-base/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">Linear Programming</a>)</strong> | 분기 한정을 기반 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 사용하는 수리 최적화 기법 |
+| **분기 (Branching)** | 탐색 트리를 자식 노드로 확장하여 가능한 해 공간을 나누는 분기 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **한정 (Bounding)** | 각 노드의 최적값 상·하한을 계산해 유망하지 않은 가지를 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/)하는 기법 |
+| <strong><a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">가지치기</a> (<a href="/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/">Pruning</a>)</strong> | 현재 최적해보다 나은 해를 기대할 수 없는 노드를 조기 탈락시키는 핵심 연산 |
+| <strong><a href="/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">외판원 문제</a> (<a href="/studynote/12_it_management/03_ea_isp/106_fenwick_tree/">TSP</a> — Travelling Salesman Problem)</strong> | 분기 한정법으로 접근하는 대표적 [NP-Hard](/studynote/08_algorithm_stats/06_np_theory/109_np_hard/) 조합 최적화 문제 |
+| <strong>정수 계획법 (ILP — Integer <a href="/studynote/08_algorithm_stats/10_linear_algebra/167_linear_programming/">Linear Programming</a>)</strong> | 분기 한정을 기반 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/)으로 사용하는 수리 최적화 기법 |
 ### 📈 관련 키워드 및 발전 흐름도
 
 ```text
@@ -289,7 +286,7 @@ tags = ["algorithm_stats"]
 [동적 계획법 (DP) — 중복 부분 문제를 메모이제이션으로 최적 해결]
 ```
 
-이 흐름은 무차별 탐색에서 경계값 기반 [가지치기](/knowledge-base/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/), 메타휴리스틱으로 발전하는 최적화 [알고리즘](/knowledge-base/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 계보를 나타낸다.
+이 흐름은 무차별 탐색에서 경계값 기반 [가지치기](/studynote/01_computer_architecture/12_accelerators_ai_hardware/435_pruning_hardware/), 메타휴리스틱으로 발전하는 최적화 [알고리즘](/studynote/08_algorithm_stats/01_basics/001_algorithm_definition/) 계보를 나타낸다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
@@ -301,8 +298,8 @@ tags = ["algorithm_stats"]
 - 모든 약어는 반드시 전체 명칭과 함께 표기
 - 일어/중국어 절대 사용 금지
 - 각 섹션 끝에 📢 요약 비유 반드시 추가
-- 최소 800자/[파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
-- [파일](/knowledge-base/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
+- 최소 800자/[파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)
+- [파일](/studynote/02_operating_system/09_file_system/501_file_definition_logical_record/)명: 01_, 02_... 형식
 
 ---
 
@@ -310,7 +307,7 @@ tags = ["algorithm_stats"]
 
 **진행 상황**: 11 / 175
 
-<- **이전**: [10. 백트래킹 (Backtracking) — 가지치기](/knowledge-base/studynote/08_algorithm_stats/01_basics/010_backtracking/)
-**다음**: [12. 근사 알고리즘 (Approximation Algorithm) — NP 문제](/knowledge-base/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) ->
+<- **이전**: [10. 백트래킹 (Backtracking) — 가지치기](/studynote/08_algorithm_stats/01_basics/010_backtracking/)
+**다음**: [12. 근사 알고리즘 (Approximation Algorithm) — NP 문제](/studynote/08_algorithm_stats/01_basics/012_approximation_algorithm/) ->
 
 ---

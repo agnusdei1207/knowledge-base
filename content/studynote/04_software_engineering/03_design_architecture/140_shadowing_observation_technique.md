@@ -1,13 +1,10 @@
-+++
-title = "140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출"
-date = 2026-04-19
+---
+title: "140. 쉐도잉 & 관찰 기법 (Shadowing/Observation) - 현장 기반 요구 도출"
+date: "2026-04-19"
+tags:
+  - "studynote-software-engineering"
+---
 
-[taxonomies]
-tags = ["studynote-software-engineering"]
-
-[extra]
-tags = ["studynote-software-engineering"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 > 1. **본질**: 쉐도잉/관찰(Ethnography)은 <strong>실제 현장에서 사용자의 업무 수행을 직접 관찰</strong>하여, 인터뷰만으로는 드러나지 않는 <strong>암묵적 요구(Tacit Requirements)</strong>를 발견하는 기법이다.
@@ -43,7 +40,7 @@ Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
 | **Ethnography** | 민족지학적 관찰 |
 | **Contextual Inquiry** | 관찰+질문 |
 | **암묵적 요구** | 관찰의 핵심 목표 |
-| **Journey Map** | 관찰 결과 [시각화](/knowledge-base/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
+| **Journey Map** | 관찰 결과 [시각화](/studynote/16_bigdata/01_intro/003_bigdata_7v/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -65,7 +62,7 @@ Contextual Inquiry: 관찰 + 즉석 질문 (맥락적 질의)
 
 **진행 상황**: 140 / 973
 
-<- **이전**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/knowledge-base/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/)
-**다음**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/knowledge-base/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) ->
+<- **이전**: [139. 프로토타입 충실도 (Fidelity Levels) - Lo-Fi·Mid-Fi·Hi-Fi](/studynote/04_software_engineering/03_design_architecture/139_prototyping_fidelity_levels/)
+**다음**: [141. 포커스 그룹 인터뷰 (FGI) - 그룹 심층 인터뷰 기법](/studynote/04_software_engineering/03_design_architecture/141_focus_group_interview_fgi/) ->
 
 ---

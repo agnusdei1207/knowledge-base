@@ -1,6 +1,5 @@
-+++
-title = "05. Devops Ci Cd"
-
-[extra]
-tags = ["software_engineering"]
-+++
+---
+title: "05. Devops Ci Cd"
+tags:
+  - "software_engineering"
+---

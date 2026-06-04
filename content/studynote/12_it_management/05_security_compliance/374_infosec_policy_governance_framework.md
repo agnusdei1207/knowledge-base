@@ -1,13 +1,10 @@
-+++
-title = "374. 정보보안 정책 수립 거버넌스 프레임워크 (InfoSec Policy Governance Framework)"
-date = 2026-05-09
+---
+title: "374. 정보보안 정책 수립 거버넌스 프레임워크 (InfoSec Policy Governance Framework)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -24,7 +21,7 @@ tags = ["studynote-it-management"]
 
 **진행 상황**: 374 / 800
 
-<- **이전**: [373. 373. (엔터프라이즈 거버넌스/BPR 부터 최신 클라우드/AI/Data 아키텍처 기술사 논술 필수 암기 키워드망 800+ 연결 완료)](/knowledge-base/studynote/12_it_management/05_security_compliance/373_bpr_ai_data_800/)
-**다음**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/knowledge-base/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/) ->
+<- **이전**: [373. 373. (엔터프라이즈 거버넌스/BPR 부터 최신 클라우드/AI/Data 아키텍처 기술사 논술 필수 암기 키워드망 800+ 연결 완료)](/studynote/12_it_management/05_security_compliance/373_bpr_ai_data_800/)
+**다음**: [375. 접근 제어 모델 MAC DAC RBAC ABAC](/studynote/12_it_management/05_security_compliance/375_access_control_model_mac_dac_rbac_abac/) ->
 
 ---

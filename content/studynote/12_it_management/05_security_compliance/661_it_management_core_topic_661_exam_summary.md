@@ -1,13 +1,10 @@
-+++
-title = "661. IT 경영 관리 핵심 토픽 661번 시험 요약 (IT Management Core Topic 661 Exam Summary)"
-date = 2026-05-09
+---
+title: "661. IT 경영 관리 핵심 토픽 661번 시험 요약 (IT Management Core Topic 661 Exam Summary)"
+date: "2026-05-09"
+tags:
+  - "studynote-it-management"
+---
 
-[taxonomies]
-tags = ["studynote-it-management"]
-
-[extra]
-tags = ["studynote-it-management"]
-+++
 
 ```markdown
 ## 핵심 인사이트 (3줄 요약)
@@ -135,7 +132,7 @@ Luftman(2000~2024 갱신)의 **Strategic Alignment Maturity Model**은 6개 속�
 
 **진행 상황**: 661 / 800
 
-<- **이전**: [660. IT 경영 관리 핵심 토픽 660번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/660_it_management_core_topic_660_exam_summary/)
-**다음**: [662. IT 경영 관리 핵심 토픽 662번 시험 요약](/knowledge-base/studynote/12_it_management/05_security_compliance/662_it_management_core_topic_662_exam_summary/) ->
+<- **이전**: [660. IT 경영 관리 핵심 토픽 660번 시험 요약](/studynote/12_it_management/05_security_compliance/660_it_management_core_topic_660_exam_summary/)
+**다음**: [662. IT 경영 관리 핵심 토픽 662번 시험 요약](/studynote/12_it_management/05_security_compliance/662_it_management_core_topic_662_exam_summary/) ->
 
 ---

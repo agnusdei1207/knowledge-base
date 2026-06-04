@@ -1,25 +1,22 @@
-+++
-title = "312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)"
-date = 2026-05-10
+---
+title: "312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)"
+date: "2026-05-10"
+tags:
+  - "studynote-design-supervision"
+---
 
-[taxonomies]
-tags = ["studynote-design-supervision"]
-
-[extra]
-tags = ["studynote-design-supervision"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링를 한 체계로 묶어 판단하는 보안 감리 주제다.
+> 1. **본질**: 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/)) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링를 한 체계로 묶어 판단하는 보안 감리 주제다.
 > 2. **가치**: 기준 문서와 현장 증거를 연결해 보고서가 실제 개선과 의사결정으로 이어지게 한다.
 > 3. **판단 포인트**: 범위 정의, 실행 증거, 후속 조치가 끝까지 닫혔는지를 확인하는 것이 핵심이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
-네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)([Firmware](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/)) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 위협과 통제를 함께 보는 보안 감리 주제다. 최근 환경에서는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
-특히 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 문서만 맞는지 보는 수준을 넘어서 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
+네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/)([Firmware](/studynote/02_operating_system/01_overview_architecture/032_firmware/)) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 위협과 통제를 함께 보는 보안 감리 주제다. 최근 환경에서는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링가 따로 놀면 형식상 적합과 실제 품질 사이의 간극이 커지므로, 설계와 운영을 한 문장으로 설명할 수 있는 구조가 필요하다.
+특히 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 문서만 맞는지 보는 수준을 넘어서 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/), 테스트, 산출물, 인터뷰 증거가 같은 방향을 가리키는지 확인해야 한다. 그래야 감리 결과가 일회성 지적이 아니라 재현 가능한 개선 기준이 된다.
 
 ```text
 +--------------+
@@ -40,13 +37,13 @@ tags = ["studynote-design-supervision"]
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
-네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링의 핵심 원리는 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)로 범위를 고정하고, [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검로 구조를 설계하며, 이상 트래픽 모니터링로 결과를 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
+네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링의 핵심 원리는 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)로 범위를 고정하고, [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검로 구조를 설계하며, 이상 트래픽 모니터링로 결과를 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)하는 것이다. 이때 속도·비용·통제강도 중 무엇을 우선할지 정해야 트레이드오프가 선명해지고, 기술사 답안에서도 단순 나열이 아니라 판단이 드러난다.
 
 | 항목 | 설명 | 포인트 |
 |:---|:---|:---|
-| 자산·범위 | [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)를 기준으로 [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상을 식별한다. | 경계 누락이 가장 큰 위험이다. |
-| [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) | [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검와 연결된 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)·코드·[정책](/knowledge-base/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 심는다. | 우회 경로를 먼저 차단해야 한다. |
-| 증적·조치 | 이상 트래픽 모니터링를 중심으로 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
+| 자산·범위 | [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/)를 기준으로 [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상을 식별한다. | 경계 누락이 가장 큰 위험이다. |
+| [예방 통제](/studynote/09_security/01_intro_principles/053_preventive_controls/) | [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검와 연결된 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)·코드·[정책](/studynote/10_ai/02_dl_architecture_new/164_policy/) 통제를 심는다. | 우회 경로를 먼저 차단해야 한다. |
+| 증적·조치 | 이상 트래픽 모니터링를 중심으로 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·재시험 결과를 닫는다. | 예외 승인과 재검증까지 이어져야 한다. |
 
 ```text
 +------------+------------+------------+
@@ -54,40 +51,40 @@ tags = ["studynote-design-supervision"]
 +------------+------------+------------+
 ```
 
-또한 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 한 단계만 잘해서는 완성되지 않는다. [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
+또한 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 한 단계만 잘해서는 완성되지 않는다. [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/), 실행 메커니즘, 증적이 순환 구조를 이루어야 하며, 하나라도 비면 적합 판정의 신뢰도가 떨어진다.
 - **📢 섹션 요약 비유**: 방화문만 달아 놓는다고 안전한 게 아니라 점검표와 경보 연결까지 갖춰야 하는 것과 같다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
-네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 사전 [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/)와 사후 탐지·시정를 함께 볼 때 경계가 분명해진다. 전자만 강조하면 실행 증거가 약해지고, 후자만 강조하면 사전 설계의 힘이 사라진다. 따라서 두 축의 균형을 설명하는 것이 실무와 시험 모두에서 중요하다.
+네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 사전 [예방 통제](/studynote/09_security/01_intro_principles/053_preventive_controls/)와 사후 탐지·시정를 함께 볼 때 경계가 분명해진다. 전자만 강조하면 실행 증거가 약해지고, 후자만 강조하면 사전 설계의 힘이 사라진다. 따라서 두 축의 균형을 설명하는 것이 실무와 시험 모두에서 중요하다.
 
-| 비교 축 | 사전 [예방 통제](/knowledge-base/studynote/09_security/01_intro_principles/053_preventive_controls/) | 사후 탐지·시정 |
+| 비교 축 | 사전 [예방 통제](/studynote/09_security/01_intro_principles/053_preventive_controls/) | 사후 탐지·시정 |
 |:---|:---|:---|
-| 목표 | 공격이 실행되기 전에 차단 | 침해 징후를 빨리 발견하고 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
-| 주 증거 | 설계 기준·[설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)값 | [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·경보·재시험 결과 |
+| 목표 | 공격이 실행되기 전에 차단 | 침해 징후를 빨리 발견하고 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) |
+| 주 증거 | 설계 기준·[설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)값 | [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)·경보·재시험 결과 |
 | 판단 포인트 | 우회 가능성 최소화 | 대응 속도와 종결 여부 |
 
-연결 개념으로는 [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고, 변경관리, 재검증이 있다. 즉 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 단일 기법이 아니라 거버넌스와 운영 체계 속에서 읽어야 답안의 깊이가 생긴다.
+연결 개념으로는 [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 보고, 변경관리, 재검증이 있다. 즉 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 단일 기법이 아니라 거버넌스와 운영 체계 속에서 읽어야 답안의 깊이가 생긴다.
 - **📢 섹션 요약 비유**: 우산과 배수로를 함께 준비해야 폭우에 버티는 것과 같다.
 
 ---
 
 ## Ⅳ. 실무 적용 및 기술사 판단
-실무에서는 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
+실무에서는 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링를 도입했는가보다 어떤 조건에서 효과가 나는가를 먼저 봐야 한다. 기술사 답안도 '무조건 적용'이 아니라 범위, 증거, 예외, 비용을 함께 써야 설득력이 생긴다.
 
-### 판단 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
-1. [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상과 범위가 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준으로 명확히 식별되었는가?
-2. [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검 관련 통제가 설계·구현·운영에 일관되게 반영되었는가?
+### 판단 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+1. [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 대상과 범위가 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) 기준으로 명확히 식별되었는가?
+2. [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검 관련 통제가 설계·구현·운영에 일관되게 반영되었는가?
 3. 이상 트래픽 모니터링와 예외 승인 기록이 재검증 일정까지 남아 있는가?
-4. [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/)이 책임자·우선순위·마감일과 함께 보고되는가?
+4. [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/)이 책임자·우선순위·마감일과 함께 보고되는가?
 - **📢 섹션 요약 비유**: 자물쇠를 채운 뒤에도 누가 열쇠를 갖고 언제 다시 확인할지 적어 두는 것과 같다.
 
 ---
 
 ## Ⅴ. 기대효과 및 결론
-네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링를 제대로 적용하면 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 통일되고, 증거 수집이 쉬워지며, 지적사항이 후속 조치까지 이어진다. 또한 [이해관계자](/knowledge-base/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 해석 차이를 줄여 일정·품질·보안 중 무엇을 우선해야 하는지 더 명확히 설명할 수 있다.
-결론적으로 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 개념 암기보다 판단 기준을 세우는 데 가치가 있다. 범위 정의, 구조 설계, 증거 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 종결 관리의 네 축을 함께 쓰는 것이 실무형 답안의 핵심이다.
+네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링를 제대로 적용하면 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이 통일되고, 증거 수집이 쉬워지며, 지적사항이 후속 조치까지 이어진다. 또한 [이해관계자](/studynote/04_software_engineering/03_design_architecture/173_stakeholder_identification_impact_matrix/) 사이의 해석 차이를 줄여 일정·품질·보안 중 무엇을 우선해야 하는지 더 명확히 설명할 수 있다.
+결론적으로 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링는 개념 암기보다 판단 기준을 세우는 데 가치가 있다. 범위 정의, 구조 설계, 증거 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), 종결 관리의 네 축을 함께 쓰는 것이 실무형 답안의 핵심이다.
 - **📢 섹션 요약 비유**: 백신 접종 뒤 항체 확인까지 해야 진짜 효과를 아는 것과 같다.
 
 ---
@@ -96,18 +93,18 @@ tags = ["studynote-design-supervision"]
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링의 출발점이 되는 핵심 [기준선](/knowledge-base/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
-| [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검 | 실제 설계·운영·관리 메커니즘으로 이어지는 연결 축이다. |
+| [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/) | 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링의 출발점이 되는 핵심 [기준선](/studynote/04_software_engineering/01_overview_principles/025_baseline/)이다. |
+| [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검 | 실제 설계·운영·관리 메커니즘으로 이어지는 연결 축이다. |
 | 이상 트래픽 모니터링 | 판정과 재검증의 신뢰도를 높이는 증거 축이다. |
-| [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고 | 개별 활동을 거버넌스와 지속 개선으로 확장하는 축이다. |
+| [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 보고 | 개별 활동을 거버넌스와 지속 개선으로 확장하는 축이다. |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
-- 관련 키워드: [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/knowledge-base/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링, [잔여 위험](/knowledge-base/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
-[장비 수기 점검] -> [펌웨어 [무결성](/knowledge-base/studynote/09_security/01_intro_principles/003_integrity/) 검증] -> [지속형 [공급망](/knowledge-base/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 모니터링]
+- 관련 키워드: [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 서명 [검증](/studynote/04_software_engineering/07_object_oriented/395_verification_process_review/), [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 해시 점검, 이상 트래픽 모니터링, [잔여 위험](/studynote/09_security/01_intro_principles/038_residual_risk/) 보고
+[장비 수기 점검] -> [펌웨어 [무결성](/studynote/09_security/01_intro_principles/003_integrity/) 검증] -> [지속형 [공급망](/studynote/04_software_engineering/08_security_compliance_devsecops/520_supply_chain_attack_and_ci_cd_security/) 모니터링]
 
 ### 👶 어린이를 위한 3줄 비유 설명
-1. 네트워크 장비 [펌웨어](/knowledge-base/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/knowledge-base/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
+1. 네트워크 장비 [펌웨어](/studynote/02_operating_system/01_overview_architecture/032_firmware/) [백도어](/studynote/03_network/14_network_security_threats/737_backdoor_c2_beacon_behavior_analysis/) 모니터링은 집 문을 잠그고 누가 드나드는지 기록하는 것과 비슷해요.
 2. 문이 잠겼는지뿐 아니라 열쇠를 누가 갖고 있는지도 같이 봐야 해요.
 3. 그래야 나쁜 사람이 들어왔을 때 바로 막고 다시 고칠 수 있어요.
 
@@ -117,7 +114,7 @@ tags = ["studynote-design-supervision"]
 
 **진행 상황**: 382 / 530
 
-<- **이전**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/670_smart_contract_reentrancy_audit/)
-**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/knowledge-base/studynote/11_design_supervision/05_audit_deep_guide/671_network_firmware_backdoor_monitoring/) ->
+<- **이전**: [311. 스마트 컨트랙트 재진입 방지 패턴 감리 (Smart Contract Reentrancy Defense Audit)](/studynote/11_design_supervision/05_audit_deep_guide/670_smart_contract_reentrancy_audit/)
+**다음**: [312. 네트워크 장비 펌웨어 백도어 모니터링 (Network Firmware Backdoor Monitoring Audit)](/studynote/11_design_supervision/05_audit_deep_guide/671_network_firmware_backdoor_monitoring/) ->
 
 ---

@@ -1,18 +1,15 @@
-+++
-title = "117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화"
-date = 2026-04-21
+---
+title: "117. 클릭스트림 분석 (Clickstream Analysis) — 사용자 행동 패턴 최적화"
+date: "2026-04-21"
+tags:
+  - "studynote-bigdata"
+---
 
-[taxonomies]
-tags = ["studynote-bigdata"]
-
-[extra]
-tags = ["studynote-bigdata"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 클릭스트림 분석 (Clickstream Analysis)은 사용자가 웹사이트·앱에서 클릭·스크롤·[페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동하는 행동 시퀀스를 수집·분석하여 퍼널 전환율 최적화, 이탈 지점 [식별](/knowledge-base/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 개인화 추천의 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 구축하는 기법이다.
-> 2. **가치**: 수억 명 사용자의 실시간 행동 스트림을 분석함으로써 A/B 테스트의 신속한 결과 판단, 사용자 세그먼트별 여정 최적화, UX (User Experience) 개선 의사결정을 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 지원한다.
-> 3. **판단 포인트**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) ([California Consumer Privacy Act](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/)) 동의 관리가 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집의 법적 전제이며, [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) + Spark Streaming으로 초당 수백만 이벤트의 실시간 처리가 가능하다.
+> 1. **본질**: 클릭스트림 분석 (Clickstream Analysis)은 사용자가 웹사이트·앱에서 클릭·스크롤·[페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/) 이동하는 행동 시퀀스를 수집·분석하여 퍼널 전환율 최적화, 이탈 지점 [식별](/studynote/09_security/13_secops_ir_forensics/655_ir_detection_analysis/), 개인화 추천의 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반을 구축하는 기법이다.
+> 2. **가치**: 수억 명 사용자의 실시간 행동 스트림을 분석함으로써 A/B 테스트의 신속한 결과 판단, 사용자 세그먼트별 여정 최적화, UX (User Experience) 개선 의사결정을 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 지원한다.
+> 3. **판단 포인트**: [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation)/[CCPA](/studynote/09_security/16_data_privacy/800_ccpa/) ([California Consumer Privacy Act](/studynote/09_security/16_data_privacy/800_ccpa/)) 동의 관리가 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 수집의 법적 전제이며, [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) + Spark Streaming으로 초당 수백만 이벤트의 실시간 처리가 가능하다.
 
 ---
 
@@ -20,7 +17,7 @@ tags = ["studynote-bigdata"]
 
 아마존이 첫 번째 A/B 테스트에서 "쇼핑 카트 대신 1-Click 구매"를 추가했을 때의 전환율 개선은 수십억 달러의 가치를 창출했다. 이 결정의 근거가 바로 클릭스트림 분석이었다.
 
-사용자가 제품 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 들어왔다가 결제 전 어느 단계에서 이탈했는지, 어떤 버튼 위치가 클릭률이 높은지, 어떤 순서로 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 탐색하는지—이 모든 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제품과 [서비스](/knowledge-base/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속적으로 개선하는 가장 직접적인 피드백이다.
+사용자가 제품 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)에 들어왔다가 결제 전 어느 단계에서 이탈했는지, 어떤 버튼 위치가 클릭률이 높은지, 어떤 순서로 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)를 탐색하는지—이 모든 행동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 제품과 [서비스](/studynote/13_cloud_architecture/02_iaas_paas_saas/090_service_kubernetes_network_load_balancing/)를 지속적으로 개선하는 가장 직접적인 피드백이다.
 
 - **📢 섹션 요약 비유**: 클릭스트림 분석은 쇼핑몰에서 손님이 어떤 진열대 앞에서 몇 초 머물다가 어디서 발길을 돌리는지 지켜보는 매장 분석이다. 오프라인은 CCTV가, 온라인은 클릭스트림이 그 역할을 한다.
 
@@ -28,7 +25,7 @@ tags = ["studynote-bigdata"]
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-### 클릭스트림 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
+### 클릭스트림 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)
 
 ```text
 +--------------------------------------------------------------------+
@@ -59,12 +56,12 @@ tags = ["studynote-bigdata"]
 | 분석 유형 | 목적 | 핵심 질문 |
 |:---|:---|:---|
 | **퍼널 분석 (Funnel Analysis)** | 구매까지 각 단계 전환율 측정 | "어느 단계에서 가장 많이 이탈하는가?" |
-| <strong><a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 분석 (<a href="/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Analysis)</strong> | 방문당 행동 패턴 파악 | "[세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)당 평균 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰·체류 시간?" |
-| **경로 분석 (Path Analysis)** | 사용자 탐색 순서 분석 | "다음에 어떤 [페이지](/knowledge-base/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 이동하는가?" |
+| <strong><a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">세션</a> 분석 (<a href="/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/">Session</a> Analysis)</strong> | 방문당 행동 패턴 파악 | "[세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/)당 평균 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)뷰·체류 시간?" |
+| **경로 분석 (Path Analysis)** | 사용자 탐색 순서 분석 | "다음에 어떤 [페이지](/studynote/01_computer_architecture/07_virtual_memory_os_integration/286_page_frame/)로 이동하는가?" |
 | **코호트 분석 (Cohort Analysis)** | 그룹별 시간 경과 행동 비교 | "1월 가입자 vs 2월 가입자의 리텐션?" |
-| **A/B 테스트** | 변형 [버전](/knowledge-base/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간 [성능](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 | "버튼 색상이 CTR에 영향을 미치는가?" |
+| **A/B 테스트** | 변형 [버전](/studynote/03_network/06_network_layer_ip/288_version_ihl_tos_total_length/) 간 [성능](/studynote/04_software_engineering/05_devops_ci_cd/282_performance_tactics/) 비교 | "버튼 색상이 CTR에 영향을 미치는가?" |
 
-### 이벤트 [스키마](/knowledge-base/studynote/05_database/01_db_architecture_relational/005_schema/) 예시
+### 이벤트 [스키마](/studynote/05_database/01_db_architecture_relational/005_schema/) 예시
 
 ```json
 {
@@ -88,17 +85,17 @@ tags = ["studynote-bigdata"]
 
 ## Ⅲ. 비교 및 연결
 
-| 항목 | 클릭스트림 분석 | [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재생 ([Session](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Replay) | 히트맵 분석 |
+| 항목 | 클릭스트림 분석 | [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 재생 ([Session](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) Replay) | 히트맵 분석 |
 |:---|:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태</strong> | 이벤트 시퀀스 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 전체 화면 재생 영상 | 클릭 밀도 히트맵 |
+| <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 형태</strong> | 이벤트 시퀀스 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) | 전체 화면 재생 영상 | 클릭 밀도 히트맵 |
 | **분석 깊이** | 통계적 패턴 발굴 | 개별 사용자 경험 직접 관찰 | 시각적 UX 문제 발견 |
 | **규모** | 전체 사용자 | 샘플 (프라이버시·용량 제한) | 전체 사용자 |
-| **도구** | [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Spark, Amplitude | Hotjar, FullStory | Hotjar, Crazy Egg |
+| **도구** | [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/), Spark, Amplitude | Hotjar, FullStory | Hotjar, Crazy Egg |
 | **인사이트 속도** | 실시간 | 사후 분석 | 실시간 |
 
-GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림 분석을 자동화하지만, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 커스텀 분석의 한계로 인해 대기업은 자체 [데이터 파이프라인](/knowledge-base/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)을 구축한다.
+GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림 분석을 자동화하지만, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 소유권과 커스텀 분석의 한계로 인해 대기업은 자체 [데이터 파이프라인](/studynote/01_computer_architecture/15_advanced_topics/645_data_pipeline_acceleration/)을 구축한다.
 
-- **📢 섹션 요약 비유**: Google Analytics는 기성복처럼 바로 입을 수 있지만 맞춤 수선이 어렵다. [Kafka](/knowledge-base/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Spark 자체 [파이프](/knowledge-base/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 맞춤 정장처럼 완벽히 맞지만 제작 시간이 필요하다.
+- **📢 섹션 요약 비유**: Google Analytics는 기성복처럼 바로 입을 수 있지만 맞춤 수선이 어렵다. [Kafka](/studynote/14_data_engineering/04_mlops/179_kafka_flink_watermark_time_window/) + Spark 자체 [파이프](/studynote/02_operating_system/02_process_thread/123_pipe/)라인은 맞춤 정장처럼 완벽히 맞지만 제작 시간이 필요하다.
 
 ---
 
@@ -108,24 +105,24 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 1. **이커머스 퍼널 최적화**: 상품 조회->장바구니->결제 각 단계 이탈율 분석 -> 이탈 원인 제거
 2. **콘텐츠 플랫폼 추천**: 시청/클릭 이력 실시간 분석 -> 다음 추천 콘텐츠 개인화
-3. <strong><a href="/knowledge-base/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 -> 낮은 사용 기능 UX 재설계 또는 제거
+3. <strong><a href="/studynote/12_it_management/05_security_compliance/951_saas/">SaaS</a> 제품 개선</strong>: 기능별 사용 빈도 분석 -> 낮은 사용 기능 UX 재설계 또는 제거
 4. **광고 효율화**: 광고 클릭 -> 전환까지의 경로 분석 -> 어트리뷰션 모델 최적화
 
-### [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
-1. **동의 (Consent) 관리**: [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/knowledge-base/studynote/09_security/16_data_privacy/800_ccpa/) 기준 사전 동의 수집 후에만 추적 시작
+1. **동의 (Consent) 관리**: [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/)/[CCPA](/studynote/09_security/16_data_privacy/800_ccpa/) 기준 사전 동의 수집 후에만 추적 시작
 2. **익명화**: 사용자 ID는 해시 처리, 정확한 IP 저장 금지 (지역 코드만 보관)
-3. <strong><a href="/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소화</strong>: 분석에 필요한 이벤트만 수집 (불필요한 클릭 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 미수집)
-4. **삭제 요청**: 사용자 삭제 요청 시 모든 이벤트 [로그](/knowledge-base/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 해당 ID 퍼지
+3. <strong><a href="/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/">데이터</a> 최소화</strong>: 분석에 필요한 이벤트만 수집 (불필요한 클릭 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/) 미수집)
+4. **삭제 요청**: 사용자 삭제 요청 시 모든 이벤트 [로그](/studynote/04_software_engineering/09_cloud_native_ai_architecture/568_logs_distributed_logging_elk_fluentd/)에서 해당 ID 퍼지
 
-### 기술사 [체크리스트](/knowledge-base/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
+### 기술사 [체크리스트](/studynote/04_software_engineering/11_testing_validation/435_checklist_based_testing/)
 
 1. 이벤트 누락률을 최소화하기 위한 클라이언트 SDK의 재시도 로직이 있는가?
 2. 봇 트래픽 필터링 (User-Agent 기반 또는 행동 패턴 기반)을 적용했는가?
-3. [세션](/knowledge-base/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 시간 초과 정의가 비즈니스 목적에 맞게 [설정](/knowledge-base/studynote/15_devops_sre/01_culture_methodology/009_config/)됐는가? (기본 30분)
-4. 실시간 대시보드의 [지연 시간](/knowledge-base/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) SLA가 정의됐는가? (초 단위 vs 분 단위)
+3. [세션](/studynote/02_operating_system/02_process_thread/160_session_controlling_terminal/) 시간 초과 정의가 비즈니스 목적에 맞게 [설정](/studynote/15_devops_sre/01_culture_methodology/009_config/)됐는가? (기본 30분)
+4. 실시간 대시보드의 [지연 시간](/studynote/01_computer_architecture/03_architecture_basics_performance/141_latency/) SLA가 정의됐는가? (초 단위 vs 분 단위)
 
-- **📢 섹션 요약 비유**: 클릭스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 사용자가 남긴 디지털 발자국이다. 이 발자국을 추적하는 것은 유용하지만, 사용자가 허락하지 않았다면 프라이버시 침해가 된다. GDPR은 "동의 없이 발자국 채취 금지"라는 법적 울타리다.
+- **📢 섹션 요약 비유**: 클릭스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)는 사용자가 남긴 디지털 발자국이다. 이 발자국을 추적하는 것은 유용하지만, 사용자가 허락하지 않았다면 프라이버시 침해가 된다. GDPR은 "동의 없이 발자국 채취 금지"라는 법적 울타리다.
 
 ---
 
@@ -134,26 +131,26 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 | 효과 | 내용 |
 |:---|:---|
 | 전환율 향상 | 퍼널 이탈 지점 제거로 구매 전환율 5~20% 향상 |
-| UX 개선 | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 UI 설계로 사용자 만족도 향상 |
+| UX 개선 | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 UI 설계로 사용자 만족도 향상 |
 | 개인화 강화 | 행동 기반 추천으로 관련성 높은 콘텐츠 제공 |
-| 광고 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 정확한 어트리뷰션으로 광고 예산 최적화 |
-| 제품 발전 방향 | 기능 사용 빈도 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 로드맵 근거 마련 |
+| 광고 [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) | 정확한 어트리뷰션으로 광고 예산 최적화 |
+| 제품 발전 방향 | 기능 사용 빈도 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 로드맵 근거 마련 |
 
-클릭스트림 분석은 "사용자가 말하는 것"보다 "사용자가 실제로 하는 것"을 보는 기술이다. 설문 조사의 응답 편향 없이 실제 행동 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 제품 결정을 내릴 수 있다는 점이 가장 큰 강점이다. [개인정보](/knowledge-base/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) 규제가 강화될수록 동의 기반의 First-Party [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 더욱 중요해지고 있다.
+클릭스트림 분석은 "사용자가 말하는 것"보다 "사용자가 실제로 하는 것"을 보는 기술이다. 설문 조사의 응답 편향 없이 실제 행동 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)를 기반으로 제품 결정을 내릴 수 있다는 점이 가장 큰 강점이다. [개인정보](/studynote/09_security/16_data_privacy/781_personal_information/) [보호](/studynote/02_operating_system/10_security/571_protection_vs_security/) 규제가 강화될수록 동의 기반의 First-Party [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이 더욱 중요해지고 있다.
 
-- **📢 섹션 요약 비유**: 클릭스트림 분석은 사용자의 솔직한 행동을 기록한다. 설문에서는 "좋아요"라고 해도 실제로 클릭하지 않는다면, [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 진실을 말해준다.
+- **📢 섹션 요약 비유**: 클릭스트림 분석은 사용자의 솔직한 행동을 기록한다. 설문에서는 "좋아요"라고 해도 실제로 클릭하지 않는다면, [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)가 진실을 말해준다.
 
 ---
 
 ### 📌 관련 개념 맵
 
-| 개념 | [관계](/knowledge-base/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
+| 개념 | [관계](/studynote/05_database/02_modeling_normalization/083_relationship_in_er_model/) |
 |:---|:---|
 | 퍼널 분석 (Funnel Analysis) | 클릭스트림의 핵심 전환율 분석 기법 |
-| [Apache Kafka](/knowledge-base/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 대규모 실시간 이벤트 [스트림 처리](/knowledge-base/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) |
-| Apache [Spark Streaming](/knowledge-base/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | 클릭스트림 실시간 집계 처리 |
-| [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/knowledge-base/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation) | 클릭스트림 수집의 법적 기준 |
-| A/B 테스트 | 클릭스트림 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 실험 설계 |
+| [Apache Kafka](/studynote/14_data_engineering/05_exam_keywords/214_kafka_pubsub_topic_partition_offset_broker/) | 대규모 실시간 이벤트 [스트림 처리](/studynote/13_cloud_architecture/05_data_engineering/229_stream_processing_kafka_flink/) |
+| Apache [Spark Streaming](/studynote/16_bigdata/03_spark/060_spark_streaming_dstream/) | 클릭스트림 실시간 집계 처리 |
+| [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) (General [Data](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) [Protection](/studynote/02_operating_system/10_security/571_protection_vs_security/) Regulation) | 클릭스트림 수집의 법적 기준 |
+| A/B 테스트 | 클릭스트림 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 기반 실험 설계 |
 | 코호트 분석 (Cohort Analysis) | 그룹별 시간 경과 행동 비교 |
 | GA4 (Google Analytics 4) | 클릭스트림 분석의 대표 상용 툴 |
 
@@ -174,12 +171,12 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
     v
 [A/B 테스트 -> 제품 개선 (First-Party 데이터 전략)]
 ```
-클릭스트림은 Kafka로 수집·Spark로 집계하여 퍼널/코호트 분석으로 전환율 패턴을 도출하고, A/B 테스트를 통해 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 제품 개선 사이클로 완결된다.
+클릭스트림은 Kafka로 수집·Spark로 집계하여 퍼널/코호트 분석으로 전환율 패턴을 도출하고, A/B 테스트를 통해 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 주도 제품 개선 사이클로 완결된다.
 
 ### 👶 어린이를 위한 3줄 비유 설명
 - 클릭스트림 분석은 사람들이 온라인 쇼핑몰에서 어떻게 돌아다니는지 발자국을 기록하는 거예요.
 - "사람들이 이 버튼에서 자꾸 이탈하네? 왜 그럴까?" 하고 분석해서 쇼핑몰을 더 편하게 고쳐요.
-- 단, 발자국을 기록하려면 사용자의 허락을 받아야 해요. 그게 [GDPR](/knowledge-base/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규칙이에요!
+- 단, 발자국을 기록하려면 사용자의 허락을 받아야 해요. 그게 [GDPR](/studynote/09_security/16_data_privacy/791_gdpr_eu/) 규칙이에요!
 
 ---
 
@@ -187,7 +184,7 @@ GA4 (Google Analytics 4)와 Adobe Analytics 같은 상용 툴은 클릭스트림
 
 **진행 상황**: 120 / 262
 
-<- **이전**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/knowledge-base/studynote/16_bigdata/05_analysis/119_log_analysis/)
-**다음**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/knowledge-base/studynote/16_bigdata/05_analysis/121_ab_testing/) ->
+<- **이전**: [116. 로그 분석 (Log Analysis) — 이상 감지/보안 이벤트/패턴 발견](/studynote/16_bigdata/05_analysis/119_log_analysis/)
+**다음**: [118. A/B 테스트 (A/B Testing) — 실험적 방법론과 통계적 유의성](/studynote/16_bigdata/05_analysis/121_ab_testing/) ->
 
 ---

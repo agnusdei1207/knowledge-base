@@ -1,13 +1,10 @@
-+++
-title = "558. 레이어2 확장 솔루션 롤업 사이드체인 (Layer2 Scaling Solution Rollup Sidechain)"
-date = 2026-05-09
+---
+title: "558. 레이어2 확장 솔루션 롤업 사이드체인 (Layer2 Scaling Solution Rollup Sidechain)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -119,7 +116,7 @@ Layer2 확장 솔루션 롤업 사이드체인은(는) 디지털 권리, 금융,
 
 **진행 상황**: 558 / 800
 
-<- **이전**: [557. 크로스체인 상호운용성 브리지](/knowledge-base/studynote/06_ict_convergence/uncategorized/557_cross_chain_interoperability_bridge/)
-**다음**: [559. 영지식 증명 ZK-SNARKs ZK-STARKs](/knowledge-base/studynote/06_ict_convergence/uncategorized/559_zero_knowledge_proof_zk_snarks_zk_starks/) ->
+<- **이전**: [557. 크로스체인 상호운용성 브리지](/studynote/06_ict_convergence/uncategorized/557_cross_chain_interoperability_bridge/)
+**다음**: [559. 영지식 증명 ZK-SNARKs ZK-STARKs](/studynote/06_ict_convergence/uncategorized/559_zero_knowledge_proof_zk_snarks_zk_starks/) ->
 
 ---

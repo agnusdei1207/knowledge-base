@@ -1,13 +1,10 @@
-+++
-title = "771. 스마트 정부 디지털 공공 서비스 혁신 (Smart Government Digital Public Innovation)"
-date = 2026-05-09
+---
+title: "771. 스마트 정부 디지털 공공 서비스 혁신 (Smart Government Digital Public Innovation)"
+date: "2026-05-09"
+tags:
+  - "studynote-ict-convergence"
+---
 
-[taxonomies]
-tags = ["studynote-ict-convergence"]
-
-[extra]
-tags = ["studynote-ict-convergence"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
 
@@ -111,7 +108,7 @@ tags = ["studynote-ict-convergence"]
 
 **진행 상황**: 771 / 800
 
-<- **이전**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/knowledge-base/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/)
-**다음**: [772. 디지털 포용 접근성 정보 격차 해소](/knowledge-base/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/) ->
+<- **이전**: [770. 디지털 트윈 도시 시뮬레이션 최적화](/studynote/06_ict_convergence/uncategorized/770_digital_twin_city_simulation_optimization/)
+**다음**: [772. 디지털 포용 접근성 정보 격차 해소](/studynote/06_ict_convergence/uncategorized/772_digital_inclusion_accessibility_gap_bridging/) ->
 
 ---

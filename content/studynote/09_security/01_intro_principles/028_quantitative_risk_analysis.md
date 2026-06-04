@@ -1,18 +1,15 @@
-+++
-title = "28. 정량적 위험 분석 (Quantitative Risk Analysis)"
-date = 2026-04-29
+---
+title: "28. 정량적 위험 분석 (Quantitative Risk Analysis)"
+date: "2026-04-29"
+tags:
+  - "studynote-security"
+---
 
-[taxonomies]
-tags = ["studynote-security"]
-
-[extra]
-tags = ["studynote-security"]
-+++
 
 ## 핵심 인사이트 (3줄 요약)
-> 1. **본질**: 정량적 위험 분석(Quantitative [Risk](/knowledge-base/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 보안 위험을 화폐 단위(원화/달러)로 수치화하여 경영진이 [ROI](/knowledge-base/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 기반으로 보안 투자 의사결정을 내릴 수 있게 하는 방법론이다. [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(연간 기대 손실) = SLE × ARO가 핵심 공식이다.
+> 1. **본질**: 정량적 위험 분석(Quantitative [Risk](/studynote/11_design_supervision/02_architecture_principles/096_risk_non_risk_architecture_evaluation_flaws/) Analysis)은 보안 위험을 화폐 단위(원화/달러)로 수치화하여 경영진이 [ROI](/studynote/12_it_management/01_governance_strategy/807_roi_return_on_investment/) 기반으로 보안 투자 의사결정을 내릴 수 있게 하는 방법론이다. [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/)(연간 기대 손실) = SLE × ARO가 핵심 공식이다.
 > 2. **가치**: 정성적 분석(High/Medium/Low)과 달리 정량적 분석은 "이 통제를 구현하면 연간 5억 원 손실을 막을 수 있다"는 명확한 비용-편익 근거를 제공한다. CISO가 경영진에게 보안 예산을 정당화하는 핵심 도구다.
-> 3. **판단 포인트**: 정확한 자산 가치·위협 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 산정이 어렵다는 한계가 있다. [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 빈도를 예측하기 어려운 경우 몬테카를로 시뮬레이션 등 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 접근이 필요하다. 정성적 분석과 병행 사용이 권장된다.
+> 3. **판단 포인트**: 정확한 자산 가치·위협 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 산정이 어렵다는 한계가 있다. [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 빈도를 예측하기 어려운 경우 몬테카를로 시뮬레이션 등 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 접근이 필요하다. 정성적 분석과 병행 사용이 권장된다.
 
 ---
 
@@ -36,7 +33,7 @@ tags = ["studynote-security"]
 +------------------------------------------------------+
 ```
 
-- **📢 섹션 요약 비유**: 정량적 위험 분석은 보험 계리(Actuarial) 방법이다. 보험사가 "화재 발생 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) × 예상 피해액 = 연간 기대 손실"로 보험료를 계산하듯, 기업은 보안 위협의 연간 기대 손실을 계산해서 적정 보안 투자액을 결정한다.
+- **📢 섹션 요약 비유**: 정량적 위험 분석은 보험 계리(Actuarial) 방법이다. 보험사가 "화재 발생 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) × 예상 피해액 = 연간 기대 손실"로 보험료를 계산하듯, 기업은 보안 위협의 연간 기대 손실을 계산해서 적정 보안 투자액을 결정한다.
 
 ---
 
@@ -46,12 +43,12 @@ tags = ["studynote-security"]
 
 | 용어 | 영문 | 의미 |
 |:---|:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/">AV</a></strong> | Asset Value | 자산 가치 (원화) |
+| <strong><a href="/studynote/09_security/04_endpoint_security/323_antivirus/">AV</a></strong> | Asset Value | 자산 가치 (원화) |
 | **EF** | Exposure Factor | 위협 발생 시 자산 손실 비율 (%) |
 | **SLE** | Single Loss Expectancy | 단일 사고 예상 손실액 |
 | **ARO** | Annual Rate of Occurrence | 연간 위협 발생 빈도 |
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | Annual Loss Expectancy | 연간 기대 손실액 |
-| **ROSI** | Return on [Security](/knowledge-base/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Investment | 보안 투자 수익률 |
+| <strong><a href="/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | Annual Loss Expectancy | 연간 기대 손실액 |
+| **ROSI** | Return on [Security](/studynote/04_software_engineering/05_devops_ci_cd/283_security_tactics/) Investment | 보안 투자 수익률 |
 
 ### ROSI 계산
 
@@ -71,7 +68,7 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 | 비교 | 정량적 분석 | 정성적 분석 |
 |:---|:---|:---|
 | 결과 | 화폐 단위 수치 | High/Med/Low |
-| [정확성](/knowledge-base/studynote/16_bigdata/01_intro/002_bigdata_5v/) | [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | 전문가 판단 |
+| [정확성](/studynote/16_bigdata/01_intro/002_bigdata_5v/) | [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/) 의존 | 전문가 판단 |
 | 경영진 설득 | 강력 | 보통 |
 | 적용 시간 | 많음 | 적음 |
 
@@ -81,15 +78,15 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 ## Ⅳ. 실무 적용 및 기술사 판단
 
-### [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 위험 분석 예시
-- **자산**: 핵심 [ERP](/knowledge-base/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 서버, [AV](/knowledge-base/studynote/09_security/04_endpoint_security/323_antivirus/) = 50억 원.
-- **EF**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 시 [복구](/knowledge-base/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 40% -> EF = 0.4.
+### [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 위험 분석 예시
+- **자산**: 핵심 [ERP](/studynote/07_enterprise_systems/02_erp_systems/081_erp_enterprise_resource_planning/) 서버, [AV](/studynote/09_security/04_endpoint_security/323_antivirus/) = 50억 원.
+- **EF**: [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) 발생 시 [복구](/studynote/09_security/13_secops_ir_forensics/658_ir_recovery/) 불가 40% -> EF = 0.4.
 - **ARO**: 업종 통계상 연 0.2회 (5년에 1번).
 - **SLE** = 50억 × 0.4 = 20억.
-- <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> = 20억 × 0.2 = 4억 원/년.
-- **통제**: [EDR](/knowledge-base/studynote/09_security/04_endpoint_security/325_edr/) + 오프라인 [백업](/knowledge-base/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 비용 1억/년 -> ROSI = (4억 - 0.5억 - 1억) / 1억 = 250%.
+- <strong><a href="/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> = 20억 × 0.2 = 4억 원/년.
+- **통제**: [EDR](/studynote/09_security/04_endpoint_security/325_edr/) + 오프라인 [백업](/studynote/02_operating_system/09_file_system/555_backup_and_restore_strategy/) 비용 1억/년 -> ROSI = (4억 - 0.5억 - 1억) / 1억 = 250%.
 
-- **📢 섹션 요약 비유**: [랜섬웨어](/knowledge-base/studynote/09_security/15_malware_attack_vectors/730_ransomware/) [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산은 화재 보험 가입 여부 결정과 같다. "연간 4억 원 손실 위험이 있다면 1억짜리 방어 솔루션은 반드시 투자해야 한다"는 경영진 설득 논거가 된다.
+- **📢 섹션 요약 비유**: [랜섬웨어](/studynote/09_security/15_malware_attack_vectors/730_ransomware/) [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 계산은 화재 보험 가입 여부 결정과 같다. "연간 4억 원 손실 위험이 있다면 1억짜리 방어 솔루션은 반드시 투자해야 한다"는 경영진 설득 논거가 된다.
 
 ---
 
@@ -98,12 +95,12 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 | 기대효과 | 내용 |
 |:---|:---|
 | **예산 정당화** | 보안 투자의 재무적 근거 |
-| **우선순위 결정** | [ALE](/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기준으로 위험 우선 처리 |
+| **우선순위 결정** | [ALE](/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/) 기준으로 위험 우선 처리 |
 | **경영진 소통** | 화폐 단위로 C레벨 설득 |
 
-[AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·머신러닝을 활용한 동적 위험 계량화가 발전하고 있다. 위협 인텔리전스 피드와 ML 모델을 결합하여 ARO를 실시간으로 갱신하는 자동화 정량 위험 분석 플랫폼이 등장하고 있다.
+[AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)·머신러닝을 활용한 동적 위험 계량화가 발전하고 있다. 위협 인텔리전스 피드와 ML 모델을 결합하여 ARO를 실시간으로 갱신하는 자동화 정량 위험 분석 플랫폼이 등장하고 있다.
 
-- **📢 섹션 요약 비유**: [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 동적 위험 분석은 자동 갱신 보험 계약이다. 과거 통계 대신 실시간 위협 [데이터](/knowledge-base/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 위험 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 매일 업데이트해서 정확한 보안 투자 금액을 자동으로 산출한다.
+- **📢 섹션 요약 비유**: [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/) 동적 위험 분석은 자동 갱신 보험 계약이다. 과거 통계 대신 실시간 위협 [데이터](/studynote/05_database/01_db_architecture_relational/001_dikw_pyramid/)로 위험 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 매일 업데이트해서 정확한 보안 투자 금액을 자동으로 산출한다.
 
 ---
 
@@ -111,11 +108,11 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 | 개념 | 연결 포인트 |
 |:---|:---|
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | 정량 위험 분석의 핵심 지표 |
-| <strong><a href="/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/">정성적 위험 분석</a></strong> | 정량 분석의 보완 수단 |
+| <strong><a href="/studynote/09_security/01_intro_principles/032_ale_annual_loss_expectancy/">ALE</a></strong> | 정량 위험 분석의 핵심 지표 |
+| <strong><a href="/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/">정성적 위험 분석</a></strong> | 정량 분석의 보완 수단 |
 | **ROSI** | 보안 투자의 재무적 효과 측정 |
-| **몬테카를로 시뮬레이션** | [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 정량 분석 |
-| **위험 처리 (AAMT)** | 수용·회피·완화·전가 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
+| **몬테카를로 시뮬레이션** | [확률](/studynote/08_algorithm_stats/08_stats/130_probability/) 분포 기반 정량 분석 |
+| **위험 처리 (AAMT)** | 수용·회피·완화·전가 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) |
 
 ### 📈 관련 키워드 및 발전 흐름도
 
@@ -137,9 +134,9 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 ### 👶 어린이를 위한 3줄 비유 설명
 
-1. 정량적 위험 분석은 "도둑이 들어올 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)"을 돈으로 계산하는 거예요! 1년에 얼마나 잃을지 금액으로 표현해요.
+1. 정량적 위험 분석은 "도둑이 들어올 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)"을 돈으로 계산하는 거예요! 1년에 얼마나 잃을지 금액으로 표현해요.
 2. 보안 장치 비용이 예상 손실보다 적으면 당연히 설치해야 해요 — 이게 ROSI(보안 투자 수익률)이에요!
-3. 이제 AI가 실시간으로 위협 [확률](/knowledge-base/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산해서 "오늘은 해킹 위험이 높으니 추가 보안이 필요해요"라고 알려준답니다!
+3. 이제 AI가 실시간으로 위협 [확률](/studynote/08_algorithm_stats/08_stats/130_probability/)을 계산해서 "오늘은 해킹 위험이 높으니 추가 보안이 필요해요"라고 알려준답니다!
 
 ---
 
@@ -147,7 +144,7 @@ ROSI = (5천만 - 1천만 - 2천만) / 2천만 = 100%
 
 **진행 상황**: 28 / 1108
 
-<- **이전**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/knowledge-base/studynote/09_security/01_intro_principles/027_risk_identification/)
-**다음**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/knowledge-base/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) ->
+<- **이전**: [27. 위험 식별 (Risk Identification) — 정보보호 위험 분석 1단계](/studynote/09_security/01_intro_principles/027_risk_identification/)
+**다음**: [29. 정성적 위험 분석 (Qualitative Risk Analysis)](/studynote/09_security/01_intro_principles/029_qualitative_risk_analysis/) ->
 
 ---

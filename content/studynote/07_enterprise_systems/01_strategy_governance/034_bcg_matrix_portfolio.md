@@ -1,18 +1,15 @@
-+++
-title = "BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략"
-date = 2026-03-04
+---
+title: "BCG 매트릭스 (BCG Matrix) / 포트폴리오 전략"
+date: "2026-03-04"
+tags:
+  - "studynote-enterprise"
+---
 
-[taxonomies]
-tags = ["studynote-enterprise"]
-
-[extra]
-tags = ["studynote-enterprise"]
-+++
 
 > **핵심 인사이트 3줄**
-> 1. BCG 매트릭스(BCG Growth-Share Matrix)는 시장 성장률과 상대 시장 점유율 두 축으로 사업 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 Star·Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)·Question Mark·Dog 4개 영역으로 [분류](/knowledge-base/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 투자 배분을 결정한다.
-> 2. BCG 매트릭스의 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [논리](/knowledge-base/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 Cash Cow의 현금 흐름으로 Star와 Question Mark에 투자하고, Dog는 철수하는 순환 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리에 있다.
-> 3. 디지털 시대에는 시장 경계가 빠르게 재정의되므로 BCG 매트릭스 단독 적용보다 GE-McKinsey 매트릭스·Ansoff 매트릭스와 병행해 동적 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 관리해야 한다.
+> 1. BCG 매트릭스(BCG Growth-Share Matrix)는 시장 성장률과 상대 시장 점유율 두 축으로 사업 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 Star·Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/)·Question Mark·Dog 4개 영역으로 [분류](/studynote/16_bigdata/05_analysis/104_classification_analysis/)해 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)적 투자 배분을 결정한다.
+> 2. BCG 매트릭스의 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) [논리](/studynote/09_security/04_endpoint_security/369_logic_bomb/)는 Cash Cow의 현금 흐름으로 Star와 Question Mark에 투자하고, Dog는 철수하는 순환 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리에 있다.
+> 3. 디지털 시대에는 시장 경계가 빠르게 재정의되므로 BCG 매트릭스 단독 적용보다 GE-McKinsey 매트릭스·Ansoff 매트릭스와 병행해 동적 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오를 관리해야 한다.
 
 ---
 
@@ -34,16 +31,16 @@ tags = ["studynote-enterprise"]
          +---------------+--------------+
 ```
 
-### 각 영역 특성 및 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+### 각 영역 특성 및 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
-| 영역            | 특성                      | [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                   |
+| 영역            | 특성                      | [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)                   |
 |--------------|--------------------------|----------------------|
 | Star         | 고성장·높은 점유율, 투자 필요 | 지속 투자·점유율 방어  |
-| Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)     | 저성장·높은 점유율, 현금 창출 | 현금 수확·최소 투자    |
+| Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/)     | 저성장·높은 점유율, 현금 창출 | 현금 수확·최소 투자    |
 | Question Mark| 고성장·낮은 점유율, 불확실  | 선택적 투자 or 철수   |
 | Dog          | 저성장·낮은 점유율, 현금 소모 | 철수·자산 처분        |
 
-📢 **섹션 요약 비유**: BCG 매트릭스는 투자 학원 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오다 — 스타 강사(Star)에 계속 투자하고, 안정적 수익 강사(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))로 자금을 조달하며, 잠재력 있는 신인(Question Mark)을 고르고, 경쟁력 없는 강의(Dog)는 폐강한다.
+📢 **섹션 요약 비유**: BCG 매트릭스는 투자 학원 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오다 — 스타 강사(Star)에 계속 투자하고, 안정적 수익 강사(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/))로 자금을 조달하며, 잠재력 있는 신인(Question Mark)을 고르고, 경쟁력 없는 강의(Dog)는 폐강한다.
 
 ---
 
@@ -63,9 +60,9 @@ tags = ["studynote-enterprise"]
 **분석 절차**:
 1. 각 사업부 매출·성장률·시장 점유율 계산
 2. 버블 크기 = 매출 규모 (버블 차트)
-3. 현금 흐름 방향 결정 (Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) -> Star/QM)
+3. 현금 흐름 방향 결정 (Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/) -> Star/QM)
 
-📢 **섹션 요약 비유**: IT 기업의 BCG [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 과수원이다 — [AI](/knowledge-base/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Star)는 새로 심는 나무, 기존 [반도체](/knowledge-base/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 열매 수확, 신사업(QM)은 접붙이기 시도, 구형 제품(Dog)은 뽑아내기.
+📢 **섹션 요약 비유**: IT 기업의 BCG [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오는 과수원이다 — [AI](/studynote/04_software_engineering/03_design_architecture/190_ai_llm_requirements_specification/)(Star)는 새로 심는 나무, 기존 [반도체](/studynote/01_computer_architecture/01_basic_electronics_logic/009_semiconductor/)(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/))는 열매 수확, 신사업(QM)은 접붙이기 시도, 구형 제품(Dog)은 뽑아내기.
 
 ---
 
@@ -75,14 +72,14 @@ tags = ["studynote-enterprise"]
 |------------|---------------------|------------------------|
 | 축          | 성장률 + 점유율 (2요소) | 산업 매력도 + 사업 강점 (다요소) |
 | 복잡성       | 단순                  | 복잡 (9개 셀)              |
-| 적합 상황    | 빠른 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 검토        | 다각화 대기업 심층 분석     |
+| 적합 상황    | 빠른 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 검토        | 다각화 대기업 심층 분석     |
 | 한계         | 시장 경계 단순화       | 주관적 평가 항목            |
 
-📢 **섹션 요약 비유**: BCG는 2×2 간단한 표고, GE-McKinsey는 3×3 세밀한 지도다 — 빠른 의사결정은 BCG, 복잡한 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 심층 분석은 GE-McKinsey.
+📢 **섹션 요약 비유**: BCG는 2×2 간단한 표고, GE-McKinsey는 3×3 세밀한 지도다 — 빠른 의사결정은 BCG, 복잡한 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 심층 분석은 GE-McKinsey.
 
 ---
 
-## Ⅳ. Ansoff 매트릭스 — 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
+## Ⅳ. Ansoff 매트릭스 — 성장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)
 
 ```
 Ansoff 성장 전략 매트릭스:
@@ -94,14 +91,14 @@ Ansoff 성장 전략 매트릭스:
 ```
 
 **BCG + Ansoff 연계 활용**:
-- Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/) 수익 -> Star/QM 성장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 투자
+- Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/) 수익 -> Star/QM 성장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/) 투자
 - Dog 철수 자원 -> 신시장 진입(Ansoff 다각화)
 
-📢 **섹션 요약 비유**: Ansoff 매트릭스는 식당 확장 [전략](/knowledge-base/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다 — 단골 메뉴·단골 손님(시장 침투), 새 메뉴 추가(제품 개발), 다른 지역 출점(시장 개발), 완전 다른 사업(다각화) 순으로 위험이 커진다.
+📢 **섹션 요약 비유**: Ansoff 매트릭스는 식당 확장 [전략](/studynote/04_software_engineering/04_testing_quality/268_strategy_pattern/)이다 — 단골 메뉴·단골 손님(시장 침투), 새 메뉴 추가(제품 개발), 다른 지역 출점(시장 개발), 완전 다른 사업(다각화) 순으로 위험이 커진다.
 
 ---
 
-## Ⅴ. 디지털 시대 [포트](/knowledge-base/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 변화
+## Ⅴ. 디지털 시대 [포트](/studynote/02_operating_system/08_storage_and_io_systems/446_port_and_bus/)폴리오 관리 변화
 
 ```
 전통 BCG 한계:
@@ -166,7 +163,7 @@ Ansoff 성장 전략 + Three Horizons -> 동적 포트폴리오
 
 ## 👶 어린이를 위한 3줄 비유 설명
 
-1. BCG 매트릭스는 과수원 관리 방법이다 — 잘 자라는 나무(Star), 열매 수확 중인 나무(Cash [Cow](/knowledge-base/studynote/02_operating_system/09_file_system/542_cow_file_system/)), 성장 가능성 있는 나무(Question Mark), 뽑아낼 나무(Dog)로 나눠 관리한다.
+1. BCG 매트릭스는 과수원 관리 방법이다 — 잘 자라는 나무(Star), 열매 수확 중인 나무(Cash [Cow](/studynote/02_operating_system/09_file_system/542_cow_file_system/)), 성장 가능성 있는 나무(Question Mark), 뽑아낼 나무(Dog)로 나눠 관리한다.
 2. Cash Cow의 돈으로 Star에 투자한다 — 안정적으로 수확되는 사과(기존 제품)를 팔아서, 가능성 있는 망고(새 사업)에 물을 준다.
 3. Dog는 과감하게 철수해야 한다 — 열매도 안 열리고, 성장도 멈춘 나무는 빨리 뽑아서 다른 작물(새 사업)에 자리를 내줘야 한다.
 
@@ -176,7 +173,7 @@ Ansoff 성장 전략 + Three Horizons -> 동적 포트폴리오
 
 **진행 상황**: 34 / 482
 
-<- **이전**: [맥킨지 7S 모델 (McKinsey 7S Model)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/)
-**다음**: [035. 롱테일 이론 (Long Tail Theory)](/knowledge-base/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/) ->
+<- **이전**: [맥킨지 7S 모델 (McKinsey 7S Model)](/studynote/07_enterprise_systems/01_strategy_governance/033_mckinsey_7s_model/)
+**다음**: [035. 롱테일 이론 (Long Tail Theory)](/studynote/07_enterprise_systems/01_strategy_governance/035_long_tail_theory/) ->
 
 ---
