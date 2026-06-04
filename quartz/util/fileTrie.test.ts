@@ -35,6 +35,17 @@ describe("FileTrie", () => {
       assert.strictEqual(trie.children[0].displayName, "Test Title")
     })
 
+    test("should remove emoji from displayName", () => {
+      const data = {
+        title: "🧑‍💻 개발 허브",
+        slug: "develop",
+        filePath: "develop.md",
+      }
+
+      trie.add(data)
+      assert.strictEqual(trie.children[0].displayName, "개발 허브")
+    })
+
     test("should be able to set displayName", () => {
       const data = {
         title: "Test Title",

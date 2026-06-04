@@ -7,6 +7,16 @@ interface FileTrieData {
   filePath: string
 }
 
+const sidebarEmojiPattern =
+  /[\p{Emoji_Presentation}\p{Extended_Pictographic}\uFE0F\u200D\u20E3]|\p{Regional_Indicator}/gu
+
+export function removeSidebarEmoji(value: string): string {
+  return value
+    .replace(sidebarEmojiPattern, "")
+    .replace(/\s{2,}/g, " ")
+    .trim()
+}
+
 export class FileTrieNode<T extends FileTrieData = ContentDetails> {
   isFolder: boolean
   children: Array<FileTrieNode<T>>
@@ -29,9 +39,9 @@ export class FileTrieNode<T extends FileTrieData = ContentDetails> {
 
   get displayName(): string {
     const nonIndexTitle = this.data?.title === "index" ? undefined : this.data?.title
-    return (
+    const displayName =
       this.displayNameOverride ?? nonIndexTitle ?? this.fileSegmentHint ?? this.slugSegment ?? ""
-    )
+    return removeSidebarEmoji(displayName)
   }
 
   set displayName(name: string) {
