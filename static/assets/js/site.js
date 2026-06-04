@@ -190,9 +190,9 @@
       .then((r) => r.ok ? r.json() : [])
       .catch(() => [])
 
-    const graphPromise = fetch(assetUrl(`/assets/data/graphs/${backlinkKey}.json`))
-      .then((r) => r.ok ? r.json() : Promise.reject(r))
-      .catch(() => fetch(assetUrl("/assets/data/graph.json")).then((r) => r.ok ? r.json() : null).catch(() => null))
+    const graphPromise = fetch(assetUrl("/assets/data/graph.json"))
+      .then((r) => r.ok ? r.json() : null)
+      .catch(() => null)
 
     runWhenIdle(() => {
       Promise.all([backlinksPromise, graphPromise]).then(([backlinks, graphData]) => {
@@ -236,13 +236,18 @@
     const allNodes = data.nodes.map(n => {
       let isCurrent = false
       try {
-        const linkNorm = decodeURIComponent(new URL(n.url, window.location.origin).pathname).replace(/\/$/, "")
-        isCurrent = (currentNorm === linkNorm && linkNorm !== "")
+        if (n.url) {
+          const linkNorm = decodeURIComponent(new URL(n.url, window.location.origin).pathname).replace(/\/$/, "")
+          isCurrent = (currentNorm === linkNorm && linkNorm !== "")
+        }
       } catch {}
       return {
         ...n,
         degree: Number(n.degree || 1),
         group: n.group || "root",
+        chapter: n.chapter || n.group || "root",
+        type: n.type || (n.section ? "section" : "doc"),
+        level: Number(n.level ?? 3),
         isCurrent,
       }
     })
@@ -252,6 +257,7 @@
         id: `e${index}`,
         source: typeof link.source === "object" ? link.source.id : link.source,
         target: typeof link.target === "object" ? link.target.id : link.target,
+        type: link.type || "doc",
       }))
       .filter(link => allNodeById.has(link.source) && allNodeById.has(link.target))
 
@@ -264,15 +270,45 @@
       })
     }
 
-    const rankedNodes = [...allNodes].sort((a, b) => {
-      if (a.isCurrent !== b.isCurrent) return a.isCurrent ? -1 : 1
-      if (neighborIds.has(a.id) !== neighborIds.has(b.id)) return neighborIds.has(a.id) ? -1 : 1
-      if (a.section !== b.section) return a.section ? -1 : 1
-      return b.degree - a.degree
+    const groups = [...new Set(allNodes.filter(n => n.type === "cluster").map(n => n.group))].sort()
+    const groupIndex = new Map(groups.map((group, index) => [group, index]))
+    const chaptersByGroup = new Map()
+    allNodes.forEach(node => {
+      if (node.type !== "chapter") return
+      const chapters = chaptersByGroup.get(node.group) || []
+      chapters.push(node.chapter)
+      chaptersByGroup.set(node.group, chapters)
     })
-    const selectedIds = new Set(rankedNodes.slice(0, 180).map(n => n.id))
-    const graphNodes = rankedNodes.filter(n => selectedIds.has(n.id))
-    const graphLinks = allLinks.filter(link => selectedIds.has(link.source) && selectedIds.has(link.target))
+    chaptersByGroup.forEach(chapters => chapters.sort())
+
+    function stableNumber(text) {
+      let hash = 0
+      for (let i = 0; i < text.length; i += 1) hash = (hash * 31 + text.charCodeAt(i)) >>> 0
+      return hash
+    }
+
+    function nodePosition(node) {
+      if (node.type === "root") return { x: 0, y: 0 }
+      const totalGroups = Math.max(groups.length, 1)
+      const gIndex = groupIndex.get(node.group) ?? 0
+      const groupAngle = (Math.PI * 2 * gIndex / totalGroups) - Math.PI / 2
+      if (node.type === "cluster") {
+        return { x: Math.cos(groupAngle) * 260, y: Math.sin(groupAngle) * 260 }
+      }
+
+      const chapters = chaptersByGroup.get(node.group) || [node.chapter]
+      const cIndex = Math.max(chapters.indexOf(node.chapter), 0)
+      const chapterSpread = Math.min(Math.PI / 2.1, 0.16 * Math.max(chapters.length - 1, 1))
+      const chapterAngle = groupAngle - chapterSpread / 2 + chapterSpread * (cIndex / Math.max(chapters.length - 1, 1))
+      if (node.type === "chapter") {
+        return { x: Math.cos(chapterAngle) * 470, y: Math.sin(chapterAngle) * 470 }
+      }
+
+      const jitter = stableNumber(node.id)
+      const localAngle = chapterAngle + (((jitter % 1000) / 1000) - 0.5) * 0.28
+      const radius = 680 + ((jitter >>> 10) % 260)
+      return { x: Math.cos(localAngle) * radius, y: Math.sin(localAngle) * radius }
+    }
 
     const cs = getComputedStyle(root)
     const colNode = cs.getPropertyValue("--tertiary").trim() || "#6f5f52"
@@ -280,27 +316,38 @@
     const colLink = cs.getPropertyValue("--lightgray").trim() || "#e9ded2"
     const colLabel = cs.getPropertyValue("--darkgray").trim() || "#4e463f"
     const colMuted = cs.getPropertyValue("--gray").trim() || "#8a7c70"
-    const maxDegree = graphNodes.reduce((max, node) => Math.max(max, node.degree), 1)
+    const colBg = cs.getPropertyValue("--light").trim() || "#faf7f2"
+    const maxDegree = allNodes.reduce((max, node) => Math.max(max, node.degree), 1)
 
     const elements = [
-      ...graphNodes.map(node => ({
+      ...allNodes.map(node => ({
         classes: [
+          node.type,
           node.section ? "section" : "",
           node.isCurrent ? "current" : "",
           neighborIds.has(node.id) ? "neighbor" : "",
+          node.level >= 3 && !neighborIds.has(node.id) ? "detail-only" : "",
+          node.type === "chapter" ? "mid-only" : "",
         ].filter(Boolean).join(" "),
         data: {
           id: node.id,
           label: node.title || "Untitled",
           url: node.url,
           degree: node.degree,
+          type: node.type,
+          level: node.level,
+          group: node.group,
+          chapter: node.chapter,
         },
+        position: nodePosition(node),
       })),
-      ...graphLinks.map(link => ({
+      ...allLinks.map(link => ({
+        classes: link.type,
         data: {
           id: link.id,
           source: link.source,
           target: link.target,
+          type: link.type,
         },
       })),
     ]
@@ -323,21 +370,54 @@
             "font-family": "var(--bodyFont), sans-serif",
             "font-size": 7,
             "font-weight": 500,
-            "height": ele => 6 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 16,
+            "height": ele => 5 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 20,
             "label": ele => {
-              if (ele.hasClass("current") || ele.hasClass("section")) return ele.data("label")
+              if (ele.hasClass("current") || ele.hasClass("cluster") || ele.hasClass("chapter") || ele.hasClass("section")) return ele.data("label")
               return ""
             },
             "min-zoomed-font-size": 7,
             "overlay-opacity": 0,
             "shape": "ellipse",
-            "text-background-color": cs.getPropertyValue("--light").trim() || "#faf7f2",
+            "text-background-color": colBg,
             "text-background-opacity": 0.82,
             "text-background-padding": 2,
             "text-halign": "center",
             "text-margin-y": -8,
             "text-valign": "top",
-            "width": ele => 6 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 16,
+            "width": ele => 5 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 20,
+          },
+        },
+        {
+          selector: "node.root",
+          style: {
+            "background-color": colActive,
+            "height": 32,
+            "width": 32,
+            "z-index": 15,
+          },
+        },
+        {
+          selector: "node.cluster",
+          style: {
+            "background-color": colMuted,
+            "border-width": 2,
+            "font-size": 8,
+            "height": ele => 18 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 34,
+            "text-margin-y": -13,
+            "width": ele => 18 + Math.sqrt(Number(ele.data("degree")) || 1) / Math.sqrt(maxDegree) * 34,
+            "z-index": 12,
+          },
+        },
+        {
+          selector: "node.chapter",
+          style: {
+            "background-color": colNode,
+            "border-color": colMuted,
+            "border-width": 2,
+            "height": 15,
+            "opacity": 0.88,
+            "width": 15,
+            "z-index": 10,
           },
         },
         {
@@ -365,8 +445,28 @@
             "curve-style": "haystack",
             "haystack-radius": 0,
             "line-color": colLink,
-            "opacity": 0.36,
+            "opacity": 0.28,
             "width": 1,
+          },
+        },
+        {
+          selector: "edge.hierarchy",
+          style: {
+            "line-color": colMuted,
+            "opacity": 0.46,
+            "width": 1.2,
+          },
+        },
+        {
+          selector: "edge.membership",
+          style: {
+            "opacity": 0.1,
+          },
+        },
+        {
+          selector: ".hidden-by-zoom",
+          style: {
+            "display": "none",
           },
         },
         {
@@ -393,23 +493,36 @@
         },
       ],
       layout: {
-        name: "cose",
-        animate: false,
-        componentSpacing: 26,
-        idealEdgeLength: 52,
-        nodeOverlap: 12,
-        nodeRepulsion: 8500,
+        name: "preset",
+        fit: true,
         padding: 18,
-        randomize: false,
       },
     })
 
+    function applyZoomLevel() {
+      const zoom = cy.zoom()
+      cy.elements().removeClass("hidden-by-zoom")
+      if (zoom < 0.55) {
+        cy.nodes(".chapter, .detail-only").addClass("hidden-by-zoom")
+        cy.edges(".doc, .membership").addClass("hidden-by-zoom")
+      } else if (zoom < 1.1) {
+        cy.nodes(".detail-only").addClass("hidden-by-zoom")
+        cy.edges(".doc").addClass("hidden-by-zoom")
+      } else {
+        cy.edges(".membership").addClass("hidden-by-zoom")
+      }
+    }
+
     cy.ready(() => {
       cy.fit(undefined, 18)
+      applyZoomLevel()
     })
+
+    cy.on("zoom", applyZoomLevel)
 
     function clearFocus() {
       cy.elements().removeClass("dimmed focused")
+      applyZoomLevel()
     }
 
     cy.on("mouseover", "node", event => {
