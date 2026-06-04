@@ -5,7 +5,6 @@ tags:
   - "planning"
 ---
 
-
 프로젝트 기획, 로드맵, 마일스톤, 의사결정 흐름을 다루는 공간입니다.
 기술(Develop)·사업(Business)·디자인(Design)과 동일한 레벨의 기획 트랙입니다.
 
@@ -22,6 +21,7 @@ tags:
 ## 📚 하위 문서
 
 - [projects](/work/planning/projects/) — 진행 중 / 보관된 프로젝트 통합 목록 (Projects)
+- [AX Company 자율 AI 팀 시스템 구현계획](/work/planning/ax-company-autonomous-ai-team/) — AX Company 제작을 위한 자율 AI 팀 아키텍처와 단계별 실행 계획
 
 ---
 
