@@ -11,160 +11,174 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 파인 튜닝 전이 학습 도메인 적응은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 대규모 사전학습 모델(LLM/VLM/Foundation Model)의 파라미터 공간을 소스 도메인 $\mathcal{D}_S$에서 타겟 도메인 $\mathcal{D}_T$으로 적응시키기 위해, Feature Extractor 동결 + Task-Specific Head 재학습(Frozen Feature Extraction), 부분 파라미터 미세조정(LoRA, Adapter, Prefix-Tuning), 그리고 도메인 불변 표현 학습(DANN, MMD, CORAL, Adversarial DA)을 결합한 **계층적 파라미터 재사용 및 분포 정렬(Alignment) 메커니즘**.
+> 2. **가치**: 사전학습 활용 시 학습 데이터 요구량을 **90% 이상 절감**(ImageNet-1K 1.28M -> 1,000~10,000샘플), 수렴 속도 **3~10배 단축**, GPU 학습 비용 **1/100 수준**(A100 7,000시간 -> 70시간), Catastrophic Forgetting 억제를 통한 멀티태스크 일반화 성능 확보.
+> 3. **판단 포인트**: (1) Frozen vs Full Fine-tuning vs PEFT(LoRA) trade-off, (2) 도메인 갭 측정($\mathcal{H}\Delta\mathcal{H}$-divergence, MMD) 기반 전략 선택, (3) 1st-order(MMD, CORAL) vs Adversarial(GRL) 정렬 기법, (4) Catastrophic Forging 방어(EWC, LwF, Replay Buffer), (5) 레이어별 Learning Rate 차별화(LLRD)와 Warm-up 정책.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-파인 튜닝 전이 학습 도메인 적응은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+현대 엔터프라이즈 AI 시스템은 **수직적 데이터 희소성(Vertical Data Sparsity)** 문제에 직면한다. 의료 영상·산업 결함·금융 사기·법률 문서 등 도메인 특화 데이터는 라벨링 비용이 막대하며(의료 영상 1건당 $30~$300, 영상당 10만건 수집 시 수십억 원), 수집 가능한 절대량도 제한적이다. 동시에 GPT-4, LLaMA-3, SAM, DINOv2 등 **Foundation Model**(사전학습 모델)의 등장으로 수십억~수천억 파라미터에 걸친 일반화된 표현력이 범용 자산화되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Fine Tuning Transfer Learning Domain Adaptation 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+그러나 Foundation Model은 **Inductive Bias가 소스 도메인(Source Domain, 예: WebText, LAION-5B)** 에 편향되어 있어, 타겟 도메인(Target Domain)에서 직접 추론 시 **Distribution Shift**로 인해 성능이 급격히 저하된다. 이를 수학적으로 표현하면 다음과 같다:
+
+$$P_S(X, Y) \neq P_T(X, Y), \quad \text{where } P_S(X) \neq P_T(X)$$
+
+여기서 $X$는 입력, $Y$는 라벨이며, **Covariate Shift**($P(X)$만 다름), **Concept Shift**($P(Y|X)$만 다름), **Label Shift**($P(Y)$만 다름) 등으로 세분화된다.
+
+**파인 튜닝(Fine-Tuning) + 전이 학습(Transfer Learning) + 도메인 적응(Domain Adaptation)**은 위 문제를 해결하기 위한 3대 핵심 축이다:
+- **전이 학습**: 소스 태스크 $\mathcal{T}_S$에서 학습한 지식을 타겟 태스크 $\mathcal{T}_T$로 전달(Transfer)
+- **파인 튜닝**: 사전학습된 $\theta_{pre}$를 타겟 데이터 $\mathcal{D}_T$로 재조정
+- **도메인 적응**: 소스-타겟 간 분포 차이를 명시적으로 최소화(Explicit Alignment)
 
 ```text
-+--------------------------------------------------------------+
-|                    파인 튜닝 전이 학습 도메인 적응 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++------------------------------------------------------------------------+
+|           Foundation Model 기반 적응형 학습 파이프라인 (End-to-End)         |
++------------------------------------------------------------------------+
+|                                                                        |
+|  +------------------+         +------------------+                     |
+|  |  Phase 1:        |         |  Phase 2:        |                     |
+|  |  Pre-Training    |         |  Domain-Specific |                     |
+|  |  (Self-Superv.)  |         |  Continual Pretrain|                   |
+|  |                  |         |                  |                     |
+|  |  • MLM / NSP     | -------->|  • 100B Tokens   |                     |
+|  |  • Contrastive   | Backbone|  • Domain Corpus |                     |
+|  |  • MAE / DINO    | Reuse   |  • MLM Continue  |                     |
+|  +------------------+         +--------+---------+                     |
+|           |                            |                               |
+|           |  θ_pre-trained             v                               |
+|           |                  +------------------+                      |
+|           |                  |  Phase 3:        |                      |
+|           |                  |  Domain Adaptation|                     |
+|           |                  |  (DANN / MMD /   |                      |
+|           |                  |   CORAL / AdaBN) |                      |
+|           |                  +--------+---------+                      |
+|           |                           |                                |
+|           |                           v                                |
+|           |                  +------------------+                      |
+|           |                  |  Phase 4:        |                      |
+|           |                  |  Task-Specific   |                      |
+|           |                  |  Fine-Tuning     |                      |
+|           |                  |  (LoRA / Adapter)|                      |
+|           |                  +--------+---------+                      |
+|           |                           |                                |
+|           |                           v                                |
+|           |                  +------------------+                      |
+|           |                  |  Phase 5:        |                      |
+|           |                  |  Inference +     |                      |
+|           |                  |  Online Adapta-  |                      |
+|           |                  |  tion (TENT)     |                      |
+|           |                  +------------------+                      |
+|                                                                        |
++------------------------------------------------------------------------+
+
+  Distribution Shift의 단계적 완화:
+  ---------------------------------------------------------------------->
+  Source Domain (WebText) ---> General Domain ---> Vertical Domain ---> Task
+   P_S(X,Y)  ·  Massive     · 100B tokens  · 10B tokens  · 10K~100K samples
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**구시대(Pre-2018) vs 현대(Post-2020) 패러다임 비교**:
+- **구시대**: 도메인별 **Scratch 학습**(ResNet, BERT를 의료/법률/금융 데이터로 From-Scratch 학습) -> 데이터 부족, 과적합, 학습 비용 폭증
+- **현대**: Foundation Model **사전학습 -> 도메인 적응 -> 태스크 파인튜닝**의 3단계 파이프라인, PEFT(Parameter-Efficient Fine-Tuning)로 0.1~1% 파라미터만 업데이트
 
-- **📢 섹션 요약 비유**: 파인 튜닝 전이 학습 도메인 적응은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 거대한 국립중앙도서관(사전학습 모델)에서 필요한 책만 골라서 내 도메인 책장으로 옮긴 뒤(Transfer), 책 표지만 한글 번역(Adaptation)하고, 마지막으로 내가 원하는 주제별 색인 시스템(파인튜닝)을 만드는 과정입니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-파인 튜닝 전이 학습 도메인 적응의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+전이 학습은 **무엇을(What) 이송할 것인가**에 따라 4가지 관점으로 분류된다( Pan & Yang, IEEE TKDE 2010):
+
+1. **Instance-based Transfer**: 소스 데이터에서 가중치 $w(x) = P_T(x)/P_S(x)$로 중요 샘플 재선별 (TrAdaBoost)
+2. **Feature-representation Transfer**: 도메인 불변(Invariant) Feature 공간으로 매핑 $\phi: \mathcal{X} \rightarrow \mathcal{Z}$
+3. **Parameter-based Transfer**: 사전학습 파라미터 $\theta_{pre}$를 사전(Prior)으로 사용 (Bayesian: $P(\theta_T | \mathcal{D}_T) \propto P(\mathcal{D}_T | \theta_T) P(\theta_T | \theta_{pre})$)
+4. **Relational-knowledge Transfer**: 관계 그래프/규칙 이송 (Graph Neural Network)
 
 ```text
-+--------------------------------------------------------------+
-|              Fine Tuning Transfer Learning Domain Adaptation 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++----------------------------------------------------------------------+
+|      Feature-based Domain Adaptation 아키텍처 (DANN 변형)              |
++----------------------------------------------------------------------+
+|                                                                      |
+|   Source Domain          Shared Feature Extractor        Target Dom. |
+|   x_s ~ P_S(x,y)                  G_f                    x_t ~ P_T(x) |
+|        |                    (e.g., ResNet-50,             |          |
+|        |                     BERT-base,                  |          |
+|        |                     LLaMA-7B)                   |          |
+|        |                           |                     |          |
+|        |                           v                     |          |
+|        |                  +-----------------+            |          |
+|        |                  |   f = G_f(x)    |            |          |
+|        |                  |   ∈ R^d         |            |          |
+|        |                  +--------+--------+            |          |
+|        |                           |                     |          |
+|        |              +------------+------------+        |          |
+|        |              v                         v        |          |
+|        |     +----------------+        +----------------+|          |
+|        |     | Label Predictor |        | Domain Classifier|        |
+|        |     |   G_y(f)       |        |   G_d(f)        ||          |
+|        |     |                |        |   (0: Source,   ||          |
+|        |     |  L_y = CE(ŷ,y) |        |    1: Target)   ||          |
+|        |     +--------+-------+        +--------+-------+|          |
+|        |              |                         |        |          |
+|        |              |                         |        |          |
+|        |              |  +------------------+   |        |          |
+|        |              |  | Gradient Reversal|   |        |          |
+|        |              |  |  Layer (GRL)     |<---+        |          |
+|        |              |  |  λ · ∂L_d/∂θ_f  |              |          |
+|        |              |  +------------------+              |          |
+|        |              v                                    |          |
+|        |     Total Loss:                                   |          |
+|        |     L_total = (1/n)Σ L_y(ŷ_i, y_i)               |          |
+|        |              + λ · (1/n)Σ L_d(d_i, d̂_i)          |          |
+|        |              + μ · R(θ)   [Regularization]       |          |
+|        |                                                   |          |
+|        |  ※ Adversarial: G_y는 L_y 최소화, G_d는 L_d 최대화  |          |
+|        |  ※ λ는 0 -> 1 스케줄로 점진 증가                   |          |
+|                                                                      |
++----------------------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Frozen Feature Extractor** | 저수준/중수준 일반 Feature 추출 | ImageNet Pretrained ResNet/ViT, BERT-base, Layer 1~N 동결(requires_grad=False), Layer-wise Learning Rate Decay(LLRD) 적용 |
+| **Task-Specific Head** | 타겟 태스크 분류/회귀 수행 | 신규 FC Layer (768->num_classes), Xavier/Kaiming 초기화, 학습률 η_head = 1e-3, η_backbone = 1e-5 (Δ=100배) |
+| **LoRA / Adapter** | PEFT(Parameter-Efficient Fine-Tuning) | LoRA: $W' = W + \Delta W = W + BA$, $B \in \mathbb{R}^{d \times r}, A \in \mathbb{R}^{r \times k}$, rank $r=4\sim 64$ (기본 8), α=16. 학습 파라미터 0.1~1%. Adapter: Houlsby Adapter $H \leftarrow W + \text{down}(H)\rightarrow\text{up}(H)$, $H \in \mathbb{R}^{d \times 64}$ 병목 |
+| **Domain Alignment Module** | 소스-타겟 분포 정렬(Alignment) | MMD(Maximum Mean Discrepancy): $\text{MMD}^2 = \|\mathbb{E}[\phi(X_S)] - \mathbb{E}[\phi(X_T)]\|^2_{\mathcal{H}}$ (RBF kernel $\phi$). CORAL: $L_{CORAL} = \frac{1}{4d^2}\|C_S - C_T\|_F^2$, $C = (X-\bar{X})(X-\bar{X})^T$. DANN: GRL(Gradient Reversal Layer) 기반 Adversarial. AdaBN: BatchNorm 통계량만 $\mu_T, \sigma_T^2$로 교체 |
+| **Forgetting Mitigation** | Catastrophic Forgetting 방지 | EWC(Elastic Weight Consolidation): $L = L_T + \lambda \sum_i F_i (\theta_i - \theta^*_{pre,i})^2$, Fisher Information $F_i$로 중요 가중치 보호. LwF(Learning without Forgetting): Knowledge Distillation $L_{KD} = -\sum_i p_T^{(i)} \log p_S^{(i)}$. Replay Buffer: 5~10% 소스 데이터 유지 |
+| **Self-Training / Pseudo-Labeling** | Unlabeled 타겟 데이터 활용 | FixMatch: confidence > τ (0.95) 샘플만 pseudo-label, weak->strong augmentation. Noisy Student: Teacher->Student iterative, noise injection (Dropout, RandAugment) |
+| **Continual Learning Module** | 순차적 다중 도메인 적응 | Progressive Neural Networks: 측면 컬럼(Column) 추가, 이전 태스크 동결. AdapterFusion: Multi-Task Adapter 간 Attention 융합 |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### 핵심 알고리즘 및 수식
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+**1. MMD (Maximum Mean Discrepancy, Gretton et al., 2012)**:
+$$\text{MMD}^2(\mathcal{D}_S, \mathcal{D}_T) = \left\| \frac{1}{n_S}\sum_{i=1}^{n_S}\phi(x_i^S) - \frac{1}{n_T}\sum_{j=1}^{n_T}\phi(x_j^T) \right\|_{\mathcal{H}}^2$$
 
----
+**2. CORAL (Sun & Saenko, 2016)**:
+$$L_{CORAL} = \frac{1}{4d^2}\|X_S^T X_S - X_T^T X_T\|_F^2$$
 
-## Ⅲ. 비교 및 연결
+**3. DANN Loss (Ganin et al., 2016)**:
+$$L = \frac{1}{n}\sum_{i=1}^{n} L_y(x_i^S, y_i) - \lambda \left[ \frac{1}{n}\sum_{i=1}^{n} L_d(x_i^S, 0) + \frac{1}{m}\sum_{j=1}^{m} L_d(x_j^T, 1) \right]$$
 
-파인 튜닝 전이 학습 도메인 적응을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+**4. LoRA Forward Pass**:
+$$h = W_0 x + \frac{\alpha}{r} B A x, \quad W_0 \in \mathbb{R}^{d \times k} \text{ (frozen)}, \quad \Delta W = BA \in \mathbb{R}^{d \times k}$$
 
-| 구분 | 전통적 접근 | 파인 튜닝 전이 학습 도메인 적응 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+**5. EWC Penalty (Kirkpatrick et al., 2017)**:
+$$L_{EWC}(\theta) = L_T(\theta) + \lambda \sum_i F_i (\theta_i - \theta_{pre,i})^2, \quad F_i = \mathbb{E}_{(x,y)\sim \mathcal{D}_S}\left[\left(\frac{\partial \log p(y|x,\theta)}{\partial \theta_i}\right)^2\right]$$
 
-관련 기술 영역과의 연결점도 중요하다. 파인 튜닝 전이 학습 도메인 적응은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+### Layer-wise Learning Rate Decay (LLRD) 구현 예시 (HuggingFace)
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 파인 튜닝 전이 학습 도메인 적응은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 파인 튜닝 전이 학습 도메인 적응을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-파인 튜닝 전이 학습 도메인 적응을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 파인 튜닝 전이 학습 도메인 적응 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 파인 튜닝 전이 학습 도메인 적응은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 파인 튜닝 전이 학습 도메인 적응의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 파인 튜닝 전이 학습 도메인 적응의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-파인 튜닝 전이 학습 도메인 적응 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+```python
+def get_llrd_params(model, base_lr=1e-5, decay=0.95):
+    params = []
+    for i, layer in enumerate(model.encoder.layer):
+        lr = base_lr * (decay ** (model.config.num_hidden_layers - i - 1))
+        params.append({"params": layer.parameters(), "lr": lr})
+    return params  # 출력층에 가까울수록 높은 lr
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 파인 튜닝 전이 학습 도메인 적응은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: 다국적 대기업의 본사 시스템(Foundation Model)에 각 국가 지사(Domain)가 연결되어 있는데, 본사 정책은 유지하되(Backbone Freeze), 현지 시장에 맞게 영업 전략만 수정(Head
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 644 / 800

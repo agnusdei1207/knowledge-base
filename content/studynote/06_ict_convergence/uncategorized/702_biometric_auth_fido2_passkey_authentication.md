@@ -11,160 +11,193 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 생체 인증 FIDO2 패스키 인증 체계은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: FIDO2는 W3C WebAuthn과 FIDO Alliance CTAP2로 구성된 공개키 기반(passwordless) 인증 표준이며, Passkey는 이 표준 위에서 RP(Relying Party)·Authenticator·User Verification(생체/PIN) 결합을 통해 비밀번호·OTP·SMS 인증을 대체하는 credential(공개키+개인키 쌍)이다.
+> 2. **가치**: 피싱·크리덴셜 스터핑·MFA 피로 공격을 원천 차단(Origin-bound + no shared secret)하며, Google·Microsoft·Apple의 디바이스/클라우드 생태계로 동기화되어 사용자 평균 로그인 시간 50% 절감, 헬프데스크 비밀번호 리셋 비용 약 70% 감소 효과를 입증했다.
+> 3. **판단 포인트**: Synced Passkey(클라우드 동기화)와 Device-bound Passkey(하드웨어 토큰) 중 도메인별 위기관리·규제(금융/공공) 요건을 충족하는 모델 선택, 그리고 Resident Key(`rk=true`)·PRF Extension·Conditional UI 도입 여부가 UX와 보안성의 핵심 트레이드오프다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-생체 인증 FIDO2 패스키 인증 체계은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적인 지식 기반 인증(비밀번호)과 보유 기반 인증(OTP, SMS)은 ① 피싱(Phishing) ② 크리덴셜 스터핑 ③ 중간자 공격(MitM) ④ SIM 스위핑 ⑤ MFA 피로 공격(Fatigue Attack)에 모두 취약하다. Verizon DBIR 2024 기준 80% 이상의 해킹 침해 사고가 자격 증명 탈취에서 시작되며, Microsoft·Google 자체 조사에서도 피싱 성공률 1% 미만인 키리스 인증 도입 후 계정 탈취가 99.9% 감소했다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Biometric Auth FIDO2 Passkey Authentication 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+FIDO2는 이 문제를 **“비밀대칭 키(Asymmetric Key Cryptography) + Origin 바인딩 + 로컬 사용자 검증”** 의 3축으로 해결한다. 사용자는 비밀번호를 기억하지 않고, 단말기 내 보안 영역(TPM/SE/StrongBox)에 격리된 개인키로 서명하며, 사이트의 Origin이 변경되면 인증이 즉시 실패하므로 피싱이 구조적으로 불가능해진다.
+
+여기에 Passkey는 FIDO2 credential에 **동기화(Synchronization)** 와 **계정 간 이전(Portability)** 의 사용성 레이어를 얹어, “키리스(Keyless) + 동기화(Synced)” 형태로 대중적 채택을 가능케 하였다. 2022년 5월 Apple·Google·Microsoft의 공동 확장성 사양 이후 2023년 “Passkey” 브랜드로 정착, 2024년 10월 현재 Google Workspace·Microsoft Entra ID·PayPal·eBay·카카오·NAVER 등에서 상용 적용 중이다.
 
 ```text
-+--------------------------------------------------------------+
-|                    생체 인증 FIDO2 패스키 인증 체계 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+   기존 패러다임(공유 비밀 기반)                  FIDO2/Passkey 패러다임(공개키 기반)
+   +------------------------+                 +----------------------------------+
+   |  User  --password--->  RP Server         |  User  --biometric/PIN--->  AuthN |
+   |  (DB에 hash 저장,       |                |        |                          |
+   |   동일 secret 공유)     |                |        v 서명(Sign with privKey) |
+   |   ^ phishing risk       |                |  RP Server --verify(pubKey)--->  |
+   |   ^ DB leak -> 전사용자  |                |        ^                        |
+   |   ^ replay 가능        |                |        | challenge 매번 1회성    |
+   +------------------------+                 +----------------------------------+
+            |                                              |
+            v                                              v
+   단일 실패 지점(Single Point of Failure)     단일 실패 지점 제거 (서버는 pubKey만 보관)
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**기존 vs 신규 패러다임 비교**
 
-- **📢 섹션 요약 비유**: 생체 인증 FIDO2 패스키 인증 체계은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 항목 | 기존(SMS/OTP/비밀번호) | FIDO2/Passkey |
+|---|---|---|
+| 검증 방식 | 공유된 secret(대칭) | 공개키 서명(비대칭) |
+| 피싱 내성 | 없음 | Origin-bound로 구조적 차단 |
+| 자격증명 유출 시 피해 | 동일 secret 재사용 -> 전 서비스 피해 | pubKey만 노출, 개인키 부재 시 무용 |
+| UX | OTP 복사/입력, 비밀번호 변경 | 생체 1탭, 동기화로 단일 등록 |
+| 라이프사이클 | 분기/연 단위 강제 변경 | 키 폐기 시점에 자유, 동기화 자동 |
+
+- **📢 섹션 요약 비유**: 비밀번호는 "집 열쇠 복사본을 발신인 불명의 택배기사가 들고 다니는 것"이고, FIDO2/Passkey는 "본인 지문으로만 열리고, 어떤 사이트에서 왔는지 자체를 확인한 뒤 응답하는 호텔 키 카드"이다. 택배기사가 위조 열쇠를 만들어도 호텔은 그 열쇠가 맞는 카드인지 무시하고, 지문과 발신처가 다르면 문이 열리지 않는다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-생체 인증 FIDO2 패스키 인증 체계의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+FIDO2는 다음 4계층 구조를 가진다.
 
 ```text
-+--------------------------------------------------------------+
-|              Biometric Auth FIDO2 Passkey Authentication 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+         +-----------------------------------------------------+
+         |  Relying Party (RP) — Web Service / SSO IdP          |
+         |  +----------------------+                            |
+         |  | Server-Side:          |                            |
+         |  |  • challenge 생성     |                            |
+         |  |  • pubKey 저장        |                            |
+         |  |  • signature 검증     |                            |
+         |  +----------------------+                            |
+         |            ^                                         |
+         |            | HTTPS / JSON                            |
+         +------------+-----------------------------------------+
+                      |
+                      v
+         +-----------------------------------------------------+
+         |  Client (Browser/OS) — WebAuthn API Layer            |
+         |  +----------------------+  +----------------------+ |
+         |  | navigator.credentials|  | PublicKeyCredential  | |
+         |  |  .create() / .get()  |  |    (DOM Object)      | |
+         |  +----------------------+  +----------------------+ |
+         +------------+-----------------------------------------+
+                      |  CTAP2 over USB / NFC / BLE / Internal
+                      v
+         +-----------------------------------------------------+
+         |  Authenticator                                         |
+         |  +--------------+ +--------------+ +--------------+ |
+         |  | Platform:    | | Roaming:     | | Roaming:     | |
+         |  | • Windows    | | • YubiKey 5  | | • Phone-as-  | |
+         |  |   Hello(TPM) | | • Feitian    | |   Authenticator|
+         |  | • Touch ID   | | • Solokey    | |   (Hybrid)   | |
+         |  | • Face ID    | |              | |              | |
+         |  +--------------+ +--------------+ +--------------+ |
+         |  +----------------------------------------------+   |
+         |  | Secure Enclave / TPM 2.0 / StrongBox (TEE)  |   |
+         |  |  -> privKey 격리 저장, 서명 연산 전담          |   |
+         |  +----------------------------------------------+   |
+         +-----------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
-
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
-
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
-
----
-
-## Ⅲ. 비교 및 연결
-
-생체 인증 FIDO2 패스키 인증 체계을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 생체 인증 FIDO2 패스키 인증 체계 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 생체 인증 FIDO2 패스키 인증 체계은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 생체 인증 FIDO2 패스키 인증 체계은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 생체 인증 FIDO2 패스키 인증 체계을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-생체 인증 FIDO2 패스키 인증 체계을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 생체 인증 FIDO2 패스키 인증 체계 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 생체 인증 FIDO2 패스키 인증 체계은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 생체 인증 FIDO2 패스키 인증 체계의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 생체 인증 FIDO2 패스키 인증 체계의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+**Registration Ceremony (등록) 흐름**
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-생체 인증 FIDO2 패스키 인증 체계 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+  User        Browser/OS        Authenticator       RP Server
+   |               |                  |                  |
+   | 1.회원가입 클릭|                  |                  |
+   |--------------->| 2.create({pkOptions: {             |
+   |               |   challenge, rp:{id,name},          |
+   |               |   user:{id,name,displayName},       |
+   |               |   pubKeyCredParams:[ES256,-7],      |
+   |               |   authenticatorSelection:{          |
+   |               |     residentKey:'required',          |
+   |               |     userVerification:'required'}})   |
+   |               |-------------------------------------->|
+   |               |                  |                  | 3.challenge(nonce)생성
+   |               |                  |                  |   32byte random
+   |               |<-------CTAP2:makeCredential----------|
+   |               |                  |                  |
+   | 4.생체/PIN요구 |                  |                  |
+   |<---------------|                  |                  |
+   |   [지문/PIN]  |                  |                  |
+   |--------------->|---UV verify--->   | 5.키쌍 생성:    |
+   |               |                  |   (privKey, pubKey)|
+   |               |                  |   privKey->SE저장 |
+   |               |                  |   counter=0      |
+   |               |                  | 6.attestation sig |
+   |               |<--attestationObj-|   (privKey로 서명)|
+   |               |                  |                  |
+   |               | {id, rawId, response:{              |
+   |               |   clientDataJSON,                   |
+   |               |   attestationObject:{                |
+   |               |     fmt,attStmt,authData:{          |
+   |               |       rpIdHash,flags(UV/UP/AT),     |
+   |               |       counter,                       |
+   |               |       attestedCredentialData:{       |
+   |               |         aaguid, credId, credPubKey  |
+   |               |       }}}}}                           |
+   |               |-------------------------------------->|
+   |               |                  |                  | 7.attestation verify
+   |               |                  |                  |   (Authenticator 신뢰)
+   |               |                  |                  | 8.credId+pubKey DB저장
+   |               |<----{status:ok}---------------------|
+   | 9.완료       |                  |                  |
+   |<---------------|                  |                  |
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+**Authentication Ceremony (로그인) 흐름**
 
-1. 생체 인증 FIDO2 패스키 인증 체계은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+```text
+  User        Browser/OS        Authenticator       RP Server
+   |               |                  |                  |
+   | 1.로그인 클릭 |                  |                  |
+   |               |----get({pkOptions:                  |
+   |               |   challenge, rpId,                  |
+   |               |   allowCredentials:[{               |
+   |               |     type:'public-key',              |
+   |               |     id:credId,                      |
+   |               |     transports:['usb','nfc','ble']}|
+   |               |   userVerification:'required'})----->|
+   |               |                  |                  | 2.저장된 credId 조회
+   |               |                  |                  |   counter 비교용
+   |               |<-----CTAP2:getAssertion--------------|
+   | 3.생체/PIN   |                  |                  |
+   |<---------------|                  |                  |
+   |--[지문/PIN]-->|---UV verify--->   | 4.privKey 로 서명|
+   |               |                  |   sig = ECDSA(   |
+   |               |                  |     privKey,      |
+   |               |                  |     SHA256(challenge|
+   |               |                  |        +clientData)|
+   |               |                  |   counter++       |
+   |               |<--assertionObj---|                  |
+   |               | {id, rawId, response:{              |
+   |               |   clientDataJSON,                   |
+   |               |   authenticatorData:{               |
+   |               |     rpIdHash,flags,signCount,       |
+   |               |     extensions(HMAC,PRF...)},       |
+   |               |   signature,                        |
+   |               |   userHandle}}                      |
+   |               |-------------------------------------->|
+   |               |                  |                  | 5.signature 검증
+   |               |                  |                  |   (pubKey + SHA256)
+   |               |                  |                  | 6.counter > saved?  |
+   |               |                  |                  |   (clone detection) |
+   |               |                  |                  | 7.세션 발급(JWT/cookie)|
+   |               |<--{token}----------------------------|
+   | 8.로그인 완료|                  |                  |
+   |<---------------|                  |                  |
+```
 
----
+### 구성 요소 및 핵심 기술
 
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Relying Party (RP)** | 인증 주체(웹/앱 서버), 공개키·credId 저장, challenge/signature 검증 | WebAuthn Server Lib(예: `py_webauthn`, `webauthn-go`, `SimpleWebAuthn` Node.js) 사용. 검증 시 (1) clientDataJSON의 `type` 및 `origin` 검사, (2) rpIdHash와 서버 rpId의 SHA-256 일치, (3) signature를 credentialPublicKey로 `verify()` 호출, (4) signCount 단조증가 검증으로 클론 탐지 |
+| **Client(WebAuthn API)** | 사용자와 Authenticator 사이의 중재자, JSON 인코딩/디코딩 | `navigator.credentials.create()`/`get()` 호출, base64url 인코딩, `PublicKeyCredential` 객체 처리. Conditional UI(`mediation:'conditional'`)로 username 필드에서 자동완성 제공 |
+| **Authenticator** | 키쌍 생성·서명·생체/PIN 검증 수행, privKey 격리 보관 | (a) **Platform Authenticator**: TPM 2.0(Windows Hello), Secure Enclave(iOS/macOS), StrongBox(Android 9+)의 TEE에 privKey 저장. (b) **Roaming Authenticator**: YubiKey 5, Feitian K9, Token2. (c) **Phone-as-Authenticator**: Hybrid Transport(CTAP2.1) – QR+BLE+handshake 후 모바일 보안 영역 키 사용 |
+| **CTAP2 Protocol** | Client ↔ Authenticator 간의 와이어 프로토콜 | USB HID / NFC ISO 14443 / BLE GATT. APDU 유사 명령(예: `0x01 authenticatorMakeCredential`, `0x02 authenticatorGetAssertion`). 핀/UV 프로토콜은 ISO 7816-4 VERIFY 기반 |
+| **공개키 알고리즘** | 비대칭 서명 | `ES256`(ECDSA P-256 + SHA-256, WebAuthn -7, 가장 보편), `EdDSA`(Ed25519, -8), `RS256`(RSA, deprecated 추세). COSE 알고리즘 등록 |
+| **Attestation** | Authenticator의 출처·무결성 입증 | (1) **Basic**: 제조사 자체 서명(Self), (2) **AttCA**: 제조사 CA 인증서 연쇄, (3) **AnonCA**: 익명화 CA로 동일 모델 식별. `fmt` 값으로 구분. RP는 MDS3(FIDO Alliance Metadata Service v3) 조회하여 AAGUID 검증 |
+| **User Verification (UV)** | 사용자가 본인임을 로컬 검증 | `discouraged` / `preferred` / `required` 3단계. `required` 시 `flags.UV=1` & `authenticatorData`에 `UV count byte` 포함. 생체 False Accept Rate(FAR)는 보통 1/50,000 ~ 1/1,000,000 |
+| **Extensions (확장)** | 부가 기능 | `prf`(HMAC-SHA256 파생키 -> credential 암호화 대체), `hmac-secret`(F
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 702 / 800

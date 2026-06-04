@@ -11,160 +11,179 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 데이터 사이언스 기술사 마스터 정리은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 데이터 사이언스 기술사는 **비즈니스 문제 정의 -> 데이터 수집/레이크 적재 -> EDA/전처리 -> 피처 엔지니어링 -> 모델링(통계·ML·DL) -> 평가/검증 -> 배포/모니터링(MLOps)** 의 전 사이클에 대한 엔드투엔드 방법론과, **추론통계(가설검정·인과추론) ↔ 예측모델링(Generalization) ↔ 의사결정(강화학습·밴딧)** 의 3축 패러다임을 정확히 구분하여 시스템화하는 역량이다.
+> 2. **가치**: 정형 데이터에서 LightGBM/XGBoost/CatBoost 기반 분류·회귀 모델은 **AUC 0.85+ 안정적 도달**, 시계열에서는 Prophet/N-BEATS/TFT로 MAPE 5~10% 수준 운영, LLM/RAG 기반 비정형 분석까지 포함 시 **고객 VOC 처리시간 80%v, 마케팅 ROI 3~5배, 설비 예지보전 다운타임 30~50%v**의 정량적 가치를 창출한다.
+> 3. **판단 포인트**: ①**통계적 유의성 vs 예측 성능** (p-value vs AUC의 분리 운용), ②**상관관계 vs 인과관계** (DAG·IV·PSM·DiD·RDD 도구 선택), ③**설명가능성 vs 정확도** (SHAP/LIME vs XGBoost/딥러닝 트레이드오프), ④**편향-분산 트레이드오프**, ⑤**개인정보보호(가명·익명·차등프라이버시) vs 데이터 활용**, ⑥**온라인(Online) vs 배치(Batch) 학습** — 이 6개 의사결정 축이 기술사 답안의 핵심 분기점이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-데이터 사이언스 기술사 마스터 정리은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+데이터 사이언스는 단순한 "데이터 분석"이 아니라, **데이터로부터 통찰을 추출하고 의사결정을 자동화하며, 이를 산업 현장에 배포·운영·갱신하는 전 과정을 다루는 융합 학문**이다. 4차 산업혁명·AI 기본법(2025. 1. 시행)·EU AI Act 등 규제 환경의 변화, 그리고 생성형 AI의 보편화로 인해 데이터 사이언스의 정의역(Domain)이 통계학·컴퓨터과학·도메인 지식·윤리·법률로 확장되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Data Science PE Master Summary 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 BI(Business Intelligence) 패러다임은 **"과거의 사실 확인"** (Descriptive Analytics)에 머물렀다면, 현대 데이터 사이언스는 **"무엇이 일어날 것인가"**(Predictive), **"왜 일어났는가"**(Diagnostic/Causal), **"무엇을 해야 하는가"**(Prescriptive)로 진화했다. 그러나 실무에서는 여전히 **CRISP-DM(1996, SPSS)**, **KDD(1996, Fayyad)**, **Microsoft TDSP(2017)**, **Google MLOps Levels(2021)** 등 성숙한 방법론 프레임워크를 기반으로 단계별 산출물을 정의해야 한다.
 
 ```text
-+--------------------------------------------------------------+
-|                    데이터 사이언스 기술사 마스터 정리 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[데이터 사이언스 엔드투엔드 파이프라인 아키텍처]
+
+   +-----------------------------------------------------------------+
+   |              Business Understanding (문제 정의)                  |
+   |   KPI 정의: Precision@K? Revenue Lift? Churn Rate? DAU?          |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |              Data Acquisition & Data Lake 적재                  |
+   |   Source --► Kafka/Airbyte --► Bronze(RAW) --► Silver(정제)      |
+   |            --► Gold(Feature Mart) on Delta Lake/Iceberg          |
+   |   [Lakehouse: S3+Delta, ADLS Gen2+Iceberg, BigLake, MinIO]      |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |            EDA + Data Preprocessing (전처리 80% 비중)            |
+   |   결측치(MCAR/MAR/MNAR) | 이상치(IQR, Isolation Forest)         |
+   |   인코딩(One-Hot/Target/Frequency) | 스케일링(Standard/Robust)  |
+   |   클래스 불균형(SMOTE, ADASYN, class_weight)                    |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |        Feature Engineering & Feature Store (피처 저장)          |
+   |   Feature Selection: Filter/Wrapper/Embedded (L1, Boruta)        |
+   |   Feature Extraction: PCA, LDA, t-SNE, UMAP, AutoEncoder        |
+   |   Feature Store: Feast, Tecton, Hopsworks, DynamoDB+Redis       |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |              Modeling (예측 / 인과 / 생성)                      |
+   |   Statistical -► Linear/Logistic/Ridge/Lasso/GLM/Bayesian        |
+   |   ML Tree -----► RandomForest / XGBoost / LightGBM / CatBoost   |
+   |   DL ----------► MLP / CNN / RNN-LSTM / Transformer / LLM      |
+   |   Causal ------► IV / PSM / DiD / RDD / Double-ML / CausalForest|
+   |   TimeSeries --► ARIMA / Prophet / N-BEATS / TFT / DeepAR      |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |       Evaluation & Validation (성능 / 강건성 / 공정성)            |
+   |   Hold-out / K-Fold / TimeSeries Split / Group K-Fold / LOO     |
+   |   Metrics: RMSE/MAE/R², F1/AUC/AP, NDCG/MRR, Calibration(ECE)   |
+   |   Fairness: Demographic Parity, Equalized Odds                  |
+   +-----------------------------+-----------------------------------+
+                                 v
+   +-----------------------------------------------------------------+
+   |      Deployment & MLOps (배포 / 모니터링 / 재학습)              |
+   |   Shadow -► Canary -► Blue-Green -► A/B -► Full Rollout         |
+   |   Monitor: Data Drift(KS, PSI), Concept Drift(ADWIN, Page-Hink) |
+   |   Tooling: MLflow, Kubeflow, TFX, Airflow, BentoML, KServe     |
+   +-----------------------------------------------------------------+
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
-
-- **📢 섹션 요약 비유**: 데이터 사이언스 기술사 마스터 정리은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 데이터 사이언스 엔드투엔드 파이프라인은 **"병원 진료 시스템"**과 같다. 접수(데이터 수집) -> 문진·검진(EDA/전처리) -> 진단(피처/모델) -> 처방(예측) -> 수술(배포) -> 경과관찰(모니터링) -> 재진(재학습) 전 과정이 끊어지면 환자가 죽듯, 파이프라인이 끊기면 모델은 6개월 내 **모델 드리프트**로 폐기된다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-데이터 사이언스 기술사 마스터 정리의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+### 1) 통계적 추론(Statistical Inference)의 3대 기둥
+
+| 구분 | 빈도주의(Frequentist) | 베이즈(Bayesian) | 인과추론(Causal) |
+| :--- | :--- | :--- | :--- |
+| 핵심 사고 | 반복 표본 평균, long-run frequency | 사전분포 + 데이터 = 사후분포 | 처치(T) -> 결과(Y)의 인과효과 식별 |
+| 대표 기법 | t-test, ANOVA, χ², OLS, MLE | MCMC(HMC, NUTS), VI, BMA | IV, PSM, DiD, RDD, Synthetic Control |
+| 산출물 | p-value, CI, 점추정량 | 사후분포, Credible Interval, Bayes Factor | ATE, ATT, CATE, Dose-Response |
+| 도구 | R statsmodels, SAS | PyMC, Stan, NumPyro, JAGS | DoWhy, EconML, CausalML, CausalImpact |
+| 적용 예 | A/B 테스트 p<0.05 판단 | 사전지식 결합한 소표본 추론 | 마케팅 처치의 실제 인과 Lift 측정 |
+
+### 2) CRISP-DM vs TDSP vs MLOps Levels 3대 방법론 프레임워크
 
 ```text
-+--------------------------------------------------------------+
-|              Data Science PE Master Summary 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[3대 방법론 프레임워크 단계 비교]
+
+CRISP-DM (1996)          Microsoft TDSP (2017)         Google MLOps Levels (2021)
+-------------            --------------------           -------------------------
+① Business               ① Business Understanding       ① Level 0: Manual
+② Data Understanding     ② Data Acquisition & Wrangling  ② Level 1: ML Pipeline
+③ Data Preparation       ③ Modeling                      ③ Level 2: CI/CD Pipeline
+④ Modeling               ④ Deployment                     ④ Level 3: Rapid Iteration
+⑤ Evaluation             ⑤ Customer Acceptance          ⑤ Level 4: Full Automation
+⑥ Deployment
+
+특징: 도메인 무관 범용       특징: Agile·Git 연동·Role 정의   특징: 성숙도 5단계(0~4)
+      6단계 순환              (Data Engineer, Modeler,         모델·데이터·코드 3축
+                             Project Lead) 자동화 강조          자동화 통합 거버넌스
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
-| :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+### 3) 데이터 전처리 핵심 기법 매트릭스
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+| 결측치 유형 | 정의 | 검정법 | 처리 기법 |
+| :--- | :--- | :--- | :--- |
+| **MCAR** (완전무작위) | 결측이 데이터 자체와 무관 | Little's MCAR Test | Listwise 삭제, 단일대치(평균/중앙/최빈) |
+| **MAR** (무작위) | 다른 관측변수에 의존 | 패턴 분석, 로지스틱 회귀 | MICE(Multiple Imputation), KNN Imputer, MissForest |
+| **MNAR** (비무작위) | 결측 자체가 결과에 영향 | 도메인 지식, Heckman Selection | 도메인 기반 모델링, Missing Indicator + 학습 |
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+| 스케일링 기법 | 수식/원리 | 적용 상황 | 주의점 |
+| :--- | :--- | :--- | :--- |
+| StandardScaler | (x-μ)/σ | 정규분포 가정, SVM·로지스틱·PCA | 이상치에 취약 |
+| MinMaxScaler | (x-x_min)/(x_max-x_min) | 신경망 입력, 이미지 [0,1] 정규화 | 이상치에 매우 취약 |
+| RobustScaler | (x-Q2)/(Q3-Q1) | 이상치 多 데이터 | 분포 보존력 다소 저하 |
+| MaxAbsScaler | x/\|max\| | 희소 행렬(BoW, TF-IDF) | 음수 동시 처리 |
+| QuantileTransformer | 균등분포/정규분포 매핑 | 비선형, 파워변환 | 랜덤 시드 고정 필요 |
+| PowerTransformer(Yeo-Johnson) | Box-Cox 확장, 음수 가능 | 정규성 확보 | 0 이하 모두 처리 가능 |
 
----
+### 4) 분류 모델별 손실함수 & 적합 데이터 형태
 
-## Ⅲ. 비교 및 연결
+| 모델 | 손실함수 | 학습방식 | 정형데이터 | 고차원·희소 | 비정형(이미지/텍스트) |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| Logistic Regression | Log Loss | Closed-form/SGD | ◎ | △ | × |
+| Random Forest | Gini/Entropy | Bagging | ◎ | × | △ |
+| XGBoost | Log Loss + Ω(f) | Boosting (2차 근사) | ◎ | ○ | × |
+| LightGBM | Log Loss + GOSS·EFB | Histogram + Boosting | ◎ | ○ | × |
+| CatBoost | LogLoss + Ordered TS | Oblivious Tree | ◎(범주多) | △ | × |
+| SVM(Hinge) | Hinge + ‖w‖² | SMO/SGD | ○ | ◎ | △ |
+| MLP | Cross-Entropy + L2 | Backprop | ○ | △ | ◎ |
+| CNN | CE + Dropout | Backprop | × | × | ◎(이미지) |
+| Transformer | CE + Label Smoothing | Backprop | △ | × | ◎(텍스트/LLM) |
 
-데이터 사이언스 기술사 마스터 정리을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 데이터 사이언스 기술사 마스터 정리 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 데이터 사이언스 기술사 마스터 정리은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 데이터 사이언스 기술사 마스터 정리은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 데이터 사이언스 기술사 마스터 정리을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-데이터 사이언스 기술사 마스터 정리을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 데이터 사이언스 기술사 마스터 정리 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 데이터 사이언스 기술사 마스터 정리은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 데이터 사이언스 기술사 마스터 정리의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 데이터 사이언스 기술사 마스터 정리의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
+### 5) 모델 평가 — 데이터 누수(Data Leakage) 방지 분할
 
 ```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-데이터 사이언스 기술사 마스터 정리 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
+[Cross-Validation 분할 전략 비교]
+
+  단순 K-Fold                    Stratified K-Fold            Group K-Fold
+  +-+-+-+-+-+                  +-+-+-+-+-+                +-+-+-+-+-+
+  |1|2|3|4|5|                  |1|2|3|4|5|                |A|A|B|B|C|
+  +-+-+-+-+-+                  +-+-+-+-+-+                +-+-+-+-+-+
+  - 회귀/균형 분류              - 불균형 분류                - 환자/사용자 단위
+  - 시계열 X                     - 다중분류                   - 시계열 그룹
+                                                              (예: 동일 환자 행위
+                                                               가 train+test에
+                                                               모두 들어가는
+                                                               leakage 방지)
+
+  TimeSeriesSplit               Nested K-Fold (Hyperparam)
+  +-----+                        Outer: 성능 평가
+  | Train|                       Inner: 하이퍼파라미터 튜닝
+  |    CV|                       -> 정보 누출 차단
+  +-----+
+  |Test |
+  +-----+
+  - 시계열 미래 정보 차단
 ```
 
-### 👶 어린이를 위한 3줄 비유 설명
+### 6) MLOps 성숙도 5단계 (Google MLOps Levels)
 
-1. 데이터 사이언스 기술사 마스터 정리은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
+| Level | 명칭 | 핵심 산출물 | 자동화 범위 | 도구 스택 예시 |
+| :--- | :--- | :--- | :--- | :--- |
+| **L0** | Manual Process | Jupyter 노트북, 수동 배포 | 없음 | Notebook + 수동 스크립트 |
+| **L1** | ML Pipeline | 학습 파이프라인 자동화 | 학습/재학습 트리거 | Airflow + MLflow + Docker |
+| **L2** | CI/CD Pipeline | 코드/모델/데이터 검증, 자동 배포 | 학습+배포+테스트 | GitHub Actions + MLflow Registry + K8s |
+| **L3** | Rapid Iteration | A/B 테스트, 자동 피드백 루프 | L2 + 실험관리 | TFX + Kubeflow + KServe + Prometheus |
+| **L4** | Full Automation | Continuous Training (CT) | L3 + 데이터/모델 자동 갱신 | Vertex AI / SageMaker Pipelines / Aporia + Fiddler |
 
----
-
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
+| :--- | :--- | :--- |
+| **Data Versioning** | 데이터 스냅샷·라인리지 | DVC, Delta Lake(time travel), LakeFS, Pachyderm, Iceberg |
+| **Experiment Tracking** | 하이퍼파라미터·지표·아티팩트 기록 | MLflow Tracking, Weights & Biases, Neptune, TensorBoard |
+| **Model Registry** | 모델 버전·스테이지 관리 | MLflow Registry, BentoML, SageMaker Model Registry, Vertex AI |
+| **Feature Store** | Online/Offline 피처 일관성 | Feast, Tecton, Hopsworks, DynamoDB+Redis (Online) / S3+Parquet (
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 693 / 800

@@ -11,160 +11,169 @@ tags = ["studynote-ict-convergence"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 피처 엔지니어링 자동 특성 생성은(는) ICT 융합 기술 심화 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: 자동 피처 생성(Automated Feature Generation, AFG)은 원천 변수(Raw Variables)에 대해 **다항식 확장(Polynomial Expansion), 교차항(Cross Features), 시계열 집계(Windowed Aggregations), 비선형 변환(Non-linear Transformations), 임베딩 기반 합성(Embedding-based Synthesis)**을 탐색-생성-평가 루프(Search-Generate-Evaluate Loop)로 자동화하여 Featuretools·tsfresh·OneBM·Cognito·AutoFeat·LFE·OpenFE 같은 엔진이 후보 피처 공간(H_candidate)을 체계적으로 조합·선별하는 메커니리즘이다.
+> 2. **가치**: 캐글(Kaggle)·KDD Cup 등 실무 데이터에서 수동 피처 엔지니어링 대비 모델 성능(AUC, RMSE, LogLoss)을 **5~25% 개선**하고, 데이터 사이언티스트의 반복 작업 시간을 **70~90% 단축**한다. 탐색 공간이 1,000만 차원 이상이 될 때 L1·mRMR·SHAP-importance 기반 피처 선택(Feature Selection) 파이프라인과 결합하여 차원의 저주(Curse of Dimensionality)를 제어한다.
+> 3. **판단 포인트**: **탐색 폭(Beam Width) vs. 계산 복잡도(O(|F|^d · n))**, **해석 가능성(Interpretability) vs. 표현력(Expressiveness)**, **데이터 누수(Data Leakage) 방지 (시계열 Out-of-Time Split, Group K-Fold)**의 트레이드오프, 그리고 **자동 생성 피처의 도메인 검수(Domain Validation) 및 거버넌스(Auditability)**가 핵심 결정 요인이다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-피처 엔지니어링 자동 특성 생성은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+자동 피처 생성(AFG)은 머신러닝 파이프라인에서 가장 노동 집약적인 단계인 수동 피처 엔지니어링(Manual Feature Engineering)을 자동화하는 기술이다. 전통적 ML 워크플로우에서 데이터 정제·라벨링 다음으로 큰 병목이 피처 설계이며, Andrew Ng 교수의 "Data-centric AI" 관점에서도 모델 자체보다 양질의 피처가 일반화 성능을 좌우한다. 그러나 10~1,000개의 원시 컬럼이 존재할 때 이항·삼항 교차(Binary/Ternary Cross)만으로 후보 피처가 C(|F|,2) ≈ 수십만~수억 차원에 달해 사람이 전수 탐색하는 것은 불가능하다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Feature Engineering Auto Feature Generation 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+기존 패러다임(Knowledge-Driven Feature Engineering)은 도메인 전문가의 휴리스틱, 통계 검정, 트리 기반 중요도(Tree-based Importance) 활용에 의존했다. 이는 **①주관성**, **②재현성 결여**, **③확장성 한계**, **④시계열·멀티모달 데이터 대응 곤란** 문제를 안고 있다. 반면 AFG는 **연산자 그래프(Operator Graph) 탐색**, **유전 프로그래밍(Genetic Programming, GP)**, **강화학습(RL) 기반 피처 합성**, **메타러닝(Meta-Learning) 기반 warm-start**, **LLM 기반 의미론적 피처 제안**으로 데이터 자체에서 통계를 추출·결합·평가하는 **데이터 중심(Data-Centric) 접근**을 취한다.
+
+특히 2020년 이후 AutoML 프레임워크(Auto-sklearn, H2O, FLAML, AutoGluon, PyCaret)가 AFG를 핵심 모듈로 내장하면서, KDD Cup 2018(KKBox Churn), IEEE-CIS Fraud Detection, M5 Forecasting(Walmart) 등 대형 경연에서 AFG 파이프라인이 우승 솔루션의 공통 인프라로 자리 잡았다.
 
 ```text
-+--------------------------------------------------------------+
-|                    피처 엔지니어링 자동 특성 생성 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[ 전통 수동 피처 엔지니어링 vs. 자동 피처 생성 AFG ]
+
+[전통 방식]                                                       [AFG 방식]
+  Raw Data ──► 도메인 지식 ──► 휴리스틱 변환 ──► 수동 후보군    Raw Data ──► 연산자 라이브러리
+              (도메인 전문가)     (log, ratio)       (10~50개)                     │
+                  │                                              ▼
+                  ▼                                       ┌──────────────┐
+           모델 학습 (XGB/LGB)                             │ 탐색 엔진     │
+                  │                                        │ - DFS(깊이탐색)│
+                  ▼                                        │ - GP(유전)     │
+            성능 평가 (5-fold CV)                          │ - RL/Agent    │
+                  │                                        │ - LLM-제안    │
+                  ▼                                        └──────┬───────┘
+            수동 반복 (Trial-and-Error)                            ▼
+                                                            후보 피처 풀(H_candidate)
+                                                            = Σ 합성 피처 (Cross, Agg…)
+                                                                    │
+                                                                    ▼
+                                                            ┌──────────────────┐
+                                                            │ 피처 선택기        │
+                                                            │ - L1 (Lasso)      │
+                                                            │ - mRMR            │
+                                                            │ - SHAP-importance │
+                                                            │ - Mutual Info.    │
+                                                            └────────┬─────────┘
+                                                                     ▼
+                                                            정제된 피처 셋 (Top-K)
+                                                                     │
+                                                                     ▼
+                                                            모델 학습 + CV 평가
+                                                                     │
+                                                                     ▼
+                                                          메타러너(메타러닝)/Agent
+                                                          → 다음 라운드 제안
+                                                                     │
+                                                                     ▼
+                                                          조기 종료/수렴/최적해 반환
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**AFG의 동학(Dynamics)**
+- **탐색 공간(Search Space)**: 1차 단항(Unary) {log, sqrt, +, ×, ÷, x², tanh} + 2차 교차(Binary) {+, −, ×, ÷} + 집계(Aggregation) {mean, std, skew, kurt, max-min, trend, autocorr}
+- **탐색 전략(Search Strategy)**: 폭우선(BFS, Featuretools DFS), 유전 알고리즘(Crossover/Mutation), 베이지안 옵티마이저, 강화학습 정책(RL Agent)
+- **평가(Evaluation)**: 단변량 F-test → LightGBM Proxy Model → 전체 모델 CV(AUC/RMSE) 의 3단계 점진적 검증
+- **선택(Selection)**: 안정성(Stability Selection, 100 subsamples) + 중요도 + 다중공선성(VIF<10) 제거
 
-- **📢 섹션 요약 비유**: 피처 엔지니어링 자동 특성 생성은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: 기존 방식은 셰프가 직접 재료를 손질해 요리하는 '수제 요리'라면, AFG는 재료의 모든 조합을 자동으로 시험하여 최적의 레시피를 찾아내는 'AI 미슐랭 로봇'과 같다. 단, 재료(데이터) 자체가 신선해야 맛있는 요리(모델)가 나온다(Garbage In, Garbage Out).
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-피처 엔지니어링 자동 특성 생성의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+AFG 시스템은 **①연산자(Operator) 레지스트리**, **②탐색 컨트롤러(Search Controller)**, **③평가·선택 모듈(Evaluator/Selector)**, **④메타러닝/조기 종료 관리자(Meta-Controller)**의 4계층 아키텍처로 구성된다. Featuretools의 Deep Feature Synthesis(DFS)를 기준으로 분해하면 다음과 같다.
 
 ```text
-+--------------------------------------------------------------+
-|              Feature Engineering Auto Feature Generation 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+                       [ AFG 4-Layer 아키텍처 ]
+
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  ① 연산자 레지스트리 (Operator Registry)                             │
+  │  ┌────────────┬────────────┬──────────────┬──────────────────────┐  │
+  │  │ 단항(Unary)│ 이항(Binary)│ 집계(Agg.)    │ 시계열(Windowed)      │  │
+  │  │ log,sqrt   │ +,−,×,÷    │ mean,std,median│ rolling_mean, lag    │  │
+  │  │ x²,tanh    │ concat     │ mode,cumsum   │ exp_decay, autocorr  │  │
+  │  │ bin        │ diff       │ skew,kurt     │ trend, seasonal_diff │  │
+  │  └────────────┴────────────┴──────────────┴──────────────────────┘  │
+  └───────────────────────────────┬─────────────────────────────────────┘
+                                  ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  ② 탐색 컨트롤러 (Search Controller)                                │
+  │  ┌──────────────┐  ┌──────────────┐  ┌────────────────────────┐    │
+  │  │ DFS / Beam   │  │ Genetic Prog.│  │ RL/Agent (LFE, AAAR)   │    │
+  │  │ (Featuretools│  │ (AutoFeat)   │  │ (OpenFE, ExploreKit)   │    │
+  │  │  Tsfresh)    │  │              │  │                        │    │
+  │  └──────────────┘  └──────────────┘  └────────────────────────┘    │
+  │   깊이 d ∈ [1,3]      crossover/mut.    policy π(·|state)         │
+  │   폭 w (top-k)        fitness=F1/AUC    reward=ΔAUC − λ·|F|      │
+  └───────────────────────────────┬─────────────────────────────────────┘
+                                  ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  ③ 평가·선택 모듈 (Evaluator + Selector)                            │
+  │  (a) 단변량 점수 : F-stats / Mutual Info / Pearson / χ²             │
+  │  (b) Proxy Model : LightGBM(50 rounds) → gain/cover                 │
+  │  (c) 최종 점수  : K-Fold CV AUC / LogLoss / RMSE                    │
+  │  ────────────────────────────────────────────────────────────────   │
+  │  • 안정성 선택 (Bootstrap 100회 등장 피처만 채택)                    │
+  │  • VIF < 10, 상관 |ρ| < 0.95 로 가지치기                            │
+  │  • SHAP/Tree importance Top-K                                       │
+  └───────────────────────────────┬─────────────────────────────────────┘
+                                  ▼
+  ┌─────────────────────────────────────────────────────────────────────┐
+  │  ④ 메타 컨트롤러 (Meta-Controller)                                  │
+  │  • 시간 예산(Time Budget)·메모리 예산(Memory Budget)                 │
+  │  • 메타러닝 Warm-Start (OpenML Meta-features → 추천 연산자 셋)       │
+  │  • 조기 종료 (성능 plateau 감지: ΔAUC < ε, 5 연속 round)            │
+  │  • LLM 기반 의미론적 제안 (변수명 + Docstring → 후보 합성)           │
+  └─────────────────────────────────────────────────────────────────────┘
+                                  │
+                                  ▼
+                    [ 최종 피처 셋 (K=20~200) ] → Downstream ML
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **연산자 레지스트리 (Operator Library)** | 원천 변수 변환·결합의 원자 단위(Atomic Unit) 정의 | 단항(15종: log, sqrt, bin, normalize), 이항(6종: +,−,×,÷,concat,ratio), 집계(20종: mean, std, median, max, min, skew, kurt, count, n_unique, trend), 윈도우(rolling_mean, rolling_std, exp_decay_mean, lag_k, diff_k, autocorr_lag) |
+| **탐색 컨트롤러 (Search Controller)** | 후보 피처 그래프(G=(V,E)) 탐색 | DFS(깊이우선, Featuretools): max_depth∈{2,3}, n_features 제한. GP(유전, AutoFeat): population=200, crossover·mutation·elitism. RL(AAAR/LFE/GRFG): Q-learning, ε-greedy 0.1, reward = ΔAUC − λ·\|F\| (regularizer). 베이지안(MCFS): GP-UCB 획득함수 |
+| **평가자 (Evaluator)** | 후보 피처의 예측력·안정성 측정 | 1차: 단변량 Mutual Information / F-regression (P<1e-3). 2차: LightGBM Proxy (50 rounds, early_stopping) → gain importance. 3차: 5-Fold StratifiedKFold CV (AUC/LogLoss/RMSE). 시계열은 TimeSeriesSplit(Time-based) |
+| **선택기 (Selector)** | 차원 축소·다중공선성 제거 | L1-Lasso (α 튜닝), mRMR(Min-Redundancy Max-Relevance, mRMR-MID/MIQ), 안정성 선택(Stability Selection, threshold 0.6), VIF<10, Pearson \|ρ\|<0.95, SHAP-importance 상위 K개 |
+| **메타 컨트롤러 (Meta-Controller)** | 자원 관리·warm-start·LLM 제안 | OpenML 1,000+ 데이터셋 메타피처(meta-feature: n, dim, skew, class_entropy) → 유사도(K-NN) 기반 추천. LLM(Llama-3, GPT-4o): 변수명·dtypes·description 입력 → 자연어 후보 합성 제안 (e.g., "value_per_unit = price / quantity") |
+| **검수 거버넌스 (Governance Layer)** | 자동화 피처의 해석·감사 | 피처 명세서(Feature Card) 자동 생성: 정의, 분포, NULL%, 단변량 AUC, SHAP 평균. 도메인 룰(예: 음수가 될 수 없는 도메인 지식 → ratio 연산 차단) |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**핵심 수식 및 알고리즘 심화**
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+1. **Deep Feature Synthesis (DFS) - Featuretools**
+   - 원천 테이블 R = {T₁, T₂, ..., T_m}, 관계(foreign key) 그래프 G, 깊이 d
+   - 1차 피처: F₁ = {f = op(x) | x ∈ Tᵢ, op ∈ O₁}
+   - k차 피처: F_k = {f = op(x, y) | x ∈ F_{k−1} ∪ Tᵢ, y ∈ T_j, op ∈ O₂} ∪ {f = agg(g, window) | g ∈ F_{k−1}, agg ∈ O_agg}
+   - |F_k| ≤ n_features 제한, max_depth ≤ 3
+   - 시간 절약: entityset + cutoff_time 매개변수로 **시계열 누수 차단**
 
----
+2. **유전 프로그래밍(Genetic Programming) - AutoFeat**
+   - 개체(individual) = 표현식 트리(Expression Tree, sklearn-style)
+   - 적합도(Fitness) F(θ) = 0.5·AUC_cv + 0.3·(1−corr_redundancy) + 0.2·(1−sparsity)
+   - 선택: Tournament(size=3) / NSGA-II 다목적(AUC↑, |F|↓)
+   - 연산자: Subtree Crossover, Point Mutation, Shrink Mutation, hoist, copy
 
-## Ⅲ. 비교 및 연결
+3. **강화학습 기반 - LFE (Learning Feature Engineering)**
+   - State s_t = (현재 피처 셋, 모델 메트릭), Action a_t = (피처 추가/제거/변환), Reward r_t = AUC(s_{t+1}) − AUC(s_t) − λ·|F|
+   - Policy π_θ : Deep Q-Network (Dueling DDQN), ε-greedy 0.1→0.01 (decay)
+   - Episode = 1,000 step, Replay Buffer 10⁵
 
-피처 엔지니어링 자동 특성 생성을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
+4. **선형 탐색 기반 - OpenFE (2023 NeurIPS)**
+   - 단일 후보 피처 평가에 **GBDT 모델 가속화** (1회 학습으로 모든 1차·2차 교차 점수 추정)
+   - 피처별 1차 평가 + 다변량 MB( Monte Carlo) 후방 선택
+   - L-BFGS로 평가 모델 가중치 보정
 
-| 구분 | 전통적 접근 | 피처 엔지니어링 자동 특성 생성 |
-| :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+5. **시계열 특화 - tsfresh / tsfel / Catch22**
+   - 794개 통계 피처(유한집합) + Hugging Face `setfit` 기반 의미론적 라벨링
+   - EfficientFCParameters / MinimalFCParameters로 차원 축소
+   - FDR(Fisher-Discriminant-Ratio) Benjamini-Yekutieli 보정으로 다중비교 통제
 
-관련 기술 영역과의 연결점도 중요하다. 피처 엔지니어링 자동 특성 생성은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
+6. **임베딩 기반 합성 - AutoEmbed / DeepFM / TabNet**
+   - 범주형 임베딩 E ∈ ℝ^{k}의 외적(e₁ ⊗ e₂) = e₁ e₂ᵀ로 2차 교차 자동 생성
+   - attention 가중치로 유효 교차만 강조
 
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 피처 엔지니어링 자동 특성 생성은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 피처 엔지니어링 자동 특성 생성을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-피처 엔지니어링 자동 특성 생성을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 피처 엔지니어링 자동 특성 생성 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 피처 엔지니어링 자동 특성 생성은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 피처 엔지니어링 자동 특성 생성의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 피처 엔지니어링 자동 특성 생성의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-피처 엔지니어링 자동 특성 생성 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 피처 엔지니어링 자동 특성 생성은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+**핵심 하이퍼파라미터 및 튜닝 포인트**
+- `max_depth` ∈ {2, 3, 4} (깊이↑ → 후보 폭발, 과적합 위험)
+- `n_features` ∈ {50, 100, 200} (탐색 한도)
+- `correlation_threshold` ∈ {0.9, 0.95}
+- `cv_folds` ∈ {5, 10} (K-Fold, Group, Stratified, Time-series
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 749 / 800
