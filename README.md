@@ -21,7 +21,6 @@ content/*.md
 content/
 ├── _index.md
 ├── work/
-├── personal/
 ├── study/
 ├── studynote/
 └── research-and-development/

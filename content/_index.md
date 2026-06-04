@@ -19,13 +19,6 @@ Business planning, project delivery, operating notes, and engineering process.
 - [Sales](/knowledge-base/work/sales/)
 - [Knowledge Pipeline](/knowledge-base/work/knowledge-pipeline/)
 
-### Personal
-Personal planning, journal entries, reading notes, hobbies, and finance tracking.
-
-- [Daily Journal](/knowledge-base/personal/journal/)
-- [Life Goals](/knowledge-base/personal/life-goals/)
-- [Finances](/knowledge-base/personal/finances/)
-- [Hobby & Library](/knowledge-base/personal/hobby/)
 
 ### Study Note
 Technical study notes organized by subject area.

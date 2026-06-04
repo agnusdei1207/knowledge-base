@@ -25,5 +25,4 @@ tags = ["general"]
 
 1. 매주 금요일, 혹은 AI 에이전트 스케줄러가 돌아가며 이 보관함의 글을 분류합니다.
 2. <strong>업무/비즈니스</strong>와 관련된 내용이라면, 해당 내용을 복사하여 **Work** 하위 문서(예: [projects](/knowledge-base/work/projects/))로 이관하고 이곳에서는 지웁니다.
-3. <strong>개인 일상/생각</strong>과 관련된 내용이라면, **Personal** 하위 문서(예: [journal](/knowledge-base/personal/journal/))로 이관합니다.
-4. <strong>학습/연구</strong>와 관련된 내용이라면, **Study** 하위 문서나 스터디노트 내의 적절한 과목으로 융합 및 백링크를 맺어줍니다.
+3. <strong>학습/연구</strong>와 관련된 내용이라면, **Study** 하위 문서나 스터디노트 내의 적절한 과목으로 융합 및 백링크를 맺어줍니다.

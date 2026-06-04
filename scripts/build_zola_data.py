@@ -38,7 +38,6 @@ STUDY_SUBJECT_TITLES = {
 }
 
 NAV_PATH_TITLES = {
-    "personal": "Personal",
     "research-and-development": "R&D",
     "studynote": "Study Note",
     "work": "Work",
@@ -179,8 +178,6 @@ def readable_ascii_phrase(text: str) -> str:
 def title_from_segment(segment: str) -> str:
     if segment == "research-and-development":
         return "R&D"
-    if segment == "personal":
-        return "Personal"
     if segment == "work":
         return "Work"
     if segment == "studynote":
@@ -344,6 +341,27 @@ def graph_group_for(path_str: str) -> str:
     return parts[0]
 
 
+def graph_chapter_for(path_str: str) -> str:
+    parts = [part for part in path_str.strip("/").split("/") if part]
+    if not parts:
+        return "root"
+    if parts[0] == "studynote" and len(parts) > 2:
+        return "/".join(parts[:3])
+    if len(parts) > 1:
+        return "/".join(parts[:2])
+    return parts[0]
+
+
+def graph_label_for_key(key: str) -> str:
+    if key == "root":
+        return "Knowledge Base"
+    parts = key.split("/")
+    segment = parts[-1]
+    if len(parts) == 2 and parts[0] == "studynote" and segment in STUDY_SUBJECT_TITLES:
+        return STUDY_SUBJECT_TITLES[segment]
+    return title_from_segment(segment)
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     BACKLINKS_OUT.mkdir(parents=True, exist_ok=True)
@@ -461,28 +479,90 @@ def main() -> None:
         adj[u_path].add(v_path)
         adj[v_path].add(u_path)
 
-    # Fallback global graph.json
+    # Global graph.json with hierarchy nodes for zoomable exploration.
     sorted_linked_ids = sorted(degrees.keys(), key=lambda x: degrees[x], reverse=True)
-    selected_ids = set(sorted_linked_ids[:900])
     docs_by_nid = {node_ids[doc["path"]]: doc for doc in docs}
-    
-    nodes = []
-    for nid in sorted_linked_ids[:900]:
+
+    selected_ids = set(sorted_linked_ids[:3200])
+    for doc in docs:
+        if doc["section"]:
+            selected_ids.add(node_ids[doc["path"]])
+
+    nodes = [
+        {
+            "id": "cluster:root",
+            "title": "Knowledge Base",
+            "type": "root",
+            "level": 0,
+            "degree": len(docs),
+            "group": "root",
+            "chapter": "root",
+        }
+    ]
+    cluster_keys = sorted({graph_group_for(doc["path"]) for doc in docs})
+    chapter_keys = sorted({graph_chapter_for(doc["path"]) for doc in docs})
+    for key in cluster_keys:
+        nodes.append({
+            "id": f"cluster:{key}",
+            "title": graph_label_for_key(key),
+            "type": "cluster",
+            "level": 1,
+            "degree": sum(1 for doc in docs if graph_group_for(doc["path"]) == key),
+            "group": key,
+            "chapter": key,
+        })
+    for key in chapter_keys:
+        if key in cluster_keys:
+            continue
+        group = "/".join(key.split("/")[:2]) if key.startswith("studynote/") else key.split("/")[0]
+        nodes.append({
+            "id": f"chapter:{key}",
+            "title": graph_label_for_key(key),
+            "type": "chapter",
+            "level": 2,
+            "degree": sum(1 for doc in docs if graph_chapter_for(doc["path"]) == key),
+            "group": group,
+            "chapter": key,
+        })
+
+    for nid in sorted(selected_ids, key=lambda x: degrees.get(x, 0), reverse=True):
         if nid in docs_by_nid:
             doc = docs_by_nid[nid]
+            group = graph_group_for(doc["path"])
+            chapter = graph_chapter_for(doc["path"])
             nodes.append({
                 "id": nid,
                 "title": doc["title"],
                 "url": doc["url"],
+                "type": "section" if doc["section"] else "doc",
+                "level": 2 if doc["section"] else 3,
                 "section": doc["section"],
                 "degree": degrees.get(nid, 0),
-                "group": graph_group_for(doc["path"]),
+                "group": group,
+                "chapter": chapter,
             })
-            
+
     graph_links = [
-        link for link in links
+        {**link, "type": "doc"}
+        for link in links
         if link["source"] in selected_ids and link["target"] in selected_ids
-    ][:2800]
+    ][:9000]
+
+    hierarchy_links = [{"source": "cluster:root", "target": f"cluster:{key}", "type": "hierarchy"} for key in cluster_keys]
+    for key in chapter_keys:
+        if key in cluster_keys:
+            continue
+        group = "/".join(key.split("/")[:2]) if key.startswith("studynote/") else key.split("/")[0]
+        hierarchy_links.append({"source": f"cluster:{group}", "target": f"chapter:{key}", "type": "hierarchy"})
+    for nid in selected_ids:
+        doc = docs_by_nid.get(nid)
+        if not doc:
+            continue
+        chapter = graph_chapter_for(doc["path"])
+        parent_id = f"chapter:{chapter}" if chapter not in cluster_keys else f"cluster:{chapter}"
+        hierarchy_links.append({"source": parent_id, "target": nid, "type": "membership"})
+
+    graph_links = hierarchy_links + graph_links
 
     (OUT / "site-index.json").write_text(json.dumps(tree, ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
     for doc in docs:
