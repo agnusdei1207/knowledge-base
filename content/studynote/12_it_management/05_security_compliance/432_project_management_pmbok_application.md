@@ -11,160 +11,133 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 프로젝트 관리 PMBOK 원칙 적용은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: PMBOK는 PMI가 발간하는 프로젝트 관리 지식 체계로, 7th Edition(2021)에서 5 Process Groups × 10 Knowledge Areas의 프로세스 기반에서 **12 Principles of Project Management + Value Delivery System** 원칙 기반으로 패러다임이 전환되었으며, 프로젝트 성공을 "Triple Constraint(Scope·Schedule·Cost)" 충족에서 "Value Delivery" 관점으로 재정의함.
+> 2. **가치**: PMI의 *Pulse of the Profession 2023* 보고에 따르면 PMBOK 기반 표준화된 프로젝트 관리는 **스케줄 초과 28% 감소, 예산 초과 24% 감소, 실패율 21% 절감** 효과를 제공하며, 특히 EVM·Risk Register·WBS 도입 시 ROI가 평균 3.5배(Forrester Research) 향상됨.
+> 3. **판단 포인트**: **Predictive(Waterfall) / Iterative / Adaptive(Agile) / Hybrid** 4가지 개발 라이프사이클 중 프로젝트 특성(불확실성·규제성·변경빈도)에 따라 **Tailoring** 해야 하며, IT 시스템 구축 시 Agile 도입 압력과 PMBOK의 체계성을 융합한 **Hybrid(예: SAFe + PMBOK Governance)** 적용 여부가 핵심 의사결정임.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-프로젝트 관리 PMBOK 원칙 적용은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+IT 프로젝트의 실패율은 업계 통계(Standish Group CHAOS Report 2023)에 따르면 **전체 IT 프로젝트의 약 30%가 실패, 50%가 부분 실패** 상태이며, 그 핵심 원인은 (1) 요구사항 불명확, (2) 이해관계자 갈등, (3) 위험 관리 부재, (4) 변경 통제 미흡으로 분석됩니다. PMBOK는 이러한 문제를 해결하기 위해 PMI(Project Management Institute)가 1996년 1판을 발간한 이래 5차 개정(2013, 6th Edition: 5 Process Groups + 10 Knowledge Areas + 49 Processes)을 거쳐 **2021년 7th Edition에서 원칙(Principles) 기반 접근**으로 전환되었습니다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Project Management PMBOK Application 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+특히 7th Edition은 Agile·DevOps·Lean 등 현대 프로젝트 환경 변화에 대응하여, 8개 Performance Domains(Stakeholder, Team, Development Approach, Planning, Project Work, Delivery, Measurement, Uncertainty)과 12개 원칙(예: "Be a diligent, respectful, and caring steward", "Build shared understanding")을 통해 **"How to manage"보다 "Why we manage"** 관점을 강조합니다.
 
 ```text
-+--------------------------------------------------------------+
-|                    프로젝트 관리 PMBOK 원칙 적용 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
++-------------------------------------------------------------------------+
+|            PMBOK 7th Edition Value Delivery System                      |
++-------------------------------------------------------------------------+
+                                  |
+        +-------------------------+-------------------------+
+        v                                                    v
+   [Inputs/Outputs]                                  [Business Value]
+   • Strategy Docs                                   • Utility + Warranty
+   • Market Conditions                               • Net Present Value
+   • Stakeholder Needs                               • Customer Satisfaction
+        |                                                    ^
+        v                                                    |
+   +--------------------------------------------------------------+
+   |                  Organizational Strategy                     |
+   +-------------+---------------------+--------------------+---+
+                 v                     v                    v
+           [Portfolio]           [Programs]            [Projects]
+                 |                     |                    |
+                 v                     v                    v
+        Strategic Benefits      Tactical Benefits     Operational Benefits
+                 +---------------------+--------------------+
+                                       v
+                              [Operations / Sustainment]
+                                       |
+                                       v
+                              [Continuous Value]
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**Old vs New Paradigm**:
+- **Old(6th Edition, 2017)**: Process-based · 49 Processes · 10 KAs · Waterfall 친화적 · ITTO(Input·Tool·Technique·Output) 중심
+- **New(7th Edition, 2021)**: Principles-based · 12 Principles · 8 Performance Domains · Agile/Adaptive 내재화 · Value 중심
 
-- **📢 섹션 요약 비유**: 프로젝트 관리 PMBOK 원칙 적용은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+- **📢 섹션 요약 비유**: PMBOK 6판이 "정해진 레시피대로 요리하는 요리책"이었다면, PMBOK 7판은 **"어떤 상황에서도 좋은 음식을 만들기 위한 12가지 미식의 원칙(Principle)"** 입니다. 레시피(Process)만 따르면 요리가 완성되지만, 원칙(Principle)은 요리사가 시장 상황(Agile/Regulated)에 맞춰 창의적으로 응용할 수 있게 합니다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-프로젝트 관리 PMBOK 원칙 적용의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+PMBOK 7th Edition의 핵심 구조는 **12 Principles of Project Management**, **8 Project Performance Domains**, **Value Delivery System**의 3대 축으로 구성됩니다. IT 프로젝트에서 이를 적용할 때는 PMBOK의 거버넌스 체계(Charter, WBS, EVM, Risk Register)와 Agile의 실행 메커니즘(Sprint, Backlog, Retrospective)을 통합한 Hybrid 모델이 실질적 운영 프레임워크가 됩니다.
 
 ```text
-+--------------------------------------------------------------+
-|              Project Management PMBOK Application 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
++-----------------------------------------------------------------------+
+|          PMBOK 7th 12 Principles × 8 Performance Domains              |
++-----------------------------------------------------------------------+
+                    +--------------------------+
+                    |  12 Project Management   |
+                    |      Principles          |
+                    |  (Why we do)             |
+                    +------------+-------------+
+                                 | (Guides)
+                                 v
++-----------------------------------------------------------------------+
+|  8 Project Performance Domains (How we do)                            |
++-----------------------------------------------------------------------+
+|  1. Stakeholders  | 5. Project Work    | 7. Measurement               |
+|  2. Team          | 6. Delivery        | 8. Uncertainty (Risk)        |
+|  3. Development   | 4. Planning        |                              |
+|     Approach      |                    |                              |
++-----------------------------------------------------------------------+
+                                 |
+                                 v
+                +--------------------------------+
+                |  Value Delivery Outcomes      |
+                |  • Business Value Achievement |
+                |  • Stakeholder Satisfaction    |
+                |  • Product/Service Quality     |
+                +--------------------------------+
+
+        [Cross-cutting IT Toolchain Integration]
+        +------------------------------------------+
+        |  JIRA/Azure DevOps / GitLab / MS Project |
+        |  Confluence · Power BI · ServiceNow      |
+        |  SonarQube · Selenium · Prometheus       |
+        +------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **5 Process Groups (6th)** | 프로젝트 전生命周期 관리 | **Initiating**(Charter, ID Stakeholders) -> **Planning**(WBS, Schedule, Budget) -> **Executing**(Team Direction, Procurement) -> **Monitoring & Controlling**(EVM, CCB) -> **Closing**(Lessons Learned). IT 시스템 구축 시 Waterfall·Iterative 모델에서 **Phase Gate Review** 단위로 적용. |
+| **10 Knowledge Areas (6th)** | 전문 영역별 관리 기법 | **Integration**(PM Plan, Change Control) · **Scope**(WBS, Requirements Traceability Matrix) · **Schedule**(CPM, PDM Network) · **Cost**(EVM, BAC/EAC) · **Quality**(QA/QC, Six Sigma) · **Resource**(RACI Matrix, Resource Histogram) · **Communications**(Comm. Mgmt Plan, Push/Pull/Interactive) · **Risk**(Qualitative/Quantitative Analysis, Monte Carlo) · **Procurement**(Make-or-Buy Analysis, Contract Types FFP/FP/T&M/CPFF) · **Stakeholder**(Engagement Assessment Matrix). |
+| **12 Principles (7th)** | 프로젝트 수행 철학 및 가치 판단 | ① Steward(책임감) ② Team(팀) ③ Development Approach(개발 방식) ④ Planning(계획) ⑤ Work(작업) ⑥ Delivery(전달) ⑦ Measurement(측정) ⑧ Uncertainty(불확실성) ⑨ Tailoring(맞춤) ⑩ Quality(품질) ⑪ Complexity(복잡성) ⑫ Risk(위험) · *Change* (각 에디션 미세 차이). |
+| **8 Performance Domains (7th)** | 프로젝트 실행 핵심 영역 | Stakeholder Engagement, Team Performance, Development Approach(Adaptive/Predictive/Hybrid 선택), Planning(Delivery Cadence), Project Work(Manage Issues, Changes), Delivery(Scope/Quality), Measurement(KPI/OKR), Uncertainty(Risk Opportunity). |
+| **Value Delivery System** | 조직 차원의 가치 흐름 | Portfolio -> Program -> Project -> Operations -> Sustainment -> Disposal로 이어지는 가치 사슬, IT에서는 **Project -> Hypercare -> BAU(Business As Usual)** 운영 모델로 매핑. |
+| **Tailoring** | 프로젝트별 최적화 | 6th의 49개 Process 또는 7th의 Principles·Domains를 **경험적·규제적·문화적** 요인에 따라 가감. 예: 금융권은 DORA/BSA Compliance를 위해 Predictive 비중^, 스타트업은 Adaptive 100% 적용. |
+| **Earned Value Management (EVM)** | 성과 정량 측정 | `EV = % Complete × BAC`, `CV = EV - AC`, `SV = EV - PV`, `CPI = EV/AC`, `SPI = EV/PV`. IT 프로젝트에서 CPI<0.85, SPI<0.85이면 **자동 Risk Escalation** 트리거. |
+| **Risk Register & Monte Carlo** | 확률론적 위험 분석 | PERT β분포(Optimistic/Most Likely/Pessimistic) 기반 **@Risk**, **Crystall Ball** 도구로 S-Curve 도출. IT 신규 시스템 도입 시 **P80 일정(80% 확률로 준수 가능한 일정)** 채택이 업계 표준. |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+### PMBOK 6th Edition 49 Processes (대표 예)
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+| Knowledge Area | Initiating | Planning | Executing | M&C | Closing |
+| :--- | :--- | :--- | :--- | :--- | :--- |
+| **Integration** | Develop Project Charter | Develop Project Mgmt Plan | Direct & Manage Project Work | Monitor & Control Project Work, Perform Integrated Change Control | Close Project or Phase |
+| **Scope** | - | Plan Scope Mgmt, Collect Requirements, Define Scope, Create WBS | Validate Scope | Control Scope | - |
+| **Schedule** | - | Plan/Define/Sequence Activities, Estimate Activity Durations, Develop Schedule | - | Control Schedule | - |
+| **Cost** | - | Plan Cost Mgmt, Estimate Costs, Determine Budget | - | Control Costs | - |
+| **Quality** | - | Plan Quality Mgmt | Manage Quality | Control Quality | - |
+| **Resource** | - | Plan Resource Mgmt, Estimate Activity Resources | Acquire/Develop/Manage Team | Control Resources | - |
+| **Communications** | - | Plan Communications Mgmt | Manage Communications | Monitor Communications | - |
+| **Risk** | - | Plan Risk Mgmt, Identify Risks, Qualitative/Quantitative Analysis, Plan Risk Responses | Implement Risk Responses | Monitor Risks | - |
+| **Procurement** | - | Plan Procurement Mgmt | Conduct Procurements | Control Procurements | - |
+| **Stakeholder** | Identify Stakeholders | Plan Stakeholder Mgmt | Manage Stakeholder Engagement | Monitor Stakeholder Engagement | - |
 
----
+### IT 도구 통합 매핑
 
-## Ⅲ. 비교 및 연결
-
-프로젝트 관리 PMBOK 원칙 적용을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 프로젝트 관리 PMBOK 원칙 적용 |
+| PMBOK Process | 대표 IT 도구 | 활용 방식 |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
+| Develop WBS | **MS Project, Smartsheet, Monday.com** | Deliverable-Oriented WBS Dictionary 작성, OBS(Organization Breakdown Structure) 연동 |
+| Earned Value | **Primavera P6, Deltek Cobra** | EAC(Estimate At Completion) = BAC/CPI 산출, 자동 Dashboard |
+| Risk Register | **JIRA Risk Plugin, Azure DevOps Boards, Active Risk Manager** | Prob/Impact Matrix, Heat Map 시각화 |
+| Change Control | **ServiceNow ITSM, ServiceDesk Plus** | RFC(Request For Change) -> CCB 승인 -> Build/Deploy 연동 |
+| Stakeholder Engagement | **Power BI Stakeholder Matrix, Lucidspark** | Power/Interest Grid, Engagement Assessment Matrix |
+| Lessons Learned | **Confluence, Notion, SharePoint** | 프로젝트 종료 시 Knowledge Base 축적, AI 검색 인덱싱 |
 
-관련 기술 영역과의 연결점도 중요하다. 프로젝트 관리 PMBOK 원칙 적용은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 프로젝트 관리 PMBOK 원칙 적용은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 프로젝트 관리 PMBOK 원칙 적용을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-프로젝트 관리 PMBOK 원칙 적용을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 프로젝트 관리 PMBOK 원칙 적용 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 프로젝트 관리 PMBOK 원칙 적용은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 프로젝트 관리 PMBOK 원칙 적용의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 프로젝트 관리 PMBOK 원칙 적용의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-프로젝트 관리 PMBOK 원칙 적용 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 프로젝트 관리 PMBOK 원칙 적용은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+- **📢 섹션 요약 비유**: PMBOK 6판의 49개 프로세스는 **"비행기의 계기판 49개"** 와 같습니다. 이륙 전(Planning)·비행 중(Executing)·착륙 후(Closing) 모든 순간을 측정합니다.
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 432 / 800

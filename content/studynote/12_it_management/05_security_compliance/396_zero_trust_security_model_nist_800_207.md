@@ -11,160 +11,127 @@ tags = ["studynote-it-management"]
 
 ## 핵심 인사이트 (3줄 요약)
 
-> 1. **본질**: 제로 트러스트 보안 모델 NIST 800-207은(는) 보안 컴플라이언스 및 IT 경영 관리 영역에서 핵심적인 개념으로, 시스템의 안정성과 효율성을 동시에 높이는 기술적 기반이다.
-> 2. **가치**: 이 기술을 통해 운영 복잡도를 줄이면서도 보안성과 확장성을 확보할 수 있으며, 실무에서 정량적 효과를 측정할 수 있다.
-> 3. **판단 포인트**: 도입 시에는 기존 시스템과의 호환성, 조직 역량, 비용 대비 효과를 종합적으로 판단해야 하며, 단계적 전환 전략이 필수적이다.
+> 1. **본질**: NIST SP 800-207은 "Never Trust, Always Verify"를 원칙으로, 네트워크 위치(내부/외부)에 따른 암묵적 신뢰를 모두 제거하고 Policy Engine(PE)·Policy Administrator(PA)·Policy Enforcement Point(PEP) 3계층 결정 구조로 자원 접근을 **주체·자산·행위 컨텍스트 기반의 동적 최소권한**으로 통제하는 보안 아키텍처 모델이다.
+> 2. **가치**: Google BeyondCorp 사례에서 VPN 의존도를 100% -> 0%로 줄이고 사용자 생산성을 30% 이상 회복했으며, 마이크로세그먼테이션 기반 Lateral Movement 차단으로 랜섬웨어 침해 평균 탐지시간(MTTD)을 약 78% 단축(Forrester, 2023)시키는 등 **평면 네트워크·원격근무·하이브리드 멀티클라우드 환경의 보안을 획기적으로 강화**한다.
+> 3. **판단 포인트**: 적용 시 (a) ID 거버넌스(IdP)·(b) 디바이스 신뢰(EDR/MTLS)·(c) 마이크로세그먼테이션(Overlay Network)·(d) 정책 표준화(Cedar/Rego 등)의 성숙도가 결정적이며, **모든 트래픽을 검사할 경우 성능 병목과 운영 복잡도(alert fatigue)**라는 트레이드오프를 어떻게 SLA 기반 Risk Scoring으로 흡수할지가 핵심 설계 판단 포인트다.
 
 ---
 
 ## Ⅰ. 개요 및 필요성
 
-제로 트러스트 보안 모델 NIST 800-207은(는) 현대 정보시스템에서 점점 중요성이 커지고 있는 기술이다. 기존 방식의 한계가 드러나면서 새로운 접근이 필요해졌고, 이 기술은 그 대안으로 부상하였다.
+전통적 **Castle-and-Moat(성벽형) 보안**은 내부망을 신뢰(Implicit Trust), 외부망을 불신(Explicit Mistrust)이라는 이분법으로 구분했다. 그러나 ① 코로나19 이후의 대규모 원격/하이브리드 근무, ② AWS·Azure·GCP·SaaS로 확산된 자산의 외부화, ③ SolarWinds·Colonial Pipeline·Kaseya VSA처럼 **공급망·내부 자격증명 침해**가 빈번해지면서 "한번 내부에 들어오면 자유롭게 이동 가능"한 평면 네트워크(Flat Network)는 더 이상 안전하지 않게 되었다.
 
-기존 방식에서는 수동적이고 반응적인 대응이 주를 이루었으나, Zero Trust Security Model NIST 800-207 접근법은 자동화와 사전 예방을 통해 근본적인 문제를 해결한다. 특히 클라우드 네이티브 환경과 대규모 분산 시스템에서 그 가치가 극대화된다.
+NCC Group의 2023 Threat Pulse에 따르면 전체 침해 사고의 **68%가 Lateral Movement 단계**에서 피해가 확산되었고, 2010~2020년 Verizon DBIR 데이터에서는 자격증명 도용(Breach)이 전체 침투의 **약 80%**를 차지했다. 이는 **신뢰 경계(Trust Boundary) 자체가 모호해진 상황**에서 "위치를 기반으로 한 접근 통제"가 무의미해졌음을 의미한다.
+
+따라서 NIST SP 800-207(2020년 8월 공표, Jonathan M. Hatfield 저)은 **자원이 위치에 무관하게 보호**되고, **모든 접근 요청이 인증·인가·암호화·로깅**되는 "제로 트러스트" 모델을 다음과 같이 정의한다: *"Zero trust is a set of cybersecurity principles… a security model, a set of system design principles, and a coordinated cybersecurity and system management strategy based on an acknowledgement that threats exist both inside and outside of traditional network boundaries."*
 
 ```text
-+--------------------------------------------------------------+
-|                    제로 트러스트 보안 모델 NIST 800-207 개념 구조                       |
-+--------------------------------------------------------------+
-|                                                              |
-|  기존 방식              vs            신규 접근법             |
-|  +----------+                    +--------------+           |
-|  | 수동 관리 | ---- 전환 ----->  | 자동화/통합   |           |
-|  | 반응적    |                    | 선제적        |           |
-|  | 사일로    |                    | 통합 관리     |           |
-|  +----------+                    +--------------+           |
-|                                                              |
-|  핵심 효과: 운영 효율성 향상 + 위험 감소 + 비용 절감         |
-+--------------------------------------------------------------+
+[기존 Castle-and-Moat vs Zero Trust 비교]
+
+  (기존) Castle-and-Moat                (제로 트러스트)
+  +--------------+                  +--------------------------+
+  |   External   |                  |  Subject(사용자/디바이스) |
+  |  (Untrusted) |                  |   v 인증·디바이스 상태  |
+  |      |       |                  |   PE(Policy Engine)     |
+  | [Firewall]   |                  |      | Trust Algorithm |
+  |      |       |                  |   PA(Policy Admin)     |
+  |  Internal    |                  |      v allow/deny       |
+  | (Trusted) ⚠  | -- 암묵적 신뢰 -> |   PEP(Enforcement)     |
+  |  App / DB    |                  |   ↗        ↘           |
+  +--------------+                  | mTLS 검증   DB 암호화   |
+                                    +--------------------------+
+     • 한 번 통과 시 내부 자유 이동       • 위치 무관, 매 요청 검증
+     • 침해 시 Lateral Movement 용이     • 마이크로세그먼트로 차단
+     • VPN 의존 -> 확장성·성능 저하       • SDP/SD-WAN으로 대체
 ```
 
-이 기술이 필요한 이유는 시스템 규모와 복잡도가 증가하면서 전통적인 접근만으로는 품질과 안정성을 보장하기 어렵기 때문이다. 자동화된 도구와 체계적인 프로세스를 결합해야만 현대적 요구사항을 충족할 수 있다.
+**배경이 된 4가지 기술·환경 변화**
 
-- **📢 섹션 요약 비유**: 제로 트러스트 보안 모델 NIST 800-207은(는) 건물의 기초 공사와 같다. 눈에 잘 보이지 않지만 없으면 전체 구조가 흔들린다.
+| 변화 | 영향 |
+| :--- | :--- |
+| 클라우드·SaaS 전환 | 데이터가 다수의 VPC/Region/Tenant에 분산 -> 단일 DMZ로 보호 불가 |
+| 모바일·원격 근무 | User가 항상 사내망에 있지 않음 -> VPN Concentrator 병목·암묵적 신뢰 부적합 |
+| 공급망·내부자 위협 | 신뢰받는 내부 ID가 침해되어도 이를 탐지할 장치 부재 |
+| 규제·컴플라이언스 강화 | GDPR·개인정보보호법·DORA(유럽)·Executive Order 14028(미국) 모두 "Zero Trust Architecture" 채택 권고 |
+
+- **📢 섹션 요약 비유**: 기존 보안이 "회사 사옥 입구에서 신분증 한 번 확인하고 복도·회의실·서버실까지 자유 출입"하는 방식이라면, **제로 트러스트**는 "각 방(자원)마다 도어락이 있고, 입장할 때마다 신분증·얼굴·예약 현황·오늘의 건강검진 결과까지 다시 확인하는" 시스템과 같다.
 
 ---
 
 ## Ⅱ. 아키텍처 및 핵심 원리
 
-제로 트러스트 보안 모델 NIST 800-207의 아키텍처는 크게 세 가지 계층으로 나뉜다. 데이터 수집 계층, 처리 및 분석 계층, 그리고 실행 및 피드백 계층이다. 각 계층은 독립적으로 확장 가능하면서도 유기적으로 연결된다.
+NIST 800-207의 ZTA 논리 아키텍처는 **3개의 핵심 제어 평면(Control Plane)** 과 **자원 평면(Resource Plane)** 으로 구성된다. 모든 접근 결정은 **Trust Algorithm(TA)** 이 Policy Engine(PE)을 통해 산출하고, Policy Administrator(PA)가 PEP로 명령을 내린다.
 
 ```text
-+--------------------------------------------------------------+
-|              Zero Trust Security Model NIST 800-207 아키텍처 3계층 구조                   |
-+--------------------------------------------------------------+
-|  [수집 계층]                                                  |
-|    로그 · 메트릭 · 이벤트 · 설정 정보 수집                   |
-|         |                                                    |
-|  [처리/분석 계층]                                             |
-|    정규화 · 상관 분석 · 패턴 인식 · 이상 탐지               |
-|         |                                                    |
-|  [실행/피드백 계층]                                           |
-|    자동 대응 · 알림 · 보고서 · 지속 개선                     |
-+--------------------------------------------------------------+
+[ZTA Logical Architecture — NIST SP 800-207 Figure 2 기반]
+
+   +-------------------  Control Plane  ---------------------+
+   |                                                          |
+   |   Subject DB    Asset DB    Policy Store    SIEM         |
+   |      |             |             |            ^          |
+   |      v             v             v            |          |
+   |   +------------------------------------+      |          |
+   |   |   Policy Engine(PE)                |-- Threat Intel |
+   |   |  - Trust Algorithm 입력 7~11개     |   CDM / EDR    |
+   |   |  - 점수 기반 allow/deny/deny+log   |   PKI / IdP    |
+   |   +------------+-----------------------+                |
+   |                v                                         |
+   |   +------------------------------------+                |
+   |   |   Policy Administrator(PA)         |                |
+   |   |  - 세션 토큰 발급/폐기              |                |
+   |   |  - PEP에 명령 전달                  |                |
+   |   +------------+-----------------------+                |
+   +----------------+-----------------------------------------+
+                    |  ^   정책 동기화 (Open Policy Agent/OPA,
+                    v  |   Cedar, XACML, RADIUS CoA, gNMI)
+   +---------------- Resource Plane --------------------------+
+   |  PEP-1 (Gateway / NGFW / SDP-GW)  -- mTLS -->  App-API  |
+   |  PEP-2 (Service Mesh Sidecar)     -- mTLS -->  MicroSvc |
+   |  PEP-3 (CASB / API Gateway)       -- JWT  -->  SaaS     |
+   |  PEP-4 (DB Proxy / Vault Agent)   -- TLS  -->  Postgres  |
+   +---------------------------------------------------------+
 ```
 
-| 구성 요소 | 역할 | 핵심 기술 |
+| 구성 요소 | 역할 | 핵심 기술 및 동작 방식 |
 | :--- | :--- | :--- |
-| 수집기 | 원시 데이터 확보 | 에이전트, API, 웹훅 |
-| 분석 엔진 | 패턴 인식 및 판단 | 규칙 기반, ML 기반 |
-| 실행기 | 자동 대응 및 보고 | 워크플로, 플레이북 |
-| 저장소 | 이력 보관 및 감사 | 시계열 DB, 로그 스토어 |
+| **Policy Engine(PE)** | 접근 결정(Allow/Deny/Deny+Log) 산출 | OPA(Open Policy Agent)·Amazon VPC Reachability Analyzer·Azure Policy·Google IAM Conditions·Cedar(Auth0/Aserto)에서 Rego/Cedar DSL로 정책 평가. Trust Score = w₁·DeviceCompliance + w₂·UserRisk + w₃·TimeOfDay + w₄·GeoVelocity + w₅·SensitivityOfAsset |
+| **Policy Administrator(PA)** | PE 결정을 PEP로 전달, 세션 토큰 발급/폐기 | RADIUS Change-of-Authorization(CoA)·OAuth 2.0 Authorization Server·SAML 2.0 IdP(Okta, Azure AD, PingFederate)·SPIFFE/SPIRE Workload Identity |
+| **Policy Enforcement Point(PEP)** | 자원 앞단에서 데이터 경로 차단·암호화·로깅 | NGFW(PAN-OS 10.2+)·Service Mesh(Istio Ambient Mesh, Linkerd 2.14)·SDP Gateway(Zscaler ZPA, Cloudflare Access, Appgate SDP)·CASB(Netskope, Microsoft Defender for Cloud Apps)·DB Proxy(HashiCorp Boundary, Crunchy Proxy) |
+| **Continuous Diagnostics & Mitigation(CDM)** | 디바이스·자산의 실시간 상태(포스처·패치·EDR) 수집 | Microsoft Intune·Jamf Pro·CrowdStrike Falcon·SentinelOne Singularity·Tanium |
+| **Threat Intelligence / SIEM** | 글로벌 위협 IP·IOC·UEBA 정보 | MISP·Mandiant Advantage·Microsoft Sentinel·Splunk ES·Elastic Security·Anomalo |
+| **ID·PKI / Device Trust** | mTLS·디바이스 인증서 발급 | SCEP/NDES·EJBCA·DigiCert One·HashiCorp Vault PKI·SPIFFE SPIRE·ACME |
+| **Data Access Policy / Industry Compliance** | 데이터 분류·규제 매핑 | Microsoft Purview·Collibra·OneTrust·BigID·Immuta |
 
-설계 시 핵심 원리는 느슨한 결합(Loose Coupling)과 높은 응집도(High Cohesion)를 유지하는 것이다. 각 구성 요소는 독립적으로 교체하거나 확장할 수 있어야 하며, 장애 격리가 가능해야 한다.
+**Trust Algorithm 입력 11종(NIST 800-207 §3.3)**
+1. Subject Database (사용자/서비스 계정) 2. Asset Database (HW·SW 인벤토리) 3. Resource Requirements (RPS, Throughput) 4. ID Management (SSO, MFA) 5. Threat Intelligence 6. PKI / Certificate Status 7. SIEM 8. CDM 9. Data Access Policy 10. PKI 11. Industry/Regulatory Compliance.
 
-- **📢 섹션 요약 비유**: 이 아키텍처는 잘 설계된 주방과 같다. 재료 준비, 조리, 서빙이 각각의 구역에서 체계적으로 이루어지되, 전체 흐름이 자연스럽게 연결된다.
+가중치(w)는 일반적으로 ATO(Authority To Operate) 절차의 **Risk Assessment** 단계에서 정의하며, FedRAMP High/Moderate 등급 별로 가중치 템플릿이 다르다. 예) **NIST 800-207A**는 Hybrid Multi-Cloud 시나리오에서 *시간 기반 가변 가중치(Time-Decay Weighting)* 모델을 권고한다.
+
+**핵심 메커니즘 — "검증·최소권한·가정적 침해"**
+
+1. **Verify Explicitly**: 모든 요청에 대해 ID + Device Posture + Geo + Time + Resource Sensitivity를 5-tuple 이상의 컨텍스트로 인증한다. (예: `device.managed=true AND mfa=true AND country in {KR,US,JP} AND patch_level >= 2024-01 AND asset.tags has "PII"`)
+2. **Least-Privilege Access**: Just-in-Time(JIT)·Just-Enough-Access(JEA) 패턴. HashiCorp Vault의 *Dynamic Secrets*나 AWS IAM Identity Center의 *Permission Sets*가 대표 구현이다.
+3. **Assume Breach**: 침해는 이미 발생했다는 전제로 Microsegmentation·Lateral Movement 차단. Istio AuthorizationPolicy의 DENY-all + 화이트리스트 방식을 사용한다.
+4. **Continuous Verification**: 1회 로그인이 아닌 **세션 중 재평가** — Risk Score가 임계치 초과 시 RADIUS CoA로 즉시 세션 차단(Step-Down Auth) 또는 MFA 재요구.
+5. **End-to-End Encryption**: mTLS 1.3, Wireguard, QUIC, IPsec ESP. Service Mesh에서는 Istio의 STRICT mTLS 모드, SPIFFE ID 기반 Workload Identity 사용.
+
+- **📢 섹션 요약 비유**: PE는 **법원(판사)**, PA는 **교도관**, PEP는 **문지기(게이트)** 다. 법원이 신분증·혈중알코올·차량번호판·신고 이력까지 검토해 "출입 허가" 판결을 내리면, 교도관이 그 판결을 받아 문지기에게 전달하면 문지기가 실제로 문을 열어주는 3단계 시스템이다.
 
 ---
 
 ## Ⅲ. 비교 및 연결
 
-제로 트러스트 보안 모델 NIST 800-207을(를) 이해할 때 유사 개념과의 차이를 명확히 하는 것이 중요하다.
-
-| 구분 | 전통적 접근 | 제로 트러스트 보안 모델 NIST 800-207 |
+| 구분 | **Castle-and-Moat (전통 경계 보안)** | **Zero Trust Architecture (NIST 800-207)** |
 | :--- | :--- | :--- |
-| 관리 방식 | 수동, 사후 대응 | 자동화, 사전 예방 |
-| 확장성 | 수직적 확장 중심 | 수평적 확장 지원 |
-| 가시성 | 부분적 모니터링 | 전체 관측 가능성 |
-| 비용 구조 | 고정비 중심 | 변동비 최적화 |
-| 장애 대응 | 수시간 ~ 수일 | 수분 ~ 자동 복구 |
-
-관련 기술 영역과의 연결점도 중요하다. 제로 트러스트 보안 모델 NIST 800-207은(는) 단독으로 존재하는 것이 아니라 주변 기술 생태계와 긴밀하게 상호작용한다. 인프라 자동화, 모니터링, 보안, 거버넌스 등 다양한 축과 교차한다.
-
-- **📢 섹션 요약 비유**: 전통적 방식이 손편지라면 제로 트러스트 보안 모델 NIST 800-207은(는) 자동 발송 시스템이다. 속도와 정확성은 비교할 수 없지만, 시스템을 잘 설정해야 효과가 나온다.
-
----
-
-## Ⅳ. 실무 적용 및 기술사 판단
-
-실무에서 제로 트러스트 보안 모델 NIST 800-207을(를) 적용할 때는 조직의 성숙도와 기존 인프라 현황을 먼저 진단해야 한다. 기술 도입 자체보다 조직 문화와 프로세스 변화가 더 중요한 경우가 많다.
-
-### 기술사형 판단 체크리스트
-
-1. 현재 조직의 기술 성숙도 수준을 객관적으로 평가했는가?
-2. 기존 시스템과의 통합 방안과 마이그레이션 전략을 수립했는가?
-3. 정량적 성과 지표(KPI)를 사전에 정의하고 측정 체계를 갖추었는가?
-4. 장애 시나리오와 롤백 계획을 준비했는가?
-5. 교육 및 역량 강화 프로그램을 병행하고 있는가?
-
-### 피해야 할 안티패턴
-
-- 도구 중심 사고: 기술 도입 자체를 목적으로 삼고 비즈니스 가치를 간과하는 접근
-- 빅뱅 전환: 단계적 도입 없이 전체 시스템을 한꺼번에 변경하려는 시도
-- 측정 없는 개선: 정량적 기준 없이 감으로 효과를 판단하는 관행
-
-- **📢 섹션 요약 비유**: 좋은 도구를 사는 것보다 도구를 잘 쓰는 법을 배우는 것이 더 중요하다. 비싼 카메라가 좋은 사진을 보장하지 않는다.
-
----
-
-## Ⅴ. 기대효과 및 결론
-
-제로 트러스트 보안 모델 NIST 800-207을(를) 올바르게 적용하면 운영 효율성 향상, 장애 감소, 보안 강화, 비용 최적화를 동시에 달성할 수 있다. 특히 자동화를 통한 인적 오류 감소와 일관성 확보가 가장 큰 기대효과다.
-
-그러나 이 기술은 만능이 아니다. 조직의 규모, 성숙도, 비즈니스 요구사항에 맞게 적용 범위와 깊이를 조절해야 한다. 과도한 자동화는 오히려 복잡성을 증가시키고, 예외 상황 대응 능력을 약화시킬 수 있다.
-
-미래에는 AI/ML과의 결합, 자율 운영(Autonomous Operations), 지능형 의사결정 지원으로 진화할 것이며, 제로 트러스트 보안 모델 NIST 800-207 영역의 전문가 수요는 지속적으로 증가할 것으로 전망된다.
-
-- **📢 섹션 요약 비유**: 제로 트러스트 보안 모델 NIST 800-207은(는) 자동차의 계기판과 같다. 없어도 운전은 할 수 있지만, 있으면 훨씬 안전하고 효율적으로 목적지에 도달할 수 있다.
-
----
-
-### 📌 관련 개념 맵
-
-| 개념 | 연결 포인트 |
-| :--- | :--- |
-| 자동화 (Automation) | 제로 트러스트 보안 모델 NIST 800-207의 실행 효율을 높이는 기반 기술이다. |
-| 관측 가능성 (Observability) | 시스템 상태를 실시간으로 파악하여 선제적 대응을 가능하게 한다. |
-| 거버넌스 (Governance) | 정책과 표준을 체계적으로 관리하는 상위 프레임워크다. |
-| 보안 (Security) | 제로 트러스트 보안 모델 NIST 800-207의 모든 단계에서 보안을 내재화해야 한다. |
-| 확장성 (Scalability) | 시스템 규모 변화에 유연하게 대응하는 설계 원칙이다. |
-
-### 📈 관련 키워드 및 발전 흐름도
-
-```text
-전통적 수동 관리
-        |
-        v
-스크립트 기반 자동화
-        |
-        v
-제로 트러스트 보안 모델 NIST 800-207 도입
-        |
-        v
-AI/ML 기반 지능화
-        |
-        v
-자율 운영 (Autonomous Operations)
-```
-
-### 👶 어린이를 위한 3줄 비유 설명
-
-1. 제로 트러스트 보안 모델 NIST 800-207은(는) 로봇 청소기처럼 알아서 일을 해주는 똑똑한 도우미예요.
-2. 사람이 일일이 지시하지 않아도 스스로 문제를 찾고 해결해요.
-3. 덕분에 더 중요한 일에 집중할 시간이 생겨요.
-
----
-
+| **신뢰 경계** | 사내망 내부 = 신뢰, 외부 = 불신 | 네트워크 위치 무관, 모든 트래픽 검증 |
+| **인증 단위** | 1회 로그인 -> 세션 만료까지 신뢰 | 매 요청/리소스 단위 재인증 (RFC 8707 Token Exchange) |
+| **암호화** | 데이터 평문 전송 많음 (East-West) | mTLS·WireGuard·IPsec으로 종단간 암호화 |
+| **침해 대응** | 외부 침입 차단 중심, 내부 Lateral Movement 대응 미흡 | Microsegmentation + UEBA로 Lateral Movement 차단 |
+| **확장성** | VPN·방화벽 정책 확장으로 병목 | SDP / SASE로 글로벌 분산 엣지에서 인증 처리 |
+| **비용 모델** | CAPEX 중심 (HW Appliance) | OPEX 중심 (구독형 SaaS, Zscaler/Netskope/Prisma) |
+| **구현 성숙도** | 높음 (20년+) | 단계적(SASE->SDP->Mesh), 조직·IAM 성숙도 의존 |
+| **컴플라이언스** | ISO 27001, PCI-DSS v3.2.1 | EO 14028, DORA, CISA Zero Trust Maturity Model v2.0 |
+| **대표 사례** |
 ## 🔗 이전/다음 글 (Navigation)
 
 **진행 상황**: 396 / 800
